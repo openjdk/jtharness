@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+  $Id$
+
+  Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+<project name="jtlite" default="lite" basedir=".">
+
+    <property file="../local.properties"/>
+    <property file="../build.properties"/>
+
+    <target name="lite" depends="init-jtlite" description="Creates jtlite.jar as a slightly modified content of javatest.jar">
+        <mkdir dir="${lite.classes.dir}"/>
+        <unzip src="${javatest.jar}" dest="${lite.classes.dir}"/>
+        <delete>
+            <fileset dir="${lite.classes.dir}" includes="com/sun/javatest/tool/Main*"/>
+        </delete>
+
+        <javac encoding="iso-8859-1" debug="true"
+               srcdir="${lite.extra.src.dir}"
+               destdir="${lite.classes.dir}"
+               classpath="${javatest.jar}">
+        </javac>
+
+        <copy file="${lite.extra.src.dir}/com.sun.javatest.report.ReportFormat" tofile="${lite.classes.dir}/META-INF/services/com.sun.javatest.report.ReportFormat" overwrite="true"/>
+
+        <jar destfile="${build.lib.dir}/jtlite.jar" 
+             basedir="${lite.classes.dir}"
+             includesfile="${jtlite.src.dir}/lite.lst">
+            <manifest>
+                <attribute name="Built-By"   value="${user.name}"/>
+                <attribute name="Main-Class" value="com.sun.javatest.tool.Main"/>                
+            </manifest>
+            <include name="META-INF/buildInfo.txt"/>
+            <include name="META-INF/services/com.sun.javatest.report.ReportFormat"/>
+        </jar>
+    </target>
+
+    <target name="init-jtlite" description="creates necessary folders and initializes properties">
+        <property name="LITE_AREA" location="${BUILD_DIR}/lite-area"/>
+        <mkdir dir="${LITE_AREA}"/>
+        <property name="build.lib.dir" value="${BUILD_DIR}/binaries/lib"/>
+        <property name="javatest.jar" value="${build.lib.dir}/javatest.jar"/>
+        <property name="lite.extra.src.dir" value="${jtlite.src.dir}/extra"/>
+        <property name="lite.classes.dir" location="${LITE_AREA}/classes"/>
+    </target>
+
+</project>

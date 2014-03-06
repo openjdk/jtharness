@@ -1,0 +1,6 @@
+com.sun.javatest.report.HTMLReport
+com.sun.javatest.report.PlainTextReport
+com.sun.javatest.report.XMLReport
+com.sun.javatest.report.COFReport
+com.sun.javatest.report.CustomReportFormat
+

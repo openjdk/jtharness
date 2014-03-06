@@ -1,0 +1,3 @@
+# JT Lite report formats
+com.sun.javatest.report.HTMLReport
+com.sun.javatest.report.PlainTextReport
