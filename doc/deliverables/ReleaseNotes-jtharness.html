@@ -1,0 +1,500 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+  Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html lang="en">
+<head>
+  <title>JT Harness Release Notes - Version BUILD_VERSION</title>
+  <link rel="stylesheet" href="doc/shared/document.css" type="text/css">
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body>
+<a name="_top"></a>
+    
+<div class="BodyStyle">
+<h1>Release Notes</h1>
+          
+<h2>JT Harness Binary Distribution</h2>
+
+<h4 class="h4.title">
+Version BUILD_VERSION<br>
+June 2013
+<hr class="hr.light">
+<p class="navtop" ><a href="#_maincontent">Skip TOC&nbsp;<img src="shared/downicon.gif" alt="skip TOC"></a></p>
+<h2>Table of Contents</h2>
+<div class="embeddedtoc">
+  <p class="level1"><a href="#introduction">Introduction</a></p>
+  <p class="level1"><a href="#layout">Layout</a></p>
+  <p class="level1"><a href="#tutorial">Tutorial</a></p>
+  <p class="level1"><a href="#requirements">Requirements</a></p>
+  <p class="level1"><a href="#run">Run JT Harness</a></p>
+  <p class="level1"><a href="#secnote">Important Security Note</a></p>
+  <p class="level1"><a href="#since413">About This Release</a>
+
+
+
+    <p class="level2"><a href="#secjava7">Security Exceptions With Java 7 on Windows</a></p>
+    <p class="level2"><a href="#fixed_general">General Bugs Fixed in this Release</a></p>
+    <p class="level2"><a href="#fixed_arch">Fixed Bugs of Interest to Test Suite Architects</a></p>
+    <p class="level2"><a href="#known_bugs">Known Bugs in this Release</a></p>
+    <p class="level2"><a href="#usage_notes">Usage Notes</a></p>
+  </div>
+
+     <a name="introduction"></a><a name="_maincontent"></a>
+<h2>Introduction</h2>
+     
+<p>JT harness is based on Oracle's JavaTest harness. The JT
+harness is a general purpose, fully-featured, flexible, and configurable test
+harness very well suited for most types of unit testing. Originally developed
+as a test harness to run TCK test suites, it has since evolved into a general
+purpose test platform. </p>
+     
+<p>The JT harness: </p>
+    
+<ul>
+  <li>Is designed to configure, sequence, and run test suites that consist
+of many (100,000 or more) discrete, independent tests. It is especially good 
+at testing APIs and compilers.   </li>
+  <li> Can be used to run tests on all of the Java platforms, from the Java
+Card platform, to the Java Platform, Enterprise Edition (&quot;Java EE&quot;). </li>
+  <li> Enables you to create test suites that are self-contained products 
+that customers can easily configure and run.   </li>
+</ul>
+    
+<p>We encourage you to try JT harness, participate in the <a href="http://java.net/projects/jtharness">community</a>, and contribute to further development.</p>
+<p>
+JT harness BUILD_VERSION is a feature release that adds selected functionality as well as fixing existing issues in many areas. For a detailed report, see <a href="#fixed_general">Bugs Fixed in Release BUILD_VERSION</a>.  This binary release contains a built version of the JT harness (<code>lib/javatest.jar</code>)
+and a tutorial that introduces you to the JT harness graphical user interface.
+</p>
+
+
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+    <a name="layout"></a><br>
+<h2>Layout</h2>
+
+<p> The JT harness binary distribution installation directory is laid out as follows: </p>
+
+  <table summary="description of installation directory layout">
+  <tr><td><code>legal/</code></td><td>Contains the licenses and Oracle copyrights that apply to this open source product.</td></tr>
+  <tr><td><code>lib</code></td><td>Contains the JT harness binary <code>javatest.jar</code>, the JUnit binary <tt>jt-junit.jar</tt>, and support libraries.</td></tr>
+
+<tr><td><code>doc/</code></td><td>Contains documentation that accompanies the JT harness product.</td></tr>
+<tr><td><code>examples/tutorial</code></td><td>Contains the JT harness tutorial.  (Only present if examples bundle is installed.  See below.)</td></tr>
+</table>
+
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+    <a name="tutorial"></a><br>
+  
+<h2>Tutorial</h2>
+<p>The JT harness tutorial includes an HTML tutorial that uses an example API and testsuite
+to introduce you to the JT harness graphical user interface. Follow these steps to run the tutorial:</p>
+
+<ol>
+    <li>Download the <code>jtharness-examples.zip</code> bundle if you have not already done so.
+    <li>Unpack the bundle at the same location as the main <code>jtharness.zip</code> - it is designed to be unpacked right on top of it.
+    <li>Make <code>examples/tutorial</code> your current directory.</li>
+    <li>Open <code>tutorial.html</code> in your web browser and follow the step-by-step directions.</li>
+</ol>
+
+
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+<a name="requirements"></a><br>
+
+<h2>Requirements</h2>
+<p>The JT harness requires the technologies listed in the following table.</p>
+
+       
+<table cellpadding="5" cellspacing="10" summary="required technology for installation, JDK 1.6">
+    <tbody>
+     <tr  valign="top">
+  <th scope="col"> Technology </th>
+  <th scope="col"> Where to Get It </th>
+  <th scope="col"> Notes </th>
+  </tr>
+   <tr valign="top">
+  <td> JDK&#8482; version 1.6 or later </td>
+  <td> <a href="http://www.oracle.com/technetwork/java/javase/overview/index.html">http://www.oracle.com/technetwork/java/javase/overview/index.html</a>
+       </td>
+  <td>See <a href="#secjava7">Security Exceptions With Java 7 on Windows</a> for known issues with Java 7.
+  </td>
+  </tr>
+      
+  </tbody>  
+</table>
+
+
+        
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+    <a name="run"></a><br>
+
+<h2>Run JT Harness<br>
+  </h2>
+
+<p>Run the JT harness using the following command: </p>
+
+<code><b>% java -jar javatest.jar</b></code>
+		<p> <b>Note:</b> Typically, a user executes JT harness in the context of
+a test suite. Read the tutorial documentation for
+instructions about how to execute JT harness with the tutorial example test
+suite.</p>
+
+<a name="secnote"></a>
+<h2>Important Security Note</h2>
+<p>NOTE: Be sure to read the Important Security Information chapter in the online help. </p>
+
+<h3>Removing Optional Files</h3>
+<p>In principle, every file you install poses a potential security risk. After installing the harness, you can reduce risk by removing files you do not need. </p>
+<p> To run the  harness, you must minimally have one of two sets of files: </p>
+<ol>
+  <li><code>lib/javatest.jar</code>: This archive is the test harness. It requires the file <code>lib/jh.jar</code> to display online help. </li>
+  <li><code>lib/jtlite.jar</code>: This archive is the lite harness. </li>
+</ol>
+<p>You can delete the following installed files and directories if you do not want to use them:</p>
+<ul>
+  <li><code>examples/</code>. This directory contains (in the <code>tutorials/</code> subdirectory) the JavaTest tutorial (<code>tutorial.html</code>) and related files. [#tutorial] describes how to run the tutorial. You can delete this directory. </li>
+  <li><code>lib/</code>.
+    <ul>
+        <li>You can delete <code>jt-unit.jar</code> if you do not want to run Junit tests with the harness. You can learn about Junit at <a href="http://junit.sourceforge.net/">http://junit.sourceforge.net/</a>. </li>
+      <li>You can delete the harness version you do not use, either <code>jtlite.jar</code> or <code>javatest.jar</code>. If you delete <code>javatest.jar</code>, you can also delete <code>jh.jar</code>. </li>
+    </ul>
+  </li>
+</ul>
+<p>A test suite  includes many additional files. Refer to your test suite&rsquo;s documentation to see which files are optional. </p>
+<h3>Restricting Access to Installed Files</h3>
+<p>Limiting access to installed harness files minimizes the chance of file corruption. You can restrict acesss to installed harness files by setting their permissions to read-only for  the  user who runs the harness. Write or execute permission is not required for any installed harness file. You can deny all access to people who do not run the harness. </p>
+<p>&nbsp;</p>
+
+<p>
+
+
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+
+<a name="since413"></a><br>
+<h2>About This Release</h2>
+<p>This section describes specific features and behaviors in the current release. </p>
+
+
+
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+<a name="secjava7"></a>  
+<h2>Security Exceptions With Java 7 on Windows</h2>
+<p>When using Java 7 on Windows, the harness might experience problems executing particular parts of the Java 7 APIs because, by default, the harness security manager denies access to certain properties. The problem might manifest as one of the <a href="#knownexcept">Known Exceptions</a> reproduced below (see <a href="#knownexceptio">java.io.IOException</a> and <a href="#knownexceptsocket">Socket Exception Error</a>). </p>
+
+<p>There are three ways to workaround the security exceptions:</p>
+<ol>
+<li><p><b>Use the Java 6 runtime instead.</b> Java 6 is the target execution platform for the harness and is also the minimum Java version supported by the harness.</p></li>
+<li><p><b>Set the <code>javatest.security.allowPropertiesAccess</code>  system property to <code>"true"</code> at startup.</b> The harness security manager (JavaTestSecurityManager) is automatically installed at startup, and its default settings deny access to the System Properties object. You can manually allow access to harness properties as follows:<p>
+<p><code>java -Djavatest.security.allowPropertiesAccess=true ...</code></p></li>
+<li><p><b>Enable and disable property access programatically.</b> The following code temporarily allows properties access until after the code in the <code>try</code> block is executed.  Beware of race conditions when using this code.</p>
+<pre>
+        SecurityManager sm = System.getSecurityManager();
+        JavaTestSecurityManager jtSm = null;
+        boolean prev = false;
+        if (sm != null && sm instanceof JavaTestSecurityManager) {
+            jtSm = (JavaTestSecurityManager) sm;
+            prev = jtSm.setAllowPropertiesAccess(true);
+        }
+        try {
+            // execute exception causing actions here
+        } finally {
+            if (jtSm != null) {
+                jtSm.setAllowPropertiesAccess(prev);
+            }
+        }
+</pre></li></ol>
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+<a name="knownexcept"></a>
+<h3>Known Exceptions</h3>
+<p>The following exceptions might be seen if you use the harness with the Java 7 platform on the Windows operating system. Use one of the above workarounds to avoid these exceptions.</p>
+
+<a name="knownexceptio"></a>
+<h4>java.io.IOException</h4>
+<pre>java.io.IOException: The requested operation cannot be performed on a file with
+a user-mapped section open
+        at sun.nio.ch.FileDispatcherImpl.truncate0(Native Method)
+        at sun.nio.ch.FileDispatcherImpl.truncate(FileDispatcherImpl.java:xxx)
+        at sun.nio.ch.FileChannelImpl.truncate(FileChannelImpl.java:xxx)
+</pre>
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+<a name="knownexceptsocket"></a>
+<h4>Socket Creation Error</h4>
+<pre>java.lang.NoClassDefFoundError: Could not initialize class java.net.SocksSocketImpl
+	at java.net.ServerSocket.setImpl(ServerSocket.java:xxx)
+	at java.net.ServerSocket.&lt;init&gt;(ServerSocket.java:xxx)
+	at java.net.ServerSocket.&lt;init&gt;(ServerSocket.java:xxx)
+	at com.sun.jck.lib.multijvm.group.TaskManager.run(TaskManager.java:xxx)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:xxx)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:xxx)
+	at java.lang.Thread.run(Thread.java:xxx)
+or with the following exception:
+java.lang.ExceptionInInitializerError
+	at java.net.ServerSocket.setImpl(ServerSocket.java:xxx)
+	at java.net.ServerSocket.&lt;init&gt;(ServerSocket.java:xxx)
+	at java.net.ServerSocket.&lt;init&gt;(ServerSocket.java:xxx)
+	at com.sun.jck.lib.multijvm.group.TaskManager.run(TaskManager.java:xxx)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:xxx)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:xxx)
+	at java.lang.Thread.run(Thread.java:xxx
+)
+Caused by: java.lang.SecurityException: Action forbidden by JavaTest Harness: checkPropertiesAccess
+	at com.sun.javatest.JavaTestSecurityManager.checkPropertiesAccess(JavaTestSecurityManager.java:xxx)
+	at java.lang.System.getProperties(System.java:xxx)
+	at java.net.PlainSocketImpl$1.run(PlainSocketImpl.java:xxx)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.PlainSocketImpl.&lt;clinit&gt;(PlainSocketImpl.java:xxx)
+</pre>
+
+
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+    <a name="fixed_general"></a><br>
+<h3>Bugs Fixed in This Release</h3>
+<p>This release of the harness contains fixes for the following defects:</p>
+   <table width="100%" summary="List of Major Bug Fixes in this Version">
+    <thead>
+      <TR>
+        <th scope="col">Bug ID</th>
+        <th scope="col">Description</th>
+      </TR>
+    </thead>
+    <tbody>
+
+      <TR>
+        <TD>7056831</TD>
+        <TD>Unexpected exception from ParameterFilter.accepts()</TD>
+      </TR>
+      <TR>
+        <TD>7107961, 7105486</TD>
+        <TD>Validate user-specified input XML files before accepting them.</TD>
+
+      </TR>
+      <TR>
+        <TD>7072978</TD>
+        <TD>Poor formatting in exit confirmation dialog</TD>
+      </TR>
+      <TR>
+        <TD>7001745</TD>
+
+        <TD>Fault while filtering tests for display may lead to incorrect rendering</TD>
+      </TR>
+    </tbody>
+
+  </table>
+
+
+
+
+</p>
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+    <a name="fixed_arch"></a><br>
+<h3>Fixed Bugs Specifically of Interest to Test Suite Architects</h3>
+<p>
+The following bugs will be of interest to test suite architects.
+</p>
+
+  <table summary="List of Major Bug Fixes in this Version">
+    <thead>
+      <TR>
+        <th scope="col">Bug ID</th>
+        <th scope="col">Description</th>
+      </TR>
+    </thead>
+    <tbody>
+      <tr>
+        <td>6909123</td>
+        <td>ResourceTable class deadlocks if lock name is duplicated.</td>
+      </tr>
+      <tr>
+       <td>6994793</td>
+       <td>Source file path name normalization in test description.</td>
+      </tr>
+      <tr>
+       <td>7024690</td>
+       <td>Memory leak in test suite properties dialog.</td>
+      </tr>
+      <tr>
+       <td>7036583</td>
+       <td>Invalid File to URL conversion in TestSuite.open0.</td>
+      </tr>
+      <tr>
+       <td>7060753</td>
+       <td>Need an ability to show big amount of information in ErrorQuestion.</td>
+      </tr>
+      <tr>
+       <td>7085889</td>
+       <td>Fix multiple issues with Architect's guide - updates, formatting, etcetera.</td>
+      </tr>
+      <tr>
+       <td>Multiple IDs</td>
+       <td>Protect against possible NPEs, initialization, synchrronization, invalid conversion and finalization problems.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+<a name="known_bugs"></a>
+<h3>Known Bugs in This Release</h3>
+
+ <p>The following are known issues in this release.</p>
+  <table width="100%" summary="List of Known Issues">
+    <thead>
+
+      <TR>
+        <th scope="col">Bug ID</th>
+        <th scope="col">Description</th>
+      </TR>
+    </thead>
+    <tbody>
+
+      <TR>
+
+        <TD>6434239</TD>
+        <TD>A long name for template/configuration files cannot be fully displayed.</TD>
+      </TR>
+      <TR>
+        <TD>6446655</TD>
+        <TD>There's a keyboard navigation problem in the Tests To Run tree.</TD>
+      </TR>
+
+      <TR>
+        <TD>6451875</TD>
+        <TD>Log Viewer: Impossible to mark log text when live scrolling mode is ON.</TD>
+      </TR>
+      <TR>
+        <TD>6478125</TD>
+        <TD>Some files remain locked after closing the working directory, preventing the deletion of the directory.</TD>
+
+      </TR>
+      <TR>
+        <TD>6488302</TD>
+        <TD>Errors while opening write-protected working directory.</TD>
+      </TR>
+      <TR>
+        <TD>6518334</TD>
+
+        <TD>Report Converter does not generate an error message for an existing report file.</TD>
+      </TR>
+      <TR>
+        <TD>6518375</TD>
+        <TD>Resolving conflicts between two reports in the Report Converter is confusing.</TD>
+      </TR>
+      <TR>
+
+        <TD>6543609</TD>
+        <TD>"Waiting to lock test result cache" is not interruptible.</TD>
+      </TR>
+      <TR>
+        <TD>6675884</TD>
+        <TD>Tooltips in PropertiesQuestion are sometimes incorrect.</TD>
+      </TR>
+
+      <TR>
+        <TD>6796286</TD>
+        <TD>Inconsistent style for editing numeric values in IntQuestion, FloatQuestion and PropertiesQuestion.</TD>
+      </TR>
+    </tbody>
+  </table>
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+
+  <a name="changes"></a>
+  <h3>Changes Since JT Harness, Version 3.2</h3>
+  <p>The JT Harness, Version 4.1 release provided basic changes in the following areas:</p>
+  <ul>
+    <li>Upgraded template support using <code>.jtm</code> file extension.
+    <li>Upgraded reporting system including an XML report type.
+    <li>New Report converter tool to merge or convert XML reports.
+    <li>New Current Template view filter.
+    <li>New command line option to write a configuration (<code>.jti</code> file).
+    <li>New command line control of filter used for generating reports.
+    <li>Updated rendering of some interview question types.
+    <li>New log viewer system allows browsing of debugging and tracing information.
+    <li>Additional capabilities in the Folder Pane test lists (a context menu and a second column of information)
+  </ul>
+
+  <p>Version 4.1.2 was a bug fix release.</p>
+  <p>Version 4.1.3 added support for test suites based on JUnit 3.8.x and 4.x and also addressed bug fixes.</p>
+  <p>Version 4.1.4 was a bug fix release.</p>
+  <p>Version 4.2 was a bug fix release.</p>
+  <p>Version 4.2.1 was a maintenance release. It included changes to enable the Test Panel to update as a test runs, and extended the Quick Pick execution to include Tests to Run settings in configurations. This behavior is controlled by preference settings.</p>
+<p>Version 4.3 included the following major features:</p>
+
+<ul>
+    <li>The tabbed window style is the only window mode. MDI and SDI window modes were removed.</li>
+    <li>GUI colors became partially configurable in the Preferences dialog. Other settings are still available via command line.</li>
+    <li>Service startup information was enhanced to show progress.</li>
+    <li>Saving of previous desktop is now disabled by default (was enabled previous to this release).</li>
+    <li>Usability was improved in the main test tree. Added selection and right-click actions to choose from a context menu.</li></ul>
+
+<p>Version 4.4 was a feature release. In addition to fixing bugs, it introduced Known Failures Lists and refined the exclude list feature to support case sensitivity.</p>
+<p>Version 4.4.1 was a bug fix release.</p>
+
+
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+
+<a name="usage_notes"></a>  
+<h3>Usage Notes</h3>
+
+<p>This section discusses features that are working properly but have limitations due to  factors JT Harness can't control.</p>
+
+<h4>Printing Pages from the Online Help and Test Reports</h4>
+
+<p>Because of the method the Java SE platform uses to render fonts,
+when you print a document from the harness user interface, the fonts
+in the printed documents are larger than they are when rendered on the
+screen.</p>
+
+<p>The JT Harness User's Guide has been provided in PDF form for your
+use in printing pages from the documents. While the online help viewer
+supports printing operations, in some cases you may be unable to use
+it to print a specific page. If this occurs, use the PDF version of
+the appropriate User's Guide to print the page. Printing of non-HTML
+report types is not supported. Users are informed of this when they
+attempt to print a non-HTML report type. Support will be added for
+this in a future release.</p>
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+<h4>Changing Status Colors in the GUI</h4>
+
+<p>JT Harness allows you to specify the status colors used in the
+GUI. See the online help for detailed information about changing the
+default status colors.</p>
+
+<h4>Agent Monitor Tool</h4>
+
+<p>The Agent Monitor tool may not apply to all test suites, even if
+the test suite uses an agent. See your test suite documentation for
+detailed information about the agent that it uses and its use of the
+Agent Monitor tool.</p>
+
+<p class="navtop"><a href="#top">Top&nbsp;<img src="shared/topicon.gif" alt="go to TOC"></a></p>
+</div>
+<hr>
+    
+<p class="copyright"><a href="../../legal/copyright.txt">Copyright</a> &copy; 2011, 2013, Oracle and/or its affiliates. All rights reserved. The JT Harness project is released under the <A
+HREF="legal/license.txt">GNU General Public License Version 2 (GPLv2)</A>.
+</p>
+</body>
+</html>
