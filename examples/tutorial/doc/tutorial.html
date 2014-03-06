@@ -1,0 +1,958 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>JT Harness Tutorial</title>
+<link rel="stylesheet" href="tutorial.css" type="text/css">
+</head>
+<body>
+<table width="100%" cellspacing="0" cellpadding="0" border="0" summary="This table is for formatting purposes only.">
+<tr>
+<td class="sun-darkblue">&nbsp;</td>
+</tr>
+
+<tr>
+<td class="sun-darkblue">
+<center><h1>JT Harness Tutorial</h1></center>
+<center>
+  <h4>for JT Harness Version 4.x</h4></center>
+</td>
+</tr>
+
+<tr>
+<td class="sun-lightblue">&nbsp;</td>
+</tr>
+</table>
+<br>
+
+<!-- ============================================= -->
+<p>
+This tutorial introduces you to the JT harness version 4.4.1 GUI and some
+basic underlying concepts. The tutorial instructions have you run a
+very simple test suite called Demo Test Suite that is included in the
+<code>examples</code> directory. Demo Test Suite contains 17 tests that test the
+functionality of some very simple demo APIs.
+</p>
+<p>
+This tutorial describes how to:
+</p>
+<ul>
+<li><A HREF="#start">Start the JT harness</A></li>
+<li><A HREF="#wizard">Use the Quick Start wizard</A></li>
+<li><A HREF="#config">Configure test information</A></li>
+<li><A HREF="#run">Run the test suite</A></li>
+<li><A HREF="#browse">Browse the test results</A></li>
+<li><A HREF="#exclude">Exclude a failed test</A></li>
+<li><A HREF="#generate">Generate a Report</A></li>
+</ul>
+<p>
+The tutorial should be run using version 6.0 (or later) of the Java&#153; Platform, Standard Edition (Java SE) on either the
+Microsoft Windows (Win32) platforms, or on the Solaris&#153; Operating
+System.
+</p>
+<p>
+<b>NOTE: </b>Unless otherwise indicated, all examples in this book use
+UNIX style command prompts and file separators.
+</p>
+<p>
+To keep things simple, these instructions show you how to run both the
+JT harness and the tests on the same system in different virtual machines for the
+Java platform (JVM&#153; machines). The following diagram illustrates
+this:
+</p>
+<p>
+<IMG SRC="images/overview.gif">
+</p>
+<p>
+<b>Figure 1: </b>JT Harness and Tests Running on Same System<sup><b><A HREF="#footnote">1</A></b></sup>
+</p>
+
+<p>
+<br>
+</p>
+<!-- ============================================= -->
+<A NAME="start"></A>
+<hr align="left" noshade size="5" width="100">
+<h2>Start the JT Harness</h2>
+
+<ol>
+<li>
+<b>Verify that Java SE version 6.0 (or later) is in your path.</b>
+<p>At a command prompt, enter:</p>
+<p><dl><dd><code>java -version</code></dd></dl></p>
+</li>
+
+<li>
+<b>Make</b> <i>jt_install</i><code>examples/demots</code>
+<b>the current directory.</b>
+<p>
+The directory <i>jt_install</i> is the directory into which you installed the
+JT harness software.
+</p>
+</li>
+
+<li>
+<b>Start the JT harness.</b>
+<p>
+At a command prompt enter:
+</p>
+<dl>
+<dd>
+<code>java -jar lib/javatest.jar -newDesktop</code>
+</dd>
+</dl>
+<p>
+<b>Note: </b>The <code>-newDesktop</code> option is used here to
+ensure that the JT harness starts up exactly as described in
+these instructions. Under normal circumstances you should <i>not</i> use
+this option because you will lose information that the harness saved
+about your previous session. For information about JT harness options,
+see the JT harness online help.
+</p>
+</li>
+</ol>
+
+<p>
+The JT harness  starts and displays the Quick Start wizard window:
+</p>
+<IMG SRC="images/welcome.gif">
+<p>
+<b>Figure 2:&nbsp;&nbsp;</b>The JT Harness with QuickStart Wizard
+</p>
+
+<p>
+<br>
+</p>
+<!-- ============================================= -->
+<A NAME="wizard"></A>
+<hr align="left" noshade size="5" width="100">
+<h2>Quick Start Wizard</h2>
+<p>
+The Quick Start wizard leads you through the basic steps required to
+start running the test suite.
+</p>
+<ol>
+<li>
+<b>Panel 1: Welcome to the JT Harness</b>
+<p>
+Choose "Start a new test run", and click Next
+</p>
+</li>
+<li>
+<b>Panel 2: Test Suite</b>
+<p>
+Click the Next button (accept the default).
+</p>
+</li><li>
+<b>Panel 3: Configuration</b>
+<p>
+Choose "Create a new configuration", and click Next
+</p>
+
+<li>
+<b>Panel 4: Work Directory</b>
+<p>
+The JT harness uses the work directory to store information and
+to write test results. Click the Browse button to activate a file
+chooser. Use the file chooser to create a work directory. Be sure to
+create the work directory in a convenient location <i>outside of the test
+suite directory</i> (<code>demots</code>). Click Next.
+</p>
+</li>
+<li>
+<b>Panel 5: Almost Done ...</b>
+<p>
+Click the Finish button to complete the Quick Start process.
+The configuration editor window starts automatically.
+</p>
+</li>
+</ol>
+<p>
+<br>
+</p>
+<!-- ============================================= -->
+<A NAME="config"></A>
+<hr align="left" noshade size="5" width="100">
+<h2>Configure the Test Information</h2>
+<p>
+Because the "Start the configuration editor" checkbox was checked in
+the last panel of the Quick Start wizard, the configuration editor
+starts automatically.
+</p>
+<p>
+You use the configuration editor to configure the information required
+to run the test suite. As shown below, the configuration editor
+consists of three panes and a menu bar:
+</p>
+<IMG SRC="images/confEditorFull.gif">
+<p>
+<b>Figure 3:&nbsp;&nbsp; </b>JT Harness Configuration Editor
+</p>
+<p>
+The left pane lists the titles of the questions you have answered, are
+currently answering, or that the editor deduces must be answered. The
+current question is highlighted.
+</p>
+<p>
+The center pane displays the interview questions. You answer the
+questions by using controls such as text boxes, radio buttons, or
+combo boxes located below each question. Whenever possible, the editor
+deduces answers from your system configuration and includes them in
+text boxes, combo boxes, and radio buttons. You can accept these
+answers or provide other answers.
+</p>
+<p>
+The right pane displays important information about each question, such as:
+<ul>
+<li>Background information</li>
+<li>Examples of answers</li>
+<li>Additional information about choosing an answer</li>
+</ul>
+
+<h3>Answer the Questions in the Configuration Editor</h3
+><p>
+The following table presents the titles, answers, and information
+about each question that you must answer in the interview. There are
+13 questions in the Demo Test Suite interview.
+</p>
+
+<p>
+<b>TABLE 1: </b>Tutorial Interview Questions and Answers
+</p>
+<table border="0" rules="none" cellpadding="15" cellspacing="1">
+<tr valign="top" align="left">
+<th>
+Question
+</th>
+<th>
+Answer
+</th>
+<th>
+Description
+</th>
+</tr>
+
+<tr valign="top" bgcolor="e5e5e5">
+<td>
+Welcome
+</td>
+<td>
+<br>
+</td>
+<td>
+Briefly describes the purpose and function of the Demo Test Suite
+configuration interview.
+</td>
+</tr>
+
+<tr valign="top" >
+<td>
+Configuration name
+</td>
+<td>
+Demo_TS
+</td>
+<td>
+Names the interview file.
+</td>
+</tr>
+
+<tr valign="top"  bgcolor="e5e5e5">
+<td>
+Description
+</td>
+<td>
+Tutorial
+</td>
+<td>
+Defines the configuration
+</td>
+</tr>
+
+<tr valign="top" >
+<td>
+How to Run Tests
+</td>
+<td>
+On this computer
+</td>
+<td>
+Runs both the JT harness and the tests on the same computer.
+</td>
+</tr>
+
+
+<tr valign="top" bgcolor="e5e5e5">
+<td>
+Java Virtual Machine
+</td>
+<td>
+The absolute path to the java command on a Win32 system. For example:
+<p>
+<i>jdk_inst_dir</i><code>/bin/java.exe</code>
+</p>
+<p>
+or
+</p>
+<p>
+<i>jre_inst_dir</i><code>/jre/java.exe</code>
+</p>
+</td>
+<td>
+Click the Browse button to activate a file chooser, or type the path
+directly in the text box.
+</td>
+</tr>
+
+<tr valign="top" >
+<td>
+Test Verboseness
+</td>
+<td>
+Medium
+</td>
+<td>
+Causes all executing tests to emit standard information messages.
+</td>
+</tr>
+
+
+<tr valign="top"  bgcolor="e5e5e5">
+<td>
+Parameters...
+</td>
+<td>
+<br>
+</td>
+<td>
+Introduces the section of questions that collect information about
+which tests to run and how to run them.
+</td>
+</tr>
+
+<tr valign="top" >
+<td>
+Specify Tests to Run?
+</td>
+<td>
+No
+</td>
+<td>
+Runs all of the tests.
+</td>
+</tr>
+
+
+<tr valign="top"  bgcolor="e5e5e5">
+<td>
+Specify an Exclude List?
+</td>
+<td>
+No
+</td>
+<td>
+Specifies that an exclude list is not used for this test run.
+</td>
+</tr>
+
+<tr valign="top"  bgcolor="e5e5e5">
+<td>
+Specify a Known Failures List?
+</td>
+<td>
+No
+</td>
+<td>
+Specifies that a known failures list is not used for this test run.
+</td>
+</tr>
+
+<tr valign="top" >
+<td>
+Specify Status?
+</td>
+<td>
+No
+</td>
+<td>
+Specifies that prior run status is not used to filter the test
+run. Feel free to try it on subsequent runs.
+</td>
+</tr>
+
+
+<tr valign="top"  bgcolor="e5e5e5">
+<td>
+Concurrency
+</td>
+<td>
+1
+</td>
+<td>
+Specifies the default concurrency setting (1).
+</td>
+</tr>
+
+<tr valign="top" >
+<td>
+Time Factor
+</td>
+<td>
+1
+</td>
+<td>
+Specifies the default standard time out value for each test (1).
+</td>
+</tr>
+
+
+<tr valign="top"  bgcolor="e5e5e5">
+<td>
+Congratulations!
+</td>
+<td>
+<br>
+</td>
+<td>
+The configuration editor has collected all of the information it needs
+to run the tests.
+<p>
+Click the Done button to save the interview. JT harness interviews are
+saved to files that end with the <code>.jti</code> suffix. Use the file chooser to
+specify a file in a convenient location.
+</p>
+</td>
+</tr>
+
+</table>
+
+<p>
+<br>
+</p>
+<!-- ============================================= -->
+<A NAME="run"></A>
+<hr align="left" noshade size="5" width="100">
+<h2>Run Tests</h2>
+<ol>
+<li>
+<b>Set the view filter to Last Test Run.</b>
+<p>
+Choose "Last Test Run" in the View Filter combo box located in the
+tool bar. This changes your "view" of the test tree so that you only
+see the results of the current test run. This is generally the view
+that most users prefer to begin with.
+</p>
+<p>
+<b>Note:</b> When you change to the Last Run filter before you do a
+test run, the folders and tests in the tree turn to gray indicating
+that they are filtered out. This occurs because there are currently no
+results from a "last test run".
+</p>
+</li>
+
+<li>
+<b>Choose Run Tests > Start to start the test run.</b>
+<p>
+The test suite should begin to run. You will see activity in the test
+tree panel that indicates which tests are running. You can also watch
+the progress of the test run in the progress monitor on the
+bottom-right portion of the JT harness window and the pie chart
+in the Summary tab.
+</p>
+</li>
+
+<li>
+<b>Expand the test tree folders to reveal the tests.</b>
+<p>
+Click on different test folders to expand the test tree.
+</p>
+
+<IMG SRC="images/testTree.gif">
+<p>
+<b>Figure 4:&nbsp;&nbsp;</b> Expanded Test Tree
+</p>
+</li>
+</ol>
+<p>
+As tests complete, the tests and their folders change color to
+represent their state. The following table briefly describes the
+colors and their meaning:
+</p>
+<p>
+<b>TABLE 2: </b>Folder/Test Colors and Their Meaning
+</p>
+<table border="3" frame="hsides" rules="rows" cellpadding="15" cellspacing="1">
+<tr valign="top">
+<th>
+Color
+</th>
+<th align="left">
+Description
+</th>
+</tr>
+
+<tr>
+<td>
+Green
+</td>
+<td>
+Passed
+</td>
+</tr>
+
+<tr>
+<td>
+Red
+</td>
+<td>
+Failed
+</td>
+</tr>
+
+<tr>
+<td>
+Blue
+</td>
+<td>
+Error - The test could not be run properly. Usually indicates a
+configuration problem.
+</td>
+</tr>
+
+<tr>
+<td>
+Gray
+</td>
+<td>
+Filtered out - Due to a parameter setting (for example, it is on an
+exclude list), the test is not selected to be run.
+</td>
+</tr>
+
+<tr>
+<td>
+White
+</td>
+<td>
+Not run
+</td>
+</tr>
+
+</table>
+<p>
+Folders reflect the state of the tests hierarchically beneath
+them. You know that the entire test suite passed if the test suite
+root folder is green. See the JT harness online help for more
+information.
+</p>
+<p>
+<b>Note: </b>The test <code>lists/DoublyLinkedList/InsertTest.java</code>
+intentionally contains errors and is supposed to fail as part of the
+tutorial. If any other tests fail, check your answers to the
+configuration interview.
+</p>
+<p>
+<br>
+</p>
+
+
+<!-- ============================================= -->
+<A NAME="browse"></A>
+<hr align="left" noshade size="5" width="100">
+<h2>Browse the Results</h2>
+<p>
+Now that the test run is complete, you will use the Folder tabbed pane
+and Test tabbed pane portion of the JT harness to examine the
+results. You will also examine the output of the test that failed.
+<p>
+<b>Note: </b>The Folder tabbed pane and the Test tabbed pane occupy
+the same portion of the Test Manager window. The Folder tabbed pane is
+displayed when you choose a folder entry in the test tree and the Test
+tabbed pane is displayed when you choose a test entry in the test
+tree.
+</p>
+<h3>The Folder Pane</h3>
+<p>
+The Folder tabbed pane displays information about the tests in the
+selected folder.
+</p>
+
+<IMG SRC="images/browse.gif">
+<p>
+<b>Figure 5:&nbsp;&nbsp;</b>The Folder Pane
+</p>
+
+<ol>
+<li>
+<b>Click on the top folder in the test tree (the test tree root).</b>
+<p></p>
+</li>
+
+<li>
+<b>Click on the Summary tab (shown by default).</b>
+<p>
+Notice the statistics displayed in the Summary panel. It describes how
+many tests in the test suite passed, failed, had errors, and were
+filtered out.
+</p>
+</li>
+
+<li>
+<b>Click on any of the other <i>folder</i> icons in the test tree.</b>
+<p>
+Notice that the Summary panel changes to reflect the statistics for
+tests hierarchically beneath it.
+</p>
+</li>
+
+<li>
+<b>Click on the test tree root folder again.</b>
+<p></p>
+</li>
+
+<li>
+<b>Click on the Passed tab.</b>
+<p>
+This pane contains a list of the tests that passed during the test
+run.
+</p>
+</li>
+
+<li>
+<b>Click on the Failed tab.</b>
+<p>
+This pane contains a list of the tests that failed during the test run
+(only one test in this case).
+</p>
+</li>
+
+<li>
+<b>Double-click the</b>
+<code>lists/DoublyLinkedList/InsertTest.java</code> <b>test in the
+Failed tab.</b>
+<p>
+This automatically selects the test in the test tree and changes the
+display from the Folder pane to the Test pane.
+</p>
+</li>
+</ol>
+<p>
+<b>Note: </b>To read more information about any of the panes, click on
+a tab to establish focus, and press F1 to activate online help about
+that pane.
+</p>
+
+
+<h3>The Test Pane</h3>
+<p>
+The Test tabbed pane displays information about the selected test. The
+five tabs provide information about the test and information about the
+results of its execution.
+</p>
+<IMG SRC="images/testPane.gif">
+
+<p>
+<b>Figure 6: </b>The Test Pane
+</p>
+<ol>
+<li>
+<b>Click on the different tabs and examine the information the panes contain.</b>
+<p>
+The following table briefly describes each tabbed pane:
+</p>
+<p>
+<b>TABLE 3: </b>Test Pane Tabs
+</p>
+<table border="3" frame="hsides" rules="rows" cellpadding="15" cellspacing="1">
+<tr valign="top" align="left">
+<th>
+Tab
+</th>
+<th>
+Description
+</th>
+</tr>
+
+<tr>
+<td>
+Test Run Messages
+</td>
+<td>
+Displays messages generated during the selected test's execution
+</td>
+</tr>
+
+
+<tr>
+<td>
+Test Run Details
+</td>
+<td>
+A table of values generated during the selected test's execution
+</td>
+</tr>
+
+
+<tr>
+<td>
+Configuration
+</td>
+<td>
+A table of the configuration values used during the selected test's
+execution
+</td>
+</tr>
+
+
+<tr>
+<td>
+Files
+</td>
+<td>
+Displays the Java language source code and any other files related to
+the selected test
+</td>
+</tr>
+
+
+<tr>
+<td>
+Test Description
+</td>
+<td>
+A table of the test description values specified for the test
+</td>
+</tr>
+</table>
+<p>
+<b>Note: </b>To read more information about any of the panes, click on
+a tab to establish focus, and press F1 to activate the online help
+about that pane.
+</p>
+</li>
+
+<li>
+<b>Click on the Test Run Messages tab.</b>
+<p>
+This pane provides access to any messages generated by the JT
+harness or the test during execution. Notice that the various red
+icons indicate that the test failed.
+</p>
+
+<li>
+<b>Click on the Execute/Messages entry in the left hand column.</b>
+<p>
+The display on the right shows the command line used to run the
+test. Problems can often be debugged by examining how the test was
+invoked. In this case it was invoked correctly.
+</p>
+<IMG SRC="images/testMessages.gif">
+<p>
+<b>Figure 7: </b>Test Messages
+<p>
+</li>
+
+<li>
+<b>Click on the out1 entry in the left-hand column.</b>
+<p>
+The display on the right shows errors reported by the test. The
+messages indicate that either the test or the API contain errors - in
+this case the test contains errors.
+</p>
+<IMG SRC="images/loggedErrorMessages.gif">
+<p>
+<b>Figure 8: </b>Logged Error Messages
+</p>
+<p>
+<br>
+</p>
+<!-- ============================================= -->
+<A NAME="exclude"></A>
+<hr align="left" noshade size="5" width="100">
+<h2>Exclude a Failed Test</h2>
+<p>
+The JT harness allows you to "exclude" tests from a test suite
+by specifying an <i>exclude list</i> file. This section shows you how
+to use the quick set mode of the configuration editor window to
+specify an exclude list that includes
+<code>lists/DoublyLinkedList/InsertTest.java</code>. Tests that are
+excluded are not executed during test runs, and though they are still
+displayed in the test tree, their status is not reflected in the
+pass/fail status of the test suite.
+<ol>
+<li>
+<b>Choose Configure > Edit Configuration > Exclude List
+from the test manager menu bar.</b>
+<p>
+The configuration editor window opens directly to a panel that allows
+you to specify an exclude list. This quick set mode allows you to
+quickly change values that change frequently between test runs. These
+values are also referred to as <i>standard values</i>. Note that
+standard values can also be changed using the configuration editor
+window in question mode.
+</p>
+</li>
+
+<li>
+<b>In the Exclude List pane, click Other.</b>
+<p>
+This activates a tool with which you can specify a set of exclude lists.
+</p>
+</li>
+
+<li>
+<b>Click the Add button on the upper right portion of the tool.</b>
+<p>
+This invokes a file chooser with which you can specify an exclude
+list. The current directory of the file chooser should be the
+directory in which you started the JT harness. If it is not,
+please navigate to that directory.
+</p>
+</li>
+
+<li>
+<p><b>Double-click on the</b> <code>lib</code> <b>directory entry in the file chooser.</b></p>
+</li>
+
+<li>
+<b>Choose the</b> <code>demo.jtx</code> <b>entry in the file chooser and click Select.</b>
+<p>
+Notice that the exclude list (<code>demo.jtx</code>) is added to the Exclude Lists
+text box.
+</p>
+</li>
+
+<li>
+<p><b>Click Done in the configuration editor.</b>
+</p>
+</li>
+
+<li>
+<b>Change the view filter to "Current Configuration".</b>
+<p>
+The Current Configuration filter shows which tests are selected and
+filtered out in the configuration, in effect a filter that shows which
+tests <i>will be</i> run next, as opposed to the Last Test Run filter which
+shows the tests that <i>were</i> run.
+</p>
+<p>
+Notice that the icon for the for <code>InsertTest.java</code> entry in
+the Test tree changes from red to gray. This indicates that the test
+has been filtered out and will not be executed. Also notice that the
+Test Suite Root folder has changed from red to green, indicating that
+all the currently selected tests have passed.
+</p>
+</li>
+</ol>
+
+<p>
+<br>
+</p>
+<!-- ============================================= -->
+<A NAME="generate"></A>
+<hr align="left" noshade size="5" width="100">
+<h2>Generate a Report</h2>
+<p>
+You can use the JT harness to generate an HTML report that
+describes the results of the test run. All of the information
+contained in the report is available from the GUI; however, the
+following steps describe how to generate and browse a report that
+describes the test run done in the previous sections of this tutorial.
+</p>
+<ol>
+<li>
+<b>Choose Report > Create Report</b>
+<p>
+The Create a New Report dialog box opens.
+</p>
+</li>
+
+<li>
+<b>Specify the directory in which you want the report files to be written</b>
+<p>
+If you wish to use a file chooser to specify the directory, click on
+the Browse button.
+</p>
+</li>
+
+<li>
+<b>Click the Create Report(s) button</b>
+<p>
+The reports are generated and you are asked whether you want to view
+the report.
+</p>
+</li>
+
+<li>
+<b>Click Yes</b>
+<p>
+The reports are displayed in the JT harness report browser
+window. Scroll through the report and follow the various links to view
+data about the test run.
+</p>
+</li>
+</ol>
+<p>
+<b>Note: </b>If you wish to print the report, you can open the report
+in your favorite web browser and print it from there.
+</p>
+
+
+
+
+
+<p>
+<br>
+</p>
+
+<!-- ============================================= -->
+<hr align="left" noshade size="5" width="100">
+<h2>Summary</h2>
+<p>
+This tutorial touches only on the core functionality of the JT
+harness GUI. Please continue to explore additional functionality on
+your own. Also, please consult the online help for information about
+all of the JT harness features.
+</p>
+<p>
+</p>
+<hr style="margin-top: 40">
+<A NAME="footnote"></A>
+<p style="margin-top: 10">
+<font size="-1">1. It is also possible to run
+the JT harness and the tests on separate systems using the JT harness
+agent.</font>
+</p>
+
+<p style="margin-top: 25">
+<A HREF="copyright.html">Copyright</A> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+</p>
+</body>
+</html>

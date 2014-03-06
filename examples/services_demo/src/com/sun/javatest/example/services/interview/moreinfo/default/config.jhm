@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!-- @(#)jt4test.jhm	1.2 07/04/10 -->
+<!DOCTYPE map
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/map_1_0.dtd">
+
+<map version="1.0">
+
+<!-- Basic -->
+    <mapID target="ServicesInterview.welcome"
+	url="welcome.html"/>
+    <mapID target="ServicesInterview.confName"
+	url="envName.html"/>
+    <mapID target="ServicesInterview.confDesc"
+	url="envDesc.html"/>
+    <mapID target="ServicesInterview.parameters"
+	url="parameters.html"/>
+    <mapID target="ServicesInterview.cmdType"
+	url="cmdType.html"/>
+    <mapID target="ServicesInterview.jvm"
+	url="jvm.html"/>
+
+<!-- Services -->
+    <mapID target="ServicesInterview.testIntro"
+	url="test/intro.html"/>
+    <mapID target="ServicesInterview.pq"
+	url="test/properties1.html"/>
+
+</map>

@@ -1,0 +1,63 @@
+body {background-color: #FFFFFF;
+      font-size: 12pt;
+      font-family: SansSerif;}
+       
+p   {font-size: 12pt;
+     font-family: SansSerif;
+     font-weight: normal;
+     font-style: normal;
+     margin-top: 10;
+     margin-bottom: 0}
+
+dl {margin-left: 10;
+    margin-top: 10;
+    margin-bottom: 10}
+    
+dl.code {margin-left: -10; 
+	 margin-top: 0;
+	 margin-bottom: 0}
+
+dl.menupath {margin-bottom: 0}
+
+dd.menupath {margin-left: 5}
+
+dd.hang {margin-left:15;
+	 margin-bottom:10}
+
+dd.hang_last {margin-left:15;
+	 margin-bottom:0}
+
+dd p {margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 0}
+
+ul {margin-top: 10;
+    margin-bottom: 0;
+    margin-left: 30}
+
+ul li {margin-bottom: 10}
+
+ul li.tight {margin-bottom: 2}
+
+table {
+	border-color: Gray;
+	border-style: outset;
+	margin-top: 10;
+       	margin-bottom: 5;
+       	margin-left: 5;
+	margin-right: 5}
+
+table.bullet {
+	border-color: Gray;
+	border-style: outset;
+	margin-top: 0;
+       	margin-bottom: 5;
+       	margin-left: 5;
+	margin-right: 5}
+
+
+p.table {margin-bottom: 0}
+
+td.more_space {margin-top: 15}
+
+center {margin-top: 10}

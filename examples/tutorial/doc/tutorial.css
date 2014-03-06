@@ -1,0 +1,42 @@
+/*
+ * $Id$
+ *
+ * Copyright (c) 2002, 2009, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
+body { background-color: #FFFFFF; font-family: Arial, Helvetica, sans-serif;
+       border-top-width: 0px; border-right-width: 0px; 
+       border-bottom-width: 0px; border-left-width: 0px}
+h1 { font-family: Arial, Helvetica, sans-serif}
+h2 { font-family: Arial, Helvetica, sans-serif; padding-top: 8px; color: #666699 }
+h3 { font-family: Arial, Helvetica, sans-serif; padding-top: 10px; color: #666699}
+h4 { font-family: Arial, Helvetica, sans-serif} 
+li { font-family: Arial, Helvetica, sans-serif}
+
+.sun-darkblue { font-family: Arial, Helvetica, sans-serif ;
+                color: #FFFFFF; background-color: #666699}
+.sun-lightblue { background-color: #9999CC}
+.nav-link {  font-family: Arial, Helvetica, sans-serif; font-size: x-small}
+code {  font-family: Courier, serif}
+
+p.indent { margin-left: 2 }

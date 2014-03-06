@@ -1,0 +1,24 @@
+# Test Suite properties file for JDTS_PROTO_LIGHT test suite with HTML-style tests
+
+# This file describes fixed properties of the test suite 
+# and should not normally need to be edited.
+
+# The presentation name of the test suite
+name=Services Test Suite
+
+# The ID for the test suite
+id=Services Demo 1.0
+
+# The jar file containing the test suite's JavaTest plug in classes
+classpath=lib/javatest.jar lib/jtservices.jar lib/demoapi.jar
+
+# The test finder to use
+finder=com.sun.javatest.finder.HTMLTestFinder
+
+# The test script to use
+script=com.sun.javatest.lib.StdTestScript
+
+# The configuration interview to use
+interview=com.sun.javatest.example.services.interview.ServicesInterview
+
+

@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- @(#)properties1.html	1.2 07/04/10 -->
+
+<html>
+<head>
+<title>
+MIDP2.parameters
+</title>
+<LINK REL="stylesheet" TYPE="text/css" HREF="wizard.css" TITLE="Style">
+</head>
+<body>
+
+<p>
+This question was created for testing different features of PropertiesQuestion.
+You can find different combinations of properties usage here.
+For testing those parts of API, which can't be visualied, use special dialog with output
+of these methods. You can access it through the button on custom toolbar.
+
+<ul>
+<li>Properties in group
+    <ul>
+        <li><a href="#with_group1">with_group1</a>
+        <li><a href="#with_group2">with_group2</a>
+        <li><a href="#with_group3">with_group3</a>        
+<li>Properties without group
+    <ul>
+        <li><a href="#without_group1">without_group1</a>
+        <li><a href="#without_group2">without_group2</a>
+        <li><a href="#without_group3">without_group3</a>
+    </ul>
+
+<li>Numbers
+    <ul>
+        <li><a href="#int1">int1</a>
+        <li><a href="#int2">int2</a>
+        <li><a href="#int3">int3</a>
+        <li><a href="#int4">int4</a>
+        <li><a href="#int5">int5</a>
+        <li><a href="#int6">int6</a>
+        <li><a href="#int7">int7</a>
+        <li><a href="#float1">float1</a>
+        <li><a href="#float2">float2</a>
+        <li><a href="#float3">float3</a>
+        <li><a href="#float4">float4</a>
+        <li><a href="#float5">float5</a>
+        <li><a href="#float6">float6</a>
+        <li><a href="#float7">float7</a>
+        <li><a href="#float8">float8</a>
+        <li><a href="#float9">float9</a>
+        <li><a href="#float10">float10</a>
+        <li><a href="#float11">float11</a>
+        <li><a href="#float12">float12</a>
+    </ul>
+    
+<li>Strings
+    <ul>
+        <li><a href="#str1">str1</a>
+        <li><a href="#str2">str2</a>
+        <li><a href="#sttttttttttttttttttttttttttttttttttttttttr3">sttttttttttttttttttttttttttttttttttttttttr3</a>
+        <li><a href="#str4">str4</a>
+    </ul>
+    
+<li>Booleans
+    <ul>
+        <li><a href="#bool1">bool1</a>
+        <li><a href="#bool2">bool2</a>
+        <li><a href="#bool3">bool3</a>
+    </ul>
+    
+<li>Files
+    <ul>
+        <li><a href="#file1">file1</a>
+        <li><a href="#file2">file2</a>
+        <li><a href="#file3">file3</a>
+        <li><a href="#file4">file4</a>
+        <li><a href="#file5">file5</a>
+    </ul>
+</ul>
+
+<h1>Properties without group</h1>
+<dl>
+<dt><a name="without_group1">without_group1</a>
+<dd>This property set unvisible using setVisible(false) method
+
+<dt><a name="without_group2">without_group2</a>
+<dd>This property set read-only using setReadOnly(true) method
+
+<dt><a name="without_group3">without_group3</a>
+<dd>You can't set this property to "unset"(empty value in combo box) because of using setUnsetAllowed(false)
+
+<h1>Properties in group</h1>
+<dl>
+<dt><a name="with_group1">with_group1</a>
+<dd>This property set unvisible using setVisible(false) method
+
+<dt><a name="with_group2">with_group2</a>
+<dd>This property set read-only using setReadOnly(true) method
+
+<dt><a name="with_group3">with_group3</a>
+<dd>You can't set this property to "unset"(empty value in combo box) because of using setUnsetAllowed(false)
+
+<h1>Numbers</h1>
+<dl>
+    <dt><a name="int1">int1</a>
+    <dd>This integer property just doesn't allows custom values
+    
+    <dt><a name="int2">int2</a>
+    <dd>This integer property doesn't allows custom values, but has two suggestions
+    
+    <dt><a name="int3">int3</a>
+    <dd>This integer property has min value = -3000, max value = 0, and suggestions = -5000, 5000, 1000, 2000, 3000
+    
+    <dt><a name="int4">int4</a>
+    <dd>This integer property verifies overloaded constructor, where we set min value = 0, max value = 3000, suggestions = 
+    -5000, 1000, 2000, 4000
+    
+    <dt><a name="int5">int5</a>
+    <dd>This integer property has two suggestions - Integer.MIN_VALUE and Integer.MAX_VALUE. It made to help testing "naturall"
+    integer constraints. You can edit this values to set it bigger, then Integer.MAX_VALUE, or less then Integer.MIN_VALUE and check for validation
+    
+    <dt><a name="int6">int6</a>
+    <dd>This integer property sets min and max values to zero
+    
+    <dt><a name="int7">int7</a>
+    <dd>This integer property sets min and max values to 100
+    
+    <dt><a name="float1">float1</a>
+    <dd>This float property doesn't allows custom values
+    
+    <dt><a name="float2">float2</a>
+    <dd>This float property has two suggestions = 1000 and 2000
+    
+    <dt><a name="float3">float3</a>
+    <dd>This float property has min value = 0.0f, max value = 2000.0f, suggestions = -1000, 1000, 1500.5f, 3000.0f
+  
+    <dt><a name="float4">float4</a>
+    <dd>This float property verifies overloaded constructor, where we set min value = 2000, max value = 4000, suggestions = 000.0f, 3000.0f, 4000.0f, 5000
+    
+    <dt><a name="float5">float5</a>
+    <dd>This float property has two suggestions - Float.MIN_VALUE and Float.MAX_VALUE. It made to help testing "naturall"
+    float constraints. You can edit this values to set it bigger, then Float.MAX_VALUE, or less then Float.MIN_VALUE and check for validation
+    
+    <dt><a name="float6">float6</a>
+    <dd>This float property has min value 0.0f, max value 0
+    
+    <dt><a name="float7">float7</a>
+    <dd>This float property has min value sqrt(3.0), max value sqrt(3.3)
+    
+    <dt><a name="float8">float8</a>
+    <dd>This float property has resolution 2
+    
+    <dt><a name="float9">float9</a>
+    <dd>This float property has resolution 0
+    
+    <dt><a name="float10">float10</a>
+    <dd>This float property has resolution -2
+    
+    <dt><a name="float11">float11</a>
+    <dd>This float property has resolution 2, doesn't allows custom values, has suggestions = -10, -8, -7, -4, -1, 0, 2, 5, 100
+    
+    <dt><a name="float12">float12</a>
+    <dd>This float property has resolution 5.0f, suggestions = 0, 4, 8,12, 16
+<h1>Strings</h1>
+<dl>
+    <dt><a name="str1">str1</a>
+    <dd>This string property has two suggestions and nominal max value = 20
+    
+    <dt><a name="str2">str2</a>
+    <dd>This string property has big value
+    
+    <dt><a name="sttttttttttttttttttttttttttttttttttttttttr3">sttttttttttttttttttttttttttttttttttttttttr3</a>
+    <dd>This string property has big name
+    
+    <dt><a name="str4">str4</a>
+    <dd>This string property doesn't allows custom values, has two suggestions, one more then 50 characters,
+    another - less, and nominal max length 50 characters
+</dl>    
+<h1>Booleans</h1>
+<dl>
+    <dt><a name="bool1">bool1</a>
+    <dd>Just a boolean property with default value = true
+    
+    <dt><a name="bool2">bool2</a>
+    <dd>This boolean property use yes/no
+    
+    <dt><a name="bool3">bool3</a>
+    <dd>This boolean property doesn't allows unset and use default value = ""
+</dl>
+<h1>Files</h1>
+<dl>
+    <dt><a name="file1">file1</a>
+    <dd>No constraints
+    
+    <dt><a name="file2">file2</a>
+    <dd>This file property allows you to select files only from your home directory
+    
+    <dt><a name="file3">file3</a>
+    <dd>This file property set base directory to your home directory, but allows to select files from other directories
+    
+    <dt><a name="file4">file4</a>
+    <dd>This file property has filters for ".jti", ".jar", ".java", ".class" files
+    
+    <dt><a name="file5">file5</a>
+    <dd>This file property allows you to select files only from your home directory, has filters for ".jti", ".jar", ".java",
+".class" files, and suggestions "com/sun/javatest", "com/sun/jdts"
+</dl>
+
+<hr>
+
+<IMG SRC="../../images/hg_proc.gif" ALT="">
+Click
+<IMG SRC="../../images/nextButtonSmall.gif" ALIGN="middle" WIDTH="16" HEIGHT="12" ALT="next">
+to continue the interview.
+</body>
+</html>
