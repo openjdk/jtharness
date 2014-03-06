@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Specifying Prior Status</TITLE>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+
+<H1 class="proc">Specifying Prior Status</H1>
+
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="status.html"><!--CopyOn-->To
+  specify prior status used to restrict the set of tests that are run, perform
+  the following steps:</p>
+>
+<ol>
+  <li>Click the <img src="../../images/stdValues_button.gif" alt="QuickSet Mode button" width="10" height="11" longdesc="toolBar.html">Quick
+    Set Mode button on the Test Manager tool bar or choose Configure
+    &gt; Edit Quick Set &gt; Prior Status in the menu bar.</li>
+</ol>
+<blockquote>
+  <p>The Configuration Editor opens in Quick Set Mode and displays the Prior
+    Status tab.</p>
+</blockquote>
+
+<center>
+  <img src="../../images/JT4priorstatusTabConfigEd.gif" alt="Prior status tab"  longdesc="status.html">
+</center>
+
+<blockquote>
+  <p class="note">
+    <!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="quickStart.html"> <br>
+    <!--CopyOn-->
+    In Question
+    Mode, use the Status question to specify prior status used to restrict the
+    set of tests that are run.</p>
+</blockquote>
+
+<ol start="2">
+  <li>Check the Select tests that match option.</li>
+</ol>
+<blockquote>
+  <p>The Configuration Editor enables the prior status check boxes. </p>
+</blockquote>
+<ol start="3">
+  <li>Check the one or more of the prior status conditions.</li>
+</ol>
+<blockquote>
+  <p>See <a href="#priorStatusSelections">Prior Status Selections</a> for detailed
+    descriptions of the available choices and how the harness uses them
+    to filter the tests that are run. </p>
+</blockquote>
+<ol start="4">
+  <li>Click the Done button to save the configuration change.</li>
+</ol>
+<a name="priorStatusSelections"> </a>
+<h2>Prior Status Filter Selections </h2>
+<p>By choosing Select tests that match, you can run tests with restrictions based
+  on their result from a prior test run. The following table describes the available
+  Prior Status filter selections.</p>
+<table width="100%" border="0" cellpadding="5" class="gray" summary="Run tests with restrictions based on their result from a prior test run." title="Using Prior Status as a Filter">
+<tr valign="top">
+<th width="20%" scope="col" class="left">
+Prior Status Filter
+</th>
+<th scope="col" class="left">
+Action
+</th>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Passed
+</td>
+<td>
+Selects tests with passing results the last time the test was executed. 
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Failed
+</td>
+<td>
+Selects tests with failed results the last time the test was executed. 
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Error
+</td>
+<td>
+Selects tests that the harness could not execute the last time it was included in a test run.
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Not Run
+</td>
+<td>
+Selects tests without results in the current work directory. 
+</td>
+</tr>
+
+</table>
+
+<p>
+Prior status is evaluated on a test-by-test basis using information stored in
+  the result files (<a name="jtr"><code>.jtr</code></a>) that are written in
+  the work directory. Unless overridden by a test suite, a result file is written
+  in the work directory for every test that is executed. When you change work
+  directories between test runs, the result files in the previous work directory
+  are no longer used and, if the new work directory is empty, the harness
+  behaves as though each test in the test suite was not run.</p>
+
+<p>
+You can also use the Prior Status setting in combination with the Current Configuration
+  view filter to display only those test and folder status icons that match the
+  specified prior status. The test tree displays all other tests and folders
+  as gray, filtered out <IMG SRC="../../images/grayFolder.gif" ALT="Filtered out folder"  longdesc="../browse/folderIcons.html"> folder
+  and <IMG SRC="../../images/grayTest.gif" ALT="Test Filtered Out" longdesc="../browse/testIcons.html"> test
+  icons. During a test run, when a test result no
+  longer matches the prior status filter, the test tree changes the test and
+  folder icons to gray, filtered out <IMG SRC="../../images/grayFolder.gif" ALT="Filtered out folder"  longdesc="../browse/folderIcons.html"> folder
+  and <IMG SRC="../../images/grayTest.gif" ALT="Test Filtered Out" longdesc="../browse/testIcons.html"> test
+  icons.</p>
+
+<p>
+For example, if you only want to monitor  tests in a test suite that had failed
+  results you would set the Prior Status filter to Any Of Failed and repeat
+  the test run. As tests pass, the test tree changes their icons from failed
+  to filtered out, indicating
+that they no longer match the Prior Status filter Any Of Failed.</p>
+<p class="note">
+<!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="status.html">
+<br>
+<!--CopyOn-->
+It is often useful to choose all of the status values except Passed for the first
+few test runs, then refine the filtering to reduce the number of tests in subsequent
+runs.</p>
+<p> </p>
+
+<hr><p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

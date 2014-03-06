@@ -1,0 +1,68 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Setting Concurrency with concurrency</TITLE>
+<META name="hIndent" content="1"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="concurrency"><!--index:setting concurrency -->
+  <!-- index:concurrency command --><!-- index:command: concurrency --></A>
+<H1>Setting Concurrency with <CODE>concurrency</CODE></H1>
+<!--insert:PreCurrency-->
+<P>If you are running the tests on a multi-processor computer, you can use concurrency to speed your test runs. Use the <CODE>concurrency</CODE> command to specify the number of tests to run concurrently:</P>
+<P class="indent2"><a href="aboutExamples.html"><em>&gt; jtharness</EM></A> ... [<EM>initial-set-up commands</EM>] ... <CODE>-concurrency</CODE> <EM>number</EM> ... [<EM>task-command</EM>] ...</P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of the use of <EM>&gt; jtharness</EM> in the example.</P>
+<P>Unless your test suite restricts concurrency, the maximum <EM>number</EM> of
+  threads specified by the <CODE>concurrency </CODE>command is 256. See your test
+  suite documentation for additional information about using concurrency values
+  greater than 1.</P>
+<P>When creating a command string to specify the number of tests to run concurrently, include the commands in the following sequence:</P>
+	<OL>
+		<LI><A href="setupCommands.html">Set up a configuration</A></LI>
+		<LI>Specify the concurrency value (<CODE>concurrency</CODE> <EM>number</EM>)</LI>
+		<LI><A href="runTests.html">Include the <CODE>runtests</CODE> command</A> (optional).</LI>
+	</OL>
+<P>See <a href="commandLine.html">Command-Line Overview</A> for a description of the command line structure.</P>
+<H2>Detailed Example of <code>concurrency</code> Command </H2>
+<P>In the following example, <EM>myconfig</em><code>.jti</code> represents a
+  file name that might exist on your system and value represents a numeric value
+  from 1 to 256 that you might use.</P>
+<P><B>Command Options Format Example:</B></P>
+<P class="indent2"><a href="aboutExamples.html"><em>&gt; jtharness</EM></A> <CODE>-config</CODE> <EM>myconfig</em><code>.jti
+    -concurrency</CODE> <EM>value</EM> <CODE>-runtests</CODE></P>
+<P>See <a href="formatCommands.html">Formatting a Command</A> for descriptions and examples of other command formats.</P>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2013, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

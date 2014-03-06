@@ -1,0 +1,99 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Specifying Look and Feel</TITLE>
+<META name="hIndent" content="1"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="settingLAF">
+<!-- index:look and feel command-->
+<!-- index:command: laf --></A> 
+      <H1>
+         Specifying Look and Feel
+      </H1>
+<p>The <code>-laf</code> option selects the look and feel for a JavaTest session. This option affects the GUI only. It has no effect if the harness is used solely as a command line tool. </p>
+<p>The look and feel option <code>-laf</code> requires one of the following arguments:</p>
+      <ul>
+
+      <li><code>default</code>: Use the harness default. The Java look and feel options are <code>nimbus</code> or <code>metal</code>. Images in the help and documentation depict these styles.
+      <li><code>nimbus</code>:  The modern Java look and feel. This is the harness default if it is available in the  runtime. <a href="http://download.oracle.com/javase/6/docs/technotes/guides/jweb/otherFeatures/nimbus_laf.html">http://download.oracle.com/javase/6/docs/technotes/guides/jweb/otherFeatures/nimbus_laf.html</a>
+<li><code>metal</code>: The legacy Java look and feel used through version 4.4 of the harness. <a href="http://download.oracle.com/javase/6/docs/api/javax/swing/plaf/metal/MetalLookAndFeel.html">http://download.oracle.com/javase/6/docs/api/javax/swing/plaf/metal/MetalLookAndFeel.html</a>
+<A name="a11y">
+<!-- index:accessibility -->
+<!-- index:a11y -->
+<!-- index:508 -->
+<!-- index:section 508 -->
+</A> 
+      <li><code>sys</code> or <code>system</code>: Use the system-default look and feel that matches your desktop style (<code>nimbus</code> or <code>metal</code>). To achieve the best results from some features of your operating system, such as high contrast color schemes, large fonts and other accessiblity related functions, it might be necessary to select the <code>system</code> look and feel.
+</ul>
+<p>A sample command would be:</p>
+<p><span class="indent2">&gt; <EM>jtharness</EM> <CODE>-laf metal</CODE></span></p>
+<p>To use the native look and feel specify the <code>system</code> option. For example:</p>
+<p><span class="indent2">&gt; <code>java -jar javatest.jar -laf system ...</code></span></p>
+
+
+<p> <A name="settingColors">
+  <!-- index:status colors command-->
+  <!-- index:command: status colors -->
+  </A> 
+</p>
+   <H1>Specifying Status Colors</H1>
+<P>The harness enables you to specify the status colors used in
+         the GUI. This property is set on the command line as a system property
+         when starting the harness GUI. Status colors set this way are added
+         to the user preferences and restored in subsequent sessions.</P>
+<P>The user can specify each status color by declaring system properties in
+         the following format:</P>
+<P class="indent2"><CODE>-Djavatest.color.passed=</CODE><EM>color-value</EM> ...</P>
+<P class="indent2"><CODE>-Djavatest.color.failed=</CODE><EM>color-value</EM> ...</P>
+<P class="indent2"><CODE>-Djavatest.color.error=</CODE><EM>color-value</EM> ...</P>
+<P class="indent2"><CODE>-Djavatest.color.notrun=</CODE><EM>color-value</EM> ...</P>
+<P class="indent2"><CODE>-Djavatest.color.filter=</CODE><EM>color-value</EM> ...</P>
+<P>The <EM>color-value</EM> used must be an RGB value parsable by the <code>java.awt.Color</code> class (octal, decimal, or hex).</P>
+<P>The value portion of the color property must be explicitly defined. The value portion of the property accepts hex values, prefixed by either a pound character (<CODE>#</CODE>) or a zero-x (<CODE>0x</CODE>).</P>
+<P>Values can also be specified in octal, in which case the value begins with a leading zero and must be two or more digits.</P>
+<P>The following are possible formats for setting color integers:<BR>
+<CODE>#ffaa66</CODE> (hex)<BR>
+<CODE>0xffaa66</CODE> (hex)<BR>
+<CODE>0111177</CODE> (octal)</P>
+
+<p>This is a detailed example of specifying a status color. You might have to escape the pound character  for
+  the command to work on your platform.</p>
+
+<p>
+&gt; <CODE>java -Djavatest.color.passed=&#8220;#00FF00&#8221; -jar [jt_dir/lib/]javatest.jar</CODE></p>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2003, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

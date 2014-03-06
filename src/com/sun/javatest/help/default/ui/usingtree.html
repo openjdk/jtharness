@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+<html>
+<head>
+<title>
+Test Tree
+</title>
+<META NAME="hIndent" CONTENT="3">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="usingtree"><!--index:Test Manager window: test tree -->
+  <!-- index:test tree--></a>
+<h1>Test Tree</h1>
+
+<p>
+The test tree is a multifunction panel that performs the following functions:</p>
+<ul>
+  <li>Displays the
+    current status and state of tests in the test suite</li>
+  <li>Enables users to choose
+    any combination of tests and folders in the test suite for a test run</li>
+  <li>Enables users to 
+    refresh or to clear  specific test results</li>
+</ul>
+<p>The test tree supports keyboard navigation.
+  See <a href="keyboardAccess.html">Keyboard
+    access</a> for a description of how the keyboard can be used to navigate
+  the test tree pane.</p>
+<!--insert:TestTree-->
+
+<h2>Displaying Test Status and State</h2>
+<p>The test tree uses folder icons, test icons, and two independent types of
+  filtering (run filtering and view filtering) to simultaneously display the
+  progress of a test run and the current test results in the work directory.</p>
+<p>
+The test tree indicates the progress of a test run by displaying an arrow to
+  the left of each folder and test icon as it is loaded and run. See <a href="../run/testTree.html">Monitoring With a Test Tree</a> for detailed information about using the test tree to monitor
+  a test run.</p>
+
+<p>
+Based on the Test Manager view filter, the test tree updates the folder and test
+result icons to indicate the current test results in the work directory.</p>
+<blockquote>
+  <p>Example:</p>
+  <p>When you choose the Current Configuration view filter, the test tree only
+    displays the results for the tests specified in your current configuration.
+    If you choose the All Tests view filter, the test tree immediately redisplays
+    all test results from the work directory regardless of the settings in your
+    current configuration. To display
+    filtered summary information about the test results in the work directory,
+    click the test suite icon in the test tree.</p>
+</blockquote>
+<p>
+See <a href="../browse/viewFilters.html">View Filters</a> for a detailed
+description of how to specify which test results from the work directory are
+displayed in the test tree.</p>
+
+<p>
+When you click a folder icon in the test tree,
+the  harness displays its folder view in the Test Manager information
+area. The Test Manager uses the view filter to filter results displayed in the
+folder view. See <a href="../browse/folderInfo.html">Displaying Folder Information</a> for additional information.</p>
+
+<p>
+When you click a test icon in the test tree, the
+ harness displays its test view in the Test Manager information area.
+Unlike the folder view, the Test Manager does not filter results in the test
+view. See <a href="../browse/testInfo.html">Test View</a> for additional information.</p>
+<h2>Run, Refresh, or Clear Results</h2>
+<p>
+You can select any combination of tests and test folders
+  and  right click in the test tree to open a pop-up menu for performing
+  the following actions:</p>
+
+<ul>
+<li>Execute highlighted folders and tests by performing a quick pick execution.</li>
+<li>Refresh the list of folders and tests without restarting the  harness
+  by performing an on-demand refresh scan for new folders, new tests and updated
+  test descriptions.</li>
+<li>Clear Results by performing an on-demand clearing of the contents of the
+  highlighted folder, test, or entire work directory.</li>
+</ul>
+
+
+<!--insert:refresh-clear-->
+
+
+<p>If a single test or folder is highlighted in the test tree, the Test Manager
+  displays the appropriate Test View or Folder View. However, when multiple tests
+  and folders are highlighted in the test tree, the  harness displays
+  a Multiple Tree Nodes Selected pane that lists the highlighted tests and folders.
+  Highlight multiple tests and folders  in the test tree by using
+  standard keystrokes (such as Shift and Control) and clicking the test and
+  folder icons in the test tree.</p>
+<p> The selection list in the Multiple Tree Nodes Selected pane displays
+    the full path of each node highlighted in the test tree. Click  a test
+  or folder in the test tree  a second time to remove the highlighting
+  and  to remove it from the selection list. The GUI displays the updated Multiple
+  Tree Nodes Selected pane.</p>
+<p>Folders and tests do not have to be highlighted in the test tree for you to
+  use the pop-up menu. See <a href="popupmenu.html">Test Tree Pop-up Menu</a> for
+detailed information about using the pop-up menu.</p>
+
+
+ 
+ 
+<hr><p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

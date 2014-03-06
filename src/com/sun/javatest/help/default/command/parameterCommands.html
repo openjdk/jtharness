@@ -1,0 +1,138 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Using Parameter Commands</TITLE>
+<META name="hIndent" content="1"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="parameterCommands"><!--index:parameter commands -->
+  <!-- index:commands:parameter --></A>
+<H1>Using Deprecated Parameter Commands</H1>
+<P>If you are running a test suite that does not use a parameter file, use the <a href="availableCommands.html">current commands</A> instead of the <CODE>-params</CODE> command and option.</P>
+<P>If you are running a test suite that uses a parameter file (<A name="parameterCommands.jtp">
+<!-- index:parameter file -->
+  <!-- index:.jtp file -->
+  <!-- index:file: .jtp --></A><CODE>.jtp</CODE>), you can specify different parameter values by including
+<CODE>-params</CODE> and the appropriate parameter command in the command line.</P>
+<P><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> ... <CODE>-params</CODE> [<I>command</I>] [<I>value</I>] [<I>task-commands</I>] ...</P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of the use of <EM>&gt; jtharness</EM>.</P>
+<P>The following table describes the parameter commands. </P>
+<TABLE width="100%" border="0" cellpadding="3" class="gray.wide" summary="The parameter values used to start the harness." title="Parameter Commands">
+		<TR valign="top">
+			<TH width="30%" scope="col" class="left">	Command
+			</TH>
+			<TH scope="col" class="left">	Description
+			</TH>
+		</TR>
+		<TR valign="top">
+			<TD scope="row">
+			<CODE>-t</CODE> <EM>testsuite</EM><BR>or<BR>
+			<CODE>-testsuite</CODE> <EM>testsuite</EM>
+			</TD>
+			<TD>	Specifies the test suite.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD scope="row">
+			<CODE>-keywords</CODE> <EM>keyword-expr</EM>
+			</TD>
+			<TD>	Restricts the set of tests to be run based on keywords associated with tests in the test suite.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD scope="row">
+			<CODE>-status</CODE> <EM>status-expr</EM>
+			</TD>
+			<TD>	Includes or excludes tests from a test run based on their status from a previous test run. Valid status expressions are error, failed, not run, and passed.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD scope="row">
+			<CODE>-excludeList</CODE> <EM>exclude-list-file</EM>
+			</TD>
+			<TD>	Specifies an exclude list file. Exclude list files contain a list of tests that are not to be run. Exclude list files conventionally use the <A name="parameterCommands.jtx"><!--index:Exclude List file -->
+  <!-- index:.jtx file --><!-- index:file: .jtx --></A>
+			<CODE>.jtx</CODE> extension and are normally supplied with a test suite.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD scope="row">
+			<CODE>-envFile</CODE> <EM>environment-file</EM>
+			</TD>
+			<TD>	Specifies an environment file that contains information used by the harness to run tests in your computing environment. You can specify an environment file for the harness to use when running tests.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD scope="row">
+			<CODE>-env</CODE> <EM>environment</EM>
+			</TD>
+			<TD>	Specifies a test environment from an environment file.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD scope="row">
+			<CODE>-concurrency</CODE> <EM>number</EM>
+			</TD>
+			<TD>	Specifies the number of tests run concurrently. If you are running the tests on a multi-processor computer, concurrency can speed your test runs.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD scope="row">
+			<CODE>-timeoutFactor</CODE> <EM>number</EM>
+			</TD>
+			<TD>	Increases the timeout limit by specifying a value in the time factor option.
+<P>The timeout limit is the amount of time that the harness waits for a test to complete before moving on to the next test. Each test's timeout limit is multiplied by the time factor value.</P>
+<P>For example, if you specify a value of 2, the timeout limit for tests with a 10 basic time limit becomes 20 minutes.</P>
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD scope="row">
+			<CODE>-r</CODE> <EM>report-directory</EM> <BR>or<BR>
+			<CODE>-report</CODE> <EM>report-directory</EM>
+			</TD>
+			<TD>	Specifies the directory where the harness writes test report files. If this path is not specified, the reports are written to a directory named report in the directory from which you started the harness.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD scope="row">
+			<CODE>-w</CODE> <EM>work-directory</EM> <BR>or<BR>
+			<CODE>-workDir</CODE> <EM>workDirectory</EM>
+			</TD>
+			<TD>	Specifies a work directory for the test run. Each work directory is associated with a test suite and stores its test result files in a cache.
+			</TD>
+		</TR>
+</TABLE>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

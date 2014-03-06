@@ -1,0 +1,75 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Command Line Summary</TITLE>
+<META name="hIndent" content="0"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="commandLine"><!--index:command file -->
+  <!-- index:file: command --></A>
+<H1>Command-Line Summary</H1>
+<P>You can use commands in the command line or as a part of a product build process to configure the harness, run tests, write test reports, and start the GUI using specific configuration values.</P>
+<P>The harness executes the commands from left to right in the sequence that they appear in the command string. Include commands in the command string as though you were writing a script. The harness does not restrict either the number of commands or the groups of commands that you can use in a command string.</P>
+<P><A href="aboutExamples.html"><EM>&gt; jtharness</EM></A>
+[<EM>Setup commands</EM>] [<EM>Task commands</EM>] [<EM>Desktop commands</EM>]
+[<EM>Information commands</EM>]</P>
+<P>The commands are included as a formatted set in the following sequence:</P>
+<OL>
+		<LI><A href="setupCommands.html">Setup commands</A> - Required by task commands
+		  to set values used for the test run and to set specific values used when
+		  performing other tasks. Setup commands must precede the task or desktop
+		  commands. Setup commands can be used to set specific values (without a task
+		  command) when starting the GUI.</LI>
+		<LI><A href="taskCommands.html">Task commands</A> - Required to run tests,
+		  and write reports. Task commands require one or more preceding
+		  setup commands.</LI>
+		<LI><A href="desktopCommands.html">Desktop commands</A> - Use in place of the
+		  task commands to start the GUI with a new desktop or to specify status colors
+		  used in the GUI. Setup commands are optional when using Desktop commands.</LI>
+		<LI><A href="displayHelp.html">Information Commands</A> - Use information commands
+		  to display command-line help, online help, or version information without
+		  starting the harness. Information commands do not require any other commands
+		  on the command line.</LI>
+</OL>
+<P>For additional information about using the command-line interface, see the
+  following topics:</P>
+	<UL>
+		<LI><A href="aboutExamples.html">About Command-Line Examples</A></LI>
+		<LI><A href="formatCommands.html">Formatting a Command</A></LI>
+		<LI><A href="commandFile.html">Using Command Files</A></LI>
+		<LI><A href="availableCommands.html">Index of Available Commands</A></LI>
+	</UL>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2004, 2012, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

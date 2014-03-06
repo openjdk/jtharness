@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2010, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>
+Viewing Test Manager Properties
+</TITLE>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<a name="execProps.dialog"><!--index:test manager: properties -->
+  <!-- index:displaying: test manager properties--><!-- index:browser: Test Manager Properties --></a>
+<h1>Viewing Test Manager Properties</h1>
+
+<p>
+To view the properties of a test manager, choose View &gt; Properties. The  harness
+opens the Test Manager Properties viewer.</p>
+
+<center>
+  <img src="../../images/JT4testManagerProperties.gif" alt="Test Manager Properties dialog box"  longdesc="dialog.html">
+</center>
+
+<p>
+The Test Manager Properties viewer contains the following four areas:
+</p>
+
+<ul>
+<li>
+<a href="#execProps.dialog.testSuite">Test Suite</a>
+</li>
+<li>
+<a href="#execProps.dialog.workDir">Work Directory</a>
+</li>
+<li>
+<a href="#execProps.dialog.config">Configuration</a>
+</li>
+<li>
+<a href="#execProps.dialog.plugins">Plug-Ins</a>
+</li>
+</ul>
+
+<p>All value fields in the viewer can be highlighted and copied to the clipboard with keystroke Control-C.</p>
+
+
+
+<a name="execProps.dialog.testSuite"><!-- index:test manager: properties: test suite -->
+  <!-- index:test suite: test manager properties--></a>
+<h2>Test Suite</h2>
+<p>
+The Test Suite properties area displays the Path, Name, and ID of the current test suite opened by the test manager.
+</p>
+
+<a name="execProps.dialog.workDir"><!-- index:test manager: properties: work directory -->
+  <!-- index:work directory: test manager properties --></a>
+<h2>Work Directory</h2>
+
+<p>
+The Work Directory properties area displays the path of the current work directory opened by the test manager.
+</p>
+
+<a name="execProps.dialog.config"><!--index:test manager: properties: configuration -->
+  <!-- index:configuration: test manager properties--></a>
+<h2>Configuration</h2>
+
+<p>
+The Configuration properties area displays the Path, Name, Description, State,
+  and Template of the current configuration interview opened by the test manager.
+  The State field indicates whether the configuration is complete and tests can
+  be run. It also identifies the availability of special filters.</p>
+
+<a name="execProps.dialog.plugins">
+<!-- index:test manager: properties: plug-ins -->
+<!-- index:plug-ins: test manager properties --></a>
+<h2>Plug-Ins</h2>
+
+<p>
+The Plug-Ins properties area displays the name of the plug-ins used by the Test
+  Manager. The plug-ins are provided by the test suite architect. The following
+  table describes the properties that might be identified in the Plug-Ins properties
+  area.</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray" summary="The Plug-Ins properties area displays the name of the plugins used by the Test Manager." title="Plug-Ins Area">
+
+<tr valign="top">
+<th width="13%" scope="col" class="left">
+Property
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Test Suite
+</td>
+<td>
+The fully qualified name of the test suite class used by the test manager.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Test Finder
+</td>
+<td>
+The fully qualified name of the test finder class used by the test manager.
+</td>
+</tr>
+
+
+<tr valign="top">
+<td>
+Test Runner
+</td>
+<td>
+The fully qualified name of the test runner class used by the test manager.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Interview
+</td>
+<td>
+The fully qualified name of the interview class used by the test manager.
+</td>
+</tr>
+</table>
+ 
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2010, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

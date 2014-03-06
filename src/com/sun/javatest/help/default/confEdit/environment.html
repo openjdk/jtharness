@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Specifying  Test Environment Files</TITLE>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></HEAD>
+<BODY BGCOLOR="#ffffff">
+<a name="environment"><!-- index:environment files --><!-- index:.jte files--><!-- index:file: .jte--><!-- index:specifying a test environment --><!-- index:Configuration Editor:  Test Environment pane--></a>
+<H1 class="proc">Specifying  Test Environment Files</H1>
+<p>Currently test suites obtain configuration values from environment entries in a configuration file (<tt>.jti</tt>). </p>
+<p>For legacy test suites the environment values are read from a test environment file (<tt>.jte</tt>). The Configuration Editor uses the values from these <code>.jte</code> files to build the configuration (<code>.jti)</code> file. Current test suites do not use or support the test environment file.</p>
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="environment.html"><!--CopyOn-->To
+  include the values from the environment files in the configuration, perform
+  the following steps:</p>
+
+  <ol>
+    <li>Click the <img src="../../images/stdValues_button.gif" alt="QuickSet Mode button" width="10" height="11" longdesc="toolBar.html">&nbsp; Quick Set Mode button on the Test Manager tool bar or choose Configure &gt; Edit Quick Set &gt; Test Environment in the menu bar. The Configuration Editor displays the Test Environment tab only if your test suite used <code>.jte</code> files to run tests.</li>
+  </ol>
+  <blockquote>
+    <p>The Configuration Editor opens in Quick Set Mode. The following illustration clips the More Info panel.</p>
+  </blockquote>
+
+<center>
+<img src="../../images/env_confEditor.gif" border="0"  alt="Test Environment pane from the Configuration Editor: Question Mode view" longdesc="environment.html">
+</center>
+
+
+<blockquote>
+  <p class="Note">
+<!--CopyOff--><IMG SRC="../../images/hg_note.gif" WIDTH="18" HEIGHT="13" ALT="The following text is a Note" longdesc="keywords.html">
+    <br><!--CopyOn-->You can also use the Configuration Editor window in Question Mode to specify the test environment.</p>
+</blockquote>
+<ol start="2">
+  <li>Click the Test
+  Environment tab if it does not have focus.</li>
+  <li>Use the  buttons 
+    and text field in the tabbed pane to create or modify a list of environment
+    files used to run tests in your computing environment.</li>
+</ol>
+<blockquote>
+  <p>See <a href="#files">Files Area</a> and <a href="#environment">Name Area</a> for
+    a detailed description of the buttons 
+    and text field in the Test
+    Environment tabbed pane.</p>
+</blockquote>
+<ol start="4">
+  <li>Click the Done button to save the configuration change. </li>
+</ol>
+<h2><A NAME="files">Files</A> Area</h2>
+<p>
+Use the buttons described in the following table to create
+  or modify a list of environment files used to run tests in your computing environment.</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Test Environment pane Files area." title="Files Area Buttons">
+
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Button
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Add</td>
+<td>
+Adds an environment file to the list. To select an environment file (<code>.jte</code>)
+for your test suite, click Add. As you make selections with the file chooser
+dialog box, they are added to the list. After you add an environment file,
+you can modify the list.</td>
+</tr>
+
+<tr valign="top">
+<td>
+Remove</td>
+<td>
+Clears an environment file from the list. Select it in the list and click Remove.</td>
+</tr>
+
+<tr valign="top">
+<td>
+Move Up</td>
+<td>
+Moves an environment file one position higher in the list. Select it in the list and click Move Up.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Move Down</td>
+<td>
+Moves an environment file one position lower in the list. Select it in the list
+  and click Move Down.</td>
+</tr>
+</table>
+
+<h2><A NAME="environment">Name</A> Area</h2>
+<p>
+Click the drop-down arrow on the text field to see the list of
+test environments in the environment files listed in the
+Env Files list.  Click the Show button to view the contents
+of the selected test environment.</p>
+
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+  <head>
+    <title>com.sun.javatest.tool</title>
+  </head>
+
+  <body>
+    The JT Harness Tool API provides the command-line and GUI 
+    infrastructure for the main JT Harness test harness. 
+    It provides for an extensible set of {@link com.sun.javatest.tool.Tool tools},
+    managed by corresponding {@link com.sun.javatest.tool.ToolManager tool managers}.
+    Tools may be run in batch mode, or may be displayed in one
+    of a number of different {@link com.sun.javatest.tool.Desktop desktop styles}.
+    The state of a desktop can be saved on exit, and restored
+    when the application is next restarted. The tools and the
+    desktop may also use {@link com.sun.javatest.tool.Preferences user preferences}
+    to control their appearance.
+
+    @since 3.0
+  </body>
+</html>

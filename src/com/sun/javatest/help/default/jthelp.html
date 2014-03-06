@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+JT Harness Harness User's Guide
+</title>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="jthelp.css" TITLE="Style">
+</head>
+<body>
+<a name="jthelp"><!-- index:online User's Guide --></a>
+<H1>JT Harness User's Guide </H1>
+<p>
+This User's Guide describes how to use the harness to run
+tests and evaluate test results.  This page describes
+the different actions used to display information from the online User's Guide in a viewer provided by the harness.</p>
+
+<ul>
+<li><em>Graphical User Interface User's Guide</em> - contains
+information about using the GUI.</li>
+<li> 
+<em>Command-Line Interface User's Guide</em> - contains command-line
+and utility information.</li>
+<li>  
+<em>JT Harness Agent User's Guide</em> - (available only if supplied by the
+test suite) contains information about the optional agent.</li>
+</ul>
+
+<!--CopyOff-->
+<p>
+Throughout the online version, the <IMG SRC="../images/hg_note.gif" ALT="The following text is a note" longdesc="jthelp.html"> icon
+is used to identify additional information that may be required to fully understand
+a topic. </p>
+<!--CopyOn-->
+
+<a name="jthelp.accessing">
+<!-- index:online documentation:accessing -->
+<!-- index:online information --></a>
+<H2>Accessing the Online Documentation</H2>
+
+<p>
+You can display an online version of the documentation with
+  or without starting the GUI. To display the User's Guides without starting the GUI, type
+the following command from the directory where the <code>javatest.jar</code> file resides:</p>
+<p><code>java -jar javatest.jar -userGuide</code></p>
+<p>Because the harness provides the documentation viewer, no additional software is required.</p>
+<p>The following
+  table describes user actions in the GUI that display the User's Guides and other
+  online information:</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray" summary="List of ways to display the User's Guide and other information." title="Accessing Online Information from the GUI">
+<tr valign="top">
+<th scope="col" class="left">Action</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td>F1 key</td>
+<td>
+Press the F1 key to display information about the window that has keyboard focus.
+<p class="note">
+<!--CopyOff--><IMG SRC="../images/hg_note.gif" ALT="The following text is a note" longdesc="jthelp.html">
+<br><!--CopyOn-->
+You must establish keyboard focus in a window before pressing the F1 key. To establish focus, you might have to highlight something in the window.
+</p>
+</td>
+</tr>
+
+<tr valign="top">
+<td>Help menu</td>
+<td>
+  <p>The Help menu lists the available online documentation. </p>
+  <p>The first category of
+    online documentation is information for the window that has focus.
+    To display information for the window that has focus (such as the Test
+    Manager window), choose Help <b><tt>&gt;</tt></b> <em>window_name</em> from
+    the menu bar. </p>
+  <p>The second category of online documentation is information for
+    the harness. To display the User's Guide for the harness, choose
+    Help <b><tt>&gt;</tt></b> Online Help from the menu bar.</p>
+  <p>The third category of online documentation is optional information
+      (such as, users' guide and  release notes) provided by the test suite.</p>
+  <p>The fourth category of information consists of information about the harness
+    and the Java Virtual Machine. This information is collected and  provided
+    by the harness.
+  </p></td>
+</tr>
+
+<tr valign="top">
+<td>Help buttons</td>
+<td>
+Click the Help button in a dialog box for information about how to use that dialog box.
+</td>
+</tr>
+</table>
+
+
+<a name="jthelp.navigation">
+<!-- index:displaying document information --></a>
+<H2>Displaying Information</H2>
+<p>
+The following table describes the tabs in the left pane of the  viewer that are
+  used to display information from the User's Guide.</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray" summary="List of icons" title="Online Documentation Viewer Tabs">
+<tr valign="top">
+<th scope="col" class="left">Tab</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td> 
+Contents
+</td>
+<td>
+Table of contents. Topics are organized by task (where possible). Topics displayed
+  in the right pane are highlighted in the table of contents. You can also build
+  a subset of pages by adding them from the Contents to the Bookmarks
+  section of the viewer. See Bookmarks for detailed information building
+  a subset of the User's Guide.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Index
+</td>
+<td>
+Keyword index. Index entries are listed in alphabetical order.  To search for entries, enter a string of characters in the Find field and press Return. If the string is found in the index, it is highlighted (press Return again to repeat the search).
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Glossary
+</td>
+<td>
+Glossary. Glossary entries are listed in alphabetical order.  You can scroll through the list or search for a term. To search for a term, enter a string of characters in the Find field and press Return. If the term is found in the glossary, it is highlighted in the list and its definition is displayed. Press Return to repeat the search.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Search
+</td>
+<td>
+Full-text search. Type a natural language phrase in the Find field and press return.  A ranked list of topics is returned with the following information:
+
+<ul>
+<li>
+The circle in the first column indicates the ranking of the matches for that topic.  The more filled-in the circle is, the higher the ranking.  There are five possible rankings (from highest to lowest):
+<IMG SRC="../images/ranks.gif" ALIGN="BOTTOM" width="90" height="16" ALT="Ranking of the matches icon" longdesc="jthelp.html">
+</li>
+<li>
+The number in the second column indicates the number of times the query was matched in the listed topic.
+</li>
+<li>
+The title of the topic in which matches are found is listed as it appears in the table of contents.
+</li>
+</ul>
+
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Bookmarks
+</td>
+<td>
+You can add a page from the Contents to the Bookmarks section of the  viewer.
+  Click the page name in the Contents tab and then click the Bookmark button <IMG SRC="../images/runTests_button.gif" ALIGN="BOTTOM" ALT="Bookmarks button" longdesc="jthelp.html"> on
+  the toolbar. The page is listed in the Bookmarks panel. You can then use the
+  Bookmarks list as a customized subset of the online document.
+  Right click an item in the Bookmarks list to display a pop-up menu. Use the
+  pop-up menu to manage items in the Bookmarks list.</td>
+</tr>
+
+</table>
+<hr>
+
+<p><a href="copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved. 
+</body>
+</html>

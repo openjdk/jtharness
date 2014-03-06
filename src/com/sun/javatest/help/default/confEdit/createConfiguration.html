@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Creating a Configuration</TITLE>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<a name="createConfiguration"><!-- index:creating a configuration -->
+  <!-- index:configuration: creating a new --></a>
+<H1>Creating a Configuration</H1>
+
+<p>
+You must create a configuration for the test run if an existing configuration is not provided by the test suite or your test group.
+</p>
+<p class="note"><!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="createConfiguration.html"><br>
+<!--CopyOn-->
+If you have an existing configuration, load it in the Test Manager (see <a href="loadConfiguration.html">Loading a Configuration</a>) and then edit it (see <a href="editConfiguration.html">Editing a Configuration</a>) as required for your test run.
+</p>
+<p>
+Before creating a configuration, if you have a template provided by your test group or by the test suite, you can load it in the Test Manager (see <a href="../templates/loadTemplate.html">Loading a Template</a>) and use it as the basis for creating a configuration. You can also create a template (see <a href="../admin/createTemplate.html">Creating a Template</a>), if an existing template is not available, and use it as the basis for creating a configuration.
+</p>
+
+
+
+<h2 class="proc">Create a New Configuration</h2>
+<!--insert:addnote-->
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="createConfiguration.html"><!--CopyOn-->To create a configuration for the test run, perform the following steps:</p>
+<ol>
+<li>
+If you have an appropriate template provided by your test group or by the test suite, load it in the Test Manager (see <a href="../templates/loadTemplate.html">Loading a Template</a>).
+
+<p>
+You can create a template (see <a href="../admin/createTemplate.html">Creating a Template</a>), if an appropriate, existing template is not available.</p>
+<p>
+If you choose not to use a template, go to Step 2.
+</p>
+<li>
+Choose Configure <b>&gt;</b> New Configuration from the Test Manager menu bar or File <b>&gt;</b> New Configuration from the Configuration Editor menu bar.
+</li>
+			<li>
+    Answer the questions displayed in the Configuration Editor window.
+    <p>If you are creating a configuration from a template, the values set in the template are applied to the questions.
+      </p>
+    <p class="note">
+      <!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="createConfiguration.html">
+      <br>
+      <!--CopyOn-->
+      The Configuration Editor window displays questions in the center pane (see
+        the <a href="fullViewDialog.html#fullViewDialog.questionPane">Question
+      Pane</A>). Use the text box, radio button, or combo box controls located
+      beneath the question to provide the required configuration information.
+      After you answer each question, click the Next button to proceed to the
+      next question. Some questions provide information and do not require an answer.  In these
+    cases, click the Next button to proceed to the next question.</p>
+    <p>
+      You can go backward and forward to any question to review or change your answer
+    by doing one of the following:</p>
+    <ul>
+      <li>Choosing a question directly from the Index
+      pane</li>
+      <li>Clicking the Back button, the Next button, or the Last button<br>
+      As you move backward and forward, the Configuration Editor window saves all answers until you either save the configuration or change the answers.<br> 
+      Choose File <b>&gt;</b> Save at any time to save your answers and position
+      in a configuration file. See <a href="saveConfiguration.html">Saving a
+      Configuration</a>.</li>
+    </ul>
+  <li>
+    After you complete the configuration, click the Done button to save the
+  configuration and close the Configuration Editor window.</li>
+</ol>
+
+ 
+
+ 
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2003, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

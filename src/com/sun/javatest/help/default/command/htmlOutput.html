@@ -1,0 +1,118 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>HTML-Formatted Output</TITLE>
+<META name="hIndent" content="2"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<H1>HTML-Formatted Output</H1>
+<P>The HTML-formatted output is provided as human-readable pages (these pages
+  are subject to change in future releases of the harness), enabling
+  users to remotely monitor batch mode test runs in a web browser and stop test
+  runs that are not executing as expected. The following topics describe the
+  HTML formatted output:</P>
+	<UL>
+		<LI><a href="#index">Server Index Page</A></LI>
+		<LI><a href="#harness">Server Harness Page</A></LI>
+		<LI><a href="#result">Server Test Result Index Page</A></LI>
+		<LI><a href="#environment">Harness Environment Page</A></LI>
+		<LI><a href="#interview">Harness Interview Page</A></LI>
+		<LI><a href="#stop">Stop a Test Run</A></LI>
+	</UL><H2>accessing HTTP Server HTML-Formatted Output</H2>
+	<OL>
+		<LI>Use the following command on the command line to activate the web server.
+		  <P><A href="aboutExamples.html" class="nopdf"><EM>&gt; jtharness</EM></A> <CODE>-startHttp -runTests</CODE> <EM>[options]</EM></P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of the use of <EM>&gt; jtharness</EM>.</P></LI>
+		<LI>Copy the URL reported to the console.
+		  <P>Example:<BR>
+	<CODE>JT Harness HTTPd - Success, active on port 1903<BR>
+	JT Harness HTTPd server available at http://129.145.162.75:1903/</CODE></P>
+		</LI>
+		<LI>Launch a web browser and enter or paste the URL in the browser URL field.
+		  <P>Example:<BR>
+	<CODE>http://129.145.162.75:1903/</CODE></P></LI>
+	</OL><H2><A name="index"></A>Displaying the HTTP Server Index Page</H2>
+<P>The root of the web server provides an index page that only lists the handlers
+  registered with the internal web server; not all available URLs on the server.
+  You can also display the HTTP Server Index page by including
+<CODE>/index.html</CODE>at the end of the URL in the browser URL field.</P>
+<P>Example:<BR>
+<CODE>http://129.145.162.75:1903/index.html</CODE></P>
+<P>Each harness has its own handler, identified by a unique number as the second component of the URL.</P><H2><A name="harness"></A>Displaying HTTP Server Harness Page</H2>
+<P>When the harness is running tests, the harness page displays the
+  following information:</P>
+	<UL>
+		<LI>Name and location of the current test suite.</LI>
+		<LI>Location of the work directory.</LI>
+		<LI>Link to view the environment information provided to the harness and used in the current test run. Displays an HTML-formatted view of the current environment.</LI>
+		<LI>Link to view the configuration interview used by the harness in the current test run. Displays a formatted view of the interview settings.</LI>
+		<LI>Link to view the current test results. Displays the Test Result Index page.</LI>
+	</UL>
+<P>In addition to the list of registered handlers, the page also prints the UTC/GMT date on which that page was generated (subject to the system clock on the machine which harness is running) and provides the harness version number and build date.</P>
+<P>You can display the HTTP Server Harness page by choosing its link on the index
+  page or by including
+<CODE>/harness</CODE> at the end of the URL in the browser URL field.</P>
+<P>Example:<BR>
+<CODE>http://129.145.162.75:1903/harness</CODE></P>
+<H2><A name="result"></A>Displaying the HTTP Server Test Result Index Page</H2>
+<P>The Test Result Index page displays the following information:</P>
+	<UL>
+		<LI>Work directory</LI>
+		<LI>Total number of tests in the test suite</LI>
+	</UL>
+<P>The total number of tests is also a link to view the current test results. The test results are displayed in a two-column table, by test name and status message.</P>
+<P>You can display the Test Result Index page by choosing its link on the harness page.</P>
+<H2><A name="environment"></A>Displaying the Harness Environment Page</H2>
+<P>The Harness Environment page displays the environment information provided to the harness and used in the current test run. The environment information is displayed in an HTML table and provides a view of the current settings.</P>
+<P>You can display the Harness Environment page by choosing its link on the harness
+  page or by including
+<CODE>/harness/env</CODE> at the end of the URL in the browser URL field.</P>
+<P>Example:<BR>
+<CODE>http://129.145.162.75:1903/harness/env</CODE></P>
+<H2><A name="interview"></A>Displaying the Harness Interview Page</H2>
+<P>The Harness Interview page displays the configuration interview provided to the harness and used in the current test run.</P>
+<P>You can display the Harness Interview page by choosing its link on the harness
+  page or by including
+<CODE>/harness/interview</CODE>at the end of the URL in the browser URL field.</P>
+<P>Example:<BR>
+<CODE>http://129.145.162.75:1903/harness/interview</CODE></P>
+<H2><A name="stop"></A>Using HTTP Server to Stop a Test Run</H2>
+<P>If you want to remotely terminate a test run, include
+<CODE>/harness/stop</CODE>at the end of the URL in the browser URL field.</P>
+<P>Example:<BR>
+<CODE>http://129.145.162.75:1903/harness/stop</CODE></P>
+<P>To stop the test run, you must click the STOP button on the page displayed in the browser.</P>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2003, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

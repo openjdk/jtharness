@@ -1,0 +1,230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Specifying Keywords</TITLE>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<a name="keywords"><!--index:Keywords pane: Configuration Editor: Question Mode view -->
+  <!-- index:Configuration Editor: Question Mode view: Keywords pane-->
+  <!-- index:Keywords: run filter --><!-- index:run filter: Keywords --></a>
+<H1 class="proc">Specifying Keywords</H1>
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="keywords.html"><!--CopyOn-->To
+  directly specify the tests that are run, perform the following steps:</p>
+
+<ol>
+  <li>Click the <img src="../../images/stdValues_button.gif" alt="Quick Set Mode button" width="10" height="11" longdesc="toolBar.html"> Quick
+    Set Mode button on the Test Manager tool bar or choose Configure
+    &gt; Edit Quick Set &gt; Keywords in the menu bar.</li>
+</ol>
+<blockquote>
+  <p>The Configuration Editor opens in Quick Set Mode.</p>
+</blockquote>
+<center>
+  <img src="../../images/JT4keywordTabConfigEd.gif" alt="Keyword tab"  longdesc="keywords.html">
+</center>
+<blockquote><p class="note">
+    <!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="quickStart.html"><br>
+    <!--CopyOn-->
+    The harness displays this tab only if your test suite uses keywords. <br>
+    You can use one or more keywords to restrict the set of tests that the harness<br>
+    runs. In Question Mode, use the Keywords question to specify
+    test run restrictions based on the keywords.</p>
+</blockquote>
+
+<ol start="2">
+  <li>Click the Keywords tab if it does not have focus.</li>
+  <li>Click the Select tests that match checkbox. </li>
+</ol>
+<blockquote>
+  <p>The harness enables the Expression, Insert Operator,
+    and Insert Keyword buttons. </p>
+</blockquote>
+<ol start="3">
+  <li>Build an expression in the text field by using any logical combination
+  of the following actions: </li>
+</ol>
+<blockquote>
+<ul>
+  <li> Click the Expression button to display a list of expressions that
+    can be constructed. From the list, choose the type of expression that
+    you are building. See <a href="#ListofExpressions">List of Expressions</a> for a description of the available
+    types of expressions.</li>
+  <li> Click the Insert Keyword button to display the list of keywords provided
+    by the test suite for use in filtering tests (this is only available
+    if the test suite has information). From the list, choose one or more keywords
+    used in the expression.</li>
+  <li> Click the Insert Operator button to display a list of logical operators
+    that you can include to construct boolean expressions in the text field.
+    From the list, choose an operator to include it in the expression. See <a href="#ListofOperators">List
+    of Logical Operators</a> for a description of the available operators.</li>
+</ul>
+</blockquote>
+<ol start="4">
+  <li>Click the Done button to save the configuration change.</li>
+</ol>
+<a name="ListofExpressions"> </a>
+<H2>List of Expressions</H2>
+<p>
+The following table provides descriptions and examples of keyword expressions
+  that can be constructed.</p>
+
+<table width="100%" border="0" cellpadding="5"  class="gray" summary="The contents and description of the keyword expressions that can be constructed." title="Keyword Expressions">
+<tr valign="top">
+<th width="25%" scope="col" class="left">Expression</th>
+<th scope="col" class="left">
+Description</th>
+</tr>
+
+<tr valign="top">
+<td width="25%">Any Of</td>
+<td>
+Runs all tests in the test suite having any of the keywords entered in the text field.
+
+<p>
+Example:<br>
+
+A test suite uses the keyword <code>interactive</code> to identify tests that
+require human interaction, and <code>color</code> to identify tests that require a color display.</p>
+
+<p>
+To execute only the tests containing the <code>interactive</code> keyword, choose Any Of and then use the Insert Keyword button to choose the <code>interactive</code> keyword.</p></td>
+</tr>
+
+<tr valign="top">
+<td width="25%">All Of</td>
+<td>
+Runs all tests in the test suite having all of the keywords entered in the text field.
+<p>
+Example:<br>
+
+To execute only the tests containing both the <code>interactive</code> and <code>color</code> keywords,
+choose All Of and then use the Insert Keyword button to choose the <code>interactive</code> and <code>color</code> keyword.</p></td>
+</tr>
+
+<tr valign="top">
+<td width="25%">Expression</td>
+<td>
+Runs all tests in the test suite having the expression entered in the text field.
+
+<p>
+Use the Insert Keyword and the Insert Operator buttons to construct a Boolean
+  expression in the text field. Keywords stand as Boolean predicates that are
+  true if, and only if, the keyword is present in the test being considered.
+  A test is accepted if the overall value of the expression is true.
+All other tests are rejected by the restriction.</p>
+<p>
+Example:<br>
+
+A test suite uses the keyword <code>interactive</code> to identify tests that require human
+  interaction, and <code>color</code> to identify tests that require a color display.</p>
+
+<p>
+To execute only the tests with the <code>color</code> keyword that do not also
+contain the
+  <code>interactive</code> keyword, choose Expression and then  use the Insert
+  Keyword button to choose the <code>color</code> keyword, the  Insert Operator
+  button to choose the ! operator, and the Insert Keyword button to
+  choose the <code>interactive</code> keyword.</p></td>
+</tr>
+</table>
+
+
+<a name="ListofOperators"> </a>
+<h2>List of Logical Operators</h2>
+<p>Logical operators are only available when Expression is selected in the list of expressions. The following table provides descriptions and examples of logical operators that can be used to build keyword expressions. The precedence column indicates the order in which the expression is resolved. Expressions in parentheses are evaluated first, with  nested parentheses being evaluated from the innermost parentheses outward. </p>
+		
+<table width="100%" border="0" cellpadding="5"  class="gray" summary="The contents and description of the keyword operators." title="Keyword Operators">
+<tr valign="top">
+<th width="15%" scope="col" class="left">Logical Operator</th>
+<th width="10%" scope="col" class="left">Precedence</th>
+<th scope="col" class="left">
+Description</th>
+</tr>
+
+<tr valign="top">
+<td >( ) group </td><td>1</td>
+<td><p>Used to create groups of expressions.</p>
+  <p>Example:<br>
+A test suite uses the keyword <code>interactive</code> to identify tests that
+require human interaction and <code>color</code> to identify tests that require
+a color display. </p>
+  <p><code>!(interactive&amp;color)</code>
+  <p>The harness will exclude tests that include both keywords.  </td>
+</tr>
+
+<tr valign="top">
+  <td>! not </td><td>2</td>
+  <td>Logical not. Used to exclude tests containing the expression.    <p> Example:<br>
+      A test suite uses the keyword <code>interactive</code> to identify tests
+      that require human interaction and <code>color</code> to identify tests
+      that require a color display.     
+    <p><code>!interactive&amp;!color</code>    
+    <p>The harness will exclude tests that include
+    either keyword.  </td>
+</tr>
+
+<tr valign="top">
+<td >&amp; and </td><td>3</td>
+<td>Logical and. Used to combine expressions.  <p>
+Example:<br>
+
+A test suite uses the keyword <code>interactive</code> to identify tests that
+require human interaction and <code>color</code> to identify tests that require
+a color display. </p>
+  <p><code>interactive&amp;</code>color</p>
+  <p>The harness will only choose tests that include both keywords.</p></td>
+</tr>
+
+<tr valign="top">
+<td>| or </td><td>4</td>
+<td>Logical or. Used to specify either of two expressions.  <p>
+Example:<br>
+A test suite uses the keyword <code>interactive</code> to identify tests that
+  require human interaction and <code>color</code> to identify tests that require
+  a color display.   
+  <p><code>interactive|</code>color  
+  <p>The harness will only choose tests that include either keyword.</td>
+</tr>
+
+
+
+
+</table>
+
+<p></p>
+<hr>
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

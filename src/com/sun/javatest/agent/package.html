@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+  <head>
+    <title>com.sun.javatest.agent</title>
+  </head>
+
+  <body>
+
+    <p>The JT Harness Agent provides a way to run tests on a small 
+      platform with limited resources, under the control of the  
+      JT Harness test harness, which needs to run on a workstation
+      using Java(TM) 2 Standard Edition. Communication between
+      the JT Harness test harness and the JT Harness Agent is handled
+      using streams on top of TCP/IP, or serial lines.
+
+    <p>The classes in the package are divided into two groups:
+      those that must run on a small platform device, and those that
+      may run as part of the main JT Harness test harness. The classes
+      that must run on a small device are limited to use APIs
+      as specified for JDK 1.1 or similar.
+
+    <p>The JT Harness harness does not talk directly to the agent;
+      instead, a test suite will specify the use of the agent as
+      needed in its configuration data via plug in 
+      {@link com.sun.javatest.Command commands}. As such, there
+      is little that is special about the JT Harness Agent as such,
+      and alternative mechanisms to communicate with small platform
+      devices could be used instead.
+
+      @since 3.0
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Changing the HTTP Port</TITLE>
+<META name="hIndent" content="3"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<H1>Changing the HTTP Port</H1>
+<P>You can use <code>EditJTI</code> to change the HTTP port and either overwrite the original configuration file or create a new configuration file.</P>
+
+<p class="note"><!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="changePort.html"><br><!--CopyOn-->
+To run the following examples, you must use a <code>.jti</code> file that exists on your system and include httpPort in your current interview path. If your current interview path does not include httpPort you will not be able to change its value from the command line. To view the current interview path, open your <code>.jti</code> file in the Configuration Editor. See <a href="tagName.html">Obtaining the Question tag-name</A> for detailed information about the <I>tag-name</I> for the question.</P>
+<H2><A name="example1">Change the HTTP Port and Overwrite Original Configuration File</A></H2>
+<P>The following example changes the HTTP port used when running tests and overwrites original configuration file (<EM>myoriginal</em><code>.jti</code> in this example).</P>
+<P>
+<CODE>java -cp</CODE> [<EM>jt-dir</EM> <CODE>/lib/</CODE>] <CODE>javatest.jar com.sun.javatest.EditJTI httpPort=8081</CODE> <EM>myoriginal</em><code>.jti</code></P>
+<H2><A name="example2">Change the HTTP Port and Create a New Configuration File</A></H2>
+<P>The following example changes the HTTP port used when running tests and writes the changed configuration to a new configuration file (<em>myoutput</em><code>.jti</CODE> in this example). The original configuration file (<EM>myoriginal</em><code>.jti</code> in this example) remains unchanged.</P>
+<P>
+<CODE>java -cp</CODE> [<EM>jt-dir</EM> <CODE>/lib/</CODE>] <CODE>javatest.jar com.sun.javatest.EditJTI -o</code> <em>myoutput</em><code>.jti httpPort=8081</CODE> <EM>myoriginal</em><code>.jti</code>
+</P>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2003, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

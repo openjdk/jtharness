@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Troubleshoot a Test Run
+</title>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<BODY>
+<a name="run.troubleshooting"><!-- index:troubleshooting a test run--></a>
+<h1>Troubleshooting a Test Run</h1>
+
+<p>
+Normally, the goal of a test run is for all tests in the test suite that are
+  not filtered out by the current configuration to have passing results. See <a href="../confEdit/editConfiguration.html">Changing
+  Configuration Values</a> for a description of how the current configuration
+  filters tests in a test run.</p>
+<p>
+If the root test suite folder contains tests with errors or failing results,
+  you must troubleshoot and correct the cause to satisfactorily complete the
+  test run.</p>
+
+<p>
+Tests with errors <IMG SRC="../../images/blueTest.gif" ALT="Tests with errors icon" longdesc="../browse/testIcons.html"> are
+tests that could not be executed by the JT harness. These errors usually
+occur because the test environment is not properly configured or the software
+under test is defective. See <a href="../concepts/troubleshooting.html#troubleshooting.errors">Tests
+with Errors</a> for a detailed description of troubleshooting tests with errors.</p>
+
+<p>
+Tests that failed <IMG SRC="../../images/redTest.gif" ALT="Tests that failed" longdesc="../browse/testIcons.html"> are
+tests that were executed but had failing results. See <a href="../concepts/troubleshooting.html#troubleshooting.failed">Tests
+that Fail</a> for a detailed description of troubleshooting tests that failed.</p>
+
+<p>
+The Test Manager window provides you with the following facilities to effectively troubleshoot a test run:
+</p>
+
+<ul>
+<li>
+Test Tree
+</li>
+<li>
+Folder View
+</li>
+<li>
+Test View
+</li>
+<li>
+Log Viewer
+</li>
+<li>Service Monitor</li>
+</ul>
+
+<h2>Test Tree</h2>
+<p>
+Use the test tree and view
+filters to identify specific folders and tests with errors or failing
+results. Open the red <IMG SRC="../../images/redFolder.gif" ALT="Failed folder" longdesc="../browse/folderIcons.html"> and
+blue <IMG SRC="../../images/blueFolder.gif" ALT="Error folder" longdesc="../browse/folderIcons.html">folders
+until the specific tests that failed <IMG SRC="../../images/redTest.gif" ALT="Tests that failed" longdesc="../browse/folderIcons.html"> or
+had errors <IMG SRC="../../images/blueTest.gif" ALT="Tests with errors icon" longdesc="../browse/folderIcons.html"> are
+displayed.</p>
+
+<h2>Folder View</h2>
+<p>
+When you click a folder icon in the test
+tree pane, the JT harness displays a filtered summary of its test status
+in the Test Manager information area that matches the test tree.</p>
+
+<p class="note"><!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="troubleshooting.html">
+<br>
+<!--CopyOn-->
+The View filter chosen in the Test Manager window might change the summary values
+displayed in the folder view, but does not change the test results written in
+the work directory.</p>
+
+<p>
+Click the Error and the Failed tabs to display the lists of all tests in and
+  under a folder that were not successfully run. You can double-click a test
+  in the lists to view its detailed test information. Refer to Test View below
+  for a description of the test information that the JT harness displays.</p>
+
+<h2>Test View</h2>
+
+<p>
+When you click a test icon in the test tree or double-click its name in the folder
+  view, the JT harness displays unfiltered, detailed information about
+  the test in the information area. The Test Manager displays the current information
+  for that test from the work directory.</p>
+
+<p class="note">
+<!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="troubleshooting.html">
+<br>
+<!--CopyOn-->
+Because the Test Manager does not use a view filter when displaying test information,
+the test status displayed in the information area may not match the filtered
+view in the test tree or the folder Summary view.</p>
+ 
+<p>
+The test view contains detailed test information panes and a brief status message at the bottom identifying the type of result. This message may be sufficient for you to identify the cause of an error or failure.
+</p>
+
+<p>
+If you need additional information to identify the cause of the error or failure, use the following panes listed in order of their importance:
+</p>
+
+<ul>
+<li><a href="../browse/messagesTab.html">Test Run Messages</a> contains a Message list and a Message pane that display the messages produced during the test run
+</li>
+
+<li><a href="../browse/detailsTab.html">Test Run Details</a> contains a two-column
+  table of name-value pairs recorded when the test was run.
+</li>
+
+<li><a href="../browse/configurationTab.html">Configuration</a> contains a two-column
+  table of the name-value pairs derived from the configuration data that were
+  actually used to run the test. 
+</li>
+</ul>
+
+<h2>Log Viewer</h2>
+<p>
+Use the Log Viewer (select View > Logs) to monitor log files generated during a test run or to inspect log files after a test run is completed. See <a href="../run/logViewer.html">Monitoring Output Logs</a> for a detailed description. </p>
+
+<h2>Service Monitor</h2>
+<p>If a test suite uses services, use the Service Monitor (select View &gt; Services) to see the status of services. See <a href="../run/svcViewer.html">Monitoring Services</a> for a detailed description.
+
+<hr><p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Selected Task Pane</TITLE>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<a name="taskPane"><!-- index:agent GUI; task tabbed pane --><!-- index:task tabbed pane, agent GUI --></a>
+<H1>Selected Task Pane</H1>
+
+<p>
+The selected task tabbed pane in the agent GUI displays detailed information
+  about a task selected from the task list in the history pane.</p>
+<p>
+Refer to <a href="historyPane.html">History Pane</a> for a description of the task list.
+</p>
+<center>
+<IMG SRC="../../images/agentGUItasks.gif" ALT="The selected task tabbed pane" longdesc="taskPane.html" >
+</center>
+<p>The following table describes the contents of the selected task tabbed pane.</p>
+<table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Selected Task Pane." title="Selected Task Pane Contents">
+
+<tr valign="top">
+<th width="25%" scope="col" class="left">
+Field
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td><code>client</code></td>
+<td>
+Displays the network address (host and port) of the source of the task request.
+  The host is normally  identified by its host name, but if JT Harness harness
+  cannot determine the host name, the IP address of the host is displayed instead.</td>
+</tr>
+
+<tr valign="top">
+<td><code>request</code></td>
+<td>
+Displays the tag that was supplied with the request in order to identify itself.</td>
+</tr>
+
+<tr valign="top">
+<td><code>class</code></td>
+<td>
+Displays the name of the class that was specified in the request. This is the
+  class that is loaded and run in fulfillment of the request.</td>
+</tr>
+
+<tr valign="top">
+<td><code>args</code></td>
+<td>
+Displays the arguments that were specified in the request. These arguments are
+  passed to the class that is executed.</td>
+</tr>
+
+<tr valign="top">
+<td><code>result</code></td>
+<td>
+If and when the task is completed, this field  contains the outcome of the task,
+  as indicated by a JT Harness harness Status object.
+</td>
+</tr>
+
+</table>
+
+<!--ins:JDTS-->
+
+<hr>
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2009, Oracle and/or its affiliates. All rights reserved.
+</BODY>
+</HTML>

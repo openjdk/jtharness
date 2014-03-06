@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified">
+      
+  <xs:annotation>
+  	<xs:documentation>
+	Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+	DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+	This code is free software; you can redistribute it and/or modify it
+	under the terms of the GNU General Public License version 2 only, as
+	published by the Free Software Foundation.  Oracle designates this
+	particular file as subject to the "Classpath" exception as provided
+	by Oracle in the LICENSE file that accompanied this code.
+
+	This code is distributed in the hope that it will be useful, but WITHOUT
+	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+	FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+	version 2 for more details (a copy is included in the LICENSE file that
+	accompanied this code).
+
+	You should have received a copy of the GNU General Public License version
+	2 along with this work; if not, write to the Free Software Foundation,
+	Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+	Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+	or visit www.oracle.com if you need additional information or have any
+	questions.
+  	</xs:documentation>
+  </xs:annotation>
+      
+  <xs:element name="Report">
+    <xs:annotation>
+      <xs:documentation>The root element for working directory report</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Summary" minOccurs="0"/>
+        <xs:element name="WorkDirectories">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="WorkDirectory" type="WorkDirectoryType" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="TestResults" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="TestResult" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="formatVersion" type="FormatVersion" use="required"/>
+      <xs:attribute name="generatedTime" type="xs:dateTime" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Question" type="QuestionType">
+    <xs:annotation>
+      <xs:documentation>The following Question types: NullQuestion; FinalQuestion; ErrorQuestion; InterviewQuestion; ListQuestion; EndQuestion are not tracked. Questions FileQuestion; IntQuestion; FloatQuestion;  StringQuestion; KeywordsQuestion and InetAdressQuestion don't need any addtitonal data.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="SimpleQuestion">
+    <xs:annotation>
+      <xs:documentation>Represents Question types with one simple value: FileQuestion; IntQuestion; FloatQuestion;  StringQuestion; KeywordsQuestion and InetAdressQuestion.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ListQuestion">
+    <xs:annotation>
+      <xs:documentation>Represents Questions with simple plane value list: TreeQuestion, StringListQuestion, FileListQuestion</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Item" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="value"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChoiceQuestion">
+    <xs:annotation>
+      <xs:documentation>Represents ChoiceQuestion, YesNoQuestion, NeedExcludeListQuestion, ExcludeListTypeQuestion, ChoiceArrayQuestion</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Choice" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="displayChoice" type="xs:string"/>
+            <xs:attribute name="choice" type="xs:string"/>
+            <xs:attribute name="value"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PropertiesQuestion">
+    <xs:annotation>
+      <xs:documentation>Represents PropertiesQuestion</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="group" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="key" type="xs:string"/>
+                  <xs:attribute name="value" type="xs:string"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string"/>
+            <xs:attribute name="header1" type="xs:string"/>
+            <xs:attribute name="header2" type="xs:string"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Interview">
+    <xs:annotation>
+      <xs:documentation>Interview contains set of Questions</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Question"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="QuestionType">
+    <xs:choice minOccurs="0">
+      <xs:element ref="ListQuestion"/>
+      <xs:element ref="ChoiceQuestion">
+        <xs:annotation>
+          <xs:documentation>Represents ChoiceQuestion, YesNoQuestion, ExcludeListTypeQuestion, ChoiceArrayQuestion</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="PropertiesQuestion">
+        <xs:annotation>
+          <xs:documentation>Represents PropertiesQuestion </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:choice>
+    <xs:attribute name="summary" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>This is base question summary - Question.getSummary()</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="value">
+      <xs:annotation>
+        <xs:documentation>This is base question responce  - Question.getStringValue()</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="text" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>This is base question text - Question.getText()</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:element name="TestResult" type="TestResultType"/>
+  <xs:element name="Item">
+    <xs:annotation>
+      <xs:documentation>Utility type for storing a single vlue</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="value" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Property">
+    <xs:annotation>
+      <xs:documentation>Utility type for storing a name-value pair</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+      <xs:attribute name="value" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DescriptionData">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Property"/>
+        <xs:element name="Keywords" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+              <xs:element ref="Item"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TestEnvironment">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Property"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResultProperties">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Property"/>
+      </xs:sequence>
+      <xs:attribute name="endTime" type="xs:dateTime" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Section">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Output">
+          <xs:complexType mixed="true">
+            <xs:attribute name="title" type="xs:string"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="title" type="xs:string" use="required"/>
+      <xs:attribute name="status" type="TestStatus"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Sections">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Section"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="TestStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PASSED"/>
+      <xs:enumeration value="FAILED"/>
+      <xs:enumeration value="ERROR"/>
+      <xs:enumeration value="NOT_RUN"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="TestResultType">
+    <xs:sequence>
+      <xs:element ref="DescriptionData"/>
+      <xs:element ref="TestEnvironment" minOccurs="0"/>
+      <xs:element ref="ResultProperties"/>
+      <xs:element ref="Sections"/>
+    </xs:sequence>
+    <xs:attribute name="url" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>platform-independent test url</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="checkSum" type="xs:long" use="optional"/>
+    <xs:attribute name="status" type="TestStatus" use="required"/>
+    <xs:attribute name="workDirID" type="xs:int" use="required">
+      <xs:annotation>
+        <xs:documentation>This is a link to result's workdir and its configuration. Used for merged report which may contain several workdirs</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="TestStatusList">
+    <xs:list itemType="TestStatus"/>
+  </xs:simpleType>
+  <xs:element name="Summary">
+    <xs:annotation>
+      <xs:documentation>Represents tests by status statistic </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Total" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="status" type="TestStatus" use="required"/>
+            <xs:attribute name="amount" type="xs:long" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="FormatVersion">
+    <xs:annotation>
+      <xs:documentation>Format verion, must be 'v1'</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="v1"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="WorkDirectoryType">
+    <xs:sequence>
+      <xs:element ref="Summary" minOccurs="0"/>
+      <xs:element ref="Interview"/>
+      <xs:element name="StandardValues" type="StandardValuesType"/>
+      <xs:element name="Environment">
+        <xs:complexType>
+          <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Property"/>
+          </xs:sequence>
+          <xs:attribute name="name" type="xs:string" use="optional"/>
+          <xs:attribute name="description" type="xs:string" use="optional"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:int" use="required"/>
+    <xs:attribute name="jti" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Path to JTI file</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="sourceFile">
+      <xs:annotation>
+        <xs:documentation>used only for merged reports, contains path to original XML file</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="StandardValuesType">
+    <xs:sequence maxOccurs="unbounded">
+      <xs:element name="Tests">
+        <xs:annotation>
+          <xs:documentation>"Entire test suite" or list of selected leaves in test tree</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:choice>
+            <xs:element name="EntireTestTree"/>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:element ref="Item"/>
+            </xs:sequence>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="PriorStatusList" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence maxOccurs="unbounded">
+            <xs:element ref="Item"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ExcludeList" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>List of Exclude files</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence maxOccurs="unbounded">
+            <xs:element ref="Item"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Concurrency" type="xs:int"/>
+      <xs:element name="TimeOut" type="xs:float"/>
+      <xs:element name="Keywords" minOccurs="0">
+        <xs:complexType>
+          <xs:attribute name="expression" type="xs:string" use="required"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

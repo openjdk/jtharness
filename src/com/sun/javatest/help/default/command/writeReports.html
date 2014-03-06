@@ -1,0 +1,94 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+
+<TITLE>Writing Reports</TITLE>
+<META name="hIndent" content="1"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="writeReports"><!--index:writing reports; reports: writing--><!-- index:command: writereport --><!-- index:writereport command  --></A>
+<H1>Writing Reports With <code>writeReport</code></H1>
+<P>Use the <code>-writeReport</code> command with the <code>-type</code> and <code>-filter</code> options in the command line as a separate command or as part of a series of task commands (such as run tests). Use a web browser to view the reports.</P>
+<P>Because the harness executes commands in their command-line sequence, you must identify the work directory before the <CODE>-writeReport</CODE> command and provide the report directory as an option at the end of the command:</P>
+<P><A href="aboutExamples.html"><EM>&gt; jtharness</EM></A> ... <CODE>-workdir</CODE> <EM>my-work-dir</EM> <CODE>-writeReport</CODE> <CODE>-type</CODE><br>
+  <EM>report-type</EM> <CODE>-filter</CODE> <EM>report-filter</EM> <EM>my-report-dir</EM></P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of the use of <EM>&gt; jtharness</EM> in the example.</P>
+<P>See <a href="commandLine.html">Command-Line Overview</A> for a detailed description of the command line structure.</P>
+<A name="writeReportType"><!--index:report type--></A>
+<H2>Using the <code>-type</code> Option</H2>
+
+<p>Include the <code>-type</code> option and a report-type argument in the command line to specify the format of the generated report. There is a direct relationship between the names of the directories in the report directories and the report type names used in the command, as shown in the following table:</P>
+
+<table border="0" cellpadding="5" class="gray" summary="writeReport types" title="accessing Online Information from the GUI">
+<tr valign="top">
+<th scope="col" class="left">Report</th>
+<th scope="col" class="left">Type</th>
+<tr><td>HTML Report</td><td><code>html</code></td></tr>
+<tr><td>Plain Text Report</td><td><code>txt</code></td></tr>
+<tr><td>XML Report</td><td><code>xml</code></td></tr>
+<tr><td>COF Report</td><td><code>cof</code></td></tr>
+</table>
+
+<p>When the <code>-type</code> option is not used, the harness uses the default report types last used in the GUI, or <code>html</code> and <code>txt</code> if a type was not previously set in the GUI.</p>
+<p>The harness provides a set of standard format types (<code>html</code>, <code>txt</code>, <code>xml</code> and <code>cof</code>) that you can use. In addition to the standard arguments, your test suite might provide additional custom formats. If you are unsure of the additional formats provided by your test suite, select Report &gt; Create New Report from the GUI to display the list of available report formats. </p>
+<p>For more on the standard report formats, see <a href="../../default/report/newReports.html#CreateTestReport">Creating Reports</a> in the <em>Graphical User Interface User's Guide</em>.</p>
+
+
+<H2>Using the <code>-filter</code> Option</H2>
+<p>
+When the <code>-filter</code> option is not used, the harness uses the default setting of <code>currentConfig</code>. Include the <code>-filter</code> and a filter option (<code>lastRun</code>, <code>currentConfig</code>, or <code>allTests</code>) in the command line to specify the filter used to select the test results that are reported.
+</p>
+
+<p>
+Use the <code>lastRun</code> filter option (corresponds to Last Test Run in the GUI) to select test results status for
+  all folders and tests included in the last test run even if you have exited
+  the harness since the last test run.
+</p>
+<p>
+Use the <code>currentConfig</code> filter option (corresponds to Current Configuration in the GUI) to select the folders and test results status specified by the current configuration.
+</p>
+<p>
+Use the <code>allTests</code> filter option (corresponds to All Tests in the GUI) to select test results status for all tests in the work directory, including any tests that were excluded from the last test run.
+</p>
+
+<H2>Detailed Example of <code>writeReport</code> Command</H2>
+<P>In the following example, <EM>my-work-dir</EM> represents a work directory name that might exist on your system, and two known failure lists are specified.</P>
+<P><B>Command Options Format Example:</B></P>
+<P class="indent2">
+<a href="aboutExamples.html"><EM>&gt; jtharness</EM></A>
+<CODE></CODE>-workdirectory <em>myworkdirectory</em> <code>-config foo.jti -kfl foo.kfl -writeReport -type html -filter allTests </code><em>myReportDir</em></P>
+<P>See <a href="formatCommands.html">Formatting a Command</A> for descriptions and examples of other command formats that you can use.</P>
+
+<hr>
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2012, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

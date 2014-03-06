@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Viewing Configuration Values
+</title>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="testEnvBrowser"><!--index:Test Environment browser -->
+  <!-- index:browser: test environment--></a>
+<h1>Viewing Configuration Values </h1>
+<p>
+The Test Environment browser displays the configuration values used to run a test suite. 
+</p>
+
+<center>
+<img src="../../images/envwindow.gif" border="0" alt="the Test Environment dialog box" longdesc="dialog.html">
+</center>
+
+<p>
+To open the Test Environment browser,  choose
+  View <b>&gt;</b> Configure <b>&gt;</b> Show
+Test Environment
+from the Test Manager menu bar.</p>
+
+<p>
+The Test Environment browser contains a four-column table that displays information
+  derived from the configuration file and used in configuring the test run. Useful
+  features of the Test Environment browser include the following:</p>
+<ul>
+  <li>Click and drag
+        the column headers or their separators to rearrange the order and change
+      the size of the columns. </li>
+  <li>Click inside a table cell to display its contents
+        in the text box below the table. This
+      is a useful feature when the contents of a cell are too long for the
+    table to effectively display them.</li>
+  <li> Click
+      a column header to alpha-numerically sort the contents of the table. This
+      is a useful feature when searching for a specific name or value in a lengthy
+      table.</li>
+</ul>
+<p>
+The following table describes the contents of the Test Environment browser.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="The contents and description of the Test Environment dialog box." title="Test Environment Dialog Box Contents">
+<tr valign="top">
+<th width="25%" scope="col" class="left">
+Name
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td >
+<a name="testEnvBrowser.key"><!--index:Test Environment browser: Entry Name -->
+  <!-- index:browser: test environment: Entry Name--></a>Entry Name
+</td>
+<td>
+Identifies a name-value pair derived from the configuration file and used by
+  test suite specific plug-in code to execute and run tests. 
+</td>
+</tr>
+
+<tr valign="top">
+<td >
+<a name="testEnvBrowser.value"><!--index:Test Environment browser: Value -->
+  <!-- index:browser: test environment: Value--></a>Value
+</td>
+<td>
+A value specified by the user in the configuration file used to configure a test run.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+<a name="testEnvBrowser.file"><!-- index:Test Environment browser: Defined in file -->
+  <!-- index:browser: test environment: defined in file --></a>Defined in file
+</td>
+<td>
+Identifies the source of the configuration information used to run the tests. If your test suite uses a configuration (<code>.jti</code>)
+file to run tests, the source of the values is displayed.</td>
+</tr>
+
+
+<tr valign="top">
+<td >
+<a name="testEnvBrowser.env"><!--index:Test Environment browser: defined in environment -->
+  <!-- index:browser: test environment: defined in environment--></a>Defined in environment
+</td>
+<td>
+When appropriate, this field displays the environment name from the configuration.
+</td>
+</tr>
+</table>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2009, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

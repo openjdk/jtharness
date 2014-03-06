@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<html>
+<head>
+<link href="../jthelp.css" rel="stylesheet" title="Style">
+<meta name="hIndent" content="1">
+<title>
+Editing a Template
+</title>
+</head>
+<body>
+<a name="editingTemplate"><!--index:templates, editing--></a>
+<h1>Editing a Template</h1>
+
+<p>The Template Editor provides the
+  following two modes of displaying and editing the questions and values in a
+template. <br><br>See <a href="questionModeTE.html">Question Mode</a> for
+    detailed information about using the features of this editing mode.</p>
+<ul>
+  <li>Question Mode - Enables editing of all template questions. </li>
+</ul>
+<!--insert:NoEditBuiltinTemplate-->
+
+
+<ul>
+  <li>Quick Set Mode - Enables rapid editing of a limited set of template  questions. <br><br>Quick Set Mode filters out all test suite specific questions and displays
+    a limited set of general questions whose values are often changed from test
+    run to test run. In this editing mode, the Template Editor creates logical
+    groupings of the values and displays them in  tab form
+    for easy user navigation and access.</li>
+</ul>
+
+<h2 class="proc">Editing in  Question Mode</h2>
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="editTemplate.html"><!--CopyOn-->To
+  edit all template questions and bookmarks in a template, perform
+  the following steps:</p>
+
+<ol>
+  <li>If you are editing the current template (named at the bottom of the Test Manager) choose Configure  &gt; Edit Template in the Test Manager menu bar, otherwise choose either Configure &gt; Load Template or Configure &gt; Load Recent Template. <br><br>If you are editing the current template (named at the bottom of the Test Manager), the harness opens the Template Editor and loads the template. Go to step 3. <br><br>If you are editing a different template, the harness displays the Load Template
+    dialog box.</li>
+</ol>
+
+<ol start="2">
+  <li>Use the dialog box to locate and load the template. <br><br>The harness
+    opens the Template Editor and displays
+    the template in Question Mode. </li>
+</ol>
+
+<ol start="3">
+  <li>Use Question Mode to change the values of
+    questions in the template. </li>
+
+  <li>Click Done to save the changes and close the Template
+  Editor.</li>
+</ol>
+<p>You can use the View menu at any time to change from one 
+  mode to the next. Because there is only one template file loaded in the Template
+  Editor at a time, when you change modes during an editing session,
+  any changes  made in one mode are automatically reflected
+  in the other.</p>
+
+<p>If a configuration is attached to the edited template, the harness opens a Template updated dialog box that enables you to review the changes and to accept, reject, or postpone having the changes propagated to the attached configuration. See <a href="../templates/resolveConflicts.html">Resolving Configuration-Template Conflicts</a> for a description of the dialog box and the choices available to the user.
+</p> 
+  
+<h2 class="proc">Editing in Quick Set Mode</h2>
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="editTemplate.html"><!--CopyOn-->To
+  edit one or more of the quick set values in a template, perform the following
+  steps:</p>
+
+<ol>
+  <li>If you are editing the current template (named at the bottom of the Test Manager) choose Configure  &gt; Edit Template in the Test Manager menu bar, otherwise choose either Configure &gt; Load Template or Configure &gt; Load Recent Template.<br><br>If you are editing the current template (named at the bottom of the Test Manager), the harness opens the Template Editor and loads the template. Go to step 3.<br><br> If you are editing a different template, the harness displays the Load Template
+    dialog box.</li>
+</ol>
+
+<ol start="2">
+  <li>Use the dialog box to locate and load the template. <br><br>The harness opens the Template Editor and displays the template in Question
+    Mode. </li>
+</ol>
+
+<ol start="3">
+  <li>Choose View &gt; Quick Set Mode in the Template Editor menu bar.<br><br>The harness displays the Template Editor in Quick Set Mode. </li>
+</ol>
+
+<ol start="4">
+  <li>Set the quick set values by using the following tabs:</li>
+</ol>
+<ul>
+  <li><a href="testsTabTE.html">Tests</a> - Use this tab to edit the default
+    set of tests that a user can run in this configuration. </li>
+  <li><a href="excludeTabTE.html">Exclude List</a> - (Optional) Use this tab
+    to edit the default list of tests that are excluded from a test run using
+    this configuration. </li>
+  <li><a href="keywordsTabTE.html">Keywords</a> - (Optional) Use this tab to
+    edit the default keywords and expressions used in this configuration to run
+    tests. </li>
+  <li><a href="statusTabTE.html">Prior Status</a> - Use this tab to edit the
+    default restrictions on tests that are run by using their status from the
+    previous test run.</li>
+  <li><a href="execTabTE.html">Execution</a> - (Optional) Use this tab to edit the default
+    concurrency and timeout factor values used in the configuration for running
+    tests.</li>
+</ul>
+<ol start="5">
+  <li>Click Done to save the changes and close the Template Editor.</li>
+</ol>
+<p>You can use the View menu at any time to change from one  mode to the
+  next. Because there is only one template file loaded in the Template Editor
+  at a time, when you change modes during an editing session, any changes
+  made in one  mode are automatically reflected in the other.</p>
+
+<p>If a configuration is attached to the edited template, the harness opens a Template updated dialog box that enables you to review the changes and to accept, reject, or postpone having the changes propagated to the attached configuration. See <a href="../templates/resolveConflicts.html">Resolving Configuration-Template Conflicts</a> for a description of the dialog box and the choices available to the user.
+</p> 
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2006, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

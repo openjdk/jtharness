@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>Important Security Information</title>
+<META NAME="hIndent" CONTENT="0">
+<LINK REL="stylesheet" TYPE="text/css" HREF="jthelp.css" TITLE="Style">
+</head>
+<body>
+<h1>Important Security Information</h1>
+
+<p>It is  important to note that the harness  is fundamentally a developer system that is not specifically designed to guard against  malicious attacks. This section describes known harness vulnerabilities that can be exploited by authorized or unauthorized users or others who have access to the network where the harness runs. When installing and operating the harness, consider these vulnerabilities and take action to mitigate potential threats. </p>
+<p>Note: See the <em>Release Notes</em> for additional security information. </p>
+<h2><a name="File" id="File"></a>File Access Risks </h2>
+<p>The harness reads, writes, and deletes files and can therefore potentially expose or damage  information stored in files. </p>
+<h3><a name="Path" id="Path"></a>Path Vulnerabilities</h3>
+<p>The harness and its  utilities do not   prevent users from accessing sensitive files that are accessible from the computer on which the harness  is running &mdash; including attached/mounted remote filesystems.&nbsp;A harness user can therefore directly or indirectly examine file contents,  overwrite contents, or delete them. To mitigate against accidental or intentional misuse of sensitive files, consider setting file permissions to give the least feasible access to harness users.
+<p>
+  There are no direct options in the harness for removing a file, directory, or folder, but the harness can automatically remove files that  it believes it owns and are corrupt or in need of replacement. Automatic removal or replacement generally occurs only inside the harness preferences metadata storage  area (<code>~/.javatest</code> or <code>user_home\.javatest</code>) and inside  work  directory locations  directly designated by the user.&nbsp; </p>
+<p>There are at least two ways a   user can indirectly give the harness access to an arbitrary file that the harness might automatically remove or replace. </p>
+<ul>
+  <li>A configuration (<code>.jti</code>) file can contain a &quot;hint&quot; that  enables the harness GUI or CLI to find what the harness <em>assumes</em> is a work directory. </li>
+  <li>A desktop file in the preferences metadata storage area can contain a path to what the harness <em>assumes</em> is a work directory. The harness GUI or CLI automatically opens the desktop file. </li>
+</ul>
+<h3><a name="FileCreation" id="FileCreation"></a>File Creation Permissions </h3>
+<p>The harness is intended to be run by users who are trusted to properly  handle files they have access to. The harness does not attempt to  override any file permissions that are in place to protect files or  restrict the user.&nbsp; Additionally, the harness creates files with whatever  permissions are the default for the user running the harness (on Unix systems, the <code>umask</code>, etc). If you want to restrict access to files created by the harness, ensure that user default file creation permissions are set accordingly. </p>
+<h2><a name="Netwok" id="Network"></a>Network Access Risks </h2>
+<p>The harness and related components are intended to be run in a semi-trusted  environment. Never expose the harness or its utilities directly to the Internet, which provides a path for malicious intrusion. The most secure environment  is a standalone machine with no network access, if this is feasible  for the testing you are performing. However, because the test harness agent configuration and some test suites require a network, a more realistic environment is a closed intranet, ideally one that is physically isolated from organizational intranets and sensitive information. </p>
+<h3><a name="Remote" id="Remote"></a>Remote Agent Risks</h3>
+<p>The test harness includes the JavaTest agent, which is a remote execution framework. The agent requires open communication ports on the JavaTest host computer and on the remote computer (device); therefore you must ensure that both machines are protected from malicious attack. For the most secure operation, connect  the host and  remote computers only to a protected intranet on  a physically isolated network. </p>
+<h3><a name="Hostname" id="Hostname"></a>Host Name (DNS) Lookup Vulnerabilities</h3>
+<p>The harness sometimes uses Domain Name Services (DNS), or similar from  your system, to transform a host name into an IP  address. Invalid information returned by this lookup  might cause the harness to connect to an address you did not intend. When possible, the harness GUI  displays the returned IP address. Users should verify that the address is appropriate, for example, lies within a range the corresponds to your network. If you need assistance validating IP addresses, contact your network administrator. </p>
+<h2><a name="Command" id="Command"></a>Command Injection Vulnerability </h2>
+<p>As part of the normal process of harness configuration and testing, there are  places where the user is allowed to specify arbitrary commands (with  parameters) to execute &mdash; for example, to start a test, to start a Java virtual machine being tested, or to  start a service. The harness does not screen these commands  for  malicious or accidental usage. The harness offers no protection from the effects of any command initiated by a user or a test. Be sure that users are trained and trusted to specify proper commands properly, and to verify that commands issued by test suites are harmless. An incorrect or malicious command can cause serious damage. 
+
+<p>The harness does not attempt to run commands with  higher  privileges than that of the current user or the privileges inherited  when the new command/process executes.</p>
+<p>&nbsp;</p>
+
+
+<hr>
+
+<p><a href="copyright.html">Copyright</a> &copy; 2013, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

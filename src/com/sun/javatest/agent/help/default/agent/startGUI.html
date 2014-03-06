@@ -1,0 +1,431 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<title>Starting the Agent GUI</title>
+</head>
+<body>
+<a name="startGUI"><!-- index:starting an agent GUI --><!-- index:agent GUI; starting --></a>
+<h1>Starting the Agent GUI</h1>
+
+<p>
+Before you can start the agent GUI, the required classes must be installed on your test system. Refer to <a href="loadingClasses.html">Installing Agent Classes on Test Systems</a> for the location and list of classes required to use the agent GUI.
+</p>
+<ol>
+<li>
+Start the agent GUI by entering the following at the command prompt:
+
+<p class="indent2">
+<code>java -cp</code> <em>class-path</em> <code>com.sun.javatest.agent.AgentFrame</code> <em>[options]</em>
+</p>
+
+<!-- start embedded unordered list -->
+<blockquote>
+  <p>
+    The <code>-cp</code> option sets the class paths required to run the agent.
+    Use the  <b>;</b>  or  <b>:</b>  separator appropriate for your test
+    system to separate multiple paths in the argument to the <code>-cp</code> option. Refer to <a href="#startGUI.classPaths">Classes</a>   for detailed descriptions of the classes that your agent requires.
+  </p>
+  <p><em>[options]</em> are not required to start the agent GUI, but can be included to display help, set properties not available from the agent GUI, or start the GUI using a specific set of parameters. Refer to <a href="#startGUI.appOptions">GUI Options</a>   for a list and description of the options that can be included in the command line.
+  </p>
+</blockquote>
+<!-- end embedded unordered list -->
+</li>
+<li>
+After the GUI is displayed, use the Parameters tabbed pane to configure an agent for your test system. Refer to <a href="choosingAgents.html">Choosing an Agent Configuration</a>.
+</li>
+</ol>
+
+<a name="startGUI.classPaths"><!-- index:starting an agent GUI; classes --><!-- index:agent GUI; starting; classes --></a>
+<h2>Classes</h2>
+<p>
+The following table describes the classes required by an agent.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="List of classes required by the agent." title="Required Classes">
+
+<tr valign="top">
+<th width="30%" scope="col" class="left">
+Classes
+</th>
+<th scope="col" class="left">
+Descriptions
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Agent Classes
+</td>
+<td>
+The location of the agent classes installed on your test system. The agent classes are either located in the <code>javatest.jar</code> file or in the directory containing the minimum set of classes required to run the agent from the GUI. Some test suites include additional <code>.jar</code> files containing classes needed for an agent to run tests. These <code>.jar</code> files must also be included in the command string. Refer to <a href="loadingClasses.html">"Installing Agent Classes on a Test System</a> for a description of how agent classes can be installed.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Test Classes
+</td>
+<td>
+Test classes are located in the classes directory of the test suite.
+</td>
+</tr>
+</table>
+
+<p>
+The most common error in setting up a test platform to use an agent is entering the wrong class paths in the command string. Configuring your test platform to use the simplest class paths increases the reliability of the test run.
+</p>
+
+<a name="startGUI.appOptions"><!-- index:starting an agent GUI; options --><!-- index:agent GUI; options --></a>
+<h2>GUI Options</h2>
+
+<p>
+The following types of options  can be included in the command line used
+  used to start the GUI:
+</p>
+
+<ul>
+<li>
+<a href="#startGUI.help">Options to Display Help</a>
+</li>
+<li>
+<a href="#startGUI.only">Options Set Only in the Command Line</a>
+</li>
+<li>
+<a href="#startGUI.both">Options to Run the Agent</a>
+</li>
+<li>
+<a href="#startGUI.configure">Options to Configure the Agent</a>
+</li>
+</ul>
+
+<a name="startGUI.help"><!-- index:starting an agent GUI; options; display help --><!-- index:agent GUI; options; display help --></a>
+<h3>Options to Display Help</h3>
+<p>
+The following table describes the options that can be used on the command line
+  to display help.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="List of options used on the command line to display help." title="Options to Display Help">
+<tr valign="top">
+<th width="30%" scope="col" class="left">
+Function
+</th>
+<th scope="col" class="left">
+Option
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Display Command-Line Help
+</td>
+<td>
+<code>-help</code> or <code>-usage</code>
+<p>
+Displays command-line help.
+</p>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Display JT Harness harness Online Help
+</td>
+<td>
+<code>-onlineHelp</code>
+<p>
+Displays JT Harness harness online help without starting the JT Harness harness. Press Control - C to return to the command-line interface.
+</p>
+</td>
+</tr>
+</table>
+
+<a name="startGUI.only"><!-- index:starting an agent GUI; options; set in the command line --><!-- index:agent GUI; options; set in the command line --></a>
+<h3>Options Set Only in the Command Line</h3>
+<p>
+The following table describes the options that are the only parameters that cannot
+  be set in the GUI. If you choose to use them, they must be set in the command
+  line.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="List of options that are the only parameters that cannot be set in the GUI." title="Options Set Only in the Command Line">
+<tr valign="top">
+<th width="25%" scope="col" class="left">
+<b>Function</b>
+</th>
+<th scope="col" class="left">
+Option
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Set the Number of Tasks in History
+</td>
+<td>
+<code>-history</code> <em>number-of-items</em>
+<p>
+Specifies the maximum number of tasks displayed in the history tabbed pane. The history tabbed pane displays a list of the current and recently completed tasks performed by the agent. Each task is displayed with a code indicating its current state. You can only set the maximum number of tasks from the command line.</td>
+</tr>
+
+<tr valign="top">
+<td>
+Automatically Start the Agent
+</td>
+<td>
+<code>-start</code>
+<p>
+Automatically starts the agent after all command line options are validated. This option is used only if the agent is also configured in the command line. If the <code>-start</code> option is not used, click the Start button in the agent GUI to start testing.
+</p>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Set Tracing
+</td>
+<td>
+<code>-trace</code>
+<p>
+Sends detailed information about agent activities to the system output stream. You can only set the tracing option from the command line.
+</p>
+</td>
+</tr>
+</table>
+
+<a name="startGUI.both"><!-- index:starting an agent GUI; options; to run the agent --><!-- index:agent GUI; options; to run the agent --></a>
+<h3>Options to Run the Agent</h3>
+<p>
+The following table describes the options that can be set either in the command
+  line or in the GUI that specify how the agent runs tests.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="List of options used either in the command line or in the GUI to specify how the agent runs tests." title="Options to Run the Agent">
+<tr valign="top">
+<th width="25%" scope="col" class="left">
+Function
+</th>
+<th scope="col" class="left">
+Option
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Set Concurrency
+</td>
+<td>
+<code>-concurrency</code> <em>number-of-tests</em>
+<p>
+Sets the maximum number of simultaneous requests handled by the agent. Each request requires a separate connection to the JT Harness harness and a separate thread inside the agent. The request might also require a separate process on the test system running the agent. The default setting is one. 
+</p>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Specify a Map File
+</td>
+<td>
+<code>-map</code> <em>map-file</em>
+<p>
+Specifies a map file for the agent to use when translating host specific values.  You can also use the parameters tabbed pane to set the map file.
+</p>
+</td>
+</tr>
+</table>
+
+<a name="startGUI.configure"><!-- index:starting an agent GUI; options; to configure an agent --><!-- index:agent GUI; options; configure an agent --></a>
+<h3>Options to Configure the Agent</h3>
+
+<p>
+The following parameters can be used to configure an agent at the time the agent GUI is started:
+</p>
+
+<ul>
+<li>
+Parameters to Configure an Active Agent
+</li>
+<li>
+Parameters to Configure a Passive Agent
+</li>
+<li>
+Parameters to Configure a Passive Agent
+</li>
+</ul>
+
+<p>
+These parameters duplicate functions of the GUI and must only be used if you have already determined the configuration of the agent for you test system. Refer to <a href="choosingAgents.html">Choosing an Agent Configuration</a>.
+</p>
+<p>
+Anytime the agent is not running, you can use the Parameters tabbed pane to change any of these parameters. Consequently, including these parameters in the command line is not recommended because they add complexity to the command line and duplicate functions already provided by the Parameters tabbed pane.
+</p>
+
+
+<h4>Parameters to Configure an Active Agent</h4>
+<p>
+The following table describes the parameters that configure the GUI for
+  an active agent.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="List of parameters that configure the GUI for an active agent." title="Parameters to Configure an Active Agent">
+<tr valign="top">
+<th width="20%" scope="col" class="left">
+Function
+</th>
+<th scope="col" class="left">
+Option
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Use active communication
+</td>
+<td>
+<code>-active</code>
+<p>
+Starts an active agent.
+</p>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Identifies host
+</td>
+<td>
+<code>-activeHost</code> <em>host-name</em> 
+<p>
+Connects to the system running the JT Harness harness. For the <em>host-name</em> variable, you can either use the name or the IP address of the system running the JT Harness harness.
+</p>
+</td>
+</tr>
+
+<tr valign="top">
+<td> 
+Specifies port
+</td>
+<td>
+<code>-activePort</code> <em>port-number</em>
+<p>
+Use only if the JT Harness harness listens for active agents on a port other than 1907.
+</p>
+</td>
+</tr>
+</table>
+
+<h4>Parameters to Configure a Passive Agent</h4>
+<p>
+The following table describes the parameters that configure the GUI for a passive
+  agent.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="List of parameters that configure the GUI for a passive agent." title="Parameters to Configure a Passive Agent">
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Function
+</th>
+<th scope="col" class="left">
+Option
+</th>
+</tr>
+
+<tr valign="top">
+<td width="30%">
+Use passive communication
+</td>
+<td>
+<code>-passive</code>
+<p>
+Starts a passive agent.
+</p>
+</td>
+</tr>
+
+<tr valign="top">
+<td> 
+Specifies port
+</td>
+<td>
+<code>-passivePort</code> <em>port-number</em>
+
+<p>
+Use only if the JT Harness harness sends requests to passive agents on a port other than 1908.
+</p>
+</td>
+</tr>
+</table>
+
+<h4>Parameters to Configure a Serial Agent</h4>
+<p>
+The following table describes the parameters that configure the GUI for a serial
+  agent.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="List of parameters that configure the GUI for a serial agent." title="Parameters to Configure a Serial Agent">
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Function
+</th>
+<th class="left">
+Option
+</th>
+</tr>
+
+<tr valign="top">
+<td width="30%">
+Use serial communication
+</td>
+<td>
+<code>-serial</code>
+<p>
+Starts a serial agent.
+</p>
+</td>
+</tr>
+
+<tr valign="top">
+<td> 
+Specifies port
+</td>
+<td>
+<code>-serialPort</code> <em>port-number</em>
+
+<p>
+Sets the serial port used by the JT Harness harness to communicate with the agent.
+</p>
+</td>
+</tr>
+</table>
+
+
+<!--ins:JDTS-->
+
+<hr>
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+</body>
+</html>

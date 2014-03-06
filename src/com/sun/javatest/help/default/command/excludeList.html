@@ -1,0 +1,79 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Specifying Exclude Lists With excludeList</TITLE>
+<META name="hIndent" content="1"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="excludeList"><!--index:specifying exclude lists -->
+  <!-- index:excludeList command-->
+  <!-- index:command: excludeList -->
+  <!-- index:exclude lists: specifying --></A>
+<H1>Specifying Exclude Lists With <CODE>excludeList</CODE></H1>
+<P>Test suites can supply exclude list files which contain the list of tests
+  that the harness is not required to run. Exclude list files conventionally
+  use a <A name="jtx"><code>.jtx</code></A> extension.
+  Once you have set up a configuration, you can use an <CODE>excludeList</CODE> command
+  to specify the exclude list for your test run:</P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> ... [<EM>initial-setup-commands</EM>] ...
+<CODE>-excludeList</CODE> <EM>path/filename1</EM>  <i>path/filename2 ...</i> [<EM>task-command</EM>]</P>
+		<P>For example, to specify multiple <EM>path/filename</EM> arguments , issue the <CODE>-excludeList</CODE> command once followed by multiple <EM>path/filename</EM> arguments separated by spaces. For example:</P>
+		<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> ... [<EM>initial-setup-commands</EM>] ...<CODE> -excludeList aaaa.jtx bbb.jtx C:\myconfig\cc.jtx</CODE> ... [<EM>taskcommand</EM>]</p>
+		<p>Note, because a space is a separator, file path arguments cannot contain spaces (for example, <tt>C:\Program Files\myconfig\foobar</tt> will not work). </p>
+		<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of the use of <EM>&gt; jtharness</EM>.</P>
+		<P>See <a href="commandLine.html">Command-Line
+  Overview</A> for a detailed description of the command-line structure.</P>
+<P>The exclude list that you specify in the command line overrides any exclude
+  list specified in the configuration file without changing the configuration
+file. To specify an exclude list, include the commands in the following sequence:</P>
+<OL>
+		<LI>Include the commands required to set up a configuration.See <a href="setupCommands.html">Setup Commands</A> for a description of the commands.<br></LI>
+	</OL>
+
+      <ol start="2">
+        <li>Include the commands to specify an exclude list (<CODE>excludeList</CODE> <EM>path/filename</EM>).</li>
+      <LI>(Optional) Include a task command (such as
+      <CODE>runtests</CODE>).<br><br>See <a href="taskCommands.html">Task Commands</A> for the commands that you can include.</LI>
+    </ol>
+
+      
+<H2>Detailed Example of <code>excludeList</code> Command </H2>
+<P>In the following example, <EM>myconfig</em><code>.jti</code> and <EM>myexcludelist</em><code>.jtx</code> represent file names that might exist on your system.</P>
+<P><B>Command Options Format Example:</B></P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> <CODE>-config</CODE> <EM>myconfig</em><code>.jti -excludeList</CODE> <EM>myexcludelist</em><code>.jtx -runtests</CODE></P>
+<P>See <a href="formatCommands.html">Formatting a Command</A> for descriptions and examples of other command formats that you can use.</P>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

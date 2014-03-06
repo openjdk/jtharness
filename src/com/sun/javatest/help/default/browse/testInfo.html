@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>Displaying Test Information</title>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="testInfo"><!--index:Test view -->
+  <!-- index:Test Manager: Test view--><!-- index:test information: Test view --></a>
+<h1>Displaying Test Information</h1>
+
+<p>The test view contains unfiltered, detailed information from the work directory about a specified test. To display the test view, click a test icon in the test tree or double-click a test name.</p>
+
+<p>The test view contains six tabs and a colored status field (which indicates Pass or Fail).
+</p>
+
+<center>
+  <img src="../../images/JT4Tabbed.gif" alt="Test information area"  longdesc="testInfo.html">
+</center>
+
+
+<p class="note"><!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="testInfo.html">
+<br>
+<!--CopyOn-->
+The test view does not use view filtering to display information. If you are
+using a view filter other than All Tests, the status
+color displayed in this view might not match the test
+icon or
+the folder view tab.</p>
+<p>
+The following table describes the contents of the test view panes. The status
+  field at the bottom of the pane contains a description of the test result and
+  is visible in all of the test view panes.</p>
+
+<table border="0" width="100%" cellpadding="5" class="gray" summary="The information pane displays the test view, containing five tabs." title="Information Pane Contents">
+<tr valign="top">
+<th align="left" scope="col" class="left">
+Tab
+</th>
+<th align="left" scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td width="30%">
+<a href="testDescriptionTab.html">Test Description Pane</a>
+</td>
+<td>
+Displays the name-value pairs contained in the test description. The contents
+  are input data and always available.</td>
+</tr>
+<tr valign="top">
+<td width="30%">
+<a href="testDescriptionTab.html">Documentation Pane</a>
+</td>
+<td>
+Displays test documentation, if it exists.</td>
+</tr>
+<tr valign="top">
+<td>
+<a href="filesTab.html">Files Pane</a>
+</td>
+<td>
+Contains a drop-down list of source files from the test description. Click a
+  file name from the drop-down list to display its contents. The contents are
+  input data and always available.</td>
+</tr>
+
+<tr valign="top">
+<td>
+<a href="configurationTab.html">Configuration Pane</a> 
+</td>
+<td>
+Displays a table of configuration name-value pairs used to run a specific test.
+  The contents are output data and only enabled if the test was run.</td>
+</tr>
+
+<tr valign="top">
+<td>
+<a href="detailsTab.html">Test Run Details Pane</a>
+</td>
+<td>
+Displays the name-value pairs that were recorded when the test was run. The contents
+  are output data and only enabled if the test was run.</td>
+</tr>
+
+<tr valign="top">
+<td>
+<a href="messagesTab.html">Test Run Messages Pane</a>
+</td>
+<td>
+Contains a tree and message panel of output from sections of the test. Click
+  a name to display its contents. The contents are output data and only enabled
+  if the test was run.</td>
+</tr>
+</table>
+
+<p>
+When an information pane is empty, the harness disables it.
+</p>
+
+<hr><p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

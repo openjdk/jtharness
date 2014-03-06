@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Test Run Messages Pane
+</title>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="messagesTab"><!--index:Test Run Messages -->
+  <!-- index:Test Manager: Test Run Messages--></a>
+<h1>Test Run Messages Pane</h1>
+
+<p>
+To display detailed messages describing what
+  happened during the running of each section of the test, click the Test Run
+  Messages tab. This information is useful when troubleshooting a test run.</p>
+
+<center>
+  <img src="../../images/JT4testRunMessagesTab.gif" alt="Test Run Messages tabbed pane" longdesc="messagesTab.html">
+</center>
+
+<p>
+The Test Run Messages tab contains the following areas:</p>
+<ul>
+  <li><a href="#messagesTab.listPane"><b>Message List</b></a> - The vertical area on
+    the left side of the Test Run Messages tab.</li>
+  <li><a href="#messagesTab.messagePane"><b>Message Area</b></a> - The vertical area
+    on the right side of the Test Run Messages tab.</li>
+  <li><a href="#messagesTab.statusbar"><b>Test Result Status Bar</b></a> - The horizontal area at the bottom of the
+    Test Run Messages tab.</li>
+</ul>
+<p><a name="messagesTab.listPane">
+  <!-- index:Test Run Messages: message list -->
+  <!-- index:Test Manager:Test Run Messages:message list -->
+</a></p>
+<h2>Message List</h2>
+<p>
+The message list provides a detailed list of messages issued during a test run.
+  Click an item in the list to display its contents in the message
+  area. The
+message list contains links to the following types of messages:</p>
+<ul>
+  <li><a href="#messagesTab.summary">Summary Message</a> </li>
+  <li><a href="#messagesTab.output">Output Summary and Result Messages</a> </li>
+  <li><a href="#messagesTab.result">Test Result Message</a> </li>
+</ul>
+<a name="messagesTab.summary"><!--index:Test Run Messages: summary message -->
+  <!-- Test Manager: Test Run Messages: summary message --></a>
+<h3>Summary Message</h3>
+
+<p>
+Only one per test, this message summarizes all of the messages generated during
+  a test run and provides hypertext links to their detailed contents. The Summary
+  Message contains the following information in the message area:</p>
+
+<ul>
+<li>
+Test script used to run the test</li>
+<li>
+Messages logged by the test script</li>
+<li>
+Individual test result sections</li>
+<li>
+Test result and its result icon</li>
+</ul>
+
+<h4>Script Messages</h4>
+<p>
+This message is passed up from the script that executed the
+  test. There is only one script message per test. Script messages vary for
+  each test script. Refer to your test suite documentation for detailed descriptions
+  of its script messages when troubleshooting a test run.</p>
+
+<a name="messagesTab.output"><!--index:Test Run Messages: Output Summary message -->
+  <!-- Test Manager: Test Run Messages: Output Summary message -->
+  <!-- index:Test Run Messages: Result message -->
+  <!-- index:Test Manager: Test Run Messages: Result message --></a>
+<h3>Output Summary and Result Messages</h3>
+<p>
+Each test result section has an Output Summary and Result message that provides
+  summary messages and hypertext links to its detailed messages. The name of
+  the Output Summary message is a function of the test suite and varies for each
+  test suite.</p>
+<p>
+Some tests have only one result section, while others have multiple sections. Refer to your test suite documentation for detailed descriptions of the tests when troubleshooting a test run.
+</p>
+
+<p>
+The following table lists and describes the message types.</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray.wide" summary="The following lists and describes the message types." title="Output Summary and Result Messages">
+<tr valign="top">
+<th width="20%" scope="col" class="left">
+Message Type
+</th>
+<th scope="col" class="left">
+Description
+</th>
+ 
+
+<tr valign="top">
+<td scope="row">
+Output Summary
+</td>
+<td>
+  <p>A two-column table listing the name and size of each output section. Each
+    of the following output sections contains text generated while executing
+    the test section:
+  <ul>
+    <li><b>messages</b> - Provides the command string used
+      by the test script to run the test section. Unlike ref and log, the messages
+      field always exists in a section.</li>
+    <li><b>ref </b>- The name of this message field is determined
+      by the test and might be a name other than ref. A test can use this output
+      stream to provide standard output information from the test section.</li>
+    <li><b>log </b>-	The name of this message field is determined
+      by the test and might be a name other than log. A test can use this output
+      stream to provide standard error information from the test section. Many
+      tests only use the log stream and include tracing as well as standard error
+      information when writing to the log output.</li>
+  </ul></p>  
+  <p>
+ The contents of each output section varies from test suite to test suite. Refer
+   to your test suite documentation for detailed descriptions of the test section
+   messages when troubleshooting a test run.</p>
+
+<p>
+ If  no details exist in an output section, the harness does not
+   create its hypertext link and indicates in the Size (chars) column that it
+   is empty.</p>
+
+<p>&nbsp;
+</p></td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Result
+</td>
+<td>
+Contains a colored status icon and a brief description of the results of the specific test section. The color of the circle indicates the result of the test section.
+</td>
+</tr>
+</table>
+
+<a name="messagesTab.result"><!--index:Test Run Messages: Test Result message -->
+  <!-- Test Manager: Test Run Messages:Test Result message --></a>
+<h3>Test Result Message</h3>
+<p>
+The Test Result Message indicates the cumulative result of the test.
+There is only one Test Result Message per test.</p>
+<p class="note"><!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="messagesTab.html">
+<br>
+<!--CopyOn-->
+For negative tests, the Test Result correctly indicates Passed when all of its
+test sections have failed. 
+</p>
+<p></p>
+
+<a name="messagesTab.messagePane"><!--index:Test Run Messages: message area -->
+  <!-- Test Manager: Test Run Messages: message area --></a>
+<h2>Message Area</h2>
+
+<p>
+The area displays the messages issued during a test run. The number, names, and
+  content vary for each test suite and may also vary for different tests in the
+  same test suite.
+</p>
+
+<a name="messagesTab.statusbar"></a>
+<h2>Test Result Status Bar</h2>
+<p> The area displays an abbreviated form of the  Test Result Message. See <a href="#messagesTab.result">Test
+  Result Message</a> for detailed information.</p>
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+
+

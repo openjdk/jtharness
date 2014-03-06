@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>Quick Start</title>
+<META NAME="hIndent" CONTENT="0">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body>
+<a name="quickStart"><!-- index:Quick Start --></a>
+<h1>Quick Start</h1>
+
+<p>
+The harness includes a Quick Start wizard that enables
+  users to quickly create combinations of test suite, work directory, and configuration
+  files and open them in properly configured Test Manager windows.
+  The harness opens the wizard when one of the following conditions
+  occur:</p>
+<ul>
+  <li>The harness cannot restore an existing desktop.</li>
+  <li>A user includes a command-line option in the command to start the GUI.</li>
+  <li>A user opens a new Test Manager window.</li>
+</ul>
+<p>In each case, the wizard enables  the user to specify one of the
+  following tasks: </p>
+<ul>
+  <li><a href="#startRun">Start a New Test Run.</a></li>
+  <li><a href="#resumeRun">Resume Work on a Test Run.</a></li>
+  <li><a href="#browse">Browse the Contents of a Test Suite.</a></li>
+</ul>
+<p>Because each of these tasks has a different set of test suite, work directory,
+  and configuration file requirements, the wizard presents the user
+  with a set of questions that collect the information required for that specified
+  task. When the wizard has collected the required information, it
+  opens a new Test Manager window that is properly set up to perform the specified
+  task.</p>
+
+<a name="startRun"></a>
+<h2>Starting a New Test Run</h2>
+<p>The harness requires that you have a test suite, a work directory,
+  and a valid configuration loaded in the Test Manager before running tests.
+  To properly set up the Test Manager, when you choose Start a New Test Run,
+  the wizard displays a series of questions that prompt you to choose the type
+  of configuration used (load a template or create a new configuration), specify
+  a test suite, and choose a work directory.  See the following topics for additional
+  information about templates, test suites and work directories:</p>
+<ul>
+  <li><a href="../templates/usingTemplate.html">Working With Templates</a></li>
+  <li><a href="openTestSuite.html">Opening a Test Suite</a></li>
+  <li><a href="openDirectory.html">Opening a Work Directory</a></li>
+  <li><a href="createDirectory.html">Creating a Work Directory</a></li>
+</ul>
+
+<p>In the last panel, the wizard displays two options: automatically open the Configuration Editor and automatically begin the test run.</p>
+
+
+<p>If you choose
+  not to automatically open the Configuration Editor when the wizard closes, 
+  the harness displays the Test Manager. In either case, before the harness
+  begins to run tests, it verifies that the configuration is complete. If configuration values are missing or invalid, the harness displays a dialog box describing the problem before opening the Configuration Editor.
+</p>
+<p>
+See the following topics
+  for additional information about working with configurations:</p>
+<ul>
+  <li><a href="../confEdit/createConfiguration.html">Creating a Configuration</a></li>
+  <li><a href="../confEdit/editConfiguration.html">Editing a  Configuration</a></li>
+</ul>
+
+<a name="resumeRun"></a>
+<h2>Resuming Work on a Test Run</h2>
+<p>If you choose to resume work on a test run, the wizard only prompts you for
+  the work directory. Because
+  each work directory is mapped to a test suite and a configuration file, you
+  do not provide any additional information to the harness. See <a href="openDirectory.html">Opening
+  a Work Directory</a> for additional information about using an existing work
+  directory.</p>
+<p>In the last panel, the wizard displays two options: automatically open the Configuration Editor and automatically begin the test run.</p>
+
+
+<p>If you choose
+  not to automatically open the Configuration Editor when the wizard closes, 
+  the harness displays the Test Manager. In either case, before the harness
+  begins to run tests, it verifies that the configuration is complete. If configuration values are missing or invalid, the harness displays a dialog box describing the problem before opening the Configuration Editor.
+</p>
+
+
+
+<a name="browse"></a>
+<h2>Browsing the Contents of a Test Suite</h2>
+<p>If you want to view the tests in a test suite without running them, the wizard only requires that you specify the test suite. While the wizard provides you with the option of creating a
+  configuration file for the test suite, this is not required. If you choose
+  not to create a
+  configuration file for the test suite,  
+  the harness closes the wizard and opens a Test Manager window containing the test suite.</p>
+<p>See <a href="openTestSuite.html">Opening
+  a Test Suite</a> for a additional information about loading
+  a test suite.</p>
+<p class="note">
+  <!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="quickStart.html"> <br>
+  <!--CopyOn-->
+Until you provide both a work directory and a valid configuration file, you cannot run tests.</p>
+  
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2004, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

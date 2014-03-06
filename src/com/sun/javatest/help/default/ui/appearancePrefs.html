@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Appearance Preferences
+</title>
+<META NAME="hIndent" CONTENT="3">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="appearancePrefs"><!--index:appearance preferences: desktop -->
+  <!-- index:desktop: appearance preferences--></a>
+<h1>Appearance Preferences</h1>
+
+<p>
+Change the desktop appearance by opening the Appearance folder and setting the following options:</p>
+<ul>
+
+<li>
+<a href="#appearancePrefs.tooltips">Tool Tip Options</a></li>
+<li>
+<a href="#appearancePrefs.shutdown">Shutdown Options</a></li>
+</ul>
+<p> </p>
+<center>
+  <img src="../../images/JT4appearancePrefs.gif" alt="Appearance preferences dialog box" longdesc="appearancePrefs.html">
+</center>
+
+
+
+
+<p>See <a href="desktopStyles.html">GUI Layout</a> for a detailed description
+  of the tabbed interface.</p>
+
+<a name="appearancePrefs.tooltips">
+<!--index:tool tip options -->
+<!-- index:options, tool tip -->
+</a>
+<h2>Tool Tip Options</h2>
+
+<p>
+You can set the tool tip options from the Appearance category of the Preferences
+  dialog box.</p>
+
+<p>
+The Tool Tips area contains combo boxes and a check box that you can use to specify
+  how tool tips function in the desktop.
+The following table describes the available tool tip options.</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray" summary="Set the tool tip options from the Appearance category of the JT Harness Preferences dialog box." title="Setting Tool Tip Options">
+<tr valign="top">
+<th width="35%" scope="col" class="left">
+Option
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Enabled
+</td>
+<td>
+Use the check-box to enable or disable tool tips for the GUI.
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Delay
+</td>
+<td>
+Use the combo box to select the delay interval before displaying tool tips.
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Persistence
+</td>
+<td>
+Use the combo box to select the duration that the GUI displays a tool tip.
+</td>
+</tr>
+</table>
+
+
+
+<a name="appearancePrefs.shutdown"><!-- index:shutdown options --></a>
+<h2>Shutdown Options</h2>
+<p>Check the <strong>Save Desktop State on Exit</strong> option to save your current desktop for use in a future test session. This default is on. </p>
+<p>When you exit this option saves the current view filter information, recent work directories, and recent configuration information. If a desktop file exists, it will remain.</p>
+<p>If you uncheck Save Desktop State on Exit and close the harness, the current view filter information is not saved. The next time you open a test session the harness opens the Quick Start Wizard (if the test suite author has enabled it) or an empty harness tool.</p>
+<p>&nbsp;</p>
+<a name="appearancePrefs.restore"><!-- index:Restore Tools State on Start --></a>
+<p>Check <strong>Restore Tools State on Start</strong> to restore saved desktop settings. The default is on. If this option is not checked, the recent work directories and configuration information are restored but the tools are not.</p>
+<p>If Restore Tools is set <b>on</B> and Save Desktop State on Exit is set <B>off</B>, the harness will always start with one tools set (although <B>-newdesktop</B> can be used to remove all data). </p>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

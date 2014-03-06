@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<title>
+Troubleshooting
+</title>
+</head>
+<body>
+<a name="troubleshooting"><!-- index:troubleshooting --></a>
+<h1>Troubleshooting With the GUI</h1>
+
+<p> The harness provides information you can use in troubleshooting
+  problems. To troubleshoot problems using the  harness see the following
+  topics:</p>
+<ul>
+  <li><a href="#troubleshooting.starting">Harness Fails During Use</a></li>
+  <li> <a href="#troubleshooting.running">Problems Running Tests</a></li>
+  <li> <a href="#troubleshooting.viewing">Problems Viewing Test Results</a></li>
+  <li> <a href="#output.overflow">Output Overflow Message Displayed in Test Run Messages</a></li>
+  <li><a href="#troubleshooting.viewingReport">Problems Viewing Reports</a></li>
+  <li><a href="#troubleshooting.writing">Problems Writing Reports</a></li>
+  <li><a href="#troubleshooting.moving">Problems Moving Reports</a></li>
+  <!--<li><a href="#agents">Using JT Harness Agents</a></li>-->
+</ul>
+
+<a name="troubleshooting.starting"><!-- index:troubleshooting: running the harness --></a>
+<h2>Harness Fails During Use </h2>
+<p>
+If the  harness  fails, you can use the <code>harness.trace</code> file
+in your work directory to help troubleshoot the problem. The <code>harness.trace</code> file
+is a plain-text file that contains a log of harness activities during
+the test run. It is written in the work directory, is incrementally updated,
+and is intended primarily as a log of  harness activity.</p>
+
+<a name="troubleshooting.running"><!-- index:troubleshooting: running tests --></a>
+<h2>Problems Running Tests</h2>
+<p>
+The goal of a test run is for all tests in the test suite that are not filtered out to have passing results.
+</p>
+<p>If the root test suite folder contains tests with errors or failing results, you must troubleshoot and correct the cause to satisfactorily complete the test run. See <a href="../run/troubleshooting.html">Troubleshooting a Test Run</a> for
+  information about the resources that the harness provides for troubleshooting.</p>
+
+<a name="troubleshooting.errors"><!-- index:troubleshooting: running tests: tests with errors --></a>
+<h3><img src="../../images/blueTest.gif" alt="Tests with errors" longdesc="troubleshooting.html">Tests with Errors</h3> 
+<p>Tests with errors are tests that could not be executed by the  harness.
+These errors usually occur because the test environment is not properly configured.
+  Use the Test tabbed panes and the Configuration Editor to help determine the
+  change required in the configuration.</p>
+<p>The following is an example of how the Test Manager tabbed panes and the Configuration Editor can be used to identify and correct a configuration error:</p>
+<ol>
+<li>
+<p>Use the test tree to identify the folder containing test that had errors.</p></li>
+<li>
+<p>Click the folder icon to open its Summary tab in the Test Manager window.</p></li>
+<li>
+<p>Click the Error tab to display the list of tests in the folder that had errors.</p></li>
+<li>
+<p>Double-click a test in the list to display it in the test tree and view its detailed test information.</p></li>
+<li>
+<p>Click the Test Run Messages tab to display detailed messages describing what happened during the running of each section of the test.</p>
+<p>The contents of each output section vary from test suite to test suite. Refer
+    to your test suite documentation for detailed descriptions of the test section
+    messages when troubleshooting a test run.</p>
+</li>
+</ol>
+<ol start="6">
+  <li><p>Click the Configuration tab to display a two-column table of the name-value pairs
+    that were derived from the configuration file and actually used to run the
+  test.</p>
+  <p>The names in the table identify test environment properties used by the
+    harness to run the test. The values displayed were used to run the test. Refer
+    to your test suite documentation for detailed descriptions of the name-value
+    pairs for your test.</p></li>
+</ol>
+<ol start="7">
+  <li><p>Choose View &gt; Configuration <b>&gt;</b> Show Question Log to view the Question Log of
+  the current, saved configuration.</p>
+
+  <p>Use the question log to identify the configuration
+    value that is incorrect and its configuration question.</p>
+</li>
+</ol>
+<ol start="8">
+
+  <li><p>Search the configuration file for the specific characters or character strings that must be changed. </p></li>
+
+  <p>See <a href="../confEdit/searchConfiguration.html">Searching a Configuration</a> for
+    a detailed description of how the current configuration can be searched for
+    a character or string of characters.</p>
+</ol>
+<ol start="9">
+  <li><p>Click the Done button to save your changes to the configuration file</p></li>
+  <li><p>Rerun the tests. </p></li>
+</ol>
+<a name="troubleshooting.failed"><!-- index:troubleshooting: running tests: tests that fail --></a>
+<h3><img src="../../images/redTest.gif" alt="Tests that fail" longdesc="troubleshooting.html">Tests that Fail</h3>
+<p>
+Tests that fail are tests that were executed but had failing results. The test
+  or the implementation might have errors.
+</p>
+<p>
+The following is an example of how the Test Manager tabbed panes can be used to identify and correct a test failure:
+</p>
+<ol>
+<li>
+Use the test tree to identify the folder containing test that had errors.</li> 
+<li>
+Click the folder icon to open its Summary tab in the Test Manager window.</li>
+<li>
+Click the Error tab to display the list of tests in the folder that had errors.</li> 
+<li>
+Double-click a test in the list to display it in the test tree and view its detailed test information.</li>
+<li>
+Click the Test Run Messages tab to display detailed messages describing what happened during the running of each section of the test. </li>
+</ol>
+
+<blockquote>
+  <p>The contents of each output section vary from test suite to test suite. Refer
+    to your test suite documentation for detailed descriptions of the test section
+    messages when troubleshooting a test run. </p>
+</blockquote>
+<a name="troubleshooting.viewing"><!-- index:troubleshooting: viewing test results --></a>
+<h2>Problems Viewing Test Results</h2>
+
+<p>
+Most problems in viewing test results in the Test Manager result from the use
+  of view filters (other than the All Tests view filter) with a current configuration
+  set to run specific tests (such as, running tests based on their prior
+status). When  a view filter other than All Tests is used in the Test
+Manager, only the fields of the filtered category appear to be updated in the Test
+Manager Summary tab.
+This is normal behavior of the GUI when view filters are
+ used.</p>
+<p>
+The harness <em>only</em> displays tests in the GUI that match the specified
+view filter criteria. All other tests are displayed as Filtered Out.</p>
+<p>
+As test results change, the  harness moves the tests to the Filtered
+  Out category (not to a test result category) in the Test Manager and turns
+  the appropriate node in the test tree gray. Consequently, the fields for the
+  other categories in the Test Manager Summary tab might not appear to be updated.</p>
+<p>
+Example:<br>If you change the current configuration  to run only tests with a prior status
+of Failed and use the Current Configuration view filter, the Test Manager displays
+all tests  that
+are not a Failed status as Filtered Out. This enables you to monitor only those
+tests with a previous Failed status. When you begin the test run, any tests
+with Passed or Error results are displayed in the Filtered Out category
+of the Test Manager. To view the actual  test results, change
+to
+a different view filter. See <a href="../browse/viewFilters.html">View
+Filters</a> for additional information.
+of the view filters.</p>
+<a name="output.overflow"><!-- index:troubleshooting: output overflow: --></a>
+<h2>Output Overflow Message Displayed in Test Run Messages</h2>
+<p>
+An output stream in the Test Run Messages Pane might display the following message:</p>
+<p><code>
+Output overflow:the harness has limited the test output of<br>
+the text to that at the beginning and the end, so that you<br>
+can see how the test began, and how it completed.</code></p>
+<p><code>
+If you need to see more of the output from the test,<br>
+set the system property javatest.maxOutputSize to a higher<br>
+value. The current value is 100000</code></p>
+<p><code>Set the system property of javatest.maxOutputSize</code><br>
+<code>by using the syntax in:</code><br><br>
+<code>java -Djavatest.maxOutputSize=200000 -jar lib/javatest.jar ....</code><br>
+</p>
+<p>If you see this message, restart the harness with the harness VM system property <code>javatest.maxOutputSize</code> value set to a greater number and rerun the test to ensure that all of the data is saved.</p>
+<p>The value of <code>javatest.maxOutputSize</code> is an integer subject to the maximum integer size of the VM. It sets the number of characters allowed in the output.</p>
+<a name="troubleshooting.viewingReport"><!-- index:troubleshooting: reports: viewing --></a>
+
+<h2>Problems Viewing Reports</h2>
+<p>
+The harness does not automatically generate reports of test results after a test run. You must generate test reports either from the command line or from the harness GUI.
+See <a href="../report/newReports.html">Creating Reports</a> for detailed information.</p>
+
+<a name="troubleshooting.writing"><!-- index:troubleshooting: reports: writing --></a>
+<h2>Problems Writing Reports</h2>
+<p>
+Filters are used to write test reports for
+a specific set of test criteria. Verify that you are using the appropriate filter
+to generate reports of test results. See <a href="../report/newReports.html">Creating
+Reports</a> for detailed information. </p>
+
+<a name="troubleshooting.moving"><!-- index:troubleshooting: reports: moving --></a>
+<h2>Problems Moving Reports</h2>
+
+<p>
+Test reports contain relative and fixed links to other files that might be broken
+  when you move reports to other directories.
+</p>
+<p>
+You must update these links when moving reports to other directories. The harness
+  provides an 
+  <code>EditLinks</code> utility
+  that updates the links in the reports
+  for you when moving reports. See the <em>Command-Line
+  Interface User's Guide</em>.</p>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

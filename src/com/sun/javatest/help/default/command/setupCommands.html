@@ -1,0 +1,57 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Setup Commands</TITLE>
+<META name="hIndent" content="0"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="setupCommands"><!-- index:setup commands --><!-- index:commands: setup --></A>
+<H1>Setup Commands</H1>
+<P>Before you can perform a task from the command line, you must first use setup commands to specify a configuration.</P>
+<P>After setting up a configuration, you can then modify the values in the configuration for your specific requirements. These changed values override but do not change values in the configuration file. You can use configuration templates from a central resource to run tests on different test platforms and configurations.</P>
+<P class="note"><!--CopyOff--><IMG src="../../images/hg_note.gif" alt="The following text is a note" longdesc="setupCommands.html"><BR><!--CopyOn-->
+See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of use of <EM>&gt; jtharness</EM> in the following example.</P>
+<P>The setup commands are used in the following sequence in the command line:</P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> [<EM>initial-setup-commands</EM>] [<EM>set-specific-values</EM>] [<EM>additional-setup-commands</EM>] [<EM>task-commands</EM>]</P>
+<P>Setting specific values and additional setup commands are optional.</P>
+<P>The task command at the end of the example is also optional. If a task command is not included, the harness uses the specified configuration and any changes set on the command line to open the GUI.</P>
+<P>For additional information about using setup commands see the following topics:</P>
+	<UL>
+		<LI><A href="basicContext.html">Initial Setup Commands</A></LI>
+		<LI><A href="otherConfigValues.html">Setting Specific Values</A></LI>
+		<LI><A href="harnessSettings.html">Additional Setup Commands</A></LI>
+	</UL>
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2004, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

@@ -1,0 +1,130 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Specifying a Work Directory (workdir or workdirectory)</TITLE>
+<META name="hIndent" content="2"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="workdir"><!-- index:specify: a work directory -->
+  <!-- index:commands: workDir --><!-- index:work directory: specify --></A>
+<H1>
+Specifying a Work Directory With <CODE>workdir</CODE> or <CODE>workdirectory</CODE></H1>
+<P>Each work directory is associated with a test suite and stores its test result files in a cache. You can use the work directory command to:</P>
+	<UL>
+		<LI><A href="#workdir.open">Use an Existing Work Directory</A></LI>
+		<LI><A href="#workdir.create">Create a New Work Directory</A></LI>
+		<LI><A href="#workdir.clearResults">Replace an Existing Work Directory</A></LI>
+	</UL>
+<P>See <a href="shortcutInitializing.html">Shortcuts to Initialize a Configuration</A> for information about specifying a work directory in the command line.</P><A name="workdir.open">
+<!-- index:specify: existing work directory-->
+<!-- index:commands: work directory -->
+<!-- index:work directory: specify existing --></A>
+<H2>Use an Existing Work Directory</H2>
+<P>To use an existing work directory for the test run, include either the <CODE>workdir</CODE> or <CODE>workdirectory</CODE> command in the command line:</P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> ... <CODE>-workdir</CODE> <EM>path/filename</EM> ... [<EM>task-command</EM>] ...</P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of the use of <EM>&gt; jtharness</EM> in the example.</P>
+<P>See <a href="commandLine.html">Command-Line Overview</A> for a description of the command line structure.</P>
+<P>See <a href="formatCommands.html">Formatting a Command</A> for descriptions and examples of the following command formats.</P><A name="workdir.create"><!--index:work directory: create new -->
+  <!-- index:commands: workDir: create -->
+  <!-- index:commands: workDirectory: create -->
+  <!-- index:create work directory --></A>
+<H2>Create a New Work Directory</H2>
+<P>To create a new work directory for the test run, use the <CODE>-create</CODE> command option:</P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> ...
+<CODE>-workdir -create</CODE> <EM>path/filename</EM> [<EM>configuration-command</EM>] ... [<EM>task-command</EM>] ...</P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of use of <EM>&gt; jtharness</EM> in the example. See <a href="commandLine.html">Command-Line Overview</A> for a description of the command line structure.</P>
+<P>The new work directory must not previously exist. You can also use an existing work directory as a template to create a new work directory for the test run. To use an existing work directory as a template, put the template in the command line before the
+<CODE>create</CODE> command.</P>
+<P>When creating the command string, include the commands in the following sequence:</P>
+	<OL><LI>(Optional) Include the commands required to specify the test suite.</LI>
+</ol>
+<blockquote><p>See <a href="testsuite.html">Specifying a Test Suite With <code>testSuite</code></A> for detailed information about the command.</p></blockquote>
+    <ol start="2">
+		<LI>(Optional) Include the <CODE>-workdir</CODE> <EM>path/filename</EM> command
+		  required to specify an existing work directory.</LI>
+		
+		<LI>Include the <CODE>workdir</CODE> or <CODE>workdirectory -create</CODE> <EM>path/filename</EM> command.</LI>
+	
+      <LI>Include the commands required to specify a configuration file.</LI>
+    </OL>
+    <blockquote>
+      <p>See <a href="config.html">Specifying a Configuration File With <CODE>config</CODE></A> for detailed information about the command.</p>
+    </blockquote>
+    <ol start="5">
+      <LI>(Optional) Include the commands required to set specific values.</LI>
+    </ol>
+    <blockquote>
+      <p>See <a href="otherConfigValues.html">Setting Specific Values</A> for
+        detailed information about the available commands.</p>
+    </blockquote>
+    <ol start="6">
+      <LI>(Optional) Include the <CODE>runtests</CODE> command.</LI>
+    </ol>
+    <blockquote>
+      <p>The results of the test run are written to the new work directory. See <a href="runTests.html">Running Tests With <CODE>runtests</CODE></A> for detailed information about the command.</p>
+    </blockquote>
+    <A name="workdir.examples"><!-- index:examples: creating a new work directory --></A>
+<H3>Detailed Example of Creating a New Work Directory </H3>
+<P>In the following example, <EM>myworkdir</em><code>.wd</code> and <EM>myconfig</em><code>.jti</code> represent file names that might exist on your system.</P>
+<P><B>Command Options Format Example:</B></P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> <CODE>-workdir</code> <EM>myworkdir</em><code>.wd -create</code> <EM>testrun</em><code>.wd -config</code> <EM>myconfig</em><code>.jti -runtests</CODE></P>
+<P>When the tests are run, the harness uses the work directory (<EM>testrun</em><code>.wd</code>) created by the command line, even if the configuration file (<EM>myconfig</em><code>.jti</code>) was created using another work directory.</P>
+<P>See <a href="formatCommands.html">Formatting a Command</A> for descriptions and examples of other command formats that you can use.</P><A name="workdir.clearResults">
+<!-- index:work directory: replace existing -->
+<!-- index:commands: workDir: overwrite -->
+<!-- index:commands: workDirectory: overwrite -->
+<!-- index:replace existing work directory --></A>
+<H2>Replace an Existing Work Directory</H2>
+<P>When you replace an existing work directory with a new work directory, the
+  harness performs the following tasks:</P>
+	<UL>
+		<LI>Deletes the existing work directory and its contents.</LI>
+		<LI>Creates the new work directory using the same name (if the old directory was successfully deleted).</LI>
+	</UL>
+<P>To replace an existing work directory with a new work directory, use the <CODE>-overwrite</CODE> command option.</P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> ... <CODE>-workdir -overwrite</CODE> <EM>path/filename</EM> ... [<EM>task-command</EM>] ...</P>
+<P>or</P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> ... <CODE>-workdir -create -overwrite</CODE> <EM>path/filename</EM> ... [<EM>task-command</EM>] ...</P>
+<P>The <CODE>-create</CODE> command option is optional when the <CODE>-overwrite</CODE> command is used.</P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of use of <EM>&gt; jtharness</EM> in the examples.</P>
+<P>See <a href="commandLine.html">Command-Line Overview</A> for a description of the command-line structure.</P><A name="workdir.examples"><!-- index:examples: replacing a work directory --></A>
+<H3>Detailed Example of Replacing an Existing Work Directory </H3>
+<P>In the following example, <EM>myconfig</em><code>.jti</code> represents a configuration file name that might exist on your system.</P>
+<P><B>Command Options Format Example:</B></P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> <CODE>-workdir -overwrite</code> <em>testrun</em><code>.wd -config</CODE> <EM>myconfig</em><code>.jti -runtests</CODE></P>
+<P>The harness uses the work directory <em>testrun</em><code>.wd</CODE> created by the command line when the tests are run, even if <EM>myconfig</em><code>.jti</code> was created using another work directory.</P>
+<P>See <a href="formatCommands.html">Formatting a Command</A> for descriptions and examples of other command formats that you can use.</P>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2004, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

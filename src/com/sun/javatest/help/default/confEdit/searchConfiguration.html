@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>
+Searching a Configuration
+</TITLE>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+
+<H1>Searching a Configuration</H1>
+
+<p>
+When using the Configuration Editor in Question Mode, you can locate and display
+  the panes containing a specific character string. The harness can search titles,
+  questions, and answers for matching characters. It does not search the More
+  Info.</p>
+<h2 class="proc">Search for Characters in Configurations</h2>
+
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="createConfiguration.html"><!--CopyOn-->To search for character strings in the  configuration
+  titles, questions, and answers, perform the following steps:</p>
+<ol>
+  <li>Click the <img src="../../images/fullValues_button.gif" alt="Question Mode button" width="10" height="11" longdesc="toolBar.html"> Question Mode button on the Test Manager tool bar or choose Configure
+    &gt; Edit Configuration  in the menu bar.</li>
+</ol>
+<blockquote>
+  <p>The Configuration Editor opens in Question mode.</p>
+</blockquote>
+<ol start="2">
+  <li>Choose Search &gt; Find.</li>
+</ol>
+<blockquote>
+  <p>The harness displays the Find Question dialog box.</p>
+</blockquote>
+
+<center>
+  <img src="../../images/i18NfindQuest.gif" alt="Find Question"  longdesc="searchConfiguration.html">
+</center>
+<ol start="3">
+  <li>Enter the search character string in the String field.</li>
+</ol>
+<blockquote>
+  <p>See the String field description in <a href="#searchCriteria">Search Criteria</a>.</p>
+</blockquote>
+<ol start="4">
+  <li>Choose the search location from the Where drop down list.</li>
+</ol>
+<blockquote>
+  <p>See the Where description in <a href="#searchCriteria">Search Criteria</a>.</p>
+</blockquote>
+<ol start="5">
+  <li>Choose any required search options.   </li>
+</ol>
+<blockquote>
+  <p>See the Options  descriptions in <a href="#searchCriteria">Search Criteria</a>.</p>
+</blockquote>
+<ol start="6">
+  <li>Click the Find button to search for the character string. </li>
+</ol>
+<blockquote>
+  <p> To repeat the search, either click the Find button or use the Search <b>&gt;</b> Find
+    Next menu item from the Configuration Editor menu bar. </p>
+</blockquote>
+
+<ol start="7">
+  <li>Click the Close button to dismiss the dialog box. </li>
+</ol>
+<a name="searchCriteria"></a>
+<h2>Search Criteria</h2>
+<p>The following table describes the search criteria used in the Find Question
+  dialog box.</p>
+<table width="100%" border="0" cellpadding="8" class="gray" summary="The harness can search titles, questions, and answers for matching characters." title="Find Question Dialog Box Search Criteria">
+<tr valign="top">
+<th width="25%" scope="col" class="left">
+Item
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td width="25%">
+<a name="find"></a>String
+</td>
+<td>
+Enter the character string that you are trying to find.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+<a name="search"></a>Where
+</td>
+<td>
+Choose where you want to search:
+  <ul>
+<li>
+In titles
+</li>
+<li>
+In text of questions
+</li>
+<li>
+In answers
+</li>
+<li>
+Anywhere
+</li>
+</ul>
+</td>
+</tr>
+
+<tr valign="top">
+  <td> <a name="case"></a>Options: Consider case</td>
+  <td>
+    Specifies that the search pattern match the case of the characters in the
+      Find text field.</td>
+</tr>
+<tr valign="top">
+  <td> <a name="words"></a>Options: Whole words</td>
+  <td>   
+    Specifies that the search pattern only match whole words from the Find text
+    field.</td>
+</tr>
+</table>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2004, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

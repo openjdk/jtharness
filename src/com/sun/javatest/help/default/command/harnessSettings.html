@@ -1,0 +1,107 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2010, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Additional Setup Commands</TITLE>
+<META name="hIndent" content="1"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="settings"><!-- index:setup commands: additional--></A>
+<H1>Additional Setup Commands</H1>
+<P>In most cases, you use the command line to perform functions that are also available through the GUI. However, you can also use the command line to specify how the harness starts.</P>
+<P>When starting the harness, you can include additional commands in the command line to:</P>
+	<UL>
+		<LI><A href="#settings.systemProperties">Include all system properties</A> in test execution environments.</LI>
+		<LI><A href="#settings.envVariable">Set an environment variable</A> that you want inherited in every test environment.</LI>
+		<LI><A href="#settings.agentPoolPort">Set the agent pool port number.</A></LI>
+		<LI><A href="#settings.agentPoolTimeout">Set the agent pool timeout.</A></LI>
+		<LI><A href="#settings.startAgentPool">Start the active agent pool.</A></LI>
+	</UL>
+<P>The harness uses a new desktop when you include GUI commands in the command line.</P>
+<P>The following table describes the commands  used in the command line
+  to specify how the harness starts.</P>
+	<TABLE width="100%" border="0" cellpadding="3" class="gray.wide" summary="The commands that can be used in the command line to specify how the harness starts." title="JT Harness Commands">
+		<TR valign="top">
+			<TH width="30%" scope="col" class="left">	Command
+			</TH>
+			<TH scope="col" class="left">	Function
+			</TH>
+		</TR>
+		<TR valign="top">
+			<TD><A name="settings.systemProperties"><!--index:setting: system properties -->
+  <!-- index:system properties: setting --></A>
+			<CODE>-EsysProps</CODE>
+			</TD>
+			<TD>	Includes all system properties in test execution environments.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD><A name="settings.envVariable"><!--index:setting: environment variable -->
+  <!-- index:environment variable: setting--></A>
+			<CODE>-E</CODE><I>name=value</I>
+			</TD>
+			<TD>	Sets an environment variable that is inherited in every test environment created.
+<P>The
+			<CODE>-E</CODE><I>name=value</I> command tunnels in values from the external shell. The method used in previous versions of the harness to tunnel in values from the external shell is now deprecated.</P>
+			</TD>
+	  <TR valign="top">
+				<TD><A name="settings.agentPoolPort"><!--index:setting: agent pool port number -->
+  <!-- index:agent pool: setting port number--></A>
+				<CODE>-agentPoolPort</CODE> <I>port</I>
+				</TD>
+				<TD>	Set the agent pool port number.
+<P>Use this command only when you are configuring the harness and the agent to use a port other than 1907.</P>
+				</TD>
+	  </TR>
+			<TR valign="top">
+				<TD><A name="settings.agentPoolTimeout"><!--index:setting: agent pool timeout -->
+  <!-- index:agent pool: setting timeout--></A>
+				<CODE>-agentPoolTimeout</CODE> <I>#seconds</I>
+				</TD>
+				<TD>	Set the agent pool timeout.
+<P>Sets the number of seconds that the harness waits between tests for an available agent before reporting the test result as an error. The default value of 180 seconds is usually sufficient. You can also set this value in the GUI if you are not running the harness from the command line.</P>
+				</TD>
+			</TR>
+			<TR valign="top">
+				<TD><A name="settings.startAgentPool"><!--index:starting agent pool -->
+  <!-- index:agent pool: starting --></A>
+				<CODE>-startAgentPool</CODE>
+				</TD>
+				<TD>	Start the active agent pool.
+<P>If you use an active agent and run the harness from the command line, you must add
+				<CODE>-startAgentPool</CODE>to the command string to start the agent pool.</P>
+				</TD>
+	</TABLE>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2010, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

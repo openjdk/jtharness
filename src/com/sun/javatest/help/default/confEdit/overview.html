@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>
+Configuring a Test Run
+</TITLE>
+<META NAME="hIndent" CONTENT="0">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<a name="confEdit.overview"><!--index:configuring a test run--></a>
+<H1>Configuring a Test Run</H1>
+<p>
+Before the harness can execute the tests in a test suite, it requires information
+  about how your computing environment is configured. You provide the harness
+  with this information by loading a template (<code>.jtm</code>),
+  loading an existing configuration file (<code>.jti</code>), creating a new
+  configuration, or changing the values in a configuration.</p>
+
+<p class="note">
+<!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="overview.html">
+<br><!--CopyOn-->
+You can also specify configuration values from the command line when starting the harness GUI.
+</p>
+
+<p>
+The quantity and scope of information required to run tests depends on the test
+  suite. Some test suites run in diverse environments (different platforms and
+  networks), while others run in very specific, well-defined environments. The
+  test suite may provide a configuration interview or a template  for you to
+  use in creating a configuration for your test run. If your test suite does
+  not provide any of these, consult the test suite documentation for directions
+  about how you can supply the required configuration information.</p>
+
+<p>
+This chapter contains the following topics:</p>
+
+
+<ul>
+  <li><A HREF="editConfiguration.html">Editing a Configuration</a>- Describes
+  how to use the Question Mode edit a configuration.</li>
+  <li><A HREF="editQuickSet.html">Editing Quick Set Values</a>- Describes
+    how to use the Quick Set Mode to edit the runtime values in a configuration
+    file.</li>
+  <li><A HREF="createConfiguration.html">Creating a Configuration</a>- Describes
+  how to create a configuration for
+  use in running tests.</li>
+  <li><A HREF="saveConfiguration.html">Saving a Configuration</a> - Describes
+    how to save the current configuration.</li>
+  <li><A HREF="loadConfiguration.html">Loading a Configuration</a> - Describes
+            how to load an existing configuration or a template for
+    use in running tests.</li>
+  <li><a href="setMarkers.html">Using Bookmarks in Configurations</a> - Describes
+            how to use bookmarks to simplify a configuration interview.</li>
+  <li><A HREF="searchConfiguration.html"><!--CopyOn-->Searching a Configuration</a> - Describes
+        how to search a configuration for characters
+    or values.</li>
+  <li><A HREF="multiple.html">Working with Multiple Configurations</a> - Describes
+        how to use multiple configuration files to switch configurations
+    between test runs.</li>
+</ul>
+
+ 
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

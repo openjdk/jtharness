@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2010, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>
+Agent Monitor Window
+</TITLE>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<a name="window"><!-- index:Agent Monitor window --><!-- index:window, Agent Monitor  --></a>
+<H1>Agent Monitor Window</H1>
+
+<p>
+Open the Agent Monitor window by using the JT Harness harness GUI Test Manager
+  to choose
+Window <code><b>-&gt;</b></code> Open <code><b>-&gt;</b></code> Agent Monitor.
+See the <em>JT Harness User's Guide: Graphical User Interface</em> for
+detailed description of the Test Manager window.</p>
+
+<p>
+The Agent Monitor window contains two sections,  Agent Pool and  Agents Currently
+  In Use.
+</p>
+
+<center>
+<img src="../../images/agentMonitor.gif" border="0"  alt="The Agent Monitor window" longdesc="window.html">
+</center>
+
+<a name="window.agentPool"><!-- index:Agent Monitor window; agent pool --><!-- index:agent pool  --></a>
+<h2>Agent Pool</h2>
+<p>
+Agent Pool lists the active agents that are available to run tests. When active
+  agents connect to the JT Harness harness, they are added to the agent pool. When
+  the JT Harness harness requires an active agent to run a test, it moves the agent
+  from  Agent Pool to  Agents Currently In Use  until the test is
+  completed.
+</p>
+
+<p>
+The following table lists and describes the contents of the Agent Pool GUI.</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray.wide" summary="The contents and description of the Agent Pool GUI." title="Agent Pool GUI Contents">
+
+<tr valign="top">
+<th width="25%" scope="col" class="left">
+Field
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td scope="row"><code>Listening</code></td>
+<td>
+Click the check box to enable listening for active agents. If listening is not
+  enabled when an agent starts, the agent issues a message that it cannot connect
+  to the JT Harness harness and then waits for its timeout period to end before
+  attempting to recontact the harness.
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row"><code>Port</code></td>
+<td>
+Port 1907 is the default port used by active agents. If your agent uses a different port, you must either change the value used by the agent or change this value to match the agent.
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row"><code>Timeout</code></td>
+<td>
+When the agent pool is empty, the timeout value sets the number of seconds that
+  the JT Harness harness waits between tests for an available agent before reporting
+  the test result as an error. If you run tests with one agent, a latent period
+  might occur between the time when the agent completes the test and when it
+  returns to the agent pool. The timeout value must be greater than the agent's
+  latent period. The default value of 180 seconds is usually sufficient.
+</td>
+</tr>
+
+</table>
+
+
+<a name="window.agentInUse"><!-- index:Agent Monitor window; agents currently used --><!-- index:agents currently used  --></a>
+<h2>Agents Currently In Use</h2>
+<p>
+Agents Currently In Use lists all agents currently used by the JT Harness harness
+  to run tests. When agents are not running tests they are removed from the list
+  (active agents re-register with the agent pool). Click on an agent in the list
+  to display detailed information about the agent and the test it is running.
+  The detailed information is displayed in the text fields at the bottom and
+  can be used to troubleshoot problems using an agent to run tests.
+</p>
+
+<p>
+The following table lists and describes the contents of the Agents Currently
+  In Use GUI.</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Agents Currently In Use GUI." title="Agents Currently In Use GUI Contents">
+
+<tr valign="top">
+<th width="25%" scope="col" class="left">
+Field
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+
+<tr valign="top">
+<td scope="row"><code>Address</code></td>
+<td>
+Network address of the agent
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row"><code>Tag</code></td>
+<td>
+Test executed by the agent
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row"><code>Request</code></td>
+<td>
+Function executed by the agent
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row"><code>Execute</code></td>
+<td>
+Class executed by the agent
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row"><code>Args</code></td>
+<td>
+Arguments passed to the class executed by the agent
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row"><code>Localize Args</code></td>
+<td>
+Checked if the agent uses a map file 
+</td>
+</tr>
+</table>
+<!--ins:JDTS-->
+
+<hr>
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2010, Oracle and/or its affiliates. All rights reserved.
+</BODY>
+</HTML>

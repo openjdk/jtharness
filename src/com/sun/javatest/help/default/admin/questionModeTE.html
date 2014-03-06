@@ -1,0 +1,476 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+    <HEAD>
+        <TITLE>Question Mode</TITLE>
+        <META NAME="hIndent" CONTENT="4">
+        <LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+    </HEAD>
+    <BODY BGCOLOR="#ffffff">
+        <a name="fullTemplateEditor"><!-- index:Template Editor:Question Mode  --></a>
+        <H1>Question Mode</H1>
+        <p>
+        The
+        Question Mode displays all questions in a test suite interview, allowing you
+        to create a new template, edit an existing template, or search a template for
+        specific characters or text.</p>
+        <center>
+            <img src="../../images/JT4configEditorIndexed.gif" alt="Template Editor Question mode" longdesc="questionModeTE.html">
+        </center>
+
+        <ol>
+            <li>
+                <a href="#questionModeTE.filemenu">File Menu</a>
+            </li>
+            <li>
+                <a href="#questionModeTE.markermenu">Bookmarks Menu</a>
+            </li>
+            <li>
+                <a href="#questionModeTE.searchmenu">Search Menu</a>
+            </li>
+            <li>
+                <a href="#questionModeTE.viewmenu">View Menu</a>
+            </li>
+            <li>
+                <a href="#questionModeTE.helpmenu">Help Menu</a>
+            </li>
+            <li>
+                <a href="#questionModeTE.moreInfoPane">More Info Pane</a> (can be hidden)
+            </li>
+            <li>
+                <a href="#questionModeTE.questionPane">Question Pane</a>
+            </li>
+            <li>
+                <a href="#questionModeTE.indexPane">Index Pane</a>
+            </li>
+        </ol>
+
+        <h2>Menus</h2>
+        <p>
+        In Question Mode, the Template Editor  contains menus used to load, view,
+        search, create, and edit a template.</p>
+
+        <a name="questionModeTE.filemenu"><!-- index:Template Editor: Question Mode: File menu --></a>
+        <h3>File Menu</h3>
+        <p>
+        The File menu contains items to open, save, and restore template files. The following
+        table describes the items in the File menu. </p>
+        <table width="100%" border="0" cellpadding="5" class="gray.wide" summary="The contents and description of the File Menu." title="Template Editor File Menu">
+
+            <tr valign="top">
+                <th width="20%" scope="col" class="left">Menu Item</th>
+                <th scope="col" class="left">
+                Description</th>
+            </tr>
+
+            <tr valign="top">
+                <td>Save</td>
+                <td> Saves the current template.
+                <p> Choose File <b>&gt;</b> Save at any time to save your answers and position
+                in the template. If the template is new, the editor opens
+                the file chooser for you to name and save the current values.
+                If you do not provide the <a name="jti"></a><code>.jtm</code> extension
+                when you name the file, the editor adds the extension when it saves the
+                template.</p></td>
+            </tr>
+            
+            <tr valign="top">
+                <td>Save As</td>
+                <td> Opens a dialog box that you can use to save a template with a new
+                name or change the location of the template. If you do not provide
+                the <code>.jtm</code> extension
+                when you name the template, the editor adds the extension when it saves
+                the file.</td>
+            </tr>
+            
+            <tr valign="top">
+                <td>Revert</td>
+                <td> Discards any changes to the current template and restores the last
+                saved version of the template.</td>
+            </tr>
+
+            <tr valign="top">
+                <td>New Configuration</td>
+                <td>
+                    Clears the current configuration and starts a new configuration. See <a href="../confEdit/createConfiguration.html">Creating a Configuration </a> for a detailed description.
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <td>Load Configuration </td>
+                <td>
+                Opens an existing configuration file and makes it the current configuration. See <a href="../confEdit/loadConfiguration.html">Loading a Configuration</a>
+ for a detailed description.</td>
+            </tr>
+
+            <tr valign="top">
+                <td><a name="fullViewDialog.history">
+                    <!-- index:Configuration Editor: Question Mode: Recent Configuration -->
+                </a>Load Recent Configuration </td>
+                <td> Displays a list of configuration files that have been opened in the Configuration
+                Editor window. Choose a configuration file from the list to open it in the
+                Configuration Editor window. </td>
+            </tr>
+
+            <tr valign="top">
+                <td>New Template </td>
+                <td>
+                Provides the option to save or clear the current template before starting
+                a new template. See <a href="../admin/createTemplate.html">Creating
+                a Template</a> for a detailed description.</td>
+            </tr>
+
+            <tr valign="top">
+                <td>Load Template </td>
+                <td>
+                Opens an existing template.
+                See <a href="../templates/loadTemplate.html">Loading a Template</a> for a detailed
+                description.</td>
+            </tr>
+            
+            <tr valign="top">
+                <td><a name="questionModeTE.history">
+                    <!-- index:Template Editor: Question Mode: Recent Configuration -->
+                </a> Load Recent Template </td>
+                <td> Displays a list of templates that have been opened in the Template
+                Editor. Choose a template from the list to open it in the
+                Template Editor. </td>
+            </tr>
+
+            <tr valign="top">
+                <td>Close</td>
+                <td>
+                Closes the Template Editor.</td>
+            </tr>
+        </table>
+
+        <a name="questionModeTE.markermenu"><!-- index:Template Editor window: Question Mode: Bookmarks menu --></a>
+        <h3>Bookmarks Menu</h3>
+        <p>
+        The Bookmarks menu contains items used to manage bookmarks in the template. Using
+        bookmarked questions enables the user to display only those template questions
+        that must be answered. See <a href="../admin/setMarkersTE.html">Setting Markers</a> for
+        a description of how the Bookmarks menu can be used to specify the questions
+        that the Template Editor displays.</p>
+        <p>The
+        following table describes the items in the Bookmarks menu.</p>
+        <table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Bookmarks Menu." title="Template Editor Bookmarks Menu">
+
+            <tr valign="top">
+                <th width="35%" scope="col" class="left">Menu Item</th>
+                <th scope="col" class="left">
+                    Description
+                </th>
+            </tr>
+
+            <tr valign="top">
+                <td>Enable Bookmarks</td>
+                <td>
+                Enables or disables bookmarking in the template. When bookmarking is disabled,
+                the remaining bookmark menu items are grayed out.</td>
+            </tr>
+
+            <tr valign="top">
+                <td>Show Only Bookmarked Questions</td>
+                <td>
+                Displays only the bookmarked questions.</td>
+            </tr>
+
+            <tr valign="top">
+                <td>Mark Current Question</td>
+                <td>
+                Sets the bookmark for a question selected in the index pane.</td>
+            </tr>
+
+            <tr valign="top">
+                <td>Unmark Current Question</td>
+                <td>
+                Clears the bookmark from a question selected in the index pane. Enabled
+                only if the selected question is bookmarked.</td>
+            </tr>
+
+            <tr valign="top">
+                <td>Clear Answer For Current Question</td>
+                <td>
+                Clears the answer for a
+                selected question in the index pane.Enabled only if the selected question is
+                bookmarked.</td>
+            </tr>
+
+            <tr valign="top">
+                <td>Open Group</td>
+                <td>
+                    Expands a selected set of questions in the index pane.
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <td>Clear Answers to Bookmarked Questions</td>
+                <td>
+                    Clears the values in all bookmarked questions.
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <td>Remove Bookmarks</td>
+                <td>
+                    Removes all bookmarks from the Template.
+                </td>
+            </tr>
+        </table>
+
+
+
+        <a name="questionModeTE.searchmenu"><!-- index:Template Editor: Question Mode: Search menu --></a>
+        <h3>Search Menu</h3>
+        <p>
+        Use the Search menu items to find the occurrence in a Template of a specific
+        character or value string. When troubleshooting a test run, you can use the
+        Search menu to quickly locate an answer that needs to be changed. See <a href="../admin/searchTemplateTE.html">Searching
+        the Template</a> for a detailed description of how to search for character
+        and value strings in a Template.</p>
+        <p>The following table describes the items in the Search menu. </p>
+
+        <table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Search Menu." title="Template Editor Search Menu">
+
+            <tr valign="top">
+                <th width="15%" scope="col" class="left">Menu Item</th>
+                <th scope="col" class="left">
+                    Description
+                </th>
+            </tr>
+
+            <tr valign="top">
+                <td>Find</td>
+                <td>
+                    Opens a dialog box used to search the template for a specific character or value
+                    string.
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <td>Find Next</td>
+                <td>
+                    Searches the template for the next occurrence of a specific character or
+                    value string.
+                </td>
+            </tr>
+        </table>
+
+
+
+
+        <a name="questionModeTE.viewmenu"><!-- index:Template Editor: Question Mode: View menu --></a>
+        <h3>View Menu</h3>
+        <p>
+        Use the View menu to display the Template Editor in Question Mode
+        or in Quick Set Mode, to hide or display the More Info pane, and to display
+        question tag field at the bottom of each question panel. The following
+        table describes the items in the View menu. </p>
+
+        <table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Search Menu." title="Contents of the Search Menu">
+
+            <tr valign="top">
+                <th width="15%" scope="col" class="left">Menu Item</th>
+                <th scope="col" class="left">
+                    Description
+                </th>
+            </tr>
+
+            <tr valign="top">
+                <td>Question Mode</td>
+                <td>
+                    Displays the Template Editor in Question Mode.
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <td>Quick Set Mode</td>
+                <td>
+                    Displays the Template Editor in Quick Set Mode.
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <td>More Info</td>
+                <td>
+                    Displays and hides the More Info pane in the Template Editor.
+                </td>
+            </tr>
+
+            <tr valign="top">
+            <td>Question Tag</td>
+            <td>
+                Displays and hides the Question Tag field in the Template Editor Question
+                pane.
+            </td>
+
+
+            <tr valign="top">
+                <td>Refresh</td>
+                <td>
+                    Updates the values and questions displayed in the Template Editor.
+                </td>
+            </tr>
+        </table>
+
+
+        <a name="questionModeTE.helpmenu"><!-- index:Template Editor: Question Mode: Help menu --></a>
+        <h3>Help Menu</h3>
+        <p>
+        Use the Help menu to display the online help for the Template Editor and both editor modes. The following table describes the items in the Help menu.</p>
+
+
+        <table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Help Menu." title="Template Editor Help Menu">
+
+            <tr valign="top">
+                <th width="15%" scope="col" class="left">Menu Item</th>
+                <th scope="col" class="left">
+                    Description
+                </th>
+            </tr>
+
+             <tr valign="top">
+                <td>Configuration Editor</td>
+                <td>
+                    Displays  online help for the Configuration Editor.
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <td>Template Editor</td>
+                <td>
+                    Displays  online help for the Template Editor.
+                </td>
+            </tr>
+
+
+            <tr valign="top">
+                <td>Question Mode</td>
+                <td>
+                    Displays online documentation for the Question Mode.
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <td>Quick Set Mode</td>
+                <td>
+                    Displays online documentation for the Quick Set Mode.
+                </td>
+            </tr>
+        </table>
+
+
+        <a name="questionModeTE.indexPane"><!-- index:Template Editor: Question Mode: index pane --></a>
+        <h3>Index Pane</h3>
+        <p>
+        When completing a template, the index pane lists the titles of the questions
+        you have answered, are currently answering, and any questions that the editor
+        can determine might need to be answered. The current question is highlighted
+        and its title is displayed at the top of the question pane.</p>
+        <p>
+        The number of questions  displayed in the configuration interview is
+        controlled by setting bookmarks in the template. See <a href="#questionModeTE.markermenu">Bookmarks
+        Menu</a> for procedures used to reduce the number of questions displayed
+        in the configuration interview.</p>
+
+        <p>
+        Click on any question in the index list to make it the current question. Clicking
+        on a question does not cause the list to change. If you change an answer
+        that alters the Template options, the Template Editor updates
+        the questions in the list to reflect the change in options. If a previously
+        answered question is no longer displayed in the index list, the Template
+        Editor saves its answer until you either save the Template or change its
+        value.</p>
+        <p>
+        You can also use the buttons at the bottom of the Question pane to navigate through
+        the Template file. See <a href="#questionModeTE.questionPane">Question Pane</a> for
+        a description of the navigation buttons.</p>
+
+        <a name="questionModeTE.questionPane"><!-- index:Template Editor: Question Mode: question pane --></a>
+        <h3>Question Pane</h3>
+        <p>
+        The Template Editor displays template questions in the main
+        text area of the editor. You answer the questions using controls such as text
+        boxes, radio buttons, or combo boxes located beneath the question. After you
+        answer each question, click <IMG SRC="../../images/confED_nextbutton.gif" ALT="The Template Editor Next button" longdesc="questionModeTE.html"> &nbsp;  at
+        the bottom of the panel to proceed to the next question.</p>
+        <p>
+        The buttons at the bottom of the Question pane control the following functions:
+        <ul>
+            <li><b>Back</b> - Returns to the previous question.</li>
+            <li><b>Last</b> - Advances as far
+            as possible through the template.</li>
+            <li><b>Next</b> - Proceeds to the next question.</li>
+            <li><b>Done</b> - Saves
+            your answers as a template and closes the Template Editor.</li>
+        </ul>
+        <p>
+        See <a href="../admin/createTemplate.html">Creating a  Template</a> for
+        information about using the Question pane to create a template.</p>
+        <p>
+        See <a href="../admin/editTemplate.html">Editing a  Template</a> for
+        information about using the Question pane to edit the current template.</p>
+
+        <a name="questionModeTE.moreInfoPane"><!-- index:Template Editor: Question Mode: More Info pane --></a>
+        <h3>More Info Pane</h3>
+        <p>
+            To open and close the More Info pane, choose View <b>&gt;</b> More Info from
+            the menu bar. 
+        </p>
+        <p>
+            The More Info pane provides additional information about each question, including
+            the following:
+        </p>
+        <ul>
+            <li>
+                Background information about the question
+            </li>
+            <li>
+                Information about choosing an answer
+            </li>
+            <li>
+                Examples of answers
+            </li>
+        </ul>
+        <p>
+            See <a href="../ui/keyboardAccess.html">Keyboard access</a> for a description of how the keyboard can be used to navigate the More Info pane.
+        </p>
+
+
+ 
+        
+        
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2006, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<!-- %W% %E% -->
+<html>
+<head>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<title>Specifying Serial Agent Options</title>
+</head>
+<body>
+<a name="configureSerialAgents"><!-- index:serial agent; options --><!-- index:setting; serial agent; options --></a>
+<h1>Specifying Serial Agent Options</h1>
+
+<p>
+Serial agents can be configured and run from a command-line, GUI, or applet tag. Refer to
+<a href="startAgent.html">Starting a JT Harness harness agent</a> for a description of the different features and functions that each provides.
+</p>
+
+<p>
+Depending on how you choose to start the agent, you must set the following minimum set of parameters from the command line, GUI Parameter pane, or applet tag:
+</p>
+
+<ul>
+<li>
+<a href="#configureSerialAgents.mode">Mode</a>
+</li>
+<li>
+<a href="#configureSerialAgents.port">Port</a>
+</li>
+</ul>
+
+<a name="configureSerialAgents.mode"><!-- index:serial agent; mode --><!-- index:setting; serial agent; mode --></a>
+<h2>Mode</h2>
+<p>
+The type of agent mode that you use determines how the agent communicates with
+  the JT Harness harness and the protocol that is used. A serial agent waits for
+  the JT Harness harness to initiate the connection via an RS-232 serial connection
+  or a connection added through the JT Harness harness API that models the serial
+  system.
+</p>
+
+<p>
+To specify a serial agent, use the appropriate setting or option from the following
+  table.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="List of options used to specify a serial agent" title="Serial Agent Mode Option or Setting">
+
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Interface
+</th>
+<th scope="col" class="left">
+Option or Setting
+</th>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Default
+</td>
+<td>
+Active
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Command line
+</td>
+<td>
+-serial
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Applet tag
+</td>
+<td>
+<code><b>&lt;</b>param name=mode value=serial<b>&gt;</b></code>
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+GUI Parameter pane
+</td>
+<td>
+<IMG SRC="../../images/serialMode.gif" ALT="Specify a serial agent" longdesc="configureSerialAgents.html">
+</td>
+</tr>
+</table>
+
+<a name="configureSerialAgents.port"><!-- index:serial agent; port --><!-- index:setting; serial agent; port --></a>
+<h2><a name="port">Port</a></h2>
+
+<p>
+Specifies the com port that the serial agent uses to listen for the JT Harness harness. The JT Harness harness and agent must use the same port. If the ports are not the same, the JT Harness harness cannot communicate with the agent.
+</p>
+
+<p>
+To specify a port, use the appropriate setting or option from the following table.</p>
+
+<table width="100%" border="0" cellpadding="0" class="gray" summary="List of options used to specify the com port that the serial agent uses to listen for the JT Harness harness." title="Serial Agent com Port Option or Setting">
+
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Interface
+</th>
+<th scope="col" class="left">
+Option or Setting
+</th>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Command line
+</td>
+<td>
+<code>-serialPort</code> <em>port-number</em>
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Applet tag
+</td>
+<td>
+<code><b>&lt;</b>param name=serialPort value=<em>port-number</em><b>&gt;</b></code>
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+GUI Parameter pane
+</td>
+<td>
+<IMG SRC="../../images/serialPort.gif" ALT="Specifies the com port that the serial agent uses" longdesc="configureSerialAgents.html">
+</td>
+</tr>
+</table>
+<!--CopyOff--><p><b>Next task:</b></p>
+<p><a href="additionalOptions.html"><b>Specifying Additional Agent Options</b></a>:  Additional
+parameters to display help or configure other agent properties.
+</p><!--CopyOn-->
+
+<!--ins:JDTS-->
+
+<hr>
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<META NAME="hIndent" CONTENT="3">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<title>
+Configure Menu
+</title></head>
+<body>
+<a name="configureMenu"><!-- index:Configure menu -->
+  <!-- index:menu: Configure --></a>
+<h1>Configure Menu</h1>
+<p>Use the Configure menu to load, create, modify, and view configuration data used for a test run. 
+The following table describes the default menu items in the Configure menu. Because this menu can 
+be customized you might see additional options defined in the current test suite.</p>
+<p> The template menu 
+options listed in the following table are only available when template usage is enabled.</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray.wide" summary="The contents and description of the Configure menu." title="Configure Menu">
+  <tr valign="top">
+    <th  width="20%" scope="col" class="left"> Menu Item</th>
+    <th scope="col" class="left"> Description</th>
+  </tr>
+  <tr valign="top">
+    <td> Edit Configuration</td>
+    <td> Opens the Configuration Editor and loads the current configuration.
+      The harness uses the Configuration Editor to change configuration values
+      required to run a test suite. 
+<p> See <a href="../confEdit/editConfiguration.html">Editing a Configuration</a> for detailed information.</p>
+     </td>
+  </tr>
+  <tr valign="top">
+    <td> Edit Template</td>
+    <td> Opens the Template Editor and loads the template on which the current configuration is based.
+      If the test suite disables the template feature, this and all other template menu items are not displayed. 
+      This menu item is also disabled when the test suite only enables users to load but not edit templates. Use the Template Editor to change configuration values in the template and to propagate the changes to the current configuration.
+ <p> See <a href="../admin/editTemplate.html">Editing a Template</a> for
+        detailed information.</p>
+     </td>
+  </tr>
+
+
+  <tr valign="top">
+    <td> Edit Quick Set</td>
+    <td> Opens an additional menu containing Tests to Run, Exclude
+      List (optional), Keywords (optional), Environment (optional), Prior Status,
+      Concurrency, and Timeout Factor menu items that you can use to change specific
+      configuration values.
+      <p> See <a href="../confEdit/editQuickSet.html">Editing Quick Set
+          Values</a> for detailed information.</p></td>
+  </tr>
+  <tr valign="top">
+    <td> New Configuration</td>
+    <td> Opens the Configuration Editor and loads an empty configuration.
+      The harness uses the Configuration Editor to create configuration data
+      containing the test environment and standard values required to run a test
+      suite.
+      <p> See <a href="../confEdit/createConfiguration.html">Creating a Configuration</a> for
+        detailed information.</p></td>
+  </tr>
+  <tr valign="top">
+    <td> Load Configuration</td>
+    <td><p>Opens a Load Configuration File dialog box that you use
+        to load an existing configuration into the Test Manager.</p>
+        <p>The harness does not open the Configuration Editor when you load an
+          existing, complete configuration interview.</p>
+      <p> See <a href="../confEdit/loadConfiguration.html">Loading a Configuration</a> for detailed information.</p></td>
+  </tr>
+  <tr valign="top">
+    <td>Load Recent Configuration </td>
+    <td>Displays a list of recently opened configuration.
+      You can choose a configuration from the list to use as the current configuration.</td>
+  </tr>
+  <tr valign="top">
+    <td>New Template </td>
+    <td>Opens the Template Editor and loads an empty template. The
+      harness uses the Template Editor to create a template containing known
+      test environment and standard values required to run a test suite.
+      <p> See <a href="../admin/createTemplate.html">Creating a Template </a> for
+        detailed information about templates.</p></td>
+  </tr>
+  <tr valign="top">
+    <td>Load Template </td>
+    <td><p>Opens a Load Template dialog box that you use to load
+        an existing template into the Test Manager.</p>
+        <p>See <a href="../templates/loadTemplate.html">Loading a Template </a> for
+          detailed information.</p></td>
+  </tr>
+  <tr valign="top">
+    <td>Load Recent Template </td>
+    <td>Displays a list of templates that have been opened. You can
+      choose a template from the list to use as the template for creating a configuration.</td>
+  </tr>
+  <tr valign="top">
+      <td>Update Template</td>
+   <td>Enabled only when template propagation is enabled and the
+     template on which current configuration is based has changed. Displays a
+     dialog box that enables you to import  changes from the template into your
+     configuration.</td>
+  </tr>
+<!-- insert:AdminConfigMenuItems -->
+</table>
+
+
+ 
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

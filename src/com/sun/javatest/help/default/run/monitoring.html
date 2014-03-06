@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Monitoring a Test Run
+</title>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<BODY>
+<a name="monitoring"><!--index:monitoring a test run -->
+  <!-- index:test run: monitoring --></a>
+<h1>Monitoring a Test Run</h1>
+<p>After the test run begins, the Test Manager displays information about the test run in the areas described in the following table.</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray.wide" summary="The Test Manager window displays the progress of the test run." title="Monitor a Test Run">
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Area
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+<p>Test Tree</p>
+</td>
+<td scope="row">
+<p>The test tree uses colored icons to display the current run and test results
+  status of the folders and tests in the work directory. As the harness
+  completes running individual tests, it updates
+  each test tree icon to indicate the test result status. </p>
+  <p>See <a href="testTree.html">Monitoring With a Test Tree</a> for detailed information
+about using the test tree to monitor the progress of the test run.</p></td>
+</tr>
+
+<tr valign="top">
+<td scope="row"><p>Status Messages</p></td>
+<td scope="row">
+<p>Below the test tree area is a resizable text area that displays information about
+  current Test Manager activity. In this area the harness displays status
+  messages about the state of the test run and the name of the test being run.</p></td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+<p>Progress Indicator</p>
+</td>
+<td scope="row">
+<p>The Test Manager Status Line contains a progress indicator. The indicator displays the elapsed time of the
+previous test run when tests are not running. When tests are running, it automatically
+changes to the progress bar of the current test run. At the completion of the
+test run, the indicator changes to display the elapsed time.</p>
+<p>
+See <a href="progressMeter.html">Progress Indicator</a> for information about using the test progress meter to monitor the progress of the test run.</p></td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Progress Monitor
+</td>
+<td scope="row">
+<p>A separate Progress Monitor is available that displays current, detailed information about the progress of the test run.</p>
+
+<p> 
+See <a href="progressMonitor.html">Progress Monitor</a> for information about using the Progress Monitor.
+</p>
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+<p>Information Area</p>
+</td>
+<td scope="row">
+<p>As tests run, the harness displays information about the run in the information area to the right of the test tree. The information area provides two views:
+
+<ul>
+<li><p>Folder view - When you click a folder icon in the test tree, the harness displays a Summary tab, a Documentation tab, five status tabs, and a status field containing information from the work directory about a folder and its descendants. See <a href="../browse/folderInfo.html">Displaying Folder Information</A> for detailed information about browsing folder information.</p></li>
+<li><p>Test view - When you click a test icon in the test tree or double click its name in the Folder view, the harness displays six tabbed panes that contain detailed information about the test. See <a href="../browse/testInfo.html">Displaying Test Information</A> for detailed information about browsing test information.</p></li>
+</ul>
+</td></p>
+</tr>
+</table>
+
+<p>While monitoring the test run in the Test manager, you can also display the contents of output logs being generated during the test run. See <a href="logViewer.html">Monitoring Output Logs</a> and <a href="svcViewer.html">Monitoring Services</a> for detailed information.</p>
+<p>The harness also provides a web server that you can use to remotely monitor and control batch mode test runs. The HTTP Server provides two types of output:</p>
+<UL>
+		<LI><p>HTML Formatted Output allowing users to remotely monitor batch mode test runs in a web browser</p></LI>
+		<LI><p>Plain Text Output intended for use by automated testing frameworks</p></LI>
+</UL>
+<p>See the <em>Command-Line Interface User's Guide</em> for details about running tests from the command line and using the web server.</p>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

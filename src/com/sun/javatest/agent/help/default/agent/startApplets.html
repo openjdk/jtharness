@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<!-- %W% %E% -->
+<html>
+<head>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<title>Starting an Agent Applet</title>
+</head>
+<body>
+<a name="startApplets">
+<!-- index:starting an agent applet -->
+<!-- index:agent applet; starting -->
+</a>
+<h1>Starting an Agent Applet</h1>
+<p> Before you can start an agent applet, the required classes must be installed on your test system. Refer to <a href="loadingClasses.html">Installing Agent Classes on Test Systems</a> for the location and list of classes required to start the agent applet. </p>
+<ol>
+  <li> If an HTML page containing the required applet is not available, create it in your test suite root directory. 
+  <br> Refer to <a href="#startApplets.appletTag">Agent Applet Tag"</a> for a detailed description of an applet tag. </li>
+</ol>
+
+<ol start="2">
+  <li> Use a web browser to open an HTML page containing the agent applet tag.<br>The applet tag must be compatible with your browser's VM.  </li>
+</ol>
+
+<ol start="3">
+  <li>Use the Parameters tabbed pane to configure and run the agent. See the following topics for additional information:
+
+    <ul>
+      <li><a href="configureActiveAgents.html"><b>Specifying Active Agent Options:</b></a> Parameter settings required to run an active agent. </li>
+      <li><a href="configurePassiveAgents.html"><b>Specifying Passive Agent Options:</b></a> Parameter settings required to run a passive agent. </li>
+      <li><a href="configureSerialAgents.html"><b>Specifying Serial Agent Options:</b></a> Parameter settings required to run a serial agent. </li>
+    </ul>
+  </li>
+</ol>
+<a name="startApplets.appletTag"><!-- index:starting an agent applet; applet tag  --><!-- index:agent applet; applet tag --></a>
+<h2>Agent Applet Tag</h2>
+<p>Because some browsers use built-in VMs to run applets, you must use a compatible
+  applet or object tag. Refer to your VM documentation for a description of the
+  tags required to run applets on your browser.
+The following example calls
+  the agent applet and sets the parameters of the applet GUI. It might not be
+  compatible with your browser VM.</p>
+<p>
+Agent parameters and run options can also be set in the applet tag. 
+Refer to <a href="#startApplets.options">
+Setting Parameters in the Applet Tag</a>.
+</p>
+
+<p>
+<b>Sample agent applet tag:</b>
+</p>
+<blockquote><p class="indent2">
+          <code><b>&lt;</b>APPLET</code>/ <br>
+          <code>code=</code><em>applet-class-path</em>/ <br>
+          <code>archive=</code><em>JT Harness harness-classes</em>/ <br>
+          <code>width=</code><em>display-width</em>/ <br>
+          <code>height=</code><em>display-height</em>/ <br>
+          <code><b>&gt;</b></code><br>
+          <code>Applets have not been enabled <br>
+        on your browser. You must enable <br>
+        applets on your browser to display <br>
+        the applet GUI used to run the agent. </code><br>
+        <code><b>&lt;</b>/APPLET<b>&gt;</b></code>
+      </p></blockquote>
+<p>
+The following table describes the tags used in the applet.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="Tags used in the applet and their descriptions ." title="Applet Tags and Descriptions">
+<tr valign="top">
+
+<th width="15%" scope="col" class="left">
+Tag
+</th>
+<th scope="col">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+<code>code</code>
+</td>
+<td>
+The agent applet class installed on your test system.
+<p>
+Example:
+</p>
+<p>
+<code>code=com.sun.javatest.agent.AgentApplet</code>
+</p>
+</td>
+</tr>
+<tr valign="top">
+<td>
+<code>archive</code>
+</td>
+<td>
+The URL of the classes required to run the agent applet on your test system. The classes are either located in the <code>javatest.jar</code> file or in a directory containing the minimum set of classes required to run the agent applet. 
+<p>
+In the following example, the classes are contained in the <code>javatest.jar</code> file located in the same directory as the HTML page. Refer to <a href="loadingClasses.html">Installing Agent Classes on a Test System</a> for a description of how the agent applet classes can be installed.
+</p>
+<p>
+Example:
+</p>
+<p>
+<code>archive=javatest.jar</code>
+</p>
+</td>
+</tr>
+<tr valign="top">
+<td>
+<code>width</code>
+</td>
+<td>
+<p>Sets the width of the GUI. An initial value of 600 is suggested. However, you
+  might need to adjust the value based on your screen size and resolution.
+</p>
+<p>
+Example:
+</p>
+<p>
+<code>width=600</code>
+</p>
+</td>
+</tr>
+<tr valign="top">
+<td>
+<code>height</code>
+</td>
+<td>
+  <p>Sets the height of the applet. An initial value of 600 is suggested. However,
+  you might need to adjust the value based on your screen size and resolution.</p>
+  <p>
+Example:
+</p>
+<p>
+<code>height=600</code>
+</p>
+</td>
+</tr>
+</table>
+
+<a name="startApplets.options"><!-- index:setting parameters in the applet tag --><!-- index:agent applet; applet tag; setting parameters --></a>
+<h2>Setting Parameters in the Applet Tag</h2>
+
+<p>
+Parameters can also be set in the applet tag. Parameters in the applet tag are
+  included as <code><b>&lt;</b>param</code> <em>name
+  |value</em><code><b>&gt;</b></code> pair
+  tags.</p>
+<p>
+<b>Sample agent applet tag:</b>
+</p>
+
+        <blockquote><p class="indent2">
+          <code><b>&lt;</b>APPLET</code> <br>
+          <code>code=</code><em>applet-class-path</em> <br>
+          <code>archive=</code><em>JT Harness harness-classes</em> <br>
+          <code>width=</code><em>display-width</em> <br>
+          <code>height=</code><em>display-height</em> <br>
+          <code><b>&gt;</b></code><br>
+          <br>
+       ...<br>
+        <code><b>&lt;</b>param name=</code><em>parameter-name</em> 
+        <code>value=</code><em>parameter-value</em><code><b>&gt;</b></code><br>
+        <code>Applets have not been enabled on your browser. <br>
+        You must enable applets on your browser to display <br>
+        the applet GUI used to run the agent.</code> <br>
+        <code><b>&lt;</b>/APPLET<b>&gt;</b></code>
+        </p></blockquote>
+
+<p>
+The following two types of parameters can be included in the applet tag:
+</p>
+
+<ul>
+<li>
+<b>Agent Parameters</b> :  Specifies the agent type. Can
+be set either in the applet tag or in the GUI. Anytime the agent is not running,
+you can also use the Parameters tabbed pane to change the agent parameters.
+See the following topics for additional information:
+<ul>
+<li><a href="configureActiveAgents.html"><b>Specifying Active Agent Options</b></a>:  Parameter settings required to run an active agent. </li>
+<li><a href="configurePassiveAgents.html"><b>Specifying Passive Agent Options</b></a>:  Parameter settings required to run a passive agent. </li>
+<li><a href="configureSerialAgents.html"><b>Specifying Serial Agent Options</b></a>:  Parameter settings required to run a serial agent. </li>
+</ul>
+</li>
+<li>
+    <b>Additional Parameters</b>:  Specifies how an agent is run.
+    <p>See <a href="additionalOptions.html">Specifying Additional Agent Options</a> for additional information.</p>
+  </li>
+</ul>
+
+<!--ins:JDTS-->
+
+<hr>
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+</body>
+</html>

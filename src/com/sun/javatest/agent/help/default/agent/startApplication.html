@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<!-- %W% %E% -->
+<html>
+<head>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<title>Starting an Agent Application</title>
+</head>
+<body>
+<a name="startApplication"><!-- index:start an agent application --><!-- index:agent application; start --></a>
+<h1>Starting an Agent Application</h1>
+<p> Before you can start an agent application, the required classes must be installed
+  on your test system. Refer to <a href="loadingClasses.html">Installing Agent
+  Classes on Test Systems</a> for the location and list of classes required to
+  start the agent directly from the command line or using the application GUI.
+  Complete the following actions to start an agent application:</p>
+<ol class="noindent">
+  <li> Start the JT Harness harness GUI. </li>
+  <li> Open the Configuration Editor window and configure the JT Harness harness to use an agent. In most cases, the window displays detailed instructions about configuring the JT Harness harness to run tests using an agent. </li>
+  <li> If you are starting an active agent, open the Agent Monitor window and enable agent pool listening. Refer to 
+  <a href="window.html">Agent Monitor Window</a>.
+    <p class="note">
+      <!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="examplesCommandFile.html"> <br>
+      <!--CopyOn-->
+      If the agent pool is not listening when an active agent starts, the agent cannot contact the harness. The agent returns an error message and then waits until its timeout period ends before recontacting the JT Harness harness. </p>
+  </li>
+  <li> Use the following example to enter the appropriate agent command at the command prompt:
+    <p class="indent2"> <code>java -cp</code> <em>classpath</em> <em>[application class]</em> <em>[options]</em> </p>
+    <ul>
+      <li> The <code>-cp</code> option sets the classpath required to run the agent. Use
+        the ; or : separator appropriate for your test system when more than one class
+        path is included in the command string. Refer to
+        <a href="#startApplication.classPaths">Class Paths</a> for detailed descriptions of the classes that your agent requires. </li>
+      <li><em>[application class]</em> sets the class used to run the agent application. Refer to
+      <a href="#startApplication.appClass">Application Classes</a> for a list and description of the classes used to start an agent application. </li>
+      <li><em>[options]</em> can be included in the command line to specify the agent parameters. Refer to
+      <a href="#startApplication.appOptions">Agent Options</a> for a list and description of the parameters that you can use to configure and start an agent. </li>
+    </ul>
+    <p class="indent2"> Example: <br>
+      <code>java -cp /lib/javatest.jar com.sun.javatest.agent.AgentFrame</code> </p>
+    <p class="note">
+      <!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="examplesCommandFile.html"> <br>
+      <!--CopyOn-->
+You must include the path of the <code>javatest.jar</code> file (represented as <code>/lib/javatest.jar</code> in the example). The <code>javatest.jar</code> file is usually installed in the test suite <code>lib</code> directory when the JT Harness harness is bundled with a test suite. </p>
+  <li><p>If you are using the application GUI to run the agent, use the Parameters tabbed
+    pane to verify the agent settings and start the agent.</p>
+
+
+  <p>The following topics provide detailed information about agent parameter
+    settings: </p>
+  <ul>
+    <li> <a href="configureActiveAgents.html"><b>Specifying Active Agent Options</b></a>:  Parameter settings required to run an active agent. </li>
+    <li> <a href="configurePassiveAgents.html"><b>Specifying Passive Agent Options</b></a>:  Parameter settings required to run a passive agent. </li>
+    <li> <a href="configureSerialAgents.html"><b>Specifying Serial Agent Options</b></a>:  Parameter settings required to run a serial agent. </li></ul>
+</li>
+</ol>
+<a name="startApplication.classPaths"><!-- index:start an agent application; required class paths --><!-- index:agent application; start; required class paths --></a>
+<h2>Classpaths</h2>
+<p>The following table describes the classpaths  that are required in the command line.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="List of class paths required in the command line." title="Required Class Paths">
+<tr valign="top">
+<th scope="col" class="left">
+Classes
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td><a name="startApplication.classPaths.agentPaths"><!-- index:start an agent application; agent classes --><!-- index:agent application; start; agent classes --></a>
+Agent</td>
+<td>
+The location of the agent classes installed on your test system.
+<p>
+The agent classes are either located in the <code>javatest.jar</code> file or in the directory containing the minimum set of classes required to run the agent from the GUI.
+</p> 
+<p>
+Some test suites include additional .jar files containing classes needed for an agent to run tests. These <code>.jar</code> files must also be included in the command string. Refer to <a href="loadingClasses.html">Installing Agent Classes on a Test System</a> for a description of how agent classes can be installed.
+</p>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+<a name="startApplication.classPaths.testPaths"><!-- index:start an agent application; test classes --><!-- index:agent application; start; test classes --></a>Test</td>
+<td>
+Test classes are located in the classes directory of the test suite.
+</td>
+</tr>
+</table>
+
+<p>
+The most common error made when setting up a test platform to use an agent is
+  entering the wrong classpaths in the command string. Configuring your test
+  platform to use the simplest classpaths increases the reliability of the test
+  run.
+</p>
+
+
+<a name="startApplication.appClass"><!-- index:start an agent application; required class paths --><!-- index:agent application; start; required class paths --></a>
+<h2>Application Classes</h2>
+<p>
+An application class is required in the command line to run the agent. The following
+  table describes the two application classes.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="List of application class required in the command line to run the agent." title="Required Application Class">
+<tr valign="top">
+<th scope="col" class="left">
+Mode
+</th>
+<th scope="col" class="left">
+Application Class
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+No GUI
+</td>
+<td>
+<code>com.sun.javatest.agent.AgentMain</code> <em>options</em>
+<p>
+Used when the agent GUI is not wanted or not available. In this mode, all options
+  must be fully specified on the command line. The agent automatically starts
+  when the Return key is pressed. Refer to <a href="#startApplication.appOptions">Agent
+  Options</a> for the options that are included on the command
+  line.
+</p>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+With GUI
+</td>
+<td>
+<code>com.sun.javatest.agent.AgentFrame</code> <em>options</em>
+<p>
+Used to start the agent GUI. In this mode, options might either be given on the
+  command line or in the agent GUI. The agent GUI is used to start and stop the
+  agent. Refer to <a href="#startApplication.appOptions">Agent Options</a>
+  for the <em>options</em> that are included on the command line.
+</p>
+</td>
+</tr>
+</table>
+
+<a name="startApplication.appOptions"><!-- index:start an agent application; options --><!-- index:agent application; start; options --></a>
+<h2>Agent Options</h2>
+
+<p>
+The following table describes the  two types of options used in the command
+  line.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray.wide" summary="List of the types of options that can be used in the command line to run the agent." title="Type of Agent Options">
+<tr valign="top">
+<th scope="col" class="left">
+<b>Type of Option</b>
+</th>
+<th scope="col" class="left">
+<b>Description</b>
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Agent parameters
+</td>
+<td>
+Set the parameters for the type of agent that you are using. See the following
+  topics for additional information:
+  <ul>
+<li> 
+<a href="configureActiveAgents.html"><b>Specifying Active Agent Options</b></a>:  The
+parameter settings required to run an active agent.
+</li>
+<li> 
+<a href="configurePassiveAgents.html"><b>Specifying Passive Agent Options</b></a>:  The
+parameter settings required to run a passive agent.
+</li>
+<li> 
+<a href="configureSerialAgents.html"><b>Specifying Serial Agent Options</b></a>:  The
+parameter settings required to run a serial agent.
+</li>
+</ul>
+
+<p>
+If you are using the command-line application class (<code>com.sun.javatest.agent.AgentMain</code>)
+to directly configure and run the agent, you must include all options in the
+command line that are used to run the agent.</p>
+<p>
+If you are using the GUI application class (<code>com.sun.javatest.agent.AgentFrame</code>) you can either set the agent options in the command line or in the GUI before running the agent.
+</p></td>
+</tr>
+
+<tr valign="top">
+<td>
+Additional parameters
+</td>
+<td>
+Display help, run the agent, or configure other agent properties.
+<p>
+Refer to <a href="additionalOptions.html">Specifying Additional Agent Options</a> for a description of the additional parameters that can be set.
+</p>
+</td>
+</tr>
+</table>
+
+
+<!--ins:JDTS-->
+
+<hr>
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Specifying a Test Suite With testsuite</TITLE>
+<META name="hIndent" content="2"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="testsuite"><!-- index:testSuite command -->
+  <!-- index:command: testSuite --></A>
+<H1>Specifying a Test Suite With <CODE>testsuite</CODE></H1>
+<P>To specify the test suite, use the <CODE>testsuite</CODE> command:</P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> ... <CODE>-testsuite</CODE> <EM>path/filename</EM> [<EM>work-directory-command</EM>]  [<EM>configuration-command</EM>] ... [<EM>task-command</EM>] ...</P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of the use of <EM>&gt; jtharness</EM>.</P><P>See <a href="commandLine.html">Command-Line Overview</A> for a description of the command line structure.</P>
+<P>When you want to specify a test suite, include the commands in the following sequence:</P>
+	<OL>
+		<LI>Include the command required to specify the test suite (<CODE>testsuite</CODE> <EM>path/filename</EM>).</LI>
+</OL>
+		
+		<ol start="2">
+		<LI>Include the commands required to set up a configuration.</LI>
+	</ol>
+    <blockquote>
+      <p>See <a href="setupCommands.html">Set-up Commands</A> for detailed description
+        of the available commands.</p>
+    </blockquote>
+	      <ol start="3">
+	        <LI>(Optional) Include a task command such as the <CODE>runtests</CODE> command.</LI>
+          </ol>
+	      <blockquote>
+            <p>See <a href="taskCommands.html">Task Commands</A> for
+              a description of the available commands.</p>
+          </blockquote>
+	    
+
+<H2>Detailed Example of <code>testsuite</code> Command </H2>
+<P>In the following example, <EM>mytestsuite</EM>, <EM>myworkdir</em><code>.wd</code>, and <EM>myconfig</em><code>.jti</code> represent file names that might exist on your system.</P>
+<P><B>Command Options Format Example:</B></P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> <CODE>-testsuite</CODE> <EM>mytestsuite</EM> <CODE>-workdir</CODE> <EM>myworkdir</em><code>.wd -config</CODE> <EM>myconfig</em><code>.jti -runtests</CODE></P>
+<P>See <a href="formatCommands.html">Formatting a Command</A> for descriptions and examples of other command formats that you can use.</P>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

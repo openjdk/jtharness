@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<!DOCTYPE map
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/map_1_0.dtd">
+
+<map version="1.0">
+
+<!--for testing -- rearrange and delete as necessary -->
+<mapID target="home"				url="home.html" />
+
+<!-- Default Help ID also default for desktop F1 key -->
+<mapID target="jthelp.csh"			url="jthelp.html" />
+
+<!-- context sensitive help targets not used in the std displayed help -->
+
+<mapID target="confEdit.envTab.csh"	url="confEdit/environment.html" />
+<!-- mapID target="templates.enablePropFromTemplate.csh"	url="templates/enablePropFromTemplate.html" -->
+<!-- mapID target="templates.resolveConflict.csh"	url="templates/resolveConflicts.html" -->
+<!-- mapID target="templates.viewConflict.csh"	url="templates/viewConflicts.html" -->
+
+                    <!-- Desktop default -->
+
+
+<!-- Icons used in TOC -->
+<mapID target="chapter"  			url="../images/chapter.gif" />
+<mapID target="topic"   			url="../images/topic.gif"/>
+<mapID target="openbook"    		url="../images/openbook.gif" />
+<mapID target="closedbook"    		url="../images/closedbook.gif" />
+
+<!-- copyright -->
+<mapID target="copyright"   		url="copyright.html" />
+
+<!-- Important Security Information --> 
+<mapID target="securityInfo"			url="security_info.html" />
+
+<!-- JT Harness intro -->
+<mapID target="jtIntro"                         url="jt_intro.html" />
+<mapID target="qsw.window.csh"                  url="start/quickStart.html" />
+<mapID target="start.quickStart"                url="start/quickStart.html" />
+<mapID target="start.openTestSuite"   	        url="start/openTestSuite.html" />
+<mapID target="start.openDirectory"   	        url="start/openDirectory.html" />
+<mapID target="start.createDirectory"   	    url="start/createDirectory.html" />
+
+<!-- JT Harness GUI -->
+<mapID target="ui.usingJT"   	                url="ui/usingJT.html" />
+<mapID target="ui.desktopStyles"                url="ui/desktopStyles.html" />
+<mapID target="ui.desktopMenus"   		        url="ui/desktopMenus.html" />
+<mapID target="agent.window.csh"                url="ui/agentMonitor.html" />
+
+<!-- Preferences dialog -->
+<mapID target="ui.prefs.dialog.csh"		        url="ui/prefsDialog.html" /> 
+<mapID target="ui.prefs.appearance.csh"		    url="ui/appearancePrefs.html" />   <!-- Preferences dialog: Appearances -->
+<mapID target="ui.prefs.testManager"            url="ui/testManager.html" />
+<mapID target="ui.prefs.confEditorView"         url="ui/confEditorView.html" />
+<mapID target="ui.openHelp"                     url="ui/openHelp.html" />
+<mapID target="ui.keyboardAccess"               url="ui/keyboardAccess.html" />
+<mapID target="ui.ui"   			            url="ui/ui.html" />
+
+<!-- Agent Monitor tool -->
+<mapID target="ui.agentMonitor"                 url="ui/agentMonitor.html" />
+
+<!-- Test Manager tool -->
+<mapID target="browse.window.csh"		        url="ui/window.html" />
+<mapID target="ui.configureMenu" 		        url="ui/configureMenu.html" />
+<mapID target="ui.runMenu" 	        	        url="ui/runMenu.html" />
+<mapID target="ui.reportMenu"	                url="ui/reportMenu.html" />
+<mapID target="ui.viewMenu"	        	        url="ui/viewMenu.html" />
+<mapID target="ui.toolBar"	        	        url="ui/toolBar.html" />
+<mapID target="browse.testMonitor.csh"          url="run/progressMonitor.html" />
+<mapID target="run.testProgress"                url="run/progressMeter.html" />
+<mapID target="ui.infoArea"                     url="ui/infoPane.html"  />
+
+<mapID target="ui.usingtree" 	        	url="ui/usingtree.html" />
+<mapID target="ui.folderIcons" 		        url="ui/folderIcons.html" />
+<mapID target="ui.testIcons" 	        	url="ui/testIcons.html" />
+<mapID target="ui.popupmenu"	        	url="ui/popupmenu.html" />
+
+<mapID target="browse.viewFilters"           url="browse/viewFilters.html" />
+<mapID target="ui.currentConfiguration"     url="ui/currentConfiguration.html" />
+<mapID target="ui.currentTemplate"     url="ui/currentTemplate.html" />
+<mapID target="ui.allTests"                 url="ui/allTests.html" />
+<mapID target="execFilters.dialog.csh"      url="ui/customFilters.html" /><!-- Exec Filter Dialog Box -->
+<mapID target="ui.lastRun"                  url="ui/lastRun.html" />
+
+<mapID target="ui.workDirStatus"            url="ui/workDirStatus.html" />
+<mapID target="ui.statusMessage"            url="ui/testManagerStatus.html" />
+
+<mapID target="confEdit.openConfEd"             url="confEdit/openConfEd.html"/>
+<mapID target="confEdit.fullView.csh"           url="confEdit/fullViewDialog.html"/>
+<mapID target="confEdit.stdView.csh"            url="confEdit/stdViewDialog.html"/>
+<mapID target="admin.openTemplateEditor"        url="admin/openTemplateEditor.html"/>
+<mapID target="admin.questionModeTE.csh"        url="admin/questionModeTE.html"/>
+<mapID target="admin.quickSetTE.csh"            url="admin/quickSetTE.html"/>
+<mapID target="logFileViewer.logViewer.csh"     url="ui/logViewer.html"/>
+
+<!-- Report Merge tool -->
+<mapID target="mergeReports.window.csh"         url="mergeReports/window.html" />
+<mapID target="mergeReports.reportWindow"       url="mergeReports/reportMergeViewer.html"  />
+<mapID target="mergeReports.reportMerge"        url="mergeReports/reportMerge.html" />
+
+<!-- Configuring a Test Run -->
+<mapID target="confEdit.window.csh"           	url="confEdit/overview.html"/>
+<mapID target="confEdit.editConfiguration"      url="confEdit/editConfiguration.html"/>
+<mapID target="confEdit.editQuickSet"         url="confEdit/editQuickSet.html"/>
+<mapID target="confEdit.testsTab.csh"           url="confEdit/initialFiles.html"/>
+<mapID target="confEdit.excludeTab.csh"         url="confEdit/excludeList.html"/>
+<mapID target="confEdit.keywordsTab.csh"        url="confEdit/keywords.html"/>
+<mapID target="confEdit.kflTab.csh"             url="confEdit/kfl.html"/>
+<mapID target="confEdit.statusTab.csh"          url="confEdit/status.html"/>
+<mapID target="confEdit.execTab.csh"            url="confEdit/execution.html"/>
+<mapID target="confEdit.createConfiguration"    url="confEdit/createConfiguration.html"/>
+<mapID target="confEdit.saveConfiguration"      url="confEdit/saveConfiguration.html"/>
+<mapID target="confEdit.loadConfiguration"      url="confEdit/loadConfiguration.html"/>
+<mapID target="confEdit.marker"                 url="confEdit/setMarkers.html"/>
+<mapID target="confEdit.search.csh"             url="confEdit/searchConfiguration.html"/>
+<mapID target="confEdit.multiple.csh"           url="confEdit/multiple.html"/>
+
+<!-- Creating and Editing Templates -->
+<mapID target="confEdit.templateDialog.csh"     url="admin/templateDialog.html"/>
+<mapID target="admin.createTemplate"            url="admin/createTemplate.html" />
+<mapID target="admin.editTemplate"              url="admin/editTemplate.html" />
+<mapID target="admin.testsTabTE.csh"            url="admin/testsTabTE.html" />
+<mapID target="admin.excludeTabTE.csh"          url="admin/excludeTabTE.html" />
+<mapID target="admin.keywordsTabTE.csh"         url="admin/keywordsTabTE.html" />
+<mapID target="admin.statusTabTE.csh"           url="admin/statusTabTE.html" />
+<mapID target="admin.execTabTE.csh"             url="admin/execTabTE.html" />
+<mapID target="templates.resolveConflict.csh"   url="templates/resolveConflicts.html" />
+<mapID target="admin.setMarkersTE"              url="admin/setMarkersTE.html" />
+<mapID target="admin.searchTemplateTE"          url="admin/searchTemplateTE.html" />
+
+<!-- Working with Templates -->
+<mapID target="templates.loadTemplate"              url="templates/loadTemplate.html" />
+
+<!-- Running Tests -->
+<mapID target="run.running" 			    url="run/running.html" />
+<mapID target="run.starting" 			    url="run/starting.html" />
+<mapID target="run.monitoring" 			    url="run/monitoring.html" />
+<mapID target="run.testTree" 			    url="run/testTree.html" />
+<mapID target="run.viewFilter"	            url="run/viewFilters.html" />
+<mapID target="browse.logViewer.csh" 		url="run/logViewer.html"/> <!-- Log Viewer dialog box -->
+<mapID target="run.svcViewer"	            url="run/svcViewer.html" />
+<mapID target="run.stopping" 			    url="run/stopping.html" />
+<mapID target="run.troubleshooting" 		url="run/troubleshooting.html" />
+
+<!-- Browsing Tests -->			
+<mapID target="browse.browsing" 		    url="browse/browsing.html" />
+<mapID target="browse.folderInfo" 		    url="browse/folderInfo.html" />
+<mapID target="browse.summaryTab.csh" 		url="browse/summaryTab.html" /> <!-- Test Manager Summary tab -->
+<mapID target="browse.statusTabs" 		    url="browse/statusTabs.html" />
+<mapID target="browse.passedTab.csh" 		url="browse/statusTabs.html#passed" /> <!-- Test Manager Test Run Details tab -->
+<mapID target="browse.failedTab.csh" 		url="browse/statusTabs.html#failed" /> <!-- Test Manager Failed tab -->
+<mapID target="browse.notRunTab.csh" 		url="browse/statusTabs.html#notRun" /> <!-- Test Manager Not Run tab -->
+<mapID target="browse.errorTab.csh" 		url="browse/statusTabs.html#error" />  <!-- Test Manager Error tab -->
+<mapID target="browse.filteredOutTab.csh" 	url="browse/statusTabs.html#filteredOut" /> <!-- Test Manager Filtered Out tab -->
+<mapID target="browse.multiselectionTab.csh" url="browse/multiselectionTab.html" />  <!-- Test Manager Multi-Selection tab -->
+<mapID target="browse.testInfo" 		    url="browse/testInfo.html" />
+" />
+<mapID target="browse.testDescriptionTab.csh" url="browse/testDescriptionTab.html" /> <!-- Test Manager Test Description tab -->
+<mapID target="browse.filesTab.csh" 		url="browse/filesTab.html" />  <!-- Test Manager Files tab -->
+<mapID target="browse.testEnvironmentTab.csh" url="browse/configurationTab.html" />  <!-- Test Manager Configuration tab -->
+<mapID target="browse.resultPropertiesTab.csh" url="browse/detailsTab.html" /> <!-- Test Manager Test Run Details tab -->
+<mapID target="browse.outputTab.csh" 		url="browse/messagesTab.html" /> <!-- Test Manager Test Run Messages tab  -->
+
+<!-- Displaying Configuration Information -->	
+<mapID target="confEdit.displayInfo"		url="confEdit/displayInfo.html" />
+<mapID target="checklist.window.csh"            url="confEdit/checklist.html"/> <!-- Configuration Checklist -->
+<mapID target="env.window.csh" 			url="env/dialog.html" />    <!-- Test Environment dialog box -->
+<mapID target="exclList.window.csh" 		url="excl/dialog.html" />   <!-- Exclude List dialog box -->
+<mapID target="quLog.window.csh"		url="confEdit/questionLog.html" /> <!-- Question Log -->
+
+<!-- new Test Manager Properties dialog box -->	
+<mapID target="execProps.dialog.csh" 		url="execProps/dialog.html"/>
+<mapID target="execProps.configTab.csh" 	url="execProps/dialog.html#config"/>
+<mapID target="execProps.pluginsTab.csh" 	url="execProps/dialog.html#plugins"/>
+<mapID target="execProps.testSuiteTab.csh" 	url="execProps/dialog.html#testSuite"/>
+<mapID target="execProps.workDirTab.csh" 	url="execProps/dialog.html#workDir"/>
+
+<!-- Test Suite Errors dialog box -->  
+<mapID target="browse.testSuiteErrors.csh"	url="browse/testSuiteErrors.html" /> 
+
+<!-- Report Tool -->	
+<mapID target="report.usingReports"         url="report/usingReports.html" />
+<mapID target="report.newReport.csh"        url="report/newReports.html" />
+<mapID target="report.reportBrowser.csh"    url="report/reportBrowser.html" />
+
+<!-- Merge Reports Tool -->	
+<mapID target="mergeReports.mergingReports"   url="mergeReports/mergeReports.html" />
+
+<!-- Troubleshooting JT Harness -->
+<mapID target="concepts.troubleshooting"    url="concepts/troubleshooting.html" />
+
+<!-- JT Harness Command Line Interface -->
+<mapID target="command.intro.csh"               url="command/intro.html" />
+<mapID target="command.commandLine"             url="command/commandLine.html" />
+<mapID target="command.aboutExamples"           url="command/aboutExamples.html" />
+<mapID target="command.formatCommands"          url="command/formatCommands.html" />
+<mapID target="command.using.commandfile"       url="command/commandFile.html" />
+<mapID target="command.create.commandfile"      url="command/creatingCommandFile.html" />
+<mapID target="command.examples.commandfile"    url="command/examplesCommandFile.html" />
+<mapID target="command.examples.settingValues"  url="command/settingValues.html" />
+<mapID target="command.configValues"            url="command/configValues.html" />
+<mapID target="command.compoundExamples"        url="command/compoundExamples.html" />
+<mapID target="command.availableCommands"       url="command/availableCommands.html" />
+<mapID target="command.setup"                   url="command/setupCommands.html" />
+<mapID target="command.basicContext"            url="command/basicContext.html" />
+<mapID target="command.open"                    url="command/open.html" />
+<mapID target="command.config"                  url="command/config.html" />
+<mapID target="command.testsuite"               url="command/testsuite.html" />
+<mapID target="command.workdir"                 url="command/workdir.html" />
+<mapID target="command.otherValues"             url="command/otherConfigValues.html" />
+<mapID target="command.concurrency"             url="command/concurrency.html" />
+<mapID target="command.excludeList"             url="command/excludeList.html" />
+<mapID target="command.keyword"                 url="command/keyword.html" />
+<mapID target="command.knownFailureAnalysis"    url="command/knownFailureAnalysis.html" />
+<mapID target="command.prior"                   url="command/prior.html" />
+<mapID target="command.testDir"                 url="command/testDir.html" />
+<mapID target="command.timeout"                 url="command/timeout.html" />
+<mapID target="command.harnessSettings"         url="command/harnessSettings.html" />
+<mapID target="command.task"                    url="command/taskCommands.html" />
+<mapID target="command.runTests"                url="command/runTests.html" />
+<mapID target="command.verbose"                 url="command/verbose.html" />
+<mapID target="command.batchMode"               url="command/batchMode.html" />
+<mapID target="command.observer"                url="command/observer.html" />
+<mapID target="command.writeReports"            url="command/writeReports.html" />
+<mapID target="command.desktop"                 url="command/desktopCommands.html" />
+<mapID target="command.newDesktop"              url="command/newDesktop.html" />
+<mapID target="command.settingColors"           url="command/settingColors.html" />
+<mapID target="command.displayHelp"             url="command/displayHelp.html" />
+<mapID target="command.commandHelp"             url="command/commandHelp.html" />
+<mapID target="command.versionInfo"             url="command/versionInfo.html" />
+<mapID target="command.onlineHelp"              url="command/onlineHelp.html" />
+<mapID target="command.legacyCommands"          url="command/legacyCommands.html" />
+<mapID target="command.parameterCommands"       url="command/parameterCommands.html" />
+<mapID target="command.lite"       		url="command/lite.html" />
+
+
+<!-- JT Harness Utilities -->
+<mapID target="command.utilities"               url="command/utilities.html" />
+<mapID target="command.httpServer"              url="command/httpServer.html" />
+<mapID target="command.htmlOutput"              url="command/htmlOutput.html" />
+<mapID target="command.textOutput"              url="command/textOutput.html" />
+<mapID target="command.editConfig"              url="command/editConfig.html" />
+<mapID target="command.examplesedit"            url="command/editFile.html" />
+<mapID target="command.examplesgenerateLog"     url="command/generateLog.html" />
+<mapID target="command.examplespreview"         url="command/preview.html" />
+<mapID target="command.examplesechoResults"     url="command/echoResults.html" />
+<mapID target="command.examplesshowPaths"       url="command/showPaths.html" />
+<mapID target="command.exampleschange"          url="command/change.html" />
+<mapID target="command.exampleschangePort"      url="command/changePort.html" />
+<mapID target="command.examplesescapeShell"     url="command/escapeShell.html" />
+<mapID target="command.textEditor"              url="command/textEditor.html" />
+<mapID target="command.moveReports"             url="command/moveReports.html" />
+<mapID target="command.troubleshooting"         url="command/troubleshooting.html" />
+
+
+
+<!-- Anchor points used in the index -->
+<!-- no longer required here; automagically generated....
+
+.... end of automagically generated entries -->
+
+
+<!-- Glossary IDs -->
+<!-- no longer required here; automagically generated....
+
+.... end of automagically generated entries -->
+
+
+</map>

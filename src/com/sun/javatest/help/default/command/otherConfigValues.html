@@ -1,0 +1,82 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Setting Specific Values</TITLE>
+<META name="hIndent" content="1"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="otherConfigValues"><!--index:setting specific configuration values -->
+  <!-- index:configuration values: setting--></A>
+<H1>Setting Specific Values</H1>
+<P>After you set a configuration (see <a href="basicContext.html">Initial Set-up Commands</A>), you can specify individual values for a test run that override those in the configuration file.</P>
+
+<p class="note">
+<!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="otherConfigValues.html">
+<br><!--CopyOn-->
+Values that you specify in the command string override but do not change the values specified in the configuration file.</P>
+<P>You can use the following commands to specify individual values for a test run:</P>
+	<UL>
+		<LI>
+	<b><CODE>set</CODE></b> - Sets any value in a configuration
+	file. See <a href="settingValues.html">Setting Test Suite Specific Values With
+	<code>set</code></A> for
+	a detailed description of this command.</LI>
+		<LI>
+	<b><CODE>concurrency</CODE></b> - Changes the concurrency value set in
+	the configuration file. See <a href="concurrency.html">Setting Concurrency With <code>concurrency</code></A> for
+	a detailed description of this command.</LI>
+	  <LI>
+	<b><CODE>excludeList</CODE></b> - Specifies or changes the exclude list
+	set in the configuration file. See <a href="excludeList.html">Specifying Exclude
+	List Files With <code>excludeList</code></A> for a detailed description of this command.</LI>
+		<LI>
+	<b><CODE>keywords</CODE></b> - Specifies or changes the keyword values set in the
+	configuration file. See <a href="keyword.html">Specifying Keywords With <code>keywords</code></A> for
+	a detailed description of this command.</LI>
+		<LI><b><code>kfl</code></b> - 	Specifies one or more known failure lists (KFLs), as reflected in the known failure analysis (part of the HTML <a href="writeReports.html#writeReportType">report type</a>). See <a href="knownFailureAnalysis.html">Specifying Keywords with <code>kfl</code></a>.</LI>
+		<LI><b><CODE>priorStatus</CODE></b> - Specifies or changes prior status values set
+	in the configuration file. See <a href="prior.html">Selecting Tests  With
+	<code>priorStatus</code></A> for a detailed description of this command.</LI>
+		<LI>
+	<b><CODE>tests</CODE></b> - Specifies or changes the tests specified in the configuration
+	file. See <a href="selectingTests.html">Specifying Tests or Directories With
+	<code>tests</code></A> for a detailed description of this command.</LI>
+		<LI>
+	<b><CODE>timeoutFactor</CODE></b> - Specifies or changes the test timeout value
+	specified in the configuration file. See <a href="timeout.html">Setting
+	Timeout With <code>timeoutFactor</code></A> for a detailed description of this command.</LI>
+	</UL>
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

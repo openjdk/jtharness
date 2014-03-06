@@ -1,0 +1,233 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Monitoring Test Progress With verbose</TITLE>
+<META name="hIndent" content="1"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="runTests"><!-- index:verbose option -->
+  <!-- index:monitor test progress --></A>
+<H1>Monitoring Test Progress With <CODE>verbose</CODE></H1>
+<P>Including the <CODE>verbose</CODE> command and optional monitoring options in a run command allows the user to monitor test progress from the command line. This command uses <CODE>stdout</CODE> to display the specified levels of monitoring test run progress.  This monitoring function is not available in the GUI.If you use the <CODE>verbose</CODE> command and options, set it as the first flag in the command line. Because it takes effect at the point in the command line where it appears, if the <CODE>verbose</CODE> command does not preceed the other commands, commands executed before it appears on the command line are not be shown.</P>
+<H2>Monitoring Options</H2>
+<P>The monitoring options  are specified in the command
+  line as a comma-separated list following the <CODE>-verbose</CODE> option.
+  A colon (:)  is used to separate the <CODE>-verbose</CODE> command from the options.
+  Ordering and capitalization within the list are ignored. Whitespace within
+  the list is prohibited.</P>
+<P>If you do not specify a level, the <CODE>progress</CODE> option is automatically used.</P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> <CODE>-verbose:</CODE> <EM>monitor-option</EM> [<EM>setup-commands</EM>] ... <CODE>-runtests</CODE> ...</P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of the use of <EM>&gt; jtharness</EM> in the example.</P>
+<P>See <a href="#examples">Examples of Monitoring Output</A> for detailed examples of the command line.</P>
+<P>The following table  describes monitoring options  specified
+in the command line.</P>
+<table width="100%" class="gray.wide" border="0" summary="Monitoring Options" title="Monitoring Options">
+
+  <tr>
+    <th width="10%" scope="col">Option</th>
+    <th scope="col">Description</th>
+  </tr>
+  <tr>
+    <td valign="top"><code>commands</code></td>
+    <td>Traces the individual harness commands as they are executed. If this option is used, it should be set first in the command line.
+      Traced harness commands include options given on the command line, commands given in command
+    strings, and commands given in command files. </td>
+  </tr>
+  <tr>
+    <td valign="top"><CODE>no-date</CODE> </td>
+    <td>Does not prefix entries with the data and time stamp. Normally, each logical
+    line of output prints the month, day, hour, minute and second.</td>
+  </tr>
+  <tr>
+    <td valign="top"><CODE>non-pass</CODE></td>
+    <td>Prints non-passing (error, fail) test names and their status string. The
+      status string includes the status (error, fail) and the reason for the
+    failure or error. </td>
+  </tr>
+  <tr>
+    <td valign="top"><CODE>max</CODE> </td>
+    <td>Outputs the maximum possible amount of output. This includes all the options
+      which are individually available. If this option is present, only the <CODE>no-date</CODE> and <CODE>quiet</CODE> flags have any additional effect.</td>
+  </tr>
+  <tr>
+    <td valign="top"><CODE>quiet</CODE> </td>
+    <td>Suppresses any output from the verbose system. It might be useful to temporarily
+      deactivate monitoring while debugging, without removing other levels coded
+      into a script. <CODE>-verbose:stop,progress,quiet</CODE> results in no
+      output, as does <CODE>-verbose:quiet,stop,progress</CODE>. This option
+      takes precedence over all other options. It does not suppress the pass,
+      fail, and error statistics printed at the end of the test run. </td>
+  </tr>
+  <tr>
+    <td valign="top"><CODE>start</CODE> </td>
+    <td>Prints the test name when it goes into the harness' engine for execution.
+      Note: On some test suites, this might only indicate that the test has been
+    handed to the plug-in framework, not that it is actually executing. </td>
+  </tr>
+  <tr>
+    <td valign="top"><CODE>stop</CODE>
+    </td>
+    <td>Prints the test name and status string (see <CODE>non-pass</CODE>) when
+    a test result is received by the harness. </td>
+  </tr>
+  <tr>
+    <td valign="top"><CODE>progress</CODE> </td>
+    <td>Prints a progress summary, which indicates pass, fail, error, and not-run
+      numbers. If any of the <CODE>max, non-pass, stop,</CODE> or <CODE>stop</CODE> options
+      were specified, each summary migh be printed on its own line. If not, the
+      summary will be updated on the current line. The progress information is
+    printed/updated each time a test result is reported to the harness. </td>
+  </tr>
+</table>
+
+
+	
+	<A name="examples"></A>
+<H2>Detailed Examples of Monitoring Commands</H2>
+<P>The following are seven examples of monitoring commands and their resulting
+  command line output:</P>
+	<ul>
+	  <li>An example of the default monitoring output:</li>
+</ul>
+	<blockquote>
+	  <PRE>
+> java -jar lib/javatest.jar -verbose -open foo.jti -runtests
+  14:21:31 Sept 14 - Harness starting test run with configuration "foo".
+  14:24:33 Sept 14 - Pass: 12  Fail: 0  Error: 1  Not-Run: 33
+  14:24:30 Sept 14 - Finished executing all tests, wait for cleanup...
+  14:26:31 Sept 14 - Harness finished test run.
+    </PRE>
+</blockquote>
+	<ul>
+	  <li>An example of the <CODE>start</CODE> monitoring output:</li>
+</ul>
+	<blockquote>
+	  <PRE>
+> java -jar lib/javatest.jar -verbose:start -open foo.jti -runtests
+  14:21:31 Sept 14 - Harness starting test run with configuration "foo".
+  14:24:39 Sept 14 - Running foo/bar/index#id1
+  14:24:30 Sept 14 - Test run stopped, due to failures, errors, user request. Wait for cleanup...
+  14:26:31 Sept 14 - Harness finished test run.
+    </PRE>
+</blockquote>
+	<ul>
+	  <li>An example of the <CODE>start</CODE> and <CODE>stop</CODE> monitoring
+	    output:</li>
+</ul>
+	<blockquote>
+	  <PRE>
+> java -jar lib/javatest.jar -verbose:start,stop -open foo.jti -runtests
+  14:21:31 Sept 14 - Harness starting test run with configuration "foo".
+  14:24:31 Sept 14 - Running foo/bar/index#id1
+  14:24:32 Sept 14 - Finished foo/bar/index#id1 Fail.  Invalid index did not throw exception.
+  14:26:33 Sept 14 - Running foo/bar/index#id2
+  14:27:34 Sept 14 - Finished foo/bar/index#id2 Pass.
+  14:28:35 Sept 14 - Running foo/bar/index#id3
+  14:29:36 Sept 14 - Finished foo/bar/index#id3 Error.  Cannot invoke JVM.
+  14:30:30 Sept 14 - Finished executing all tests, wait for cleanup...
+  14:30:31 Sept 14 - Harness finished test run.
+    </PRE>
+</blockquote>
+	<ul>
+	  <li>An example of the <CODE>no-date</CODE>, <CODE>start</CODE>, and <CODE>stop</CODE> monitoring
+	    output:</li>
+</ul>
+	<blockquote>
+	  <PRE>
+> java -jar lib/javatest.jar -verbose:no-date,start,stop -open foo.jti -runtests
+  Harness starting test run with configuration "foo".
+  Running foo/bar/index#id1
+  Finished foo/bar/index#id1 Fail.  Invalid index did not throw exception.
+  Running foo/bar/index#id2
+  Finished foo/bar/index#id2 Pass.
+  Running foo/bar/index#id3
+  Finished foo/bar/index#id3 Error.  Cannot invoke JVM.
+  Test run stopped, due to failures, errors, user request. Wait for cleanup...
+  Harness finished test run.
+    </PRE>
+</blockquote>
+	<ul>
+	  <li>An example of the <CODE>non-pass</CODE> monitoring output:</li>
+</ul>
+	<blockquote>
+	  <PRE>
+> java -jar lib/javatest.jar -verbose:non-pass -open foo.jti -runtests
+  Harness starting test run with configuration "foo".
+  Running foo/bar/index#id1
+  Finished foo/bar/index#id1 Fail.  Invalid index did not throw exception.
+  Running foo/bar/index#id2
+  Finished foo/bar/index#id2 Pass.
+  Test run stopped, due to failures, errors, user request. Wait for cleanup...
+  Harness finished test run.
+    </PRE>
+</blockquote>
+	<ul>
+	  <li>An example of the <CODE>progress</CODE> and <CODE>non-pass</CODE> monitoring
+	    output:</li>
+</ul>
+	<blockquote>
+	  <PRE>
+> java -jar lib/javatest.jar -verbose:progress,non-pass -open foo.jti -runtests
+  14:23:39 Sept 14 - Harness starting test run with configuration "foo".
+  14:24:39 Sept 14 - Pass: 12  Fail: 0  Error: 0  Not-Run: 33
+  14:25:32 Sept 14 - Finished foo/bar/index#id1 Fail.  Invalid index did not throw exception.
+  14:26:39 Sept 14 - Pass: 12  Fail: 1  Error: 0  Not-Run: 32
+  14:27:39 Sept 14 - Pass: 12  Fail: 1  Error: 0  Not-Run: 32
+  14:30:36 Sept 14 - Finished foo/bar/index#id3 Error.  Cannot invoke JVM.
+  14:32:39 Sept 14 - Pass: 12  Fail: 1  Error: 1  Not-Run: 31
+  14:33:01 Sept 14 - Test run stopped, due to failures, errors, user request. Wait for cleanup...
+  14:33:10 Sept 14 - Harness finished test run.
+    </PRE>
+</blockquote>
+	<ul>
+	  <li>An example of the <CODE>no-date</CODE> and <CODE>max</CODE> monitoring
+	    output:</li>
+</ul>
+	<blockquote>
+	  <PRE>
+> java -jar lib/javatest.jar -verbose:no-date,max -open foo.jti -runtests
+  Harness starting test run with configuration "foo".
+  Running foo/bar/index#id1
+  Finished foo/bar/index#id1 Fail.  Invalid index did not throw exception.
+  Pass: 0  Fail: 1  Error: 0  Not-Run: 33
+  Running foo/bar/index#id2
+  Finished foo/bar/index#id2 Pass.
+  Pass: 1  Fail: 1  Error: 0  Not-Run: 32
+  Test run stopped, due to failures, errors, user request. Wait for cleanup...
+  Harness finished test run.
+    </PRE>
+</blockquote>
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2004, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

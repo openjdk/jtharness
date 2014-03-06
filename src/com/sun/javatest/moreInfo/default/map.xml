@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<!DOCTYPE map
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/map_1_0.dtd">
+
+<map version="1.0">
+
+<!-- Default entries for Configuration Editor, Standard Values view -->
+    <mapID target="ConfigEditor.stdValues.env"			url="ConfigEditor/env.html" />
+    <mapID target="ConfigEditor.stdValues.excl"			url="ConfigEditor/excl.html" />
+    <mapID target="ConfigEditor.stdValues.exec"			url="ConfigEditor/exec.html" />
+    <mapID target="ConfigEditor.stdValues.keywords"		url="ConfigEditor/keywords.html" />
+    <mapID target="ConfigEditor.stdValues.kfl"			url="ConfigEditor/kfl.html" />
+    <mapID target="ConfigEditor.stdValues.status"		url="ConfigEditor/status.html" />
+    <mapID target="ConfigEditor.stdValues.tests"		url="ConfigEditor/tests.html" />
+
+<!-- Generic Config. Wizard More Info IDs -->
+
+    <mapID target="BasicInterviewParameters.description"	url="BasicInterviewParameters/description.html" />
+    <mapID target="BasicInterviewParameters.epilog"		url="BasicInterviewParameters/epilog.html" />
+    <mapID target="BasicInterviewParameters.name"		url="BasicInterviewParameters/name.html" />
+    <mapID target="BasicInterviewParameters.prolog"		url="BasicInterviewParameters/prolog.html" />
+
+    <mapID target="ConcurrencyInterview.concurrency"		url="ConcurrencyInterview/concurrency.html" />
+
+    <mapID target="EnvironmentInterview.env"			url="EnvironmentInterview/env.html" />
+    <mapID target="EnvironmentInterview.envFiles"		url="EnvironmentInterview/envFiles.html" />
+
+    <mapID target="ExcludeListInterview.customFiles"		url="ExcludeListInterview/customFiles.html" />
+    <mapID target="ExcludeListInterview.excludeListType"	url="ExcludeListInterview/excludeListType.html" />
+    <mapID target="ExcludeListInterview.latestAutoCheck"	url="ExcludeListInterview/latestAutoCheck.html" />
+    <mapID target="ExcludeListInterview.latestAutoCheckInterval" url="ExcludeListInterview/latestAutoCheckInterval.html" />
+    <mapID target="ExcludeListInterview.latestAutoCheckMode"	url="ExcludeListInterview/latestAutoCheckMode.html" />
+    <mapID target="ExcludeListInterview.needExcludeList"	url="ExcludeListInterview/needExcludeList.html" />
+
+    <mapID target="KeywordsInterview.keywords"			url="KeywordsInterview/keywords.html" />
+    <mapID target="KeywordsInterview.needKeywords"		url="KeywordsInterview/needKeywords.html" />
+
+    <mapID target="KnownFailuresListInterview.customFiles"	url="KnownFailuresListInterview/customFiles.html" />
+    <mapID target="KnownFailuresListInterview.needKfl"	url="KnownFailuresListInterview/needKfl.html" />
+
+    <mapID target="PriorStatusInterview.needStatus"		url="PriorStatusInterview/needStatus.html" />
+    <mapID target="PriorStatusInterview.status"			url="PriorStatusInterview/status.html" />
+
+    <mapID target="ReportInterview.createReportDir"		url="ReportInterview/createReportDir.html" />
+    <mapID target="ReportInterview.reportDir"			url="ReportInterview/reportDir.html" />
+
+    <mapID target="SimpleInterviewParameters.classPath"         url="SimpleInterviewParameters/classPath.html" />
+    <mapID target="SimpleInterviewParameters.cmdType"           url="SimpleInterviewParameters/cmdType.html" />
+    <mapID target="SimpleInterviewParameters.desc"              url="SimpleInterviewParameters/desc.html" />
+    <mapID target="SimpleInterviewParameters.developer"         url="SimpleInterviewParameters/developer.html" />
+    <mapID target="SimpleInterviewParameters.envEnd"            url="SimpleInterviewParameters/envEnd.html" />
+    <mapID target="SimpleInterviewParameters.jvm"               url="SimpleInterviewParameters/jvm.html" />
+    <mapID target="SimpleInterviewParameters.name"              url="SimpleInterviewParameters/name.html" />
+    <mapID target="SimpleInterviewParameters.precompile"        url="SimpleInterviewParameters/precompile.html" />
+
+    <mapID target="TestsInterview.needTests"			url="TestsInterview/needTests.html" />
+    <mapID target="TestsInterview.testTree"			url="TestsInterview/testTree.html" />
+    <mapID target="TestsInterview.tests"			url="TestsInterview/tests.html" />
+    <mapID target="TestsInterview.treeOrFile"			url="TestsInterview/treeOrFile.html" />
+    <mapID target="TestsInterview.testFile"			url="TestsInterview/testFile.html" />
+
+    <mapID target="TimeoutFactorInterview.timeout"		url="TimeoutFactorInterview/timeout.html" />
+</map>

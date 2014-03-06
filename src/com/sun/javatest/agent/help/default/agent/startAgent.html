@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<!-- %W% %E% -->
+<html>
+<head>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<title>Starting a JT Harness Agent</title>
+<style type="text/css">
+<!--
+.style1 {font-size: 9}
+-->
+</style>
+</head>
+<body>
+<a name="startAgent"><!-- index:starting a JT Harness agent --><!-- index:JT Harness agent; starting --></a>
+<h1>Starting a JT Harness Agent</h1>
+<p>
+You can start an agent either as an application or as an applet. While the application
+  provides you with the option of using either a GUI or a command line to configure
+  and run the agent, the applet requires that you use a GUI. The following table
+  describes the agent interface support for application and applets.</p>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="gray" summary="Agent interfaces supporting agent applications or applets." title="Supported Agent Interfaces">
+<tr valign="top">
+<th scope="col"  class="left">
+Interface
+</th>
+<th scope="col" class="left">
+Application
+</th>
+<th scope="col" class="left">
+Applet
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+GUI
+</td>
+<td>
+Supported
+</td>
+<td>
+Supported
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Command Line
+</td>
+<td>
+Supported
+</td>
+<td>
+Not Supported
+</td>
+</tr>
+</table>
+
+<a name="startAgent.application"><!-- index:starting a JT Harness agent; application --><!-- index:JT Harness agent; application; starting --></a>
+<h2>Agent Application</h2>
+
+<p>
+You can either use the application GUI or command line to configure and start an agent if the test system provides AWT support.
+</p> 
+
+<p>
+If a test platform is unable to or does not provide AWT support, you must use
+  the command line to configure and start the agent. When using the command line
+  to directly configure and run an agent, the following conditions apply:
+</p>
+
+<ul>
+<li>
+All agent options must be specified in the command line.</li>
+<li>
+Agent performance cannot be monitored during a test run.</li>
+<li>
+Agent properties cannot be modified without killing the agent and starting a
+  new agent from the command line.</li>
+</ul>
+
+<p>
+If you use the GUI to run the agent, the following conditions apply:
+</p>
+
+<ul>
+<li>
+Agent options can be included in the command line or the GUI can be started
+  without specifying agent options.</li>
+<li>
+Agent performance is monitored  during a test run.</li>
+<li> Agent can be configured or reconfigured after the GUI starts.</li>
+</ul>
+<p>
+The GUI used by the application is the same as that used by the applet. Refer to <a href="#startAgent.gui">Using the GUI</a> for a description of the tabbed panes.
+</p>
+
+<a name="startAgent.applet"><!-- index:starting a JT Harness agent; applet --><!-- index:JT Harness agent; applet; starting --></a>
+<h2>Agent Applet</h2>
+
+<p>
+You can use either an applet or an application to run the agent on any test system
+  that supports a web browser. However, you must use the applet when testing
+  Java virtual machines that run in web browsers.</p>
+<p>
+The GUI used by the applet is the same as that used by the application. Refer to <a href="#startAgent.gui">Using the GUI</a>   for a description of the tabbed panes.
+</p>
+<p>
+When using the applet, you can perform the following actions:
+</p>
+
+<ul>
+<li>
+Include parameters in the applet tag or start the GUI without specifying any parameters
+</li>
+<li>
+Configure or reconfigure the agent after the GUI starts
+</li>
+<li>
+Monitor agent performance during a test run.
+</li>
+</ul>
+
+<a name="startAgent.gui"><!-- index:JT Harness agent; GUI --></a>
+<h2>Using the GUI</h2>
+<p>
+The GUI contains four tabbed panes and three buttons used to configure, control, and monitor the agent.
+</p>
+
+<center>
+<img src="../../images/agentGUI.gif" alt="The agent GUI contains four tabbed panes and three buttons" longdesc="startAgent.html">
+</center>
+<ul>
+<li>The parameters tabbed pane allows you to configure, start, and stop the agent.
+</li>
+<li>The statistics tabbed pane displays detailed information about the tests that the agent is running.
+</li>
+<li>The history and selected task tabbed panes allow you to monitor tasks performed by the agent.
+</li>
+<li>The Start and Stop buttons control the agent.
+</li>
+</ul>
+<!--CopyOff--><p><b>Next task:</b></p>
+<p><a href="startApplication.html"><b>Starting an Agent Application</b></a>:  Start
+an agent application on your test system.</p>
+<p><a href="startApplets.html"><b>Starting an Agent Applet</b></a>:  Start an agent applet on your test system.</p>
+<p>&nbsp;</p>
+<!--CopyOn-->
+
+<p>The terms "Java Virtual Machine" and "JVM" mean a Virtual Machine for the Java&#8482; platform. </p>
+
+
+<!--ins:JDTS-->
+
+<hr>
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+</BODY>
+</html>

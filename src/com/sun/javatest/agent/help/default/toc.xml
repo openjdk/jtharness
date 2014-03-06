@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<!DOCTYPE toc
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/toc_1_0.dtd">
+
+<toc version="2.0" categoryclosedimage="closedbook" categoryopenimage="openbook">
+
+   <tocitem target="agent.usingAgents" text="JT Harness Agent">
+       <tocitem image="chapter" target="agent.loadingAgents" text="Installing Agent Classes on Test Systems">
+         <tocitem image="topic" target="agent.AgentFrame" text="Classes Required to Use the GUI"/>
+         <tocitem image="topic" target="agent.AgentMain" text="Classes Required to Use the Command Line"/>
+         <tocitem image="topic" target="agent.AgentApplet" text="Classes Required to Use Applets"/>
+      </tocitem>
+      <tocitem image="chapter"  target="agent.runTests" text="Using an Agent to Run Tests">
+      <tocitem image="topic"  target="agent.choosingAgents" text="Choosing the Type of Agent "/>
+      <tocitem image="topic" target="agent.mapFile" text="Creating a Map File"/>
+      <tocitem image="chapter"  target="agent.startAgent" text="Starting a JT Harness Agent">
+         <tocitem image="topic" target="agent.startApplication" text="Starting an Agent Application"/>
+         <tocitem image="topic"  target="agent.startApplets" text="Starting an Agent Applet" />
+         <tocitem image="topic"  target="agent.configureActiveAgents" text="Specifying Active Agent Options" />
+         <tocitem image="topic"  target="agent.configurePassiveAgents" text="Specifying Passive Agent Options" />
+         <tocitem image="topic"  target="agent.configureSerialAgents" text="Specifying Serial Agent Options" />
+         <tocitem image="topic"  target="agent.additionalOptions" text="Specifying Additional Options" />
+      </tocitem>
+     </tocitem>
+      <tocitem image="chapter" target="agent.monitoring" text="Monitoring JT Harness Agents" >
+         <tocitem image="topic" target="agent.window.csh" text="Agent Monitor Window" />
+         <tocitem image="topic" target="agent.statisticsPane" text="Statistics Pane" />
+         <tocitem image="topic" target="agent.historyPane" text="History Pane" />
+         <tocitem image="topic" target="agent.taskPane" text="Selected Task Pane" />
+      </tocitem>
+  
+      <tocitem image="chapter" target="agent.troubleshooting" text="Troubleshooting JT Harness Agents" >
+         <tocitem image="topic" target="agent.troubleshootingActive" text="Troubleshooting Active Agents" />
+         <tocitem image="topic" target="agent.troubleshootingPassive" text="Troubleshooting Passive Agents" />
+      </tocitem> 
+      
+</toc>

@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>
+Troubleshooting Passive Agents
+</TITLE>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<a name="monitoring"><!-- index:troubleshooting passive agents --><!-- index:passive agents; troubleshooting  --></a>
+<H1>Troubleshooting Passive Agents</H1>
+
+<p>
+Because passive agents must wait for a request from the JT Harness harness before running tests, the port that the passive agent uses must be the same as that used by the JT Harness harness to send requests.
+</p>
+
+<p>
+Errors in configuring, synchronizing, or implementing the connection between the agent and the JT Harness harness are the most probable causes of failure.
+</p>
+
+<p>
+Use the Agent Monitor window, the JT Harness harness Test Manager window, the agent
+  GUI, and the following list of actions  as a guide when troubleshooting
+  problems running passive agents:
+</p>
+
+<ol>
+<li>
+Verify that the agent was started before the JT Harness harness started the test run. If not, repeat the test run.
+</li>
+
+<li>
+Verify that the port value used when starting the agent matches the port value used by the JT Harness harness to send requests. 
+</li>
+
+<li>
+Check the physical connection between the JT Harness harness platform and the test platform.
+</li>
+
+<li>
+Use the Configuration Editor in the Test Manager window to verify that the harness
+  is configured to use agents when running tests. See the <em>JT Harness
+  User's Guide: Graphical User Interface</em> for detailed description of the
+  Configuration Editor and the Test Manager window.
+</li>
+
+<li>
+If you are running the tests using multiple Java Virtual Machines, use the Configuration
+  Editor window to verify that the path you provided in the Java Launcher question
+  is the path of the  launcher for the <em>agent</em> running tests.
+</li>
+
+<li> If tests are failing or have errors, check the error messages displayed
+  in the Test Manager window. If the error indicates that tests are failing because
+  of missing classes, perform the following actions:
+  <ol type="a">
+    <li> Verify that the class paths used to start the agent are correct. </li>
+    <li> Use the Configuration Editor window to verify that the harness is correctly
+      configured to use the agent on the test system. </li>
+    <li> Run the agent using the <code>-trace</code> option to verify that the
+      paths in the stream messages for the test are correct. If the paths are
+      not correct for the test system, creae a map file for
+      the agent to use in translating host-specific values into values that the
+      agent can use. See <a href="mapFile.html">Creating a Map File</a> </li>
+    <li> If a map file was used to run the test, use the Test Run Messages pane
+      to verify that the <code>-mapArgs</code> command is present in the stream
+      messages. If the <code>-mapArgs</code> command is not present, verify
+      that both the agent <em>and</em> the harness are configured to use the
+      map file. Use the Configuration Editor window to verify that the harness
+      is configured to use the agent map file. </li>
+  </ol>
+</li>
+</ol>
+<!--ins:JDTS-->
+
+<hr>
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+</BODY>
+</HTML>

@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Monitoring With a Test Tree
+</title>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<BODY>
+
+<h1>Monitoring With a Test Tree</h1>
+<p>
+The test tree uses folder icons, test icons, and two independent types of filtering
+  (run filtering and view filtering) to simultaneously display the following
+  conditions:
+</p>
+
+<ul>
+<li>
+Progress of a test run
+</li>
+<li>
+Current test results in the work directory
+</li>
+</ul>
+
+<p>
+When a test run begins, you can track its progress in the test tree by observing the folder and test icons. The test tree displays an arrow at the left of each folder and test icon as it is loaded and run.
+</p>
+
+<p>
+After the harness completes running a test, it writes
+  the test results to the work directory and updates the folder and test icons
+  in the test tree. The test tree displays folder and test icons based on the
+  view filter specified in the Test Manager window.</p>
+<p>
+The harness supports using status colors specified by the user instead
+  of the default color settings. See 
+   <a href="../command/settingColors.html">Specifying
+Status Colors</a> in the <em>Command-Line Interface User's Guide</em>.</p>
+
+<p>
+Regardless of whether or not a test was run, the test tree displays filtered
+  out <IMG SRC="../../images/grayFolder.gif" ALT="Filtered out folder"  longdesc="../browse/folderIcons.html"> folder
+  and <IMG SRC="../../images/grayTest.gif" ALT="Test Filtered Out" longdesc="../browse/testIcons.html"> test
+  icons for those tests and folders filtered out by the view filter. All other
+  icons are updated to reflect their current result status from the work directory.</p>
+
+<p>
+Changing either the run or the view filter settings causes the  harness
+  to immediately update the folder and test icons displayed in the test tree.</p>
+
+<p>
+  See <a href="../browse/viewFilters.html">View Filters</a> for a description
+  of how to specify which test results from the work directory are displayed
+  in the test tree.</p>
+<p>
+  See <a href="../ui/usingtree.html">Test Tree</a> for a detailed description
+  of the icons, filters, and other features used in the test tree.</p>
+<p>
+The goal of a test run, when using the appropriate view filter, is for the root
+  test suite folder to display the passed <IMG SRC="../../images/greenFolder.gif" ALT="Passed folder"  longdesc="../browse/folderIcons.html"> folder
+  icon. The passed root test suite folder icon signifies that all tests in the
+  test suite not filtered out of the test run (by specifying tests that are run,
+  exclude lists, keywords, and prior status) with passed test results. See <a href="../confEdit/changeQuickSet.html">Changing QuickSet Values</a> for a description how to quickly set run filters that
+  include or remove tests from a test run.</p>
+
+<p>
+Click the test suite icon in the test tree to display status information for
+  the test suite in the Test Manager information area. The view filter used in
+  the test tree is also used to display folder status information. See<!--CopyOff--><a href="../browse/folderInfo.html">Displaying Folder
+  Information</a> for a detailed description of the folder information displayed in
+  this area.</p>
+
+<p>
+By browsing the tabbed pane and the test tree, you can find the folders that
+  contain tests without passed test results.</p>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

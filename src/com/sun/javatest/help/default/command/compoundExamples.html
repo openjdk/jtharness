@@ -1,0 +1,190 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2004, 2009, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Extended Command-Line Examples</TITLE>
+<META name="hIndent" content="1"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<H1>Extended Command-Line Examples</H1>
+<P>This section provides extended examples of command-line operations.</P>
+<P>To use the following examples on your system, you must use classpaths and directory names appropriate for your system.</P>
+
+<h2>Example 1</h2>
+
+<code>java -jar lib/javatest.jar -verbose -testSuite /tmp/</code><em>myts</em><code> \<br>-workdir -create /tmp/</code><em>myworkdir</em> <code>-config /tmp/</code><em>my</em><code>.jti \<br>-runtests -writereport /tmp/report</code>
+
+<p>This combination of commands does the following, in this order:</p>
+<ol>
+<li>
+Tells the harness to be verbose during test execution.
+</li>
+<li>
+Opens the test suite <code>/tmp/</code><em>myts</em>.
+</li>
+<li>
+Creates a work directory named <code>/tmp/</code><em>myworkdir</em>.
+</li>
+<li>
+Uses <em>my</em><code>.jti</code> as the configuration settings.
+</li>
+<li>
+Executes the tests (as specified by the configuration).
+</li>
+<li>
+Writes a report to <code>/tmp/report/</code> after test execution.
+</li>
+</ol>
+
+
+<h2>Example 2</h2>
+
+<code>java -jar lib/javatest.jar -startHttp -testsuite /tmp/</code><em>myts</em><code> \<br>-workdirectory /tmp/</code><em>myworkdir</em><code> -config /tmp/</code><em>my</em><code>.jti \<br>-runtests -writereport /tmp/report -set</code> <em>foo.bar</em> <code>4096 \<br>-runtests -writereport /tmp/</code><em>report1</em>
+
+<p>This combination of commands does the following, in this order:</p>
+<ol>
+<li>
+Tells the harness to start the internal HTTP server.
+</li>
+<li>
+Opens the test suite <code>/tmp/</code><em>myts</em>.
+</li>
+<li>
+Uses a work directory named <code>/tmp/</code><em>myworkdir</em>.
+</li>
+<li>
+Uses <em>my</em><code>.jti</code> as the configuration settings.
+</li>
+<li>
+Executes the tests (as specified by the configuration).
+</li>
+<li>
+Writes a report to <code>/tmp/report/</code> after test execution.
+</li>
+<li>
+Changes a configuration value (not written to JTI file).
+</li>
+<li>
+Runs tests again.
+</li>
+<li>
+Writes a new report in <code>/tmp/</code><em>report1</em>.
+</li>
+</ol>
+
+
+<h2>Example 3</h2>
+
+<code>java -cp lib/javatest.jar:lib/comm.jar \<br>com.sun.javatest.tool.Main \<br>-Especial.value=lib/special.txt \<br>-agentPoolPort 1944 -startAgentPool "testsuite /tmp/</code><em>myts</em><code> ; \<br>workdir /tmp/</code><em>myworkdir</em> <code>; config</code> <em>myconfig</em><code>.jti ; runtests"</code>
+
+<p>
+This combination mixes two styles of command line arguments (quoted and
+dash-style).  It invokes the harness by class name, rather than executing the Java Archive 
+(JAR) file  (<code>-jar</code>).  An extra item is added to the VM's classpath.  The following commands are given to the harness:
+</p>
+
+<ol>
+<li>
+Sets a particular value in the testing environment.
+</li>
+<li>
+Specifies the agent pool port and starts the agent pool.
+</li>
+<li>
+Loads the test suite <code>/tmp/</code><em>myts</em>.
+</li>
+<li>
+Opens the work directory <code>/tmp/</code><em>myworkdir</em>.
+</li>
+<li>
+Uses the configuration in <em>myconfig</em><code>.jti</code>.
+</li>
+<li>
+Runs the tests.
+</li>
+</ol>
+
+
+
+<h2>Example 4</h2>
+
+<code>java -jar lib/javatest.jar -config</code> <em>foo</em><code>.jti -runtests</code>
+
+<p>
+This command example relies on information in the JTI file to perform the run.  Specifically, it 
+tries to use the work directory and test suite locations specified in the JTI file.
+If either of those are invalid or missing, the harness reports an error.
+Otherwise, if the configuration in the JTI is complete, the tests are
+run.
+</p>
+
+
+
+<h2>Example 5</h2>
+
+<code>java -jar lib/javatest.jar -config</code> <em>foo</em><code>.jti -verbose \<br>-set test.val1 2007 -runtests</code>
+
+<p>
+This is the same as Example 4 with the exception that it turns on verbose mode and changes the answer of one of the questions in the configuration.
+</p>
+
+
+<h2>Example 6</h2>
+
+<code>java -jar lib/javatest.jar -config</code> <em>foo</em><code>.jti \<br>-priorStatus fail,error -timeoutFactor 0.1 \<br>-set test.needColor Yes \<br>-set test.color1 orange  -tests api/java_util -runtests</code>
+<p>
+This example extends Example 4 by setting various Standard Values and the answer to particular configuration questions.
+</p>
+
+<h2>Example 7</h2>
+
+<code>java -jar lib/javatest.jar -testsuite /tmp/</code><em>foo</em><code>.jti</code> <em>myts</em><code> \<br>-workdirectory /tmp/</code><em>mywd</em> <code>-config /tmp/</code><em>myconfig</em><code>.jti</code>
+<p>
+This example stars the GUI. This combination of commands does the following, in this order:</p>
+<ol>
+<li>
+Opens the specified test suite.
+</li>
+<li>
+Opens the work directory given (assuming it is a work directory).
+</li>
+<li>
+Opens the configuration file given.
+</li>
+<li>
+Starts the GUI since no execution action is given.
+</li>
+</ol>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2004, 2009, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

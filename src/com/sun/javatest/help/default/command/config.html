@@ -1,0 +1,62 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Specifying a Configuration File With config</TITLE>
+<META name="hIndent" content="2"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="config"><!-- index:specify: configuration file -->
+  <!-- index:config command --><!-- index:command: config --></A>
+<H1>
+Specifying a Configuration File With <CODE>config</CODE>
+</H1>
+<P>To specify the configuration file the harness uses to run tests,
+  use the <CODE>config</CODE> command.</P>
+<P class="indent2"><a href="aboutExamples.html"><em>&gt; jtharness</EM></A> ... <CODE>-config</CODE> <EM>path/filename</EM> ... [<EM>task-command</EM>] ...</P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of <em>&gt; jtharness</EM> in the example.</P>
+<P>The configuration file might contain default values for the test suite (which contains the tests to be run) and the work directory (where the results are placed).</P>
+<P>Test suite and work directory values in the configuration file can be overridden with the <CODE>testsuite</CODE> and <CODE>workdirectory</CODE> commands.
+  If the configuration file is a template and does not contain default values
+  for the test suite and work directory, those values must be specified explicitly
+with the testsuite and workdirectory commands.</P>
+<P>See <a href="commandLine.html">Command-Line Overview</A> for a description of the command line structure.</P>
+<H2>Detailed Example of <code>config</code> Command </H2>
+<P>In the following example, <EM>myconfig</em><code>.jti</code> represents a configuration file name that might exist on your system.</P>
+<P><B>Command Options Format Example:</B></P>
+<P class="indent2"><a href="aboutExamples.html"><em>&gt; jtharness</EM></A> <CODE>-config</CODE> <EM>myconfig</em><code>.jti -runtests</CODE></P>
+<P>See <a href="formatCommands.html">Formatting a Command</A> for descriptions and examples of other command formats that you can use.</P>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2004, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

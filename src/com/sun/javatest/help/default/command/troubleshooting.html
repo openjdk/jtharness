@@ -1,0 +1,162 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+<TITLE>Troubleshooting</TITLE>
+</HEAD>
+<BODY>
+<A name="troubleshooting"><!-- index:troubleshooting --></A>
+<H1>Troubleshooting</H1>
+<P>The harness provides information in the following topics that you
+  can use to troubleshoot problems:</P>
+	<UL>
+	<li><A href="#troubleshooting.exitcodes">Exit Codes</A></li>
+		<LI><A href="#troubleshooting.starting">Harness Fails During Use</A></LI>
+		<LI><A href="#troubleshooting.running">Problems Running Tests</A></LI>
+		<LI><A href="#troubleshooting.writing">Problems Writing Reports</A></LI>
+		<LI><A href="#troubleshooting.moving">Problems Moving Reports</A></LI>
+                <LI><A href="#troubleshooting.codepage">Numeric Output Mangled (on Windows platforms)</A></LI>
+
+		<!--
+		<LI><A href="#agents">Using JT Harness Agents</A></LI>-->
+	</UL>
+	
+<A name="troubleshooting.exitcodes"><!-- index:troubleshooting: exit codes --></A>
+<H2>Exit Codes</H2>
+	<P>When the harness exits, it displays an exit code that you can use
+	  to determine the exit state. The following table contains  a detailed
+	  description of the exit codes.</p>
+	  
+    <table width="100%"  border="0" summary="detailed description of the exit codes" title="JT Harness Exit Codes">
+
+  <tr>
+    <th scope="col" width="10%">Exit Code </th>
+    <th scope="col">Description</th>
+  </tr>
+  <tr>
+    <td align="center">0</td>
+    <td>If tests were executed, all tests had passed results.</td>
+  </tr>
+  <tr>
+    <td align="center">1</td>
+    <td>One or more tests were executed and had failed results. </td>
+  </tr>
+  <tr>
+    <td align="center">2</td>
+    <td>One or more tests were executed and had errors. </td>
+  </tr>
+  <tr>
+    <td align="center">3</td>
+    <td>A problem exists with the command-line arguments. </td>
+  </tr>
+  <tr>
+    <td align="center">4</td>
+    <td>Harness internal error exists. </td>
+  </tr>
+</table>
+
+<A name="troubleshooting.starting"><!-- index:troubleshooting: running the harness --></A>
+<H2>Harness Fails During Use</H2>
+    <P>If the harness fails, you can use the
+<CODE>harness.trace</CODE> file in your work directory to troubleshoot the problem. The
+<CODE>harness.trace</CODE> file is a plain-text file that contains a log of harness activities during the test run. It is written in the work directory, is incrementally updated, and is intended primarily as a log of harness activity.</P><A name="troubleshooting.running"><!-- index:troubleshooting: running tests --></A>
+<H2>Problems Running Tests</H2>
+<P>The goal of a test run is for all tests in the test suite that are not filtered out to have passing results.</P>
+<P>If the root test suite folder contains tests with errors or failing results,
+  you must troubleshoot and correct the cause to successfully complete the test
+  run. See 
+<a href="../run/troubleshooting.html">Troubleshooting
+With the GUI</A> in the <em>Graphical User Interface
+User's Guide</em> for information about the resources that the harness provides
+for troubleshooting.</P>
+<A name="troubleshooting.errors"><!-- index:troubleshooting: running tests: tests with errors --></A>
+<H3>Tests With Errors</H3>
+<P>Tests with errors are tests that could not be executed by the harness.
+These errors usually occur because the test environment is not properly configured.  Use the GUI Test tabbed panes and configuration editor window to help determine the change required in the configuration. See <a href="../run/troubleshooting.html">Troubleshooting With the GUI</A> in the <em>Graphical User Interface User's Guide</em> for information about the resources that the harness provides for troubleshooting.</P><A name="troubleshooting.failed"><!-- index:troubleshooting: running tests: tests that fail --></A>
+<H3>Tests That Fail</H3>
+<P>Tests that fail are tests that were executed but had failing results. The test or the implementation may have errors.</P>
+<P>Use the GUI Test Manager tabbed panes to identify and correct a test failure. 
+See <a href="../run/troubleshooting.html">Troubleshooting With the GUI</A> in the <em>Graphical User Interface User's Guide</em> for information about the resources that the harness provides for troubleshooting.</P>
+	<A name="troubleshooting.writing"><!-- index:troubleshooting: reports: viewing --></A>
+<H2>Problems Viewing Reports</H2>
+<P>The harness does not automatically generate reports of test results
+  after a test run. You must generate test reports either from the command line
+or from the GUI.</P>
+<A name="troubleshooting.writing"><!-- index:troubleshooting: reports: writing --></A>
+<H2>Problems Writing Reports</H2>
+<P>You use filters to write test reports for a specific set of test criteria.
+  Verify that you are using the appropriate filter to generate reports of test
+  results. See 
+<a href="../report/newReports.html">Creating Reports</A> in
+the <em>Graphical User Interface User's Guide</em>. </P>
+<A name="troubleshooting.moving"><!-- index:troubleshooting: reports: moving --></A>
+<H2>Problems Moving Reports</H2>
+<P>Test reports contain relative and fixed links to other files that may be broken when you move reports to other directories.</P>
+<P>You must update these links when moving reports to other directories. The
+harness provides an <a href="moveReports.html">EditLinks</A> utility that updates the links in the reports for you when moving reports. </P>
+
+<A name="troubleshooting.codepage"><!-- index:troubleshooting: verbose : mangled output --></A>
+<H2>Numeric Output Mangled (on Windows platforms)</H2>
+<P>
+Some users experience locale related problems when seeing numeric output on the console, for example, under a Russian locale users have observed this output problem:
+<br>
+<code>Pass: 298 Fail: o Error: 0 Not-Run: 50a947</code>
+<br>
+which really should be (space for every thousand):
+<br>
+<code>Pass: 298 Fail: o Error: 0 Not-Run: 50 947</code>
+<br>
+And in a US locale would be:
+<br>
+<code>Pass: 298 Fail: o Error: 0 Not-Run: 50,947</code>
+</P>
+
+<p>
+The problem is rooted in the terminal's ability to correctly match and display the extended characters which the JVM is producing based on the locale.  On Windows, the provided MS-DOS box and Terminal/Console program default to the CP866 (Cyrillic) codepage which has poor compatibility with the Unicode output which the JVM is producing.
+
+<p>
+Users can workaround this problem by explicitly changing the codepage to one compatible with the Unicode characters for the Cyrillic locale.  For the Russian locale example:
+<br>
+<code>> chcp 1251</code>
+<br>
+Or users can force the JVM to use the default codepage for the terminal:
+<br>
+<code>java -Dfile.encoding=cp866 -jar ...
+</p>
+
+<p>
+These problems have not been reported on other operating systems, but could definitely occur depending on the locale being used and the terminal's ability to display the character set.  The platform may also not have adequate character sets installed.  Users may also observe this same problem whenever internationalize output it produced by the JVM - a similar problem could easily occur while printing dates or floating point numbers.
+</p>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2013, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>

@@ -1,0 +1,145 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<HTML>
+<HEAD>
+<TITLE>Command-Line Help</TITLE>
+<META name="hIndent" content="1"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<H1>Command-Line Help</H1>
+<P>The harness allows you to display the command-line interface in the
+  following  forms:</P>
+	<UL>
+		<LI>All information</LI>
+		<LI>Topic information</LI>
+		<LI>Word search information</LI>
+	</UL>
+	<H2>Displaying All Information</H2>
+<P>To display all of the information in command-line help, include <CODE>-help
+    all</CODE> at the end of the command line.</P>
+<P class="indent2">
+<a href="aboutExamples.html"><EM>&gt; jtharness</EM></A>
+<CODE>-help all</CODE></P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of the use of <EM>&gt; jtharness</EM>.</P>
+<H2>Displaying Topic Information</H2>
+<P>To display only the command-line help for specific topics, include <CODE>-help</CODE> and
+  the name of the topic at the end of the command line.</P>
+<P class="indent2">
+<a href="aboutExamples.html"><EM>&gt; jtharness</EM></A>
+<CODE>-help</CODE> <EM>topic name</EM></P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of the use of &gt; <em>harness</EM>.</P>
+<P>The following table lists the available command-line help topics.</P>
+	<TABLE width="100%" border="0" cellpadding="3" class="gray" summary="The options used at the end of the command line to displaycommand-line information without starting the harness." title="Options Used to Display Command-Line Information">
+		<TR valign="top">
+			<TH width="30%" scope="col" class="left">Topic
+			</TH>
+			<TH scope="col" class="left">Function
+			</TH>
+		</TR>
+		<TR valign="top">
+			<TD>Desktop
+			</TD>
+			<TD>Displays information about the command-line options for starting the harness graphical user interface.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD>harness Agent
+			</TD>
+			<TD>Displays information about the command-line options for the harness Agent.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD>Batch Mode
+			</TD>
+			<TD>Displays information about the command-line options for running tests in batch mode.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD>Configuration
+			</TD>
+			<TD>Displays information about the command-line options for setting up and changing a configuration.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD>Environment
+			</TD>
+			<TD>Displays information about the command-line options for adding values into harness environments.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD>HTTP server
+			</TD>
+			<TD>Displays information about the command-line options for the harness HTTP server.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD>Options
+			</TD>
+			<TD>Displays information about the command-line options accepted on the command line.
+			</TD>
+		</TR>
+		<TR valign="top">
+			<TD>Files
+			</TD>
+			<TD>Displays information about the types of files accepted as command-line arguments.
+			</TD>
+		</TR>
+	</TABLE>
+<H2>Display the List of Available Topics</H2>
+<P>To display the list of help topics provided by command-line help, include <CODE>-help</CODE>, <CODE>-usage</CODE>,
+  or <CODE>-?</CODE> at the end of the command line.</P>
+<P class="indent2">
+<a href="aboutExamples.html"><EM>&gt; jtharness</EM></A>
+<CODE> -help</CODE></P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of the use of &gt; <em>harness</EM>.</P>
+<H2>Searching for Words and Phrases</H2>
+<P>The harness allows you to search the full command-line help for a specific word or phrase and then displays only the information containing that word or phrase.</P>
+<P>To display command-line help information containing a specific word or phrase,
+  include <CODE>-help</CODE> and the word or phrase at the end of the command
+  line.</P>
+<P class="indent2">
+<a href="aboutExamples.html"><EM>&gt; jtharness</EM></A>
+<CODE>-help</CODE> <EM>word or phrase</EM></P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a
+description of the use of <EM>&gt; jtharness</EM>.</P>
+<P>Example: <a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> 
+<CODE> -help services</CODE> <EM>test</EM></P>
+<p>The console displays the following output:</p>
+<PRE>
+Services        Options for the JavaTest Harness test suite services management
+    -startServices  Change the service startup policy, possible values are
+                    [lazy, up_front, manually].
+</PRE>
+<P>For complete details and examples, see the harness online help. You can access
+help directly from the command line with <CODE>-onlineHelp</CODE> &lt;<EM>word</EM>&gt;, or you can start the harness and use the Help menu. The online help is also available in PDF format in the harness documentation directory.</p>
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2004, 2012, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

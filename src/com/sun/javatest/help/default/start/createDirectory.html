@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<title>
+Creating a Work Directory
+</title>
+</head>
+<body>
+
+<h1>Creating a Work Directory</h1>
+
+<p>
+Every work directory is associated with a specific test suite and a configuration
+  file after one is created or opened. Each time the harness runs tests, it creates test result files that store
+  the information collected during the test run. The harness stores these files
+  in the work directory for all
+  test runs of the test suite with that configuration.</p>
+<p>You must create a new work directory for each new test suite. You might also
+  choose to create a new work directory to perform multiple test runs of the
+  same test suite but with different configuration files. If you try to use an
+  archive work directory that is no longer considered valid by the harness you
+  must also create a new work directory.</p>
+
+<p>You can create a work directory from either the Test Manager or the Quick Start wizard 
+(if it is enabled and you are starting a new test run). The harness also prompts
+you to specify a work directory if you begin a task requiring a work directory
+ without having specified one.</p>
+
+<h2 class="proc">Create a Work Directory with the Quick Start Wizard</h2>
+<p><b>Note:</b> Some test suites do not implement the optional Quick&nbsp;Start wizard. It won't be available if the test suite architect disabled it.</p>
+<ol>
+  <li>Click the Browse button in the Quick Start wizard Work Directory
+    panel.</li>
+</ol>
+<blockquote>
+<p>The harness displays a Work Directory chooser.</p>
+</blockquote>
+<ol start="2">
+  <li>Use the chooser to navigate to the location of the new work directory.</li>
+  <li>Enter the name of the work directory in the text field.</li>
+  <li>Click the Create button.</li>
+  <li>Complete the Quick Start wizard.
+</ol>
+
+<p>When you complete the Quick Start wizard, the harness opens a new Test Manager window and creates a work directory for the test suite, template, and configuration file combination.
+</p>
+
+<h2 class="proc">Create a Work Directory with the Test Manager</h2>
+<ol><li>Choose File <b>&gt;</b> Create Work Directory from the Test Manager menu bar.
+<br><br>The harness displays the Create Work Directory dialog box.<br><br>
+			<img src="../../images/JT4createWorkDir.gif" alt="create work directory dialog box" longdesc="createDirectory.html">
+		</li></ol>
+<ol start="2">
+  <li> Enter the name of the new work directory in the Work Directory Name text
+    field.</li>
+  <li>Click the Browse button and use the File Chooser to select a location for
+    the work directory.</li>
+</ol>
+<blockquote>
+<blockquote><p class="note">
+  <!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="createDirectory.html"> <br>
+  <!--CopyOn-->
+  Do not enter the directory name in the file chooser. The harness uses the
+    name from the Work Directory Name text
+    field to create it for you.</p></blockquote>
+
+<p>
+Depending on the test suite, the template option might not be allowed 
+(templates not enabled), might be required (cannot select "No Template"), or might be optional 
+(operates as described) in the following step. If you select a template, it will be associated 
+with that work directory for all configurations that are created for that work directory.
+</p>
+</blockquote>
+<ol start="4">
+<li>
+Use the No Template or Choose a Template buttons to set the template options for the work directory.
+</li>
+<li>
+Check the Launch Configuration Editor box to open the Configuration Editor after the dialog box closes.
+</li>
+  <li>
+Click the Create button.
+</li>
+</ol>
+
+<p>When you create the work directory, the harness opens a new Test Manager window and creates a work directory for the test suite, template, and configuration file combination.
+</p>
+
+
+ 
+
+ 
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

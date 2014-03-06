@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<title>Creating a Map File</title>
+</head>
+<body>
+<a name="mapFile"><!-- index:creating a map file --><!-- index:map file; creating --></a>
+<h1>Creating a Map File</h1>
+
+<p>
+Some tests require contextual information, such as the host name on which they are executed, before they can run. Because network file systems might be mounted differently on different systems, the path names used by the JT Harness harness might not be the same for the agent. The agent uses a map file to translate these strings into values it can use to run tests.
+</p>
+
+<ol>
+<li>
+Use a text editor to open a simple ASCII file and enter the following types of lines:
+<ul>
+<li>
+<b>Comment line</b> :  Begins with the # symbol and provides information
+that is not processed by the agent. Comment lines are optional.
+<p class="indent3">Example:</p>
+<p class="indent3"><code>#Replace all /home/user1 with /user1</code></p>
+</li>
+
+<li>
+<b>Translation line</b> :  Contains the target and substitution strings.
+Enter the string that is to be replaced followed by one or more spaces and the
+replacement string. The agent replaces all occurrences of the first string with
+the second.
+
+<p class="indent3">Example:</p> 
+<p class="indent3"><code>/home/user1/user1</code></p>
+
+
+<p class="indent3">
+Because the agent uses the map file to perform global string substitution on <em>all</em> matching values received from the JT Harness harness, you must be as specific as possible when specifying strings in a translation line. 
+</p>
+
+<p class="indent3">
+Refer to <a href="troubleshooting.html">Troubleshooting JT Harness harness agents</a> for additional information about determining the substitution strings required in a map file.
+</p>
+</li>
+</ul>
+</li>
+
+<li>
+Save the map file in the test suite root directory. </li>
+</ol>
+
+<blockquote>
+  <p>You can use any name and extension. If you are unable to use the root directory,
+    you can use any writable directory on the test system. When starting an
+    agent you must specify which map file, if any, to use. </p>
+</blockquote>
+<p>
+Example of a map file:
+</p>
+
+<p><code>
+#This is a sample map file
+<br>
+#Replace all /home/user1 with /user1
+</code>
+</p>
+<p>
+<code>
+/home/user1    /user1
+</code>
+</p>
+<p><code>
+#Replace all /home/user2/JT Harness with /myhome/JT Harness
+
+<br> 
+/home/user2/JT Harness   /myhome/JT Harness
+</code>
+</p> 
+
+<!--ins:JDTS-->
+
+<hr>
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+</body>
+</html>

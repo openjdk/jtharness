@@ -1,0 +1,107 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Setting Specific Configuration Values</TITLE>
+<META name="hIndent" content="2"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="settingValues"><!--index:set command -->
+  <!-- index:command: set --></A>
+<H1>Setting Specific Configuration Values</H1>
+<P>You can use the <CODE>set</CODE> command to override a specific
+  value in a configuration file, import a Java platform 
+  properties file (Java properties file) containing the values of multiple configuration questions,
+  and set the value of a Properties Question in a configuration file. </P>
+<h2>Override a Specific Value</h2>
+<P>Use the <CODE>set</CODE> command to override a specific value in the
+  current configuration (<code>.jti</code>) file.</P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> ... [<EM>initial-setup commands</EM>] ...
+<CODE>-set</CODE> <EM>question-tag-name</EM> ... [<EM>task-command</EM>] ...</P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of use of <EM>&gt; jtharness</EM> in the example.</P> <P>See <a href="commandLine.html">Command-Line Overview</A> for a description of the command line structure.</P>
+<h2>Import a Java Properties File</h2>
+<P>You can also use <CODE>-set -file</CODE> <EM>input-file-name</EM> or <CODE>-set -f</CODE> <EM>input-file-name</EM> to import a Java properties file containing the values of multiple configuration questions. A hand-edited configuration file can be used as an input file.</P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> ... [<EM>initial-setup-commands</EM>] ...
+<CODE>-set -file</CODE> <EM>input-file-name</EM> ... [<EM>task-command</EM>] ...</P>
+<P>The harness uses the values in the input file to override the values in the configuration. Any values in the input file that are not used in the configuration are ignored.</P>
+<P>Values changed by the <CODE>set</CODE>command are only used for the session
+  and override but do not change the configuration file. To change a configuration
+file, use the Configuration Editor provided by the harness GUI.</P>
+<h2>Set the Value of a Properties Question</h2>
+<P>In configuration (<code>.jti</code>) files that use the Properties Question
+  type, you can use the <CODE>set</CODE>command to override but  not
+  change the values of Properties Questions. This question type requires at least
+  three values for any setting (question key, property name, the new value).</P>
+<P class="indent2"><A href="aboutExamples.html"><EM>&gt; jtharness</EM></A>
+  ... [<EM>initial-set-up-commands</EM>] ... <CODE>-set </CODE><EM>question-tag-name</EM> <EM>property</EM><b>:</b><EM>value </EM> ...
+  [<EM>task-command</EM>] ...</P>
+<P>The <EM>question-tag-name</EM><i> </i>and <EM>property</EM> identify the location
+  in the Properties Question to be changed while  <i>value</i> specifies 
+  the new value for that property. If the new value is rejected by the question,
+  the appropriate action is taken by the harness (exit with
+  error). The error message will  specify that <code><EM>question-tag-name</EM></code> rejected
+  the <i>value</i> for the <EM>property</EM>.</P>
+<h2>Creating a Command String</h2>
+<P>When creating a command string to set specific values in a configuration, include the commands in the following sequence:</P>
+	<OL>
+		<LI>Include the commands required to set up a configuration.</LI>
+	</ol>
+    <blockquote>
+      <p>See <a href="setupCommands.html">Setup Commands</A> for detailed description
+        of the available commands.</p>
+    </blockquote>
+	<ol start="2">
+		<LI>Include the command required to specify configuration values (<CODE>set</CODE> <EM>question-tag-name</EM> <EM>value</EM>).</LI>
+		<LI>(Optional) Include the <CODE>runtests</CODE> command.</LI>
+    </ol>
+    <blockquote>
+      <p>See <a href="runTests.html">Running Tests With <CODE>runtests</CODE></A> for a detailed description of the command.</p>
+    </blockquote>
+
+<P>To use the <CODE>set</CODE>command, you must identify the <EM>question-tag-name</EM> associated with the <EM>value</EM> in the configuration file that you are changing. In the command line, following the <CODE>set</CODE>command, enter the <EM>question-tag-name</EM> and its new <EM>value</EM>:</P>
+<P>A value can only be changed if its <I>tag-name</I> exists in the initialized configuration file. If the configuration does not include the <I>tag-name</I> you must use the Configuration Editor in the harness GUI to include the question and value in the configuration file.</P>
+<P>See <a href="tagName.html">Obtaining the Question tag-name</A> for detailed
+  information about the <I>tag-name</I> for the question. See <a href="configValues.html">Formatting Configuration
+  Values for editJTI or -set</A> for detailed information about formatting the
+  values. See <a href="#settingValues.examples">Detailed Examples</A> for examples
+  of using the <CODE>set</CODE> command and the <I>tag-name</I>.</P>
+<A name="settingValues.examples"><!--index: set command: examples -->
+  <!-- index:examples: set command--><!-- index: command: set: examples--></A>
+<H2>Detailed Example of Setting Test Suite Specific Values</H2>
+<P>In the following example, <EM>myconfig</em><code>.jti</code> represents a file name that might exist on your system.</P>
+<P><B>Command Options Example:</B></P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> <CODE>-config</code> <EM>myconfig</em><code>.jti -set jckdate.gmtOffset 8 -runtests</CODE></P>
+<P>See <a href="formatCommands.html">Formatting a Command</A> for descriptions and examples of other command formats.</P>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2003, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

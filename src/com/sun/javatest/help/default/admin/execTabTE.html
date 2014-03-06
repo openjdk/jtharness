@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>
+Editing Concurrency and Timeout Factor
+</TITLE>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<a name="executionTE"><!-- index:setting: test execution values -->
+  <!-- index:Template Editor: editing test execution values --></a>
+<H1 class="proc">Editing Concurrency and Timeout Factor</H1>
+
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="reportBrowser.html"><!--CopyOn-->To change the concurrency and the timeout factor in the template, perform the following steps:</p>
+
+<ol>
+  <li><p>Choose View &gt; Quick Set Mode from the Template Editor menu bar.</p></li>
+  <li><p>Click the Execution tab in the Template Editor.</p>
+
+<center>
+<img src="../../images/JT4executionTabConfigEd.gif" border="0"  alt="The Execution pane from the Template Editor: Quick Set Mode view" longdesc="execTabTE.html">
+</center>
+</li>
+</ol>
+<ol start="3">
+  <li><p>Change the values in the Concurrency and Time Factor fields as required.<br><br>See <a href="#execution.concurrencyTE">Concurrency</a> and <a href="#execution.timeFactorTE">Time Factor</a> for detailed descriptions of these settings.</p></li>
+</ol>
+
+<ol start="4">
+  <li><p>Change additional template settings or click the Done button to save the
+    changes in the template.<br><br>If you are creating a new template for these changes, instead of clicking
+    the Done button, choose File > Save As from the Template Editor menu bar
+    and save the template with a relevant name.</p></li>
+</ol>
+
+
+<A NAME="execution.concurrencyTE"><!-- index:Template Editor: setting: concurrency; setting: concurrency --></a>
+<h2>Concurrency</h2>
+<p>
+The harness can run tests concurrently. If users run tests
+  on a multiprocessor computer or are using multiple agents on a test system,
+  concurrency can reduce the time required to run tests. For detailed information
+  about using agents to run tests, refer to 
+<!--<a href="../agent/usingAgents.html">JT Harness Agent</a>-->
+ the test suite
+documentation and to the <em>JT Harness Agent User's Guide</em> if it
+is provided by the test suite.</p>
+
+<p> 
+When using multiple agents to run tests, the concurrency value must not exceed
+  the number of agents. If the concurrency value exceeds the total number of
+  available agents, an error will occur in the test run.</p>
+<p>
+The default
+  range of values used by the harness is from <code>1</code> to <code>50</code>. If
+  unexpected test failures occur, run the tests again, one at a time. Some test
+  suites may not work correctly if tests run concurrently. </p>
+<p>
+For the first test run,  set the value in this field to <code>1</code>. After
+the tests run properly, incrementally increase this value. Unless the test
+suite restricts concurrency, the maximum <em>number</em> of threads
+specified by the <code>concurrency</code> command is <code>50</code>. See the
+test suite documentation for additional information about using concurrency values
+greater than <code>1</code>.</p>
+<p>
+This field is disabled for some test suites.</p>
+<A NAME="execution.timeFactorTE"><!-- index:Template Editor: setting: time factor -->
+  <!-- index:setting: time factor --></a>
+<h2>Time Factor</h2>
+<p>
+To prevent a stalled test from stopping a test run, most test suites set a timeout
+  limit for each test. The timeout limit is the amount of time that the harness waits for a test to complete before moving on to the next test.</p>
+<p>
+If users  run tests on a  slow CPU or slow network,  change the time limit by
+  specifying a floating point value in the time factor field. Each test's timeout
+  limit is multiplied by the time factor value. The default range of values used
+  by the harness is from <code>0.1</code> to <code>100.0</code>.</p>
+<p class="note">
+<!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="execTabTE.html">
+<br>
+<!--CopyOn-->
+In the Time Factor field, the harness uses the form of floating point
+values that is specific to the locale in which it is run. For example, if your
+locale uses floating point values in the form of <code>x,x</code>, harness
+uses that form of floating point value in the Time Factor field. In setting the
+timeout factor in the following example, specify values of <code>2,0</code> and <code>0,5</code> if
+your locale uses floating
+point values in the form of <code>x,x</code>. </p>
+<p>
+<b>Example:</b></p>
+<p>
+If you specify a value of <code>2.0</code>, the timeout limit for tests with
+a basic 10-minute time limit becomes 20 minutes. Specifying a value of <code>0.5</code> for
+tests with a 10-minute limit produces a 5-minute timeout limit.</p>
+<p>
+At first, use the default value of <code>1.0</code> to run tests and then, if
+necessary, increase the value. The actual timeout calculation for any particular
+test suite might vary.</p>
+
+
+ 
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2006, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+
+

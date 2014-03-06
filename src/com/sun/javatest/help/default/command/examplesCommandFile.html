@@ -1,0 +1,73 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Examples of Using Command Files</TITLE>
+<META name="hIndent" content="2"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<H1>Examples of Using Command Files</H1>
+<P>In the following examples, a command file (<em>mycommandfile</em><code>.jtb</CODE>) is used to override the <CODE>localHostName</CODE>value and the tests specified in the existing configuration.</P>
+<P>The following three examples are provided:</P>
+	<UL>
+		<LI>Example Command File Contents</LI>
+		<LI>Command Line Using the Example Command File</LI>
+		<LI>Changing Values After the Example Command File is Set</LI>
+	</UL>
+<P class="note"><!--CopyOff--><IMG src="../../images/hg_note.gif" alt="The following text is a note" longdesc="examplesCommandFile.html"><BR><!--CopyOn-->
+If you attempt to run these examples, you must replace <em>mytestsuite</em><code>.ts</CODE>, <em>myworkdir</em><code>.wd</CODE>, and <em>myconfig</em><code>.jti</CODE> with test suite, work directory, and <code>.jti</code> names that exist on your system. You must also modify the contents of the example command file for your configuration file and test suite. Win32 users must change / file separators to \ to run these examples.</P>
+<H2>Example Command File Contents</H2>
+<P>The following lines are the contents of the example command file, <em>mycommandfile</em><CODE>.jtb</CODE>:</P>
+<P>
+<CODE>#File sets localHostName and tests</CODE><BR>
+<CODE>set jck.env.runtime.net.localHostName</CODE> <em>mymachine</em><code>;</code><BR>
+<CODE>tests api/javax_swing api/java_awt</CODE></P>
+<P class="note">The <CODE>-set</CODE> and <CODE>-tests</CODE> command forms are not used in the command file. Command files only use the "Single String Arguments Format."</P>
+<P>See <a href="settingValues.html">Setting Specific Configuration Values</A> for additional examples of using the <CODE>set</CODE>command. See <a href="selectingTests.html">Specifying Tests to Run</A> for additional examples of using the <CODE>tests</CODE> command.</P>
+<P class="note"><!--CopyOff--><IMG src="../../images/hg_note.gif" alt="The following text is a note" longdesc="open.html"><BR><!--CopyOn-->
+See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of the use of <EM>&gt; jtharness</EM> in the following example. See <a href="commandLine.html">Command-Line Overview</A> for a description of the command line structure. See <a href="formatCommands.html">Formatting a Command</A> for descriptions and examples of the following command formats.</P>
+<H2>Command Line Using the Example Command File</H2>
+<P>In the following examples, a test suite (<em>mytestsuite</em><CODE>.ts</CODE>), work directory (<em>myworkdir</em><CODE>.wd</CODE>), and configuration file (<em>myconfig</em><CODE>.jti</CODE>) are opened, and the command file (<em>mycommandfile</em><CODE>.jtb</CODE>) is read and executed before running tests.</P>
+<h3><B>Command Options Format Example</B></h3>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> <CODE>-open</code> <em>myconfig</em><code>.jti @</code><em>mycommandfile</em><code>.jtb -runtests</CODE></P>
+<h3><B>Single String Arguments Format Example</B></h3>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> <CODE>"open</code> <em>myconfig</em><code>.jti; @</code><em>mycommandfile</em><code>.jtb; runtests"</CODE></P>
+<H2>Changing Values After the Example Command File is Set</H2>
+<P>You can also change values after the command file is set:</P>
+<h3><B>Command Options Format Example</B></h3>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> <CODE>-open</code> <em>myconfig</em><code>.jti @</code><em>mycommandfile</em><code>.jtb -excludeList</code> <em>myexcludelist</em><code>.jtx -runtests</CODE></P>
+<h3><B>Single String Arguments Format Example</B></h3>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> <CODE>"open</code> <em>myconfig</em><code>.jti; @</code><em>mycommandfile</em><code>.jtb; excludeList</code> <em>myexcludelist</em><code>.jtx; runtests"</CODE></P>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2004, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

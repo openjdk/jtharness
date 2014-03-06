@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>DefaultParameterInterview.keywords</title>
+<LINK REL="stylesheet" TYPE="text/css" HREF="../moreInfo.css" TITLE="Style">
+</head>
+<body>
+Use this field to restrict the set of tests to be run
+based on keywords associated with tests in the test suite.
+<p>
+In the text field, construct a boolean expression, built up
+from keywords and the operators "&#38" (and), "!" (not), "|" (or), and
+"( )" (parentheses for grouping).  Keywords stand as
+boolean predicates that are true if, and only if, the
+keyword is present in the test being considered.  A test is
+accepted if the overall value of the expression is true;
+all other tests are rejected by the restriction.
+</p>
+<p>
+Examples:
+</p>
+<p>
+Imagine a fictional test suite that uses the keyword "interactive"
+to identify tests that require human interaction, and uses
+"color" to identify tests that require a color display:
+</p>
+
+<p>
+Enter the following expression to only execute tests with
+the "interactive" keyword:
+</p>
+<table width="300" border="1" cellpadding="2">
+<tr>
+<td>
+<code>interactive</code>
+</td>
+</tr>
+</table>
+
+<p>
+Enter the following expression to only execute tests with
+both the "interactive" and "color" keywords:
+</p>
+<table width="300" border="1" cellpadding="2">
+<tr>
+<td>
+<code>color&#38interactive</code>
+</td>
+</tr>
+</table>
+
+<p>
+Enter the following expression to only execute tests with
+the "color" keyword that do not also contain
+the "interactive" keyword.
+</p>
+<table width="300" border="1" cellpadding="2">
+<tr>
+<td>
+<code>color&#38!interactive</code>
+</td>
+</tr>
+</table>
+
+</body>
+</html>

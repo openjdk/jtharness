@@ -1,0 +1,125 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Moving Test Reports</TITLE>
+<META name="hIndent" content="1"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="editConfig"><!-- index:reports: moving--><!-- index:EditLinks command format--><!-- index:commands: EditLinks --></A>
+<H1><A name="moveReport"></A>Moving Test Reports</H1>
+<P>Test reports contain relative and fixed links to files that break when they are moved. To prevent this, the harness provides an <code>EditLinks</code> command-line utility in the main harness JAR file,
+<CODE>javatest.jar</CODE>, for you to use when moving test reports.</P>
+<P>The <code>EditLinks</code> utility checks all files with names ending in <code>.html</code> for HTML links beginning with file names you specified in the <code>EditLinks</code> command. These links are rewritten using the corresponding replacement name from the <code>EditLinks</code> command and are copied to the new location. <code>EditLinks</code> copies all other files to the new location without change.</P>
+<H2>Format of the <code>EditLinks</code> Command</H2>
+<P>Example:<BR>
+<CODE>java -classpath</CODE> [<EM>jt_dir</EM><CODE>/lib/</CODE>] <CODE>javatest.jar com.sun.javatest.EditLinks</CODE> <I>OPTIONS</I> <I>file...</I>
+<DL>
+		<DT><B>OPTIONS</B>
+		<DD>The available <I>OPTIONS</I> are as follows:
+		<DL>
+			<DT>
+		<CODE>-e</CODE> <I>oldPrefix</I> <I>newPrefix</I>
+			<DD>Any links that begin with the string <I>oldPrefix</I> are rewritten 
+	    to begin with <I>newPrefix</I>. 
+	    Note that only the target of the link is rewritten, 
+	    and not the presentation text. The edit is effectively transparent
+	    when the file is viewed in a browser. Multiple
+		<CODE>-e</CODE> options 
+	    can be given. When editing a file, the options are checked in the order 
+	    they are given.<BR>For example, if the argument<BR>
+		<CODE>-e /work/ /java/jck-dev/scratch/12Jun00/jck-lab3/</CODE><BR> is used on a file that contains the segment<BR>
+		<CODE>&lt;a href="/work/api/java_lang/results.jtr"&gt;/work/api/java_lang/results.jtr&lt;/a&gt;</CODE><BR>, the following text shown in bold will match.<BR>
+		<CODE>&lt;a href="<B>/work/</B>api/java_lang/results.jtr"&gt;/work/api/java_lang/results.jtr&lt;/a&gt;</CODE><BR>The resulting new file will contain the following text:<BR>
+		<CODE>&lt;a href="/java/jck-dev/scratch/12Jun00/jck-lab3/api/java_lang/results.jtr"&gt;/work/api/java_lang/results.jtr&lt;/a&gt;</CODE>
+<P>
+			<DT><CODE>-ignore</CODE> <I>file</I>
+			<DD>When scanning directories, ignore any entries named <I>file</I>. Multiple <CODE>-ignore </CODE> may
+			  be given.
+              <P>For example, <CODE>-ignore SCCS</CODE> causes any directories named SCCS to be ignored.
+<P>
+			<DT><CODE>-o</CODE> <I>file</I>
+			<DD>Specifies the output file or directory. The output may only be a file if the input is a single file; otherwise, the output should be a directory into which the edited copies of the input files will be placed.
+<P>
+			<DT><I>file...</I>
+			<DD>Specifies the input files to be edited. If any of the specified files are directories,
+			  they will be recursively copied to the output directory and any HTML files
+			  within them updated.
+<P>
+		</DL>
+<P>
+		<DT><B>RETURN CODE</B>
+		<DD>The following table describes the return codes that the program displays
+		  when it exits.
+		  <TABLE width="100%" border="0" cellpadding="2" class="gray" summary="List ofReturn Codes" title="Exit Return Codes">
+			<TR valign="top">
+				<TH class="left" scope="col" width="10%">	Code
+				</TH>
+				<TH class="left" scope="col">	Description
+				</TH>
+			</TR>
+			<TR valign="top">
+				<TD>0
+				</TD>
+				<TD>The copy was successful.
+				</TD>
+			</TR>
+			<TR valign="top">
+				<TD>1
+				</TD>
+				<TD>A problem exists with the command-line arguments.
+				</TD>
+			</TR>
+			<TR valign="top">
+				<TD>2
+				</TD>
+				<TD>A problem exists with the command-line arguments.
+				</TD>
+			</TR>
+			<TR valign="top">
+				<TD>3
+				</TD>
+				<TD>An error occurred while performing the copy.
+				</TD>
+			</TR>
+		</TABLE>
+</DL>
+	<H2>Detailed Example of <code>EditLinks</code> Command</H2>
+    <P>In the following example, <EM>test12-dir.wd</EM> and <EM>myworkdir.wd</EM> represent file names that might exist on your system. Win32 users must also replace the UNIX system file separators with Windows file separators (/) to run these examples.</P>
+<P>
+<CODE>java -cp</CODE> [<EM>jt-dir</EM><CODE>/lib/</CODE>] <CODE>javatest.jar com.sun.javatest.EditLinks -e /work/ /java/jck-dev/scratch/12Jun00/jck-lab3/ -o test12_dir.wd</CODE> <EM>myworkdir.wd</EM>
+</p>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2010, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

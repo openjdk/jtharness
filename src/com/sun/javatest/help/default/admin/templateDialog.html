@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>
+Creating and Editing Templates
+</TITLE>
+<META NAME="hIndent" CONTENT="0">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<a name="createConfigurationTemplate"><!--index:templates -->
+  <!-- index:site administration --></a>
+<H1>Creating and Editing Templates</H1>
+<p>
+The harness provides users with the <strong><u>optional</u></strong> ability
+  to create and edit templates that can be used to run tests on multiple test systems
+or test platform.  </p>
+<p class="Note">
+  <!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a Note" longdesc="createTemplate.html"></br>
+  <!--CopyOn-->
+  Your test suite might not enable creating 
+or editing templates. The menu items and features described here <b><u>will not appear in your user interface</u></b> if your test suite does not support templates. </p> 
+
+<p>
+For example, if your test suite enables creating and editing templates and your test group uses a central location to provide and manage the
+  resources required to run tests (the test suite, report directories, configuration
+  files, or the harness), you can create a
+   template that contains all known configuration values required
+  by the test group to run tests. Each user can load the  template
+  from the central site, provide only those values unique to their test environment
+  or test run, and run their tests using their completed configuration.</p>
+<p>See <a href="createTemplate.html">Creating a Template</a> for a detailed
+  description of the process used to create a template.</p>
+<p>See <a href="editTemplate.html">Editing a Template</a> for a detailed description of the process used to
+  change the contents of a template. </p>
+<p>In addition to providing users with partially completed
+   configurations, templates can further simplify the process of creating
+  and maintaining configurations through the use of the following features:</p>
+<ul>
+  <li>Bookmarks</li>
+  <li>Propagation</li>
+</ul>
+
+<p>An optional feature of templates is the ability to propagate (inherit) 
+  template updates to
+  all configurations based on that template. When the test suite developer enables template propagation,
+  the harness checks for template updates when a user does any of the following: </p>
+<ul>
+  <li>Starts a test run.</li>
+  <li>Opens a work directory.</li>
+  <li>Loads a configuration.</li>
+</ul>
+
+<p>For a configuration to receive template updates, the test suite developer must enable propagation
+in both the configuration and its template. </p>
+
+
+<!--CopyOff--><p>&nbsp;</p><!--CopyOn-->
+ 
+<hr><p><a href="../copyright.html">Copyright</a> &copy; 2004, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

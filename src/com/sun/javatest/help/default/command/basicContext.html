@@ -1,0 +1,67 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Initial Setup Commands</TITLE>
+<META name="hIndent" content="1"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="basicContext"><!-- index:initial set-up commands --><!-- index:commands: initial set-up --></A>
+<H1>Initial Setup Commands</H1>
+<P>Before you can perform tasks from the command line, you must first set up a configuration for the harness to use. You can set up a configuration by performing <EM>at least one</EM> of the following:</P>
+	<OL>
+		<LI>Specify an existing configuration (<CODE>.jti</CODE>) file. You are not required to specify either a test suite or a work directory.</LI>
+		<LI>Specify an existing work directory and a configuration file. You are not required to specify a test suite.</LI>
+		<LI>Open a test suite, create an empty work directory, and specify a configuration file.</LI>
+	</OL>
+<P>After setting up a configuration, you can then change specific values for your specific requirements. See <a href="otherConfigValues.html">Setting Specific Values</A> for the commands used to modify the values in the configuration.</P>
+<P>You can include commands in any combination on the command line provided the initial set-up commands are specified before any other commands in the command line.</P>
+<P>You can use any of the following commands to set up a configuration for the harness to use when performing tasks:</P>
+	<UL>
+		<LI><b><CODE>config</CODE></b> - Specifies an existing configuration
+		  file. See <a href="config.html">Specifying
+		    a Configuration File With <code>config</code></A> for a detailed description of
+		    this command.</LI>
+		<LI><b><CODE>workDirectory</CODE></b> or <b><CODE>workDir</CODE></b> - Specifies an
+		  existing work directory or to create a new work directory. See <a href="workdir.html">Specifying
+		  a Work Directory With <code>workDir</code></A> for a detailed description of this command.</LI>
+		<LI><b><CODE>testSuite</CODE></b> - Used to specify a test suite. See <a href="testsuite.html">Specifying
+		    a Test Suite With <code>testSuite</code></A> for a detailed description of this command.</LI>
+		<LI><b><CODE>open</CODE></b> - Specifies a test suite, work directory, configuration
+		  file, or parameter file. See <a href="open.html">Specifying a Test Suite,
+		  Work Directory or Configuration With <code>open</code></A> for a detailed description of this command.</LI>
+	</UL>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

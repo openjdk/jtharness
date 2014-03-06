@@ -1,0 +1,126 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Plain Text Output</TITLE>
+<META name="hIndent" content="2"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<H1>Plain Text Output</H1>
+<P>The HTTP server provides plain text output that can be used for automated monitoring of the harness during test runs. The plain text output does not include HTTP headings or HTML formatting and is intended for use by automated testing frameworks, not for viewing in web browsers. Consequently, future releases of the harness will attempt to maintain the content formatting and URLs of this output.</P>
+<P>The following two types of harness information can be accessed by
+  automated testing frameworks:</P>
+	<UL>
+		<LI><A href="#version">Version Information</A></LI>
+		<LI><A href="#harness">Harness Information</A></LI>
+	</UL>
+<H2><A name="version">accessing Version Information</A></H2>
+<P>The HTTP Server Version page displays version information about the JT Harness
+  harness. You can display the HTTP Server Version page by choosing its link
+  on the index page or by including <CODE>/version</CODE> at the end of the URL
+  in the browser URL field.</P>
+<P>Example:<BR>
+<CODE>http://129.145.162.75:1903/version</CODE></P>
+<P>A dump of the version information is provided.</P>
+<P>Example:<BR>
+			&lt;<i><tt>name</tt></i>&gt; <code>Harness &lt;<i>version</i>&gt; Built on August 14, 2007</code></P>
+<H2><A name="harness">accessing Harness Information</A></H2>
+<P>The following strings access specific information about the harness:</P>
+	<UL>
+		<LI>
+	<CODE>/harness/text/config</CODE>
+<P>Currently provides, in <code>java.util.Properties</code> format, the test suite name location and work directory of the current harness configuration values.</P>
+<P>Example:<BR>
+	<CODE>testsuite.path=/export/scratch/myTest</CODE>
+	<CODE><br>
+	testsuite.name=myTest</CODE>
+	<CODE><br>
+	workdir=/export/scratch/wdsc13a</CODE></P></LI>
+		<LI>
+	<CODE>/harness/text/tests</CODE>
+<P>Provides in <code>java.util.Properties</code> format the initial tests used for the current test run.</P>
+<P>Example:<BR>
+	<CODE>url0=api/java_lang</CODE>
+	<CODE><br>
+	url1=api/java_util</CODE></P></LI>
+		<LI>
+	<CODE>/harness/text/stats</CODE>
+<P>Provides, in <code>java.util.Properties</code> format, the current count of test results in each state (pass, fail, error, not run). Whitespace is not present in the output:</P>
+<P>Example:<BR>
+	<CODE>Passed.=0</CODE><BR>
+	<CODE>Failed.=151</CODE><BR>
+	<CODE>Error.=54</CODE><BR>
+	<CODE>Not_run.=1</CODE><BR></P>
+<P>For performance reasons, the <code>Not_run</code> number usually equals the concurrency setting in batch mode and matches the "not run" number shown in the GUI when in GUI mode (Current Configuration view filter).</LI>
+		<LI>
+	<CODE>harness/text/results</CODE>
+<P>Provides alternating lines of test name, test status.</P>
+<P>Example:<BR>
+	<CODE>lang/FP/fpl005/fpl00506m1/fpl00506m1.html</CODE><BR>
+	<CODE>Error. context undefined for hardware.xFP_ExponentRanges</CODE><BR>
+	<CODE>lang/FP/fpl005/fpl00506m2/fpl00506m2.html</CODE><BR>
+	<CODE>Error. context undefined for hardware.xFP_ExponentRanges</CODE><BR>
+	<CODE>vm/classfmt/atr/atrnew003/atrnew00301m1/atrnew00301m1.html</CODE><BR>
+	<CODE>Failed. unexpected exit code: exit code 1</CODE><BR>
+	<CODE>vm/classfmt/atr/atrnew003/atrnew00302m1/atrnew00302m1.html</CODE><BR>
+	<CODE>Failed. unexpected exit code: exit code 1</CODE><BR>
+	<CODE>vm/classfmt/atr/atrnew003/atrnew00303m1/atrnew00303m1.html</CODE><BR>
+	<CODE>Failed. unexpected exit code: exit code 1</CODE><BR></P></LI>
+		<LI>
+	<CODE>/harness/text/state</CODE>
+<P>Indicates whether harness is currently running.  It will return one of the following:</P>
+<P>
+	<CODE>running=true</CODE><BR>
+	<CODE>running=false</CODE><BR></P></LI>
+		<LI>
+	<CODE>/harness/text/env</CODE>
+<P>Provides, in <code>java.util.Properties</code> format, the current environment settings for the test run.</P>
+<P>Example:<BR>
+	<CODE>command.testExecute=com.sun.jck.lib.ExecJCKTestOtherJVMCmd <br>
+	/work/jdk1.3.1/bin/java</CODE>
+	<CODE>-classpath $testSuiteRootDir/classes<br> 
+	-Djava.security.policy=$testSuiteRootDir/lib/jck.policy</CODE>
+	<CODE><br>
+	$testExecuteClass $testExecuteArgs</CODE>
+	<CODE><br>
+	context.nativeCodeSupported=true</CODE>
+	<CODE><br>
+	description=bar</CODE><br>
+	<CODE>jniTestArgs=-loadLibraryAllowed</CODE>
+	<CODE><br>
+	nativeCodeSupported=true</CODE>
+	<CODE><br>
+	platform.expectOutOfMemory=true</CODE></P></LI>
+	</UL>
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2003, 2010, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

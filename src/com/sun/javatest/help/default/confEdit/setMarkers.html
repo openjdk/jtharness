@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Using Bookmarks in Configurations</TITLE>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<a name="keywords"><!--index:markers -->
+  <!-- index:Bookmarks --></a>
+<H1>Using Bookmarks in Configurations</H1>
+
+<p>
+In Question Mode, you can use Bookmarks to restrict the set of questions displayed
+  in the Configuration Editor  (Bookmarks are not used in Quick Set Mode).
+  Bookmarks are persistent and are saved in the <code>.jti</code> file, and reloaded
+  when the configuration is used again. When bookmarks are disabled, they are
+  preserved in program memory but cannot be manipulated.</p>
+<h2 class="proc">Set Bookmarks for Specific Questions </h2>
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="setMarkers.html"><!--CopyOn-->
+To set bookmarks for specific questions in the configuration, perform the following
+  steps: </p>
+
+<ol>
+  <li>Click the Bookmarks <b>&gt;</b> Enable Bookmarks  check box in the menu
+  bar.</li>
+  <li> Click a question in the Configuration Editor.</li>
+  <li>Set a bookmark for the highlighted question by performing one of the following
+    actions:</li>
+</ol>
+<ul>
+  <li>Click
+      to the left of the highlighted question text.</li>
+  <li>Choose Bookmarks <b>&gt;</b> Mark Current
+          Question in the menu bar.</li>
+  <li>Right click the highlighted question
+            and choose the Mark Current Question menu item in the pop-up menu.</li>
+</ul>
+<h2 class="proc">Display Questions With Bookmarks</h2>
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="setMarkers.html"><!--CopyOn-->To
+  only display the questions with bookmarks, perform
+  the following step: </p>
+
+<ul>
+  <li>Click the Bookmarks <b>&gt;</b> Show
+    Only Bookmarked Questions checkbox in the menu bar.</li>
+</ul>
+<blockquote>
+  <p>The Configuration Editor displays bookmarked questions in the following
+    manner:</p>
+  <ul>
+    <li>The first question in the interview is displayed.</li>
+    <li>Questions with bookmarks are displayed.</li>
+    <li>If the interview is complete (all questions have valid answers) the final
+      question is displayed.</li>
+    <li>If the interview is incomplete (one or more questions have invalid or
+      incomplete answers), the questions from the last marked question to the
+      first question with an invalid or incomplete
+      answer are displayed.</li>
+    <li>Sequences of questions not described by a previous category are grouped
+      and  represented
+      by three dashes (---)  in the list. These groups can be opened to display
+      the complete sequence of questions.</li>
+  </ul>
+</blockquote>
+<h2 class="proc">Open Groups of Questions</h2>
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="setMarkers.html"><!--CopyOn-->To
+  open a group of hidden questions, perform
+  the following steps :</p>
+
+<ol>
+  <li>Click the --- section in the list of questions.</li>
+</ol>
+<p><!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="saveConfiguration.html"><!--CopyOn-->
+        <br>Groups of hidden questions without bookmarks are represented by three dashes
+(---) in the list of questions. </p>
+<ol start="2">
+  <li>Click the Bookmarks <b>&gt;</b> Open --- Group menu item
+    from the menu bar or right click the highlighted --- section and choose Open
+    --- Group menu item from the pop-up menu.</li>
+</ol>
+<h2 class="proc">Close Groups of Questions</h2>
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="setMarkers.html"><--CopyOn-->To
+  close groups of questions in the configuration without bookmarks, perform
+  the following steps:</p>
+<ol>
+  <li>Click the question in the list of questions.</li>
+  <li>Click the Bookmarks <b>&gt;</b> Close --- Group menu item
+    from the menu bar or right click the highlighted --- section and choose Close
+    --- Group
+    menu item from the pop-up menu.</li>
+</ol>
+<h2 class="proc">Clear the Values of  All Questions With Bookmarks
+</h2>
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="setMarkers.html"><!--CopyOn-->To
+  clear the values of all questions with bookmarks, perform
+  the following steps:</p>
+
+<ol>
+  <li>Click a question in the list of questions.</li>
+  <li>Click the Bookmarks <b>&gt;</b> Clear Answers to Bookmarked Questions menu
+    item from the menu bar.</li>
+</ol>
+<h2 class="proc">Clear the Value of a Specific Question</h2>
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="setMarkers.html"><!--CopyOn-->To
+  clear the value of a specific question, perform
+  the following steps:</p>
+
+<ol>
+  <li>Click the question in the list of questions.</li>
+  <li>Click the Bookmarks <b>&gt;</b> Clear Answer For Current Question menu
+    item or right click the highlighted question and choose Clear Answer For
+    Current Question from the pop-up menu.</li>
+</ol>
+<h2 class="proc">Remove All Bookmarks</h2>
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="setMarkers.html"><!--CopyOn-->
+To remove the bookmarks from the configuration, perform
+  the following step:</p>
+
+<ul>
+  <li>Choose the Bookmarks <b>&gt;</b> Remove
+    Bookmarks menu
+    item. </li>
+</ul>
+<blockquote>
+  <p>The configuration list reverts to the full configuration list.</p>
+</blockquote>
+<h2 class="proc">Remove a Bookmark From a Question</h2>
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="setMarkers.html"><!--CopyOn-->To
+  remove the bookmarks from a question in the configuration, perform
+  the following steps:</p>
+
+<ol>
+  <li>Click the question in the list of questions.</li>
+  <li>Click the Bookmarks <b>&gt;</b> Unmark Current Question menu item or right
+    click the highlighted question and choose Unmark Current Question menu item
+    from the pop-up menu.</li>
+</ol>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2004, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

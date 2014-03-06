@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>
+Adding or Removing  Exclude Lists
+</TITLE>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<a name="excludeListTE">
+<!-- index:add Exclude List files -->
+<!-- index:remove Exclude List files --></a>
+<H1 class="proc">Adding or Removing Exclude Lists</H1>
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="excludeTabTE.html"><!--CopyOn-->To
+add or remove exclude list files in the template, perform the following steps:</p>
+
+
+<ol>
+  <li>Choose View &gt; Quick Set Mode from the Template Editor menu bar.</li>
+  <li>Click the Exclude List tab in the Template Editor.</li>
+</ol>
+
+<center>
+<img src="../../images/JT4excludelistTabConfigEd.gif" alt="The Exclude List pane in the Template Editor" border="0" longdesc="excludeTabTE.html">
+</center>
+
+<ol start="3">
+  <li>Add or remove exclude lists in the template as required.  </li>
+</ol>
+<blockquote>
+<p class="note">
+  <!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a Note" longdesc="excludeTabTE.html"><br>
+  <!--CopyOn-->
+Exclude list files contain a list of tests in a test suite that are not run by
+  the harness.
+See <a href="#excludeListPane">Exclude List Pane</a> for a description of
+    this pane.</p>
+</blockquote>
+<ol start="4">
+  <li>Change additional template settings or click the Done button to save the changes
+    in the template.<br><br>If you are creating a new template for these changes, instead of clicking
+    the Done button, choose File > Save As from the Template Editor menu bar
+    and save the template with a relevant name. </li>
+</ol>
+
+<a name="excludeListPane"> </a>
+<h2>Exclude List Pane </h2>
+<p>Use the following to change the exclude list  used to run tests:</p>
+<ul>
+<li>
+<b>None</b> - An Exclude List is not used.</li>
+<li>
+<b>Initial</b> - Only enabled if the test suite provides an exclude
+list. If you choose Initial, the tests are run using the exclude list provided
+by the test suite.</li>
+<li>
+<b>Latest</b> - Only enabled if the test suite provides a location
+for updated exclude lists. If you choose Latest, additional options are displayed.
+See <a href="#excludeList.latestTE">Latest Exclude List</a> below for detailed
+information.</li>
+<li>
+<b>Other</b> - A custom exclude list can be used. See <a href="#excludeList.otherTE">Other
+Exclude List</a> below for detailed information.</li>
+</ul>
+
+<p>
+If a complete test is added to the exclude list, the harness updates
+  the test result status without requiring the test be rerun. However, if only
+  a test case from a test is added to the exclude list, the harness
+  requires that you rerun the test using the updated exclude list before updating
+  the test result status.</p>
+
+<a name="excludeList.latestTE"><!-- index:exclude list: latest --><!-- latest exclude list --></a>
+<h2>Latest Exclude List</h2>
+
+<p>
+If your test suite provides a URL for the latest test suite, the harness
+  enables the Latest exclude list option. The following table describes the text
+and controls displayed when you choose the Latest exclude list option.</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Latest Exclude List dialog box." title="Latest Exclude List Dialog Box Contents">
+
+<tr valign="top">
+<th width="20%" scope="col" class="left">
+Text and Controls
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Location</td>
+<td>
+Displays the location of the exclude list specified by the test suite. This is
+  a non-editable field.</td>
+
+<tr valign="top">
+<td>
+Last updated</td>
+<td>
+Displays the date that the exclude list was last updated. This is a non-editable
+  field.</td>
+
+<tr valign="top">
+<td>
+Check For Updates Automatically
+</td>
+<td>
+Causes the harness to automatically check the location of the exclude
+  list and compare the date-time stamps of the remote and local exclude lists.
+  The harness then displays a dialog box advising you of the results.
+  If a new exclude list is available, you can choose to download it.</td>
+
+<tr valign="top">
+<td>
+Every _ Days
+</td>
+<td>
+Sets an interval for the harness to automatically check the remote location
+  of the exclude list for updates.</td>
+
+<tr valign="top">
+<td>
+Every Test Run
+</td>
+<td>
+Causes the harness to check the remote location of the exclude list
+  for updates before each test run.</td>
+
+<tr valign="top">
+<td>
+Check Now
+</td>
+<td>
+Causes the harness to check the remote location of the exclude list
+  for an update.</td>
+</table>
+
+<a name="excludeList.otherTE"><!-- index:exclude list: other --></a>
+<h2>Other Exclude List</h2>
+<p>
+The following table describes the buttons displayed when you choose the Other
+  exclude list option.</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Other Exclude List dialog box." title="Other Exclude List Dialog Box Contents">
+
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Button
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Add</td>
+<td>
+Selects an exclude list file for your test suite. As you make selections with
+  the file chooser dialog box, they are added to the list. After you add an
+  exclude list, you can modify the list.</td>
+</tr>
+
+<tr valign="top">
+<td>
+Remove</td>
+<td>
+Clears an item from the list. Select an item in the list and click Remove.</td>
+</tr>
+
+<tr valign="top">
+<td>
+Move Up</td>
+<td>
+Moves an item one position higher in the list. Select an item in the list and
+  click Move Up.</td>
+</tr>
+
+<tr valign="top">
+<td>
+Move Down</td>
+<td>
+Moves an item one position lower in the list. Select an item in the list and
+  click Move Down.</td>
+</tr>
+</table>
+
+
+
+ 
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2006, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

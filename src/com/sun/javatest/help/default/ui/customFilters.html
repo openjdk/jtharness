@@ -1,0 +1,316 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2009, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>Custom View Filter</title>
+<META NAME="hIndent" CONTENT="4">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="customFilters"><!-- index:Custom view filter -->
+  <!-- index:view filter: Custom --></a>
+<h1>Custom View Filter</h1>
+<p>
+If you want to monitor a specific set of test results in the Test Manager, you can create a custom view filter.</p>
+<p>
+The custom view filter is unique to the test suite. When the harness opens the test suite in the Test Manager, it restores the custom filter, including any name that you assign it.
+</p>
+<p>
+You can also use the custom filter to generate reports. See <a href="../report/newReports.html">Creating Reports</a> for a description of using the Custom filter when generating reports.
+</p>
+
+<center>
+  <img src="../../images/JT4editCustomFilter.gif" alt="Custom view filter dialog box" longdesc="customFilters.html">
+</center>
+<a name="customFilters.edit"><!-- index:Custom view filter: edit --></a>
+<h2 class="proc">Creating a Custom View Filter</h2>
+
+<ol>
+<li>
+Choose View &gt; Filter &gt; Configure Filters from the menu bar to open the Filter Editor. You can also choose Custom and then Edit Filter in the tool bar.
+</li>
+<li>
+Choose Custom in the Available Filters panel. You can provide a name for the filter in the Custom Label field. The name is applied to the filter and restored each time the test suite is opened.
+</li>
+<li>
+Use the tabbed panes to set the following view filter properties:<br>
+			<ul>
+<li>
+<a href="#customFilters.initialFiles">Specify Tests to View</a>
+</li>
+<li>
+<a href="#customFilters.excludeList">Use the Exclude List as a View Filter</a>
+</li>
+<li> 
+<a href="#customFilters.keywords">Use Keywords as a View Filter</a>
+</li>
+<li> 
+<a href="#customFilters.status">Use Prior Status as a View Filter</a>
+</li>
+<li>
+<a href="#customFilters.special">Use Special Settings as a View Filter</a>
+</li>
+</ul>
+			<li>
+Click one of the following buttons:
+
+			<ul>
+<li>
+<b>Apply</b> - Saves but does not dismiss the dialog box. Updates
+the GUI if the filter is selected.
+</li>
+<li>
+<b>Reset</b> - Discards all changes and restores the last saved Custom filter.
+</li>
+<li>
+<b>Cancel</b> - Closes the dialog box without saving any changes.
+</li>
+<li>
+<b>OK</b> - Saves the current changes, updates the Custom filter, and closes
+the dialog box.
+</li>
+<li>
+<b>Help</b> - Displays online help for the Filter Editor.
+</li>
+</ul>
+		</ol>
+
+<p>
+Using Test Suite Areas, Keywords, Prior Status, Exclude Lists, and Special settings
+  in the view filter does not stop the harness from running these tests.
+  To filter the tests that are run, you must change the values in the configuration.
+  See <a href="../confEdit/editConfiguration.html">Editing a Configuration</a> for
+  a detailed description.</p>
+
+<a name="customFilters.initialFiles"><!-- index:Custom view filter: specify tests --></a>
+<h3>Specify Tests to View</h3>
+<p>
+Click the Test Suite Areas tab and use the tree to choose the results of test
+  folders or individual tests that you want displayed in the Test Tree. The 
+  harness walks the test tree starting with the sub-branches and tests you specify
+  and displays the results of all tests that it finds.</p>
+<a name="customFilters.keywords"><!-- index:Custom view filter: use keywords --></a>
+<h3>Use Keywords as a View Filter</h3>
+
+<p>
+If your test suite provides keywords, you can use the Keywords pane to restrict the set of test results displayed in the test tree and in the Summary pane.
+</p>
+
+<p>
+To specify the keywords: 
+</p>
+<ol>
+<li>
+Click Match. </li>
+</ol>
+
+
+<blockquote>
+  <p>The harness enables the Expression button. </p>
+</blockquote>
+<ol start="2">
+  <li>
+  Click Expression to display a list of expressions that can be constructed. </li>
+  <li>From the list, choose the type of expression that you are building. </li>
+  <li>
+    In the text field, enter the keywords and operators used in the expression.
+  </li>
+</ol>
+<p>
+The following table provides descriptions and examples of keyword expressions
+  that can be constructed.</p>
+
+<table width="100%" border="0" cellpadding="5"  class="gray" summary="The contents and description of the keyword expressions that can be constructed." title="Keyword Expressions">
+<tr valign="top">
+<th width="30%" scope="col" class="left">Expression</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td width="30%"><code>Any Of</code></td>
+<td>
+Displays all tests in the test suite having <em>any </em>of the keywords entered in the text field.
+
+<p>
+Example:
+</p>
+<p>
+A test suite uses the keyword <code>interactive</code> to identify tests that
+require human interaction, and <code>color</code> to identify tests that require
+a color display.
+</p>
+
+<p>
+To display only the results for tests containing the <code>interactive</code> keyword,
+choose <code>Any Of</code> and then use the <code>interactive</code> keyword.
+</p>
+
+</td>
+</tr>
+
+<tr valign="top">
+<td width="30%"><code>All Of</code></td>
+<td>
+Displays results for all tests in the test suite having <em>all </em>of the keywords entered in the text field.
+<p>
+Example:</p>
+<p>
+To display results for only the tests containing both the <code>interactive</code> and <code>color</code> keywords,
+choose <code>All Of</code> and then use the <code>interactive</code> and <code>color</code> keywords.
+</p>
+
+</td>
+</tr>
+
+<tr valign="top">
+<td width="30%"><code>Expression</code></td>
+<td>
+Displays results for all tests in the test suite having the <em>expression</em> entered in the text field.
+
+<p>
+Construct a Boolean expression in the text field. Keywords stand as
+Boolean predicates that are true if, and only if, the
+keyword is present in the test being considered.  A test is
+accepted if the overall value of the expression is true.
+All other tests are rejected by the restriction.
+</p>
+<p>
+Example:
+</p>
+<p>
+A test suite uses the keyword <code>interactive</code> to identify tests that
+require human interaction, and <code>color</code> to identify tests that require
+a color display.
+</p>
+
+<p>
+To display results for only the tests with the <code>color</code> keyword that
+do not also contain the <code>interactive</code> keyword, choose <code>Expression</code> and
+then use the <code>color</code> keyword, the <code>!</code> operator, and the <code>interactive</code> keyword.
+</p>
+
+</td>
+</tr>
+</table>
+
+<a name="customFilters.status"><!-- index:Custom view filter: use prior status --></a>
+<h3>Use Prior Status as a View Filter</h3>
+
+<p>
+Click the Prior Status tab and choose the test results from the previous test run that you want displayed in the Test Tree.
+</p>
+<table width="100%" border="0" cellpadding="5" class="gray" summary="Run tests with restrictions based on their result from a prior test run." title="Using Prior Status as a Filter">
+<tr valign="top">
+<th width="20%" scope="col" class="left">
+Prior Status Filter
+</th>
+<th scope="col" class="left">
+Action
+</th>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Passed
+</td>
+<td>
+Displays tests with passed results the last time the test was executed. 
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Failed
+</td>
+<td>
+Displays tests with failed results the last time the test was executed. 
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Error
+</td>
+<td>
+Displays tests that the harness could not execute the last time it was included in a test run.
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Not Run
+</td>
+<td>
+Displays tests without results in the current work directory. 
+</td>
+</tr>
+
+</table>
+
+<p>
+Prior status is evaluated on a test-by-test basis using information stored in the result files (<a name="jtr"><code>.jtr</code></a>) that are written in the work directory. Unless overridden by a test suite, a result file is written in the work directory for every test that is executed. When you change work directories between test runs, the result files in the previous work directory are no longer used and, if the new work directory is empty, the  harness behaves as though the test suite was not run.
+</p>
+
+<a name="customFilters.excludeList"><!-- index:Custom view filter: use exclude lists --></a>
+<h3>Use the Exclude List as a View Filter</h3>
+
+<p>
+To use the exclude list specified in the configuration interview as a filter,
+  click the Exclude Lists tab and the Use settings in interview check box. The Exclude Lists pane displays the name of the exclude list file used by the current configuration. 
+</p>
+
+<p>
+Any test in the exclude list is filtered out and displayed as a <IMG SRC="../../images/grayTest.gif" ALT="Test Filtered Out" longdesc="testIcons.html"> icon in the test tree.
+</p>
+
+<a name="customFilters.special"><!-- index:Custom view filter: use test suite filter --></a>
+<h3>Use Special Settings as a Filter</h3>
+
+<p>
+If the test suite architect provides a default filter for the test suite, click
+  the Special tab and the Enable test suite filter check box to select this filter.
+</p>
+<p>
+You must select this setting to correctly simulate the Current Configuration settings.
+</p>
+
+<a name="customFilters.use"><!-- index:Custom view filter: using --></a>
+<h2>Use a Custom View Filter</h2>
+<p>To use a custom filter, you must choose it from the list of view filters below the test tree or from the View&nbsp;&gt;&nbsp;Filters menu. The Test Manager updates the status of the folders and tests in the test tree that match the filter settings of the custom filter.
+</p>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2009, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

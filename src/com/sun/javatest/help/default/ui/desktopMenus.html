@@ -1,0 +1,320 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<META NAME="hIndent" CONTENT="1">
+<title>Menus</title>
+</head>
+<body>
+<a name="desktopMenus"><!-- index:menus --></a>
+<h1>Menus</h1>
+<p>The GUI provides two types of menus: desktop and tool. The layout style determines how the menus are displayed in the GUI. The following table describes the two menu types and how the desktop style determines how they are displayed.</p>
+<table width="100%" border="0" cellpadding="5" class="gray.wide" summary="The two types of menus." title="GUI Menus">
+
+<tr valign="top">
+<th width="20%" scope="col" class="left">Menu Type</th>
+<th scope="col" class="left">Description</th>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Desktop
+</td>
+<td>
+Desktop menus are always available to the user in the desktop menu bar.  See <a href="desktopStyles.html">GUI Layout</a> for a detailed description of the GUI layout options available to the user. They include the following menus:
+<ul>
+<li><a href="#desktopMenus.file">File</a></li>
+<li><a href="desktopMenus.html#desktopMenus.tool">Tool</a></li>
+<li><a href="#desktopMenus.window">Windows</a></li>
+<li><a href="#desktopMenus.help">Help</a></li>
+</ul>
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Tool
+</td>
+<td>
+These menus are unique to specific tools and are only available to the user when that tool window is open. The appropriate tool menus are merged with the desktop menus in a single menu bar.  
+
+  <p>See <a href="agentMonitor.html">Agent Monitor Tool</a> for a description of
+  the Agent Monitor tool menus. If your test suite uses the harness agent, see
+  the <em>JT Harness Agent User's Guide</em> for a description of the Agent Monitor.</p>
+<p>See <a href="../mergeReports/window.html">Report Converter Tool</a> for a description of the Report Converter tool menus.</p>
+<p>See <a href="window.html">Test Manager Tool</a> for a description of the Test Manager tool menus.</p>
+</td>
+</tr>
+</table>
+
+<a name="desktopMenus.file"><!-- index:File menu -->
+  <!-- index:menu: desktop: File --></a>
+<h2>File</h2>
+<p>
+Use the File menu to open files, set user preferences, and exit
+  from the harness. The contents of the File menu change dynamically,
+  based on the context of the desktop. The harness only enables menus
+  when they can be used. The following table describes the contents of the File
+menu.</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray.wide" summary="The contents and description of the File menu." title="File Menu Contents">
+<tr valign="top">
+<th width="40%" scope="col" class="left">Menu Item</th>
+<th scope="col" class="left">Description</th>
+</tr>
+
+<tr valign="top"> 
+<td scope="row">Open the Quick Start Wizard
+</td> 
+<td>
+<p><b>Note:&nbsp;</b>Some test suites do not implement the optional Quick&nbsp;Start wizard. It won't be available if the test suite architect disabled it.<br></p>
+					<p>Opens the optional Quick Start wizard for you to use for the following tasks:</p>  <ul> 
+<li> 
+Start a new test run by selecting a test suite, work directory, and a configuration file. If the configuration file is new or incomplete, the harness opens the Configuration Editor after the wizard closes.
+</li> 
+<li> 
+Resume work on a previous test run or browse a test suite without running tests. 
+</li> 
+<li> 
+Browse the contents of a test suite.
+</li> 
+</ul> 
+</td> 
+</tr>
+
+
+<tr valign="top">
+  <td scope="row">Create Work Directory </td>
+  <td><p>Opens a dialog box that you can use to create a  work directory. When
+      you choose to create a new work directory, the harness associates it with
+      the test suite opened in the Test Manager tool window. The harness creates
+      test result files in the work directory that contain all of the information
+      gathered by the  harness during test runs of the test suite.</p>
+    <p>See <a href="../start/createDirectory.html">Creating a Work Directory</a> for detailed
+    information about creating a work directory.</p></td>
+</tr>
+<tr valign="top">
+<td scope="row">
+Open <b>&gt;</b> Work Directory</td>
+
+<td>
+Opens a dialog box that you can use to open an existing work directory. Each
+  work directory is associated with a specific test suite and contains information
+  from previous test runs. The test result files in the work directory contain
+  all of the information gathered by the  harness during test runs.
+  <p>
+When you choose to open an existing work directory, the harness performs the following actions:</p>
+<ul>
+<li>
+It associates that work directory with the test suite opened in the Test Manager tool window <em>only</em> if the test suite is both a match and has no other work directory already open.</li>
+<li>
+If it cannot associate the work directory with the open test suite, the harness opens a new Test Manager and loads both the work directory and its associated test suite.</li>
+</ul>
+
+<p>See <a href="../start/openDirectory.html">Opening a Work Directory</a> for detailed information about opening a work directory.</p>
+
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Open <b>&gt;</b> Test Suite</td>
+
+<td>
+Opens a dialog box you can use to choose a test suite. When you open the test suite, the harness loads it into new Test Manager.
+<p>See <a href="../start/openTestSuite.html">Opening a Test Suite</a> for additional information.</p></td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+<a name="desktopMenus.fileHistory">Recent Work Directory</a></td>
+<td>
+Displays a list of work directories that have been opened. Choose a work directory from the list to open a new instance of it in the current session.</tr>
+
+<tr valign="top">
+<td scope="row">
+Preferences</td>
+<td>
+Opens the Preferences dialog box for you to set the display and functional options of the harness.
+<p>See <a href="prefsDialog.html">Setting Preferences</a> for detailed information about setting preferences in the GUI.</p></td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Close</td>
+<td>
+Shown in the File menu. Closes the current window without exiting from the  harness. Closing a Test Manager
+  closes the work directory. </td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Exit</td>
+<td>
+  <p>Exits from the  harness. If you have set your preferences to save your current
+    desktop, your current desktop is saved so that all open windows, test suites,
+    work directories and configurations are restored the next time that you start
+    the harness.</p>
+  <p>See <a href="prefsDialog.html">Setting Preferences</a> for detailed information
+    about setting preferences in the GUI.</p></td>
+</tr>
+</table>
+
+<a name="desktopMenus.tool"><!--index:Tool menu -->
+  <!-- index:menu: desktop: Tool --></a>
+<h2>Tools</h2>
+
+<p>
+The following table describes the tools provided by the harness.</p> 
+<table width="100%" border="0" class="gray.wide" summary="The tools for use when running and managing tests." title="Tools">
+<tr valign="top">
+<th width="25%" scope="col" class="left">
+Tool</th>
+<th scope="col" class="left">
+Description</th>
+</tr>
+
+
+
+<tr valign="top">
+  <td scope="row"><a href="reportMerge.html">Report Converter</a> </td>
+  <td>Opens the Report Converter tool that you use to generate and view 
+    reports of results from multiple test reports.</td>
+</tr>
+<tr valign="top">
+<td scope="row">
+<a href="window.html">Test Manager</a></td>
+<td>
+Opens the Test Manager tool that you use to do the following tasks:
+
+  <ul>
+<li>
+Open and create work directories.</li>
+<li>
+Add or modify information that the harness uses when running your tests.</li>
+<li>
+Run the tests of a test suite.</li>
+<li>
+Monitor tests and test results while they are being run.</li>
+<li>
+View test environment settings of your configuration.</li>
+<li>
+View the contents of an exclude list.</li>
+<li>
+Browse completed tests and test results.</li>
+</ul>
+<p>
+During a test run, the icons in the Test Manager change to reflect the test status. You can also use the window during and after a test run to browse information about individual tests.</p></td>
+</tr>
+
+<tr valign="top">
+  <td scope="row"><a href="agentMonitor.html">Agent Monitor</a> (Optional)</td>
+  <td> The Agent Monitor tool is only available for use when the test suite is
+    configured to use an agent. If your test suite includes the JT Harness
+    agent, see the <em>JT Harness
+    Agent User's Guide</em> for
+    detailed information about the agent and the Agent Monitor tool.</td>
+</tr>
+</table>
+
+
+<a name="desktopMenus.window"><!-- index:Windows menu -->
+  <!-- index:menu: desktop: Windows --></a>
+<h2>Windows</h2>
+<p>
+The Windows menu also provides a list of all windows currently open in the 
+  harness. You can navigate to any open window by clicking on its name in the
+list.</p>
+
+
+<a name="desktopMenus.help"><!--index:Help menu -->
+  <!-- index:menu: desktop: Help --></a>
+<h2>Help</h2>
+<p>
+Use the Help menu to display user information about the tool window and the harness, the available test suite documentation, version information about the harness, and information about the current
+  Java runtime environment.</p>
+
+<table width="100%" Border="0" CELLSPACING="1" CELLPADDING="5" class="gray" summary="The contents and description of the Help menu." title="Contents of the Help Menu">
+<tr valign="top">
+<th width="40%" scope="col" class="left">Menu Item</th>
+<th scope="col" class="left">Description</th>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+<em>Active Window Name</em>
+</td>
+<td>
+Displays user information about the active window. This menu item is only available in an open tool window.</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">Online Help
+</td>
+<td>
+Displays the online version of the harness User's Guide. This version combines the GUI, command-line interface, and the agent User's Guides (when applicable) into one document.</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+<em>Test Suite Documentation</em> (Optional)
+</td>
+<td>
+If the test suite provides online documentation, the harness lists it here. Click the document name to display it in the viewer.</td>
+</tr>
+
+
+<tr valign="top">
+<td scope="row">
+About the JT Harness
+</td>
+<td>
+Displays information about this release of the harness.</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+About the Java Virtual Machine
+</td>
+<td>
+Displays information about the runtime used to run the harness.</td>
+</tr>
+</table>
+
+
+ 
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2004, 2012, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

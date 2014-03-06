@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+  <head>
+    <title>com.sun.javatest</title>
+  </head>
+
+  <body>
+
+    This package provides facilities for reading, executing
+    and monitoring tests.
+
+    <p>Tests are represented by {@link com.sun.javatest.TestDescription test descriptions},
+      which are contained in a {@link com.sun.javatest.TestSuite test suite}. They are
+      read by a {@link com.sun.javatest.TestFinder test finder}, and executed by a
+      {@link com.sun.javatest.Script test script}, to produce a
+      {@link com.sun.javatest.TestResult test result}. Internally, the test results
+      are stored in a {@link com.sun.javatest.TestResultTable test result table};
+      externally, the results are stored in a 
+      {@link com.sun.javatest.WorkDirectory work directory}.
+      Some configuration {@link com.sun.javatest.Parameters parameters} are required
+      in order to read and run tests: these parameters may be collected by
+      a {@link com.sun.javatest.InterviewParameters configuration interview}.
+      Some limited support is also provided for an earlier parameter mechanism
+      based on {@link com.sun.javatest.FileParameters parameter files}.
+
+    <p>The finder used to locate the tests, the interview used to configure them
+      and the script used to execute them are all determined by the test suite of
+      which they are part.
+
+    @since 3.0
+
+  </body>
+</html>

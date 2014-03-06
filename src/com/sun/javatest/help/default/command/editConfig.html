@@ -1,0 +1,188 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Changing Configuration Values With EditJTI</TITLE>
+<META name="hIndent" content="1"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="editConfig"><!-- index:configuration file: changing values in--><!-- index:EditJTI command format--><!-- index:utilities: EditJTI --></A>
+<H1>Changing Configuration Values With <code>EditJTI</code></H1>
+<P>The harness provides the <code>EditJTI</code> utility for you to
+  use in changing the values in a configuration file from the command line. You
+  can also make changes in a configuration by specifying the appropriate <code>set</code>
+  command (see <a href="commandLine.html">Command-Line
+  Summary</A> for detailed information).</P>
+<P>While you can use <code>EditJTI</code> to change the order of commands in a configuration file, the dependencies between questions can introduce errors into the configuration. Use the Configuration Editor in the harness GUI when making major changes in a configuration.</P>
+<P>If your changes to a configuration introduce errors, you can use the harness GUI Configuration Editor to troubleshoot and repair the configuration.</P>
+
+<H2><code>EditJTI</code> Command Format</H2>
+<P>The <code>EditJTI</code> command loads a configuration (<code>.jti</code>) file, and applies a series of changes specified on the command line. See <a href="configValues.html">Formatting Configuration Values for editJTI or -set</A> for detailed information about formatting the values. 
+</p>
+<p>
+You can save the changes in the original configuration file or save the changes in a new configuration file. You can also use <code>EditJTI</code> to generate an HTML log of the questions and responses as well as write a quick summary of the questions and responses to the console. The <code>EditJTI</code> utility provides a preview mode. Configuration files are normally backed up before being overwritten.</P>
+<P>Example:<BR>
+<CODE>java -cp lib/javatest.jar com.sun.javatest.EditJTI</CODE> [<em>OPTIONS</em>] [<em>EDIT-COMMANDS</em>] <EM>original-configuration-file</EM></P>
+	<DL>
+		<DT><B>OPTIONS</B>
+		<DD>The following are the available options:
+		<DL>
+			<DT>
+		<CODE>-help</CODE>, <CODE>-usage</CODE> or <CODE>/?</CODE>
+			<DD>Displays a summary of the command line options.
+			<DT>
+		<CODE>-classpath</CODE> <I>classpath</I> or <CODE>-cp</CODE> <I>classpath</I>
+			<DD>Overrides the default classpath used to load the classes for
+	    the configuration interview. The default is determined from the
+	    work directory and test suite specified in the configuration file.
+	    The new location is specified by this option.
+			<DT>
+		<CODE>-log</CODE> <I>log-file</I> or <CODE>-l</CODE> <I>log-file</I>
+			<DD>Generates an HTML log containing the questions and responses
+	    from the configuration file. The log is generated after edits are applied.
+			<DT>
+		<CODE>-out</CODE> <I>out-file</I> or <CODE>-o</CODE> <I>out-file</I>
+			<DD>Specifies where to write the configuration file after the edits
+	    (if any) are applied. The default setting is to overwrite the
+	    input file if the interview is edited.
+			<DT>
+		<CODE>-path</CODE> or <CODE>-p</CODE>
+			<DD>Generates a summary to the console output stream 
+	    of the sequence of questions and responses from the
+	    configuration file. The summary is generated after edits
+	    are applied.
+			<DT>
+		<CODE>-preview</CODE> or <CODE>-n</CODE>
+			<DD>Does not write out any files, but instead, preview what would
+	    happen if this option were not specified.
+			<DT>
+		<CODE>-testsuite</CODE> <I>test-suite</I> or <CODE>-ts</CODE> <I>test-suite</I>
+			<DD>Overrides the default location used to load the classes for 
+	    the configuration interview. The default is determined from the 
+	    work directory and test suite specified in the configuration file.
+	    The new location is determined from the specified test suite.
+			<DT>
+		<CODE>-verbose</CODE> or <CODE>-v</CODE>
+			<DD>Verbose mode. As the edit commands are executed, details of the
+	    changes are written to the console output stream.
+		</DL>
+<P>
+		<DT><B>COMMANDS</B>
+		<DD>Two different types of commands are supported.
+		<DL>
+			<DT><I>tag-name</I><CODE>=</CODE><I>value</I>
+			<DD>Sets the value for the question whose tag is <I>tag-name</I>
+	    to <I>value</I>. It is an error if the question is not found.
+	    The question must be on the current path of questions being
+	    asked by the interview. To determine the current path, use 
+	    the
+		<CODE>-path</CODE>option. See <a href="tagName.html">Obtaining the Question <I>tag-name</I></A>.
+			<DT>
+		<CODE>/</CODE><I>search-string</I><CODE>/</CODE><I>replace-string</I><CODE>/</CODE>
+			<DD>Scans the path of questions being asked by the interview,
+	    looking for responses that match (contain) the search string.
+	    In such answers, replace <I>search-string</I> by <I>replace-string</I>.
+	    Note that changing the response to a question may change the
+	    subsequent questions that are asked. 
+	    It is an error if no such questions are found.<BR>If you use
+		<CODE>/</CODE>in the search string, you
+	      use some other character (instead
+	      of
+		<CODE>/</CODE>) as a delimiter.<BR>For example:<BR>
+		<CODE>|</CODE><I>search-string</I><CODE>|</CODE><I>replace-string</I><CODE>|</CODE><BR>Regular expressions are not currently supported in <I>search-string</I>, but may be supported in a future release.
+		</DL>
+<P>Depending on the shell in use, quote the commands to protect characters in them from interpretation by the shell.
+<P>
+		<DT><B>RETURN CODE</B>
+		<DD>The following table describes the return codes generated when a program
+		   exits.
+		  <TABLE width="100%" border="0" cellpadding="2" class="gray" summary="List ofReturn Codes" title="Exit Return Codes">
+			<TR valign="top">
+				<TH class="left" scope="col">Code
+				</TH>
+				<TH class="left" scope="col">Description
+				</TH>
+			</TR>
+			<TR valign="top">
+				<TD>0
+				</TD>
+				<TD>The operations were successful. the configuration file is complete and ready to use.
+				</TD>
+			</TR>
+			<TR valign="top">
+				<TD>1
+				</TD>
+				<TD>The operations were successful, but the
+		      configuration file is incomplete and is not yet ready to use
+		      for a test run.
+				</TD>
+			</TR>
+			<TR valign="top">
+				<TD>2
+				</TD>
+				<TD>A problem exists with the command-line arguments.
+				</TD>
+			</TR>
+			<TR valign="top">
+				<TD>3
+				</TD>
+				<TD>An error occurred while trying to perform the copy.
+				</TD>
+			</TR>
+		</TABLE>
+	  <DT><B>SYSTEM PROPERTIES</B>
+	  <DD>Two system properties are recognized.
+		<DL>
+			<DT>
+		<CODE>EditJTI.maxIndent</CODE>
+			<DD>Used when generating the output for the <CODE>-path</CODE> option, this property specifies the maximum length of tag name
+	    after which the output will be line-wrapped before writing the
+	    corresponding value. The default value is 32.
+			<DT>
+		<CODE>EditJTI.numBackups</CODE>
+			<DD>Specifies how many levels of backup to keep when overwriting
+	    a configuration file. The default is 2. A value of 0 disables backups.
+		</DL>
+	</DL>	
+<P>The following topics provide detailed information about using <code>EditJTI</code> to perform tasks:</P>
+<P class="indent3"><IMG src="../../images/hg_see_next.gif" width="9" height="13" alt="The next possible topic in the <code>EditJTI</code> sequence" longdesc="editFile.html"><A href="editFile.html">Changing Configuration Values</A></P>
+<P class="indent3"><IMG src="../../images/hg_see_next.gif" width="9" height="13" alt="The next possible topic in the <code>EditJTI</code> sequence" longdesc="generateLog.html"><A href="generateLog.html">Generating a Log of Updates</A></P>
+<P class="indent3"><IMG src="../../images/hg_see_next.gif" width="9" height="13" alt="The next possible topic in the <code>EditJTI</code> sequence" longdesc="preview.html"><A href="preview.html">Preview without Change</A></P>
+<P class="indent3"><IMG src="../../images/hg_see_next.gif" width="9" height="13" alt="The next possible topic in the <code>EditJTI</code> sequence" longdesc="echoResults.html"><A href="echoResults.html">Echo Results of Changes</A></P>
+<P class="indent3"><IMG src="../../images/hg_see_next.gif" width="9" height="13" alt="The next possible topic in the <code>EditJTI</code> sequence" longdesc="showPaths.html"><A href="showPaths.html">Show Paths for Debugging</A></P>
+<P class="indent3"><IMG src="../../images/hg_see_next.gif" width="9" height="13" alt="The next possible topic in the <code>EditJTI</code> sequence" longdesc="change.html"><A href="change.html">Change Test Suites or Create a New Interview</A></P>
+<P class="indent3"><IMG src="../../images/hg_see_next.gif" width="9" height="13" alt="The next possible topic in the <code>EditJTI</code> sequence" longdesc="changePort.html"><A href="changePort.html">Change the HTTP Port</A></P>
+<P class="indent3"><IMG src="../../images/hg_see_next.gif" width="9" height="13" alt="The next possible topic in the <code>EditJTI</code> sequence" longdesc="escapeShell.html"><A href="escapeShell.html">Doing Escapes in a UNIX Shell</A></P>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

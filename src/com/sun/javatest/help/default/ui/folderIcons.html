@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Folder Icons
+</title>
+<META NAME="hIndent" CONTENT="4">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="folderIcons"><!-- index:folder icons; icons: folder --></a>
+<h1>Folder Icons</h1> 
+
+<p>
+The test tree uses colored icons to indicate both run status and result status.
+  The colors of the icons shown below are the  default settings.
+  The harness enables you to use colors other than the default settings.
+  See 
+  <a href="../command/settingColors.html">Specifying
+  Status Colors</a> in the <em>Command-Line Interface User's Guide</em>.</p>
+
+<a name="folderIcons.runstatus"><!-- index:folder run status icon; icons: folder: run status --></a>
+<h2>Folder Run Status</h2>
+<p>
+When activity occurs in a folder, such as loading or running tests, the Test Manager displays an arrow to the left of the folder icon. The standard values
+  of the current configuration, not the view filter, determine the run status
+  displayed by the test tree.
+</p>
+
+<a name="folderIcons.resultstatus"><!-- index:folder result status icon; icons: folder: result status --></a>
+<h2>Folder Result Status</h2>
+<p>
+The folder icon indicates the current test results in the work directory and
+  does not change until its tests are completed. After the harness completes
+  running the tests in a folder, it displays the appropriate result status icon.</p>
+<p> 
+The folder icon displayed in the test tree is determined by the result of all
+  its tests (see <a href="testIcons.html">Test Icons</a>) and the current view
+  filter (see <a href="../browse/viewFilters.html">View Filters</a>). The folder
+  icons displayed in the test tree indicate the highest priority result of any
+  test hierarchically beneath it. The following table describes the folder icons
+  in order of priority.</p>
+
+<p class="note">
+<!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="foldericons.html">
+<br>
+Users can change the color of the folder icons displayed in the following table. However, the symbols displayed in the icons do not change.
+</p>
+<p></p>
+
+<table width="100%" border="0" cellpadding="5" class="gray" summary="The priority order of the folder icons displayed in the test tree." title="Folder Icon Descriptions and Priority Order">
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Icon
+</th>
+<th width="20%" scope="col" class="left">
+Result
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+<IMG SRC="../../images/blueFolder.gif" ALT="Error folder" longdesc="folderIcons.html">
+</td>
+<td>
+Error
+</td>
+<td>
+A blue folder containing an exclamation symbol ( <b>!) </b> indicates that
+it and or one or more of its child folders contains tests with a result of Error.
+Note that this folder <em>might</em> also contain tests and folders
+that are Failed, Not Run, Passed, and Filtered out.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+<IMG SRC="../../images/redFolder.gif" ALT="Failed folder" longdesc="folderIcons.html">
+</td>
+<td>
+Failed
+</td>
+<td>
+A red folder containing a <b>x</b> symbol indicates that it and-or one or more
+of its child folders contains tests with a result of Failed. Note
+that this folder <em>might</em> also contain tests and folders
+that are Not Run, Passed, and Filtered out.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+<IMG SRC="../../images/whiteFolder.gif" ALT="Not run folder" longdesc="folderIcons.html">
+</td>
+<td>
+Not Run
+</td>
+<td>
+A white folder containing a <b>-</b> symbol indicates that it and-or one or more
+of its child folders contains tests with a result of Not Run. Note
+that this folder <em>might</em> also contain tests and folders
+that are Passed and Filtered out. 
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+<IMG SRC="../../images/greenFolder.gif" ALT="Passed folder"  longdesc="folderIcons.html">
+</td>
+<td>
+Passed
+</td>
+<td>
+A green folder containing a <IMG SRC="../../images/checkMark.gif" ALT="Symbol used in the passed folder" longdesc="folderIcons.html"> symbol
+indicates that it and all of its children  have a result of Passed. Note
+that this folder <em>might</em> also contain tests and folders
+that are Filtered out.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+<IMG SRC="../../images/grayFolder.gif" ALT="Filtered out folder"  longdesc="folderIcons.html">
+</td>
+<td>
+Filtered Out
+</td>
+<td>
+A gray folder containing no symbols indicates that it and all of its children
+  are filtered out. 
+</td>
+</tr>
+
+</table>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

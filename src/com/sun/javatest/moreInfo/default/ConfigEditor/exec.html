@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>ConfigEditor.stdValues.exec</title>
+<LINK REL="stylesheet" TYPE="text/css" HREF="../moreInfo.css" TITLE="Style">
+</head>
+<body>
+The harness can run tests concurrently. If you are running
+the tests on a multi-processor computer, concurrency can speed up
+your test runs.  For your first test run you should leave this field
+set to "1". After you have the tests running properly you can
+experiment with this value.
+<p>
+To prevent a stalled test from stopping a test run, most test suites
+use a timeout limit. The timeout limit is the amount of time that the
+harness waits for a test to complete before moving on to the
+next test.  Each test's timeout limit is multiplied by the time
+factor value. For example, if you specify a value of "2", the timeout
+limit for tests with a 10 minute limit becomes 20 minutes. Try
+running with a time factor of "1.0" and increase the value as
+necessary.
+</p>
+<p>
+<IMG SRC="../../images/hg_see.gif" ALT="image"><b>Help topic:</b> 
+<object classid="java:com.sun.javatest.tool.HelpLink">
+<param name="text"   value="Setting Test Execution Parameters">
+<param name="target" value="confEdit.execTab.csh">
+</object>
+</p>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2009, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<!DOCTYPE map
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/map_1_0.dtd">
+
+<map version="1.0">
+
+<!-- Icons used in TOC -->
+
+<mapID target="chapter"  			url="../images/chapter.gif" />
+<mapID target="topic"   			url="../images/topic.gif"/>
+<mapID target="openbook"    			url="../images/openbook.gif" />
+<mapID target="closedbook"    			url="../images/closedbook.gif" />
+
+<mapID target="agent.runTests"  		url="agent/runTests.html" />
+
+<!-- Using Agents -->			
+<mapID target="agent.window.csh" 		url="agent/window.html" />
+        
+<!-- Agent Monitor window -->
+<mapID target="agent.usingAgents"		url="agent/usingAgents.html" />
+<mapID target="agent.choosingAgents"            url="agent/choosingAgents.html" />
+<mapID target="agent.startAgent"                url="agent/startAgent.html" />
+<mapID target="agent.startApplication"          url="agent/startApplication.html" />
+<mapID target="agent.startApplets"              url="agent/startApplets.html" />
+<mapID target="agent.configureActiveAgents"     url="agent/configureActiveAgents.html" />
+<mapID target="agent.configurePassiveAgents"    url="agent/configurePassiveAgents.html" />
+<mapID target="agent.configureSerialAgents"     url="agent/configureSerialAgents.html" />
+<mapID target="agent.additionalOptions"         url="agent/additionalOptions.html" />
+<mapID target="agent.monitoring"		url="agent/monitoring.html" />
+<mapID target="agent.statisticsPane"		url="agent/statisticsPane.html" />
+<mapID target="agent.historyPane"		url="agent/historyPane.html" />
+<mapID target="agent.taskPane"	        	url="agent/taskPane.html" />
+<mapID target="agent.troubleshooting"           url="agent/troubleshooting.html" />
+<mapID target="agent.troubleshootingActive"     url="agent/troubleshootingActive.html" />
+<mapID target="agent.troubleshootingPassive"    url="agent/troubleshootingPassive.html" />
+<mapID target="agent.loadingAgents"             url="agent/loadingClasses.html" />
+<mapID target="agent.AgentFrame"                url="agent/classDepLists/AgentFrame.html" />
+<mapID target="agent.AgentMain"                 url="agent/classDepLists/AgentMain.html" />
+<mapID target="agent.AgentApplet"               url="agent/classDepLists/AgentApplet.html" />
+<mapID target="agent.mapFile"                   url="agent/mapFile.html" />
+
+<!-- Glossary IDs -->
+<!-- generated automatically by build -->
+
+<!-- Anchor points used in the index -->
+<!-- generated automatically by build -->
+
+</map>

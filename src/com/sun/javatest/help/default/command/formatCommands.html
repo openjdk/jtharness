@@ -1,0 +1,61 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Formatting a Command</TITLE>
+<META name="hIndent" content="1"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<H1><A name="format"></A>Formatting a Command</H1>
+<P>You can use any one of the following  formats to include commands on
+  the command line:</P>
+	<UL>
+		<LI><A href="#commandsOptions">Command Options Format</A></LI>
+		<LI><A href="#singleString">Single String Arguments Format</A></LI>
+		<LI><A href="#files">Command File Format</A></LI>
+	</UL>
+<P>All formats are used to accomplish the same tasks. Use the format that you prefer or that is easier to use. See <a href="availableCommands.html">Index of Available Commands</A> for a complete listing of available commands.</P>
+<H2><A name="commandsOptions"></A>Command Options Format</H2>
+<P>In the command options format, commands are preceded by a dash (-), act as options, and do not use command terminators. Enclose complex command arguments in quotes. Use this format when long lists of commands are included in a command line.</P>
+<P>Example:</P><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> <CODE>-open</code> <em>default</em><code>.jti -runtests</CODE>
+<H2><A name="singleString"></A>Single String Arguments Format</H2>
+<P>If you are setting several command options, you might want to use the single string arguments format. In the single string arguments format, one or more commands and their arguments can be enclosed in quotes as a single string argument. Multiple commands and arguments in the string are separated by semicolons.</P>
+<P>Example:</P><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> <CODE>"open</code> <em>default</em><code>.jti; runtests"</CODE>
+<H2><A name="files"></A>Command File Format</H2>
+<P>If you are setting a series of commands and options, you can use the command file format. Using a command file enables you to easily reuse the same configuration.</P>
+<P>In the command file format, a file containing a series of commands and their arguments is included in the command line by preceding the file name with the at symbol (@).</P>
+<P>Example:</P><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> <CODE>@</code><em>mycmd</em><code>.jtb -runtests</CODE>
+<P>Refer to <a href="commandFile.html">Using Command Files</A> for detailed information about using and creating command files.</P>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

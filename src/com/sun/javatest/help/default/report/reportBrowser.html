@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Displaying Reports
+</title>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="reportBrowser"><!-- index:displaying reports -->
+  <!-- index:Report Browser --><!-- index:browser: report --></a>
+<h1>Displaying Reports</h1>
+<p>
+You can use the Report browser or a web browser to display harness reports.</p>
+<h2 class="proc">Display Reports in the Report Browser</h2>
+<!--CopyOff--><p><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="reportBrowser.html">
+To display reports in the report browser:</p><!--CopyOn-->
+<ol>
+  <li><p>Choose Report <b>&gt;</b> Open Report from the menu bar.</p></li>
+
+    <blockquote>
+  <p>The harness opens a file chooser dialog box for you
+    to specify a report directory. When you specify a report directory, the harness
+    opens the Report Browser. </p>
+    <center><p>
+  <img src="../../images/JT4reportViewer.gif" alt="First page of the report viewer"  longdesc="reportBrowser.html">
+</p></center>
+</blockquote>
+</ol>
+
+<ol start="2">
+  <li><p>Choose the report format from the directory listing.</p></li>
+
+<ul>
+   <li> <p>If you choose the HTML format version of the reports, a second directory
+    listing is displayed. On the toolbar, you can use the report browser's back button (&lt;) to return to the initial report page. You can also click the file name showing on the toolbar to open a dropdown of recently visited files and directories.</p>
+    <p><center>
+  <img src="../../images/JT4reportViewer2.gif" alt="html page of the report viewer" longdesc="reportBrowser.html">
+</center></p></li>
+  <li>
+    <p>If you choose the text format version of the report, the browser
+    displays a <code>summary.txt</code> hyperlink to the summary page. The summary
+    page provides a text list of tests that were run and their test result status. </p>
+    <p><center>
+  <img src="../../images/JT4reportViewerText.gif" alt="text page of the report viewer" longdesc="reportBrowser.html">
+</center></p>
+    </li>
+  <li> <p>If you choose the XML format version of the report, the browser
+    displays a <code>report.xml</code> hyperlink to the XML report page. The
+    XML Report page provides a report of the configuration values used to run
+    the tests, the tests that were run, and their test result status. </p>
+    <p>This output is for automated processing purposes. It is not designed for human readability.</p>
+    <p><center>
+  <img src="../../images/JT4reportViewerXML.gif" alt="text page of the report viewer" longdesc="reportBrowser.html">
+</center></p>
+    </li>
+
+</ul>
+</ol>
+
+<ol start="3">
+  <li><p>To see a list of  the HTML reports click the Report directory hypertext link.</p>
+
+<center>
+  <img src="../../images/JT4reportViewer3.gif" alt="Report Browser"  longdesc="reportBrowser.html">
+</center>
+
+<p>Usually you access the report files using the links in the top-level HTML report. You can also use the hyperlinks within report.html to display the detailed report files
+    in the report browser. </p></li>
+</ol>
+<center>
+  <img src="../../images/JT4reportViewer4.gif" alt="Report Browser"  longdesc="reportBrowser.html">
+</center>
+
+<h3>Report Browser Contents </h3>
+<p>The following table describes the contents of the Report Browser.</p>
+<table width="100%" border="0" cellpadding="3"  class="gray" summary="The contents and description of the Report Browser." title="Report Browser Contents">
+<tr valign="top">
+<th scope="col" width="20%" class="left">
+Component
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Menu bar
+</td>
+<td>
+The menu bar contains a File and a Help menu. 
+<ul>
+<li>
+Use the File menu to generate new reports, open existing reports, and to close the Report Browser.
+</li>
+<li>
+Use the Help menu to display Report Browser online help.
+</li>
+</ul>
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+tool bar
+</td>
+<td>
+<p>The tool bar contains a File field and three navigation buttons.</p>
+
+<p>
+The File field displays the name of the current report and provides a drop-down
+  list of reports previously opened in the browser. As reports are opened, the
+  harness adds their names to the drop-down list enabling you to navigate
+  to any previously displayed report.
+</p>
+<p>
+<IMG SRC="../../images/backButtonSmall.gif" ALT="Report Browser's previous page button" longdesc="reportBrowser.html"> &nbsp; Returns to the previously displayed report page.
+</p>
+<p>
+<IMG SRC="../../images/nextButtonSmall.gif" ALT="Report Browser's next page button" longdesc="reportBrowser.html">  &nbsp; Opens the next report page that was displayed.
+</p>
+<p>
+<IMG SRC="../../images/homeButtonSmall.gif" ALT="Report Browser's home page button" longdesc="reportBrowser.html">  &nbsp; Returns to the <code>report.html</code> file. The <code>report.html</code> file is the root page and links to all of the other test report pages. 
+</p>
+
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Contents area
+</td>
+<td>
+The Report Browser displays the report file contents in the area below the tool bar.
+  The Report Browser displays text files as well as HTML files. For HTML files,
+  you can use hyperlinks in the report to display additional related reports.
+</td>
+</tr>
+</table>
+
+<p>
+See <a href="../ui/keyboardAccess.html">Keyboard access</a> for a description of how the keyboard can be used to navigate the Report Browser.</p>
+<h3>HTML Report Files</h3>
+<p>The following table lists and describes the HTML report files.</p>
+<table width="100%" border="0" cellpadding="5" class="gray" summary="The html report files located in a report directory." title="View Reports Offline">
+  <tr valign="top">
+    <th scope="col" width="20%" class="left"> Report Files</th>
+    <th scope="col" class="left"> Description </th>
+  </tr>
+  <tr valign="top">
+    <td scope="row"><code>config.html</code></td>
+    <td>Contains the configuration interview questions and your answers used
+      for the test run. </td>
+  </tr>
+  <tr valign="top">
+    <td scope="row"><code>env.html</code></td>
+    <td> Contains the name-value pairs derived from the configuration file that
+      were used for the test run. </td>
+  </tr>
+  <tr valign="top">
+    <td scope="row"><code>error.html</code></td>
+    <td> Contains a list of the tests that had errors and could not be run. </td>
+  </tr>
+    <tr valign="top">
+    <td scope="row"><code>error_gr.html</code></td>
+    <td>Contains a list of the tests that had errors and could not be run, grouped by status. </td>
+  </tr>
+  <tr valign="top">
+    <td scope="row"><code>excluded.html</code></td>
+    <td> Contains a list of the tests that were excluded from the test run. </td>
+  </tr>
+  <tr valign="top">
+    <td scope="row"><code>failed.html</code></td>
+    <td> Contains a list of the tests that were executed during the test run
+      but failed. </td>
+  </tr>
+  
+    <tr valign="top">
+    <td scope="row"><code>failed_gr.html</code></td>
+    <td> Contains a list of the tests that executed during the test run
+      but failed. The test are grouped by status. </td>
+  </tr>
+  <tr valign="top">
+    <td scope="row"><code>notRun.html</code></td>
+    <td> Contains a list of all tests that were not excluded from the test run
+      but were not run. </td>
+  </tr>
+  <tr valign="top">
+    <td scope="row"><code>passed.html</code></td>
+    <td> Contains a list of the tests that were executed during the test run
+      and passed. </td>
+  </tr>
+
+    <tr valign="top">
+    <td scope="row"><code>passed_gr.html</code></td>
+    <td> Contains a list of the tests that were executed during the test run
+      and passed, organized by status. </td>
+  </tr>
+  <tr valign="top">
+    <td scope="row"><code>report.html</code></td>
+    <td> Contains links to all of the HTML files and additional information. </td>
+  </tr>
+</table>
+<p>This report may also list known failure lists and exclude lists if they have been included in your configuration.</p>
+<h2>Viewing Reports Offline</h2>
+<p>
+You can view the reports offline by opening  the <code>html</code>  files
+in a web browser or opening the <code>summary.txt</code> report
+in any text
+editor.</p>
+<p>The <code>report.html</code> file is the root file that links to the other
+  HTML reports. The <code>summary.txt</code> report
+  contains a list of all tests that were run, their test results, and their
+  status messages.</p>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

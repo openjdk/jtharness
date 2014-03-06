@@ -1,0 +1,391 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Creating Reports
+</title>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="newReports"><!--index:creating test reports--><!--test reports: creating--><!--reports: creating--></a>
+<h1>Creating Reports</h1>
+<p>
+The harness does not automatically create reports of test results after a test run. You must create test reports either  from the harness GUI or from the command line in batch mode (see
+  <a href="../command/writeReports.html">Writing
+Reports</a> in the <em>Command-Line Interface User's
+Guide</em>). </p>
+<ul>
+<li><p><a href="#CreateTestReport">Creating a Test Report</a></p>
+  <ul>
+    <li><p><a href="#htmlopt">HTML Options</a></p></li>
+    <li><p><a href="#htmlFilesTab">HTML Files</a></p></li>
+    <li><p><a href="#optKFL">KFL Options</a></p></li>
+    <li><p><a href="#createKFL">Creating a Known Failures List</a></p></li>
+  </ul> </li>
+<li><p><a href="#reportFiles">Report Files</a></p>
+  <ul>
+    <li><a href="#htmlreportfiles">HTML Report Files</a></li>
+    <li><a href="#textreportfiles">Plain Text Report Files</a>  </li>
+  </ul>
+</li>
+</ul>
+
+  <p>Reports might contain configuration values as well as test results. To ensure
+    that any configuration values printed in reports are those that were used to
+    run the tests, observe the following precautions after running tests for which
+    you intend to generate one or more reports:</p>
+  <ul>
+    <li><p>Do not change any values in the current configuration.</p></li>
+      <li><p>Do not load a different configuration into the work directory.</p></li>
+</ul>
+
+<p class="note"><!--CopyOff--><img src="../../images/hg_note.gif" alt="This is the start of a procedure" longdesc="reportBrowser.html"><!--CopyOn-->To minimize the chance of creating reports with configuration
+  values that are inconsistent with the test results, either create reports
+   after running the tests or use different work directories
+  for different configurations.</p>
+  
+<a name="CreateTestReport"></a>
+<h2 class="proc">Creating a Test Report</h2>
+
+
+<p>To create a test report from the harness GUI,  complete these steps:</p>
+<ol>
+  <li><p>Choose Report <b>&gt;</b> Create Report from the Test Manager menu bar. The harness opens the Create a New Report dialog box.</p>
+      <center><p>
+  <img src="../../images/JT41reportgenerator.gif" alt="Create a New Report dialog box"  longdesc="newReports.html"> </p></center></li>
+
+  <li>
+    <p>Type the name of a report directory in the Report Directory field or click
+    the Browse button to specify where to put the new reports.</p>
+    <p>
+    You can either
+    specify a new directory or an existing directory. If you ran reports earlier,
+    the Report Directory field displays the directory from the previous run. If you use an existing report
+    directory, the harness can save the previous reports as backups when
+    it writes the new reports. Use the settings in the Backup Options pane
+    to backup old reports and specify the number of backup reports to keep in the
+    report directory.
+    </p></li>
+    <li><p>The "Report Results for" drop down specifies the filter used to select the test results that are reported. You can choose Last Test Run, Current Configuration, All Tests, <em>Custom</em>, or Certification. If the <em>Custom</em> filter was previously renamed, the dialog box displays the current name of the custom filter. You can create or modify a custom filter for generating test reports for a specific set of test criteria.</p>
+
+<p>See <a href="../browse/viewFilters.html">Using View Filters</a> for a description of the filters. See <a href="../ui/customFilters.html">Custom View Filter</a> for a description of how to create a custom view filter.</p>
+</li>
+<li>
+<p>Check "Backup Options settings" to enable the report backup option, and specify the number of backups preserved.</p>
+
+<p>When "Backup old reports" is enabled, the harness saves the previous reports by appending a tilde and a sequential number to the existing directory names (such as <code>html~1~</code>).  This effectively moves them out of the way, making way for the new report(s). The links inside the backup <code>index.html</code> file are rewritten to refer to the correct (renamed) subdirectory name. For example, a report directory with one backup would look like: </p>
+<table>
+<tr><td>
+<pre>
+html/
+html~1~/
+index.html
+index.html~1~
+reportdir.dat
+text/
+text~1~/<pre></td></tr></table>
+
+<p>The harness maintains the specified number of backup copies by deleting the oldest copy when the limit of backups is reached for a specific report. Changing this or any other setting
+in the report dialog box does not affect any previously saved backup reports.
+Existing backups are not deleted if backups are turned off.</p>
+
+<p>The harness backs up the entire set of reports. If the first set of reports included HTML, Text, XML, and COF formats, and the next set of reports are generated in XML format only, the harness creates backups of the previous  reports (appending the appropriate tilde and sequence number to the backup directory name). The harness generates the new top-level <code>index.html</code> file and updates its hyperlinks to maintain a self-consistent backup report set.</p>
+</li>
+<li><p>In the left column, choose the report format(s) to be generated by the harness. The options set in this dialog are persistent. Once set, they
+  are used each time a report is generated. These settings also apply to reports
+  printed from the command-line interface.</p>
+  <p><b>HTML Report</b>: An HTML report showing configuration information, a result summary, and environment values. See <a href="#htmlopt">HTML Options</a> and <a href="#optKFL">KFL Options</a>.</p>
+  <p><b>Plain Text Report</b>: A text report showing only the test names and their result status. If the configuration names at least one <a href="#usingKFL">known failures list</a>, known failure analysis reports are also created. </p>
+  <p><b>XML Report</b>: An XML report containing configuration information, a result summary, and all result data for each test. This report is versatile - it can be used as input to Merge Reports and can be converted to other report formats. However,  the file can be larger and slower to generate than other formats.</p>
+  <p><b>COF Report</b>: The report browser displays a <code>cof.xml</code> hyperlink to the COF report page, which contains a report in the COF format. COF is an extensive XML format containing environment, configuration and test result data. </p>
+</li>
+<li><p>Click the Create Report(s) button. </p></li>
+</ol>
+<p>
+The harness writes the reports and displays a dialog box that gives you the option of either viewing the new reports in the report browser or returning to the Test Manager window.
+</p>
+
+
+<a name="htmlopt"><!--index:HTML report options --></a>
+<h2>HTML Options</h2>
+<p>
+If you selected HTML Report in the Report Formats list, use the HTML Options tab to select the sections of the main HTML report file that are generated.
+</p>
+<center>
+<img src="../../images/JT4createReportHTMLoptions.gif" alt="Create reports HTML options tab"  longdesc="newReports.html"></center>
+<p>The following options are available for generating HTML reports:</p>
+<ul>
+  <li><p><b>Configuration</b> - Selecting this option enables all of the
+      following subordinate options:</p>
+    <ul>
+    <li><p><b>Question Log</b> - Generates a report that is the
+      equivalent of the Configuration Question Log.</p></li>
+    <li><p><b>Test Environment</b> - Generates a report that is
+      the equivalent of the Show Environment dialog box.</p></li>
+    <li><p><b>Standard Values</b> - Generates a report that contains
+      the values from the Quick Set Mode.</p></li>
+    </ul>
+  </li>
+  <li>
+    <p><b>Results Summary</b> - Generates a report of the pass, Fail, Error,
+    Not Run, and Total values. The HTML report provides hyperlinks to content
+    in the other HTML files. If it is not selected, the hyperlinks are not generated.</p>
+  </li>
+  <li>
+    <p><b>Known Failures</b> - Generate a report of known failures, based on one or more
+    <a href="#knownFailureListReports">Known Failures List</a> (KFL) files. When  the value for "Specify a Known Failures List?" is set to Yes in the configuration editor, and one or more KFL files have been specified, the settings are stored in your user preferences and used as the default when the KFL option is selected.</p></li>
+
+  <li>
+    <p><b>Keyword Summary</b> - Generates a report that provides a count of
+    the number of occurrences of keywords that appeared in the selected tests.</p></li>
+</ul>
+
+<a name="htmlFilesTab"><!--index:HTML Files tab--></a>
+<h2>HTML Files</h2>
+<p>Use the options on this tab to specify the content and the location of HTML reports. The main report is the home page for browsing HTML reports. It can be named <code>report.html</code> or <code>index.html</code>. The main report contains hyperlinks to the extra files you choose to generate. The extra files you can choose are as follows:</p>
+
+  <ul>
+  <li><p>Passed Tests (<code>passed.html</code>):  Tests that were executed during the test run
+    and passed. </p></li>
+  <li><p>Failed Tests (<code>failed.html</code>):  Tests that were executed during the test run
+    but failed. </p></li>
+  <li><p>Error Tests (<code>error.html</code>):  Tests that had errors and could not be run. </p></li>
+  <li><p>Not Run Tests (<code>notrun.html</code>):  Tests that were not excluded from the test run but were not run. </p></li>
+  </ul>
+
+<p>The main report and any extra files are written to the location you specified in the Report Directory field. </p>
+
+<a name="optKFL"><!--index:KFL--></a>
+<h2>KFL Options in HTML Reports</h2>
+<p>Known failure list reports  enrich the reporting output so you can monitor the status of certain tests across test runs. This section describes how to create and use a known failures list and discusses KFL reports and the 
+<a href="#kfanalysis">Known Failure Analysis</a>.</p>
+<a name="usingKFL"><!--index:KFL--></a>
+<h3>Using a Known Failures List</h3>
+
+<p>A known failures list (KFL) is list of tests or test cases that are known to fail. Its purpose is to provide failure data for reporting, so that failure behavior can be tracked over time.  Using a known failures list is optional and the feature is off by default. To activate the feature, answer yes to the &quot;Specify a Known Failures List?&quot; question in the configuration editor.</p>
+<p>Once  KFL files have been specified, (see <a href="#createKFL">Creating a Known Failures List</a> and <a href="#specKFL">Specifying a Known Failures List</a>) you can choose the Known Failures option in the HTML Options tab. This enables Known Failure Analysis options on the KFL Options tab. Options you check on  this tab are preserved as preferences for future reports. This is true if reports are launched from the user interface or the command line.</p>
+<p><b>Reporting Options</b>:</p>
+<ul>
+<li><p>Check for test discrepancies. This feature is No by default. To activate this option, choose it in the user interface.</p></li></ul>
+<p><b>Optional files/sections to generate</b>:</p>
+<p>These options are set to Yes by default.</p>
+<ul>
+  <li><p>List tests which are expected to fail and are still failing. See <a href="#failtoerror">Unexpected Error</a> (<code>kfl_fail2error.html)</code>.</p></li>
+<li><p>List tests which were expect to fail but resulted in error instead. See <a href="#failtopass">New Passed</a> (<code>kfl_fail2newpassed.html)</code>.</p></li>
+<li><p>Report on tests in KFL which are now missing.</p></li></ul>
+
+<p>Any generated data is added to the <a href="#kfanalysis">Known Failure Analysis</a> which is found towards the end of the HTML report (<code>report.html</code> and/or <code>index.html</code>).  It is a summary of various comparisons between the selected result set (Current Configuration, Last Test Run, etcetera) and the items listed in the KFLs provided in the configuration.</p>
+
+<a name="createKFL"><!-- index:KFL --></a>
+<h3>Creating a Known Failures List</h3>
+<p>The KFL is a text file with the extension <code>.kfl</code>.</p>
+
+<p class="note"><!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="otherConfigValues.html"><br><!--CopyOn-->
+The KFL file name or its path must not begin with a dash "-" or contain spaces. As described in 
+<a href="../../default/command/knownFailureAnalysis.html">Specifying Known Failures Lists With kfl</a> in the <em>Command-Line Interface User's Guide</em>, a space is a separator on the command line, therefore file path arguments such as <code>C:\Program Files\myconfig\foobar</code> do not work.</p>
+
+<p>The <code>.kfl</code> file lists one test or test case per line. You have the option of specifying a bug ID following the test name (a space separator is required). Use # for comments. For example:</p>
+<pre>
+# Demo.kfl
+lists/DoublyLinkedList/insertTest.html 0000123
+BigNum/subtractTest.html 0000456
+BigNum/compareTest.html 0000789</pre>
+
+<a name="testManager.bugprefix"><!-- index:bug prefix URL --><!--index:KFL report bug prefix --></a>
+<p>If you provide a bug prefix URL, that ID will be appended to that address, creating a convenient link in your report. To specify the bug prefix URL, select File > Preferences. Under Test Manager, select 
+<a href="../ui/testManager.html#testManager.reporting">Reporting</a>, and specify the URL. </p>
+
+<p><!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="otherConfigValues.html"><br><!--CopyOn-->
+This feature does not validate the URL or perform any processing.</p>
+
+<a name="specKFL"><!-- index:KFL --></a>
+<h3>Specifying a Known Failures List</h3>
+<p>Follow these steps to use one or more known failure lists to add failure analysis data to HTML reports.</p>
+<ol>
+<li><p>From the configuration editor, select Configure > Edit Configuration.</p></li>
+<li><p>Under Parameters, select "Specify a Known Failures List?" and choose Yes.
+  Once Yes is chosen the parameter  "Specify Known Failures List Files" is active. </p></li>
+<li><p>Choose one or more KFL files, as described in the configuration editor's <a href="../../../moreInfo/default/KnownFailuresListInterview/customFiles.html">KnownFailuresListInterview</a>.</p> The files you choose are stored in your user preferences and are considered the defaults.
+</ol>
+<p>If you have specified KFL files in the configuration editor it's preferable to modify the list using the configuration editor. If you want to modify the list of KFL files from the command line, See <a href="../../default/command/knownFailureAnalysis.html">Specifying Known Failures Lists with kfl</a> in the <em>Command Line Interface User's Guide</em>.
+
+<a name="knownFailureListReports"><!--index:KFL reports--><!--reports: KFL: creating--></a></p>
+<h3>Known Failures List Reports</h3>
+<p>If you specified a known failures list in the configuration editor, the HTML report will include a section titled Known Failure Analysis. When you create a report you can check the HTML Option "Known Failures" to create the  <a href="#failtopass">New Passed</a>,  <a href="#failtonotrun">Missing (not run)</a>, and  <a href="#newfailures">New Failures</a> reports. The options on the KFL Options tab generate reports for  <a href="#failtopass">New Passed</a>,  <a href="#failtomissing">Missing (test not found)</a> and  <a href="#failtofail">Old Failure</a>.</p>
+
+<a name="kfanalysis"> <!--index:known failure analysis--></a>
+<h3><a name="Known Failure Analysis">Known Failure Analysis</a></h3>
+<p>The Known Failure Analysis table in the HTML report attempts to describe the differences found in the set of results being analyzed versus what you provided in the KFL.  The KFL is the set of expected failures of tests and test cases; if they did not fail in the current set of results, that is considered a discrepancy. This is a sample table:</p>
+
+<center>
+  <img src="../../images/knownFailureAnalysis.gif" alt="Create reports HTML options tab"  longdesc="newReports.html">
+</center>
+
+
+<p>The headers <b>Tests (#)</b> and <b>Test Cases (#)</b> contain a number representing the number of discrepancies found in that column.  The numbers below that header should add up to that number (except the Old Failure does not count as a discrepancy).</p>
+  
+<p>The Known Failure Analysis table contains numbers linked to each of the report categories below. If the number is clicked, the user is taken to a file which has details - basically the information you'd find in the KFL file.  The test name or test case name and the associated bug IDs.  The test names are hyperlinked to the JTR result file in the work directory and the bug ids are hyperlinked  if the bug URL preference is set in the Test Manager Preferences (as described in  <a href="../ui/testManager.html#testManager.reporting">Reporting</a>).</p>
+
+
+<a name="failtopass"><!-- index:KFL reports; reports: KFL: New Passed --></a>  
+<h4>New Passed</h4>
+<p>A  test or test case in the current set of results has a Passed status, when it was expected to fail.</p>
+<p>Sample scenario: </p>
+<ol>
+<li><p>A product under development has a defect described in bug 1234, which exists in builds 1-5.  The quality department now expects an error in test <code>abc123</code> whenever the tests are run against the product, and has put test <code>abc123</code> on the known failures list (KFL).</p></li>
+<li><p>Build 6 arrives and test <code>abc123</code> now passes because the defect has been fixed.</p></li>
+<li><p>By looking at this Fail to Pass section of the report, the quality department will see test <code>abc123</code> listed and investigate the reason this test is suddenly passing.</p></li>
+<li><p>After confirming the fix, a typical action would be to remove test <code>abc123</code> from the KFL.</p></li>
+</ol>
+<a name="failtoerror"><!-- index:KFL reports --><!-- reports: KFL: Unexpected Error --></a>  
+<h4>Unexpected Error</h4>
+<p>A test or test case in the current set of results has an Error state, but it was expected to Fail.  An Error usually indicates some sort of problem executing the test. Investigate items in this category to see why they resulted in an Error rather than a simple Pass or Fail.
+
+<a name="failtonotrun"><!-- index:KFL reports --><!--reports: KFL: Not Run (not run) --></a>  
+<h4>Missing (Not run)</h4>
+<p>For some reason the test on the KFL was not run in the set of results being reported.  It may not indicate a problem if a partial set of results is being analyzed, or if the KFL contains a wide set of tests, all of which would never appear in a single set of results.</p>
+
+<a name="failtomissing"><!-- index:KFL reports --><!-- reports: KFL: Missing (test not found) --></a>  
+<h4>Missing (test not found)</h4>
+<p>The results for a test listed in the KFL are  missing.  Because the test was listed in the KFL, it was expected to exist and Fail.  A missing test may not indicate a problem, but should be investigated.  This section can be disabled by deselecting the appropriate option in the HTML KFL report options in the Create Report dialog.</p>
+
+<a name="newfailures"><!-- index:KFL reports --><!-- reports: KFL: new failure --></a>  
+<h4>New Failure</h4>
+<p>Any test or test case which has a Failed status in the current results but does not appear in the KFL.</p>
+
+<a name="failtofail"><!-- index:KFL reports--><!--reports: KFL: Old Failure --></a>  
+<h4>Old Failure</h4>
+<p>The lists of tests and test cases which failed and were expected to fail.  This is not a discrepancy and is provided for informational purposes.</p>
+
+<a name="unrelerr"><!-- index:KFL reports--><!--reports: KFL: Unrelated Errors --></a>
+<h4>Unrelated Errors</h4>
+<p>Error results present in the results being reported upon, which do not correspond to any entries on the KFL list(s) supplied.  This is a convenience listing so that errors can be examined at the same time as known failure list discrepancies.</p>
+
+<a name="reportFiles"><!-- index:report files --><!-- index:report directory --></a>
+<h2>Report Files</h2>
+<p><a name="htmlreportfiles"></a></p>
+<h3>HTML Report Files </h3>
+<p>The possible contents of the report directory are as follows:
+<pre>
+  index.html
+  /html
+     config.html
+     env.html
+     error.html
+     error_gr.html
+     excluded.html
+     failed.html
+     failed_gr.html
+     kfl_fail2error.html
+     kfl_fail2fail.html
+     kfl_fail2missing.html
+     kfl_fail2notrun.html
+     kfl_fail2pass.html
+     kfl_newfailures.html
+     kfl_otherErrors.html
+     kfl_tc_fail2error.html
+     kfl_tc_fail2missing.html
+     kfl_tc_fail2notrun.html
+     kfl_tc_fail2pass.html
+     kfl_tc_newfailures.html
+     notRun.html
+     passed.html
+     passed_gr.html
+     report.css
+     report.html
+  /text
+     summary.txt
+  /xml
+     report.xml
+</pre>
+<p>In the <code>html</code> directory, the KFL report file names correspond to the KFL reports as follows:</p>
+
+<table border="0" cellpadding="5" class="gray" summary="writeReport types" title="Known Failure List Reports">
+<tr valign="top">
+<th scope="col" class="left">HTML Report</th><th scope="col" class="left">File Names</th></tr>
+<tr><td>New Passed</td><td><code>kfl_fail2pass.html</code>, <code>kfl_tc_fail2pass.html</code></td></tr>
+<tr>
+  <td>Unexpected Error</td><td><code>kfl_fail2error.html</code>, <code>kfl_tc_fail2error.html</code></td></tr>
+
+<tr><td>Missing (Not run)</td>
+<td><code>kfl_fail2notrun.html</code>, <code>kfl_tc_fail2notrun.html</code></td></tr>
+
+<tr><td>Missing (test not found)</td>
+<td><code>kfl_fail2missing.html</code>, <code>kfl_tc_fail2missing.html</code></td></tr>
+
+<tr><td>New Failure</td><td><code>kfl_newfailures.html</code>, <code>kfl_tc_newfailures.html</code></td></tr>
+
+<tr><td>Old Failure</td><td><code>kfl_fail2fail.html</code>, <code>kfl_tc_fail2fail.html</code></td></tr>
+
+</table>
+
+<p><a name="textreportfiles"></a></p>
+<h3>Plain Text Report Files</h3>
+<p>A plain text report directory contains a <code>text/</code> directory which contains the main text report, <code>summary.txt</code>. </p>
+<p>If the configuration associated with the work directory names at least one <a href="#usingKFL">known failures list</a> (KFL) file, the <code>text/</code> directory contains  the additional known failure analysis files listed  here: </p>
+<table border="0" cellpadding="5" class="gray" summary="writeReport types" title="Known Failure List Reports">
+  <tr valign="top">
+    <th scope="col" class="left">Text Report</th>
+    <th scope="col" class="left">File Names</th>
+  </tr>
+  <tr>
+    <td>New Passed</td>
+    <td><code>kfl_fail2pass.txt</code>, <code>kfl_tc_fail2pass.txt</code></td>
+  </tr>
+  <tr>
+    <td>Unexpected Error</td>
+    <td><code>kfl_fail2error.txt</code>, <code>kfl_tc_fail2error.txt</code></td>
+  </tr>
+  <tr>
+    <td>Missing (Not run)</td>
+    <td><code>kfl_fail2notrun.txt</code>, <code>kfl_tc_fail2notrun.txt</code></td>
+  </tr>
+  <tr>
+    <td>Missing (test not found)</td>
+    <td><code>kfl_fail2missing.txt</code>, <code>kfl_tc_fail2missing.txt</code></td>
+  </tr>
+  <tr>
+    <td>New Failure</td>
+    <td><code>kfl_newfailures.txt</code>, <code>kfl_tc_newfailures.txt</code></td>
+  </tr>
+  <tr>
+    <td>Old Failure</td>
+    <td><code>kfl_fail2fail.txt</code>, <code>kfl_tc_fail2fail.txt</code></td>
+  </tr>
+</table>
+<p>The files whose names begin with <code>tc_</code> are present only if the test suite supports test case identification. </p>
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2014, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

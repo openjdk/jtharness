@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<!-- %W% %E% -->
+<html>
+<head>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<title>Choosing the Type of Agent</title>
+</head>
+<body>
+<a name="configureActiveAgents"><!-- index:choosing type of agent --><!-- index:JT Harness agent; choosing type of  --></a>
+<h1>Choosing the Type of Agent</h1>
+
+<p>
+The JT Harness harness agent is a lightweight program compatible with Java Development
+  Kit, version 1.1, that uses a bi-directional serial connection supporting both
+  TCP/IP and RS-232 protocols to communicate between the test system and the
+  JT Harness harness.
+</p>
+<p>
+You can use the agent provided by the JT Harness harness if your test system meets the following minimum requirements:
+</p>
+
+<ul>
+<li>The device supports a communication layer that can last the duration of a
+  test (several minutes).
+</li>
+<li>
+The device must be able to have the agent classes loaded on it.
+</li>
+</ul>
+
+<p>
+The type of agent that you use depends on the communication protocol used between
+  your test system and the JT Harness harness and on the type of initial connection
+  made between the agent and the JT Harness harness. The following table describes
+  the types of agent and the communication protocol.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray.wide" summary="Types of agents and the communication protocol used between the test system and the JT Harness harness." title="Types of Agent Modes">
+<tr valign="top">
+<th width="20%" scope="col" class="left">
+Mode
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Active
+</td>
+<td>
+Use active mode (active agent) when you want the agent to initiate the connection to the JT Harness harness via TCP/IP.
+<p>
+Agents using active communication allow you perform the following actions:
+</p>
+<ul>
+<li>
+Run tests in parallel using many agents at once
+</li>
+<li>
+Specify the test machines at the time you run the tests
+</li>
+</ul>
+
+<p>
+Active agents are used for network connections and are recommended. If the security restrictions of your test system prevent incoming connections then you must use an active agent.
+</p>
+<p>
+The JT Harness harness must be running and agent pool listening must be enabled before starting an active agent. Use the 
+<a href="window.html">Agent Monitor window</a>
+ in the JT Harness harness GUI to enable listening.
+</p>
+<p>
+If listening is not enabled when the agent starts, it returns an error message and waits until its timeout period ends before re-contacting the JT Harness harness.
+</p>
+
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Passive
+</td>
+<td>
+Use passive mode (passive agent) when you want the agent to wait for the JT Harness harness to initiate the connection via TCP/IP. 
+
+<p>
+Because the JT Harness harness only initiates a connection to a passive agent when
+  it runs tests, passive communication has the following characteristics:</p>
+<ul>
+<li>
+Requires that you specify the test machine as part of the test configuration,
+  not at the time you run the tests
+</li>
+<li>
+Does not allow you to run tests in parallel</li>
+</ul>
+
+<p>
+Passive agents are used for network connections and must be started before the harness attempts to run tests. If the JT Harness harness issues a request before the passive agent is started, the harness waits for an available agent until its timeout period ends. If the timeout period ends before an agent is available, the JT Harness harness reports an error for the test.
+</p>
+
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Serial
+</td>
+<td>
+Use serial mode (serial agent) when you want the agent to use an RS-232 serial connection. Serial agents wait for the JT Harness harness to initiate the connection. Infrared, parallel, USB, and firewire connections can also be added through the JT Harness harness API by modeling the existing serial system.
+
+<p>
+Because the JT Harness harness only initiates a connection to serial agent when
+  it runs tests, serial communication has the following characteristics:
+</p>
+<ul>
+<li>
+Requires that you specify the test machine as part of the test configuration,
+   not at the time you run the tests
+</li>
+<li>
+Does not allow you to run tests in parallel
+</li>
+</ul></td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Other
+</td>
+<td>
+If your system does not meet the minimum requirements or if you have unique performance requirements, you can use the JT Harness harness API to create a custom agent. Refer to your test suite documentation for a description of how to configure and run it.
+</td>
+</tr>
+</table>
+
+
+<!--CopyOff--><p><b>Next task:</b></p>
+<p>
+<a href="startAgent.html"><b>Starting a JT Harness Agent</b></a>:  Start
+an agent on your test system.
+</p>
+<!--CopyOn-->
+<!--ins:JDTS-->
+
+<hr>
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+</body>
+</html>

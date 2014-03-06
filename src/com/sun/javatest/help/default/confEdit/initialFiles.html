@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Specifying Tests to Run</TITLE>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<a name="initialFiles"><!-- index:specify tests to run -->
+  <!-- index:standard values: Tests pane --><!-- index:initial files --></a>
+<H1 class="proc">Specifying Tests to Run</H1>
+<a name="quickSet"></a>
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="initialFiles.html"><!--CopyOn-->To
+  directly specify the tests that are run, perform the following steps:</p>
+
+<ol>
+  <li>Click the <img src="../../images/stdValues_button.gif" alt="QuickSet Mode button" width="10" height="11" longdesc="toolBar.html"> Quick
+    Set Mode button on the Test Manager tool bar or choose Configure
+    &gt; Edit Quick Set &gt; Tests To Run in the menu bar.</li>
+</ol>
+<blockquote>
+  <p>The Configuration Editor opens in Quick Set Mode.</p> 
+</blockquote>
+<center>
+  <img src="../../images/JT4testsTabConfigEd.gif" alt="Configuration editor Test tab"  longdesc="initialFiles.html">
+</center>
+<blockquote>
+  <p class="note"><!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="quickStart.html"><br>
+    <!--CopyOn-->
+    In Question
+    Mode, use the How to Specify Tests question to specify tests that are run.</p>
+</blockquote>
+
+<ol start="2">
+  <li>Click the Tests tab if it does not have focus. </li>
+  <li>Choose the Specify radio button. </li>
+</ol>
+<blockquote>
+  <p>The Configuration
+    Editor enables the tree and the Load Test List button. </p>
+</blockquote>
+
+<ol start="3">
+  <li>Use the run tree or the Load Test List button to specify the tests that
+    are run.  </li>
+</ol>
+<blockquote>
+  <p>See the following topics for detailed information about using the run tree
+    or a load test list:</p>
+  <ul>
+    <li><a href="#testTree">Run Tree</a></li>
+    <li><a href="#testList">Load Test List</a></li>
+  </ul>
+</blockquote>
+<ol start="4">
+  <li>Click the Done button to save the configuration change.
+  </li>
+</ol>
+<a name="testTree"></a>  
+<h2>Run Tree </h2>
+<p>
+In the Tests to Run pane, you can
+  use the run tree to specify individual tests and folders  for the harness
+  to run. The Tests pane highlights all folder and test icons
+  selected for the test run. You can make individual selections in the tree by
+  pressing the Control key when you click an icon or name. To select a
+  series or sequence of tests or folders, press the Shift key and then click
+  the first and the last icon or name in the sequence.</p>
+
+<p> When you select some of the tests in and under a folder, the Test pane partially
+  highlights the folder icon. If you choose a test folder, the harness selects
+  all tests in the test suite under that location for the test run. If you choose
+  one or more tests, the harness selects those individual tests for the test
+  run.</p>
+<p>The harness
+  walks the tree starting with the sub-branches or tests you specify and executes
+  all tests not filtered out by the exclude list, keyword, or prior status.</p>
+<p class="Note"><!--CopyOff--><IMG SRC="../../images/hg_note.gif" WIDTH="18" HEIGHT="13" ALT="The following text is a Note" longdesc="initialFiles.html">
+<br>
+<!--CopyOn-->
+Restrictions are applied cumulatively. For example, you can specify the tests
+in a test suite, then restrict the set of tests using an exclude list, and then
+further restrict the set to only those tests that passed on a prior run.</p>
+<a name="testList"></a>
+<h2>Load Test List</h2>
+
+<p>
+When you click the Load Test List button, the harness opens a dialog box for
+  you to use in  locating and selecting the test list <code></code>  file.
+The test list file is a <code>.txt</code> file that contains a list of tests.
+See <a href="#testListFormat">Test List File Format</a> and <a href="#createtestList">Creating
+  a Test List File</a> for
+  a detailed description of the test list file.</p>
+<p>When the file is loaded, the harness updates the 
+    run tree  to indicate the tests  specified in the test list <code></code> file.</p>
+	<a name="testListFormat"></a>
+<h3>Test List File Format</h3>
+<p>The format requirements of the test list file are as follows:</p>
+<ul>
+  <li> Line-oriented</li>
+  <li>Relative test paths</li>
+  <li> Blank lines and lines beginning with the pound symbol (#) are ignored</li>
+  <li> On all other lines, the first item (up to the first whitespace) is taken
+    as a test name and the remainder of the line is ignored</li>
+</ul>
+<p> The format of the load list file is compatible with the format of the <code>summary.txt</code> generated
+  as part of a report.</p>
+  <a name="createtestList"></a>
+<h3 class="proc">Creating a Test List File</h3>
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="initialFiles.html"><!--CopyOn-->To
+  create a test list file, perform the following steps:</p>
+
+<ol>
+  <li>Select the lines
+      from <code>summary.txt</code> that
+      define the tests you want to run. </li>
+</ol>
+<blockquote>
+<p class="note">
+  <!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a Note" longdesc="createTemplate.html"><br>
+  <!--CopyOn-->You can use other sources for obtaining the path names
+  of the tests that you want to include in the test list file. On a Solaris platform, you might use <code>awk</code>, <code>grep</code>,
+    or similar utilities to identify lines that specify the tests with failed
+    or  error results.</p>
+  <p>Example lines from <code>summary.txt</code>: <br>
+<code>BigNum/compareTest.html                 Failed. exit code 1<br>
+BigNum/equalsTest.html                  Failed. exit code 1<br>
+BigNum/longConstrTest.html              Failed. exit code 1<br>
+BigNum/subtractTest.html                Failed. exit code 1<br>
+lists/DoublyLinkedList/appendTest.html  Failed. exit code 1<br>
+lists/DoublyLinkedList/equalsTest.html  Failed. exit code 1<br>
+lists/DoublyLinkedList/insertTest.html  Failed. exit code 1<br>
+lists/DoublyLinkedList/removeTest.html  Failed. exit code 1<br>
+lists/LinkedList/appendTest.html        Failed. exit code 1<br>
+lists/LinkedList/equalsTest.html        Failed. exit code 1<br>
+lists/LinkedList/insertTest.html        Failed. exit code 1<br>
+lists/LinkedList/removeTest.html        Failed. exit code 1<br>
+lists/SortedList/equalsTest.html        Failed. exit code 1<br>
+lists/SortedList/insertTest.html        Failed. exit code 1<br>
+lists/SortedList/removeTest.html        Failed. exit code 1</code></p>
+</blockquote>
+
+<ol start="2">
+  <li>Copy and paste the relative paths into a <code>.txt</code> file.</li>
+  <li>Remove all text that is not part of the test path.</li>
+</ol>
+<blockquote>
+  <p>Example lines in the <code>.txt</code> file:<br>
+  <code>BigNum/compareTest.html<br>
+  BigNum/equalsTest.html<br>
+  BigNum/longConstrTest.html<br>
+  BigNum/subtractTest.html<br>
+  lists/DoublyLinkedList/appendTest.html<br>
+  lists/DoublyLinkedList/equalsTest.html<br>
+  lists/DoublyLinkedList/insertTest.html<br>
+  lists/DoublyLinkedList/removeTest.html<br>
+  lists/LinkedList/appendTest.html<br>
+  lists/LinkedList/equalsTest.html<br>
+  lists/LinkedList/insertTest.html<br>
+  lists/LinkedList/removeTest.html<br>
+  lists/SortedList/equalsTest.html<br>
+  lists/SortedList/insertTest.html<br>
+  lists/SortedList/removeTest.html</code></p>
+</blockquote>
+
+<ol start="4">
+  <li>Save the <code>.txt</code> file using a descriptive name.</li>
+</ol>
+
+<blockquote>
+  <p>Example <code>.txt</code> file name:</p>
+  <p><code>BigNum_ListsfailedTests.txt</code></p>
+</blockquote>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

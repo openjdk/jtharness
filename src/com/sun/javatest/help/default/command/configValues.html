@@ -1,0 +1,201 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+    <HEAD>
+        <TITLE>Formatting Configuration Values for editJTI or  -set</TITLE>
+        <META name="hIndent" content="2"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+    </HEAD>
+    <BODY bgcolor="#ffffff">
+        <H1>Formatting Configuration Values for <code>editJTI</code> or <code>-set</code></H1>
+        <P>The following table identifies and describes the types of questions supported by the harness configuration interview.
+        as well as provides a description of the format required to set the value in the command line.</P>
+        <TABLE width="100%" border="0" class="gray.wide" summary="No summary required" title="Types and Values of jti Questions">
+            <TR valign="top">
+                <TH scope="col" class="left" width="20%">Question Type
+                </TH>
+                <TH scope="col" class="left">Description
+                </TH>
+            </TR>           
+            <TR valign="top">
+                <TD valign="top">Choice Question
+                </TD>
+                <TD valign="top">
+                    This question is used to get a selection from a finite list of possible values. For example, in the question "Which protocol would you use," where
+                    the only possible responses are TCP or UDP. These questions are usually displayed in the Configuration Editor and the Template Editor as radio buttons 
+                    where you can only select one button at a time.
+                    <p>The following is an example of the format used to set this configuration value in a command line:<br>
+                    <CODE>set</code> <em>My-testsuite</em><code>.cipher 3DES</CODE></P>
+                    <P>The value supplied is case sensitive. This type of question appears in the Configuration Editor as a set of radio buttons or single-selection list of choices.</P>
+                </TD>
+            </TR>                        
+            <TR valign="top">
+                <TD valign="top">File Question
+                </TD>
+                <TD valign="top">
+                    This question is used to represent a file path. It may be absolute or relative, 
+                    depending on the context of the question. See the question's More Info for information about 
+                    the requirements.  The value used is generally a platform specific path.  The question may 
+                    or may not check to see that the value is valid before it is accepted.
+                    <p>The following are examples of the format used to set this configuration value in a command line:<br>
+                   
+                    <CODE>set</code> <em>My-testsuite.myfile</em> <code>c:</code><em>\foo\bar</em><code>.txt</CODE></P>
+                    <p><CODE>set</code> <em>My-testsuite.myfile /tmp/bar</em><code>.txt</CODE></P>                   
+                </TD>
+            </TR>
+            <TR valign="top">
+                <TD valign="top">File List Question
+                </TD>
+                <TD valign="top">If none of the file names have embedded spaces, you can use a space-separated list of file names. 
+                    If any of the file names in the list have embedded spaces, use a newline character to terminate or separate all of the filenames.
+                </TD>
+            </TR>
+            <TR valign="top">
+                <TD valign="top">Floating Point Question
+                </TD>
+                <TD valign="top">
+                    This question is primarily used to enter fractional numbers, but can also 
+                    accept whole numbers.  It might be used to collect values such as a timeout factor in seconds, 
+                    where a value similar to 1.5 might be entered.  It usually appears as a type-in field in both the Configuration Editor and the Template Editor.  
+                    The question might be set to reject values outside a 
+                    specified range. See the More Info in the Configuration editor or the Template Editor for guidelines regarding  
+                    the values required for a specific question.
+                    <p>The following is an example of the format used to set this configuration value in a command line:<br>
+                    <CODE>set</code> <em>My-testsuite</em><code>.delay 5.0</CODE></P>
+                    <P>The value is evaluated using the current locale (for example, in European locales, enter 5,0).</P>
+                </TD>
+            </TR>       
+            <TR valign="top">
+                <TD valign="top">Integer Question
+                </TD>
+                <TD valign="top">
+                    These questions are commonly used to get port numbers or to specify the number of times to do an action. The answers are always restricted to whole numbers and might have further restrictions that 
+                    prevent you from using certain ranges of numbers (such as negative numbers).  You might also be restricted to using only a particular set 
+                    of pre-determined numbers. In the Configuration Editor and in the Template Editor, these usually appear as plain type-in fields
+                    or may be a field which has up and down (spinner) controls to select the number.
+                    <p>The following is an example of the format used to set this configuration value in a command line:<br>
+                    <CODE>set</code> <em>My-testsuite</em><code>.port 5000</CODE></P>
+                    <P>Localized values can be used. For example, 5,000 is acceptable in a US locale.</P>
+                </TD>
+            </TR>
+            <TR valign="top">
+                <TD valign="top">IPAddress Question
+                </TD>
+                <TD valign="top">The standard textual representation of the IP Address, as defined by Internet Engineering Task Force (IETF).
+                    <p>A typical IPv4 address string would be "192.168.1.1".</p>
+                </TD>
+            </TR>
+            <TR valign="top">
+                <TD valign="top">Multi Choice Question
+                </TD>
+                <TD valign="top">
+                    This question is used when a selection of choices from a finite set of possible values is required from the user. In the 
+                    Configuration Editor and Template Editor, this question type resembles the Choice question in that it has a list of choices with checkboxes.
+                    The difference between them is that in a Multi Choice question, you can select more than one checkbox.
+                   
+                    <p>The values that you use in the <CODE>set</code> command must be separated by whitespace (newline, space 
+                    or tab) and must be the absolute new settings for the question.  The values that you use are  
+                    absolute settings and cannot be based on the default or previous value.  You must enter 
+                    the full list of values that you want to turn on (corresponding to the items checked in the 
+                    Configuration Editor or Template Editor representation).</p>
+                </TD>
+            </TR>
+            <TR valign="top">
+                <TD valign="top">Property Question
+                </TD>
+                <TD valign="top">
+                    This question enables you to change a grouped set of property values for a test suite. In the 
+                    Configuration Editor and Template Editor, this question type enables the user to view multiple property settings and to change read-write values. The user 
+                    can also copy both key and values to the clipboard. Value types supported by this question include integer, float, yes-no, file, and string.
+                    In the Configuration Editor and Template Editor, the question can provide suggestions to users for the integer, float, file, and string value types that it
+                    contains.
+                    <p>The following are examples of the format used to set this configuration value in a command line:<br>
+                    <CODE>set</code> <em>question-key</em> <em>property-name</em>:<em>new-value</em></P>
+                   
+                    <p><CODE>set</code> <em>question-key</em>=<em>property-name</em>:<em>new-value</em></P>
+                    <p>
+                    Each <CODE>set</code> statement for a Property Question value must contain the question key, the property name, and a new value. The use of an equals sign or a space 
+                    is determined by the tool and the type of value that you are changing. You cannot change multiple values within a single set statement.
+                </TD>
+            </TR>
+            <TR valign="top">
+                <TD valign="top">String Question
+                </TD>
+                <TD valign="top">
+                    This question contains a generic field that enables you to enter a value. While this is much less restrictive than the integer or the file question,
+                    there might be some restrictions on the values that you can enter. In the most restrictive cases, you can only use values that
+                    are predefined. The More Info displayed in the Configuration Editor and the Template Editor might indicate what constitutes a legal value 
+                    in this field. View the More Info for detailed information about the values that you can enter in this field. 
+                    <p>The following is an example of the format used to set this configuration value in a command line:<br>
+                    <CODE>set</code> <em>My-testsuite</em><code>.url http://</code><em>machine</em><code>/</code><em>item</em></P>
+                </TD>
+            </TR>
+            <TR valign="top">
+                <TD valign="top">String List Question
+                </TD>
+                <TD valign="top">
+                    This question is used when multiple discrete string values are required from the user.
+                    It is usually shown as a interface which allows you to enter a string then add it to a
+                    list.  The list of strings provided in the <CODE>set</code> command become the new absolute answer to the question,
+                    not appended values.  See <a href="#newlines">Using Newlines Inside Strings</a>.
+                </TD>
+            </TR>            
+            <TR valign="top">
+                <TD valign="top">YesNo Question
+                </TD>
+                <TD valign="top">
+                    This question is used when either a positive or a negative response is needed from the user.
+                    <p>The following are examples of the format used to set this configuration value in a command line:<br>
+                    <CODE>set</code> <em>My-testsuite</em><code>.needStatus Yes</CODE></p>
+                    <p><CODE>set</code> <em>My-testsuite</em><code>.needStatus No</CODE></P>
+                    <P>
+                    The values are case sensitive and a lower-case value of yes or no is not acceptable.</P>
+                </TD>
+            </TR>
+        </TABLE>
+
+        <a name="newlines"> </a>
+        <H2>Using Newlines Inside Strings</H2>
+        <P>When setting values of configuration questions in the command line, the internal command parser accepts newlines inside strings if they are preceded by a backslash.</P>
+        <P>Depending on the shell you use, it might or might not be possible to enter this directly on the command line.</P>
+        <P>If you want to set values with embedded newlines, create a harness batch command file, and put the set commands (and any other commands) in that file. In the batch file, you can enter strings with embedded escaped newlines, as in the following example:</P>
+        <P>
+        <CODE># switch on verbose mode for commands<BR>verbose:commands<BR># open a jti file<BR>open /home/user1/tmp/idemo.11mar04.jti<BR># set a list of files<BR>set demo.file.simpleFileList  /tmp/aaa\<BR>/tmp/bbb\<BR>/tmp/ccc <BR># set a list of strings<BR>set demo.stringList  111\<BR>2222\<BR>3333 </CODE></P>
+        <P>On Solaris, using the Korn shell, you can simply put newline characters into strings.
+        </P>
+        <P>Example:</P>
+        <P><code>$JAVA \<BR>-jar image/lib/javatest.jar \<BR>-verbose:commands \<BR>-open /home/user1/tmp/idemo.11mar04.jti \<BR>-set demo.file.simpleFileList  /tmp/aaa<BR>/tmp/bbb<BR>/tmp/ccc </code></P>
+        
+        
+        
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2004, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

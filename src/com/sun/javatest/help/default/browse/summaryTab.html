@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2010, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Summary Information
+</title>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="summaryTab"><!--index:Summary information; Test Manager: Summary information--></a>
+<h1>Summary Information</h1>
+
+<p>
+When you click a folder icon in the test tree, the harness uses the current view filter to display Summary information about the folder's test results.
+</p>
+<p>
+The Summary pane contains header information that identifies the folder and the view filter presented in the Summary table and its associated pie chart. The pie chart displayed in the Summary pane is a graphical representation of the tabular data.
+</p>
+
+<p>
+The following table describes the filtered work directory information that the
+  Summary table and pie chart can display.</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Summary tabbed pane." title="Summary Pane Contents">
+
+<tr valign="top">
+<th  width="15%" scope="col" class="left">
+Field
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+<tr valign="top">
+<td>
+<a name="summaryTab.passed"><!-- index:Summary information: number of tests: passed -->
+  <!-- index:number of: passed tests --><!-- index:Test Manager: Summary information: number of passed tests --></a>
+Passed
+</td>
+<td>
+The number of tests in a folder (including all of its subordinate folders) displayed
+  in the test tree that were run and have passed test results.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+<a name="summaryTab.failed"><!-- index:Summary information: number of tests: failed -->
+  <!-- index:number of: failed tests--><!-- index:Test Manager: Summary information: number of failed tests --></a>
+Failed
+</td>
+<td>
+The number of tests in a folder (including all of its subordinate folders) displayed
+  in the test tree that were run and have failed test results.</td>
+</tr>
+
+<tr valign="top">
+<td>
+<a name="summaryTab.error"><!-- index:Summary information: number of tests: errors -->
+  <!-- index:number of: tests with errors --><!-- index:Test Manager: Summary information: number of tests with errors --></a>
+Error
+</td>
+<td>
+The number of tests in a folder (including all of its subordinate folders) displayed
+  in the test tree that were run but had errors.</td>
+</tr>
+
+<tr valign="top">
+<td>
+<a name="summaryTab.notRun"><!-- index:Summary information: number of test: not run -->
+  <!-- index:number of: tests not run--><!-- index:Test Manager: Summary information: number of tests not run --></a>
+Not Run
+</td>
+<td>
+The number of tests in a folder (including all of its subordinate folders) in
+  the test tree that have not yet been run and were not filtered out.</td>
+</tr>
+
+<tr valign="top">
+<td>
+<a name="summaryTab.subtotal"><!--index:Summary information: number of test: selected to run -->
+  <!-- index:number of: tests selected to run --><!-- index:Test Manager: Summary information: subtotal --></a>
+Sub-Total
+</td>
+<td>
+The total number of tests that were selected to run.</td>
+</tr>
+
+<tr valign="top">
+<td>
+<a name="summaryTab.filteredOut"><!--index:Summary information: number of test: filtered out -->
+  <!-- index: number of: tests filtered out--><!-- index:Test Manager: Summary information: test filtered out --></a>
+Filtered Out
+</td>
+<td>
+The total number of tests in a folder (including all of its subordinate folders)
+  displayed in the test tree that were filtered out. Tests that were filtered
+  out include tests that you omitted from the test run by using keywords, prior
+  status, or exclude lists.</td>
+</tr>
+
+<tr valign="top">
+<td>
+<a name="summaryTab.total"><!--index:Summary information: number of test: total -->
+  <!-- index:number of tests: total--><!-- index:Test Manager: Summary information: total  --></a>
+Total
+</td>
+<td>
+Total number of tests in a folder and its subordinate folders.</td>
+</tr>
+</table>
+
+<p class="note">
+<!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="summaryTab.html">
+<br><!--CopyOn-->
+The GUI only displays results of those tests in the work directory that match your <em>view</em> filter setting. Changing the view filter used in the Test Manager changes the values displayed in the Summary pane.
+</p>
+<p>
+When using the All Tests view filter, new settings in the current configuration do not change the values displayed in the Summary pane.
+</p>
+<p>When using the Current Configuration view filter, each time you make a change
+  in the configuration, the values displayed in the Summary pane are recalculated
+  and displayed based on the new settings in the current configuration. See the
+  following example for a description of the use of the Current Configuration
+  view filter and the All Tests view filter.</p>
+
+<p class="indent3"><b>Example:</b><br>
+If you rerun a set of tests and use   the Current Configuration view
+filter with Prior Status: Failed  set in the configuration (see <a href="../confEdit/status.html">Specifying
+Prior Status</a>), as actual
+test status in the work directory changes from Failed to either Passed or Error,
+the test status  displayed in the Summary
+pane changes from Failed to  Filtered Out.</p>
+<p class="indent3">
+If you change the view filter to All Tests, the test tree and Summary pane
+  immediately display the actual results of all tests in the work directory,
+  regardless of the Prior Status settings in the configuration.</p>
+
+<p>
+See <a href="../concepts/troubleshooting.html#troubleshooting.viewing"> Problems Viewing Test Results</a> for additional information about viewing test status in the test tree and Summary pane.
+</p>
+
+<p>
+Click the appropriate status information tab to identify the individual tests in a category.
+</p>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2010, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+
+

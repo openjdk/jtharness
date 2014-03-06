@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>DefaultParameterInterview.timeFactor</title>
+<LINK REL="stylesheet" TYPE="text/css" HREF="../moreInfo.css" TITLE="Style">
+</head>
+<body>
+To prevent a stalled test from stopping a test run, most
+test suites use a timeout limit. The timeout limit is the
+length of time that the harness must wait for a test to complete
+before beginning the next test. 
+<p>
+If you run tests on a slow CPU or a slow network, you can increase 
+the time limit by specifying a floating point value in the time factor 
+field. Each test's timeout limit is multiplied by the time factor 
+value. The default range of values used by 
+the harness is from 0.1 to 100.</p>
+<p>
+Note: Use the floating point format specific to your locale.
+</p>
+<p>
+For example, if your locale uses floating point values in the form of "x.x" and you specify a value of "2.0", the timeout limit for tests with a 10 minute limit becomes 20 minutes. A value of "0.5" for tests with a 10 minute limit produces a 5 minute timeout limit.
+</p>
+<p>
+If your locale uses floating point values in the form of "x,x", you would specify a values of "2,0" and "0,5" for the example.
+</p>
+<p>
+At first, use the default value of "1" to run tests and then, if necessary,
+increase the value.
+</p>
+</body>
+</html>

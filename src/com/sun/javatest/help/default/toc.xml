@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<!DOCTYPE toc
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/toc_1_0.dtd">
+
+<!-- open 1 -->
+<toc version="2.0" categoryclosedimage="closedbook" categoryopenimage="openbook">
+    <!-- open 2 -->
+    <tocitem target="jthelp.csh" text="JT Harness User's Guide">
+        <tocitem image="topic" target="copyright" text="Copyright Notice" />
+ 	<tocitem image="topic" target="securityInfo" text="Important Security Information" />       
+ 	<tocitem image="topic" target="jtIntro" text="Introduction" />
+        <!-- close 2 -->
+    </tocitem>
+
+    <!-- open 3 -->
+    <tocitem target="ui.usingJT" text="Graphical User Interface" >
+        <!-- open 4 -->
+        <tocitem image="chapter" target="start.quickStart" text="Quick Start" >
+            <tocitem image="topic" target="start.openTestSuite" text="Opening a Test Suite" />
+            <tocitem image="topic" target="start.openDirectory" text="Opening a Work Directory" />
+            <tocitem image="topic" target="start.createDirectory" text="Creating a Work Directory" />
+            <!-- close 4 -->
+        </tocitem>
+        <tocitem image="topic" target="ui.desktopStyles" text="Layout Styles" />
+
+        <tocitem image="topic" target="ui.desktopMenus" text="Menus" />
+        <!-- open 6 -->
+        <tocitem image="chapter" target="ui.prefs.dialog.csh" text="Setting Preferences" >
+            <tocitem image="topic" target="ui.prefs.appearance.csh" text="Appearance Preferences" />
+            <tocitem image="topic" target="ui.prefs.testManager" text="Test Manager Preferences" />
+            <tocitem image="topic" target="ui.prefs.confEditorView" text="Configuration Editor Preferences" />
+            <!-- close 6 -->
+        </tocitem>
+        <tocitem image="topic" target="ui.openHelp" text="Displaying Online Information" />
+
+        <tocitem image="topic" target="ui.keyboardAccess" text="Keyboard access" />
+        <!-- open 7 -->
+        <tocitem image="chapter" target="ui.ui" text="Tools" >
+            <tocitem image="topic" target="ui.agentMonitor" text="Agent Monitor Tool" />
+
+            <!-- open 7a -->	
+            <tocitem image="chapter" target="mergeReports.window.csh" text="Report Converter Tool" >
+                <tocitem image="topic" target="mergeReports.reportWindow" text="Report Converter Window" />
+                <tocitem image="topic" target="mergeReports.reportMerge" text="Report Converter Wizard" />
+                <!-- close 7a -->
+            </tocitem>
+            <!-- open 8 -->
+            <tocitem image="chapter" target="browse.window.csh" text="Test Manager Tool" >
+                <tocitem image="topic" target="ui.configureMenu" text="Configure Menu" />
+                <tocitem image="topic" target="ui.runMenu" text="Run Tests Menu" />
+                <tocitem image="topic" target="ui.reportMenu" text="Report Menu" />
+                <tocitem image="topic" target="ui.viewMenu" text="View Menu" />
+                <tocitem image="topic" target="ui.toolBar" text="Tool Bar" />
+                <tocitem image="topic" target="browse.testMonitor.csh" text="Progress Monitor" />
+                <tocitem image="topic" target="run.testProgress" text="Progress Indicator" />
+                <tocitem image="topic" target="ui.infoArea" text="Information Area" />
+                <!-- open 10 -->
+                <tocitem image="chapter" target="ui.usingtree" text="Test Tree" >
+                    <tocitem image="topic" target="ui.folderIcons" text="Folder Icons" />
+                    <tocitem image="topic" target="ui.testIcons" text="Test Icons" />
+                    <tocitem image="topic" target="ui.popupmenu" text="Test Tree Pop-Up Menu" />
+                    <!-- close 10 -->
+                </tocitem>
+                <!-- open 10a -->
+                <tocitem image="chapter" target="browse.viewFilters" text="View Filters" >
+                    <tocitem image="topic" target="ui.lastRun" text="Last Test Run View Filter" />
+                    <tocitem image="topic" target="ui.currentConfiguration" text="Current Configuration View Filter" />
+                    <tocitem image="topic" target="ui.currentTemplate" text="Current Template View Filter" />
+                    <tocitem image="topic" target="ui.allTests" text="All Tests View Filter" />
+     
+                    <tocitem image="topic" target="execFilters.dialog.csh" text="Custom View Filter" />
+                    <!-- close 10a -->
+                </tocitem>
+                <tocitem image="topic" target="ui.workDirStatus" text="Work Directory Status Line" />
+                <tocitem image="topic" target="ui.statusMessage" text="Test Manager Status Line" />
+
+                <!-- open 11 -->
+                <tocitem image="chapter" target="confEdit.openConfEd" text="Configuration Editor" >
+                    <tocitem image="topic" target="confEdit.fullView.csh" text="Question Mode" />
+                    <tocitem image="topic" target="confEdit.stdView.csh" text="Quick Set Mode" />
+                    <!-- close 11 -->
+                </tocitem>
+                <!-- open 11a -->
+                <tocitem image="chapter" target="admin.openTemplateEditor" text="Template Editor" >
+                    <tocitem image="topic" target="admin.questionModeTE.csh" text="Question Mode" />
+                    <tocitem image="topic" target="admin.quickSetTE.csh" text="Quick Set Mode" />
+                    <!-- close 11a -->
+                </tocitem>
+                <tocitem image="topic" target="logFileViewer.logViewer.csh" text="Log Viewer"/>
+                <!-- close 8 -->
+            </tocitem>
+
+        </tocitem>
+        <!-- close 7 -->
+
+    <!-- open 12 -->
+    <tocitem image="chapter" target="confEdit.window.csh" text="Configuring a Test Run" >
+        <tocitem image="topic" target="confEdit.createConfiguration" text="Creating a Configuration" />
+        <tocitem image="topic" target="confEdit.loadConfiguration" text="Loading a Configuration" />
+        <tocitem image="topic" target="confEdit.editConfiguration" text="Editing a Configuration" />
+        <!-- open 13 -->
+        <tocitem image="chapter" target="confEdit.editQuickSet" text="Editing Quick Set Values" >
+            <tocitem image="topic" target="confEdit.testsTab.csh" text="Specifying Tests to Run" />
+            <tocitem image="topic" target="confEdit.excludeTab.csh" text="Using Exclude Lists" />
+            <tocitem image="topic" target="confEdit.kflTab.csh" text="Using Known Failure Lists" />
+            <tocitem image="topic" target="confEdit.keywordsTab.csh" text="Specifying Keywords" />
+            <tocitem image="topic" target="confEdit.statusTab.csh" text="Specifying Prior Status" />
+            <tocitem image="topic" target="confEdit.execTab.csh" text="Setting Concurrency and Timeout Factor" />
+            <!-- close 13 -->
+        </tocitem>
+        <tocitem image="topic" target="confEdit.saveConfiguration"  text="Saving a Configuration" />
+        <tocitem image="topic" target="confEdit.marker" text="Using Bookmarks in Configurations" />
+        <tocitem image="topic" target="confEdit.search.csh" text="Searching a Configuration" />
+        <tocitem image="topic" target="confEdit.multiple.csh" text="Working with Multiple Configurations" />
+        <!-- close 12 -->
+    </tocitem>
+    <!-- open 14 -->
+    <tocitem image="chapter" target="confEdit.templateDialog.csh" text="Creating and Editing Templates" >
+        <tocitem image="topic" target="admin.createTemplate" text="Creating a Template" />
+        <tocitem image="topic" target="admin.editTemplate" text="Editing a Template" >
+            <!-- open 14a -->
+            <tocitem image="topic" target="admin.testsTabTE.csh" text="Changing Tests to Run" />
+            <tocitem image="topic" target="admin.excludeTabTE.csh" text="Adding or Removing Exclude Lists" />
+            <tocitem image="topic" target="admin.keywordsTabTE.csh" text="Editing Keywords and Expressions" />
+            <tocitem image="topic" target="admin.statusTabTE.csh" text="Editing Prior Status Settings" />
+            <tocitem image="topic" target="admin.execTabTE.csh" text="Editing Concurrency and Timeout Factor Values" />
+            <!-- close 14a -->
+        </tocitem>
+        <tocitem image="topic" target="templates.resolveConflict.csh" text="Resolving Configuration-Template Conflicts"/>
+        <tocitem image="topic" target="admin.setMarkersTE" text="Setting Bookmarks" />
+        <tocitem image="topic" target="admin.searchTemplateTE" text="Using Template Search" />
+        <!-- close 14 -->
+    </tocitem>
+    <!-- open 15 -->		
+    <tocitem image="chapter" target="templates.loadTemplate" text="Loading a Template" >		
+        <!-- close 15 -->
+    </tocitem>
+	
+    <!-- open 16 -->
+    <tocitem image="chapter" target="run.running" text="Running Tests">
+        <tocitem image="topic" target="run.starting" text="Starting a Test Run" />
+        <!-- open 17 -->
+        <tocitem image="chapter" target="run.monitoring" text="Monitoring a Test Run" >
+            <tocitem image="topic" target="run.testTree" text="Monitoring With a Test Tree" />
+            <tocitem image="topic" target="run.viewFilter" text="Using View Filters" />
+            <tocitem image="topic" target="browse.logViewer.csh" text="Monitoring Output Logs" />
+            <tocitem image="topic" target="run.svcViewer" text="Monitoring Services" />
+            <!-- close 17 -->
+        </tocitem>
+        <tocitem image="topic" target="agent.window.csh" text="Monitoring Agents" />
+        <tocitem image="topic" target="run.stopping" text="Stopping a Test Run" />
+        <tocitem image="topic" target="run.troubleshooting" text="Troubleshooting a Test Run" />
+        <!-- close 16 -->
+    </tocitem>
+
+    <!-- open 18 -->
+    <tocitem image="chapter" target="browse.browsing" text="Browsing Test Run Information">
+        <!-- open 19 -->
+        <tocitem image="chapter" target="browse.folderInfo" text="Displaying Folder Information">
+            <tocitem image="topic" target="browse.summaryTab.csh"  text="Summary Information" />
+            <tocitem image="topic" target="browse.statusTabs" text="Status Information" />
+            <tocitem image="topic" target="browse.multiselectionTab.csh" text="Multi-Selection Panel" />
+            <!-- close 19 -->
+        </tocitem>
+
+        <!-- open 20 -->
+        <tocitem image="chapter"  target="browse.testInfo" text="Displaying Test Information">
+            <tocitem image="topic" target="browse.testDescriptionTab.csh"  text="Test Description Pane" />
+            <tocitem image="topic" target="browse.filesTab.csh" text="Files Pane" />
+            <tocitem image="topic" target="browse.testEnvironmentTab.csh" text="Configuration Pane" />
+            <tocitem image="topic" target="browse.resultPropertiesTab.csh" text="Test Run Details Pane" />
+            <tocitem image="topic" target="browse.outputTab.csh" text="Test Run Messages Pane" />
+            <!-- close 20 -->
+        </tocitem>
+        <!-- open 21 -->
+        <tocitem image="chapter" target="confEdit.displayInfo" text="Displaying Configuration Information">
+            <tocitem image="topic" target="checklist.window.csh" text="Displaying the Configuration Checklist" />
+            <tocitem image="topic" target="env.window.csh" text="Viewing Configuration Values" />
+            <tocitem image="topic" target="exclList.window.csh" text="Viewing Exclude List Contents" />
+            <tocitem image="topic" target="quLog.window.csh" text="Displaying the Question Log" />
+            <!-- close 21 -->
+        </tocitem>
+        <tocitem image="topic" target="execProps.dialog.csh" text="Viewing Test Manager Properties"/>
+        <tocitem image="topic" target="browse.testSuiteErrors.csh" text="Viewing Test Suite Errors"/>
+        <!-- close 18 -->
+    </tocitem>
+
+    <!-- open 22 -->
+    <tocitem image="chapter" target="report.usingReports" text="Creating and Displaying Reports">
+        <tocitem image="topic" target="report.newReport.csh" text="Creating Reports" />
+        <tocitem image="topic" target="report.reportBrowser.csh" text="Displaying Reports" />
+        <!-- close 22 -->
+    </tocitem>
+	
+    <!-- open 22a -->
+    <tocitem image="topic" target="mergeReports.mergingReports" text="Merging and Converting XML Test Reports" >
+
+        <!-- close 22 -->
+    </tocitem>
+
+    <tocitem image="topic" target="concepts.troubleshooting" text="Troubleshooting With the GUI" />
+    <!-- close 3 -->
+</tocitem> 
+
+<!--Closed top-level tocitem to lose the turners -->
+
+<tocitem expand="false" target="command.intro.csh" text="Command-Line Interface" >
+    <tocitem image="chapter" target="command.commandLine" text="Command-Line Summary" >
+        <tocitem image="topic" target="command.aboutExamples" text="About the Command-Line Examples" />
+        <tocitem image="topic" target="command.formatCommands" text="Formatting a Command" />
+        <tocitem image="chapter" target="command.using.commandfile" text="Using Command Files" >
+            <tocitem image="topic" target="command.create.commandfile" text="Creating a Command File" />
+            <tocitem image="topic" target="command.examples.commandfile" text="Examples of Using Command Files" />
+        </tocitem>
+        <tocitem image="topic" target="command.configValues" text="Formatting Configuration Values for editJTI or  -set" />
+        <tocitem image="topic" target="command.compoundExamples" text="Extended Command-Line Examples" />
+        <tocitem image="topic" target="command.availableCommands" text="List of Available Commands" />
+    </tocitem>
+
+    <tocitem image="chapter" target="command.setup" text="Setup Commands" >
+        <tocitem image="chapter" target="command.basicContext" text="Initial Setup Commands" >
+            <tocitem image="topic" target="command.config" text="Specifying a Configuration File With config" />
+            <tocitem image="topic" target="command.workdir" text="Specifying a Work Directory With workDir" />
+            <tocitem image="topic" target="command.testsuite" text="Specifying a Test Suite With testSuite" />
+            <tocitem image="topic" target="command.open" text="Specifying a Test Suite, Work Directory or Configuration With open" />
+        </tocitem>
+
+        <tocitem image="chapter" target="command.otherValues" text="Setting Specific Values" >
+            <tocitem image="topic" target="command.examples.settingValues" text="Setting Test Suite Specific Values With set" />
+            <tocitem image="topic" target="command.concurrency"      text="Setting Concurrency With concurrency" />
+            <tocitem image="topic" target="command.excludeList"      text="Specifying Exclude Lists With excludeList" />
+            <tocitem image="topic" target="command.knownFailureAnalysis" text="Specifying Known Failure Lists with kfl" />
+            <tocitem image="topic" target="command.keyword"      text="Specifying Keywords With keywords" />
+            <tocitem image="topic" target="command.prior"      text="Selecting Tests With priorStatus" />
+            <tocitem image="topic" target="command.testDir"      text="Specifying Tests or Directories With tests" />
+            <tocitem image="topic" target="command.timeout"      text="Setting Timeout With timeoutFactor" />
+        </tocitem>
+        <tocitem image="topic" target="command.harnessSettings" text="Additional Setup Commands" />
+      
+    </tocitem>
+
+    <tocitem image="chapter" target="command.task" text="Task Commands" >
+        <tocitem image="chapter" target="command.runTests" text="Running Tests With runtests" >
+            <tocitem image="topic"  target="command.verbose" text="Monitoring Test Progress With verbose" />
+            <tocitem image="topic"  target="command.batchMode" text="Batch Mode" />
+            <tocitem image="topic"  target="command.observer" text="Observer" />
+        </tocitem>
+        <tocitem image="topic" target="command.writeReports" text="Writing Reports With writeReport" />
+    </tocitem>
+
+    <tocitem image="chapter" target="command.desktop" text="Desktop Commands" >
+        <tocitem image="topic" target="command.newDesktop" text="Starting a New Harness Desktop With newDesktop" />
+        <tocitem image="topic" target="command.settingColors" text="Specifying Status Colors" />
+    </tocitem>
+ 
+
+    <tocitem image="chapter" target="command.displayHelp" text="Information Commands" >
+        <tocitem image="topic" target="command.commandHelp" text="Displaying Command-Line Help With help" />
+        <tocitem image="topic" target="command.onlineHelp" text="Displaying Online Help With onlinehelp" />
+        <tocitem image="topic" target="command.versionInfo" text="Displaying Harness Version Information With version" />
+    </tocitem>
+
+    <tocitem image="chapter" target="command.legacyCommands" text="Legacy Commands" >
+        <tocitem image="topic" target="command.parameterCommands" text="Using Parameter Commands" />
+    </tocitem>
+    <tocitem image="topic" target="command.troubleshooting" text="Troubleshooting" />
+    <tocitem image="chapter" target="command.lite" text="The Lite Harness" /> 
+
+</tocitem>
+
+
+<tocitem expand="false" target="command.utilities" text="Utilities" >
+    <tocitem image="chapter" target="command.httpServer" text="Monitoring Results With HTTP Server" >
+        <tocitem image="topic" target="command.htmlOutput" text="HTML Formatted Output" />
+        <tocitem image="topic" target="command.textOutput" text="Plain Text Output" />
+    </tocitem>
+    <tocitem image="chapter" target="command.editConfig" text="Changing Configuration Values With EditJTI" >
+        <tocitem image="topic" target="command.examplesedit" text="Changing Configuration Values" />
+        <tocitem image="topic" target="command.examplesgenerateLog" text="Generating a Log of Updates" />
+        <tocitem image="topic" target="command.examplespreview" text="Previewing Without Change" />
+        <tocitem image="topic" target="command.examplesechoResults" text="Echoing Results of Changes" />
+        <tocitem image="topic" target="command.examplesshowPaths" text="Showing Paths for Debugging" />
+        <tocitem image="topic" target="command.exampleschange" text="Changing Test Suites or Create a New Interview" />
+        <tocitem image="topic" target="command.exampleschangePort" text="Changing the HTTP Port" />
+        <tocitem image="topic" target="command.examplesescapeShell" text="Doing Escapes in a UNIX Shell"/>
+    </tocitem>
+    <tocitem image="topic" target="command.textEditor" text="Changing Configuration Values With Text Editors"/>
+    <tocitem image="topic" target="command.moveReports" text="Moving Test Reports" />
+</tocitem>
+</toc>

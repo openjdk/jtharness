@@ -1,0 +1,402 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<META NAME="hIndent" CONTENT="1">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<title>
+Keyboard access
+</title>
+</head>
+<body>
+
+<h1>Keyboard access</h1>
+<p>
+The harness uses standard Java programming language key bindings for
+  keyboard traversal and access of the GUI. See the <em>Java Look and Feel Design
+  Guidelines</em> at <code>http://java.sun.com/products/jlf/</code> for
+  a detailed description of the standard key bindings for keyboard traversal
+  and access of the GUI.</p>
+<p>
+The window or component must have keyboard focus before
+you can use keyboard navigation, activation, or shortcuts. Keyboard navigation, activation,
+and shortcut operations are described in the following
+topics.
+</p>
+
+<a name="focus"></a><h2>Keyboard Focus</h2>
+
+<p>
+When a component has focus, it is generally displayed with a colored border or
+  changes color. However, some components in the GUI cannot be displayed with
+  a focus indicator. In this case, you must continue to use the keyboard to traverse
+  the GUI until focus is displayed.
+</p>
+
+<a name="shortcuts"></a><h2>Keyboard Shortcuts</h2>
+
+<p>
+Keyboard shortcuts perform both navigation and activation in the same action.
+  The following table lists the keys that are used to access menus and online
+  help.</p>
+
+<table width="100%" border="0" class="gray" summary="Keyboard shortcuts." title="Keyboard Shortcuts for Navigation and Activation">
+<tr valign="top">
+<th  width="20%" valign="top" align="left" scope="col">
+Activation Keys
+</TH>
+<th align="left" scope="col">
+GUI Action
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+F1
+</td>
+<td>
+Activates the online help.</td>
+</tr>
+
+<tr valign="top">
+<td>
+F10
+</td>
+<td>
+Activates the File menu.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Shift F10
+</td>
+<td>
+Activates the pop-up menu if focus is on a folder or test in the test tree.
+</td>
+</tr>
+
+</table>
+
+
+<a name="mnemonics"></a><h3>Hot Key Shortcuts</h3>
+<p>
+The harness provides shortcuts throughout the application for accessing menu titles, menu items, text fields, checkboxes, radio buttons, and command buttons.
+</p>
+
+<p>
+Shortcut keys are identified in the following ways:
+</p>
+<ul>
+<li>
+<b>Text at the end of tool tips - </b>For example, Start Running
+Tests Alt-S
+</li>
+ 
+<li>
+<b>Underlined letters in menus and text buttons </b><b>-</b> For
+example, <b><u>F</u>ile</b>
+</li>
+
+<li>
+<b>Underlined letters in labeled fields -</b> For example, <u>R</u>esponse:
+</li>
+</ul>
+
+
+<a name="navigation"></a><h2>Keyboard Navigation</h2>
+<p>
+Keyboard navigation enables you to move keyboard focus from one GUI component
+  to another by using the keyboard without activating the component. The following
+  table lists the keys used for keyboard navigation.</p>
+
+<table width="100%" border="0" class="gray.wide" summary="Keyboard navigation keys." title="Keyboard Navigation Keys">
+<tr>
+<th width="15%" valign="top" align="left" scope="col">
+Navigation Key
+</TH>
+<th align="left" scope="col">
+GUI Action
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Tab</td>
+<td>
+Navigates to the next focusable component in the GUI. The tab traversal order is generally left to right and top to bottom.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Shift-Tab</td>
+<td>
+Navigates back to the next focusable component.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Control-Tab</td>
+<td>
+Navigates to the next focusable component even if the current component accepts the Tab key as input (such as a text area).
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Control-Shift Tab</td>
+<td>
+Navigates back to the next focusable component even if the current component accepts the Tab key as input (such as a text area).
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Left arrow</td>
+<td>
+Moves keyboard focus left one character or component. <br>If focus is in the test tree, focus moves up the tree and closes the node. <br>If focus is on the splitter bar (F8 moves focus to the splitter bar), it moves the splitter bar left.
+</td>
+</tr>
+<tr valign="top">
+<td>
+Right arrow</td>
+<td>
+Moves keyboard focus right one character or component. <br>If focus is in the test tree, focus moves sequentially down the tree, opening the node and traversing all tests in a folder. <br>If focus is on the splitter bar (F8 moves focus to the splitter bar), it moves the splitter bar right. 
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Up arrow</td>
+<td>
+Moves keyboard focus up one line or component. <br>If focus is in the test tree, focus moves sequentially up the tree but does not open any closed folders. <br>If focus is on the splitter bar (F8 moves focus to the splitter bar), it moves the splitter bar left.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Down arrow</td>
+<td>
+Moves keyboard focus down one line or component. <br>If focus is in the test tree,  focus moves sequentially down the tree but does not open any closed folders. <br>If focus is on the splitter bar (F8 moves focus to the splitter bar), it moves the splitter bar right.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Page Up</td>
+<td>
+Navigates up one pane of information within a scroll pane.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Page Down</td>
+<td>
+Navigates down one pane of information within a scroll pane.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Home</td>
+<td>
+Moves to the beginning of the data. In a table, moves to the beginning of a row. If focus is in the test tree, moves to the top of the tree.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+End</td>
+<td>
+Moves to the end of the data. In a table, moves to the last cell in a row. If focus is in the test tree, moves to the bottom of the tree.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Control-F1</td>
+<td>
+Displays the tool tip information for the GUI object that has focus. Can be used to determine which GUI object has focus.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+F6</td>
+<td>
+Shifts focus between left and right panes.
+</td>
+</tr>
+          
+<tr valign="top">
+<td>
+F8</td>
+<td>
+Shifts focus to the splitter bar if focus is in the left or right pane.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Control-T</td>
+<td>
+Shifts focus to the next link in a topic or in a report.
+</td>
+</tr>
+           
+<tr valign="top">
+<td>
+Control-Shift-T</td>
+<td>
+Shifts focus to the previous link in a topic or in a report. 
+</td>
+</tr>
+</table>
+
+<h3>Navigation in Hyperlinked Text</h3>
+
+<p>
+Navigating hyperlinks in text areas such as the More
+Info pane and report viewer requires
+that you establish focus in the pane itself. After you have established focus
+inside the pane, use the keyboard navigation keys listed in Keyboard
+Navigation to navigate in the pane. Because some components in the
+GUI cannot display focus, you have to use the keyboard to traverse the GUI until
+you can determine that focus is established inside the pane.</p>
+<p>
+After focus is established in the pane, use Control-T and Shift-Control-T to
+  navigate to the next and previous link in the document. Use Control and Space bar
+  to select (follow) the hyperlink. See <a href="#activation">Keyboard Activation</a> for
+  a list of keys used for keyboard activation.</p> 
+
+
+<h3>Navigation in Folder Pane Status Tabs</h3>
+
+<p>
+Navigating in the folder pane test status tabs
+requires that you establish focus in the pane itself.</p>
+<p>
+After focus is established in the pane, use the Arrow Up and Arrow Down keys listed
+  in Keyboard Navigation to navigate in the pane. When
+  only a single entry is present in the folder pane, you must use the Home or
+  End key to select the item.</p>
+<p>
+Because some components in the GUI cannot be displayed with focus indicators,
+  you may have to use the keyboard to traverse the GUI until you can determine
+  that focus is established inside the folder pane.</p>
+<p>
+Use the Return or Enter key to navigate to the selected item. See <a href="#activation">Keyboard
+Activation</a> for a list of keys used for keyboard activation.</p>
+
+
+<h3>Navigation in the Test Tree</h3>
+
+<p>
+Navigating in a test tree requires that you establish focus in the test tree
+  itself.</p>
+<p>
+After focus is established in the pane, use Arrow Up, Arrow Down, Arrow Left,
+  and Arrow Right keys listed in Keyboard Navigation to
+  navigate in the pane.</p>
+
+
+<a name="activation"></a><h2>Keyboard Activation</h2>
+<p>
+After navigating to a component, you can then use the keyboard to activate the
+  component. The following table lists the key that are used to activate GUI
+  components.</p>
+
+<table width="100%" border="0" class="gray" summary="Keyboard activation." title="Keyboard Activation">
+<tr valign="top">
+<th valign="top" align="left" scope="col" width="15%">
+Activation Keys
+</th>
+<th align="left" scope="col">
+GUI Action
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Enter or Return
+</td>
+<td>
+Activates the default command button.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Escape
+</td>
+<td>
+Dismisses a menu or dialog box without changes.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Space Bar
+</td>
+<td>
+Activates the tool bar button that has keyboard focus.
+</td>
+</tr>
+
+
+<tr valign="top">
+<td>
+Shift-Space Bar
+</td>
+<td>
+Extends the selection of items in a list.
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Control-Space Bar
+</td>
+<td>
+If the item with focus is in a list, it toggles the selection state of the item without affecting any other list selections. <br>If the item is a link, it follows the link.
+</td>
+</tr>
+ 
+</table>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2003, 2010, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

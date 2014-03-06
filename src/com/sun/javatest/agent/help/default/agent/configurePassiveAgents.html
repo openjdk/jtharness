@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<!-- %W% %E% -->
+<html>
+<head>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<title>Specifying Passive Agent Options</title>
+</head>
+<body>
+<a name="configurePassiveAgents"><!-- index:passive agent; options --><!-- index:setting; passive agent; options --></a>
+<h1>Specifying Passive Agent Options</h1>
+
+<p>
+Passive agents can be configured and run from the application command line, the
+  application or applet GUI, or the applet tag. Refer to <a href="startAgent.html">Starting
+  a JT Harness harness agent</a> for a description of the different features and
+  functions that each provides.
+</p>
+
+<p>
+Depending on how you choose to start the agent, you must set the following minimum set of parameters either in the command line, the GUI Parameter pane, or the applet tag:
+</p>
+
+<ul>
+<li>
+<a href="#configurePassiveAgents.mode">Mode</a>
+</li>
+<li>
+<a href="#configurePassiveAgents.port">Port</a>
+</li>
+</ul>
+
+<a name="configurePassiveAgents.mode"><!-- index:passive agent; mode --><!-- index:setting; passive agent; mode --></a>
+<h2>Mode</h2>
+<p>
+The type of agent mode that you use determines how the agent communicates with
+  the JT Harness harness and the protocol that is used. A passive agent waits for
+  the JT Harness harness to initiate the connection using TCP/IP communications
+  protocol. 
+</p>
+<p>
+To specify a passive agent, use the appropriate setting or option from the following
+  table.</p>
+
+<table width="100%" border="0" cellpadding="0" class="gray" summary="List of options used to specify a passive agent" title="Passive Agent Mode Option or Setting">
+
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Interface
+</th>
+<th scope="col" class="left">
+Option or Setting
+</th>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Default
+</td>
+<td>
+Active
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Command line
+</td>
+<td>
+-<code>passive</code></td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Applet tag
+</td>
+<td>
+<code><b>&lt;</b>param name=mode value=passive<b>&gt;</b></code>
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+GUI Parameter pane
+</td>
+<td>
+<IMG SRC="../../images/passiveMode.gif" ALT="Specifies the type of agent" longdesc="configurePassiveAgents.html" >
+</td>
+</tr>
+</table>
+
+<a name="configurePassiveAgents.port"><!-- index:passive agent; port --><!-- index:setting; passive agent; port --></a>
+<h2>Port</h2>
+
+<p>
+The port option specifies  the port that the passive agent uses to listen
+  for the JT Harness harness. The JT Harness harness and agent must use the same
+  port. If the ports are not the same, the JT Harness harness cannot communicate
+  with the agent. The default value for passive agents is 1908.
+</p>
+
+<p>
+To specify a port other than 1908, use the appropriate setting or option from
+  the following table.</p>
+
+<table width="100%" border="0" cellpadding="0" class="gray" summary="List of options used to specify the port that the passive agent uses to listen for the JT Harness harness." title="Passive Agent Port Option or Setting">
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Interface
+</th>
+<th scope="col" class="left">
+Option or Setting
+</th>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Default
+</td>
+<td>
+1908
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Command line
+</td>
+<td>
+<code>-passivePort</code> <em>port-number</em>
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Applet tag
+</td>
+<td>
+<code><b>&lt;</b>param name=activePort value=<em>port-number</em><b>&gt;</b></code>
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+GUI Parameter Pane
+</td>
+<td>
+<IMG SRC="../../images/passivePort.gif" ALT="Specifies the port that the passive agent uses" longdesc="configurePassiveAgents.html" >
+</td>
+</tr>
+</table>
+<!--CopyOff--><p><b>Next task:</b></p>
+<p>
+<a href="additionalOptions.html"><b>Specifying Additional Agent Options</b></a>:  Additional
+parameters to display help or configure other agent properties.
+</p>
+<!--CopyOn-->
+<!--ins:JDTS-->
+
+<hr>
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+</body>
+</html>

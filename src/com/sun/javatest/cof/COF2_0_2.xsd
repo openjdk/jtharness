@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+  elementFormDefault="unqualified" attributeFormDefault="unqualified"
+  jxb:version="2.0" version="2.0.2">
+
+  <xsd:annotation>
+  	<xsd:documentation>
+	Copyright (c) 1996, 2010, Oracle and/or its affiliates. All rights reserved.
+	DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+	This code is free software; you can redistribute it and/or modify it
+	under the terms of the GNU General Public License version 2 only, as
+	published by the Free Software Foundation.  Oracle designates this
+	particular file as subject to the "Classpath" exception as provided
+	by Oracle in the LICENSE file that accompanied this code.
+
+	This code is distributed in the hope that it will be useful, but WITHOUT
+	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+	FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+	version 2 for more details (a copy is included in the LICENSE file that
+	accompanied this code).
+
+	You should have received a copy of the GNU General Public License version
+	2 along with this work; if not, write to the Free Software Foundation,
+	Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+	Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+	or visit www.oracle.com if you need additional information or have any
+	questions.
+  	</xsd:documentation>
+  </xsd:annotation>
+
+  <xsd:annotation>
+  	<xsd:documentation>
+  		Customize Date binding
+  	</xsd:documentation>
+    <xsd:appinfo>
+      <jxb:globalBindings>
+        <jxb:javaType name="java.util.Date" xmlType="xsd:dateTime" />
+      </jxb:globalBindings>
+    </xsd:appinfo>
+  </xsd:annotation>
+  <xsd:annotation>
+    <xsd:appinfo>
+      <jxb:schemaBindings>
+        <jxb:nameXmlTransform>
+          <jxb:typeName prefix="COF"/>
+        </jxb:nameXmlTransform>
+      </jxb:schemaBindings>
+    </xsd:appinfo>
+  </xsd:annotation>
+  <xsd:simpleType name="IDWithColon">
+    <xsd:annotation>
+      <xsd:documentation>
+        IDs are colon free strings followed by a colon followed by
+        digits. The digits are there to disambiguate entries that are
+        repeated. Repeats can occur for test results, for instance, when
+        a test is run more than once.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[\w\.\[\]\(\)\{\},_\-]+:[0-9]+" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="Machine">
+    <xsd:annotation>
+      <xsd:documentation>
+        Machines are identified by name and date. The name must be
+        qualified. Only lower case is accepted in the COF. Host name
+        space specifiers are defined in
+        http://www.ietf.org/rfc/rfc2141.txt . This schema checks for the
+        existence of two or more domains in the name space specifier.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern
+        value="([a-z0-9][a-z0-9\-]*[a-z0-9]\.){2,}([a-z][a-z0-9\-]*[a-z0-9])" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="Bits">
+    <xsd:restriction base="xsd:int">
+      <xsd:enumeration value="32" />
+      <xsd:enumeration value="64" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="DisplayDepth">
+    <xsd:annotation>
+      <xsd:documentation>
+        Display depth is recorded as part of a software configuration.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:int">
+      <xsd:enumeration value="8" />
+      <xsd:enumeration value="12" />
+      <xsd:enumeration value="15" />
+      <xsd:enumeration value="16" />
+      <xsd:enumeration value="24" />
+      <xsd:enumeration value="32" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="OS">
+    <xsd:annotation>
+      <xsd:documentation>Operating system.</xsd:documentation>
+      <xsd:documentation>
+        OS name elements use the property os.name. OS version elements
+        use the property os.version. OS arch elements use the property
+        os.arch.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string" form="qualified" />
+      <xsd:element name="version" type="xsd:string" form="qualified" />
+      <xsd:element name="arch" type="xsd:string" form="qualified" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="SuiteAttribute">
+    <xsd:annotation>
+      <xsd:documentation>
+        The suite attribute work_group can be assigned the name of a
+        business component assigned the job of running this test suite.
+        The value assigned to this overrides that assigned to the test
+        run annotation named work_group.
+      </xsd:documentation>
+      <xsd:documentation>
+        To make databases of test results more uniform, all other suite
+        attribute name/value pairs will be discarded by the QARE system.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string" minOccurs="1"
+        maxOccurs="unbounded" form="qualified" />
+      <xsd:element name="value" type="xsd:string" minOccurs="0"
+        maxOccurs="unbounded" form="qualified" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="SuiteAttributes">
+    <xsd:sequence>
+      <xsd:element name="attribute" type="cof:SuiteAttribute"
+        minOccurs="1" maxOccurs="unbounded" form="qualified" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="TestAttribute">
+    <xsd:annotation>
+      <xsd:documentation>
+        Test attributes encode test-specific settings that we might want
+        recorded. The motivation for inclusion in the COF is the desire
+        to record locale as set by a test, time zone as set by a test,
+        and the use of the Java command line switches like -client,
+        -server, -d32, or -d64. It is expected that the absence of any
+        use of -client or -server will be reflected by an absence of a
+        TestAttribute element whose name is "client" or "server",
+        respectively.
+      </xsd:documentation>
+      <xsd:documentation>
+        Locale values should be in the usual Java format of strings
+        separated by underscores. For instance, ja, ja_JP, and
+        ja_JP_custom are all valid. Locale values should be in the usual
+        Java format of strings separated by underscores. For instance,
+        ja, ja_JP, and ja_JP_custom are all valid. The first string is a
+        valid ISO Language Code and the second is a valid ISO Country
+        Code. The list of language and country codes are at
+        http://www.ics.uci.edu/pub/ietf/http/related/iso639.txt and
+        http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html ,
+        respectively. The third string in the concatenation is for
+        variants and can contain underscores.
+      </xsd:documentation>
+      <xsd:documentation>
+        Time zone values document the time zone used for a particular
+        test or test case. Time zones should be in the format used by
+        Java. For instance, the string for Pacific Standard Time is
+        "America/Los Angeles". The list of supported time zones is
+        obtained by invoking java.util.TimeZone.getAvailableIDs. Do not
+        use a deprecated three-letter time zone ID.
+      </xsd:documentation>
+      <xsd:documentation>
+        In general, a Java command line flag argument that it is agreed
+        will get tracked as an attribute, say -foo,will get tracked by a
+        test attribute
+        <name>foo</name>
+        without a corresponding value element. A Java command line
+        argument pair "-foo bar" will get tracked by a test attribute
+        <name>foo</name>
+        <value>bar</value>
+        .
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string" minOccurs="1"
+        maxOccurs="unbounded" form="qualified" />
+      <xsd:element name="value" type="xsd:string" minOccurs="0"
+        maxOccurs="unbounded" form="qualified" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="TestAttributes">
+    <xsd:sequence>
+      <xsd:element name="attribute" type="cof:TestAttribute"
+        minOccurs="1" maxOccurs="unbounded" form="qualified" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="Status">
+    <xsd:annotation>
+      <xsd:documentation>
+        Status can be one of pass, fail, vm_fail, error, did_not_run, or
+        ambiguous. Fail is for test failures that the test or test case
+        anticipates. A vm_fail status indicates that a VM failure caused
+        the failure. An example of this is a HotSpot abort. An error
+        status can be used to cover all failures not explained as a test
+        or vm failure. Examples are seg faults in the VM or a harness
+        failure.
+      </xsd:documentation>
+      <xsd:documentation>
+        Status did_not_run is an odd one. It's there because test
+        execution may conditional on the successful completion of a
+        setup step, itself a test.
+      </xsd:documentation>
+      <xsd:documentation>
+        The setting ambiguous is the least self-explanatory of the
+        status codes. I18n tests are run in locales that they do not
+        support. These tests fail, but there failure has no meaning that
+        should get reported back to product development.
+      </xsd:documentation>
+      <xsd:documentation>
+        Expected elements contain text that refers to an expected value.
+        This can be anything. A header, value, body, ..... If the tag
+        log appears, it may be understood that a URL of a log file will
+        appear as the PCDATA for this tag. If present, that URL uses
+        either http or file protocol. If http protocol, the server name
+        will be fully qualified. If file protocol, the full path
+        beginning with /net will be expected. Microsoft file mapping or
+        Unix automounts should not be used.
+      </xsd:documentation>
+      <xsd:documentation>
+        Actual elements contain text that refers to an actual value.
+        This can be anything. A header, value, body, ..... If the tag
+        log appears, it may be understood that a URL of a log file will
+        appear as the PCDATA for this tag. If present, that URL uses
+        either http or file protocol. If http protocol, the server name
+        will be fully qualified. If file protocol, the full path
+        beginning with /net will be expected. Microsoft file mapping or
+        Unix automounts should not be used.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence minOccurs="0" maxOccurs="1">
+      <xsd:element name="expected" type="xsd:string" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="actual" type="xsd:string" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+    </xsd:sequence>
+    <xsd:attribute name="value" use="required">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="pass" />
+          <xsd:enumeration value="fail" />
+          <xsd:enumeration value="ambiguous" />
+          <xsd:enumeration value="error" />
+          <xsd:enumeration value="vm_fail" />
+          <xsd:enumeration value="did_not_run" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:complexType name="TestCase" abstract="false">
+    <xsd:annotation>
+      <xsd:documentation>
+        Testcase elements define the test cases of a test that are
+        exercised in the course of a run. The id for a test takes the
+        form test_case_name:unique_id. The information will be gathered
+        using the test_coverage.xml file associated with the test case,
+        if present. The unique_id is unique within the xml file. The
+        unique_id portion is present because test run might contain
+        repetitions. Testcases are often tests run with different
+        command line arguments or environments. Often, the different
+        test cases in a test are in reality different methods inside
+        that test's source code.
+      </xsd:documentation>
+      <xsd:documentation>
+        The starttime and endtime fields use an XML format. Times are in
+        UTC (like those that java.util.Date works with). An acceptable
+        dateTime format is yyyy-mm-ddThh:mm:ss.ff. DateTime format is
+        specified in section 5.4 of ISO 8601.
+      </xsd:documentation>
+      <xsd:documentation>
+        The analysis setting is meant to allow remote groups to waive or
+        accept the pass/fail status of the test using E-mail.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string" form="qualified" />
+      <xsd:element name="status" type="cof:Status" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="starttime" type="xsd:dateTime" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="endtime" type="xsd:dateTime" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="attributes" type="cof:TestAttributes"
+        minOccurs="0" maxOccurs="1" form="qualified" />
+      <xsd:element name="description" type="xsd:string" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+    </xsd:sequence>
+    <xsd:attribute name="id" type="cof:IDWithColon" use="required" />
+    <xsd:attribute name="analysis" use="optional" default="accept">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="accept" />
+          <xsd:enumeration value="waive" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:complexType name="TestCases" abstract="false">
+    <xsd:sequence>
+      <xsd:element name="testcase" type="cof:TestCase" minOccurs="1"
+        maxOccurs="unbounded" form="qualified" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="Test" abstract="false">
+    <xsd:annotation>
+      <xsd:documentation>
+        Test elements define all the tests exercised by the test suite.
+        The id for a test takes the form test_name:unique_id. The
+        information will be gathered using the test_coverage.xml file
+        associated with the test. The unique_id is unique within the xml
+        file. The unique_id portion is present because test run might
+        contain repetitions.
+      </xsd:documentation>
+      <xsd:documentation>
+        Status is required if there are zero test cases. Starttime is
+        required if there are zero test cases. Endtime is required if
+        there are zero test cases. The starttime and endtime fields use
+        an XML format. Times are in UTC (like those that java.util.Date
+        works with). An acceptable dateTime format is
+        yyyy-mm-ddThh:mm:ss.ff. DateTime format is specified in section
+        5.4 of ISO 8601.
+      </xsd:documentation>
+      <xsd:documentation>
+        The analysis setting is meant to allow remote groups to waive or
+        accept the pass/fail status of the test using E-mail. For
+        testcases, the analysis setting provides a default value to
+        apply to the analysis the setting for all testcase results for
+        this test.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string" form="qualified" />
+      <xsd:element name="appuse" type="cof:IDWithColon" minOccurs="0"
+        maxOccurs="unbounded" form="qualified" />
+      <xsd:element name="status" type="cof:Status" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="testcases" type="cof:TestCases" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="starttime" type="xsd:dateTime" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="endtime" type="xsd:dateTime" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="attributes" type="cof:TestAttributes"
+        minOccurs="0" maxOccurs="1" form="qualified" />
+      <xsd:element name="description" type="xsd:string" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+    </xsd:sequence>
+    <xsd:attribute name="id" type="cof:IDWithColon" use="required" />
+    <xsd:attribute name="analysis" use="optional" default="accept">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="accept" />
+          <xsd:enumeration value="waive" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:complexType name="Tests" abstract="false">
+    <xsd:sequence>
+      <xsd:element name="test" type="cof:Test" minOccurs="1"
+        maxOccurs="unbounded" form="qualified" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="TestSuite" abstract="false">
+    <xsd:annotation>
+      <xsd:documentation>
+        Test suite elements contain the test suite name. The name must
+        be the same as one defined in the test_coverage.xml file, if
+        that file is defined. The id element for a suite takes the form
+        test_suite:unique_id. The information will be gathered using the
+        test_coverage.xml file associated with the test suite. The
+        unique_id is unique within the xml file. The unique_id portion
+        is present because test run might contain repetitions.
+      </xsd:documentation>
+      <xsd:documentation>
+        The version field uses an XML format. Times are in UTC (like
+        those that java.util.Date works with). An acceptable dateTime
+        format is yyyy-mm-ddThh:mm:ss.ff. DateTime format is specified
+        in section 5.4 of ISO 8601.
+      </xsd:documentation>
+      <xsd:documentation>
+        The starttime and endtime fields use an XML format. Times are in
+        UTC (like those that java.util.Date works with). An acceptable
+        dateTime format is yyyy-mm-ddThh:mm:ss.ff. DateTime format is
+        specified in section 5.4 of ISO 8601.
+      </xsd:documentation>
+      <xsd:documentation>
+        The analysis setting provides a default value to apply to the
+        analysis the setting for all the test and testcase results for
+        this suite.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string" form="qualified" />
+      <xsd:element name="version" type="xsd:dateTime" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="starttime" type="xsd:dateTime" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="endtime" type="xsd:dateTime" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="attributes" type="cof:SuiteAttributes"
+        minOccurs="0" maxOccurs="1" form="qualified" />
+      <xsd:element name="tests" type="cof:Tests" minOccurs="1"
+        maxOccurs="unbounded" form="qualified" />
+    </xsd:sequence>
+    <xsd:attribute name="id" type="cof:IDWithColon" use="required" />
+    <xsd:attribute name="analysis" use="optional" default="accept">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="accept" />
+          <xsd:enumeration value="waive" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:complexType name="TestSuites" abstract="false">
+    <xsd:sequence>
+      <xsd:element name="testsuite" type="cof:TestSuite" minOccurs="1"
+        maxOccurs="unbounded" form="qualified" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="Environment">
+    <xsd:annotation>
+      <xsd:documentation>
+        Software configurations are a way to document the software
+        environment used for testing.
+      </xsd:documentation>
+      <xsd:documentation>
+        Machines are identified by name, not Internet address. The name
+        must be fully qualified. Hardware configuration is obtained with
+        a combination of name and date.
+      </xsd:documentation>
+      <xsd:documentation>
+        Locale documents the default locale for the test run. Locale
+        values should be in the usual Java format of strings separated
+        by underscores. For instance, ja, ja_JP, and ja_JP_custom are
+        all valid. The first string is a valid ISO Language Code and the
+        second is a valid ISO Country Code. The list of language and
+        country codes are at
+        http://www.ics.uci.edu/pub/ietf/http/related/iso639.txt and
+        http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html ,
+        respectively. The third string in the concatenation is for
+        variants and can contain underscores.
+      </xsd:documentation>
+      <xsd:documentation>
+        System-locale is that used by the OS to configure OS
+        applications. On Windows systems, system-locale is attached to
+        the OS and cannot be changed. User-locale is that used by the
+        Java API. It is the setting reported out by
+        java.util.Locale.getDefault().
+      </xsd:documentation>
+      <xsd:documentation>
+        Time zone elements document the default time zone for the test
+        run. Time zones should be in the format used by Java. For
+        instance, the string for Pacific Standard Time is "America/Los
+        Angeles". The list of supported time zones is obtained by
+        invoking java.util.TimeZone.getAvailableIDs. Do not use a
+        deprecated three-letter time zone ID.
+      </xsd:documentation>
+      <xsd:documentation>
+        The value assigned encoding is the return value from the Java
+        (new InputStreamReader(System.in)).getEncoding()
+      </xsd:documentation>
+      <xsd:documentation>
+        JDK elements use the property java.runtime.version.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="machine" type="cof:Machine" form="qualified" />
+      <xsd:element name="os" type="cof:OS" form="qualified" />
+      <xsd:element name="jdk" type="xsd:string" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="system-locale" type="xsd:string" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="user-locale" type="xsd:string" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="encoding" type="xsd:string" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="timezone" type="xsd:string" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="bits" type="cof:Bits" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="displaydepth" type="cof:DisplayDepth"
+        minOccurs="0" maxOccurs="1" form="qualified" />
+      <xsd:element name="description" type="xsd:string" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="sw" type="cof:SWEntity" minOccurs="0"
+        maxOccurs="unbounded" form="qualified" />
+    </xsd:sequence>
+    <xsd:attribute name="id" type="cof:IDWithColon" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="Environments">
+    <xsd:sequence>
+      <xsd:element name="environment" type="cof:Environment"
+        minOccurs="1" maxOccurs="unbounded" form="qualified" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="SWEntity">
+    <xsd:annotation>
+      <xsd:documentation>
+        Software is tracked in the hardware/software database that backs
+        up the COF XML. The elements in the SW type map to fields in the
+        software table of that database. Type is enumerated. See below.
+        Name is a product name with no version string. For example,
+        "Tomcat". Version is a product version. For instance, "8i".
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string" form="qualified" />
+      <xsd:element name="type" form="qualified">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="appserver" />
+            <xsd:enumeration value="browser" />
+            <xsd:enumeration value="database" />
+            <xsd:enumeration value="editor" />
+            <xsd:enumeration value="java" />
+            <xsd:enumeration value="webserver" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="version" type="xsd:string" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="description" type="xsd:string" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+    </xsd:sequence>
+    <xsd:attribute name="id" type="cof:IDWithColon" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="SWEntities" abstract="false">
+    <xsd:sequence>
+      <xsd:element name="swentity" type="cof:SWEntity" minOccurs="1"
+        maxOccurs="unbounded" form="qualified" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="Application" abstract="false">
+    <xsd:attribute name="id" type="cof:IDWithColon" use="required" />
+    <xsd:attribute name="environmentid" type="cof:IDWithColon"
+      use="required" />
+    <xsd:attribute name="swentityid" type="cof:IDWithColon"
+      use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="Applications" abstract="false">
+    <xsd:sequence>
+      <xsd:element name="application" type="cof:Application"
+        minOccurs="1" maxOccurs="unbounded" form="qualified" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ReportAnnotation">
+    <xsd:annotation>
+      <xsd:documentation>
+        Report annotations are name/value pairs that provide information
+        about a test run. They are often test-harness specific or
+        contain information that is added by users after the test run is
+        complete.
+      </xsd:documentation>
+      <xsd:documentation>
+        Some attributes are used by the QARE test database system. One
+        of these is the name of the product under test. The name of the
+        annotation for this is "product". This is typically the name of
+        a major release of the software or hardware you are shipping.
+      </xsd:documentation>
+      <xsd:documentation>
+        Some attributes are used by the QARE test database system. One
+        of these is the name of the version or build of the product
+        under test. The name of the annotation for this is "version".
+      </xsd:documentation>
+      <xsd:documentation>
+        Some attributes are used by the QARE test database system. One
+        of these is the name of your working group. The name of the
+        annotation for this is "work_group". This is the name of the
+        business component responsible for analyzing and tracking the
+        test results from this test run. Note that if a component is
+        specified as a suite attribute that the suite attribute will
+        overrule the assignment made in this annotation.
+      </xsd:documentation>
+      <xsd:documentation>
+        Some attributes are used by the QARE test database system. Test
+        run modes are adjectives whose value might be "BAT", "PIT",
+        "JCov", or "Bundle". The name of the annotation for this is
+        "testrun_mode".
+      </xsd:documentation>
+      <xsd:documentation>
+        Some attributes are used by the QARE test database system. Test
+        cycles are described by an adjective whose value might be
+        "Nightly" or "Weekly". The name of the annotation for this is
+        "testrun_cycle".
+      </xsd:documentation>
+      <xsd:documentation>
+        Some attributes are used by the QARE test database system. Test
+        run type is another test run adjective. It might take one of the
+        values "Quicklook", "Fulllook", or "Smoke". The name of the
+        annotation for this is "testrun_type".
+      </xsd:documentation>
+      <xsd:documentation>
+        Some attributes are used by the QARE test database system. The
+        most important of these has an annotation name of archive. The
+        value of archive is where test failures are copied to for
+        storage. If you are a QARE user, the value should be a full path
+        that is accessible to the QARE application server. For Sun QARE
+        users, this means that mapped file systems are not usable. If
+        you are using this product in a Windows shop, then it is the
+        testing department's job to keep the drive letters used by your
+        tests up to date and consistent.
+      </xsd:documentation>
+      <xsd:documentation>
+        Some attributes are used by the QARE test database system. The
+        annotation named "task_scheduler" is used to identify the
+        scheduler used to start and stop jobs. The only scheduler
+        recognized is DTF.
+      </xsd:documentation>
+      <xsd:documentation>
+        Some attributes are used by the QARE test database system. The
+        annotation named "default_machine" is used to identify a primary
+        machine for labelling purposes. This is important for
+        multi-machine tests. It is common for one of the machines to
+        hold the software that is actually being tested and for the
+        other machines to be mere clients.
+      </xsd:documentation>
+      <xsd:documentation>
+        Some attributes are used by the QARE test database system. One
+        of these is the name of your testing group. The name of the
+        annotation for this is "test_group". An example of such a group
+        is "J2SE QA".
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string" minOccurs="1"
+        maxOccurs="unbounded" form="qualified" />
+      <xsd:element name="value" type="xsd:string" minOccurs="1"
+        maxOccurs="unbounded" form="qualified" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ReportAnnotations" abstract="false">
+    <xsd:sequence>
+      <xsd:element name="annotation" type="cof:ReportAnnotation"
+        minOccurs="0" maxOccurs="unbounded" form="qualified" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="Report" abstract="false">
+    <xsd:annotation>
+      <xsd:documentation>
+        The version is the common XML output version. The current
+        version is 2.0.0. The date fields use an XML format. Times are
+        in UTC (like those that java.util.Date works with). An
+        acceptable dateTime format is yyyy-mm-ddThh24:mm:ss.ff. DateTime
+        format is specified in section 5.4 of ISO 8601.
+      </xsd:documentation>
+      <xsd:documentation>
+        The analysis setting is meant to allow remote groups to waive or
+        accept the entire test run. It provides an override, not a
+        default, for the analysis settings of the suite, test, and
+        testcase results that are part of the test run. The intent here
+        is to record test runs that were set up incorrectly.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="date" type="xsd:dateTime" form="qualified" />
+      <xsd:element name="version" type="xsd:string" form="qualified" />
+      
+      <xsd:element name="environments" type="cof:Environments"
+        form="qualified"><!--
+       <xsd:annotation>
+        <xsd:appinfo>
+          <jxb:property>
+            <jxb:baseType name="java.util.List"></jxb:baseType>
+          </jxb:property>
+        </xsd:appinfo>
+       </xsd:annotation>
+      --></xsd:element>
+      <xsd:element name="swentities" type="cof:SWEntities" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="applications" type="cof:Applications"
+        minOccurs="0" maxOccurs="unbounded" form="qualified" />
+      <xsd:element name="operator" type="xsd:string" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="harness" type="xsd:string" minOccurs="0"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="testsuites" type="cof:TestSuites" minOccurs="1"
+        maxOccurs="1" form="qualified" />
+      <xsd:element name="annotations" type="cof:ReportAnnotations"
+        minOccurs="1" maxOccurs="1" form="qualified" />
+      <xsd:any minOccurs="0" maxOccurs="unbounded"
+        processContents="skip" />
+    </xsd:sequence>
+    <xsd:attribute name="analysis" use="optional" default="accept">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="accept" />
+          <xsd:enumeration value="waive" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="report" type="cof:Report">
+    <xsd:key name="EnvironmentKey">
+      <xsd:selector xpath="report/environments/environment" />
+      <xsd:field xpath="@id" />
+    </xsd:key>
+    <xsd:keyref name="RefToEnvironment" refer="cof:EnvironmentKey">
+      <xsd:selector xpath="report/applications/application" />
+      <xsd:field xpath="@environmentid" />
+    </xsd:keyref>
+
+    <xsd:key name="SWEntityKey">
+      <xsd:selector xpath="report/swentities/swentity" />
+      <xsd:field xpath="@id" />
+    </xsd:key>
+    <xsd:keyref name="RefToSWEntity" refer="cof:SWEntityKey">
+      <xsd:selector xpath="report/applications/application" />
+      <xsd:field xpath="@swentityid" />
+    </xsd:keyref>
+
+    <xsd:key name="ApplicationKey">
+      <xsd:selector xpath="report/applications/application" />
+      <xsd:field xpath="@id" />
+    </xsd:key>
+    <xsd:keyref name="RefToApplication" refer="cof:ApplicationKey">
+      <xsd:selector
+        xpath="report/testsuites/testsuite/tests/test/appuse" />
+      <xsd:field xpath="@id" />
+    </xsd:keyref>
+
+    <xsd:unique name="UniqueTestSuiteID">
+      <xsd:selector xpath="report/testsuites/testsuite" />
+      <xsd:field xpath="@id" />
+    </xsd:unique>
+
+    <xsd:unique name="UniqueTestID">
+      <xsd:selector xpath="report/testsuites/testsuite/tests/test" />
+      <xsd:field xpath="@id" />
+    </xsd:unique>
+
+    <xsd:unique name="UniqueTestCaseID">
+      <xsd:selector
+        xpath="report/testsuites/testsuite/tests/test/testcases/testcase" />
+      <xsd:field xpath="@id" />
+    </xsd:unique>
+
+  </xsd:element>
+
+</xsd:schema>

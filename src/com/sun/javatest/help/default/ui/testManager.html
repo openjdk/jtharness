@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Test Manager Preferences
+</title>
+<META NAME="hIndent" CONTENT="3">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="testManager.preferences"> </a>
+<h1>Test Manager Preferences</h1>
+<p>To change the Test Manager preferences, select File &gt; Preferences &gt; Test Manager.</p>
+<ul>
+<li><a href="#testManager.preferences">Test Manager Preferences</a></li>
+<li><a href="#testManager.confeditor">Configuration Editor</a></li>
+<li><a href="#testManager.reporting">Reporting</a></li>
+</ul>
+<p>The following preferences are set when the Test Manager folder is selected as follows:</p>
+<center><img src="../../images/testManagerPreferences.gif" alt="Test Manager preferences dialog box" longdesc="testManager.html"></center>
+
+<ul>
+<li>Tool Bar: Check Displayed to see the toolbar. If you enable or disable this option you must restart JavaTest to see the change.<center><img src="../../images/uiToolbar.gif" alt="standard UI toolbar" longdesc="standard UI toolbar"></center></li>
+<li>View Filters: Enables a warning message that is displayed if the <a href="../browse/viewFilters.html">All Tests filter</a> is selected for a test run.</li>
+<a name="testExecOrder"> <!-- index:execution order --><!-- index:order --></a>
+<li>Test Execution: </li>
+<ul><li>Execution from tree popup includes configuration Test to Run setting: </li>
+<li>Disable sort of Tests to Run when specified from input file: This allows you to set the test execution order. Traditionally tests are run in the order they appear in the main test tree.  This order is generally determined by the test suite architect. By selecting this option, the order execution will follow that in the input file for the Tests to Run section in the configuration. That is, the tests will be executed in the  order they appear in that file, rather than being sorted and then executed. The default state of this checkbox is unchecked. See </li></ul>
+<li>Test Run Messages: Wrap Test Output in the <a href="../../default/browse/messagesTab.html#messagesTab">Test Run Messages Pane</a>.</li>
+
+</ul>
+
+
+<a name="testManager.confeditor"> </a><h2>Configuration Editor</h2>
+<p>Check the More Info box to view the More Info pane in the configuration editor. Same as choosing View &gt; More Info, except the preference will remain in future sessions.</p>
+<center><img src="../../images/JT4testManagerReporting.gif" alt="More Info display preference" longdesc="More Info display preference"></center>
+
+
+<a name="testManager.reporting"><!-- index:bug prefix URL --><!-- index:KFL report bug prefix --></a><h2>Reporting</h2>
+<p>Set the bug prefix URL for KFL reports.</p>
+<center><img src="../../images/JT4testManagerPrefs.gif" alt="bug prefix URL field" longdesc="bug prefix URL field"></center>
+
+
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

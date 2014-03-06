@@ -1,0 +1,319 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<META NAME="hIndent" CONTENT="3">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<title>
+Progress Monitor
+</title>
+</head>
+<body>
+<a name="progressMonitor"><!-- index:Progress Monitor -->
+  <!-- index:monitor, progress --></a>
+<h1>Progress Monitor</h1>
+
+<p>
+The Progress Monitor is a dialog box that only displays information about the
+  current configuration when the harness is running tests. The information displayed
+  is equivalent to the Last Test Run view filter set in the Test Manager.
+  Changing view filters in the Test Manager does not change the information
+  displayed by the Progress Monitor.</p>
+
+<p>
+Choose Run Tests &gt; Monitor Progress from the Test Manager menu bar
+or click the <IMG SRC="../../images/magnify1.gif" ALT="Progress Monitor button" longdesc="progressMonitor.html" > icon
+at the bottom of the Test Manager to open
+the Progress Monitor.</p>
+
+<center>
+<img src="../../images/testMonitor.gif" border="0" alt="The Progress Monitor dialog box" longdesc="progressMonitor.html">
+</center>
+<p>
+The following areas in the Progress Monitor display information about the test
+  run:
+</p>
+<ul>
+  <li><a href="#progressMonitor.progress">Progress</a>
+  </li>
+  <li><a href="#progressMonitor.test">Tests in Progress</a>
+  </li>
+  <li><a href="#progressMonitor.memory">Memory</a>
+  </li>
+  <li><a href="#progressMonitor.time">Time</a>
+  </li>
+</ul>
+<a name="progressMonitor.progress"><!-- index:Progress Monitor: Progress area --></a>
+<h2>Progress</h2>
+<p>
+The following table describes the information displayed in the Progress area.
+<table width="100%" border="0" cellspacing="1" cellpadding="5" class="gray" summary="The contents and description of the Progress area." title="Progress Area Contents">
+
+<tr valign="top" >
+<th width="25%" scope="col">
+Name
+</th>
+<th scope="col">
+Description
+</th>
+</tr>
+
+<tr valign="top" >
+<td scope="row">
+Passed
+</td>
+<td>
+Displays the number of tests in the test suite that were run and had passing results.
+</td>
+</tr>
+<tr valign="top" >
+<td scope="row">
+Failed
+</td>
+<td>
+Displays the number of tests in the test suite that were run and had failing results.
+</td>
+</tr>
+
+<tr valign="top" >
+<td scope="row">
+Errors
+</td>
+<td>
+Displays the number of tests in the test suite that could not be run.
+</td>
+</tr>
+
+<tr valign="top" >
+<td scope="row">
+Not Run
+</td>
+<td>
+Displays the number of tests in the test suite have not yet been run.
+</td>
+</tr>
+
+<tr valign="top" >
+<td scope="row">
+Test Results
+</td>
+<td>
+A colored progress bar representing the results of the tests in the test suite.
+
+<p>
+As the  harness runs tests, the test results are displayed as
+  colored segments in the progress bar. The colors used in the progress bar represent
+  the current status of the test results.</p>
+<p>
+The colors below are the  harness default settings. The  harness
+  supports using colors other than the default settings. See 
+   <a href="../command/settingColors.html">Specifying
+  Status Colors</a> in the <em>JT Harness User's
+  Guide: Command-Line Interface</em>.</p>
+<p>
+The progress bar is the same as that displayed in the test progress display at the bottom of the Test Manager.
+</p>
+
+</td>
+</tr>
+</table>
+<p>
+The following table describes the colors used in the progress bar. The colors
+  are displayed from left to right in the  order in which they are presented
+  in the table.</p>
+
+<table width="100%" border="0" cellpadding="5" class="gray" summary="The colors used in the progress bar are displayed in order from left to right." title="Order of Colors Displayed in the Progress Bar">
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Color
+</th>
+<th width="20%" scope="col" class="left">
+Status
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td  scope="row">
+Green
+</td>
+<td>
+Passed
+</td>
+<td>
+Tests in the test run having passing results when they were executed.
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Red
+</td>
+<td>
+Failed
+</td>
+<td>
+Tests in the test run having failed results when they were executed.
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+Blue
+</td>
+<td>
+Error
+</td>
+<td>
+Tests in the test run that the harness could not execute. 
+<p>
+Errors usually occur because the test environment is not properly configured.
+</p>
+</td>
+</tr>
+
+<tr valign="top">
+<td scope="row">
+White
+</td>
+<td>
+Not yet run
+</td>
+<td>
+Tests in the test run that the harness has not yet executed. Tests excluded from
+  the test run are not included.</td>
+</tr>
+
+</table>
+
+<p>
+You can display the progress bar in the Test Manager by clicking the <IMG SRC="../../images/drop-down.gif" ALT="Test Progress display drop-down list" longdesc="progressMonitor.html">  button and choosing Run Progress Meter from the selectable list. See <a href="progressMeter.html">Using the Progress Meter</a> for detailed description.
+</p>
+
+<a name="progressMonitor.test"><!-- index:Progress Monitor: Tests in Progress --></a>
+<h2>Tests in Progress</h2>
+
+<p>
+The Tests in Progress text box displays either the names of the tests that the
+  harness is currently running or the set of tests distributed
+  for execution. It is empty when the harness is not running tests.
+  Concurrency settings and agents in use determine the number of items displayed
+  in the text box. See your test suite documentation for additional information.</p>
+
+<p>
+Clicking on this list  displays the appropriate test view in the Test Manager. 
+</p>
+
+<a name="progressMonitor.memory"><!-- index:Progress Monitor: Memory --></a>
+<h2>Memory</h2>
+
+<p>
+The Memory area contains two text fields and a bar graph. The following table
+  describes the contents of the Memory area in the Progress Monitor.
+</p>
+
+<table width="100%" border="0" cellspacing="1" cellpadding="5" class="gray" summary="The contents and description of the Progress Monitor Memory area." title="Memory Area Contents">
+
+<tr valign="top" >
+<th width="25%" scope="col" class="left">
+Name
+</th>
+<th scope="col" class="left">
+Description
+</th>
+
+<tr valign="top" >
+<td width="25%">
+Used:
+</td>
+
+<td>
+The memory used to run the test.
+</td>
+</tr>
+
+<tr valign="top" >
+<td>
+Total:
+</td>
+
+<td>
+The total memory available for use by the virtual machine.
+</tr>
+</table>
+
+<a name="progressMonitor.time"><!-- index:Progress Monitor: Time --></a>
+<h2>Time</h2>
+
+<p>
+The Time area contains two fields that are continuously updated throughout a
+  test run. The following table
+  describes the contents of the Time area in the Progress Monitor.</p>
+
+<table width="100%" border="0" cellspacing="1" cellpadding="5" class="gray" summary="The contents and description of the Time area." title="Time Area Contents">
+<tr valign="top" >
+<th width="25%" scope="col" class="left">
+Name
+</th>
+<th scope="col" class="left">
+Description
+</th>
+</tr>
+
+<tr valign="top" >
+<td scope="row">
+Elapsed:
+</td>
+<td>
+The time elapsed since the test run was started.
+</td>
+</tr>
+
+<tr valign="top" >
+<td scope="row">
+Remaining:
+</td>
+<td>
+The estimated time required to run the remaining tests. 
+</td>
+</tr>
+</table>
+<p>
+Tests that timeout or have execution times significantly longer than the other
+  tests being run can cause the harness to display inaccurate times.</p>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

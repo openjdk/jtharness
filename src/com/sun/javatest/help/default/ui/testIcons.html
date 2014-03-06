@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Test Icons
+</title>
+<META NAME="hIndent" CONTENT="4">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="testIcons"><!--index:test icons -->
+  <!-- index:icons: test--></a>
+<h1>Test Icons</h1>
+
+<p>
+The test tree uses colored icons to indicate both run status and result status.
+  The colors of the icons shown below are the default settings.
+  The  harness enables you to use colors other than the default settings.
+  See 
+  <a href="../command/settingColors.html">Specifying
+  Status Colors</a> in the <em>Command-Line Interface</em><em> User's Guide</em>.</p>
+
+<a name="testIcons.runstatus"><!--index:test run status icon -->
+  <!-- index:icons: test: run status--></a>
+<h2>Test Run Status</h2>
+<p>
+The Test Manager displays an arrow to the left of the test icon when running a test. The standard values of the current configuration, not the view filter, determine the run status displayed by the test tree.
+</p>
+
+<a name="testIcons.Testresultstatus"><!--index:test result status icon -->
+  <!-- index:icons: test: result status--></a>
+<h2>Test Result Status</h2>
+<p>
+The test icon indicates the last known test result and does not change until the test is completed. After the  harness completes the test, it displays the appropriate result status icon.
+</p>
+<p>
+The test result icons displayed in the test tree are determined by the results
+  in the work directory and by the view filter set in the Test Manager.
+  See <a href="../browse/viewFilters.html">View Filters</a> for a description
+  of how to specify the test results displayed in the test tree. The following
+  table describes the test icons used to indicate
+  the result of each test.</p>
+
+<p class="note">
+<!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note" longdesc="foldericons.html">
+<br><!--CopyOn-->
+Users can change the color of the test icons displayed in the following table. However, the symbols displayed in the icons do not change.
+</p>
+<p> </p>
+<table width="100%" border="0" cellpadding="5" class="gray" summary="The harness uses icons to indicate test result status." title="Test Icons">
+<tr valign="top">
+<th width="15%" align="left" scope="col" class="left">
+Icon
+</th>
+<th width="20%" align="left" scope="col" class="left">
+Result
+</th>
+<th align="left">
+Description
+</th>
+</tr>
+
+<tr valign="top">
+<td><IMG SRC="../../images/blueTest.gif" ALT="Test Error" longdesc="testIcons.html">
+</td>
+<td>
+Error
+</td>
+<td>
+A blue test containing an exclamation symbol ( <b>!</b>)  indicates that
+the test is not filtered out and that  harness could not execute it.
+These errors usually occur because the test environment is not properly configured.</td>
+</tr>
+
+<tr valign="top">
+<td>
+<IMG SRC="../../images/redTest.gif" ALT="Test Failed" longdesc="testIcons.html">
+</td>
+<td>
+Failed
+</td>
+<td>
+A red test containing a <b>x</b> symbol indicates that the test is not filtered
+out and had a Failed result the last time it was executed.</td>
+</tr>
+
+<tr valign="top">
+<td>
+<IMG SRC="../../images/whiteTest.gif" ALT="Test Not Run" longdesc="testIcons.html">
+</td>
+<td>
+Not Run
+</td>
+<td>
+A white test containing a <b>-</b> symbol indicates that the test is not filtered
+out but has not yet been executed.</td>
+</tr>
+
+<tr valign="top">
+<td>
+<IMG SRC="../../images/greenTest.gif" ALT="Test Passed" longdesc="testIcons.html">
+</td>
+<td>
+Passed
+</td>
+<td>
+A green test containing a <IMG SRC="../../images/checkMark.gif" ALT="Symbol used in the passed icon" longdesc="testIcons.html"> symbol
+indicates that the test is not filtered out and had a Passed result the last
+time it was executed.</td>
+</tr>
+
+<tr valign="top">
+<td>
+<IMG SRC="../../images/grayTest.gif" ALT="Test Filtered Out" longdesc="testIcons.html">
+</td>
+<td>
+Filtered Out
+</td>
+<td>
+A gray test containing no symbols indicates that the test is currently not selected
+  to be run.</td>
+</tr>
+</table>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

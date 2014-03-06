@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Log Viewer
+</title>
+<META NAME="hIndent" CONTENT="3">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="logViewerUI"><!--index:log viewer--></a>
+<h1>Log Viewer</h1>
+
+<p>
+Use the Log Viewer to view the log contents during or after a test run. The test suite generates the logs that are displayed in the viewer. The following illustration is an example of the content that a test suite might generate. See your
+  test suite documentation for detailed information about the log files that it generates.</p> 
+<center>
+  <img src="../../images/JT4logViewer_populated.gif" alt="harness log viewer" longdesc="logViewer.html">
+</center>
+
+<ol>
+  <li>Selection Action list</li>
+  <li>Logs and levels pane</li>
+  <li>Log Message pane</li>
+  <li>Close button</li>
+  <li>Open New Log Viewer button</li>
+  <li>Save button</li>
+  <li>Clear Log button</li>
+  <li>Find text field.</li>
+  <li>Live Scrolling check box</li>  
+  <li>Word Wrap check box</li>
+</ol>
+
+
+<h2>Selection Action List</h2>
+ <p>The Selection Action list consists of three sections of message selection actions (log levels) that a user might choose for displaying the message of a log. A log is a series of notifications concerning a component of the system. Log levels are descriptive criteria applied to each message within a log.</p>
+<p>The first section of the list enables the user to either Select All log levels for display in the log viewer or to Unselect All. The second section of the list enables the user to select one or more general message log levels for display. In the example illustration, these messages are represented by the General Logger messages. The third section of the list enables the user to select one or more test suite log levels for display. In the example illustration, these message types are represented by the TSM Logger message types.</p> 
+
+<p>The choices in this list only change the current state of selections. These selections would not apply to the new log which is displayed after the user chooses Select All.
+</p>  
+
+<h2>Logs and Levels Pane</h2>
+
+<p>The log viewer displays a list of log levels available from the test suite that has been selected for display. You can select one or more of the log levels in any combination. These log levels are also listed in the Selection Action list. As in the Selection Action list, the log levels are grouped into general types. See Selection Action List for a description of logs and log levels. See your test suite documentation for detailed information about the log messages that it generates.
+
+<h2>Log Message Pane</h2>
+<p>
+The contents of the output log specified by the selections in the logs and levels pane are displayed as text. The test suite specifies the output log contents displayed in the viewer. See your test suite documentation for detailed information about the log file contents that it generates.
+</p>
+
+<h2>Close Button</h2>
+<p>
+The Close button closes the log viewer. If multiple log viewers are open during a test run to monitor specific sets of log messages, the Close button only closes the log viewer to which it is bound. 
+</p>
+
+<h2>Open New Log Viewer Button</h2>
+<p>
+Use the Open New Log Viewer button to open an empty log viewer. During a test run, multiple log viewers can be opened and used to monitor specific sets of log messages. 
+</p>
+
+<h2>Save Button</h2>
+<p>
+Click the Save button to save the contents of the Log Viewer as an XML file.
+</p>
+
+<h2>Clear Log Button</h2>
+<p>
+Click the Clear Log button to erase the contents displayed in the log viewer and usually stored on a disk. These contents are automatically loaded the next time that the work directory is opened.
+</p>
+
+<h2>Find Text Field</h2>
+<p>
+Use the Find Text field to search the contents of the log message pane for specific text strings.
+</p>
+
+<h2>Live Scrolling Check Box</h2>
+<p>
+Check to monitor for log output while the harness runs. Log entries can be generated at any time, not just while tests are running.
+</p>
+
+<h2>Word Wrap Check Box</h2>
+<p>
+Check the Work Wrap check box to cause the log viewer to wrap long line of content in the log message pane.
+</p>
+
+  <!--CopyOff--><p>&nbsp;</p><!--CopyOn-->
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2006, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

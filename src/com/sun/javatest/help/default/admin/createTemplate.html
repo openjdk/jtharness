@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<link href="../jthelp.css" rel="stylesheet" title="Style">
+<meta name="hIndent" content="1">
+<title>
+Creating a Template
+</title>
+</head>
+<body>
+<a name="createTemplate">
+<!-- index:creating a template -->
+<!-- index:configuration: creating a template; site administration -->
+</a>
+<H1 class="proc">Creating a Template</H1>
+
+<p><!--CopyOff--><img src="../../images/hg_proc.gif" alt="This is the start of a procedure" longdesc="setMarkers.html"><!--CopyOn-->To
+  create a template, perform
+  the following steps:</p>
+
+<ol>
+  <li> Choose Configure <b>&gt;</b> New
+    Template from the Test Manager menu bar.</li>
+  <li> Answer the questions displayed
+    in the Template Editor.<br><br>The Template Editor  displays questions in the center pane (the
+    Question Pane). After
+    answering a question, click the Next button to proceed to the next question.</li>
+</ol>
+
+<!--
+<ol start="3">
+  <li> If a user is only expected to answer or change the values of certain questions,
+    enable the Bookmarks in the menu and mark the questions that a user is expected
+    to answer.<br><br>Use Bookmarks to simplify a configuration template by
+      displaying only the questions that require information from the user. Normally
+      long interviews can often be reduced to a small set of required questions
+      through the effective use of Bookmarks within a configuration template. See <a href="setMarkersTE.html">Setting Bookmarks</a> for a detailed description of  the Bookmarks function.</li>
+</ol>
+
+<ol start="4">
+  <li> Choose Bookmarks <b>&gt;</b> Show
+    Only Marked Questions from the menu bar to display only the questions that
+    have bookmarks. <br><br>Examine the results and verify that the bookmarked questions are the minimum
+    set of questions a user must answer. These questions are what the user
+    sees when the template is loaded in the Configuration Editor.</li>
+</ol>
+
+-->
+<ol start="3">
+  <li> Choose File <b>&gt;</b> Save As from the menu bar and save the template
+    with a relevant name. <br><br>Template file names are automatically appended with a <code>.jtm</code> extension.</li>
+</ol>
+
+   <!--CopyOff-->
+  <p>An optional  feature enables template updates to propagate
+    (flow) to all of the configurations that are based on the template. When
+    template propagation is enabled, the  harness checks for template
+  updates when a user does any of the following actions:</p>
+  <ul>
+    <li>Starts a test run</li>
+    <li>Opens a work directory</li>
+    <li>Loads a configuration</li>
+  </ul>
+  <!--CopyOn-->
+
+<p class="note"><!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a Note" longdesc="createTemplate.html"><br><!--CopyOn-->
+  Changes to a  template propagate to configurations based on the
+  template <em>only</em> if propagation is enabled in both the template and the
+  derived configurations.</p>
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2006, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+
+

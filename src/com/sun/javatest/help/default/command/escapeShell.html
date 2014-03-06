@@ -1,0 +1,51 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Doing Escapes in a UNIX Shell</TITLE>
+<META name="hIndent" content="3"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<H1><A name="example3">Doing Escapes in a UNIX System Shell</A></H1>
+<P>The following example uses the syntax for doing escapes in a UNIX system shell. Changes to the original configuration file (<EM>myoriginal</EM><CODE>.jti</CODE> in this example) are written to a new  configuration file (<EM>my-newconfig</EM><CODE>.jti</CODE> in this example).</P>
+<P>In the following example, <EM>myoriginal</EM><CODE>.jti</CODE> represents a configuration file name that might exist on your system. Win32 users must also replace the UNIX system file separators (\) with Windows file separators (/) to run these examples.</P>
+<P>To change a value in the command line, use the <I>tag-name</I> for the question that sets the value. See <a href="tagName.html">Obtaining the Question tag-name</A> for detailed information about viewing the <I>tag-name</I> for the question.</P>
+<P>
+<CODE>java -cp</CODE> [<EM>jt-dir</EM><CODE>/lib/</CODE>]
+<CODE>javatest.jar com.sun.javatest.EditJTI <br>
+				-o</CODE> <EM>my-newconfig</EM><CODE>.jti test.serialport.midPort=/dev/term/a
+test.connection.httpsCert="\"CN=&lt:Somebody&gt;, OU=&lt;People&gt;, O=&lt;Organisation&gt;, L=&lt;Location&gt;, ST=&lt;State&gt;,
+C=US\""</CODE><EM>myoriginal</EM><CODE>.jti</CODE></P>
+
+ <hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2003, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

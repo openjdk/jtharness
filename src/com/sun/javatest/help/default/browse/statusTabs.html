@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Status Information
+</title>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="statusTabs"><!-- index:test status: Summary information --><!-- index:Test Manager: Summary information--></a>
+<h1>Status Information</h1>
+<p>In addition to Summary and Documentation information, the folder view contains five status tabs that use the view filter to group and list a folder's tests by their results in the work directory. See
+  <a href="folderInfo.html">Displaying Folder Information</a> for additional information.
+</p>
+<ul>
+<li type="disc"><p>In the tabbed panes, click a test in the list to display the summary message at the bottom of the pane.</p></li>
+<li type="disc"><p>By default the list has two columns, Name and Title. Click a heading to sort the list.
+<li type="disc"><p>To display alternate information in the second column, right-click on the column heading and make a selection from the Description or Runtime context menus.<br>
+			
+<center><img src="../../images/statusAltInfo.gif" alt="Additional test information" longdesc="Additional test information for can be displayed in the second column"></center></p>
+
+<li><p>Double click the test name or press Enter to display the test in the test tree and to view its unfiltered test information. See <a href="testInfo.html">Displaying Test Information</a> for additional information.</p></li>
+</ul>
+<a name="statusTabs.passed"><!-- index:test status: Passed --><!-- index:Test Manager: Passed test results--></a>
+<p>The colors of the following icons  are the harness default
+  settings. The harness enables you to use colors other than these default
+  settings. See <a href="../command/settingColors.html">Specifying
+  Status Colors</a> in the <em>Command-Line Interface User's Guide</em>.</p>
+
+<h2><IMG SRC="../../images/greenTest.gif" ALT="Passed folder" longdesc="statusTabs.html">Passed</h2>
+
+<p>Uses the view filter to display the test names of all tests in the folder (including all of its subordinate folders) displayed in the test tree that had passing results when they were run.</p>
+
+<a name="statusTabs.failed"><!-- index:test status: Failed --><!-- index:Test Manager: Failed test results--></a>
+<h2><IMG SRC="../../images/redTest.gif" ALT="Failed folder" longdesc="statusTabs.html">Failed</h2>
+<p>
+Uses the view filter to display the path names of all tests in the folder (including all of its subordinate folders) displayed in the test tree that were run and had failing results.
+</p>
+
+<a name="statusTabs.error"><!-- index:test status: Error --><!-- index:Test Manager: Error test results--></a>
+<h2><IMG SRC="../../images/blueTest.gif" ALT="Error folder" longdesc="statusTabs.html">Error</h2>
+<p>
+Uses the view filter to display the path names of all tests in the folder (including all of its subordinate folders) displayed in the test tree with errors that prevented them from being executed.
+</p>
+
+<a name="statusTabs.notRun"><!-- index:test status: Not Run --><!-- index:Test Manager: Not Run tests--></a>
+<h2><IMG SRC="../../images/whiteTest.gif" ALT="Not Run folder" longdesc="statusTabs.html">Not
+  Run</h2>
+<p>
+Uses the view filter to display the path names of all tests in the folder (including all of its subordinate folders) displayed in the test tree that are selected by the view filter but have not been run.
+</p>
+
+<a name="statusTabs.notRun"><!-- index:test status: Filtered Out --><!-- index:Test Manager: Filtered Out tests--></a>
+<h2><IMG SRC="../../images/grayTest.gif" ALT="Filtered Out folder" longdesc="statusTabs.html">Filtered
+  Out</h2>
+<p>
+Uses the view filter to display a two-column list. The first column contains
+  the names of tests in the selected folder whose results are filtered out by
+  the selected view filter.
+</p>
+<p>
+The second column contains a specific reason why the test result is filtered out by the view filter. The specific reason depends on the view filter criteria. See <a href="viewFilters.html">View Filters</a> for a detailed description of filtering criteria.
+</p>
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

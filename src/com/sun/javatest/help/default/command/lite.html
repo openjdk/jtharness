@@ -1,0 +1,107 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Command-Line Interface</TITLE>
+<META name="hIndent" content="0"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="liteHarness"><!-- index:lite harness --></A>
+<H1>The Lite Harness </H1>
+<h2>Topics</h2>
+<ul>
+  <li><a href="#Overview">Overview</a></li>
+  <li><a href="#Supported">Supported Commands</a></li>
+  <li><a href="#Device">Device Requirements</a></li>
+  <li><a href="#Installing">Installing</a></li>
+  <li><a href="#Launching">Launching</a></li>
+  <li><a href="#Creating">Creating a Configuration File</a></li>
+  <li><a href="#Working">Working with Reports and Test Results</a>    </li>
+</ul>
+<h2><a name="Overview" id="Overview"></a>Overview</h2>
+<p>The lite harness (<code>jtlite.jar</code>) can run test suites on devices that have either of two limitations: </p>
+<ul>
+  <li>The Java implementation on the test device has no network access, as can be the case with an embedded device. The test harness, running on a laptop, cannot work in such a networkless environment because it uses an agent to run tests on the device, and the agent requires a network to communicate with the harness. By contrast, the lite harness runs entirely on the test device, executing tests there without an agent and without dependencies on networking APIs.</li>
+  <li>The Java implementation on which the harness runs supports a subset of Java SE APIs. To accommodate API limitations, the lite harness has no graphical user interface and supports only a subset of the test harness's CLI commands. </li>
+</ul>
+<h2><a name="Supported" id="Supported"></a>Supported Commands</h2>
+<p>The lite harness supports all test harness commands and  options, except the following: </p>
+<ul>
+  <li><code><a href="newDesktop.html">-newDesktop</a></code></li>
+  <li><code><a href="newDesktop.html">-resume</a></code></li>
+  <li><code><a href="settingColors.html">-laf</a></code></li>
+  <li><code><a href="commandHelp.html">-onlineHelp</a></code></li>
+  <li><code><a href="writeReports.html">-type xml</a></code> (suboption of <code>-writeReport</code>)</li>
+  <li><code><a href="writeReports.html">-type cof</a></code> (suboption <code>-writeReport</code>)</li>
+</ul>
+<h2><a name="Device" id="Device"></a>Device Requirements </h2>
+<ul>
+  <li>The device on which the lite harness runs must have a Java runtime environment that implements at least the APIs defined as  the JDK8 compact1 profile in <a href="http://cr.openjdk.java.net/~mr/se/8/java-se-8-edr-spec.01.html#s8">http://cr.openjdk.java.net/~mr/se/8/java-se-8-edr-spec.01.html#s8</a>. An example is the headless edition of Oracle Java SE Embedded 7, available from <a href="http://www.oracle.com/technetwork/java/embedded/downloads/javase/index.html">http://www.oracle.com/technetwork/java/embedded/downloads/javase/index.html.</a> </li>
+  <li>You must be able to run the <code>java</code> launcher command (version 6 or later) on the test device. You can do this with a keyboard and monitor connected to the device or  over a operating system-level network connection that supports a remote protocol such as <code>ssh</code>. Run <code>java -version</code> to verify the Java installation. </li>
+  <li>You must be able to transfer files to  the device. Example transfer mechanisms include:
+    <ul>
+        <li>A operating system-level network connection to the device that supports remote transfer commands such as <code>scp</code> or <code>sftp</code>. </li>
+      <li>An SD card, USB card, or other portable file system medium.</li>
+      <li>A tool that can burn files into  non-volatile memory. </li>
+      <li>A web browser that can download files from a<strong> </strong>web server that you control. </li>
+    </ul>
+  </li>
+  <li>The device must have sufficient  storage for  the Java runtime, the lite harness implementation (<code>jtlite.jar</code>), the test suite to be executed, a work directory, and reports. The <code>jtlite.jar</code> file requires about 1MB of space. For Java runtime and test suite storage requirements, consult the corresponding documentation. Work directory and report sizes depend on the tests executed and reports generated. </li>
+  <li>The device must have sufficient dynamic memory to run the lite harness performing the commands you specify. Dynamic memory requirements are so situation-specific, they can only be determined by experimentation. </li>
+</ul>
+<p>Although operating system-level networking support on the device is convenient for transfering files and running the lite harness remotely, the lite harness does not have any dependencies on networking APIs or services.</p>
+
+<h2><a name="Installing" id="Installing"></a>Installing </h2>
+<p>To install the lite harness on the test device, transfer a copy of <em>javaTestInstallDir</em><code>/lib/jtlite.jar</code> to the test device's file system. </p>
+<p>You must also install the test suite on the device. Consult the test suite documentation for instructions. </p>
+<h2><a name="Launching" id="Launching"></a>Launching </h2>
+<p>Assuming that the current directory contains the <code>jtlite.jar</code> you installed, and the device's <code>java</code> launcher command can be invoked with its unqualified name, the general form of the lite harness launch command is:</p>
+<pre>&gt; java -jar jtlite.jar  \
+-<a href="config.html">config</a> <em>yourConfig</em>.jti \
+-<a href="workdir.html">workdir</a> <em>yourWorkDir</em> \
+[more commands ...] \
+-<a href="runTests.html">runTests</a> \
+-<a href="writeReports.html">writeReport</a> <em>OutputReportDir</em>
+
+</pre>
+<p>In this generic example, the <code>\</code> line continuation character visually separates the command line arguments for clarity.  This command line selects an existing configuration (file), an existing work directory and asks the harness to run the tests and write the default report(s).  The location of the test suite is implied and will be determined from hints in the work directory.  For more examples, refer to <a href="compoundExamples.html">Extended Command-Line Examples</a>, substituting the lite harness's JAR file name. 
+
+<h2><a name="Creating" id="Creating"></a>Creating a Configuration File</h2>
+
+<p>When you use the lite harness, you must specify the name of a configuration file on the command line with <code>-config</code> <em>yourConfig</em><code>.jti</code>. The easiest and most reliable way to create and edit a configuration file is with the test harness graphical <a href="../confEdit/overview.html">configuration editor</a> running on a desktop or laptop computer. When you have created or updated a configuration file, copy it to the test device's file system so you can specify it when you launch the lite harness. </p>
+<h2><a name="Working" id="Working"></a>Working with Reports and Test Results</h2>
+
+<p>It may not be efficient to analyze results on the test platform itself - users have the option of relocating results to a more powerful platform.  By copying work directories or reports from the test device to your desktop or laptop computer, you can examine and manipulate them with the test harness and other tools. For instance, you can use the <a href="../mergeReports/mergeReports.html">report converter</a> to merge reports or produce XML, and you can <a href="../browse/browsing.html">browse test information</a> with the test harness GUI. </p>
+<P>&nbsp;</P>
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2013, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>

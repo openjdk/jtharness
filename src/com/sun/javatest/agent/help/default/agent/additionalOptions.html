@@ -1,0 +1,422 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<META NAME="hIndent" CONTENT="2">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+<title>Specifying Additional Agent Options</title>
+</head>
+<body>
+<a name="additionalOptions"><!-- index:additional options --></a>
+<h1>Specifying Additional Agent Options</h1>
+<p>
+The following topics describe the additional options for using
+  an agent:
+</p>
+<ul>
+<li><a href="#additionalOptions.help">Options Used to Display Help</a>
+</li>
+<li>
+<a href="#additionalOptions.both">Options Used to Run and Monitor the Agent</a>
+</li>
+</ul>
+
+<a name="additionalOptions.help"><!-- index:additional options; help --></a>
+<h2>Options Used to Display Help</h2>
+<p>
+The help option only displays command-line help for the agent regardless of the
+  application class used in the command line. To start an agent application or
+  applet after displaying command-line help, perform the steps in 
+  <a href="startAgent.html">Starting a JT Harness Agent</a>.
+</p>
+<p>
+The following table contains options that are only used on the command line to
+  display help.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="List of options used on the command line to display help" title="Command-Line Options to Display Help">
+<tr valign="top">
+<th width="30%" scope="col" class="left">
+Option
+</th>
+<th scope="col" class="left">
+Function
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+<code>-help</code> or <code>-usage</code>
+</td>
+<td>
+Displays command-line help.
+<p>Example:</p>
+<p>
+<code>java -cp /lib/javatest.jar com.sun.javatest.agent.AgentMain -help</code>
+</p>
+</td>
+</tr>
+</table>
+
+<p>
+You must include the path of the <code>javatest.jar</code> file (represented as <code>/lib/javatest.jar</code> in the example). The <code>javatest.jar</code> file is usually installed in the test suite <code>lib</code> directory when the JT Harness harness is bundled with a test suite.
+</p>
+
+<a name="additionalOptions.both"><!-- index:additional options; run and monitor the Agent --></a>
+<h2>Options Used to Run and Monitor the Agent</h2>
+
+<p>
+The following options can be set in the application command line, the application
+  or applet GUI, or the applet tag:</p>
+
+<ul>
+<li>
+<a href="#additionalOptions.mapFile">Specify a Map File</a>
+</li>
+<li>
+<a href="#additionalOptions.concurrencyValue">Set Concurrency</a>
+</li>
+<li>
+<a href="#additionalOptions.taskHistory">Set Number of Tasks in the History Tabbed Pane</a>
+</li>
+<li>
+<a href="#additionalOptions.autostart">AutoStart the Agent</a>
+</li>
+<li>
+<a href="#additionalOptions.tracing">Set Tracing</a>
+</li>
+</ul>
+
+<a name="additionalOptions.mapFile"><!-- index:additional options; map file --></a>
+<h3>Specify a Map File</h3>
+<p>
+The map option specifies that the agent use a map file to translate host specific values. Refer to
+<a href="mapFile.html">Create a Map File</a> for additional information about map files.
+</p>
+
+<p>
+To specify a map file, use the appropriate setting or option from the following
+  table.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="List of ways to specify a map file" title="Map File Options">
+
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Interface
+</th>
+<th scope="col" class="left">
+Option or Setting
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Default
+</td>
+<td>
+None (empty)
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Command line
+</td>
+<td>
+<code>-map</code> <em>map-file</em>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Applet tag
+</td>
+<td>
+<code><b>&lt;</b>param name=map value=<em>map-file-url</em><b>&gt;</b></code>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+GUI Parameter pane
+</td>
+<td>
+<IMG SRC="../../images/agentMap.gif" ALT="GUI setting that specifies an agent use a map file to translate host specific values" longdesc="additionalOptions.html" >
+</td>
+</tr>
+</table>
+<a name="additionalOptions.concurrencyValue"><!-- index:additional options; set concurrency --></a>
+<h3>Set Concurrency</h3>
+<p>
+To run tests concurrently, set the maximum number of simultaneous requests handled by the agent. Each request requires a separate connection to the JT Harness harness and a separate thread inside the agent. The request might also require a separate process on the test system running the agent. The default setting is one.
+</p>
+<p>
+To run concurrent tests, use the appropriate setting or option from the following
+  table.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="Setting or option to run concurrent tests." title="Run Concurrent Tests Option">
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Interface
+</th>
+<th scope="col" class="left">
+Option or Setting
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Default
+</td>
+<td>
+One
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Command line
+</td>
+<td>
+<code>-concurrency</code> <em>number-of-tests</em>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Applet tag
+</td>
+<td>
+<code><b>&lt;</b>param name=concurrency value=<em>number-of-tests</em><b>&gt;</b></code>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+GUI Parameter pane
+</td>
+<td>
+<IMG SRC="../../images/agentConcurrency.gif" ALT="GUI setting that sets the maximum number of simultaneous requests handled by the agent" longdesc="additionalOptions.html" >
+</td>
+</tr>
+</table>
+
+<a name="additionalOptions.taskHistory"><!-- index:additional options; set maximum number; tasks in history pane --></a>
+<h3>Set Number of Tasks in the History Tabbed Pane</h3>
+<p>
+The history option specifies the maximum number of tasks displayed in the history
+  tabbed pane. Refer to <a href="historyPane.html">History Tabbed Pane</a> for
+  a description of the history tabbed pane and how it is used to monitor an agent.
+</p>
+
+<p>
+To set the tasks displayed in the history tabbed pane, use the appropriate setting
+  or option from the following table.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="Setting or option to set the number of tasks displayed in the history tabbed pane." title="History Tabbed Pane Options">
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Interface
+</th>
+<th scope="col" class="left">
+Option or Setting
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Default
+</td>
+<td>
+One
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Command line
+</td>
+<td>
+<code>-history</code> <em>number-of-items</em>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Applet tag
+</td>
+<td>
+<code><b>&lt;</b>param name=history value=<em>number-of-items</em><b>&gt;</b></code>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+GUI
+</td>
+<td>
+Not supported
+</td>
+</tr>
+</table>
+
+
+<a name="additionalOptions.autostart"><!-- index:additional options; autoStart the agent --></a>
+<h3>AutoStart the Agent</h3>
+
+<p>
+Th start option is only used with the application GUI class or as a parameter
+  in the applet tag. When used, the start option automatically starts the agent
+  after all command line options are validated and the GUI is displayed. The
+  agent must be completely configured in the command line or applet tag. When
+  the <code>-start</code> option
+  is not used, click the Start button in the agent GUI to start testing.
+</p>
+
+<p>
+To autostart the agent when the GUI is displayed, use the appropriate setting
+  or option from the following table.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="Setting or option to automatically start the agent after all command line options are validated and the GUI is displayed." title="AutoStart Agent Options">
+<tr valign="top">
+<th width="15%" scope="col" class="left">
+Interface
+</th>
+<th scope="col" class="left">
+Option or Setting
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Default
+</td>
+<td>
+False
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Command line
+</td>
+<td>
+<code>-start</code>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Applet tag
+</td>
+<td>
+<code><b>&lt;</b>param name=start value=<em>true</em><b>&gt;</b></code>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+GUI
+</td>
+<td>
+<IMG SRC="../../images/agentStart.gif" ALT="GUI setting that automatically starts the agent after all command line options are validated" longdesc="additionalOptions.html">
+</td>
+</tr>
+</table>
+
+<a name="additionalOptions.tracing"><!-- index:additional options; set tracing --></a>
+<h3>Set Tracing</h3>
+<p>
+The trace option sends detailed information about agent activity to the system
+  output stream. 
+</p>
+<p>
+To start tracing when the agent is run, use the appropriate setting or option
+  from the following table.</p>
+
+<table width="100%" border="0" cellpadding="3" class="gray" summary="Setting or option to send detailed information about agent activity to the system output stream." title="Set Tracing Options">
+
+<tr valign="top">
+<th width="15%" scope="col">
+Interface
+</th>
+<th scope="col">
+Option or Setting
+</th>
+</tr>
+
+<tr valign="top">
+<td>
+Default
+</td>
+<td>
+False
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Command line
+</td>
+<td>
+<code>-trace</code>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+Applet tag
+</td>
+<td>
+<code><b>&lt;</b>param name=trace value=<em>true</em><b>&gt;</b></code>
+</td>
+</tr>
+
+<tr valign="top">
+<td>
+GUI
+</td>
+<td>
+Not Supported
+</td>
+</tr>
+</table>
+<!--CopyOff--><p><b>Next task:</b></p>
+<p>
+<a href="monitoring.html">Monitoring JT Harness Agents</a>:  Monitor
+an agent while it runs tests.
+</p>
+<!--CopyOn-->
+
+<!--ins:JDTS-->
+
+<hr>
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+</body>
+</html>

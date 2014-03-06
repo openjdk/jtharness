@@ -1,0 +1,72 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<HTML>
+<HEAD>
+<TITLE>Setting Timeout With timeoutFactor</TITLE>
+<META name="hIndent" content="2"><LINK rel="stylesheet" type="text/css" href="../jthelp.css" title="Style">
+
+</HEAD>
+<BODY bgcolor="#ffffff">
+<A name="timeout"><!-- index:increasing the timeout -->
+  <!-- index:timeoutFactor command--><!-- index:command: timeoutFactor --></A>
+<H1>Setting Timeout With <CODE>timeoutFactor</CODE></H1>
+<P>Each test in a test suite has a timeout limit. The  harness waits for a test
+  to complete for the duration of that limit before moving on to the next test.
+You can use the <CODE>timeoutFactor</CODE> command to change the timeout limit:</P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> ... [<EM>initial-setup-commands</EM>] ... <CODE>-timeoutFactor</CODE> <EM>number</EM> ... [<EM>task-command</EM>] ...</P>
+<P>See <a href="aboutExamples.html">About the Command-Line Examples</A> for a description of the use of <EM>&gt; jtharness</EM> in the example.</P> <P>See <a href="commandLine.html">Command-Line Overview</A> for a detailed description of the command-line structure.</P>
+<P>Each test's timeout limit is multiplied by the time factor value. For example, if you specify a value of 2.0, the timeout limit for tests with a 10 basic time limit becomes 20 minutes. See <a href="formatCommands.html">Formatting a Command</A> for descriptions of the command formats. Note that the format of the value input for the timeout factor is dependant on the locale.</P>
+<P>When creating a command string to change the timeout limit, include the commands in the following sequence:</P>
+	<OL>
+		<LI>Include the commands required to set up a configuration.</LI>
+	</OL>
+    <blockquote>
+      <p>See <a href="setupCommands.html">Setup Commands</A> for detailed description
+        of the available commands.</p>
+    </blockquote>
+    <ol start="2">
+      <LI>Include the commands required to specify the timeout limit (<CODE>timeoutFactor</CODE> <EM>number</EM>).</LI>
+      <LI>(Optional) Include the <CODE>runtests</CODE> command.</LI>
+    </ol>
+    <blockquote>
+      <p>See <a href="runTests.html">Running Tests With <CODE>runtests</CODE></A> for a detailed description of the command.</p>
+    </blockquote>
+    <H2>Detailed Example of <code>timeFactor</code> Command </H2>
+<P>In the following example, <EM>myconfig</em><code>.jti</code> and <EM>myexcludelist</eM><code>.jtx</code> represent
+  file names that might exist on your system. </P>
+<P><B>Command Options Format Example:</B></P>
+<P class="indent2"><a href="aboutExamples.html"><EM>&gt; jtharness</EM></A> <CODE>-config</CODE> <EM>myconfig</em><code>.jti -timeoutFactor 2.0 -runtests</CODE></P>
+<P>See <a href="formatCommands.html">Formatting a Command</A> for descriptions and examples of other command formats that you can use.</P>
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
+

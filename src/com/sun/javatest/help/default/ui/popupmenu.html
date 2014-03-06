@@ -1,0 +1,307 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+<head>
+<title>
+Test Tree Pop-Up Menu
+</title>
+<META NAME="hIndent" CONTENT="4">
+<LINK REL="stylesheet" TYPE="text/css" HREF="../jthelp.css" TITLE="Style">
+</head>
+<body bgcolor="#ffffff">
+<a name="popupMenu"><!-- index:displaying: test tree pop-up menu --> <!-- index:menu: test tree pop-up  --></a>
+<h1>Test Tree Pop-Up Menu</h1>
+<p>
+The test tree provides a pop-up menu. Displaying the pop-up menu for a folder
+  or test is a platform-specific operation (such as right clicking the folder
+  or test icon in the test tree). You can also  press Shift-F10 
+  to display the pop-up menu for the test with focus.
+</p>
+
+
+<center>
+<img src="../../images/popupMenu.gif" border="0"  alt="Test Tree popup menu" longdesc="popupmenu.html">
+</center>
+
+<p>The pop-up menu contains the following menu items:</p>
+<ul>
+<li><b>Execute these tests</b> - See <a href="#popupMenu.execute">Quick
+  Pick Test Execution</a> for a detailed description.</li>
+<li><b>Refresh</b> - See <a href="#popupMenu.refresh">Refresh
+  Test Suite Contents</a> for a detailed description.</li>
+<li><b>Clear Results</b> - See <a href="#popupMenu.clear">Clear
+  Previous Test Results</a> for a detailed description.</li>
+<!--insert:ConfigureTest-->
+</ul>
+
+<p>
+The harness does not allow you to perform operations using the pop-up menu when
+it is running tests. The  harness displays an error dialog box if you
+attempt to perform an operation using the pop-up menu when tests are running.</p>
+<p>
+See <a href="../ui/keyboardAccess.html">Keyboard access</a> for a description
+of how you can use the keyboard  to open and navigate the pop-up menu.
+</p>
+<a name="popupMenu.execute"><!--index:menu: test tree pop-up: execute -->
+  <!-- index:Quick Pick test execution: test tree pop-up menu --></a>
+<h2>Quick Pick Test Execution</h2>
+<p>You can use the Execute these tests menu item to run the tests and folders highlighted in the test tree, subject to filters such as keywords.</p>
+<p>
+The  harness does not automatically perform a refresh operation before
+  running the tests. If changes are made to a test suite, you must perform a
+  refresh before running tests. See <a href="#popupMenu.refresh">Refresh Test
+  Suite Contents</a> for
+  a description of the refresh operation.</p>
+<h3 class="proc">
+Quick Pick Test Execution of Specific Folders or Tests</h3>
+<ol>
+<li>
+Select one or more folders and tests in the test tree.</li></ol>
+<blockquote>
+<ul><li>You must left click
+      to select nodes. When more than one folder or test is highlighted in the
+    test tree, the Test Manager displays a list of the selected tests and folders
+    in the information area.</li>
+<li>
+Selecting a test executes only that test.</li>
+  <li>Selecting a folder executes all tests currently known to the Test Manager
+    in and below that folder.</li></ul></blockquote>
+<ol start="2">
+  <li> Right click in the test tree pane to open the pop-up menu.</li>
+</ol>
+<blockquote>
+  <p> Opening the pop-up menu is a platform-specific operation (such as right
+        clicking in the test tree pane).  A modifier key or operation which
+        doesn't utilize the clicking at all may be necessary depending on your
+        platform details.</p>
+</blockquote>
+<ol start="3"><li>
+    Choose Execute these tests from the test tree pop-up menu. </li></ol>
+<blockquote>
+
+    <ul>
+    <li>If the Test Manager contains a completed configuration, the harness displays
+    a message to confirm the execute operation.</li>
+    <li>If the Test Manager does not contain a completed configuration, the harness
+    displays a message asking you to complete the configuration or cancel the test run.</li>
+</ul>  
+
+  <p class="note">
+    <!--CopyOff--><IMG SRC="../../images/hg_note.gif" ALT="The following text is a note"><br><!--CopyOn-->
+  The harness combines the <a href="currentConfiguration.html">current configuration</a> and the nodes selected in the test tree  to determine which
+  tests will be executed. In the <a href="testManager.html">Test Manager Preferences</a>,
+  the option &quot;Execution from tree popup includes configuration Tests to Run&quot; how the harness uses the 
+  Tests to Run value in the configuration, as described below:
+  
+  <a name="popupMenu.execute"><!--index:menu: test tree pop-up: override current configuration  --></a>
+
+  </p>
+
+  <P><b>Box is unchecked (default).</b> The harness ignores the tests specified in   the <a href="currentConfiguration.html"> current configuration</a>'s Tests to Run question. It runs the tests selected in   the test tree, subject to configuration Test Selection filters, such as   keywords. This option is compatible with the behavior of test harnesses   older than version 4.2.1.  </P>
+  <P><b>Box is checked.</b> The harness compares the tests  you selected in the test tree and  the tests specified in the configuration's Tests to Run question to find a set of common tests. The harness then applies the configuration's Test Selection   filters (such as keywords) to the common test set, producing the set of eligible tests.</P>
+    
+</blockquote>
+
+<ol start="4">
+  <li>
+    Tests will be executed. The above test selection process and exclusions from the criteria
+   defined by the test suite or interview may eliminate all the
+   eligible tests. If this happens you will see a message, and the test  run is aborted.</li>
+
+</ol>
+
+<a name="popupMenu.refresh"><!--index:menu: test tree pop-up: refresh test suite contents -->
+  <!-- index:Refresh Test Suite Contents: test tree pop-up menu --></a>
+
+<h2>Refresh Test Suite Contents</h2>
+
+<p>
+When developing tests, changes in a test suite are not automatically detected
+  by the  harness. The first time tests are run, the harness
+uses the test finder to read test descriptions.  If the harness loads tests
+from an existing work directory, the test descriptions contained in those
+results are used by default.</p>
+<p>
+The refresh operation enables test developers<a name="testManager.filter"> </a> to load changes they might have
+made in a test suite without restarting the  harness or reloading the
+test suite.</p>
+<p>
+The  harness does not require a work directory to perform a refresh of
+  the test suite.</p>
+<p>
+If you are viewing the test panel after refreshing a test or folder, update the
+  test tree by choosing a different test or folder icon and repeating your test
+  tree choice.</p>
+
+<h3 class="proc">Refresh Tests and Folders</h3>
+
+<ol>
+  <li>Select one or more folders and tests in the test tree.</li></ol>
+<blockquote>
+  <ul>
+    <li>You must left click
+        to select a node. When more than one folder or test is highlighted in
+      the test tree, the Test Manager displays a list of the selected tests and
+      folders in the information area.</li>
+    <li>Selecting a test chooses only that test.</li>
+    <li> Selecting a folder chooses all tests currently known to the Test Manager
+      in and below that folder.</li></ul></blockquote>
+  <ol start="2">
+    <li> Right click in the test tree  to open the pop-up menu.</li>
+  </ol>
+  <blockquote>
+    <p> Opening the pop-up menu is a platform-specific operation (such as right
+              clicking in the test tree).</p>
+  </blockquote>
+  <ol start="3" type="1">
+    <li>Choose Refresh from the pop-up menu.
+      <ol type="a">
+        <li> For files, the  harness checks the time stamp of
+          the file containing the test description.
+          <ol type="i">
+            <li>If the time stamp has changed, the harness compares the test
+              descriptions.</li>
+            <li>If the properties of the test descriptions are different,
+              the  harness removes the test result from the work directory
+              and the Test Manager and loads a test containing the new test description
+              into the Test Manager and displays it in the Not Run state. </li>
+          </ol>
+        </li>
+        <li>For folders, the  harness checks the time stamps of the files
+          in a folder and scans for new folders and tests. This operation may
+          take place on any folder including the root folder.
+          <ol type="i">
+            <li>If a time stamp has changed, the  harness compares the
+              test descriptions.</li>
+			  <li>If the properties of the test descriptions are different,
+            the  harness removes the test result from the work directory and
+                  the Test Manager and loads the test containing the new test description
+            into the Test Manager and displays it in the Not Run state.</li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+  <a name="popupMenu.clear"><!--index:menu: test tree pop-up: clear previous test results -->
+  <!-- index:Clear Results: test tree pop-up menu --></a> 
+<h2>Clear Previous Test Results</h2>
+<p>
+You can use the Clear Results menu item to remove existing test results for any
+  combination of tests and folders.</p>
+<p>
+To clear test results, you must have an open work directory.
+</p>
+
+<h3 class="proc">Clear a Test Result</h3>
+
+<ol>
+<li>Select one or more tests in the test tree.</li>
+</ol>
+<blockquote>
+  <p>You must left click
+      to select a node. When more than one test is highlighted in the test
+      tree, the Test Manager displays a list of the selected tests and folders
+    in the information area. </p>
+</blockquote>
+<ol start="2">
+  <li>Right click in the test tree  to open the pop-up menu. </li>
+</ol>
+<blockquote>
+  <p>Opening the pop-up
+        menu is a platform-specific operation (such as right clicking in the
+    test tree). </p>
+</blockquote>
+<ol start="3">
+  <li>
+  Choose Clear Results from the test tree pop-up menu.</li>
+</ol>
+<blockquote>
+  <p>The harness opens a confirmation dialog box that displays a 
+  list of the selected items and performs the following actions 
+  when the user clicks the Yes button:</p>
+  <ul>
+    <li> Removes the <code>.jtr</code> file from the work directory for that test. </li>
+    <li> Refreshes the test description for that test. </li>
+    <li> Displays the test in the Not Run state.</li>
+  </ul>
+</blockquote>
+
+<h3 class="proc">Clear Test Results in Folders</h3>
+
+<ol>
+<li>Select one or more folders in the test tree.</li>
+</ol>
+<blockquote>
+  <p>You must left click
+      to select a node. When more than one folder is highlighted in the test
+      tree, the Test Manager displays a list of the selected tests and folders
+    in the information area.</p>
+</blockquote>
+<ol start="2">
+  <li> Right click in the test tree pane to open the pop-up menu.</li>
+</ol>
+<blockquote>
+  <p>Opening the pop-up
+        menu is a platform-specific operation (such as right clicking in the
+    test tree).</p>
+</blockquote>
+<ol start="3">
+  <li>
+    Choose Clear Results from the test tree pop-up menu.</li>
+</ol>
+<blockquote>
+  <p>The harness displays a confirmation dialog box that displays a list of 
+  selected items and performs the following actions when the user clicks
+  the Yes button:</p>
+  <ul>
+    <li> Removes all <code>.jtr</code> files from the work directory for all tests in and
+                        below that folder.</li>
+    <li> Deletes all other files in and below the folder in the work directory.</li>
+    <li> Deletes all other directories corresponding to the folders in and below
+                        the folder in the work directory.</li>
+    <li> Displays the folder and its tests as Not Run.</li>
+  </ul>
+  <p>
+    The  harness does not display an error message if it is unable to
+      delete a folder or file from the work directory.</p>
+</blockquote>
+
+
+<!--insert:newsection-->
+
+ 
+
+
+
+<hr>
+
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+</BODY>
+</HTML>
