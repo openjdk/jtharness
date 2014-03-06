@@ -1,0 +1,700 @@
+<!--
+ Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<StaticCheck>
+	<rule id="buttons" pattern=".*create(Cancel|Close|Icon|Option|Radio|Help)*Button">
+		<uikey number="0"/>
+		<case>
+			<cond>
+				<methodName negative="true" type="contains">
+					createCancelButton
+				</methodName>
+			</cond>
+			<cond negative="true">
+				<methodName type="contains">
+					Close
+				</methodName>
+				<argslength greaterthan="1"/>
+				<arg index="1" type="equals">
+					false
+				</arg>
+			</cond>
+			<action>
+				.mne
+			</action>
+		</case>
+		<case>
+			<cond>
+				<methodName type="contains">createButton</methodName>
+			</cond>
+			<action>.btn</action>
+		</case>
+		<case>
+			<cond>
+				<methodName type="contains">>createCloseButton</methodName>
+			</cond>
+			<action>.btn</action>
+		</case>
+		<case>
+			<cond>
+				<methodName type="contains">createHelpButton</methodName>
+			</cond>
+			<action>.btn</action>
+		</case>
+		<case>
+			<cond>
+				<methodName type="contains">createRadioButton</methodName>
+			</cond>
+			<action>.rb</action>
+		</case>
+		<case>
+			<cond>
+				<methodName type="contains">createIconButton</methodName>
+			</cond>
+			<action>
+				<goto ruleid="icon"><arg>0</arg></goto>
+			</action>
+		</case>
+		<common>
+			<action>
+				.tip
+			</action>
+		</common>
+		<exception>
+			<fileset>
+				interview/wizard/Wizard
+			</fileset>
+			<action addkey="no">
+				wizard.back.icon wizard.back.tip
+				wizard.cancel.icon wizard.cancel.tip
+				wizard.next.icon wizard.next.tip
+				wizard.ok.icon wizard.ok.tip
+			</action>
+		</exception>
+	</rule>
+	<rule id="icon" pattern=".*createIcon">
+		<uikey number="0"/>
+		<exception>
+			<fileset>AgentPanel</fileset>
+		</exception>
+		<common>
+			<action>
+				<goto ruleid="getIconUrl"><arg>0</arg></goto>
+			</action>
+		</common>
+	</rule>
+	<rule id="getIconUrl" pattern=".*getIconURL">
+		<uikey number="0"/>
+		<common>
+			<action>
+				<goto ruleid="getI18NString"><arg>0 + "icon"</arg></goto>
+			</action>
+		</common>
+	</rule>
+	<rule id="getI18NString" pattern=".*getI18NString">
+		<uikey number="0"/>
+		<common>
+			<action empty="true"/>
+		</common>
+	</rule>	
+	<rule id="checkbox" pattern=".*createCheckBox">
+		<uikey number="0"/>
+		<common>
+			<action>.ckb</action>
+			<action>
+				<goto ruleid="mnemonic"><arg/><arg>0</arg></goto>
+				<goto ruleid="tooltip"><arg/><arg>0</arg></goto>
+			</action>
+		</common>
+	</rule>
+	<rule id="mnemonic" pattern=".*setMnemonic">
+		<uikey number="1"/>
+		<common>
+			<action>
+				<goto ruleid="getI18NMnemonic"><arg>1 + "mne"</arg></goto>
+			</action>
+		</common>
+	</rule>
+	<rule id="tooltip" pattern=".*setToolTip">
+		<uikey number="1"/>
+		<common>
+			<action>
+				<goto ruleid="getI18NString"><arg>1 + "tip"</arg></goto>
+			</action>
+		</common>
+	</rule>
+	<rule id="getI18NMnemonic" pattern=".*getI18NMnemonic">
+		<uikey number="0"/>
+		<common><action empty="true"/></common>
+	</rule>
+	<rule id="choice" pattern=".*create(Literal)*Choice">
+		<uikey number="0"/>
+		<common>
+			<action>
+				<goto ruleid="tooltip"><arg/><arg>0</arg></goto>
+			</action>
+		</common>
+	</rule>
+	<rule id="createdialog" pattern=".*create(Wait)*Dialog">
+		<uikey number="0"/>
+		<case>
+			<cond>
+				<methodName type="contains">Wait</methodName>
+			</cond>
+			<action>.title .txt</action>
+		</case>
+		<common>
+			<action>
+				<goto ruleid="initdialog"><arg/><arg>0</arg></goto>
+			</action>
+		</common>
+	</rule>
+	<rule id="initdialog" pattern=".*initDialog">
+		<uikey number="1"/>
+		<exception>
+			<fileset>
+				javatest/tool/UIFactory
+			</fileset>
+			<action>
+				<goto ruleid="accessibleinfo"><arg/><arg>1</arg></goto>
+			</action>
+		</exception>
+		<exception>
+			<fileset>javatest/tool</fileset>
+		</exception>
+		<common>
+			<action>
+				<goto ruleid="accessibleinfo"><arg/><arg>1</arg></goto>
+			</action>
+		</common>
+	</rule>
+	<rule id="accessibleinfo" pattern=".*setAccessibleInfo">
+		<uikey number="1"/>
+		<common>
+			<action>
+				<goto ruleid="accessibledesc"><arg/><arg>1</arg></goto>
+				<goto ruleid="accessiblename"><arg/><arg>1</arg></goto>
+			</action>
+		</common>
+	</rule>
+	<rule id="accessibledesc" pattern=".*setAccessibleDescription">
+		<uikey number="1"/>
+		<case>
+			<cond><argslength greaterthan="1"/></cond>
+			<action>.desc</action>
+		</case>
+	</rule>
+	<rule id="accessiblename" pattern=".*setAccessibleName">
+		<uikey number="1"/>
+		<case>
+			<cond><argslength greaterthan="1"/></cond>
+			<action>.name</action>
+		</case>
+	</rule>
+	<rule id="showidialog" pattern=".*show(Information)">
+		<uikey number="0"/>
+		<case>
+			<cond>
+				<methodName type="contains">Information</methodName>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>0 + "title"</arg></goto></action>
+			<action><goto ruleid="getI18NString"><arg>0 + "inf"</arg></goto></action>
+		</case>
+	</rule>
+	<rule id="showdialog" pattern=".*show(CustomInfo|CustomYesNo|Information|OKCancel|YesNoCancel|YesNo)*Dialog">
+		<uikey number="0"/>
+		<case>
+			<cond>
+				<methodName type="contains">CustomInfo</methodName>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>0 + "title"</arg></goto></action>
+		</case>
+		<case>
+			<cond>
+				<methodName type="contains">CustomYesNo</methodName>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>0 + "title"</arg></goto></action>
+		</case>
+		<case>
+			<cond>
+				<methodName type="contains">Information</methodName>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>0 + "title"</arg></goto></action>
+			<action><goto ruleid="getI18NString"><arg>0 + "txt"</arg></goto></action>
+		</case>
+		<case>
+			<cond>
+				<methodName type="contains">OKCancel</methodName>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>0 + "title"</arg></goto></action>
+			<action><goto ruleid="getI18NString"><arg>0 + "txt"</arg></goto></action>
+		</case>
+		<case>
+			<cond>
+				<methodName type="contains">YesNoCancel</methodName>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>0 + "title"</arg></goto></action>
+			<action><goto ruleid="getI18NString"><arg>0 + "txt"</arg></goto></action>
+		</case>
+		<case>
+			<cond>
+				<methodName type="contains">YesNo</methodName>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>0 + "title"</arg></goto></action>
+			<action><goto ruleid="getI18NString"><arg>0 + "txt"</arg></goto></action>
+		</case>
+	</rule>
+	<rule id="glue" pattern=".*create(Horizontal)*Glue"/>
+	<rule id="heading" pattern=".*createHeading">
+		<uikey number="0"/>
+		<common>
+			<action>
+				<action><goto ruleid="getI18NString"><arg>0 + "txt"</arg></goto></action>
+				<action><goto ruleid="accessibledesc"><arg/><arg>0</arg></goto></action>
+			</action>
+		</common>
+	</rule>
+	<rule id="menuitem" pattern=".*create(CheckBox|Literal|RadioButton)MenuItem">
+		<uikey number="0 1"/>
+		<case>
+			<cond>
+				<methodName type="contains">CheckBox</methodName>
+			</cond>
+			<action>
+				<goto ruleid="getI18NString"><arg>0 + 1 + "ckb"</arg></goto>
+				<goto ruleid="tooltip"><arg/><arg>0 + 1</arg></goto>
+			</action>
+		</case>
+		<case>
+			<cond>
+				<methodName type="contains">RadioButton</methodName>
+			</cond>
+			<action>
+				<goto ruleid="getI18NString"><arg>0 + 1 + "rad"</arg></goto>
+				<goto ruleid="tooltip"><arg/><arg>0 + 1</arg></goto>
+			</action>
+		</case>
+		<case>
+			<cond>
+				<methodName negative="true" type="contains">CheckBox</methodName>
+				<methodName negative="true" type="contains">RadioButton</methodName>
+				<methodName negative="true" type="contains">Literal</methodName>
+				<argslength equals="3"/>
+			</cond>
+			<action>
+				<goto ruleid="getI18NString"><arg>0 + 1 + "mit"</arg></goto>
+			</action>
+		</case>
+		<common>
+			<action><goto ruleid="mnemonic"><arg/><arg>0 + 1</arg></goto></action>
+		</common>
+	</rule>
+	<rule id="helpmenuitem" pattern=".*createHelpMenuItem">
+		<uikey number="0"/>
+		<common>
+			<action>
+				<goto ruleid="getI18NString"><arg>0 + "mit"</arg></goto>
+				<goto ruleid="mnemonic"><arg/><arg>0</arg></goto>
+			</action>
+		</common>
+	</rule>
+	<rule id="box" pattern=".*createHorizontalBox"/>
+	<rule id="strut" pattern=".*createHorizontalStrut"/>
+	<rule id="label" pattern=".*create(Icon)*Label">
+		<uikey number="0"/>
+		<case>
+			<cond>
+				<methodName type="contains">Icon</methodName>
+			</cond>
+			<action><goto ruleid="icon"><arg>0</arg></goto></action>
+		</case>
+		<case>
+			<cond>
+				<methodName negative="true" type="contains">Icon</methodName>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>0 + "lbl"</arg></goto></action>
+			<case>
+				<cond>
+					<argslength equals="2"/>
+					<arg index="1" type="equals">true</arg>
+				</cond>
+				<action>
+					<goto ruleid="tooltip"><arg/><arg>0</arg></goto>
+					<goto ruleid="getI18NMnemonic"><arg>0 + "mne"</arg></goto>
+				</action>
+			</case>
+		</case>
+	</rule>
+	<rule id="image" pattern=".*createImage"/>
+	<rule id="textfield" pattern=".*create(Input|Output)Field">
+		<uikey number="0"/>
+		<common>
+			<action><goto ruleid="tooltip"><arg/><arg>0</arg></goto></action>
+		</common>
+		<case>
+			<cond>
+				<methodName type="contains">Output</methodName>
+			</cond>
+			<case>
+				<cond type="or">
+					<argslength equals="1"/>
+					<cond>
+						<argslength equals="2"/>
+						<cond type="or">
+							<stringarg index="1"/>
+							<intarg index="1"/>
+							<arg index="1" type="equals">null</arg>
+						</cond>
+					</cond>
+					<cond>
+						<argslength equals="3"/>
+						<cond type="or">
+							<arg index="2" type="equals">null</arg>
+							<intArg index="2"/>
+						</cond>
+					</cond>
+					<cond>
+						<argslength equals="4"/>
+						<arg index="3" type="equals">null</arg>
+					</cond>
+				</cond>
+				<action><goto ruleid="accessiblename"><arg/><arg>0</arg></goto></action>
+			</case>
+		</case>
+	</rule>
+	<rule id="list" pattern=".*createList">
+		<uikey number="0"/>
+		<common>
+			<action><goto ruleid="accessibleinfo"><arg/><arg>0</arg></goto></action>
+		</common>
+	</rule>
+	<rule id="textarea" pattern=".*create(((Literal|Localized)*Message)|(Text))Area">
+		<uikey number="0"/>
+		<case>
+			<cond>
+				<methodName type="contains">Localized</methodName>
+				<argslength greaterthan="2"/>
+				<arg index="2" type="equals">false</arg>
+			</cond>
+			<action><goto ruleid="accessibleinfo"><arg/><arg>0</arg></goto></action>
+		</case>
+		<case>
+			<cond>
+				<methodName type="contains">createMessageArea</methodName>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>0 + "txt"</arg></goto></action>
+		</case>
+		<case>
+			<cond>
+				<methodName type="contains">createTextArea</methodName>
+			</cond>
+			<action><goto ruleid="tooltip"><arg/><arg>0</arg></goto></action>
+			<case>
+				<cond type="or">
+					<argslength equals="1"/>
+					<cond>
+						<argslength greaterthan="1"/>
+						<arg index="1" type="equals">null</arg>
+					</cond>
+				</cond>
+				<action><goto ruleid="accessiblename"><arg/><arg>0</arg></goto></action>
+			</case>
+		</case>
+	</rule>
+	<rule id="menu" pattern=".*create(Popup)*Menu">
+		<uikey number="0"/>
+		<exception>
+			<fileset>interview/wizard/Wizard</fileset>
+			<action addkey="no">
+				wizard.file.menu wizard.file.mne
+				wizard.search.menu wizard.search.mne
+				wizard.help.menu wizard.help.mne
+			</action>
+		</exception>
+		<case>
+			<cond>
+				<methodName negative="true" type="contains">Popup</methodName>
+				<argslength greaterthan="0"/>
+			</cond>
+			<action><goto ruleid="initmenu"><arg/><arg>0</arg></goto></action>
+		</case>
+	</rule>
+	<rule id="initmenu" pattern=".*initMenu">
+		<uikey number="1"/>
+		<common>
+			<action><goto ruleid="getI18NString"><arg>1 + "menu"</arg></goto></action>
+			<action><goto ruleid="mnemonic"><arg/><arg>1</arg></goto></action>
+			<action><goto ruleid="accessibledesc"><arg/><arg>1</arg></goto></action>
+		</common>
+	</rule>
+	<rule id="menubar" pattern=".*createMenuBar">
+		<uikey number="0"/>
+		<common>
+			<action><goto ruleid="accessibleinfo"><arg/><arg>0</arg></goto></action>
+		</common>
+	</rule>
+	<rule id="progressbar" pattern=".*createProgressBar">
+		<uikey number="0"/>
+		<common>
+			<action><goto ruleid="tooltip"><arg/><arg>0</arg></goto></action>
+			<action><goto ruleid="accessiblename"><arg/><arg>0</arg></goto></action>
+		</common>
+	</rule>
+	<rule id="toolbar" pattern=".*createToolBar">
+		<uikey number="0"/>
+		<common>
+			<action><goto ruleid="accessibleinfo"><arg/><arg>0</arg></goto></action>
+		</common>
+	</rule>
+	<rule id="panel" pattern=".*createPanel">
+		<uikey number="0"/>
+		<case>
+			<cond type="or">
+				<argslength equals="1"/>
+				<cond>
+					<argslength equals="2"/>
+					<arg index="1" type="equals">true</arg>
+				</cond>
+				<cond>
+					<argslength equals="3"/>
+					<arg index="2" type="equals">true</arg>
+				</cond>
+			</cond>
+			<action><goto ruleid="accessibleinfo"><arg/><arg>0</arg></goto></action>
+		</case>
+	</rule>
+	<rule id="initpanel" pattern=".*initPanel">
+		<uikey number="1"/>
+		<case>
+			<cond type="or">
+				<arg index="2" type="equals">true</arg>
+				<cond>
+					<argslength equals="4"/>
+					<arg index="3" type="equals">true</arg>
+				</cond>
+			</cond>
+			<action><goto ruleid="accessibleinfo"><arg/><arg>1</arg></goto></action>
+		</case>
+	</rule>
+	<rule id="scrollpane" pattern=".*createScrollPane"/>
+	<rule id="splitpane" pattern=".*createSplitPane"/>
+	<rule id="tabbedpane" pattern=".*createTabbedPane">
+		<uikey number="0"/>
+		<common>
+			<action><goto ruleid="accessiblename"><arg/><arg>0</arg></goto></action>
+			<action><goto ruleid="tooltip"><arg/><arg>0</arg></goto></action>
+		</common>
+	</rule>
+	<rule id="slider" pattern=".*createSlider">
+		<uikey number="0"/>
+		<common>
+			<action><goto ruleid="tooltip"><arg/><arg>0</arg></goto></action>
+		</common>
+	</rule>		
+	<rule id="table" pattern=".*createTable">
+		<uikey number="0"/>
+		<common>
+			<action><goto ruleid="accessiblename"><arg/><arg>0</arg></goto></action>
+			<action><goto ruleid="tooltip"><arg/><arg>0</arg></goto></action>
+		</common>
+	</rule>
+	<rule id="border" pattern=".*createTitledBorder">
+		<uikey number="0"/>
+		<case>
+			<cond negative="true">
+				<methodName type="contains">BorderFactory</methodName>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>0 + "bdr"</arg></goto></action>
+		</case>
+	</rule>
+	<rule id="addtab" pattern=".*addTab">
+		<uikey number="0"/>
+		<common>
+			<action><goto ruleid="getI18NString"><arg>0 + "tab"</arg></goto></action>
+			<action><goto ruleid="getI18NString"><arg>0 + "tip"</arg></goto></action>
+		</common>
+	</rule>
+	<rule id="getI18NColor" pattern=".*getI18NColor">
+		<uikey number="0"/>
+		<common>
+			<action>.clr</action>
+		</common>
+	</rule>
+	<rule id="showerror" pattern=".*show(Literal|Localized)*Error">
+		<uikey number="0"/>
+		<case>
+			<cond>
+				<methodName negative="true" type="contains">Literal</methodName>
+				<methodName negative="true" type="contains">Localized</methodName>
+			</cond>
+			<action>.err</action>
+		</case>
+	</rule>
+	<rule id="setI18NTitle" pattern=".*setI18NTitle">
+		<uikey nuber="0"/>
+		<common><action empty="true"/></common>
+	</rule>
+	<rule id="wdlog" pattern=".*\.log">
+		<uikey number="1"/>
+		<case>
+			<cond>
+				<argslength greaterthan="1"/>
+				<arg index="0" negative="true" type="contains">Level</arg>
+			</cond>
+			<action empty="true"/>
+		</case>
+	</rule>
+	<rule id="i18ngetstring" pattern=".*i18n.getString">
+		<uikey number="0"/>
+		<common><action empty="true"/></common>
+	</rule>
+	<rule id="writeI18N" pattern=".*writeI18N">
+		<uikey number="0"/>
+		<common><action empty="true"/></common>
+	</rule>
+	<rule id="showMessage" pattern=".*showMessage">
+		<case>
+			<cond>
+				<argslength greaterthan="1"/>
+				<stringarg index="1"/>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>1</arg></goto></action>
+		</case>
+	</rule>
+	<rule id="formatI18N" pattern=".*formatI18N">
+		<uikey number="0"/>
+		<common><action empty="true"/></common>
+	</rule>
+	<rule id="printmessage" pattern=".*print(Error)*Message">
+		<uikey number="1"/>
+		<common><action empty="true"/></common>
+	</rule>
+	<rule id="println" pattern=".*println">
+		<case>
+			<cond>
+				<argslength greaterthan="1"/>
+				<stringarg index="1"/>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>1</arg></goto></action>
+		</case>
+	</rule>
+	<rule id="error" pattern=".*error">
+		<case>
+			<cond>
+				<argslength greaterthan="1"/>
+				<stringarg index="1"/>
+				<methodName type="equals">error</methodName>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>1</arg></goto></action>
+		</case>
+	</rule>
+	<rule id="super" pattern=".*super">
+		<exception>
+			<fileset>report/ReportWriter</fileset>
+		</exception>
+		<case>
+			<cond>
+				<methodName type="equals">super</methodName>
+				<argslength greaterthan="1"/>
+				<stringarg index="1"/>
+				<arg index="0" type="equals">i18n</arg>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>1</arg></goto></action>
+		</case>
+	</rule>
+	<rule id="notifyerror" pattern=".*notifyError">
+		<exception>
+			<fileset>javatest/Harness</fileset>
+			<action><goto ruleid="getI18NString"><arg>1</arg></goto></action>
+		</exception>	
+	</rule>
+	<new id="newCommon" pattern=".*(Fault|Command.Fault|Harness.Fault|Interview.Fault|Keywords.Fault|TestSuiteFault|ReloadFault|ResultFileNotFoundFault|DuplicateLogNameFault|NoSuchLogFault|NotTestSuiteFault|WorkDirectoryExistsFault|WorkDirFault|BadDirectoryFault|MismatchFault|NotWorkDirectoryFault|JTIFault|JavaTestError|BadArgs|BadHelpFault|HelpNotFoundFault)">
+		<uikey number="1"/>
+		<common>
+			<action empty="true"/>
+		</common>
+	</new>
+	<new id="newToolAction" pattern=".*ToolAction">
+		<uikey number="1"/>
+		<case>
+			<cond negative="true">
+				<stringarg index="0"/>
+			</cond>
+			<cond>
+				<stringarg index="1"/>
+			</cond>
+			<case>
+				<cond>
+					<argslength equals="2"/>
+				</cond>
+				<action>.act .tip .mne</action>
+			</case>
+			<case>
+				<cond>
+					<argslength equals="3"/>
+					<arg index="2" type="contains">true</arg>
+				</cond>
+				<action>.act .tip .mne .icon</action>
+			</case>
+		</case>
+	</new>
+	<new id="fileType" pattern=".*FileType">
+		<case>
+			<cond>
+				<argslength equals="0"/>
+			</cond>
+			<action><goto ruleid="getI18NString"><arg>"filetype.allFiles"</arg></goto></action>
+		</case>
+		<case>
+			<cond>
+				<argslength equals="1"/>
+				<stringarg index="0"/>
+			</cond>
+			<action>
+				<goto ruleid="getI18NString"><arg>"filetype" + 0</arg></goto>
+			</action>
+		</case>
+	</new>
+        <static>
+            <fileset>
+                javatest/exec
+            </fileset>
+            <keys>
+                ce.env.tab ce.keywords.tab test.table.entry.name.name
+            </keys>
+        </static>
+</StaticCheck>
+
+
+
+
+
+
+
+
+
+
+
+
