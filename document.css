@@ -1,0 +1,94 @@
+/*
+ * $Id$
+ *
+ * Copyright (c) 1996, 2009, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
+/* DEFAULT VALUES */
+body { background-color: #FFFFFF;
+       font-family: Arial, Helvetica, sans-serif;
+       color: Black; font-size: 10pt; font-style: normal;
+       font-variant: normal; font-weight: normal;
+       text-transform: none; text-decoration: none;
+       text-indent: 0em; text-align: left; 
+       margin: 0em; border: 0em; padding: 1em;
+}
+
+p { background-color: #FFFFFF;
+       font-family: Arial, Helvetica, sans-serif;
+       color: Black; font-size: 10pt; font-style: normal;
+       font-variant: normal; font-weight: normal;
+       text-transform: none; text-decoration: none;
+       text-indent: 0em; text-align: left; 
+       margin-top: .5em; margin-bottom: .3em; border: 0em; padding: 0em;
+}
+
+code { background-color: #FFFFFF;
+       font-family: courier;
+       color: Black; font-size: 10pt; 
+       text-indent: 0em; text-align: left; 
+       margin-top: .5em; margin-bottom: .3em; border: 0em; padding: 0em;
+}
+
+div.title {width: 100%; color: #FFFFFF; background-color: #587993; text-align: center; padding-top: .7em; padding-bottom: .7em; }
+div.titlePad {width: 100%; background-color: #3E647E; 
+              padding-top: 1.5em; padding-bottom: 1.5em; }
+div.indent1 {margin-left: 1.7em; margin-top: .3em; margin-bottom: .3em;}
+.Head1 {font-family: Arial, Helvetica, sans-serif; font-size: 1.6em;}
+.Head2 {font-family: Arial, Helvetica, sans-serif; font-size: 1.4em;}
+.Head3 {font-family: Arial, Helvetica, sans-serif; font-size: 1.2em;}
+.Head4 {font-family: Arial, Helvetica, sans-serif; font-size: 1em;}
+
+/* Lists */
+dl dt {padding-top: .3em;}
+
+/* Classes */
+
+/* TABLE FORMATTING */
+table { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; 
+       background-color: #FFFFFF;
+       margin: 0; padding: 0; border: 0;
+}
+tr.trhead {
+	background-color: #A5B8C9;
+}
+th
+{ 
+  text-align: left; vertical-align: bottom;
+  white-space: nowrap
+}
+th.thead {padding-left: .5em; padding-bottom:.3em; padding-top: .3em;}
+td 
+{ margin-left: 0; padding-left: 0; padding-right:.3em; padding-top: .3em;
+  vertical-align: top; 
+}
+
+
+/* OTHER STUFF -- MOSTLY CMSG */
+nav-link { font-size: .7em; color: #587993; margin-top: 1em;}
+p.nav-link { font-size: .7em; color: #587993; margin-top: 1em;}
+/* yes, need both defs */
+.copyright {font-size:.8em;}
+.pHr { margin-top: .7em;  color: #3E647E; background-color: #3E647E }
+.footnote { vertical-align: super; font-size: 10em; }
+.linebreak { line-height: 0.5em; }
