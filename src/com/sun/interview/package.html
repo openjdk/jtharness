@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+  $Id$
+
+  Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ 
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+ 
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+ 
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ 
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+
+<html>
+  <head>
+    <title>com.sun.interview</title>
+  </head>
+
+  <body>
+    This package provides a means for creating a set of questions
+    to be asked by a "wizard". 
+
+    <p>A wizard is a tool that asks the user a series of simple questions, 
+    in order to achieve a complex goal, such as installing, configuring 
+    or using a complex piece of software. Each question is represented
+    by an object which defines the text of the question to be asked, and
+    the type of the response that is expected. Each question also
+    specifies the next question to be asked, which may depend on the 
+    answers to any of the questions that have already been asked.
+    All questions belong to an "interview", and the complete set of
+    questions for a wizard may be grouped into one or more different
+    interviews.
+
+    <p>By design, questions are simple to write and do not have any
+    dependence on any GUI API: the presentation of the questions 
+    of a wizard is left to a separate utility: more than one may be
+    available. 
+
+    <h2>Guide to writing wizards</h2>
+
+    The questions for a wizard are most conveniently written as a
+    series of anonymous inner classes.
+    Each question extends the appropriate subtype of {@link com.sun.interview.Question Question},
+    depending on the appropriate type of response. Normally, the arguments to
+    the supertype constructor are the interview which contains
+    the question, and a short name to identify the question. Anonymous
+    initializers are used to complete the setup of the question, and 
+    each question defines a {@link com.sun.interview.Question#getNext getNext} method to
+    define its successor. This method will be called whenever the response
+    to the question changes, and may return different values depending
+    on the response to this question and any other questions that have 
+    already been asked.  If the user has not yet answered a question, or
+    has answered it incorrectly, the <code>getNext</code> method may return
+    <code>null</code>. This will prevent any tool processing the questions
+    from moving beyond this question until a valid response has been given.<pre>
+    Question name = new StringQuestion(interview, "name") {
+	{
+	    setText("what is your name?");
+	}
+
+	protected Question getNext() {
+	    return age;
+	}
+    }
+</pre>
+    <p>Questions can conveniently be created as fields within
+    an implementation of {@link com.sun.interview.Interview Interview}.
+    <pre>
+    Interview personal = new Interview("personal") {
+	{
+	    setFirstQuestion(name);
+	    setTitle("personal questions");
+	}
+
+	private Question name = new StringQuestion(this, "name") {
+	    ...
+	};
+
+	private Question age = new IntQuestion(this, "int") {
+	    ...
+	};
+
+	private Question sex = new ChoiceQuestion(this, "sex") {
+	    ...
+	};
+    }
+</pre>
+    
+    {@link com.sun.interview.FinalQuestion FinalQuestion} is a special type of
+    question that is used to indicate the end of an interview, and does
+    not provide any response. You may still choose to set some text to be
+    presented to the user, to announce that they have reached the last question. <pre>
+    Question end = new FinalQuestion(interview, "end") {
+	setText("This completes the interview.");
+    };
+</pre>
+    You can invoke one interview from another by using the 
+    {@link com.sun.interview.Interview#callInterview callInterview} method,
+    to recursively invoke a sub-interview before continuing to 
+    process to the next question in the current interview. 
+    The sub-interview will begin at the first question in that
+    interview, and will proceed until an instance of 
+    <code>FinalQuestion</code> is found, at which point control will revert
+    to the successor question given to <code>callInterview</code>.
+<pre>
+    Question a5 = new ...Question(....) {
+	....
+
+	protected Question getNext() {
+	    callInterview(subInterview, a6);
+	}
+    };
+
+    // this question will be asked after the subInterview has been completed
+    Question a6 = new ....Question(...) {
+	...
+    };
+</pre>
+
+    @since 1.0
+
+    
+
+
+  </body>
+</html>
