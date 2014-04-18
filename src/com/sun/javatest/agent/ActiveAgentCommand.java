@@ -64,6 +64,7 @@ public class ActiveAgentCommand extends Command
         String classPath = null;
         String tag = null;
         boolean localizeArgs = false;
+        boolean sharedCl = false;
 
         // analyze options
         int i = 0;
@@ -76,13 +77,21 @@ public class ActiveAgentCommand extends Command
             }
             else if ((args[i].equals("-t") || args[i].equals("-tag")) && i+1 < args.length) {
                 tag = args[++i];
-            }
-            else
+            } else if (args[i].equalsIgnoreCase("-sharedClassLoader") ||
+                       args[i].equalsIgnoreCase("-sharedCl")) {
+                sharedCl = true;
+            } else {
                 return Status.error("Unrecognized option: " + args[i]);
+            }
         }
 
-        if (i == args.length)
+        if (i == args.length) {
             return Status.error("No command specified");
+        }
+
+        if (sharedCl && classPath == null) {
+            return Status.error("-sharedCl option must be used if -classpath option is specified");
+        }
 
         String cmdClass = args[i++];
 
@@ -98,6 +107,8 @@ public class ActiveAgentCommand extends Command
 
             if (classPath != null)
                 t.setClassPath(classPath);
+
+            t.setSharedClassLoader(sharedCl);
 
             out.println("Executing command via " + t.getConnection().getName());
 

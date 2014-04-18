@@ -184,8 +184,9 @@ public class AgentManager
      * @throws NullPointerException if host is null
      */
     public Task connectToPassiveAgent(String host) throws IOException {
-        if (host == null)
+        if (host == null) {
             throw new NullPointerException();
+        }
 
         return connectToPassiveAgent(host, Agent.defaultPassivePort);
     }
@@ -201,8 +202,9 @@ public class AgentManager
      * @throws NullPointerException if host is null
      */
     public Task connectToPassiveAgent(String host, int port) throws IOException {
-        if (host == null)
+        if (host == null) {
             throw new NullPointerException();
+        }
 
         for (int i = 0; ; i++) {
             try {
@@ -210,8 +212,9 @@ public class AgentManager
                 return connect(new InterruptableSocketConnection(host, port));
             }
             catch (ConnectException e) {
-                if (i == PASSIVE_AGENT_RETRY_LIMIT)
+                if (i == PASSIVE_AGENT_RETRY_LIMIT) {
                     throw e;
+                }
 
                 try {
                     Thread.currentThread().sleep(5000);
@@ -283,14 +286,27 @@ public class AgentManager
          * @see #setClassPath(String)
          */
         public void setClassPath(File[] path) {
-            if (path == null)
+            if (path == null) {
                 throw new NullPointerException();
+            }
+
             for (int i = 0; i < path.length; i++) {
-                if (path[i] == null)
+                if (path[i] == null) {
                     throw new IllegalArgumentException();
+                }
             }
 
             classPath = path;
+        }
+
+        /**
+         * Set the shared classloader mode to be used for incoming requests for
+         * classes from the remote agent.
+         *
+         * @param state The shared classloader mode, true to use a shared loader.
+         */
+        public void setSharedClassLoader(boolean state) {
+            this.sharedCl = state;
         }
 
         /**
@@ -386,16 +402,23 @@ public class AgentManager
             notifyStarted(connection, tag, request, executable, args, localizeArgs);
             Status result = null;
             try {
+                boolean sharedClOption = false;
                 out.writeShort(Agent.protocolVersion);
                 out.writeUTF(tag);
                 out.writeUTF(request);
                 out.writeUTF(executable);
                 out.writeShort(args.length);
-                for (int i = 0; i < args.length; i++)
+                for (int i = 0; i < args.length; i++) {
                     out.writeUTF(args[i]);
+                    if ("-sharedCl".equalsIgnoreCase(args[i]) ||
+                        "-sharedClassLoader".equalsIgnoreCase(args[i])) {
+                        sharedClOption = true;
+                    }
+                }
+
                 out.writeBoolean(localizeArgs);
                 out.writeBoolean(classPath != null); // specify remoteClasses if classPath has been given
-                out.writeBoolean(useSharedClassLoader());
+                out.writeBoolean(classPath != null && sharedClOption);
                 out.writeByte(0);
                 out.flush();
 
@@ -420,14 +443,6 @@ public class AgentManager
                 notifyFinished(connection, result);
             }
             return result;
-        }
-
-
-        private boolean useSharedClassLoader() {
-            // TODO - should be changed later
-            // - don't use shared classloader for any test
-            // only if necessary (if -sharedCl option specified)
-            return classPath != null ;
         }
 
         private Status readResults(PrintWriter log, PrintWriter ref)
@@ -647,6 +662,7 @@ public class AgentManager
         private DataOutputStream out;
 
         private File[] classPath;
+        private boolean sharedCl;
         private Hashtable zips = new Hashtable();
     }
 

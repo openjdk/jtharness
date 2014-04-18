@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -66,6 +66,7 @@ public class PassiveAgentCommand extends Command
      */
     public Status run(String[] args, PrintWriter err, PrintWriter out) {
         String classPath = null;
+        boolean sharedCl = false;
         String host = null;
         int port = -1;
         String tag = null;
@@ -76,8 +77,10 @@ public class PassiveAgentCommand extends Command
         for (; i < args.length && args[i].startsWith("-"); i++) {
             if ((args[i].equals("-cp") || args[i].equals("-classpath")) && i+1 < args.length) {
                 classPath = args[++i];
-            }
-            else if ((args[i].equals("-h") || args[i].equals("-host")) && i+1 < args.length) {
+            } else if (args[i].equalsIgnoreCase("-sharedClassLoader") ||
+                       args[i].equalsIgnoreCase("-sharedCl")) {
+                sharedCl = true;
+            } else if ((args[i].equals("-h") || args[i].equals("-host")) && i+1 < args.length) {
                 host = args[++i];
             }
             else if (args[i].equals("-m") || args[i].equals("-mapArgs")) {
@@ -98,11 +101,17 @@ public class PassiveAgentCommand extends Command
                 return Status.error("Unrecognized option: " + args[i]);
         }
 
-        if (i == args.length)
+        if (i == args.length) {
             return Status.error("No command specified");
+        }
 
-        if (host == null)
+        if (host == null) {
             return Status.error("No host specified");
+        }
+
+        if (sharedCl && classPath == null) {
+            return Status.error("-sharedClassLoader option must be used if -classpath option is specified");
+        }
 
         String cmdClass = args[i++];
 
@@ -122,6 +131,8 @@ public class PassiveAgentCommand extends Command
 
             if (classPath != null)
                 t.setClassPath(classPath);
+
+            t.setSharedClassLoader(sharedCl);
 
             err.println("Executing command via " + t.getConnection().getName());
 
