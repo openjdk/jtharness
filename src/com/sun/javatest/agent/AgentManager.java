@@ -402,7 +402,7 @@ public class AgentManager
             notifyStarted(connection, tag, request, executable, args, localizeArgs);
             Status result = null;
             try {
-                boolean sharedClOption = false;
+//                boolean sharedClOption = false;
                 out.writeShort(Agent.protocolVersion);
                 out.writeUTF(tag);
                 out.writeUTF(request);
@@ -410,15 +410,15 @@ public class AgentManager
                 out.writeShort(args.length);
                 for (int i = 0; i < args.length; i++) {
                     out.writeUTF(args[i]);
-                    if ("-sharedCl".equalsIgnoreCase(args[i]) ||
-                        "-sharedClassLoader".equalsIgnoreCase(args[i])) {
-                        sharedClOption = true;
-                    }
+//                    if ("-sharedCl".equalsIgnoreCase(args[i]) ||
+//                        "-sharedClassLoader".equalsIgnoreCase(args[i])) {
+//                        sharedClOption = true;
+//                    }
                 }
 
                 out.writeBoolean(localizeArgs);
                 out.writeBoolean(classPath != null); // specify remoteClasses if classPath has been given
-                out.writeBoolean(classPath != null && sharedClOption);
+                out.writeBoolean(sharedCl);
                 out.writeByte(0);
                 out.flush();
 
