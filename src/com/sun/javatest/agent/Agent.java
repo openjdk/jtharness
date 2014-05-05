@@ -595,8 +595,8 @@ public class Agent implements Runnable {
     static final byte STATUS = (byte)'S';
 
     static final String productName = "JT Harness Agent";
-    static final String productVersion = "JTA_3.1.4";
-    static final String productCopyright = "Copyright (c) 1996, 2010, Oracle and/or its affiliates. All rights reserved.";
+    static final String productVersion = "JTA_4.6";
+    static final String productCopyright = "Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.";
 
 
     /**
@@ -1003,56 +1003,51 @@ public class Agent implements Runnable {
         }
 
         private ClassLoader getAgentClassLoader(boolean useSharedClassLoader)
-        throws InstantiationException, IllegalAccessException {
-            if (agentClassLoader == null) {
-                if (classLoaderConstructor == null && factoryMethod == null) {
-                    Class classLoaderClass;
-                    try {
-                        String s = getClass().getName();
-                        String pkg = s.substring(0, s.lastIndexOf('.'));
-                        classLoaderClass = Class.forName(pkg + ".AgentClassLoader2");
-                    } catch (Throwable t) {
-                        classLoaderClass = AgentClassLoader.class;
-                    }
+                throws InstantiationException, IllegalAccessException {
+            Class classLoaderClass;
+            try {
+                String s = getClass().getName();
+                String pkg = s.substring(0, s.lastIndexOf('.'));
+                classLoaderClass = Class.forName(pkg + ".AgentClassLoader2");
+            } catch (Throwable t) {
+                classLoaderClass = AgentClassLoader.class;
+            }
 
-                    Class[] argTypes = {Task.class};
-
-                    if (useSharedClassLoader) {
-                        try {
-                            factoryMethod = classLoaderClass.getDeclaredMethod("getInstance", argTypes);
-                        } catch (NoSuchMethodException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    try {
-                        classLoaderConstructor = classLoaderClass.getDeclaredConstructor(argTypes);
-                    } catch (NoSuchMethodException e) {
-                        e.printStackTrace();
-                    }
-                }
-
+            Class[] argTypes = {Task.class};
+            if (useSharedClassLoader && factoryMethod == null) {
                 try {
-                    Object[] args = {this};
-
-                    if (factoryMethod != null) {
-                        return (ClassLoader) factoryMethod.invoke(null, args);
-                    } else {
-                        return (ClassLoader) (classLoaderConstructor.newInstance(args));
-                    }
-
-                } catch (InvocationTargetException e) {
-                    Throwable t = e.getTargetException();
-                    if (t instanceof RuntimeException)
-                        throw (RuntimeException) t;
-                    else if (t instanceof Error)
-                        throw (Error) t;
-                    else
-                        throw new Error(e.toString());
+                    factoryMethod = classLoaderClass.getDeclaredMethod("getInstance", argTypes);
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
                 }
             }
 
-            return agentClassLoader;
+            if (classLoaderConstructor == null) {
+                try {
+                    classLoaderConstructor = classLoaderClass.getDeclaredConstructor(argTypes);
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            try {
+                Object[] args = {this};
+                if (useSharedClassLoader && factoryMethod != null) {
+                    return (ClassLoader) factoryMethod.invoke(null, args);
+                } else {
+                    return (ClassLoader) (classLoaderConstructor.newInstance(args));
+                }
+            } catch (InvocationTargetException e) {
+                Throwable t = e.getTargetException();
+                if (t instanceof RuntimeException) {
+                    throw (RuntimeException) t;
+                } else if (t instanceof Error) {
+                    throw (Error) t;
+                } else {
+                    throw new Error(e.toString());
+                }
+            }
+
         }
 
         private Connection connection;
@@ -1060,7 +1055,6 @@ public class Agent implements Runnable {
         private DataOutputStream out;
         private String tag;
         private String request;
-        private ClassLoader agentClassLoader;
     }
 
     private static Constructor classLoaderConstructor;
