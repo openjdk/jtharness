@@ -486,7 +486,7 @@ public class AgentManager
                     byte[] resourceData = locateData(resourceName);
                     if (resourceData == null)
                         //System.err.println("resource not found: " + className);
-                        out.writeInt(0);
+                        out.writeInt(-1);
                     else {
                         out.writeInt(resourceData.length);
                         out.write(resourceData, 0, resourceData.length);

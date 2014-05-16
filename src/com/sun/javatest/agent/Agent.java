@@ -976,7 +976,7 @@ public class Agent implements Runnable {
             out.flush();
 
             int size = in.readInt();
-            if (size == 0)
+            if (size == -1)
                 throw new MissingResourceException(resourceName, null, resourceName);
 
             byte[] data = new byte[size];
