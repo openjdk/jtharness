@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -30,11 +30,13 @@ import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.KeyboardFocusManager;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -51,6 +53,7 @@ import java.util.TreeSet;
 import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -58,6 +61,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -71,8 +75,10 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.sun.interview.Interview;
 import com.sun.javatest.Harness;
 import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.ResourceLoader;
 import com.sun.javatest.TemplateUtilities;
 //import com.sun.javatest.TemplateUtilities;
 import com.sun.javatest.TestSuite;
@@ -83,13 +89,7 @@ import com.sun.javatest.tool.TestSuiteChooser;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.WorkDirChooser;
-import com.sun.interview.Interview;
-import com.sun.javatest.ResourceLoader;
 
-import java.awt.Container;
-import java.awt.Window;
-import javax.swing.Icon;
-import javax.swing.JInternalFrame;
 
 class QuickStartWizard extends ToolDialog
 {
@@ -257,10 +257,12 @@ class QuickStartWizard extends ToolDialog
         if (key == null) {
             foot.setText("");
             foot.setEnabled(false);
+            foot.setVisible(false);
         }
         else {
             foot.setText(uif.getI18NString(key));
             foot.setEnabled(true);
+            foot.setVisible(true);
             nextBtn.setEnabled(false);
         }
     }
@@ -972,12 +974,15 @@ class QuickStartWizard extends ToolDialog
             File file = testSuitePanel.getFile();
             TestSuite chooserTestSuite = chooser.getSelectedTestSuite();
 
-            if (file == null)
+            if (file == null) {
                 nextBtn.setEnabled(false);
-            else if (chooserTestSuite != null && chooserTestSuite.getRoot().equals(file))
+            }
+            else if (chooserTestSuite != null && chooserTestSuite.getRoot().equals(file)) {
                 nextBtn.setEnabled(true);
-            else
+            }
+            else {
                 nextBtn.setEnabled(TestSuite.isTestSuite(file));
+            }
         }
 
         Pane getNext() {
