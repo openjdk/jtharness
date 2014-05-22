@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -225,8 +225,13 @@ public abstract class Script
 
         try {
             testResult.putProperty(TestResult.TEST, td.getRootRelativeURL());
-            testResult.putProperty(TestResult.SCRIPT, this.getClass().getName() + " " +
-                       StringArray.join(scriptArgs));
+            StringBuilder sb = new StringBuilder(this.getClass().getName());
+            String args = StringArray.join(scriptArgs);
+            if (args != null && args.length() > 0) {
+                sb.append(" ");
+                sb.append(args);
+            }
+            testResult.putProperty(TestResult.SCRIPT, sb.toString());
 
             if (timeout > 0) {
                 testResult.putProperty("timeoutSeconds", Integer.toString(timeout));
