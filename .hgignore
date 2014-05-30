@@ -1,0 +1,5 @@
+re:.*\.iml$
+glob:.idea/**
+glob:nbproject/**
+glob:build/user.properties
+glob:build/local.properties
