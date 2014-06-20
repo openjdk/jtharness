@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -27,7 +27,12 @@
 package com.sun.javatest.agent;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLStreamHandler;
+import java.util.MissingResourceException;
 
 class AgentClassLoader2 extends ClassLoader {
 
@@ -54,6 +59,7 @@ class AgentClassLoader2 extends ClassLoader {
     }
 
 
+    @Override
     public Class findClass(String className) throws ClassNotFoundException {
         if (className != null) {
             int i = className.lastIndexOf('.');
@@ -69,6 +75,41 @@ class AgentClassLoader2 extends ClassLoader {
         throw new ClassNotFoundException();
     }
 
+    @Override
+    protected URL findResource(String name) {
+        URL u = null;
+        //URL u = super.findResource(name);
+        // create URLConnection + AgentURLStreamHandler
+        // must fail with null URL if data stream throws MissingResourceException
+        // not available locally, request across connection
+        if (parent == null || name == null) {
+            // sanity check
+            return null;
+        }
+
+        try {
+            byte[] bytes = parent.getResourceData(name);
+
+            if (bytes == null) {
+                u = null;
+            }
+            else {
+                // if byes[] is zero length, we expect the code to still work
+                u = new URL("JTAgent", "", -1, name, new AgentURLStreamHandler(bytes));
+            }
+        }
+        catch (MissingResourceException e) {
+            u = null;
+        }
+        catch (IOException e) {
+            u = null;
+        }
+
+        return u;
+    }
+
+/*
+    @Override
     public synchronized InputStream getResourceAsStream(String resourceName) {
         // check local classpath first
         // the resource should already be absolute, if we've got here
@@ -85,8 +126,61 @@ class AgentClassLoader2 extends ClassLoader {
             }
         }
         return in;
-    }
+    }*/
 
     private Agent.Task parent;
-}
 
+    private class AgentURLStreamHandler extends URLStreamHandler {
+        AgentURLStreamHandler(byte[] bytes) {
+            super();
+            this.bytes = bytes;
+        }
+
+        @Override
+        protected URLConnection openConnection(URL url) throws IOException {
+            return new AgentURLConnection(url, bytes);
+        }
+
+        private byte[] bytes;
+    }
+
+    private class AgentURLConnection extends URLConnection {
+        AgentURLConnection(URL url) {
+            // do not use this constructor for now, bytes are already available
+            super(url);
+        }
+
+        AgentURLConnection(URL url, byte[] bytes) {
+            super(url);
+            this.bytes = bytes;
+        }
+
+        @Override
+        public void connect() throws IOException {
+            // could check Agent.Task parent for connection status
+            // generally, ignore this call per the spec
+            if (bytes != null) {
+                connected = true;
+            }
+            else {
+                connected = false;
+            }
+        }
+
+        @Override
+        public InputStream getInputStream() throws IOException {
+            if (parent == null) {
+                throw new IOException("No parent agent to open connection with!");
+            }
+
+            if (bytes == null) {
+                // should not occur
+                throw new IOException("No bytes available!!");
+            }
+
+            return new ByteArrayInputStream(bytes);
+        }
+
+        private byte[] bytes;
+    }
+}
