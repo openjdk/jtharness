@@ -181,6 +181,70 @@ class AgentClassLoader2 extends ClassLoader {
             return new ByteArrayInputStream(bytes);
         }
 
+
+        @Override
+        public String getContentEncoding() {
+            return null;
+        }
+
+        @Override
+        public int getContentLength() {
+            if (bytes != null) {
+                return bytes.length;
+            } else {
+                // zero length, bytes.length should == 0, so all other cases are -1
+                return -1;
+            }
+        }
+
+       /* public long getContentLengthLong() {
+            EXISTS in Java 7
+        }*/
+
+
+        @Override
+        public String getContentType() {
+            if (bytes == null) {
+                // sanity check
+                return null;
+            }
+
+            String type = null;
+
+            try {
+                type = guessContentTypeFromStream(getInputStream());
+            }
+            catch (Exception e) {
+                // it's really IOException which is possible
+                type = null;
+            }
+
+            if (type == null) {
+                // assumption: getURL() path is the same as what cached bytes has content for
+                URL u = getURL();
+                if (u != null) {
+                    type = guessContentTypeFromName(url.getPath());
+                }
+            }
+
+            return type;
+        }
+
+        @Override
+        public long getDate() {
+            return 0;       // unknown
+        }
+
+        @Override
+        public long getExpiration() {
+            return 0;       // unknown
+        }
+
+        @Override
+        public long getLastModified() {
+            return 0l;       // unknown
+        }
+
         private byte[] bytes;
     }
 }
