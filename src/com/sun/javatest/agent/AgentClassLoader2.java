@@ -32,16 +32,44 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
+import java.security.CodeSource;
+import java.security.PermissionCollection;
+import java.security.Permissions;
+import java.security.ProtectionDomain;
+import java.util.HashMap;
 import java.util.MissingResourceException;
 
 class AgentClassLoader2 extends ClassLoader {
 
+    private CodeSource cs = null;
+    private final HashMap<CodeSource, ProtectionDomain> pdcache = new HashMap<CodeSource, ProtectionDomain>(11);
     private static volatile AgentClassLoader2 instance = null;
 
     public AgentClassLoader2(Agent.Task parent) {
         super(parent.getClass().getClassLoader());
         this.parent = parent;
+
+        SecurityManager security = System.getSecurityManager();
+        if (security != null) {
+            security.checkCreateClassLoader();
+        }
+        cs = this.getClass().getProtectionDomain().getCodeSource();
     }
+
+
+    private ProtectionDomain getProtectionDomain(CodeSource cs) {
+        ProtectionDomain pd = null;
+        synchronized (pdcache) {
+            pd = pdcache.get(cs);
+            if (pd == null) {
+                PermissionCollection perms = new Permissions();
+                pd = new ProtectionDomain(cs, perms, this, null);
+                pdcache.put(cs, pd);
+            }
+        }
+        return pd;
+    }
+
 
     /*
      * Returns shared instance of classloader for tests where it is required.
@@ -66,11 +94,11 @@ class AgentClassLoader2 extends ClassLoader {
             if (i>0) {
                 String pkgName = className.substring(0,i);
                 if (getPackage(pkgName) == null) {
-                    definePackage(pkgName,null,null,null,null,null,null,null);
+                    definePackage(pkgName, null, null, null, null, null, null, null);
                 }
             }
             byte[] data = parent.getClassData(className);
-            return defineClass(className, data, 0, data.length);
+            return defineClass(className, data, 0, data.length, getProtectionDomain(cs));
         }
         throw new ClassNotFoundException();
     }
