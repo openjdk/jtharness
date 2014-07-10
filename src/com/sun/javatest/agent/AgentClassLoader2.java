@@ -95,7 +95,7 @@ class AgentClassLoader2 extends ClassLoader {
             }
             else {
                 // if byes[] is zero length, we expect the code to still work
-                u = new URL("JTAgent", "", -1, name, new AgentURLStreamHandler(bytes));
+                u = new URL("file", "", -1, name, new AgentURLStreamHandler(bytes));
             }
         }
         catch (MissingResourceException e) {
