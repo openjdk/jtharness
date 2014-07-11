@@ -53,7 +53,15 @@ class AgentClassLoader2 extends ClassLoader {
         if (security != null) {
             security.checkCreateClassLoader();
         }
-        cs = this.getClass().getProtectionDomain().getCodeSource();
+
+        ProtectionDomain pd = this.getClass().getProtectionDomain();
+
+        if (pd != null) {
+            cs = this.getClass().getProtectionDomain().getCodeSource();
+            synchronized (pdcache) {
+                pdcache.put(cs, pd);
+            }
+        }
     }
 
 
