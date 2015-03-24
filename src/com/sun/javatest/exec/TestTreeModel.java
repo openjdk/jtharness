@@ -1395,7 +1395,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             TestResultTable.TreeNode node = item.getNode();
 
             // switch event format if the node is the root
-            if (node.isRoot()) {
+            if (node.isRoot() && getRoot() != null) {
                 e = new TreeModelEvent(this, new Object[]{getRoot()}, (int[]) null, (Object[]) null);
             } else {
                 // full path to the node, inclusive
@@ -1417,11 +1417,14 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 }
             }
 
-            // dispatch event
-            notifyModelListeners(e, Notifier.CHANGE);
+            if (e != null) {
+                // dispatch event
+                notifyModelListeners(e, Notifier.CHANGE);
 
-            if (debug > 0)
-                Debug.println("NodeCache done for " + item.getNode().getName());
+                if (debug > 0) {
+                    Debug.println("NodeCache done for " + item.getNode().getName());
+                }
+            }
         }
         private volatile boolean paused;
         private volatile boolean stopping;
