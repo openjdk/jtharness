@@ -2,7 +2,7 @@
 <!--
   $Id$
 
-  Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+  Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  
   This code is free software; you can redistribute it and/or modify it
@@ -228,7 +228,6 @@
                 <attribute name="Built-By"   value="${user.name}"/>
                 <attribute name="Main-Class" value="${run.class}"/>                
                 <attribute name="Class-Path" value="jh.jar"/>                
-                <attribute name="SplashScreen-Image" value="com/sun/javatest/tool/images/splash.gif"/>
             </manifest>
             <include name="META-INF/buildInfo.txt"/>
             <include name="copyright.txt"/>
@@ -390,14 +389,8 @@
         </copy>
 	<mkdir dir="${build.classes}/META-INF/"/>
         <buildinfo/>
-        <copy file="${src.dir}/com/sun/javatest/tool/images/${javatest.splash}.gif"
-              tofile="${build.classes}/com/sun/javatest/tool/images/splash.gif" />
-        <copy file="${src.dir}/com/sun/javatest/tool/images/${javatest.splash}F.gif"
-              tofile="${build.classes}/com/sun/javatest/tool/images/splash_fr.gif" />
         <copy file="${src.dir}/com/sun/javatest/tool/i18n.properties"
-              tofile="${build.classes}/com/sun/javatest/tool/i18n_fr.properties"/>
-        <replace file="${build.classes}/com/sun/javatest/tool/i18n_fr.properties"
-                 token="splash.gif" value="splash_fr.gif"/>	
+              tofile="${build.classes}/com/sun/javatest/tool/i18n_fr.properties"/>	
 	<mkdir dir="${build.classes}/META-INF/services"/>
         <copy file="${build.dir}/JavaTest.cmdMgrs.lst" tofile="${build.classes}/META-INF/services/com.sun.javatest.tool.CommandManager.lst"/>
         <copy file="${build.dir}/JavaTest.toolMgrs.lst" tofile="${build.classes}/META-INF/services/com.sun.javatest.tool.ToolManager.lst"/>
