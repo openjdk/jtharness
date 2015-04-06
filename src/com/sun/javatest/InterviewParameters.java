@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -748,25 +748,37 @@ public abstract class InterviewParameters
         Vector v = new Vector();
 
         TestFilter excludeFilter = getExcludeListFilter();
-        if (excludeFilter != null)
+        if (excludeFilter != null) {
             v.addElement(excludeFilter);
+        }
 
         TestFilter keywordFilter = getKeywordsFilter();
-        if (keywordFilter != null)
+        if (keywordFilter != null) {
             v.addElement(keywordFilter);
+        }
 
         TestFilter statusFilter = getPriorStatusFilter();
-        if (statusFilter != null)
+        if (statusFilter != null) {
             v.addElement(statusFilter);
+        }
 
-        TestFilter testSuiteFilter = getRelevantTestFilter();
-        if (testSuiteFilter != null)
-        v.addElement(testSuiteFilter);
+        TestFilter testSuiteFilter = null;
+        try {
+            testSuiteFilter = getRelevantTestFilter();
+        }
+        catch (Exception e) {
+            testSuiteFilter = null;
+        }
+        if (testSuiteFilter != null) {
+            v.addElement(testSuiteFilter);
+        }
 
-        if (v.size() == 0)
+        if (v.size() == 0) {
             return null;
-        else if (equal(v, cachedTestFilters))
+        }
+        else if (equal(v, cachedTestFilters)) {
             return cachedTestFilters;
+        }
         else {
             TestFilter[] filters = new TestFilter[v.size()];
             v.copyInto(filters);
