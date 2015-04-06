@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -48,8 +48,8 @@ public class ActiveConnectionFactory implements ConnectionFactory
         if (host.length() == 0) {
             throw new IllegalArgumentException("Cannot start active agent connection - empty value for hostname.");
         }
-        else if (port <= 0) {
-            throw new IllegalArgumentException("Cannot start active agent connection - port number must be greater than zero.");
+        else if (port < 0) {
+            throw new IllegalArgumentException("Cannot start active agent connection - port number must be non-negative.");
         }
 
         this.host = host;
