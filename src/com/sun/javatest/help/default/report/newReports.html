@@ -2,7 +2,7 @@
 <!--
   $Id$
 
-  Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+  Copyright (c) 2002, 2015, Oracle and/or its affiliates. All rights reserved.
   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
   This code is free software; you can redistribute it and/or modify it
@@ -112,7 +112,7 @@ index.html
 index.html~1~
 reportdir.dat
 text/
-text~1~/<pre></td></tr></table>
+text~1~/</pre></td></tr></table>
 
 <p>The harness maintains the specified number of backup copies by deleting the oldest copy when the limit of backups is reached for a specific report. Changing this or any other setting
 in the report dialog box does not affect any previously saved backup reports.
@@ -199,7 +199,7 @@ If you selected HTML Report in the Report Formats list, use the HTML Options tab
 <p><b>Optional files/sections to generate</b>:</p>
 <p>These options are set to Yes by default.</p>
 <ul>
-  <li><p>List tests which are expected to fail and are still failing. See <a href="#failtofail">Old Failures</a> (<code>kfl_fail2fail.html</code>).</p></li>
+  <li><p>List tests which are expected to fail and are still failing. See <a href="#failtofail">Old Failure</a> (<code>kfl_fail2fail.html</code>).</p></li>
 <li><p>List tests which were expect to fail but resulted in error instead. See <a href="#failtoerror">Unexpected Error</a> (<code>kfl_fail2error.html</code>).</p></li>
 <li><p>Report on tests in KFL which are now missing.</p></li></ul>
 
@@ -240,7 +240,7 @@ This feature does not validate the URL or perform any processing.</p>
 
 <a name="knownFailureListReports"><!--index:KFL reports--><!--reports: KFL: creating--></a></p>
 <h3>Known Failures List Reports</h3>
-<p>If you specified a known failures list in the configuration editor, the HTML report will include a section titled Known Failure Analysis. When you create a report you can check the HTML Option "Known Failures" to create the  <a href="#failtopass">New Passed</a>,  <a href="#failtonotrun">Missing (not run)</a>, and  <a href="#newfailures">New Failures</a> reports. The options on the KFL Options tab generate reports for  <a href="#failtopass">New Passed</a>,  <a href="#failtomissing">Missing (test not found)</a> and  <a href="#failtofail">Old Failures</a>.</p>
+<p>If you specified a known failures list in the configuration editor, the HTML report will include a section titled Known Failure Analysis. When you create a report you can check the HTML Option "Known Failures" to create the  <a href="#failtopass">New Passed</a>,  <a href="#failtonotrun">Missing (not run)</a>, and  <a href="#newfailures">New Failures</a> reports. The options on the KFL Options tab generate reports for  <a href="#failtopass">New Passed</a>,  <a href="#failtomissing">Missing (test not found)</a> and  <a href="#failtofail">Old Failure</a>.</p>
 
 <a name="kfanalysis"> <!--index:known failure analysis--></a>
 <h3><a name="Known Failure Analysis">Known Failure Analysis</a></h3>
@@ -279,15 +279,15 @@ This feature does not validate the URL or perform any processing.</p>
 <p>The results for a test listed in the KFL are  missing.  Because the test was listed in the KFL, it was expected to exist and Fail.  A missing test may not indicate a problem, but should be investigated.  This section can be disabled by deselecting the appropriate option in the HTML KFL report options in the Create Report dialog.</p>
 
 <a name="newfailures"><!-- index:KFL reports --><!-- reports: KFL: New Failures --></a>
-<h4>New Failures</h4>
+<h4>New Failure</h4>
 <p>Any test or test case which has a Failed status in the current results but does not appear in the KFL.</p>
 
 <a name="failtofail"><!-- index:KFL reports--><!--reports: KFL: Old Failures --></a>
-<h4>Old Failures</h4>
+<h4>Old Failure</h4>
 <p>The lists of tests and test cases which failed and were expected to fail.  This is not a discrepancy and is provided for informational purposes.</p>
 
 <a name="unrelerr"><!-- index:KFL reports--><!--reports: KFL: Unrelated Errors --></a>
-<h4>Unrelated Errors</h4>
+<h4>Unrelated Error</h4>
 <p>Error results present in the results being reported upon, which do not correspond to any entries on the KFL list(s) supplied.  This is a convenience listing so that errors can be examined at the same time as known failure list discrepancies.</p>
 
 <a name="reportFiles"><!-- index:report files --><!-- index:report directory --></a>
@@ -333,18 +333,18 @@ This feature does not validate the URL or perform any processing.</p>
 <tr valign="top">
 <th scope="col" class="left">HTML Report</th><th scope="col" class="left">File Names</th></tr>
 <tr><td>New Passed</td><td><code>kfl_fail2pass.html</code>, <code>kfl_tc_fail2pass.html</code></td></tr>
-<tr>
-  <td>Unexpected Error</td><td><code>kfl_fail2error.html</code>, <code>kfl_tc_fail2error.html</code></td></tr>
+<tr><td>Unexpected Error</td><td><code>kfl_fail2error.html</code>, <code>kfl_tc_fail2error.html</code></td></tr>
+<tr><td>Unrelated Error</td><td><code>kfl_fail2error.html</code>, <code>kfl_otherErrors.html</code></td></tr>
 
-<tr><td>Missing (Not run)</td>
+<tr><td>Missing (not run)</td>
 <td><code>kfl_fail2notrun.html</code>, <code>kfl_tc_fail2notrun.html</code></td></tr>
 
 <tr><td>Missing (test not found)</td>
 <td><code>kfl_fail2missing.html</code>, <code>kfl_tc_fail2missing.html</code></td></tr>
 
-<tr><td>New Failures</td><td><code>kfl_newfailures.html</code>, <code>kfl_tc_newfailures.html</code></td></tr>
+<tr><td>New Failure</td><td><code>kfl_newfailures.html</code>, <code>kfl_tc_newfailures.html</code></td></tr>
 
-<tr><td>Old Failures</td><td><code>kfl_fail2fail.html</code>, <code>kfl_tc_fail2fail.html</code></td></tr>
+<tr><td>Old Failure</td><td><code>kfl_fail2fail.html</code>, <code>kfl_tc_fail2fail.html</code></td></tr>
 
 </table>
 
@@ -365,8 +365,12 @@ This feature does not validate the URL or perform any processing.</p>
     <td>Unexpected Error</td>
     <td><code>kfl_fail2error.txt</code>, <code>kfl_tc_fail2error.txt</code></td>
   </tr>
+    <tr>
+    <td>Unrelated Error</td>
+    <td><code>other_errors.txt</code>></td>
+  </tr>
   <tr>
-    <td>Missing (Not run)</td>
+    <td>Missing (not run)</td>
     <td><code>kfl_fail2notrun.txt</code>, <code>kfl_tc_fail2notrun.txt</code></td>
   </tr>
   <tr>
@@ -374,18 +378,18 @@ This feature does not validate the URL or perform any processing.</p>
     <td><code>kfl_fail2missing.txt</code>, <code>kfl_tc_fail2missing.txt</code></td>
   </tr>
   <tr>
-    <td>New Failures</td>
+    <td>New Failure</td>
     <td><code>kfl_newfailures.txt</code>, <code>kfl_tc_newfailures.txt</code></td>
   </tr>
   <tr>
-    <td>Old Failures</td>
+    <td>Old Failure</td>
     <td><code>kfl_fail2fail.txt</code>, <code>kfl_tc_fail2fail.txt</code></td>
   </tr>
 </table>
 <p>The files whose names begin with <code>tc_</code> are present only if the test suite supports test case identification. </p>
 <hr>
 
-<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2014, Oracle and/or its affiliates. All rights reserved.</p>
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2015, Oracle and/or its affiliates. All rights reserved.</p>
 </BODY>
 </HTML>
 
