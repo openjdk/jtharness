@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -331,7 +331,17 @@ public class TestsInterview
     private TreeQuestion.Model model = new TreeQuestion.Model() {
         @Override
         public Object getRoot() {
-            return parent.getWorkDirectory().getTestResultTable().getRoot();
+            // all the extra checks here because we know nulls can appear
+            if (parent == null || parent.getWorkDirectory() == null) {
+                return null;
+            }
+
+            WorkDirectory wd = parent.getWorkDirectory();
+            if (wd.getTestResultTable() == null) {
+                return null;
+            }
+
+            return wd.getTestResultTable().getRoot();
         }
 
         @Override
