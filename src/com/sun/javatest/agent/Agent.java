@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -49,7 +49,7 @@ import com.sun.javatest.util.Timer;
 import com.sun.javatest.util.WriterStream;
 
 /**
- * The means by which the tes harness executes requests on other machines.
+ * The means by which the the harness executes requests on other machines.
  * Agents are typically started by using one of AgentMain, AgentFrame,
  * or AgentApplet. The requests themselves are made from the harness
  * via AgentManager, or a library class that uses AgentManager.
@@ -905,7 +905,39 @@ public class Agent implements Runnable {
          */
         synchronized void sendChars(byte type, char b[], int off, int len) throws IOException {
             out.write(type);
-            out.writeUTF(new String(b, off, len));
+
+            String message = new String(b, off, len);
+            int strlen = message.length();
+            int utflen = 0;
+            int c, count = 0;
+
+            // shortcut if it's not possible to exceed the limit
+            if (strlen * 3 < 65535) {
+                count = strlen;
+            }
+            else {
+                /* count number of chars to meet 65535 bytes boundary */
+                for (int i = 0; i < strlen; i++) {
+                    c = message.charAt(i);
+                    if ((c >= 0x0001) && (c <= 0x007F)) {
+                        utflen++;
+                    } else if (c > 0x07FF) {
+                        utflen += 3;
+                    } else {
+                        utflen += 2;
+                    }
+
+                    // truncate here because we won't be able to encode more
+                    if (utflen > 65535) {
+                        break;
+                    } else {
+                        count = i;
+                    }
+                }   // for
+            }
+
+            out.writeUTF(message.substring(0, count));
+            //out.writeUTF(new String(b, off, len));
             switch (type) {
                 case LOG_FLUSH:
                 case REF_FLUSH:
