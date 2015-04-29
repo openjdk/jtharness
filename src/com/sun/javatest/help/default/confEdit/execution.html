@@ -2,7 +2,7 @@
 <!--
   $Id$
 
-  Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+  Copyright (c) 2002, 2015, Oracle and/or its affiliates. All rights reserved.
   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  
   This code is free software; you can redistribute it and/or modify it
@@ -95,12 +95,12 @@ When using multiple agents to run tests, the concurrency value must not exceed
 <p>
 If you have unexpected test failures, run the tests again, one at a time. Some
   test suites may not work correctly if you run tests concurrently. The default
-  range of values used by the harness is from <code>1</code> to <code>50</code>.</p>
+  range of values used by the harness is from <code>1</code> to <code>256</code>.</p>
 <p>
 For your first test run,  leave this field set to <code>1</code>. After the tests
 run properly, you can increase this value. Unless your test
 suite restricts concurrency, the maximum <em>number</em> of threads
-specified by the <code>concurrency</code> command is <code>50</code>. See your test suite
+specified by the <code>concurrency</code> command is <code>256</code>. See your test suite
 documentation for additional information about using concurrency values greater
 than <code>1</code>.</p>
 <p>
@@ -141,7 +141,7 @@ test suite might vary.</p>
 
 <hr>
 
-<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2011, Oracle and/or its affiliates. All rights reserved.</p>
+<p><a href="../copyright.html">Copyright</a> &copy; 2002, 2015, Oracle and/or its affiliates. All rights reserved.</p>
 </BODY>
 </HTML>
 
