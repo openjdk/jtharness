@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -273,7 +273,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         if (QuickStartWizard.isQswDisabled()) {
             return new Action[0];
         } else {
-            return new Action[] {openQuickStartAction};
+            return new Action[] {openTMQSWAction};
         }
     }
     @Override
@@ -364,7 +364,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
     public Tool startTool() {
         showQSW();
         return null;
-/*
+        /*
         Desktop d = getDesktop();
         Tool[] tools = d.getTools();
         if (tools != null) {
@@ -378,7 +378,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         Tool t = new EmptyTool(this, "empty");
         d.addTool(t);
         return t;
- */
+        */
     }
 
     /**
@@ -622,6 +622,12 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
 
     QuickStartWizard qsw = null;
     private Action openQuickStartAction = new ToolAction(i18n, "mgr.openQuickStart") {
+        public void actionPerformed(ActionEvent e) {
+            showQSW();
+        }
+    };
+
+    private Action openTMQSWAction = new ToolAction(i18n, "mgr.openTMQSW") {
         public void actionPerformed(ActionEvent e) {
             showQSW();
         }
