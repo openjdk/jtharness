@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -1978,11 +1978,62 @@ public class Interview
      * possible during construction.  It is recommended that you select
      * the most recent version possible when developing a new interview.
      * As this interview ages and the harness libraries progress, the
-     * interview should remain locked at the current behavior.
+     * interview should remain locked at the current behavior.  Each subsequent
+     * version works under the assumption that the behavior of all previous
+     * versions is also enabled, there is no way to select individual behaviors.
+     *
+     * <p>
+     * The version numbers are effectively an indication of the harness version
+     * where the behavior was added (32 = 3.2, 50 = 5.0).  Gaps in numbering
+     * would indicate that no incompatible behavior changes occurred.
+     * </p>
+     *
+     * <p>
+     * Select PRE_32 behavior to select behaviors prior to 3.2.
+     * </p>
+     *
+     * <p>
+     * In Version 32, the first versioned semantic change was introduced.
+     * Interviews will generally request SEMANTIC_PRE_32 for old semantics.
+     * This version has the behavioral changes:
+     * <dl>
+     * <dt>ChoiceQuestion</dt>
+     * <dd>If the value is reset to null, resulting in the value being
+     * "cleared", new behavior simply calls <code>clear()</code> to do this.  Old
+     * behavior was to select either the last value or first possible
+     * choice (from the array of possible choices) THEN call <code>updatePath()</code>
+     * and <code>setEdited()</code>.</dd>
+     * <dt>FileListQuestion</dt>
+     * <dd>During construction, <code>clear()</code> will be called before the
+     *    default value is set, in older implementations it was not called.</dd>
+     * <dt>FileQuestion</dt>
+     * <dd>During construction, <code>clear()</code> will be called before the
+     *    default value is set, in older implementations it was not called.</dd>
+     * </dl>
+     * </p>
+     *
+     * <p>
+     * In Version 43 changes to the way in which <code>export()</code> works were
+     * introduced.  Earlier than this version, the list of questions to call
+     * <code>export()</code> upon with pre-generated as a flattened list of
+     * Questions (with all sub-interviews removed).  In 43 and later, the
+     * structure is NOT flattened, but instead exporting will recurse into
+     * sub-interviews by calling its (the Interview) <code>export()</code>.
+     * Additionally, questions which are on the path but hidden will be exported.
+     * Note that being hidden is not the same at being disabled.
+     * </p>
+     *
+     * <p>
+     * In Version 50, FileListQuesiton has significantly altered processing
+     * of filters.  See the {@link com.sun.interview.FileListQuestion#isValueValid}
+     * for an explanation.
+     * </p>
      *
      * @param value Which semantics the interview should use.
      * @see #SEMANTIC_PRE_32
      * @see #SEMANTIC_VERSION_32
+     * @see #SEMANTIC_VERSION_43
+     * @see #SEMANTIC_VERSION_50
      * @see #SEMANTIC_MAX_VERSION
      * @since 3.2
      * @see #getInterviewSemantics
@@ -2667,13 +2718,25 @@ public class Interview
     public static final int SEMANTIC_VERSION_43 = 2;
 
     /**
+     *
+     * Where necessary, the harness interview should behave as it did for the
+     * 4.3 release.  This does not control every single possible change in
+     * behavior, but does control certain behaviors which may cause problems with
+     * interview code written against an earlier version of the harness.
+     *
+     *
+     * @see #setInterviewSemantics
+     */
+    public static final int SEMANTIC_VERSION_50 = 3;
+
+    /**
      * The highest version number currently in use.  Note that the compiler
      * will probably inline this during compilation, so you will be locked at
      * the version which you compile against.  This is probably a useful
      * behavior in this case.
      * @see #setInterviewSemantics
      */
-    public static final int SEMANTIC_MAX_VERSION = 2;
+    public static final int SEMANTIC_MAX_VERSION = 3;
 
     static class Path {
         void addQuestion(Question q) {
