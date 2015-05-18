@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -110,9 +110,10 @@ public class Help {
      * Get helpsets containing any related documents for this test suite.
      * By default, the resource names for the help sets are obtained from
      * getAdditionalDocNames().
+     * @param ts The test suite to look for the docs within.
      * @return an array of help sets containing docs associated with this
      * testsuite. The array will be empty if there are no such docs.
-     * @throws TestSuite.Fault if there are problems opening any of the
+     * @throws Help.Fault if there are problems opening any of the
      * helpsets.
      */
     public static HelpSet[] getAdditionalDocs(TestSuite ts) throws Help.Fault {
