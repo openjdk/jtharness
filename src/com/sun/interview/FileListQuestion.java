@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -27,8 +27,8 @@
 package com.sun.interview;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * A {@link Question question} to which the response is one or more filenames.
@@ -113,6 +113,7 @@ public abstract class FileListQuestion extends Question
         return getValue();
     }
 
+    @Override
     public String getStringValue() {
         return join(value);
     }
@@ -120,8 +121,10 @@ public abstract class FileListQuestion extends Question
     /**
      * Set the response to this question to the value represented by
      * a string-valued argument.
+     * @param paths The new value for the question, can be null to set no value.
      * @see #getValue
      */
+    @Override
     public void setValue(String paths) {
         setValue(paths == null ? (File[])null : split(paths));
     }
@@ -140,10 +143,45 @@ public abstract class FileListQuestion extends Question
         }
     }
 
+    /**
+     * Simple validation, upgrade if needed.
+     * Iterates values, checks against filters, except if interview semantics
+     * are set to an pre-50 version, in which case true is always returned.
+     * Using semantics greater than 50 is highly recommended and recommended if
+     * an old interview is being modernized.
+     * @return False if any values are rejected by filters, true otherwise.
+     *        True if there are no values or no filters.
+     * @see com.sun.interview.Interview#getInterviewSemantics
+     * @see com.sun.interview.Interview#SEMANTIC_VERSION_50
+     */
+    @Override
     public boolean isValueValid() {
+        if (interview.getInterviewSemantics() < Interview.SEMANTIC_VERSION_50) {
+            // not that useful, but it's how the original question behaved
+            return true;
+        }
+
+        if (value == null || value.length == 0 ||
+            filters == null || filters.length == 0) {
+            return true;
+        }
+
+        for (File f: value) {
+            if (f == null) {
+                continue;
+            }
+
+            for (FileFilter fs: filters) {
+                if (fs != null && !fs.accept(f)) {
+                    return false;
+                }
+            }
+        }   // for
+
         return true;
     }
 
+    @Override
     public boolean isValueAlwaysValid() {
         return false;
     }
@@ -173,14 +211,54 @@ public abstract class FileListQuestion extends Question
 
     /**
      * Set the filters used to select valid files for a response
-     * to this question.
-     * @param filters An array of filters used to select valid files for a response
+     * to this question.  For pre-50 behavior, both the filters and the hint
+     * filter values are treated the same, and neither is used for validation
+     * (e.g. <code>isValid()</code>.
+     * @param fs An array of filters used to select valid files for a response
      * to this question
      * @see #getFilters
      * @see #setFilters
+     * @see #getHintFilters
      */
-    public void setFilters(FileFilter[] filters) {
-        this.filters = filters;
+    public void setFilters(FileFilter[] fs) {
+        if (interview.getInterviewSemantics() >= Interview.SEMANTIC_VERSION_50) {
+            filters = fs;
+        }
+        else {
+            // old behavior, the fitlers act as hint filters, not validation
+            // filters
+            filters = hintFilters = fs;
+        }
+    }
+
+    /**
+     * Set the filters which the user can use to help find files among a list
+     * of files - this is somewhat exposing of the fact that there is a user
+     * interface.  This should not be confused with setFilters(), which in
+     * version 5.0 or later of the harness, are used to do validity checks on
+     * the actual value (e.g.. in <code>isValid()</code>.
+     * @param fs Filters which might be offered to the user.
+     * @see #setFilters
+     * @see #isValid
+     * @since 5.0
+     */
+    public void setHintFilters(FileFilter[] fs) {
+        hintFilters = fs;
+    }
+
+    /**
+     * A set of filters to help users locate the right file/dir.
+     * These filters are not used for validating the question value.
+     * @see #setHintFilters(com.sun.interview.FileFilter[])
+     * @see #getFilters
+     * @since 5.0
+     */
+    public FileFilter[] getHintFilters() {
+        if (interview.getInterviewSemantics() >= Interview.SEMANTIC_VERSION_50) {
+            return hintFilters;
+        } else {
+            return filters;
+        }
     }
 
     /**
@@ -262,23 +340,23 @@ public abstract class FileListQuestion extends Question
 
         char sep = (s.indexOf('\n') == -1 ? ' ' : '\n');
 
-        Vector v = new Vector();
+        ArrayList v = new ArrayList();
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == sep) {
                 if (start != -1)
-                    v.addElement(new File(s.substring(start, i)));
+                    v.add(new File(s.substring(start, i)));
                 start = -1;
             } else
                 if (start == -1)
                     start = i;
         }
         if (start != -1)
-            v.addElement(new File(s.substring(start)));
+            v.add(new File(s.substring(start)));
         if (v.size() == 0)
             return empty;
         File[] a = new File[v.size()];
-        v.copyInto(a);
+        v.toArray(a);
         return a;
     }
 
@@ -371,6 +449,7 @@ public abstract class FileListQuestion extends Question
     private boolean baseRelativeOnly;
 
     private FileFilter[] filters;
+    private FileFilter[] hintFilters;
 
     private boolean duplicatesAllowed = true;
 }
