@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2002, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -33,6 +33,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
+import com.sun.interview.DirectoryFileFilter;
 import com.sun.interview.ExtensionFileFilter;
 import com.sun.interview.FileFilter;
 import com.sun.interview.FileQuestion;
@@ -70,7 +71,13 @@ public class FileQuestionRenderer
                 strSuggs[i] = suggs[i].getPath();
         }
 
-        final TypeInPanel p = new TypeInPanel("file",
+        String fileType = "file";   // default
+        if (isSelectingDir(q.getFilters())) {
+            // response will be a dir, select special directory text
+            fileType = "file.dir";
+        }
+
+        final TypeInPanel p = new TypeInPanel(fileType,
                                               q,
                                               0,
                                               strSuggs,
@@ -158,6 +165,23 @@ public class FileQuestionRenderer
 
     public String getInvalidValueMessage(Question q) {
         return null;
+    }
+
+    /**
+     * Internal routine to help determine if we'll be selecting a dir or file.
+     * @return True if a dir (folder) will be the result.
+     */
+    private boolean isSelectingDir(FileFilter[] filters) {
+        if (filters == null || filters.length == 0) {
+            return false;
+        }
+
+        boolean allDirType = true;
+        for (FileFilter f: filters) {
+            allDirType = allDirType && (f instanceof DirectoryFileFilter);
+        }
+
+        return allDirType;
     }
 
     private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
