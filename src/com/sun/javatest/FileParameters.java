@@ -107,7 +107,7 @@ public class FileParameters
      * <dd>Specify the test suite
      * <dt><code>-keywords</code> <i>expr</i>
      * <dd>Specify a keyword expression, used to filter the tests to be run.
-     * <dt><code>-status</code> <i>status-list></i>
+     * <dt><code>-status</code> <i>status-list</i>
      * <dd>Specify the status values used to select tests at runtime.
      * <i>status-list</i> should be a comma-separated list of words from
      * the following list:
