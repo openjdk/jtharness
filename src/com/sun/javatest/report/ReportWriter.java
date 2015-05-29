@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -51,13 +52,19 @@ class ReportWriter extends HTMLWriterEx
      * Creates a new ReportWriter.
      * @param out       the output stream
      */
-    ReportWriter(Writer out, String title, I18NResourceBundle i18n) throws IOException {
+    ReportWriter(Writer out, String title, I18NResourceBundle i18n)
+        throws IOException {
+        this(out, title, i18n, Charset.defaultCharset());
+    }
+
+    ReportWriter(Writer out, String title, I18NResourceBundle i18n, Charset cs)
+        throws IOException {
         super(out, "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">", i18n);
         this.i18n = i18n;
 
         startTag(HTMLWriterEx.HTML);
         startTag(HTMLWriterEx.HEAD);
-        writeContentMeta();
+        writeContentMeta(cs);
         startTag(HTMLWriterEx.TITLE);
         writeI18N("reportWriter.product.name", new Object[] {
             ProductInfo.getName(), title } );

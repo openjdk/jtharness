@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -96,12 +96,30 @@ public class HTMLWriterEx extends HTMLWriter {
 
     /**
      * Write Content-Type meta tag using default charset:
-     * <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
      * This must go inside the <head> element!
      */
     public void writeContentMeta() throws IOException {
         closePrevTag();
         writeRaw(String.format(META_CONTENT, Charset.defaultCharset()));
+    }
+
+    /**
+     * Write Content-Type meta tag using given charset:
+     * This must go inside the <head> element!  The Charset provided should be
+     * available on the current runtime.  If the Charset provided is null, the
+     * runtime default charset will be used - by calling the no-param
+     * version of this method.
+     * @param charSet Character set to use, must not be null.
+     */
+    public void writeContentMeta(Charset charSet) throws IOException {
+        // sanity check
+        if (charSet == null) {
+            writeContentMeta();
+            return;
+        }
+
+        closePrevTag();
+        writeRaw(String.format(META_CONTENT, charSet));
     }
 
     private static final String META_CONTENT = "\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=%s\">\n";

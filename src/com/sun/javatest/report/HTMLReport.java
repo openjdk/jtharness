@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -30,9 +30,11 @@ import com.sun.javatest.Status;
 import com.sun.javatest.util.I18NResourceBundle;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,10 +44,10 @@ import java.util.TreeSet;
  * HTML format of the report.
  */
 public class HTMLReport implements ReportFormat {
-
     @Override
     public ReportLink write(ReportSettings s, File dir) throws IOException {
         reportDir = dir;
+        initCharset();
         setKflData(s.getKflSorter());
         setResults(s.getSortedResults());
 
@@ -129,7 +131,7 @@ public class HTMLReport implements ReportFormat {
         ReportWriter.initializeDirectory(reportDir);
         if (writer != null) {
             ReportWriter out = new ReportWriter(writer,
-                            i18n.getString("report.title"), i18n);
+                            i18n.getString("report.title"), i18n, reportCharset);
 
             // test suite name
             String testSuiteName = s.getInterview().getTestSuite().getName();
@@ -227,7 +229,11 @@ public class HTMLReport implements ReportFormat {
     }
 
     Writer openWriter(File reportDir, int code) throws IOException {
-        return new BufferedWriter(new FileWriter(new File(reportDir, files[code])));
+        File fout = new File(reportDir, files[code]);
+        OutputStreamWriter osw =
+                new OutputStreamWriter(new FileOutputStream(fout), reportCharset);
+        //FileWriter fw = new FileWriter(new File(reportDir, files[code]));
+        return new BufferedWriter(osw);
     }
 
     public void setResults(TreeSet[] results) {
@@ -244,7 +250,44 @@ public class HTMLReport implements ReportFormat {
 
     // ----------------------------------------------------------------------
 
+    private void initCharset() {
+        String userCS = System.getProperty("javatest.report.html.charset");
+        if (userCS != null && Charset.isSupported(userCS)) {
+            try {
+                reportCharset = Charset.forName(userCS);
+            } catch (Exception e) {
+            }
+        }
+
+        // next, attempt JT preferred charset
+        if (reportCharset == null && Charset.isSupported(DEFAULT_CHARSET)) {
+            try {
+                reportCharset = Charset.forName(DEFAULT_CHARSET);
+            } catch (Exception e) {
+            }
+        }
+
+        // default if still not set
+        if (reportCharset == null) {
+            reportCharset = Charset.defaultCharset();
+        }
+    }
+
     private static final String ID = "html";
+
+    /**
+     * The charset to request for the report output.
+     * Defaulted to UTF-8, if this is not available at runtime, code will use
+     * the default charset provided by the runtime.
+     * @see java.nio.Charset#defaultCharset
+     */
+    protected Charset reportCharset;
+
+    /**
+     * Default charset to use.  This is checked against the runtime availability
+     * before being used.
+     */
+    protected String DEFAULT_CHARSET = "UTF-8";
 
     File reportDir;
 
