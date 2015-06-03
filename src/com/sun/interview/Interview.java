@@ -2024,7 +2024,7 @@ public class Interview
      * </p>
      *
      * <p>
-     * In Version 50, FileListQuesiton has significantly altered processing
+     * In Version 50, FileListQuestion has significantly altered processing
      * of filters.  See the {@link com.sun.interview.FileListQuestion#isValueValid}
      * for an explanation.
      * </p>

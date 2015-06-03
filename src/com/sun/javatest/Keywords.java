@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -84,7 +84,7 @@ public abstract class Keywords
      * @param text if the type is one of "all of" or "any of", text should
      *    be a white-space separated list of keywords; if type is "expr",
      *    text should be a boolean valued expression formed from
-     *    keywords, '&' (and), '|' (or), '!' (not) and '(' ')' (parentheses).
+     *    keywords, '&amp;' (and), '|' (or), '!' (not) and '(' ')' (parentheses).
      * @return A Keywords object for the specified type and text.
      * @throws Keywords.Fault if there are errors in the arguments.
      */
@@ -98,7 +98,7 @@ public abstract class Keywords
      * @param text if the type is one of "all of" or "any of", text should
      *    be a white-space separated list of keywords; if type is "expr",
      *    text should be a boolean valued expression formed from
-     *    keywords, '&' (and), '|' (or), '!' (not) and '(' ')' (parentheses).
+     *    keywords, '&amp;' (and), '|' (or), '!' (not) and '(' ')' (parentheses).
      * @param validKeywords a set of valid keywords for this test suite,
      *    or null.
      *    If not null, all the keywords in <i>text</i> must be in this set.
