@@ -239,7 +239,7 @@ public abstract class FileListQuestion extends Question
      * the actual value (e.g.. in <code>isValid()</code>.
      * @param fs Filters which might be offered to the user.
      * @see #setFilters
-     * @see #isValid
+     * @see #isValueValid
      * @since 5.0
      */
     public void setHintFilters(FileFilter[] fs) {
