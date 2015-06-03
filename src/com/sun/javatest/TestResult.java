@@ -747,7 +747,7 @@ public class TestResult {
                 notifyUpdatedOutput(Section.this, name, end, end, buf, offset, len);
 
                 if (output.length() > maxOutputSize) {
-                    int overflowEnd = maxOutputSize*2/3;
+                    int overflowEnd = maxOutputSize/3;
                     if (overflowed) {
                         // output.delete(overflowStart, overflowEnd);
                         // JDK 1.1--start
