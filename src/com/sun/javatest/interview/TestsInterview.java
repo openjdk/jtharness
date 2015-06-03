@@ -195,7 +195,7 @@ public class TestsInterview
     private static final String TREE = "tree";
 
     /**
-     * Represents Tests Selection Choice Question. Exctracted to separate class
+     * Represents Tests Selection Choice Question. Extracted to separate class
      * for extensibility purposes
      */
     public class TreeOrFileChoiceQuestion extends ChoiceQuestion{
@@ -206,7 +206,7 @@ public class TestsInterview
         }
 
         /**
-         * Should be overriden if more selection choices are needed
+         * Should be overridden if more selection choices are needed
          * @return array of test selection choices
          */
         protected String[] getTestSelectionChoices(){
@@ -253,7 +253,7 @@ public class TestsInterview
     //
     // file
 
-    private FileQuestion qTestFile = new FileQuestion(this, "testFile") {
+    protected FileQuestion qTestFile = new FileQuestion(this, "testFile") {
         @Override
         public boolean isValueValid() {
             return (value != null && value.getPath().length() > 0);
@@ -281,7 +281,7 @@ public class TestsInterview
         }
     };
 
-    private String[] getTests(File file) {
+    protected String[] getTests(File file) {
         ArrayList<String> paths = new ArrayList();
         try {
             BufferedReader in = new BufferedReader(new FileReader(file));
@@ -529,7 +529,7 @@ public class TestsInterview
     };
 
     private String[] cachedTestsValue;
-    private Question cachedTestsError;
+    protected Question cachedTestsError;
     private Object[] cachedTestsErrorArgs;
 
     //----------------------------------------------------------------------------
