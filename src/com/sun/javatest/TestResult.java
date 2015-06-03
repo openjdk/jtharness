@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -752,7 +752,7 @@ public class TestResult {
                         // output.delete(overflowStart, overflowEnd);
                         // JDK 1.1--start
                         String s = output.toString();
-                        output = new StringBuffer(s.substring(0, overflowStart) + s.substring(overflowEnd));
+                        output = new StringBuffer(s.substring(0, overflowStart) + s.substring(output.length()-overflowEnd));
                         // JDK 1.1--end
                         notifyUpdatedOutput(Section.this, name, overflowStart, overflowEnd, "");
                     }
