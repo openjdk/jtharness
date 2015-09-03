@@ -661,6 +661,13 @@ public class TestResult {
                         int charsRead = 0;
                         while (charsRead < chars) {
                             int n = in.read(data, 0, Math.min(data.length, chars-charsRead));
+
+                            // sanity check, may be truncated file
+                            if (n < 0) {
+                                throw new ReloadFault(i18n, "rslt.badRuntimeErr", new Object[]
+                                    {resultsFile, Integer.toString(n)});
+                            }
+
                             buff.append(data, 0, n);
                             charsRead += n;
                         }
@@ -2078,6 +2085,10 @@ public class TestResult {
             else
                 throw new ReloadFault(i18n, "rslt.badHeader", resultsFile);
         }
+        catch (RuntimeException e) {
+            throw new ReloadFault(i18n, "rslt.badRuntimeErr",
+                    new String[] {resultsFile.getPath(), e.getLocalizedMessage()});
+        }
         finally {
             r.close();
         }
@@ -2306,21 +2317,8 @@ public class TestResult {
         if (execStatus == null)
             execStatus = Status.error("NO STATUS RECORDED IN FILE");
 
-        // check whether checksum was valid or not
-        //if (checksumText == null)
+        // checksum support removed
         checksumState = NO_CHECKSUM;
-        /*else {
-            try {
-                long cs = Long.parseLong(checksumText, 16);
-                if (cs == computeChecksum())
-                    checksumState = GOOD_CHECKSUM;
-                else
-                    checksumState = BAD_CHECKSUM;
-            }
-            catch (RuntimeException e) {
-                checksumState = BAD_CHECKSUM;
-            }
-        }*/
     }
 
     /**
