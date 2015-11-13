@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -40,6 +40,7 @@ import com.sun.javatest.TestFilter;
 import com.sun.javatest.tool.Command;
 import com.sun.javatest.tool.CommandContext;
 import com.sun.javatest.tool.CommandManager;
+import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
@@ -137,6 +138,10 @@ public class ReportManager
                     if (!argIter.hasNext())
                         throw new Fault(i18n, "rm.writeReport.missingArg");
                     type = nextArg(argIter);
+                }
+                else if (arg.equals("-kfl")) {
+                    // allow user to turn on KFL section by overriding Preferences
+                    Preferences.access().setPreference("rps.html.kfl", "true");
                 }
                 else if (arg.equals("-filter")) {
                     if (!argIter.hasNext())
