@@ -139,7 +139,8 @@ public class ReportManager
                         throw new Fault(i18n, "rm.writeReport.missingArg");
                     type = nextArg(argIter);
                 }
-                else if (arg.equals("-kfl")) {
+                else if (arg.equalsIgnoreCase("-kfl") ||
+                         arg.equalsIgnoreCase("-enableKFL")) {
                     // allow user to turn on KFL section by overriding Preferences
                     Preferences.access().setPreference("rps.html.kfl", "true");
                 }
