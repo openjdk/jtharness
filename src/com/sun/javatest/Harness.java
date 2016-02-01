@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -38,6 +38,9 @@ import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.ReadAheadIterator;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Set;
 
 /**
  * The object responsible for coordinating the execution of a test run.
@@ -786,8 +789,14 @@ public class Harness
             TestFilter[] filters = params.getFilters();
             // no tests are in the error, pass, fail categories -> none selected
             notifyError(i18n, "harness.noTests",
-                    formatFilterList(listFilterNames(filters)));
+                    new Object[] {
+                        formatFilterList(listFilterNames(filters)),
+                        testIter.getRejectCount(),
+                        formatFilterStats(params.getTests(), testIter)
+                    });
             ok = false;
+
+System.out.println("Number of rejects logged: " + testIter.getRejectCount());
         }
         else {
             /* user is notified of this in real-time
@@ -888,6 +897,42 @@ public class Harness
             sb.append(s);
             sb.append("\n");
         }
+
+        return sb.toString();
+    }
+
+    private static String formatFilterStats(final String[] tests,
+            final TreeIterator iter) {
+        TRT_Iterator treeit = null;
+
+        if (iter == null || !(iter instanceof TRT_Iterator)) {
+            return "";
+        }
+        else {
+            treeit = ((TRT_Iterator)iter);
+        }
+
+        TestFilter[] filters = treeit.getFilters();
+        HashMap<TestFilter, ArrayList<TestDescription>> map = treeit.getFilterStats();
+        Set<TestFilter> keyset = map.keySet();
+        StringBuilder sb = new StringBuilder();
+
+        // special case for Tests to Run because there is no associated
+        // TestFilter
+        if (tests != null && tests.length > 0) {
+            sb.append("- ");
+            sb.append("Tests to Run (" + tests.length + " path(s) specified)");
+            sb.append("\n");
+        }
+
+        for (TestFilter f: keyset) {
+            ArrayList<TestDescription> tds = map.get(f);
+            sb.append("- ");
+            sb.append(tds.size());
+            sb.append("  ");        // could use upgrade for readability
+            sb.append(f.getName());
+            sb.append("\n");
+        }   // for
 
         return sb.toString();
     }

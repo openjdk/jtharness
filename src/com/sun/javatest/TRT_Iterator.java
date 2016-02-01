@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -28,15 +28,15 @@ package com.sun.javatest;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Stack;
-import java.util.Vector;
 
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.I18NResourceBundle;
+import java.util.Set;
 
 
 /**
@@ -65,6 +65,8 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         resultStats = new int[Status.NUM_STATES];
         nodeIndex = -1;
         currFrame = null;
+
+        setRecordRejects(true);
     }
 
     TRT_Iterator(TestResultTable.TreeNode node) {
@@ -243,11 +245,17 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         if (recordRejects == true) {
             // only create new objects if they don't exist
             // users can turn on and off this feature if they want
-            if (filteredTRs == null)
-                filteredTRs = new Hashtable(10);        // not likely to have > 10 filters
+            if (filteredTRs == null) {
+                filteredTRs = new HashMap(10);        // not likely to have > 10 filters
+            }
 
-            if (fo == null)
+            if (fo == null) {
                 fo = new FilterObserver();
+            }
+
+            if (rejLock == null) {
+                rejLock = new Object();
+            }
         }
     }
 
@@ -274,27 +282,24 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * @return Array as described or null if no tests have been rejected yet.
      */
     @Override
-    public Hashtable getFilterStats() {
-        if (filteredTRs == null)
+    public HashMap<TestFilter, ArrayList<TestDescription>> getFilterStats() {
+        if (filteredTRs == null) {
             return null;
+        }
         else {
-            // create shallow, reformatted version of stored data
+            // create shallow copy
             // keys are TRs, values are TestFilters.
-            Hashtable out = new Hashtable();
+            HashMap<TestFilter, ArrayList<TestDescription>> out = new HashMap(filteredTRs.size());
 
             synchronized (rejLock) {
-                Enumeration keys = filteredTRs.keys();
+                Set keys = filteredTRs.keySet();
                 // each key is a TestFilter
-                while (keys.hasMoreElements()) {
+                Iterator<TestFilter> it = keys.iterator();
+                while (it.hasNext()) {
                     // could cast this to TestFilter, but why?
-                    Object thisKey = keys.nextElement();
-
-                    // the HT value is a Vector or TRs
-                    Iterator it = ((Vector)(filteredTRs.get(thisKey))).iterator();
-
-                    while (it.hasNext()) {
-                        out.put(it.next(), thisKey);
-                    }   // inner while
+                    TestFilter thisKey = it.next();
+                    ArrayList<TestDescription> al = (ArrayList<TestDescription>) filteredTRs.get(thisKey).clone();
+                    out.put(thisKey, al);
                 }   // outer while
             }   // sync
 
@@ -792,10 +797,12 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         for (int i = 0; i < filters.length; i++) {
             boolean accepted = true;
             try {
-                if (fo == null)
+                if (fo == null) {
                     accepted = filters[i].accepts(tr.getDescription());
-                else
+                }
+                else {
                     accepted = filters[i].accepts(tr.getDescription(), fo);
+                }
             }
             catch (TestFilter.Fault f) {
                 accepted = true;
@@ -879,7 +886,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     // filter rejection info
     private int rejectCount;
     private boolean recordRejects;      // true when we are collecting reject stats
-    private Hashtable filteredTRs;      // key==TestFilter  value=Vector of TestResults
+    private HashMap<TestFilter, ArrayList<TestDescription>> filteredTRs;      // key==TestFilter  value=ArrayList of TestResults
     private TestResult currentResult;   // necessary communicate with filter observer, yuck
     private Object rejLock;
     private FilterObserver fo;          // null if feature is disabled
@@ -942,13 +949,13 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         @Override
         public void rejected(TestDescription d, TestFilter rejector) {
             synchronized (rejLock) {
-                Vector vec = (Vector)(filteredTRs.get(rejector));
+                ArrayList vec = filteredTRs.get(rejector);
                 if (vec == null) {
-                    vec = new Vector();
+                    vec = new ArrayList();
                     filteredTRs.put(rejector, vec);
                 }
 
-                // remove later...
+                // XXX remove later...
                 try {
                     if (currentResult.getDescription() != d)
                         throw new JavaTestError("TRT_Iterator observered TR.TD does not match filtered one.");
@@ -957,8 +964,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                     throw new JavaTestError("TRT_Iterator cannot determine TR source info.", f);
                 }   // sanity check
 
-                vec.add(currentResult);
-
+                vec.add(d);
             }   // sync
         }
     }

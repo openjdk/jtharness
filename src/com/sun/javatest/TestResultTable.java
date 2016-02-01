@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -29,9 +29,11 @@ package com.sun.javatest;
 import java.io.File;
 import java.io.IOException;
 import java.text.Collator;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -2547,7 +2549,7 @@ public class TestResultTable {
          * @return Array as described or null if no tests have been rejected yet.
          * @since 3.0.3
          */
-        public abstract Hashtable getFilterStats();
+        public abstract HashMap<TestFilter, ArrayList<TestDescription>> getFilterStats();
 
         // --- misc info ---
         /**
