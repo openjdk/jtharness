@@ -920,8 +920,8 @@ public class TestResultTable {
      * @since 3.0
      */
     public TreeIterator getIterator(String[] paths, TestFilter[] filters) {
-        LinkedList<TreeNode> initNodes = new LinkedList<>();
-        LinkedList<TestResult> initTests = new LinkedList<>();
+        LinkedList<TreeNode> initNodes = new LinkedList<TreeNode>();
+        LinkedList<TestResult> initTests = new LinkedList<TestResult>();
 
         String[] urls = sortByName(paths); // sorting in any case to improve performance of distilling
         urls = distillUrls(urls);
