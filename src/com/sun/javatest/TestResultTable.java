@@ -263,26 +263,14 @@ public class TestResultTable {
 
     /**
      * Create a table ready to be occupied.
-     *
-     * @deprecated This method will become private.
-     * XXX make this method private
+     * Method private since 5.0
      */
-    public TestResultTable() {
-        //table = new Hashtable();
+    private TestResultTable() {
         statusTables = new Hashtable[Status.NUM_STATES];
         for (int i = 0; i < statusTables.length; i++)
             statusTables[i] = new Hashtable();
 
         root = new TRT_TreeNode(this, null);
-
-        /* OLD
-        // cache compression policy
-        int prop = Integer.getInteger("jt.cacheThreshold", 40).intValue();
-        if (prop < 0 || prop > 100)
-            prop = 40;
-
-        COMPRESSION_THRESHOLD = prop/100.0f;
-        */
 
         instanceId++;
         if (com.sun.javatest.httpd.HttpdServer.isActive()) {
@@ -644,16 +632,16 @@ public class TestResultTable {
         if (target == null)
             return null;
 
-        Vector path = new Vector();
+        ArrayList path = new ArrayList();
         TreeNode loc = target.getParent();
         while (loc != null) {
-            path.insertElementAt(loc, 0);
+            path.add(0, loc);
             loc = loc.getParent();
             // getParent() will be null for the root node
         }   // while
 
         TreeNode[] result = new TreeNode[path.size()];
-        path.copyInto(result);
+        path.toArray(result);
 
         if (debug == 2 || debug == 99) {
             Debug.println("TRT - getObjectPath() results:");
@@ -680,15 +668,15 @@ public class TestResultTable {
         if (target == null)
             return null;
 
-        Vector path = new Vector();
+        ArrayList path = new ArrayList();
         TreeNode loc = target;
         while (loc != null) {
-            path.insertElementAt(loc, 0);
+            path.add(0, loc);
             loc = loc.getParent();      // getParent() will be null for the root node
         }   // while
 
         TreeNode[] result = new TreeNode[path.size()];
-        path.copyInto(result);
+        path.toArray(result);
 
         if (debug == 2 || debug == 99) {
             Debug.println("TRT - getObjectPath() results:");
@@ -932,8 +920,8 @@ public class TestResultTable {
      * @since 3.0
      */
     public TreeIterator getIterator(String[] paths, TestFilter[] filters) {
-        LinkedList<TreeNode> initNodes = new LinkedList<TreeNode>();
-        LinkedList<TestResult> initTests = new LinkedList<TestResult>();
+        LinkedList<TreeNode> initNodes = new LinkedList<>();
+        LinkedList<TestResult> initTests = new LinkedList<>();
 
         String[] urls = sortByName(paths); // sorting in any case to improve performance of distilling
         urls = distillUrls(urls);
@@ -954,8 +942,8 @@ public class TestResultTable {
             if (debug == 1 || debug == 99)
                 Debug.println("TRT.lookupInitURL gave back " + Arrays.toString(objs));
 
-            if (objs == null)   // no match
-                continue;
+            if (objs == null) {   // no match
+            }
             else if (objs instanceof TreeNode[]) {
                 // don't add duplicates
                 if (!initNodes.contains((TreeNode) objs[0]))
@@ -1113,7 +1101,7 @@ public class TestResultTable {
     public static String getRootRelativePath(TreeNode node) {
         if (node.isRoot()) return "";
 
-        StringBuffer name = new StringBuffer(node.getName());
+        StringBuilder name = new StringBuilder(node.getName());
         node = node.getParent();
 
         while (node != null && !node.isRoot()) {
@@ -1374,6 +1362,8 @@ public class TestResultTable {
     }
 
     /**
+     * Removes empty nodes (things with no tests below them).
+     * @param node The node to perform the prune operation upon.
      * @return True if some nodes were pruned, false otherwise.
      */
     synchronized public boolean prune(TreeNode node) throws Fault {

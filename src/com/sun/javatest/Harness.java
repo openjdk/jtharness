@@ -39,7 +39,6 @@ import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.ReadAheadIterator;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Set;
 
 /**
@@ -594,6 +593,7 @@ public class Harness
             throw new Fault(i18n, "harness.alreadyRunning");
 
         worker = new Thread() {
+            @Override
             public void run() {
                 boolean ok = false;
                 try {

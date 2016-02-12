@@ -34,6 +34,7 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
+import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.I18NResourceBundle;
 import java.util.Set;
@@ -793,15 +794,16 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
         absoluteCount++;
         currentResult = tr;
+        TestDescription td = tr.getDescription();
 
         for (int i = 0; i < filters.length; i++) {
             boolean accepted = true;
             try {
                 if (fo == null) {
-                    accepted = filters[i].accepts(tr.getDescription());
+                    accepted = filters[i].accepts(td);
                 }
                 else {
-                    accepted = filters[i].accepts(tr.getDescription(), fo);
+                    accepted = filters[i].accepts(td, fo);
                 }
             }
             catch (TestFilter.Fault f) {
@@ -817,6 +819,15 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                 }
 
                 rejectCount++;
+
+                if (recordRejectTR && tr.getStatus().isNotRun()) {
+                    ArrayList<TestFilter> rejectors = getFullFilteredList(filters, td);
+                    // optimize this for shared Status objects
+                    Status newstatus = Status.notRun(generateFilteredStatus(rejectors));
+                    TestResult newone = new TestResult(td, newstatus);
+                    tr.getParent().getEnclosingTable().update(newone, true);
+                }
+
                 // rejected
                 return i;
             }
@@ -852,14 +863,68 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     }
 
     /**
-    private TestResultTable.TreeNode traverseToNode(TestResultTable.TreeNode start, String path) {
-        String curr;
-        TestResultTable.TreeNode pos;
+     * Query filter list to determine all the filters which would reject test.
+     * Necessary calculation because the rest of harness filtering typically fails fast
+     * on the first rejection.  Composite filters are not included in the search, only
+     * concrete filters are returned.
+     * @param filters Filters to check.
+     * @param td Tests to check.
+     * @return Null if the filter list is empty, array of size zero or greater
+     * otherwise.  Will be size zero if no filters reject the test.
+     */
+    private static ArrayList<TestFilter> getFullFilteredList(
+            final TestFilter[] filters,
+            final TestDescription td) {
+        if (td == null || filters == null || filters.length == 0) {
+            return null;
+        }
 
-        while (path != null) {
-        }   // while
+        final ArrayList<TestFilter> out = new ArrayList<>();
+        TestFilter.Observer foo = new TestFilter.Observer() {
+            public void rejected(TestDescription td, TestFilter f) {
+                out.add(f);
+            }
+        };
+
+        for (TestFilter f : filters) {
+            try {
+                if (out.contains(f)) {
+                    // optimization
+                    continue;
+                }
+
+                f.accepts(td, foo);
+            }
+            catch (TestFilter.Fault fault) {
+                out.add(f);
+            }
+        }   // for
+
+        return out;
     }
-    */
+
+    private static String generateFilteredStatus(ArrayList<TestFilter> fs) {
+        StringBuilder sb = new StringBuilder();
+
+        if (fs == null || fs.size() == 0) {
+            sb.append("Rejected by test filters.");
+        }
+        else {
+            sb.append("Rejected by test filters: " );
+
+            for (TestFilter f : fs) {
+                sb.append(f.getName());
+                sb.append(", ");
+            }
+        }
+        if (sb.length() > 2) {
+            return sb.substring(0, sb.length()-2);  // remove trailing ", "
+        }
+        else {
+            // exceptional case
+            return "";
+        }
+    }
 
     /**
      * Tests (literally) that were provided by the client through one of the
@@ -882,7 +947,6 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     private int[] resultStats;          // pass/fail/error statistics
     private int absoluteCount;          // how many tests were processed
 
-
     // filter rejection info
     private int rejectCount;
     private boolean recordRejects;      // true when we are collecting reject stats
@@ -890,6 +954,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     private TestResult currentResult;   // necessary communicate with filter observer, yuck
     private Object rejLock;
     private FilterObserver fo;          // null if feature is disabled
+
+    final Preferences p = Preferences.access();
+    boolean recordRejectTR = p.getPreference("exec.recordNotrunReasons", "false").equals("true");
 
     // ------ state information ------
     private Stack stack;
