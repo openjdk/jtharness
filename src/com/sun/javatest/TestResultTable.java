@@ -263,9 +263,8 @@ public class TestResultTable {
 
     /**
      * Create a table ready to be occupied.
-     * Method private since 5.0
      */
-    private TestResultTable() {
+    public TestResultTable() {
         statusTables = new Hashtable[Status.NUM_STATES];
         for (int i = 0; i < statusTables.length; i++)
             statusTables[i] = new Hashtable();
