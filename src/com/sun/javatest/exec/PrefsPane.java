@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -33,9 +33,11 @@ import javax.help.HelpBroker;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -44,6 +46,7 @@ import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.tool.PreferencesPane;
 import com.sun.javatest.tool.UIFactory;
 import java.awt.Font;
+
 
 
 class PrefsPane extends PreferencesPane
@@ -55,13 +58,20 @@ class PrefsPane extends PreferencesPane
 
     @Override
     public PreferencesPane[] getChildPanes() {
-        if (configEditorPane == null)
+        if (configEditorPane == null) {
             configEditorPane = new ConfigEditorPane();
-        if (reportingPane == null)
+        }
+
+        if (reportingPane == null) {
             reportingPane = new ReportingPane();
+        }
+
+        if (runPane == null) {
+            runPane = new RunPane();
+        }
 
         if (childPanes == null)
-            childPanes = new PreferencesPane[] { configEditorPane, reportingPane };
+            childPanes = new PreferencesPane[] { configEditorPane, reportingPane, runPane };
         return childPanes;
     }
 
@@ -76,10 +86,6 @@ class PrefsPane extends PreferencesPane
         toolBarChk.setSelected(p == null || p.equals("true"));
         p = (String) (m.get(ExecTool.FILTER_WARN_PREF));
         filterWarnChk.setSelected(p == null || p.equals("true"));
-        p = (String) (m.get(ExecTool.TESTS2RUN_PREF));
-        tests2RunChk.setSelected((p == null ? false : p.equals("true")));
-        p = (String) (m.get("javatest.sortExecution"));
-        testSortingChk.setSelected((p == null ? false : p.equals("false")));
         p = (String) (m.get(TP_OutputSubpanel.LINE_WRAP_PREF));
         // selected by default
         wrapResChk.setSelected((p == null ? true : p.equals("true")));
@@ -90,8 +96,6 @@ class PrefsPane extends PreferencesPane
         super.save(m);
         m.put(ExecTool.TOOLBAR_PREF, String.valueOf(toolBarChk.isSelected()));
         m.put(ExecTool.FILTER_WARN_PREF, String.valueOf(filterWarnChk.isSelected()));
-        m.put(ExecTool.TESTS2RUN_PREF, String.valueOf(tests2RunChk.isSelected()));
-        m.put("javatest.sortExecution", Boolean.toString(!testSortingChk.isSelected()));
         m.put(TP_OutputSubpanel.LINE_WRAP_PREF, String.valueOf(wrapResChk.isSelected()));
     }
 
@@ -105,7 +109,6 @@ class PrefsPane extends PreferencesPane
 
         add(createToolBarPanel(), c);
         add(createFilterPanel(), c);
-        add(createExecutionPanel(), c);
         add(createTestRunMsgPanel(), c);
 
         c.weighty = 1;
@@ -140,24 +143,6 @@ class PrefsPane extends PreferencesPane
         return p;
     }
 
-    private JPanel createExecutionPanel() {
-        JPanel p = uif.createPanel("exec.prefs.exec", new GridBagLayout(), false);
-        GridBagConstraints c = new GridBagConstraints();
-        c.anchor = GridBagConstraints.WEST;
-        c.weightx = 1;
-        p.setBorder(uif.createTitledBorder("ep.exec"));
-
-        tests2RunChk= uif.createCheckBox("ep.tests2run", true);
-        // override default a11y name
-        uif.setAccessibleName(tests2RunChk, "ep.tests2run");
-        p.add(tests2RunChk, c);
-
-        testSortingChk = uif.createCheckBox("ep.sorttests", true);
-        c.gridy = GridBagConstraints.PAGE_END;
-        p.add(testSortingChk, c);
-        return p;
-    }
-
     private JPanel createTestRunMsgPanel() {
         JPanel p = uif.createPanel("exec.prefs.testrun", new GridBagLayout(), false);
         GridBagConstraints c = new GridBagConstraints();
@@ -174,11 +159,10 @@ class PrefsPane extends PreferencesPane
     private UIFactory uif;
     private JCheckBox toolBarChk;
     private JCheckBox filterWarnChk;
-    private JCheckBox tests2RunChk;
-    private JCheckBox testSortingChk;   // deceptive name, see i18n description
     private JCheckBox wrapResChk;
     private ConfigEditorPane configEditorPane;
     private ReportingPane reportingPane;
+    private RunPane runPane;
     private PreferencesPane[] childPanes;
 
     private class ConfigEditorPane extends PreferencesPane {
@@ -287,8 +271,6 @@ class PrefsPane extends PreferencesPane
 
             JPanel p = new JPanel(new GridBagLayout());
             JLabel lbl = uif.createLabel("ep.rpt.url");
-            //JTextArea infoTa = uif.createMessageArea("ep.rpt.url");
-            //lbl.setOpaque(false);
             p.add(lbl, c);
 
             bugUrlTf = uif.createInputField("ep.rpt.url", lbl);
@@ -312,5 +294,118 @@ class PrefsPane extends PreferencesPane
         }
 
         private JTextField bugUrlTf;
+    }
+
+    private class RunPane extends PreferencesPane {
+        RunPane() {
+            initGUI();
+        }
+
+        public String getText() {
+            return uif.getI18NString("ep.run.title");
+        }
+
+        @Override
+        public void load(Map m) {
+            String mp = (String) (m.get("javatest.executionOrder"));
+            if (mp == null) {
+                mp = "default";
+            }
+
+            if (mp.equals("reverse")) {
+                reverseRadio.setSelected(true);
+            }
+            else if (mp.equals("random")) {
+                randomRadio.setSelected(true);
+            }
+            else {
+                defaultRadio.setSelected(true);
+            }
+
+            mp = (String) (m.get(ExecTool.TESTS2RUN_PREF));
+            tests2RunChk.setSelected((mp == null ? false : mp.equals("true")));
+            mp = (String) (m.get("javatest.sortExecution"));
+            testSortingChk.setSelected((mp == null ? false : mp.equals("false")));
+        }
+
+        @Override
+        public void save(Map m) {
+            m.put(ExecTool.TESTS2RUN_PREF, String.valueOf(tests2RunChk.isSelected()));
+            m.put("javatest.sortExecution", Boolean.toString(!testSortingChk.isSelected()));
+
+            String sequence = ".default";
+            if (reverseRadio.isSelected()) {
+                sequence = reverseRadio.getName();
+            }
+            else if (randomRadio.isSelected()) {
+                sequence = randomRadio.getName();
+            }
+            else {
+                sequence = defaultRadio.getName();
+            }
+
+            m.put("javatest.sortExecution", sequence.substring(sequence.lastIndexOf(".") + 1));
+        }
+
+        private void initGUI() {
+            setLayout(new GridBagLayout());
+
+            GridBagConstraints c = new GridBagConstraints();
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridwidth = GridBagConstraints.REMAINDER;
+            c.weightx = 1;
+
+            add(createExecutionPanel(), c);
+            add(createOrderPanel(), c);
+
+            c.weighty = 1;
+            add(Box.createVerticalGlue(), c);
+        }
+
+        private JPanel createExecutionPanel() {
+            JPanel p = uif.createPanel("exec.prefs.run", new GridBagLayout(), false);
+            GridBagConstraints c = new GridBagConstraints();
+            c.anchor = GridBagConstraints.WEST;
+            c.weightx = 1;
+            p.setBorder(uif.createTitledBorder("ep.exec"));
+
+            tests2RunChk = uif.createCheckBox("ep.tests2run", true);
+            // override default a11y name
+            uif.setAccessibleName(tests2RunChk, "ep.tests2run");
+            p.add(tests2RunChk, c);
+
+            testSortingChk = uif.createCheckBox("ep.sorttests", true);
+            c.gridy = GridBagConstraints.PAGE_END;
+            p.add(testSortingChk, c);
+            return p;
+        }
+
+        private JPanel createOrderPanel() {
+            GridBagConstraints c = new GridBagConstraints();
+            c.anchor = GridBagConstraints.LINE_START;
+            c.gridwidth = 1;
+            c.weighty = c.weightx = 1;
+            JPanel p = uif.createPanel("exec.prefs.exec", new GridBagLayout(), false);
+            p.setBorder(uif.createTitledBorder("ep.run"));
+
+            sequenceButtons = new ButtonGroup();
+
+            defaultRadio = uif.createRadioButton("ep.run.order.default", sequenceButtons);
+            randomRadio = uif.createRadioButton("ep.run.order.random", sequenceButtons);
+            reverseRadio = uif.createRadioButton("ep.run.order.reverse", sequenceButtons);
+
+            p.add(defaultRadio, c);
+            p.add(randomRadio, c);
+            p.add(reverseRadio, c);
+            return p;
+        }
+
+        private JTextField bugUrlTf;
+        private JCheckBox tests2RunChk;
+        private JCheckBox testSortingChk;   // deceptive name, see i18n description
+        private JRadioButton defaultRadio;
+        private JRadioButton reverseRadio;
+        private JRadioButton randomRadio;
+        private ButtonGroup sequenceButtons;
     }
 }
