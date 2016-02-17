@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -192,8 +192,10 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
         }
         */
 
-        if (renderer == null)
+        if (renderer == null ||
+            renderer.getQuestion() != question) {
             renderer = new RenderingUtilities.PropCellRenderer(question);
+        }
 
         JTable table = createTable(model);
         table.setBorder(BorderFactory.createEtchedBorder());
@@ -358,7 +360,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
     protected Runnable valueSaver;
     protected HashMap tables;
-    protected TableCellRenderer renderer;
+    protected RenderingUtilities.PropCellRenderer renderer;
     protected PropertiesQuestion question;
     protected JPanel panel;
 
