@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -53,7 +53,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
      * The test suite for which this interview applies should be set
      * with setTestSuite.
      * @param tag the tag used to qualify questions in this interview
-     * @throws Interview.Fault if there is a problem creating this object
+     * @throws com.sun.interview.Interview.Fault if there is a problem creating this object
      */
     protected BasicInterviewParameters(String tag)
         throws Fault
@@ -77,7 +77,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
      * Create a BasicInterviewParameters object.
      * @param tag the tag used to qualify questions in this interview
      * @param ts The test suite to which this interview applies.
-     * @throws Interview.Fault if there is a problem creating this object
+     * @throws com.sun.interview.Interview.Fault if there is a problem creating this object
      */
     protected BasicInterviewParameters(String tag, TestSuite ts)
         throws Fault

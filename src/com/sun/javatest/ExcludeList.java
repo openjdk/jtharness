@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -66,7 +66,7 @@ public class ExcludeList
     /**
      * Test if a file appears to be for an exclude list, by checking the extension.
      * @param f The file to be tested.
-     * @return <code>true</code if the file appears to be an exclude list.
+     * @return <code>true</code> if the file appears to be an exclude list.
      */
     public static boolean isExcludeFile(File f) {
         return f.getPath().endsWith(EXCLUDEFILE_EXTN);

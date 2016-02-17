@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -38,7 +38,7 @@ public class LegacyParameters extends BasicInterviewParameters
 {
     /**
      * Create a configuration interview for legacy tests suites.
-     * @throws Interview.Fault if there is a problem instantiating the
+     * @throws com.sun.interview.Interview.Fault if there is a problem instantiating the
      * interview.
      */
     public LegacyParameters()
@@ -53,7 +53,7 @@ public class LegacyParameters extends BasicInterviewParameters
     /**
      * Create a configuration interview for legacy tests suites.
      * @param testSuite The test suite for which this interview applies
-     * @throws Interview.Fault if there is a problem instantiating the
+     * @throws com.sun.interview.Interview.Fault if there is a problem instantiating the
      * interview.
      */
     public LegacyParameters(TestSuite testSuite)

@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2006, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -39,9 +39,11 @@ public abstract class CustomTestResultViewer extends JPanel {
      * This method is called by the harness and it indicates to the viewer that it should
      * check the given TestResult object for changes.<br>
      * There can be three possible cases:
+     * <ul>
      * <li>TestResult is a different test, therefore the viewer should fully update the panel</li>
      * <li>TestResult is the current test, the viewer should check the result for updates</li>
      * <li>TestResult is null. There is no selected test.</li>
+     * </ul>
      * @param currTestResult Test result object which should be rendered in this
      *    panel immediately.  May or may not be the one currently displayed.
      */

@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2013, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -96,7 +96,7 @@ public class HTMLWriterEx extends HTMLWriter {
 
     /**
      * Write Content-Type meta tag using default charset:
-     * This must go inside the <head> element!
+     * This must go inside the &lt;head&gt; element!
      */
     public void writeContentMeta() throws IOException {
         closePrevTag();
@@ -105,7 +105,7 @@ public class HTMLWriterEx extends HTMLWriter {
 
     /**
      * Write Content-Type meta tag using given charset:
-     * This must go inside the <head> element!  The Charset provided should be
+     * This must go inside the &lt;head&gt; element!  The Charset provided should be
      * available on the current runtime.  If the Charset provided is null, the
      * runtime default charset will be used - by calling the no-param
      * version of this method.
