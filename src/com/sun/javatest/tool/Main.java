@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -94,16 +94,34 @@ public class Main
      */
     public static void main(String[] args) {
         tracing = Boolean.getBoolean("javatest.trace.startup");
+
         if (tracing)
             traceStartTime = System.currentTimeMillis();
 
+        if (Boolean.getBoolean("javatest.trace.printargs")) {
+            StringBuilder fullCmd = new StringBuilder();
+            StringBuilder incrementalCmd = new StringBuilder();
+
+            for (String a : args) {
+                fullCmd.append(a);
+                fullCmd.append(" ");
+
+                incrementalCmd.append("// ");
+                incrementalCmd.append(a);
+                incrementalCmd.append("\n");
+            }   // for
+
+            System.out.println(fullCmd.toString().trim());
+            System.out.println(incrementalCmd.toString());
+        }
+
         String javaVersion = System.getProperty("java.version");
         if (javaVersion != null) {
-            String[] oldVersions = {"1.0", "1.1", "1.2", "1.3", "1.4", "1.5"};
+            String[] oldVersions = {"1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6"};
             for (int i = 0; i < oldVersions.length; i++) {
                 if (javaVersion.startsWith(oldVersions[i])) {
                     // I18N?
-                    System.err.println("Please use Java(TM) Standard Edition, Version 6.0 or better to run the JT Harness(TM) harness.");
+                    System.err.println("Please use Java(TM) Standard Edition, Version 7.0 or better to run the JT Harness(TM) harness.");
                     System.exit(1);
                 }
             }
