@@ -100,7 +100,8 @@ public class SubInterview extends Interview {
         }
 
         public boolean isValueValid() {
-            return isValidIdentifier(value);
+            return true;
+            //return isValidIdentifier(value);
         }
 
         protected Question getNext() {
