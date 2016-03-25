@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -60,7 +60,7 @@ public class KeywordsFilter extends TestFilter {
 
     @Override
     public String getReason() {
-        return i18n.getString("keywordsFilter.reason");
+        return i18n.getString("keywordsFilter.reason", keywords.toString());
     }
 
     @Override

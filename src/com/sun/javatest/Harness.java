@@ -795,8 +795,6 @@ public class Harness
                         formatFilterStats(params.getTests(), testIter)
                     });
             ok = false;
-
-System.out.println("Number of rejects logged: " + testIter.getRejectCount());
         }
         else {
             /* user is notified of this in real-time
@@ -927,10 +925,15 @@ System.out.println("Number of rejects logged: " + testIter.getRejectCount());
 
         for (TestFilter f: keyset) {
             ArrayList<TestDescription> tds = map.get(f);
+            // this works, should consider switching to something which has more
+            // rendering control - RTF
             sb.append("- ");
             sb.append(tds.size());
-            sb.append("  ");        // could use upgrade for readability
+            sb.append(" due to ");        // could use upgrade for readability
             sb.append(f.getName());
+            sb.append("\n");
+            sb.append("    ");      // indentation
+            sb.append(f.getReason());
             sb.append("\n");
         }   // for
 
