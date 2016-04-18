@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -110,19 +110,49 @@ public abstract class Keywords
         if (text == null) {
             text = "";
         }
-        if (type == null || type.equals("ignore"))
+
+        Keywords result = null;
+        if (type == null || type.equals("ignore")) {
             return null;
-        else if (type.equals(ALL_OF))
-            return new AllKeywords(StringArray.split(text), lowerCaseValidKeywords);
-        else if (type.equals(ANY_OF))
-            return new AnyKeywords(StringArray.split(text), lowerCaseValidKeywords);
+        } else if (type.equals(ALL_OF)) {
+            result = new AllKeywords(StringArray.split(text), lowerCaseValidKeywords);
+            result.setSummary(result.toString());
+            return result;
+        }
+        else if (type.equals(ANY_OF)) {
+            result = new AnyKeywords(StringArray.split(text), lowerCaseValidKeywords);
+            result.setSummary(result.toString());
+            return result;
+        }
         else if (type.equals(EXPR)) {
             ExprParser p = new ExprParser(text, lowerCaseValidKeywords);
-            return p.parse();
+            result = p.parse();
+            result.setSummary(text);
+            return result;
         }
-        else
+        else {
             throw new Fault(i18n, "kw.badKeywordType", type);
+        }
     }
+
+
+    /**
+     * Set the descriptive representation of the kw expression provided by the user.
+     * @param text Useful text rendering of current kw expression
+     */
+    void setSummary(String text) {
+        this.text = text;
+    }
+
+    /**
+     * Get a human digestable version of the kw represented by this object.
+     * @return Human readable, fully descriptive rendering of current kw setting
+     */
+    public String getSummary() {
+        return text;
+    }
+
+    protected String text;
 
     /**
      * A constant to indicate that all of a list of keywords should be matched.
@@ -258,10 +288,12 @@ class AllKeywords extends SetKeywords {
      * @param s
      * @return
      */
+    @Override
     public boolean accepts(Set s) {
         return s.containsAll(keys);
     }
 
+    @Override
     public String toString() {
             return "all of (" + allKwds + ")";
     }
@@ -277,6 +309,7 @@ class AnyKeywords extends SetKeywords {
      * @param s - the set
      * @return false, if none of the keywords is in the set
      */
+    @Override
     public boolean accepts(Set s) {
         for (String kwd :keys) {
             if (s.contains(kwd)) {
@@ -286,6 +319,7 @@ class AnyKeywords extends SetKeywords {
         return false;
     }
 
+    @Override
     public String toString() {
         return "any of (" + allKwds + ")";
     }

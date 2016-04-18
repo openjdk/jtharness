@@ -60,7 +60,7 @@ public class KeywordsFilter extends TestFilter {
 
     @Override
     public String getReason() {
-        return i18n.getString("keywordsFilter.reason", keywords.toString());
+        return i18n.getString("keywordsFilter.reason", keywords.getSummary());
     }
 
     @Override
