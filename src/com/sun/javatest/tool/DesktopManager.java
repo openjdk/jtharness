@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2004, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -132,6 +132,8 @@ public class DesktopManager extends CommandManager
             } else {
                 throw new Fault(i18n, "dt.opts.laf.badArg", new Object[] {lafName});
             }
+
+            addArg(lafName);
 
             ctx.setPreferredLookAndFeel(laf);
         }
