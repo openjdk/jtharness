@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2004, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -279,7 +279,7 @@ public class HTMLReport implements ReportFormat {
      * The charset to request for the report output.
      * Defaulted to UTF-8, if this is not available at runtime, code will use
      * the default charset provided by the runtime.
-     * @see java.nio.Charset#defaultCharset
+     * @see java.nio.charset.Charset#defaultCharset
      */
     protected Charset reportCharset;
 
