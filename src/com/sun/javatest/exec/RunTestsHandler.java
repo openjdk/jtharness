@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -310,7 +310,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         }
 
         final Preferences p = Preferences.access();
-        boolean useTests2Run = p.getPreference(ExecTool.TESTS2RUN_PREF, "false").equals("true");
+        boolean useTests2Run = p.getPreference(ExecTool.TESTS2RUN_PREF, "true").equals("true");
 
         if (!useTests2Run) {
             // alter tests in interview
