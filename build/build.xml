@@ -2,59 +2,59 @@
 <!--
   Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
- 
+
   This code is free software; you can redistribute it and/or modify it
   under the terms of the GNU General Public License version 2 only, as
   published by the Free Software Foundation.  Oracle designates this
   particular file as subject to the "Classpath" exception as provided
   by Oracle in the LICENSE file that accompanied this code.
- 
+
   This code is distributed in the hope that it will be useful, but WITHOUT
   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
   FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   version 2 for more details (a copy is included in the LICENSE file that
   accompanied this code).
- 
+
   You should have received a copy of the GNU General Public License version
   2 along with this work; if not, write to the Free Software Foundation,
   Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
- 
+
   Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
   or visit www.oracle.com if you need additional information or have any
   questions.
 -->
 <project name="jtharness" default="build" basedir="..">
-    
+
     <import file="build-i18ncheck.xml"/>
 
     <property file="build/local.properties"/>
     <property file="build/build.properties"/>
 
     <import file="jtlite/build-jtlite.xml"/>
-    
+
     <property environment="env"/>
-    
+
     <patternset id="helpset">
-        <include name="**/*.hs"/>        
+        <include name="**/*.hs"/>
         <include name="**/default/**"/>
         <include name="**/images/**"/>
         <exclude name="com/sun/javatest/tool/images/spl_*.gif"/>
     </patternset>
-    
+
     <target name="build" depends="dist" description="Creates the build-distribution."/>
-    
+
     <target name="clean" description="Removes the entire build-distribution directory.">
         <delete dir="${BUILD_DIR}"/>
     </target>
-    
+
     <target name="stamp" description="Set up build time properties.">
         <tstamp>
             <format property="build.date" pattern="MMMMM dd, yyyy" locale="en"/>
             <format property="build.date.time" pattern="MMMMM dd, yyyy hh:mm aa" locale="en"/>
         </tstamp>
-        
+
     </target>
-    
+
     <presetdef name="buildinfo">
         <echo file="${build.classes}/META-INF/buildInfo.txt"># Build info
             date=${build.date}
@@ -66,7 +66,7 @@
             harness-variety=Full Bundle
         </echo>
     </presetdef>
-    
+
     <!-- ********** JT Harness *********************************************** -->
 
     <property name="src.javatest.help" location="${src.dir}/com/sun/javatest/help"/>
@@ -77,13 +77,13 @@
     -->
     <property name="build.javatest.help" location="${build.classes}/com/sun/javatest/help"/>
     <property name="build.javatestAgent.help" location="${build.classes}/com/sun/javatest/agent/help"/>
-    
+
     <patternset id="interview.resources">
         <include name="com/sun/interview/**/*.properties"/>
         <include name="com/sun/interview/wizard/*.gif"/>
         <include name="com/sun/interview/wizard/selectiontree/resources/*.gif"/>
     </patternset>
-    
+
     <patternset id="javatest.resources">
         <include name="com/sun/javatest/**/*.properties"/>
         <include name="com/sun/javatest/**/*.xsd"/>
@@ -91,11 +91,11 @@
         <include name="com/sun/javatest/**/*.css"/>
         <exclude name="com/sun/javatest/tool/images/spl_*.gif"/>
     </patternset>
-    
+
     <patternset id="javatest.junit.resources">
         <include name="com/sun/javatest/junit/**/*.properties"/>
     </patternset>
-    
+
     <patternset id="javatest.packages">
         <include name="com/sun/interview/**"/>
         <include name="com/sun/javatest/**"/>
@@ -105,7 +105,7 @@
 	<patternset id="test.packages">
 		<include name="com/sun/jct/utils/copyrightcheck/**" />
 	</patternset>
-    
+
     <patternset id="javatest.jdk11.files">
         <include name="com/sun/javatest/Command.java"/>
         <include name="com/sun/javatest/JavaTestSecurityManager.java"/>
@@ -123,11 +123,11 @@
         <include name="com/sun/javatest/util/FileInfoCache.java"/>
         <include name="com/sun/javatest/util/ReadAheadIterator.java"/>
     </patternset>
-    
+
     <patternset id="javatest.junit.packages">
         <include name="com/sun/javatest/junit/**"/>
     </patternset>
-    
+
     <target name="dist" depends="jar,jar.junit,dist.doc,build-examples,lite,test-copyrights" description="Creates the build-distribution.">
         <property name="zip.prefix" value="jtharness-${build.version}"/>
         <property name="zip.root" location="${BUILD_DIR}/tmp/zip/${zip.prefix}"/>
@@ -136,7 +136,7 @@
         <copy todir="${zip.root}">
             <fileset dir="${BUILD_DIR}/binaries"/>
         </copy>
-    
+
         <mkdir dir="${BUILD_DIR}/bundles"/>
         <zip destfile="${BUILD_DIR}/bundles/${zip.prefix}.zip" filesOnly="true"
              basedir="${zip.root}/.." excludes="${zip.prefix}/examples/*, ${zip.prefix}/examples/"/>
@@ -153,7 +153,7 @@
         <copy todir="${target.legal.dir}">
             <fileset dir="${legal.dir}"/>
         </copy>
-        
+
         <property name="target.doc.dir" value="${BUILD_DIR}/binaries/doc"/>
         <mkdir dir="${target.doc.dir}"/>
         <copy todir="${target.doc.dir}">
@@ -173,7 +173,7 @@
         <copy todir="${target.javadoc.dir}">
             <fileset dir="${javadoc.dir}"/>
         </copy>
-        
+
         <!-- API docs -->
         <property name="target.javadoc.dir" value="${target.doc.dir}/api"/>
         <mkdir dir="${target.javadoc.dir}"/>
@@ -216,16 +216,16 @@
 
 
     </target>
-    
+
     <!-- JAR Section -->
 
-    <target name="jar" depends="jar.check,stamp" unless="javatest.jar.ok" description="Build JAR.">    
+    <target name="jar" depends="jar.check,stamp" unless="javatest.jar.ok" description="Build JAR.">
         <mkdir dir="${BUILD_DIR}/binaries/lib"/>
         <jar destfile="${BUILD_DIR}/binaries/lib/javatest.jar" basedir="${build.classes}" index="false">
             <manifest>
                 <attribute name="Built-By"   value="${user.name}"/>
-                <attribute name="Main-Class" value="${run.class}"/>                
-                <attribute name="Class-Path" value="jh.jar"/>                
+                <attribute name="Main-Class" value="${run.class}"/>
+                <attribute name="Class-Path" value="jh.jar"/>
             </manifest>
             <include name="META-INF/buildInfo.txt"/>
             <include name="copyright.txt"/>
@@ -235,7 +235,7 @@
         </jar>
         <copy file="${jhjar}" todir="${BUILD_DIR}/binaries/lib"/>
     </target>
-    
+
     <target name="jar.check" depends="compile">
         <dependset>
             <srcfileset dir="${build.classes}">
@@ -247,10 +247,10 @@
         </dependset>
         <available property="javatest.jar.ok" file="${BUILD_DIR}/binaries/lib/javatest.jar"/>
     </target>
-    
+
     <!-- JAR - JUnit Support Section -->
 
-    <target name="jar.junit" depends="jar.junit.check,stamp" unless="jt-junit.jar.ok" description="Build JUnit JAR.">    
+    <target name="jar.junit" depends="jar.junit.check,stamp" unless="jt-junit.jar.ok" description="Build JUnit JAR.">
         <mkdir dir="${BUILD_DIR}/binaries/lib"/>
         <jar destfile="${BUILD_DIR}/binaries/lib/jt-junit.jar" basedir="${build.junit.classes}" index="false">
             <manifest>
@@ -261,7 +261,7 @@
             <patternset refid="javatest.junit.packages"/>
         </jar>
     </target>
-    
+
     <target name="jar.junit.check" depends="compile.junit.classes">
         <dependset>
             <srcfileset dir="${build.junit.classes}">
@@ -271,22 +271,22 @@
         </dependset>
         <available property="jt-junit.jar.ok" file="${BUILD_DIR}/binaries/lib/jt-junit.jar"/>
     </target>
-    
+
     <!-- Compilation Section -->
 
     <target name="compile" depends="compile.classes,compile.resources,compile-javatest.help" description="Compile project."/>
-    
+
     <target name="compile.classes">
         <available file="${jhalljar}" type="file" property="javahelp.present"/>
         <fail unless="javahelp.present" message="${javahelp.missing}"/>
 
-        
+
         <available file="${jcommjar}" type="file" property="jcomm.present"/>
         <fail unless="jcomm.present" message="${jcomm.missing}"/>
-        
+
         <available file="${servletjar}" type="file" property="servlet.present"/>
         <fail unless="servlet.present" message="${servlet.missing}"/>
-        
+
         <mkdir dir="${build.classes}"/>
         <javac encoding="iso-8859-1" debug="true" target="1.1" source="1.2"
                srcdir="${src.dir}"
@@ -305,9 +305,9 @@
                 <include name="copyright.txt"/>
             </fileset>
         </copy>
-        
+
     </target>
-    
+
     <target name="compile.test.copyright.classes">
         <mkdir dir="${build.classes}"/>
         <javac encoding="iso-8859-1" debug="true" target="1.5" source="1.5"
@@ -321,7 +321,7 @@
     <target name="compile.junit.classes" depends="compile.classes,compile.junit.resources">
         <available file="${junitlib}" type="file" property="junit.present"/>
         <fail unless="junit.present" message="${junit.missing}"/>
-        
+
         <mkdir dir="${build.junit.classes}"/>
         <javac encoding="iso-8859-1" debug="true" target="1.5" source="1.5"
                srcdir="${src.dir}"
@@ -329,15 +329,15 @@
                classpath="${jdk14.classpath}:${build.classes}:${bytecodelib}:${junitlib}">
             <patternset refid="javatest.junit.packages"/>
         </javac>
-        
+
         <copy todir="${build.junit.classes}">
             <fileset dir="${legal.dir}">
                 <include name="copyright.txt"/>
             </fileset>
         </copy>
-        
+
     </target>
-    
+
     <target name="compile.javahelp">
         <presetdef name="jhindexer">
             <java fork="true" failonerror="true"
@@ -346,16 +346,16 @@
                   classname="com.sun.java.help.search.Indexer">
             </java>
         </presetdef>
-        
-        <delete dir="${build.javatestAgent.help}/default/JavaHelpSearch"/>             
+
+        <delete dir="${build.javatestAgent.help}/default/JavaHelpSearch"/>
         <delete dir="${build.javatest.help}/default/JavaHelpSearch"/>
         <copy todir="${build.classes}">
             <fileset dir="${src.dir}">
                 <patternset refid="helpset"/>
             </fileset>
         </copy>
-        
-        <!-- build the search index -->        
+
+        <!-- build the search index -->
         <jhindexer dir="${build.javatest.help}">
             <arg value="-c"/>
             <arg line="-db JavaHelpSearch"/>
@@ -366,18 +366,18 @@
             <arg line="-db JavaHelpSearch"/>
             <arg line="default"/>
         </jhindexer>
-        
+
         <move todir="${build.javatest.help}/default/JavaHelpSearch">
             <fileset dir="${build.javatest.help}/JavaHelpSearch"/>
         </move>
-        
+
         <move todir="${build.javatestAgent.help}/default/JavaHelpSearch">
             <fileset dir="${build.javatestAgent.help}/JavaHelpSearch"/>
         </move>
-        
+
     </target>
     <target name="compile-javatest.help" depends="compile-javatest.help.main,compile-javatestAgent.help"/>
-    
+
     <target name="compile.resources" depends="stamp">
         <copy todir="${build.classes}">
             <fileset dir="${src.dir}">
@@ -388,13 +388,13 @@
 	<mkdir dir="${build.classes}/META-INF/"/>
         <buildinfo/>
         <copy file="${src.dir}/com/sun/javatest/tool/i18n.properties"
-              tofile="${build.classes}/com/sun/javatest/tool/i18n_fr.properties"/>	
+              tofile="${build.classes}/com/sun/javatest/tool/i18n_fr.properties"/>
 	<mkdir dir="${build.classes}/META-INF/services"/>
         <copy file="${build.dir}/JavaTest.cmdMgrs.lst" tofile="${build.classes}/META-INF/services/com.sun.javatest.tool.CommandManager.lst"/>
         <copy file="${build.dir}/JavaTest.toolMgrs.lst" tofile="${build.classes}/META-INF/services/com.sun.javatest.tool.ToolManager.lst"/>
         <copy file="${build.dir}/com.sun.javatest.report.ReportFormat" tofile="${build.classes}/META-INF/services/com.sun.javatest.report.ReportFormat"/>
     </target>
-    
+
     <target name="compile.junit.resources" depends="stamp">
         <copy todir="${build.junit.classes}">
             <fileset dir="${src.dir}">
@@ -404,8 +404,8 @@
 	<mkdir dir="${build.classes}/META-INF/"/>
         <buildinfo/>
     </target>
-    
-    
+
+
     <target name="run" depends="compile" description="Run application.">
         <fail unless="run.class">${run.class.missing}</fail>
         <java fork="true" classname="${run.class}">
@@ -414,7 +414,7 @@
             </classpath>
         </java>
     </target>
-    
+
     <target name="javadoc" description="Creates API documentation for the JT Harness source.">
         <condition property="javadoc.add" value="${javadoc.additionalparam} -Xdoclint:none" else="${javadoc.additionalparam}">
             <contains string="${java.version}" substring="1.8" />
@@ -448,7 +448,7 @@
             <package name="com.sun.javatest.report" />
         </javadoc>
     </target>
-    
+
     <target name="test" depends="jar,test-nohead,test-i18n,test-copyrights,test-sanity" description="Runs test on JT Harness.">
         <java fork="true" failonerror="true" classname="${run.class}">
             <classpath>
@@ -458,7 +458,7 @@
             <arg value="-version"/>
         </java>
     </target>
-    
+
 	<target name="test-sanity" depends="test-sanity-version,test-sanity-simpletck" />
 
 	<target name="test-sanity-version" depends="jar">
@@ -523,7 +523,7 @@
     <target name="test-nohead" depends="dist" description="Runs all tests, which do not need display">
           <antcall target="test-statusmsg"/>
     </target>
-    
+
     <target name="test-statusmsg" depends="jar" description="Tests the message string filtering of the Status class">
         <junit fork="no" haltonerror="off" printsummary="withOutAndErr" filtertrace="off" showoutput="on">
             <classpath>
@@ -537,7 +537,7 @@
         <!-- copy across the help files -->
         <delete dir="${build.javatest.help}"/>
         <mkdir dir="${build.tmp}"/>
-        
+
         <copy todir="${build.javatest.help}" >
             <fileset dir="${src.dir}/com/sun/javatest/help/">
                 <patternset refid="helpset"/>
@@ -548,23 +548,23 @@
                 <patternset refid="helpset"/>
             </fileset>
         </copy>
-        
+
         <!-- build the glossary -->
-        <glossarygen mapDir="${src.javatest.help}/default" 
-                     mapOutFile="${build.tmp}/javatestGlossaryMap.xml" 
+        <glossarygen mapDir="${src.javatest.help}/default"
+                     mapOutFile="${build.tmp}/javatestGlossaryMap.xml"
                      xmlOutFile="${build.javatest.help}/default/glossary.xml"
                      dir="${src.javatest.help}/default/glossary">
             <include name="**/*.html"/>
         </glossarygen>
         <!-- build the index -->
-        <indexgen mapDir="${src.javatest.help}/default" 
-                  mapOutFile="${build.tmp}/javatestIndexMap.xml" 
+        <indexgen mapDir="${src.javatest.help}/default"
+                  mapOutFile="${build.tmp}/javatestIndexMap.xml"
                   xmlOutFile="${build.javatest.help}/default/index.xml"
                   dir="${src.javatest.help}/default">
             <include name="**/*.html"/>
             <exclude name="**/license.html"/>
         </indexgen>
-        <!-- build the combined map --> 
+        <!-- build the combined map -->
         <mapmerge outFile="${build.javatest.help}/default/map.xml">
             <fileset file="${src.javatest.help}/default/map.xml"/>
             <fileset file="${build.tmp}/javatestGlossaryMap.xml"/>
@@ -578,14 +578,14 @@
             <arg line="default"/>
         </jhindexer>
     </target>
-    
+
     <target name="check-javatest.help">
         <dependset>
             <srcfileset dir="${src.javatest.help}" />
             <targetfileset dir="${build.javatest.help}" />
         </dependset>
         <available property="javatest.help.ok" file="${build.javatest.help}/default/map.xml"/>
-    </target>    
+    </target>
     <target name="compile-javatestAgent.help" depends="ant-jct.utils" unless="javatestAgent.help.ok" >
         <!-- copy across the help files -->
         <copy todir="${build.javatestAgent.help}">
@@ -595,21 +595,21 @@
             </fileset>
         </copy>
         <!-- build the glossary -->
-        <glossarygen mapDir="${src.javatest.help}/default" 
-                     mapOutFile="${build.tmp}/javatestAgentGlossaryMap.xml" 
+        <glossarygen mapDir="${src.javatest.help}/default"
+                     mapOutFile="${build.tmp}/javatestAgentGlossaryMap.xml"
                      xmlOutFile="${build.javatestAgent.help}/default/glossary.xml"
                      dir="${src.javatestAgent.help}/default/glossary">
             <include name="**/*.html"/>
         </glossarygen>
         <!-- build the index -->
-        <indexgen mapDir="${src.javatest.help}/default" 
-                  mapOutFile="${build.tmp}/javatestAgentIndexMap.xml" 
+        <indexgen mapDir="${src.javatest.help}/default"
+                  mapOutFile="${build.tmp}/javatestAgentIndexMap.xml"
                   xmlOutFile="${build.javatestAgent.help}/default/index.xml"
                   dir="${src.javatestAgent.help}/default">
             <include name="**/*.html"/>
             <exclude name="**/license.html"/>
         </indexgen>
-        <!-- build the combined map --> 
+        <!-- build the combined map -->
         <mapmerge outFile="${build.javatestAgent.help}/default/map.xml">
             <fileset file="${src.javatestAgent.help}/default/map.xml"/>
             <fileset file="${build.tmp}/javatestAgentGlossaryMap.xml"/>
@@ -623,16 +623,16 @@
             <arg line="default"/>
         </jhindexer>
     </target>
-    
+
     <target name="check-javatestAgent.help">
         <dependset>
             <srcfileset dir="${src.javatestAgent.help}" />
             <targetfileset dir="${build.javatestAgent.help}" />
         </dependset>
         <available property="javatestAgent.help.ok" file="${build.javatestAgent.help}/default/map.xml"/>
-    </target>    
+    </target>
     <!-- ********** jct-utils ********************************************** -->
-    
+
     <target name="ant-jct.utils" depends="compile-jct.utils">
         <taskdef name="glossarygen" classname="com.sun.jct.utils.glossarygen.Main$$Ant" classpath="${build.classes}" />
         <taskdef name="indexgen" classname="com.sun.jct.utils.indexgen.Main$$Ant" classpath="${build.classes}" />
@@ -640,51 +640,51 @@
         <presetdef name="jhindexer">
             <java fork="true" failonerror="true"
                   dir="unset"
-                  classpath="${jhalljar}" 
+                  classpath="${jhalljar}"
                   classname="com.sun.java.help.search.Indexer">
             </java>
         </presetdef>
     </target>
-    
+
     <target name="compile-jct.utils">
-        <mkdir dir="${build.classes}"/>	    
+        <mkdir dir="${build.classes}"/>
         <javac encoding="iso-8859-1" debug="true" source="1.4"
-               srcdir="${src.dir}" 
+               srcdir="${src.dir}"
                destdir="${build.classes}">
             <include name="com/sun/jct/utils/glossarygen/**"/>
             <include name="com/sun/jct/utils/indexgen/**"/>
             <include name="com/sun/jct/utils/mapmerge/**"/>
         </javac>
     </target>
-    
+
     <!-- ********** examples ********************************************** -->
     <target name="build-examples" depends="build-tutorial"/>
-    
+
     <target name="build-tutorial" depends="jar">
         <property name="build.examples" location="${BUILD_DIR}/binaries/examples/tutorial"/>
         <mkdir dir="${build.tmp}/${exam.dir}/demoapi"/>
         <mkdir dir="${build.tmp}/${exam.dir}/simpleTags"/>
         <mkdir dir="${build.examples}/demots/lib"/>
-        
+
         <javac encoding="iso-8859-1" debug="true" source="1.4"
-               srcdir="${exam.dir}/tutorial/demoapi" 
+               srcdir="${exam.dir}/tutorial/demoapi"
                destdir="${build.tmp}/${exam.dir}/demoapi">
         </javac>
-        <jar destfile="${build.examples}/demots/lib/demoapi.jar" 
+        <jar destfile="${build.examples}/demots/lib/demoapi.jar"
              basedir="${build.tmp}/${exam.dir}/demoapi" index="false">
             <manifest>
                 <attribute name="Built-By"   value="${user.name}"/>
-                <attribute name="Main-Class" value="${run.class}"/>                
+                <attribute name="Main-Class" value="${run.class}"/>
             </manifest>
         </jar>
         <copy todir="${build.examples}/demots/lib">
             <fileset file="${BUILD_DIR}/binaries/lib/javatest.jar"/>
             <fileset file="${jhjar}"/>
         </copy>
-        
-        
+
+
         <javac encoding="iso-8859-1" debug="true" source="1.4"
-               srcdir="${exam.dir}/tutorial/simpleTags" 
+               srcdir="${exam.dir}/tutorial/simpleTags"
                destdir="${build.tmp}/${exam.dir}/simpleTags"
                classpath="${BUILD_DIR}/binaries/lib/javatest.jar:${build.examples}/demots/lib/demoapi.jar:${jhalljar}">
         </javac>
@@ -694,12 +694,12 @@
                 <include name="**/*.properties"/>
             </fileset>
         </copy>
-        
-        <jar destfile="${build.examples}/demots/lib/jtdemots.jar" 
+
+        <jar destfile="${build.examples}/demots/lib/jtdemots.jar"
              basedir="${build.tmp}/${exam.dir}/simpleTags" index="false">
             <manifest>
                 <attribute name="Built-By"   value="${user.name}"/>
-                <attribute name="Main-Class" value="${run.class}"/>                
+                <attribute name="Main-Class" value="${run.class}"/>
             </manifest>
         </jar>
         <copy todir="${build.examples}/demots">
@@ -711,11 +711,11 @@
         <copy todir="${build.examples}/demoapi">
             <fileset dir="${exam.dir}/tutorial/demoapi"/>
         </copy>
-        
-        
+
+
 	</target>
-	
-	
+
+
         <target name="build-services-ts" depends="build-tutorial">
 	    <property name="services.ts" location="${BUILD_DIR}/binaries/examples/services_ts"/>
 	    <mkdir dir="${build.tmp}/${exam.dir}/services_demo/classes"/>
@@ -756,7 +756,7 @@
 
 
 	<!--
-	********** copyright checker ********************************************** 
+	********** copyright checker **********************************************
 	-->
 	<property file="build/copyright.properties"/>
 	<target name="test-copyrights" depends="compile.test.copyright.classes">
