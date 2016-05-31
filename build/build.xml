@@ -1,8 +1,6 @@
 <?xml version='1.0' encoding='ISO-8859-1' ?>
 <!--
-  $Id$
-
-  Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+  Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  
   This code is free software; you can redistribute it and/or modify it
@@ -418,13 +416,17 @@
     </target>
     
     <target name="javadoc" description="Creates API documentation for the JT Harness source.">
+        <condition property="javadoc.add" value="${javadoc.additionalparam} -Xdoclint:none" else="${javadoc.additionalparam}">
+            <contains string="${java.version}" substring="1.8" />
+        </condition>
+
         <mkdir dir="${javadoc.dir}"/>
         <javadoc destdir="${javadoc.dir}" source="1.5" encoding="${javadoc.encoding}" notree="${javadoc.notree}" use="${javadoc.use}"
                  nonavbar="${javadoc.nonavbar}"
                  noindex="${javadoc.noindex}" splitindex="${javadoc.splitindex}" author="${javadoc.author}"
                  version="${javadoc.version}"
                  windowtitle="${javadoc.windowtitle}" private="${javadoc.private}"
-                 additionalparam="${javadoc.additionalparam}" failonerror="true"
+                 additionalparam="${javadoc.add}" failonerror="true"
                  useexternalfile="true">
             <classpath>
                 <path path="${jhjar}:${jcommjar}:${ant.home}/lib/ant.jar"/>
