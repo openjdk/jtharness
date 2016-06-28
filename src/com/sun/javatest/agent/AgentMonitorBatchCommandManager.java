@@ -182,13 +182,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
                 AgentManager mgr = AgentManager.access();
                 ActiveAgentPool pool = mgr.getActiveAgentPool();
 
-                // this line does not function correctly on locales
-                // other than English, it produces garbage as the
-                // thousands separator
-                //Integer p = new Integer(pool.getPort());
-                // warning: line below is not really i18n compliant
-                String p = Integer.toString(pool.getPort());
-                throw new Fault(i18n, "cmgr.listenOn.err", new Object[] {p,e});
+                throw new Fault(i18n, "cmgr.listenOn.err", new Object[] {pool.getPort(), e});
             }
         }
 

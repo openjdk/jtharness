@@ -2355,11 +2355,23 @@ public class Interview
         trimPath(q);
         predictPath(q);
         //showPath(this, q, 0);
+        verifyPredictPath();
 
         if (!pathContains(currPath[currPath.length - 1]))
             setCurrentQuestionFromPath(currPath);
 
         notifyPathUpdated();
+    }
+
+    private void verifyPredictPath(){
+        for (Object o : getInterviews()){
+            if (o instanceof Interview){
+                Interview i = (Interview) o;
+                if (i.path != null && i.currIndex >= i.path.size()){
+                    i.currIndex = i.path.size()-1;
+                }
+            }
+        }
     }
 
     /* useful debug routine

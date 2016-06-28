@@ -594,7 +594,16 @@ public class KflSorter {
                             continue;
                         }
                         Status stat = Status.parse(m.group(2));
-                        result.put(tcName, stat);
+                        if (result.containsKey(tcName)){
+                            // testcases with the same name are marked as passed
+                            // only if all these testcases are passed
+                            if (!stat.isPassed()){
+                                result.put(tcName, stat);
+                            }
+                        }
+                        else {
+                            result.put(tcName, stat);
+                        }
                     }
                     s = reader.readLine();
                 }
