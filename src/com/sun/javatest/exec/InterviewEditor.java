@@ -206,7 +206,14 @@ public class InterviewEditor extends ToolDialog {
      * Starts editing new config. Supposed to be called outside.
      */
     public void newConfig() {
-        viewConfig.clear();
+        try {
+            InterviewParameters newConfig = viewConfig.getTestSuite().createInterview();
+            copy(newConfig, viewConfig);
+        } catch (TestSuite.Fault e) {
+            uif.showError("ce.show.error", e.getMessage());
+        } catch (Interview.Fault e) {
+            uif.showError("ce.show.error", e.getMessage());
+        }
         show(FULL_MODE);
     }
 
