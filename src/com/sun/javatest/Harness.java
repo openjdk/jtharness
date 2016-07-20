@@ -693,33 +693,12 @@ public class Harness
             env.putUrlAndFile("testSuiteRootDir", testSuite.getRootDir());
         }
 
+
+        // notify the test suite we are starting
+        testSuite.starting(this);
+        notifier.startingTestRun(params);
+
         testIter = createTreeIterator();
-//      // get items required to select the tests to be run
-//      String[] tests = params.getTests();
-//      TestFilter[] filters = params.getFilters();
-//
-//      resultTable.waitUntilReady();
-//
-//      // get the appropriate iterator from TRT
-//      if (tests == null || tests.length == 0)
-//          testIter = resultTable.getIterator(filters);
-//      else {
-//          try {
-//              // CLEANUP REQUIRED: validation only occurs on Files, not Strings
-//              // resultTable.getIterator should validate strings too
-//              File[] files = new File[tests.length];
-//              for (int i = 0; i < tests.length; i++)
-//                  files[i] = new File(tests[i]);
-//              testIter = resultTable.getIterator(files, filters);
-//          }
-//          catch (TestResultTable.Fault err) {
-//              throw new Harness.Fault(i18n, "harness.badInitFiles",
-//                                      err.getMessage());
-//          }
-//      }
-//      // attach a read ahead iterator
-//      // use testIter to get specialized info, use raTestIter to get tests
-//      raTestIter = new ReadAheadIterator(testIter, readAheadMode, DEFAULT_READ_AHEAD);
         raTestIter = getTestsIterator(testIter);
 
         // autostopThreshold is currently defined by a system property,
@@ -727,13 +706,7 @@ public class Harness
         if (autostopThreshold > 0)
             addObserver(new Autostop(autostopThreshold));
 
-        // notify the test suite we are starting
-        testSuite.starting(this);
-
-        notifier.startingTestRun(params);
-
         TestRunner r = testSuite.createTestRunner();
-
         r.setWorkDirectory(workDir);
         r.setBackupPolicy(backupPolicy);
         r.setEnvironment(env);
