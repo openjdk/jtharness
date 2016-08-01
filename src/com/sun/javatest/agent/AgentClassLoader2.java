@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -42,7 +42,7 @@ import java.util.MissingResourceException;
 class AgentClassLoader2 extends ClassLoader {
 
     private CodeSource cs = null;
-    private final HashMap<CodeSource, ProtectionDomain> pdcache = new HashMap<CodeSource, ProtectionDomain>(11);
+    private final HashMap<CodeSource, ProtectionDomain> pdcache = new HashMap<>(11);
     private static volatile AgentClassLoader2 instance = null;
 
     public AgentClassLoader2(Agent.Task parent) {
@@ -92,6 +92,24 @@ class AgentClassLoader2 extends ClassLoader {
         }
         instance.parent = parent;
         return instance;
+    }
+
+    public Class loadClassLocal(String name) throws ClassNotFoundException {
+        Class target = null;
+System.out.println("FORCE REMOTE " + name);
+        try {
+            target = findClass(name);
+        } catch (ClassNotFoundException e) {
+            // not found remote, search locally
+            // this is reverse of normal CL operation
+            target = super.loadClass(name);
+            //target = findSystemClass(name);
+        } catch (NoClassDefFoundError e2) {
+            target = super.loadClass(name);
+            //target = findSystemClass(name);
+        }
+
+        return target;
     }
 
 

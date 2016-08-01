@@ -595,8 +595,8 @@ public class Agent implements Runnable {
     static final byte STATUS = (byte)'S';
 
     static final String productName = "JT Harness Agent";
-    static final String productVersion = "JTA_4.6";
-    static final String productCopyright = "Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.";
+    static final String productVersion = "JTA_5.0";
+    static final String productCopyright = "Copyright (c) 1996, 2016, Oracle and/or its affiliates. All rights reserved.";
 
 
     /**
@@ -779,18 +779,24 @@ public class Agent implements Runnable {
                 ClassLoader cl = null;
                 if (remoteClasses) {
                     cl = getAgentClassLoader(sharedClassLoader);
-                    c = cl.loadClass(className);
-                } else
+                    if (cl instanceof AgentClassLoader2) {
+                        c = ((AgentClassLoader2)cl).loadClassLocal(className);
+                    }
+                    else {
+                        c = cl.loadClass(className);
+                    }
+                } else {
                     c = Class.forName(className);
-
+                }
                 if (request.equals("executeTest")) {
                     return executeTest(c, args, testLog, testRef);
                 } else if (request.equals("executeCommand")) {
                     return executeCommand(c, args, testLog, testRef, cl);
                 } else if (request.equals("executeMain")) {
                     return executeMain(c, args, testLog, testRef);
-                } else
+                } else {
                     return Status.error("Unrecognized request for agent: `" + request + "'");
+                }
             } catch (ClassCastException e) {
                 if (tracing)
                     e.printStackTrace(traceOut);

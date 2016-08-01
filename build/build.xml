@@ -288,10 +288,10 @@
         <fail unless="servlet.present" message="${servlet.missing}"/>
 
         <mkdir dir="${build.classes}"/>
-        <javac encoding="iso-8859-1" debug="true" target="1.1" source="1.2"
+        <javac encoding="iso-8859-1" debug="true"
                srcdir="${src.dir}"
                destdir="${build.classes}"
-               classpath="${jdk11.classpath}:${jcommjar}>">
+               classpath="${jcommjar}">
             <patternset refid="javatest.jdk11.files"/>
         </javac>
         <javac encoding="iso-8859-1" debug="true" target="1.5" source="1.5"
