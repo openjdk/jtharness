@@ -313,6 +313,11 @@ public class TestSuite
                 throw new Fault(i18n, "ts.notASubtype",
                                 new Object[] {className, "testsuite", TestSuite.class.getName()});
             }
+            catch (UnsupportedClassVersionError uce){
+                throw new Fault(i18n, "ts.compiledRecentVersion",
+                        new Object[] {className, "testsuite", TestSuite.class.getName(),
+                                System.getProperty("java.version"), root.getPath()});
+            }
 
             String[] args = new String[tsClassAndArgs.length - 1];
             System.arraycopy(tsClassAndArgs, 1, args, 0, args.length);
