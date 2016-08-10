@@ -34,9 +34,12 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.sun.javatest.logging.WorkDirLogHandler;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.Fifo;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.util.logging.Handler;
 import java.util.logging.Logger;
 
 /**
@@ -446,6 +449,22 @@ public class TestResultCache {
         }
         catch (InterruptedException e) {
             // ignore
+        }
+
+        try {
+            if (workDir != null && workDir.getTestSuite() != null) {
+                Logger log = workDir.getTestSuite().getLog(workDir, i18n.getString("core.log.name"));
+                if (log != null && log.getHandlers() != null) {
+                    for (Handler handler : log.getHandlers()) {
+                        if (handler instanceof WorkDirLogHandler) {
+                            ((WorkDirLogHandler) handler).close();
+                        }
+                    }
+                }
+            }
+        }
+        catch (TestSuite.NoSuchLogFault noSuchLogFault) {
+            //nothing to do
         }
 
         // important to avoid memory leak !!!
