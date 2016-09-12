@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -779,15 +779,11 @@ public class Agent implements Runnable {
                 ClassLoader cl = null;
                 if (remoteClasses) {
                     cl = getAgentClassLoader(sharedClassLoader);
-                    if (cl instanceof AgentClassLoader2) {
-                        c = ((AgentClassLoader2)cl).loadClassLocal(className);
-                    }
-                    else {
-                        c = cl.loadClass(className);
-                    }
+                    c = cl.loadClass(className);
                 } else {
                     c = Class.forName(className);
                 }
+
                 if (request.equals("executeTest")) {
                     return executeTest(c, args, testLog, testRef);
                 } else if (request.equals("executeCommand")) {
