@@ -141,6 +141,12 @@ public class HTMLReport implements ReportFormat {
                 out.endTag(HTMLWriterEx.H2);
             }
 
+            if (s.getTestFilter() != null && s.getTestFilter().getName() != null) {
+                out.startTag(HTMLWriterEx.H3);
+                out.writeI18N("report.filter", s.getTestFilter().getName());
+                out.endTag(HTMLWriterEx.H3);
+            }
+
             // info from sections for main report
             out.startTag(HTMLWriterEx.UL);
             for (int i = 0; i < mainSections.length; i++) {
