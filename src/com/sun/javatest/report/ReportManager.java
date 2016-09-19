@@ -28,8 +28,7 @@ package com.sun.javatest.report;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.ListIterator;
+import java.util.*;
 
 import com.sun.javatest.AllTestsFilter;
 import com.sun.javatest.CompositeFilter;
@@ -137,7 +136,10 @@ public class ReportManager
                 else if (arg.equals("-type")) {
                     if (!argIter.hasNext())
                         throw new Fault(i18n, "rm.writeReport.missingArg");
-                    type = nextArg(argIter);
+                    if (types == null) {
+                        types = new ArrayList<String>();
+                    }
+                    types.add(nextArg(argIter));
                 }
                 else if (arg.equalsIgnoreCase("-kfl") ||
                          arg.equalsIgnoreCase("-enableKFL")) {
@@ -233,7 +235,8 @@ public class ReportManager
                 // TEMP add p.getFilters -- in time, Report API should
                 // provide more flexible reporting options
                 Report r = new Report(p, path, filterO);
-                r.writeReport(type);
+                String[] typesArgs = types == null ? null : types.toArray(new String[types.size()]);
+                r.writeReport(typesArgs);
 
                 File cPath;
                 try {
@@ -253,7 +256,7 @@ public class ReportManager
 
         private File path;
         private boolean createFlag;
-        private String type;
+        private List<String> types;
         private String filter;
     }
 

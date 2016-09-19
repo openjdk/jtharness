@@ -170,22 +170,22 @@ public class Report implements ReportModel {
      * from the preferences will be used.
      * @throws IllegalArgumentException if the type parameter does not
      *         identify a proper report type.
-     * @param type The report type identifier, may be a custom type.
+     * @param types The report type identifiers, may be a custom type.
      *              null for default generated reports
      * @throws java.io.IOException If an error occurs writing any of the files.
      */
-    public void writeReport(String type) throws IOException {
+    public void writeReport(String... types) throws IOException {
         // make a settings object - default settings
         //Settings settings = new Settings(params);
         ReportSettings settings = getSettingsPrefs();
         settings.setInterview(params);
 
         String[] typesToGen;
-        if (type == null) {
+        if (types == null) {
             // if type is not specified generate html and plain text
             typesToGen = new String[] {"html", "txt"};
         } else {
-            typesToGen = new String[] {type};
+            typesToGen = Arrays.copyOf(types, types.length);
         }
 
         // this setting can originate in a legacy constructor
@@ -213,7 +213,10 @@ public class Report implements ReportModel {
             doCLReport(rf, settings, typesToGen, links);
         }
         if (links.isEmpty()) {
-            throw new IllegalArgumentException("Unknown report type: " + type);
+            throw new IllegalArgumentException("Unknown report types: " + Arrays.toString(types));
+        }
+        if (links.size() != typesToGen.length) {
+            throw new IllegalArgumentException("Not all report types are known: " + Arrays.toString(types));
         }
 
         updateStaffFiles(reportDir, settings, links);
