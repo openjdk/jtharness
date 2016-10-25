@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -460,23 +460,8 @@ public class AgentManager
                 case Agent.CLASS:
                     String className = in.readUTF();
                     //System.err.println("received request for " + className);
-                    byte[] classData = locateClass(className);
-                    if (classData == null)
-                        //System.err.println("class not found: " + className);
-                        out.writeInt(0);
-                    else {
-                        //System.err.println(classData.length);
-                        //for (int i = 0; i < Math.min(10, classData.length); i++) {
-                        //    System.err.print(classData[i] + " ");
-                        //}
-                        //System.err.print(" ... ");
-                        //for (int i = Math.max(0, classData.length - 10); i < classData.length; i++) {
-                        //    System.err.print(classData[i] + " ");
-                        //}
-                        //System.err.println();
-                        out.writeInt(classData.length);
-                        out.write(classData, 0, classData.length);
-                    }
+                    AgentRemoteClassData classData = locateClass(className);
+                    classData.write(out);
                     out.flush();
                     break;
 
@@ -552,7 +537,7 @@ public class AgentManager
             return status;
         }
 
-        private byte[] locateClass(String name) {
+        private AgentRemoteClassData locateClass(String name) {
             //System.err.println("locateClass: " + name);
             if (classPath != null) {
                 String cname = name.replace('.', '/') + ".class";
@@ -562,12 +547,20 @@ public class AgentManager
                         data = readFromDir(cname, classPath[i]);
                     else
                         data = readFromJar(cname, classPath[i]);
-                    if (data != null)
-                        return data;
+                    if (data != null) {
+                        String codeSource = "";
+                        try {
+                            codeSource = classPath[i].toURI().toURL().getPath();
+                        } catch (IOException e) {
+                            //codeSource will not be set
+                        }
+                        AgentRemoteClassData classData = new AgentRemoteClassData(name, codeSource, data);
+                        return classData;
+                    }
                 }
             }
 
-            return null;
+            return AgentRemoteClassData.NO_CLASS_DATA;
         }
 
         private byte[] locateData(String name) {

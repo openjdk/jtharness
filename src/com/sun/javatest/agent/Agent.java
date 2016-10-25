@@ -37,6 +37,7 @@ import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.MissingResourceException;
 import java.util.Vector;
@@ -574,7 +575,7 @@ public class Agent implements Runnable {
     }
 
     // The following is used to ensure consistency between Agent and AgentManager
-    static final short protocolVersion = 104;
+    static final short protocolVersion = 105;
 
     /**
      * The default port to which active agents will try and connect on a nominated host.
@@ -844,7 +845,81 @@ public class Agent implements Runnable {
 
             Command tc = (Command)(c.newInstance());
             tc.setClassLoader(cl);
-            return tc.run(args, testLog, testRef);
+            return new CommandExecutor(tc, args, testLog, testRef).execute();
+        }
+
+        private class CommandExecutor {
+
+            private String[] args;
+            private PrintWriter testLog;
+            private PrintWriter testRef;
+            private Command tc;
+            private Status result;
+
+            private final Object LOCK = new Object();
+            private boolean executed = false;
+            private boolean timeout = false;
+
+            public CommandExecutor(Command tc, String[] args, PrintWriter testLog,
+                                        PrintWriter testRef) {
+                this.args = args;
+                this.testLog = testLog;
+                this.testRef = testRef;
+                this.tc = tc;
+            }
+
+            public Status execute(){
+
+                Thread waitThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            connection.waitUntilClosed(Integer.MAX_VALUE);
+                            result = Status.failed("Marked as failed by timeout from JavaTest side");
+                            timeout = true;
+                            synchronized (LOCK) {
+                                LOCK.notifyAll();
+                            }
+                        } catch (InterruptedException e) {
+                            // nothing to do here
+                        }
+                    }
+                }, "CommandExecutor waitThread for command args: "+ Arrays.toString(args));
+                waitThread.setDaemon(true);
+                waitThread.start();
+
+                Thread executeThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        result = tc.run(args, testLog, testRef);
+                        executed = true;
+                        synchronized (LOCK) {
+                            LOCK.notifyAll();
+                        }
+                    }
+                }, "CommandExecutor executeThread for command args: "+ Arrays.toString(args));
+                executeThread.start();
+
+                synchronized (LOCK) {
+                    while (!executed && !timeout) {
+                        try {
+                            LOCK.wait();
+                        }
+                        catch (InterruptedException e) {
+                            // treat interrupt as exit request
+                            break;
+                        }
+                    }
+                }
+
+                waitThread.setPriority(Thread.MIN_PRIORITY);
+                executeThread.setPriority(Thread.MIN_PRIORITY);
+                waitThread.interrupt();
+                executeThread.interrupt();
+
+                return result;
+            }
+
         }
 
         private Status executeMain(Class c, String[] args,
@@ -959,7 +1034,7 @@ public class Agent implements Runnable {
         /**
          * Get the bytecodes for a class
          */
-        synchronized byte[] getClassData(String className) throws ClassNotFoundException {
+        synchronized AgentRemoteClassData getClassData(String className) throws ClassNotFoundException {
             if (tracing)
                 traceOut.println("REMOTE LOAD " + className);
 
@@ -968,31 +1043,11 @@ public class Agent implements Runnable {
                 out.writeUTF(className);
                 out.flush();
 
-                int size = in.readInt();
-                if (size == 0)
-                    throw new ClassNotFoundException(className);
-
-                byte[] data = new byte[size];
-                int offset = 0;
-                while (offset < data.length) {
-                    int n = in.read(data, offset, data.length - offset);
-                    if (n == -1)
-                        throw new ClassNotFoundException(className + ": EOF while reading class data");
-                    else
-                        offset += n;
+                AgentRemoteClassData classData = new AgentRemoteClassData(in);
+                if (tracing) {
+                    traceOut.println("REMOTE LOADED CLASS " + classData.toString());
                 }
-
-                //System.err.println(data.length);
-                //for (int i = 0; i < min(10, data.length); i++) {
-                //    System.err.print(data[i] + " ");
-                //}
-                //System.err.print(" ... ");
-                //for (int i = max(0, data.length - 10); i < data.length; i++) {
-                //    System.err.print(data[i] + " ");
-                //}
-                //System.err.println();
-
-                return data;
+                return classData;
             } catch (IOException e) {
                 throw new ClassNotFoundException(className + ": " + e);
             }

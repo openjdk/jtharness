@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
+import java.security.CodeSigner;
 import java.security.CodeSource;
 import java.security.PermissionCollection;
 import java.security.Permissions;
@@ -117,14 +118,27 @@ System.out.println("FORCE REMOTE " + name);
     public Class findClass(String className) throws ClassNotFoundException {
         if (className != null) {
             int i = className.lastIndexOf('.');
-            if (i>0) {
-                String pkgName = className.substring(0,i);
+            if (i > 0) {
+                String pkgName = className.substring(0, i);
                 if (getPackage(pkgName) == null) {
                     definePackage(pkgName, null, null, null, null, null, null, null);
                 }
             }
-            byte[] data = parent.getClassData(className);
-            return defineClass(className, data, 0, data.length, getProtectionDomain(cs));
+            AgentRemoteClassData classData = parent.getClassData(className);
+            ProtectionDomain pd = null;
+            if (classData != null && classData.getCodeSource() != null) {
+                try {
+                    pd = getProtectionDomain(new CodeSource(new URL("file:" + classData.getCodeSource()), (CodeSigner[]) null));
+                } catch (IOException e) {
+                    // ProtectionDomain will be replaced
+                }
+            }
+            if (pd == null) {
+                pd = getProtectionDomain(cs);
+            }
+
+            return defineClass(className, classData.getByteData(), 0, classData.getByteData().length, pd);
+
         }
         throw new ClassNotFoundException();
     }

@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2003, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -55,8 +55,8 @@ class AgentClassLoader extends ClassLoader {
                 }
             }
             catch (ClassNotFoundException e) {
-                byte[] data = parent.getClassData(className);
-                c = defineClass(className, data, 0, data.length);
+                AgentRemoteClassData data = parent.getClassData(className);
+                c = defineClass(className, data.getByteData(), 0, data.getByteData().length);
             }
         }
 
