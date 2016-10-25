@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2016, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
+import java.net.URLEncoder;
 
 /**
  * A class to facilitate writing HTML via a stream.
@@ -338,10 +339,15 @@ public class HTMLWriter
     public void writeLink(File file, String body) throws IOException {
         startTag(A);
         StringBuffer sb = new StringBuffer();
-        String path = file.getPath().replace(File.separatorChar, '/');
+        String path = file.getPath();
         if (file.isAbsolute() && !path.startsWith("/"))
             sb.append('/');
-        sb.append(path);
+
+        for (int i = 0; i < path.length(); i++){
+            String pathSymbol = path.charAt(i) == File.separatorChar ? "/" :
+                    URLEncoder.encode(String.valueOf(path.charAt(i)), "UTF-8");
+            sb.append(pathSymbol);
+        }
         writeAttr(HREF, sb.toString());
         write(body);
         endTag(A);
