@@ -70,6 +70,7 @@ public class PassiveAgentCommand extends Command
         String host = null;
         int port = -1;
         String tag = null;
+        int timeout = 0;
         boolean localizeArgs = false;
 
         // analyze options
@@ -96,6 +97,14 @@ public class PassiveAgentCommand extends Command
             }
             else if ((args[i].equals("-t") || args[i].equals("-tag")) && i+1 < args.length) {
                 tag = args[++i];
+            }
+            else if ((args[i].equals("-ct") || args[i].equals("-commandTimeout")) && i+1 < args.length) {
+                try {
+                    timeout = Integer.parseInt(args[++i]);
+                }
+                catch (NumberFormatException e) {
+                    return Status.error("bad commandTimeout number: " + args[i]);
+                }
             }
             else
                 return Status.error("Unrecognized option: " + args[i]);
@@ -133,6 +142,7 @@ public class PassiveAgentCommand extends Command
                 t.setClassPath(classPath);
 
             t.setSharedClassLoader(sharedCl);
+            t.setAgentCommandTimeout(timeout);
 
             err.println("Executing command via " + t.getConnection().getName());
 

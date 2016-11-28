@@ -65,6 +65,7 @@ public class ActiveAgentCommand extends Command
         String tag = null;
         boolean localizeArgs = false;
         boolean sharedCl = false;
+        int timeout = 0;
 
         // analyze options
         int i = 0;
@@ -80,7 +81,16 @@ public class ActiveAgentCommand extends Command
             } else if (args[i].equalsIgnoreCase("-sharedClassLoader") ||
                        args[i].equalsIgnoreCase("-sharedCl")) {
                 sharedCl = true;
-            } else {
+            }
+            else if ((args[i].equals("-ct") || args[i].equals("-commandTimeout")) && i+1 < args.length) {
+                try {
+                    timeout = Integer.parseInt(args[++i]);
+                }
+                catch (NumberFormatException e) {
+                    return Status.error("bad commandTimeout number: " + args[i]);
+                }
+            }
+            else {
                 return Status.error("Unrecognized option: " + args[i]);
             }
         }
@@ -109,6 +119,7 @@ public class ActiveAgentCommand extends Command
                 t.setClassPath(classPath);
 
             t.setSharedClassLoader(sharedCl);
+            t.setAgentCommandTimeout(timeout);
 
             out.println("Executing command via " + t.getConnection().getName());
 

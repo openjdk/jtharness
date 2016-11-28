@@ -765,6 +765,11 @@ public class Agent implements Runnable {
                 traceOut.println("sharedClassLoader: " + sharedClassLoader);
             }
 
+            timeoutValue = in.readInt();
+
+            if (tracing)
+                traceOut.println("COMMAND TIMEOUT(seconds) IS `" + timeoutValue + "'");
+
             byte guard = in.readByte();
             if (guard != 0)
                 throw new IOException("data format error");
@@ -845,7 +850,7 @@ public class Agent implements Runnable {
 
             Command tc = (Command)(c.newInstance());
             tc.setClassLoader(cl);
-            return new CommandExecutor(tc, args, testLog, testRef).execute();
+            return new CommandExecutor(tc, args, testLog, testRef, timeoutValue).execute();
         }
 
         private class CommandExecutor {
@@ -859,34 +864,32 @@ public class Agent implements Runnable {
             private final Object LOCK = new Object();
             private boolean executed = false;
             private boolean timeout = false;
+            private int timeoutValue = 0;
 
             public CommandExecutor(Command tc, String[] args, PrintWriter testLog,
-                                        PrintWriter testRef) {
+                                        PrintWriter testRef, int timeoutValue) {
                 this.args = args;
                 this.testLog = testLog;
                 this.testRef = testRef;
                 this.tc = tc;
+                this.timeoutValue = timeoutValue;
             }
 
             public Status execute(){
 
-                Thread waitThread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            connection.waitUntilClosed(Integer.MAX_VALUE);
-                            result = Status.failed("Marked as failed by timeout from JavaTest side");
+                if (timeoutValue != 0) {
+                    Timer alarmTimer = new Timer();
+                    alarmTimer.requestDelayedCallback(new Timer.Timeable() {
+                        @Override
+                        public void timeout() {
+                            result = Status.error("Marked as error by timeout after "+timeout+" seconds");
                             timeout = true;
                             synchronized (LOCK) {
                                 LOCK.notifyAll();
                             }
-                        } catch (InterruptedException e) {
-                            // nothing to do here
                         }
-                    }
-                }, "CommandExecutor waitThread for command args: "+ Arrays.toString(args));
-                waitThread.setDaemon(true);
-                waitThread.start();
+                    }, timeoutValue * 1000);
+                }
 
                 Thread executeThread = new Thread(new Runnable() {
                     @Override
@@ -912,9 +915,7 @@ public class Agent implements Runnable {
                     }
                 }
 
-                waitThread.setPriority(Thread.MIN_PRIORITY);
                 executeThread.setPriority(Thread.MIN_PRIORITY);
-                waitThread.interrupt();
                 executeThread.interrupt();
 
                 return result;
@@ -1114,6 +1115,7 @@ public class Agent implements Runnable {
             if (classLoaderConstructor == null) {
                 try {
                     classLoaderConstructor = classLoaderClass.getDeclaredConstructor(argTypes);
+                    classLoaderConstructor.setAccessible(true);
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
                 }
@@ -1144,6 +1146,7 @@ public class Agent implements Runnable {
         private DataOutputStream out;
         private String tag;
         private String request;
+        private Integer timeoutValue;
     }
 
     private static Constructor classLoaderConstructor;
@@ -1179,8 +1182,12 @@ class AgentWriter extends Writer {
     public synchronized void write(int ch) throws IOException {
         buf[count++] = (char)ch;
         if (count == buf.length) {
-            parent.sendChars(type, buf, 0, count);
-            count = 0;
+            try {
+                parent.sendChars(type, buf, 0, count);
+            }
+            finally {
+                count = 0;
+            }
         }
     }
 
@@ -1231,8 +1238,12 @@ class AgentWriter extends Writer {
                 case Agent.LOG: type = Agent.LOG_FLUSH; break;
                 case Agent.REF: type = Agent.REF_FLUSH; break;
             }
-            parent.sendChars(type, buf, 0, count);
-            count = 0;
+            try {
+                parent.sendChars(type, buf, 0, count);
+            }
+            finally {
+                count = 0;
+            }
         }
     }
 

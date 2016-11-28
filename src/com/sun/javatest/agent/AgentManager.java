@@ -310,6 +310,14 @@ public class AgentManager
         }
 
         /**
+         * Set the timeout after command thread will be interrupted on the agent
+         * @param timeout value in seconds
+         */
+        public void setAgentCommandTimeout(int timeout) {
+            this.timeout = timeout;
+        }
+
+        /**
          * Request the agent for this client to execute a standard Test class.
          * @param tag   A string to identify the request in debug and trace output.
          * @param className The name of the class to execute. The class must be an
@@ -419,6 +427,7 @@ public class AgentManager
                 out.writeBoolean(localizeArgs);
                 out.writeBoolean(classPath != null); // specify remoteClasses if classPath has been given
                 out.writeBoolean(sharedCl);
+                out.writeInt(timeout);
                 out.writeByte(0);
                 out.flush();
 
@@ -656,6 +665,7 @@ public class AgentManager
 
         private File[] classPath;
         private boolean sharedCl;
+        private int timeout = 0;
         private Hashtable zips = new Hashtable();
     }
 

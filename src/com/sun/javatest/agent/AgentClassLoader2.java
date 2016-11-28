@@ -40,14 +40,14 @@ import java.security.ProtectionDomain;
 import java.util.HashMap;
 import java.util.MissingResourceException;
 
-class AgentClassLoader2 extends ClassLoader {
+class AgentClassLoader2 extends InstantiationClassLoader {
 
     private CodeSource cs = null;
     private final HashMap<CodeSource, ProtectionDomain> pdcache = new HashMap<CodeSource, ProtectionDomain>(11);
     private static volatile AgentClassLoader2 instance = null;
 
-    public AgentClassLoader2(Agent.Task parent) {
-        super(parent.getClass().getClassLoader());
+    private AgentClassLoader2(Agent.Task parent, ClassLoader cl) {
+        super(cl);
         this.parent = parent;
 
         SecurityManager security = System.getSecurityManager();
@@ -65,6 +65,9 @@ class AgentClassLoader2 extends ClassLoader {
         }
     }
 
+    private AgentClassLoader2(Agent.Task parent) {
+        this(parent, parent.getClass().getClassLoader());
+    }
 
     private ProtectionDomain getProtectionDomain(CodeSource cs) {
         ProtectionDomain pd = null;
@@ -197,6 +200,18 @@ System.out.println("FORCE REMOTE " + name);
     }*/
 
     private Agent.Task parent;
+
+    @Override
+    public ClassLoader newClassLoaderInstance(ClassLoader parentCL) throws InstantiationStateException {
+        if (instance == null || !instance.equals(this)) {
+            synchronized (AgentClassLoader2.class) {
+                if (instance == null || !instance.equals(this)) {
+                    return new AgentClassLoader2(parent, parentCL);
+                }
+            }
+        }
+        throw new InstantiationStateException("Only one instance of the "+getClass().getName()+" class could exist");
+    }
 
     private class AgentURLStreamHandler extends URLStreamHandler {
         AgentURLStreamHandler(byte[] bytes) {
