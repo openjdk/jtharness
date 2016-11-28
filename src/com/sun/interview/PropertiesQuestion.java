@@ -758,7 +758,6 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      */
     public String getGroupDisplayName(String group) {
         ResourceBundle b = interview.getResourceBundle();
-        presentationKeys = new HashMap();
         String rn = tag + "." + group + ".group";
 
         try {
@@ -820,9 +819,33 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      */
     public String getConstraintKeyFromRow(Object[] values) {
         if (values != null && values.length > 0 )
-            return values[0].toString();
+            return getKeyProperty(values[0].toString());
         else
             return "";
+    }
+
+    /**
+     * Get the property name for displayed key value in the table
+     * @param key value of the key in the table
+     * @return key or the property name for the key
+     */
+    public String getKeyProperty(String key){
+        if (presentationKeys != null){
+            for (Object keyProperty : presentationKeys.keySet()){
+                if (key.equals(presentationKeys.get(keyProperty))){
+                    return (String) keyProperty;
+                }
+            }
+        }
+
+        return key;
+    }
+
+    /**
+     * Returns the localized key values to display
+     */
+    public HashMap getPresentationKeys(){
+        return presentationKeys;
     }
 
     /**

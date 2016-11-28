@@ -40,6 +40,7 @@ import javax.accessibility.AccessibleContext;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -66,7 +67,8 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
         tables = new HashMap();
 
-        panel = new JPanel(new GridBagLayout());
+        panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setName("properties");
         panel.setFocusable(false);
 
@@ -161,19 +163,10 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
         if (model.getRowCount() == 0)
             return;
 
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx = 0;
-        c.gridy = tables.size() * 4;
-        c.anchor = GridBagConstraints.PAGE_START;
-        c.weightx = 1.0;
-        c.fill = GridBagConstraints.BOTH;
-
-        if (c.gridy > 0) {
-            Component box = Box.createVerticalStrut(40);
+        if (tables.size() == 0) {
+            Component box = Box.createVerticalStrut(20);
             box.setFocusable(false);
-            c.weighty = 1.0;
-            panel.add(box, c);
-            c.weighty = 0.0;
+            panel.add(box);
         }
 
         // null group is for ungrouped properties
@@ -182,7 +175,10 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
             label.setName(question.getGroupDisplayName(group));
             //label.setDisplayedMnemonic(i18n.getString("int.sldr.mne").charAt(0));
             //label.setToolTipText(i18n.getString("int.sldr.tip"));
-            panel.add(label, c);
+            panel.add(label);
+            Component box = Box.createVerticalStrut(5);
+            box.setFocusable(false);
+            panel.add(box);
         }
         /*
         else {
@@ -214,12 +210,14 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
             tc.setResizable(true);
         }
 
-        c.gridy++;
         //panel.add(new JScrollPane(table), c);
-        panel.add(table.getTableHeader(), c);
+        panel.add(table.getTableHeader());
 
-        c.gridy++;
-        panel.add(table, c);
+        panel.add(table);
+
+        Component box = Box.createVerticalStrut(20);
+        box.setFocusable(false);
+        panel.add(box);
 
         tables.put(group, table);
     }
@@ -271,7 +269,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
                 return false;
 
             if ( column == 1 &&
-                    question.isReadOnlyValue((String)(getValueAt(row, 0))) )
+                    question.isReadOnlyValue(question.getKeyProperty((String)getValueAt(row, 0))) )
                 return false;
 
             return true;
@@ -320,6 +318,13 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
                     d = d2;
                 }
+
+                for (int i = 0; i < d.length; i++){
+                    if (q.getPresentationKeys() != null && q.getPresentationKeys().get(d[i][0]) != null){
+                        d[i][0] = (String) q.getPresentationKeys().get(d[i][0]);
+                    }
+                }
+
                 setDataVector(d, headers);
             }
 
@@ -342,7 +347,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
         public void setValueAt(Object o, int row, int col) {
             if (col == 1) {
-                String key = (String)(getValueAt(row, 0));
+                String key = q.getKeyProperty((String)(getValueAt(row, 0)));
 
                 q.updateProperty(key, (String)o);
                 fireEditedEvent(this, editedListener);
