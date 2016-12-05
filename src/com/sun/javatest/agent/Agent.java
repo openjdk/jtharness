@@ -877,8 +877,9 @@ public class Agent implements Runnable {
 
             public Status execute(){
 
+                Timer alarmTimer = null;
                 if (timeoutValue != 0) {
-                    Timer alarmTimer = new Timer();
+                    alarmTimer = new Timer();
                     alarmTimer.requestDelayedCallback(new Timer.Timeable() {
                         @Override
                         public void timeout() {
@@ -917,6 +918,9 @@ public class Agent implements Runnable {
 
                 executeThread.setPriority(Thread.MIN_PRIORITY);
                 executeThread.interrupt();
+                if (alarmTimer != null){
+                    alarmTimer.finished();
+                }
 
                 return result;
             }
