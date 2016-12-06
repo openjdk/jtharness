@@ -287,17 +287,12 @@
         <available file="${servletjar}" type="file" property="servlet.present"/>
         <fail unless="servlet.present" message="${servlet.missing}"/>
 
+        <delete dir="${build.classes}" quiet="true"/>
         <mkdir dir="${build.classes}"/>
-        <javac encoding="iso-8859-1" debug="true"
+        <javac encoding="iso-8859-1" debug="true" target="1.7"
                srcdir="${src.dir}"
                destdir="${build.classes}"
-               classpath="${jcommjar}">
-            <patternset refid="javatest.jdk11.files"/>
-        </javac>
-        <javac encoding="iso-8859-1" debug="true" target="1.5" source="1.5"
-               srcdir="${src.dir}"
-               destdir="${build.classes}"
-               classpath="${jdk14.classpath}">
+               classpath="${jdk14.classpath}:${jcommjar}">
             <patternset refid="javatest.packages"/>
         </javac>
         <copy todir="${build.classes}">
@@ -310,7 +305,7 @@
 
     <target name="compile.test.copyright.classes">
         <mkdir dir="${build.classes}"/>
-        <javac encoding="iso-8859-1" debug="true" target="1.5" source="1.5"
+        <javac encoding="iso-8859-1" debug="true" target="1.7"
                srcdir="${test.dir}"
                destdir="${build.classes}"
                classpath="${jdk14.classpath}">
@@ -323,7 +318,7 @@
         <fail unless="junit.present" message="${junit.missing}"/>
 
         <mkdir dir="${build.junit.classes}"/>
-        <javac encoding="iso-8859-1" debug="true" target="1.5" source="1.5"
+        <javac encoding="iso-8859-1" debug="true" target="1.7"
                srcdir="${src.dir}"
                destdir="${build.junit.classes}"
                classpath="${jdk14.classpath}:${build.classes}:${bytecodelib}:${junitlib}">
@@ -421,7 +416,7 @@
         </condition>
 
         <mkdir dir="${javadoc.dir}"/>
-        <javadoc destdir="${javadoc.dir}" source="1.5" encoding="${javadoc.encoding}" notree="${javadoc.notree}" use="${javadoc.use}"
+        <javadoc destdir="${javadoc.dir}" encoding="${javadoc.encoding}" notree="${javadoc.notree}" use="${javadoc.use}"
                  nonavbar="${javadoc.nonavbar}"
                  noindex="${javadoc.noindex}" splitindex="${javadoc.splitindex}" author="${javadoc.author}"
                  version="${javadoc.version}"
