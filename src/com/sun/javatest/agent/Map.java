@@ -182,6 +182,22 @@ public class Map {
     }
 
     /**
+     * Creates a map from the specified <code>java.util.Map</code>.
+     *
+     * @param map the java.util.Map instance to take key-value pairs from
+     */
+    public Map(java.util.Map<String, String> map) {
+        fromValues = new String[map.size()];
+        toValues = new String[map.size()];
+        int index = 0;
+        for (java.util.Map.Entry<String, String> entry : map.entrySet()) {
+            fromValues[index] = entry.getKey();
+            toValues[index] = entry.getValue();
+            index++;
+        }
+    }
+
+    /**
      * Enumerate the entries of the map.
      * @return an enumeration of the translation entries within the map
      */

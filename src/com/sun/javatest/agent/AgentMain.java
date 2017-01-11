@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 import com.sun.javatest.JavaTestSecurityManager;
 import com.sun.javatest.Status;
@@ -299,6 +300,9 @@ public class AgentMain {
             else if (args[i].equalsIgnoreCase("-map")) {
                 mapFile = args[++i];
                 return 2;
+            } else if (args[i].equalsIgnoreCase("-mapArg")) {
+                mappedArgs.put(args[++i], args[++i]);
+                return 3;
             }
             else if (args[i].equalsIgnoreCase("-trace")) {
                 tracing = true;
@@ -487,6 +491,8 @@ public class AgentMain {
                 String[] msgs = {"Problem reading map file", e.toString()};
                 throw new Fault(msgs);
             }
+        } else if (mappedArgs.size() > 0) {
+            agent.setMap(new Map(mappedArgs));
         }
 
         Integer delay = Integer.getInteger("agent.retry.delay");
@@ -513,6 +519,7 @@ public class AgentMain {
         out.println("        -passivePort port set the port for passive connections (implies -passive)");
         out.println("        -serialPort port  set the port for serial port connections");
         out.println("        -map file         map file for translating arguments of incoming requests");
+        out.println("        -mapArg from to   map \"from\" arg to \"to\" arg for incoming requests");
         out.println("        -concurrency num  set the maximum number of simultaneous connections");
         out.println("        -trace            trace the execution of the agent");
         out.println("        -observer class   add an observer to the agent");
@@ -540,6 +547,7 @@ public class AgentMain {
     private String serialPort = null;
     private int concurrency = 1;
     private String mapFile = null;
+    private java.util.Map<String, String> mappedArgs = new HashMap<String, String>();
     private String observerClassName;
     private boolean tracing;
 
