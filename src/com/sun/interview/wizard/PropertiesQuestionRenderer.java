@@ -29,7 +29,6 @@ package com.sun.interview.wizard;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,6 +52,8 @@ import javax.swing.table.TableModel;
 
 import com.sun.interview.PropertiesQuestion;
 import com.sun.interview.Question;
+import com.sun.javatest.tool.UIFactory;
+
 import java.util.Iterator;
 import java.util.Set;
 import javax.swing.CellEditor;
@@ -198,6 +199,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
         table.setRowSelectionAllowed(false);
         table.setColumnSelectionAllowed(false);
         table.getTableHeader().setReorderingAllowed(false);
+        table.setBackground(UIFactory.Colors.WINDOW_BACKGROUND.getValue());
 
         // setup key column
         for (int i = 0; i < table.getColumnCount(); i++) {
@@ -262,6 +264,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
             super(model);
             setIntercellSpacing(new Dimension(4,4));
             setRowHeight((int)(getRowHeight() * 1.5));
+            setFocusable(false);
         }
 
         public boolean isCellEditable(int row, int column) {
@@ -269,7 +272,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
                 return false;
 
             if ( column == 1 &&
-                    question.isReadOnlyValue(question.getKeyProperty((String)getValueAt(row, 0))) )
+                    question.isReadOnlyValue(question.getKeyPropertyName((String)getValueAt(row, 0))) )
                 return false;
 
             return true;
@@ -347,7 +350,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
         public void setValueAt(Object o, int row, int col) {
             if (col == 1) {
-                String key = q.getKeyProperty((String)(getValueAt(row, 0)));
+                String key = q.getKeyPropertyName((String)(getValueAt(row, 0)));
 
                 q.updateProperty(key, (String)o);
                 fireEditedEvent(this, editedListener);

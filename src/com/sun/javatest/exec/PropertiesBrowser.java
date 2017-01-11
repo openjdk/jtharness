@@ -43,6 +43,7 @@ import javax.swing.event.ChangeListener;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.finder.TestFinderDecorator;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.StringArray;
@@ -305,8 +306,10 @@ class PropertiesBrowser extends ToolDialog
             }
             else {
                 setField(testSuiteClassName, testSuite.getClass().getName());
-                setField(testFinderClassName,
-                    testSuite.getTestFinder().getClass().getName());
+                String testFinderClassNameValue = testSuite.getTestFinder() instanceof TestFinderDecorator ?
+                        ((TestFinderDecorator) testSuite.getTestFinder()).getCurrentTestFinder().getClass().getName() :
+                        testSuite.getTestFinder().getClass().getName();
+                setField(testFinderClassName, testFinderClassNameValue);
                 setField(testRunnerClassName,
                     testSuite.createTestRunner().getClass().getName());
 

@@ -159,7 +159,7 @@ public class TestSuiteChooser extends JFileChooser
             uif.showError("tsc.cantFindTestSuite", e.getMessage());
         }
         catch (TestSuite.Fault e) {
-            uif.showError("tsc.notATestSuite", e.getMessage());
+            uif.showError("tsc.unableToOpen", e.getMessage());
         }
     }
 

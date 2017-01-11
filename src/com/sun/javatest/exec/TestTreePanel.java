@@ -1204,6 +1204,26 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             } catch (Exception ignore) {
             }
         }
+
+        Preferences.access().addObserver("javatest.executionOrder", new Preferences.Observer() {
+            @Override
+            public void updated(String name, String newValue) {
+
+                treeModel.getTestResultTable().updateTestExecutionOrderOnTheFly();
+
+                try {
+                    WorkDirectory wd = execModel.getWorkDirectory();
+                    TestResultTable trt = getTestResultTable();
+                    if(trt != null && !wd.isTRTSet()) {
+                        wd.setTestResultTable(trt);
+                    }
+                    applyParameters(true);
+                } catch (Exception ee) {
+                    ee.printStackTrace();
+                }
+
+            }
+        });
     }
 
     private void ensureTreeSelection() {

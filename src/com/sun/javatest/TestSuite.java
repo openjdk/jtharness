@@ -48,6 +48,7 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import com.sun.javatest.finder.BinaryTestFinder;
 import com.sun.javatest.finder.HTMLTestFinder;
+import com.sun.javatest.finder.TestFinderDecorator;
 import com.sun.javatest.interview.LegacyParameters;
 import com.sun.javatest.lib.KeywordScript;
 import com.sun.javatest.logging.WorkDirLogHandler;
@@ -315,8 +316,7 @@ public class TestSuite
             }
             catch (UnsupportedClassVersionError uce){
                 throw new Fault(i18n, "ts.compiledRecentVersion",
-                        new Object[] {className, "testsuite", TestSuite.class.getName(),
-                                System.getProperty("java.version"), root.getPath()});
+                        new Object[] {System.getProperty("java.version"), root.getPath()});
             }
 
             String[] args = new String[tsClassAndArgs.length - 1];
@@ -325,7 +325,7 @@ public class TestSuite
         }
 
         // initialize test finder
-        testSuite.setTestFinder(testSuite.createTestFinder());
+        testSuite.setTestFinder(new TestFinderDecorator(testSuite.createTestFinder()));
 
         return testSuite;
     }

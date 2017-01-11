@@ -30,6 +30,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -42,9 +43,15 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.event.CellEditorListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
+import javax.swing.border.LineBorder;
 
 import com.sun.interview.ExtensionFileFilter;
 import com.sun.interview.FileFilter;
@@ -55,6 +62,7 @@ import com.sun.interview.PropertiesQuestion.FloatConstraints;
 import com.sun.interview.PropertiesQuestion.IntConstraints;
 import com.sun.interview.PropertiesQuestion.StringConstraints;
 import com.sun.interview.PropertiesQuestion.ValueConstraints;
+import com.sun.javatest.tool.UIFactory;
 
 /**
  * Utilities for rendering questions.
@@ -180,6 +188,7 @@ public class RenderingUtilities {
 
             JTextField tf = (JTextField)getComponent();
             tf.setText(value.toString());
+            tf.setFocusable(false);
 
             if (vc instanceof IntConstraints) {
                 IntConstraints ic = (IntConstraints)vc;
@@ -227,6 +236,21 @@ public class RenderingUtilities {
             this.rules = rules;
         }
 
+        @Override
+        public Object getCellEditorValue() {
+            if (rules != null){
+                if (rules instanceof BooleanConstraints){
+                    if (((BooleanConstraints)rules).isYesNo()) {
+                        return yesNoBox.getValue();
+                    }
+                    else {
+                        return jCheckBox.isSelected() ? BooleanConstraints.TRUE : BooleanConstraints.FALSE;
+                    }
+                }
+            }
+            return super.getCellEditorValue();
+        }
+
     @Override
         public Component getTableCellEditorComponent(final JTable table, Object value,
                  boolean isSelected, final int row, final int column) {
@@ -240,6 +264,24 @@ public class RenderingUtilities {
 
             rules = question.getConstraints(key);
 
+            if (rules instanceof BooleanConstraints){
+
+                if (((BooleanConstraints) rules).isYesNo()) {
+                    if (yesNoBox == null){
+                        yesNoBox = new YesNoBox();
+                    }
+                    yesNoBox.selectYes(BooleanConstraints.YES.equals(value));
+                    return yesNoBox;
+                } else {
+                    if (jCheckBox == null) {
+                        jCheckBox = new JCheckBox();
+                    }
+                    jCheckBox.setSelected(BooleanConstraints.TRUE.equals(value));
+                    return jCheckBox;
+                }
+
+            }
+
             final JComboBox cb = ((JComboBox)getComponent());
             cb.setEditable(true);
             cb.removeAllItems();
@@ -250,7 +292,6 @@ public class RenderingUtilities {
 
             String valid = question.isValueValid(key);
             if (valid != null) {
-                cb.setBackground(Color.RED);
                 cb.setToolTipText(valid);
             }
             else
@@ -382,18 +423,6 @@ public class RenderingUtilities {
                 }
                 else {}
             }
-            else if (rules instanceof BooleanConstraints) {
-                BooleanConstraints bolRules = (BooleanConstraints)rules;
-                cb.setEditable(false);
-                if (bolRules.isYesNo()) {
-                    configureSet(cb, new String[] {"Yes", "No"}, true,
-                                 bolRules.isUnsetAllowed());
-                }
-                else {
-                    configureSet(cb, new String[] {"True", "False"}, true,
-                                 bolRules.isUnsetAllowed());
-                }
-            }
             else if (rules instanceof FilenameConstraints) {
                 FilenameConstraints strRules = (FilenameConstraints)rules;
                 cb.setEditable(true);
@@ -455,6 +484,8 @@ public class RenderingUtilities {
 
         private PropertiesQuestion question;
         private ValueConstraints rules;
+        private JCheckBox jCheckBox;
+        private YesNoBox yesNoBox;
     }   // editor cell
 
 
@@ -468,16 +499,41 @@ public class RenderingUtilities {
 
         public Component getTableCellRendererComponent(JTable table, Object value,
                   boolean isSelected, boolean hasFocus, int row, int column) {
-            Component c = super.getTableCellRendererComponent(table, value, isSelected,
-                                hasFocus, row, column);
 
+            if (column == 1){
+                String keyName = q.getKeyPropertyName((String)table.getValueAt(row, 0));
+                PropertiesQuestion.ValueConstraints constraints = q.getConstraints(keyName);
+                if (constraints instanceof BooleanConstraints){
+                    if (((BooleanConstraints) constraints).isYesNo()) {
+                        yesNoBox = new YesNoBox();
+                        yesNoBox.selectYes(BooleanConstraints.YES.equals(value));
+                        return yesNoBox;
+
+                    }
+                    else{
+                        jCheckBox = new JCheckBox();
+                        jCheckBox.setSelected(BooleanConstraints.TRUE.equals(value));
+                        return jCheckBox;
+                    }
+                }
+                else{
+                    jComboBox = new JComboBox();
+                    jComboBox.addItem(value);
+                    jComboBox.setEditable(true);
+                    if ( q.isValueValid((String)(q.getKeyPropertyName((String)table.getValueAt(row, 0)))) != null ) {
+                        jComboBox.setBorder(new LineBorder(Color.RED, 2));
+                    }
+                    return jComboBox;
+                }
+            }
+            else {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected,
+                        hasFocus, row, column);
+                c.setBackground(UIFactory.Colors.WINDOW_BACKGROUND.getValue());
+                ((DefaultTableCellRenderer)c).setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+                return c;
+            }
             // XXX needs i18n and 508
-            if ( q.isValueValid((String)(table.getValueAt(row, 0))) != null )
-                c.setBackground(Color.RED);
-            else
-                c.setBackground(Color.WHITE);
-
-            return c;
         }
 
         public PropertiesQuestion getQuestion() {
@@ -485,7 +541,45 @@ public class RenderingUtilities {
         }
 
         PropertiesQuestion q;
+        JCheckBox jCheckBox;
+        YesNoBox yesNoBox;
+        JComboBox jComboBox;
     }   // non-editing cell
+
+    static class YesNoBox extends JPanel{
+
+        private JRadioButton yesButton;
+        private JRadioButton noButton;
+        private ButtonGroup bgroup;
+
+        public YesNoBox(){
+            super();
+            setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+
+            bgroup = new ButtonGroup();
+            yesButton = new JRadioButton(BooleanConstraints.YES);
+            noButton = new JRadioButton(BooleanConstraints.NO);
+            bgroup.add(yesButton);
+            bgroup.add(noButton);
+
+            add(yesButton);
+            add(Box.createRigidArea(new Dimension(5,0)));
+            add(noButton);
+        }
+
+        public String getValue(){
+            if (yesButton.isSelected()){
+                return BooleanConstraints.YES;
+            }
+            return BooleanConstraints.NO;
+        }
+
+        public void selectYes(boolean value){
+            yesButton.setSelected(value);
+            noButton.setSelected(!value);
+        }
+
+    }
 
     private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }

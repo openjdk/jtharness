@@ -808,6 +808,21 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         if (value == null || value.getProperty(key) == null)
             throw new IllegalArgumentException("No such key: " + key);
 
+        if (c instanceof BooleanConstraints) {
+            if (value.getProperty(key) == null || value.getProperty(key).isEmpty()) {
+                if (defaultValue.getProperty(key) != null && !defaultValue.getProperty(key).isEmpty()) {
+                    value.put(key, defaultValue.getProperty(key));
+                }
+                else{
+                    if (((BooleanConstraints) c).isYesNo()){
+                        value.put(key, BooleanConstraints.NO);
+                    }
+                    else{
+                        value.put(key, BooleanConstraints.FALSE);
+                    }
+                }
+            }
+        }
         constraints.put(key, c);
     }
 
@@ -819,7 +834,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      */
     public String getConstraintKeyFromRow(Object[] values) {
         if (values != null && values.length > 0 )
-            return getKeyProperty(values[0].toString());
+            return getKeyPropertyName(values[0].toString());
         else
             return "";
     }
@@ -829,7 +844,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * @param key value of the key in the table
      * @return key or the property name for the key
      */
-    public String getKeyProperty(String key){
+    public String getKeyPropertyName(String key){
         if (presentationKeys != null){
             for (Object keyProperty : presentationKeys.keySet()){
                 if (key.equals(presentationKeys.get(keyProperty))){
@@ -1427,6 +1442,12 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * Constraints allowing a value to be either a boolean or Yes/No response.
      */
     public static class BooleanConstraints extends ValueConstraints {
+
+        public final static String YES = "Yes";
+        public final static String NO = "No";
+        public final static String TRUE = "True";
+        public final static String FALSE = "False";
+
         public BooleanConstraints() {
             super();
         }

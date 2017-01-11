@@ -395,6 +395,24 @@ public class HelpTree
             ww.flush();
     }
 
+    /**
+     * Sets the comparator which will be used in {@link #find(String[]) find} methods
+     * method
+     * @param comparator Comparator to set
+     */
+    public void setNodeComparator(Comparator<Node> comparator){
+        nodeComparator = comparator;
+    }
+
+    /**
+     * Returns current comparator used in {@link #find(String[]) find} methods
+     * method
+     * @return current node comparator
+     */
+    public Comparator<Node> getNodeComparator(){
+        return nodeComparator;
+    }
+
     private void write(WrapWriter out, Map m) throws IOException {
         int margin = out.getLeftMargin();
         for (Iterator iter = m.entrySet().iterator(); iter.hasNext(); ) {
@@ -488,11 +506,8 @@ public class HelpTree
     private static final int ALL = 1;
     private static final int ANY = 2;
 
-    private static Comparator nodeComparator = new Comparator() {
-            public int compare(Object o1, Object o2) {
-                Node n1 = (Node) o1;
-                Node n2 = (Node) o2;
-
+    private Comparator<Node> nodeComparator = new Comparator<Node>() {
+            public int compare(Node n1, Node n2) {
                 int v = compareStrings(n1.name, n2.name);
                 return (v != 0 ? v : compareStrings(n1.description, n2.description));
             }

@@ -895,10 +895,19 @@ public class Agent implements Runnable {
                 Thread executeThread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        result = tc.run(args, testLog, testRef);
-                        executed = true;
-                        synchronized (LOCK) {
-                            LOCK.notifyAll();
+                        try {
+                            result = tc.run(args, testLog, testRef);
+                        }
+                        catch (Exception e){
+                            result = Status.error("Unhandled " + e.getClass().getName() + " exception " +
+                                    "for " + tc.getClass().getName() + " command. " +
+                                    "Exception message: " + e.getMessage());
+                        }
+                        finally {
+                            executed = true;
+                            synchronized (LOCK) {
+                                LOCK.notifyAll();
+                            }
                         }
                     }
                 }, "CommandExecutor executeThread for command args: "+ Arrays.toString(args));

@@ -44,6 +44,7 @@ import java.util.NoSuchElementException;
 import java.util.Vector;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.sun.javatest.finder.TestFinderDecorator;
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.DynamicArray;
@@ -331,6 +332,10 @@ public class TestResultTable {
 
         if (trCache == null)
             initFinder();
+    }
+
+    public void updateTestExecutionOrderOnTheFly(){
+        root = new TRT_TreeNode(TestResultTable.this, null);
     }
 
     /**

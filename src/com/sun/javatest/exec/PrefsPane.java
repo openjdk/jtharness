@@ -344,7 +344,7 @@ class PrefsPane extends PreferencesPane
                 sequence = defaultRadio.getName();
             }
 
-            m.put("javatest.sortExecution", sequence.substring(sequence.lastIndexOf(".") + 1));
+            m.put("javatest.executionOrder", sequence.substring(sequence.lastIndexOf(".") + 1));
         }
 
         private void initGUI() {
