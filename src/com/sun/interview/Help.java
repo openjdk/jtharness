@@ -27,12 +27,13 @@
 package com.sun.interview;
 
 import com.sun.javatest.TestSuite;
+import com.sun.javatest.tool.jthelp.HelpID;
+import com.sun.javatest.tool.jthelp.HelpSet;
+
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.ResourceBundle;
-import javax.help.HelpSet;
-import javax.help.HelpSetException;
-import javax.help.Map.ID;
 
 /**
  * Class that contains a number of static method to work with both JavaTest
@@ -57,21 +58,21 @@ public class Help {
     }
 
     /**
-     * Get the JavaHelp ID identifying the "more info" help for this
+     * Get the JavaHelp HelpID identifying the "more info" help for this
      * question, or null if none.
-     * @return the JavaHelp ID identifying the "more info" help for this
+     * @return the JavaHelp HelpID identifying the "more info" help for this
      * question, or null if none.
      */
-    public static ID getHelpID(Question q) {
+    public static HelpID getHelpID(Question q) {
         if (q == null) {
             return null;
         }
         Object id = q.getHelpID();
-        if (id != null && id instanceof ID) {
-            return (ID)id;
+        if (id != null && id instanceof HelpID) {
+            return (HelpID)id;
         }
 
-        ID helpID = getID(q.getInterview(), q.getKey());
+        HelpID helpID = getID(q.getInterview(), q.getKey());
         if (helpID != null) {
             q.setHelpID(helpID);
         }
@@ -79,28 +80,28 @@ public class Help {
     }
 
     /**
-     * Creates ID for given interview and question key
+     * Creates HelpID for given interview and question key
      * @param i interview
      * @param key question key
-     * @return ID to be used for the question.
+     * @return HelpID to be used for the question.
      */
-    private static ID getID(Interview i, String key) {
-        ID id = null;
+    private static HelpID getID(Interview i, String key) {
+        HelpID helpId = null;
         if (i.getParent() != null)
-            id = getID(i.getParent(), key);
+            helpId = getID(i.getParent(), key);
 
-        if (id != null) {
-            //System.err.println("Q: int:" + i.getTag() + " key:" + key + " id:" + id);
-            return id;
+        if (helpId != null) {
+            //System.err.println("Q: int:" + i.getTag() + " key:" + key + " helpId:" + helpId);
+            return helpId;
         }
 
         HelpSet hs = getHelpSet(i);
         if (hs != null) {
-            javax.help.Map m = hs.getLocalMap();
-            if (m != null && m.isValidID(key, hs)) {
-                id = ID.create(key, hs);
-                //System.err.println("Q: FOUND int:" + i.getTag() + " key:" + key + " id:" + id);
-                return id;
+            HashMap m = hs.getLocalMap();
+            if (m != null) {
+                helpId = HelpID.create(key, hs);
+                //System.err.println("Q: FOUND int:" + i.getTag() + " key:" + key + " helpId:" + helpId);
+                return helpId;
             }
         }
         return null;
@@ -130,12 +131,7 @@ public class Help {
                 if (u == null) {
                     throw new Help.Fault(i18n, "ts.cantFindDoc", name);
                 }
-                try {
-                    docs[i] = new HelpSet(loader, u);
-                } catch (HelpSetException e) {
-                    throw new Help.Fault(i18n, "ts.cantOpenDoc",
-                                    new Object[] { name, e });
-                }
+                docs[i] = new HelpSet(loader, u);
             }
             // only set if all opened OK
             additionalDocs = docs;

@@ -40,10 +40,9 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.util.MissingResourceException;
-
-import javax.help.HelpBroker;
 
 import javax.accessibility.Accessible;
 import javax.accessibility.AccessibleContext;
@@ -95,6 +94,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableModel;
 
 import com.sun.javatest.ProductInfo;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.tool.jthelp.HelpBroker;
 import com.sun.javatest.util.I18NResourceBundle;
 import java.awt.Dialog;
 import java.util.Enumeration;
@@ -551,19 +552,45 @@ public class UIFactory {
      * @param helpID the help ID identifying the context sensitive help for
      * the component
      */
-    public void setHelp(Component comp, String helpID) {
+    public void setHelp(final Component comp, final String helpID) {
         if (helpID == null)
             throw new NullPointerException();
 
-        if (helpBroker != null) {
-            if (comp instanceof JDialog) {
-                JDialog d = (JDialog) comp;
-                Desktop.addHelpDebugListener(d);
-                helpBroker.enableHelpKey(d.getRootPane(), helpID, null);
-            }
-            else
-                helpBroker.enableHelp(comp, helpID, null);
+        ContextHelpManager.setHelpIDString(comp, helpID);
+
+        if (comp instanceof JDialog) {
+            JDialog d = (JDialog) comp;
+            ContextHelpManager.setHelpIDString(d.getRootPane(), helpID);
+            Desktop.addHelpDebugListener(d);
+
+            final JComponent rootPane = d.getRootPane();
+            KeyStroke keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
+            rootPane.registerKeyboardAction(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (helpBroker != null){
+                        helpBroker.displayCurrentID(ContextHelpManager.getHelpIDString(rootPane));
+                    }
+                }
+            }, keystroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
         }
+        else{
+            if (comp instanceof JComponent){
+                KeyStroke keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
+                ((JComponent)comp).registerKeyboardAction(new ActionListener(){
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (helpBroker != null){
+                            helpBroker.displayCurrentID(ContextHelpManager.getHelpIDString(comp));
+                        }
+                    }
+                }, keystroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+            }
+
+        }
+
     }
 
     /**
@@ -927,12 +954,17 @@ public class UIFactory {
      * @return the button that was created
      * @see #createButton
      */
-    public JButton createHelpButton(String uiKey, String helpID) {
+    public JButton createHelpButton(String uiKey, final String helpID) {
         JButton hb = createButton(uiKey);
-        if (helpBroker == null)
-            hb.setEnabled(false);
-        else
-            helpBroker.enableHelpOnButton(hb, helpID, null);
+        hb.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (helpBroker != null) {
+                    helpBroker.displayCurrentID(helpID);
+                }
+            }
+        });
+
         return hb;
     }
 
@@ -1701,13 +1733,18 @@ public class UIFactory {
      * @return the button that was created
      * @see #createButton
      */
-    public JMenuItem createHelpMenuItem(String uiKey, String helpID) {
+    public JMenuItem createHelpMenuItem(String uiKey, final String helpID) {
         JMenuItem mi = new JMenuItem(getI18NString(uiKey + ".mit"));
         setMnemonic(mi, uiKey);
-        if (helpBroker == null)
-            mi.setEnabled(false);
-        else
-            helpBroker.enableHelpOnButton(mi, helpID, null);
+        mi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (helpBroker != null) {
+                    helpBroker.displayCurrentID(helpID);
+                }
+            }
+        });
+
         return mi;
     }
 

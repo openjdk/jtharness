@@ -31,9 +31,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.help.CSH;
-import javax.help.Map;
-import javax.help.JHelpContentViewer;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -49,6 +46,9 @@ import com.sun.interview.Question;
 import com.sun.interview.wizard.WizPane;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.HelpID;
+import com.sun.javatest.tool.jthelp.JHelpContentViewer;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 class CE_FullView extends CE_View
 {
@@ -101,7 +101,7 @@ class CE_FullView extends CE_View
 
     private void initGUI() {
         setName(FULL);
-        CSH.setHelpIDString(this, "confEdit.fullView.csh");
+        ContextHelpManager.setHelpIDString(this, "confEdit.fullView.csh");
 
         String[] searchMenuItems = { FIND, FIND_NEXT };
         searchMenu = uif.createMenu("ce.search", searchMenuItems, localListener);
@@ -172,12 +172,12 @@ class CE_FullView extends CE_View
         if (q instanceof ErrorQuestion)
             return;
 
-        Map.ID id = Help.getHelpID(q);
+        HelpID helpId = Help.getHelpID(q);
         // uugh
-        if (id == null)
+        if (helpId == null)
             System.err.println("WARNING: no help for " + q.getKey());
         else
-            showInfo(id);
+            showInfo(helpId);
     }
 
     private class Listener

@@ -29,7 +29,6 @@ package com.sun.javatest.exec;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Map;
-import javax.help.HelpBroker;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -45,6 +44,8 @@ import com.sun.javatest.report.ReportManager;
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.tool.PreferencesPane;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.HelpBroker;
+
 import java.awt.Font;
 
 

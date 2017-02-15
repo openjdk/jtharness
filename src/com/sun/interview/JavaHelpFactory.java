@@ -26,18 +26,14 @@
  */
 package com.sun.interview;
 
+import com.sun.javatest.tool.jthelp.HelpID;
+import com.sun.javatest.tool.jthelp.HelpSet;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ResourceBundle;
-import javax.help.HelpSet;
-import javax.help.HelpSetException;
-import javax.help.Map.ID;
+import java.util.*;
 
 /**
  * Implementation of the HelpSetFactory interface which is aware of javax.help
@@ -53,24 +49,23 @@ public class JavaHelpFactory implements HelpSetFactory {
     }
 
     public Object createHelpSetObject(String name, Class c) throws Interview.Fault {
-        try {
-            ClassLoader cl = c.getClassLoader();
-            String hsn;
-            if (name.startsWith("/")) {
-                hsn = name.substring(1); // strip off leading /
-            } else {
-                String cn = c.getName();
-                String pn = cn.substring(0, cn.lastIndexOf('.'));
-                hsn = pn.replace('.', '/') + "/" + name;
-            }
-            URL u = HelpSet.findHelpSet(cl, hsn);
-            if (u == null) {
-                throw new HelpNotFoundFault(i18n, "interview.cantFindHelp", hsn);
-            }
-            return new HelpSet(cl, u);
-        } catch (HelpSetException e) {
-            throw new BadHelpFault(i18n, "interview.badHelp", e);
+        ClassLoader cl = c.getClassLoader();
+        String hsn;
+        String pref = "";
+        if (name.startsWith("/")) {
+            hsn = name.substring(1); // strip off leading /
+            pref = hsn.substring(0, hsn.lastIndexOf("/")+1);
+        } else {
+            String cn = c.getName();
+            String pn = cn.substring(0, cn.lastIndexOf('.'));
+            hsn = pn.replace('.', '/') + "/" + name;
+            pref = hsn.substring(0, hsn.indexOf(name));
         }
+        URL u = HelpSet.findHelpSet(cl, hsn);
+        if (u == null) {
+            throw new HelpNotFoundFault(i18n, "interview.cantFindHelp", hsn);
+        }
+        return new HelpSet(cl, u, pref);
     }
 
     public Object createHelpSetObject(String name, File file) throws Interview.Fault {
@@ -84,8 +79,6 @@ public class JavaHelpFactory implements HelpSetFactory {
             }
             HelpSet helpset = new HelpSet(cl, url);
             return helpset;
-        } catch (HelpSetException helpsetexception) {
-            throw new BadHelpFault(i18n, "interview.badHelp", helpsetexception);
         } catch (MalformedURLException e) {
             throw new HelpNotFoundFault(i18n, "interview.cantFindHelp", file.getPath());
         }
@@ -94,9 +87,9 @@ public class JavaHelpFactory implements HelpSetFactory {
     public Object createHelpID(Object hsObject, String target) {
         if (hsObject != null) {
             HelpSet hs = (HelpSet) hsObject;
-            javax.help.Map m = hs.getCombinedMap();
-            if (m.isValidID(target, hs)) {
-                return ID.create(target, hs);
+            HashMap m = hs.getCombinedMap();
+            if (m != null && !m.isEmpty()) {
+                return HelpID.create(target, hs);
             }
         }
 
@@ -122,8 +115,7 @@ public class JavaHelpFactory implements HelpSetFactory {
                List<HelpSet> helpSetsToRemove = new ArrayList<HelpSet>();
 
                 // transfer help sets old to new
-                for (Enumeration e = oldHelpSet.getHelpSets(); e.hasMoreElements(); ) {
-                    HelpSet entry = (HelpSet) (e.nextElement());
+                for (HelpSet entry : oldHelpSet.getHelpSets()) {
                     helpSetsToRemove.add(entry);
                     newHelpSet.add(entry);
                 }   // for
@@ -177,15 +169,9 @@ public class JavaHelpFactory implements HelpSetFactory {
      * This exception is to report problems found while opening a JavaHelp help set.
      */
     public static class BadHelpFault extends Interview.Fault {
-        BadHelpFault(ResourceBundle i18n, String s, HelpSetException e) {
+        BadHelpFault(ResourceBundle i18n, String s, Exception e) {
             super(i18n, s, e.getMessage());
-            this.exc = e;
         }
-
-        /**
-         * The underlying JavaHelp exception.
-         */
-        public final HelpSetException exc;
     }
 
 }

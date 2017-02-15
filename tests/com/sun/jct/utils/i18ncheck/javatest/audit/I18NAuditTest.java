@@ -34,7 +34,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import javax.help.HelpBroker;
 import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.JButton;

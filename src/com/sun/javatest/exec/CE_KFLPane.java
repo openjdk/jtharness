@@ -30,7 +30,6 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.File;
-import javax.help.CSH;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,6 +42,7 @@ import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.tool.EditableFileList;
 import com.sun.javatest.tool.FileChooser;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 /**
  * Standard values view, known failures list (KFL) panel.
@@ -115,7 +115,7 @@ class CE_KFLPane extends CE_StdPane {
     }
 
     private void initGUI() {
-        CSH.setHelpIDString(this, "confEdit.kflTab.csh");
+        ContextHelpManager.setHelpIDString(this, "confEdit.kflTab.csh");
 
         JPanel p = uif.createPanel("ce.kfl", new BorderLayout(), false);
         initToolBar();

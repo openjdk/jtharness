@@ -40,7 +40,6 @@ import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import javax.help.HelpBroker;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JComponent;

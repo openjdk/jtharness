@@ -127,14 +127,6 @@ public class Main
             }
         }
 
-        try {
-            Class t = Class.forName("javax.help.AbstractHelpAction");
-        }
-        catch (ClassNotFoundException e) {
-            System.err.println("JavaHelp 2.x is required to run the harness, please add it to the classpath or available libraries.");
-            System.exit(1);
-        }
-
         main0(args);
     }
 

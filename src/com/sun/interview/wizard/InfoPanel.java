@@ -29,11 +29,6 @@ package com.sun.interview.wizard;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import javax.help.BadIDException;
-import javax.help.HelpSet;
-import javax.help.InvalidHelpSetContextException;
-import javax.help.JHelpContentViewer;
-import javax.help.Map.ID;
 import javax.accessibility.AccessibleContext;
 import javax.swing.JComponent;
 import javax.swing.event.AncestorEvent;
@@ -43,6 +38,9 @@ import com.sun.interview.ErrorQuestion;
 import com.sun.interview.Help;
 import com.sun.interview.Interview;
 import com.sun.interview.Question;
+import com.sun.javatest.tool.jthelp.HelpSet;
+import com.sun.javatest.tool.jthelp.HelpID;
+import com.sun.javatest.tool.jthelp.JHelpContentViewer;
 
 class InfoPanel extends JComponent
 {
@@ -66,23 +64,15 @@ class InfoPanel extends JComponent
     }
 
     public void setCurrentID(Question q) {
-        try {
-            ID id = Help.getHelpID(q);
-            // uugh
-            if (id == null)
-                System.err.println("WARNING: no help for " + q.getKey());
-            else {
-                //System.err.println("IP: set help ID " + id);
-                viewer.setCurrentID(id);
-                //System.err.println("IP: currentURL " + viewer.getCurrentURL());
-                //System.err.println("IP: currentTitle " + viewer.getDocumentTitle());
-            }
-        }
-        catch (BadIDException e) {
+        HelpID helpId = Help.getHelpID(q);
+        // uugh
+        if (helpId == null)
             System.err.println("WARNING: no help for " + q.getKey());
-        }
-        catch (InvalidHelpSetContextException e) {
-            e.printStackTrace();
+        else {
+            //System.err.println("IP: set help HelpID " + helpId);
+            viewer.setCurrentID(helpId);
+            //System.err.println("IP: currentURL " + viewer.getCurrentURL());
+            //System.err.println("IP: currentTitle " + viewer.getDocumentTitle());
         }
     }
 

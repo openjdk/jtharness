@@ -40,10 +40,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.WeakHashMap;
 
-import javax.help.DefaultHelpBroker;
-import javax.help.HelpBroker;
-import javax.help.HelpSet;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -62,6 +58,9 @@ import com.sun.interview.Help;
 import com.sun.javatest.Harness;
 import com.sun.javatest.ProductInfo;
 import com.sun.javatest.TestSuite;
+import com.sun.javatest.tool.jthelp.HelpBroker;
+import com.sun.javatest.tool.jthelp.HelpSet;
+import com.sun.javatest.tool.jthelp.JTHelpBroker;
 
 
 class HelpMenu extends JMenu
@@ -254,9 +253,9 @@ class HelpMenu extends JMenu
     private void showHelpSet(HelpSet hs) {
         HelpBroker hb = getHelpBroker(hs);
         if (hb != null) {
-            hb.setDisplayed(true);
-            if (hb instanceof DefaultHelpBroker)
-                ((DefaultHelpBroker) hb).getWindowPresentation().getHelpWindow().toFront();
+            //hb.setDisplayed(true);
+            //if (hb instanceof DefaultHelpBroker)
+            //    ((DefaultHelpBroker) hb).getWindowPresentation().getHelpWindow().toFront();
         }
         else {
             // could internationalize this, but the error isn't that helpful because a
@@ -268,10 +267,8 @@ class HelpMenu extends JMenu
     private HelpBroker getHelpBroker(HelpSet hs) {
         HelpBroker hb = (HelpBroker) (helpBrokerTable.get(hs));
         if (hb == null) {
-            int dpi = uif.getDotsPerInch();
             //hb = hs.createHelpBroker();   // pres. attributes work with this on JH 2.0_02
-            hb = new DefaultHelpBroker(hs);  // needed for pres. attributes in JH 2.0
-            hb.setSize(new Dimension(7*dpi, 9*dpi));
+            hb = new JTHelpBroker();
             helpBrokerTable.put(hs, hb);
         }
         return hb;
@@ -402,10 +399,7 @@ class HelpMenu extends JMenu
             else if (cmd.equals(HELP)) {
                 HelpBroker helpBroker = desktop.getHelpBroker();
                 if (helpBroker != null) {
-                    helpBroker.setCurrentID("jthelp.csh");
-                    helpBroker.setDisplayed(true);
-                    if (helpBroker instanceof DefaultHelpBroker)
-                        ((DefaultHelpBroker) helpBroker).getWindowPresentation().getHelpWindow().toFront();
+                    helpBroker.displayCurrentID("jthelp.csh");
                 }
                 else {
                     // could internationalize this, but the error isn't that helpful because a

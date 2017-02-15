@@ -30,12 +30,12 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.net.URL;
 
-import javax.help.CSH;
 import javax.swing.SwingUtilities;
 
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestResult;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 /**
  * Show the source and other files for the test.
@@ -45,7 +45,7 @@ class TP_FilesSubpanel extends TP_Subpanel {
     TP_FilesSubpanel(UIFactory uif) {
         super(uif, "files");
         setLayout(new BorderLayout());
-        CSH.setHelpIDString(this, "browse.filesTab.csh");
+        ContextHelpManager.setHelpIDString(this, "browse.filesTab.csh");
 
         filesPane = new FilesPane(uif);
 

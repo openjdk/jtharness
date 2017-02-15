@@ -36,10 +36,6 @@ import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import javax.help.CSH;
-import javax.help.HelpSet;
-import javax.help.JHelpContentViewer;
-import javax.help.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -53,6 +49,10 @@ import javax.swing.event.ChangeListener;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.HelpID;
+import com.sun.javatest.tool.jthelp.HelpSet;
+import com.sun.javatest.tool.jthelp.JHelpContentViewer;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 class CE_StdView extends CE_View
 {
@@ -167,7 +167,7 @@ class CE_StdView extends CE_View
 
     private void initGUI() {
         setName(STD);
-        CSH.setHelpIDString(this, "confEdit.stdView.csh");
+        ContextHelpManager.setHelpIDString(this, "confEdit.stdView.csh");
 
         setLayout(new BorderLayout());
         initBody();
@@ -249,22 +249,19 @@ class CE_StdView extends CE_View
     }
 
     private void showInfoForTab(CE_StdPane p) {
-        Map.ID id = (Map.ID) (p.getClientProperty(this));
-        if (id == null) {
+        HelpID helpId = (HelpID) (p.getClientProperty(this));
+        if (helpId == null) {
             String s = "ConfigEditor.stdValues." + p.getName();
             HelpSet configHelpSet = Help.getHelpSet(config);
             if (configHelpSet != null) {
-                Map map = configHelpSet.getCombinedMap();
-                if (map.isValidID(s, configHelpSet)) {
-                    id = Map.ID.create(s, configHelpSet);
-                    p.putClientProperty(this, id);
-                }
+                helpId = HelpID.create(s, configHelpSet);
+                p.putClientProperty(this, helpId);
             }
         }
-        if (id == null)
+        if (helpId == null)
             System.err.println("CESV: no help for " + p);
         else
-            showInfo(id);
+            showInfo(helpId);
     }
 
     private JTabbedPane tabs;
@@ -297,7 +294,7 @@ class CE_StdView extends CE_View
 
         private void updateCSHAndInfo() {
             CE_StdPane p = (CE_StdPane) (tabs.getSelectedComponent());
-            CSH.setHelpIDString(tabs, CSH.getHelpIDString(p));
+            ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(p));
             if (isInfoVisible())
                 showInfoForTab(p);
         }

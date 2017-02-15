@@ -34,14 +34,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.help.HelpBroker;
-
 import javax.swing.JDialog;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.tool.jthelp.HelpBroker;
 import com.sun.javatest.util.DynamicArray;
 
 /**
@@ -274,9 +274,7 @@ public abstract class Tool extends JPanel
     protected Tool(ToolManager m, String uiKey, String helpID) {
         this(m, uiKey);
 
-        HelpBroker b = getHelpBroker();
-        if (b != null)
-            b.enableHelp(this, helpID, null);
+        ContextHelpManager.setHelpIDString(this, helpID);
     }
 
     /**
@@ -360,10 +358,12 @@ public abstract class Tool extends JPanel
             if (comp instanceof JDialog) {
                 JDialog d = (JDialog) comp;
                 Desktop.addHelpDebugListener(d);
-                b.enableHelpKey(d.getRootPane(), helpID, null);
+                b.enableHelpKey(d.getRootPane(), helpID);
+                ContextHelpManager.setHelpIDString(d.getRootPane(), helpID);
+            } else {
+                b.enableHelpKey(comp, helpID);
+                ContextHelpManager.setHelpIDString(comp, helpID);
             }
-            else
-                b.enableHelp(comp, helpID, null);
         }
     }
 
@@ -377,7 +377,7 @@ public abstract class Tool extends JPanel
     protected void setHelpOnButton(Component comp, String helpID) {
         HelpBroker b = getHelpBroker();
         if (b != null)
-            b.enableHelpOnButton(comp, helpID, null);
+            b.enableHelpKey(comp, helpID);
     }
 
     /**

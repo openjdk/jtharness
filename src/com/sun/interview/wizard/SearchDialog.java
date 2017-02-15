@@ -37,7 +37,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
 import javax.accessibility.AccessibleContext;
-import javax.help.HelpBroker;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
@@ -53,6 +52,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import com.sun.interview.Interview;
 import com.sun.interview.Question;
+import com.sun.javatest.tool.jthelp.HelpBroker;
 
 class SearchDialog extends JDialog
 {
@@ -166,7 +166,7 @@ class SearchDialog extends JDialog
         contentPane.add(btns, BorderLayout.SOUTH);
 
         if (helpBroker != null)
-            helpBroker.enableHelpKey(getRootPane(), helpPrefix + "search.csh", null);
+            helpBroker.enableHelpKey(getRootPane(), helpPrefix + "search.csh");
 
         pack();
         setLocationRelativeTo(parent);
@@ -318,8 +318,7 @@ class SearchDialog extends JDialog
             else if (cmd.equals(CLOSE))
                 setVisible(false);
             else if (cmd.equals(HELP)) {
-                helpBroker.setCurrentID(helpPrefix + "search.csh");
-                helpBroker.setDisplayed(true);
+                helpBroker.displayCurrentID(helpPrefix + "search.csh");
             }
         }
     };

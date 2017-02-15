@@ -26,6 +26,9 @@
  */
 package com.sun.javatest.tool;
 
+import com.sun.javatest.tool.jthelp.HelpBroker;
+import com.sun.javatest.tool.jthelp.JHelpContentViewer;
+
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -37,8 +40,6 @@ import java.awt.event.MouseEvent;
 
 import javax.accessibility.Accessible;
 import javax.accessibility.AccessibleContext;
-import javax.help.HelpBroker;
-import javax.help.JHelpContentViewer;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
@@ -75,8 +76,7 @@ public class HelpLink extends JComponent implements Accessible
             public void mousePressed(MouseEvent e) {
                 JHelpContentViewer cv = (JHelpContentViewer) SwingUtilities.getAncestorOfClass(JHelpContentViewer.class, e.getComponent());
                 HelpBroker hb = (HelpBroker) (cv.getClientProperty(HELPBROKER_FOR_HELPLINK));
-                hb.setCurrentID(target);
-                hb.setDisplayed(true);
+                hb.displayCurrentID(target);
             }
         });
         setCursor(new Cursor(Cursor.HAND_CURSOR));

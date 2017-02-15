@@ -30,7 +30,6 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.File;
-import javax.help.CSH;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -47,6 +46,7 @@ import com.sun.javatest.finder.TestFinderDecorator;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.StringArray;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 class PropertiesBrowser extends ToolDialog
 {
@@ -99,12 +99,12 @@ class PropertiesBrowser extends ToolDialog
         tabs.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 Component t = tabs.getSelectedComponent();
-                CSH.setHelpIDString(tabs, CSH.getHelpIDString(t));
+                ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(t));
             }
         });
 
         Component t = tabs.getSelectedComponent();
-        CSH.setHelpIDString(tabs, CSH.getHelpIDString(t));
+        ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(t));
 
         return tabs;
     }
@@ -193,7 +193,7 @@ class PropertiesBrowser extends ToolDialog
     private class TestSuitePane extends Pane {
         TestSuitePane() {
             super("props.ts");
-            CSH.setHelpIDString(this, "execProps.testSuiteTab.csh");
+            ContextHelpManager.setHelpIDString(this, "execProps.testSuiteTab.csh");
             path = addLabelledField("props.ts.path");
             name = addLabelledField("props.ts.name");
             id = addLabelledField("props.ts.id");
@@ -220,7 +220,7 @@ class PropertiesBrowser extends ToolDialog
     private class WorkDirectoryPane extends Pane {
         WorkDirectoryPane() {
             super("props.wd");
-            CSH.setHelpIDString(this, "execProps.workDirTab.csh");
+            ContextHelpManager.setHelpIDString(this, "execProps.workDirTab.csh");
             path = addLabelledField("props.wd.path");
             // test results?
             // id?
@@ -236,7 +236,7 @@ class PropertiesBrowser extends ToolDialog
     private class ConfigurationPane extends Pane {
         ConfigurationPane() {
             super("props.cfg");
-            CSH.setHelpIDString(this, "execProps.configTab.csh");
+            ContextHelpManager.setHelpIDString(this, "execProps.configTab.csh");
             path = addLabelledField("props.cfg.path");
             configName = addLabelledField("props.cfg.name");
             configDesc = addLabelledField("props.cfg.desc");
@@ -291,7 +291,7 @@ class PropertiesBrowser extends ToolDialog
     private class PluginsPane extends Pane {
         PluginsPane() {
             super("props.pi");
-            CSH.setHelpIDString(this, "execProps.pluginsTab.csh");
+            ContextHelpManager.setHelpIDString(this, "execProps.pluginsTab.csh");
             testSuiteClassName = addLabelledField("props.pi.testSuite");
             testFinderClassName = addLabelledField("props.pi.testFinder");
             testRunnerClassName = addLabelledField("props.pi.testRunner");

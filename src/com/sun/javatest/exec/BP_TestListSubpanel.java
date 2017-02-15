@@ -66,8 +66,6 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
-import javax.help.CSH;
-
 import com.sun.javatest.Harness;
 import com.sun.javatest.JavaTestError;
 import com.sun.javatest.Status;
@@ -79,6 +77,7 @@ import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import java.awt.datatransfer.Clipboard;
 
 /**
@@ -110,19 +109,19 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         // the enableHelp lines below are checked during the build
         switch (state) {
             case Status.PASSED:
-                CSH.setHelpIDString(this, "browse.passedTab.csh");
+                ContextHelpManager.setHelpIDString(this, "browse.passedTab.csh");
                 break;
             case Status.FAILED:
-                CSH.setHelpIDString(this, "browse.failedTab.csh");
+                ContextHelpManager.setHelpIDString(this, "browse.failedTab.csh");
                 break;
             case Status.ERROR:
-                CSH.setHelpIDString(this, "browse.errorTab.csh");
+                ContextHelpManager.setHelpIDString(this, "browse.errorTab.csh");
                 break;
             case Status.NOT_RUN:
-                CSH.setHelpIDString(this, "browse.notRunTab.csh");
+                ContextHelpManager.setHelpIDString(this, "browse.notRunTab.csh");
                 break;
             case BranchPanel.STATUS_FILTERED:
-                CSH.setHelpIDString(this, "browse.filteredOutTab.csh");
+                ContextHelpManager.setHelpIDString(this, "browse.filteredOutTab.csh");
                 break;
         } // switch
 

@@ -52,8 +52,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Properties;
-import javax.help.HelpBroker;
-import javax.help.HelpSet;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.Icon;
@@ -84,6 +82,9 @@ import javax.swing.filechooser.FileFilter;
 import com.sun.interview.Interview;
 import com.sun.interview.Question;
 import com.sun.interview.WizPrint;
+import com.sun.javatest.tool.jthelp.HelpBroker;
+import com.sun.javatest.tool.jthelp.HelpSet;
+import com.sun.javatest.tool.jthelp.JTHelpBroker;
 
 /**
  * A wizard to present an {@link Interview interview} consisting of
@@ -451,10 +452,10 @@ public class Wizard extends JComponent {
             helpHelpSet = infoPanel.getHelpSet();
 
         if (helpHelpBroker == null && helpHelpSet != null)
-            helpHelpBroker = helpHelpSet.createHelpBroker();
+            helpHelpBroker = new JTHelpBroker();
 
         if (helpHelpBroker != null && helpHelpSet != null)
-            helpHelpBroker.enableHelpKey(main, helpHelpPrefix + "window.csh", helpHelpSet);
+            helpHelpBroker.enableHelpKey(main, helpHelpPrefix + "window.csh");
         if (infoPanel == null)
             main.add(body);
         else
@@ -684,8 +685,7 @@ public class Wizard extends JComponent {
      * Handle the "help" action
      */
     private void performHelp() {
-        helpHelpBroker.setCurrentID(helpHelpPrefix + "intro.csh");
-        helpHelpBroker.setDisplayed(true);
+        helpHelpBroker.displayCurrentID(helpHelpPrefix + "intro.csh");
     }
 
     /**

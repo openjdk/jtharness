@@ -41,8 +41,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.help.CSH;
-import javax.help.HelpBroker;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -58,7 +56,9 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
 import javax.swing.tree.TreePath;
-import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.tool.jthelp.HelpBroker;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -97,7 +97,7 @@ public abstract class PreferencesPane extends JPanel {
      * @see PreferencesPane#showDialog
      */
     protected void setHelp(String helpID) {
-        CSH.setHelpIDString(this, helpID);
+        ContextHelpManager.setHelpIDString(this, helpID);
     }
 
     /**
@@ -197,9 +197,16 @@ public abstract class PreferencesPane extends JPanel {
             //prefsTreeLeafIcon = uif.createIcon("prefs.leaf");
             setName("prefs");
             setTitle(uif.getI18NString("prefs.title"));
-            if (helpBroker != null) {
-                helpBroker.enableHelpKey(getRootPane(), "ui.prefs.dialog.csh", null);
-            }
+            KeyStroke keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
+            getRootPane().registerKeyboardAction(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (helpBroker != null) {
+                        helpBroker.displayCurrentID(ContextHelpManager.getHelpIDString(getRootPane()));
+                    }
+                }
+            }, keystroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+            ContextHelpManager.setHelpIDString(getRootPane(), "ui.prefs.dialog.csh");
             Desktop.addHelpDebugListener(this);
             uif.setAccessibleDescription(this, "prefs");
 

@@ -249,16 +249,16 @@ public abstract class Question
     }
 
     /**
-     * Get the JavaHelp ID identifying the "more info" help for this
+     * Get the HelpID identifying the "more info" help for this
      * question, or null if none.
      *
-     * Normally, this method returns null and real work on JavaHelp ID is done
+     * Normally, this method returns null and real work on JavaHelp HelpID is done
      * by com.sun.interview.wizard.Help class, if wizard presents.
      * Subclasses might override this method to return not null value,
      * in this case returned value will be used. Returned object must be
-     * an instance of javax.help.Map.ID.
+     * an instance of HelpID.
      *
-     * @return the JavaHelp ID identifying the "more info" help for this
+     * @return the HelpID identifying the "more info" help for this
      * question, or null if none.
      */
     public Object getHelpID() {
@@ -268,7 +268,7 @@ public abstract class Question
     /**
      * Set HelpID object associated with the Question.
      *
-     * @param object Should be instance of javax.help.Map.ID
+     * @param object Should be instance of HelpID
      *
      */
     public void setHelpID(Object object) {

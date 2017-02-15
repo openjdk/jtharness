@@ -37,7 +37,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import javax.help.CSH;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -54,6 +53,7 @@ import com.sun.javatest.Parameters.MutableTestsParameters;
 import com.sun.javatest.tool.FileChooser;
 import com.sun.javatest.tool.TestTreeSelectionPane;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import java.util.ArrayList;
 
 /**
@@ -130,7 +130,7 @@ class CE_TestsPane extends CE_StdPane
     }
 
     private void initGUI() {
-        CSH.setHelpIDString(this, "confEdit.testsTab.csh");
+        ContextHelpManager.setHelpIDString(this, "confEdit.testsTab.csh");
 
         JPanel p = uif.createPanel("ce.tests", new GridBagLayout(), false);
 

@@ -39,7 +39,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Arrays;
 import java.util.HashSet;
-import javax.help.CSH;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -64,6 +63,7 @@ import com.sun.javatest.TestSuite;
 import com.sun.javatest.Parameters.KeywordsParameters;
 import com.sun.javatest.Parameters.MutableKeywordsParameters;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import java.awt.Container;
 import java.awt.Dialog;
 import java.awt.Frame;
@@ -195,7 +195,7 @@ class CE_KeywordsPane extends CE_StdPane {
     }
 
     private void initGUI() {
-        CSH.setHelpIDString(this, "confEdit.keywordsTab.csh");
+        ContextHelpManager.setHelpIDString(this, "confEdit.keywordsTab.csh");
 
         JPanel p = uif.createPanel("ce.keywords", new BorderLayout(), false);
 

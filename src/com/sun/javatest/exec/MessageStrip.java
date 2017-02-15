@@ -38,8 +38,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.ResourceBundle;
 
-import javax.help.CSH;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -60,6 +58,7 @@ import com.sun.javatest.Parameters;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 /**
  * The panel at the bottom of exec tool.
@@ -226,7 +225,7 @@ class MessageStrip extends JSplitPane
                     return c;
                 }
             });
-        CSH.setHelpIDString(selector, "run.testProgress");
+        ContextHelpManager.setHelpIDString(selector, "run.testProgress");
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx = 2.0d;

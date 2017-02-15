@@ -50,7 +50,6 @@ import java.util.Set;
 import java.util.Vector;
 import java.beans.PropertyChangeListener;
 import javax.accessibility.AccessibleContext;
-import javax.help.JHelpContentViewer;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -79,6 +78,7 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
+import com.sun.javatest.tool.jthelp.JHelpContentViewer;
 
 class FocusMonitor
 {

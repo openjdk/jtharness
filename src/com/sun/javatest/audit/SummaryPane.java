@@ -29,11 +29,11 @@ package com.sun.javatest.audit;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Date;
-import javax.help.CSH;
 import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.Status;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestResult;
@@ -56,7 +56,7 @@ class SummaryPane extends AuditPane {
                                          JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         setBody(sp);
 
-        CSH.setHelpIDString(this, "audit.summaryTab.csh");
+        ContextHelpManager.setHelpIDString(this, "audit.summaryTab.csh");
 
         OK = uif.getI18NString("smry.state.OK");
         ERROR = uif.getI18NString("smry.state.error");

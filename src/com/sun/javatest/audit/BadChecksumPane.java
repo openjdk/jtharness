@@ -26,14 +26,14 @@
  */
 package com.sun.javatest.audit;
 
-import javax.help.CSH;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 import com.sun.javatest.tool.UIFactory;
 
 class BadChecksumPane extends ListPane {
     BadChecksumPane(UIFactory uif) {
         super("badChecksum", uif);
-        CSH.setHelpIDString(this, "audit.badChecksumTab.csh");
+        ContextHelpManager.setHelpIDString(this, "audit.badChecksumTab.csh");
     }
 
     void show(Audit audit) {

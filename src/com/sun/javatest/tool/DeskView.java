@@ -35,13 +35,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-import javax.help.HelpBroker;
 import javax.accessibility.AccessibleContext;
 import javax.swing.Action;
 import javax.swing.JFrame;
@@ -52,6 +52,11 @@ import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import javax.swing.KeyStroke;
+import javax.swing.JComponent;
+
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.tool.jthelp.HelpBroker;
 import com.sun.javatest.util.ExitCount;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.PrefixMap;
@@ -309,11 +314,16 @@ abstract class DeskView {
 
         frame.setJMenuBar(mb);
 
-        HelpBroker helpBroker = desktop.getHelpBroker();
-        if (helpBroker != null) {
-            helpBroker.enableHelpKey(frame.getRootPane(), "jthelp.csh", null);
-            Desktop.addHelpDebugListener(frame);
-        }
+        final HelpBroker helpBroker = desktop.getHelpBroker();
+        JRootPane rootPane = frame.getRootPane();
+        KeyStroke keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
+        rootPane.registerKeyboardAction(new ActionListener(){
+                                            @Override
+                                            public void actionPerformed(ActionEvent e) {
+                                                helpBroker.displayCurrentID(ContextHelpManager.getHelpIDString(getSelectedTool()));
+                                            }
+                                        }, keystroke,
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         Desktop.addPreferredSizeDebugListener(frame);
 

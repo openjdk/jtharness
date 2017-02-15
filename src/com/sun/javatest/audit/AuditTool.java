@@ -38,7 +38,6 @@ import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 import java.io.File;
 import java.util.Map;
-import javax.help.CSH;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -49,6 +48,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
@@ -184,10 +184,10 @@ class AuditTool extends Tool
         tabs.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 Component c = tabs.getSelectedComponent();
-                CSH.setHelpIDString(tabs, CSH.getHelpIDString(c));
+                ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(c));
             }
         });
-        CSH.setHelpIDString(tabs, CSH.getHelpIDString(panes[0]));
+        ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(panes[0]));
 
         add(tabs, BorderLayout.CENTER);
 

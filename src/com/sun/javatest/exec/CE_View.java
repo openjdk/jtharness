@@ -27,15 +27,13 @@
 package com.sun.javatest.exec;
 
 import java.awt.event.ActionListener;
-import javax.help.InvalidHelpSetContextException;
-import javax.help.JHelpContentViewer;
-import javax.help.Map;
 import javax.swing.JPanel;
 
 import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.JavaTestError;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.HelpID;
+import com.sun.javatest.tool.jthelp.JHelpContentViewer;
 
 abstract class CE_View extends JPanel
 {
@@ -69,15 +67,10 @@ abstract class CE_View extends JPanel
         return (infoPanel != null);
     }
 
-    protected void showInfo(Map.ID id) {
-        try {
-            // Note: infoPanel may be null if no help set found when creating ConfigEditor
-            if (infoPanel != null)
-                infoPanel.setCurrentID(id);
-        }
-        catch (InvalidHelpSetContextException e) {
-            JavaTestError.unexpectedException(e);
-        }
+    protected void showInfo(HelpID helpId) {
+        // Note: infoPanel may be null if no help set found when creating ConfigEditor
+        if (infoPanel != null)
+            infoPanel.setCurrentID(helpId);
     }
 
     protected ToolDialog toolDialog;

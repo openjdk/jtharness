@@ -32,7 +32,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ComponentListener;
 import java.awt.event.ComponentEvent;
 
-import javax.help.CSH;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -40,6 +39,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 import com.sun.javatest.util.Debug;
 
@@ -133,7 +133,7 @@ class MultiSelectPanel
             }
         };
         addComponentListener(cl);
-        CSH.setHelpIDString(this, "browse.multiselectionTab.csh");
+        ContextHelpManager.setHelpIDString(this, "browse.multiselectionTab.csh");
     }
 
     protected void updatePanel(Object[] nodes) {

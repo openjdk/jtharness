@@ -33,7 +33,6 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.io.IOException;
 import java.io.StringWriter;
-import javax.help.CSH;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -63,6 +62,7 @@ import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.report.HTMLWriterEx;
 import com.sun.javatest.util.StringArray;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 /**
  * Show the output sections for a particular test result.
@@ -156,7 +156,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
         sp.setResizeWeight(0); // all excess space to right hand side
         add(sp);
 
-        CSH.setHelpIDString(this, "browse.outputTab.csh");
+        ContextHelpManager.setHelpIDString(this, "browse.outputTab.csh");
         initIcons();
     }
 

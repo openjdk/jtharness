@@ -30,11 +30,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
-import javax.help.CSH;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.Parameters.ConcurrencyParameters;
 import com.sun.javatest.Parameters.MutableConcurrencyParameters;
@@ -181,7 +181,7 @@ class CE_ExecutionPane extends CE_StdPane
     }
 
     private void initGUI() {
-        CSH.setHelpIDString(this, "confEdit.execTab.csh");
+        ContextHelpManager.setHelpIDString(this, "confEdit.execTab.csh");
 
         JPanel p = uif.createPanel("ce.exec", new GridBagLayout(), false);
 

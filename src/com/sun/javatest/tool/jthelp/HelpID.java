@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -24,27 +24,31 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package com.sun.javatest.audit;
+package com.sun.javatest.tool.jthelp;
 
-import com.sun.javatest.tool.UIFactory;
+public class HelpID {
 
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
+    private String id;
+    private HelpSet hs;
 
-
-class BadTestCaseTestsPane extends ListPane {
-    BadTestCaseTestsPane(UIFactory uif) {
-        super("badTestCaseTests", uif);
-        ContextHelpManager.setHelpIDString(this, "audit.badTestCasesTab.csh");
-    }
-
-    void show(Audit audit) {
-        if (audit == currAudit)
-            showBody();
-        else {
-            currAudit = audit;
-            setData(currAudit.getBadTestCaseTests());
+    public static HelpID create(String id, HelpSet hs) {
+        if (hs == null || id == null) {
+            return null;
         }
+
+        return new HelpID(id, hs);
     }
 
-    private Audit currAudit;
+    private HelpID(String id, HelpSet hs) {
+        this.id = id;
+        this.hs = hs;
+    }
+
+    public String getId(){
+        return id;
+    }
+
+    public HelpSet getHelpSet(){
+        return hs;
+    }
 }

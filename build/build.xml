@@ -233,7 +233,6 @@
             <include name="META-INF/services/com.sun.javatest.report.ReportFormat"/>
             <patternset refid="javatest.packages"/>
         </jar>
-        <copy file="${jhjar}" todir="${BUILD_DIR}/binaries/lib"/>
     </target>
 
     <target name="jar.check" depends="compile">
@@ -277,9 +276,6 @@
     <target name="compile" depends="compile.classes,compile.resources,compile-javatest.help" description="Compile project."/>
 
     <target name="compile.classes">
-        <available file="${jhalljar}" type="file" property="javahelp.present"/>
-        <fail unless="javahelp.present" message="${javahelp.missing}"/>
-
 
         <available file="${jcommjar}" type="file" property="jcomm.present"/>
         <fail unless="jcomm.present" message="${jcomm.missing}"/>
@@ -424,7 +420,7 @@
                  additionalparam="${javadoc.add}" failonerror="true"
                  useexternalfile="true">
             <classpath>
-                <path path="${jhjar}:${jcommjar}:${ant.home}/lib/ant.jar"/>
+                <path path="${jcommjar}:${ant.home}/lib/ant.jar"/>
             </classpath>
             <sourcepath>
                 <pathelement location="${src.dir}"/>
@@ -674,7 +670,6 @@
         </jar>
         <copy todir="${build.examples}/demots/lib">
             <fileset file="${BUILD_DIR}/binaries/lib/javatest.jar"/>
-            <fileset file="${jhjar}"/>
         </copy>
 
 
@@ -718,7 +713,6 @@
 
 	    <copy todir="${services.ts}/lib">
     	        <fileset file="${BUILD_DIR}/binaries/lib/javatest.jar"/>
-    	        <fileset file="${jhjar}"/>
                 <fileset file="${build.examples}/demots/lib/demoapi.jar"/>
 	    </copy>
 

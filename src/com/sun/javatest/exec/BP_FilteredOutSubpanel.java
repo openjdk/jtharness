@@ -58,8 +58,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
-import javax.help.CSH;
-
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
@@ -96,7 +95,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
         super("fo", uif, bpm, ttm, "br.fo");
 
         init();
-        CSH.setHelpIDString(this, "browse.filteredOutTab.csh");
+        ContextHelpManager.setHelpIDString(this, "browse.filteredOutTab.csh");
 
         cacheWatcher = new CacheObserver();
     }

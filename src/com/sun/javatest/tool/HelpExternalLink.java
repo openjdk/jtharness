@@ -26,13 +26,14 @@
  */
 package com.sun.javatest.tool;
 
+import com.sun.javatest.tool.jthelp.HelpBroker;
+import com.sun.javatest.tool.jthelp.JHelpContentViewer;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
-import javax.help.HelpBroker;
-import javax.help.JHelpContentViewer;
 import javax.swing.SwingUtilities;
 
 /**
@@ -57,8 +58,7 @@ public class HelpExternalLink extends HelpLink {
                 if (!openUrl(getTarget())) {
                     JHelpContentViewer cv = (JHelpContentViewer) SwingUtilities.getAncestorOfClass(JHelpContentViewer.class, e.getComponent());
                     HelpBroker hb = (HelpBroker) (cv.getClientProperty(HELPBROKER_FOR_HELPLINK));
-                    hb.setCurrentID(getTarget());
-                    hb.setDisplayed(true);
+                    hb.displayCurrentID(getTarget());
                 }
             }
         });

@@ -26,7 +26,7 @@
  */
 package com.sun.javatest.audit;
 
-import javax.help.CSH;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 import com.sun.javatest.tool.UIFactory;
 
@@ -34,7 +34,7 @@ import com.sun.javatest.tool.UIFactory;
 class BadTestsPane extends ListPane {
     BadTestsPane(UIFactory uif) {
         super("badTests", uif);
-        CSH.setHelpIDString(this, "audit.badResultFileTab.csh");
+        ContextHelpManager.setHelpIDString(this, "audit.badResultFileTab.csh");
     }
 
     void show(Audit audit) {

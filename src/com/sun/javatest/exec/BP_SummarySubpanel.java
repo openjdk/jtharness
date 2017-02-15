@@ -39,8 +39,6 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
-import javax.help.CSH;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.Icon;
@@ -63,6 +61,7 @@ import com.sun.javatest.tool.I18NUtils;
 import com.sun.javatest.tool.PieChart;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.Debug;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 /**
  * Subpanel of BranchPanel.  This panel displays a summary of tests below the given
@@ -85,7 +84,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
             pieColors[pieColors.length - 1] = I18NUtils.getStatusColor(I18NUtils.FILTERED_OUT);
         }
 
-        CSH.setHelpIDString(this, "browse.summaryTab.csh");
+        ContextHelpManager.setHelpIDString(this, "browse.summaryTab.csh");
 
         JPanel bodyPanel = uif.createPanel("br.summ.body", false);
         bodyPanel.setLayout(new GridBagLayout());

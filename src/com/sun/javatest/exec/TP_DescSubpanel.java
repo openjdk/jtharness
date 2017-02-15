@@ -27,7 +27,7 @@
 package com.sun.javatest.exec;
 
 import java.util.Iterator;
-import javax.help.CSH;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.tool.UIFactory;
@@ -39,7 +39,7 @@ import com.sun.javatest.tool.UIFactory;
 class TP_DescSubpanel extends TP_PropertySubpanel {
     TP_DescSubpanel(UIFactory uif) {
         super(uif, "desc");
-        CSH.setHelpIDString(this, "browse.testDescriptionTab.csh");
+        ContextHelpManager.setHelpIDString(this, "browse.testDescriptionTab.csh");
     }
 
     protected void updateSubpanel(TestResult currTest) {

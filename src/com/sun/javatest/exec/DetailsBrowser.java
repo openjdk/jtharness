@@ -30,12 +30,6 @@ import java.awt.Component;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.net.URL;
-import javax.help.HelpModel;
-import javax.help.JHelpContentViewer;
-import javax.help.Map;
-import javax.help.event.HelpModelEvent;
-import javax.help.event.HelpModelListener;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -45,6 +39,7 @@ import javax.swing.SwingUtilities;
 
 import com.sun.interview.Interview;
 import com.sun.interview.Question;
+import com.sun.javatest.tool.jthelp.JHelpContentViewer;
 
 class DetailsBrowser extends JDialog {
     DetailsBrowser(Component parent, Interview interview, JHelpContentViewer infoPanel) {
@@ -61,7 +56,7 @@ class DetailsBrowser extends JDialog {
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1;
 
-        Listener listener = new Listener();
+        //Listener listener = new Listener();
 
         GridBagConstraints lc = new GridBagConstraints();
         lc.anchor = GridBagConstraints.EAST;
@@ -92,7 +87,7 @@ class DetailsBrowser extends JDialog {
         qp.add(keyField, fc);
 
         update(interview.getCurrentQuestion());
-        interview.addObserver(listener);
+        //interview.addObserver(listener);
 
         p.add(qp, c);
 
@@ -121,9 +116,9 @@ class DetailsBrowser extends JDialog {
             urlField.setEditable(false);
             mp.add(urlField, fc);
 
-            HelpModel m = infoPanel.getModel();
-            update(m.getCurrentID(), m.getCurrentURL());
-            m.addHelpModelListener(listener);
+            //HelpModel m = infoPanel.getModel();
+            //update(m.getCurrentID(), m.getCurrentURL());
+            //m.addHelpModelListener(listener);
 
             p.add(mp, c);
         }
@@ -146,7 +141,7 @@ class DetailsBrowser extends JDialog {
         try {
             if (helpSet != null) {
                 try {
-                    Map.ID mid = Map.ID.create(q.getKey(), helpSet);
+                    Map.HelpID mid = Map.HelpID.create(q.getKey(), helpSet);
                     URL u = helpSet.getLocalMap().getURLFromID(mid);
                     urlField.setText(u.toString());
                 }
@@ -166,11 +161,11 @@ class DetailsBrowser extends JDialog {
         keyField.setText(q.getKey());
     }
 
-    private void update(Map.ID id, URL u) {
+    /*private void update(Map.HelpID id, URL u) {
         hsField.setText(id.getHelpSet().getTitle());
         idField.setText(id.getIDString());
         urlField.setText(u.toString());
-    }
+    }*/
 
     private static Frame getFrameParent(Component c) {
         return (Frame)(SwingUtilities.getAncestorOfClass(Frame.class, c));
@@ -183,7 +178,7 @@ class DetailsBrowser extends JDialog {
     private JTextField idField;
     private JTextField urlField;
 
-    private class Listener
+    /*private class Listener
         implements HelpModelListener, Interview.Observer
     {
         // HelpModelListener
@@ -199,5 +194,5 @@ class DetailsBrowser extends JDialog {
         }
 
         public void finished() { }
-    }
+    }*/
 }

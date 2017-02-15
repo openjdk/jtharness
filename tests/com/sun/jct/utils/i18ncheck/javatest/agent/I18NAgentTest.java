@@ -33,7 +33,6 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
-import javax.help.HelpBroker;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JDialog;

@@ -26,11 +26,10 @@
  */
 package com.sun.javatest.exec;
 
-import javax.help.CSH;
-
 import java.awt.EventQueue;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 /**
  * A subpanel of TestPanel that displays the test environment for a test result.
@@ -41,7 +40,7 @@ class TP_EnvSubpanel
 {
     TP_EnvSubpanel(UIFactory uif) {
         super(uif, "env");
-        CSH.setHelpIDString(this, "browse.testEnvironmentTab.csh");
+        ContextHelpManager.setHelpIDString(this, "browse.testEnvironmentTab.csh");
     }
 
     protected void updateSubpanel(TestResult currTest) {

@@ -33,10 +33,9 @@ import javax.swing.JOptionPane;
 
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.tool.jthelp.JTHelpBroker;
 import com.sun.javatest.util.FileInfoCache;
 import com.sun.javatest.util.I18NResourceBundle;
-import javax.help.DefaultHelpBroker;
-
 /**
  *
  */
@@ -322,7 +321,7 @@ public class SelectedWorkDirApprover {
     private Component parent;
     private boolean approveOpenSelection_dirExists = false;
 
-    private UIFactory uif = new UIFactory(SelectedWorkDirApprover.class, new DefaultHelpBroker());
+    private UIFactory uif = new UIFactory(SelectedWorkDirApprover.class, new JTHelpBroker());
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(SelectedWorkDirApprover.class);
 
     private boolean allowNoTemplate = false;

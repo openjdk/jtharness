@@ -28,7 +28,6 @@ package com.sun.javatest.exec;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import javax.help.CSH;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -41,6 +40,7 @@ import com.sun.javatest.Parameters.MutablePriorStatusParameters;
 import com.sun.javatest.Parameters.PriorStatusParameters;
 import com.sun.javatest.Status;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 class CE_PriorStatusPane extends CE_StdPane
 {
@@ -122,7 +122,7 @@ class CE_PriorStatusPane extends CE_StdPane
     }
 
     private void initGUI() {
-        CSH.setHelpIDString(this, "confEdit.statusTab.csh");
+        ContextHelpManager.setHelpIDString(this, "confEdit.statusTab.csh");
 
         JPanel p = uif.createPanel("ce.status", new GridBagLayout(),
                                     false);

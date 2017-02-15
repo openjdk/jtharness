@@ -29,7 +29,6 @@ package com.sun.javatest.exec;
 import java.awt.EventQueue;
 
 import javax.accessibility.AccessibleContext;
-import javax.help.CSH;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -38,6 +37,7 @@ import javax.swing.JTextField;
 
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
     ElapsedTimeMonitor(MonitorState ms, UIFactory uif) {
@@ -138,7 +138,7 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
             uif.setToolTip(this, "et.sm");
             AccessibleContext ac = getAccessibleContext();
             ac.setAccessibleName(uif.getI18NString("et.sm.name"));
-            CSH.setHelpIDString(this, "run.testProgress");
+            ContextHelpManager.setHelpIDString(this, "run.testProgress");
 
             update();
         }

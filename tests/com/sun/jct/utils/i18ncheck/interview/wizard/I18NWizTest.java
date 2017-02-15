@@ -35,8 +35,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
-import javax.help.HelpBroker;
-import javax.help.HelpSet;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -59,6 +57,9 @@ import com.sun.interview.StringQuestion;
 import com.sun.interview.wizard.Exporter;
 import com.sun.interview.wizard.Wizard;
 import com.sun.interview.wizard.WizPane;
+import com.sun.javatest.tool.jthelp.HelpBroker;
+import com.sun.javatest.tool.jthelp.HelpSet;
+import com.sun.javatest.tool.jthelp.JTHelpBroker;
 
 public class I18NWizTest extends Interview
 {
@@ -94,8 +95,7 @@ public class I18NWizTest extends Interview
     {
         EventQueue.invokeAndWait(new Runnable() {
                 public void run() {
-                    help_hs = new HelpSet();
-                    help_hb = help_hs.createHelpBroker();
+                    help_hb = new JTHelpBroker();
                 }
             });
 

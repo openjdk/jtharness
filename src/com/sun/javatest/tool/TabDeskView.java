@@ -44,8 +44,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.help.CSH;
-
 import javax.swing.Action;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -62,6 +60,7 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import com.sun.javatest.util.PrefixMap;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 /**
  * A container that presents the current desktop tools in a tabbed pane.
@@ -229,14 +228,14 @@ class TabDeskView extends DeskView {
         // hands on the new selected tool (if any)
         if (selectedTool == null) {
             mainFrame.setTitle(uif.getI18NString("dt.title.txt"));
-            CSH.setHelpIDString(contents, null);
+            ContextHelpManager.setHelpIDString(contents, null);
         }
         else {
             //OLD addToolMenuItemsToBasicMenuBar(selectedTool);
             addToolMenuItemsToFrameMenuBar(mainFrame, selectedTool);
             selectedTool.addObserver(listener);
             mainFrame.setTitle(uif.getI18NString("dt.title.tool.txt", selectedTool.getTitle()));
-            CSH.setHelpIDString(contents, CSH.getHelpIDString(selectedTool));
+            ContextHelpManager.setHelpIDString(contents, ContextHelpManager.getHelpIDString(selectedTool));
             contents.setSelectedComponent(selectedTool);
         }
 

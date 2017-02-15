@@ -40,16 +40,11 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.TreeMap;
 
-import javax.help.DefaultHelpBroker;
-import javax.help.HelpSet;
-import javax.help.HelpSetException;
-import javax.help.JHelpSearchNavigator;
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-
 import com.sun.javatest.Harness;
 import com.sun.javatest.ProductInfo;
-import com.sun.javatest.util.ExitCount;
+import com.sun.javatest.tool.jthelp.HelpBroker;
+import com.sun.javatest.tool.jthelp.HelpSet;
+import com.sun.javatest.tool.jthelp.JTHelpBroker;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.WrapWriter;
@@ -289,19 +284,14 @@ public class HelpManager extends CommandManager
         }
 
         if (u != null) {
-            try {
-                HelpSet helpSet = new HelpSet(theLoader, u);
-                CustomHelpBroker b = new CustomHelpBroker(helpSet);
-                if (onlineHelpQuery != null && onlineHelpQuery.length() > 0) {
-                    b.search(onlineHelpQuery);
-                }
-                else {
-                    b.setCurrentID("command.intro.csh");
-                }
-                b.setDisplayed(true);
+            HelpSet helpSet = new HelpSet(theLoader, u);
+            //CustomHelpBroker b = new CustomHelpBroker(helpSet);
+            HelpBroker b = new JTHelpBroker();
+            if (onlineHelpQuery != null && onlineHelpQuery.length() > 0) {
+                b.displayCurrentID(onlineHelpQuery);
             }
-            catch (HelpSetException e) {
-                // TO DO...
+            else {
+                b.displayCurrentID("command.intro.csh");
             }
         }
     }
@@ -352,7 +342,7 @@ public class HelpManager extends CommandManager
 
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HelpManager.class);
 
-    private static class CustomHelpBroker
+    /*private static class CustomHelpBroker
         extends DefaultHelpBroker
     {
         CustomHelpBroker(HelpSet hs) {
@@ -411,5 +401,5 @@ public class HelpManager extends CommandManager
         private Window getHelpWindow() {
             return getWindowPresentation().getHelpWindow();
         }
-    }
+    }*/
 }

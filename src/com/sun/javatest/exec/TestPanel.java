@@ -36,7 +36,7 @@ import java.awt.event.ComponentListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
-import javax.help.CSH;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -109,7 +109,7 @@ class TestPanel extends JPanel
 
         if (newPanel != currPanel) {
             // update help for tabbed pane to reflect help for selected panel
-            CSH.setHelpIDString(tabs, CSH.getHelpIDString(newPanel));
+            ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(newPanel));
             currPanel = newPanel;
         }
 
@@ -299,7 +299,7 @@ class TestPanel extends JPanel
         });
 
         currPanel = outputPanel;
-        CSH.setHelpIDString(tabs, CSH.getHelpIDString(currPanel));
+        ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(currPanel));
 
         statusField = uif.createOutputField("test.status");
         statusField.setEnabled(false);

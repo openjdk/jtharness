@@ -30,11 +30,11 @@ package com.sun.javatest.exec;
 import com.sun.javatest.tool.Tool;
 import com.sun.javatest.tool.ToolAction;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.HelpBroker;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.help.HelpBroker;
 import javax.swing.Action;
 import javax.swing.JMenu;
 
@@ -101,8 +101,7 @@ public class ET_DefaultHelpControl implements ET_HelpControl {
             public void actionPerformed(ActionEvent e) {
                 HelpBroker b = tool.getHelpBroker();
                 if (b != null) {
-                    b.setCurrentID("browse.window.csh");
-                    b.setDisplayed(true);
+                    b.displayCurrentID("browse.window.csh");
                 } else {
                     // could internationalize this, but the error isn't that helpful because a
                     // end-user probably can't fix the problem

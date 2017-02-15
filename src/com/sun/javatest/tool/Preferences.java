@@ -75,7 +75,7 @@ public class Preferences
         return theOne;
     }
 
-    static File getPrefsDir() {
+    public static File getPrefsDir() {
         File userDir = new File(System.getProperty("user.home"));
         String prefDir = System.getProperty("javatest.preferences.dir", ".javatest");
         return new File(userDir, prefDir);

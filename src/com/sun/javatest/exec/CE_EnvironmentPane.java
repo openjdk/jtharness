@@ -31,7 +31,6 @@ import java.awt.GridBagLayout;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import javax.help.CSH;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -39,6 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.TestEnvironment;
 import com.sun.javatest.Parameters.EnvParameters;
@@ -52,7 +52,7 @@ class CE_EnvironmentPane extends CE_StdPane
 {
     CE_EnvironmentPane(UIFactory uif, InterviewParameters config) {
         super(uif, config, "env");
-        CSH.setHelpIDString(this, "confEdit.envTab.csh");
+        ContextHelpManager.setHelpIDString(this, "confEdit.envTab.csh");
 
         // save this value, so we can make files test-suite-relative later
         testSuite = config.getTestSuite();

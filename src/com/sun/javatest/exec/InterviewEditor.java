@@ -44,10 +44,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import javax.help.BadIDException;
-import javax.help.InvalidHelpSetContextException;
-import javax.help.JHelpContentViewer;
-import javax.help.Map.ID;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
@@ -70,7 +66,6 @@ import javax.swing.event.MenuListener;
 import com.sun.interview.Interview;
 import com.sun.interview.Question;
 import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.JavaTestError;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.exec.WorkDirChooseTool.ExecModelStub;
@@ -80,6 +75,8 @@ import com.sun.javatest.tool.HelpLink;
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.HelpID;
+import com.sun.javatest.tool.jthelp.JHelpContentViewer;
 import com.sun.javatest.util.Debug;
 import java.util.ArrayList;
 import java.util.List;
@@ -1080,20 +1077,12 @@ public class InterviewEditor extends ToolDialog {
     }
 
     private void showInfoForQuestion(Question q) {
-        try {
-            ID id = Help.getHelpID(q);
-            // uugh
-            if (id == null)
-                System.err.println("WARNING: no help for " + q.getKey());
-            else
-                infoPanel.setCurrentID(id);
-        }
-        catch (BadIDException e) {
+        HelpID helpId = Help.getHelpID(q);
+        // uugh
+        if (helpId == null)
             System.err.println("WARNING: no help for " + q.getKey());
-        }
-        catch (InvalidHelpSetContextException e) {
-            JavaTestError.unexpectedException(e);
-        }
+        else
+            infoPanel.setCurrentID(helpId);
     }
 
 

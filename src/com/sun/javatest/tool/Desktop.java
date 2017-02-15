@@ -56,12 +56,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Vector;
-import javax.help.DefaultHelpBroker;
-import javax.help.HelpBroker;
-import javax.help.HelpSet;
-import javax.help.HelpSetException;
-import javax.help.JHelp;
-import javax.help.WindowPresentation;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -80,6 +74,10 @@ import javax.swing.UIManager;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.JavaTestError;
 import com.sun.javatest.TestSuite;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.tool.jthelp.HelpBroker;
+import com.sun.javatest.tool.jthelp.HelpSet;
+import com.sun.javatest.tool.jthelp.JTHelpBroker;
 import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.report.HTMLWriterEx;
 import com.sun.javatest.util.I18NResourceBundle;
@@ -856,14 +854,6 @@ public class Desktop
             n++;
         }
 
-        if (helpBroker != null) {
-            p.put("help.visible", String.valueOf(helpBroker.isDisplayed()));
-            if (helpBroker.getCurrentView() != null)
-                p.put("help.view", helpBroker.getCurrentView());
-            if (helpBroker.getCurrentID() != null)
-                p.put("help.id", helpBroker.getCurrentID().id);
-        }
-
         try {
             File dir = f.getParentFile();
             if (dir != null && !dir.exists())
@@ -927,23 +917,6 @@ public class Desktop
         }
 
         restoreHistory(p);
-
-        if (helpBroker != null) {
-            try {
-                String view = (String) (p.get("help.view"));
-                if (view != null)
-                    helpBroker.setCurrentView(view);
-                String id = (String) (p.get("help.id"));
-                if (id != null)
-                    helpBroker.setCurrentID(id);
-                helpBroker.setDisplayed("true".equals(p.get("help.visible")));
-            }
-            catch (IllegalArgumentException e) {
-                // ignore
-                // this exception can arise if the view name is bad
-                // (e.g. glossary, in a version that does not support glossary)
-            }
-        }
 
         // ALERT!! NEEDS FIXING!
         // should use saved view info
@@ -1178,10 +1151,6 @@ public class Desktop
     public void dispose() {
         if (currView != null)
             currView.dispose();
-
-        if (helpBroker != null && helpBroker.isDisplayed()) {
-            helpBroker.setDisplayed(false);
-        }
     }
 
     /**
@@ -1464,48 +1433,29 @@ public class Desktop
         }
 
         if (u != null) {
-            try {
-                HelpSet helpSet = new HelpSet(theLoader, u);
-                //helpBroker = helpSet.createHelpBroker();
-                helpBroker = new DefaultHelpBroker(helpSet);
+            //HelpSet helpSet = new HelpSet(theLoader, u);
+            //helpBroker = helpSet.createHelpBroker();
+            helpBroker = new JTHelpBroker();
 
-                // Not safe to run initPresentation in a background
-                // thread, despite the JavaHelp specification.
-                // so run it synchronously instead.
-                // don't even run it synchronously
-                //helpBroker.initPresentation();
-                /*
-                // launch background thread to init help in the
-                // background, per JavaHelp suggestions
-                Runnable r = new Runnable() {
-                    public void run() {
-                        helpBroker.initPresentation();
-                    }
-                };
-                Thread t = new Thread(r);
-                t.setPriority(Thread.MIN_PRIORITY + 1);  // not lowest, but pretty low
-                t.start();
-                 *
-                 */
-
-            }
-            catch (HelpSetException e) {
-                // TO DO...
-            }
+            // Not safe to run initPresentation in a background
+            // thread, despite the JavaHelp specification.
+            // so run it synchronously instead.
+            // don't even run it synchronously
+            //helpBroker.initPresentation();
+            /*
+            // launch background thread to init help in the
+            // background, per JavaHelp suggestions
+            Runnable r = new Runnable() {
+                public void run() {
+                    helpBroker.initPresentation();
+                }
+            };
+            Thread t = new Thread(r);
+            t.setPriority(Thread.MIN_PRIORITY + 1);  // not lowest, but pretty low
+            t.start();
+             *
+             */
         }
-    }
-
-    private JHelp getJHelp() {
-        WindowPresentation wp = helpBroker.getWindowPresentation();
-        wp.createHelpWindow();
-        JFrame f = (JFrame) (wp.getHelpWindow());
-        Container p = f.getContentPane();
-        for (int i = 0; i < p.getComponentCount(); i++) {
-            Component c = p.getComponent(i);
-            if (c instanceof JHelp)
-                return (JHelp) c;
-        }
-        return null;
     }
 
     private void initToolManagers() {
@@ -1588,7 +1538,9 @@ public class Desktop
                 Component comp = javax.swing.SwingUtilities.findFocusOwner(src);
                 System.err.println("ALT-F2: source=" + src);
                 System.err.println("ALT-F2:  focus=" + comp);
-                System.err.println("ALT-F2: helpId=" + (comp == null ? "(none)" : javax.help.CSH.getHelpIDString(comp)));
+                String helpId = comp == null ? "(none)" : ContextHelpManager.getHelpIDString(comp);
+                helpId = helpId == null ? ContextHelpManager.getHelpIDString(src) : helpId;
+                System.err.println("ALT-F2: helpId=" + helpId);
             }
         };
 
@@ -1675,7 +1627,7 @@ public class Desktop
     private PreferencesPane prefsPane;
     private PreferencesPane colorPane;
     private ToolManager[] toolManagers;
-    private DefaultHelpBroker helpBroker;
+    private HelpBroker helpBroker;
     private LogFile logFile;
     private boolean firstTime;
     private boolean saveOnExit;

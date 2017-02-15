@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -24,27 +24,21 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package com.sun.javatest.audit;
+package com.sun.javatest.tool.jthelp;
 
-import com.sun.javatest.tool.UIFactory;
+import java.awt.Component;
+import java.util.WeakHashMap;
 
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
+public class ContextHelpManager {
 
+    private static WeakHashMap<Component, String> componentHelpMap = new WeakHashMap<Component, String>();
 
-class BadTestCaseTestsPane extends ListPane {
-    BadTestCaseTestsPane(UIFactory uif) {
-        super("badTestCaseTests", uif);
-        ContextHelpManager.setHelpIDString(this, "audit.badTestCasesTab.csh");
+    public static void setHelpIDString(Component component, String value){
+        componentHelpMap.put(component, value);
     }
 
-    void show(Audit audit) {
-        if (audit == currAudit)
-            showBody();
-        else {
-            currAudit = audit;
-            setData(currAudit.getBadTestCaseTests());
-        }
+    public static String getHelpIDString(Component component){
+        return componentHelpMap.get(component);
     }
 
-    private Audit currAudit;
 }

@@ -38,7 +38,6 @@ import java.io.File;
 import java.net.URL;
 import java.text.DateFormat;
 import java.util.Date;
-import javax.help.CSH;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -52,6 +51,7 @@ import javax.swing.JToolBar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.Parameters.ExcludeListParameters;
 import com.sun.javatest.Parameters.MutableExcludeListParameters;
@@ -177,7 +177,7 @@ class CE_ExcludeListPane extends CE_StdPane
     }
 
     private void initGUI() {
-        CSH.setHelpIDString(this, "confEdit.excludeTab.csh");
+        ContextHelpManager.setHelpIDString(this, "confEdit.excludeTab.csh");
 
         JPanel p = uif.createPanel("ce.excl", new BorderLayout(), false);
 

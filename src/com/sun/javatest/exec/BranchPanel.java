@@ -32,7 +32,6 @@ import java.awt.EventQueue;
 import java.awt.event.ComponentListener;
 import java.awt.event.ComponentEvent;
 
-import javax.help.CSH;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -51,6 +50,7 @@ import com.sun.javatest.Status;
 import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 import com.sun.javatest.tool.IconFactory;
 import com.sun.javatest.tool.UIFactory;
@@ -178,7 +178,7 @@ class BranchPanel
         */
 
         currPanel = summPanel;
-        CSH.setHelpIDString(bPane, CSH.getHelpIDString(currPanel));
+        ContextHelpManager.setHelpIDString(bPane, ContextHelpManager.getHelpIDString(currPanel));
 
         setLayout(new BorderLayout());
         add(bPane, BorderLayout.CENTER);
@@ -224,7 +224,7 @@ class BranchPanel
 
         if (newPanel != currPanel) {
             // update help for tabbed pane to reflect help for selected panel
-            CSH.setHelpIDString(bPane, CSH.getHelpIDString(newPanel));
+            ContextHelpManager.setHelpIDString(bPane, ContextHelpManager.getHelpIDString(newPanel));
             currPanel = newPanel;
         }
 

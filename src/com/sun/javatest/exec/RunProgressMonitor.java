@@ -30,8 +30,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.help.CSH;
-
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -41,6 +39,7 @@ import javax.swing.Timer;
 //import com.sun.javatest.Status;
 //import com.sun.javatest.tool.I18NUtils;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 /**
  * Progress bars for test run.
@@ -84,7 +83,7 @@ class RunProgressMonitor extends Monitor implements MonitorState.Observer {
         smMeter.setBorder(BorderFactory.createCompoundBorder(
                                 BorderFactory.createEmptyBorder(3,5,3,5),
                                 BorderFactory.createLineBorder(Color.black)));
-        CSH.setHelpIDString(smMeter, "run.testProgress");
+        ContextHelpManager.setHelpIDString(smMeter, "run.testProgress");
 
         return smMeter;
     }

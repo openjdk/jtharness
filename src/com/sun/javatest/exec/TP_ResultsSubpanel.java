@@ -28,7 +28,7 @@ package com.sun.javatest.exec;
 
 import java.awt.EventQueue;
 import java.util.Enumeration;
-import javax.help.CSH;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.tool.UIFactory;
 
@@ -42,7 +42,7 @@ class TP_ResultsSubpanel
 
     TP_ResultsSubpanel(UIFactory uif) {
         super(uif, "rslt");
-        CSH.setHelpIDString(this, "browse.resultPropertiesTab.csh");
+        ContextHelpManager.setHelpIDString(this, "browse.resultPropertiesTab.csh");
     }
 
     protected synchronized void updateSubpanel(TestResult currTest) {
