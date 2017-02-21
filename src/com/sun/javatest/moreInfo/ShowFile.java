@@ -53,8 +53,6 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.View;
 import javax.swing.text.html.HTMLDocument;
 
-import com.sun.java.help.impl.ViewAwareComponent;
-
 /**
  * A lightweight component that will show a text file, suitable for
  * use in More Info help panes.
@@ -82,7 +80,6 @@ import com.sun.java.help.impl.ViewAwareComponent;
  */
 public class ShowFile
     extends JComponent
-    implements ViewAwareComponent
 {
     public ShowFile() {
         addMouseListener(new MouseAdapter() {

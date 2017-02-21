@@ -4,23 +4,23 @@
 
   Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
- 
+
   This code is free software; you can redistribute it and/or modify it
   under the terms of the GNU General Public License version 2 only, as
   published by the Free Software Foundation.  Oracle designates this
   particular file as subject to the "Classpath" exception as provided
   by Oracle in the LICENSE file that accompanied this code.
- 
+
   This code is distributed in the hope that it will be useful, but WITHOUT
   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
   FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   version 2 for more details (a copy is included in the LICENSE file that
   accompanied this code).
- 
+
   You should have received a copy of the GNU General Public License version
   2 along with this work; if not, write to the Free Software Foundation,
   Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
- 
+
   Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
   or visit www.oracle.com if you need additional information or have any
   questions.
@@ -30,74 +30,75 @@
   PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Index Version 1.0//EN"
          "http://java.sun.com/products/javahelp/index_1_0.dtd">
 
-<index version="2.0">
-
-
-<!-- A -->
-<indexitem text="active agents, troubleshooting" target="agent.troubleshootingActive"/>
-<indexitem text="active host (active agent), setting" target="agent.configureActiveAgents.host"/>
-<indexitem text="Agent Monitor" target="agent.window.csh"/>
-<indexitem text="agent pool" target="agent.agentPool"/>
-<indexitem text="auto-start the agent" target="agent.additionalOptions.autoStart"/>
-
-
- <!-- B -->
-
-
- <!-- C -->
-
-<indexitem text="concurrency values (agents), setting" target="agent.additionalOptions.concurrency"/>
-<indexitem text="creating a map file (agents)" target="agent.mapFile"/>
-
-
- <!-- D -->
-<indexitem text="displaying command-line help (agents)" target="agent.additionalOptions.help"/>
-
- <!-- E -->
-
-
- <!-- F -->
-
-<indexitem text="file, specifying a map" target="agent.additionalOptions.mapFile"/>
-<indexitem text="files, creating map" target="agent.mapFile"/>
-
-
- <!-- G -->
-
- <!-- H -->
-<indexitem text="help, agent command-line" target="agent.additionalOptions.help"/>
-
- <!-- M -->
-<indexitem text="map files, specifying" target="agent.additionalOptions.mapFile"/>
-<indexitem text="map file, creating a (agents)" target="agent.mapFile"/>
-<indexitem text="Monitor, Agent" target="agent.window.csh"/>
-
-<indexitem text="monitoring JT Harness Agents" target="agent.monitoring"/>
-
-
- <!-- P -->
-<indexitem text="passive agents, troubleshooting" target="agent.troubleshootingPassive"/>
-<indexitem text="pool, agent" target="agent.window.csh"/>
-<indexitem text="port number (active agents), setting" target="agent.configureActiveAgents.port"/>
-
-
- <!-- S -->
-<indexitem text="set tracing (agents)" target="agent.additionalOptions.tracing"/>
-<indexitem text="setting the active host (active agents)" target="agent.configureActiveAgents.host"/>
-<indexitem text="setting concurrency (agents)" target="agent.additionalOptions.concurrency"/>
-<indexitem text="setting tasks in history (active agents)" target="agent.additionalOptions.history"/>
-<indexitem text="specifying a map file (agents)" target="agent.additionalOptions.mapFile"/>
-
-
- <!-- T -->
-
-<indexitem text="tasks in history, setting (agents)" target="agent.additionalOptions.history"/>
-
-<indexitem text="tracing agent activity, set " target="agent.additionalOptions.tracing"/>
-
-<indexitem text="troubleshooting active agents" target="agent.troubleshootingActive"/>
-<indexitem text="troubleshooting JT Harness Agents" target="agent.troubleshooting"/>
-<indexitem text="troubleshooting passive agents" target="agent.troubleshootingPassive"/>
-
-
+<index version="1.0">
+<indexitem text="active agent"  target="index.agentConfigureActiveAgentsConfigureActiveAgentsPort" />
+<indexitem text="active agents"  target="index.agentTroubleshootingActiveMonitoring" />
+<indexitem text="additional options"  target="index.agentAdditionalOptionsAdditionalOptionsTracing" />
+<indexitem text="Agent"  target="index.agentUsingAgentsUsingAgents" />
+<indexitem text="agent applet"  target="index.agentStartAppletsStartAppletsOptions" />
+<indexitem text="agent application"  target="index.agentStartApplicationStartApplicationAppOptions" />
+<indexitem text="agent classes"  target="index.agentStartApplicationStartApplicationClassPathsAgentPaths" />
+<indexitem text="agent GUI"  target="index.agentTaskPaneTaskPane" />
+<indexitem text="Agent Monitor window"  target="index.agentWindowWindowAgentInUse" />
+<indexitem text="agent pool"  target="index.agentWindowWindowAgentPool" />
+<indexitem text="agents currently used"  target="index.agentWindowWindowAgentInUse" />
+<indexitem text="applet"  target="index.agentStartAgentStartAgentApplet" />
+<indexitem text="applet tag"  target="index.agentStartAppletsStartAppletsOptions" />
+<indexitem text="application"  target="index.agentStartAgentStartAgentApplication" />
+<indexitem text="autoStart the agent"  target="index.agentAdditionalOptionsAdditionalOptionsAutostart" />
+<indexitem text="choosing type of"  target="index.agentChoosingAgentsConfigureActiveAgents" />
+<indexitem text="choosing type of agent"  target="index.agentChoosingAgentsConfigureActiveAgents" />
+<indexitem text="classes"  target="index.agentStartGUIStartGUIClassPaths" />
+<indexitem text="configure an agent"  target="index.agentStartGUIStartGUIConfigure" />
+<indexitem text="creating"  target="index.agentMapFileMapFile" />
+<indexitem text="creating a map file"  target="index.agentMapFileMapFile" />
+<indexitem text="display help"  target="index.agentStartGUIStartGUIHelp" />
+<indexitem text="GUI"  target="index.agentStartAgentStartAgentGui" />
+<indexitem text="help"  target="index.agentAdditionalOptionsAdditionalOptionsHelp" />
+<indexitem text="history tabbed pane"  target="index.agentHistoryPaneHistoryPane" />
+<indexitem text="history tabbed pane, agent GUI"  target="index.agentHistoryPaneHistoryPane" />
+<indexitem text="host"  target="index.agentConfigureActiveAgentsConfigureActiveAgentsHost" />
+<indexitem text="installing"  target="index.agentLoadingClassesConfigurePassiveAgents" />
+<indexitem text="installing agent classes"  target="index.agentLoadingClassesConfigurePassiveAgents" />
+<indexitem text="JT Harness"  target="index.agentUsingAgentsUsingAgents" />
+<indexitem text="JT Harness agent"  target="index.agentStartAgentStartAgentGui" />
+<indexitem text="JT Harness Agents"  target="index.agentMonitoringMonitoring" />
+<indexitem text="map file"  target="index.agentMapFileMapFile" />
+<indexitem text="mode"  target="index.agentConfigureSerialAgentsConfigureSerialAgentsMode" />
+<indexitem text="monitor"  target="index.agentMonitoringMonitoring" />
+<indexitem text="monitor JT Harness agents"  target="index.agentMonitoringMonitoring" />
+<indexitem text="options"  target="index.agentStartGUIStartGUIConfigure" />
+<indexitem text="passive agent"  target="index.agentConfigurePassiveAgentsConfigurePassiveAgentsPort" />
+<indexitem text="passive agents"  target="index.agentTroubleshootingPassiveMonitoring" />
+<indexitem text="port"  target="index.agentConfigureSerialAgentsConfigureSerialAgentsPort" />
+<indexitem text="required class paths"  target="index.agentStartApplicationStartApplicationAppClass" />
+<indexitem text="run and monitor the Agent"  target="index.agentAdditionalOptionsAdditionalOptionsBoth" />
+<indexitem text="run tests using an agent"  target="index.agentRunTestsRunTests" />
+<indexitem text="serial agent"  target="index.agentConfigureSerialAgentsConfigureSerialAgentsPort" />
+<indexitem text="set concurrency"  target="index.agentAdditionalOptionsAdditionalOptionsConcurrencyValue" />
+<indexitem text="set in the command line"  target="index.agentStartGUIStartGUIOnly" />
+<indexitem text="set maximum number"  target="index.agentAdditionalOptionsAdditionalOptionsTaskHistory" />
+<indexitem text="set tracing"  target="index.agentAdditionalOptionsAdditionalOptionsTracing" />
+<indexitem text="setting"  target="index.agentConfigureSerialAgentsConfigureSerialAgentsPort" />
+<indexitem text="setting parameters"  target="index.agentStartAppletsStartAppletsOptions" />
+<indexitem text="setting parameters in the applet tag"  target="index.agentStartAppletsStartAppletsOptions" />
+<indexitem text="start"  target="index.agentStartApplicationStartApplicationAppOptions" />
+<indexitem text="start an agent application"  target="index.agentStartApplicationStartApplicationAppOptions" />
+<indexitem text="starting"  target="index.agentStartGUIStartGUIClassPaths" />
+<indexitem text="starting a JT Harness agent"  target="index.agentStartAgentStartAgentApplet" />
+<indexitem text="starting an agent applet"  target="index.agentStartAppletsStartAppletsAppletTag" />
+<indexitem text="starting an agent GUI"  target="index.agentStartGUIStartGUIConfigure" />
+<indexitem text="statistics tabbed pane"  target="index.agentStatisticsPaneStatisticsPane" />
+<indexitem text="statistics tabbed pane, agent GUI"  target="index.agentStatisticsPaneStatisticsPane" />
+<indexitem text="task tabbed pane"  target="index.agentTaskPaneTaskPane" />
+<indexitem text="task tabbed pane, agent GUI"  target="index.agentTaskPaneTaskPane" />
+<indexitem text="tasks in history pane"  target="index.agentAdditionalOptionsAdditionalOptionsTaskHistory" />
+<indexitem text="test classes"  target="index.agentStartApplicationStartApplicationClassPathsTestPaths" />
+<indexitem text="to configure an agent"  target="index.agentStartGUIStartGUIConfigure" />
+<indexitem text="to run the agent"  target="index.agentStartGUIStartGUIBoth" />
+<indexitem text="troubleshooting"  target="index.agentTroubleshootingPassiveMonitoring" />
+<indexitem text="troubleshooting active agents"  target="index.agentTroubleshootingActiveMonitoring" />
+<indexitem text="troubleshooting JT Harness agents"  target="index.agentTroubleshootingTroubleshooting" />
+<indexitem text="troubleshooting passive agents"  target="index.agentTroubleshootingPassiveMonitoring" />
+<indexitem text="window, Agent Monitor"  target="index.agentWindowWindow" />
 </index>

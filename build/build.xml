@@ -330,13 +330,6 @@
     </target>
 
     <target name="compile.javahelp">
-        <presetdef name="jhindexer">
-            <java fork="true" failonerror="true"
-                  dir="unset"
-                  classpath="${jhalljar}"
-                  classname="com.sun.java.help.search.Indexer">
-            </java>
-        </presetdef>
 
         <delete dir="${build.javatestAgent.help}/default/JavaHelpSearch"/>
         <delete dir="${build.javatest.help}/default/JavaHelpSearch"/>
@@ -347,16 +340,13 @@
         </copy>
 
         <!-- build the search index -->
-        <jhindexer dir="${build.javatest.help}">
-            <arg value="-c"/>
-            <arg line="-db JavaHelpSearch"/>
-            <arg line="default"/>
-        </jhindexer>
-        <jhindexer dir="${build.javatestAgent.help}">
-            <arg value="-c"/>
-            <arg line="-db JavaHelpSearch"/>
-            <arg line="default"/>
-        </jhindexer>
+        <copy todir="${build.javatest.help}">
+            <fileset dir="{src.javatest.help}"/>
+        </copy>
+
+        <copy todir="${build.javatestAgent.help}">
+            <fileset dir="{src.javatestAgent.help}"/>
+        </copy>
 
         <move todir="${build.javatest.help}/default/JavaHelpSearch">
             <fileset dir="${build.javatest.help}/JavaHelpSearch"/>
@@ -443,7 +433,6 @@
     <target name="test" depends="jar,test-nohead,test-i18n,test-copyrights,test-sanity" description="Runs test on JT Harness.">
         <java fork="true" failonerror="true" classname="${run.class}">
             <classpath>
-                <path path="${jhalljar}"/>
                 <path path="${BUILD_DIR}/binaries/lib/javatest.jar"/>
             </classpath>
             <arg value="-version"/>
@@ -457,7 +446,6 @@
 			outputproperty="test.sanity.version.output"
 			resultproperty="test.sanity.version.result">
 			<classpath>
-				<path path="${jhalljar}"/>
 				<path path="${BUILD_DIR}/binaries/lib/javatest.jar"/>
 			</classpath>
 			<arg value="-version"/>
@@ -487,7 +475,6 @@
 			outputproperty="test.sanity.simpletck.output"
 			resultproperty="test.sanity.simpletck.result">
 			<classpath>
-				<path path="${jhalljar}" />
 				<path path="${libs}/demots.jar" />
 				<path path="${libs}/demoapi.jar" />
 			</classpath>
@@ -524,7 +511,7 @@
         </junit>
     </target>
 
-    <target name="compile-javatest.help.main" depends="ant-jct.utils" unless="javatest.help.ok" >
+    <target name="compile-javatest.help.main" unless="javatest.help.ok" >
         <!-- copy across the help files -->
         <delete dir="${build.javatest.help}"/>
         <mkdir dir="${build.tmp}"/>
@@ -539,35 +526,6 @@
                 <patternset refid="helpset"/>
             </fileset>
         </copy>
-
-        <!-- build the glossary -->
-        <glossarygen mapDir="${src.javatest.help}/default"
-                     mapOutFile="${build.tmp}/javatestGlossaryMap.xml"
-                     xmlOutFile="${build.javatest.help}/default/glossary.xml"
-                     dir="${src.javatest.help}/default/glossary">
-            <include name="**/*.html"/>
-        </glossarygen>
-        <!-- build the index -->
-        <indexgen mapDir="${src.javatest.help}/default"
-                  mapOutFile="${build.tmp}/javatestIndexMap.xml"
-                  xmlOutFile="${build.javatest.help}/default/index.xml"
-                  dir="${src.javatest.help}/default">
-            <include name="**/*.html"/>
-            <exclude name="**/license.html"/>
-        </indexgen>
-        <!-- build the combined map -->
-        <mapmerge outFile="${build.javatest.help}/default/map.xml">
-            <fileset file="${src.javatest.help}/default/map.xml"/>
-            <fileset file="${build.tmp}/javatestGlossaryMap.xml"/>
-            <fileset file="${build.tmp}/javatestIndexMap.xml"/>
-        </mapmerge>
-        <!-- build the search index -->
-        <jhindexer dir="${build.javatest.help}">
-            <arg value="-c"/>
-            <arg file="${src.javatest.help}/jhindexer-config.txt "/>
-            <arg line="-db default/JavaHelpSearch"/>
-            <arg line="default"/>
-        </jhindexer>
     </target>
 
     <target name="check-javatest.help">
@@ -577,7 +535,7 @@
         </dependset>
         <available property="javatest.help.ok" file="${build.javatest.help}/default/map.xml"/>
     </target>
-    <target name="compile-javatestAgent.help" depends="ant-jct.utils" unless="javatestAgent.help.ok" >
+    <target name="compile-javatestAgent.help" unless="javatestAgent.help.ok" >
         <!-- copy across the help files -->
         <copy todir="${build.javatestAgent.help}">
             <fileset dir="${src.dir}/com/sun/javatest/agent/help/">
@@ -585,34 +543,6 @@
                 <exclude name="**/*.tif"/>
             </fileset>
         </copy>
-        <!-- build the glossary -->
-        <glossarygen mapDir="${src.javatest.help}/default"
-                     mapOutFile="${build.tmp}/javatestAgentGlossaryMap.xml"
-                     xmlOutFile="${build.javatestAgent.help}/default/glossary.xml"
-                     dir="${src.javatestAgent.help}/default/glossary">
-            <include name="**/*.html"/>
-        </glossarygen>
-        <!-- build the index -->
-        <indexgen mapDir="${src.javatest.help}/default"
-                  mapOutFile="${build.tmp}/javatestAgentIndexMap.xml"
-                  xmlOutFile="${build.javatestAgent.help}/default/index.xml"
-                  dir="${src.javatestAgent.help}/default">
-            <include name="**/*.html"/>
-            <exclude name="**/license.html"/>
-        </indexgen>
-        <!-- build the combined map -->
-        <mapmerge outFile="${build.javatestAgent.help}/default/map.xml">
-            <fileset file="${src.javatestAgent.help}/default/map.xml"/>
-            <fileset file="${build.tmp}/javatestAgentGlossaryMap.xml"/>
-            <fileset file="${build.tmp}/javatestAgentIndexMap.xml"/>
-        </mapmerge>
-        <!-- build the search index -->
-        <jhindexer dir="${build.javatestAgent.help}">
-            <arg value="-c"/>
-            <arg file="${src.javatestAgent.help}/jhindexer-config.txt "/>
-            <arg line="-db default/JavaHelpSearch"/>
-            <arg line="default"/>
-        </jhindexer>
     </target>
 
     <target name="check-javatestAgent.help">
@@ -623,19 +553,6 @@
         <available property="javatestAgent.help.ok" file="${build.javatestAgent.help}/default/map.xml"/>
     </target>
     <!-- ********** jct-utils ********************************************** -->
-
-    <target name="ant-jct.utils" depends="compile-jct.utils">
-        <taskdef name="glossarygen" classname="com.sun.jct.utils.glossarygen.Main$$Ant" classpath="${build.classes}" />
-        <taskdef name="indexgen" classname="com.sun.jct.utils.indexgen.Main$$Ant" classpath="${build.classes}" />
-        <taskdef name="mapmerge" classname="com.sun.jct.utils.mapmerge.Main$$Ant" classpath="${build.classes}" />
-        <presetdef name="jhindexer">
-            <java fork="true" failonerror="true"
-                  dir="unset"
-                  classpath="${jhalljar}"
-                  classname="com.sun.java.help.search.Indexer">
-            </java>
-        </presetdef>
-    </target>
 
     <target name="compile-jct.utils">
         <mkdir dir="${build.classes}"/>
@@ -676,7 +593,7 @@
         <javac encoding="iso-8859-1" debug="true" source="1.4"
                srcdir="${exam.dir}/tutorial/simpleTags"
                destdir="${build.tmp}/${exam.dir}/simpleTags"
-               classpath="${BUILD_DIR}/binaries/lib/javatest.jar:${build.examples}/demots/lib/demoapi.jar:${jhalljar}">
+               classpath="${BUILD_DIR}/binaries/lib/javatest.jar:${build.examples}/demots/lib/demoapi.jar">
         </javac>
         <copy todir="${build.tmp}/${exam.dir}/simpleTags">
             <fileset dir="${exam.dir}/tutorial/simpleTags/src">
@@ -720,7 +637,7 @@
             <javac encoding="iso-8859-1" debug="true"
 	           srcdir="${exam.dir}/services_demo/src"
     	           destdir="${build.tmp}/${exam.dir}/services_demo/classes"
-        	   classpath="${BUILD_DIR}/binaries/lib/javatest.jar:${jhalljar}">
+        	   classpath="${BUILD_DIR}/binaries/lib/javatest.jar">
             </javac>
 	    <copy todir="${build.tmp}/${exam.dir}/services_demo/classes">
     	        <fileset dir="${exam.dir}/services_demo/src">

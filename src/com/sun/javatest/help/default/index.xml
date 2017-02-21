@@ -4,23 +4,23 @@
 
   Copyright (c) 2001, 2009, Oracle and/or its affiliates. All rights reserved.
   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
- 
+
   This code is free software; you can redistribute it and/or modify it
   under the terms of the GNU General Public License version 2 only, as
   published by the Free Software Foundation.  Oracle designates this
   particular file as subject to the "Classpath" exception as provided
   by Oracle in the LICENSE file that accompanied this code.
- 
+
   This code is distributed in the hope that it will be useful, but WITHOUT
   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
   FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   version 2 for more details (a copy is included in the LICENSE file that
   accompanied this code).
- 
+
   You should have received a copy of the GNU General Public License version
   2 along with this work; if not, write to the Free Software Foundation,
   Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
- 
+
   Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
   or visit www.oracle.com if you need additional information or have any
   questions.
@@ -36,25 +36,21 @@
 <indexitem text=".jtr files"  target="index.commandBrowseJTRTestresult" />
 <indexitem text=".jtx file"  target="index.commandParameterCommandsParameterCommandsJtx" />
 <indexitem text=".jtx files"  target="index.confEditExcludeListExcludeList" />
-<indexitem text="accessing help"  target="index.jthelpJthelpaccessing" />
-<indexitem text="Agent Monitor window"  target="index.uiAgentMonitorWindowAgentInUse" />
-<indexitem text="agent pool"  target="index.uiAgentMonitorWindowAgentPool" >
+<indexitem text=".kfl files"  target="index.confEditKflKfl" />
+<indexitem text="508"  target="index.commandSettingColorsAY" />
+<indexitem text="a11y"  target="index.commandSettingColorsAY" />
+<indexitem text="accessibility"  target="index.commandSettingColorsAY" />
+<indexitem text="add Exclude List files"  target="index.adminExcludeTabTEExcludeListTE" />
+<indexitem text="adding a test environment file"  target="index.adminEnvTabTEEnvironmentTE" />
+<indexitem text="Agent Monitor tool"  target="index.uiAgentMonitorWindow" />
+<indexitem text="agent pool" >
 <indexitem text="setting port number"  target="index.commandHarnessSettingsSettingsAgentPoolPort" />
 <indexitem text="setting timeout"  target="index.commandHarnessSettingsSettingsAgentPoolTimeout" />
 <indexitem text="starting"  target="index.commandHarnessSettingsSettingsStartAgentPool" />
 </indexitem>
-<indexitem text="agents currently used"  target="index.uiAgentMonitorWindowAgentInUse" />
-<indexitem text="All Tests View Filter"  target="index.browseAllTestsAllTests" />
+<indexitem text="All Tests View Filter"  target="index.uiAllTestsAllTests" />
 <indexitem text="appearance preferences" >
-<indexitem text="JavaTest desktop"  target="index.uiAppearancePrefsAppearancePrefs" />
-</indexitem>
-<indexitem text="Bad Checksum panel" >
-</indexitem>
-<indexitem text="Bad Result File panel" >
-</indexitem>
-<indexitem text="Bad Test Cases panel" >
-</indexitem>
-<indexitem text="Bad Test Description panel" >
+<indexitem text="desktop"  target="index.uiAppearancePrefsAppearancePrefs" />
 </indexitem>
 <indexitem text="batch command"  target="index.commandBatchModeRunTests" />
 <indexitem text="Bookmarks"  target="index.confEditSetMarkersKeywords" />
@@ -77,11 +73,15 @@
 <indexitem text="test result files"  target="index.commandBrowseJTRTestresult" />
 </indexitem>
 <indexitem text="browsing test information"  target="index.browseBrowsingBrowsingTest" />
-<indexitem text="button bar (same as toolbar)"  target="index.uiToolBarToolBar" />
-<indexitem text="changing configuration values"  target="index.confEditOtherValuesEditConfiguration" />
-<indexitem text="changing window styles"  target="index.uiAppearancePrefsAppearancePrefsStyles" />
+<indexitem text="bug prefix URL"  target="index.uiTestManagerTestManagerReporting" />
+<indexitem text="button bar (tool bar)"  target="index.uiToolBarToolBar" />
+<indexitem text="changing configuration values"  target="index.confEditEditConfigurationEditConfiguration" />
+<indexitem text="changing tests to run"  target="index.adminTestsTabTEInitialFilesTE" />
 <indexitem text="Clear Results" >
-<indexitem text="test tree popup menu"  target="index.browsePopupmenuPopupMenuClear" />
+<indexitem text="test tree pop-up menu"  target="index.uiPopupmenuPopupMenuClear" />
+</indexitem>
+<indexitem text="color preferences" >
+<indexitem text="input text"  target="index.uiColorPrefsColorPrefs" />
 </indexitem>
 <indexitem text="command" >
 <indexitem text="batch"  target="index.commandBatchModeRunTests" />
@@ -91,6 +91,8 @@
 <indexitem text="envFiles"  target="index.commandTestenvFileEnvFile" />
 <indexitem text="excludeList"  target="index.commandExcludeListExcludeList" />
 <indexitem text="keywords"  target="index.commandKeywordKeywords" />
+<indexitem text="kfl"  target="index.commandKnownFailureAnalysisWriteReportsKFL" />
+<indexitem text="laf"  target="index.commandSettingColorsSettingLAF" />
 <indexitem text="observer"  target="index.commandObserverRunTests" />
 <indexitem text="open"  target="index.commandOpenOpen" />
 <indexitem text="priorStatus"  target="index.commandPriorPrior" />
@@ -115,28 +117,32 @@
 <indexitem text="parameter"  target="index.commandParameterCommandsParameterCommands" />
 <indexitem text="setup"  target="index.commandSetupCommandsSetupCommands" />
 <indexitem text="task"  target="index.commandTaskCommandsEditConfig" />
+<indexitem text="work directory"  target="index.commandWorkdirWorkdirOpen" />
 <indexitem text="workDir"  target="index.commandWorkdirWorkdir" >
 <indexitem text="create"  target="index.commandWorkdirWorkdirCreate" />
 <indexitem text="overwrite"  target="index.commandWorkdirWorkdirClearResults" />
 </indexitem>
-<indexitem text="workdirectory"  target="index.commandWorkdirWorkdirOpen" />
+<indexitem text="workDirectory" >
+<indexitem text="create"  target="index.commandWorkdirWorkdirCreate" />
+<indexitem text="overwrite"  target="index.commandWorkdirWorkdirClearResults" />
+</indexitem>
 </indexitem>
 <indexitem text="concurrency command"  target="index.commandConcurrencyConcurrency" />
 <indexitem text="config command"  target="index.commandConfigConfig" />
 <indexitem text="configuration" >
 <indexitem text="creating a new"  target="index.confEditCreateConfigurationCreateConfiguration" />
-<indexitem text="creating a template"  target="index.confEditTemplateDialogCreateConfigurationTemplate" />
+<indexitem text="creating a template"  target="index.adminCreateTemplateCreateTemplate" />
 <indexitem text="test manager properties"  target="index.execPropsDialogExecPropsDialogConfig" />
 </indexitem>
 <indexitem text="configuration checklist"  target="index.confEditChecklistChecklist" />
 <indexitem text="Configuration Editor" >
 <indexitem text="Question Mode"  target="index.confEditFullViewDialogFullViewDialog" >
-<indexitem text="configuration history"  target="index.confEditFullViewDialogFullViewDialogHistory" />
 <indexitem text="File menu"  target="index.confEditFullViewDialogFullViewDialogFilemenu" />
 <indexitem text="Help menu"  target="index.confEditFullViewDialogFullViewDialogHelpmenu" />
 <indexitem text="index pane"  target="index.confEditFullViewDialogFullViewDialogIndexPane" />
 <indexitem text="More Info pane"  target="index.confEditFullViewDialogFullViewDialogMoreInfoPane" />
 <indexitem text="question pane"  target="index.confEditFullViewDialogFullViewDialogQuestionPane" />
+<indexitem text="Recent Configuration"  target="index.confEditFullViewDialogFullViewDialogHistory" />
 <indexitem text="Search menu"  target="index.confEditFullViewDialogFullViewDialogSearchmenu" />
 <indexitem text="View menu"  target="index.confEditFullViewDialogFullViewDialogViewmenu" />
 </indexitem>
@@ -153,53 +159,56 @@
 </indexitem>
 </indexitem>
 <indexitem text="configuration file" >
-<indexitem text="changing values"  target="index.confEditOtherValuesEditConfiguration" />
+<indexitem text="changing values"  target="index.confEditEditConfigurationEditConfiguration" />
 <indexitem text="changing values in"  target="index.commandEditConfigEditConfig" />
+<indexitem text="editing values"  target="index.confEditEditQuickSetEditix" />
 </indexitem>
 <indexitem text="configuration values" >
 <indexitem text="setting"  target="index.commandOtherConfigValuesOtherConfigValues" />
 </indexitem>
-<indexitem text="Configure menu"  target="index.uiConfigureMenuConfigureMenu" >
-<indexitem text="configuration history"  target="index.uiConfigureMenuConfigureMenu" />
-</indexitem>
+<indexitem text="Configure menu"  target="index.uiConfigureMenuConfigureMenu" />
 <indexitem text="configuring a test run"  target="index.confEditOverviewConfEditOverview" />
+<indexitem text="Create Report tabbed panes"  target="index.mergeReportsReportMergePrefsDialog" />
 <indexitem text="create work directory"  target="index.commandWorkdirWorkdirCreate" />
 <indexitem text="creating a configuration"  target="index.confEditCreateConfigurationCreateConfiguration" />
-<indexitem text="creating a configuration template"  target="index.confEditTemplateDialogCreateConfigurationTemplate" />
+<indexitem text="creating a template"  target="index.adminCreateTemplateCreateTemplate" />
+<indexitem text="creating merged reports"  target="index.mergeReportsMergeReportsPrefsDialog" />
 <indexitem text="creating test reports"  target="index.reportNewReportsNewReports" />
-<indexitem text="Current Configuration view filter"  target="index.browseCurrentConfigurationCurrentConfiguration" />
-<indexitem text="Custom view filter"  target="index.browseCustomFiltersCustomFilters" >
-<indexitem text="edit"  target="index.browseCustomFiltersCustomFiltersEdit" />
-<indexitem text="specify tests"  target="index.browseCustomFiltersCustomFiltersInitialFiles" />
-<indexitem text="use exclude lists"  target="index.browseCustomFiltersCustomFiltersExcludeList" />
-<indexitem text="use keywords"  target="index.browseCustomFiltersCustomFiltersKeywords" />
-<indexitem text="use prior status"  target="index.browseCustomFiltersCustomFiltersStatus" />
-<indexitem text="use test suite filter"  target="index.browseCustomFiltersCustomFiltersSpecial" />
-<indexitem text="using"  target="index.browseCustomFiltersCustomFiltersUse" />
+<indexitem text="Current Configuration view filter"  target="index.uiCurrentConfigurationCurrentConfiguration" />
+<indexitem text="Current Template view filter"  target="index.uiCurrentTemplateCurrentTemplate" />
+<indexitem text="Custom view filter"  target="index.uiCustomFiltersCustomFilters" >
+<indexitem text="edit"  target="index.uiCustomFiltersCustomFiltersEdit" />
+<indexitem text="specify tests"  target="index.uiCustomFiltersCustomFiltersInitialFiles" />
+<indexitem text="use exclude lists"  target="index.uiCustomFiltersCustomFiltersExcludeList" />
+<indexitem text="use keywords"  target="index.uiCustomFiltersCustomFiltersKeywords" />
+<indexitem text="use prior status"  target="index.uiCustomFiltersCustomFiltersStatus" />
+<indexitem text="use test suite filter"  target="index.uiCustomFiltersCustomFiltersSpecial" />
+<indexitem text="using"  target="index.uiCustomFiltersCustomFiltersUse" />
 </indexitem>
+<indexitem text="deleting a test environment file"  target="index.adminEnvTabTEEnvironmentTE" />
 <indexitem text="desktop" >
-<indexitem text="GUI"  target="index.uiUiUi" />
+<indexitem text="appearance preferences"  target="index.uiAppearancePrefsAppearancePrefs" />
 </indexitem>
-<indexitem text="desktop menus"  target="index.uiDesktopMenusDesktopMenus" />
 <indexitem text="displaying" >
 <indexitem text="configuration checklist"  target="index.confEditChecklistChecklist" />
 <indexitem text="online information"  target="index.uiOpenHelpOpenHelp" />
 <indexitem text="Question Log"  target="index.confEditQuestionLogQuestionLog" />
 <indexitem text="test manager properties"  target="index.execPropsDialogExecPropsDialog" />
-<indexitem text="test tree popup menu"  target="index.browsePopupmenuPopupMenu" />
+<indexitem text="test tree pop-up menu"  target="index.uiPopupmenuPopupMenu" />
 </indexitem>
+<indexitem text="displaying document information"  target="index.jthelpJthelpNavigation" />
 <indexitem text="displaying reports"  target="index.reportReportBrowserReportBrowser" />
+<indexitem text="editing Quick Set values"  target="index.confEditEditQuickSetEditix" />
 <indexitem text="EditJTI command format"  target="index.commandEditConfigEditConfig" />
 <indexitem text="EditLinks command format"  target="index.commandMoveReportsEditConfig" />
+<indexitem text="enabling propagation"  target="index.templatesEnablePropFromTemplateConfeditEnablingPropagation" />
 <indexitem text="env command"  target="index.commandTestEnvEnv" />
 <indexitem text="envFiles command"  target="index.commandTestenvFileEnvFile" />
 <indexitem text="environment files"  target="index.confEditEnvironmentEnvironment" />
 <indexitem text="environment variable" >
 <indexitem text="setting"  target="index.commandHarnessSettingsSettingsEnvVariable" />
 </indexitem>
-<indexitem text="example" >
-<indexitem text="runtests command"  target="index.commandRunTestsRunTestsExample" />
-</indexitem>
+<indexitem text="example, runtests command"  target="index.commandRunTestsRunTestsExample" />
 <indexitem text="examples" >
 <indexitem text="creating a new work directory"  target="index.commandWorkdirWorkdirExamples" />
 <indexitem text="replacing a work directory"  target="index.commandWorkdirWorkdirExamples" />
@@ -209,9 +218,7 @@
 <indexitem text="latest"  target="index.confEditExcludeListExcludeListLatest" />
 <indexitem text="other"  target="index.confEditExcludeListExcludeListOther" />
 </indexitem>
-<indexitem text="Exclude List browser"  target="index.exclDialogExcludeListBrowser" >
-<indexitem text="opening"  target="index.exclBrowsingExclBrowsingExcl" />
-</indexitem>
+<indexitem text="Exclude List browser"  target="index.exclDialogExcludeListBrowser" />
 <indexitem text="Exclude List contents"  target="index.exclDialogExcludeListBrowser" />
 <indexitem text="Exclude List file"  target="index.commandParameterCommandsParameterCommandsJtx" />
 <indexitem text="Exclude List files"  target="index.confEditExcludeListExcludeList" />
@@ -220,6 +227,7 @@
 <indexitem text="specifying"  target="index.commandExcludeListExcludeList" />
 </indexitem>
 <indexitem text="excludeList command"  target="index.commandExcludeListExcludeList" />
+<indexitem text="execution order"  target="index.uiTestManagerTestExecOrder" />
 <indexitem text="file" >
 <indexitem text=".jte"  target="index.confEditEnvironmentEnvironment" />
 <indexitem text=".jtp"  target="index.commandParameterCommandsParameterCommandsJtp" />
@@ -231,47 +239,51 @@
 <indexitem text="viewing"  target="index.browseFilesTabFilesTab" />
 </indexitem>
 <indexitem text="filters" >
-<indexitem text="browser" >
 <indexitem text="view"  target="index.browseViewFiltersViewFilter" />
 </indexitem>
-</indexitem>
-<indexitem text="folder icons"  target="index.browseFolderIconsFolderIcons" />
+<indexitem text="folder icons"  target="index.uiFolderIconsFolderIcons" />
 <indexitem text="folder information" >
 <indexitem text="Test Manager"  target="index.browseFolderInfoFolderInfo" />
 </indexitem>
-<indexitem text="folder result status icon"  target="index.browseFolderIconsFolderIconsResultstatus" />
-<indexitem text="folder run status icon"  target="index.browseFolderIconsFolderIconsRunstatus" />
-<indexitem text="formatting configuration values"  target="index.commandConfigValuesTimeout" />
-<indexitem text="getting started"  target="index.uiUsingJTUsingJT" />
+<indexitem text="folder result status icon"  target="index.uiFolderIconsFolderIconsResultstatus" />
+<indexitem text="folder run status icon"  target="index.uiFolderIconsFolderIconsRunstatus" />
+<indexitem text="getting started" >
+<indexitem text="GUI"  target="index.uiUsingJTUsingJT" />
+</indexitem>
 <indexitem text="GUI"  target="index.uiUsingJTUsingJT" >
-<indexitem text="desktop"  target="index.uiUiUi" />
+<indexitem text="tools"  target="index.uiUiUi" />
 </indexitem>
-<indexitem text="help" >
-<indexitem text="accessing"  target="index.jthelpJthelpaccessing" />
-<indexitem text="F1 key"  target="index.uiOpenHelpOpenHelpF" />
-<indexitem text="navigation"  target="index.jthelpJthelpNavigation" />
+<indexitem text="GUI layout styles"  target="index.uiDesktopStylesDesktopStyles" />
+<indexitem text="Help" >
+<indexitem text="button"  target="index.uiOpenHelpOpenHelpButtons" />
+<indexitem text="menu"  target="index.uiOpenHelpOpenHelpMenu" />
 </indexitem>
+<indexitem text="help F1 key"  target="index.uiOpenHelpOpenHelpF" />
 <indexitem text="Help menu"  target="index.uiDesktopMenusDesktopMenusHelp" />
-<indexitem text="help, context sensitive"  target="index.uiOpenHelpOpenHelpF" />
+<indexitem text="HTML Files tab"  target="index.reportNewReportsHtmlFilesTab" />
+<indexitem text="HTML report options"  target="index.reportNewReportsHtmlopt" />
 <indexitem text="HTTP Server"  target="index.commandHttpServerHttpServer" />
 <indexitem text="icons" >
-<indexitem text="folder"  target="index.browseFolderIconsFolderIcons" >
-<indexitem text="result status"  target="index.browseFolderIconsFolderIconsResultstatus" />
-<indexitem text="run status"  target="index.browseFolderIconsFolderIconsRunstatus" />
+<indexitem text="folder"  target="index.uiFolderIconsFolderIcons" >
+<indexitem text="result status"  target="index.uiFolderIconsFolderIconsResultstatus" />
+<indexitem text="run status"  target="index.uiFolderIconsFolderIconsRunstatus" />
 </indexitem>
-<indexitem text="test"  target="index.browseTestIconsTestIcons" >
-<indexitem text="result status"  target="index.browseTestIconsTestIconsTestresultstatus" />
-<indexitem text="run status"  target="index.browseTestIconsTestIconsRunstatus" />
+<indexitem text="test"  target="index.uiTestIconsTestIcons" >
+<indexitem text="result status"  target="index.uiTestIconsTestIconsTestresultstatus" />
+<indexitem text="run status"  target="index.uiTestIconsTestIconsRunstatus" />
 </indexitem>
 </indexitem>
 <indexitem text="increasing the timeout"  target="index.commandTimeoutTimeout" />
+<indexitem text="information area" >
+<indexitem text="Test Manager"  target="index.uiInfoPaneFolderInfo" />
+</indexitem>
 <indexitem text="Information Commands"  target="index.commandDisplayHelpDisplayHelp" />
 <indexitem text="initial files"  target="index.confEditInitialFilesInitialFiles" />
 <indexitem text="initial set-up commands"  target="index.commandBasicContextBasicContext" />
-<indexitem text="JavaTest Desktop"  target="index.uiUiUi" />
-<indexitem text="JavaTest GUI"  target="index.uiUsingJTUsingJT" />
-<indexitem text="JavaTest online help"  target="index.jthelpJthelp" />
-<indexitem text="JavaTest Preferences dialog box"  target="index.uiPrefsDialogPrefsDialog" />
+<indexitem text="JT Harness" >
+<indexitem text="ExcludeBrowser servlet"  target="index.commandBrowseJTXExcludeList" />
+<indexitem text="ResultBrowser servlet"  target="index.commandBrowseJTRTestresult" />
+</indexitem>
 <indexitem text="Keywords" >
 <indexitem text="run filter"  target="index.confEditKeywordsKeywords" />
 </indexitem>
@@ -280,44 +292,45 @@
 <indexitem text="Configuration Editor" >
 <indexitem text="Question Mode view"  target="index.confEditKeywordsKeywords" />
 </indexitem>
+<indexitem text="Template Editor"  target="index.adminKeywordsTabTEKeywordsTE" />
 </indexitem>
-<indexitem text="Last Test Run View Filter"  target="index.browseLastRunAllTests" />
+<indexitem text="KFL"  target="index.reportNewReportsSpecKFL" />
+<indexitem text="KFL files"  target="index.confEditKflKfl" />
+<indexitem text="KFL report bug prefix"  target="index.uiTestManagerTestManagerReporting" />
+<indexitem text="KFL reports"  target="index.reportNewReportsUnrelerr" />
+<indexitem text="known failure analysis"  target="index.reportNewReportsKfanalysis" />
+<indexitem text="known failures list"  target="index.commandKnownFailureAnalysisWriteReportsKFL" />
+<indexitem text="Last Test Run View Filter"  target="index.uiLastRunAllTests" />
 <indexitem text="latest exclude list"  target="index.confEditExcludeListExcludeListLatest" />
+<indexitem text="layout styles"  target="index.uiDesktopStylesDesktopStyles" />
+<indexitem text="lite harness"  target="index.commandLiteLiteHarness" />
+<indexitem text="log viewer"  target="index.uiLogViewerLogViewerUI" />
+<indexitem text="look and feel command"  target="index.commandSettingColorsSettingLAF" />
 <indexitem text="markers"  target="index.confEditSetMarkersKeywords" />
-<indexitem text="MDI window style"  target="index.uiAppearancePrefsAppearancePrefsMdi" />
 <indexitem text="menu" >
-<indexitem text="Configure"  target="index.uiConfigureMenuConfigureMenu" >
-<indexitem text="configuration history"  target="index.uiConfigureMenuConfigureMenu" />
-</indexitem>
+<indexitem text="Configure"  target="index.uiConfigureMenuConfigureMenu" />
 <indexitem text="desktop" >
 <indexitem text="File"  target="index.uiDesktopMenusDesktopMenusFile" />
 <indexitem text="Help"  target="index.uiDesktopMenusDesktopMenusHelp" />
+<indexitem text="Tool"  target="index.uiDesktopMenusDesktopMenusTool" />
 <indexitem text="Windows"  target="index.uiDesktopMenusDesktopMenusWindow" />
 </indexitem>
-<indexitem text="Help"  target="index.uiOpenHelpOpenHelpMenu" />
-<indexitem text="test tree popup"  target="index.browsePopupmenuPopupMenu" >
-<indexitem text="clear previous test results"  target="index.browsePopupmenuPopupMenuClear" />
-<indexitem text="execute"  target="index.browsePopupmenuPopupMenuExecute" />
-<indexitem text="refresh test suite contents"  target="index.browsePopupmenuPopupMenuRefresh" />
-</indexitem>
-<indexitem text="View"  target="index.browseViewMenuViewMenu" >
-<indexitem text="Filters"  target="index.browseViewMenuViewMenuFilters" />
-<indexitem text="Properties"  target="index.browseViewMenuViewMenuProperties" />
-<indexitem text="Test Suite Errors"  target="index.browseViewMenuViewMenuErrors" />
+<indexitem text="test tree pop-up"  target="index.uiPopupmenuPopupMenu" >
+<indexitem text="clear previous test results"  target="index.uiPopupmenuPopupMenuClear" />
+<indexitem text="execute"  target="index.uiPopupmenuPopupMenuExecute" />
+<indexitem text="override current configuration"  target="index.uiPopupmenuPopupMenuExecute" />
+<indexitem text="refresh test suite contents"  target="index.uiPopupmenuPopupMenuRefresh" />
 </indexitem>
 </indexitem>
-<indexitem text="menus" >
-<indexitem text="desktop"  target="index.uiDesktopMenusDesktopMenus" />
-</indexitem>
-<indexitem text="monitor a test run" >
-<indexitem text="remote"  target="index.commandHttpServerHttpServer" />
-</indexitem>
+<indexitem text="menus"  target="index.uiDesktopMenusDesktopMenus" />
+<indexitem text="monitor a test run, remote"  target="index.commandHttpServerHttpServer" />
 <indexitem text="monitor test progress"  target="index.commandVerboseRunTests" />
 <indexitem text="monitor, progress"  target="index.runProgressMonitorProgressMonitor" />
 <indexitem text="monitoring a test run"  target="index.runMonitoringMonitoring" />
+<indexitem text="monitoring output logs"  target="index.runLogViewerLogViewerwindow" />
+<indexitem text="monitoring servicess"  target="index.runSvcViewerSvcViewerwindow" />
 <indexitem text="Multi-Selection Tab"  target="index.browseMultiselectionTabMultiSelectionTab" />
 <indexitem text="multiple configurations"  target="index.confEditMultipleMultiple" />
-<indexitem text="navigating help"  target="index.jthelpJthelpNavigation" />
 <indexitem text="number of" >
 <indexitem text="failed tests"  target="index.browseSummaryTabSummaryTabFailed" />
 <indexitem text="passed tests"  target="index.browseSummaryTabSummaryTabPassed" />
@@ -330,38 +343,30 @@
 <indexitem text="total"  target="index.browseSummaryTabSummaryTabTotal" />
 </indexitem>
 <indexitem text="observer command"  target="index.commandObserverRunTests" />
-<indexitem text="online help" >
-<indexitem text="accessing"  target="index.jthelpJthelpNavigation" />
+<indexitem text="online documentation" >
+<indexitem text="accessing"  target="index.jthelpJthelpAccessing" />
 </indexitem>
-<indexitem text="online information" >
-<indexitem text="displaying"  target="index.uiOpenHelpOpenHelp" />
-</indexitem>
+<indexitem text="online information"  target="index.jthelpJthelpAccessing" />
+<indexitem text="online User's Guide"  target="index.jthelpJthelp" />
 <indexitem text="open command"  target="index.commandOpenOpen" />
-<indexitem text="option" >
-<indexitem text="verbose"  target="index.commandVerboseRunTests" />
-</indexitem>
-<indexitem text="options" >
-<indexitem text="tool tip"  target="index.uiAppearancePrefsAppearancePrefsTooltips" />
-</indexitem>
+<indexitem text="options, tool tip"  target="index.uiAppearancePrefsAppearancePrefsTooltips" />
+<indexitem text="order"  target="index.uiTestManagerTestExecOrder" />
 <indexitem text="parameter commands"  target="index.commandParameterCommandsParameterCommands" />
 <indexitem text="parameter file"  target="index.commandParameterCommandsParameterCommandsJtp" />
 <indexitem text="plug-ins" >
 <indexitem text="test manager properties"  target="index.execPropsDialogExecPropsDialogPlugins" />
 </indexitem>
+<indexitem text="Preferences dialog box"  target="index.uiPrefsDialogPrefsDialog" />
 <indexitem text="prior test status"  target="index.commandPriorPrior" />
 <indexitem text="priorStatus command"  target="index.commandPriorPrior" />
-<indexitem text="progress indicator"  target="index.runProgressMeterProgressMeter" >
+<indexitem text="progress indicator"  target="index.runProgressMeterProgressMeterBar" >
 <indexitem text="elapsed time"  target="index.runProgressMeterProgressMeterTime" />
-<indexitem text="progress bar"  target="index.runProgressMeterProgressMeterBar" />
 </indexitem>
 <indexitem text="Progress Monitor"  target="index.runProgressMonitorProgressMonitor" >
 <indexitem text="Memory"  target="index.runProgressMonitorProgressMonitorMemory" />
 <indexitem text="Progress area"  target="index.runProgressMonitorProgressMonitorProgress" />
 <indexitem text="Tests in Progress"  target="index.runProgressMonitorProgressMonitorTest" />
 <indexitem text="Time"  target="index.runProgressMonitorProgressMonitorTime" />
-</indexitem>
-<indexitem text="Properties" >
-<indexitem text="Test Manager"  target="index.browseViewMenuViewMenuProperties" />
 </indexitem>
 <indexitem text="Question Log"  target="index.confEditQuestionLogQuestionLog" />
 <indexitem text="Question Mode view" >
@@ -371,23 +376,33 @@
 </indexitem>
 </indexitem>
 <indexitem text="Quick Pick test execution" >
-<indexitem text="test tree popup menu"  target="index.browsePopupmenuPopupMenuExecute" />
+<indexitem text="test tree pop-up menu"  target="index.uiPopupmenuPopupMenuExecute" />
 </indexitem>
 <indexitem text="Quick Set Mode"  target="index.confEditStdViewDialogStdViewDialog" />
-<indexitem text="Quick Start Wizard"  target="index.startQuickStartQuickStart" />
+<indexitem text="Quick Start"  target="index.startQuickStartQuickStart" />
 <indexitem text="Refresh Test Suite Contents" >
-<indexitem text="test tree popup menu"  target="index.browsePopupmenuPopupMenuRefresh" />
+<indexitem text="test tree pop-up menu"  target="index.uiPopupmenuPopupMenuRefresh" />
 </indexitem>
 <indexitem text="remotely monitor and control a test run"  target="index.commandHttpServerHttpServer" />
+<indexitem text="remove Exclude List files"  target="index.adminExcludeTabTEExcludeListTE" />
 <indexitem text="replace existing work directory"  target="index.commandWorkdirWorkdirClearResults" />
 <indexitem text="Report Browser"  target="index.reportReportBrowserReportBrowser" />
+<indexitem text="Report Converter options"  target="index.uiReportMergePrefsDialog" />
+<indexitem text="Report Converter Tool"  target="index.mergeReportsWindowPrefsDialog" />
+<indexitem text="Report Converter Tool window"  target="index.mergeReportsReportMergeViewerPrefsDialog" />
+<indexitem text="report directory"  target="index.reportNewReportsReportFiles" />
+<indexitem text="report files"  target="index.reportNewReportsReportFiles" />
+<indexitem text="report type"  target="index.commandWriteReportsWriteReportType" />
 <indexitem text="reports" >
-<indexitem text="moving"  target="index.commandMoveReportsEditConfig" />
-<indexitem text="test"  target="index.reportUsingReportsUsingReports" >
-<indexitem text="creating"  target="index.reportNewReportsNewReports" />
+<indexitem text="KFL" >
+<indexitem text="New Passed"  target="index.reportNewReportsFailtopass" />
 </indexitem>
+<indexitem text="moving"  target="index.commandMoveReportsEditConfig" />
+<indexitem text="test"  target="index.reportUsingReportsUsingReports" />
 <indexitem text="writing"  target="index.commandWriteReportsWriteReports" />
 </indexitem>
+<indexitem text="resolving configuration-template conflicts"  target="index.templatesResolveConflictsResolveConflict" />
+<indexitem text="Restore Tools State on Start"  target="index.uiAppearancePrefsAppearancePrefsRestore" />
 <indexitem text="run filter" >
 <indexitem text="Keywords"  target="index.confEditKeywordsKeywords" />
 </indexitem>
@@ -398,10 +413,10 @@
 <indexitem text="Test Manager window"  target="index.runRunningRunning" />
 </indexitem>
 <indexitem text="runtests command"  target="index.commandRunTestsRunTests" />
-<indexitem text="SDI window style"  target="index.uiAppearancePrefsAppearancePrefsSdi" />
+<indexitem text="section 508"  target="index.commandSettingColorsAY" />
 <indexitem text="servlet" >
-<indexitem text="JavaTest ExcludeBrowser"  target="index.commandBrowseJTXExcludeList" />
-<indexitem text="JavaTest ResultBrowser"  target="index.commandBrowseJTRTestresult" />
+<indexitem text="JT Harness ExcludeBrowser"  target="index.commandBrowseJTXExcludeList" />
+<indexitem text="JT Harness ResultBrowser"  target="index.commandBrowseJTRTestresult" />
 </indexitem>
 <indexitem text="set command"  target="index.commandSettingValuesSettingValues" >
 <indexitem text="examples"  target="index.commandSettingValuesSettingValuesExamples" />
@@ -416,20 +431,19 @@
 <indexitem text="time factor"  target="index.confEditExecutionExecutionTimeFactor" />
 </indexitem>
 <indexitem text="setting concurrency"  target="index.commandConcurrencyConcurrency" />
-<indexitem text="setting JavaTest preferences"  target="index.uiPrefsDialogPrefsDialog" />
+<indexitem text="setting preferences"  target="index.uiPrefsDialogPrefsDialog" />
 <indexitem text="setting specific configuration values"  target="index.commandOtherConfigValuesOtherConfigValues" />
 <indexitem text="setup commands"  target="index.commandSetupCommandsSetupCommands" >
 <indexitem text="additional"  target="index.commandHarnessSettingsSettings" />
 </indexitem>
-<indexitem text="site administration"  target="index.confEditTemplateDialogCreateConfigurationTemplate" />
+<indexitem text="shutdown options"  target="index.uiAppearancePrefsAppearancePrefsShutdown" />
+<indexitem text="site administration"  target="index.templatesUsingTemplateCreateConfigurationTemplate" />
 <indexitem text="specify" >
 <indexitem text="a work directory"  target="index.commandWorkdirWorkdir" />
 <indexitem text="configuration file"  target="index.commandConfigConfig" />
 <indexitem text="directories of tests"  target="index.commandTestDirTestDir" />
+<indexitem text="existing work directory"  target="index.commandWorkdirWorkdirOpen" />
 <indexitem text="tests to run"  target="index.commandTestDirTestDir" />
-<indexitem text="work directory" >
-<indexitem text="existing"  target="index.commandWorkdirWorkdirOpen" />
-</indexitem>
 </indexitem>
 <indexitem text="specify tests to run"  target="index.confEditInitialFilesInitialFiles" />
 <indexitem text="specifying a test environment"  target="index.confEditEnvironmentEnvironment" />
@@ -456,13 +470,43 @@
 <indexitem text="passed"  target="index.browseSummaryTabSummaryTabPassed" />
 </indexitem>
 </indexitem>
-<indexitem text="Summary panel" >
-</indexitem>
 <indexitem text="system properties" >
 <indexitem text="setting"  target="index.commandHarnessSettingsSettingsSystemProperties" />
 </indexitem>
-<indexitem text="Tabbed window style"  target="index.uiAppearancePrefsAppearancePrefsFull" />
 <indexitem text="Task Commands"  target="index.commandTaskCommandsEditConfig" />
+<indexitem text="template" >
+<indexitem text="enabling propagation"  target="index.templatesEnablePropFromTemplateConfeditEnablingPropagation" />
+<indexitem text="Tests pane"  target="index.adminTestsTabTEInitialFilesTE" />
+</indexitem>
+<indexitem text="Template Bookmarks"  target="index.adminSetMarkersTEBookmarksTE" />
+<indexitem text="Template Editor" >
+<indexitem text="editing test execution values"  target="index.adminExecTabTEExecutionTE" />
+<indexitem text="Keywords pane"  target="index.adminKeywordsTabTEKeywordsTE" />
+<indexitem text="Question Mode"  target="index.adminQuestionModeTEFullTemplateEditor" >
+<indexitem text="File menu"  target="index.adminQuestionModeTEQuestionModeTEFilemenu" />
+<indexitem text="Help menu"  target="index.adminQuestionModeTEQuestionModeTEHelpmenu" />
+<indexitem text="index pane"  target="index.adminQuestionModeTEQuestionModeTEIndexPane" />
+<indexitem text="More Info pane"  target="index.adminQuestionModeTEQuestionModeTEMoreInfoPane" />
+<indexitem text="question pane"  target="index.adminQuestionModeTEQuestionModeTEQuestionPane" />
+<indexitem text="Recent Configuration"  target="index.confEditFullViewDialogQuestionModeTEHistory" />
+<indexitem text="Search menu"  target="index.adminQuestionModeTEQuestionModeTESearchmenu" />
+<indexitem text="View menu"  target="index.adminQuestionModeTEQuestionModeTEViewmenu" />
+</indexitem>
+<indexitem text="Quick Set Mode"  target="index.adminQuickSetTETemplateQuickSet" />
+<indexitem text="setting" >
+<indexitem text="concurrency"  target="index.adminExecTabTEExecutionConcurrencyTE" />
+<indexitem text="time factor"  target="index.adminExecTabTEExecutionTimeFactorTE" />
+</indexitem>
+<indexitem text="Test Environment pane"  target="index.adminEnvTabTEEnvironmentTE" />
+</indexitem>
+<indexitem text="Template Editor window" >
+<indexitem text="Question Mode" >
+<indexitem text="Bookmarks menu"  target="index.adminQuestionModeTEQuestionModeTEMarkermenu" />
+</indexitem>
+</indexitem>
+<indexitem text="templates"  target="index.templatesUsingTemplateCreateConfigurationTemplate" />
+<indexitem text="templates, editing"  target="index.adminEditTemplateEditingTemplate" />
+<indexitem text="templates, loading"  target="index.templatesLoadTemplateEditingTemplate" />
 <indexitem text="Test Description tab"  target="index.browseTestDescriptionTabTestDescriptionTab" />
 <indexitem text="Test Environment browser"  target="index.envDialogTestEnvBrowser" >
 <indexitem text="defined in environment"  target="index.envDialogTestEnvBrowserEnv" />
@@ -470,7 +514,7 @@
 <indexitem text="Entry Name"  target="index.envDialogTestEnvBrowserKey" />
 <indexitem text="Value"  target="index.envDialogTestEnvBrowserValue" />
 </indexitem>
-<indexitem text="test icons"  target="index.browseTestIconsTestIcons" />
+<indexitem text="test icons"  target="index.uiTestIconsTestIcons" />
 <indexitem text="test information" >
 <indexitem text="Test view"  target="index.browseTestInfoTestInfo" />
 </indexitem>
@@ -480,6 +524,7 @@
 <indexitem text="Failed test results"  target="index.browseStatusTabsStatusTabsFailed" />
 <indexitem text="Filtered Out tests"  target="index.browseStatusTabsStatusTabsNotRun" />
 <indexitem text="folder view"  target="index.browseFolderInfoFolderInfo" />
+<indexitem text="information area"  target="index.uiInfoPaneFolderInfo" />
 <indexitem text="Not Run tests"  target="index.browseStatusTabsStatusTabsNotRun" />
 <indexitem text="Passed test results"  target="index.browseStatusTabsStatusTabsPassed" />
 <indexitem text="Summary information"  target="index.browseSummaryTabSummaryTab" >
@@ -492,39 +537,30 @@
 <indexitem text="total"  target="index.browseSummaryTabSummaryTabTotal" />
 </indexitem>
 <indexitem text="Test Run Messages"  target="index.browseMessagesTabMessagesTab" >
-<indexitem text="message area"  target="index.browseMessagesTabMessagesTabMessagePane" />
 <indexitem text="message list"  target="index.browseMessagesTabMessagesTabListPane" />
-<indexitem text="Output Summary message"  target="index.browseMessagesTabMessagesTabOutput" />
 <indexitem text="Result message"  target="index.browseMessagesTabMessagesTabOutput" />
-<indexitem text="summary message"  target="index.browseMessagesTabMessagesTabSummary" />
-<indexitem text="Test Result message"  target="index.browseMessagesTabMessagesTabResult" />
 </indexitem>
 <indexitem text="Test view"  target="index.browseTestInfoTestInfo" />
 </indexitem>
-<indexitem text="Test Manager window"  target="index.uiWindowUiWindow" >
+<indexitem text="Test Manager status line"  target="index.uiTestManagerStatusTMstatus" />
+<indexitem text="Test Manager tool"  target="index.uiWindowUiWindow" />
+<indexitem text="Test Manager window" >
 <indexitem text="browsing test information"  target="index.browseBrowsingBrowsingTest" />
 <indexitem text="progress indicator"  target="index.runProgressMeterProgressMeter" >
 <indexitem text="elapsed time"  target="index.runProgressMeterProgressMeterTime" />
 <indexitem text="progress bar"  target="index.runProgressMeterProgressMeterBar" />
 </indexitem>
 <indexitem text="running tests"  target="index.runRunningRunning" />
-<indexitem text="status message"  target="index.uiWindowUiWindowStatusMessage" />
 <indexitem text="Test Description tab"  target="index.browseTestDescriptionTabTestDescriptionTab" />
 <indexitem text="Test Run Details tab"  target="index.browseDetailsTabDetailsTab" >
 <indexitem text="property names"  target="index.browseDetailsTabDetailsTabName" />
 <indexitem text="values"  target="index.browseDetailsTabDetailsTabValue" />
 </indexitem>
-<indexitem text="test tree"  target="index.browseUsingtreeUsingtree" />
-<indexitem text="View menu"  target="index.browseViewMenuViewMenu" >
-<indexitem text="Filters"  target="index.browseViewMenuViewMenuFilters" />
-<indexitem text="Properties"  target="index.browseViewMenuViewMenuProperties" />
-<indexitem text="Test Suite Errors"  target="index.browseViewMenuViewMenuErrors" />
-</indexitem>
+<indexitem text="test tree"  target="index.uiUsingtreeUsingtree" />
 </indexitem>
 <indexitem text="test reports"  target="index.reportUsingReportsUsingReports" />
 <indexitem text="test result files"  target="index.commandBrowseJTRTestresult" />
-<indexitem text="test result status icon"  target="index.browseTestIconsTestIconsTestresultstatus" />
-<indexitem text="test results" >
+<indexitem text="test result status icon"  target="index.uiTestIconsTestIconsTestresultstatus" />
 <indexitem text="test run" >
 <indexitem text="monitoring"  target="index.runMonitoringMonitoring" />
 <indexitem text="start"  target="index.runStartingStarting" />
@@ -538,7 +574,7 @@
 <indexitem text="summary message"  target="index.browseMessagesTabMessagesTabSummary" />
 <indexitem text="Test Result message"  target="index.browseMessagesTabMessagesTabResult" />
 </indexitem>
-<indexitem text="test run status icon"  target="index.browseTestIconsTestIconsRunstatus" />
+<indexitem text="test run status icon"  target="index.uiTestIconsTestIconsRunstatus" />
 <indexitem text="test status" >
 <indexitem text="Error"  target="index.browseStatusTabsStatusTabsError" />
 <indexitem text="Failed"  target="index.browseStatusTabsStatusTabsFailed" />
@@ -551,12 +587,9 @@
 <indexitem text="test manager properties"  target="index.execPropsDialogExecPropsDialogTestSuite" />
 </indexitem>
 <indexitem text="Test Suite Errors" >
-<indexitem text="Test Manager window" >
-<indexitem text="View menu"  target="index.browseViewMenuViewMenuErrors" />
-</indexitem>
 <indexitem text="viewing"  target="index.browseTestSuiteErrorsTestSuiteErrors" />
 </indexitem>
-<indexitem text="test tree"  target="index.browseUsingtreeUsingtree" />
+<indexitem text="test tree"  target="index.uiUsingtreeUsingtree" />
 <indexitem text="Test view"  target="index.browseTestInfoTestInfo" />
 <indexitem text="tests" >
 <indexitem text="running"  target="index.runRunningRunning" />
@@ -564,8 +597,16 @@
 <indexitem text="tests command"  target="index.commandTestDirTestDir" />
 <indexitem text="testSuite command"  target="index.commandTestsuiteTestsuite" />
 <indexitem text="timeoutFactor command"  target="index.commandTimeoutTimeout" />
+<indexitem text="tool" >
+<indexitem text="Test Manager"  target="index.uiWindowUiWindow" />
+</indexitem>
 <indexitem text="tool bar"  target="index.uiToolBarToolBar" />
+<indexitem text="Tool menu"  target="index.uiDesktopMenusDesktopMenusTool" />
 <indexitem text="tool tip options"  target="index.uiAppearancePrefsAppearancePrefsTooltips" />
+<indexitem text="tool, Agent Monitor"  target="index.uiAgentMonitorWindow" />
+<indexitem text="tools" >
+<indexitem text="GUI"  target="index.uiUiUi" />
+</indexitem>
 <indexitem text="troubleshooting"  target="index.conceptsTroubleshootingTroubleshooting" >
 <indexitem text="exit codes"  target="index.commandTroubleshootingTroubleshootingExitcodes" />
 <indexitem text="output overflow"  target="index.conceptsTroubleshootingOutputOverflow" />
@@ -578,7 +619,10 @@
 <indexitem text="tests that fail"  target="index.conceptsTroubleshootingTroubleshootingFailed" />
 <indexitem text="tests with errors"  target="index.conceptsTroubleshootingTroubleshootingErrors" />
 </indexitem>
-<indexitem text="running the JavaTest harness"  target="index.conceptsTroubleshootingTroubleshootingStarting" />
+<indexitem text="running the harness"  target="index.conceptsTroubleshootingTroubleshootingStarting" />
+<indexitem text="verbose" >
+<indexitem text="mangled output"  target="index.commandTroubleshootingTroubleshootingCodepage" />
+</indexitem>
 <indexitem text="viewing test results"  target="index.conceptsTroubleshootingTroubleshootingViewing" />
 </indexitem>
 <indexitem text="troubleshooting a test run"  target="index.runTroubleshootingRunTroubleshooting" />
@@ -587,37 +631,26 @@
 <indexitem text="EditJTI"  target="index.commandEditConfigEditConfig" />
 </indexitem>
 <indexitem text="verbose option"  target="index.commandVerboseRunTests" />
-<indexitem text="view filter" >
-<indexitem text="All Tests"  target="index.browseAllTestsAllTests" />
-<indexitem text="Current Configuration"  target="index.browseCurrentConfigurationCurrentConfiguration" />
-<indexitem text="Custom"  target="index.browseCustomFiltersCustomFilters" />
-<indexitem text="Last Run"  target="index.browseLastRunAllTests" />
+<indexitem text="view filter"  target="index.browseViewFiltersViewFilter" >
+<indexitem text="All Tests"  target="index.uiAllTestsAllTests" />
+<indexitem text="Current Configuration"  target="index.uiCurrentConfigurationCurrentConfiguration" />
+<indexitem text="Current Template"  target="index.uiCurrentTemplateCurrentTemplate" />
+<indexitem text="Custom"  target="index.uiCustomFiltersCustomFilters" />
+<indexitem text="Last Run"  target="index.uiLastRunAllTests" />
 </indexitem>
-<indexitem text="view filters"  target="index.browseViewFiltersViewFilter" />
-<indexitem text="View menu"  target="index.browseViewMenuViewMenu" />
+<indexitem text="viewing configuration-template updates"  target="index.templatesViewConflictsViewConflict" />
 <indexitem text="viewing source file list"  target="index.browseFilesTabFilesTab" />
 <indexitem text="viewing Test Suite Errors"  target="index.browseTestSuiteErrorsTestSuiteErrors" />
-<indexitem text="web server" >
-<indexitem text="JavaTest"  target="index.commandHttpServerHttpServer" />
-</indexitem>
-<indexitem text="window" >
-<indexitem text="MDI  style"  target="index.uiAppearancePrefsAppearancePrefsMdi" />
-<indexitem text="SDI  style"  target="index.uiAppearancePrefsAppearancePrefsSdi" />
-<indexitem text="Tabbed  style"  target="index.uiAppearancePrefsAppearancePrefsFull" />
-<indexitem text="Test Manager"  target="index.uiWindowUiWindow" >
-<indexitem text="status message"  target="index.uiWindowUiWindowStatusMessage" />
-</indexitem>
-</indexitem>
-<indexitem text="window, Agent Monitor"  target="index.uiAgentMonitorWindow" />
+<indexitem text="web server, JT Harness"  target="index.commandHttpServerHttpServer" />
 <indexitem text="Windows menu"  target="index.uiDesktopMenusDesktopMenusWindow" />
 <indexitem text="work directory" >
 <indexitem text="create new"  target="index.commandWorkdirWorkdirCreate" />
 <indexitem text="replace existing"  target="index.commandWorkdirWorkdirClearResults" />
-<indexitem text="specify"  target="index.commandWorkdirWorkdir" >
-<indexitem text="existing"  target="index.commandWorkdirWorkdirOpen" />
-</indexitem>
+<indexitem text="specify"  target="index.commandWorkdirWorkdir" />
+<indexitem text="specify existing"  target="index.commandWorkdirWorkdirOpen" />
 <indexitem text="test manager properties"  target="index.execPropsDialogExecPropsDialogWorkDir" />
 </indexitem>
+<indexitem text="work directory status line"  target="index.uiWorkDirStatusWorkDirStatus" />
 <indexitem text="writereport command"  target="index.commandWriteReportsWriteReports" />
 <indexitem text="writing reports"  target="index.commandWriteReportsWriteReports" />
 </index>
