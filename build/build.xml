@@ -329,34 +329,6 @@
 
     </target>
 
-    <target name="compile.javahelp">
-
-        <delete dir="${build.javatestAgent.help}/default/JavaHelpSearch"/>
-        <delete dir="${build.javatest.help}/default/JavaHelpSearch"/>
-        <copy todir="${build.classes}">
-            <fileset dir="${src.dir}">
-                <patternset refid="helpset"/>
-            </fileset>
-        </copy>
-
-        <!-- build the search index -->
-        <copy todir="${build.javatest.help}">
-            <fileset dir="{src.javatest.help}"/>
-        </copy>
-
-        <copy todir="${build.javatestAgent.help}">
-            <fileset dir="{src.javatestAgent.help}"/>
-        </copy>
-
-        <move todir="${build.javatest.help}/default/JavaHelpSearch">
-            <fileset dir="${build.javatest.help}/JavaHelpSearch"/>
-        </move>
-
-        <move todir="${build.javatestAgent.help}/default/JavaHelpSearch">
-            <fileset dir="${build.javatestAgent.help}/JavaHelpSearch"/>
-        </move>
-
-    </target>
     <target name="compile-javatest.help" depends="compile-javatest.help.main,compile-javatestAgent.help"/>
 
     <target name="compile.resources" depends="stamp">
