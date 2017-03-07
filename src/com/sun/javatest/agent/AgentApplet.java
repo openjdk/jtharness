@@ -37,6 +37,8 @@ import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 
 import com.sun.javatest.Status;
@@ -124,9 +126,25 @@ public class AgentApplet extends Applet implements Agent.Observer
         PassiveModeOptions pmo = new PassiveModeOptions();
         pmo.setPort(passivePort);
 
-        SerialPortModeOptions smo = new SerialPortModeOptions();
-        if (serialPort != null)
-            smo.setPort(serialPort);
+        ModeOptions smo = null;
+        try {
+            Class serial = Class.forName("com.sun.javatest.agent.SerialPortModeOptions");
+            smo = (ModeOptions)serial.newInstance();
+        } catch (Exception e) {
+            System.err.println("There is no support for serial port");
+        }
+        if (serialPort != null){
+            try {
+                Method setPortMethod = smo.getClass().getMethod("setPort", String.class);
+                setPortMethod.invoke(smo, serialPort);
+            }
+            catch (SecurityException | NoSuchMethodException |
+                    IllegalArgumentException| InvocationTargetException |
+                    IllegalAccessException e) {
+                System.err.println("Could not set serial port:");
+                e.printStackTrace();
+            }
+        }
 
         ModeOptions[] modeOptions = new ModeOptions[] {amo, pmo, smo};
 

@@ -38,6 +38,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import com.sun.javatest.JavaTestSecurityManager;
@@ -90,7 +91,14 @@ public class AgentFrame extends Frame
 
         ActiveModeOptions amo = new ActiveModeOptions();
         PassiveModeOptions pmo = new PassiveModeOptions();
-        SerialPortModeOptions smo = new SerialPortModeOptions();
+        ModeOptions smo = null;
+
+        try {
+            Class serial = Class.forName("com.sun.javatest.agent.SerialPortModeOptions");
+            smo = (ModeOptions)serial.newInstance();
+        } catch (Exception e) {
+            System.err.println("There is no support for serial port");
+        }
 
         for (int i = 0; i < args.length; i++) {
             try {
@@ -179,8 +187,18 @@ public class AgentFrame extends Frame
                 System.err.println("Could not initialize serial ports");
                 System.exit(1);
             }
-            else
-                smo.setPort(serialPort);
+            else {
+                try {
+                    Method setPortMethod = smo.getClass().getMethod("setPort", String.class);
+                    setPortMethod.invoke(smo, serialPort);
+                }
+                catch (SecurityException | NoSuchMethodException |
+                        IllegalArgumentException| InvocationTargetException |
+                        IllegalAccessException e) {
+                    System.err.println("Could not set serial port:");
+                    e.printStackTrace();
+                }
+            }
         }
 
 

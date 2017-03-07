@@ -100,7 +100,8 @@
         <include name="com/sun/interview/**"/>
         <include name="com/sun/javatest/**"/>
         <exclude name="com/sun/javatest/junit/**"/>
-	</patternset>
+        <exclude name="com/sun/javatest/agent/SerialPort*.java" unless="jcomm.present"/>
+    </patternset>
 
 	<patternset id="test.packages">
 		<include name="com/sun/jct/utils/copyrightcheck/**" />
@@ -275,10 +276,14 @@
 
     <target name="compile" depends="compile.classes,compile.resources,compile-javatest.help" description="Compile project."/>
 
+    <target name="compile.serial.warning" unless="jcomm.present">
+        <echo message="Serial Agent classes will not be compiled"/>
+    </target>
+
     <target name="compile.classes">
 
         <available file="${jcommjar}" type="file" property="jcomm.present"/>
-        <fail unless="jcomm.present" message="${jcomm.missing}"/>
+        <antcall target="compile.serial.warning"/>
 
         <available file="${servletjar}" type="file" property="servlet.present"/>
         <fail unless="servlet.present" message="${servlet.missing}"/>
@@ -287,6 +292,7 @@
         <mkdir dir="${build.classes}"/>
         <javac encoding="iso-8859-1" debug="true" target="1.7"
                srcdir="${src.dir}"
+               sourcepath=""
                destdir="${build.classes}"
                classpath="${jdk14.classpath}:${jcommjar}">
             <patternset refid="javatest.packages"/>

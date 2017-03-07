@@ -786,8 +786,10 @@ class AgentPanel extends ScrollPane
 
             for (int i = 0; i < modeOptions.length; i++) {
                 ModeOptions m = modeOptions[i];
-                modeChoice.addItem(m.getModeName());
-                modeDeck.add(m);
+                if (m != null) {
+                    modeChoice.addItem(m.getModeName());
+                    modeDeck.add(m);
+                }
             }
 
             // choices added later by modeOption objects
