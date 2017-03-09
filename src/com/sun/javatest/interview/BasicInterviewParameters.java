@@ -362,14 +362,11 @@ public abstract class BasicInterviewParameters extends InterviewParameters
     /**
      * Discover the maximum allowable concurrency value that should be accepted.
      * @return The maximum allowable concurrency value that should be accepted
-     *     by the interview.  Default value is 50 (legacy value).  A reasonable
-     *     long-term ongoing value would be
-     *     Parameters.ConcurrencyParameters.MAX_CONCURRENCY.
+     *     by the interview.
      * @see com.sun.javatest.Parameters.ConcurrencyParameters#MAX_CONCURRENCY
      */
     protected int getMaxConcurrency() {
-        // return Parameters.ConcurrencyParameters.MAX_CONCURRENCY;
-        return 50;
+        return Parameters.ConcurrencyParameters.MAX_CONCURRENCY;
     }
 
     //--------------------------------------------------------------------------
