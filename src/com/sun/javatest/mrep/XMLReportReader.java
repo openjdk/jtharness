@@ -116,8 +116,7 @@ class XMLReportReader {
                 throws SAXException {
             if (qualifiedName.equals(Scheme.TR)) {
                 String url = attributes.getValue(Scheme.TR_URL);
-                int id = (Integer.valueOf(attributes.getValue(Scheme.TR_WDID)))
-                .intValue();
+                int id = Integer.parseInt(attributes.getValue(Scheme.TR_WDID));
                 String status = attributes.getValue(Scheme.TR_STATUS);
                 map.put(url, new TestResultDescr(status, id, time));
             }

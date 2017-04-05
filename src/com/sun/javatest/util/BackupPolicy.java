@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
 /**
@@ -178,7 +179,7 @@ public abstract class BackupPolicy
      */
     public Writer backupAndOpenWriter(File file) throws IOException, SecurityException {
         backup(file);
-        return new BufferedWriter(new FileWriter(file));
+        return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
     }
 
     /**

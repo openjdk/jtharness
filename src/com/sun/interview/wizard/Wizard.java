@@ -37,20 +37,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Writer;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -122,7 +113,7 @@ public class Wizard extends JComponent {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
-            Class ic = (Class.forName(args[0]));
+            Class ic = (Class.forName(args[0], true, ClassLoader.getSystemClassLoader()));
             Interview i = (Interview)(ic.newInstance());
             Wizard w = new Wizard(i);
             w.showInFrame(true);
@@ -644,7 +635,7 @@ public class Wizard extends JComponent {
         if (f.exists() && !okToOverwrite(f))
             return;
         try {
-            Writer out = new FileWriter(f);
+            Writer out = new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8);
             WizPrint w = new WizPrint(interview, interview.getPath());
             w.setShowResponses(true);
             w.write(out);

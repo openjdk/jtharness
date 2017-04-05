@@ -26,18 +26,10 @@
  */
 package com.sun.javatest;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -537,7 +529,7 @@ public class EditJTI
         wp.setShowResponses(true);
         wp.setShowResponseTypes(false);
         wp.setShowTags(true);
-        BufferedWriter out = new BufferedWriter(new FileWriter(logFile));
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(logFile), StandardCharsets.UTF_8));
         wp.write(out);
     }
 

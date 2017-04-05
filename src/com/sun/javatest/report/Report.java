@@ -33,14 +33,9 @@ import com.sun.javatest.report.ReportFormat.ReportLink;
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.util.BackupUtil;
 import com.sun.javatest.util.I18NResourceBundle;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Writer;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -361,7 +356,7 @@ public class Report implements ReportModel {
             StringBuilder content = new StringBuilder();
             BufferedReader r = null;
             try {
-                r = new BufferedReader(new InputStreamReader(new FileInputStream(index)));
+                r = new BufferedReader(new InputStreamReader(new FileInputStream(index), StandardCharsets.UTF_8));
                 String line;
                 while( (line = r.readLine()) != null ) {
                     content.append(line);
@@ -420,7 +415,7 @@ public class Report implements ReportModel {
         StringBuilder sb = new StringBuilder();
         BufferedReader r = null;
         try {
-            r = new BufferedReader(new InputStreamReader(new FileInputStream(index)));
+            r = new BufferedReader(new InputStreamReader(new FileInputStream(index), StandardCharsets.UTF_8));
             String line;
             while( (line = r.readLine()) != null ) {
                 sb.append(line);
@@ -464,7 +459,7 @@ public class Report implements ReportModel {
 
         Writer writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter(index));
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(index), StandardCharsets.UTF_8));
             writer.write(sb.toString());
             writer.flush();
             writer.close();
@@ -508,7 +503,7 @@ public class Report implements ReportModel {
     private void fillIndexFile(File index, ReportSettings s,  List<ReportLink> links) {
         Writer writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter(index));
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(index), StandardCharsets.UTF_8));
             HTMLWriterEx out = new HTMLWriterEx(writer);
             out.setI18NResourceBundle(i18n);
 

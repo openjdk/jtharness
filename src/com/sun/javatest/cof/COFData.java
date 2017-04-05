@@ -95,7 +95,7 @@ public class COFData
     private CustomFilter filter = new CustomFilterAdapter();
 
     void setCustomFilter(String filterClassName) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        Class c = Class.forName(filterClassName);
+        Class c = Class.forName(filterClassName, true, ClassLoader.getSystemClassLoader());
         filter = (CustomFilter) c.newInstance();
     }
 

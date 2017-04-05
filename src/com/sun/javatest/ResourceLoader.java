@@ -33,6 +33,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -53,13 +55,20 @@ public class ResourceLoader {
         return ownClass.getClassLoader().getResources(name);
     }
 
-    public static InputStream getResourceAsStream(String name, Class ownClass) {
+    public static InputStream getResourceAsStream(final String name, final Class ownClass) {
         URL url = getExtResource(name, ownClass);
         try {
             if (url != null) {
                 return url.openStream();
             } else {
-                return ownClass.getResourceAsStream(name);
+                InputStream is = AccessController.doPrivileged(
+                        new PrivilegedAction<InputStream>() {
+                            @Override
+                            public InputStream run() {
+                                return ownClass.getResourceAsStream(name);
+                            }
+                        });
+                return is;
             }
         } catch (IOException e) {
             return null;
@@ -182,23 +191,33 @@ public class ResourceLoader {
     public static ResourceBundle getBundle(String name, Locale aDefault, ClassLoader classLoader) {
         if (ext != null) {
             initAltClassLoader();
-            ResourceBundle altB = ResourceBundle.getBundle(name, aDefault, altClassLoader);
+            ResourceBundle altB = getSBundle(name, aDefault, altClassLoader);
             if (altB.getKeys().hasMoreElements()) {
                 return altB;
             }
         }
-        return ResourceBundle.getBundle(name, aDefault, classLoader);
+        return getSBundle(name, aDefault, classLoader);
     }
 
     public static ResourceBundle getBundle(String name) {
         if (ext != null) {
             initAltClassLoader();
-            ResourceBundle altB = ResourceBundle.getBundle(name, Locale.getDefault(), altClassLoader);
+            ResourceBundle altB = getSBundle(name, Locale.getDefault(), altClassLoader);
             if (altB.getKeys().hasMoreElements()) {
                 return altB;
             }
         }
-        return ResourceBundle.getBundle(name);
+        return getSBundle(name, Locale.getDefault(), ResourceLoader.class.getClassLoader());
+    }
+
+    private static ResourceBundle getSBundle(final String name, final Locale locale, final ClassLoader cl) {
+        ResourceBundle bundle = AccessController.doPrivileged(
+                new PrivilegedAction<ResourceBundle>() {
+                    public ResourceBundle run() {
+                        return ResourceBundle.getBundle(name, locale, cl);
+                    }
+                });
+        return bundle;
     }
 
     private static ClassLoader altClassLoader;

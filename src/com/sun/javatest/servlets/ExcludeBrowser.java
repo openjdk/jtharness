@@ -26,9 +26,8 @@
  */
 package com.sun.javatest.servlets;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -72,7 +71,7 @@ public class ExcludeBrowser extends HttpServlet {
         String bugLink = getInitParameter("bugLink");
 
         res.setContentType("text/html");
-        PrintWriter out = new PrintWriter(res.getOutputStream());
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(res.getOutputStream(), StandardCharsets.UTF_8), true);
         out.println("<html>");
         out.println("<head>");
         out.println("<title>" + file + "</title>");

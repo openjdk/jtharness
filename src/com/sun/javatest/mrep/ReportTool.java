@@ -38,14 +38,10 @@ import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -577,7 +573,7 @@ class ReportTool extends Tool {
         && !url.getFile().endsWith(".html")) {
             textArea.setContentType("text/plain");
             try {
-                Reader r = new BufferedReader(new FileReader(file));
+                Reader r = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
                 textArea.read(r, url);
                 r.close();
             } catch (IOException e) {

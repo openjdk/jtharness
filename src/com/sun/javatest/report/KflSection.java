@@ -26,11 +26,8 @@
  */
 package com.sun.javatest.report;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.SortedSet;
 
@@ -410,7 +407,7 @@ class KflSection extends HTMLSection {
     }
 
     Writer openWriter(String file) throws IOException {
-        return new BufferedWriter(new FileWriter(new File(reportDir, file)));
+        return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(reportDir, file)), StandardCharsets.UTF_8));
     }
 
     /*

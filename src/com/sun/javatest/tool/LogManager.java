@@ -26,11 +26,8 @@
  */
 package com.sun.javatest.tool;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ListIterator;
 
 import com.sun.javatest.util.HelpTree;
@@ -95,8 +92,7 @@ public class LogManager extends CommandManager
             PrintWriter newLog;
 
             try {
-                FileWriter w = new FileWriter(file);
-                newLog = new PrintWriter(new BufferedWriter(w));
+                newLog = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)));
             }
             catch (IOException e) {
                 throw new Fault(i18n, "logm.log.cantOpenFile", e);

@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 import com.sun.javatest.TestDescription;
@@ -202,7 +203,7 @@ public class ShowTests
         if (outFile == null)
             out = System.out;
         else
-            out = new PrintStream(new BufferedOutputStream(new FileOutputStream(outFile)));
+            out = new PrintStream(new BufferedOutputStream(new FileOutputStream(outFile)), true, StandardCharsets.UTF_8.name());
 
         // read the tests and write them to output
         list(initialFile);

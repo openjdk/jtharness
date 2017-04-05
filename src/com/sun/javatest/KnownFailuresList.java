@@ -27,20 +27,14 @@
 package com.sun.javatest;
 
 import com.sun.javatest.util.DynamicArray;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.sun.javatest.util.I18NResourceBundle;
-import java.io.Reader;
-import java.io.StringReader;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -195,7 +189,7 @@ public class KnownFailuresList
     {
         setStrictModeEnabled(strict);
         if (f != null) {
-            BufferedReader in = new BufferedReader(new FileReader(f));
+            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
 
             Parser p = new Parser(in);
             try {
@@ -470,7 +464,7 @@ public class KnownFailuresList
      * file is being written.
      */
     public void write(File f) throws IOException {
-        BufferedWriter out = new BufferedWriter(new FileWriter(f));
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8));
         out.write("### KFL/");
         out.write(KFL_FILE_VERSION);
         out.newLine();

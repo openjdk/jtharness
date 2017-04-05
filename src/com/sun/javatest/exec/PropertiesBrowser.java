@@ -263,8 +263,7 @@ class PropertiesBrowser extends ToolDialog
                 //setField(configDesc, (env == null ? null : env.getDescription()));
                 setField(configName, config.getName());
                 setField(configDesc, config.getDescription());
-                setField(state, config == null ? null :
-                         config.isFinishable() ? completed : incomplete);
+                setField(state, config.isFinishable() ? completed : incomplete);
             }
 
             if (config != null)

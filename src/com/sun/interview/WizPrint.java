@@ -26,15 +26,8 @@
  */
 package com.sun.interview;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Iterator;
@@ -211,7 +204,7 @@ public class WizPrint
                     throw new BadArgs(i18n, "wp.noOutput");
             }
 
-            Class ic = Class.forName(interviewClassName);
+            Class ic = Class.forName(interviewClassName, true, ClassLoader.getSystemClassLoader());
             Interview interview = (Interview)(ic.newInstance());
             Question[] questions;
 
@@ -233,7 +226,7 @@ public class WizPrint
             }
 
             try {
-                Writer out = new FileWriter(outFileName);
+                Writer out = new OutputStreamWriter(new FileOutputStream(outFileName), StandardCharsets.UTF_8);
                 WizPrint wp = new WizPrint(interview, questions);
                 wp.setShowTags(!path);
                 wp.setShowResponses(path);

@@ -36,6 +36,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -78,7 +79,7 @@ public class JTHelpBroker implements HelpBroker{
         }
         File helpVersion = new File(helpDir, HELP_VERSION_NAME);
         try {
-            Scanner scanner = new Scanner(helpVersion);
+            Scanner scanner = new Scanner(helpVersion, StandardCharsets.UTF_8.name());
             String version = scanner.nextLine();
             if (version == null || !version.equals(ProductInfo.getVersion()+ProductInfo.getBuildNumber())){
                 return false;
@@ -165,7 +166,7 @@ public class JTHelpBroker implements HelpBroker{
                     }
                 }
 
-                try(PrintWriter out = new PrintWriter( helpVersion.getAbsolutePath())){
+                try(PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(helpVersion), StandardCharsets.UTF_8))){
                     out.println(ProductInfo.getVersion()+ProductInfo.getBuildNumber());
                 }
 

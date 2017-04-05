@@ -26,12 +26,8 @@
  */
 package com.sun.javatest;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 import com.sun.javatest.util.I18NResourceBundle;
@@ -74,7 +70,7 @@ public class FileParameters
         throws FileNotFoundException, IOException
     {
         Properties p = new Properties();
-        Reader in = new BufferedReader(new FileReader(file));
+        Reader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
         p.load(in);
         in.close();
 

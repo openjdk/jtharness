@@ -31,6 +31,8 @@ import com.sun.javatest.Status;
 import com.sun.javatest.lib.MultiStatus;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -132,7 +134,12 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
     protected void getListAllJunitTestCases(){
         tests = new TreeMap<String,Method>();
         try {
-            Method[] methods = testCaseClass.getClass().getMethods();
+            Method[] methods = AccessController.doPrivileged(
+                    new PrivilegedAction<Method[]>() {
+                        public Method[] run() {
+                            return testCaseClass.getClass().getMethods();
+                        }
+                    });
             for (Method m: methods){
                 if(m == null || excludeTestCases.contains(m.getName())){
                     continue;

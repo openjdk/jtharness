@@ -28,13 +28,9 @@
 package com.sun.javatest.tool;
 
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.ref.WeakReference;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -223,7 +219,7 @@ public class FileHistory
 
         if (historyFile.exists()) {
             try {
-                BufferedReader br = new BufferedReader(new FileReader(historyFile));
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(historyFile), StandardCharsets.UTF_8));
                 String line;
                 while ((line = br.readLine()) != null) {
                     String p = line.trim();
@@ -244,7 +240,7 @@ public class FileHistory
 
     private void writeEntries() {
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(historyFile));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(historyFile), StandardCharsets.UTF_8));
             bw.write("# Configuration File History");
             bw.newLine();
             bw.write("# written at " + (new Date()));

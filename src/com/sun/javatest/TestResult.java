@@ -26,17 +26,9 @@
  */
 package com.sun.javatest;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.Writer;
+import java.io.*;
 import java.lang.ref.WeakReference;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -1059,7 +1051,7 @@ public class TestResult {
             sections = null;
             execStatus = null;
 
-            reload(new FileReader(resultsFile));
+            reload(new InputStreamReader(new FileInputStream(resultsFile), StandardCharsets.UTF_8));
 
             // this next line is dubious since the execStatus should have
             // been set during the reload
@@ -1563,9 +1555,9 @@ public class TestResult {
     private void writeResults(File tempFile, BackupPolicy backupPolicy)
         throws IOException
     {
-        FileWriter out;
+        Writer out;
         try {
-            out = new FileWriter(tempFile);
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tempFile), StandardCharsets.UTF_8));
         }
         catch (IOException e) {
             execStatus = Status.error("Problem writing result file for test: " + getTestName());
@@ -2046,7 +2038,7 @@ public class TestResult {
             throw new IllegalStateException("Cannot do a reload of this object.");
 
         try {
-            reload(new FileReader(resultsFile));
+            reload(new BufferedReader(new InputStreamReader(new FileInputStream(resultsFile), StandardCharsets.UTF_8)));
 
             // Well, we have successfully reloaded it, so the object is now taking
             // up a big footprint again ... put it back on the list to be shrunk again
@@ -2703,7 +2695,7 @@ public class TestResult {
     /**
      * DateFormat, that is used to store date into TestResult
      */
-    private static final DateFormat dateFormat =
+    public static final DateFormat dateFormat =
             new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
 
     static final String EXTN = ".jtr";

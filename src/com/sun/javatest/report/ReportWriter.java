@@ -26,11 +26,9 @@
  */
 package com.sun.javatest.report;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -115,7 +113,7 @@ class ReportWriter extends HTMLWriterEx
         File cssFile = new File(dir, CSS_FILENAME);
 
         if (dir.exists() && dir.canWrite() && !cssFile.exists()) {
-            FileWriter fw = new FileWriter(cssFile);
+            Writer fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(cssFile), StandardCharsets.UTF_8));
 
             fw.write("h1 {font-size: 18pt;\n");
             fw.write("      font-family: SansSerif;\n");

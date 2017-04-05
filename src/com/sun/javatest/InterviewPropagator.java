@@ -47,6 +47,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -135,8 +136,8 @@ public class InterviewPropagator {
                 processQuestionFromSet(templateData, allQuestionMap, actual.keySet(), actual);
 
                 if (pm.hasConflicts() || pm.hasUpdates()) {
-                    psConflicts = new PrintStream(new FileOutputStream(pm.getConflictReportFile()));
-                    psUpdates = new PrintStream(new FileOutputStream(pm.getUpdatesReportFile()));
+                    psConflicts = new PrintStream(new FileOutputStream(pm.getConflictReportFile()), true, StandardCharsets.UTF_8.name());
+                    psUpdates = new PrintStream(new FileOutputStream(pm.getUpdatesReportFile()), true, StandardCharsets.UTF_8.name());
                     pm.makeConflictsReport(psConflicts);
                     pm.makeUpdatesReport(psUpdates);
                     updateAll();
@@ -741,7 +742,7 @@ public class InterviewPropagator {
                 if (is == null) {
                     return "";
                 }
-                r = new BufferedReader(new InputStreamReader(is));
+                r = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
 
                 String line;
                 while( (line = r.readLine()) != null )

@@ -36,9 +36,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +57,6 @@ import com.sun.javatest.tool.UIFactory;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 import javax.swing.filechooser.FileView;
 
 class FilesPane extends JPanel {
@@ -381,10 +379,9 @@ class FilesPane extends JPanel {
         String formatVersion = "formatVersion=\"v1\"";
 
         if (!f.getName().endsWith(".xml")) return false;
-        FileReader fr = null;
+        BufferedReader r = null;
         try {
-            fr = new FileReader(f);
-            BufferedReader r = new BufferedReader(fr);
+            r = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
             boolean hasSchema, hasVersion = false;
 
             // line 1
@@ -401,7 +398,7 @@ class FilesPane extends JPanel {
             return false;
         } finally {
             try {
-                if (fr != null) fr.close();
+                if (r != null) r.close();
             } catch (IOException ex) {
                 // nothing...
             }

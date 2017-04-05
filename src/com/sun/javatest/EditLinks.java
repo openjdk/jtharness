@@ -26,23 +26,8 @@
  */
 package com.sun.javatest;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.Writer;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -269,7 +254,7 @@ public class EditLinks
             }
 
             if (src.getName().endsWith(".html")) {
-                in = new BufferedReader(new FileReader(src));
+                in = new BufferedReader(new InputStreamReader(new FileInputStream(src), StandardCharsets.UTF_8));
                 if (dest.equals(src)) {
                     int size = (int)(src.length());
                     char data[] = new char[size];
@@ -280,7 +265,7 @@ public class EditLinks
                     String s = new String(data, 0, data.length);
                     in = new StringReader(s);
                 }
-                out = new BufferedWriter(new FileWriter(dest));
+                out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dest), StandardCharsets.UTF_8));
                 currFile = src;
                 line = 1;
                 edit(in, out);

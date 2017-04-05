@@ -26,12 +26,9 @@
  */
 package com.sun.javatest.finder;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.File;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 
 import com.sun.javatest.TestFinder;
@@ -273,7 +270,7 @@ public class TagTestFinder extends TestFinder
         }
 
         try {
-            cs.init(new BufferedReader(new FileReader(file)));
+            cs.init(new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)));
             if (fastScan)
                 cs.setFastScan(true);
 

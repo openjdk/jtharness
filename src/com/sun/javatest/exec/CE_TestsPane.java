@@ -30,11 +30,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.ButtonGroup;
@@ -200,8 +197,7 @@ class CE_TestsPane extends CE_StdPane
         FileReader fr = null;
         BufferedReader in = null;
         try {
-            fr = new FileReader(file);
-            in = new BufferedReader(fr);
+            in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
             String line;
             while ((line = in.readLine()) != null) {
                 line = line.trim();

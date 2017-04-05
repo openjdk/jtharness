@@ -581,10 +581,8 @@ public class ExecTool extends Tool implements ExecModel,
             }
         } else {
             if (testSuiteName == null)
-                if (workDirPath != null) {
-                    setI18NTitle("exec.title.wd.txt", workDirPath);
-                } else
-                    setI18NTitle("exec.title.noTsName.txt");
+                // workDirPath == null is verified
+                setI18NTitle("exec.title.wd.txt", workDirPath);
             else {
                 setShortTitle(testSuiteName);
                 setI18NTitle("exec.title.tsName_wd.txt", new Object[]{testSuiteName, workDirPath});

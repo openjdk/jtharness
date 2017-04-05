@@ -562,14 +562,14 @@ public class AgentMain {
     private static class ErrorObserver implements Agent.Observer {
         ErrorObserver() {
             try {
-                connectExceptionClass = Class.forName("java.net.ConnectException");
+                connectExceptionClass = Class.forName("java.net.ConnectException", true, ClassLoader.getSystemClassLoader());
             }
             catch (Throwable t) {
                 // ignore
             }
 
             try {
-                unknownHostExceptionClass = Class.forName("java.net.UnknownHostException");
+                unknownHostExceptionClass = Class.forName("java.net.UnknownHostException", true, ClassLoader.getSystemClassLoader());
             }
             catch (Throwable t) {
                 // ignore

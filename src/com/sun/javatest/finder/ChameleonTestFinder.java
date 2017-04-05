@@ -26,11 +26,8 @@
  */
 package com.sun.javatest.finder;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.SortedSet;
@@ -159,11 +156,9 @@ public class ChameleonTestFinder extends TestFinder {
             }
         });
 
-        FileReader fr = null;
         BufferedReader in = null;
         try {
-            fr = new FileReader(file);
-            in = new BufferedReader(fr);
+            in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
             String line;
             int lineNum = 0;
             while ((line = in.readLine()) != null) {
@@ -198,10 +193,6 @@ public class ChameleonTestFinder extends TestFinder {
             // followed by the underlying writer for leak prevention
             if (in != null){
                 try { in.close(); } catch (IOException e) { }
-            }
-
-            if (fr != null){
-                try { fr.close(); } catch (IOException e) { }
             }
         }
 

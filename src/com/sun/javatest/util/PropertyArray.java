@@ -173,14 +173,11 @@ public class PropertyArray {
             data = new String[0];
         }
 
-        if (key == null)
-            arr = data;
-        else {
-            vec = copyOutOf(data);
-            old = insert(vec, key, value);
-            arr = new String[vec.size()];
-            vec.copyInto(arr);
-        }
+        // key == null is verified
+        vec = copyOutOf(data);
+        old = insert(vec, key, value);
+        arr = new String[vec.size()];
+        vec.copyInto(arr);
 
         return arr;
     }

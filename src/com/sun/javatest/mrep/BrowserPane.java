@@ -35,13 +35,10 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
 import javax.swing.Action;
@@ -309,23 +306,13 @@ class BrowserPane extends JPanel {
                  && !url.getFile().endsWith(".htm")
                  && !url.getFile().endsWith(".html")) {
             textArea.setContentType("text/plain");
-            FileReader r = null;
             try {
-                r = new FileReader(file);
-                BufferedReader br = new BufferedReader(r);
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
                 textArea.read(br, url);
                 br.close();
             }
             catch (IOException e) {
                 uif.showError("fp.load.error", new Object[] { url, e });
-            }
-            finally {
-                try {
-                    if (r != null) r.close();
-                }
-                catch(IOException e2) {
-                    // ignore since this is just from closing the file
-                }
             }
 
         }

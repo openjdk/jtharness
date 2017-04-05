@@ -32,13 +32,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.EventQueue;
 import java.awt.Dimension;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -211,7 +206,7 @@ class QuestionLogBrowser extends ToolDialog
         }
 
         try {
-            Writer out = new BufferedWriter(new FileWriter(file));
+            Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
             out.write(((JEditorPane)body.getMediaPane(body.TEXT)).getText());
             out.close();
         }

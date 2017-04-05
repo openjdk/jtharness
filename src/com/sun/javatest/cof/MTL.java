@@ -26,10 +26,8 @@
  */
 package com.sun.javatest.cof;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +50,7 @@ public class MTL {
             table = new HashMap<String, ArrayList<String>>();
             BufferedReader r = null;
             try {
-                r = new BufferedReader(new FileReader(mtl));
+                r = new BufferedReader(new InputStreamReader(new FileInputStream(mtl), StandardCharsets.UTF_8));
                 String line;
                 while ((line = r.readLine()) != null) {
                     StringTokenizer st = new StringTokenizer(line);

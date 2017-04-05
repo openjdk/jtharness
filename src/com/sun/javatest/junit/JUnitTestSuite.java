@@ -76,9 +76,5 @@ public class JUnitTestSuite extends TestSuite {
         }
     }
 
-    public ClassLoader getClassLoader() {
-        return cl;
-    }
-
     private ClassLoader cl;
 }

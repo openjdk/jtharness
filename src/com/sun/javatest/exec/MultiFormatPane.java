@@ -41,14 +41,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import javax.imageio.ImageIO;
@@ -647,7 +643,7 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
             if (loadManually  && "file".equals(url.getProtocol())) {
                 File file = new File(url.getFile());
                 try {
-                    Reader r = new BufferedReader(new FileReader(file));
+                    Reader r = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
                     read(r, url);
                     r.close();
                 }

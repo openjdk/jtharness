@@ -27,18 +27,10 @@
 package com.sun.javatest.cof;
 
 import com.sun.javatest.InterviewParameters;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+
+import java.io.*;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
 import com.sun.javatest.TestSuite;
@@ -365,7 +357,7 @@ public class Main {
     public void writeReport(Report r, File outputFile) throws Fault {
         // creating report
         try {
-            XMLWriter out = new XMLWriter(new FileWriter(outputFile));
+            XMLWriter out = new XMLWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8)));
             r.write(out);
             out.close();
         } catch (IOException e) {

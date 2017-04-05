@@ -26,12 +26,8 @@
  */
 package com.sun.javatest.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
 /**
@@ -89,7 +85,7 @@ public class LineParser
     public LineParser(File file)
         throws FileNotFoundException, IOException
     {
-        this(file, new BufferedReader(new FileReader(file)));
+        this(file, new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)));
     }
 
     /**

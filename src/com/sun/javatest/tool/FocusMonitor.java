@@ -40,11 +40,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
@@ -155,7 +152,7 @@ class FocusMonitor
                     };
             }
             else
-                out = new BufferedWriter(new FileWriter(reportFile, true));
+                out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(reportFile, true), StandardCharsets.UTF_8));
 
             out.write("---------------------------------------");
             out.write(NEWLINE);

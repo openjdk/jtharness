@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.Vector;
 import com.sun.javatest.util.StringArray;
@@ -96,7 +97,7 @@ public class Map {
      * @throws IOException if any errors occurred reading the URL
      */
     public static Map readURL(URL u) throws IOException {
-        return new Map(new InputStreamReader(u.openStream()));
+        return new Map(new InputStreamReader(u.openStream(), StandardCharsets.UTF_8.name()));
     }
 
 

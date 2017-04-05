@@ -27,6 +27,9 @@
 package com.sun.javatest.util;
 
 import com.sun.javatest.ResourceLoader;
+
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.util.Enumeration;
 import java.util.Locale;
@@ -112,11 +115,22 @@ public class I18NResourceBundle extends ResourceBundle
     private Object getObj(String key) throws MissingResourceException {
         try {
             if (delegate == null) {
-                delegate = ResourceLoader.getBundle(name, Locale.getDefault(), classLoader);
+                delegate = AccessController.doPrivileged(
+                        new PrivilegedAction<ResourceBundle>() {
+                            public ResourceBundle run() {
+                                return ResourceLoader.getBundle(name, Locale.getDefault(), classLoader);
+                            }
+                        });
             }
             return delegate.getObject(key);
         } catch (MissingResourceException e) {
-            return ResourceBundle.getBundle(name, Locale.getDefault(), classLoader).getObject(key);
+            ResourceBundle bundle = AccessController.doPrivileged(
+                    new PrivilegedAction<ResourceBundle>() {
+                        public ResourceBundle run() {
+                            return ResourceBundle.getBundle(name, Locale.getDefault(), classLoader);
+                        }
+                    });
+            return bundle.getObject(key);
         }
     }
 
@@ -158,12 +172,25 @@ public class I18NResourceBundle extends ResourceBundle
      */
     public Enumeration getKeys() {
         if (delegate == null) {
-            delegate = ResourceLoader.getBundle(name, Locale.getDefault(), classLoader);
+            delegate = AccessController.doPrivileged(
+                    new PrivilegedAction<ResourceBundle>() {
+                        public ResourceBundle run() {
+                            return ResourceLoader.getBundle(name, Locale.getDefault(), classLoader);
+                        }
+                    });
+
         }
         if (delegate.getKeys().hasMoreElements()) {
             return delegate.getKeys();
         }
-        return ResourceBundle.getBundle(name, Locale.getDefault(), classLoader).getKeys();
+
+        ResourceBundle bundle = AccessController.doPrivileged(
+                new PrivilegedAction<ResourceBundle>() {
+                    public ResourceBundle run() {
+                        return ResourceBundle.getBundle(name, Locale.getDefault(), classLoader);
+                    }
+                });
+        return bundle.getKeys();
     }
 
     /**

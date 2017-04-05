@@ -26,13 +26,9 @@
  */
 package com.sun.javatest.util;
 
-import java.io.File;
+import java.io.*;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -130,10 +126,10 @@ public class LogFile
             closeWhenDone = false;
         }
         else {
-            FileWriter fw = null;
+            Writer fw = null;
             try {
                 // open writer in append mode
-                fw = new FileWriter(file, true);
+                fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
             }
             catch (IOException e) {
                 // oh well

@@ -76,7 +76,7 @@ public class ReverseTestFinder extends TestFinder
                      TestEnvironment env) throws Fault {
          String delegateClassName = args[0];
          try {
-             Class  delegateClass = Class.forName(delegateClassName);
+             Class  delegateClass = Class.forName(delegateClassName, true, ClassLoader.getSystemClassLoader());
              delegate = (TestFinder)(delegateClass.newInstance());
              args = shift(args, 1);
              delegate.init(args, testSuiteRoot, env);

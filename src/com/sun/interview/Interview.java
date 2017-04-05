@@ -30,6 +30,8 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -279,8 +281,8 @@ public class Interview
         // name is not null
         if (!name.equals(bundleName)) {
             Class c = getClass();
-            ClassLoader cl = c.getClassLoader();
-            String rn;
+            final ClassLoader cl = c.getClassLoader();
+            final String rn;
             if (name.startsWith("/"))
                 rn = name.substring(1);
             else {
@@ -289,7 +291,12 @@ public class Interview
                 rn = pn + "." + name;
             }
             //System.err.println("INT: looking for bundle: " + rn);
-            bundle = ResourceBundle.getBundle(rn, Locale.getDefault(), cl);
+            bundle = AccessController.doPrivileged(
+                    new PrivilegedAction<ResourceBundle>() {
+                        public ResourceBundle run() {
+                            return ResourceBundle.getBundle(rn, Locale.getDefault(), cl);
+                        }
+                    });
             bundleName = name;
         }
     }
@@ -308,15 +315,20 @@ public class Interview
      * cannot be found.
      * @see #getResourceBundle
      */
-    protected void setResourceBundle(String name, File file)
+    protected void setResourceBundle(final String name, File file)
             throws MissingResourceException {
         if (bundleName != null && bundleName.equals(name)) {
             return;
         }
         try {
             URL[] url = {new URL("file:" + file.getAbsolutePath() + "/")};
-            URLClassLoader cl = new URLClassLoader(url);
-            bundle = ResourceBundle.getBundle(name, Locale.getDefault(), cl);
+            final URLClassLoader cl = new URLClassLoader(url);
+            bundle = AccessController.doPrivileged(
+                    new PrivilegedAction<ResourceBundle>() {
+                        public ResourceBundle run() {
+                            return ResourceBundle.getBundle(name, Locale.getDefault(), cl);
+                        }
+                    });
             bundleName = name;
         } catch (MalformedURLException e) {
         }

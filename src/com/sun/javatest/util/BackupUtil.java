@@ -232,24 +232,24 @@ public class BackupUtil {
 
         FileFilter filter = new LayerFilter(suffix);
         File[] layer = parentDir.listFiles(filter);
-        if(number >= maxBackups) {
-            for(int i = 0; i < layer.length; i++) {
-                deleteDir(layer[i]);
-            }
-        }
-        else {
-            for(int i = 0; i < layer.length; i++) {
-                try {
-                    String newName;
-                    if(number != 0) {
-                        newName = layer[i].getCanonicalPath().replaceAll(suffix, newSuffix);
-                    }
-                    else {
-                        newName = layer[i].getCanonicalPath() + newSuffix;
-                    }
-                    layer[i].renameTo(new File(newName));
+        if (layer != null) {
+            if (number >= maxBackups) {
+                for (int i = 0; i < layer.length; i++) {
+                    deleteDir(layer[i]);
                 }
-                catch(IOException e) {}
+            } else {
+                for (int i = 0; i < layer.length; i++) {
+                    try {
+                        String newName;
+                        if (number != 0) {
+                            newName = layer[i].getCanonicalPath().replaceAll(suffix, newSuffix);
+                        } else {
+                            newName = layer[i].getCanonicalPath() + newSuffix;
+                        }
+                        layer[i].renameTo(new File(newName));
+                    } catch (IOException e) {
+                    }
+                }
             }
         }
     }

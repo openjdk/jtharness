@@ -26,13 +26,9 @@
  */
 package com.sun.javatest;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 //import java.util.Hashtable;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
@@ -187,7 +183,7 @@ public class TestEnvContext
 
         try {
             Properties p = new Properties();
-            Reader in = new BufferedReader(new FileReader(f));
+            Reader in = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
             p.load(in);
             in.close();
 

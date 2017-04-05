@@ -226,7 +226,6 @@
             <manifest>
                 <attribute name="Built-By"   value="${user.name}"/>
                 <attribute name="Main-Class" value="${run.class}"/>
-                <attribute name="Class-Path" value="jh.jar"/>
             </manifest>
             <include name="META-INF/buildInfo.txt"/>
             <include name="copyright.txt"/>

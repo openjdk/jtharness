@@ -73,7 +73,6 @@
             </classpath>
             <arg value="${build.tmp}/i18ncheck"/>
             <arg value="${BUILD_DIR}/classes/"/>
-            <arg value="${BUILD_DIR}/binaries/lib/jh.jar"/>
             <arg value="${BUILD_DIR}/binaries/examples/tutorial/demots"/>
             <arg value="${build.tmp}/demots_wd"/>
             <arg value="${build.tmp}/demots.jti"/>

@@ -26,12 +26,8 @@
  */
 package com.sun.javatest.finder;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -184,7 +180,7 @@ public class HTMLTestFinder extends TestFinder
         namesInFile.clear();
 
         try {
-            input = new BufferedReader(new FileReader(file));
+            input = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
             currFile = file;
             line = 1;
             nextCh();
@@ -276,7 +272,7 @@ public class HTMLTestFinder extends TestFinder
                         else if (tag.equals("amp"))
                             replace = "&";
                         else if (tag.equals("copy"))
-                            replace = "©";
+                            replace = "ï¿½";
                         if (replace == null)
                             replace = "&" + tag + ((char) c);
                     }

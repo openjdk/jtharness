@@ -27,9 +27,9 @@
 package com.sun.javatest.services;
 
 import com.sun.javatest.TestSuite;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
@@ -97,7 +97,7 @@ public class PropertyServiceReader implements ServiceReader {
         props = new Properties();
 
         try {
-            props.load(new FileReader(propFile));
+            props.load(new BufferedReader(new InputStreamReader(new FileInputStream(propFile), StandardCharsets.UTF_8)));
         } catch (IOException ex) {
         }
     }

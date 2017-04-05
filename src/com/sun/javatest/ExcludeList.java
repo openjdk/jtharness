@@ -26,16 +26,8 @@
  */
 package com.sun.javatest;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.Writer;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -107,8 +99,7 @@ public class ExcludeList
     {
         setStrictModeEnabled(strict);
         if (f != null) {
-            FileReader fr = new FileReader(f);
-            BufferedReader in = new BufferedReader(fr);
+            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
             try {
                 Parser p = new Parser(in);
                 Entry e;
@@ -119,7 +110,6 @@ public class ExcludeList
             }
             finally {
                 in.close();
-                fr.close();
             }
         }
     }
@@ -613,7 +603,7 @@ public class ExcludeList
             maxPlatformWidth = Math.max(platformsToString(entry).length(), maxPlatformWidth);
         }
 
-        BufferedWriter out = new BufferedWriter(new FileWriter(f));
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8));
         out.write("# Exclude List");
         out.newLine();
         out.write("# SCCS %" + 'W' + "% %" + 'E' + "%"); // TAKE CARE WITH SCCS HEADERS

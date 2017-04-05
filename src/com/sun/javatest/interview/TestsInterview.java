@@ -26,11 +26,8 @@
  */
 package com.sun.javatest.interview;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeSet;
@@ -284,7 +281,7 @@ public class TestsInterview
     protected String[] getTests(File file) {
         ArrayList<String> paths = new ArrayList();
         try {
-            BufferedReader in = new BufferedReader(new FileReader(file));
+            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
             String line;
             while ((line = in.readLine()) != null) {
                 line = line.trim();

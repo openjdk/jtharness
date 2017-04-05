@@ -28,7 +28,9 @@ package com.sun.javatest.servlets;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
@@ -66,7 +68,7 @@ public class ResultBrowser extends HttpServlet {
         }
 
         res.setContentType("text/html");
-        PrintWriter out = new PrintWriter(res.getOutputStream());
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(res.getOutputStream(), StandardCharsets.UTF_8), true);
         out.println("<html>");
         out.println("<head>");
         out.println("<title>" + file + "</title>");

@@ -33,6 +33,7 @@ import java.io.LineNumberReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
 
 import com.sun.javatest.util.I18NResourceBundle;
@@ -70,8 +71,8 @@ class RequestHandler implements Runnable {
                 buf.setLength(0);
             }
 
-            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(soc.getOutputStream())));
-            in = new LineNumberReader(new InputStreamReader(soc.getInputStream()));
+            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(soc.getOutputStream(), StandardCharsets.UTF_8)));
+            in = new LineNumberReader(new InputStreamReader(soc.getInputStream(), StandardCharsets.UTF_8));
 
 
             request = in.readLine();

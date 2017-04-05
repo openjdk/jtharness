@@ -32,11 +32,9 @@ import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.TextWriter;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -127,7 +125,7 @@ public class PlainTextReport implements ReportFormat {
     }
 
     private Writer openWriter(File reportDir, String filename) throws IOException {
-        return new BufferedWriter(new FileWriter(new File(reportDir, filename)));
+        return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(reportDir, filename)), StandardCharsets.UTF_8));
     }
 
     // these fields must have synchronized indexes

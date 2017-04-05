@@ -28,10 +28,9 @@ package com.sun.javatest.report;
 
 import com.sun.javatest.KnownFailuresList;
 import com.sun.javatest.TestResult;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.TreeSet;
 
@@ -70,7 +69,7 @@ public class KflPlainText {
     private void writeTestSet(String f, String id, TreeSet<KflSorter.TestDiff> tests) {
         // add file validation
         try {
-            FileWriter out = new FileWriter(new File(dir, f));
+            Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(dir, f)), StandardCharsets.UTF_8));
             out.write("# ");
             out.write(f);
             out.write("\n");
