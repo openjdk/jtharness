@@ -106,6 +106,14 @@ public class TestFinderDecorator extends TestFinder {
         return currentTestFinder;
     }
 
+    public long lastModified(File f) {
+        return currentTestFinder.lastModified(f);
+    }
+
+    public boolean isFolder(File path) {
+        return currentTestFinder.isFolder(path);
+    }
+
     protected void scan(File file) {
         throw new Error("should not be called!");
     }

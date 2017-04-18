@@ -544,6 +544,10 @@ public class TestResultTable {
             }
         }
 
+        if (trCache != null){
+            trCache.requestFullUpdate();
+        }
+
         return true;
     }
 
