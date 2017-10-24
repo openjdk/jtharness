@@ -33,11 +33,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -59,8 +56,7 @@ import java.io.FileInputStream;
  * @see com.sun.javatest.TestFinder
  * @see com.sun.javatest.TestDescription
  */
-public class JUnitAnnotationTestFinder extends JUnitTestFinder
-        implements ClassVisitor, MethodVisitor {
+public class JUnitAnnotationTestFinder extends JUnitTestFinder {
     /**
      * Constructs the list of file names to exclude for pruning in the search
      * for files to examine for test descriptions.
@@ -195,7 +191,7 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder
             try {
                 FileInputStream fis = new FileInputStream(classFile);
                 ClassReader cr = new ClassReader(fis);
-                cr.accept(this, 0);
+                cr.accept(new JUnitAnnotationClassVisitor(this), 0);
                 // action happens in visit(...) below
 
                 // methods are necessary for this to be a test
@@ -227,114 +223,46 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder
         return;
     }
 
-    //----------ASM interface -----------
-    public void visit(int version, int access, String name, String signature,
-            String superName, String[] interfaces) {
-        if (verbose)
-            System.out.println("found class " + name + " with super " +superName);
-    }
+    class JUnitAnnotationMethodVisistor extends MethodVisitor {
+        private JUnitAnnotationTestFinder outer;
 
-    // class visitor methods we are interested in
-    public MethodVisitor visitMethod(int access, String name, String desc,
-            String signature, String[] exceptions) {
-        if (access == Opcodes.ACC_PUBLIC) {
-            currMethod = name;
-            return this;
-        } else
+        public JUnitAnnotationMethodVisistor(JUnitAnnotationTestFinder outer) {
+            super(Opcodes.ASM4);
+            this.outer = outer;
+        }
+
+        public AnnotationVisitor visitAnnotation(String string, boolean b) {
+            if (outer.methodAnnotation.equals(string))
+                outer.foundTestMethod(outer.currMethod);
+
             return null;
+        }
     }
 
-    public void visitSource(String string, String string0) {
-    }
+    class JUnitAnnotationClassVisitor extends ClassVisitor {
+        private JUnitAnnotationTestFinder outer;
+        private JUnitAnnotationMethodVisistor methodVisitor;
 
-    public void visitOuterClass(String string, String string0, String string1) {
-    }
+        public JUnitAnnotationClassVisitor(JUnitAnnotationTestFinder outer) {
+            super(Opcodes.ASM4);
+            this.outer = outer;
+            methodVisitor = new JUnitAnnotationMethodVisistor(outer);
+        }
 
-    public AnnotationVisitor visitAnnotation(String string, boolean b) {
-        if (methodAnnotation.equals(string))
-            foundTestMethod(currMethod);
+        public void visit(int version, int access, String name, String signature,
+                          String superName, String[] interfaces) {
+            if (verbose)
+                System.out.println("found class " + name + " with super " + superName);
+        }
 
-        return null;
-    }
-
-    public void visitAttribute(Attribute attribute) {
-    }
-
-    public void visitInnerClass(String string, String string0, String string1, int i) {
-    }
-
-    public FieldVisitor visitField(int i, String string, String string0, String string1, Object object) {
-        return null;
-    }
-
-    public void visitEnd() {
-    }
-
-
-    // -- Method visitor --
-    public void visitJumpInsn(int i, Label label) {
-    }
-
-    public void visitLineNumber(int i, Label label) {
-    }
-
-    public void visitLabel(Label label) {
-    }
-
-    public void visitTableSwitchInsn(int i, int i0, Label label, Label[] label0) {
-    }
-
-    public void visitLdcInsn(Object object) {
-    }
-
-    public void visitFrame(int i, int i0, Object[] object, int i1, Object[] object0) {
-    }
-
-    public void visitInsn(int i) {
-    }
-
-    public void visitLookupSwitchInsn(Label label, int[] i, Label[] label0) {
-    }
-
-    public void visitTryCatchBlock(Label label, Label label0, Label label1, String string) {
-    }
-
-    public void visitTypeInsn(int i, String string) {
-    }
-
-    public void visitMultiANewArrayInsn(String string, int i) {
-    }
-
-    public void visitMethodInsn(int i, String string, String string0, String string1) {
-    }
-
-    public void visitFieldInsn(int i, String string, String string0, String string1) {
-    }
-
-    public void visitLocalVariable(String string, String string0, String string1, Label label, Label label0, int i) {
-    }
-
-    public AnnotationVisitor visitParameterAnnotation(int i, String string, boolean b) {
-        return null;
-    }
-
-    public void visitVarInsn(int i, int i0) {
-    }
-
-    public void visitMaxs(int i, int i0) {
-    }
-
-    public AnnotationVisitor visitAnnotationDefault() {
-        return null;
-    }
-
-    public void visitCode() {
-    }
-
-    public void visitIincInsn(int i, int i0) {
-    }
-
-    public void visitIntInsn(int i, int i0) {
+        public MethodVisitor visitMethod(int access, String name, String desc,
+                                         String signature, String[] exceptions) {
+            if (access == Opcodes.ACC_PUBLIC) {
+                outer.currMethod = name;
+                return methodVisitor;
+            } else
+                return null;
+        }
     }
 
     //----------member variables------------------------------------------------

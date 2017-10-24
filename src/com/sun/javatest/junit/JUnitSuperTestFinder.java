@@ -33,14 +33,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.commons.EmptyVisitor;
 
 import com.sun.javatest.util.I18NResourceBundle;
 
@@ -56,7 +52,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  * @see com.sun.javatest.TestFinder
  * @see com.sun.javatest.TestDescription
  */
-public class JUnitSuperTestFinder extends JUnitTestFinder implements ClassVisitor {
+public class JUnitSuperTestFinder extends JUnitTestFinder {
     /**
      * Constructs the list of file names to exclude for pruning in the search
      * for files to examine for test descriptions.
@@ -201,7 +197,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder implements ClassVisito
             try {
                 FileInputStream fis = new FileInputStream(classFile);
                 ClassReader cr = new ClassReader(fis);
-                cr.accept(this, 0);
+                cr.accept(new JUnitClassVisitor(this), 0);
                 // action happens in visit(...) below
 
                 if (tdValues.get("executeClass") == null)
@@ -275,63 +271,47 @@ public class JUnitSuperTestFinder extends JUnitTestFinder implements ClassVisito
         else
             return false;
     }
-//----------ASM inteface-----------
-    public void visit(int version, int access, String name, String signature,
-            String superName, String[] interfaces) {
-        if (verbose)
-            System.out.println("found class " + name + " with super " +superName);
 
-        if (isMatchSuper(superName.replaceAll("/", "."))) {
+    class JUnitClassVisitor extends ClassVisitor {
+        private JUnitSuperTestFinder outer;
 
-            //tdValues.put("sources", sources);
-            tdValues.put("executeClass", name.replaceAll("/", "."));
-        } else {
+        JUnitClassVisitor(JUnitSuperTestFinder outer) {
+            super(Opcodes.ASM4);
+            this.outer = outer;
+        }
 
+        public void visit(int version, int access, String name, String signature,
+                          String superName, String[] interfaces) {
+            if (verbose)
+                System.out.println("found class " + name + " with super " + superName);
+
+            if (outer.isMatchSuper(superName.replaceAll("/", "."))) {
+                outer.tdValues.put("executeClass", name.replaceAll("/", "."));
+            }
+        }
+
+        /**
+         * Looks for methods which are test methods by calling <tt>isTestMethodSignature</tt>.
+         * You can override that method or this one.  If overriding this one,
+         * use foundTestMethod(String) to register any test methods which you
+         * find.
+         */
+        public MethodVisitor visitMethod(int access, String name, String desc,
+                                         String signature, String[] exceptions) {
+            if (access == Opcodes.ACC_PUBLIC) {
+                if (outer.isTestMethodSignature(name))
+                    outer.foundTestMethod(name);
+            }
+
+            return null;
         }
     }
 
-// class visitor methods we are interested in
-    /**
-     * Looks for methods which are test methods by calling <tt>isTestMethodSignature</tt>.
-     * You can override that method or this one.  If overriding this one,
-     * use foundTestMethod(String) to register any test methods which you
-     * find.
-     */
-    public MethodVisitor visitMethod(int access, String name, String desc,
-            String signature, String[] exceptions) {
-        if (access == Opcodes.ACC_PUBLIC) {
-            //System.out.println("found method " + name);
-            if (isTestMethodSignature(name))
-                foundTestMethod(name);
+    private static class MethodFinderVisitor extends ClassVisitor {
+
+        public MethodFinderVisitor() {
+            super(Opcodes.ASM4);
         }
-
-        return null;
-    }
-
-    public void visitSource(String string, String string0) {
-    }
-
-    public void visitOuterClass(String string, String string0, String string1) {
-    }
-
-    public AnnotationVisitor visitAnnotation(String string, boolean b) {
-        return null;
-    }
-
-    public void visitAttribute(Attribute attribute) {
-    }
-
-    public void visitInnerClass(String string, String string0, String string1, int i) {
-    }
-
-    public FieldVisitor visitField(int i, String string, String string0, String string1, Object object) {
-        return null;
-    }
-
-    public void visitEnd() {
-    }
-
-    private static class MethodFinderVisitor extends EmptyVisitor {
         /**
          * Return the given class' superclass name in dotted notation.
          */
@@ -347,6 +327,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder implements ClassVisito
 
         String thisSupername;
     }
+
 
 
 //----------member variables------------------------------------------------
