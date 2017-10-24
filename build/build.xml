@@ -26,6 +26,7 @@
 <project name="jtharness" default="build" basedir="..">
 
     <import file="build-i18ncheck.xml"/>
+    <import file="check-dependencies.xml"/>
 
     <property file="build/local.properties"/>
     <property file="build/build.properties"/>
@@ -101,6 +102,7 @@
         <include name="com/sun/javatest/**"/>
         <exclude name="com/sun/javatest/junit/**"/>
         <exclude name="com/sun/javatest/agent/SerialPort*.java" unless="jcomm.present"/>
+        <exclude name="com/sun/javatest/servlets/*.java" unless="servlet.present"/>
     </patternset>
 
 	<patternset id="test.packages">
@@ -249,7 +251,7 @@
 
     <!-- JAR - JUnit Support Section -->
 
-    <target name="jar.junit" depends="jar.junit.check,stamp" unless="jt-junit.jar.ok" description="Build JUnit JAR.">
+    <target name="jar.junit" depends="jar.junit.check,stamp" if="jar.junit.dependecies.present" unless="jt-junit.jar.ok" description="Build JUnit JAR.">
         <mkdir dir="${BUILD_DIR}/binaries/lib"/>
         <jar destfile="${BUILD_DIR}/binaries/lib/jt-junit.jar" basedir="${build.junit.classes}" index="false">
             <manifest>
@@ -261,7 +263,7 @@
         </jar>
     </target>
 
-    <target name="jar.junit.check" depends="compile.junit.classes">
+    <target name="jar.junit.check" if="jar.junit.dependecies.present" depends="compile.junit.classes">
         <dependset>
             <srcfileset dir="${build.junit.classes}">
                 <patternset refid="javatest.junit.packages"/>
@@ -273,19 +275,9 @@
 
     <!-- Compilation Section -->
 
-    <target name="compile" depends="compile.classes,compile.resources,compile-javatest.help" description="Compile project."/>
-
-    <target name="compile.serial.warning" unless="jcomm.present">
-        <echo message="Serial Agent classes will not be compiled"/>
-    </target>
+    <target name="compile" depends="verify-dependencies, compile.classes,compile.resources,compile-javatest.help" description="Compile project."/>
 
     <target name="compile.classes">
-
-        <available file="${jcommjar}" type="file" property="jcomm.present"/>
-        <antcall target="compile.serial.warning"/>
-
-        <available file="${servletjar}" type="file" property="servlet.present"/>
-        <fail unless="servlet.present" message="${servlet.missing}"/>
 
         <delete dir="${build.classes}" quiet="true"/>
         <mkdir dir="${build.classes}"/>
@@ -314,15 +306,12 @@
 		</javac>
 	</target>
 
-    <target name="compile.junit.classes" depends="compile.classes,compile.junit.resources">
-        <available file="${junitlib}" type="file" property="junit.present"/>
-        <fail unless="junit.present" message="${junit.missing}"/>
-
+    <target name="compile.junit.classes" if="jar.junit.dependecies.present" depends="verify-dependencies, compile.classes,compile.junit.resources">
         <mkdir dir="${build.junit.classes}"/>
         <javac encoding="iso-8859-1" debug="true" target="1.7"
                srcdir="${src.dir}"
                destdir="${build.junit.classes}"
-               classpath="${jdk14.classpath}:${build.classes}:${bytecodelib}:${junitlib}">
+               classpath="${jdk14.classpath}:${build.classes}:${asmjar}:${asmcommonsjar}:${junitlib}">
             <patternset refid="javatest.junit.packages"/>
         </javac>
 
@@ -353,7 +342,7 @@
         <copy file="${build.dir}/com.sun.javatest.report.ReportFormat" tofile="${build.classes}/META-INF/services/com.sun.javatest.report.ReportFormat"/>
     </target>
 
-    <target name="compile.junit.resources" depends="stamp">
+    <target name="compile.junit.resources" if="jar.junit.dependecies.present" depends="stamp">
         <copy todir="${build.junit.classes}">
             <fileset dir="${src.dir}">
                 <patternset refid="javatest.junit.resources"/>
