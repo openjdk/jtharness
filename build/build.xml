@@ -364,7 +364,10 @@
 
     <target name="javadoc" description="Creates API documentation for the JT Harness source.">
         <condition property="javadoc.add" value="${javadoc.additionalparam} -Xdoclint:none" else="${javadoc.additionalparam}">
-            <contains string="${java.version}" substring="1.8" />
+            <or>
+                <contains string="${java.version}" substring="1.8" />
+                <equals arg1="${java.version}" arg2="9"/>
+            </or>
         </condition>
 
         <mkdir dir="${javadoc.dir}"/>
@@ -540,7 +543,7 @@
         <mkdir dir="${build.tmp}/${exam.dir}/simpleTags"/>
         <mkdir dir="${build.examples}/demots/lib"/>
 
-        <javac encoding="iso-8859-1" debug="true" source="1.4"
+        <javac encoding="iso-8859-1" debug="true" source="1.6"
                srcdir="${exam.dir}/tutorial/demoapi"
                destdir="${build.tmp}/${exam.dir}/demoapi">
         </javac>
@@ -556,7 +559,7 @@
         </copy>
 
 
-        <javac encoding="iso-8859-1" debug="true" source="1.4"
+        <javac encoding="iso-8859-1" debug="true" source="1.6"
                srcdir="${exam.dir}/tutorial/simpleTags"
                destdir="${build.tmp}/${exam.dir}/simpleTags"
                classpath="${BUILD_DIR}/binaries/lib/javatest.jar:${build.examples}/demots/lib/demoapi.jar">
