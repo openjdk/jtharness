@@ -223,10 +223,10 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
         return;
     }
 
-    class JUnitAnnotationMethodVisistor extends MethodVisitor {
+    class JUnitAnnotationMethodVisitor extends MethodVisitor {
         private JUnitAnnotationTestFinder outer;
 
-        public JUnitAnnotationMethodVisistor(JUnitAnnotationTestFinder outer) {
+        public JUnitAnnotationMethodVisitor(JUnitAnnotationTestFinder outer) {
             super(Opcodes.ASM4);
             this.outer = outer;
         }
@@ -241,12 +241,12 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
 
     class JUnitAnnotationClassVisitor extends ClassVisitor {
         private JUnitAnnotationTestFinder outer;
-        private JUnitAnnotationMethodVisistor methodVisitor;
+        private JUnitAnnotationMethodVisitor methodVisitor;
 
         public JUnitAnnotationClassVisitor(JUnitAnnotationTestFinder outer) {
             super(Opcodes.ASM4);
             this.outer = outer;
-            methodVisitor = new JUnitAnnotationMethodVisistor(outer);
+            methodVisitor = new JUnitAnnotationMethodVisitor(outer);
         }
 
         public void visit(int version, int access, String name, String signature,
