@@ -281,7 +281,7 @@
 
         <delete dir="${build.classes}" quiet="true"/>
         <mkdir dir="${build.classes}"/>
-        <javac encoding="iso-8859-1" debug="true" target="1.7"
+        <javac encoding="iso-8859-1" debug="true" source="1.7" target="1.7"
                srcdir="${src.dir}"
                sourcepath=""
                destdir="${build.classes}"
@@ -298,7 +298,7 @@
 
     <target name="compile.test.copyright.classes">
         <mkdir dir="${build.classes}"/>
-        <javac encoding="iso-8859-1" debug="true" target="1.7"
+        <javac encoding="iso-8859-1" debug="true" source="1.7" target="1.7"
                srcdir="${test.dir}"
                destdir="${build.classes}"
                classpath="${jdk14.classpath}">
@@ -308,7 +308,7 @@
 
     <target name="compile.junit.classes" if="jar.junit.dependecies.present" depends="verify-dependencies, compile.classes,compile.junit.resources">
         <mkdir dir="${build.junit.classes}"/>
-        <javac encoding="iso-8859-1" debug="true" target="1.7"
+        <javac encoding="iso-8859-1" debug="true" source="1.7" target="1.7"
                srcdir="${src.dir}"
                destdir="${build.junit.classes}"
                classpath="${jdk14.classpath}:${build.classes}:${asmjar}:${asmcommonsjar}:${junitlib}">
