@@ -113,7 +113,7 @@ class ChecklistBrowser extends ToolDialog
     }
 
     private void writeChecklist(Checklist c, Writer out) throws IOException {
-        out.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n");
+        out.write("<!DOCTYPE HTML>\n");
         out.write("<html><body>\n");
 
         TestEnvironment env = params.getEnv();

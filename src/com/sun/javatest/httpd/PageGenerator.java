@@ -234,8 +234,8 @@ public class PageGenerator {
     public static final int HTML32 = 0;
     public static final int HTML40_TRANS = 1;
 
-    private static final String HTML32_ID = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">";
-    private static final String HTML40_TRANS_ID = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
+    private static final String HTML32_ID = "<!DOCTYPE HTML>";
+    private static final String HTML40_TRANS_ID = "<!DOCTYPE HTML>";
 
     private static final String HTTP_CONTENT_TYPE = "Content-Type: ";
     private static final String HTTP_OK = "HTTP/1.1 200 OK";

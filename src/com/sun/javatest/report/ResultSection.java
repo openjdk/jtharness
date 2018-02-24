@@ -123,7 +123,7 @@ class ResultSection extends HTMLSection {
                 out.startTag(HTMLWriterEx.TR);
                 out.writeTH(headings[i], HTMLWriterEx.ROW);
                 out.startTag(HTMLWriterEx.TD);
-                out.writeAttr(HTMLWriterEx.ALIGN, HTMLWriterEx.RIGHT);
+                out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_RIGHT);
                 out.write(Integer.toString(n));
                 out.endTag(HTMLWriterEx.TD);
 

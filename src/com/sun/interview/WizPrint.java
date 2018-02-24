@@ -390,9 +390,8 @@ public class WizPrint
         startTag(HR);
         for (int i = 0; i < questions.length; i++) {
             if (i > 0) {
-                startTag(P);
                 startTag(HR);
-                writeAttr(ALIGN, LEFT);
+                writeAttr(STYLE, TEXT_LEFT);
                 writeAttr(WIDTH, "25%");
             }
 
@@ -608,22 +607,24 @@ public class WizPrint
         startTag(P);
         startTag(I);
         writeI18N("wp.response");
-        if (responses == null || responses.length == 0) {
+        if (responses == null || responses.length == 0
+                || (responses.length == 1 && responses[0].isEmpty())) {
             writeI18N("wp.noResponse");
             endTag(I);
             endTag(P);
-        }
-        else {
+        } else {
             endTag(I);
             endTag(P);
             startTag(UL);
             for (int i = 0; i < responses.length; i++) {
-                startTag(LI);
-                startTag(B);
-                startTag(I);
-                writeText(responses[i]);
-                endTag(I);
-                endTag(B);
+                if (responses[i] != null && !responses[i].isEmpty()) {
+                    startTag(LI);
+                    startTag(B);
+                    startTag(I);
+                    writeText(responses[i]);
+                    endTag(I);
+                    endTag(B);
+                }
             }
             endTag(UL);
         }
@@ -964,10 +965,9 @@ public class WizPrint
 
     private static final ResourceBundle i18n = ResourceBundle.getBundle("com.sun.interview.i18n");
 
-    private static final String DOCTYPE = "!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\"";
+    private static final String DOCTYPE = "!DOCTYPE HTML";
 
     private static final String A = "a";
-    private static final String ALIGN = "align";
     private static final String B = "b";
     private static final String BODY = "body";
     private static final String BR = "br";
@@ -979,7 +979,7 @@ public class WizPrint
     private static final String HREF = "href";
     private static final String HTML = "html";
     private static final String I = "i";
-    private static final String LEFT = "left";
+    private static final String TEXT_LEFT = "text-align:left;";
     private static final String LI = "li";
     private static final String NAME = "name";
     private static final String P = "p";
@@ -992,6 +992,7 @@ public class WizPrint
     private static final String TR = "tr";
     private static final String UL = "ul";
     private static final String WIDTH = "width";
+    private static final String STYLE="style";
 
     private static class SortedVector
     {

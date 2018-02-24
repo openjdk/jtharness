@@ -57,7 +57,7 @@ class ReportWriter extends HTMLWriterEx
 
     ReportWriter(Writer out, String title, I18NResourceBundle i18n, Charset cs)
         throws IOException {
-        super(out, "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">", i18n);
+        super(out, "<!DOCTYPE HTML>", i18n);
         this.i18n = i18n;
 
         startTag(HTMLWriterEx.HTML);
@@ -94,7 +94,8 @@ class ReportWriter extends HTMLWriterEx
 
         String build_version = ProductInfo.getBuildJavaVersion();
 
-        startTag(HTMLWriterEx.P);
+        //startTag(HTMLWriterEx.P);
+        //endTag(HTMLWriterEx.P);
         startTag(HTMLWriterEx.HR);
         startTag(HTMLWriterEx.SMALL);
         writeI18N("reportWriter.generatedOn", now);

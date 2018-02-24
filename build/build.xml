@@ -334,8 +334,6 @@
         </copy>
 	<mkdir dir="${build.classes}/META-INF/"/>
         <buildinfo/>
-        <copy file="${src.dir}/com/sun/javatest/tool/images/${javatest.splash}.gif"
-              tofile="${build.classes}/com/sun/javatest/tool/images/splash.gif" />
         <copy file="${src.dir}/com/sun/javatest/tool/i18n.properties"
               tofile="${build.classes}/com/sun/javatest/tool/i18n_fr.properties"/>
 	<mkdir dir="${build.classes}/META-INF/services"/>

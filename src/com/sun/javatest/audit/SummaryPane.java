@@ -93,13 +93,13 @@ class SummaryPane extends AuditPane {
         out.startTag(HTMLWriterEx.TABLE);
         out.startTag(HTMLWriterEx.TR);
         out.startTag(HTMLWriterEx.TH);
-        out.writeAttr(HTMLWriterEx.ALIGN, HTMLWriterEx.RIGHT);
+        out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_RIGHT);
         out.writeI18N("smry.category");
         out.startTag(HTMLWriterEx.TH);
-        out.writeAttr(HTMLWriterEx.ALIGN, HTMLWriterEx.LEFT);
+        out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_LEFT);
         out.writeI18N("smry.state");
         out.startTag(HTMLWriterEx.TH);
-        out.writeAttr(HTMLWriterEx.ALIGN, HTMLWriterEx.LEFT);
+        out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_LEFT);
         out.writeI18N("smry.details");
         writeResultFileDetails();
         writeChecksumDetails();
@@ -116,7 +116,7 @@ class SummaryPane extends AuditPane {
     private void writeResultFileDetails() throws IOException {
         out.startTag(HTMLWriterEx.TR);
         out.startTag(HTMLWriterEx.TD);
-        out.writeAttr(HTMLWriterEx.ALIGN, HTMLWriterEx.RIGHT);
+        out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_RIGHT);
         out.writeAttr(HTMLWriterEx.VALIGN, HTMLWriterEx.TOP);
         out.startTag(HTMLWriterEx.B);
         out.writeI18N("smry.tr.head");
@@ -137,7 +137,7 @@ class SummaryPane extends AuditPane {
     private void writeChecksumDetails() throws IOException {
         out.startTag(HTMLWriterEx.TR);
         out.startTag(HTMLWriterEx.TD);
-        out.writeAttr(HTMLWriterEx.ALIGN, HTMLWriterEx.RIGHT);
+        out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_LEFT);
         out.writeAttr(HTMLWriterEx.VALIGN, HTMLWriterEx.TOP);
         out.startTag(HTMLWriterEx.B);
         out.writeI18N("smry.cs.head");
@@ -168,7 +168,7 @@ class SummaryPane extends AuditPane {
     private void writeTestDescriptionDetails() throws IOException {
         out.startTag(HTMLWriterEx.TR);
         out.startTag(HTMLWriterEx.TD);
-        out.writeAttr(HTMLWriterEx.ALIGN, HTMLWriterEx.RIGHT);
+        out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_RIGHT);
         out.writeAttr(HTMLWriterEx.VALIGN, HTMLWriterEx.TOP);
         out.startTag(HTMLWriterEx.B);
         out.writeI18N("smry.td.head");
@@ -189,7 +189,7 @@ class SummaryPane extends AuditPane {
     private void writeTestCaseDetails() throws IOException {
         out.startTag(HTMLWriterEx.TR);
         out.startTag(HTMLWriterEx.TD);
-        out.writeAttr(HTMLWriterEx.ALIGN, HTMLWriterEx.RIGHT);
+        out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_RIGHT);
         out.writeAttr(HTMLWriterEx.VALIGN, HTMLWriterEx.TOP);
         out.startTag(HTMLWriterEx.B);
         out.writeI18N("smry.tc.head");
@@ -210,7 +210,7 @@ class SummaryPane extends AuditPane {
     private void writeStatusDetails() throws IOException {
         out.startTag(HTMLWriterEx.TR);
         out.startTag(HTMLWriterEx.TD);
-        out.writeAttr(HTMLWriterEx.ALIGN, HTMLWriterEx.RIGHT);
+        out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_RIGHT);
         out.writeAttr(HTMLWriterEx.VALIGN, HTMLWriterEx.TOP);
         out.startTag(HTMLWriterEx.B);
         out.writeI18N("smry.status.head");
@@ -248,7 +248,7 @@ class SummaryPane extends AuditPane {
     private void writeDateStampDetails() throws IOException {
         out.startTag(HTMLWriterEx.TR);
         out.startTag(HTMLWriterEx.TD);
-        out.writeAttr(HTMLWriterEx.ALIGN, HTMLWriterEx.RIGHT);
+        out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_RIGHT);
         out.writeAttr(HTMLWriterEx.VALIGN, HTMLWriterEx.TOP);
         out.startTag(HTMLWriterEx.B);
         out.writeI18N("smry.dates.head");

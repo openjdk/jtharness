@@ -569,6 +569,7 @@ public class Report implements ReportModel {
         out.writeLink(ln.linkFile, ln.linkText);
         out.startTag(HTMLWriterEx.BR);
         out.write(ln.linkDesk);
+        out.endTag(HTMLWriterEx.P);
     }
 
 

@@ -41,6 +41,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
+import java.awt.Font;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -590,6 +591,7 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
         setName("text");
         setEditable(false);
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        setFont(new Font(Font.MONOSPACED, uif.getBaseFont().getStyle(), uif.getBaseFont().getSize()));
 
         uif.setAccessibleInfo(this, uiKey);
 

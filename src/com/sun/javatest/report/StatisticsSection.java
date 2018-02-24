@@ -202,7 +202,7 @@ class StatisticsSection extends HTMLSection {
         out.startTag(HTMLWriterEx.TR);
         for (int c = 0; c < head.length; c++) {
             out.startTag(HTMLWriterEx.TH);
-            out.writeAttr(HTMLWriterEx.ALIGN, (c == 0 ? HTMLWriterEx.LEFT : HTMLWriterEx.RIGHT));
+            out.writeAttr(HTMLWriterEx.STYLE, c == 0 ? HTMLWriterEx.TEXT_LEFT : HTMLWriterEx.TEXT_RIGHT);
             out.write(head[c]);
             out.endTag(HTMLWriterEx.TH);
         }
@@ -214,7 +214,7 @@ class StatisticsSection extends HTMLSection {
             out.startTag(HTMLWriterEx.TR);
             for (int c = 0; c < table[r].length; c++) {
                 out.startTag(HTMLWriterEx.TD);
-                out.writeAttr(HTMLWriterEx.ALIGN, (c == 0 ? HTMLWriterEx.LEFT : HTMLWriterEx.RIGHT));
+                out.writeAttr(HTMLWriterEx.STYLE, c == 0 ? HTMLWriterEx.TEXT_LEFT : HTMLWriterEx.TEXT_RIGHT);
                 if (table[r][c] == null || table[r][c].equals(""))
                     out.writeEntity("&nbsp;");
                 else

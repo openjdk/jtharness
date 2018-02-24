@@ -157,7 +157,6 @@ public class HTMLReport implements ReportFormat {
             out.endTag(HTMLWriterEx.UL);
 
             for (int i = 0; i < mainSections.length; i++) {
-                out.startTag(HTMLWriterEx.P);
                 out.startTag(HTMLWriterEx.HR);
                 mainSections[i].writeSummary(out);
                 out.newLine();

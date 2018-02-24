@@ -95,12 +95,16 @@ abstract class TP_PropertySubpanel
             Map.Entry e = (Map.Entry) (i.next());
             String key = (String) (e.getKey());
             String val = (String) (e.getValue());
-            table.updateEntry(key, val);
+            if (val != null && !val.trim().isEmpty()) {
+                table.updateEntry(key, val);
+            }
         }
     }
 
     protected void updateEntry(String key, String val) {
-        table.updateEntry(key, val);
+        if (val != null && !val.trim().isEmpty()) {
+            table.updateEntry(key, val);
+        }
     }
 
     private Table table;

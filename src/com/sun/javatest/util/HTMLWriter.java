@@ -44,7 +44,7 @@ public class HTMLWriter
      * @throws IOException if there is a problem writing to the underlying stream
      */
     public HTMLWriter(Writer out) throws IOException {
-        this(out, "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">");
+        this(out, "<!DOCTYPE HTML>");
     }
 
     /**
@@ -325,7 +325,7 @@ public class HTMLWriter
      */
     public void writeLink(String anchor, String body) throws IOException {
         startTag(A);
-        writeAttr(HREF, anchor);
+        writeAttr(HREF, anchor.replace(" ", "%20"));
         write(body);
         endTag(A);
     }
@@ -338,19 +338,34 @@ public class HTMLWriter
      */
     public void writeLink(File file, String body) throws IOException {
         startTag(A);
-        StringBuffer sb = new StringBuffer();
+        writeAttr(HREF, getCanonicalURIPath(file));
+        write(body);
+        endTag(A);
+    }
+
+    /**
+     * Returns URI path to the specified absolute file.
+     * @param file to get URI path
+     * @return URI path for the file
+     * @throws IOException if there is a problem to encode path symbol
+     */
+    public String getCanonicalURIPath(File file) throws IOException{
+        StringBuilder sb = new StringBuilder();
         String path = file.getPath();
         if (file.isAbsolute() && !path.startsWith("/"))
             sb.append('/');
-
         for (int i = 0; i < path.length(); i++){
-            String pathSymbol = path.charAt(i) == File.separatorChar ? "/" :
-                    URLEncoder.encode(String.valueOf(path.charAt(i)), "UTF-8");
-            sb.append(pathSymbol);
+            switch (path.charAt(i)){
+                case '/':
+                case '\\':
+                    sb.append("/");
+                    break;
+                default:
+                    sb.append(URLEncoder.encode(String.valueOf(path.charAt(i)), "UTF-8"));
+                    break;
+            }
         }
-        writeAttr(HREF, sb.toString());
-        write(body);
-        endTag(A);
+        return sb.toString();
     }
 
     /**
@@ -370,7 +385,7 @@ public class HTMLWriter
      */
     public void writeLink(URL url, String body) throws IOException {
         startTag(A);
-        writeAttr(HREF, url.toString());
+        writeAttr(HREF, url.toString().replace(" ", "%20"));
         write(body);
         endTag(A);
     }
@@ -383,7 +398,7 @@ public class HTMLWriter
      */
     public void writeLinkDestination(String anchor, String body) throws IOException {
         startTag(A);
-        writeAttr(NAME, anchor);
+        writeAttr(ID, anchor.replace(" ", "%20"));
         write(body);
         endTag(A);
     }
@@ -523,12 +538,15 @@ public class HTMLWriter
     public static final String IMAGE = "image";
     /** The HTML "left" attribute value. */
     public static final String LEFT = "left";
+    public static final String TEXT_LEFT ="text-align:left;";
     /** The HTML "li" tag. */
     public static final String LI = "li";
     /** The HTML "link" tag. */
     public static final String LINK = "link";
     /** The HTML "name" attribute. */
     public static final String NAME = "name";
+    /** The HTML "id" attribute. */
+    public static final String ID = "id";
     /** The HTML "object" tag. */
     public static final String OBJECT = "object";
     /** The HTML "p" tag. */
@@ -539,6 +557,7 @@ public class HTMLWriter
     public static final String REL = "rel";
     /** The HTML "right" attribute value. */
     public static final String RIGHT = "right";
+    public static final String TEXT_RIGHT ="text-align:right;";
     /** The HTML "row" attribute value. */
     public static final String ROW = "row";
     /** The HTML "small" tag. */

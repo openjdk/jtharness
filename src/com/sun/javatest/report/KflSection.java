@@ -129,7 +129,6 @@ class KflSection extends HTMLSection {
         }
 
         if (kfl == null) {
-            out.startTag(HTMLWriterEx.P);
             out.write(i18n.getString("kfl.unable"));
             out.startTag(HTMLWriterEx.BR);
             out.newLine();
@@ -289,7 +288,6 @@ class KflSection extends HTMLSection {
     void writeSet(String file, String prefix, SortedSet<KflSorter.TestDiff> tests) throws IOException {
         ReportWriter out = new ReportWriter(openWriter(file), i18n.getString(prefix + ".title"), i18n);
         out.write(i18n.getString(prefix + ".notes"));
-        out.startTag(HTMLWriterEx.P);
 
         if (tests == null || tests.size() == 0) {
             out.write(i18n.getString("kfl.noItemsInSet"));

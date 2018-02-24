@@ -364,11 +364,11 @@ class TP_OutputSubpanel extends TP_Subpanel {
             //out.writeStyleAttr(tableStyle);
             out.startTag(HTMLWriterEx.TR);
             out.startTag(HTMLWriterEx.TH);
-            out.writeAttr(HTMLWriterEx.ALIGN, HTMLWriterEx.LEFT);
+            out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_LEFT);
             out.writeI18N("test.out.outputName.txt");
             out.endTag(HTMLWriterEx.TH);
             out.startTag(HTMLWriterEx.TH);
-            out.writeAttr(HTMLWriterEx.ALIGN, HTMLWriterEx.LEFT);
+            out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_LEFT);
             out.writeStyleAttr("margin-left:10");
             out.writeI18N("test.out.outputSize.txt");
             out.endTag(HTMLWriterEx.TH);

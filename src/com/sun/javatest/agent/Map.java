@@ -123,6 +123,7 @@ public class Map {
 
     /**
      * Create a map by reading it from a given stream.
+     * The '\u0020' sequence could be used to specify space symbol in the values.
      * @param r         The reader from which to read the map data. The reader is closed
      *                  after it has been completely read
      * @throws IOException if problems occur while reading the map data.
@@ -141,8 +142,8 @@ public class Map {
                 String[] row = StringArray.split(line);
                 if (row.length < 2)
                     throw new IOException("format error in map file, line is: " + line);
-                from.addElement(row[0]);
-                to.addElement(row[1]);
+                from.addElement(row[0].replaceAll("\\Q\\u0020\\E", " "));
+                to.addElement(row[1].replaceAll("\\Q\\u0020\\E", " "));
             }
         }
         in.close();

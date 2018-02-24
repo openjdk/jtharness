@@ -507,7 +507,7 @@ public class Main {
         PrintWriter htmlOut = (htmlOutFile == null ? null
                                : new PrintWriter(new BufferedWriter(new FileWriter(htmlOutFile))));
         if (htmlOut != null) {
-            htmlOut.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">");
+            htmlOut.println("<!DOCTYPE HTML>");
             htmlOut.println("<html>");
             htmlOut.println("<head>");
             htmlOut.println("<title>");

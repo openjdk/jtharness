@@ -36,6 +36,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.Font;
 import java.io.File;
 import java.net.URL;
 import java.util.Vector;
@@ -129,9 +130,11 @@ public class NavigationPane extends JPanel {
         c.gridy = 0;
 
         JLabel fileLbl = uif.createLabel("np.file", true);
+        fileLbl.setFont(new Font(Font.MONOSPACED, uif.getBaseFont().getStyle(), uif.getBaseFont().getSize()));
         add(fileLbl, c);
 
         selectBox = uif.createChoice("np.choice", fileLbl);
+        selectBox.setFont(new Font(Font.MONOSPACED, uif.getBaseFont().getStyle(), uif.getBaseFont().getSize()));
         selectBox.setRenderer(new Renderer(selectBox));
         selectBox.setModel(createModel());
         selectBox.addItemListener(listener);
