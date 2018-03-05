@@ -251,7 +251,7 @@
 
     <!-- JAR - JUnit Support Section -->
 
-    <target name="jar.junit" depends="jar.junit.check,stamp" if="jar.junit.dependecies.present" unless="jt-junit.jar.ok" description="Build JUnit JAR.">
+    <target name="jar.junit" depends="jar.junit.check,stamp" if="jar.junit.dependencies.present" unless="jt-junit.jar.ok" description="Build JUnit JAR.">
         <mkdir dir="${BUILD_DIR}/binaries/lib"/>
         <jar destfile="${BUILD_DIR}/binaries/lib/jt-junit.jar" basedir="${build.junit.classes}" index="false">
             <manifest>
@@ -263,7 +263,7 @@
         </jar>
     </target>
 
-    <target name="jar.junit.check" if="jar.junit.dependecies.present" depends="compile.junit.classes">
+    <target name="jar.junit.check" if="jar.junit.dependencies.present" depends="compile.junit.classes">
         <dependset>
             <srcfileset dir="${build.junit.classes}">
                 <patternset refid="javatest.junit.packages"/>
@@ -306,7 +306,7 @@
 		</javac>
 	</target>
 
-    <target name="compile.junit.classes" if="jar.junit.dependecies.present" depends="verify-dependencies, compile.classes,compile.junit.resources">
+    <target name="compile.junit.classes" if="jar.junit.dependencies.present" depends="verify-dependencies, compile.classes,compile.junit.resources">
         <mkdir dir="${build.junit.classes}"/>
         <javac encoding="iso-8859-1" debug="true" source="1.7" target="1.7"
                srcdir="${src.dir}"
@@ -342,7 +342,7 @@
         <copy file="${build.dir}/com.sun.javatest.report.ReportFormat" tofile="${build.classes}/META-INF/services/com.sun.javatest.report.ReportFormat"/>
     </target>
 
-    <target name="compile.junit.resources" if="jar.junit.dependecies.present" depends="stamp">
+    <target name="compile.junit.resources" if="jar.junit.dependencies.present" depends="stamp">
         <copy todir="${build.junit.classes}">
             <fileset dir="${src.dir}">
                 <patternset refid="javatest.junit.resources"/>
