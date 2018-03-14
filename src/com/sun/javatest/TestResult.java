@@ -745,6 +745,7 @@ public class TestResult {
                 // since likely case is no observers
                 notifyUpdatedOutput(Section.this, name, end, end, buf, offset, len);
 
+                int maxOutputSize = maxTROutputSize > 0 ? maxTROutputSize : commonOutputSize;
                 if (output.length() > maxOutputSize) {
                     int overflowEnd = maxOutputSize/3;
                     if (overflowed) {
@@ -1029,6 +1030,20 @@ public class TestResult {
 
         props = PropertyArray.put(props, name, value);
         notifyUpdatedProperty(name, value);
+    }
+
+    /**
+     * Sets the maximum output size for the current TestResult.
+     * The value will be used instead of the value specified
+     * by the system property javatest.maxOutputSize.
+     * @param size the maximum number of characters.
+     */
+    public synchronized void setMaxOutputSize(int size){
+        if (!isMutable()) {
+            throw new IllegalStateException(
+                    "This TestResult is no longer mutable!");
+        }
+        maxTROutputSize = size;
     }
 
     /**
@@ -2600,6 +2615,7 @@ public class TestResult {
     private String[] env;
     // this field is cleared when the test result is shrunk
     private Section[] sections;         // sections of output written during test execution
+    private int maxTROutputSize = 0;    // maximum output size for this test result
 
     // only valid when this TR is in a TRT, should remain when shrunk
     private TestResultTable.TreeNode parent;
@@ -2739,7 +2755,7 @@ public class TestResult {
     private static LinkedList shrinkList = new LinkedList();
 
     private static final int DEFAULT_MAX_OUTPUT_SIZE = 100000;
-    private static final int maxOutputSize =
+    private static final int commonOutputSize =
         Integer.getInteger("javatest.maxOutputSize", DEFAULT_MAX_OUTPUT_SIZE).intValue();
 
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestResult.class);
