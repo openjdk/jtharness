@@ -28,20 +28,12 @@ package com.sun.javatest.exec;
 
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.report.HTMLWriterEx;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
-import java.awt.Font;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -64,21 +56,11 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.RepaintManager;
+import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-import javax.swing.text.DefaultEditorKit;
-import javax.swing.text.Document;
-import javax.swing.text.EditorKit;
+import javax.swing.text.*;
+import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.HTMLFrameHyperlinkEvent;
@@ -692,6 +674,39 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
             return htmlKit;
         else {
             return defaultKit;
+        }
+    }
+
+    public void scrollToReference(String reference) {
+        Document d = getDocument();
+        if (d instanceof HTMLDocument) {
+            HTMLDocument doc = (HTMLDocument) d;
+            HTMLDocument.Iterator iter = doc.getIterator(HTML.Tag.A);
+            for (; iter.isValid(); iter.next()) {
+                AttributeSet a = iter.getAttributes();
+                String nm = (String) a.getAttribute(HTML.Attribute.NAME);
+                if (nm == null){
+                    nm = (String) a.getAttribute(HTML.Attribute.ID);
+                }
+                if ((nm != null) && nm.equals(reference)) {
+                    // found a matching reference in the document.
+                    try {
+                        int pos = iter.getStartOffset();
+                        Rectangle r = modelToView(pos);
+                        if (r != null) {
+                            // the view is visible, scroll it to the
+                            // center of the current visible area.
+                            Rectangle vis = getVisibleRect();
+                            //r.y -= (vis.height / 2);
+                            r.height = vis.height;
+                            scrollRectToVisible(r);
+                            setCaretPosition(pos);
+                        }
+                    } catch (BadLocationException ble) {
+                        UIManager.getLookAndFeel().provideErrorFeedback(TextPane.this);
+                    }
+                }
+            }
         }
     }
 
