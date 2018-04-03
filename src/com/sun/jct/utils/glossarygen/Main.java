@@ -553,7 +553,7 @@ class Entry {
             String link = file.getName();
             if (link.endsWith(".html"))
                 link = link.substring(0, link.length() - 5);
-            out.write("\n<!-- file: " + file + " -->\n<a name=\"" + link + "\">");
+            out.write("\n<!-- file: " + file + " -->\n<a name=\"" + link + "\"></a>");
         }
         else {
             copyMode = NO_COPY;

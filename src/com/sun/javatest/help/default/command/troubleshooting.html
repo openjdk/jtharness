@@ -145,11 +145,11 @@ The problem is rooted in the terminal's ability to correctly match and display t
 <p>
 Users can workaround this problem by explicitly changing the codepage to one compatible with the Unicode characters for the Cyrillic locale.  For the Russian locale example:
 <br>
-<code>> chcp 1251</code>
+<code> chcp 1251</code>
 <br>
 Or users can force the JVM to use the default codepage for the terminal:
 <br>
-<code>java -Dfile.encoding=cp866 -jar ...
+<code>java -Dfile.encoding=cp866 -jar ... </code>
 </p>
 
 <p>
