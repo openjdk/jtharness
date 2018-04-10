@@ -55,16 +55,16 @@
   <mapID target="agent.window.csh"                                                  url="agent/window.html" />
   <mapID target="chapter"                                                           url="../images/chapter.gif" />
   <mapID target="closedbook"                                                        url="../images/closedbook.gif" />
-  <mapID target="glossary.ActiveAgent"                                              url="/Users/alekseyof/javatest_os/jtharness/src/com/sun/javatest/agent/help/default/glossary/activeAgent.html" />
-  <mapID target="glossary.Agent"                                                    url="/Users/alekseyof/javatest_os/jtharness/src/com/sun/javatest/agent/help/default/glossary/agent.html" />
-  <mapID target="glossary.AgentMonitor"                                             url="/Users/alekseyof/javatest_os/jtharness/src/com/sun/javatest/agent/help/default/glossary/agentMonitor.html" />
-  <mapID target="glossary.AgentPool"                                                url="/Users/alekseyof/javatest_os/jtharness/src/com/sun/javatest/agent/help/default/glossary/agentPool.html" />
-  <mapID target="glossary.Parameters"                                               url="/Users/alekseyof/javatest_os/jtharness/src/com/sun/javatest/agent/help/default/glossary/parameters.html" />
-  <mapID target="glossary.PassiveAgent"                                             url="/Users/alekseyof/javatest_os/jtharness/src/com/sun/javatest/agent/help/default/glossary/passiveAgent.html" />
-  <mapID target="glossary.SerialAgent"                                              url="/Users/alekseyof/javatest_os/jtharness/src/com/sun/javatest/agent/help/default/glossary/serialAgent.html" />
-  <mapID target="glossary.TestManager"                                              url="/Users/alekseyof/javatest_os/jtharness/src/com/sun/javatest/agent/help/default/glossary/testManager.html" />
-  <mapID target="glossary.TestSuite"                                                url="/Users/alekseyof/javatest_os/jtharness/src/com/sun/javatest/agent/help/default/glossary/testSuite.html" />
-  <mapID target="glossary.WorkDirectory"                                            url="/Users/alekseyof/javatest_os/jtharness/src/com/sun/javatest/agent/help/default/glossary/workDirectory.html" />
+  <mapID target="glossary.ActiveAgent"                                              url="glossary/activeAgent.html" />
+  <mapID target="glossary.Agent"                                                    url="glossary/agent.html" />
+  <mapID target="glossary.AgentMonitor"                                             url="glossary/agentMonitor.html" />
+  <mapID target="glossary.AgentPool"                                                url="glossary/agentPool.html" />
+  <mapID target="glossary.Parameters"                                               url="glossary/parameters.html" />
+  <mapID target="glossary.PassiveAgent"                                             url="glossary/passiveAgent.html" />
+  <mapID target="glossary.SerialAgent"                                              url="glossary/serialAgent.html" />
+  <mapID target="glossary.TestManager"                                              url="glossary/testManager.html" />
+  <mapID target="glossary.TestSuite"                                                url="glossary/testSuite.html" />
+  <mapID target="glossary.WorkDirectory"                                            url="glossary/workDirectory.html" />
   <mapID target="index.agentAdditionalOptionsAdditionalOptionsAutostart"            url="agent/additionalOptions.html#additionalOptions.autostart" />
   <mapID target="index.agentAdditionalOptionsAdditionalOptionsBoth"                 url="agent/additionalOptions.html#additionalOptions.both" />
   <mapID target="index.agentAdditionalOptionsAdditionalOptionsConcurrencyValue"     url="agent/additionalOptions.html#additionalOptions.concurrencyValue" />
