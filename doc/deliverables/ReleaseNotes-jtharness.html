@@ -42,7 +42,7 @@
 
 <h4 class="h4.title">
 Version BUILD_VERSION<br>
-June 2013
+BUILD_DATE
 <hr class="hr.light">
 <p class="navtop" ><a href="#_maincontent">Skip TOC&nbsp;<img src="shared/downicon.gif" alt="skip TOC"></a></p>
 <h2>Table of Contents</h2>
@@ -136,7 +136,7 @@ to introduce you to the JT harness graphical user interface. Follow these steps 
   <th scope="col"> Notes </th>
   </tr>
    <tr valign="top">
-  <td> JDK&#8482; version 1.6 or later </td>
+  <td> JDK&#8482; version 7 or later </td>
   <td> <a href="http://www.oracle.com/technetwork/java/javase/overview/index.html">http://www.oracle.com/technetwork/java/javase/overview/index.html</a>
        </td>
   <td>See <a href="#secjava7">Security Exceptions With Java 7 on Windows</a> for known issues with Java 7.
@@ -204,9 +204,8 @@ suite.</p>
 <h2>Security Exceptions With Java 7 on Windows</h2>
 <p>When using Java 7 on Windows, the harness might experience problems executing particular parts of the Java 7 APIs because, by default, the harness security manager denies access to certain properties. The problem might manifest as one of the <a href="#knownexcept">Known Exceptions</a> reproduced below (see <a href="#knownexceptio">java.io.IOException</a> and <a href="#knownexceptsocket">Socket Exception Error</a>). </p>
 
-<p>There are three ways to workaround the security exceptions:</p>
+<p>There are ways to workaround the security exceptions:</p>
 <ol>
-<li><p><b>Use the Java 6 runtime instead.</b> Java 6 is the target execution platform for the harness and is also the minimum Java version supported by the harness.</p></li>
 <li><p><b>Set the <code>javatest.security.allowPropertiesAccess</code>  system property to <code>"true"</code> at startup.</b> The harness security manager (JavaTestSecurityManager) is automatically installed at startup, and its default settings deny access to the System Properties object. You can manually allow access to harness properties as follows:<p>
 <p><code>java -Djavatest.security.allowPropertiesAccess=true ...</code></p></li>
 <li><p><b>Enable and disable property access programatically.</b> The following code temporarily allows properties access until after the code in the <code>try</code> block is executed.  Beware of race conditions when using this code.</p>

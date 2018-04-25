@@ -205,6 +205,10 @@
                 token="BUILD_VERSION"
                 value="${build.version}"/>
 
+    <replace file="${BUILD_DIR}/binaries/ReleaseNotes-jtharness.html"
+             token="BUILD_DATE"
+             value="${build.date}"/>
+
         <!-- clone release notes as index.html for convenience -->
         <copy tofile="${BUILD_DIR}/binaries/index.html"
               file="${BUILD_DIR}/binaries/ReleaseNotes-jtharness.html"/>
