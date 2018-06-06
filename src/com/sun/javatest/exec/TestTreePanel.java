@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -2209,6 +2209,6 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
         private Hashtable<String,TestResult> runningTests;
         private Hashtable activeNodes;
-        private Integer ONE = new Integer(1);
+        private Integer ONE = Integer.valueOf(1);
     }
 }
