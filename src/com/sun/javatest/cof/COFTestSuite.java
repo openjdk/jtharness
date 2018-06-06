@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -150,7 +150,7 @@ class COFTestSuite extends COFItem {
         if (!legacyMode) {
             trt.waitUntilReady();
         }
-        HashMap map = new HashMap();
+        HashMap<String, COFEnvironment> map = new HashMap<>();
         String id = cofData.get("environment.id", "env:0").split(":")[0] + ":";
         int id_n = 0;
         for (Iterator iter = trt.getIterator(); iter.hasNext();) {

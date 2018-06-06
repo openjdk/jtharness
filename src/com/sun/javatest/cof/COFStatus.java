@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -81,13 +81,13 @@ import javax.xml.bind.annotation.XmlType;*/
 })*/
 public class COFStatus extends COFItem{
 
-static LinkedHashMap xmlAttributes;
-static LinkedHashMap xmlElements;
+static LinkedHashMap<String, String> xmlAttributes;
+static LinkedHashMap<String, String> xmlElements;
 static String xmlTagName;
 
     static {
-                xmlElements = new LinkedHashMap();
-                xmlAttributes = new LinkedHashMap();
+                xmlElements = new LinkedHashMap<>();
+                xmlAttributes = new LinkedHashMap<>();
                 xmlElements.put("expected","expected");
                 xmlElements.put("actual","actual");
                 xmlAttributes.put("value","value");
@@ -126,11 +126,11 @@ static String xmlTagName;
     public String getExpected() {
         return expected;
     }
-    LinkedHashMap getItemAttributes() {
+    LinkedHashMap<String, String> getItemAttributes() {
                 return xmlAttributes;
         }
 
-        LinkedHashMap getItemElements() {
+        LinkedHashMap<String, String> getItemElements() {
                 return xmlElements;
         }
 

@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -55,20 +55,20 @@ import com.sun.javatest.util.XMLWriter;
  */
 public class COFEnvironments extends COFItem {
 
-static LinkedHashMap xmlAttributes;
+static LinkedHashMap<String, String> xmlAttributes;
 
-        static LinkedHashMap xmlElements;
+        static LinkedHashMap<String, String> xmlElements;
 
         static String xmlTagName;
 
         static {
-        xmlElements = new LinkedHashMap();
+        xmlElements = new LinkedHashMap<>();
         xmlElements.put("environment", "environment");
         xmlTagName = "environments";
     }
 
         //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
-    protected List/*<Environment>*/ environment;
+    protected List<COFEnvironment> environment;
 
         /**
      * Gets the value of the environment property.
@@ -92,18 +92,18 @@ static LinkedHashMap xmlAttributes;
      *
      *
      */
-    public List/*<Environment>*/ getEnvironment() {
+    public List<COFEnvironment> getEnvironment() {
         if (environment == null) {
-            environment = new ArrayList/*<Environment>*/();
+            environment = new ArrayList<>();
         }
         return this.environment;
     }
 
-        LinkedHashMap getItemAttributes() {
+        LinkedHashMap<String, String> getItemAttributes() {
                 return xmlAttributes;
         }
 
-        LinkedHashMap getItemElements() {
+        LinkedHashMap<String, String> getItemElements() {
                 return xmlElements;
         }
 

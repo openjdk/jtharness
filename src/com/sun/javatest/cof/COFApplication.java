@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -29,12 +29,12 @@ package com.sun.javatest.cof;
 import java.util.LinkedHashMap;
 
 public class COFApplication extends COFItem {
-        static LinkedHashMap xmlAttributes;
-        static LinkedHashMap xmlElements;
+        static LinkedHashMap<String, String> xmlAttributes;
+        static LinkedHashMap<String, String> xmlElements;
         static String xmlTagName;
         static {
                 xmlTagName = "application";
-                xmlAttributes = new LinkedHashMap();
+                xmlAttributes = new LinkedHashMap<>();
                 xmlAttributes.put("id", "id");
                 xmlAttributes.put("environmentid", "environmentid");
                 xmlAttributes.put("swentityid", "swentityid");
@@ -56,11 +56,11 @@ public class COFApplication extends COFItem {
                 return id;
         }
 
-        LinkedHashMap getItemAttributes() {
+        LinkedHashMap<String, String> getItemAttributes() {
                 return xmlAttributes;
         }
 
-        LinkedHashMap getItemElements() {
+        LinkedHashMap<String, String> getItemElements() {
                 return xmlElements;
         }
 

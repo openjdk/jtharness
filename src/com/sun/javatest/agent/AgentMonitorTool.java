@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -178,7 +178,7 @@ public class AgentMonitorTool extends Tool
             add(timeoutField, fc);
             timeoutLabel.setLabelFor(timeoutField);
 
-            listData = new DefaultListModel();
+            listData = new DefaultListModel<>();
             list = uif.createList("tool.pool", listData);
             list.setPrototypeCellValue("abcdefghiklmnopqrstuvwxyz");
             list.setVisibleRowCount(3);
@@ -339,8 +339,8 @@ public class AgentMonitorTool extends Tool
         private JTextField portField;
         private JLabel timeoutLabel;
         private JTextField timeoutField;
-        private JList list;
-        private DefaultListModel listData;
+        private JList<String> list;
+        private DefaultListModel<String> listData;
     }
 
     private class CurrentAgentsSubpanel extends JPanel
@@ -352,13 +352,13 @@ public class AgentMonitorTool extends Tool
             setLayout(new GridBagLayout());
             uif.setToolTip(this, "tool.curr");
 
-            listData = new DefaultListModel();
+            listData = new DefaultListModel<>();
             list = uif.createList("tool.list.curr", listData);
             list.setVisibleRowCount(5);
 
             list.setCellRenderer(new DefaultListCellRenderer() {
                 public Component getListCellRendererComponent(JList list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
-                    String name = ((Entry)o).toString();
+                    String name = o.toString();
                     return super.getListCellRendererComponent(list, name, index, isSelected, cellHasFocus);
                 }
             });
@@ -421,7 +421,7 @@ public class AgentMonitorTool extends Tool
         }
 
         public synchronized void valueChanged(ListSelectionEvent ev) {
-            Entry e = (Entry)(list.getSelectedValue());
+            Entry e = list.getSelectedValue();
             if (e == null) {
                 addressField.setText("");
                 tagField.setText("");
@@ -470,7 +470,7 @@ public class AgentMonitorTool extends Tool
             }
             else {
                 for (int i = 0; i < listData.size(); i++) {
-                    Entry e = (Entry)(listData.elementAt(i));
+                    Entry e = listData.elementAt(i);
                     if (e.connection == c) {
                         listData.removeElement(e);
                         break;
@@ -504,8 +504,8 @@ public class AgentMonitorTool extends Tool
             boolean localizeArgs;
         }
 
-        private JList list;
-        private DefaultListModel listData;
+        private JList<Entry> list;
+        private DefaultListModel<Entry> listData;
         private Entry selectedEntry;
         private JLabel addressLabel;
         private JTextField addressField;

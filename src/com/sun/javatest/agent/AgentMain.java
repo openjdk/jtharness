@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -374,7 +374,7 @@ public class AgentMain {
         switch (mode) {
         case ACTIVE:
             try {
-                Class c = Class.forName(pkg + ".ActiveConnectionFactory");
+                Class<?> c = Class.forName(pkg + ".ActiveConnectionFactory");
                 Constructor m = c.getConstructor(new Class[] {String.class, int.class});
                 Object[] args = { activeHost, new Integer(activePort) };
                 return (ConnectionFactory)(m.newInstance(args));
@@ -391,7 +391,7 @@ public class AgentMain {
 
         case PASSIVE:
             try {
-                Class c = Class.forName(pkg + ".PassiveConnectionFactory");
+                Class<?> c = Class.forName(pkg + ".PassiveConnectionFactory");
                 Constructor m = c.getConstructor(new Class[] {int.class, int.class});
                 Object[] args = { new Integer(passivePort), new Integer(concurrency + 1) };
                 return (ConnectionFactory)(m.newInstance(args));
@@ -412,7 +412,7 @@ public class AgentMain {
 
         case SERIAL:
             try {
-                Class c = Class.forName(pkg + ".SerialPortConnectionFactory");
+                Class<?> c = Class.forName(pkg + ".SerialPortConnectionFactory");
                 Constructor m = c.getConstructor(new Class[] {String.class, String.class, int.class});
                 Object[] args = {serialPort, Agent.productName, new Integer(10*1000)};
                 return (ConnectionFactory)(m.newInstance(args));

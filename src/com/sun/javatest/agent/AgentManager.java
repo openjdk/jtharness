@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -538,7 +538,7 @@ public class AgentManager
             // might be better not to flush these ...
             for (Enumeration e = zips.keys(); e.hasMoreElements(); ) {
                 File f = (File)(e.nextElement());
-                ZipFile z = (ZipFile)(zips.get(f));
+                ZipFile z = zips.get(f);
                 zips.remove(f);
                 z.close();
             }
@@ -604,7 +604,7 @@ public class AgentManager
         private byte[] readFromJar(String name, File jarFile) {
             //System.err.println("readFromJar: " + name + " " + jarFile);
             try {
-                ZipFile z = (ZipFile)zips.get(jarFile);
+                ZipFile z = zips.get(jarFile);
                 if (z == null) {
                     z = new ZipFile(jarFile);
                     zips.put(jarFile, z);
@@ -641,7 +641,7 @@ public class AgentManager
 
         private File[] split(String s) {
             char pathCh = File.pathSeparatorChar;
-            Vector v = new Vector();
+            Vector<File> v = new Vector<>();
             int start = 0;
             for (int i = s.indexOf(pathCh); i != -1; i = s.indexOf(pathCh, start)) {
                 add(s.substring(start, i), v);
@@ -654,7 +654,7 @@ public class AgentManager
             return path;
         }
 
-        private void add(String s, Vector v) {
+        private void add(String s, Vector<File> v) {
             if (s.length() != 0)
                 v.addElement(new File(s));
         }
@@ -666,7 +666,7 @@ public class AgentManager
         private File[] classPath;
         private boolean sharedCl;
         private int timeout = 0;
-        private Hashtable zips = new Hashtable();
+        private Hashtable<File, ZipFile> zips = new Hashtable<>();
     }
 
 }

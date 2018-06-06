@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -116,13 +116,13 @@ public class COFTest extends COFItem {
     static boolean noTestCases = false;
     protected final static Pattern testCasePattern = Pattern //.compile("^(\\S+): (Passed\\.|Failed\\.|Error\\.|Not\\ run\\.)(.*)");
             .compile("^(.*): (Passed\\.|Failed\\.|Error\\.|Not\\ run\\.)(.*)");
-    static LinkedHashMap xmlAttributes;
-    static LinkedHashMap xmlElements;
+    static LinkedHashMap<String, String> xmlAttributes;
+    static LinkedHashMap<String, String> xmlElements;
     static String xmlTagName;
 
     static {
-        xmlElements = new LinkedHashMap();
-        xmlAttributes = new LinkedHashMap();
+        xmlElements = new LinkedHashMap<>();
+        xmlAttributes = new LinkedHashMap<>();
         xmlElements.put("name", "name");
         xmlElements.put("appuse", "appuse");
         xmlElements.put("status", "status");
@@ -147,7 +147,7 @@ public class COFTest extends COFItem {
     //    @XmlAttribute
     protected String analysis;
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
-    protected List/*<String>*/ appuse;
+    protected List<String> appuse;
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
     protected COFTestAttributes attributes;
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
@@ -263,8 +263,8 @@ public class COFTest extends COFItem {
             return;
         }
 
-        List  /*<COFTestCase>*/ jtrCases = testcases.getTestcase();
-        List  /*<String>*/ mtlTestCases = mtl.getTestCases(tr.getTestName());
+        List  <COFTestCase> jtrCases = testcases.getTestcase();
+        List  <String> mtlTestCases = mtl.getTestCases(tr.getTestName());
         if (mtlTestCases != null && mtlTestCases.size() > 0) {
             // for (COFTestCase jtrCase : jtrCases) {
             Iterator it = jtrCases.iterator();
@@ -283,7 +283,7 @@ public class COFTest extends COFItem {
                     String strS = cofStatus[tr.getStatus().getType()];
                     nStatus.setValue(strS);
                     //System.out.println("+ " + tr.getTestName() + " " + tcName + " " + strS );
-                    testcases.getTestcase().add(testCaseName);
+                    testcases.getTestcase().add(nTc);
                 }
             }
         }
@@ -327,9 +327,9 @@ public class COFTest extends COFItem {
      *
      *
      */
-    public List/*<String>*/ getAppuse() {
+    public List<String> getAppuse() {
         if (appuse == null) {
-            appuse = new ArrayList/*<String>*/();
+            appuse = new ArrayList<>();
         }
         return this.appuse;
     }
@@ -394,11 +394,11 @@ public class COFTest extends COFItem {
         return id;
     }
 
-    LinkedHashMap getItemAttributes() {
+    LinkedHashMap<String, String> getItemAttributes() {
         return xmlAttributes;
     }
 
-    LinkedHashMap getItemElements() {
+    LinkedHashMap<String, String> getItemElements() {
         return xmlElements;
     }
 
@@ -466,7 +466,7 @@ public class COFTest extends COFItem {
     //          this.id = value;
     //  }
     private static void initDateFormats() {
-        Vector v = new Vector();
+        Vector<DateFormat> v = new Vector<>();
 
         // generic Java default
         // 10-Sep-99 3:25:11 PM

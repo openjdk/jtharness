@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='ISO-8859-1' ?>
 <!--
-  Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
+  Copyright (c) 2006, 2018, Oracle and/or its affiliates. All rights reserved.
   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
   This code is free software; you can redistribute it and/or modify it
@@ -105,9 +105,9 @@
         <exclude name="com/sun/javatest/servlets/*.java" unless="servlet.present"/>
     </patternset>
 
-	<patternset id="test.packages">
-		<include name="com/sun/jct/utils/copyrightcheck/**" />
-	</patternset>
+        <patternset id="test.packages">
+                <include name="com/sun/jct/utils/copyrightcheck/**" />
+        </patternset>
 
     <patternset id="javatest.jdk11.files">
         <include name="com/sun/javatest/Command.java"/>
@@ -191,17 +191,17 @@
             </fileset>
         </copy>
 
-	<replace file="${BUILD_DIR}/binaries/ReleaseNotes-jtharness.html">
-	   <replacetoken><![CDATA[href="../../legal/copyright.txt"]]></replacetoken>
+        <replace file="${BUILD_DIR}/binaries/ReleaseNotes-jtharness.html">
+           <replacetoken><![CDATA[href="../../legal/copyright.txt"]]></replacetoken>
            <replacevalue><![CDATA[href="legal/copyright.txt"]]></replacevalue>
-	</replace>
+        </replace>
 
-	<replace file="${BUILD_DIR}/binaries/ReleaseNotes-jtharness.html">
-	   <replacetoken><![CDATA[href="../../document.css"]]></replacetoken>
+        <replace file="${BUILD_DIR}/binaries/ReleaseNotes-jtharness.html">
+           <replacetoken><![CDATA[href="../../document.css"]]></replacetoken>
            <replacevalue><![CDATA[href="doc/document.css"]]></replacevalue>
-	</replace>
+        </replace>
 
-	<replace file="${BUILD_DIR}/binaries/ReleaseNotes-jtharness.html"
+        <replace file="${BUILD_DIR}/binaries/ReleaseNotes-jtharness.html"
                 token="BUILD_VERSION"
                 value="${build.version}"/>
 
@@ -291,6 +291,9 @@
                destdir="${build.classes}"
                classpath="${jdk14.classpath}:${jcommjar}">
             <patternset refid="javatest.packages"/>
+            <compilerarg value="-version"/>
+            <compilerarg value="-Xlint:rawtypes"/>
+            <compilerarg value="-Xlint:cast"/>
         </javac>
         <copy todir="${build.classes}">
             <fileset dir="${legal.dir}">
@@ -307,8 +310,11 @@
                destdir="${build.classes}"
                classpath="${jdk14.classpath}">
             <patternset refid="test.packages"/>
-		</javac>
-	</target>
+            <compilerarg value="-version"/>
+            <compilerarg value="-Xlint:rawtypes"/>
+            <compilerarg value="-Xlint:cast"/>
+                </javac>
+        </target>
 
     <target name="compile.junit.classes" if="jar.junit.dependencies.present" depends="verify-dependencies, compile.classes,compile.junit.resources">
         <mkdir dir="${build.junit.classes}"/>
@@ -317,6 +323,9 @@
                destdir="${build.junit.classes}"
                classpath="${jdk14.classpath}:${build.classes}:${asmjar}:${asmcommonsjar}:${junitlib}">
             <patternset refid="javatest.junit.packages"/>
+            <compilerarg value="-version"/>
+            <compilerarg value="-Xlint:rawtypes"/>
+            <compilerarg value="-Xlint:cast"/>
         </javac>
 
         <copy todir="${build.junit.classes}">
@@ -336,11 +345,11 @@
                 <patternset refid="javatest.resources"/>
             </fileset>
         </copy>
-	<mkdir dir="${build.classes}/META-INF/"/>
+        <mkdir dir="${build.classes}/META-INF/"/>
         <buildinfo/>
         <copy file="${src.dir}/com/sun/javatest/tool/i18n.properties"
               tofile="${build.classes}/com/sun/javatest/tool/i18n_fr.properties"/>
-	<mkdir dir="${build.classes}/META-INF/services"/>
+        <mkdir dir="${build.classes}/META-INF/services"/>
         <copy file="${build.dir}/JavaTest.cmdMgrs.lst" tofile="${build.classes}/META-INF/services/com.sun.javatest.tool.CommandManager.lst"/>
         <copy file="${build.dir}/JavaTest.toolMgrs.lst" tofile="${build.classes}/META-INF/services/com.sun.javatest.tool.ToolManager.lst"/>
         <copy file="${build.dir}/com.sun.javatest.report.ReportFormat" tofile="${build.classes}/META-INF/services/com.sun.javatest.report.ReportFormat"/>
@@ -352,7 +361,7 @@
                 <patternset refid="javatest.junit.resources"/>
             </fileset>
         </copy>
-	<mkdir dir="${build.classes}/META-INF/"/>
+        <mkdir dir="${build.classes}/META-INF/"/>
         <buildinfo/>
     </target>
 
@@ -412,64 +421,64 @@
         </java>
     </target>
 
-	<target name="test-sanity" depends="test-sanity-version,test-sanity-simpletck" />
+        <target name="test-sanity" depends="test-sanity-version,test-sanity-simpletck" />
 
-	<target name="test-sanity-version" depends="jar">
-		<java fork="true" failonerror="false" classname="${run.class}"
-			outputproperty="test.sanity.version.output"
-			resultproperty="test.sanity.version.result">
-			<classpath>
-				<path path="${BUILD_DIR}/binaries/lib/javatest.jar"/>
-			</classpath>
-			<arg value="-version"/>
-		</java>
+        <target name="test-sanity-version" depends="jar">
+                <java fork="true" failonerror="false" classname="${run.class}"
+                        outputproperty="test.sanity.version.output"
+                        resultproperty="test.sanity.version.result">
+                        <classpath>
+                                <path path="${BUILD_DIR}/binaries/lib/javatest.jar"/>
+                        </classpath>
+                        <arg value="-version"/>
+                </java>
 
-		<property name="test-sanity-version-pattern" value="JT Harness, version ${build.version}.*\nCopyright \(C\) 1996-[0-9][0-9][0-9][0-9] Sun Microsystems, Inc\. All rights reserved" />
+                <property name="test-sanity-version-pattern" value="JT Harness, version ${build.version}.*\nCopyright \(C\) 1996-[0-9][0-9][0-9][0-9] Sun Microsystems, Inc\. All rights reserved" />
 
-		<condition property="test.sanity.version.success">
-			<and>
-				<equals arg1="${test.sanity.version.result}" arg2="0" />
-				<!--<matches singleline="true" string="${test.sanity.version.output}" pattern="${test-sanity-version-pattern}" />-->
-			</and>
-		</condition>
-		<fail unless="test.sanity.version.success">
-			"java ${run.class} -version" exited with code "${test.sanity.version.result}"
+                <condition property="test.sanity.version.success">
+                        <and>
+                                <equals arg1="${test.sanity.version.result}" arg2="0" />
+                                <!--<matches singleline="true" string="${test.sanity.version.output}" pattern="${test-sanity-version-pattern}" />-->
+                        </and>
+                </condition>
+                <fail unless="test.sanity.version.success">
+                        "java ${run.class} -version" exited with code "${test.sanity.version.result}"
 
-			The output:
-			${test.sanity.version.output}
+                        The output:
+                        ${test.sanity.version.output}
 
-			Pattern: ${test-sanity-version-pattern}</fail>
-	</target>
+                        Pattern: ${test-sanity-version-pattern}</fail>
+        </target>
 
-	<target name="test-sanity-simpletck" depends="jar,build-examples">
-		<property name="libs" value="${BUILD_DIR}/binaries/examples/tutorial/demots/lib" />
-		<delete dir="${build.tmp}/sanity-demo-wd" />
-		<java fork="true" failonerror="false" jar="${BUILD_DIR}/binaries/lib/javatest.jar"
-			outputproperty="test.sanity.simpletck.output"
-			resultproperty="test.sanity.simpletck.result">
-			<classpath>
-				<path path="${libs}/demots.jar" />
-				<path path="${libs}/demoapi.jar" />
-			</classpath>
-			<arg line="-verbose:max -ts ${BUILD_DIR}/binaries/examples/tutorial/demots/ -wd -create ${build.tmp}/sanity-demo-wd -config ${libs}/demots.jti -set demoTS.jvm ${java.home}/bin/java -excludelist lib/demo.jtx -runtests -writeReport report" />
-		</java>
+        <target name="test-sanity-simpletck" depends="jar,build-examples">
+                <property name="libs" value="${BUILD_DIR}/binaries/examples/tutorial/demots/lib" />
+                <delete dir="${build.tmp}/sanity-demo-wd" />
+                <java fork="true" failonerror="false" jar="${BUILD_DIR}/binaries/lib/javatest.jar"
+                        outputproperty="test.sanity.simpletck.output"
+                        resultproperty="test.sanity.simpletck.result">
+                        <classpath>
+                                <path path="${libs}/demots.jar" />
+                                <path path="${libs}/demoapi.jar" />
+                        </classpath>
+                        <arg line="-verbose:max -ts ${BUILD_DIR}/binaries/examples/tutorial/demots/ -wd -create ${build.tmp}/sanity-demo-wd -config ${libs}/demots.jti -set demoTS.jvm ${java.home}/bin/java -excludelist lib/demo.jtx -runtests -writeReport report" />
+                </java>
 
-		<property name="test-sanity-simpletck-pattern" value="Test results: passed: 16" />
+                <property name="test-sanity-simpletck-pattern" value="Test results: passed: 16" />
 
-		<condition property="test.sanity.simpletck.success">
-			<and>
-				<equals arg1="${test.sanity.simpletck.result}" arg2="0" />
-				<!--<matches singleline="true" string="${test.sanity.simpletck.output}" pattern="${test-sanity-simpletck-pattern}" />-->
-			</and>
-		</condition>
-		<fail unless="test.sanity.simpletck.success">
-			Simple tck run exited with code "${test.sanity.simpletck.result}"
+                <condition property="test.sanity.simpletck.success">
+                        <and>
+                                <equals arg1="${test.sanity.simpletck.result}" arg2="0" />
+                                <!--<matches singleline="true" string="${test.sanity.simpletck.output}" pattern="${test-sanity-simpletck-pattern}" />-->
+                        </and>
+                </condition>
+                <fail unless="test.sanity.simpletck.success">
+                        Simple tck run exited with code "${test.sanity.simpletck.result}"
 
-			The output:
-			${test.sanity.simpletck.output}
+                        The output:
+                        ${test.sanity.simpletck.output}
 
-			Pattern: ${test-sanity-simpletck-pattern}</fail>
-	</target>
+                        Pattern: ${test-sanity-simpletck-pattern}</fail>
+        </target>
 
     <target name="test-nohead" depends="dist" description="Runs all tests, which do not need display">
           <antcall target="test-statusmsg"/>
@@ -535,6 +544,9 @@
             <include name="com/sun/jct/utils/glossarygen/**"/>
             <include name="com/sun/jct/utils/indexgen/**"/>
             <include name="com/sun/jct/utils/mapmerge/**"/>
+            <compilerarg value="-version"/>
+            <compilerarg value="-Xlint:rawtypes"/>
+            <compilerarg value="-Xlint:cast"/>
         </javac>
     </target>
 
@@ -550,6 +562,9 @@
         <javac encoding="iso-8859-1" debug="true" source="1.6"
                srcdir="${exam.dir}/tutorial/demoapi"
                destdir="${build.tmp}/${exam.dir}/demoapi">
+            <compilerarg value="-version"/>
+            <compilerarg value="-Xlint:rawtypes"/>
+            <compilerarg value="-Xlint:cast"/>
         </javac>
         <jar destfile="${build.examples}/demots/lib/demoapi.jar"
              basedir="${build.tmp}/${exam.dir}/demoapi" index="false">
@@ -567,6 +582,9 @@
                srcdir="${exam.dir}/tutorial/simpleTags"
                destdir="${build.tmp}/${exam.dir}/simpleTags"
                classpath="${BUILD_DIR}/binaries/lib/javatest.jar:${build.examples}/demots/lib/demoapi.jar">
+            <compilerarg value="-version"/>
+            <compilerarg value="-Xlint:rawtypes"/>
+            <compilerarg value="-Xlint:cast"/>
         </javac>
         <copy todir="${build.tmp}/${exam.dir}/simpleTags">
             <fileset dir="${exam.dir}/tutorial/simpleTags/src">
@@ -593,53 +611,56 @@
         </copy>
 
 
-	</target>
+        </target>
 
 
         <target name="build-services-ts" depends="build-tutorial">
-	    <property name="services.ts" location="${BUILD_DIR}/binaries/examples/services_ts"/>
-	    <mkdir dir="${build.tmp}/${exam.dir}/services_demo/classes"/>
+            <property name="services.ts" location="${BUILD_DIR}/binaries/examples/services_ts"/>
+            <mkdir dir="${build.tmp}/${exam.dir}/services_demo/classes"/>
             <mkdir dir="${services.ts}/lib"/>
 
-	    <copy todir="${services.ts}/lib">
-    	        <fileset file="${BUILD_DIR}/binaries/lib/javatest.jar"/>
+            <copy todir="${services.ts}/lib">
+                <fileset file="${BUILD_DIR}/binaries/lib/javatest.jar"/>
                 <fileset file="${build.examples}/demots/lib/demoapi.jar"/>
-	    </copy>
+            </copy>
 
 
             <javac encoding="iso-8859-1" debug="true"
-	           srcdir="${exam.dir}/services_demo/src"
-    	           destdir="${build.tmp}/${exam.dir}/services_demo/classes"
-        	   classpath="${BUILD_DIR}/binaries/lib/javatest.jar">
+                   srcdir="${exam.dir}/services_demo/src"
+                   destdir="${build.tmp}/${exam.dir}/services_demo/classes"
+                   classpath="${BUILD_DIR}/binaries/lib/javatest.jar">
+                <compilerarg value="-version"/>
+                <compilerarg value="-Xlint:rawtypes"/>
+                <compilerarg value="-Xlint:cast"/>
             </javac>
-	    <copy todir="${build.tmp}/${exam.dir}/services_demo/classes">
-    	        <fileset dir="${exam.dir}/services_demo/src">
-        	    <include name="**/moreinfo/**"/>
+            <copy todir="${build.tmp}/${exam.dir}/services_demo/classes">
+                <fileset dir="${exam.dir}/services_demo/src">
+                    <include name="**/moreinfo/**"/>
                     <include name="**/*.properties"/>
-	        </fileset>
+                </fileset>
             </copy>
 
-	    <jar destfile="${services.ts}/lib/jtservices.jar"
-    	         basedir="${build.tmp}/${exam.dir}/services_demo/classes" index="false">
-        	 <manifest>
+            <jar destfile="${services.ts}/lib/jtservices.jar"
+                 basedir="${build.tmp}/${exam.dir}/services_demo/classes" index="false">
+                 <manifest>
                      <attribute name="Built-By"   value="${user.name}"/>
-	             <attribute name="Main-Class" value="${run.class}"/>
-    	         </manifest>
+                     <attribute name="Main-Class" value="${run.class}"/>
+                 </manifest>
              </jar>
 
-	     <copy todir="${services.ts}">
-    	         <fileset dir="${exam.dir}/services_demo/services_ts"/>
+             <copy todir="${services.ts}">
+                 <fileset dir="${exam.dir}/services_demo/services_ts"/>
              </copy>
 
-	 </target>
+         </target>
 
 
-	<!--
-	********** copyright checker **********************************************
-	-->
-	<property file="build/copyright.properties"/>
-	<target name="test-copyrights" depends="compile.test.copyright.classes">
-		<taskdef name="checkCopyrights" classpath="${build.classes}" classname="com.sun.jct.utils.copyrightcheck.CheckCopyrights"/>
-		<checkCopyrights pattern="${copyright.pattern}" dir="${src.dir}" includes="${copyright.includes}" excludes="${copyright.excludes}" failOnError="yes"/>
-	</target>
+        <!--
+        ********** copyright checker **********************************************
+        -->
+        <property file="build/copyright.properties"/>
+        <target name="test-copyrights" depends="compile.test.copyright.classes">
+                <taskdef name="checkCopyrights" classpath="${build.classes}" classname="com.sun.jct.utils.copyrightcheck.CheckCopyrights"/>
+                <checkCopyrights pattern="${copyright.pattern}" dir="${src.dir}" includes="${copyright.includes}" excludes="${copyright.excludes}" failOnError="yes"/>
+        </target>
 </project>

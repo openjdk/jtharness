@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -33,35 +33,35 @@ import java.util.List;
 
 public class COFApplications extends COFItem {
 
-static LinkedHashMap xmlAttributes;
+static LinkedHashMap<String, String> xmlAttributes;
 
-    static LinkedHashMap xmlElements;
+    static LinkedHashMap<String, String> xmlElements;
 
         static String xmlTagName;
 
         static  {
-        xmlElements = new LinkedHashMap();
+        xmlElements = new LinkedHashMap<>();
         xmlElements.put("application", "application");
         xmlTagName = "applications";
     }
 
         //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
-    protected List  application;
+    protected List<COFApplication>  application;
 
-        LinkedHashMap getItemAttributes() {
+        LinkedHashMap<String, String> getItemAttributes() {
                 return xmlAttributes;
         }
 
-        LinkedHashMap getItemElements() {
+        LinkedHashMap<String, String> getItemElements() {
                 return xmlElements;
         }
     String getItemTagName() {
                 return xmlTagName;
         }
 
-    public List getApplication() {
+    public List<COFApplication> getApplication() {
         if (application == null) {
-            application = new ArrayList();
+            application = new ArrayList<>();
         }
         return this.application;
     }

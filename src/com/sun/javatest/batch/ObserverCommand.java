@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2003, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -56,7 +56,7 @@ class ObserverCommand extends Command
     ObserverCommand(ListIterator argIter) throws Fault {
         super(getName());
 
-        Vector v = null;
+        Vector<String> v = null;
 
         while (argIter.hasNext()) {
             String arg = nextArg(argIter);
@@ -73,7 +73,7 @@ class ObserverCommand extends Command
                         break;
                     else {
                         if (v == null)
-                            v = new Vector();
+                            v = new Vector<>();
                         v.add(arg);
                     }
                 }
@@ -130,7 +130,7 @@ class ObserverCommand extends Command
         }
     }
 
-    private Harness.Observer tryConstructor(Class obsClass, Class[] argTypes, Object[] args)
+    private Harness.Observer tryConstructor(Class<?> obsClass, Class[] argTypes, Object[] args)
         throws IllegalAccessException, InstantiationException, InvocationTargetException
     {
         try {
@@ -144,7 +144,7 @@ class ObserverCommand extends Command
 
     private void setClassPath(String s) throws Fault {
         char pathCh = File.pathSeparatorChar;
-        Vector v = new Vector();
+        Vector<URL> v = new Vector<>();
         int start = 0;
         for (int i = s.indexOf(pathCh); i != -1; i = s.indexOf(pathCh, start)) {
             addClassPathEntry(s.substring(start, i), v);
@@ -164,7 +164,7 @@ class ObserverCommand extends Command
         return (classLoader == null ? Class.forName(name) : classLoader.loadClass(name));
     }
 
-    private void addClassPathEntry(String s, Vector v) throws Fault {
+    private void addClassPathEntry(String s, Vector<URL> v) throws Fault {
         try {
             if (s.length() > 0)
                 v.add(new File(s).toURL());

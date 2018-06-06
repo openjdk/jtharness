@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -61,7 +61,7 @@ public class Map {
      */
     public static Map readFile(String name) throws IOException {
         try {
-            Class c = Class.forName("java.io.FileReader"); // optional API in Jersonal Java
+            Class<?> c = Class.forName("java.io.FileReader"); // optional API in Jersonal Java
             Constructor m = c.getConstructor(new Class[] {String.class});
             Reader r = (Reader)(m.newInstance(new Object[] {name}));
             return new Map(r);
@@ -133,8 +133,8 @@ public class Map {
             (r instanceof BufferedReader ? (BufferedReader)r : new BufferedReader(r))
 ;
         // data arrives in rows, but we want it in columns
-        Vector from = new Vector();
-        Vector to = new Vector();
+        Vector<String> from = new Vector<>();
+        Vector<String> to = new Vector<>();
         String line;
         while ((line = in.readLine()) != null) {
             line = line.trim();
@@ -203,8 +203,8 @@ public class Map {
      * Enumerate the entries of the map.
      * @return an enumeration of the translation entries within the map
      */
-    public Enumeration enumerate() {
-        Vector v = new Vector(fromValues.length);
+    public Enumeration<String[]> enumerate() {
+        Vector<String[]> v = new Vector<>(fromValues.length);
         for (int i = 0; i < fromValues.length; i++) {
             v.addElement(new String[] {fromValues[i], toValues[i]});
         }

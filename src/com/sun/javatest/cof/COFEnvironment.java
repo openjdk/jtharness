@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -47,20 +47,20 @@ import com.sun.javatest.util.I18NResourceBundle;
                         "user-locale", "encoding", "timezone", "bits", "displaydepth",
                         "description", "sw" };
 
-        static LinkedHashMap xmlAttributes;
+        static LinkedHashMap<String, String> xmlAttributes;
 
-        static LinkedHashMap xmlElements;
+        static LinkedHashMap<String, String> xmlElements;
 
         static String xmlTagName;
         private static I18NResourceBundle i18n = I18NResourceBundle
         .getBundleForClass(Main.class);
 
         static {
-                xmlElements = new LinkedHashMap();
+                xmlElements = new LinkedHashMap<>();
                 for (int i = 0; i < propOrder.length; i++) {
                         xmlElements.put(propOrder[i], propTags[i]);
                 }
-                xmlAttributes = new LinkedHashMap();
+                xmlAttributes = new LinkedHashMap<>();
                 xmlAttributes.put("id", "id");
                 xmlTagName = "environment";
         }
@@ -94,7 +94,7 @@ import com.sun.javatest.util.I18NResourceBundle;
         protected COFOS os;
 
         //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
-        protected List/*<SWEntity>*/sw;
+        protected List<COFSWEntity> sw;
 
         //    @XmlElement(name = "system-locale", namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
         protected String systemLocale;
@@ -257,11 +257,11 @@ import com.sun.javatest.util.I18NResourceBundle;
                 return id;
         }
 
-        LinkedHashMap getItemAttributes() {
+        LinkedHashMap<String, String> getItemAttributes() {
                 return xmlAttributes;
         }
 
-        LinkedHashMap getItemElements() {
+        LinkedHashMap<String, String> getItemElements() {
                 return xmlElements;
         }
 
@@ -331,9 +331,9 @@ import com.sun.javatest.util.I18NResourceBundle;
          *
          *
          */
-        public List/*<SWEntity>*/getSw() {
+        public List<COFSWEntity> getSw() {
                 if (sw == null) {
-                        sw = new ArrayList/*<SWEntity>*/();
+                        sw = new ArrayList<>();
                 }
                 return this.sw;
         }

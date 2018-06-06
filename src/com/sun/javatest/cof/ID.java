@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2002, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -33,13 +33,13 @@ class ID
 {
     static class Factory {
         ID create(String base) {
-            Integer last = (Integer) (map.get(base));
+            Integer last = map.get(base);
             int index = (last == null ? 0 : last.intValue() + 1);
             map.put(base, new Integer(index));
             return new ID(base, index);
         }
 
-        Map map = new HashMap();
+        Map<String, Integer> map = new HashMap<>();
     };
 
     private ID(String base, int index) {

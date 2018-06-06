@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2002, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -192,7 +192,7 @@ class OptionsDialog extends ToolDialog
     private void updateTestSuiteChoices() {
         // get the paths of currently loaded test suites
         // could move this to TestSuite, and use the dirMap cache
-        SortedSet s = new TreeSet();
+        SortedSet<String> s = new TreeSet<>();
         Desktop d = tool.getDesktop();
         Tool[] tools = d.getTools();
         if (tools != null) {
@@ -237,7 +237,7 @@ class OptionsDialog extends ToolDialog
 
         // get the paths of currently loaded work directories
         // could move this to WorkDirectory and use the dirMap cache
-        SortedSet s = new TreeSet();
+        SortedSet<String> s = new TreeSet<>();
         Desktop d = tool.getDesktop();
         Tool[] tools = d.getTools();
         if (tools != null) {
@@ -291,7 +291,7 @@ class OptionsDialog extends ToolDialog
     }
 
     private void updateConfigFileChoices() {
-        SortedSet s = new TreeSet();
+        SortedSet<String> s = new TreeSet<>();
         String wdp = (String) (wdField.getSelectedItem());
         try {
             WorkDirectory wd = WorkDirectory.open(new File(wdp));
@@ -306,10 +306,10 @@ class OptionsDialog extends ToolDialog
         setItems(cfField, s);
     }
 
-    private void setItems(JComboBox field, SortedSet s) {
+    private void setItems(JComboBox<String> field, SortedSet<String> s) {
         // first, remove unwanted entries from field
         for (int i = field.getItemCount() - 1; i >= 0; i-- ) {
-            String item = (String) (field.getItemAt(i));
+            String item =  field.getItemAt(i);
             if (s.contains(item)) {
                 // this item is required, so remove it from the
                 // set to be added later
@@ -321,7 +321,7 @@ class OptionsDialog extends ToolDialog
         }
 
         // those items remaining in s need to be added to the field
-        for (Iterator iter = s.iterator(); iter.hasNext(); )
+        for (Iterator<String> iter = s.iterator(); iter.hasNext(); )
             field.addItem(iter.next());
     }
 
@@ -329,15 +329,15 @@ class OptionsDialog extends ToolDialog
     private ActionListener okListener;
     private JPanel body;
 
-    private JComboBox tsField;
+    private JComboBox<String> tsField;
     private JButton tsBtn;
     private TestSuiteChooser testSuiteChooser;
 
-    private JComboBox wdField;
+    private JComboBox<String> wdField;
     private JButton wdBtn;
     private WorkDirChooser workDirChooser;
 
-    private JComboBox cfField;
+    private JComboBox<String> cfField;
     private JButton cfBtn;
     private JFileChooser configFileChooser;
 

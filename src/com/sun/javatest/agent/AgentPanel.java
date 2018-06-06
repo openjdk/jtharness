@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -626,7 +626,7 @@ class AgentPanel extends ScrollPane
             versionLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
             infoPanel.add(versionLabel, c);
 
-            Label copyLabel1 = new Label("Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.");
+            Label copyLabel1 = new Label("Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.");
             infoPanel.add(copyLabel1, c);
 
             Label copyLabel2 = new Label("Use is subject to license terms.");
@@ -690,7 +690,7 @@ class AgentPanel extends ScrollPane
         public synchronized void addTask(TaskState task) {
             if (tasks.size() >= maxTasks) {
                 for (int i = 0; i < tasks.size(); i++) {
-                    String s = (String) getItem(i);
+                    String s = getItem(i);
                     // skip over active tasks that will be updated later
                     if (s.startsWith("CONN") || s.startsWith("EXEC"))
                         continue;
@@ -706,7 +706,7 @@ class AgentPanel extends ScrollPane
 
         public synchronized TaskState getTask(Connection c) {
             for (int i = 0; i < tasks.size(); i++) {
-                TaskState ts = (TaskState)(tasks.elementAt(i));
+                TaskState ts = tasks.elementAt(i);
                 if (ts.connection == c)
                     return ts;
             }
@@ -714,7 +714,7 @@ class AgentPanel extends ScrollPane
         }
 
         public synchronized TaskState getSelectedTask() {
-            return (TaskState)(tasks.elementAt(super.getSelectedIndex()));
+            return tasks.elementAt(super.getSelectedIndex());
         }
 
         public synchronized void removeAll() {
@@ -758,7 +758,7 @@ class AgentPanel extends ScrollPane
         }
 
         private int maxTasks = 10;
-        private Vector tasks = new Vector();
+        private Vector<TaskState> tasks = new Vector<>();
     }
 
 
@@ -973,7 +973,7 @@ class AgentPanel extends ScrollPane
         }
 
 
-        private Vector tasks = new Vector();
+        private Vector<TaskState> tasks = new Vector<>();
 
         private int[] statusCounts = new int[Status.NUM_STATES];
         private int exceptionsCount;

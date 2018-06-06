@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -85,34 +85,34 @@ import javax.xml.bind.annotation.XmlType;
 })*/
 public class COFTestAttribute extends COFItem{
 
-static LinkedHashMap xmlAttributes;
-static LinkedHashMap xmlElements;
+static LinkedHashMap<String, String> xmlAttributes;
+static LinkedHashMap<String, String> xmlElements;
 
     static String xmlTagName;
 
     static {
-                xmlElements = new LinkedHashMap();
+                xmlElements = new LinkedHashMap<>();
                 xmlElements.put("name","name");
                 xmlElements.put("value","value");
                 xmlTagName = "attribute";
         }
 
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
-    protected List/*<String>*/ name;
+    protected List<String> name;
 
         //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
-    protected List/*<String>*/ value;
+    protected List<String> value;
 
         public COFTestAttribute(String name, String value) {
                 this.getName().add(name);
                 this.getValue().add(value);
         }
 
-        LinkedHashMap getItemAttributes() {
+        LinkedHashMap<String, String> getItemAttributes() {
                 return xmlAttributes;
         }
 
-        LinkedHashMap getItemElements() {
+        LinkedHashMap<String, String> getItemElements() {
                 return xmlElements;
         }
 
@@ -142,9 +142,9 @@ static LinkedHashMap xmlElements;
      *
      *
      */
-    public List/*<String>*/ getName() {
+    public List<String> getName() {
         if (name == null) {
-            name = new ArrayList/*<String>*/();
+            name = new ArrayList<>();
         }
         return this.name;
     }
@@ -171,9 +171,9 @@ static LinkedHashMap xmlElements;
      *
      *
      */
-    public List/*<String>*/ getValue() {
+    public List<String> getValue() {
         if (value == null) {
-            value = new ArrayList/*<String>*/();
+            value = new ArrayList<>();
         }
         return this.value;
     }

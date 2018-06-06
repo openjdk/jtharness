@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -106,10 +106,10 @@ public class Audit
      */
     public Audit(TestFinderQueue tfq, ExcludeList excludeList, WorkDirectory workDir)
     {
-        Vector badChecksumTestsV = new Vector();
-        Vector badTestDescriptionsV = new Vector();
-        Vector badTestCaseTestsV = new Vector();
-        Vector badTestsV = new Vector();
+        Vector<TestResult> badChecksumTestsV = new Vector<>();
+        Vector<TestResult> badTestDescriptionsV = new Vector<>();
+        Vector<TestResult> badTestCaseTestsV = new Vector<>();
+        Vector<TestDescription> badTestsV = new Vector<>();
 
         workDir.getTestResultTable().waitUntilReady();
 
@@ -136,9 +136,9 @@ public class Audit
                     Map.Entry e = (Map.Entry) (i.next());
                     String key = (String) (e.getKey());
                     String value = (String) (e.getValue());
-                    Vector allValuesForKey = (Vector)(envTable.get(key));
+                    Vector<String> allValuesForKey = envTable.get(key);
                     if (allValuesForKey == null) {
-                        allValuesForKey = new Vector();
+                        allValuesForKey = new Vector<>();
                         envTable.put(key, allValuesForKey);
                     }
                     if (!allValuesForKey.contains(value))
@@ -169,7 +169,7 @@ public class Audit
 
         for (Enumeration e = envTable.keys(); e.hasMoreElements(); ) {
             String key = (String)(e.nextElement());
-            Vector allValuesForKey = (Vector)(envTable.get(key));
+            Vector allValuesForKey = envTable.get(key);
             envCounts[allValuesForKey.size() == 1 ? 0 : 1]++;
         }
 
@@ -492,7 +492,7 @@ public class Audit
         out.println();
         out.print(i18n.getString("adt.envList.title"));
 
-        SortedSet ss = new TreeSet();
+        SortedSet<String> ss = new TreeSet<>();
         for (Enumeration e = envTable.keys(); e.hasMoreElements(); ) {
             String key = (String)(e.nextElement());
             ss.add(key);
@@ -500,7 +500,7 @@ public class Audit
 
         for (Iterator iter = ss.iterator(); iter.hasNext(); ) {
             String key = (String) (iter.next());
-            Vector allValuesForKey = (Vector)(envTable.get(key));
+            Vector allValuesForKey = envTable.get(key);
             if (allValuesForKey.size() == 1) {
                 if (showAll)
                     out.println(i18n.getString("adt.envKeyValue",
@@ -692,7 +692,7 @@ public class Audit
         // Create an array of possible date formats to parse dates in .jtr files.
         // Most likely is Unix C time in English; the array will be reordered in use
         // by moving the recently used entries to the front of the array.
-        Vector v = new Vector();
+        Vector<DateFormat> v = new Vector<>();
 
         // generic Java default
         // 10-Sep-99 3:25:11 PM
@@ -733,7 +733,7 @@ public class Audit
     private Date latestStart;
     private DateFormat[] dateFormats;
 
-    private Hashtable envTable = new Hashtable();
+    private Hashtable<String, Vector<String>> envTable = new Hashtable<>();
     private PrintStream out;
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Audit.class);
 }

@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -38,17 +38,17 @@ public class Report extends COFItem {
 
         static final String VERSION = "2.0.2";
 
-        static final LinkedHashMap xmlAttributes;
+        static final LinkedHashMap<String, String> xmlAttributes;
 
-        static final LinkedHashMap xmlElements;
+        static final LinkedHashMap<String, String> xmlElements;
 
         static String xmlTagName;
 
         private static final String XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
 
         static {
-                xmlElements = new LinkedHashMap();
-                xmlAttributes = new LinkedHashMap();
+                xmlElements = new LinkedHashMap<>();
+                xmlAttributes = new LinkedHashMap<>();
                 xmlElements.put("date", "date");
                 xmlElements.put("version", "version");
                 xmlElements.put("environments", "environments");
@@ -73,7 +73,7 @@ public class Report extends COFItem {
         protected COFReportAnnotations annotations;
 
         //    @XmlAnyElement
-        protected List/*<Element>*/any;
+        protected List<COFItem>any;
 
         //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
         protected COFApplications applications;
@@ -177,9 +177,9 @@ public class Report extends COFItem {
          *
          *
          */
-        public List/*<Element>*/getAny() {
+        public List<COFItem>getAny() {
                 if (any == null) {
-                        any = new ArrayList/*<Element>*/();
+                        any = new ArrayList<>();
                 }
                 return this.any;
         }
@@ -236,11 +236,11 @@ public class Report extends COFItem {
                 return harness;
         }
 
-        LinkedHashMap getItemAttributes() {
+        LinkedHashMap<String, String> getItemAttributes() {
                 return xmlAttributes;
         }
 
-        LinkedHashMap getItemElements() {
+        LinkedHashMap<String, String> getItemElements() {
                 return xmlElements;
         }
 

@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -86,11 +86,11 @@ public class COFData
         data.put(name, value);
     }
 
-    public void putAll(Map map) {
+    public void putAll(Map<Object,Object> map) {
         data.putAll(map);
     }
 
-    private Map data = new HashMap();
+    private Map<Object,Object> data = new HashMap<>();
 
     private CustomFilter filter = new CustomFilterAdapter();
 

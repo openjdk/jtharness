@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -184,7 +184,7 @@ public class SocketConnection implements Connection {
     }
 
     private static String getHostName(InetAddress addr) {
-        String s = (String) (addressCache.get(addr));
+        String s = addressCache.get(addr);
         if (s == null) {
             s = addr.getHostName();
             addressCache.put(addr, s);
@@ -238,5 +238,5 @@ public class SocketConnection implements Connection {
     private boolean closed;
     private Thread waitThread;
     private static Timer timer = new Timer();
-    private static Hashtable addressCache = new Hashtable();
+    private static Hashtable<InetAddress, String> addressCache = new Hashtable<>();
 }

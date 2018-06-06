@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -68,14 +68,14 @@ static final String [] tags = {
         "version",
         "arch"
     };
-static LinkedHashMap xmlAttributes;
+static LinkedHashMap<String, String> xmlAttributes;
 
-    static LinkedHashMap xmlElements;
+    static LinkedHashMap<String, String> xmlElements;
 
     static String xmlTagName;
 
     static {
-        xmlElements = new LinkedHashMap();
+        xmlElements = new LinkedHashMap<>();
         for (int i = 0;i<propOrder.length;i++) {
             xmlElements.put(propOrder[i], tags[i]);
         }
@@ -103,10 +103,10 @@ static LinkedHashMap xmlAttributes;
         return arch;
     }
 
-        LinkedHashMap getItemAttributes() {
+        LinkedHashMap<String, String> getItemAttributes() {
                 return xmlAttributes;
         }
-    LinkedHashMap getItemElements() {
+    LinkedHashMap<String, String> getItemElements() {
                 return xmlElements;
         }
 

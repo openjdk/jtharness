@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2016, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -203,8 +203,8 @@ public class Agent implements Runnable {
             else {
                 traceOut.println("set map:");
                 map.setTracing(tracing, traceOut);
-                for (Enumeration e = map.enumerate(); e.hasMoreElements(); ) {
-                    String[] entry = (String[])(e.nextElement());
+                for (Enumeration<String[]> e = map.enumerate(); e.hasMoreElements(); ) {
+                    String[] entry = e.nextElement();
                     traceOut.println("map-from: " + entry[0]);
                     traceOut.println("map-to:   " + entry[1]);
                 }
@@ -335,7 +335,7 @@ public class Agent implements Runnable {
 
         // interrupt any threads that are running
         for (int i = 0; i < threads.size(); i++) {
-            Thread t = (Thread)(threads.elementAt(i));
+            Thread t = threads.elementAt(i);
             if (tracing)
                 traceOut.println("INTERRUPTING THREAD " + t.getName());
             t.interrupt();
@@ -347,7 +347,7 @@ public class Agent implements Runnable {
 
         // close any tasks that are running
         for (int i = 0; i < tasks.size(); i++) {
-            Task t = (Task)(tasks.elementAt(i));
+            Task t = tasks.elementAt(i);
             if (tracing) {
                 Connection c = t.connection; // maybe null; if it is, task is already closing
                 traceOut.println("CLOSING TASK " + (c == null ? "[unknown]" : c.getName()));
@@ -542,8 +542,8 @@ public class Agent implements Runnable {
     private boolean closing;
     private Thread mainThread;
     private int maxThreads;
-    private Vector threads = new Vector();
-    private Vector tasks = new Vector();
+    private Vector<Thread> threads = new Vector<>();
+    private Vector<Task> tasks = new Vector<>();
     private Notifier notifier = new Notifier();
     private Object currSystemStreamOwner = null;
     private PrintStream saveOut;
@@ -597,7 +597,7 @@ public class Agent implements Runnable {
 
     static final String productName = "JT Harness Agent";
     static final String productVersion = "JTA_5.0";
-    static final String productCopyright = "Copyright (c) 1996, 2016, Oracle and/or its affiliates. All rights reserved.";
+    static final String productCopyright = "Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.";
 
 
     /**
@@ -936,7 +936,7 @@ public class Agent implements Runnable {
 
         }
 
-        private Status executeMain(Class c, String[] args,
+        private Status executeMain(Class<?> c, String[] args,
                 PrintWriter testLog, PrintWriter testRef)
                 throws IOException, ClassNotFoundException, IllegalAccessException {
             notifier.execMain(connection, tag, c.getName(), args);
@@ -1107,7 +1107,7 @@ public class Agent implements Runnable {
 
         private ClassLoader getAgentClassLoader(boolean useSharedClassLoader)
                 throws InstantiationException, IllegalAccessException {
-            Class classLoaderClass;
+            Class<?> classLoaderClass;
             try {
                 String s = getClass().getName();
                 String pkg = s.substring(0, s.lastIndexOf('.'));

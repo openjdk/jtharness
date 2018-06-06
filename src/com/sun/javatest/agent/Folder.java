@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -143,7 +143,7 @@ class Folder extends Panel implements ItemSelectable
 
     public void showTab(String name, boolean visible) {
         for (int i = 0; i < entries.size(); i++) {
-            Entry e = (Entry)entries.elementAt(i);
+            Entry e = entries.elementAt(i);
             if (e.name.equals(name)) {
                 if (e.visibleTab != visible) {
                     e.visibleTab = visible;
@@ -157,7 +157,7 @@ class Folder extends Panel implements ItemSelectable
     public String getNextVisibleTab() {
         int currentIndex = Math.max(0, getCurrentIndex());
         for (int i = currentIndex + 1; i < entries.size(); i++) {
-            Entry e = (Entry)entries.elementAt(i);
+            Entry e = entries.elementAt(i);
             if (e.visibleTab)
                 return e.name;
         }
@@ -167,7 +167,7 @@ class Folder extends Panel implements ItemSelectable
     public String getPrevVisibleTab() {
         int currentIndex = getCurrentIndex();
         for (int i = currentIndex - 1; i >= 0; i--) {
-            Entry e = (Entry)entries.elementAt(i);
+            Entry e = entries.elementAt(i);
             if (e.visibleTab)
                 return e.name;
         }
@@ -176,7 +176,7 @@ class Folder extends Panel implements ItemSelectable
 
     public Component current() {
         for (int i = 0; i < entries.size(); i++) {
-            Entry e = (Entry)entries.elementAt(i);
+            Entry e = entries.elementAt(i);
             if (e.comp.isVisible())
                 return e.comp;
         }
@@ -185,7 +185,7 @@ class Folder extends Panel implements ItemSelectable
 
     public void show(Component comp) {
         for (int i = 0; i < entries.size(); i++) {
-            Entry e = (Entry)entries.elementAt(i);
+            Entry e = entries.elementAt(i);
             if (e.comp == comp) {
                 show(e);
                 return;
@@ -195,7 +195,7 @@ class Folder extends Panel implements ItemSelectable
 
     public void show(String name) {
         for (int i = 0; i < entries.size(); i++) {
-            Entry e = (Entry)entries.elementAt(i);
+            Entry e = entries.elementAt(i);
             if (e.name.equals(name)) {
                 show(e);
                 return;
@@ -215,7 +215,7 @@ class Folder extends Panel implements ItemSelectable
         int tabHeight = fm.getHeight() + tabpad;
         Entry selected = null;
         for (int i = 0; i < entries.size(); i++) {
-            Entry e = (Entry)entries.elementAt(i);
+            Entry e = entries.elementAt(i);
             if (e.comp.isVisible()) {
                 selected = e;
                 break;
@@ -234,7 +234,7 @@ class Folder extends Panel implements ItemSelectable
         int x = border + hgap;
         int baseLine = tabHeight + vgap;
         for (int i = 0; i < entries.size(); i++) {
-            Entry e = (Entry)entries.elementAt(i);
+            Entry e = entries.elementAt(i);
             int tabH = (e.visibleTab || e.comp.isVisible() ? tabHeight : tabHeight / 3);
             int w = fm.stringWidth(e.name);
             Polygon tab = new Polygon();
@@ -282,7 +282,7 @@ class Folder extends Panel implements ItemSelectable
         FontMetrics fm = getFontMetrics(getFont());
         int w = border + 2 * hgap + tabSpace;
         for (int i = 0; i < entries.size(); i++) {
-          Entry e = (Entry)entries.elementAt(i);
+          Entry e = entries.elementAt(i);
           w += slant + (fm == null ? 0 : fm.stringWidth(e.name)) + slant + tabSpace;
         }
         return w;
@@ -309,7 +309,7 @@ class Folder extends Panel implements ItemSelectable
 
     private int getCurrentIndex() {
         for (int i = 0; i < entries.size(); i++) {
-            Entry e = (Entry)entries.elementAt(i);
+            Entry e = entries.elementAt(i);
             if (e.comp.isVisible())
                 return i;
         }
@@ -318,7 +318,7 @@ class Folder extends Panel implements ItemSelectable
 
     private Entry getCurrentEntry() {
         int i = getCurrentIndex();
-        return (i == -1 ? null : (Entry)(entries.elementAt(i)) );
+        return (i == -1 ? null : entries.elementAt(i));
     }
 
     void mousePressed(int mouseX, int mouseY) {
@@ -326,7 +326,7 @@ class Folder extends Panel implements ItemSelectable
         if (vgap < mouseY  &&  mouseY < border + fm.getHeight() + vgap) {
             int x = border + hgap;
             for (int i = 0; i < entries.size(); i++) {
-                Entry e = (Entry)entries.elementAt(i);
+                Entry e = entries.elementAt(i);
                 int w = fm.stringWidth(e.name);
                 x += slant + w + slant + tabSpace;
                 if (mouseX < x) {
@@ -339,7 +339,7 @@ class Folder extends Panel implements ItemSelectable
 
 
     private ItemListener itemListener;
-    private Vector entries = new Vector();
+    private Vector<Entry> entries = new Vector<>();
     private int border;
     private int slant;
     private int tabSpace;

@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -54,26 +54,26 @@ import java.util.List;
 })*/
 public class COFSWEntities extends COFItem {
 
-static LinkedHashMap xmlAttributes;
+static LinkedHashMap<String, String> xmlAttributes;
 
-    static LinkedHashMap xmlElements;
+    static LinkedHashMap<String, String> xmlElements;
 
         static String xmlTagName;
 
         static  {
-        xmlElements = new LinkedHashMap();
+        xmlElements = new LinkedHashMap<>();
         xmlElements.put("swentity", "swentity");
         xmlTagName = "swentities";
     }
 
         //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
-    protected List/*<SWEntity>*/ swentity;
+    protected List<COFSWEntity> swentity;
 
-        LinkedHashMap getItemAttributes() {
+        LinkedHashMap<String, String> getItemAttributes() {
                 return xmlAttributes;
         }
 
-        LinkedHashMap getItemElements() {
+        LinkedHashMap<String, String> getItemElements() {
                 return xmlElements;
         }
     String getItemTagName() {
@@ -102,9 +102,9 @@ static LinkedHashMap xmlAttributes;
      *
      *
      */
-    public List/*<SWEntity>*/ getSwentity() {
+    public List<COFSWEntity> getSwentity() {
         if (swentity == null) {
-            swentity = new ArrayList/*<SWEntity>*/();
+            swentity = new ArrayList<>();
         }
         return this.swentity;
     }
