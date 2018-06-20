@@ -150,7 +150,7 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
      * @param map The map to save to.
      * @return True if saving was successful, false if the operation failed.
      */
-    boolean save(Map map) {
+    boolean save(Map<String, String> map) {
         map.put(INSTANCE_KEY, instanceName);
 
         return true;

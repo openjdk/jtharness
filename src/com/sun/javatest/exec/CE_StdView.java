@@ -92,7 +92,7 @@ class CE_StdView extends CE_View
 
 
     void showTab(int id) {
-        Class c;
+        Class<?> c;
         switch (id) {
         case TESTS_PANE:
             c = CE_TestsPane.class;

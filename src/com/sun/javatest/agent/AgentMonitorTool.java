@@ -99,7 +99,7 @@ public class AgentMonitorTool extends Tool
         return menuBar;
     }
 
-    public void save(Map m) {
+    public void save(Map<String, String> m) {
         int port = agentPoolSubpanel.getPort();
         if (port != Integer.MIN_VALUE)
             m.put("port", String.valueOf(port));
@@ -115,7 +115,7 @@ public class AgentMonitorTool extends Tool
      * @return An AgentMonitorTool restored from the data in the map.
      */
     @Override
-    protected void restore(Map m) {
+    protected void restore(Map<String, String> m) {
         String l = (String) (m.get("listening"));
         try {
             String p = (String) (m.get("port"));

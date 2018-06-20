@@ -350,7 +350,7 @@ class FilterSelectionHandler {
     private UIFactory uif;
 
     private TestFilter activeFilter;
-    private JComboBox selectBox;
+    private JComboBox<TestFilter> selectBox;
     private JButton configButton;
     private JMenu editMenu;
     private ButtonGroup menuGroup;

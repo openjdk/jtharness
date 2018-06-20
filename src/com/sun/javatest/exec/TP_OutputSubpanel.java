@@ -94,7 +94,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
     private void initGUI() {
         setLayout(new BorderLayout());
 
-        tocEntries = new DefaultListModel();
+        tocEntries = new DefaultListModel<>();
         toc = uif.createList("test.out.toc", tocEntries);
         toc.setCellRenderer(new TOCRenderer());
         toc.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -644,7 +644,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
 
     private JEditorPane htmlArea;
 
-    private DefaultListModel tocEntries;
+    private DefaultListModel<TOCEntry> tocEntries;
     private Listener listener = new Listener();
     private TRObserver observer = new TRObserver();
 

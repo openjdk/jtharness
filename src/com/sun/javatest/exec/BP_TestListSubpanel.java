@@ -444,7 +444,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             } else if (column == 1) {
                 synchronized (liveData) {
                     if ((liveData.get(row)) instanceof TestResult)
-                        return (getSelectedProperty((TestResult) (liveData.get(row))));
+                        return getSelectedProperty(liveData.get(row));
                     else
                         // should not happen
                         return uif.getI18NString("br.list.notAvailable.txt");
@@ -464,7 +464,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
          * @param suppressNotify
          *        Actively request that no update be scheduled.
          */
-        void addTest(Object tr, boolean suppressNotify) {
+        void addTest(TestResult tr, boolean suppressNotify) {
             synchronized (vLock) {
                 // make sure this item is not already in the list
                 if (!inQueue.contains(tr) && !liveData.contains(tr))
@@ -489,7 +489,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
          * @param mode
          *        Indicates ascending (0) or descending (1) sorting
          */
-        void sortTests(LinkedList v, int column, boolean mode) {
+        void sortTests(LinkedList<TestResult> v, int column, boolean mode) {
             synchronized (vLock) {
                 inQueue = sort(v, mode);
 
@@ -503,7 +503,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
          * Remove the given test from the list. Ignored if the test is not in
          * the list.
          */
-        void removeTest(Object tr) {
+        void removeTest(TestResult tr) {
             synchronized (vLock) {
                 rmQueue.addElement(tr);
                 // try not to saturate the GUI event thread
@@ -569,14 +569,14 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 } // for
             }
 
-            inQueue = new Vector();
-            rmQueue = new Vector();
-            liveData = new LinkedList();
+            inQueue = new Vector<>();
+            rmQueue = new Vector<>();
+            liveData = new LinkedList<>();
 
             isUpdateScheduled = false;
         }
 
-        private Vector sort(LinkedList v, boolean mode) {
+        private Vector<TestResult> sort(LinkedList<TestResult> v, boolean mode) {
 
             o = new Object[v.size()];
 
@@ -612,7 +612,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                     aaa[i] = rows[rows.length - i - 1].index;
             }
 
-            Vector temp = new Vector(v.size());
+            Vector<TestResult> temp = new Vector<>(v.size());
 
             for (int i = 0; i < v.size(); i++)
                 temp.addElement(v.get(aaa[i]));
@@ -681,7 +681,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                                 }
 
                                 for (int i = 0; i < BATCH_SIZE; i++) {
-                                    Object o = inQueue.remove(0);
+                                    TestResult o = inQueue.remove(0);
 
                                     liveData.add(o);
                                 }
@@ -735,7 +735,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 return;
 
             while (rmQueue.size() > 0) {
-                TestResult target = (TestResult) (rmQueue.remove(0));
+                TestResult target = rmQueue.remove(0);
                 int targetIndex = liveData.indexOf(target);
                 if (targetIndex != -1) {
                     synchronized (liveData) {
@@ -836,13 +836,13 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         private final Object vLock = new Object(); // lock for inQueue &
         // rmQueue
 
-        private Vector inQueue; // queue of items to be added to live data
+        private Vector<TestResult> inQueue; // queue of items to be added to live data
 
-        private Vector rmQueue; // queue of items to be removed from live data
+        private Vector<TestResult> rmQueue; // queue of items to be removed from live data
 
-        private LinkedList liveData; // to allow manual synchronization
+        private LinkedList<TestResult> liveData; // to allow manual synchronization
 
-        Vector pendingEvents = new Vector();
+        Vector<TableNotifier> pendingEvents = new Vector<>();
 
         volatile boolean isUpdateScheduled; // are updates waiting in inQueue or
         // rmQueue
@@ -1357,7 +1357,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
 
     private String show = TestResult.EXEC_STATUS;
 
-    private Vector[] newData;
+    private Vector<TestResult>[] newData;
 
     private boolean updateRequired;
 }

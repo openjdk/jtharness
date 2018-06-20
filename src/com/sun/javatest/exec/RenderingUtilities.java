@@ -49,7 +49,7 @@ class RenderingUtilities {
         return new TestCellRenderer(i18n);
     }
 
-    static ListCellRenderer createFilterListRenderer() {
+    static ListCellRenderer<TestFilter> createFilterListRenderer() {
         return new FilterCellRenderer(i18n);
     }
 
@@ -133,18 +133,18 @@ class RenderingUtilities {
      * Render a list of test filters with their descriptive name.
      * @see com.sun.javatest.TestFilter#getName()
      */
-    static class FilterCellRenderer extends JLabel implements ListCellRenderer {
+    static class FilterCellRenderer extends JLabel implements ListCellRenderer<TestFilter> {
         public FilterCellRenderer(I18NResourceBundle i18n) {
             setOpaque(false);
              this.i18n = i18n;
         }
 
-        public Component getListCellRendererComponent(JList list,
-            Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList<? extends TestFilter> list,
+                                                      TestFilter value, int index, boolean isSelected, boolean cellHasFocus) {
 
             String name = null;
 
-            TestFilter filter = (TestFilter)value;
+            TestFilter filter = value;
             name = filter.getName();
 
             //setToolTipText(filter.getDescription());

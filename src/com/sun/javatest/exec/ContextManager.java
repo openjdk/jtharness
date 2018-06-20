@@ -293,7 +293,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
         if (parentTool != null) {
             TestResultTable trt = parentTool.getActiveTestResultTable();
 
-            Map pathMap = new HashMap();
+            Map<String, String> pathMap = new HashMap<>();
             parentTool.saveTreeState(pathMap);
 
             if (trt != null)
@@ -611,7 +611,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     protected void registerCustomQuestionRenderer(Class<? extends Question> question,
                                                   QuestionRenderer renderer) {
         if (customRenderers == null) {
-            customRenderers = new HashMap();
+            customRenderers = new HashMap<>();
         }
         customRenderers.put(question, renderer);
     }
@@ -747,7 +747,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     protected InterviewParameters currentConfig = null;
     protected InterviewParameters currentTemplate = null;
     private ExecTool parentTool;
-    private Map customRenderers;
+    private Map<Class<? extends Question>, QuestionRenderer> customRenderers;
 
     private volatile boolean pendingRefresh = false;
 

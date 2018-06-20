@@ -365,7 +365,7 @@ class QuickStartWizard extends ToolDialog
     private JButton doneBtn;
     private Listener listener = new Listener();
     private KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
-    private Vector history = new Vector();
+    private Vector<Pane> history = new Vector<>();
     private boolean allowConfigLoadOutsideDefault;
     private File defaultConfigSavePath;
     private boolean allowConfigSaveOutsideDefault;
@@ -536,7 +536,7 @@ class QuickStartWizard extends ToolDialog
 
         private JLabel label;
         private JTextField field;
-        private JComboBox combo;
+        private JComboBox<String> combo;
         private JComponent currPathComp;
         private JButton button;
         private DocumentListener listener;
@@ -950,7 +950,7 @@ class QuickStartWizard extends ToolDialog
             // - installation directory and its parent
             // - current directory
 
-            Set s = new TreeSet();
+            Set<String> s = new TreeSet<>();
             if (configData != null) {
                 String configTestSuite = (String) (configData.get("TESTSUITE"));
                 if (configTestSuite != null)

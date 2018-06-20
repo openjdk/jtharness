@@ -98,7 +98,7 @@ public class TemplateSession extends BasicSession {
     }
 
     @Override
-    public void save(Map map) {
+    public void save(Map<String, String> map) {
         if (templ.getFile() != null) {
             map.put("template", templ.getFile().getPath());
         }
@@ -107,13 +107,13 @@ public class TemplateSession extends BasicSession {
 
 
     @Override
-    public void restore(Map map) throws Fault {
+    public void restore(Map<String, String> map) throws Fault {
         super.restore(map);
         restoreTemplate(map);
     }
 
-    protected void restoreTemplate(Map map) {
-        String templPath = (String) map.get("template");
+    protected void restoreTemplate(Map<String, String> map) {
+        String templPath = map.get("template");
         if (templPath != null) {
             try {
                 if (!new File(templPath).exists() && getWorkDirectory() != null) {

@@ -81,7 +81,7 @@ class PrefsPane extends PreferencesPane
     }
 
     @Override
-    public void load(Map m) {
+    public void load(Map<?, ?> m) {
         super.load(m);
         String p = (String) (m.get(ExecTool.TOOLBAR_PREF));
         toolBarChk.setSelected(p == null || p.equals("true"));
@@ -93,7 +93,7 @@ class PrefsPane extends PreferencesPane
     }
 
     @Override
-    public void save(Map m) {
+    public void save(Map<String, String> m) {
         super.save(m);
         m.put(ExecTool.TOOLBAR_PREF, String.valueOf(toolBarChk.isSelected()));
         m.put(ExecTool.FILTER_WARN_PREF, String.valueOf(filterWarnChk.isSelected()));
@@ -176,13 +176,13 @@ class PrefsPane extends PreferencesPane
         }
 
         @Override
-        public void load(Map m) {
-            String mp = (String) (m.get(InterviewEditor.MORE_INFO_PREF));
+        public void load(Map<?, ?> m) {
+            String mp = (String) m.get(InterviewEditor.MORE_INFO_PREF);
             moreInfoChk.setSelected(mp == null || mp.equals("true"));
         }
 
         @Override
-        public void save(Map m) {
+        public void save(Map<String, String> m) {
             m.put(InterviewEditor.MORE_INFO_PREF, String.valueOf(moreInfoChk.isSelected()));
         }
 
@@ -237,13 +237,13 @@ class PrefsPane extends PreferencesPane
         }
 
         @Override
-        public void load(Map m) {
+        public void load(Map<?, ?> m) {
             String mp = (String) (m.get(ReportManager.BUGRPT_URL_PREF));
             bugUrlTf.setText(mp);
         }
 
         @Override
-        public void save(Map m) {
+        public void save(Map<String, String> m) {
             m.put(ReportManager.BUGRPT_URL_PREF, bugUrlTf.getText());
         }
 
@@ -307,8 +307,8 @@ class PrefsPane extends PreferencesPane
         }
 
         @Override
-        public void load(Map m) {
-            String mp = (String) (m.get("javatest.executionOrder"));
+        public void load(Map<?, ?> m) {
+            String mp = (String)m.get("javatest.executionOrder");
             if (mp == null) {
                 mp = "default";
             }
@@ -330,7 +330,7 @@ class PrefsPane extends PreferencesPane
         }
 
         @Override
-        public void save(Map m) {
+        public void save(Map<String, String> m) {
             m.put(ExecTool.TESTS2RUN_PREF, String.valueOf(tests2RunChk.isSelected()));
             m.put("javatest.sortExecution", Boolean.toString(!testSortingChk.isSelected()));
 

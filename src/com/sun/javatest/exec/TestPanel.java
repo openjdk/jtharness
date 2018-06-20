@@ -244,7 +244,7 @@ class TestPanel extends JPanel
         envPanel = new TP_EnvSubpanel(uif);
         outputPanel = new TP_OutputSubpanel(uif);
 
-        Vector<TP_Subpanel> vpanels = new Vector();
+        Vector<TP_Subpanel> vpanels = new Vector<>();
         vpanels.add(descPanel);
 
         FeatureManager fm = contextManager.getFeatureManager();
@@ -267,7 +267,7 @@ class TestPanel extends JPanel
         if (contextManager != null ) {
             CustomTestResultViewer[] cv = contextManager.getCustomResultViewers();
             if (cv != null) {
-                customViewTable = new HashMap();
+                customViewTable = new HashMap<>();
                 panels = new TP_Subpanel[stdPanels.length + cv.length];
                 System.arraycopy(stdPanels, 0, panels, 0, stdPanels.length);
                 for (int i=0; i < cv.length; i++) {
@@ -370,7 +370,7 @@ class TestPanel extends JPanel
     private TP_EnvSubpanel envPanel;
     private TP_OutputSubpanel outputPanel;
     private JTextField statusField;
-    private HashMap customViewTable;
+    private HashMap<CustomTestResultViewer, TP_Subpanel> customViewTable;
 
     //
     private Harness harness;

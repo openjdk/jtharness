@@ -138,7 +138,7 @@ public class ToolBarManager {
      * Saves visible state.
      * Invoked from ExecTool's save
      **/
-    void save(Map m) {
+    void save(Map<String, Object> m) {
         if (m != null) {
             for (JavaTestToolBar tb : store.values()) {
                 tb.save(m);
@@ -146,7 +146,7 @@ public class ToolBarManager {
         }
     }
 
-    void load(Map m) {
+    void load(Map<String, Object> m) {
         if (m != null) {
             for (JavaTestToolBar tb : store.values()) {
                 tb.load(m);

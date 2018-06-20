@@ -302,7 +302,7 @@ public class TT_BasicNode extends TT_TreeNode {
     private int recursiveIns(final int lPos, final int rPos,
                 final TT_TreeNode tn,
                 final String dispName,
-                final Comparator sortComparator) {
+                final Comparator<String> sortComparator) {
         synchronized (children) {   // should already be locked!
             int diff = rPos-lPos;
             int pos = (diff/2) + lPos;
@@ -455,7 +455,7 @@ public class TT_BasicNode extends TT_TreeNode {
 
     private final ArrayList<TT_TreeNode> children = new ArrayList<TT_TreeNode>();
     private TRT_TreeNode tn;
-    private Comparator comp;
+    private Comparator<String> comp;
     private final AtomicBoolean isUpdated = new AtomicBoolean(false);
     private boolean debug = Debug.getBoolean(TT_BasicNode.class);
 }

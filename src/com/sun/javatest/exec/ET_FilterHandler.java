@@ -74,7 +74,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         this.model = model;
         this.parentComponent = parent;
 
-        allFilters = new Vector();
+        allFilters = new Vector<>();
 
     }
 
@@ -246,7 +246,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
     /**
      * Save internal state.
      */
-    public void save(Map m) {
+    public void save(Map<String, String> m) {
         // -------- saved to given map (desktop) -------
         Preferences prefs = Preferences.access();
         TestFilter aFilter = fHandler.getActiveFilter();
@@ -265,7 +265,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
         ConstrainedPreferenceMap cpm = new ConstrainedPreferenceMap(prefs);
         // using meta_ prefix for info not written by the filter itself
-        PrefixMap pm = new PrefixMap(cpm, FILTER_PREFIX + prefIndex);
+        PrefixMap<String> pm = new PrefixMap<>(cpm, FILTER_PREFIX + prefIndex);
 
         // it's really a special case to have a pref. entry which does not
         // have a tsId associated
@@ -324,7 +324,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         if (prefIndex >= 0) {
             // load previous settings
             ConstrainedPreferenceMap cpm = new ConstrainedPreferenceMap(prefs);
-            PrefixMap pm = new PrefixMap(cpm, FILTER_PREFIX + prefIndex);
+            PrefixMap<String> pm = new PrefixMap<>(cpm, FILTER_PREFIX + prefIndex);
 
             if (bctf == null) {     // init
                 bctf = new BasicCustomTestFilter(pm, model, uif);
@@ -449,7 +449,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
     private BasicCustomTestFilter bctf;     // "custom" filter
     private AllTestsFilter allFilter;
     private TestFilter certFilter;          // "certification" filter
-    protected Vector allFilters;
+    protected Vector<TestFilter> allFilters;
 
     // custom filter info
     private TestSuite lastTs;
@@ -472,7 +472,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
      * This class is completely private and only implements what we
      * want to use here.
      */
-    private static class ConstrainedPreferenceMap implements Map {
+    private static class ConstrainedPreferenceMap implements Map<String, String> {
         ConstrainedPreferenceMap(Preferences p) {
             prefs = p;
         }
@@ -489,11 +489,11 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             throw new UnsupportedOperationException();
         }
 
-        public Set entrySet() {
+        public Set<Map.Entry<String, String>> entrySet() {
             throw new UnsupportedOperationException();
         }
 
-        public Object get(Object key) {
+        public String get(Object key) {
             if (!(key instanceof String))
                 throw new IllegalArgumentException("key must be a string");
 
@@ -504,16 +504,16 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             throw new UnsupportedOperationException();
         }
 
-        public Set keySet() {
+        public Set<String> keySet() {
             throw new UnsupportedOperationException();
         }
 
-        public Object put(Object key, Object value) {
+        public String put(String key, String value) {
             if (!(key instanceof String) ||
                 !(value instanceof String))
                 throw new IllegalArgumentException("both args must be strings");
 
-            prefs.setPreference((String)key, (String)value);
+            prefs.setPreference(key, value);
 
             return null;
         }
@@ -522,7 +522,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             throw new UnsupportedOperationException();
         }
 
-        public Object remove(Object key) {
+        public String remove(Object key) {
             throw new UnsupportedOperationException();
         }
 
@@ -530,13 +530,8 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             throw new UnsupportedOperationException();
         }
 
-        public Collection values() {
+        public Collection<String> values() {
             throw new UnsupportedOperationException();
-        }
-
-        // custom methods
-        public void put(String key, String value) {
-            prefs.setPreference(key, value);
         }
 
         public String get(String key) {

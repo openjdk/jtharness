@@ -66,7 +66,7 @@ public abstract class TT_TreeNode implements TreeNode {
         if (parent == null)
             return new TT_TreeNode[] {this};
 
-        LinkedList<TT_TreeNode> l = new LinkedList();
+        LinkedList<TT_TreeNode> l = new LinkedList<>();
         l.add(this);
 
         TT_TreeNode spot = parent;

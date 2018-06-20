@@ -119,10 +119,10 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
                             getReportBrowser(), model);
 
         newReportD.addObserver(new NewReportDialog.Observer() {
-                public void update(Map l) {
+                public void update(Map<String, String> l) {
                     lastState = l;
                     String lastReportDir =
-                        (String) (lastState.get(NewReportDialog.REPORT_DIR));
+                        lastState.get(NewReportDialog.REPORT_DIR);
 
                    if (lastReportDir != null)
                        history.add(new File(lastReportDir));
@@ -211,24 +211,24 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
         }
     }
 
-    public void save(Map parentMap) {
+    public void save(Map<String, String> parentMap) {
         if (lastState != null && lastState.size() > 0)  {
-           PrefixMap pm = new PrefixMap(parentMap, REPORT_PREFIX);
+           PrefixMap<String> pm = new PrefixMap<>(parentMap, REPORT_PREFIX);
            pm.putAll(lastState);
         }
     }
 
-    public void restore(Map parentMap) {
+    public void restore(Map<String, String> parentMap) {
         if (parentMap == null)
             return;
 
         try {
-            PrefixMap pm = new PrefixMap(parentMap, REPORT_PREFIX);
+            PrefixMap<String> pm = new PrefixMap<>(parentMap, REPORT_PREFIX);
             if (pm == null) return;
 
             Object[] keys = pm.keySet().toArray();
             if (lastState == null)
-                lastState = new HashMap();
+                lastState = new HashMap<>();
 
             for (int i = 0; i < keys.length; i++) {
                 String key = (String) keys[i];
@@ -328,7 +328,7 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
     private FileHistory.Listener reportHistoryListener;
     private FileHistory history;
     private File lastOpenPath;
-    private Map lastState;
+    private Map<String, String> lastState;
     private ExecModel model;
     private NewReportDialog newReportD;
     private ReportBrowser reportBrowser;

@@ -417,7 +417,7 @@ public class FilterConfig {
                 ConfigurableTestFilter ctf = (ConfigurableTestFilter)selectedFilter;
                 namingName.setText(ctf.getName());
 
-                String cardKey = (String)(configPanelHash.get(ctf));
+                String cardKey = configPanelHash.get(ctf);
                 configCards.show(configPanel, cardKey);
             }
             else if (selectedFilter instanceof TestFilter) {
@@ -504,8 +504,8 @@ public class FilterConfig {
                 selectIndex(0);     // the default
         }
 
-        private ListModel createListModel() {
-            listModel = new DefaultListModel();
+        private ListModel<TestFilter> createListModel() {
+            listModel = new DefaultListModel<>();
 
             for (int i = 0; i < filters.length; i++)
                 listModel.addElement(filters[i]);
@@ -688,7 +688,7 @@ public class FilterConfig {
         private JPanel createConfigPanel() {
             configCards = new CardLayout();
             configPanel = new JPanel(configCards);
-            configPanelHash = new Hashtable();
+            configPanelHash = new Hashtable<>();
 
             // insert panels?
             configPanel.add(CONFIG_EMPTY, EMPTY_CONFIG);
@@ -810,8 +810,8 @@ public class FilterConfig {
         }
 
         private JSplitPane split;
-        private JList leftList;
-        private DefaultListModel listModel;
+        private JList<TestFilter> leftList;
+        private DefaultListModel<TestFilter> listModel;
         private int lastSelected = -1;
         private TestFilter selectedFilter;
 
@@ -843,7 +843,7 @@ public class FilterConfig {
         // config panel
         private CardLayout configCards;
         private JPanel configPanel;
-        private Hashtable configPanelHash;
+        private Hashtable<ConfigurableTestFilter, String> configPanelHash;
         private int configCounter;          // to make a unique string
 
         private JComponent EMPTY_CONFIG;

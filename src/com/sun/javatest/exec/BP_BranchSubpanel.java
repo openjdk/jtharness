@@ -109,7 +109,7 @@ abstract class BP_BranchSubpanel extends JPanel {
         }
 
         TT_BasicNode spot = root;
-        ArrayList<TT_TreeNode> list = new ArrayList(path.length + 1);
+        ArrayList<TT_TreeNode> list = new ArrayList<>(path.length + 1);
         list.add(root);
         for (int i = 1; i < path.length; i++) {
             try {

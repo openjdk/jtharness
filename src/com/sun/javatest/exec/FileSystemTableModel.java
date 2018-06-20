@@ -48,8 +48,8 @@ public class FileSystemTableModel extends AbstractTableModel  {
     private FileTableFilter filter = null;
 
     private FileTableNode root;
-    private ArrayList data;
-    private LinkedHashMap fileData;
+    private ArrayList<FileTableNode> data;
+    private LinkedHashMap<String, String[]> fileData;
     private boolean allowTraversDirs;
     private File defTemplateDir;
 
@@ -101,7 +101,7 @@ public class FileSystemTableModel extends AbstractTableModel  {
 
     private void init(final File file) {
         root = new FileTableNode(file, 'r');
-        data = new ArrayList();
+        data = new ArrayList<>();
 
 //        if(allowTraversDirs) {
 //            data.add(new FileTableNode(root.getFile(), 'u'));
@@ -166,13 +166,13 @@ public class FileSystemTableModel extends AbstractTableModel  {
 
     private String[] getInfo(File file) {
 
-        if (fileData == null) fileData = new LinkedHashMap() {
-                protected boolean removeEldestEntry(Map.Entry eldest) {
+        if (fileData == null) fileData = new LinkedHashMap<String, String[]>() {
+                protected boolean removeEldestEntry(Map.Entry<String, String[]> eldest) {
                     return size() > 500;
                 }
         };
         String key = file.getAbsolutePath();
-        String[] value = (String[]) fileData.get(key);
+        String[] value = fileData.get(key);
         if (value != null) {
             return value;
         }

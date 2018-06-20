@@ -149,7 +149,7 @@ public interface Session {
      * @param map
      * @throws com.sun.javatest.exec.Session.Fault
      */
-    public void save(Map map);
+    public void save(Map<String, String> map);
 
 
     /**
@@ -164,7 +164,7 @@ public interface Session {
      * @param map
      * @throws com.sun.javatest.exec.Session.Fault
      */
-    public void restore(Map map) throws Fault;
+    public void restore(Map<String, String> map) throws Fault;
 
     /**
      * Disposes configuration. Critical when heavy objects were used.

@@ -116,7 +116,7 @@ abstract class TP_PropertySubpanel
             addComponentListener(this);
             setLayout(null);
             setBackground(Color.white);
-            entries = new TreeMap();
+            entries = new TreeMap<>();
 
             // space to go around text
             Border bsp = BorderFactory.createEmptyBorder(2, 4, 2, 4); // top, left, bottom, right
@@ -144,7 +144,7 @@ abstract class TP_PropertySubpanel
 
         void updateEntry(String key, String value) {
             //System.err.println("TP_PS.Table: updateEntry " + key + "=" + value);
-            Entry e = (Entry) (entries.get(key));
+            Entry e =  entries.get(key);
             if (e == null) {
                 e = new Entry(key, value);
                 entries.put(key, e);
@@ -355,7 +355,7 @@ abstract class TP_PropertySubpanel
             }
         }
 
-        private SortedMap entries;
+        private SortedMap<String, Entry> entries;
         private int maxNameStringWidth = 100;
         private JTextField nameLabel;
         private JTextField valueLabel;

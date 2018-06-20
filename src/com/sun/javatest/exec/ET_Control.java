@@ -47,12 +47,12 @@ public interface ET_Control {
     /**
      * Saves current state to the map
      */
-    public void save(Map m);
+    public void save(Map<String, String> m);
 
     /**
      * Restores saved state from the map
      */
-    public void restore(Map m);
+    public void restore(Map<String, String> m);
 
     /**
      * Returts menu to be added to the menu mar

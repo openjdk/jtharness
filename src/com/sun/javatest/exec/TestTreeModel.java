@@ -74,9 +74,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         this.filterHandler = filterHandler;
         this.uif = uif;
 
-        cache = new Hashtable();
-        cacheQueue = new LinkedList();
-        suspendedQueue = new LinkedList();
+        cache = new Hashtable<>();
+        cacheQueue = new LinkedList<>();
+        suspendedQueue = new LinkedList<>();
 
         cacheWorker = new CacheWorker();
         cacheWorker.setPriority(Thread.MIN_PRIORITY + 1);
@@ -499,7 +499,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         if (path == null || path.length() == 0 || root == null) {
             return null;
         }
-        ArrayList<TT_TreeNode> al = new ArrayList();
+        ArrayList<TT_TreeNode> al = new ArrayList<>();
         al.add(root);
         TT_BasicNode spot = root;
 
@@ -650,7 +650,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     }
 
     TreePath[] urlsToPaths(String[] urls) {
-        ArrayList<TreePath> result = new ArrayList();
+        ArrayList<TreePath> result = new ArrayList<>();
 
         for (int i = 0; i < urls.length; i++) {
             TreePath thisOne = urlToPath(urls[i]);
@@ -817,8 +817,8 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 (trt.getTestFinder() == null ? null : trt.getTestFinder().getComparator()));
 
         // prime relevant nodes with root and first level
-        relevantNodes = Collections.synchronizedSet(new HashSet());
-        relevantTests = Collections.synchronizedSet(new HashSet());
+        relevantNodes = Collections.synchronizedSet(new HashSet<TT_TreeNode>());
+        relevantTests = Collections.synchronizedSet(new HashSet<TestResult>());
 
         addRelevantNode((TT_TreeNode) getRoot());
         TT_BasicNode tn = ((TT_BasicNode) getRoot());
@@ -1002,9 +1002,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 (cache.get(e.nextElement())).invalidate();
             }   // while
 
-            cache = new Hashtable();
-            cacheQueue = new LinkedList();
-            suspendedQueue = new LinkedList();
+            cache = new Hashtable<>();
+            cacheQueue = new LinkedList<>();
+            suspendedQueue = new LinkedList<>();
         }
 
         // reprocess any needed nodes

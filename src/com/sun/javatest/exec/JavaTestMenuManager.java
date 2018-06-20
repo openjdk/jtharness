@@ -99,7 +99,7 @@ public abstract class JavaTestMenuManager {
         if (bank == null) {
             bank = new ArrayList[NUM_POSITIONS];
             for (int i = 0; i < NUM_POSITIONS; i++)
-                bank[i] = new ArrayList();
+                bank[i] = new ArrayList<>();
         }
 
         bank[position].add(item);
@@ -129,5 +129,5 @@ public abstract class JavaTestMenuManager {
     public static final int TOOLS_OTHER = 17;
 
     private static final int NUM_POSITIONS = 18;
-    private ArrayList[] bank;
+    private ArrayList<JMenuItem>[] bank;
 }

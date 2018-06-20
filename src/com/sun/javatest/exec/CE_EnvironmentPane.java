@@ -273,6 +273,6 @@ class CE_EnvironmentPane extends CE_StdPane
     private EditableFileList envFilesField;
     private JFileChooser envFilesChooser;
     private JLabel envNameLabel;
-    private JComboBox envNameField;
+    private JComboBox<String> envNameField;
 
 }

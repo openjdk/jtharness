@@ -299,7 +299,7 @@ public class BasicSession implements SessionExt {
         return filterNames;
     }
 
-    public void save(Map map) {
+    public void save(Map<String, String> map) {
         if (wd != null)
             map.put("workDir", wd.getPath());
         // save name of interview file
@@ -307,11 +307,11 @@ public class BasicSession implements SessionExt {
             map.put("config", config.getFile().getPath());
     }
 
-    public void restore(Map map) throws Fault {
+    public void restore(Map<String, String> map) throws Fault {
         if (map == null)
             return;
 
-        String wdPath = (String)map.get("workDir");
+        String wdPath = map.get("workDir");
         if (wdPath == null) {
             return;
         }
@@ -327,7 +327,7 @@ public class BasicSession implements SessionExt {
             throw new Fault(e);
         }
 
-        String ipPath = (String)map.get("config");
+        String ipPath = map.get("config");
         if (ipPath == null) {
             return;
         }

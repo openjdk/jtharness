@@ -1258,7 +1258,7 @@ public class UIFactory {
      * @see #createChoice(String)
      * @see javax.swing.JLabel#setLabelFor
      */
-    public JComboBox createChoice(String uiKey, JLabel label) {
+    public <E> JComboBox<E> createChoice(String uiKey, JLabel label) {
         return createChoice(uiKey, false, label);
     }
 
@@ -1275,7 +1275,7 @@ public class UIFactory {
      * @see #createChoice(String)
      * @see javax.swing.JLabel#setLabelFor
      */
-    public JComboBox createChoice(String uiKey, boolean editable, JLabel label) {
+    public <E> JComboBox<E> createChoice(String uiKey, boolean editable, JLabel label) {
         JComboBox choice = new JComboBox();
         choice.setName(uiKey);
         setToolTip(choice, uiKey);
@@ -1319,8 +1319,8 @@ public class UIFactory {
      * @return the choice item that was created
      * @see #createChoice
      */
-    public JComboBox createLiteralChoice(String uiKey, Object[] choices) {
-        JComboBox choice = new JComboBox(choices);
+    public <E> JComboBox<E> createLiteralChoice(String uiKey, E[] choices) {
+        JComboBox<E> choice = new JComboBox<>(choices);
         choice.setName(uiKey);
         setToolTip(choice, uiKey);
         return choice;
@@ -1458,8 +1458,8 @@ public class UIFactory {
      * @param uiKey the base name of the resource to be used (currently ignored)
      * @return the list that was created
      */
-    public JList createList(String uiKey) {
-        JList list = new JList();
+    public <E> JList<E> createList(String uiKey) {
+        JList<E> list = new JList<>();
         list.setName(uiKey);
         setAccessibleInfo(list, uiKey);
         return list;
@@ -1478,8 +1478,8 @@ public class UIFactory {
      * @param model the data model for this list
      * @return the list that was created
      */
-    public JList createList(String uiKey, ListModel model) {
-        JList list = new JList(model);
+    public <E> JList<E> createList(String uiKey, ListModel<E> model) {
+        JList<E> list = new JList<>(model);
         list.setName(uiKey);
         setAccessibleInfo(list, uiKey);
         return list;

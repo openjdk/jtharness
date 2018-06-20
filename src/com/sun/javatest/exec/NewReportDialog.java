@@ -112,7 +112,7 @@ class NewReportDialog extends ToolDialog
          * The dialog is done. Notify the observer to keep a snapshot of
          * current state.
          */
-        public void update(Map l);
+        public void update(Map<String, String> l);
 
         // starting
         public void writingReport();
@@ -157,10 +157,10 @@ class NewReportDialog extends ToolDialog
         updateCofCheckboxStates();
     }
 
-    Map getLastState() {
-        String rd = (String) (dirField.getText());
+    Map<String, String> getLastState() {
+        String rd = dirField.getText();
         String filter = filterHandler.getActiveFilter().getName();
-        Map lastState = new HashMap();
+        Map<String, String> lastState = new HashMap<>();
 
         if (rd != null && rd.length() > 0)
            lastState.put(REPORT_DIR, rd);
@@ -180,7 +180,7 @@ class NewReportDialog extends ToolDialog
     }
 
     // Notify the observers that a change has been made.
-    private void notifyUpdate(Map s) {
+    private void notifyUpdate(Map<String, String> s) {
         for (Observer o : obs) {
             o.update(s);
         }
@@ -299,7 +299,7 @@ class NewReportDialog extends ToolDialog
         tabs.setTabPlacement(SwingConstants.TOP);
         tabs.setBorder(BorderFactory.createEmptyBorder());
 
-        listModel = new DefaultListModel();
+        listModel = new DefaultListModel<>();
 
         // populate list and card panel
         final CardLayout cards = new CardLayout();
@@ -381,14 +381,14 @@ class NewReportDialog extends ToolDialog
         if (itemCount > 9) itemCount = 9;
         for (int i = 1; i <= itemCount; ++i) {
                 list.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(i + '0', InputEvent.ALT_DOWN_MASK), ACTION_MAP_KEY);
-                JCheckBox box = ((JCheckBox)listModel.getElementAt(i - 1));
+                JCheckBox box = listModel.getElementAt(i - 1);
                 box.setMnemonic(i + '0');
                 box.setText(Character.toString((char)('0' + i)) + " " + box.getText());
         }
 
         if (listModel.size() == 10){
                 list.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('0', InputEvent.ALT_DOWN_MASK), ACTION_MAP_KEY);
-                JCheckBox box = ((JCheckBox)listModel.getElementAt(9));
+                JCheckBox box = listModel.getElementAt(9);
                 box.setMnemonic('0');
                 box.setText("0 " + box.getText());
         }
@@ -781,7 +781,7 @@ class NewReportDialog extends ToolDialog
             return 0;
         }
 
-        customBoxes = new HashMap();
+        customBoxes = new HashMap<>();
 
         for (int i = 0; i < customReports.length; i++) {
             JCheckBox cb = new JCheckBox(customReports[i].getName());
@@ -846,7 +846,7 @@ class NewReportDialog extends ToolDialog
         }
         else {
             String[] names = Report.getHtmlReportFilenames();
-            ArrayList possible = new ArrayList();
+            ArrayList<File> possible = new ArrayList<>();
 
             for (int i = 0; i < names.length; i++) {
                 File rpt = new File(reportDir, names[i]);
@@ -899,7 +899,7 @@ class NewReportDialog extends ToolDialog
 
     private ArrayList<CustomReport> getActiveCustomReports() {
 
-        ArrayList customReps = new ArrayList();
+        ArrayList<CustomReport> customReps = new ArrayList<>();
         if (customBoxes != null && customBoxes.size() > 0) {
             Iterator it = customBoxes.keySet().iterator();
             while (it.hasNext()) {
@@ -1102,7 +1102,7 @@ class NewReportDialog extends ToolDialog
                     String error = cr.validateOptions();
                     if (error != null) {
                         for (int i = 0; i < listModel.getSize(); i++ ) {
-                            JCheckBox cb = (JCheckBox)listModel.elementAt(i);
+                            JCheckBox cb = listModel.elementAt(i);
                             if (cb.getName().equals(cr.getReportId())) {
                                 list.setSelectedIndex(i);
                             }
@@ -1505,8 +1505,8 @@ class NewReportDialog extends ToolDialog
                 boolean newV = ((Boolean) evt.getNewValue()).booleanValue();
                 if (oldV && !newV) {
                     // disable
-                    Iterator chIt = collectChildren(theContainer, new ArrayList()).iterator();
-                    enabledComp = new HashSet();
+                    Iterator chIt = collectChildren(theContainer, new ArrayList<Component>()).iterator();
+                    enabledComp = new HashSet<>();
                     while (chIt.hasNext()) {
                         Component c = (Component) chIt.next();
                         if (c.isEnabled()) {
@@ -1517,7 +1517,7 @@ class NewReportDialog extends ToolDialog
 
                 } else if (!oldV && newV && enabledComp != null) {
                     // enable
-                    Iterator chIt = collectChildren(theContainer, new ArrayList()).iterator();
+                    Iterator chIt = collectChildren(theContainer, new ArrayList<Component>()).iterator();
                     while (chIt.hasNext()) {
                         Component c = (Component) chIt.next();
                         if (enabledComp.contains(c)) {
@@ -1531,7 +1531,7 @@ class NewReportDialog extends ToolDialog
         /**
          * Recursively gathers all children components
          */
-        private Collection collectChildren(Container comp, Collection c) {
+        private Collection collectChildren(Container comp, Collection<Component> c) {
             Component [] ch = comp.getComponents();
             for(int i = 0; i < ch.length; i++) {
                 c.add(ch[i]);
@@ -1543,18 +1543,18 @@ class NewReportDialog extends ToolDialog
         }
 
         private Container theContainer;
-        private HashSet enabledComp;
+        private HashSet<Component> enabledComp;
     }
 
-    private class CheckBoxListCellRenderer implements ListCellRenderer {
+    private class CheckBoxListCellRenderer implements ListCellRenderer<JComponent> {
         public Component getListCellRendererComponent(
-                    JList list,
-                    Object value,
+                    JList<? extends JComponent> list,
+                    JComponent value,
                     int index,
                     boolean isSelected,
                     boolean cellHasFocus) {
             // assert: value is a JCheckBox
-            JComponent comp = (JComponent)value;
+            JComponent comp = value;
             if (isSelected) {
                 comp.setOpaque(true);
                 comp.setBackground(list.getSelectionBackground());
@@ -1574,11 +1574,11 @@ class NewReportDialog extends ToolDialog
 
     private ReportDirChooser reportDirChooser;
 
-    private DefaultListModel listModel;
-    private JList list;
+    private DefaultListModel<JCheckBox> listModel;
+    private JList<? extends JComponent> list;
     private JTextArea infoArea;
     private CustomReport[] customReports;
-    private HashMap customBoxes;
+    private HashMap<JCheckBox, CustomReport> customBoxes;
 
     private JComponent[] panes;
     private JCheckBox cbHtml;
@@ -1611,9 +1611,9 @@ class NewReportDialog extends ToolDialog
     private JCheckBox cbBak;
     private JTextField numBak;
 
-    private ArrayList htmlGroup = new ArrayList();
-    private ArrayList configGroup = new ArrayList();
-    private ArrayList kflGroup = new ArrayList();
+    private ArrayList<JCheckBox> htmlGroup = new ArrayList<>();
+    private ArrayList<JCheckBox> configGroup = new ArrayList<>();
+    private ArrayList<JCheckBox> kflGroup = new ArrayList<>();
 
     private File reportDir;
     private JButton browseBtn;

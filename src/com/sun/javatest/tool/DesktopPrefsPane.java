@@ -75,8 +75,8 @@ class DesktopPrefsPane extends PreferencesPane {
     }
 
     @Override
-    public void load(Map m) {
-        String styleName = (String) (m.get(Desktop.STYLE_PREF));
+    public void load(Map<?, ?> m) {
+        String styleName = (String)m.get(Desktop.STYLE_PREF);
         if (styleName == null)
             styleName = Desktop.styleNames[desktop.getStyle()];
 
@@ -163,7 +163,7 @@ class DesktopPrefsPane extends PreferencesPane {
     }
 
     @Override
-    public void save(Map m) {
+    public void save(Map<String, String> m) {
         ButtonModel bm = styleGrp.getSelection();
         if (bm != null) {
             String styleName = bm.getActionCommand();

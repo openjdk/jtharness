@@ -107,7 +107,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
      */
     public TestTreePanel(UIFactory uif, Harness h, ExecModel em,
             FilterSelectionHandler fh, JComponent parent,
-            Map map) {
+            Map<String, String> map) {
         this(parent, em, uif);
         setHarness(h);
         this.filterHandler = fh;
@@ -288,7 +288,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
     private TreePath[] getTreePaths(String[] paths) {
         if (paths != null) {
-            ArrayList<TreePath> translatedPaths = new ArrayList(paths.length);
+            ArrayList<TreePath> translatedPaths = new ArrayList<>(paths.length);
 
             for (int i = 0; i < paths.length; i++) {
                 // the paths need to be reconditioned because the JTree will not
@@ -311,15 +311,15 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
 
     @Override
-    public void saveTreeState(Map m) {
+    public void saveTreeState(Map<String, String> m) {
         String[] paths = getOpenPaths();
         m.put(OPEN_PATHS_PREF, StringArray.join(paths));
     }
 
     @Override
-    public void restoreTreeState(Map m) {
+    public void restoreTreeState(Map<String, String> m) {
         if (m != null) {
-            String tmp = (String) (m.get(OPEN_PATHS_PREF));
+            String tmp = m.get(OPEN_PATHS_PREF);
             if (tree != null && tmp != null && tmp.length() > 0) {
                 tree.restorePaths(StringArray.split(tmp), true);
             }
@@ -327,14 +327,14 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     }
 
     @Override
-    public void save(Map m) {
+    public void save(Map<String, String> m) {
         // save the open paths
         Preferences.access();
         saveTreeState(m);
     }
 
     @Override
-    public void restore(Map m) {
+    public void restore(Map<String, String> m) {
         stateMap = m;
         restoreTreeState(stateMap);
     }
@@ -349,7 +349,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
 
         TreePath[] paths = tree.snapshotOpenPaths();
-        Vector urls = new Vector();
+        Vector<String> urls = new Vector<>();
 
         if (paths != null) {
             for (int i = 0; i < paths.length; i++) {
@@ -441,7 +441,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             //createNodeListString(createNodeList(what)));
 
             String[] paths = createNodeList(what);
-            DefaultListModel model = new DefaultListModel();
+            DefaultListModel<String> model = new DefaultListModel<>();
             for (int i = paths.length; i > 0; i--) {
                 model.add(model.getSize(), paths[model.getSize()]);
             }
@@ -697,7 +697,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             //          createNodeListString(createNodeList(what)));
 
             String[] paths = createNodeList(what);
-            DefaultListModel model = new DefaultListModel();
+            DefaultListModel<String> model = new DefaultListModel<>();
             for (int i = paths.length; i > 0; i--) {
                 model.add(model.getSize(), paths[model.getSize()]);
             }
@@ -1124,25 +1124,25 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                     switch (cms[i].getMenuApplication()) {
                         case JavaTestContextMenu.TESTS_AND_FOLDERS:
                             if (mixedMenus == null) {
-                                mixedMenus = new ArrayList();
+                                mixedMenus = new ArrayList<>();
                             }
                             mixedMenus.add(cms[i]);
                             break;
                         case JavaTestContextMenu.TESTS_ONLY:
                             if (testMenus == null) {
-                                testMenus = new ArrayList();
+                                testMenus = new ArrayList<>();
                             }
                             testMenus.add(cms[i]);
                             break;
                         case JavaTestContextMenu.FOLDERS_ONLY:
                             if (folderMenus == null) {
-                                folderMenus = new ArrayList();
+                                folderMenus = new ArrayList<>();
                             }
                             folderMenus.add(cms[i]);
                             break;
                         case JavaTestContextMenu.CUSTOM:
                             if (customMenus == null) {
-                                customMenus = new ArrayList();
+                                customMenus = new ArrayList<>();
                             }
                             customMenus.add(cms[i]);
                             break;
@@ -1337,8 +1337,8 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                     throw new JavaTestError("Unknown node type from JTree!");
             }
         } else {      // multiple nodes selected
-            ArrayList tests = new ArrayList();
-            ArrayList folders = new ArrayList();
+            ArrayList<TestResult> tests = new ArrayList<>();
+            ArrayList<String> folders = new ArrayList<>();
 
             for (int i = 0; i < paths.length; i++) {
                 Object item = paths[i];
@@ -1615,7 +1615,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     private ExecModel execModel;
     private JComponent parent;
     private Thread bgThread;        // in case disposal is required
-    private Map stateMap;                   // startup state, read-only
+    private Map<String, String> stateMap;                   // startup state, read-only
     private volatile boolean disposed;
     private PanelModel pm;
     private TestTree tree;
@@ -1629,7 +1629,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     private JMenuItem purgeMI;
     private JMenuItem runMI;
     private String activeTest;
-    private ArrayList testMenus,  folderMenus,  mixedMenus,  customMenus;
+    private ArrayList<JavaTestContextMenu> testMenus,  folderMenus,  mixedMenus,  customMenus;
     private TestTreeModel treeModel;
     private Deck deck;
     private JPanel deckPanel;
@@ -1948,8 +1948,8 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     private class PanelModel implements TreePanelModel, Harness.Observer, TestResultTable.Observer {
 
         PanelModel() {
-            runningTests = new Hashtable();
-            activeNodes = new Hashtable();
+            runningTests = new Hashtable<>();
+            activeNodes = new Hashtable<>();
         }
 
         public void pauseWork() {
@@ -2208,7 +2208,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             // ignore
         }
         private Hashtable<String,TestResult> runningTests;
-        private Hashtable activeNodes;
+        private Hashtable<Object, Integer> activeNodes;
         private Integer ONE = Integer.valueOf(1);
     }
 }

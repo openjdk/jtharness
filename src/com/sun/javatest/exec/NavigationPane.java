@@ -210,9 +210,9 @@ public class NavigationPane extends JPanel {
     }
 
 
-    private DefaultComboBoxModel createModel() {
+    private DefaultComboBoxModel<URL> createModel() {
         if (model == null)
-            model = new DefaultComboBoxModel();
+            model = new DefaultComboBoxModel<>();
         return model;
     }
 
@@ -260,7 +260,7 @@ public class NavigationPane extends JPanel {
             if (index == entries.size() - 1)
                 return null;
 
-            return (URL) (entries.elementAt(++index));
+            return entries.elementAt(++index);
         }
 
         void add(URL u) {
@@ -285,7 +285,7 @@ public class NavigationPane extends JPanel {
             index = -1;
         }
 
-        private Vector entries = new Vector();
+        private Vector<URL> entries = new Vector<>();
         private int index;
     }
 
@@ -367,9 +367,9 @@ public class NavigationPane extends JPanel {
     private JButton backBtn;
     private JButton forwardBtn;
 
-    private JComboBox selectBox;
+    private JComboBox<URL> selectBox;
 
-    private DefaultComboBoxModel model;
+    private DefaultComboBoxModel<URL> model;
     private Listener listener = new Listener();
     private JToolBar toolBar;
 

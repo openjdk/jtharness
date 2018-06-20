@@ -38,7 +38,7 @@ import java.util.Vector;
  * A map whose entries are stored in a parent map by prefixing
  * the key names with a specific string.
  */
-public class PrefixMap implements Map
+public class PrefixMap<V> implements Map<String, V>
 {
     /**
      * Create a map whose entries are stored in a parent map
@@ -47,14 +47,14 @@ public class PrefixMap implements Map
      * @param prefix the prefix with which to prefix the entries in the
      * parent map
      */
-    public PrefixMap(Map map, String prefix) {
+    public PrefixMap(Map<String, V> map, String prefix) {
         this.map = map;
         this.prefix = prefix + ".";
     }
 
     public void clear() {
-        for (Iterator i = map.keySet().iterator(); i.hasNext(); ) {
-            String key = (String) (i.next());
+        for (Iterator<String> i = map.keySet().iterator(); i.hasNext(); ) {
+            String key = i.next();
             if (key.startsWith(prefix))
                 i.remove();
         }
@@ -80,27 +80,27 @@ public class PrefixMap implements Map
     }
 
     public boolean containsValue(Object value) {
-        for (Iterator i = map.entrySet().iterator(); i.hasNext(); ) {
-            Map.Entry e = (Map.Entry) (i.next());
-            String key = (String) (e.getKey());
+        for (Iterator<Map.Entry<String, V>> i = map.entrySet().iterator(); i.hasNext(); ) {
+            Map.Entry<String, V> e = i.next();
+            String key = e.getKey();
             if (key.startsWith(prefix) && e.getValue().equals(value))
                 return true;
         }
         return false;
     }
 
-    public Set entrySet() {
-        Map m = new HashMap();
-        for (Iterator i = map.entrySet().iterator(); i.hasNext(); ) {
-            Map.Entry e = (Map.Entry) (i.next());
-            String key = (String) (e.getKey());
+    public Set<Map.Entry<String, V>> entrySet() {
+        Map<String, V> m = new HashMap<String, V>();
+        for (Iterator<Map.Entry<String, V>> i = map.entrySet().iterator(); i.hasNext(); ) {
+            Map.Entry<String, V> e = i.next();
+            String key = e.getKey();
             if (key.startsWith(prefix))
                 m.put(key.substring(prefix.length()), e.getValue());
         }
         return m.entrySet();
     }
 
-    public Object get(Object key) {
+    public V get(Object key) {
         return map.get(prefix + key);
     }
 
@@ -109,37 +109,37 @@ public class PrefixMap implements Map
     }
 
     public boolean isEmpty() {
-        for (Iterator i = map.keySet().iterator(); i.hasNext(); ) {
-            String key = (String) (i.next());
+        for (Iterator<String> i = map.keySet().iterator(); i.hasNext(); ) {
+            String key = i.next();
             if (key.startsWith(prefix))
                 return false;
         }
         return true;
     }
 
-    public Set keySet() {
-        Set s = new HashSet();
-        for (Iterator i = map.keySet().iterator(); i.hasNext(); ) {
-            String key = (String) (i.next());
+    public Set<String> keySet() {
+        Set<String> s = new HashSet<>();
+        for (Iterator<String> i = map.keySet().iterator(); i.hasNext(); ) {
+            String key = i.next();
             if (key.startsWith(prefix))
                 s.add(key.substring(prefix.length()));
         }
         return s;
     }
 
-    public Object put(Object key, Object value) {
+    public V put(String key, V value) {
         return map.put(prefix + key, value);
     }
 
-    public void putAll(Map t) {
-        for (Iterator i = t.entrySet().iterator(); i.hasNext(); ) {
-            Map.Entry e = (Map.Entry) (i.next());
-            String key = (String) (e.getKey());
+    public void putAll(Map<? extends String, ? extends V> t) {
+        for (Iterator<? extends Entry<? extends String, ? extends V>> i = t.entrySet().iterator(); i.hasNext(); ) {
+            Map.Entry<? extends String, ? extends V> e = i.next();
+            String key = e.getKey();
             put(key, e.getValue());
         }
     }
 
-    public Object remove(Object key) {
+    public V remove(Object key) {
         return map.remove(prefix + key);
     }
 
@@ -153,10 +153,10 @@ public class PrefixMap implements Map
         return n;
     }
 
-    public Collection values() {
-        Collection c = new Vector();
-        for (Iterator i = map.entrySet().iterator(); i.hasNext(); ) {
-            Map.Entry e = (Map.Entry) (i.next());
+    public Collection<V> values() {
+        Collection<V> c = new Vector<>();
+        for (Iterator<Map.Entry<String, V>> i = map.entrySet().iterator(); i.hasNext(); ) {
+            Map.Entry<String, V> e = i.next();
             String key = (String) (e.getKey());
             if (key.startsWith(prefix))
                 c.add(e.getValue());
@@ -164,6 +164,6 @@ public class PrefixMap implements Map
         return c;
     }
 
-    private Map map;
+    private Map<String, V> map;
     private String prefix;
 }

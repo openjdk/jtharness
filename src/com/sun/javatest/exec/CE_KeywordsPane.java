@@ -94,11 +94,11 @@ class CE_KeywordsPane extends CE_StdPane {
         try {
             TestSuite ts = config.getTestSuite();
             String[] validKeywords = ts.getKeywords();
-            HashSet validKeywordsSet;
+            HashSet<String> validKeywordsSet;
             if (validKeywords == null)
                 validKeywordsSet = null;
             else
-                validKeywordsSet = new HashSet(Arrays.asList(validKeywords));
+                validKeywordsSet = new HashSet<String>(Arrays.asList(validKeywords));
 
             String kc = (String) (keywordsChoice.getSelectedItem());
             String type;
@@ -286,7 +286,7 @@ class CE_KeywordsPane extends CE_StdPane {
     private class KeywordChooser extends JDialog {
 
         private JScrollPane sp;
-        private JList lst;
+        private JList<String> lst;
         private JButton ok, cancel;
 
         KeywordChooser(Dialog parent, String [] keywords, Listener listener ) {
@@ -308,7 +308,7 @@ class CE_KeywordsPane extends CE_StdPane {
             GridBagConstraints gbc;
 
             sp = new JScrollPane();
-            lst = new JList(keywords);
+            lst = new JList<>(keywords);
 
             ok = uif.createButton("keywordChooser.insert", new ActionListener() {
                 public void actionPerformed(ActionEvent e) {

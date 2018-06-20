@@ -976,7 +976,7 @@ class LogViewer extends ToolDialog {
 
 
     private class CustomRenderer extends JComponent
-            implements ListCellRenderer {
+            implements ListCellRenderer<Object> {
         public Component getListCellRendererComponent(
                 JList list, Object value, int index, boolean isSelected,
                 boolean cellHasFocus) {
@@ -1300,7 +1300,7 @@ class LogViewer extends ToolDialog {
      LoggerFactory.getLocalizedLevelName(Level.FINE) } ;
 
     private DefaultMutableTreeNode treeRoot;
-    private JComboBox filterCombo;
+    private JComboBox<?> filterCombo;
     private JTree filterTree ;
 
     private boolean noWindow = false;

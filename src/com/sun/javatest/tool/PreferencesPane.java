@@ -113,7 +113,7 @@ public abstract class PreferencesPane extends JPanel {
      * @param m the map from which to load the user preferences into the
      * GUI components
      */
-    public void load(Map m) {
+    public void load(Map<?, ?> m) {
         PreferencesPane[] p = getChildPanes();
         if (p != null) {
             for (int i = 0; i < p.length; i++)
@@ -127,7 +127,7 @@ public abstract class PreferencesPane extends JPanel {
      * @param m the map to which to save the user preferences from the
      * GUI components
      */
-    public void save(Map m) {
+    public void save(Map<String, String> m) {
         PreferencesPane[] p = getChildPanes();
         if (p != null) {
             for (int i = 0; i < p.length; i++)

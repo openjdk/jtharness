@@ -170,7 +170,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         return Arrays.asList(getToolBarActions());
     }
 
-    public void save(Map m) {
+    public void save(Map<String, String> m) {
         if (testSuite != null && testSuite.getRoot() != null)
             m.put("testSuite", testSuite.getRoot().getPath());
 
@@ -178,7 +178,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         session.save(m);
     }
 
-    public void restore(Map m) {
+    public void restore(Map<String, String> m) {
         try {
             session.restore(m);
         } catch (Fault e) {
@@ -1295,7 +1295,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             update(timeoutFactor, c.getTimeoutFactorParameters(), MutableTimeoutFactorParameters.class);
         }
 
-        private void update(JMenuItem mi, Object o, Class c) {
+        private void update(JMenuItem mi, Object o, Class<?> c) {
             mi.setVisible(o != null && c.isAssignableFrom(o.getClass()));
         }
 

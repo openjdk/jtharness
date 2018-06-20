@@ -46,7 +46,7 @@ interface ET_TestTreeControl extends ET_Control, Session.Observer {
     public void initialize();
     public JComponent getViewComponent();
 
-    void saveTreeState(Map m);
-    void restoreTreeState(Map m);
+    void saveTreeState(Map<String, String> m);
+    void restoreTreeState(Map<String, String> m);
 
 }

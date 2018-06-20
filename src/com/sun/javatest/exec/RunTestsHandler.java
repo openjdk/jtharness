@@ -171,9 +171,9 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         return Arrays.asList(getToolBarActions());
     }
 
-    public void save(Map m) {
+    public void save(Map<String, String> m) {
     }
-    public void restore(Map m) {
+    public void restore(Map<String, String> m) {
     }
 
     public synchronized void dispose() {

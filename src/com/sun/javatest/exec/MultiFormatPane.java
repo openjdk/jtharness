@@ -81,7 +81,7 @@ public class MultiFormatPane extends JPanel implements Printable {
         listener = new Listener();
         initGUI();
 
-        modesToPanes = new HashMap();
+        modesToPanes = new HashMap<>();
 
         addMediaPane(TEXT, textPane);
         addMediaPane(AUDIO, musicPane);
@@ -558,7 +558,7 @@ public class MultiFormatPane extends JPanel implements Printable {
     private JTextField noteField;
     private NavigationPane navPane;
 
-    private HashMap modesToPanes;
+    private HashMap<Integer, MediaPane> modesToPanes;
 }
 
 
@@ -718,9 +718,9 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
     private RTFEditorKit rtfKit;
 
 
-    private static HashMap extensionsToMIME;
+    private static HashMap<String, String> extensionsToMIME;
     static {
-        extensionsToMIME = new HashMap();
+        extensionsToMIME = new HashMap<>();
         extensionsToMIME.put("html", "text/html");
         extensionsToMIME.put("htm", "text/html");
         extensionsToMIME.put("htmls", "text/html");

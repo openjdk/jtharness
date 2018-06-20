@@ -302,7 +302,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         if (conManager != null  && conManager.getFeatureManager().isEnabled(
                         FeatureManager.SINGLE_TEST_MANAGER)) {
             Tool[] tools = d.getTools();
-            ArrayList list = new ArrayList();
+            ArrayList<Tool> list = new ArrayList<>();
             for (int i = 0; i < tools.length; i++) {
                 if (tools[i] instanceof ExecTool) {
                     ExecTool tool = (ExecTool) tools[i];
@@ -347,11 +347,11 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         }
 
         @Override
-        protected void save(Map m) {
+        protected void save(Map<String, String> m) {
         }
 
         @Override
-        protected void restore(Map m) {
+        protected void restore(Map<String, String> m) {
         }
 
     }

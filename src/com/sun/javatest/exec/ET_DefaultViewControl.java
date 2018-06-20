@@ -100,11 +100,11 @@ public class ET_DefaultViewControl implements ET_ViewControl {
         }
     }
 
-    public void save(Map m) {
+    public void save(Map<String, String> m) {
         // nothing to save
     }
 
-    public void restore(Map m) {
+    public void restore(Map<String, String> m) {
         // nothing to restore
     }
 

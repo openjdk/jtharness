@@ -203,7 +203,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             synchronized (cache) {
                 synchronized(BP_FilteredOutSubpanel.this) {
                     // resync with this node cache
-                    Vector[] newData = cache.addObserver(cacheWatcher, true);
+                    Vector<TestResult>[] newData = cache.addObserver(cacheWatcher, true);
 
                     // add tests into the list model - this doesn't make the data
                     // live though
@@ -401,7 +401,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
         /**
          * @param suppressNotify Actively request that no update be scheduled.
          */
-        void addTest(Object tr, boolean suppressNotify) {
+        void addTest(TestResult tr, boolean suppressNotify) {
             synchronized (vLock) {
                 // make sure this item is not already in the list
                 if (!inQueue.contains(tr)) {
@@ -421,7 +421,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
          * Remove the given test from the list.
          * Ignored if the test is not in the list.
          */
-        void removeTest(Object tr) {
+        void removeTest(TestResult tr) {
             synchronized (vLock) {
                 rmQueue.addElement(tr);
 
@@ -459,9 +459,9 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 }   // for
             }
 
-            inQueue = new Vector();
-            rmQueue = new Vector();
-            liveData = new LinkedList();
+            inQueue = new Vector<>();
+            rmQueue = new Vector<>();
+            liveData = new LinkedList<>();
 
             isUpdateScheduled = false;
         }
@@ -559,7 +559,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 return;
 
             while (rmQueue.size() > 0) {
-                TestResult target = (TestResult)(rmQueue.remove(0));
+                TestResult target = rmQueue.remove(0);
                 int targetIndex = liveData.indexOf(target);
                 if (targetIndex != -1) {
                     synchronized (liveData) {
@@ -660,10 +660,10 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
 
         // must sync. on vLock anytime you access inQueue or liveData
         private final Object vLock = new Object();      // lock for inQueue & rmQueue
-        private Vector inQueue;     // queue of items to be added to live data
-        private Vector rmQueue;     // queue of items to be removed from live data
-        private LinkedList liveData;    // to allow manual synchronization
-        Vector pendingEvents = new Vector();
+        private Vector<TestResult> inQueue;     // queue of items to be added to live data
+        private Vector<TestResult> rmQueue;     // queue of items to be removed from live data
+        private LinkedList<TestResult> liveData;    // to allow manual synchronization
+        Vector<TableNotifier> pendingEvents = new Vector<>();
 
         volatile boolean isUpdateScheduled;  // are updates waiting in inQueue or rmQueue
 

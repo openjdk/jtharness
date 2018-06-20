@@ -296,14 +296,14 @@ public class ExecTool extends Tool implements ExecModel,
     }
 
     @Override
-    protected void save(Map m) {
+    protected void save(Map<String, String> m) {
         for (ET_Control c:controls) {
             c.save(m);
         }
     }
 
     @Override
-    protected void restore(Map m) {
+    protected void restore(Map<String, String> m) {
         for (ET_Control c:controls) {
             c.restore(m);
         }
@@ -627,11 +627,11 @@ public class ExecTool extends Tool implements ExecModel,
         }
     }
 
-    void saveTreeState(Map m) {
+    void saveTreeState(Map<String, String> m) {
         testTreePanel.saveTreeState(m);
     }
 
-    void restoreTreeState(Map m) {
+    void restoreTreeState(Map<String, String> m) {
         testTreePanel.restoreTreeState(m);
     }
 

@@ -336,7 +336,7 @@ class MessageStrip extends JSplitPane
     private JButton selectButt;
     private JButton magButt;
 
-    private JComboBox selector;
+    private JComboBox<Monitor> selector;
     private JPopupMenu popMenu;
     private ActionListener actionListener = new SelectionListener();
     private ActionListener zoomListener;

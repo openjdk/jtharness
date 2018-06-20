@@ -325,7 +325,7 @@ class MonitorState {
     private Observer[] obs = new Observer[0];
     private volatile int[] stats;
 
-    private ArrayList<TestResult> runningTests = new ArrayList(5);
+    private ArrayList<TestResult> runningTests = new ArrayList<>(5);
     private final Object vLock = new Object();
 
     /**

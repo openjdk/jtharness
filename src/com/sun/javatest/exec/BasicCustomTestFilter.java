@@ -161,7 +161,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     }
 
     @Override
-    boolean save(Map map) {
+    boolean save(Map<String, String> map) {
         boolean result = super.save(map);
         activeSettings.save(map);
 
@@ -328,11 +328,11 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         if (nowSettings.keywordsEnabled) {
             try {
                 String[] validKeywords = ts.getKeywords();
-                HashSet validKeywordsSet;
+                HashSet<String> validKeywordsSet;
                 if (validKeywords == null) {
                     validKeywordsSet = null;
                 } else {
-                    validKeywordsSet = new HashSet(Arrays.asList(validKeywords));
+                    validKeywordsSet = new HashSet<>(Arrays.asList(validKeywords));
                 }
 
                 Keywords kw = Keywords.create(kwModeToType(nowSettings.keyChoice),
@@ -728,7 +728,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         c.weightx = 2;
         c.weighty = 2;
         c.fill = GridBagConstraints.BOTH;
-        jtxFiles = new DefaultListModel();
+        jtxFiles = new DefaultListModel<String>();
         jtxFileList = uif.createList("basicTf.exclude.file", jtxFiles);
         jtxFileList.setEnabled(jtxCheckBox.isSelected());
         uif.setAccessibleInfo(jtxFileList, "basicTf.exclude.file");
@@ -908,7 +908,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     // jtx info fields
     private JTextField jtxMode;
     private JList jtxFileList;
-    private DefaultListModel jtxFiles;
+    private DefaultListModel<String> jtxFiles;
     private static String NAME,  REASON,  DESCRIPTION;
 
     /**
@@ -1051,7 +1051,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
             return true;
         }   // equals()
 
-        void save(Map map) {
+        void save(Map<String, String> map) {
             map.put(MAP_URL_ENABLE, booleanToInt(urlsEnabled));
             map.put(MAP_KEY_ENABLE, booleanToInt(keywordsEnabled));
             map.put(MAP_STATUS_ENABLE, booleanToInt(statusEnabled));

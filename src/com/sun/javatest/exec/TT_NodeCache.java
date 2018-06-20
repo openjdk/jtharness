@@ -65,7 +65,7 @@ class TT_NodeCache implements Runnable {
         // all the states plus filtered out
         testLists = new Vector[Status.NUM_STATES + 1];
         for (int i = 0; i < Status.NUM_STATES + 1; i++) {
-            testLists[i] = new Vector();
+            testLists[i] = new Vector<>();
         }
     }
 
@@ -518,7 +518,7 @@ class TT_NodeCache implements Runnable {
     }
 
     TestFilter getRejectReason(TestResult tr) {
-        return (TestFilter) (rejectReasons.get(tr));
+        return rejectReasons.get(tr);
     }
 
     /**
@@ -532,16 +532,16 @@ class TT_NodeCache implements Runnable {
      * @return A copy of the Vectors that contain the current list of tests.  Null if
      *         <tt>needSnapshot</tt> is false.
      */
-    synchronized Vector[] addObserver(TT_NodeCacheObserver obs, boolean needSnapshot) {
+    synchronized Vector<TestResult>[] addObserver(TT_NodeCacheObserver obs, boolean needSnapshot) {
         // snapshot the current data
         // must be done before adding the observer to ensure correct data
         // delivery to client
 
-        Vector[] cp = null;
+        Vector<TestResult>[] cp = null;
         if (needSnapshot) {
             cp = new Vector[testLists.length];
             for (int i = 0; i < testLists.length; i++) {
-                cp[i] = (Vector) (testLists[i].clone());
+                cp[i] = (Vector<TestResult>) (testLists[i].clone());
             }
         }
 
@@ -791,10 +791,10 @@ class TT_NodeCache implements Runnable {
     private TestFilter filter;
     private int[] stats = new int[Status.NUM_STATES];
     private int localRejectCount;
-    private Hashtable rejectReasons = new Hashtable();
+    private Hashtable<TestResult, TestFilter> rejectReasons = new Hashtable<>();
     private final FilterObserver fObs = new FilterObserver();
     private TT_NodeCacheObserver[] observers = new TT_NodeCacheObserver[0];
-    private Vector[] testLists;     // could use unsynchronized data structure
+    private Vector<TestResult>[] testLists;     // could use unsynchronized data structure
     private volatile int state;
     private volatile boolean valid = true;
     private static final int NOT_COMPUTED = 0;

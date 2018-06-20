@@ -146,15 +146,15 @@ public class JavaTestToolBar extends JToolBar {
         state.put(USER_TOOLBAR_PREF + getId(), Boolean.toString(visible));
     }
 
-    void save(Map map) {
+    void save(Map<String, Object> map) {
         map.putAll(state);
     }
 
     /**
      * Accepts Map with parameters from ExecTool
      **/
-    void load(Map map) {
-        for (Object okey : map.keySet()) {
+    void load(Map<String, Object> map) {
+        for (String okey : map.keySet()) {
             String key = (String)okey;
             String tbKey = USER_TOOLBAR_PREF + getId();
             if (key.contains(tbKey)) {
@@ -232,5 +232,5 @@ public class JavaTestToolBar extends JToolBar {
     private boolean inMenu = false;
     private ResourceBundle theBundle;
     private String id;
-    private Map state = new HashMap();
+    private Map<String, Object> state = new HashMap<>();
 }

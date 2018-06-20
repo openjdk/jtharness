@@ -87,7 +87,7 @@ class ToolBarPanel extends JPanel {
             synchronized (target.getTreeLock()) {
                 int realW = target.getSize().width;
                 int commponentsPerRow = 0;
-                ArrayList hs = new ArrayList();
+                ArrayList<Integer> hs = new ArrayList<>();
                 if (realW == 0) {
                     return super.preferredLayoutSize(target);
                 }
@@ -140,7 +140,7 @@ class ToolBarPanel extends JPanel {
                 // fill in separators between rows
                 separators = new int[hs.size()];
                 for (int i = 0; i < hs.size(); i++) {
-                    separators[i] = ((Integer)hs.get(i)).intValue();
+                    separators[i] = hs.get(i).intValue();
                 }
                 return dim;
             }

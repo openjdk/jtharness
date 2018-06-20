@@ -191,9 +191,9 @@ class CE_TestsPane extends CE_StdPane
         TestResultTable trt = wd.getTestResultTable();
 
         File file = chooser.getSelectedFile();
-        ArrayList<String> paths = new ArrayList();
-        ArrayList<String> badPaths = new ArrayList();
-        Set seen = new HashSet();
+        ArrayList<String> paths = new ArrayList<>();
+        ArrayList<String> badPaths = new ArrayList<>();
+        Set<String> seen = new HashSet<>();
         FileReader fr = null;
         BufferedReader in = null;
         try {

@@ -310,7 +310,7 @@ public abstract class Tool extends JPanel
      * @param m the map in which to store the significant state
      * of the tool
      */
-    protected abstract void save(Map m);
+    protected abstract void save(Map<String, String> m);
 
 
     /**
@@ -319,7 +319,7 @@ public abstract class Tool extends JPanel
      * @param m the map in which to store the significant state
      * of the tool
      */
-    protected abstract void restore(Map m);
+    protected abstract void restore(Map<String, String> m);
 
 
     /**

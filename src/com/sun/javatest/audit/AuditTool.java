@@ -89,7 +89,7 @@ class AuditTool extends Tool
         return (wd == null ? null : new WorkDirectory[] { wd });
     }
 
-    public void save(Map m) {
+    public void save(Map<String, String> m) {
         if (interviewParams == null)
             return;
 
@@ -109,7 +109,7 @@ class AuditTool extends Tool
     }
 
     @Override
-    protected void restore(Map m) {
+    protected void restore(Map<String, String> m) {
         String tsp = (String) (m.get("testSuite"));
         String wdp = (String) (m.get("workDir"));
         String cfp = (String) (m.get("config"));

@@ -117,7 +117,7 @@ public class ColorPrefsPane extends PreferencesPane {
                 return i18n.getString("colorprefs.name");
         }
 
-        public void save(Map m) {
+        public void save(Map<String, String> m) {
                 super.save(m);
                 Component[] components = inputColors.getComponents();
                 for(Component c: components) {

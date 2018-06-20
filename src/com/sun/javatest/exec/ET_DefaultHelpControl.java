@@ -63,13 +63,13 @@ public class ET_DefaultHelpControl implements ET_HelpControl {
     /**
      * Does nothing
      */
-    public void save(Map m) {
+    public void save(Map<String, String> m) {
     }
 
     /**
      * Does nothing
      */
-    public void restore(Map m) {
+    public void restore(Map<String, String> m) {
     }
 
     /**

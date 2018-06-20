@@ -290,10 +290,10 @@ class ExcludeListBrowser extends ToolDialog
             // The following operation is slow and should arguably be
             // done by a worker thread, perhaps using the nested List class as
             // a Runnable.
-            SortedSet sortedEntries = new TreeSet(new Comparator() {
-                    public int compare(Object o1, Object o2) {
-                        String s1 = entryToString((ExcludeList.Entry)o1);
-                        String s2 = entryToString((ExcludeList.Entry)o2);
+            SortedSet<ExcludeList.Entry> sortedEntries = new TreeSet<>(new Comparator<ExcludeList.Entry>() {
+                    public int compare(ExcludeList.Entry o1, ExcludeList.Entry o2) {
+                        String s1 = entryToString(o1);
+                        String s2 = entryToString(o2);
                         return s1.compareTo(s2);
                     }
                 });

@@ -95,10 +95,10 @@ class ReportTool extends Tool {
     }
 
     @Override
-    protected void restore(Map map) {
+    protected void restore(Map<String, String> map) {
     }
 
-    protected void save(Map m) {
+    protected void save(Map<String, String> m) {
     }
 
     private void initGUI(){

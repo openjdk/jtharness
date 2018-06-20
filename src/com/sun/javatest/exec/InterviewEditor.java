@@ -750,10 +750,10 @@ public class InterviewEditor extends ToolDialog {
             return false;
         }
 
-        Map aQuestions = a.getAllQuestions();
-        Map bQuestions = b.getAllQuestions();
+        Map<String, Question> aQuestions = a.getAllQuestions();
+        Map<String, Question> bQuestions = b.getAllQuestions();
 
-        Set keys = new TreeSet();
+        Set<String> keys = new TreeSet<>();
         keys.addAll(aQuestions.keySet());
         keys.addAll(bQuestions.keySet());
 
