@@ -28,9 +28,7 @@ package com.sun.javatest.interview;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.TreeSet;
+import java.util.*;
 
 import com.sun.interview.ChoiceQuestion;
 import com.sun.interview.ErrorQuestion;
@@ -212,7 +210,7 @@ public class TestsInterview
 
         @Override
         public void setValue(String newValue) {
-            if (newValue != value) {
+            if ( !Objects.equals(newValue, value) ) {
                 cachedTestsError = null;
                 cachedTestsErrorArgs = null;
                 cachedTestsValue = null;

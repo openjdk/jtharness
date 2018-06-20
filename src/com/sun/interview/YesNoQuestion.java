@@ -26,6 +26,7 @@
  */
 package com.sun.interview;
 
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -74,7 +75,7 @@ public abstract class YesNoQuestion extends ChoiceQuestion
 
         setChoices(choices, displayChoices);
 
-        if (defaultValue != getDefaultValue()) {
+        if ( !Objects.equals(defaultValue, getDefaultValue()) ) {
             setDefaultValue(defaultValue);
             setValue(defaultValue);
         }
