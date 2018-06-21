@@ -509,12 +509,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         }
 
         public String put(String key, String value) {
-            if (!(key instanceof String) ||
-                !(value instanceof String))
-                throw new IllegalArgumentException("both args must be strings");
-
             prefs.setPreference(key, value);
-
             return null;
         }
 
