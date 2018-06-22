@@ -1501,25 +1501,20 @@ class NewReportDialog extends ToolDialog
          */
         public void propertyChange(PropertyChangeEvent evt) {
             if ("enabled".equals(evt.getPropertyName())) {
-                boolean oldV = ((Boolean) evt.getOldValue()).booleanValue();
-                boolean newV = ((Boolean) evt.getNewValue()).booleanValue();
+                boolean oldV = (Boolean) evt.getOldValue();
+                boolean newV = (Boolean) evt.getNewValue();
                 if (oldV && !newV) {
                     // disable
-                    Iterator chIt = collectChildren(theContainer, new ArrayList<Component>()).iterator();
                     enabledComp = new HashSet<>();
-                    while (chIt.hasNext()) {
-                        Component c = (Component) chIt.next();
+                    for (Component c: collectChildren(theContainer, new ArrayList<Component>())) {
                         if (c.isEnabled()) {
                             enabledComp.add(c);
                             c.setEnabled(false);
                         }
                     }
-
                 } else if (!oldV && newV && enabledComp != null) {
                     // enable
-                    Iterator chIt = collectChildren(theContainer, new ArrayList<Component>()).iterator();
-                    while (chIt.hasNext()) {
-                        Component c = (Component) chIt.next();
+                    for (Component c: collectChildren(theContainer, new ArrayList<Component>())) {
                         if (enabledComp.contains(c)) {
                             c.setEnabled(true);
                         }
@@ -1531,7 +1526,7 @@ class NewReportDialog extends ToolDialog
         /**
          * Recursively gathers all children components
          */
-        private Collection collectChildren(Container comp, Collection<Component> c) {
+        private Collection<Component> collectChildren(Container comp, Collection<Component> c) {
             Component [] ch = comp.getComponents();
             for(int i = 0; i < ch.length; i++) {
                 c.add(ch[i]);
