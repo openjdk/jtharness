@@ -29,19 +29,7 @@ package com.sun.javatest;
 import java.io.File;
 import java.io.IOException;
 import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Locale;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Vector;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.sun.javatest.finder.TestFinderDecorator;
@@ -266,9 +254,9 @@ public class TestResultTable {
      * Create a table ready to be occupied.
      */
     public TestResultTable() {
-        statusTables = new Hashtable[Status.NUM_STATES];
+        statusTables = new Map[Status.NUM_STATES];
         for (int i = 0; i < statusTables.length; i++)
-            statusTables[i] = new Hashtable();
+            statusTables[i] = new Hashtable<>();
 
         root = new TRT_TreeNode(this, null);
 
@@ -586,7 +574,7 @@ public class TestResultTable {
         // no tree yet
         if (root == null) return null;
 
-        return findTest((TRT_TreeNode)root, jtrPath, jtrPath);
+        return findTest(root, jtrPath, jtrPath);
     }
 
     /**
@@ -640,7 +628,7 @@ public class TestResultTable {
         if (target == null)
             return null;
 
-        ArrayList path = new ArrayList();
+        ArrayList<TreeNode> path = new ArrayList<>();
         TreeNode loc = target.getParent();
         while (loc != null) {
             path.add(0, loc);
@@ -676,7 +664,7 @@ public class TestResultTable {
         if (target == null)
             return null;
 
-        ArrayList path = new ArrayList();
+        ArrayList<TreeNode> path = new ArrayList<>();
         TreeNode loc = target;
         while (loc != null) {
             path.add(0, loc);
@@ -954,7 +942,7 @@ public class TestResultTable {
             }
             else if (objs instanceof TreeNode[]) {
                 // don't add duplicates
-                if (!initNodes.contains((TreeNode) objs[0]))
+                if (!initNodes.contains(objs[0]))
                     initNodes.add((TreeNode) objs[0]);
             }
             else if (objs instanceof TestResult[]) {
@@ -1472,9 +1460,9 @@ public class TestResultTable {
     }
 
     private static class SortingComparator implements Comparator<DisassembledUrl> {
-        Comparator<Object> c;
+        Comparator<String> c;
 
-        public SortingComparator(Comparator c) {
+        public SortingComparator(Comparator<String> c) {
             this.c = c;
         }
 
@@ -1508,12 +1496,11 @@ public class TestResultTable {
         if (in == null || in.length <= 1)
             return in;
 
-        Comparator c = finder.getComparator();
+        Comparator<String> c = finder.getComparator();
 
         if (c == null) {
             // show warning message?
-            c = Collator.getInstance(Locale.US);
-            ((Collator)c).setStrength(Collator.PRIMARY);
+            c = TestFinder.getDefaultComparator();
         }
 
         DisassembledUrl[] elements = new DisassembledUrl[in.length];
@@ -1531,7 +1518,7 @@ public class TestResultTable {
         return result;
     }
 
-    private int compareStringArrays(Comparator c, String[] s1, String[] s2) {
+    private int compareStringArrays(Comparator<String> c, String[] s1, String[] s2) {
         // loop until names become unequal
         for (int i = 0; i < s1.length; i++) {
             if (i >= s2.length)
@@ -1627,7 +1614,7 @@ public class TestResultTable {
         return result;
     }
 
-    private synchronized void updateFromCache(Map m) {
+    private synchronized void updateFromCache(Map<String, TestResult> m) {
         updateInProgress = true;
 
         // this method could use further optimization to take advantage
@@ -1637,7 +1624,7 @@ public class TestResultTable {
         if (rtc.getRequests() != null) {
             for (TestDescription td : rtc.getRequests()) {
                 String testRes = TestResult.getWorkRelativePath(td.getRootRelativeURL());
-                TestResult tr = (TestResult)m.get(testRes);
+                TestResult tr = m.get(testRes);
                 if (tr != null) {
                     tr.setTestDescription(td);
                     update(tr, suppressFinderScan);
@@ -2030,7 +2017,7 @@ public class TestResultTable {
         // if url is exec/index.html#ExecSucc
         // that should match a test with exactly that name
         String jtrPath = TestResult.getWorkRelativePath(url);
-        TestResult tr = findTest((TRT_TreeNode)where, jtrPath, jtrPath);
+        TestResult tr = findTest(where, jtrPath, jtrPath);
         return tr;      // may be null
     }
 
@@ -2095,7 +2082,7 @@ public class TestResultTable {
             return null;
 
         // try to partial match a test
-        Vector v = new Vector();
+        Vector<TestResult> v = new Vector<>();
         try {
             for (int i = 0; i < trs.length; i++) {
                 if (trs[i].getDescription().getRootRelativeURL().startsWith(url))
@@ -2188,7 +2175,7 @@ public class TestResultTable {
     public TestResult getCachedResult(TestDescription td) {
         if (cachedResults != null) {
             String url = TestResult.getWorkRelativePath(td.getRootRelativeURL());
-                TestResult res = (TestResult)cachedResults.get(url);
+                TestResult res = cachedResults.get(url);
                 if (res != null) {
                     res.setTestDescription(td);
                 }
@@ -2209,7 +2196,7 @@ public class TestResultTable {
 
         public synchronized void addToUpdateFromCache(TestDescription td) {
             if (needUpdateFromCache == null) {
-                needUpdateFromCache = new HashSet();
+                needUpdateFromCache = new HashSet<>();
             }
             needUpdateFromCache.add(td);
         }
@@ -2240,7 +2227,7 @@ public class TestResultTable {
     /*OLD
     private static final String formatVersion = "JavaTest/Results/2.0";
     */
-    private Hashtable[] statusTables;
+    private Map<String, Status>[] statusTables;
                                 // tables indexed by status.type mapping status.reason
                                 // to a unique status object
     private WorkDirectory workDir;
@@ -2262,7 +2249,7 @@ public class TestResultTable {
     private volatile boolean updateInProgress;
     private volatile boolean cacheInitialized = false;
 
-    private Vector testsInUpdate = new Vector();
+    private List<TestResult> testsInUpdate = new Vector<>();
 
     /*
      * Effectively a count of the number of instances of TRTs that have been created.
@@ -2447,7 +2434,7 @@ public class TestResultTable {
             return hasMoreElements();
         }
 
-        public Object next() {
+        public TestResult next() {
             return nextElement();
         }
 
@@ -2465,7 +2452,7 @@ public class TestResultTable {
             return false;
         }
 
-        public Object nextElement() {
+        public TestResult nextElement() {
             throw new NoSuchElementException(i18n.getString("trt.noElements"));
         }
 
@@ -2483,14 +2470,14 @@ public class TestResultTable {
      * tree.  This is a read-only interface, so <code>remove()</code> is not
      * supported.
      */
-    public interface TreeIterator extends Enumeration, Iterator {
+    public interface TreeIterator extends Enumeration<TestResult>, Iterator<TestResult> {
         // --- Enumerator interface  ---
         public abstract boolean hasMoreElements();
-        public abstract Object nextElement();
+        public abstract TestResult nextElement();
 
         // --- Iterator interface ---
         public abstract boolean hasNext();
-        public abstract Object next();
+        public abstract TestResult next();
 
         /**
          * Do not call this method.
@@ -2593,7 +2580,7 @@ public class TestResultTable {
     class Updater implements TestResultCache.Observer
     {
         //-----methods from TestResultCache.Observer-----
-        public void update(Map tests) {
+        public void update(Map<String, TestResult> tests) {
             updateFromCache(tests);
         }
 

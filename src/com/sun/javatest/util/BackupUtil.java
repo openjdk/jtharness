@@ -28,6 +28,7 @@ package com.sun.javatest.util;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -66,7 +67,7 @@ public class BackupUtil {
         String prefix = file.getName() + "~";
         String suffix = "~";
         int maxBackupIndex = 0;
-        Vector backups = new Vector();
+        Vector<Integer> backups = new Vector<>();
 
         boolean renamed;
         java.util.Arrays.sort(list);
@@ -100,7 +101,7 @@ public class BackupUtil {
 
         int maxIndex = 0;
         for(int j = 0; j < backups.size(); j++) {
-            int index = ((Integer)backups.get(j)).intValue();
+            int index = backups.get(j).intValue();
             maxIndex = index > maxIndex ? index : maxIndex;
             if(index > maxBackups) {
                 File oldBackup = new File(filename + "~" + backups.get(j) + "~");
@@ -133,7 +134,7 @@ public class BackupUtil {
         String prefix = file.getName() + "~";
         String suffix = "~";
         int maxBackupIndex = 0;
-        Vector backups = new Vector();
+        Vector<Integer> backups = new Vector<>();
 
         java.util.Arrays.sort(list);
         for (int i = list.length - 1; i >= 0; i--) {
@@ -167,7 +168,7 @@ public class BackupUtil {
 //        backups.addElement(new Integer(1));
 
         for(int j = 0; j < backups.size(); j++) {
-            int index = ((Integer)backups.get(j)).intValue();
+            int index = backups.get(j).intValue();
             if(index > maxBackups) {
                 File oldBackup = new File(filename + "~" + backups.get(j) + "~");
                 deleteDir(oldBackup);
@@ -192,7 +193,7 @@ public class BackupUtil {
             return;
         }
 
-        HashSet layers = new HashSet();
+        Set<Integer> layers = new HashSet<>();
         String suffix = "~";
         for(int i = 0; i < files.length; i++) {
             if(files[i].isDirectory()) {

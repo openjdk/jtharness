@@ -81,13 +81,13 @@ class PrefsPane extends PreferencesPane
     }
 
     @Override
-    public void load(Map<?, ?> m) {
+    public void load(Map<String, String> m) {
         super.load(m);
-        String p = (String) (m.get(ExecTool.TOOLBAR_PREF));
+        String p = m.get(ExecTool.TOOLBAR_PREF);
         toolBarChk.setSelected(p == null || p.equals("true"));
-        p = (String) (m.get(ExecTool.FILTER_WARN_PREF));
+        p = m.get(ExecTool.FILTER_WARN_PREF);
         filterWarnChk.setSelected(p == null || p.equals("true"));
-        p = (String) (m.get(TP_OutputSubpanel.LINE_WRAP_PREF));
+        p = m.get(TP_OutputSubpanel.LINE_WRAP_PREF);
         // selected by default
         wrapResChk.setSelected((p == null ? true : p.equals("true")));
     }
@@ -176,8 +176,8 @@ class PrefsPane extends PreferencesPane
         }
 
         @Override
-        public void load(Map<?, ?> m) {
-            String mp = (String) m.get(InterviewEditor.MORE_INFO_PREF);
+        public void load(Map<String, String> m) {
+            String mp = m.get(InterviewEditor.MORE_INFO_PREF);
             moreInfoChk.setSelected(mp == null || mp.equals("true"));
         }
 
@@ -237,8 +237,8 @@ class PrefsPane extends PreferencesPane
         }
 
         @Override
-        public void load(Map<?, ?> m) {
-            String mp = (String) (m.get(ReportManager.BUGRPT_URL_PREF));
+        public void load(Map<String, String> m) {
+            String mp = m.get(ReportManager.BUGRPT_URL_PREF);
             bugUrlTf.setText(mp);
         }
 
@@ -307,8 +307,8 @@ class PrefsPane extends PreferencesPane
         }
 
         @Override
-        public void load(Map<?, ?> m) {
-            String mp = (String)m.get("javatest.executionOrder");
+        public void load(Map<String, String> m) {
+            String mp = m.get("javatest.executionOrder");
             if (mp == null) {
                 mp = "default";
             }
@@ -323,9 +323,9 @@ class PrefsPane extends PreferencesPane
                 defaultRadio.setSelected(true);
             }
 
-            mp = (String) (m.get(ExecTool.TESTS2RUN_PREF));
+            mp = m.get(ExecTool.TESTS2RUN_PREF);
             tests2RunChk.setSelected((mp == null ? false : mp.equals("true")));
-            mp = (String) (m.get("javatest.sortExecution"));
+            mp = m.get("javatest.sortExecution");
             testSortingChk.setSelected((mp == null ? false : mp.equals("false")));
         }
 

@@ -351,8 +351,8 @@ public class Report implements ReportModel {
             this.index = index;
         }
 
-        public Vector getLinks() {
-            Vector links = new Vector();
+        public Vector<String> getLinks() {
+            Vector<String> links = new Vector<>();
             StringBuilder content = new StringBuilder();
             BufferedReader r = null;
             try {
@@ -431,7 +431,7 @@ public class Report implements ReportModel {
 
         File reportDir = index.getParentFile();
         File[] files = reportDir.listFiles();
-        ArrayList subdirs = new ArrayList();
+        List<File> subdirs = new ArrayList<>();
         for(int i = 0; i < files.length; i ++) {
             if(files[i].isDirectory() &&
                     files[i].getName().lastIndexOf(newId) != -1) {
@@ -440,11 +440,11 @@ public class Report implements ReportModel {
         }
 
         LinkFinder finder = new LinkFinder(index);
-        Vector links = finder.getLinks();
+        Vector<String> links = finder.getLinks();
         for(int i = 0; i < links.size(); i++) {
-            String link = (String)links.get(i);
+            String link = links.get(i);
             for(int j = 0; j < subdirs.size(); j++) {
-                String newName = ((File)subdirs.get(j)).getName();
+                String newName = subdirs.get(j).getName();
                 String oldName = newName.replaceAll(newId, oldId);
                 if(link.lastIndexOf(oldName) != -1) {
                     StringBuilder newLink = new StringBuilder(link);
@@ -598,7 +598,7 @@ public class Report implements ReportModel {
     private void notifyStartGenListeners(ReportSettings s, String reportID) {
         if(startGenListeners != null) {
             for(int i = 0; i < startGenListeners.size(); i ++) {
-                StartGenListener sgl = (StartGenListener)startGenListeners.get(i);
+                StartGenListener sgl = startGenListeners.get(i);
                 sgl.startReportGeneration(s, reportID);
             }
         }
@@ -625,7 +625,7 @@ public class Report implements ReportModel {
 
     public void addStartGenListener(StartGenListener l) {
         if(startGenListeners == null) {
-            startGenListeners = new ArrayList();
+            startGenListeners = new ArrayList<>();
         }
 
         startGenListeners.add(l);
@@ -649,5 +649,5 @@ public class Report implements ReportModel {
     public static final String MARKER_FILE_NAME = "reportdir.dat";
     public static final String INDEX_FILE_NAME = "index.html";
 
-    private ArrayList startGenListeners;
+    private List<StartGenListener> startGenListeners;
 }

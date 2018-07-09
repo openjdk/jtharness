@@ -113,7 +113,7 @@ public abstract class PreferencesPane extends JPanel {
      * @param m the map from which to load the user preferences into the
      * GUI components
      */
-    public void load(Map<?, ?> m) {
+    public void load(Map<String, String> m) {
         PreferencesPane[] p = getChildPanes();
         if (p != null) {
             for (int i = 0; i < p.length; i++)
@@ -448,7 +448,7 @@ public abstract class PreferencesPane extends JPanel {
         }
 
         private void setPreferences(PreferencesPane[] panes) {
-            Map m = new Map() {
+            Map<String, String> m = new Map<String, String>() {
 
                 public void clear() {
                     throw new UnsupportedOperationException();
@@ -462,7 +462,7 @@ public abstract class PreferencesPane extends JPanel {
                     return props.containsValue(value);
                 }
 
-                public Set entrySet() {
+                public Set<Map.Entry<String, String>> entrySet() {
                     return props.entrySet();
                 }
 
@@ -470,7 +470,7 @@ public abstract class PreferencesPane extends JPanel {
                     return props.equals(o);
                 }
 
-                public Object get(Object key) {
+                public String get(Object key) {
                     return props.get(key);
                 }
 
@@ -482,14 +482,14 @@ public abstract class PreferencesPane extends JPanel {
                     return props.isEmpty();
                 }
 
-                public Set keySet() {
+                public Set<String> keySet() {
                     return props.keySet();
                 }
 
-                public Object put(Object key, Object value) {
-                    Object oldValue = props.get(key);
+                public String put(String key, String value) {
+                    String oldValue = props.get(key);
                     if (oldValue == null || !oldValue.equals(value)) {
-                        preferences.setPreference((String) key, (String) value);
+                        preferences.setPreference(key, value);
                     }
                     return oldValue;
                 }
@@ -498,7 +498,7 @@ public abstract class PreferencesPane extends JPanel {
                     throw new UnsupportedOperationException();
                 }
 
-                public Object remove(Object key) {
+                public String remove(Object key) {
                     throw new UnsupportedOperationException();
                 }
 
@@ -506,7 +506,7 @@ public abstract class PreferencesPane extends JPanel {
                     return props.size();
                 }
 
-                public Collection values() {
+                public Collection<String> values() {
                     return props.values();
                 }
             };
@@ -569,7 +569,7 @@ public abstract class PreferencesPane extends JPanel {
 
         private JFrame owner;
         private Preferences preferences;
-        private Properties props;
+        private Map<String, String> props;
 
         private HelpBroker helpBroker;
         private PreferencesPane[] panes;

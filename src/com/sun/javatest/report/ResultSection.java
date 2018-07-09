@@ -43,7 +43,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  */
 class ResultSection extends HTMLSection {
     ResultSection(HTMLReport parent, ReportSettings settings, File dir, I18NResourceBundle i18n,
-            TreeSet[] sortedResults) {
+            TreeSet<TestResult>[] sortedResults) {
         super(i18n.getString("result.title"), settings, dir, parent);
         this.i18n = i18n;
 
@@ -187,7 +187,7 @@ class ResultSection extends HTMLSection {
 
             if (hasGroupedReport(i)) {
                 // re-sort it
-                TreeSet newS = new TreeSet(new TestResultsByStatusAndTitleComparator());
+                TreeSet<TestResult> newS = new TreeSet<>(new TestResultsByStatusAndTitleComparator());
                 newS.addAll(lists[i]);
                 lists[i] = newS;
 
@@ -308,7 +308,7 @@ class ResultSection extends HTMLSection {
     private TestResultTable resultTable;
     private File[] initFiles;
 
-    TreeSet[] lists;
+    TreeSet<TestResult>[] lists;
     private int totalFound;
 
     private final int[] fileCodes = {

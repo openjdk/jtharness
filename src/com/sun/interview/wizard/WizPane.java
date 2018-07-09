@@ -496,7 +496,7 @@ public class WizPane extends JPanel
         ac.setAccessibleDescription(i18n.getString(uiKey + ".desc"));
     }
 
-    public void setCustomRenderers(Map customRenderers) {
+    public void setCustomRenderers(Map<Class<? extends Question>, QuestionRenderer> customRenderers) {
         questionPanel.setCustomRenderers(customRenderers);
     }
 

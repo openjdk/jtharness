@@ -125,7 +125,7 @@ public class Main
 
     public static class Ant extends MatchingTask {
         private Main m = new Main();
-        private List/*<FileSet>*/ fileSets = new ArrayList/*<FileSet>*/();
+        private List<FileSet> fileSets = new ArrayList<FileSet>();
 
         public void setOutFile(File file) {
             m.outFile = file;
@@ -154,12 +154,12 @@ public class Main
     public void addFiles(File baseDir, String[] paths) {
         if (paths == null)
             return;
-        List/*<File>*/ files = new ArrayList/*<File>*/();
+        List<File> files = new ArrayList<File>();
         if (inFiles != null)
             files.addAll(Arrays.asList(inFiles));
         for (int i = 0; i < paths.length; i++)
             files.add(new File(baseDir, paths[i]));
-        inFiles = (File[]) files.toArray(new File[files.size()]);
+        inFiles = files.toArray(new File[files.size()]);
     }
 
     private void run() throws BadArgs, IOException
@@ -171,7 +171,7 @@ public class Main
         if (outFile == null)
             throw new BadArgs("no output file specified");
 
-        map = new TreeMap();
+        map = new TreeMap<>();
 
         for (int i = 0; i < inFiles.length; i++)
             read(inFiles[i]);
@@ -412,7 +412,7 @@ public class Main
 
     private File[] inFiles;
     private File outFile;
-    private Map map;
+    private Map<String, String> map;
 
     private Reader in;
     private int c;

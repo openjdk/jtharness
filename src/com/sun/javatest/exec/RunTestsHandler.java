@@ -281,7 +281,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
                         new Object[] {params.getEnv().getName()});
             p.setLayout(new BorderLayout());
             p.add(msg, BorderLayout.NORTH);
-            DefaultListModel model = new DefaultListModel();
+            DefaultListModel<String> model = new DefaultListModel<>();
             for (int i = paths.length; i > 0; i--)
                 model.add(model.getSize(), paths[model.getSize()]);
 
@@ -371,7 +371,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
      * @since 4.2.1
      */
     static String[] reprocessTests2Run(final String[] requested, final String[] iTests) {
-        ArrayList<String> result = new ArrayList();
+        ArrayList<String> result = new ArrayList<>();
     outer:
         for (int i = 0; i < requested.length; i++) {
             String curr = requested[i];

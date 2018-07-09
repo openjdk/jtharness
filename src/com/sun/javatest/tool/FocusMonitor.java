@@ -563,7 +563,7 @@ class FocusMonitor
 
         void write(Writer out) throws IOException {
             for (int i = 0; i <entries.size(); i++) {
-                Entry e = (Entry) (entries.elementAt(i));
+                Entry e = entries.elementAt(i);
                 e.write(out);
             }
         }
@@ -571,7 +571,7 @@ class FocusMonitor
         public void setEnabled(boolean enabled) {
             super.setEnabled(enabled);
             for (int i = 0; i <entries.size(); i++) {
-                Entry e = (Entry) (entries.elementAt(i));
+                Entry e = entries.elementAt(i);
                 e.setParentEnabled(enabled);
             }
         }
@@ -589,7 +589,7 @@ class FocusMonitor
             entries.add(entry);
         }
 
-        private Vector entries = new Vector();
+        private Vector<Entry> entries = new Vector<>();
         private Entry name;
         private Entry path;
         private Entry type;

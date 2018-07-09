@@ -65,12 +65,12 @@ class ManagerLoader
         this.log = log;
     }
 
-    Set loadManagers(String resourceName)
+    Set<Object> loadManagers(String resourceName)
         throws IOException
     {
 
         Enumeration e = ResourceLoader.getResources(resourceName, getClass());
-        Set mgrs = new HashSet();
+        Set<Object> mgrs = new HashSet<>();
         URLClassLoader altLoader = null;
 
         while (e.hasMoreElements()) {
@@ -172,7 +172,7 @@ class ManagerLoader
         return null;
     }
 
-    private Object newInstance(Class c)
+    private Object newInstance(Class<?> c)
         throws IllegalAccessException, InstantiationException, NoSuchMethodException
     {
         if (constrArgTypes == null || constrArgTypes.length == 0) {
@@ -240,7 +240,7 @@ class ManagerLoader
         log.println(i18n.getString(key, args));
     }
 
-    private Class managerClass;
+    private Class<?> managerClass;
     private Constructor constr;
     private Class[] constrArgTypes;
     private Object[] constrArgs;

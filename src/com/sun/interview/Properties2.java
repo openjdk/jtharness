@@ -48,7 +48,7 @@ import java.util.Hashtable;
  * capabilities.
  */
 
-public class Properties2 extends Hashtable {
+public class Properties2 extends Hashtable<String, Object> {
     /**
      * A property list that contains default values for any keys not
      * found in this property list.
@@ -286,7 +286,7 @@ public class Properties2 extends Hashtable {
      * @see     com.sun.interview.Properties2#defaults
      */
     public Enumeration propertyNames() {
-        Hashtable h = new Hashtable();
+        Hashtable<String, Object> h = new Hashtable<>();
         enumerate(h);
         return h.keys();
     }
@@ -305,7 +305,7 @@ public class Properties2 extends Hashtable {
      */
     public void list(PrintWriter out) {
         out.println("-- listing properties --");
-        Hashtable h = new Hashtable();
+        Hashtable<String, Object> h = new Hashtable<>();
         enumerate(h);
         for (Enumeration e = h.keys() ; e.hasMoreElements() ;) {
             String key = (String)e.nextElement();
@@ -321,7 +321,7 @@ public class Properties2 extends Hashtable {
      * Enumerates all key/value pairs in the specified hastable.
      * @param h the hashtable
      */
-    private synchronized void enumerate(Hashtable h) {
+    private synchronized void enumerate(Hashtable<String, Object> h) {
         if (defaults != null) {
             defaults.enumerate(h);
         }

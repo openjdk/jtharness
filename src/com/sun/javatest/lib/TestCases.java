@@ -31,6 +31,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Vector;
 import com.sun.javatest.Status;
 import com.sun.javatest.Test;
@@ -138,7 +139,7 @@ public class TestCases {
      * @return An enumeration of the test cases.
      */
     public Enumeration enumerate() {
-        Vector v = new Vector();
+        Vector<Method> v = new Vector<>();
         if (selectedCases.isEmpty()) {
             Method[] methods = testClass.getMethods();
             for (int i = 0; i < methods.length; i++) {
@@ -152,11 +153,10 @@ public class TestCases {
             }
         }
         else {
-            for (Enumeration e = selectedCases.elements(); e.hasMoreElements(); ) {
-                Method m = (Method)(e.nextElement());
+            for (Method m : selectedCases.values()) {
                 if (excludedCases.get(m.getName()) == null)
                     v.addElement(m);
-            }
+                }
         }
         return v.elements();
     }
@@ -251,7 +251,7 @@ public class TestCases {
     }
 
     private String[] split(String s) {
-        Vector v = new Vector();
+        Vector<String> v = new Vector<>();
         int start = 0;
         for (int i = s.indexOf(','); i != -1; i = s.indexOf(',', start)) {
             v.addElement(s.substring(start, i));
@@ -265,9 +265,9 @@ public class TestCases {
     }
 
     private Object test;
-    private Class testClass;
-    private Hashtable selectedCases = new Hashtable();
-    private Hashtable excludedCases = new Hashtable();
+    private Class<?> testClass;
+    private Map<String, Method> selectedCases = new Hashtable<>();
+    private Map<String, Method> excludedCases = new Hashtable<>();
     private PrintWriter log;
 
     private static final Object[] noArgs = { };

@@ -83,21 +83,21 @@ public class ExpandTestFinder extends TagTestFinder
             return super.decodeArg(args, i);
     } // decodeArg()
 
-    private Map initTable(String[] entries) {
-        Map map = new HashMap();
+    private Map<String, String> initTable(String[] entries) {
+        Map<String, String> map = new HashMap<>();
         for (int i = 0; i < entries.length; i++)
             map.put(entries[i].toLowerCase(), entries[i]);
         return map;
     } // initTable()
 
-    private Map addTableItem(Map entries, String name, String value) {
+    private Map<String, String> addTableItem(Map<String, String> entries, String name, String value) {
         entries.put(name, value);
         return entries;
     } // addTableItem()
 
     private boolean verify;
-    private Map validEntries;
-    private Map validKeywords;
+    private Map<String, String> validEntries;
+    private Map<String, String> validKeywords;
 
     private static final String TESTSUITE_HTML = "testsuite.html";
     // end of code for JCKTagTestFinder emulation
@@ -107,8 +107,8 @@ public class ExpandTestFinder extends TagTestFinder
     public void init(String [] args, File testSuiteRoot, TestEnvironment env) throws Fault {
         // grab all environment variables open for expansion
         if (expandVars == null) {
-            expandVars   = new HashMap(3);
-            expandVarLen = new HashMap(3);
+            expandVars   = new HashMap<>(3);
+            expandVarLen = new HashMap<>(3);
 
             for (Iterator i = env.keys().iterator(); i.hasNext(); ) {
                 try {
@@ -127,7 +127,7 @@ public class ExpandTestFinder extends TagTestFinder
                     String stem = fqvName.substring(0, pos);
 
                     // checking lengths of co-joined variables
-                    Integer len = (Integer) expandVarLen.get(stem);
+                    Integer len = expandVarLen.get(stem);
                     if (len == null) {
                         // add to hashtable of valid stems
                         expandVarLen.put(stem, new Integer(v.length));
@@ -166,19 +166,19 @@ public class ExpandTestFinder extends TagTestFinder
         super.init(args, testSuiteRoot, env);
     } // init()
 
-    protected void foundTestDescription(Map entries, File file, int line) {
+    protected void foundTestDescription(Map<String, String> entries, File file, int line) {
         // cross-product and loop call up
-        String origId = (String) entries.get("id");
+        String origId = entries.get("id");
         if (origId == null)
             origId = "";
-        Map loopVars = new HashMap(3);
+        Map<String, Integer> loopVars = new HashMap<>(3);
         foundTestDescription_1(entries, file, line, loopVars, origId);
     } // foundTestDescription()
 
-    private void foundTestDescription_1(Map entries, File file, int line, Map loopVars, String id) {
-        for (Iterator iter = entries.keySet().iterator(); iter.hasNext(); ) {
-            String name  = (String) (iter.next());
-            String value = (String) entries.get(name);
+    private void foundTestDescription_1(Map<String, String> entries, File file, int line, Map<String, Integer> loopVars, String id) {
+        for (Iterator<String> iter = entries.keySet().iterator(); iter.hasNext(); ) {
+            String name  = iter.next();
+            String value = entries.get(name);
 //          System.out.println("------ NAME:  " + name + " VALUE: " + value);
 
             if (name.equals("title") || name.equals("test") || name.equals("id"))
@@ -218,7 +218,7 @@ public class ExpandTestFinder extends TagTestFinder
                         continue;
 
                     String [] valueList;
-                    if ((valueList = (String []) expandVars.get(varName)) == null) {
+                    if ((valueList = expandVars.get(varName)) == null) {
                         //String [] msgs = {"unable to find `expand' definition in environment",
                         //words[i]};
                         //error(msgs);
@@ -226,7 +226,7 @@ public class ExpandTestFinder extends TagTestFinder
                     }
 
                     String saveId = id;
-                    Integer idx = (Integer) loopVars.get(stem);
+                    Integer idx = loopVars.get(stem);
                     if (idx != null){
                         int j = idx.intValue();
                         words[i] = valueList[j];
@@ -246,7 +246,7 @@ public class ExpandTestFinder extends TagTestFinder
                             boolean loopy = !(qualifier.equals(""));
                             if (loopy) loopVars.put(stem, new Integer(j));
                             // clone needed here because we over-wrote words[i]
-                            foundTestDescription_1((Map)(((HashMap)entries).clone()), file, line,
+                            foundTestDescription_1(new HashMap<>(entries), file, line,
                                                    loopVars, id);
                             if (loopy) loopVars.remove(stem);
 
@@ -258,16 +258,16 @@ public class ExpandTestFinder extends TagTestFinder
         }
         // clone may not be necessary, check for TestDescription upgrades
         // super.foundTestDescription(entries, file, line);
-        super.foundTestDescription((Map)(((HashMap)entries).clone()), file, line);
+        super.foundTestDescription(new HashMap<>(entries), file, line);
     } // foundTestDescription_1()
 
-    protected void processEntry(Map entries, String name, String value) {
+    protected void processEntry(Map<String, String> entries, String name, String value) {
 //      System.out.println("NAME: " + name + " VALUE: " + value);
         if (name.equals("expand")) {
             if (testStems != null) {
                 error(i18n, "expand.multipleTags");
             }
-            testStems = new HashMap(3);
+            testStems = new HashMap<>(3);
             String [] stems = StringArray.split(value);
             for (int i = 0 ; i < stems.length; i++)
                 testStems.put(stems[i], TRUE);
@@ -311,9 +311,9 @@ public class ExpandTestFinder extends TagTestFinder
     //----------member variables------------------------------------------------
 
     private static final String TRUE = "true";
-    private Map testStems = null;
-    private Map expandVars;
-    private Map expandVarLen;
+    private Map<String, String> testStems = null;
+    private Map<String, String[]> expandVars;
+    private Map<String, Integer> expandVarLen;
 
     private String[] stdValidEntries = {
         // required

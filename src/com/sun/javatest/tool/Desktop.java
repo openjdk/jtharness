@@ -46,16 +46,7 @@ import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -78,11 +69,10 @@ import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.tool.jthelp.HelpBroker;
 import com.sun.javatest.tool.jthelp.HelpSet;
 import com.sun.javatest.tool.jthelp.JTHelpBroker;
-import com.sun.javatest.util.BackupPolicy;
+import com.sun.javatest.util.*;
 import com.sun.javatest.report.HTMLWriterEx;
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.LogFile;
-import com.sun.javatest.util.SortedProperties;
+import com.sun.javatest.util.Properties;
+
 import java.awt.print.Printable;
 import java.awt.print.PrinterJob;
 import javax.print.Doc;
@@ -511,8 +501,8 @@ public class Desktop
      */
     public void addToFileHistory(File f, FileOpener fo) {
         // if it is already in the history, remove it
-        for (Iterator i = fileHistory.iterator(); i.hasNext(); ) {
-            FileHistoryEntry h = (FileHistoryEntry) (i.next());
+        for (Iterator<FileHistoryEntry> i = fileHistory.iterator(); i.hasNext(); ) {
+            FileHistoryEntry h = i.next();
             if (h.fileOpener == fo && h.file.equals(f)) {
                 i.remove();
                 break;
@@ -657,7 +647,7 @@ public class Desktop
             return false;
         }
 
-        Vector v = new Vector();
+        Vector<String> v = new Vector<>();
 
         Tool[] tools = getTools();
         for (int ti = 0; ti < tools.length; ti++) {
@@ -832,7 +822,7 @@ public class Desktop
         if (f == null)
             return;
 
-        Properties p = new SortedProperties();
+        SortedMap<String, String> p = new TreeMap<>();
 
         int s = getStyle();
         if (s < NUM_STYLES) {
@@ -847,8 +837,8 @@ public class Desktop
 
         p.put("file.count", String.valueOf(fileHistory.size()));
         int n = 0;
-        for (Iterator i = fileHistory.iterator(); i.hasNext(); ) {
-            FileHistoryEntry h = (FileHistoryEntry) (i.next());
+        for (Iterator<FileHistoryEntry> i = fileHistory.iterator(); i.hasNext(); ) {
+            FileHistoryEntry h = i.next();
             p.put("fileHistory." + n + ".type", h.fileOpener.getFileType());
             p.put("fileHistory." + n + ".path", h.file.getPath());
             n++;
@@ -862,7 +852,7 @@ public class Desktop
             try {
                 fos = new FileOutputStream(f);
                 OutputStream out = new BufferedOutputStream(fos);
-                p.store(out, "JT Harness Desktop");
+                Properties.store(p, out, "JT Harness Desktop");
                 out.close();
             }
             finally {
@@ -897,7 +887,7 @@ public class Desktop
      * @param file the file from which to load the data
      */
     public void restore(final File file) {
-        Properties p = getPreviousDesktop(file);
+        Map<String, String> p = getPreviousDesktop(file);
         restore0(p);
     }
 
@@ -905,7 +895,7 @@ public class Desktop
         restoreHistory(getPreviousDesktop(getDesktopFile()));
     }
 
-    private void restore0(final Properties p) {
+    private void restore0(final Map<String, String> p) {
         //System.err.println("DT: restore " + file);
         if (!EventQueue.isDispatchThread()) {
             invokeOnEventThread(new Runnable() {
@@ -977,8 +967,8 @@ public class Desktop
 
     }
 
-    private void restoreHistory(Properties p) {
-        HashMap allOpeners = new HashMap();
+    private void restoreHistory(Map<String, String> p) {
+        HashMap<String, FileOpener> allOpeners  = new HashMap<>();
         for (int i = 0; i < toolManagers.length; i++) {
             ToolManager m = toolManagers[i];
             FileOpener[] mgrOpeners = m.getFileOpeners();
@@ -992,15 +982,15 @@ public class Desktop
 
         try {
             fileHistory.clear();
-            String c = (String) (p.get("file.count"));
+            String c = p.get("file.count");
             if (c != null) {
                 int count = Integer.parseInt(c);
                 for (int i = 0; i < count; i++) {
                     try {
-                        String ft = (String) (p.get("fileHistory." + i + ".type"));
-                        FileOpener fo = (FileOpener) (allOpeners.get(ft));
+                        String ft = p.get("fileHistory." + i + ".type");
+                        FileOpener fo = allOpeners.get(ft);
                         if (fo != null) {
-                            String path = (String) (p.get("fileHistory." + i + ".path"));
+                            String path = p.get("fileHistory." + i + ".path");
                             if (path != null && path.length() > 0)
                                 fileHistory.add(new FileHistoryEntry(fo, new File(path)));
                         }
@@ -1019,18 +1009,18 @@ public class Desktop
         }
     }
 
-    static Properties getPreviousDesktop(File file) {
+    static Map<String, String> getPreviousDesktop(File file) {
         if (file == null)
             file = getDesktopFile();
 
-        Properties p = new Properties();
+        Map<String, String> stringPropsMap = new HashMap<>();
 
         if (file != null && file.exists()) {
             FileInputStream fis = null;
             try {
                 fis = new FileInputStream(file);
                 InputStream in = new BufferedInputStream(fis);
-                p.load(in);
+                stringPropsMap = Properties.load(in);
                 in.close();
             }
             catch (IOException e) {
@@ -1044,7 +1034,7 @@ public class Desktop
             }
         }
 
-        return p;
+        return stringPropsMap;
     }
 
     /**
@@ -1057,7 +1047,7 @@ public class Desktop
         if(colorPane == null)
             colorPane = new ColorPrefsPane(uif);
 
-        Vector v = new Vector();
+        Vector<PreferencesPane> v = new Vector<>();
         v.addElement(prefsPane);
         v.addElement(colorPane);
         for (int i = 0; i < toolManagers.length; i++) {
@@ -1086,9 +1076,9 @@ public class Desktop
      *         Null if none.
      */
     private PreferencesPane[] getCustomPreferences() {
-        ArrayList al = new ArrayList();
+        List<PreferencesPane> al = new ArrayList<>();
 
-        HashSet customPrefsClasses = new HashSet();
+        Set<String> customPrefsClasses = new HashSet<>();
 
         Tool[] tools = getTools();
         for (int i = 0; i < tools.length; i++) {
@@ -1634,7 +1624,7 @@ public class Desktop
     private PrintRequestAttributeSet printAttrs;
     private boolean restoreOnStart;
 
-    private LinkedList fileHistory = new LinkedList();
+    private LinkedList<FileHistoryEntry> fileHistory = new LinkedList<>();
     private static final int FILE_HISTORY_MAX_SIZE = 10;
 
     private static Preferences preferences = Preferences.access();

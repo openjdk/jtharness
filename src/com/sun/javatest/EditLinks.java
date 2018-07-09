@@ -178,7 +178,7 @@ public class EditLinks
      * @param file The name of a file to be ignored when editing.
      */
     public void ignore(String file) {
-        ignores.add(file);
+        ignores.add(new File(file));
     }
 
     /**
@@ -536,7 +536,7 @@ public class EditLinks
     private File[] inFiles = new File[0];
     private File outFile;
     private String[][] edits = new String[0][];
-    private Set ignores = new HashSet();
+    private Set<File> ignores = new HashSet<>();
 
     private int c;
     private int line;

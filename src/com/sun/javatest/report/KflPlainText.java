@@ -32,6 +32,8 @@ import com.sun.javatest.TestResult;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 
@@ -66,7 +68,7 @@ public class KflPlainText {
         }
     }
 
-    private void writeTestSet(String f, String id, TreeSet<KflSorter.TestDiff> tests) {
+    private void writeTestSet(String f, String id, SortedSet<KflSorter.TestDiff> tests) {
         // add file validation
         try {
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(dir, f)), StandardCharsets.UTF_8));
@@ -116,7 +118,7 @@ public class KflPlainText {
                 return;
         }
 
-        HashSet<String> hs = new HashSet();
+        Set<String> hs = new HashSet<>();
 
         for (int i = 0; i < e.length; i++) {
             String[] bugs = e[i].getBugIdStrings();
@@ -148,7 +150,7 @@ public class KflPlainText {
         writer.write("\n");
     }
 
-    private void writeTestCaseSet(String f, String id, TreeSet<KflSorter.TestDiff> tests) {
+    private void writeTestCaseSet(String f, String id, SortedSet<KflSorter.TestDiff> tests) {
         writeTestSet(f, id, tests);
     }
 

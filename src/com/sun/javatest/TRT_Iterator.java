@@ -26,18 +26,11 @@
  */
 package com.sun.javatest;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.NoSuchElementException;
-import java.util.Stack;
+import java.util.*;
 
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.I18NResourceBundle;
-import java.util.Set;
 
 
 /**
@@ -62,7 +55,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * construction code and does not create a usable object.
      */
     protected TRT_Iterator() {
-        outQueue = new LinkedList();
+        outQueue = new LinkedList<>();
         resultStats = new int[Status.NUM_STATES];
         nodeIndex = -1;
         currFrame = null;
@@ -134,7 +127,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         this.filters = filters;
 
         if (trs != null && trs.length != 0) {
-            ArrayList names = new ArrayList();
+            ArrayList<String> names = new ArrayList<>();
 
             // prime the outqueue with the given tests
             for (int i = 0; i < trs.length; i++) {
@@ -177,7 +170,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     }
 
     @Override
-    public Object nextElement() {
+    public TestResult nextElement() {
         TestResult val = null;
         synchronized (outQueueLock) {
             if (hasMoreElements()) {
@@ -204,7 +197,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     }
 
     @Override
-    public Object next() {
+    public TestResult next() {
         return nextElement();
     }
 
@@ -247,7 +240,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
             // only create new objects if they don't exist
             // users can turn on and off this feature if they want
             if (filteredTRs == null) {
-                filteredTRs = new HashMap(10);        // not likely to have > 10 filters
+                filteredTRs = new HashMap<>(10);        // not likely to have > 10 filters
             }
 
             if (fo == null) {
@@ -290,16 +283,16 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         else {
             // create shallow copy
             // keys are TRs, values are TestFilters.
-            HashMap<TestFilter, ArrayList<TestDescription>> out = new HashMap(filteredTRs.size());
+            HashMap<TestFilter, ArrayList<TestDescription>> out = new HashMap<>(filteredTRs.size());
 
             synchronized (rejLock) {
-                Set keys = filteredTRs.keySet();
+                Set<TestFilter> keys = filteredTRs.keySet();
                 // each key is a TestFilter
                 Iterator<TestFilter> it = keys.iterator();
                 while (it.hasNext()) {
                     // could cast this to TestFilter, but why?
                     TestFilter thisKey = it.next();
-                    ArrayList<TestDescription> al = (ArrayList<TestDescription>) filteredTRs.get(thisKey).clone();
+                    ArrayList<TestDescription> al = new ArrayList<>(filteredTRs.get(thisKey));
                     out.put(thisKey, al);
                 }   // outer while
             }   // sync
@@ -342,7 +335,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     @Override
     public String[] getInitialURLs() {
         String[] list = null;
-        ArrayList urls = new ArrayList();
+        List<String> urls = new ArrayList<>();
 
         // can we correctly show the effective urls from here?  what about TCs?
         if (nodes != null) {
@@ -429,7 +422,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                             // XXX special cases here...
 
                             // it would be nicer if we could just cast to TRT.TreeNode
-                            PseudoFrame frame = (PseudoFrame)(stack.elementAt(j));
+                            PseudoFrame frame = stack.elementAt(j);
                             TRT_TreeNode tn = (TRT_TreeNode)(frame.getNode());
                             int pos = tn.getNodeIndex(dir, false);
                             int currIndex = frame.getCurrentIndex();
@@ -713,7 +706,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     private boolean nextNode() {
         // stacks only valid in the context of a single node
         // we create a new one when we move to a new initial node
-        stack = new Stack();
+        stack = new Stack<>();
 
         // invalidate the current frame
         // NOTE: a null currFrame will terminate the iteration in findNext()
@@ -760,7 +753,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      */
     private PseudoFrame pop() {
         if (!stack.empty())
-            return (PseudoFrame)(stack.pop());
+            return stack.pop();
         else
             return null;
     }
@@ -959,7 +952,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     boolean recordRejectTR = p.getPreference("exec.recordNotrunReasons", "false").equals("true");
 
     // ------ state information ------
-    private Stack stack;
+    private Stack<PseudoFrame> stack;
     private PseudoFrame currFrame;
 
     private boolean finished = false;
@@ -1016,9 +1009,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         @Override
         public void rejected(TestDescription d, TestFilter rejector) {
             synchronized (rejLock) {
-                ArrayList vec = filteredTRs.get(rejector);
+                ArrayList<TestDescription> vec = filteredTRs.get(rejector);
                 if (vec == null) {
-                    vec = new ArrayList();
+                    vec = new ArrayList<>();
                     filteredTRs.put(rejector, vec);
                 }
 

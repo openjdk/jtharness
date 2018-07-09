@@ -42,7 +42,7 @@ public class AgentMonitorCommandManager extends AgentMonitorBatchCommandManager
 
 
     @Override
-    public boolean parseCommand(String cmd, ListIterator argIter, CommandContext ctx)
+    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
 

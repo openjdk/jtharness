@@ -266,8 +266,8 @@ public class WorkDirChooser extends JFileChooser
     private SelectedWorkDirApprover swda;
 
     private Dimension size;
-    private LinkedHashMap fileData;
-    private LinkedHashMap wdData;
+    private Map<String, String[]> fileData;
+    private Map<String, Boolean> wdData;
 
     public String getName(File f) {
         String retValue;
@@ -285,8 +285,8 @@ public class WorkDirChooser extends JFileChooser
 
 
     private boolean isWorkDir(File dir) {
-        if (wdData == null) wdData = new LinkedHashMap() {
-                protected boolean removeEldestEntry(Map.Entry eldest) {
+        if (wdData == null) wdData = new LinkedHashMap<String, Boolean>() {
+                protected boolean removeEldestEntry(Map.Entry<String, Boolean> eldest) {
                     return size() > 500;
                 }
         };
@@ -297,7 +297,7 @@ public class WorkDirChooser extends JFileChooser
         }
 
         String key = dir.getAbsolutePath();
-        Boolean value = (Boolean) wdData.get(key);
+        Boolean value = wdData.get(key);
         if (value != null) {
             return value.booleanValue();
         }
@@ -308,13 +308,13 @@ public class WorkDirChooser extends JFileChooser
 
     private String[] getInfo(File file) {
 
-        if (fileData == null) fileData = new LinkedHashMap() {
-                protected boolean removeEldestEntry(Map.Entry eldest) {
+        if (fileData == null) fileData = new LinkedHashMap<String, String[]>() {
+                protected boolean removeEldestEntry(Map.Entry<String, String[]> eldest) {
                     return size() > 500;
                 }
         };
         String key = file.getAbsolutePath();
-        String[] value = (String[]) fileData.get(key);
+        String[] value = fileData.get(key);
         if (value != null) {
             return value;
         }

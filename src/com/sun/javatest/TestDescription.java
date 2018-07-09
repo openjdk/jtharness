@@ -60,7 +60,7 @@ public class TestDescription implements Serializable
      * filename and does not begin with the root filename.
      *
      */
-    public TestDescription(File root, File file, Map params)
+    public TestDescription(File root, File file, Map<String, String> params)
                 throws IllegalArgumentException {
 
         synchronized (this.getClass()) {
@@ -90,10 +90,10 @@ public class TestDescription implements Serializable
             rootRelativeFile = fp;
         rootRelativePath = rootRelativeFile.replace(File.separatorChar, '/');
 
-        Vector v = new Vector(0, params.size() * 2);
-        for (Iterator i = params.keySet().iterator(); i.hasNext(); ) {
-            String key = (String) (i.next());
-            String value = (String)(params.get(key));
+        Vector<String> v = new Vector<>(0, params.size() * 2);
+        for (Iterator<String> i = params.keySet().iterator(); i.hasNext(); ) {
+            String key = i.next();
+            String value = params.get(key);
             insert(v, key, value);
         }
         fields = new String[v.size()];
@@ -109,7 +109,7 @@ public class TestDescription implements Serializable
         char sep = file.charAt(root.length());
         rootRelativePath = file.substring(root.length() + 1).replace(sep, '/');
 
-        Vector v = new Vector(0, params.length);
+        Vector<String> v = new Vector<>(0, params.length);
         for (int i = 0; i < params.length; i += 2) {
             String key = params[i];
             if (!(key.startsWith("$") || key.equals("testsuite") ||  key.equals("file"))) {
@@ -239,9 +239,9 @@ public class TestDescription implements Serializable
      * They are returned in canonical form (lower-case).
      * @return the set of keywords
      */
-    public Set getKeywordTable() {
+    public Set<String> getKeywordTable() {
         String[] keys = StringArray.split(getParameter("keywords"));
-        Set s = new TreeSet();
+        Set<String> s = new TreeSet<>();
         for (int i = 0; i < keys.length; i++) {
             String k = keys[i].toLowerCase();
             s.add(k);
@@ -455,8 +455,8 @@ public class TestDescription implements Serializable
      * this test description.
      * @return an iterator for the names of the parameters
      */
-    public Iterator getParameterKeys() {
-        return new Iterator() {
+    public Iterator<String> getParameterKeys() {
+        return new Iterator<String>() {
             int pos = 0;
 
             public boolean hasNext() {
@@ -468,7 +468,7 @@ public class TestDescription implements Serializable
                 }
             }
 
-            public Object next() {
+            public String next() {
                 if(fields == null || fields.length == 0 ||
                    pos == fields.length) {
                    return null;
@@ -534,7 +534,7 @@ public class TestDescription implements Serializable
      * WARNING: If this description has been read in from a .jtr file, the rootDir
      * may be inappropriate for this system.
      */
-    void save(Map p) {
+    void save(Map<String, String> p) {
         saveField(p, "$root", rootDir);
         saveField(p, "$file", getFile().getPath());
         for (int i = 0; i < fields.length; i+=2) {
@@ -542,7 +542,7 @@ public class TestDescription implements Serializable
         }
     }
 
-    private void saveField(Map p, String key, String value) {
+    private void saveField(Map<String, String> p, String key, String value) {
         if (value != null)
             p.put(key, value);
     }
@@ -564,7 +564,7 @@ public class TestDescription implements Serializable
         return new TestDescription(r, f, params);
     }
 
-    private static void insert(Vector v, String key, String value) {
+    private static void insert(Vector<String> v, String key, String value) {
         int lower = 0;
         int upper = v.size() - 2;
         int mid = 0;
@@ -575,7 +575,7 @@ public class TestDescription implements Serializable
             return;
         }
 
-        String last = (String)v.elementAt(upper);
+        String last = v.elementAt(upper);
         int cmp = key.compareTo(last);
         if (cmp > 0) {
             v.addElement(key);
@@ -586,7 +586,7 @@ public class TestDescription implements Serializable
         while (lower <= upper) {
             // in next line, take care to ensure that mid is always even
             mid = lower + ((upper - lower) / 4) * 2;
-            String e = (String)(v.elementAt(mid));
+            String e = v.elementAt(mid);
             cmp = key.compareTo(e);
             if (cmp < 0) {
                 upper = mid - 2;

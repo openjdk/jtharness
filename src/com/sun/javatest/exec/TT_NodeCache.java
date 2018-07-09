@@ -577,7 +577,7 @@ class TT_NodeCache implements Runnable {
                                 continue;
                             }
 
-                            TestResult tr = (TestResult) it.next();
+                            TestResult tr = it.next();
                             TestDescription td = tr.getDescription();
                             TestFilter rejector = null;
                             boolean wouldAccept = false;

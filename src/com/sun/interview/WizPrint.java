@@ -26,14 +26,12 @@
  */
 package com.sun.interview;
 
+import com.sun.javatest.util.Properties;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * An API (with a basic front-end application) for generating HTML printouts
@@ -171,15 +169,13 @@ public class WizPrint
                     throw new BadArgs(i18n, "wp.badArg", args[i]);
             }
 
-            Map interviewData = null;
+            Map<String, String> interviewData = null;
 
             if (interviewFile != null) {
                 try {
                     InputStream in = new BufferedInputStream(new FileInputStream(interviewFile));
-                    Properties p = new Properties();
-                    p.load(in);
-                    interviewClassName = (String)p.get("INTERVIEW");
-                    interviewData = p;
+                    interviewData = Properties.load(in);
+                    interviewClassName = interviewData.get("INTERVIEW");
                 }
                 catch (FileNotFoundException e) {
                     throw new Fault(i18n, "wp.cantFindFile", interviewFile);
@@ -997,11 +993,11 @@ public class WizPrint
     private static class SortedVector
     {
         public SortedVector() {
-            v = new Vector();
+            v = new Vector<Question>();
         }
 
         public SortedVector(int initialSize) {
-            v = new Vector(initialSize);
+            v = new Vector<>(initialSize);
         }
 
 
@@ -1009,15 +1005,15 @@ public class WizPrint
             return v.size();
         }
 
-        public Object elementAt(int index) {
+        public Question elementAt(int index) {
             return v.elementAt(index);
         }
 
-        public void insert(Object o) {
+        public void insert(Question o) {
             v.insertElementAt(o, findSortIndex(o));
         }
 
-        public void insert(Object o, boolean ignoreDuplicates) {
+        public void insert(Question o, boolean ignoreDuplicates) {
             int i = findSortIndex(o);
             if (ignoreDuplicates && (i < v.size()) && (compare(o, v.elementAt(i)) == 0))
                 return;
@@ -1025,13 +1021,13 @@ public class WizPrint
             v.insertElementAt(o, i);
         }
 
-        public void copyInto(Object[] target) {
+        public void copyInto(Question[] target) {
             v.copyInto(target);
         }
 
-        protected int compare(Object o1, Object o2) {
-            String p1 = ((Question)o1).getTag();
-            String p2 = ((Question)o2).getTag();
+        protected int compare(Question o1, Question o2) {
+            String p1 = o1.getTag();
+            String p2 = o2.getTag();
 
             if (p1 == null && p2 == null)
                 return 0;
@@ -1045,7 +1041,7 @@ public class WizPrint
             return p1.compareTo(p2);
         }
 
-        private int findSortIndex(Object o) {
+        private int findSortIndex(Question o) {
             int lower = 0;
             int upper = v.size() - 1;
             int mid = 0;
@@ -1055,14 +1051,14 @@ public class WizPrint
             }
 
             int cmp = 0;
-            Object last = v.elementAt(upper);
+            Question last = v.elementAt(upper);
             cmp = compare(o, last);
             if (cmp > 0)
                 return upper + 1;
 
             while (lower <= upper) {
                 mid = lower + ((upper - lower) / 2);
-                Object entry = v.elementAt(mid);
+                Question entry = v.elementAt(mid);
                 cmp = compare(o, entry);
 
                 if (cmp == 0) {
@@ -1079,7 +1075,7 @@ public class WizPrint
             return (cmp < 0) ? mid : mid + 1;
         }
 
-        private Vector v;
+        private Vector<Question> v;
     }
 
 }

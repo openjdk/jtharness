@@ -28,16 +28,13 @@
 package com.sun.javatest;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.HashMap;
+import java.util.*;
 
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
 
 import com.sun.javatest.TestResultTable.TreeNode;
-import java.util.Iterator;
 
 /**
  * This is the implementation of a tree node structure for TestResultTable.
@@ -51,8 +48,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      * Add an observer to watch this node for changes.
      */
     public synchronized void addObserver(TestResultTable.TreeNodeObserver obs) {
-        TestResultTable.TreeNodeObserver[] observers =
-            (TestResultTable.TreeNodeObserver[])observerTable.get(this);
+        TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
 
         if (observers == null) observers = new TestResultTable.TreeNodeObserver[0];
         observers = (TestResultTable.TreeNodeObserver[])(DynamicArray.append(observers, obs));
@@ -63,8 +59,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      * Remove an observer that was previously added.
      */
     public synchronized void removeObserver(TestResultTable.TreeNodeObserver obs) {
-        TestResultTable.TreeNodeObserver[] observers =
-            (TestResultTable.TreeNodeObserver[])observerTable.get(this);
+        TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
         if (observers == null)
             return;
 
@@ -712,7 +707,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         // anymore
         if (newTd == null)      // create an "emergency" one
             newTd = new TestDescription(table.getTestFinder().getRoot(),
-                            new File(filename), new HashMap());
+                            new File(filename), new HashMap<String, String>());
 
         newTr = TestResult.notRun(newTd);
 
@@ -1759,7 +1754,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     // these methods assume that the parent of the action is "this"
 
     private void notifyInsBranch(TRT_TreeNode newNode, int index) {
-        TestResultTable.TreeNodeObserver[] observers = (TestResultTable.TreeNodeObserver[])(observerTable.get(this));
+        TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
 
         if (observers != null)
             for (int i = 0; i < observers.length; i ++)
@@ -1767,7 +1762,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     }
 
     private void notifyInsResult(TestResult test, int index) {
-        TestResultTable.TreeNodeObserver[] observers = (TestResultTable.TreeNodeObserver[])(observerTable.get(this));
+        TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
 
         if (observers != null)
             for (int i = 0; i < observers.length; i ++)
@@ -1775,7 +1770,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     }
 
     private void notifyReplacedResult(TestResult oldTest, TestResult newTest, int index) {
-        TestResultTable.TreeNodeObserver[] observers = (TestResultTable.TreeNodeObserver[])(observerTable.get(this));
+        TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
 
         if (observers != null)
             for (int i = 0; i < observers.length; i ++)
@@ -1783,7 +1778,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     }
 
     private void notifyRemovedBranch(int index) {
-        TestResultTable.TreeNodeObserver[] observers = (TestResultTable.TreeNodeObserver[])(observerTable.get(this));
+        TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
 
         if (observers != null)
             for (int i = 0; i < observers.length; i ++)
@@ -1791,7 +1786,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     }
 
     private void notifyRemovedResult(TestResult test, int index) {
-        TestResultTable.TreeNodeObserver[] observers = (TestResultTable.TreeNodeObserver[])(observerTable.get(this));
+        TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
 
         if (observers != null)
             for (int i = 0; i < observers.length; i ++)
@@ -1799,7 +1794,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     }
 
     private void notifyCounterChange() {
-        TestResultTable.TreeNodeObserver[] observers = (TestResultTable.TreeNodeObserver[])(observerTable.get(this));
+        TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
         if (observers != null)
             for (int i = 0; i < observers.length; i ++) {
                 observers[i].countersInvalidated(this);
@@ -1824,7 +1819,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     private long lastScanDate;
 
     // no per-instance array of observers, use a static Hashtable of arrays
-    private static Hashtable observerTable = new Hashtable(16);
+    private static Map<TRT_TreeNode, TestResultTable.TreeNodeObserver[]> observerTable = new Hashtable<>(16);
 
     /**
      * List of files that makeup the on-disk contents of this node.

@@ -39,14 +39,14 @@ import java.util.TreeSet;
 public class SortedProperties extends Properties
 {
     // override Keys() to return a sorted set
-    public Enumeration keys() {
-        Set s = new TreeSet(); // ordered
+    public Enumeration<Object> keys() {
+        Set<Object> s = new TreeSet<>(); // ordered
         for (Enumeration e = super.keys(); e.hasMoreElements(); ) {
             s.add(e.nextElement());
         }
 
         final Iterator iter = s.iterator();
-        return new Enumeration() {
+        return new Enumeration<Object>() {
                 public boolean hasMoreElements() {
                     return iter.hasNext();
                 }

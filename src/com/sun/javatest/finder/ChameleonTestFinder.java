@@ -28,10 +28,7 @@ package com.sun.javatest.finder;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Comparator;
-import java.util.Hashtable;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestEnvironment;
@@ -148,9 +145,9 @@ public class ChameleonTestFinder extends TestFinder {
      */
     public void readEntries(File file) throws Fault {
         //System.err.println("reading " + file);
-        SortedSet s = new TreeSet(new Comparator() {
-            public int compare(Object o1, Object o2) {
-                int n = ((Entry)o1).compareTo((Entry)o2);
+        SortedSet<Entry> s = new TreeSet<>(new Comparator<Entry>() {
+            public int compare(Entry o1, Entry o2) {
+                int n = o1.compareTo(o2);
                 // this gives us the reverse of the order we want, so ...
                 return -n;
             }
@@ -197,7 +194,7 @@ public class ChameleonTestFinder extends TestFinder {
         }
 
         entryFile = file;
-        entries = (Entry[]) (s.toArray(new Entry[s.size()]));
+        entries = s.toArray(new Entry[s.size()]);
 
         //for (int i = 0; i < entries.length; i++)
         //    System.err.println(entries[i].prefix + "   " + entries[i].suffix);
@@ -330,7 +327,7 @@ public class ChameleonTestFinder extends TestFinder {
     private boolean ignoreCase;
     private Entry currEntry;
     private ClassLoader loader;
-    private Hashtable excludeList = new Hashtable();
+    private Map<String, String> excludeList = new Hashtable<>();
 
     private static final String[] excludeNames = {
         "SCCS", "deleted_files"

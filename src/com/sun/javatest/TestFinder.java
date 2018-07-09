@@ -246,7 +246,7 @@ public abstract class TestFinder
      * @see #foundFile(File)
      * @since 3.2
      */
-    public void setComparator(Comparator c) {
+    public void setComparator(Comparator<String> c) {
         comp = c;
 
     }
@@ -258,7 +258,7 @@ public abstract class TestFinder
      * @see #setComparator
      * @since 3.2
      */
-    public Comparator getComparator() {
+    public Comparator<String> getComparator() {
         return comp;
     }
 
@@ -267,11 +267,16 @@ public abstract class TestFinder
      * their own.  The default is a US Locale Collator.
      * @return The comparator which would be used if a custom one was not provided.
      */
-    protected Comparator getDefaultComparator() {
+    protected static Comparator<String> getDefaultComparator() {
         // this is the default
-        Collator c = Collator.getInstance(Locale.US);
+        final Collator c = Collator.getInstance(Locale.US);
         c.setStrength(Collator.PRIMARY);
-        return c;
+        return new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return c.compare(s1, s2);
+            }
+        };
     }
 
     //--------------------------------------------------------------------------
@@ -458,13 +463,13 @@ public abstract class TestFinder
      * @param name      The name of the entry that has been read
      * @param value     The value of the entry that has been read
      */
-    protected void processEntry(Map entries, String name, String value) {
+    protected void processEntry(Map<String, String> entries, String name, String value) {
         // uniquefy the keys as they go into the entries table
         name = name.intern();
 
         if (name.equalsIgnoreCase("keywords")) {
             // canonicalize keywords in their own special table
-            String keywordCacheValue = (String)keywordCache.get(value);
+            String keywordCacheValue = keywordCache.get(value);
             if (keywordCacheValue == null) {
                 String lv = value.toLowerCase();
                 String[] lvs = StringArray.split(lv);
@@ -481,7 +486,7 @@ public abstract class TestFinder
     }
 
     // cache for canonicalized lists of keywords
-    private Map keywordCache = new HashMap();
+    private Map<String, String> keywordCache = new HashMap<>();
 
     /**
      * "normalize" the test description entries read from a file.
@@ -490,7 +495,7 @@ public abstract class TestFinder
      * @param entries  A set of tag values read from a test description in a file
      * @return       A normalized set of entries
      */
-    protected Map normalize(Map entries) {
+    protected Map<String, String> normalize(Map<String, String> entries) {
         return entries;
     }
 
@@ -503,7 +508,7 @@ public abstract class TestFinder
      * @param file   The file being read
      * @param line   The line number within the file (used for error messages)
      */
-    protected void foundTestDescription(Map entries, File file, int line) {
+    protected void foundTestDescription(Map<String, String> entries, File file, int line) {
         entries = normalize(entries);
 
         if (debug) {
@@ -517,12 +522,12 @@ public abstract class TestFinder
             System.err.println("------------------------------------------");
         }
 
-        String id = (String)(entries.get("id"));
+        String id = entries.get("id");
         if (id == null)
             id = "";
 
         // make sure test has unique id within file
-        Integer prevLine = (Integer)testsInFile.get(id);
+        Integer prevLine = testsInFile.get(id);
         if (prevLine != null) {
             int i = 1;
             String newId;
@@ -569,7 +574,7 @@ public abstract class TestFinder
         }
 
         if (tests == null)
-            tests = new Vector();
+            tests = new Vector<>();
 
         int target = 0;
 
@@ -586,14 +591,14 @@ public abstract class TestFinder
 
             while (left < right) {
                 center = ((right+left)/2);
-                int cmp = comp.compare(name, ((TestDescription)(tests.get(center))).getName());
+                int cmp = comp.compare(name, tests.get(center).getName());
                 if (cmp < 0)
                     right = center;
                 else if (cmp >= 0)
                     left = center+1;
             }   // while
 
-            if (comp.compare(name, ((TestDescription)(tests.get(left))).getName()) > 0)
+            if (comp.compare(name, tests.get(left).getName()) > 0)
                 target = left+1;
             else
                 target = left;
@@ -641,7 +646,7 @@ public abstract class TestFinder
      */
     protected void foundFile(File newFile) {
         if (files == null)
-            files = new Vector();
+            files = new Vector<>();
 
         int target = 0;
 
@@ -658,14 +663,14 @@ public abstract class TestFinder
 
             while (left < right) {
                 center = ((right+left)/2);
-                int cmp = comp.compare(path, ((File)(files.get(center))).getPath());
+                int cmp = comp.compare(path, files.get(center).getPath());
                 if (cmp < 0)
                     right = center;
                 else if (cmp >= 0)
                     left = center+1;
             }   // while
 
-            if (comp.compare(path, ((File)(files.get(left))).getPath()) > 0)
+            if (comp.compare(path, files.get(left).getPath()) > 0)
                 target = left+1;
             else
                 target = left;
@@ -727,14 +732,14 @@ public abstract class TestFinder
      */
     protected TestEnvironment env;
     private ErrorHandler errHandler;
-    private Comparator comp = getDefaultComparator();
+    private Comparator<String> comp = getDefaultComparator();
 
-    private Vector files;
-    private Vector tests;
+    private Vector<File> files;
+    private Vector<TestDescription> tests;
 
-    private Map testsInFile = new HashMap();
+    private Map<String, Integer> testsInFile = new HashMap<>();
 
-    private Vector errorMessages = new Vector();
+    private Vector<String> errorMessages = new Vector<>();
 
     /**
      * A boolean to enable trace output while debugging test finders.

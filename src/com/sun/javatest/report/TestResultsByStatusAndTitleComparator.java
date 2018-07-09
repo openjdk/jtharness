@@ -31,10 +31,8 @@ import java.util.Comparator;
 import com.sun.javatest.Status;
 import com.sun.javatest.TestResult;
 
-class TestResultsByStatusAndTitleComparator implements Comparator {
-    public int compare(Object o1, Object o2) {
-        TestResult tr1 = (TestResult)o1;
-        TestResult tr2 = (TestResult)o2;
+class TestResultsByStatusAndTitleComparator implements Comparator<TestResult> {
+    public int compare(TestResult tr1, TestResult tr2) {
         Status s1 = tr1.getStatus();
         Status s2 = tr2.getStatus();
         if (s1.getType() != s2.getType())

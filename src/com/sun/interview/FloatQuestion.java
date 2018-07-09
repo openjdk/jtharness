@@ -352,17 +352,15 @@ public abstract class FloatQuestion extends Question
      * the tag as the key.
      * @param data The map from which to load the value for this question.
      */
-    protected void load(Map data) {
-        Object o = data.get(tag);
+    protected void load(Map<String, String> data) {
+        String o = data.get(tag);
         if (o == null)
             clear();
-        else if (o instanceof Float)
-            setValue(((Float)o).floatValue());
-        else if (o instanceof String) {
+        else {
             //get locate to parse string with
             Locale l = Interview.readLocale(data);
             try {
-                setValue((String) o, l);
+                setValue(o, l);
             }
             catch (Interview.Fault e) {
                 throw new Error(e);
@@ -375,7 +373,7 @@ public abstract class FloatQuestion extends Question
      * the tag as the key.
      * @param data The map in which to save the value for this question.
      */
-    protected void save(Map data) {
+    protected void save(Map<String, String> data) {
         data.put(tag, getStringValue());
     }
 

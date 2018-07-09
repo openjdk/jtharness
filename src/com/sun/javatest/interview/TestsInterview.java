@@ -152,8 +152,8 @@ public class TestsInterview
             return null;
         }
 
-        TreeSet ts = new TreeSet(Arrays.asList(v));
-        return (String[]) (ts.toArray(new String[ts.size()]));
+        TreeSet<String> ts = new TreeSet<>(Arrays.asList(v));
+        return ts.toArray(new String[ts.size()]);
 
     }
 
@@ -277,7 +277,7 @@ public class TestsInterview
     };
 
     protected String[] getTests(File file) {
-        ArrayList<String> paths = new ArrayList();
+        ArrayList<String> paths = new ArrayList<>();
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
             String line;
@@ -302,7 +302,7 @@ public class TestsInterview
             return null ;
         }
 
-        return (String[]) (paths.toArray(new String[paths.size()]));
+        return paths.toArray(new String[paths.size()]);
     }
 
     private Question qCantFindFileError  = new ErrorQuestion(this, "cantFindFile") {
@@ -485,7 +485,7 @@ public class TestsInterview
             return;
         }
         else {
-            ArrayList v = new ArrayList();
+            ArrayList<String> v = new ArrayList<>();
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < tests.length; i++) {
                 String test = tests[i];

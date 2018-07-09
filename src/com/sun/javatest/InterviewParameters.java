@@ -35,10 +35,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Map;
-import java.util.Properties;
-import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.*;
 
 import com.sun.interview.ErrorQuestion;
 import com.sun.interview.FinalQuestion;
@@ -48,7 +45,7 @@ import com.sun.javatest.tool.CustomPropagationController;
 import com.sun.javatest.tool.FileHistory;
 import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.SortedProperties;
+import com.sun.javatest.util.Properties;
 
 /**
  * Configuration parameters provided via an interview.
@@ -745,7 +742,7 @@ public abstract class InterviewParameters
     private TestEnvironment cachedRelevantTestFilterEnv;
 
     public synchronized TestFilter[] getFilters() {
-        Vector v = new Vector();
+        Vector<TestFilter> v = new Vector<>();
 
         TestFilter excludeFilter = getExcludeListFilter();
         if (excludeFilter != null) {
@@ -988,11 +985,11 @@ public abstract class InterviewParameters
         // note: the additional Fault types were introduced in JT 3.2.1
 
         // read the .jti data
-        Properties data = new Properties();
+        Map<String, String> data;
 
         InputStream in = new BufferedInputStream(new FileInputStream(file));
         try {
-            data.load(in);
+            data = Properties.load(in);
         }
         catch (RuntimeException e) {
             // can get IllegalArgumentException if the file is corrupt
@@ -1004,7 +1001,7 @@ public abstract class InterviewParameters
 
         // if the test suite has not been given, set it from the .jti data
         if (testSuite == null) {
-            String s = (String) (data.get(TESTSUITE));
+            String s = data.get(TESTSUITE);
             if (s == null)
                 throw new Fault(i18n, "ip.noTestSuiteInFile", file);
 
@@ -1024,7 +1021,7 @@ public abstract class InterviewParameters
         // if the work directory has not been given,
         // set it from the .jti data if given
         if (workDir == null) {
-            String s = (String) (data.get(WORKDIR));
+            String s = data.get(WORKDIR);
             if (s != null) {
                 try {
                     workDir = WorkDirectory.open(new File(s), testSuite);
@@ -1278,8 +1275,7 @@ public abstract class InterviewParameters
     public boolean load(File file) throws FileNotFoundException, IOException, Fault {
         InputStream in = new BufferedInputStream(new FileInputStream(file));
         try {
-            Properties data = new Properties();
-            data.load(in);
+            Map<String, String> data = Properties.load(in);
             return load(data, file);
         }
         finally {
@@ -1295,11 +1291,11 @@ public abstract class InterviewParameters
      * @throws Interview.Fault if there is a problem loading the interview
      * @return true if there was an update from template
      */
-    public boolean load(Map data, File file) throws Fault {
+    public boolean load(Map<String, String> data, File file) throws Fault {
         load(data);
 
         // restore template state
-        String tm = (String) data.get(IS_TEMPLATE);
+        String tm = data.get(IS_TEMPLATE);
         setTemplate(tm != null && tm.equalsIgnoreCase(TRUE));
 
         setEdited(false);
@@ -1317,21 +1313,21 @@ public abstract class InterviewParameters
         return prop.checkForUpdate();
     }
 
-    public void load(Map data, boolean checkChecksum) throws Fault {
+    public void load(Map<String, String> data, boolean checkChecksum) throws Fault {
         super.load(data, checkChecksum);
 
-        String me = (String) data.get(MARKERS_ENABLED);
+        String me = data.get(MARKERS_ENABLED);
         setMarkersEnabled(me != null && me.equalsIgnoreCase(TRUE));
 
-        String mf = (String) data.get(MARKERS_FILTER);
+        String mf = data.get(MARKERS_FILTER);
         setMarkersFilterEnabled(mf != null && mf.equalsIgnoreCase(TRUE));
 
-        String tm = (String) data.get(IS_TEMPLATE);
+        String tm = data.get(IS_TEMPLATE);
         setTemplate(tm != null && tm.equalsIgnoreCase(TRUE));
 
         String tu = null;
         //if (isTemplate()) {
-            tu = (String) data.get(TEMPLATE_PATH);
+            tu = data.get(TEMPLATE_PATH);
         //} else {
             //tu = (String) data.get(TEMPLATE_PREF + TEMPLATE_PATH);
         //}
@@ -1569,7 +1565,7 @@ public abstract class InterviewParameters
     public void saveAs(File file, boolean saveTestSuite, boolean saveWorkDir, boolean isTemplate)
         throws IOException, Fault
     {
-        Properties data = new SortedProperties();
+        SortedMap<String, String> data = new TreeMap<>();
         setTemplate(isTemplate);        // dubious, why do we need to do this?
 
         if (saveTestSuite) {
@@ -1600,7 +1596,7 @@ public abstract class InterviewParameters
             out = backupPolicy.backupAndOpenStream(file);
 
         try {
-            data.store(out, "JT Harness Configuration Interview");
+            Properties.store(data, out, "JT Harness Configuration Interview");
         }
         finally {
             out.close();
@@ -1628,7 +1624,7 @@ public abstract class InterviewParameters
         saveAs(file, saveTestSuite, saveWorkDir, false);
     }
 
-    public void save(Map data) {
+    public void save(Map<String, String> data) {
         if (markersEnabled)
             data.put(MARKERS_ENABLED, TRUE);
 
@@ -1638,7 +1634,7 @@ public abstract class InterviewParameters
         if (isTemplate()) {
             data.put(IS_TEMPLATE, TRUE);
 
-            storeTemplateProperties(new Properties());
+            storeTemplateProperties(new HashMap<String, String>());
         }
         else {
             WorkDirectory wd = getWorkDirectory();

@@ -28,13 +28,7 @@ package com.sun.javatest;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.Vector;
+import java.util.*;
 
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
@@ -436,7 +430,7 @@ public class ExcludeList
                     // an entry with another set of test cases.
                     // For now, concatenate the arrays.
                     // RFE: Replace Entry[] with Set and merge the sets.
-                    table.put(key, (Entry[]) DynamicArray.append((Entry[]) o, otherEntry));
+                    table.put(key, DynamicArray.append((Entry[]) o, otherEntry));
                 }
             }
         }
@@ -451,10 +445,10 @@ public class ExcludeList
     }
 
     static String[] merge(String[] a, String[] b) {
-        SortedSet s = new TreeSet();
+        SortedSet<String> s = new TreeSet<>();
         s.addAll(Arrays.asList(a));
         s.addAll(Arrays.asList(b));
-        return (String[]) (s.toArray(new String[s.size()]));
+        return s.toArray(new String[s.size()]);
     }
 
     static String mergeSynopsis(String a, String b) {
@@ -546,7 +540,7 @@ public class ExcludeList
         else {
             // flatten the enumeration into a vector, then
             // enumerate that
-            Vector v = new Vector(table.size());
+            Vector<Object> v = new Vector<>(table.size());
             for (Iterator iter = table.values().iterator(); iter.hasNext(); ) {
                 Object o = iter.next();
                 if (o instanceof Entry)
@@ -591,7 +585,7 @@ public class ExcludeList
         int maxURLWidth = 0;
         int maxBugIdWidth = 0;
         int maxPlatformWidth = 0;
-        SortedSet entries = new TreeSet();
+        SortedSet<Entry> entries = new TreeSet<>();
         for (Iterator iter = getIterator(false); iter.hasNext(); ) {
             Entry entry = (Entry) (iter.next());
             entries.add(entry);
@@ -713,7 +707,7 @@ public class ExcludeList
         return hash;
     }
 
-    private Map table = new HashMap();
+    private Map<Key, Object> table = new HashMap<>();
     private String title;
     private boolean strict;
 
@@ -781,7 +775,7 @@ public class ExcludeList
             // skip white space, then read and sort a list of comma-separated
             // numbers with no embedded white-space
             skipWhite();
-            TreeSet s = new TreeSet();
+            TreeSet<String> s = new TreeSet<>();
             StringBuffer sb = new StringBuffer();
             for ( ; !isEndOfLine(ch) && !isWhitespace(ch); ch = in.read()) {
                 if (ch == ',') {
@@ -800,7 +794,7 @@ public class ExcludeList
             if (s.size() == 0)
                 s.add("0");  // backwards compatibility
 
-            return (String[]) (s.toArray(new String[s.size()]));
+            return s.toArray(new String[s.size()]);
         }
 
         private String[] readPlatforms() throws IOException {
@@ -810,7 +804,7 @@ public class ExcludeList
             // share the result amongst all equivalent entries.
             skipWhite();
             String s = readWord();
-            String[] platforms = (String[])platformCache.get(s);
+            String[] platforms = platformCache.get(s);
             if (platforms == null) {
                 // split string into sorted comma separated pieces
                 int n = 0;
@@ -818,7 +812,7 @@ public class ExcludeList
                     if (s.charAt(i) == ',')
                         n++;
                 }
-                TreeSet ts = new TreeSet();
+                Set<String> ts = new TreeSet<>();
                 int start = 0;
                 int end = s.indexOf(',');
                 while (end != -1) {
@@ -827,7 +821,7 @@ public class ExcludeList
                     end = s.indexOf(',', start);
                 }
                 ts.add(s.substring(start));
-                platforms = (String[]) (ts.toArray(new String[ts.size()]));
+                platforms = ts.toArray(new String[ts.size()]);
                 platformCache.put(s, platforms);
             }
             return platforms;
@@ -881,7 +875,7 @@ public class ExcludeList
 
         private Reader in;      // source stream being read
         private int ch;         // current character
-        private Map platformCache = new HashMap();
+        private Map<String, String[]> platformCache = new HashMap<>();
                                 // cache of results for readPlatforms
         private String title;
     };
@@ -1058,7 +1052,7 @@ public class ExcludeList
             if (testCase == null)
                 return null;
 
-            Vector v = new Vector();
+            Vector<String> v = new Vector<String>();
             int start = -1;
             for (int i = 0; i < testCase.length(); i++) {
                 if (testCase.charAt(i) == ',') {

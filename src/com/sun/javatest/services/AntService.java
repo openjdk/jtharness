@@ -92,7 +92,7 @@ public class AntService extends Service {
             throw new MalformedParamsException
                     ("Path to ANT binary doesn't specified", p);
         }
-        List<String> command = new LinkedList();
+        List<String> command = new LinkedList<>();
         command.add(antBin);
 
         String workDir = p.remove(ANT_WORKDIR);
@@ -101,7 +101,7 @@ public class AntService extends Service {
             params.setWorkDirectory(new File(workDir));
         }
 
-        Map<String, String> env = new TreeMap();
+        Map<String, String> env = new TreeMap<>();
         for (String name : p.keySet()) {
             if (name.startsWith(ANT_ENV)) {
                 env.put(name.substring(ANT_ENV.length()), p.remove(name));

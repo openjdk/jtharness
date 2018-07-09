@@ -73,7 +73,7 @@ public class AuditToolManager extends ToolManager
         return t;
     }
 
-    public Tool restoreTool(Map m) {
+    public Tool restoreTool(Map<String, String> m) {
         AuditTool t = getTool();
         t.restore(m);
         return t;

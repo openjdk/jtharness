@@ -81,7 +81,7 @@ public class TypeInPanel extends JPanel
             add(field, c);
         }
         else {
-            choice = new JComboBox();
+            choice = new JComboBox<>();
             choice.setName(uiKey + ".chc");
             choice.setEditable(true);
             choice.setSelectedItem(q.getStringValue());
@@ -153,7 +153,7 @@ public class TypeInPanel extends JPanel
     }
 
     protected JTextField field;
-    protected JComboBox choice;
+    protected JComboBox<String> choice;
 
     private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }

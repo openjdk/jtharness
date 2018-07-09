@@ -249,7 +249,7 @@ public class NavigationPane extends JPanel {
             if (index == 0)
                 return null;
 
-            return (URL) (entries.elementAt(--index));
+            return entries.elementAt(--index);
         }
 
         boolean hasNext() {

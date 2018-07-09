@@ -63,7 +63,7 @@ public class ReportToolManager extends ToolManager {
         return new Action[] { a };
     }
 
-    public Tool restoreTool(Map m) {
+    public Tool restoreTool(Map<String, String> m) {
         ReportTool t = getTool();
         t.restore(m);
         return t;

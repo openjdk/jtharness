@@ -156,7 +156,7 @@ class QuestionPanel extends JPanel
         // viewport height becomes less than getPreferredSize().height, but may be enough for components
         // without any scrolling
         if(getParent() instanceof JViewport)
-                return (((JViewport)getParent()).getHeight() > getPreferredSize().height);
+                return getParent().getHeight() > getPreferredSize().height;
         else
             return false;
     }
@@ -213,7 +213,7 @@ class QuestionPanel extends JPanel
     }
 
     private void initRenderers() {
-        renderers = new HashMap();
+        renderers = new HashMap<>();
         renderers.put(ChoiceQuestion.class, new ChoiceQuestionRenderer());
         renderers.put(ChoiceArrayQuestion.class, new ChoiceArrayQuestionRenderer());
         renderers.put(FileQuestion.class, new FileQuestionRenderer());
@@ -228,7 +228,7 @@ class QuestionPanel extends JPanel
         renderers.put(StringListQuestion.class, new StringListQuestionRenderer());
         renderers.put(TreeQuestion.class, new TreeQuestionRenderer());
         renderers.put(YesNoQuestion.class, new YesNoQuestionRenderer());
-        setCustomRenderers(new HashMap());
+        setCustomRenderers(new HashMap<Class<? extends Question>, QuestionRenderer>());
     }
 
     /**
@@ -568,7 +568,7 @@ class QuestionPanel extends JPanel
 
         for (int i = 0; i < p.getComponentCount(); i++) {
             Component c = (p.getComponent(i));
-            if ((c instanceof JComponent) && ((JComponent)c).hasFocus()
+            if ((c instanceof JComponent && c.hasFocus())
                 || (c instanceof JPanel && anyChildHasFocus((JPanel)c)))
                 return true;
         }
@@ -586,8 +586,8 @@ class QuestionPanel extends JPanel
     private JTextField valueMessageField;
     private JPanel propsPanel;
     private JTextField tagField;
-    private Map renderers;
-    private Map customRenderers;
+    private Map<Class<? extends Question>, QuestionRenderer> renderers;
+    private Map<Class<? extends Question>, QuestionRenderer> customRenderers;
     private Listener listener = new Listener();
 
     private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
@@ -643,7 +643,7 @@ class QuestionPanel extends JPanel
     private static final int PROPS_PANEL_INSETS_TOP = 0;
     private static final int PROPS_PANEL_INSETS_BOTTOM = 10;
 
-    public void setCustomRenderers(Map customRenderers) {
+    public void setCustomRenderers(Map<Class<? extends Question>, QuestionRenderer> customRenderers) {
         this.customRenderers = customRenderers;
     }
 

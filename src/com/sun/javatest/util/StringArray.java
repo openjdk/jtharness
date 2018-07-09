@@ -48,7 +48,7 @@ public class StringArray
         if (s == null)
             return empty;
 
-        Vector v = new Vector();
+        Vector<String> v = new Vector<>();
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             if (white(s.charAt(i))) {
@@ -130,7 +130,7 @@ public class StringArray
         if (list == null || list.length() == 0)
             return null;
 
-        Vector v = new Vector();
+        Vector<String> v = new Vector<>();
         int pos = 0;
         while (true) {
             int nextD = list.indexOf(delim, pos);

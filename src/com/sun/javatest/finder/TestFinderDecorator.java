@@ -94,11 +94,11 @@ public class TestFinderDecorator extends TestFinder {
         return currentTestFinder.getFiles();
     }
 
-    public Comparator getComparator() {
+    public Comparator<String> getComparator() {
         return currentTestFinder.getComparator();
     }
 
-    public void setComparator(Comparator c) {
+    public void setComparator(Comparator<String> c) {
         currentTestFinder.setComparator(c);
     }
 

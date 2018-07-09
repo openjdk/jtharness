@@ -816,7 +816,7 @@ class NewReportDialog extends ToolDialog
      */
     private boolean hasSelectedCheckBox() {
         for (int i = 0; i < listModel.getSize(); i++) {
-            if (((JCheckBox)listModel.getElementAt(i)).isSelected()) {
+            if (listModel.getElementAt(i).isSelected()) {
                 return true;
             }
         }
@@ -863,7 +863,7 @@ class NewReportDialog extends ToolDialog
                 long newestTime = 0;
 
                 for (int i = 0; i < possible.size(); i++) {
-                    File file = (File)(possible.get(i));
+                    File file = possible.get(i);
                     if (file.lastModified() > newestTime) {
                         newestF = file;
                         newestTime = file.lastModified();
@@ -922,13 +922,13 @@ class NewReportDialog extends ToolDialog
 
         if (!cbHtml.isSelected()) {
             for (int i = 0; i < htmlGroup.size(); i++)
-                ((JCheckBox)(htmlGroup.get(i))).setEnabled(false);
+                htmlGroup.get(i).setEnabled(false);
         }
         else {
             for (int i = 0; i < htmlGroup.size(); i++)
-                ((JCheckBox)(htmlGroup.get(i))).setEnabled(true);
+                htmlGroup.get(i).setEnabled(true);
             for (int i = 0; i < configGroup.size(); i++)
-                ((JCheckBox)(configGroup.get(i))).setEnabled(cbConfig.isSelected());
+                configGroup.get(i).setEnabled(cbConfig.isSelected());
         }
     }
 
@@ -1079,7 +1079,7 @@ class NewReportDialog extends ToolDialog
                 }
             }
             else if (src == okBtn) {
-                String s = (String) dirField.getText();
+                String s = dirField.getText();
 
                 // check null input
                 if (s == null || s.length() == 0) {
@@ -1409,7 +1409,7 @@ class NewReportDialog extends ToolDialog
                 tab.setEnabled(box.isSelected());
             }
             if (customBoxes != null) {
-                CustomReport rep = (CustomReport) customBoxes.get(box);
+                CustomReport rep = customBoxes.get(box);
                 if (rep != null && rep.getOptionPanes() != null) {
                     for (int i = 0; i < rep.getOptionPanes().length; i++) {
                         rep.getOptionPanes()[i].setEnabled(box.isSelected());
@@ -1430,7 +1430,7 @@ class NewReportDialog extends ToolDialog
             else if (box == cbCof)
                 infoArea.setText(uif.getI18NString("nrd.info.cof.txt"));
             else if (customBoxes != null) {
-                CustomReport rep = (CustomReport) customBoxes.get(box);
+                CustomReport rep = customBoxes.get(box);
                 if (rep != null)
                     infoArea.setText(rep.getDescription());
             }

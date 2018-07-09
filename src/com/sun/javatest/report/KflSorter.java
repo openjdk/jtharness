@@ -34,10 +34,7 @@ import com.sun.javatest.util.StringArray;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,19 +65,19 @@ public class KflSorter {
     KflSorter(KnownFailuresList kfl, TestResultTable trt, boolean testcases) {
         this.kfl = kfl;
         this.trt = trt;
-        missing = new TreeSet();
-        newFailures = new TreeSet();
-        otherErrors = new TreeSet();
-        fail2notrun = new TreeSet();
-        fail2error = new TreeSet();
-        fail2pass = new TreeSet();
-        fail2fail = new TreeSet();
+        missing = new TreeSet<>();
+        newFailures = new TreeSet<>();
+        otherErrors = new TreeSet<>();
+        fail2notrun = new TreeSet<>();
+        fail2error = new TreeSet<>();
+        fail2pass = new TreeSet<>();
+        fail2fail = new TreeSet<>();
 
-        tc_missing = new TreeSet();
-        tc_fail2pass = new TreeSet();
-        tc_fail2error = new TreeSet();
-        tc_fail2notrun = new TreeSet();
-        tc_newFailures = new TreeSet();
+        tc_missing = new TreeSet<>();
+        tc_fail2pass = new TreeSet<>();
+        tc_fail2error = new TreeSet<>();
+        tc_fail2notrun = new TreeSet<>();
+        tc_newFailures = new TreeSet<>();
 
         enableTestCases = testcases;
     }
@@ -114,13 +111,13 @@ public class KflSorter {
      * @return Number of comparison errors encountered.
      */
     synchronized int run(TestResultTable.TreeIterator iter) {
-        TreeSet[] lists = new TreeSet[Status.NUM_STATES];
+        TreeSet<TestResult>[] lists = new TreeSet[Status.NUM_STATES];
         int totalFound = 0;
 
         for (; iter.hasNext();) {
-            TestResult tr = (TestResult) (iter.next());
+            TestResult tr = iter.next();
             Status s = tr.getStatus();
-            TreeSet list = lists[s == null ? Status.NOT_RUN : s.getType()];
+            TreeSet<TestResult> list = lists[s == null ? Status.NOT_RUN : s.getType()];
             list.add(tr);
             totalFound++;
         }
@@ -406,7 +403,7 @@ public class KflSorter {
      */
     private int addAllTestCases(final KnownFailuresList.Entry entry,
             final String url, final TestResult tr,
-            Transitions t, TreeSet set) {
+            Transitions t, Set<TestDiff> set) {
         // could check enableTestCases flag before processing
         // add all test cases from this entry
         int problems = 0;
@@ -485,7 +482,7 @@ public class KflSorter {
      */
     private int addStatusTestCases(
             final String url, final TestResult tr, int status,
-            Transitions t, Map<String, Status> trtcs, TreeSet set) {
+            Transitions t, Map<String, Status> trtcs, Set<TestDiff> set) {
         // could check enableTestCases flag before processing
         int problems = 0;
 
@@ -535,7 +532,7 @@ public class KflSorter {
         return false;
     }
 
-    synchronized TreeSet<TestDiff> getSet(Transitions id) {
+    synchronized SortedSet<TestDiff> getSet(Transitions id) {
         switch (id) {
             case FAIL2PASS: return fail2pass;
             case FAIL2MISSING: return missing;
@@ -564,7 +561,7 @@ public class KflSorter {
 
 
     private static Map<String, Status> getTestCases(final TestResult tr) {
-        Map result = new LinkedHashMap();
+        Map<String, Status> result = new LinkedHashMap<>();
 
         if (tr.isShrunk() && tr.isReloadable())
             tr.getSectionTitles();
@@ -735,19 +732,19 @@ public class KflSorter {
 //        public void passToFail(TestResult tr);
 //        public void failToPass(TestResult tr);
 //    }
-    protected TreeSet<TestDiff> fail2pass;
-    protected TreeSet<TestDiff> fail2error;
-    protected TreeSet<TestDiff> fail2notrun;
-    protected TreeSet<TestDiff> missing;
-    protected TreeSet<TestDiff> newFailures;
-    protected TreeSet<TestDiff> otherErrors;
-    protected TreeSet<TestDiff> fail2fail;
+    protected SortedSet<TestDiff> fail2pass;
+    protected SortedSet<TestDiff> fail2error;
+    protected SortedSet<TestDiff> fail2notrun;
+    protected SortedSet<TestDiff> missing;
+    protected SortedSet<TestDiff> newFailures;
+    protected SortedSet<TestDiff> otherErrors;
+    protected SortedSet<TestDiff> fail2fail;
 
-    protected TreeSet<TestDiff> tc_missing;
-    protected TreeSet<TestDiff> tc_fail2pass;
-    protected TreeSet<TestDiff> tc_fail2error;
-    protected TreeSet<TestDiff> tc_fail2notrun;
-    protected TreeSet<TestDiff> tc_newFailures;
+    protected SortedSet<TestDiff> tc_missing;
+    protected SortedSet<TestDiff> tc_fail2pass;
+    protected SortedSet<TestDiff> tc_fail2error;
+    protected SortedSet<TestDiff> tc_fail2notrun;
+    protected SortedSet<TestDiff> tc_newFailures;
 
     protected KnownFailuresList kfl;
     //protected TestCaseList tcl;

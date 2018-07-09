@@ -37,7 +37,7 @@ public class FileInfoCache
     private final int SIZE = 500;
 
     // we can't use generics in util package but this is actually Map<String, Boolean>
-    private Map map = Collections.synchronizedMap( new LinkedHashMap() {
+    private Map<String, Boolean> map = Collections.synchronizedMap( new LinkedHashMap<String, Boolean>() {
         protected boolean removeEldestEntry(Map.Entry eldest) {
             return size() > SIZE;
         }
@@ -48,7 +48,7 @@ public class FileInfoCache
     }
 
     public Boolean get(File f) {
-        return (Boolean) map.get(f.getAbsolutePath());
+        return map.get(f.getAbsolutePath());
     }
 
     public void clear() {

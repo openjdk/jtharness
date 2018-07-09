@@ -189,7 +189,7 @@ public abstract class ListQuestion extends Question
         }
         else {
             end = new EndQuestion(interview, tag, this);
-            bodies = new Vector();
+            bodies = new Vector<>();
         }
     }
 
@@ -235,7 +235,7 @@ public abstract class ListQuestion extends Question
      */
     public Body getSelectedBody() {
         if (value >= 0 && value < bodies.size())
-            return (Body) (bodies.elementAt(value));
+            return bodies.elementAt(value);
         else
             return null;
     }
@@ -394,9 +394,9 @@ public abstract class ListQuestion extends Question
         return end.getDefaultTextArgs();
     }
 
-    protected void load(Map data) {
+    protected void load(Map<String, String> data) {
         bodies.setSize(0);
-        String c = (String) (data.get(tag + ".count"));
+        String c = data.get(tag + ".count");
         if (c != null && c.length() > 0) {
             try {
                 int n = Integer.parseInt(c);
@@ -409,7 +409,7 @@ public abstract class ListQuestion extends Question
             }
         }
 
-        String v = (String) (data.get(tag + ".curr"));
+        String v = data.get(tag + ".curr");
         if (v == null || v.length() == 0)
             value = 0;
         else {
@@ -422,7 +422,7 @@ public abstract class ListQuestion extends Question
         }
     }
 
-    protected void save(Map data) {
+    protected void save(Map<String, String> data) {
         data.put(tag + ".count", String.valueOf(bodies.size()));
         data.put(tag + ".curr", String.valueOf(value));
     }
@@ -455,7 +455,7 @@ public abstract class ListQuestion extends Question
      * valid body
      */
     public Body getBody(int index) {
-        return (Body) (bodies.elementAt(index));
+        return bodies.elementAt(index);
     }
 
     /**
@@ -510,7 +510,7 @@ public abstract class ListQuestion extends Question
     public int getIncompleteBodyCount() {
         int count = 0;
         for (int i = 0; i < bodies.size(); i++) {
-            Body b = (Body) (bodies.elementAt(i));
+            Body b = bodies.elementAt(i);
             if (!b.isInterviewFinishable())
                 count++;
         }
@@ -519,7 +519,7 @@ public abstract class ListQuestion extends Question
 
 
     private final EndQuestion end;
-    private final Vector bodies;
+    private final Vector<Body> bodies;
     private int value;
 
     private static final ResourceBundle i18n = Interview.i18n;
@@ -533,7 +533,7 @@ public abstract class ListQuestion extends Question
         public Question getNext() {
             boolean allBodiesFinishable = true;
             for (int i = 0; i < head.getBodyCount(); i++) {
-                Body b = (Body) (head.getBody(i));
+                Body b = head.getBody(i);
                 if (!b.isInterviewFinishable()) {
                     allBodiesFinishable = false;
                     break;
@@ -605,10 +605,10 @@ public abstract class ListQuestion extends Question
             head.clear();
         }
 
-        protected void load(Map data) {
+        protected void load(Map<String, String> data) {
         }
 
-        protected void save(Map data) {
+        protected void save(Map<String, String> data) {
         }
 
         public Body[] getBodies() {

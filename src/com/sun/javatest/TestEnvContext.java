@@ -67,8 +67,8 @@ public class TestEnvContext
      * @throws TestEnvContext.Fault if an error is found while reading the files
      */
     public TestEnvContext(File[] files) throws Fault {
-        Vector n = new Vector();
-        Vector p = new Vector();
+        Vector<String> n = new Vector<>();
+        Vector<Map> p = new Vector<>();
         try {
             if (files != null) {
                 for (int i = 0; i < files.length; i++) {
@@ -94,8 +94,8 @@ public class TestEnvContext
      *  environments that are created
      */
     public TestEnvContext(Map[] tables, String[] tableNames) {
-        Vector n = new Vector();
-        Vector p = new Vector();
+        Vector<String> n = new Vector<>();
+        Vector<Map> p = new Vector<>();
         for (int i = 0; i < tables.length; i++) {
             add(p, n, tables[i], tableNames[i]);
         }
@@ -113,8 +113,8 @@ public class TestEnvContext
      *   of the properties in any environments that are created.
      */
     public TestEnvContext(Map table, String tableName) {
-        Vector n = new Vector();
-        Vector p = new Vector();
+        Vector<String> n = new Vector<>();
+        Vector<Map> p = new Vector<>();
         add(p, n, table, tableName);
         propTables = new Map[p.size()];
         p.copyInto(propTables);
@@ -227,7 +227,7 @@ public class TestEnvContext
         */
     }
 
-    private void add(Vector pv, Vector nv, Map p, String n) {
+    private void add(Vector<Map> pv, Vector<String> nv, Map p, String n) {
         if (p != null) {
             pv.addElement(p);
             nv.addElement(n);
@@ -250,8 +250,8 @@ public class TestEnvContext
             tableNames = (String[]) (DynamicArray.join(defaultTableNames, tableNames));
         }
 
-        Vector allVec = new Vector();
-        Vector menuExcludeVec = new Vector();
+        Vector<String> allVec = new Vector<>();
+        Vector<String> menuExcludeVec = new Vector<>();
 
         // scan all the property tables, looking for entries
         final String ENV_DOT = "env.";
@@ -322,16 +322,16 @@ public class TestEnvContext
 
         envNames = new String[allVec.size()];
         allVec.copyInto(envNames);
-        Vector menuVec = (Vector)allVec.clone();
+        Vector<String> menuVec = new Vector<String>(allVec);
         for (int i = 0; i < menuExcludeVec.size(); i++)
             menuVec.removeElement(menuExcludeVec.elementAt(i));
         envMenuNames = new String[menuVec.size()];
         menuVec.copyInto(envMenuNames);
     }
 
-    private void sortedInsert(Vector v, String s) {
+    private void sortedInsert(Vector<String> v, String s) {
         for (int i = 0; i < v.size(); i++) {
-            int c = s.compareTo((String)(v.elementAt(i)));
+            int c = s.compareTo(v.elementAt(i));
             if (c > 0) {
                 v.insertElementAt(s, i);
                 return;

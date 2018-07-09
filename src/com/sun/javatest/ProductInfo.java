@@ -37,11 +37,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.StringTokenizer;
+import java.util.*;
 
 
 /**
@@ -93,7 +89,7 @@ public class ProductInfo
      */
     private static int[] parseVersion(String v) {
         int[] arr = {0,0,0,0,0,0,0,0,0,0};
-        ArrayList list = new ArrayList();
+        List<String> list = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(v, ".");
         while (st.hasMoreTokens()) {
             list.add(st.nextToken());

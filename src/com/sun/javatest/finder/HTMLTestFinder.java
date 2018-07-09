@@ -29,6 +29,7 @@ package com.sun.javatest.finder;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Vector;
 
 import com.sun.javatest.TestFinder;
@@ -49,11 +50,11 @@ public class HTMLTestFinder extends TestFinder
         // init the tables used when scanning directories
         // if necessary, the tables could be dynamically updated by the
         // init args; this is not currently supported
-        excludeList = new Hashtable(excludeNames.length);
+        excludeList = new Hashtable<>(excludeNames.length);
         for (int i = 0; i < excludeNames.length; i++)
             excludeList.put(excludeNames[i], excludeNames[i]);
 
-        extensionTable = new Hashtable(extensions.length);
+        extensionTable = new Hashtable<>(extensions.length);
         for (int i = 0; i < extensions.length; i++)
             extensionTable.put(extensions[i], extensions[i]);
     }
@@ -344,7 +345,7 @@ public class HTMLTestFinder extends TestFinder
             String value = scanValue();
             skipSpace();
             if (att.equals("class") && "TestDescription".equals(value)) {
-                params = new Hashtable();
+                params = new Hashtable<>();
                 endTestDescriptionTag = "table";
             } else if (att.equals("id"))
                 id = value;
@@ -358,7 +359,7 @@ public class HTMLTestFinder extends TestFinder
         skipTag();
         if (params != null) {
             endTableRow();
-            tableRow = new Vector();
+            tableRow = new Vector<>();
         }
     }
 
@@ -367,7 +368,7 @@ public class HTMLTestFinder extends TestFinder
             // ensure any outstanding <td> is closed
             endTableData();
             if (tableRow.size() == 2)
-                processEntry(params, (String)tableRow.elementAt(0), (String)tableRow.elementAt(1));
+                processEntry(params, tableRow.elementAt(0), tableRow.elementAt(1));
             tableRow = null;
         }
     }
@@ -403,7 +404,7 @@ public class HTMLTestFinder extends TestFinder
             String value = scanValue();
             skipSpace();
             if (att.equals("class") && "TestDescription".equals(value)) {
-                params = new Hashtable();
+                params = new Hashtable<>();
                 endTestDescriptionTag = "dl";
             } else if (att.equals("id"))
                 id = value;
@@ -505,7 +506,7 @@ public class HTMLTestFinder extends TestFinder
             if (att.equals("name")) {
                 lastName = value;
                 Integer here = new Integer(line);
-                Integer prev = (Integer)namesInFile.put(value, here);
+                Integer prev = namesInFile.put(value, here);
                 if (prev != null) {
                     error(i18n, "html.multipleName",
                           new Object[] {value, context, here, prev});
@@ -584,10 +585,10 @@ public class HTMLTestFinder extends TestFinder
 
     //----------member variables------------------------------------------------
 
-    private Hashtable namesInFile = new Hashtable();
-    private Hashtable excludeList;
+    private Map<String, Integer> namesInFile = new Hashtable<>();
+    private Map<String, String> excludeList;
     private static final String[] excludeNames = {"SCCS", "deleted_files"};
-    private Hashtable extensionTable;
+    private Map<String, String> extensionTable;
     private static final String[] extensions = {".html", ".htm"};
 
     /**
@@ -614,9 +615,9 @@ public class HTMLTestFinder extends TestFinder
     private StringBuffer text;
 
     private String endTestDescriptionTag;
-    private Hashtable params;
+    private Hashtable<String, String> params;
     private String defTerm;   // collects test description parameter name
-    private Vector tableRow;  // collects test description info from <TR><TD>....</TD>....etc...</TR>
+    private Vector<String> tableRow;  // collects test description info from <TR><TD>....</TD>....etc...</TR>
     private String lastName;
 
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HTMLTestFinder.class);

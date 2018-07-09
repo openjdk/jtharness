@@ -403,7 +403,7 @@ public class FilterConfig {
             leftList.setSelectedIndex(index);
 
             // update right panel
-            selectedFilter = (TestFilter)(listModel.elementAt(index));
+            selectedFilter = listModel.elementAt(index);
             if (selectedFilter instanceof ConfigurableTestFilter) {
                 if (mode == -1 || mode == UNEDITABLE) {
                     nameCards.show(namePanel, NAMING_ACTIVE);

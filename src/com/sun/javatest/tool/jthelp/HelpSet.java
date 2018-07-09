@@ -35,6 +35,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class HelpSet {
 
@@ -155,7 +156,7 @@ public class HelpSet {
         return result;
     }
 
-    public HashMap<String, URL> getLocalMap() {
+    public Map<String, URL> getLocalMap() {
         return localMap;
     }
 

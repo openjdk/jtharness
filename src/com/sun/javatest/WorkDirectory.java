@@ -287,7 +287,7 @@ public class WorkDirectory {
     throws BadDirectoryFault, WorkDirectoryExistsFault, InitializationFault {
         File canonDir;
         File jtData;
-        ArrayList undoList = new ArrayList();
+        ArrayList<File> undoList = new ArrayList<>();
 
         try {
             if (dir.exists()) {
@@ -348,7 +348,7 @@ public class WorkDirectory {
         return logFileName;
     }
 
-    private static boolean mkdirs(File dir, ArrayList undoList) {
+    private static boolean mkdirs(File dir, ArrayList<File> undoList) {
         File parent = dir.getParentFile();
         if (parent != null && !parent.exists()) {
             if (!mkdirs(parent, undoList))
@@ -949,9 +949,9 @@ public class WorkDirectory {
     public synchronized void putTestAnnotation(String testName, String key, String value) {
         loadAnnotations();
 
-        HashMap<String,String> map = null;
+        Map<String,String> map = null;
         if (annotationMap == null)
-            annotationMap = new TreeMap<String,HashMap<String,String>>();
+            annotationMap = new TreeMap<String, Map<String,String>>();
         else
             map = annotationMap.get(testName);
 
@@ -1072,7 +1072,7 @@ public class WorkDirectory {
 
             DataInputStream reader = new DataInputStream(new BufferedInputStream(fis));
 
-            annotationMap = new TreeMap<String,HashMap<String,String>>();
+            annotationMap = new TreeMap<String, Map<String,String>>();
 
             try {
                 while(reader.available() > 0) {
@@ -1081,7 +1081,7 @@ public class WorkDirectory {
                         String s2 = reader.readUTF();
                         String s3 = reader.readUTF();
 
-                        HashMap map = annotationMap.get(s1);
+                        Map<String,String> map = annotationMap.get(s1);
                         if (map == null) {
                             map = new HashMap<String,String>();
                             annotationMap.put(s1, map);
@@ -1128,7 +1128,7 @@ public class WorkDirectory {
             DataOutputStream writer = new DataOutputStream(new BufferedOutputStream(fos));
             // writes a triplet
             for (String s: annotationMap.keySet()) {
-                HashMap<String,String> map = annotationMap.get(s);
+                Map<String,String> map = annotationMap.get(s);
                 try {
                     for (String key: map.keySet()) {
                         writer.writeUTF(s);    // 1
@@ -1255,7 +1255,7 @@ public class WorkDirectory {
     private String oldWDpath;
     private int testCount = -1;
     private TestResultTable testResultTable;
-    private TreeMap<String,HashMap<String,String>> annotationMap;
+    private Map<String, Map<String,String>> annotationMap;
     private File jtData;
     private String logFileName;
     private LogFile logFile;

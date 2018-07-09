@@ -202,12 +202,12 @@ public class Main {
     public void addFiles(String[] paths) {
         if (paths == null)
             return;
-        List/*<File>*/ files = new ArrayList/*<File>*/();
+        List<File> files = new ArrayList<File>();
         if (inFiles != null)
             files.addAll(Arrays.asList(inFiles));
         for (int i = 0; i < paths.length; i++)
             files.add(new File(paths[i]));
-        inFiles = (File[]) files.toArray(new File[files.size()]);
+        inFiles = files.toArray(new File[files.size()]);
     }
 
     private void run() throws BadArgs, IOException {
@@ -608,7 +608,7 @@ public class Main {
     }
 
     private static String[] split(String s, char sep) {
-        Vector v = new Vector();
+        Vector<String> v = new Vector<>();
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -629,7 +629,7 @@ public class Main {
     }
 
     private static File[] splitPath(String s) {
-        Vector v = new Vector();
+        Vector<File> v = new Vector<>();
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -732,21 +732,19 @@ public class Main {
     private String currName;
     private Node root;
 
-    private static Iterator nullIterator = new Iterator() {
+    private static Iterator<Node> nullIterator = new Iterator<Node>() {
             public boolean hasNext() {
                 return false;
             }
-            public Object next() {
+            public Node next() {
                 return null;
             }
             public void remove() {
             }
         };
 
-    private Comparator indexComparator = new Comparator() {
-            public int compare(Object o1, Object o2) {
-                Node n1 = (Node) o1;
-                Node n2 = (Node) o2;
+    private Comparator<Node> indexComparator = new Comparator<Node>() {
+            public int compare(Node n1, Node n2) {
                 return n1.getName().compareToIgnoreCase(n2.getName());
             }
 
@@ -778,8 +776,8 @@ public class Main {
 
         Node getChild(String name) {
             if (children != null) {
-                for (Iterator iter = children.iterator(); iter.hasNext(); ) {
-                    Node child = (Node) (iter.next());
+                for (Iterator<Node> iter = children.iterator(); iter.hasNext(); ) {
+                    Node child = iter.next();
                     if (child.name.equals(name))
                         return child;
                 }
@@ -799,18 +797,18 @@ public class Main {
             return (children == null ? 0 : children.size());
         }
 
-        Iterator iterator() {
+        Iterator<Node> iterator() {
             return (children == null ? nullIterator : children.iterator());
         }
 
         private void add(Node child) {
             if (children == null)
-                children = new TreeSet(indexComparator);
+                children = new TreeSet<Node>(indexComparator);
             children.add(child);
         }
 
         private String name;
-        private Set children;
+        private Set<Node> children;
         private String info;
     }
 

@@ -468,7 +468,7 @@ abstract class DeskView {
     }
 
     private void copyMenuListeners(JMenu src, JMenu dst) {
-        MenuListener[] ll = (MenuListener[]) (src.getListeners(MenuListener.class));
+        MenuListener[] ll = src.getListeners(MenuListener.class);
         for (int i = 0; i < ll.length; i++)
             dst.addMenuListener(ll[i]);
     }
@@ -522,18 +522,18 @@ abstract class DeskView {
      * @param m The map object to which to write the state of the desktop
      * @see #restoreDesktop
      */
-    protected abstract void saveDesktop(Map m);
+    protected abstract void saveDesktop(Map<String, String> m);
 
     /**
      * Save the state of the current tools on the desktop to a map object.
      * @param m The map object to which to write the state of the desktop
      * @see #restoreDesktop
      */
-    protected void saveTools(Map m) {
+    protected void saveTools(Map<String, String> m) {
         Tool[] tools = getTools();
         m.put("tool.count", String.valueOf(tools.length));
         for (int i = 0; i < tools.length; i++)
-            saveTool(new PrefixMap(m, "tool." + String.valueOf(i)), tools[i]);
+            saveTool(new PrefixMap<>(m, "tool." + String.valueOf(i)), tools[i]);
     }
 
     /**
@@ -542,7 +542,7 @@ abstract class DeskView {
      * @param t the tool to be saved
      * @see #restoreTool
      */
-    protected void saveTool(Map m, Tool t) {
+    protected void saveTool(Map<String, String> m, Tool t) {
         m.put("mgr", t.getManager().getClass().getName());
         m.put("class", t.getClass().getName());
         m.put("selected", String.valueOf(t == getSelectedTool()));
@@ -554,22 +554,22 @@ abstract class DeskView {
      * @param m The map object from which to restore the state of the desktop
      * @see #saveDesktop
      */
-    protected abstract void restoreDesktop(Map m);
+    protected abstract void restoreDesktop(Map<String, String> m);
 
     /**
      * Restore the state of the saved tools from a map object.
      * @param m The map object from which to restore the state of the saved tools
      * @see #saveTools
      */
-    protected void restoreTools(Map m) {
+    protected void restoreTools(Map<String, String> m) {
         try {
-            String c = (String) (m.get("tool.count"));
+            String c = m.get("tool.count");
             if (c != null) {
                 int count = Integer.parseInt(c);
                 for (int i = 0; i < count; i++) {
                     try {
                         String prefix = "tool." + i;
-                        Map toolMap = new PrefixMap(m, prefix);
+                        Map<String, String> toolMap = new PrefixMap<>(m, prefix);
                         restoreTool(toolMap, prefix);
                     }
                     catch (ToolManager.Fault e) {
@@ -606,12 +606,12 @@ abstract class DeskView {
      * @throws IllegalAccessException if the tool's restore method does not have public access
      * @throws InvocationTargetException if the tool's restore method threw an exception
      */
-    protected Tool restoreTool(Map m, String name) throws Fault, ToolManager.Fault
+    protected Tool restoreTool(Map<String, String> m, String name) throws Fault, ToolManager.Fault
     {
-        String mgrClassName = (String) (m.get("mgr"));
+        String mgrClassName = m.get("mgr");
         if (mgrClassName == null) {
             // backwards compatibility with 3.1
-            String toolClassName = (String) (m.get("class"));
+            String toolClassName = m.get("class");
             if (toolClassName != null && toolClassName.endsWith("Tool")) {
                 String n = toolClassName.substring(0, toolClassName.length()) + "Manager";
                 try {
@@ -648,7 +648,7 @@ abstract class DeskView {
      * @param m the map in which the information is to be recorded
      * @see #restoreBounds
      */
-    protected static void saveBounds(Component c, Map m) {
+    protected static void saveBounds(Component c, Map<String, String> m) {
         Rectangle r = c.getBounds();
         m.put("x", String.valueOf(r.x));
         m.put("y", String.valueOf(r.y));
@@ -707,7 +707,7 @@ abstract class DeskView {
 
     // keep a private list of all the outstanding frames, so that
     // when the collection becomes empty, we can lower the ExitCount.
-    private static Collection allFrames = new Vector();
+    private static Collection<JFrame> allFrames = new Vector<>();
 
     // counter for unique name generation
     private static int frameIndex;

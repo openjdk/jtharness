@@ -266,7 +266,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 TT_NodeCache ni = null;
 
                 synchronized (htLock) {
-                    ni = (TT_NodeCache) (cache.get(transPath[i].getTableNode()));
+                    ni = cache.get(transPath[i].getTableNode());
                     //ni = getNodeInfo(transPath[i].getTableNode(), false);
                 }   // sync
 
@@ -464,7 +464,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         }
 
         for (int i = 0; i < treeModelListeners.length; i++) {
-            ((TreeModelListener) treeModelListeners[i]).treeNodesRemoved(tme);
+            treeModelListeners[i].treeNodesRemoved(tme);
         }
     }
 
@@ -490,7 +490,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         if (tme == null) return;
 
         for (int i = 0; i < treeModelListeners.length; i++) {
-            ((TreeModelListener) treeModelListeners[i]).treeNodesInserted(tme);
+            treeModelListeners[i].treeNodesInserted(tme);
         }
 
     }
@@ -584,14 +584,14 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         TT_TreeNode[] transTarget = new TT_TreeNode[1];
         if (target instanceof TestResult &&
                 transPath[transPath.length - 1] instanceof TT_BasicNode) {
-            TT_TestNode mtn = ((TT_BasicNode) (transPath[transPath.length - 1])).findByName((TestResult) target);
+            TT_TestNode mtn = transPath[transPath.length - 1].findByName((TestResult) target);
             if (mtn != null) {
                 transTarget[0] = mtn;
             } else {
                 return null;    // no matching test
             }
         } else {
-            TT_TreeNode mtn = ((TT_BasicNode) (transPath[transPath.length - 1])).findByName(
+            TT_TreeNode mtn = transPath[transPath.length - 1].findByName(
                     ((TestResultTable.TreeNode) target).getName());
             if (mtn != null) {
                 transTarget[0] = mtn;
@@ -1101,7 +1101,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     private Parameters params;
     private FilterSelectionHandler filterHandler;
     private TestFilter lastFilter;
-    private Comparator sortComparator;
+    private Comparator<String> sortComparator;
     private TreeModelListener[] treeModelListeners = new TreeModelListener[0];
     private boolean statsForwarded;
     private boolean disposed;
@@ -1314,9 +1314,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             TT_NodeCache selection = null;
 
             if (suspendedQueue.size() > 0) {
-                selection = (TT_NodeCache) (suspendedQueue.removeLast());
+                selection = suspendedQueue.removeLast();
             } else if (cacheQueue.size() > 0) {
-                selection = (TT_NodeCache) (cacheQueue.removeLast());
+                selection = cacheQueue.removeLast();
             }
             if (selection != null &&
                     selection.getNode().isRoot() && // trying to avoid root
@@ -1484,22 +1484,22 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                     }
 
                     for (int i = 0; i < l.length; i++) {
-                        ((TreeModelListener) l[i]).treeNodesChanged(e);
+                        l[i].treeNodesChanged(e);
                     }
                     break;
                 case STRUCT:
                     for (int i = 0; i < l.length; i++) {
-                        ((TreeModelListener) l[i]).treeStructureChanged(e);
+                        l[i].treeStructureChanged(e);
                     }
                     break;
                 case INS:
                     for (int i = 0; i < l.length; i++) {
-                        ((TreeModelListener) l[i]).treeNodesInserted(e);
+                        l[i].treeNodesInserted(e);
                     }
                     break;
                 case DEL:
                     for (int i = 0; i < l.length; i++) {
-                        ((TreeModelListener) l[i]).treeNodesRemoved(e);
+                        l[i].treeNodesRemoved(e);
                     }
                     break;
                 default:

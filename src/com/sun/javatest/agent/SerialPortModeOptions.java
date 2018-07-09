@@ -111,7 +111,7 @@ interface Proxy {
 class ProxyImpl implements Proxy {
     public String[] getPortNames() {
         try {
-            Vector v = new Vector();
+            Vector<String> v = new Vector<>();
             for (Enumeration e = CommPortIdentifier.getPortIdentifiers(); e.hasMoreElements(); ) {
                 CommPortIdentifier p = (CommPortIdentifier)(e.nextElement());
                 if (p.getPortType() == CommPortIdentifier.PORT_SERIAL)

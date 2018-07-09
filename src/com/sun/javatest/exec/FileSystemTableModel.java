@@ -136,7 +136,7 @@ public class FileSystemTableModel extends AbstractTableModel  {
 
     public Object getValueAt(int rowIndex, int columnIndex) {
         if (rowIndex < 0 || rowIndex >= data.size() ) return null;
-        FileTableNode f = (FileTableNode) data.get(rowIndex);
+        FileTableNode f = data.get(rowIndex);
         File file = f.getFile();
         if (file == null) return null;
         if (columnIndex == 0) return f;//file.getName();
@@ -148,7 +148,7 @@ public class FileSystemTableModel extends AbstractTableModel  {
 
     public File getNode(int rowIndex) {
         if (rowIndex < 0 || rowIndex >= data.size() ) return null;
-        return ((FileTableNode) data.get(rowIndex)).getFile();
+        return (data.get(rowIndex)).getFile();
     }
 
 

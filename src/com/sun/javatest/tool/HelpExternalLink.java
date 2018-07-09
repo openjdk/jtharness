@@ -72,7 +72,7 @@ public class HelpExternalLink extends HelpLink {
                     // rundll32 allows to open a file in appropriate default application
                     Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + url);
                 } else if (os.startsWith("Mac OS")) {
-                    Class fileMgr = Class.forName("com.apple.eio.FileManager");
+                    Class<?> fileMgr = Class.forName("com.apple.eio.FileManager");
                     Method openURL = fileMgr.getDeclaredMethod("openURL",
                             new Class[]{String.class});
                     openURL.invoke(null, new Object[]{url});

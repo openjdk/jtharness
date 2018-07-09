@@ -251,7 +251,7 @@ abstract public class ToolDialog
         if (dialog instanceof Window) {
             return dialog;
         }
-        return (Frame) (SwingUtilities.getAncestorOfClass(Frame.class, dialog));
+        return SwingUtilities.getAncestorOfClass(Frame.class, dialog);
     }
 
     /**

@@ -84,7 +84,7 @@ public abstract class BackupPolicy
         String prefix = file.getName() + "~";
         String suffix = "~";
         int maxBackupIndex = 0;
-        Vector backups = new Vector();
+        Vector<Integer> backups = new Vector<>();
     nextFile:
         if (dirFiles != null) {
             for (int i = 0; i < dirFiles.length; i++) {
@@ -116,7 +116,7 @@ public abstract class BackupPolicy
         // delete old backups
         int numBackupsToKeep = getNumBackupsToKeep(file);
         for (int i = 0; i < backups.size(); i++) {
-            int index = ((Integer)(backups.elementAt(i))).intValue();
+            int index = (backups.elementAt(i)).intValue();
             if (index <= (maxBackupIndex-numBackupsToKeep)) {
                 File backupToGo = new File(file.getPath() + "~" + index + "~");
                 // let SecurityExceptions out, but otherwise ignore failures

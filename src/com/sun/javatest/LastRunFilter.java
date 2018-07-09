@@ -29,6 +29,7 @@ package com.sun.javatest;
 import java.io.IOException;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.sun.javatest.util.I18NResourceBundle;
 
@@ -112,7 +113,7 @@ public class LastRunFilter extends ObservableTestFilter {
         if (fileTestURLs == null) {
             fileTestURLs = new File[testURLs.size()];
             for (int i = 0; i < fileTestURLs.length; i++) {
-                fileTestURLs[i] = new File((String)testURLs.get(i));
+                fileTestURLs[i] = new File(testURLs.get(i));
             }
         }
         return fileTestURLs;
@@ -171,7 +172,7 @@ public class LastRunFilter extends ObservableTestFilter {
 
     private WorkDirectory workdir;
     private long lastStart;
-    private ArrayList testURLs = new ArrayList();
+    private List<String> testURLs = new ArrayList<>();
     private File[] fileTestURLs = null; // testURLs as file array
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(LastRunFilter.class);
 }

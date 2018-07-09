@@ -436,9 +436,9 @@ class BrowserPane extends JPanel {
             selectBox.setSelectedItem(s);
     }
 
-    private DefaultComboBoxModel createModel() {
+    private DefaultComboBoxModel<URL> createModel() {
         if (model == null)
-            model = new DefaultComboBoxModel();
+            model = new DefaultComboBoxModel<>();
         return model;
     }
 
@@ -451,7 +451,7 @@ class BrowserPane extends JPanel {
     private JButton backBtn;
     private JButton forwardBtn;
 
-    private JComboBox selectBox;
+    private JComboBox<URL> selectBox;
     private JPanel head;
     private JPanel body;
     private JTextField noteField;
@@ -462,7 +462,7 @@ class BrowserPane extends JPanel {
 
     private History history;
 
-    private DefaultComboBoxModel model;
+    private DefaultComboBoxModel<URL> model;
     private Listener listener = new Listener();
     private JToolBar toolBar;
     private UIFactory uif;
@@ -486,7 +486,7 @@ class BrowserPane extends JPanel {
             if (index == 0)
                 return null;
 
-            return (URL) (entries.elementAt(--index));
+            return entries.elementAt(--index);
         }
 
         boolean hasNext() {
@@ -497,7 +497,7 @@ class BrowserPane extends JPanel {
             if (index == entries.size() - 1)
                 return null;
 
-            return (URL) (entries.elementAt(++index));
+            return entries.elementAt(++index);
         }
 
         void add(URL u) {
@@ -522,7 +522,7 @@ class BrowserPane extends JPanel {
             index = -1;
         }
 
-        private Vector entries = new Vector();
+        private Vector<URL> entries = new Vector<>();
         private int index;
     }
 

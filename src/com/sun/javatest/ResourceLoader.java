@@ -48,7 +48,7 @@ public class ResourceLoader {
     public static Enumeration getResources(String name, Class ownClass) throws IOException  {
         URL extResource = getExtResource(name, null);
         if (extResource != null) {
-            Vector r = new Vector();
+            Vector<URL> r = new Vector<>();
             r.add(extResource);
             return r.elements();
         }

@@ -31,6 +31,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -43,6 +44,7 @@ import com.sun.interview.ErrorQuestion;
 import com.sun.interview.Help;
 import com.sun.interview.Interview;
 import com.sun.interview.Question;
+import com.sun.interview.wizard.QuestionRenderer;
 import com.sun.interview.wizard.WizPane;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.tool.UIFactory;
@@ -119,7 +121,7 @@ class CE_FullView extends CE_View
         add(wizPane, BorderLayout.CENTER);
     }
 
-    protected void setCustomRenderers(java.util.Map customRenderers) {
+    protected void setCustomRenderers(Map<Class<? extends Question>, QuestionRenderer> customRenderers) {
         wizPane.setCustomRenderers(customRenderers);
     }
 

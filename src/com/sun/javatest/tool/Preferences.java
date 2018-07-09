@@ -28,7 +28,8 @@ package com.sun.javatest.tool;
 
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.SortedProperties;
+import com.sun.javatest.util.Properties;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -38,9 +39,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Properties;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * A class which provides a collection of user preferences,
@@ -98,12 +99,12 @@ public class Preferences
     private Preferences(File file) {
         prefsFile = file;
         isUpToDate = true;
-        Properties p = new SortedProperties();
+        props = new TreeMap<String, String>();
 
         try {
             if (prefsFile != null) {
                 InputStream in = new BufferedInputStream(new FileInputStream(prefsFile));
-                p.load(in);
+                props = Properties.loadSorted(in);
                 in.close();
         fileModifiedTime = prefsFile.lastModified();
             }
@@ -113,7 +114,6 @@ public class Preferences
         catch (IOException ignore) {
             // ??
         }
-        props = p;
     }
 
     /**
@@ -129,7 +129,7 @@ public class Preferences
                 if (!parentDir.exists())
                     parentDir.mkdirs();
                 OutputStream out = new BufferedOutputStream(new FileOutputStream(prefsFile));
-                props.store(out, "JT Harness Preferences");
+                Properties.store(props, out, "JT Harness Preferences");
                 out.close();
                 isUpToDate = true;
                 fileModifiedTime = prefsFile.lastModified();
@@ -160,7 +160,7 @@ public class Preferences
      * @see #setPreference
      */
     public String getPreference(String name, String defaultValue) {
-        String v = (String) (props.get(name));
+        String v = props.get(name);
         if (v == null)
             v = defaultValue;
         return v;
@@ -177,10 +177,9 @@ public class Preferences
         isUpToDate = false;
         props.put(name, newValue);
         // notify observers
-        for (Enumeration e = observers.keys(); e.hasMoreElements(); ) {
-            String prefix = (String)(e.nextElement());
+        for (String prefix: observers.keySet()) {
             if (name.startsWith(prefix)) {
-                Observer[] obs = (Observer[])observers.get(prefix);
+                Observer[] obs = observers.get(prefix);
                 for (int i = 0; i < obs.length; i++) {
                     obs[i].updated(name, newValue);
                 }
@@ -200,7 +199,7 @@ public class Preferences
     public void addObserver(String prefix, Observer o) {
         // very crude observer storage for now; results in o(n) per preference
         // cost when updating preferences
-        Observer[] obs = (Observer[])observers.get(prefix);
+        Observer[] obs = observers.get(prefix);
         if (obs == null)
             obs = new Observer[] { o };
         else
@@ -235,7 +234,7 @@ public class Preferences
      * @see #addObserver
      */
     public void removeObserver(String prefix, Observer o) {
-        Observer[] obs = (Observer[])observers.get(prefix);
+        Observer[] obs = observers.get(prefix);
         if (obs != null) {
             obs = (Observer[])DynamicArray.remove(obs, o);
             observers.put(prefix, obs);
@@ -262,13 +261,13 @@ public class Preferences
      * Access method for props to be used by PreferencesPane
      * @return props
      */
-    Properties getProperties() {
+    Map<String, String> getProperties() {
         return props;
     }
 
     private File prefsFile;
-    private Properties props;
-    private Hashtable observers = new Hashtable();
+    private Map<String, String> props;
+    private Map<String, Observer[]> observers = new Hashtable<>();
     private boolean isUpToDate;
     private long fileModifiedTime;
 

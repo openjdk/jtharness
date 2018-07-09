@@ -206,7 +206,7 @@ public class XMLReport  implements ReportFormat {
         Enumeration en = testResult.getPropertyNames();
         while (en.hasMoreElements()) {
             String key = (String) en.nextElement();
-            String val = (String) testResult.getProperty(key);
+            String val = testResult.getProperty(key);
             if (!TestResult.END.equals(key)) {
                 maker.makeProperty(key, val);
             }
@@ -236,16 +236,16 @@ public class XMLReport  implements ReportFormat {
         maker.sDescriptionData();
 
         TestDescription td = testResult.getDescription();
-        Iterator keysIt = td.getParameterKeys();
+        Iterator<String> keysIt = td.getParameterKeys();
 
         maker.makeProperty("$root", td.getRootDir());
         maker.makeProperty("$file", td.getFile().getPath());
 
         while (keysIt.hasNext()) {
-            String key = (String) keysIt.next();
+            String key = keysIt.next();
             // dump keywords separately
             if (!"keywords".equals(key)) {
-                String val = (String) td.getParameter(key);
+                String val = td.getParameter(key);
                 maker.makeProperty(key, val);
             }
         }

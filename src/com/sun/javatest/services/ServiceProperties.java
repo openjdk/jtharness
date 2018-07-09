@@ -42,7 +42,7 @@ public class ServiceProperties {
 
     private Properties externalProps;
 
-    private HashMap<String, String> lastResolution;
+    private Map<String, String> lastResolution;
 
     private Map<String, Set<String>> varMap;
 
@@ -59,9 +59,9 @@ public class ServiceProperties {
         this.common = common;
 
         externalProps = new Properties();
-        varMap = new HashMap();
-        varProps = new HashMap();
-        constProps = new HashMap();
+        varMap = new HashMap<>();
+        varProps = new HashMap<>();
+        constProps = new HashMap<>();
     }
 
     /**
@@ -154,13 +154,13 @@ public class ServiceProperties {
      */
     public Map<String, String> resolveProperties() {
         if (lastResolution != null) {
-            return (Map)lastResolution.clone();
+            return new HashMap<>(lastResolution);
         }
 
-        HashMap<String, String> result = new HashMap();
+        Map<String, String> result = new HashMap<>();
         result.putAll(constProps);
 
-        Map<String, String> justResolved = new HashMap();
+        Map<String, String> justResolved = new HashMap<>();
         justResolved.putAll(constProps);
 
         if (common != null) {
@@ -177,7 +177,7 @@ public class ServiceProperties {
             result.putAll(justResolved);
         }
 
-        lastResolution = new HashMap(result);
+        lastResolution = new HashMap<>(result);
 
         return result;
     }
@@ -185,7 +185,7 @@ public class ServiceProperties {
     private Map<String, String> resolveVars(Map<String, ParametrizeValue> varProps,
             Map<String, String> resolved) {
 
-        Map<String, String> result = new HashMap();
+        Map<String, String> result = new HashMap<>();
 
         for (String key : resolved.keySet()) {
             if (varMap.containsKey(key)) {
@@ -206,7 +206,7 @@ public class ServiceProperties {
     }
 
     private Map<String, ParametrizeValue> copyVarProps() {
-        Map<String, ParametrizeValue> copy = new HashMap();
+        Map<String, ParametrizeValue> copy = new HashMap<>();
         for (String key : varProps.keySet()) {
             copy.put(key, varProps.get(key).copy());
         }
@@ -223,7 +223,7 @@ public class ServiceProperties {
             value = new ParametrizeValue();
             Term t = new Term();
             t.setValue(key, true);
-            List<Term> l = new LinkedList();
+            List<Term> l = new LinkedList<>();
             l.add(t);
             value.setValue(l);
         }
@@ -252,7 +252,7 @@ public class ServiceProperties {
                     varMap.get(paramName).add(key);
                 }
                 else {
-                    HashSet<String> usages = new HashSet();
+                    Set<String> usages = new HashSet<>();
                     usages.add(key);
                     varMap.put(paramName, usages);
                 }
@@ -263,7 +263,7 @@ public class ServiceProperties {
             varMap.get(key).add(key);
         }
         else {
-            HashSet<String> usages = new HashSet();
+            Set<String> usages = new HashSet<>();
             usages.add(key);
             varMap.put(key, usages);
         }
@@ -304,7 +304,7 @@ class ParametrizeValue {
     private int varNumb;
 
     public ParametrizeValue() {
-        terms = new LinkedList();
+        terms = new LinkedList<>();
         varNumb = 0;
     }
 

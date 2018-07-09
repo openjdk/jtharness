@@ -59,6 +59,7 @@ import com.sun.javatest.services.PropertyServiceReader;
 import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
@@ -250,9 +251,9 @@ public class TestSuite
             TestSuite ts;
 
             // if this test suite has already been opened, return that
-            WeakReference ref = (WeakReference)(dirMap.get(root));
+            WeakReference<TestSuite> ref = dirMap.get(root);
             if (ref != null) {
-                ts = (TestSuite)(ref.get());
+                ts = ref.get();
                 if (ts != null) {
                     return ts;
                 }
@@ -262,7 +263,7 @@ public class TestSuite
             ts = open0(root, tsInfo);
 
             // save reference in case opened again
-            dirMap.put(root, new WeakReference(ts));
+            dirMap.put(root, new WeakReference<>(ts));
             return ts;
         }
     }
@@ -797,7 +798,7 @@ public class TestSuite
      * @return A configuration interview to collect the configuration data for a test run.
      * @throws TestSuite.Fault if a problem occurs while creating the interview
      */
-    public InterviewParameters loadInterviewFromTemplate(Properties templateInfo, InterviewParameters newInterview)
+    public InterviewParameters loadInterviewFromTemplate(Map<String, String> templateInfo, InterviewParameters newInterview)
         throws Fault
     {
         newInterview.storeTemplateProperties(templateInfo);
@@ -819,14 +820,13 @@ public class TestSuite
         InputStream in = null;
         try {
             in = new BufferedInputStream(new FileInputStream(template));
-            Properties data = new Properties();
-            data.load(in);
-            String tm = (String) data.get(InterviewParameters.IS_TEMPLATE);
+            Map<String, String> stringProps = com.sun.javatest.util.Properties.load(in);
+            String tm = stringProps.get(InterviewParameters.IS_TEMPLATE);
             if (InterviewParameters.TRUE.equals(tm)) {
-                data.put(InterviewParameters.TEMPLATE_PATH,
+                stringProps.put(InterviewParameters.TEMPLATE_PATH,
                          template.getAbsolutePath());
                 ip.setTemplatePath(template.getAbsolutePath());
-                return loadInterviewFromTemplate(data, ip);
+                return loadInterviewFromTemplate(stringProps, ip);
             } else {
                 // XXX should probably return ip
                 //     or throw Fault
@@ -1067,7 +1067,7 @@ public class TestSuite
      * @throws TestSuite.Fault if any errors arise while trying to instantiate
      * the class.
      */
-    protected static Object newInstance(Class c, Class[] argTypes, Object[] args)
+    protected static Object newInstance(Class<?> c, Class[] argTypes, Object[] args)
         throws Fault
     {
         try {
@@ -1299,7 +1299,7 @@ public class TestSuite
         f = new ObservedFile(wd.getLogFileName());
 
         if(observedFiles == null) {
-            observedFiles = new HashMap();
+            observedFiles = new HashMap<>();
         }
         if (!observedFiles.containsKey(f.getAbsolutePath())) {
             observedFiles.put(f.getAbsolutePath(), f);
@@ -1456,7 +1456,7 @@ public class TestSuite
                     handlersMap.put(wd.getLogFileName(), wdlh);
                 }
 
-                addHandler((WorkDirLogHandler)handlersMap.get(wd.getLogFileName()));
+                addHandler(handlersMap.get(wd.getLogFileName()));
             }
             setLevel(Level.ALL);
         }
@@ -1500,14 +1500,14 @@ public class TestSuite
     private ServiceReader serviceReader;
     private ServiceManager serviceManager;
 
-    private static HashMap dirMap = new HashMap(2);
+    private static Map<File, WeakReference<TestSuite>> dirMap = new HashMap<>(2);
 
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestSuite.class);
     private static String notificationLogName = i18n.getString("notification.logname");
 
-    static HashMap handlersMap = new HashMap();
+    static Map<String, WorkDirLogHandler> handlersMap = new HashMap<>();
     private static Vector<GeneralPurposeLogger> gpls;
-    private static HashMap observedFiles;
+    private static Map<String, File> observedFiles;
 
     private final NotificationLogger notifLogger = new NotificationLogger(null);
 

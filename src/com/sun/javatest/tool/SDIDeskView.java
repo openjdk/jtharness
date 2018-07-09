@@ -282,25 +282,25 @@ class SDIDeskView extends DeskView {
         return d;
     }
 
-    protected void saveDesktop(Map m) {
-        saveBounds(console, new PrefixMap(m, "dt.console"));
+    protected void saveDesktop(Map<String, String> m) {
+        saveBounds(console, new PrefixMap<>(m, "dt.console"));
         saveTools(m);
     }
 
-    protected void restoreDesktop(Map m) {
-        restoreBounds(console, new PrefixMap(m, "dt.console"));
+    protected void restoreDesktop(Map<String, String> m) {
+        restoreBounds(console, new PrefixMap<>(m, "dt.console"));
         restoreTools(m);
     }
 
-    protected void saveTool(Map m, Tool t) {
+    protected void saveTool(Map<String, String> m, Tool t) {
         super.saveTool(m, t);
-        saveBounds(getFrameForTool(t), new PrefixMap(m, "dt"));
+        saveBounds(getFrameForTool(t), new PrefixMap<>(m, "dt"));
     }
 
-    protected Tool restoreTool(Map m, String name) throws Fault, ToolManager.Fault
+    protected Tool restoreTool(Map<String, String> m, String name) throws Fault, ToolManager.Fault
     {
         Tool t = super.restoreTool(m, name);
-        restoreBounds(getFrameForTool(t), new PrefixMap(m, "dt"));
+        restoreBounds(getFrameForTool(t), new PrefixMap<>(m, "dt"));
         return t;
     }
 

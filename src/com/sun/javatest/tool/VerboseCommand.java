@@ -65,12 +65,12 @@ public class VerboseCommand extends Command
 
     private static void ensureAllOptionsInitialized() {
         if (allOptions == null) {
-            allOptions = new TreeMap();
+            allOptions = new TreeMap<>();
             allOptions.put(MAX,  new HelpTree.Node(i18n, "verb.max"));
             allOptions.put(QUIET, new HelpTree.Node(i18n, "verb.quiet"));
         }
     }
-    private static Map allOptions;
+    private static Map<String, HelpTree.Node> allOptions;
 
     //--------------------------------------------------------------------------
 
@@ -152,7 +152,7 @@ public class VerboseCommand extends Command
         return CMD;
     }
 
-    private HashMap optionValues = new HashMap();  // HashMap<name,boolean>
+    private Map<String, Boolean> optionValues = new HashMap<>();
 
     private static final String CMD = "verbose";
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(VerboseCommand.class);

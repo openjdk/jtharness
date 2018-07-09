@@ -77,7 +77,7 @@ public class ExecTool extends Tool implements ExecModel,
     private PageFormat pageFormat;
 
     public ExecTool(ExecToolManager mgr, TestSuite ts) throws Session.Fault {
-        super((ToolManager)mgr, "exec", "browse.window.csh");
+        super(mgr, "exec", "browse.window.csh");
         this.testSuite = ts;
         String testSuiteName = testSuite.getName();
         if (testSuiteName != null)
@@ -223,7 +223,7 @@ public class ExecTool extends Tool implements ExecModel,
                 v.add(null);
             }
         }
-        Action[] toolBarActions = (Action[])v.toArray(new Action[v.size()]);
+        Action[] toolBarActions = v.toArray(new Action[v.size()]);
 
         Preferences p = Preferences.access();
 

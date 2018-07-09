@@ -47,10 +47,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.net.URL;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Vector;
+import java.util.*;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
@@ -270,7 +267,7 @@ class QuickStartWizard extends ToolDialog
     private void doBack() {
         int n = history.size();
         if (n > 0) {
-            Pane p = (Pane) (history.remove(n - 1));
+            Pane p = history.remove(n - 1);
             setPane(p);
         }
     }
@@ -334,7 +331,7 @@ class QuickStartWizard extends ToolDialog
     // indicates using jtm or jti templates
     private boolean jtmTemplate = true;
 
-    private Properties configData;
+    private Map<String, String> configData;
     private File configFile;
     private Properties jtmData;
     private File jtmFile;
@@ -715,8 +712,8 @@ class QuickStartWizard extends ToolDialog
 
         Pane getNext() {
 
-            return (task == NEW || task == BROWSE ? (Pane) testSuitePane
-                    : task == RESUME ? (Pane) openWorkDirPane
+            return (task == NEW || task == BROWSE ? testSuitePane
+                    : task == RESUME ? openWorkDirPane
                     : null);
         }
 
@@ -842,13 +839,13 @@ class QuickStartWizard extends ToolDialog
                     }
                 }
 
-                return (task == NEW ? (Pane) newWorkDirPane : (Pane) endPane);
+                return (task == NEW ? newWorkDirPane : endPane);
             }
 
 
 
             if (configData != null) {
-                String configDataInterview = (String) (configData.get("INTERVIEW"));
+                String configDataInterview = configData.get("INTERVIEW");
 
                 if (configDataInterview != null
                     && !config.getClass().getName().equals(configDataInterview)) {
@@ -865,7 +862,7 @@ class QuickStartWizard extends ToolDialog
                 }
             }
 
-            return (config == null ? null : task == NEW ? (Pane) newWorkDirPane : (Pane) endPane);
+            return (config == null ? null : task == NEW ? newWorkDirPane : endPane);
 
         }
 
@@ -952,7 +949,7 @@ class QuickStartWizard extends ToolDialog
 
             Set<String> s = new TreeSet<>();
             if (configData != null) {
-                String configTestSuite = (String) (configData.get("TESTSUITE"));
+                String configTestSuite = configData.get("TESTSUITE");
                 if (configTestSuite != null)
                     s.add(configTestSuite);
             }
@@ -967,7 +964,7 @@ class QuickStartWizard extends ToolDialog
                 s.add(installParentDir.getPath());
 
             if (s.size() > 0)
-                testSuitePanel.setSuggestions((String[]) (s.toArray(new String[s.size()])));
+                testSuitePanel.setSuggestions( s.toArray(new String[s.size()]));
         }
 
         void updateNextButton() {
@@ -1040,8 +1037,8 @@ class QuickStartWizard extends ToolDialog
             }
 
 
-            return (task == NEW || task == BROWSE ? (Pane) configPane
-                    : task == RESUME ? (Pane) openWorkDirPane
+            return (task == NEW || task == BROWSE ? configPane
+                    : task == RESUME ? openWorkDirPane
                     : null);
 
            // return (config == null ? null : task == NEW ? (Pane) newWorkDirPane : (Pane) endPane);

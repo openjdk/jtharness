@@ -119,7 +119,7 @@ class MDIDeskView extends DeskView {
 
     public Tool[] getTools() {
         Tool[] tools = new Tool[internalFrames.size()];
-        return (Tool[]) internalFrames.keySet().toArray(tools);
+        return internalFrames.keySet().toArray(tools);
     }
 
     public void addTool(Tool t) {
@@ -186,7 +186,7 @@ class MDIDeskView extends DeskView {
 
     public void removeTool(Tool t) {
         //System.err.println("MDI: remove " + t);
-        JInternalFrame f = (JInternalFrame) (internalFrames.get(t));
+        JInternalFrame f = internalFrames.get(t);
         if (f != null) {
             desktopPane.remove(f);
             internalFrames.remove(t);
@@ -211,7 +211,7 @@ class MDIDeskView extends DeskView {
     }
 
     public void setSelectedTool(Tool t) {
-        JInternalFrame f = (JInternalFrame) (internalFrames.get(t));
+        JInternalFrame f = internalFrames.get(t);
         if (f != null) {
             try {
                 f.setIcon(false);
@@ -277,7 +277,7 @@ class MDIDeskView extends DeskView {
                 // seem to have no effect, so after 2 calls we seem to have stable results.
                 f.pack();
                 Dimension size = f.getSize();
-                JInternalFrame tf = (JInternalFrame) (internalFrames.get(tool));
+                JInternalFrame tf = internalFrames.get(tool);
                 Rectangle tb = tf.getBounds();
                 f.setLocation(Math.max(0, tb.x + (tb.width - size.width) / 2),
                               Math.max(0, tb.y + (tb.height - size.height ) / 2) );
@@ -308,27 +308,27 @@ class MDIDeskView extends DeskView {
         }
     }
 
-    protected void saveDesktop(Map m) {
-        saveBounds(mainFrame, new PrefixMap(m, "dt"));
+    protected void saveDesktop(Map<String, String> m) {
+        saveBounds(mainFrame, new PrefixMap<>(m, "dt"));
         saveTools(m);
     }
 
-    protected void restoreDesktop(Map m) {
-        restoreBounds(mainFrame, new PrefixMap(m, "dt"));
+    protected void restoreDesktop(Map<String, String> m) {
+        restoreBounds(mainFrame, new PrefixMap<>(m, "dt"));
         restoreTools(m);
     }
 
-    protected void saveTool(Map m, Tool t) {
+    protected void saveTool(Map<String, String> m, Tool t) {
         super.saveTool(m, t);
-        JInternalFrame f = (JInternalFrame) (internalFrames.get(t));
-        saveBounds(f, new PrefixMap(m, "dt"));
+        JInternalFrame f = internalFrames.get(t);
+        saveBounds(f, new PrefixMap<>(m, "dt"));
     }
 
-    protected Tool restoreTool(Map m, String name) throws Fault, ToolManager.Fault
+    protected Tool restoreTool(Map<String, String> m, String name) throws Fault, ToolManager.Fault
     {
         Tool t = super.restoreTool(m, name);
-        JInternalFrame f = (JInternalFrame) (internalFrames.get(t));
-        restoreBounds(f, new PrefixMap(m, "dt"));
+        JInternalFrame f = internalFrames.get(t);
+        restoreBounds(f, new PrefixMap<>(m, "dt"));
         f.setVisible(true);
         return t;
     }
@@ -391,7 +391,7 @@ class MDIDeskView extends DeskView {
     }
 
     private JInternalFrame[] getVisibleInternalFrames() {
-        Vector v = new Vector();
+        Vector<Component> v = new Vector<>();
         for (int i = 0; i < desktopPane.getComponentCount(); i++) {
             Component c = desktopPane.getComponent(i);
             if (c instanceof JInternalFrame && c.isVisible())
@@ -403,7 +403,7 @@ class MDIDeskView extends DeskView {
     }
 
     private JFrame mainFrame;
-    private HashMap internalFrames = new HashMap(17);
+    private Map<Tool, JInternalFrame> internalFrames = new HashMap<>(17);
     private JDesktopPane desktopPane;
     private Listener listener = new Listener();
 
@@ -562,7 +562,7 @@ class MDIDeskView extends DeskView {
         }
 
         public void titleChanged(Tool src, String newValue) {
-            JInternalFrame f = (JInternalFrame) (internalFrames.get(src));
+            JInternalFrame f = internalFrames.get(src);
             f.setTitle(newValue);
             //System.err.println("Tool title changed: " + newValue);
         }

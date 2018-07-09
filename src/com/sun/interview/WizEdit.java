@@ -37,10 +37,7 @@ import java.io.OutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.text.MessageFormat;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * An API (with a basic front-end application) for batch editing an
@@ -131,7 +128,7 @@ public class WizEdit
      */
     public static void main(String[] args) {
         try {
-            Vector v = new Vector();
+            Vector<String> v = new Vector<>();
             File interviewFile = null;
             File outFileName = null;
 
@@ -155,14 +152,13 @@ public class WizEdit
 
             try {
                 InputStream in = new BufferedInputStream(new FileInputStream(interviewFile));
-                Properties p = new Properties();
-                p.load(in);
-                String interviewClassName = (String)p.get("INTERVIEW");
+                Map<String, String> stringProps = com.sun.javatest.util.Properties.load(in);
+                String interviewClassName = stringProps.get("INTERVIEW");
                 if (interviewClassName == null)
                     throw new Fault(i18n, "edit.noInterview");
-                Class ic = Class.forName(interviewClassName);
+                Class<?> ic = Class.forName(interviewClassName);
                 interview = (Interview)(ic.newInstance());
-                interview.load(p, false);
+                interview.load(stringProps, false);
             }
             catch (FileNotFoundException e) {
                 throw new Fault(i18n, "edit.cantFindFile", interviewFile);
@@ -180,7 +176,7 @@ public class WizEdit
             try {
                 OutputStream out = new BufferedOutputStream(new FileOutputStream(outFileName));
                 Properties p = new Properties();
-                interview.save(p);
+                interview.save(com.sun.javatest.util.Properties.convertToStringProps(p));
                 p.store(out, "Interview: " + interview.getTitle());
             }
             catch (IOException e) {
@@ -280,14 +276,14 @@ public class WizEdit
         if (searchText.length() == 0)
             throw new Fault(i18n, "edit.badCmd", cmd);
 
-        Hashtable answers = new Hashtable();
+        Map<String, String> answers = new Hashtable<>();
         interview.save(answers);
 
         Question[] path = interview.getPath();
         for (int i = 0; i < path.length; i++) {
             Question q = path[i];
             try {
-                String answer = (String)(answers.get(q.getTag()));
+                String answer = answers.get(q.getTag());
                 if (answer == null)
                     continue;
                 // // currently hardwired: considerCase: false; word match: false
@@ -301,7 +297,7 @@ public class WizEdit
                     q.setValue(newAnswer);
 
                     if (verbose) {
-                        Hashtable h = new Hashtable();
+                        Map<String, String> h = new Hashtable<>();
                         q.save(h);
                         out.println("Question:     " + q.getSummary());
                         out.println("changed from: " + answer);

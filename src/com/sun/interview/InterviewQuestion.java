@@ -108,7 +108,7 @@ class InterviewQuestion extends Question
      * there is no value, and so no action is performed.
      * @param data The map from which to load the state for this question.
      */
-    protected void load(Map data) {
+    protected void load(Map<String, String> data) {
         // no need to super.load(data)
     }
 
@@ -118,7 +118,7 @@ class InterviewQuestion extends Question
      * there is no value, and so no action is performed.
      * @param data The map from which to load the state for this question.
      */
-    protected void save(Map data) {
+    protected void save(Map<String, String> data) {
         // no need to super.save(data)
     }
 

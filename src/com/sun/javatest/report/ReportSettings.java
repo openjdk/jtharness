@@ -463,7 +463,7 @@ public class ReportSettings {
         File[] initFiles = getInitialFiles();
         sortedResults = new TreeSet[Status.NUM_STATES];
         for (int i = 0; i < sortedResults.length; i++) {
-            sortedResults[i] = new TreeSet(new TestResultsByNameComparator());
+            sortedResults[i] = new TreeSet<>(new TestResultsByNameComparator());
         }
         Iterator iter;
         try {
@@ -482,17 +482,15 @@ public class ReportSettings {
         for (; iter.hasNext();) {
             TestResult tr = (TestResult) (iter.next());
             Status s = tr.getStatus();
-            TreeSet list = sortedResults[s == null ? Status.NOT_RUN : s.getType()];
+            TreeSet<TestResult> list = sortedResults[s == null ? Status.NOT_RUN : s.getType()];
             list.add(tr);
         }
     }
 
-    private static class TestResultsByNameComparator implements Comparator {
+    private static class TestResultsByNameComparator implements Comparator<TestResult> {
 
         @Override
-        public int compare(Object o1, Object o2) {
-            TestResult tr1 = (TestResult) o1;
-            TestResult tr2 = (TestResult) o2;
+        public int compare(TestResult tr1, TestResult tr2) {
             return tr1.getTestName().compareTo(tr2.getTestName());
         }
     }
@@ -515,7 +513,7 @@ public class ReportSettings {
         return kflSorter;
     }
 
-    TreeSet[] getSortedResults() {
+    TreeSet<TestResult>[] getSortedResults() {
         return sortedResults;
     }
 
@@ -527,7 +525,7 @@ public class ReportSettings {
         return customReports;
     }
 
-    private TreeSet[] sortedResults;
+    private TreeSet<TestResult>[] sortedResults;
     private KflSorter kflSorter;
     File xmlReportFile = null;
     File tmpXmlReportFile = null;

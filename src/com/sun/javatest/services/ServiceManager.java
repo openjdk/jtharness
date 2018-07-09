@@ -197,7 +197,7 @@ public class ServiceManager implements Harness.Observer {
      * values are {@link com.sun.javatest.services.Service} objects.
      */
     public Map<String, Service> getAllServices() {
-        return new HashMap(services);
+        return new HashMap<>(services);
     }
 
     /**
@@ -206,7 +206,7 @@ public class ServiceManager implements Harness.Observer {
      * @return IDs for currently used services.
      */
     public Set<String> getActiveServices() {
-        return new TreeSet(activeServices);
+        return new TreeSet<>(activeServices);
     }
 
     public void startService(String sID) {
@@ -288,7 +288,7 @@ public class ServiceManager implements Harness.Observer {
 
     public void startingTestRun(Parameters params) {
         if (mode == StartMode.UP_FRONT) {
-            Set<String> active = new TreeSet();
+            Set<String> active = new TreeSet<>();
             try {
                 Iterator iter = harness.getTestsIterator(null);
                 active = selectActiveServices(iter);
@@ -368,15 +368,15 @@ public class ServiceManager implements Harness.Observer {
     }
 
     private Set<String> selectActiveServices(Iterator iter) {
-        Set<String> active = new TreeSet();
-        Set<TestPath> copy = new HashSet(testServiceMap);
+        Set<String> active = new TreeSet<>();
+        Set<TestPath> copy = new HashSet<>(testServiceMap);
         TestResult tr;
         TestDescription td;
         while (!copy.isEmpty() && active.size() < services.size() &&
                 (tr = (TestResult)iter.next()) != null ) {
             try {
                 td = tr.getDescription();
-                HashSet<TestPath> toRemove = new HashSet();
+                HashSet<TestPath> toRemove = new HashSet<>();
                 for (TestPath p : copy) {
                     if (p.matches(td)) {
                         for (String sId : p.getServices()) {
@@ -392,7 +392,7 @@ public class ServiceManager implements Harness.Observer {
     }
 
     private synchronized void stopServices() {
-        Set<String> toRemove = new TreeSet();
+        Set<String> toRemove = new TreeSet<>();
         for (String s : activeServices) {
             if (stopService0(s)) {
                 toRemove.add(s);
@@ -409,11 +409,11 @@ public class ServiceManager implements Harness.Observer {
     }
 
     private class WritingThread extends Thread {
-        private Map<String, Writer> outs = new HashMap();
-        private Map<String, Writer> errs = new HashMap();
+        private Map<String, Writer> outs = new HashMap<>();
+        private Map<String, Writer> errs = new HashMap<>();
 
-        private Map<String, InputStreamReader> sOuts = new HashMap();
-        private Map<String, InputStreamReader> sErrs = new HashMap();
+        private Map<String, InputStreamReader> sOuts = new HashMap<>();
+        private Map<String, InputStreamReader> sErrs = new HashMap<>();
 
         public WritingThread() {
             setDaemon(true);
@@ -474,14 +474,14 @@ public class ServiceManager implements Harness.Observer {
 
         public synchronized void setOutputWriter(String sID, Writer out) {
             if (outs == null) {
-                outs = new HashMap();
+                outs = new HashMap<>();
             }
             outs.put(sID, out);
         }
 
         public synchronized void setErrorWriter(String sID, Writer err) {
             if (errs == null) {
-                errs = new HashMap();
+                errs = new HashMap<>();
             }
             errs.put(sID, err);
         }
@@ -519,7 +519,7 @@ public class ServiceManager implements Harness.Observer {
 
             char[] buf = new char[1000];
 
-            List<String> toRemove = new LinkedList();
+            List<String> toRemove = new LinkedList<>();
 
             String[] idCopy;
             synchronized (this) {
@@ -560,7 +560,7 @@ public class ServiceManager implements Harness.Observer {
 
     private class WatchDog extends Thread {
         private boolean stop;
-        private Set<Observer> observers = new HashSet();
+        private Set<Observer> observers = new HashSet<>();
         private int pause;
         private Set<String> active;
         private Object sync;
@@ -665,12 +665,12 @@ public class ServiceManager implements Harness.Observer {
         }
 
         @Override
-        public boolean parseCommand(String cmd, ListIterator argIter, CommandContext ctx) throws Command.Fault {
+        public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx) throws Command.Fault {
             if (isMatch(cmd, ServiceStartCommand.getName())) {
                 if (!argIter.hasNext()) {
                     return false;
                 }
-                String val = (String)argIter.next();
+                String val = argIter.next();
                 for (StartMode m : StartMode.values()) {
                     if (m.getKey().equalsIgnoreCase(val)) {
                         mode = m;

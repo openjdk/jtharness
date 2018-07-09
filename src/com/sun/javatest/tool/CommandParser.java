@@ -127,13 +127,13 @@ public class CommandParser
         }
 
         // scan args, converting them to commands
-        for (ListIterator iter = getIterator(trim(args)); iter.hasNext(); ) {
-            String arg = (String) (iter.next());
+        for (ListIterator<String> iter = getIterator(trim(args)); iter.hasNext(); ) {
+            String arg = iter.next();
             decodeArg(arg, iter, ctx);
         }
     }
 
-    private void decodeArg(String arg, ListIterator argIter, CommandContext ctx)
+    private void decodeArg(String arg, ListIterator<String> argIter, CommandContext ctx)
         throws CommandParser.Fault
     {
         // special case for Windows-like help option
@@ -152,7 +152,7 @@ public class CommandParser
             String cmd = arg.substring(1);
             if (cmd.equals("read")) {
                 if (argIter.hasNext()) {
-                    String arg2 = ((String) (argIter.next()));
+                    String arg2 = argIter.next();
                     // consider supporting URLs here
                     File f = new File(arg2);
                     read(f, ctx);
@@ -247,12 +247,12 @@ public class CommandParser
 
     nextLine:
         while ((line = p.readLine()) != null) {
-            ListIterator iter = getIterator(line);
-            String cmd = ((String) (iter.next()));
+            ListIterator<String> iter = getIterator(line);
+            String cmd = iter.next();
 
             if (cmd.equals("read")) {
                 if (iter.hasNext()) {
-                    String arg = ((String) (iter.next()));
+                    String arg = iter.next();
                     // consider supporting URLs here
                     File f = new File(arg);
                     if (!f.isAbsolute())
@@ -294,9 +294,9 @@ public class CommandParser
         return trimArgs;
     }
 
-    private static ListIterator getIterator(final String[] args) {
-        return (new ListIterator() {
-                public void add(Object o) {
+    private static ListIterator<String> getIterator(final String[] args) {
+        return (new ListIterator<String>() {
+                public void add(String o) {
                     throw new UnsupportedOperationException();
                 }
 
@@ -308,7 +308,7 @@ public class CommandParser
                     return (index > 0);
                 }
 
-                public Object next() {
+                public String next() {
                     return (index < args.length ? args[index++] : null);
                 }
 
@@ -316,7 +316,7 @@ public class CommandParser
                     return index;
                 }
 
-                public Object previous() {
+                public String previous() {
                     return (index > 0 ? args[--index] : null);
                 }
 
@@ -328,7 +328,7 @@ public class CommandParser
                     throw new UnsupportedOperationException();
                 }
 
-                public void set(Object obj) {
+                public void set(String obj) {
                     throw new UnsupportedOperationException();
                 }
 

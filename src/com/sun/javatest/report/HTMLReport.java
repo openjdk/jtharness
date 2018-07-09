@@ -27,6 +27,7 @@
 package com.sun.javatest.report;
 
 import com.sun.javatest.Status;
+import com.sun.javatest.TestResult;
 import com.sun.javatest.util.I18NResourceBundle;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -52,8 +53,8 @@ public class HTMLReport implements ReportFormat {
         setResults(s.getSortedResults());
 
 
-        ArrayList mainSecs = new ArrayList(3);
-        ArrayList auxSecs = new ArrayList(3);
+        List<HTMLSection> mainSecs = new ArrayList<>(3);
+        List<HTMLSection> auxSecs = new ArrayList<>(3);
 
         // optional section
         ConfigSection cs = new ConfigSection(this, s, dir, i18n);
@@ -241,11 +242,11 @@ public class HTMLReport implements ReportFormat {
         return new BufferedWriter(osw);
     }
 
-    public void setResults(TreeSet[] results) {
+    public void setResults(TreeSet<TestResult>[] results) {
         this.results = results;
     }
 
-    TreeSet[] getResults() {
+    TreeSet<TestResult>[] getResults() {
         return results;
     }
 
@@ -298,7 +299,7 @@ public class HTMLReport implements ReportFormat {
 
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HTMLReport.class);
 
-    private TreeSet[] results;
+    private TreeSet<TestResult>[] results;
     private KflSorter kflSorter;
 
     // The name of the root file for a set of report files.

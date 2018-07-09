@@ -157,7 +157,7 @@ public class PrefixMap<V> implements Map<String, V>
         Collection<V> c = new Vector<>();
         for (Iterator<Map.Entry<String, V>> i = map.entrySet().iterator(); i.hasNext(); ) {
             Map.Entry<String, V> e = i.next();
-            String key = (String) (e.getKey());
+            String key = e.getKey();
             if (key.startsWith(prefix))
                 c.add(e.getValue());
         }

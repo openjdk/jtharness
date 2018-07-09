@@ -324,7 +324,7 @@ public class ExcludeListInterview
             return super.getChoices();
         }
 
-        public void save(Map data) {
+        public void save(Map<String, String> data) {
             ensureInitialized();
             super.save(data);
         }
@@ -364,7 +364,7 @@ public class ExcludeListInterview
             ensureInitializedForTestSuite();
 
             String defaultValue = CUSTOM;
-            Vector v = new Vector(4);
+            Vector<String> v = new Vector<>(4);
 
             v.add(null); // always
 

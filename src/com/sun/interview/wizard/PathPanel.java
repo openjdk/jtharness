@@ -114,7 +114,7 @@ class PathPanel extends JPanel
 
     public boolean getScrollableTracksViewportHeight() {
         if (getParent() instanceof JViewport) {
-            return (((JViewport)getParent()).getHeight() > getPreferredSize().height);
+            return getParent().getHeight() > getPreferredSize().height;
         }
         return false;
     }
@@ -231,7 +231,7 @@ class PathPanel extends JPanel
     private QuestionPanel questionPanel;
     private Interview interview;
     private PathList pathList;
-    private JList list;
+    private JList<Object> list;
     private String moreText;
 
     // client parameters
@@ -284,7 +284,7 @@ class PathPanel extends JPanel
         boolean isQuestionVisible(Question q) {
             for (int i = 0; i < currEntries.length; i++) {
                 Object e = currEntries[i];
-                if (e instanceof Question && ((Question) e) == q)
+                if (e instanceof Question && e == q)
                     return true;
                 else if (e instanceof List && ((List) e).contains(q))
                     return false;
@@ -350,7 +350,7 @@ class PathPanel extends JPanel
                 if (currEntries[i] == o) {
                     Object m = currEntries[i - 1];
                     if (m instanceof Question)
-                        autoOpenSet.add(m);
+                        autoOpenSet.add((Question) m);
                     update();
                 }
             }
@@ -480,7 +480,7 @@ class PathPanel extends JPanel
             }
             else if (o instanceof String) {
                 // prototype value or more...
-                sample.setText(" " + (String)o);
+                sample.setText(" " + o);
                 sample.setFont(list.getFont().deriveFont(Font.ITALIC));
                 sample.setForeground(list.getForeground());
                 sample.setIcon(markersEnabled ? noMarkerIcon : null);
@@ -776,7 +776,7 @@ class PathPanel extends JPanel
             if ( (!markersEnabled || !markersFilterEnabled) && !needMore)
                 return path;
 
-            Vector v = new Vector();
+            Vector<Object> v = new Vector<>();
             Question lastMarker = null;
             for (int i = 0; i < path.length; i++) {
                 Question q = path[i];
@@ -793,14 +793,14 @@ class PathPanel extends JPanel
                     v.add(q);
                 }
                 else {
-                    List l;
+                    List<Question> l;
                     Object o = v.lastElement();
                     if (o == null || o instanceof Question) {
-                        l = new Vector();
+                        l = new Vector<>();
                         v.add(l);
                     }
                     else
-                        l = (List) o;
+                        l = (List<Question>) o;
                     l.add(q);
                 }
             }
@@ -838,7 +838,7 @@ class PathPanel extends JPanel
         private boolean[] currMarks;
 
         // autoOpenSet gives which non-markered questions should be displayed
-        private Set autoOpenSet = new HashSet();
+        private Set<Question> autoOpenSet = new HashSet<>();
 
         private Icon markerIcon = new MarkerIcon(true);
         private Icon noMarkerIcon = new MarkerIcon(false);

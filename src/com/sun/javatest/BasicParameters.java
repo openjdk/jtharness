@@ -668,7 +668,7 @@ public abstract class BasicParameters
     private TestEnvironment cachedRelevantTestFilterEnv;
 
     public synchronized TestFilter[] getFilters() {
-        Vector v = new Vector();
+        Vector<TestFilter> v = new Vector<>();
 
         TestFilter excludeFilter = getExcludeListFilter();
         if (excludeFilter != null)

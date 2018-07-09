@@ -51,7 +51,7 @@ public class LogManager extends CommandManager
         return new HelpTree.Node(i18n, "logm.help." + name);
     }
 
-    public boolean parseCommand(String cmd, ListIterator argIter, CommandContext ctx)
+    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
         if (isPrefixMatch(cmd, VerboseCommand.getName())) {
@@ -79,7 +79,7 @@ public class LogManager extends CommandManager
             return "log";
         }
 
-        LogCommand(ListIterator argIter) throws Fault {
+        LogCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())

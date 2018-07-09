@@ -84,7 +84,7 @@ public class ProcessCommand extends Command
      */
     public void setStatusForExit(int exitCode, Status status) {
         if (statusTable == null) {
-            statusTable = new Hashtable();
+            statusTable = new Hashtable<>();
             if (defaultStatus == null)
                 defaultStatus = Status.error("unrecognized exit code");
         }
@@ -104,7 +104,7 @@ public class ProcessCommand extends Command
      */
     public void setDefaultStatus(Status status) {
         if (statusTable == null)
-            statusTable = new Hashtable();
+            statusTable = new Hashtable<>();
         defaultStatus = status;
     }
 
@@ -280,7 +280,7 @@ public class ProcessCommand extends Command
             if (inheritEnv) {
                 // copy env from system
                 // then apply cmdEnv
-                ArrayList<String> out = new ArrayList();
+                ArrayList<String> out = new ArrayList<>();
                 Map<String,String> sysenv = System.getenv();
                 Set<String> keys = sysenv.keySet();
                 for (String key : keys) {
@@ -401,7 +401,7 @@ public class ProcessCommand extends Command
         if (logStatus != null)
             return logStatus;
         else if (statusTable != null) {
-            Status s = (Status)(statusTable.get(new Integer(exitCode)));
+            Status s = statusTable.get(new Integer(exitCode));
             return (s == null ? defaultStatus.augment("exit code: " + exitCode) : s);
         }
         else if (exitCode == 0)
@@ -505,7 +505,7 @@ public class ProcessCommand extends Command
         Boolean.getBoolean("javatest.processCommand.useFailedOnException");
 
     private static int serial;
-    private Hashtable statusTable;
+    private Map<Integer, Status> statusTable;
     private Status defaultStatus;
     private File execDir;
     private boolean inheritEnv =

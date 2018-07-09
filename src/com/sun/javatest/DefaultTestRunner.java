@@ -48,7 +48,7 @@ public class DefaultTestRunner extends TestRunner
         this.testIter = testIter;
 
         Thread[] threads = new Thread[getConcurrency()];
-        activeThreads = new HashSet();
+        activeThreads = new HashSet<>();
         allPassed = true;
 
         try {
@@ -255,7 +255,7 @@ public class DefaultTestRunner extends TestRunner
 
 
     private Iterator testIter;
-    private Set activeThreads;
+    private Set<Thread> activeThreads;
     private boolean allPassed;
     private boolean stopping;
 

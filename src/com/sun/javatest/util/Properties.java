@@ -29,20 +29,13 @@ package com.sun.javatest.util;
 // Modified from JDK java.util.Properties to use Reader/Writer as well as
 // InputStream/OutputStream
 
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
 //import java.io.InputStream;
 //import java.io.InputStreamReader;
 //import java.io.OutputStream;
 //import java.io.OutputStreamWriter;
 //import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * The <code>Properties</code> class represents a persistent set of
@@ -59,7 +52,7 @@ import java.util.Vector;
  * InputStream/OutputStream, to fix locale/codepage problems.
  */
 public
-class Properties extends Hashtable {
+class Properties extends Hashtable<String, String> {
     /**
      * A property list that contains default values for any keys not
      * found in this property list.
@@ -87,6 +80,59 @@ class Properties extends Hashtable {
         this.defaults = defaults;
     }
 
+    /**
+     * Utility method that writes the given map of strings to the given output stream with provided comments
+     * using {@code java.util.Properties.store(java.io.OutputStream, String)} method.
+     */
+    public static void store(Map<String, String> stringProps, OutputStream out, String comments) throws IOException {
+        java.util.Properties properties = new java.util.Properties();
+        for (Map.Entry<String, String> entry: stringProps.entrySet()) {
+            properties.put(entry.getKey(), entry.getValue());
+        }
+        properties.store(out, comments);
+    }
+
+    /**
+     * Reads a property list from the given input stream
+     * using {@code java.util.Properties.load(java.io.InputStream inStream)} method
+     * and stores properties into a {@code Map<String, String>} that is returned.
+     */
+    public static Map<String, String> load(InputStream inputStream) throws IOException {
+        return populate(new HashMap<String, String>(), inputStream);
+    }
+
+    /**
+     * Reads a property list from the given input stream
+     * using {@code java.util.Properties.load(java.io.InputStream inStream)} method
+     * and stores string properties into a {@code SortedMap<String, String>} that is returned.
+     */
+    public static SortedMap<String, String> loadSorted(InputStream inputStream) throws IOException {
+        return populate(new TreeMap<String, String>(), inputStream);
+    }
+
+    /**
+     * Populated a map of strings using {@code java.util.Properties.load(java.io.InputStream)} method
+     */
+    private static <M extends Map<String, String>> M populate(M stringProps, InputStream inputStream) throws IOException {
+        java.util.Properties p = new java.util.Properties();
+        p.load(inputStream);
+        return extractStringPropsTo(stringProps, p);
+    }
+
+    /**
+     * Saves string keys and values of the given properties list into the given {@code Map<String, String>} and returns it.
+     */
+    public static Map<String, String> convertToStringProps(java.util.Properties properties) {
+        return extractStringPropsTo(new HashMap<String, String>(), properties);
+    }
+
+    private static <M extends Map<String, String>> M extractStringPropsTo(M stringProps, java.util.Properties p) {
+        for (String name : p.stringPropertyNames()) {
+            stringProps.put(name, p.getProperty(name));
+        }
+        return stringProps;
+    }
+
 //    /**
 //     * Reads a property list from an input stream.
 //     *
@@ -109,14 +155,14 @@ class Properties extends Hashtable {
      *               input stream.
      */
     public synchronized void load(Reader in) throws IOException {
-        Vector v = load0(in, false);
+        Vector<String> v = load0(in, false);
         for (int i = 0; i < v.size(); i+=2) {
             put(v.elementAt(i), v.elementAt(i + 1));
         }
     }
 
 
-    static Vector load0(Reader in, boolean breakOnEmptyLine) throws IOException {
+    static Vector<String> load0(Reader in, boolean breakOnEmptyLine) throws IOException {
 
 // This could be used if we switch to JDK 1.6, where Properties support I/O
 // through Reader and Writer
@@ -145,7 +191,7 @@ class Properties extends Hashtable {
 //
 //
 
-        Vector v = new Vector();
+        Vector<String> v = new Vector<>();
         int ch = 0;
 
         //// eat any preceding whitespace
@@ -331,7 +377,7 @@ class Properties extends Hashtable {
                     out[outLen++] = aChar;
                 }
             } else {
-                out[outLen++] = (char)aChar;
+                out[outLen++] = aChar;
             }
         }
         return new String (out, 0, outLen);
@@ -377,9 +423,9 @@ class Properties extends Hashtable {
         prnt.write('#');
         prnt.println(new Date());
 
-        for (Enumeration e = keys() ; e.hasMoreElements() ;) {
-            String key = (String)e.nextElement();
-            String val = (String)get(key);
+        for (Enumeration<String> e = keys() ; e.hasMoreElements() ;) {
+            String key = e.nextElement();
+            String val = get(key);
             key = saveConvert(key, true, false);
             /* No need to escape embedded and trailing spaces for value, hence
              * pass false to flag.
@@ -497,7 +543,7 @@ class Properties extends Hashtable {
      * @since   JDK1.0
      */
     public Enumeration propertyNames() {
-        Hashtable h = new Hashtable();
+        Hashtable<String, String> h = new Hashtable<>();
         enumerate(h);
         return h.keys();
     }
@@ -527,11 +573,11 @@ class Properties extends Hashtable {
      */
     public void list(PrintWriter out) {
         out.println("-- listing properties --");
-        Hashtable h = new Hashtable();
+        Hashtable<String, String> h = new Hashtable<>();
         enumerate(h);
-        for (Enumeration e = h.keys() ; e.hasMoreElements() ;) {
-            String key = (String)e.nextElement();
-            String val = (String)h.get(key);
+        for (Enumeration<String> e = h.keys() ; e.hasMoreElements() ;) {
+            String key = e.nextElement();
+            String val = h.get(key);
             if (val.length() > 40) {
                 val = val.substring(0, 37) + "...";
             }
@@ -543,7 +589,7 @@ class Properties extends Hashtable {
      * Enumerates all key/value pairs in the specified hastable.
      * @param h the hashtable
      */
-    private synchronized void enumerate(Hashtable h) {
+    private synchronized void enumerate(Map<String, String> h) {
         if (defaults != null) {
             defaults.enumerate(h);
         }

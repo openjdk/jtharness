@@ -150,7 +150,7 @@ public abstract class NullQuestion extends Question
      * the tag as the key.
      * @param data ignored
      */
-    protected void load(Map data) {
+    protected void load(Map<String, String> data) {
     }
 
     /**
@@ -158,7 +158,7 @@ public abstract class NullQuestion extends Question
      * the tag as the key. Since there is no value, this method is a no-op.
      * @param data ignored
      */
-    protected void save(Map data) {
+    protected void save(Map<String, String> data) {
     }
 
     public static final int LEVEL_NONE = -1;

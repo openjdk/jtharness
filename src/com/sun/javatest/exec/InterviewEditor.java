@@ -65,6 +65,7 @@ import javax.swing.event.MenuListener;
 
 import com.sun.interview.Interview;
 import com.sun.interview.Question;
+import com.sun.interview.wizard.QuestionRenderer;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
@@ -759,8 +760,8 @@ public class InterviewEditor extends ToolDialog {
 
         for (Iterator iter = keys.iterator(); iter.hasNext(); ) {
             String key = (String) (iter.next());
-            Question aq = (Question) aQuestions.get(key);
-            Question bq = (Question) bQuestions.get(key);
+            Question aq = aQuestions.get(key);
+            Question bq = bQuestions.get(key);
             if (aq == null || bq == null) {
                 return false;
             }
@@ -936,7 +937,7 @@ public class InterviewEditor extends ToolDialog {
         JMenu fileMenu = uif.createMenu("ce.file", fileMenuItems, listener);
 
         FileHistory h = FileHistory.getFileHistory(viewConfig.getWorkDirectory(), getHistoryFileName());
-        FileHistory.Listener l = new FileHistory.Listener(h, 0, (ActionListener)listener);
+        FileHistory.Listener l = new FileHistory.Listener(h, 0, listener);
         recentConfigMenu = uif.createMenu("ce.history");
         recentConfigMenu.setEnabled(h.getLatestEntry() != null);
         recentConfigMenu.addMenuListener(l);
@@ -1193,7 +1194,7 @@ public class InterviewEditor extends ToolDialog {
         throws Interview.Fault
     {
         //System.err.println("CE.copy from " + (from==mainConfig?"main":from==viewConfig?"view":from.toString()) + " to " + (to==mainConfig?"main":to==viewConfig?"view":to.toString()));
-        HashMap data = new HashMap();
+        Map<String, String> data = new HashMap<>();
         from.save(data);
         to.load(data, false);
         to.setTemplate(from.isTemplate());
@@ -1558,7 +1559,7 @@ public class InterviewEditor extends ToolDialog {
     private Listener listener;
     //private TemplatesUI templatesUI;
 
-    private Map customRenderersMap;
+    private Map<Class<? extends Question>, QuestionRenderer> customRenderersMap;
     private ActionListener closeListener;
     //private ExecModel model;
     private final List<Observer> observers = new ArrayList<Observer>();
@@ -1588,7 +1589,7 @@ public class InterviewEditor extends ToolDialog {
     static final String VIEW_PREF = "exec.config.view";
 
 
-    public void setCustomRenderers(Map renderersMap) {
+    public void setCustomRenderers(Map<Class<? extends Question>, QuestionRenderer> renderersMap) {
         customRenderersMap = renderersMap;
         if (fullView != null) {
             fullView.setCustomRenderers(customRenderersMap);

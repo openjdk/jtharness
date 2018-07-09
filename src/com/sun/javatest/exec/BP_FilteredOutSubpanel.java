@@ -294,10 +294,10 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                                     "br.list.enter"));
 
     String[] actions = { };
-    popupTable = uif.createPopupMenu("br", actions, (ActionListener)tableListener);
+    popupTable = uif.createPopupMenu("br", actions, tableListener);
 
     actions = new String[] { "action.cpnamelist", "action.cpnamestr" };
-    popupTable.add(uif.createMenu("br.cp", actions, (ActionListener)tableListener));
+    popupTable.add(uif.createMenu("br.cp", actions, tableListener));
 
     // this is necessary to make sure that the split pane can resize
     // this panel.  without setting the min., the panel seems to take
@@ -374,11 +374,11 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             }
             else if (column == 1) {
                 synchronized (liveData) {
-                    Object tst = (liveData.get(row));
+                    TestResult tst = liveData.get(row);
                     Object r = null;
 
                     if (cache != null && r == null) {
-                        r = cache.getRejectReason((TestResult)tst);
+                        r = cache.getRejectReason(tst);
                     }
 
                     if (r == null)
@@ -454,7 +454,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             // the event thread
             synchronized (pendingEvents) {
                 for (int i = 0; i < pendingEvents.size(); i++) {
-                    TableNotifier tn = (TableNotifier)(pendingEvents.get(i));
+                    TableNotifier tn = pendingEvents.get(i);
                     tn.cancel();
                 }   // for
             }

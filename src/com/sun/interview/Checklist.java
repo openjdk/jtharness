@@ -65,7 +65,7 @@ public class Checklist
      * Create an empty checklist.
      */
     public Checklist() {
-        sections = new TreeMap();
+        sections = new TreeMap<>();
     }
 
     /**
@@ -91,7 +91,7 @@ public class Checklist
      * added for the given section
      */
     public String[] getSectionMessages(String sectionName) {
-        Vector v = (Vector) (sections.get(sectionName));
+        Vector<String> v = sections.get(sectionName);
         if (v == null)
             return null;
         String[] msgs = new String[v.size()];
@@ -104,9 +104,9 @@ public class Checklist
      * @param item The Item to be added
      */
     public void add(Item item) {
-        Vector msgs = (Vector) (sections.get(item.sectionName));
+        Vector<String> msgs = sections.get(item.sectionName);
         if (msgs == null) {
-            msgs = new Vector();
+            msgs = new Vector<>();
             sections.put(item.sectionName, msgs);
         }
         msgs.add(item.text);
@@ -120,5 +120,5 @@ public class Checklist
         return sections.isEmpty();
     }
 
-    private Map sections; // section name to vector of messages
+    private Map<String, Vector<String>> sections; // section name to vector of messages
 }

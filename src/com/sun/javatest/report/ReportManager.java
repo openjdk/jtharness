@@ -63,7 +63,7 @@ public class ReportManager
         return new HelpTree.Node(i18n, "rm.help." + name);
     }
 
-    public boolean parseCommand(String cmd, ListIterator argIter, CommandContext ctx)
+    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
         if (isMatch(cmd, ReportCommand.getName())) {
@@ -101,7 +101,7 @@ public class ReportManager
             return "report";
         }
 
-        ReportCommand(ListIterator argIter) throws Fault {
+        ReportCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -125,7 +125,7 @@ public class ReportManager
             return "writeReport";
         }
 
-        WriteReportCommand(Iterator argIter) throws Fault {
+        WriteReportCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             while (argIter.hasNext()) {

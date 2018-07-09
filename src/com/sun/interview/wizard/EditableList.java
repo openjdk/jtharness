@@ -65,12 +65,12 @@ public class EditableList extends JPanel
         setName(uiKey);
         setFocusable(false);
 
-        listModel = new DefaultListModel(); // need to force the type of model
+        listModel = new DefaultListModel<>(); // need to force the type of model
         if (items != null) {
             for (int i = 0; i < items.length; i++)
                 listModel.addElement(items[i]);
         }
-        list = new JList(listModel);
+        list = new JList<>(listModel);
         list.setName(uiKey);
         list.setToolTipText(i18n.getString(uiKey + ".tip"));
         list.getAccessibleContext().setAccessibleName(list.getName());
@@ -365,8 +365,8 @@ public class EditableList extends JPanel
     protected boolean duplicatesAllowed;
     protected Listener listener = createListener();
     protected Renderer renderer = createRenderer();
-    protected DefaultListModel listModel;
-    protected JList list;
+    protected DefaultListModel<Object> listModel;
+    protected JList<Object> list;
     protected JButton addBtn;
     protected JButton removeBtn;
     protected JButton upBtn;

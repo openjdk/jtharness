@@ -59,7 +59,7 @@ public class TestResultCache {
          * Called when tests have been read from the cache file.
          * @param tests the tests that have been read
          */
-        void update(Map tests);
+        void update(Map<String, TestResult> tests);
 
         /**
          * Called periodically while waiting to access the cache.
@@ -118,8 +118,8 @@ public class TestResultCache {
         this.workDir = workDir;
         this.observer = observer;
 
-        weakWorkDir = new WeakReference(workDir);
-        weakObserver = new WeakReference(observer);
+        weakWorkDir = new WeakReference<>(workDir);
+        weakObserver = new WeakReference<>(observer);
 
         cacheFile = workDir.getSystemFile(V2_FILENAME);
         lockFile = workDir.getSystemFile(V2_LOCKNAME);
@@ -309,7 +309,7 @@ public class TestResultCache {
     }
 
     private void doWork() throws IOException {
-        Map tests = null;
+        Map<String, TestResult> tests = null;
         boolean rebuildCache = false;
 
         getLock();
@@ -482,9 +482,9 @@ public class TestResultCache {
     //
     // Read a set of tests from the *.jtr files in the work directory
 
-    private Map readJTRFiles() {
+    private Map<String, TestResult> readJTRFiles() {
         final long start = System.currentTimeMillis();
-        Map tests = new TreeMap();
+        Map<String, TestResult> tests = new TreeMap<>();
         readJTRFiles(workDir.getRoot(), tests);
 
         // these lines are all for logging benchmark info
@@ -512,7 +512,7 @@ public class TestResultCache {
         return tests;
     }
 
-    private void readJTRFiles(File dir, Map tests) {
+    private void readJTRFiles(File dir, Map<String, TestResult> tests) {
         File[] entries = dir.listFiles();
         if (entries != null) {
             // monitor shutdownRequested and give up if set true;
@@ -544,7 +544,7 @@ public class TestResultCache {
         }
     }
 
-    private TestResult reload(Map tests, TestResult tr) {
+    private TestResult reload(Map<String, TestResult> tests, TestResult tr) {
         File jtr = workDir.getFile(tr.getWorkRelativePath());
         try {
             return new TestResult(jtr);
@@ -573,7 +573,7 @@ public class TestResultCache {
     //
     // Read the cache
 
-    private Map readCache()
+    private Map<String, TestResult> readCache()
         throws IOException, IllegalArgumentException
     {
         final long start = System.currentTimeMillis();
@@ -595,7 +595,7 @@ public class TestResultCache {
             // read full cache
             lastSerial = fileSerial;
             totalEntryCount = 0;
-            Map tests = readCacheEntries();
+            Map<String, TestResult> tests = readCacheEntries();
             uniqueInitialEntryCount = tests.size();
 
             if (DEBUG_WORK)
@@ -627,7 +627,7 @@ public class TestResultCache {
         else if (raf.length() > lastFileSize) {
             // just read updates from file
             raf.seek(lastFileSize);
-            Map tests = readCacheEntries();
+            Map<String, TestResult> tests = readCacheEntries();
 
             if (DEBUG_WORK)
                 Debug.println("TRC.readCache read update (" + tests.size() + " tests)");
@@ -642,10 +642,10 @@ public class TestResultCache {
         }
     }
 
-    private Map readCacheEntries()
+    private Map<String, TestResult> readCacheEntries()
         throws IOException, IllegalArgumentException
     {
-        Map tests = new TreeMap();
+        Map<String, TestResult> tests = new TreeMap<>();
         while (raf.getFilePointer() < raf.length()) {
             String name = raf.readUTF();
             int status = raf.readInt();
@@ -667,7 +667,7 @@ public class TestResultCache {
     //
     // Write the cache
 
-    private void writeCache(Map tests) throws IOException {
+    private void writeCache(Map<String, TestResult> tests) throws IOException {
         if (tests == null)
             throw new IllegalStateException();
 
@@ -679,7 +679,7 @@ public class TestResultCache {
         while ((tr = (TestResult) (testsToWrite.remove())) != null) {
             // check if test is in the set we've just read
             String name = tr.getTestName();
-            TestResult tr2 = (TestResult) (tests.get(name));
+            TestResult tr2 = tests.get(name);
             // if the cache file contains a conflicting entry,
             // reload the test from the .jtr file; otherwise, add it to the cache
             if (tr2 != null && !tr2.getStatus().equals(tr.getStatus()))
@@ -707,7 +707,7 @@ public class TestResultCache {
         uniqueInitialEntryCount = totalEntryCount = tests.size();
     }
 
-    private void updateCache(Map tests) throws IOException {
+    private void updateCache(Map<String, TestResult> tests) throws IOException {
         // testsToWrite is a thread-safe fifo, so it is safe to keep reading
         // it till its empty, even though some tests may even have been added
         // after the worker woke up
@@ -718,7 +718,7 @@ public class TestResultCache {
             if (tests != null) {
                 // check if test is in the set we've just read
                 String name = tr.getTestName();
-                TestResult tr2 = (TestResult) (tests.get(name));
+                TestResult tr2 = tests.get(name);
                 if (tr2 != null) {
                     // cache also contains an entry for this test:
                     // reload from .jtr file in case of conflict
@@ -851,19 +851,19 @@ public class TestResultCache {
     // These weak references get revived when the worker thread has work to do.
     private void reviveWeakReferences() {
         if (workDir == null)
-            workDir = (WorkDirectory) weakWorkDir.get();
+            workDir = weakWorkDir.get();
 
         if (observer == null)
-            observer = (Observer) weakObserver.get();
+            observer = weakObserver.get();
     }
 
     //-------------------------------------------------------------------------------------
 
     // general instance data
     private Observer observer;
-    private WeakReference weakObserver;
+    private WeakReference<Observer> weakObserver;
     private WorkDirectory workDir;
-    private WeakReference weakWorkDir;
+    private WeakReference<WorkDirectory> weakWorkDir;
     private File cacheFile;
     private File lockFile;
     private Thread worker;

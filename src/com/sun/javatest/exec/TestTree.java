@@ -130,7 +130,7 @@ class TestTree extends JTree {
             return;
 
         if (currModel instanceof TestTreeModel) {
-            final TreePath[] paths = ((TestTreeModel)currModel).urlsToPaths(selectedUrls);
+            final TreePath[] paths = currModel.urlsToPaths(selectedUrls);
 
             if (!EventQueue.isDispatchThread()) {
                 EventQueue.invokeLater(new Runnable() {
@@ -197,7 +197,7 @@ class TestTree extends JTree {
             return;
 
         if (currModel instanceof TestTreeModel) {
-            final TreePath[] paths = ((TestTreeModel)currModel).urlsToPaths(openUrls);
+            final TreePath[] paths = currModel.urlsToPaths(openUrls);
 
             if (!EventQueue.isDispatchThread() || queue) {
                 EventQueue.invokeLater(new Runnable() {

@@ -116,13 +116,13 @@ public class AgentMonitorTool extends Tool
      */
     @Override
     protected void restore(Map<String, String> m) {
-        String l = (String) (m.get("listening"));
+        String l = m.get("listening");
         try {
-            String p = (String) (m.get("port"));
+            String p = m.get("port");
             if (p != null && p.length() != 0)
                 agentPoolSubpanel.setPort(Integer.parseInt(p));
 
-            String t = (String) (m.get("timeout"));
+            String t = m.get("timeout");
             if (t != null && t.length() != 0)
                 agentPoolSubpanel.setTimeout(Integer.parseInt(t));
 

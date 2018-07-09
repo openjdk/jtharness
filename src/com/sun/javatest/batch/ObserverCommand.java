@@ -53,7 +53,7 @@ class ObserverCommand extends Command
         return new HelpTree.Node(i18n, "cmgr.help.observer", opts);
     }
 
-    ObserverCommand(ListIterator argIter) throws Fault {
+    ObserverCommand(ListIterator<String> argIter) throws Fault {
         super(getName());
 
         Vector<String> v = null;

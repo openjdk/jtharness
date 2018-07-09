@@ -83,7 +83,7 @@ public class TestEnvironment
      * @see #clearDefaultPropTables
      * @throws NullPointerException if either name or propTable is null.
      */
-    public static synchronized void addDefaultPropTable(String name, Map propTable) {
+    public static synchronized void addDefaultPropTable(String name, Map<String, String> propTable) {
         if (name == null || propTable == null)
             throw new NullPointerException();
 
@@ -143,7 +143,7 @@ public class TestEnvironment
         }
 
         // First, figure out the inheritance chain
-        Vector v = new Vector();
+        Vector<String> v = new Vector<>();
         for (String n = name, inherit = null; n != null && n.length() > 0; n = inherit, inherit = null) {
             if (v.contains(n))
                 throw new Fault(i18n, "env.loop", name);
@@ -224,7 +224,7 @@ public class TestEnvironment
             return null;
         }
 
-        return ((Element)table.get("description")).getValue();
+        return table.get("description").getValue();
     }
 
     /**
@@ -291,7 +291,7 @@ public class TestEnvironment
      *
      * @return all external global properties.
      */
-    public HashMap getExtraValues() {
+    public Map<String, String[]> getExtraValues() {
         return extras;
     }
 
@@ -307,17 +307,17 @@ public class TestEnvironment
         return lookup(key, null);
     }
 
-    private String[] lookup(String key, Vector activeKeys) throws Fault {
-        String[] v = (String[])extras.get(key);
+    private String[] lookup(String key, Vector<String> activeKeys) throws Fault {
+        String[] v = extras.get(key);
         if (v != null)
             return v;
 
 
-        Element elem = (Element)table.get(key);
+        Element elem = table.get(key);
         if (elem != null) {
             cache.put(key, elem);
             if (activeKeys == null)
-                activeKeys = new Vector();
+                activeKeys = new Vector<>();
             else if (activeKeys.contains(key))
                 throw new Fault(i18n, "env.recursive",
                                 new Object[] {key, elem.getDefinedInFile()});
@@ -361,8 +361,8 @@ public class TestEnvironment
         return resolve(s, null);
     }
 
-    private String[] resolve(String s, Vector activeKeys) throws Fault {
-        Vector v = new Vector();
+    private String[] resolve(String s, Vector<String> activeKeys) throws Fault {
+        Vector<String> v = new Vector<>();
         StringBuffer current = new StringBuffer(64);
         char term = 0;
 
@@ -649,7 +649,7 @@ public class TestEnvironment
         name = o.name;
         inherits = o.inherits;
         table = o.table;
-        extras = (HashMap)(o.extras.clone());
+        extras = new HashMap<>(o.extras);
     }
 
     /**
@@ -702,9 +702,9 @@ public class TestEnvironment
 
     private String name;
     private String[] inherits;
-    private HashMap table = new HashMap();
-    private HashMap extras = new HashMap();
-    private HashMap cache = new HashMap();
+    private Map<String, Element> table = new HashMap<>();
+    private Map<String, String[]> extras = new HashMap<>();
+    private Map<String, Element> cache = new HashMap<>();
 
     private static final String[] EMPTY_STRING_ARRAY = {};
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestEnvironment.class);

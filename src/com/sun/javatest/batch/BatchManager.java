@@ -60,7 +60,7 @@ public class BatchManager
         return new HelpTree.Node(i18n, "cmgr.help." + name);
     }
 
-    public boolean parseCommand(String cmd, ListIterator argIter, CommandContext ctx)
+    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
         if (isMatch(cmd, BatchCommand.getName())) {

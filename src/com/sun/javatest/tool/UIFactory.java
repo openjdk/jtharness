@@ -1179,7 +1179,7 @@ public class UIFactory {
      * @return a choice box with the attributes indicated by the parameters
      * @see #createChoice(String,String[])
      */
-    public JComboBox createChoice(final String uiKey, final String[] choiceKeys, boolean editable) {
+    public JComboBox<String> createChoice(final String uiKey, final String[] choiceKeys, boolean editable) {
         // create a cache of the presentation string, for use when
         // rendering, but otherwise, let the JComboBox work in terms of the
         // choiceKeys
@@ -1187,7 +1187,7 @@ public class UIFactory {
         for (int i = 0; i < choices.length; i++)
             choices[i] = getI18NString(uiKey + "." + choiceKeys[i] + ".chc");
 
-        JComboBox choice = new JComboBox(choiceKeys);
+        JComboBox<String> choice = new JComboBox<>(choiceKeys);
         choice.setName(uiKey);
         setToolTip(choice, uiKey);
         setAccessibleName(choice, uiKey);
@@ -1276,7 +1276,7 @@ public class UIFactory {
      * @see javax.swing.JLabel#setLabelFor
      */
     public <E> JComboBox<E> createChoice(String uiKey, boolean editable, JLabel label) {
-        JComboBox choice = new JComboBox();
+        JComboBox<E> choice = new JComboBox<>();
         choice.setName(uiKey);
         setToolTip(choice, uiKey);
 

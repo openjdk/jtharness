@@ -36,6 +36,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
+import java.util.Map;
 import javax.accessibility.AccessibleContext;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -183,7 +184,7 @@ class SearchDialog extends JDialog
             setVisible(true);
         else {
             // just get this once for the query
-            Hashtable answers = new Hashtable();
+            Map<String, String> answers = new Hashtable<>();
             interview.save(answers);
             Question[] path = interview.getPath();
             Question curr = interview.getCurrentQuestion();
@@ -191,7 +192,7 @@ class SearchDialog extends JDialog
                 if (path[i] == curr) {
                     for (int j = 0; j < path.length; j++) {
                         Question q = path[(i + 1 + j)%path.length];
-                        String answer = (String)(answers.get(q.getTag()));
+                        String answer = answers.get(q.getTag());
                         if (matches(q, answer, caseChk.isSelected(), wordChk.isSelected())) {
                             try {
                                 interview.setCurrentQuestion(q);
@@ -270,7 +271,7 @@ class SearchDialog extends JDialog
         for (int i = 0; i < choices.length; i++)
             choices[i] = i18n.getString(uiKey + "." + choiceKeys[i] + ".chc");
 
-        JComboBox choice = new JComboBox(choiceKeys);
+        JComboBox<String> choice = new JComboBox<>(choiceKeys);
         choice.setName(uiKey);
         AccessibleContext ac = choice.getAccessibleContext();
         ac.setAccessibleName(i18n.getString(uiKey + ".tip"));

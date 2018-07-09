@@ -28,6 +28,7 @@ package com.sun.javatest;
 
 import java.io.File;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Vector;
 
 import com.sun.javatest.util.DynamicArray;
@@ -520,7 +521,7 @@ public class TestFinderQueue {
         }
 
 
-        File f = (File)(filesToRead.lastElement());
+        File f = filesToRead.lastElement();
         filesToRead.setSize(filesToRead.size() - 1);
         filesRemainingCount = filesToRead.size() + tests.size();
 
@@ -694,7 +695,7 @@ public class TestFinderQueue {
     private int testsFoundCountBeforeCurrInitialFile;
     private boolean zeroTestsOK;
 
-    private Vector filesToRead  = new Vector(32, 8);
+    private Vector<File> filesToRead  = new Vector<>(32, 8);
     private int fileInsertPosn;
     private Fifo testDescsFound = new Fifo();
     private int filesRemainingCount;
@@ -703,7 +704,7 @@ public class TestFinderQueue {
     private int testsFoundCount;
     private int errorCount;
 
-    private Hashtable filesFound  = new Hashtable();
+    private Map<String, File> filesFound  = new Hashtable<>();
 
     private byte readAheadMode;
     private Thread readAheadWorker;

@@ -75,8 +75,8 @@ class DesktopPrefsPane extends PreferencesPane {
     }
 
     @Override
-    public void load(Map<?, ?> m) {
-        String styleName = (String)m.get(Desktop.STYLE_PREF);
+    public void load(Map<String, String> m) {
+        String styleName = m.get(Desktop.STYLE_PREF);
         if (styleName == null)
             styleName = Desktop.styleNames[desktop.getStyle()];
 
@@ -88,12 +88,12 @@ class DesktopPrefsPane extends PreferencesPane {
             }
         }
         // tooltips
-        String tipState = (String) (m.get(Desktop.TTIP_PREF));
+        String tipState = m.get(Desktop.TTIP_PREF);
         ttipsCheck.setSelected(tipState == null || tipState.equalsIgnoreCase("true"));
 
         boolean complete = false;       // used for delay and duration code
 
-        String tipDelay = (String) (m.get(Desktop.TTIP_DELAY));
+        String tipDelay = m.get(Desktop.TTIP_DELAY);
         try {
             int delay = Integer.parseInt(tipDelay);
 
@@ -104,7 +104,7 @@ class DesktopPrefsPane extends PreferencesPane {
             }
             else {
                 for (int i = 1; i < ttDelay.getItemCount(); i++) {
-                    if ( ((Integer)(ttDelay.getItemAt(i))).intValue() == delay ) {
+                    if ( ttDelay.getItemAt(i).intValue() == delay ) {
                         ttDelay.setSelectedIndex(i);
                         i = ttDelay.getItemCount(); // stop loop
                         complete = true;
@@ -125,7 +125,7 @@ class DesktopPrefsPane extends PreferencesPane {
                 ttDelay.setSelectedIndex(1);
 
         complete = false;
-        String tipDuration = (String) (m.get(Desktop.TTIP_DURATION));
+        String tipDuration = m.get(Desktop.TTIP_DURATION);
         try {
             int duration = Integer.parseInt(tipDuration);
             if (duration == Desktop.TTIP_DURATION_FOREVER) {
@@ -156,9 +156,9 @@ class DesktopPrefsPane extends PreferencesPane {
         syncTooltipPrefs();
 
         // save on exit
-        String saveState = (String) (m.get(Desktop.SAVE_ON_EXIT_PREF));
+        String saveState = m.get(Desktop.SAVE_ON_EXIT_PREF);
         saveCheck.setSelected(saveState == null || "true".equalsIgnoreCase(saveState)); // true (null) by default
-        String restoreState = (String) (m.get(Desktop.RESTORE_ON_START_PREF)); // false by default
+        String restoreState = m.get(Desktop.RESTORE_ON_START_PREF); // false by default
         restoreCheck.setSelected(restoreState == null || "true".equalsIgnoreCase(restoreState));
     }
 
@@ -353,8 +353,8 @@ class DesktopPrefsPane extends PreferencesPane {
     private UIFactory uif;
     private ButtonGroup styleGrp;
     private JCheckBox ttipsCheck;
-    private JComboBox ttDelay;
-    private JComboBox ttDuration;
+    private JComboBox<Integer> ttDelay;
+    private JComboBox<Integer> ttDuration;
     private JCheckBox saveCheck;
     private JCheckBox restoreCheck;
 

@@ -33,6 +33,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.lang.reflect.Array;
 import javax.accessibility.Accessible;
 import javax.accessibility.AccessibleContext;
@@ -79,7 +80,7 @@ public class EditableList extends JComponent implements Accessible
     public EditableList(UIFactory uif, String uiKey) {
         this.uif = uif;
         setLayout(new BorderLayout());
-        listModel = new DefaultListModel(); // need to force the type of model
+        listModel = new DefaultListModel<>(); // need to force the type of model
         listModel.addListDataListener(listener);
         list = uif.createList(uiKey, listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -453,8 +454,8 @@ public class EditableList extends JComponent implements Accessible
     /**
      * The list model that contains the elements of the list.
      */
-    protected DefaultListModel listModel;
-    private JList list;
+    protected DefaultListModel<Object> listModel;
+    private JList<Object> list;
     private JButton addBtn;
     private JButton removeBtn;
     private JButton upBtn;

@@ -170,7 +170,7 @@ public class I18NResourceBundle extends ResourceBundle
      * Load the actual resource bundle, if it has not yet been loaded,
      * then hand the request off to that bundle.
      */
-    public Enumeration getKeys() {
+    public Enumeration<String> getKeys() {
         if (delegate == null) {
             delegate = AccessController.doPrivileged(
                     new PrivilegedAction<ResourceBundle>() {

@@ -29,6 +29,7 @@ package com.sun.javatest.report;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.SortedSet;
 
 import com.sun.javatest.KnownFailuresList;
@@ -366,7 +367,7 @@ class KflSection extends HTMLSection {
         }
 
         String urlPrefix = Preferences.access().getPreference(ReportManager.BUGRPT_URL_PREF, null);
-        HashSet<String> hs = new HashSet();
+        Set<String> hs = new HashSet<>();
 
         for (int i = 0; i < e.length; i++) {
             String[] bugs = e[i].getBugIdStrings();

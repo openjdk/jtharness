@@ -107,7 +107,7 @@ public class LineParser
     private LineParser(File file, Reader in) {
         this.file = file;
         this.in = in;
-        currLine = new Vector();
+        currLine = new Vector<>();
         lineNumber = 1;
         ch = ' ';
     }
@@ -277,7 +277,7 @@ public class LineParser
     private int ch;
     private int lineNumber;
     private StringBuffer currWord;
-    private Vector currLine;
+    private Vector<String> currLine;
 
     private static final I18NResourceBundle i18n =
         I18NResourceBundle.getBundleForClass(LineParser.class);

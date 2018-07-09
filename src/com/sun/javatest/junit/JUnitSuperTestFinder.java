@@ -154,8 +154,8 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
      * @param file The file to scan
      */
     protected void scanFile(File file) {
-        testMethods = new ArrayList();  // new every time we visit a new class
-        tdValues = new HashMap();
+        testMethods = new ArrayList<>();  // new every time we visit a new class
+        tdValues = new HashMap<>();
 
         String name = file.getName();
         if (verbose)

@@ -581,7 +581,7 @@ public class SelectionTree extends JTree {
         SelectionTreeNode lastNode = firstNode;
 
         while (lastNode.getChildCount() > 0) {
-            lastNode = (SelectionTreeNode) lastNode.getChildAt(lastNode.getChildCount() - 1);
+            lastNode = lastNode.getChildAt(lastNode.getChildCount() - 1);
         }
 
         if (!isRootVisible()) {
@@ -712,7 +712,7 @@ public class SelectionTree extends JTree {
     }
 
     public String[] getSelection() {
-        Vector v = new Vector();
+        Vector<String> v = new Vector<>();
         getSelection((SelectionTreeNode) getModel().getRoot(), v);
 
         String[] paths = new String[v.size()];
@@ -720,7 +720,7 @@ public class SelectionTree extends JTree {
         return paths;
     }
 
-    private void getSelection(SelectionTreeNode node, Vector v) {
+    private void getSelection(SelectionTreeNode node, Vector<String> v) {
         switch (node.getSelectionType()) {
             case UNSELECTED:
                 break;

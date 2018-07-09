@@ -27,8 +27,7 @@
 package com.sun.javatest.util;
 
 import java.io.BufferedWriter;
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.*;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
@@ -101,7 +100,7 @@ public class PropertyArray {
      * Create a immutable PropertyArray object from a standard Properties object.
      * @param props the object from which to initialize the array
      */
-    public PropertyArray(Properties props) {
+    public PropertyArray(Map<String, String> props) {
         dataA = getArray(props);
 
         locked = true;
@@ -133,14 +132,10 @@ public class PropertyArray {
      * @return an array containing the names of the properties in even-numbered
      * entries, and the corresponding values in the adjacent odd-numbered entries
      */
-    public static String[] getArray(Properties props) {
-        Enumeration values = props.elements();
-        Enumeration keys = props.keys();
-        Vector data = new Vector(props.size(),2);
-
-        for (; keys.hasMoreElements() ;) {
-            insert(data, (String)(keys.nextElement()),
-                   (String)(values.nextElement()));
+    public static String[] getArray(Map<String, String> props) {
+        Vector<String> data = new Vector<>(props.size(),2);
+        for (Map.Entry<String, String> entry : props.entrySet()) {
+            insert(data, entry.getKey(), entry.getValue());
         }
 
         String[] arr = new String[data.size()];
@@ -159,7 +154,7 @@ public class PropertyArray {
      *            supplied.
      */
     public static String[] put(String[] data, String key, String value) {
-        Vector vec;
+        Vector<String> vec;
         String[] arr;
         String old = null;
 
@@ -276,12 +271,12 @@ public class PropertyArray {
     }
 
     /**
-     * Get a standard Properties object from an array of properties.
+     * Get a standard Map object from an array of properties.
      * @param data an array of sequential name value properties
-     * @return a Properties object containing data from the array
+     * @return a Map object containing data from the array
      */
-    public static Properties getProperties(String[] data) {
-        Properties props = new Properties();
+    public static Map<String, String> getProperties(String[] data) {
+        Map<String, String> props = new HashMap<>();
 
         if (data != null && data.length > 0) {
             for (int i = 0; i < data.length; i+=2) {
@@ -362,10 +357,10 @@ public class PropertyArray {
      */
     public static String[] load(Reader in) throws IOException {
 
-        Vector v = Properties.load0(in, true);
-        Vector sorted = new Vector(v.size());
+        Vector<String> v = Properties.load0(in, true);
+        Vector<String> sorted = new Vector<>(v.size());
         for (int i = 0; i < v.size(); i+=2) {
-            insert(sorted, (String)v.elementAt(i), (String)v.elementAt(i + 1));
+            insert(sorted, v.elementAt(i), v.elementAt(i + 1));
         }
 
         String[] data = new String[sorted.size()];
@@ -405,7 +400,7 @@ public class PropertyArray {
      * Get the data in this PropertyArray as a standard Properties object.
      * @return a Properties object containing the same data as this PropertyArray
      */
-    public Properties getProperties() {
+    public Map<String, String> getProperties() {
         return getProperties(dataA);
     }
 
@@ -471,7 +466,7 @@ public class PropertyArray {
                 "A key or value was null.  Null keys and values are illegal");
         }
 
-        Vector vec = copyOutOf(dataA);
+        Vector<String> vec = copyOutOf(dataA);
         old = insert(vec, key, value);
         dataA = new String[vec.size()];
         vec.copyInto(dataA);
@@ -504,7 +499,7 @@ public class PropertyArray {
      *
      * @param vec Vector to add data to.  Must not be null!
      */
-    private static String insert(Vector vec, String key, String value) {
+    private static String insert(Vector<String> vec, String key, String value) {
         int lower = 0;
         int upper = vec.size() - 2;
         int mid = 0;
@@ -518,7 +513,7 @@ public class PropertyArray {
         }
 
         // goes at the end
-        String last = (String)vec.elementAt(upper);
+        String last = vec.elementAt(upper);
         int cmp = key.compareTo(last);
         if (cmp > 0) {
             vec.addElement(key);
@@ -529,7 +524,7 @@ public class PropertyArray {
         while (lower <= upper) {
             // in next line, take care to ensure that mid is always even
             mid = lower + ((upper - lower) / 4) * 2;
-            String e = (String)(vec.elementAt(mid));
+            String e = vec.elementAt(mid);
             cmp = key.compareTo(e);
             if (cmp < 0) {
                 upper = mid - 2;
@@ -540,7 +535,7 @@ public class PropertyArray {
             else {
                 // strings equal
                 vec.removeElementAt(mid);
-                old = (String)(vec.elementAt(mid));
+                old = vec.elementAt(mid);
                 vec.removeElementAt(mid);
                 break;
             }
@@ -557,14 +552,14 @@ public class PropertyArray {
         return old;
     }
 
-    private static Vector copyOutOf(String[] data) {
-        Vector vec = null;
+    private static Vector<String> copyOutOf(String[] data) {
+        Vector<String> vec = null;
 
         if (data == null) {
-            vec = new Vector(0,2);
+            vec = new Vector<>(0,2);
         }
         else {
-            vec = new Vector(data.length,2);
+            vec = new Vector<>(data.length,2);
 
             for (int i = 0; i < data.length; i++) {
                 vec.addElement(data[i]);

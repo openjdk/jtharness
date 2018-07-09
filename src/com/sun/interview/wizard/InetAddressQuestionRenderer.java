@@ -304,8 +304,8 @@ public class InetAddressQuestionRenderer
             c.weightx = 1;
             msgPanel.add(errorField, c);
 
-            listModel = new DefaultListModel();
-            list = new JList(listModel);
+            listModel = new DefaultListModel<>();
+            list = new JList<>(listModel);
             list.setVisibleRowCount(3);
             list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             list.addListSelectionListener(this);
@@ -387,8 +387,8 @@ public class InetAddressQuestionRenderer
         protected int type;
         protected JTextField nameField;
         protected JTextField errorField;
-        protected DefaultListModel listModel;
-        protected JList list;
+        protected DefaultListModel<String> listModel;
+        protected JList<String> list;
         protected JButton okBtn;
 
         protected static final String LOOKUP = "lookup";

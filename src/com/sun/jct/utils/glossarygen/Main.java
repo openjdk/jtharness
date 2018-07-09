@@ -207,12 +207,12 @@ public class Main {
     public void addFiles(File baseDir, String[] paths) {
         if (paths == null)
             return;
-        List/*<File>*/ files = new ArrayList/*<File>*/();
+        List<File> files = new ArrayList<File>();
         if (inFiles != null)
             files.addAll(Arrays.asList(inFiles));
         for (int i = 0; i < paths.length; i++)
             files.add(new File(baseDir, paths[i]));
-        inFiles = (File[]) files.toArray(new File[files.size()]);
+        inFiles = files.toArray(new File[files.size()]);
     }
 
     private void run() throws BadArgs, IOException {
@@ -231,7 +231,7 @@ public class Main {
         if (mapOutFile != null && mapDir == null)
             mapDir = mapOutFile.getParentFile();
 
-        glossary = new TreeMap();
+        glossary = new TreeMap<>();
 
         read(inFiles);
 
@@ -373,7 +373,7 @@ public class Main {
     private File mapDir;
     private File xmlOutFile;
     private String keyword;
-    private Map glossary;
+    private Map<String, Entry> glossary;
 
 }
 
@@ -806,7 +806,7 @@ class Entry {
 //          hIndent = Integer.parseInt(content);
 //      }
         if (name.equalsIgnoreCase("glossaryKeywords")) {
-            keywords = new HashSet(Arrays.asList(split(content)));
+            keywords = new HashSet<>(Arrays.asList(split(content)));
         }
     }
 
@@ -983,7 +983,7 @@ class Entry {
     }
 
     private static String[] split(String s) {
-        Vector v = new Vector();
+        Vector<String> v = new Vector<>();
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);

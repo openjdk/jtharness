@@ -33,6 +33,7 @@ import com.sun.interview.Question;
 import com.sun.javatest.report.HTMLWriterEx;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.tool.CustomPropagationController.EventType;
+import com.sun.javatest.util.Properties;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -53,7 +54,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 public class InterviewPropagator {
@@ -82,12 +82,12 @@ public class InterviewPropagator {
             PrintStream psUpdates = null;
             boolean needToSave1=false, needToSave2=false;
 
-            Properties templateData = new Properties();
+            Map<String, String> templateData = new HashMap<>();
 
             try {
                 File template = new File(interview.getTemplatePath());
                 in = new BufferedInputStream(new FileInputStream(template));
-                templateData.load(in);
+                templateData = Properties.load(in);
 
                 fireEvent(EventType.TemplateLoaded, templateData);
             } catch (FileNotFoundException ex) {
@@ -102,7 +102,7 @@ public class InterviewPropagator {
 
                 pm = new PropogateMap();
 
-                HashMap actual = new HashMap();
+                Map<String, String> actual = new HashMap<>();
                 interview.save(actual);
 
                 // process custom changes such as property rename
@@ -118,7 +118,7 @@ public class InterviewPropagator {
                     saveInterview();
                 }
 
-                Map allQuestionMap = interview.getAllQuestions();
+                Map<String, Question> allQuestionMap = interview.getAllQuestions();
                 // autoupdate partial questions
                 if (processPartialQuestions(templateData, allQuestionMap, actual)) {
                     // update it
@@ -164,16 +164,16 @@ public class InterviewPropagator {
         return wasUpdated;
     }
 
-    private void fireEvent(EventType eventType, Properties templateData) {
+    private void fireEvent(EventType eventType, Map<String, String> templateData) {
         interview.getPropagationController().notify(eventType, interview, templateData);
     }
 
-    private boolean processNotUpdatableKeys(Properties templateData, InterviewParameters interview) {
+    private boolean processNotUpdatableKeys(Map<String, String> templateData, InterviewParameters interview) {
         boolean wasUpdate = false;
         for (Object key : templateData.keySet()) {
             String templateKey = (String) key;
             if(!isSystemIgnorableTemplateProperty(templateKey) && !this.interview.isUpdatableKey(templateKey)) {
-                String newTV = templateData.getProperty(templateKey);
+                String newTV = templateData.get(templateKey);
                 String oldTV = interview.retrieveTemplateProperty(templateKey);
                 if (oldTV != null &&
                         !oldTV.equals(newTV)) {
@@ -185,7 +185,7 @@ public class InterviewPropagator {
         return wasUpdate;
     }
 
-    private boolean processPartialQuestions(Properties templateData, Map allQuestionMap, Map actual) throws IOException {
+    private boolean processPartialQuestions(Map<String, String> templateData, Map<String, Question> allQuestionMap, Map actual) throws IOException {
         Iterator keys = templateData.keySet().iterator();
         boolean updated = false;
         while (keys.hasNext()) {
@@ -195,7 +195,7 @@ public class InterviewPropagator {
             }
             if (isPropertyQuestion(questionKey, allQuestionMap)) {
                 // create template map
-                String templateValue = templateData.getProperty(questionKey);
+                String templateValue = templateData.get(questionKey);
                 Properties2 templateProps = InterviewPropagator.stringToProperties2(templateValue);
                 // create actual map
                 String actualValue = (String) actual.get(questionKey);
@@ -246,7 +246,7 @@ public class InterviewPropagator {
                     pq.setValue(sw.toString());
                     interview.setEdited(true);
                     updated = true;
-                    Object [] data = new Object[] {sw.toString(), swOld.toString(), swOld.toString(),
+                    String [] data = new String[] {sw.toString(), swOld.toString(), swOld.toString(),
                     getQuestionText(questionKey, allQuestionMap)};
                     pm.partialUpdateMap.put(questionKey, data);
                 }
@@ -255,14 +255,14 @@ public class InterviewPropagator {
         return updated;
     }
 
-    private void processQuestionFromSet(Properties templateData, Map allQ, Set keySet, Map actual) {
+    private void processQuestionFromSet(Map<String, String> templateData, Map<String, Question> allQ, Set keySet, Map<String, String> actual) {
         Iterator keys = keySet.iterator();
         while (keys.hasNext()) {
             String questionKey = (String)keys.next();
             if (! isIgnorableTemplateProperty(questionKey)) {
-                Object templateV = templateData.getProperty(questionKey);
-                Object oldTemplateV = interview.retrieveTemplateProperty(questionKey);
-                Object configurationV = actual.get(questionKey);
+                String templateV = templateData.get(questionKey);
+                String oldTemplateV = interview.retrieveTemplateProperty(questionKey);
+                String configurationV = actual.get(questionKey);
                 pm.add(questionKey, templateV, oldTemplateV, configurationV,
                         getQuestionText(questionKey, allQ),
                         isPropertyQuestion(questionKey, allQ));
@@ -325,7 +325,7 @@ public class InterviewPropagator {
     public void acceptAll() {
         InterviewPropagator.PropogateMap pm = getPropagateMap();
         if (pm.hasConflicts()) {
-            Map map = pm.conflictMap;
+            Map<String, String[]> map = pm.conflictMap;
             acceptTemplateDatafromMap(map);
             try {
                 interview.save();
@@ -343,7 +343,7 @@ public class InterviewPropagator {
     public void rejectAll() {
         InterviewPropagator.PropogateMap pm = getPropagateMap();
         if (pm.hasConflicts()) {
-            Map map = pm.conflictMap;
+            Map<String, String[]> map = pm.conflictMap;
             acceptTemplateDatafromMap(map, true);
             try {
                 interview.save();
@@ -359,7 +359,7 @@ public class InterviewPropagator {
     private void updateAll()  {
         InterviewPropagator.PropogateMap pm = getPropagateMap();
         if (pm.hasUpdates()) {
-            Map map = pm.updateMap;
+            Map<String, String[]> map = pm.updateMap;
             acceptTemplateDatafromMap(map);
             saveInterview();
         }
@@ -376,25 +376,25 @@ public class InterviewPropagator {
         }
     }
 
-    private void acceptTemplateDatafromMap(final Map map) {
+    private void acceptTemplateDatafromMap(final Map<String, String[]> map) {
         acceptTemplateDatafromMap(map, false);
     }
 
 
-    private void acceptTemplateDatafromMap(final Map map, boolean  templateOnly) {
-        Iterator it = map.keySet().iterator();
+    private void acceptTemplateDatafromMap(final Map<String, String[]> map, boolean  templateOnly) {
+        Iterator<String> it = map.keySet().iterator();
         while (it.hasNext()) {
-            String key = (String) it.next();
-            Object[] vals = (Object[]) map.get(key);
+            String key = it.next();
+            String[] vals = map.get(key);
             interview.storeTemplateProperty(key, vals[NEW_TEMPLATE].toString());
         }
         if (!templateOnly) {
-            Map actual = new HashMap();
+            Map<String, String> actual = new HashMap<>();
             interview.save(actual);
             it = map.keySet().iterator();
             while (it.hasNext()) {
-                String key = (String) it.next();
-                Object[] vals = (Object[]) map.get(key);
+                String key = it.next();
+                String[] vals = map.get(key);
                 actual.put(key, vals[NEW_TEMPLATE]);
             }
             try {
@@ -491,7 +491,7 @@ public class InterviewPropagator {
      */
     public class PropogateMap {
 
-        void add(String key, Object templV, Object oldTemplV, Object confV, String questionText, boolean isPropQ) {
+        void add(String key, String templV, String oldTemplV, String confV, String questionText, boolean isPropQ) {
 
             if (isPropQ) {
                 propQs.add(key);
@@ -505,12 +505,12 @@ public class InterviewPropagator {
         }
 
 
-        private void add(Map aMap, String key, Object templV, Object oldTemplV, Object confV, String questionText, boolean isPropQ, Map updateMap) {
+        private void add(Map<String, String[]> aMap, String key, String templV, String oldTemplV, String confV, String questionText, boolean isPropQ, Map<String, String[]> updateMap) {
 
 
             if (templV != null ) {
-                Object [] data = new Object[] {templV, oldTemplV, confV, questionText};
-                Object [] comp_data = data;
+                String [] data = new String[] {templV, oldTemplV, confV, questionText};
+                String [] comp_data = data;
                 boolean added = false;
                 boolean isUpdate = false;
                 if (isPropQ) {
@@ -580,13 +580,13 @@ public class InterviewPropagator {
         }
 
         void makeUpdatesReport(PrintStream sw) {
-            LinkedHashMap allUpdate = new LinkedHashMap(updateMap);
+            LinkedHashMap<String, String[]> allUpdate = new LinkedHashMap<>(updateMap);
             allUpdate.putAll(partialUpdateMap);
             makeReport(sw, allUpdate, true);
         }
 
-        private void makeReport(PrintStream sw, Map m, boolean hideOldTemplate) {
-            Iterator it = m.keySet().iterator();
+        private void makeReport(PrintStream sw, Map<String, String[]> m, boolean hideOldTemplate) {
+            Iterator<String> it = m.keySet().iterator();
             if (! it.hasNext()) {
                 return;
             }
@@ -634,14 +634,14 @@ public class InterviewPropagator {
                 writer.endTag(HTMLWriterEx.TR);
 
                 while (it.hasNext()) {
-                    String key = (String) it.next();
-                    Object [] data = (Object []) m.get(key);
+                    String key = it.next();
+                    String [] data = m.get(key);
                     writer.startTag(HTMLWriterEx.TR);
                     writer.startTag(HTMLWriterEx.TD);
                     writer.writeAttr("class", "pname");
                     writer.writeAttr("colspan", hideOldTemplate? 2:3);
                     writer.startTag(HTMLWriterEx.HR);
-                    writer.write((String)data[QUESTION_TEXT]);
+                    writer.write(data[QUESTION_TEXT]);
                     writer.endTag(HTMLWriterEx.TD);
                     writer.endTag(HTMLWriterEx.TR);
 
@@ -649,7 +649,7 @@ public class InterviewPropagator {
                     if(!propQs.contains(key)) {
                         s = new String[data.length];
                         for(int i = 0; i < data.length; i++)
-                            s[i] = (String)data[i];
+                            s[i] = data[i];
                     } else
                         s = convertPQ(data);
 
@@ -793,10 +793,10 @@ public class InterviewPropagator {
         }
 
 
-        private HashSet propQs = new HashSet();
-        private LinkedHashMap conflictMap = new LinkedHashMap();
-        private LinkedHashMap updateMap = new LinkedHashMap();
-        private LinkedHashMap partialUpdateMap = new LinkedHashMap();
+        private Set<String> propQs = new HashSet<>();
+        private Map<String, String[]> conflictMap = new LinkedHashMap<>();
+        private Map<String, String[]> updateMap = new LinkedHashMap<>();
+        private Map<String, String[]> partialUpdateMap = new LinkedHashMap<>();
         private File conflictReport;
         private File updateReport;
 

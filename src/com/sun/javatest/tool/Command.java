@@ -102,7 +102,7 @@ public abstract class Command
      * The name will be saved as the first entry as the argument array.
      */
     protected Command(String name) {
-        args = new Vector();
+        args = new Vector<>();
         args.add(name);
     }
 
@@ -119,8 +119,8 @@ public abstract class Command
      * @param argIter the iterator from which to get the next argument
      * @return the next argument from the iterator
      */
-    protected String nextArg(Iterator argIter) {
-        String s = (String) argIter.next();
+    protected String nextArg(Iterator<String> argIter) {
+        String s = argIter.next();
         addArg(s);
         return s;
     }
@@ -157,7 +157,7 @@ public abstract class Command
         for (int i = 0; i < args.size(); i++) {
             if (sb.length() > 0)
                 sb.append(' ');
-            String arg = (String) (args.elementAt(i));
+            String arg = args.elementAt(i);
             boolean hasSpace = (arg.indexOf(' ') != -1);
             boolean hasQuote = (arg.indexOf('"') != -1);
             boolean hasEscape = (arg.indexOf('\\') != -1);
@@ -280,5 +280,5 @@ public abstract class Command
         }
     }
 
-    private Vector args;
+    private Vector<String> args;
 }

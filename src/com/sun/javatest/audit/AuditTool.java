@@ -110,9 +110,9 @@ class AuditTool extends Tool
 
     @Override
     protected void restore(Map<String, String> m) {
-        String tsp = (String) (m.get("testSuite"));
-        String wdp = (String) (m.get("workDir"));
-        String cfp = (String) (m.get("config"));
+        String tsp = m.get("testSuite");
+        String wdp = m.get("workDir");
+        String cfp = m.get("config");
 
         if (tsp == null && wdp == null && cfp == null)
             return;

@@ -189,7 +189,7 @@ public abstract class Keywords
      * @return true if the the specified set of words are compatible
      * with this keywords object.
      */
-    public abstract boolean accepts(Set s);
+    public abstract boolean accepts(Set<String> s);
 
     private static Set toLowerCase(Set words) {
         if (words == null)
@@ -204,7 +204,7 @@ public abstract class Keywords
         if (allLowerCase)
             return words;
 
-        Set s = new HashSet();
+        Set<String> s = new HashSet<>();
         for (Iterator iter = words.iterator(); iter.hasNext(); ) {
             String word = (String) (iter.next());
             s.add(word.toLowerCase());
@@ -231,7 +231,7 @@ public abstract class Keywords
 //------------------------------------------------------------------------------
 
 abstract class SetKeywords extends Keywords {
-    HashSet<String> keys;
+    Set<String> keys;
     String allKwds = ""; // string to be used by toString()
 
     SetKeywords(String[] kwds, Set validKeywords) throws Keywords.Fault {
@@ -289,7 +289,7 @@ class AllKeywords extends SetKeywords {
      * @return
      */
     @Override
-    public boolean accepts(Set s) {
+    public boolean accepts(Set<String> s) {
         return s.containsAll(keys);
     }
 
@@ -310,7 +310,7 @@ class AnyKeywords extends SetKeywords {
      * @return false, if none of the keywords is in the set
      */
     @Override
-    public boolean accepts(Set s) {
+    public boolean accepts(Set<String> s) {
         for (String kwd :keys) {
             if (s.contains(kwd)) {
                 return true;
@@ -516,7 +516,7 @@ class AndExprKeywords extends BinaryExprKeywords {
         super(left, right);
     }
 
-    public boolean accepts(Set s) {
+    public boolean accepts(Set<String> s) {
         return (left.accepts(s) && right.accepts(s));
     }
 
@@ -540,7 +540,7 @@ class NotExprKeywords extends ExprKeywords {
         this.expr = expr;
     }
 
-    public boolean accepts(Set s) {
+    public boolean accepts(Set<String> s) {
         return !expr.accepts(s);
     }
 
@@ -583,7 +583,7 @@ class OrExprKeywords extends BinaryExprKeywords {
         super(left, right);
     }
 
-    public boolean accepts(Set s) {
+    public boolean accepts(Set<String> s) {
         return (left.accepts(s) || right.accepts(s));
     }
 
@@ -607,7 +607,7 @@ class ParenExprKeywords extends ExprKeywords {
         this.expr = expr;
     }
 
-    public boolean accepts(Set s) {
+    public boolean accepts(Set<String> s) {
         return expr.accepts(s);
     }
 
@@ -650,7 +650,7 @@ class TermExprKeywords extends ExprKeywords {
         this.key = key;
     }
 
-    public boolean accepts(Set s) {
+    public boolean accepts(Set<String> s) {
         return (s.contains(key));
     }
 

@@ -719,7 +719,7 @@ public abstract class Script
         if (!cdf.exists())
             cdf.mkdirs();
 
-        Vector v = new Vector(0, srcs.length);
+        Vector<String> v = new Vector<>(0, srcs.length);
 
         for (int i = 0; i < srcs.length; i++) {
             String src = srcs[i];

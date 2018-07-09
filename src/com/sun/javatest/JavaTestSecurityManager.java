@@ -203,7 +203,7 @@ class NewJavaTestSecurityManager extends JavaTestSecurityManager
             }
         }
         else if (perm instanceof PropertyPermission) {
-            if (((PropertyPermission)(perm)).getActions().equals("read,write"))
+            if (perm.getActions().equals("read,write"))
                 checkPropertiesAccess();
         }
     }

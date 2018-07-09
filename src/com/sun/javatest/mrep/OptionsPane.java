@@ -45,12 +45,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -100,7 +95,7 @@ class OptionsPane extends JPanel {
     }
 
     CustomReport[] getCustomSelected() {
-        return (CustomReport[])getActiveCustomReports().
+        return getActiveCustomReports().
                 toArray(new CustomReport[0]);
     }
     protected void initGUI() {
@@ -147,7 +142,7 @@ class OptionsPane extends JPanel {
                         BorderFactory.createEmptyBorder(12,12,12,12)));
 
 
-        listModel = new DefaultListModel();
+        listModel = new DefaultListModel<>();
 
         // populate list and card panel
         final CardLayout cards = new CardLayout();
@@ -182,7 +177,7 @@ class OptionsPane extends JPanel {
 
 
         if (customBoxes != null && list != null) {
-            CustomReport val = (CustomReport)(customBoxes.get(list.getSelectedValue()));
+            CustomReport val = customBoxes.get(list.getSelectedValue());
             if (val != null)
                 descriptionArea.setText(val.getDescription());
         }
@@ -247,7 +242,7 @@ class OptionsPane extends JPanel {
     private int getCustomReports(JPanel p) {
         int result = 0;
         Tool[] tools = desktop.getTools();
-        List customReportsList = new ArrayList();
+        List<CustomReport> customReportsList = new ArrayList<>();
         for (int i = 0; i < tools.length; i++) {
             if (tools[i] instanceof ExecTool) {
                 // should not be using report types from ExecTool
@@ -267,14 +262,14 @@ class OptionsPane extends JPanel {
             }
         }   // for
 
-        customReports = (CustomReport[]) customReportsList
+        customReports = customReportsList
                 .toArray(new CustomReport[0]);
         if (customReports == null || customReports.length == 0) {
             customReports = null;
             return 0;
         }
 
-        customBoxes = new HashMap();
+        customBoxes = new HashMap<>();
 
         for (int i = 0; i < customReports.length; i++) {
             JCheckBox cb = new JCheckBox(customReports[i].getName());
@@ -301,13 +296,13 @@ class OptionsPane extends JPanel {
         return result;
     }
 
-    private ArrayList getActiveCustomReports() {
+    private ArrayList<CustomReport> getActiveCustomReports() {
 
-        ArrayList customReps = new ArrayList();
+        ArrayList<CustomReport> customReps = new ArrayList<>();
         if (customBoxes != null && customBoxes.size() > 0) {
-            Iterator it = customBoxes.keySet().iterator();
+            Iterator<JCheckBox> it = customBoxes.keySet().iterator();
             while (it.hasNext()) {
-                JCheckBox box = (JCheckBox)(it.next());
+                JCheckBox box = it.next();
                 if (box.isSelected()) {
                     customReps.add(customBoxes.get(box));
                 }
@@ -371,7 +366,7 @@ class OptionsPane extends JPanel {
             }
 
             if (customBoxes != null) {
-                CustomReport rep = (CustomReport) customBoxes.get(box);
+                CustomReport rep = customBoxes.get(box);
                 if(rep != null) {
                     if (rep.getOptionPanes() != null) {
                         for (int i = 0; i < rep.getOptionPanes().length; i++) {
@@ -430,11 +425,11 @@ class OptionsPane extends JPanel {
                 boolean newV = ((Boolean) evt.getNewValue()).booleanValue();
                 if (oldV && !newV) {
                     // disable
-                    Iterator chIt = collectChildren(theContainer,
-                            new ArrayList()).iterator();
-                    enabledComp = new HashSet();
+                    Iterator<Component> chIt = collectChildren(theContainer,
+                            new ArrayList<Component>()).iterator();
+                    enabledComp = new HashSet<>();
                     while (chIt.hasNext()) {
-                        Component c = (Component) chIt.next();
+                        Component c = chIt.next();
                         if (c.isEnabled()) {
                             enabledComp.add(c);
                             c.setEnabled(false);
@@ -443,10 +438,10 @@ class OptionsPane extends JPanel {
 
                 } else if (!oldV && newV && enabledComp != null) {
                     // enable
-                    Iterator chIt = collectChildren(theContainer,
-                            new ArrayList()).iterator();
+                    Iterator<Component> chIt = collectChildren(theContainer,
+                            new ArrayList<Component>()).iterator();
                     while (chIt.hasNext()) {
-                        Component c = (Component) chIt.next();
+                        Component c = chIt.next();
                         if (enabledComp.contains(c)) {
                             c.setEnabled(true);
                         }
@@ -458,7 +453,7 @@ class OptionsPane extends JPanel {
         /**
          * Recursively gathers all children components
          */
-        private Collection collectChildren(Container comp, Collection c) {
+        private Collection<Component> collectChildren(Container comp, Collection<Component> c) {
             Component[] ch = comp.getComponents();
             for (int i = 0; i < ch.length; i++) {
                 c.add(ch[i]);
@@ -471,14 +466,13 @@ class OptionsPane extends JPanel {
 
         private Container theContainer;
 
-        private HashSet enabledComp;
+        private Set<Component> enabledComp;
     }
 
-    private class CheckBoxListCellRenderer implements ListCellRenderer {
-        public Component getListCellRendererComponent(JList list, Object value,
+    private class CheckBoxListCellRenderer implements ListCellRenderer<JCheckBox> {
+        public Component getListCellRendererComponent(JList list, JCheckBox comp,
                 int index, boolean isSelected, boolean cellHasFocus) {
             // assert: value is a JCheckBox
-            JComponent comp = (JComponent) value;
             if (isSelected) {
                 comp.setOpaque(true);
                 comp.setBackground(UIFactory.Colors.TEXT_HIGHLIGHT_COLOR.getValue());
@@ -495,11 +489,11 @@ class OptionsPane extends JPanel {
         return new JButton[] { backBtn, okBtn, cancelBtn, helpBtn };
     }
 
-    private DefaultListModel listModel;
-    private JList list;
+    private DefaultListModel<JCheckBox> listModel;
+    private JList<JCheckBox> list;
     private CustomReport[] customReports;
     private JTextArea descriptionArea;
-    private HashMap customBoxes;
+    private Map<JCheckBox, CustomReport> customBoxes;
     private JCheckBox cbXml;
     private JButton backBtn;
     private JButton okBtn;

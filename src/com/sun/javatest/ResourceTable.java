@@ -26,9 +26,7 @@
  */
 package com.sun.javatest;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * A table providing simple named locks for arbitrary resources.
@@ -39,7 +37,7 @@ public class ResourceTable
      * Create a resource table.
      */
     public ResourceTable() {
-        table = new HashMap();
+        table = new HashMap<>();
     }
 
     /**
@@ -47,7 +45,7 @@ public class ResourceTable
      * @param initialSize a hint as to the initial capacity to make the table
      */
     public ResourceTable(int initialSize) {
-        table = new HashMap(initialSize);
+        table = new HashMap<>(initialSize);
     }
 
     /**
@@ -66,7 +64,7 @@ public class ResourceTable
         if (resourceNames.length > 1) {
             // sort and remove duplicates
             // canonicalize acquisition order to prevent deadlocks
-            TreeSet ts = new TreeSet();
+            Set<String> ts = new TreeSet<>();
             ts.addAll(Arrays.asList(resourceNames));
             String[] s = new String[ts.size()];
             ts.toArray(s);
@@ -117,5 +115,5 @@ public class ResourceTable
         notifyAll();
     }
 
-    private HashMap table;
+    private Map<String, Thread> table;
 }

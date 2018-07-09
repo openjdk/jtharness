@@ -42,6 +42,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.Properties;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -154,11 +155,15 @@ public class Wizard extends JComponent {
     public void open(File f) throws Interview.Fault, IOException {
         InputStream in = new BufferedInputStream(new FileInputStream(f));
         try {
-            Properties p = new Properties();
-            p.load(in);
-            interview.load(p);
+
+            Map<String, String> stringProps = com.sun.javatest.util.Properties.load(in);
+            interview.load(stringProps);
             interview.setEdited(false);
-            initialInfoVisible = p.getProperty("INFO", "true").equals("true");
+            String info = stringProps.get("INFO");
+            if (info == null) {
+                info = "true";
+            }
+            initialInfoVisible = info.equals("true");
         }
         finally {
             in.close();
@@ -177,7 +182,7 @@ public class Wizard extends JComponent {
             Properties p = new Properties();
             if (infoPanel != null)
                 p.put("INFO", String.valueOf(infoPanel.isShowing()));
-            interview.save(p);
+            interview.save(com.sun.javatest.util.Properties.convertToStringProps(p));
             interview.setEdited(false);
             p.save(out, "Wizard data file: " + interview.getTitle());
         }
@@ -470,7 +475,7 @@ public class Wizard extends JComponent {
         if (exporters != null) {
             // replace the default "export log" item with a full export submenu
             for (int i = 0; i < fileMenu.getItemCount(); i++) {
-                JMenuItem mi = (JMenuItem)(fileMenu.getItem(i));
+                JMenuItem mi = fileMenu.getItem(i);
                 if (mi != null && mi.getActionCommand().equals("performExportLog")) {
                     fileMenu.remove(i);
                     JMenu exportMenu = new ExportMenu(exporters);

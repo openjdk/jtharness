@@ -31,14 +31,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.WeakHashMap;
+import java.util.*;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -91,11 +84,11 @@ class HelpMenu extends JMenu
         }
 
         // first, collect the set of active test suites
-        Set loadedTestSuites = new TreeSet(new Comparator() {
+        Set<TestSuite> loadedTestSuites = new TreeSet<>(new Comparator<TestSuite>() {
             @Override
-                public int compare(Object o1, Object o2) {
-                    TestSuite ts1 = (TestSuite) o1;
-                    TestSuite ts2 = (TestSuite) o2;
+                public int compare(TestSuite o1, TestSuite o2) {
+                    TestSuite ts1 = o1;
+                    TestSuite ts2 = o2;
                     return ts1.getName().compareTo(ts2.getName());
                 }
             });
@@ -202,7 +195,7 @@ class HelpMenu extends JMenu
      *        for each of the fields holding the "about" text
      */
     private void showAbout(String title, String s, String contKey, String fieldKey) {
-        ArrayList v = new ArrayList();
+        List<String> v = new ArrayList<>();
         int start = 0;
         int end   = 0;
 
@@ -213,9 +206,9 @@ class HelpMenu extends JMenu
         v.add(s.substring(start));
 
         //JTextField[] tfs = new JTextField[v.size()];
-        ArrayList<JComponent> tfs = new ArrayList();
+        ArrayList<JComponent> tfs = new ArrayList<>();
         for (int i = 0; i < v.size(); i++) {
-            JTextField tf = new JTextField((String)v.get(i));
+            JTextField tf = new JTextField(v.get(i));
             tf.setBorder(null);
             tf.setHorizontalAlignment(JTextField.CENTER);
             tf.setOpaque(false);
@@ -265,7 +258,7 @@ class HelpMenu extends JMenu
     }
 
     private HelpBroker getHelpBroker(HelpSet hs) {
-        HelpBroker hb = (HelpBroker) (helpBrokerTable.get(hs));
+        HelpBroker hb = helpBrokerTable.get(hs);
         if (hb == null) {
             //hb = hs.createHelpBroker();   // pres. attributes work with this on JH 2.0_02
             hb = new JTHelpBroker();
@@ -275,7 +268,7 @@ class HelpMenu extends JMenu
     }
 
     private JMenuItem[] getMenuItems(TestSuite ts, int count) {
-        HelpSet[] docs = (HelpSet[]) (docTable.get(ts));
+        HelpSet[] docs = docTable.get(ts);
         if (docs == null) {
             try {
                 docs = Help.getAdditionalDocs(ts);
@@ -294,7 +287,7 @@ class HelpMenu extends JMenu
             return null;
         }
 
-        ArrayList<JMenuItem> v = new ArrayList();
+        ArrayList<JMenuItem> v = new ArrayList<>();
         for (int i = 0; i < docs.length; i++) {
             final HelpSet doc = docs[i];
 
@@ -328,8 +321,8 @@ class HelpMenu extends JMenu
 
     private Listener listener;
 
-    private static WeakHashMap docTable = new WeakHashMap();  // gives HelpSet[] for TestSuite
-    private static WeakHashMap helpBrokerTable = new WeakHashMap(); // gives HelpBroker for HelpSet
+    private static Map<TestSuite, HelpSet[]> docTable = new WeakHashMap<>();  // gives HelpSet[] for TestSuite
+    private static Map<HelpSet, HelpBroker> helpBrokerTable = new WeakHashMap<>(); // gives HelpBroker for HelpSet
 
     private static final String HELP = "help";
     private static final String ABOUT_JAVA = "aboutJava";

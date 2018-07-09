@@ -388,17 +388,17 @@ public abstract class Tool extends JPanel
         if (toolDialogs == null)
             return new ToolDialog[0];
 
-        ArrayList l = new ArrayList();
-        for (Iterator iter = toolDialogs.iterator(); iter.hasNext(); ) {
-            WeakReference r = (WeakReference) (iter.next());
-            ToolDialog td = (ToolDialog) (r.get());
+        ArrayList<ToolDialog> l = new ArrayList<>();
+        for (Iterator<WeakReference<ToolDialog>> iter = toolDialogs.iterator(); iter.hasNext(); ) {
+            WeakReference<ToolDialog> r = iter.next();
+            ToolDialog td = r.get();
             if (td == null)
                 iter.remove();
             else
                 l.add(td);
         }
 
-        return (ToolDialog[]) (l.toArray(new ToolDialog[l.size()]));
+        return l.toArray(new ToolDialog[l.size()]);
     }
 
     /**
@@ -410,9 +410,9 @@ public abstract class Tool extends JPanel
             throw new NullPointerException();
 
         if (toolDialogs == null)
-            toolDialogs = new ArrayList();
+            toolDialogs = new ArrayList<>();
 
-        toolDialogs.add(new WeakReference(td));
+        toolDialogs.add(new WeakReference<>(td));
     }
 
     void setDeskView(DeskView view) {
@@ -432,7 +432,7 @@ public abstract class Tool extends JPanel
     private String shortTitle;
     private String helpID;
     private long creationTime;
-    private List toolDialogs;
+    private List<WeakReference<ToolDialog>> toolDialogs;
     private DeskView deskView;
     private Observer[] observers = new Observer[0];
     private static int toolIndex;

@@ -93,11 +93,11 @@ public class ConfigManager
     }
 
     HelpTree.Node getHelp(I18NResourceBundle i18n, String prefix, Object[] childData) {
-        Vector v = new Vector();
+        Vector<HelpTree.Node> v = new Vector<>();
         for (int i = 0; i < childData.length; i++) {
             Object data = childData[i];
             if (data instanceof HelpTree.Node)
-                v.add(data);
+                v.add((HelpTree.Node)data);
             else if (data instanceof String)
                 v.add(new HelpTree.Node(i18n, prefix + "." + data));
             else if (data instanceof String[]) {
@@ -113,7 +113,7 @@ public class ConfigManager
         return new HelpTree.Node(i18n, prefix, childNodes);
     }
 
-    public boolean parseCommand(String cmd, ListIterator argIter, CommandContext ctx)
+    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
         if (isMatch(cmd, ConcurrencyCommand.getName())) {
@@ -222,7 +222,7 @@ public class ConfigManager
             return "concurrency";
         }
 
-        ConcurrencyCommand(ListIterator argIter) throws Fault {
+        ConcurrencyCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -271,7 +271,7 @@ public class ConfigManager
             return "config";
         }
 
-        ConfigCommand(ListIterator argIter) throws Fault {
+        ConfigCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -336,7 +336,7 @@ public class ConfigManager
             return "writeConfig";
         }
 
-        WriteConfigCommand(ListIterator argIter) throws Fault {
+        WriteConfigCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -381,7 +381,7 @@ public class ConfigManager
             return "env";
         }
 
-        EnvCommand(ListIterator argIter) throws Fault {
+        EnvCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -412,10 +412,10 @@ public class ConfigManager
             return new String[] { "envfile", "envfiles" };
         }
 
-        EnvFilesCommand(ListIterator argIter) throws Fault {
+        EnvFilesCommand(ListIterator<String> argIter) throws Fault {
             super(getNames()[0]);
 
-            Vector v = new Vector();
+            Vector<File> v = new Vector<>();
 
             while (argIter.hasNext()) {
                 String arg = nextArg(argIter);
@@ -456,11 +456,11 @@ public class ConfigManager
             return "excludeList";
         }
 
-        ExcludeListCommand(ListIterator argIter) throws Fault {
+        ExcludeListCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             // in time, we should support -none, -default, -latest etc
-            Vector v = new Vector();
+            Vector<File> v = new Vector<>();
 
             while (argIter.hasNext()) {
                 String arg = nextArg(argIter);
@@ -501,11 +501,11 @@ public class ConfigManager
             return "kfl";
         }
 
-        KflCommand(ListIterator argIter) throws Fault {
+        KflCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             // in time, we should support -none, -default, -latest etc
-            Vector v = new Vector();
+            Vector<File> v = new Vector<>();
 
             while (argIter.hasNext()) {
                 String arg = nextArg(argIter);
@@ -552,7 +552,7 @@ public class ConfigManager
             cmdForFile = getCommandForFile(file);
         }
 
-        OpenCommand(ListIterator argIter) throws Fault {
+        OpenCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -607,7 +607,7 @@ public class ConfigManager
             return "keywords";
         }
 
-        KeywordsCommand(ListIterator argIter) throws Fault {
+        KeywordsCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             // could support -all -any
@@ -736,10 +736,10 @@ public class ConfigManager
             return new HelpTree.Node(i18n, "cnfg.params", opts);
         }
 
-        ParamsCommand(ListIterator argIter) throws Fault {
+        ParamsCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
-            Vector v = new Vector();
+            Vector<String> v = new Vector<>();
             while (argIter.hasNext())
                 v.add(nextArg(argIter));
             String[] args = new String[v.size()];
@@ -770,7 +770,7 @@ public class ConfigManager
             return "priorStatus";
         }
 
-        PriorStatusCommand(ListIterator argIter) throws Fault {
+        PriorStatusCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -821,7 +821,7 @@ public class ConfigManager
             if (s == null)
             return null;
 
-            Vector v = new Vector();
+            Vector<String> v = new Vector<>();
             int start = -1;
             for (int i = 0; i < s.length(); i++) {
                 if (Character.isLetterOrDigit(s.charAt(i))) {
@@ -855,7 +855,7 @@ public class ConfigManager
             return "set";
         }
 
-        SetCommand(ListIterator argIter) throws Fault {
+        SetCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -1012,7 +1012,7 @@ public class ConfigManager
             return "setX";
         }
 
-        SetXCommand(ListIterator argIter) throws Fault {
+        SetXCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -1092,10 +1092,10 @@ public class ConfigManager
             return "tests";
         }
 
-        TestsCommand(ListIterator argIter) throws Fault {
+        TestsCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
-            Vector v = new Vector();
+            Vector<String> v = new Vector<>();
 
             while (argIter.hasNext()) {
                 // could possibly support @file or similar syntax here for a list of tests
@@ -1138,7 +1138,7 @@ public class ConfigManager
             return new String[] { "testsuite", "ts" };
         }
 
-        TestSuiteCommand(ListIterator argIter) throws Fault {
+        TestSuiteCommand(ListIterator<String> argIter) throws Fault {
             super(getNames()[0]);
 
             while (argIter.hasNext()) {
@@ -1279,14 +1279,14 @@ public class ConfigManager
                     // seem to be another good place in the current architecture.
                     // although perhaps it would be good to defer this processing to a
                     // little later in the command processing?
-                    Properties p = Desktop.getPreviousDesktop(null);
-                    String s = p.getProperty("tool.count");
+                    Map<String, String> p = Desktop.getPreviousDesktop(null);
+                    String s = p.get("tool.count");
                     if (s != null) {
                         int count = Integer.parseInt(s);
                         for (int i = 0; i < count; i++) {
-                            s = p.getProperty("tool." + i + ".class");
+                            s = p.get("tool." + i + ".class");
                             if ("com.sun.javatest.exec.ExecTool".equals(s)) {
-                                s = p.getProperty("tool." + i + ".testSuite");
+                                s = p.get("tool." + i + ".testSuite");
 
                                 // this tool instance does not have a test suite
                                 if (s == null)
@@ -1310,7 +1310,7 @@ public class ConfigManager
                                 }
 
                                 if (s1.equals(s2)) {
-                                    s = p.getProperty("tool." + i + ".workDir");
+                                    s = p.get("tool." + i + ".workDir");
                                     if (s != null &&
                                         WorkDirectory.isUsableWorkDirectory(
                                             new File(s))) {
@@ -1320,8 +1320,8 @@ public class ConfigManager
                                         // we found WD,
                                         // try to restore filter now
 
-                                        s = p.getProperty("tool." + i + ".filter");
-                                        Map data = collectSpecificData("tool." + i + ".", p);
+                                        s = p.get("tool." + i + ".filter");
+                                        Map<String, String> data = collectSpecificData("tool." + i + ".", p);
 
                                         if (s != null) {
                                             ctx.setDesktopData(data);
@@ -1348,14 +1348,14 @@ public class ConfigManager
         private File path;
         private boolean preferFlag;
 
-        private Map collectSpecificData(String prefix, Properties p) {
-            Set<Entry<Object, Object>> s = p.entrySet();
-            Iterator<Entry<Object, Object>> it = s.iterator();
-            HashMap res = new HashMap();
+        private Map<String, String> collectSpecificData(String prefix, Map<String, String> p) {
+            Set<Entry<String, String>> s = p.entrySet();
+            Iterator<Entry<String, String>> it = s.iterator();
+            Map<String, String> res = new HashMap<>();
             while (it.hasNext()) {
-                Entry en = it.next();
+                Entry<String, String> en = it.next();
                 if (en.getKey().toString().startsWith(prefix)) {
-                    String key = (String) en.getKey();
+                    String key = en.getKey();
                     key = key.substring(prefix.length());
                     if ("-workDir-config-class-mgr-".contains(key)) {
                     //if ("-class-mgr-".contains(key)) {
@@ -1376,7 +1376,7 @@ public class ConfigManager
             return "timeoutfactor";
         }
 
-        TimeoutFactorCommand(ListIterator argIter) throws Fault {
+        TimeoutFactorCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -1424,7 +1424,7 @@ public class ConfigManager
             return new String[] { "workdirectory", "workdir", "wd" };
         }
 
-        WorkDirectoryCommand(ListIterator argIter) throws Fault {
+        WorkDirectoryCommand(ListIterator<String> argIter) throws Fault {
             super(getNames()[0]);
 
             while (argIter.hasNext()) {

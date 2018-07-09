@@ -29,6 +29,7 @@ package com.sun.javatest.tool;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.InterviewPropagator;
 
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -42,7 +43,7 @@ public class CustomPropagationController {
      * @param interview - current InterviewParameters.
      * @param templateData - loaded actual template's values. Can be null
      */
-    public void notify(EventType evt, InterviewParameters interview, Properties templateData) {}
+    public void notify(EventType evt, InterviewParameters interview, Map<String, String> templateData) {}
 
     /**
      * Returns the question's text. This text is used in the template propagation dialog only
@@ -63,7 +64,7 @@ public class CustomPropagationController {
      * @param interview
      * @return true if the interview was changed
      */
-    public boolean preprocessData(Properties templateData, InterviewParameters interview) {
+    public boolean preprocessData(Map<String, String> templateData, InterviewParameters interview) {
         return false;
     }
 

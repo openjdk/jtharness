@@ -152,7 +152,7 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
      * @param file The file to scan
      */
     protected void scanFile(File file) {
-        testMethods = new ArrayList();  // new every time we visit a new class
+        testMethods = new ArrayList<>();  // new every time we visit a new class
         tdValues = new HashMap();
 
         String name = file.getName();

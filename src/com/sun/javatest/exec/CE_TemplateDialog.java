@@ -34,6 +34,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -210,7 +211,7 @@ class CE_TemplateDialog extends ToolDialog
             try {
                 c = config.getTestSuite().createInterview();
                 createdNew = true;
-                HashMap data = new HashMap();
+                Map<String, String> data = new HashMap<>();
                 config.save(data);
                 c.load(data, false);
             }

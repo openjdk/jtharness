@@ -33,6 +33,7 @@ import com.sun.javatest.finder.JavaCommentStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -135,7 +136,7 @@ public abstract class JUnitTestFinder extends TestFinder {
      * @return the class previously registered with addExtension
      */
     public Class getClassForExtension(String extn) {
-        return (Class)extensionTable.get(extn);
+        return extensionTable.get(extn);
     }
 
     /**
@@ -146,12 +147,12 @@ public abstract class JUnitTestFinder extends TestFinder {
     }
 
     protected boolean verbose = false;
-    protected Map tdValues = new HashMap();
+    protected Map<String, String> tdValues = new HashMap<>();
     protected boolean scanClasses = false;
     protected File currFile;
-    protected HashMap excludeList   = new HashMap();
-    protected HashMap extensionTable = new HashMap();
-    protected ArrayList<String> testMethods;
+    protected Map<String, String> excludeList   = new HashMap<>();
+    protected Map<String, Class> extensionTable = new HashMap<>();
+    protected List<String> testMethods;
     protected static final String[] excludeNames = {
         "SCCS", "deleted_files", ".svn"
     };

@@ -212,7 +212,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         // time, so we need to make sure to make use of the preferences
         if (params == null && stateMap != null) {
             // trying to retrieve previous state
-            String tmp = (String) (stateMap.get(OPEN_PATHS_PREF));
+            String tmp = stateMap.get(OPEN_PATHS_PREF);
             if (tmp != null) {
                 paths = StringArray.split(tmp);
             }
@@ -714,9 +714,9 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 Object item = what[i].getLastPathComponent();
                 if (item instanceof TT_TestNode) {
                     ackTargets[i] = ((TT_TestNode) item).getLongPath();
-                    ackNodes = (TT_TreeNode[])DynamicArray.append(ackNodes, (TT_TestNode)item, TT_TreeNode.class);
+                    ackNodes = (TT_TreeNode[])DynamicArray.append(ackNodes, item, TT_TreeNode.class);
                 } else if (item instanceof TT_BasicNode) {
-                    ackNodes = (TT_TreeNode[])DynamicArray.append(ackNodes, (TT_BasicNode)item, TT_TreeNode.class);
+                    ackNodes = (TT_TreeNode[])DynamicArray.append(ackNodes, item, TT_TreeNode.class);
                     TT_BasicNode tn = (TT_BasicNode) item;
                     if (tn.isRoot()) {
                         ackTargets = new String[1];
@@ -761,7 +761,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 ack = true;
 
             if (tn instanceof TT_BasicNode) {
-                ackNodes = new TT_TreeNode[] {((TT_BasicNode) tn)};
+                ackNodes = new TT_TreeNode[] {tn};
             }
         }   // else
 
@@ -799,7 +799,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                 try {
                                     // this may take a long while...
                                      if (finalTargets[i] instanceof String) {
-                                        changes = trt.refreshIfNeeded((String) finalTargets[i]);
+                                        changes = trt.refreshIfNeeded(finalTargets[i]);
                                     }
                                 } // try
                                 catch (TestResultTable.Fault f) {
@@ -819,7 +819,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                             for (int i = 0; i < finalNodes.length; i++) {
                                 try {
                                     if (finalNodes[i] instanceof TT_TestNode)
-                                        changes = trt.refreshIfNeeded(((TT_TestNode)finalNodes[i]).getLongPath());
+                                        changes = trt.refreshIfNeeded(finalNodes[i].getLongPath());
                                     else {
                                         changes = trt.refreshIfNeeded(((TT_BasicNode)finalNodes[i]).getTableNode());
                                         if (changes) trt.prune(((TT_BasicNode)finalNodes[i]).getTableNode());
@@ -1264,24 +1264,24 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 TestResult tr = ((TT_TestNode) item).getTestResult();
                 if (testMenus != null) {
                     for (int i = 0; i < testMenus.size(); i++) {
-                        ((JavaTestContextMenu) (testMenus.get(i))).getMenu().setEnabled(true);
-                        ((JavaTestContextMenu) (testMenus.get(i))).updateState(tr);
+                        testMenus.get(i).getMenu().setEnabled(true);
+                        testMenus.get(i).updateState(tr);
                     }   // for
                 }
                 if (customMenus != null) {
                     for (int i = 0; i < customMenus.size(); i++) {
-                        ((JavaTestContextMenu) (customMenus.get(i))).updateState(tr);
+                        customMenus.get(i).updateState(tr);
                     }   // for
                 }
                 if (mixedMenus != null) {
                     for (int i = 0; i < mixedMenus.size(); i++) {
-                        ((JavaTestContextMenu) (mixedMenus.get(i))).getMenu().setEnabled(true);
-                        ((JavaTestContextMenu) (mixedMenus.get(i))).updateState(tr);
+                        mixedMenus.get(i).getMenu().setEnabled(true);
+                        mixedMenus.get(i).updateState(tr);
                     }   // for
                 }
                 if (folderMenus != null) {
                     for (int i = 0; i < folderMenus.size(); i++) {
-                        ((JavaTestContextMenu) (folderMenus.get(i))).getMenu().setEnabled(false);
+                        folderMenus.get(i).getMenu().setEnabled(false);
                     }   // for
                 }
             } else if (item instanceof TT_BasicNode) {
@@ -1291,45 +1291,45 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
                 if (testMenus != null) {
                     for (int i = 0; i < testMenus.size(); i++) {
-                        ((JavaTestContextMenu) (testMenus.get(i))).getMenu().setEnabled(false);
+                        testMenus.get(i).getMenu().setEnabled(false);
                     }   // for
                 }
                 if (customMenus != null) {
                     for (int i = 0; i < customMenus.size(); i++) {
-                        ((JavaTestContextMenu) (customMenus.get(i))).updateState(url);
+                        customMenus.get(i).updateState(url);
                     }   // for
                 }
                 if (mixedMenus != null) {
                     for (int i = 0; i < mixedMenus.size(); i++) {
-                        ((JavaTestContextMenu) (mixedMenus.get(i))).getMenu().setEnabled(true);
-                        ((JavaTestContextMenu) (mixedMenus.get(i))).updateState(url);
+                        mixedMenus.get(i).getMenu().setEnabled(true);
+                        mixedMenus.get(i).updateState(url);
                     }   // for
                 }
                 if (folderMenus != null) {
                     for (int i = 0; i < folderMenus.size(); i++) {
-                        ((JavaTestContextMenu) (folderMenus.get(i))).getMenu().setEnabled(true);
-                        ((JavaTestContextMenu) (folderMenus.get(i))).updateState(url);
+                        folderMenus.get(i).getMenu().setEnabled(true);
+                        folderMenus.get(i).updateState(url);
                     }   // for
                 }
             } else {    // should not happen!
                 if (testMenus != null) {
                     for (int i = 0; i < testMenus.size(); i++) {
-                        ((JavaTestContextMenu) (testMenus.get(i))).getMenu().setEnabled(false);
+                        testMenus.get(i).getMenu().setEnabled(false);
                     }   // for
                 }
                 if (customMenus != null) {
                     for (int i = 0; i < customMenus.size(); i++) {
-                        ((JavaTestContextMenu) (customMenus.get(i))).getMenu().setEnabled(false);
+                        customMenus.get(i).getMenu().setEnabled(false);
                     }   // for
                 }
                 if (mixedMenus != null) {
                     for (int i = 0; i < mixedMenus.size(); i++) {
-                        ((JavaTestContextMenu) (mixedMenus.get(i))).getMenu().setEnabled(false);
+                        mixedMenus.get(i).getMenu().setEnabled(false);
                     }   // for
                 }
                 if (folderMenus != null) {
                     for (int i = 0; i < folderMenus.size(); i++) {
-                        ((JavaTestContextMenu) (folderMenus.get(i))).getMenu().setEnabled(false);
+                        folderMenus.get(i).getMenu().setEnabled(false);
                     }   // for
                 }
 
@@ -1360,40 +1360,40 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
             TestResult[] t = null;
             if (tests.size() > 0) {
-                t = (TestResult[])tests.toArray(new TestResult[tests.size()]);
+                t = tests.toArray(new TestResult[tests.size()]);
             }
 
             String[] f = null;
             if (folders.size() > 0) {
-                f = (String[])folders.toArray(new String[folders.size()]);
+                f = folders.toArray(new String[folders.size()]);
                 // currently enable/disabled state is only determined by the menu's
                 // ability to deal with multi selection
             }
 
             if (testMenus != null) {
                 for (int i = 0; i < testMenus.size(); i++) {
-                    JavaTestContextMenu m = (JavaTestContextMenu) (testMenus.get(i));
+                    JavaTestContextMenu m = testMenus.get(i);
                     m.getMenu().setEnabled(m.isMultiSelectAllowed());
                     m.updateState(f, t);
                 }   // for
             }
             if (customMenus != null) {
                 for (int i = 0; i < customMenus.size(); i++) {
-                    JavaTestContextMenu m = (JavaTestContextMenu) (customMenus.get(i));
+                    JavaTestContextMenu m = customMenus.get(i);
                     m.getMenu().setEnabled(m.isMultiSelectAllowed());
                     m.updateState(f, t);
                 }   // for
             }
             if (mixedMenus != null) {
                 for (int i = 0; i < mixedMenus.size(); i++) {
-                    JavaTestContextMenu m = (JavaTestContextMenu) (mixedMenus.get(i));
+                    JavaTestContextMenu m = mixedMenus.get(i);
                     m.getMenu().setEnabled(m.isMultiSelectAllowed());
                     m.updateState(f, t);
                 }   // for
             }
             if (folderMenus != null) {
                 for (int i = 0; i < folderMenus.size(); i++) {
-                    JavaTestContextMenu m = (JavaTestContextMenu) (folderMenus.get(i));
+                    JavaTestContextMenu m = folderMenus.get(i);
                     m.getMenu().setEnabled(m.isMultiSelectAllowed());
                     m.updateState(f, t);
                 }   // for
@@ -2108,13 +2108,13 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 Object[] nodes = tp.getPath();
 
                 for (int i = 0; i < nodes.length; i++) {
-                    Object hit = activeNodes.get(nodes[i]);
+                    Integer hit = activeNodes.get(nodes[i]);
                     if (hit == null) // not currently an active node
                     {
                         activeNodes.put(nodes[i], ONE);
                     } else {
                         activeNodes.put(nodes[i],
-                                new Integer(1 + (((Integer) hit).intValue())));
+                                new Integer(1 + hit));
                     }
                 }
             }
@@ -2143,7 +2143,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
             if (nodes != null) {
                 for (int i = 0; i < nodes.length; i++) {
-                    Object hit = activeNodes.get(nodes[i]);
+                    Integer hit = activeNodes.get(nodes[i]);
                     if (hit == null) {
                         // should only really happen when test run finished, not
                         // during the run
@@ -2152,7 +2152,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                     if (hit == ONE) {
                         activeNodes.remove(nodes[i]);
                     } else {
-                        int currHits = ((Integer) hit).intValue();
+                        int currHits = hit.intValue();
                         activeNodes.put(nodes[i],
                                 (currHits == 2 ? ONE : new Integer(--currHits)));
                     }

@@ -171,7 +171,7 @@ class FilesPane extends JPanel {
             return false;
         }
 
-        List mergedList = new ArrayList();
+        List<String> mergedList = new ArrayList<>();
         for (int i = 0; i < merged.length; i++) {
             merged[i] = merged[i].trim();
             if ( !"".equals(merged[i])) {
@@ -209,7 +209,7 @@ class FilesPane extends JPanel {
         boolean error = false;  // block "next" button if any error occurred (should be false to unblock)
         ArrayList<String> used = new ArrayList<String>();
         for (int i = 0; i < merged.size(); i++) {
-            JTextField tField = (JTextField) merged.get(i);
+            JTextField tField = merged.get(i);
             String s = tField.getText().trim();
             tField.setBackground(UIFactory.getDefaultInputColor());
             if (!"".equals(s)) {        // do nothing, if value is empty
@@ -225,7 +225,7 @@ class FilesPane extends JPanel {
                 } else {
                     error = true;
                     tField.setBackground(UIFactory.getInvalidInputColor());
-                    ((JTextField)merged.get(used.indexOf(s))).setBackground(UIFactory.getInvalidInputColor());
+                    (merged.get(used.indexOf(s))).setBackground(UIFactory.getInvalidInputColor());
                 }
             }
         }
@@ -243,8 +243,8 @@ class FilesPane extends JPanel {
             setName("tool.merged");
             setLayout(new GridBagLayout());
 
-            merged = new ArrayList();
-            this.mergedBtns = new ArrayList();
+            merged = new ArrayList<>();
+            this.mergedBtns = new ArrayList<>();
 
             addMore = uif.createButton("files.addmore", new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -288,7 +288,7 @@ class FilesPane extends JPanel {
                             Object src = e.getSource();
                             for (int i = 0; i < mergedBtns.size(); i++) {
                                 if (src == mergedBtns.get(i)) {
-                                    chooseXmlReportFile((JTextField) merged
+                                    chooseXmlReportFile( merged
                                             .get(i));
                                 }
                             }
@@ -309,7 +309,7 @@ class FilesPane extends JPanel {
             this.updateUI();
         }
 
-        private java.util.List mergedBtns;
+        private java.util.List<JButton> mergedBtns;
         private JButton addMore;
 
     }
@@ -442,22 +442,22 @@ class FilesPane extends JPanel {
     String[] getXmlFiles() {
         int l=0;
         for (int i = 0; i < merged.size(); i++) {
-            String s = ((JTextField)merged.get(i)).getText().trim();
+            String s = merged.get(i).getText().trim();
             if (!"".equals(s)) l++;
         }
 
         String[] result = new String[l];
         l = 0;
         for (int i = 0; i < merged.size(); i++) {
-            String s = ((JTextField)merged.get(i)).getText().trim();
+            String s = merged.get(i).getText().trim();
             if (!"".equals(s)) {
-                result[l++] = ((JTextField)merged.get(i)).getText().trim();
+                result[l++] = merged.get(i).getText().trim();
             }
         }
         return result;
     }
 
-    private List merged;
+    private List<JTextField> merged;
     static final String OK = "OK";
 
     private class Listener extends ComponentAdapter implements ActionListener, FocusListener, KeyListener {

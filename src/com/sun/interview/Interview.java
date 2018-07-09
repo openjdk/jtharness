@@ -526,7 +526,7 @@ public class Interview
             return this;
 
         for (int i = 0; i < children.size(); i++) {
-            Interview c = (Interview) (children.elementAt(i));
+            Interview c = children.elementAt(i);
             Interview iv = c.getInterview0(t);
             if (iv != null)
                 return iv;
@@ -536,15 +536,15 @@ public class Interview
     }
 
     Set getInterviews() {
-        Set s = new HashSet();
+        Set<Interview> s = new HashSet<>();
         getInterviews0(s);
         return s;
     }
 
-    private void getInterviews0(Set s) {
+    private void getInterviews0(Set<Interview> s) {
         s.add(this);
         for (int i = 0; i < children.size(); i++) {
-            Interview child = (Interview) (children.elementAt(i));
+            Interview child = children.elementAt(i);
             child.getInterviews0(s);
         }
     }
@@ -944,7 +944,7 @@ public class Interview
      * @see #getPathToCurrent
      */
     public Question[] getPath() {
-        Vector v = new Vector();
+        Vector<Question> v = new Vector<>();
         iteratePath0(v, true, true, true);
         Question[] p = new Question[v.size()];
         v.copyInto(p);
@@ -959,7 +959,7 @@ public class Interview
      * @see #getPath
      */
     public Question[] getPathToCurrent() {
-        Vector v = new Vector();
+        Vector<Question> v = new Vector<>();
         iteratePath0(v, true, false, true);
         Question[] p = new Question[v.size()];
         v.copyInto(p);
@@ -1001,7 +1001,7 @@ public class Interview
      * @see #iteratePathToCurrent
      */
     public Iterator iteratePath(boolean flattenNestedInterviews) {
-        Vector v = new Vector();
+        Vector<Question> v = new Vector<>();
         iteratePath0(v, flattenNestedInterviews, true, true);
         return v.iterator();
     }
@@ -1018,13 +1018,13 @@ public class Interview
      * @see #iteratePath
      */
     public Iterator iteratePathToCurrent(boolean flattenNestedInterviews) {
-        Vector v = new Vector();
+        Vector<Question> v = new Vector<>();
         iteratePath0(v, flattenNestedInterviews, false, true);
         return v.iterator();
     }
 
 
-    private void iteratePath0(List l, boolean flattenNestedInterviews, boolean all, boolean addFinal) {
+    private void iteratePath0(List<Question> l, boolean flattenNestedInterviews, boolean all, boolean addFinal) {
         ensurePathInitialized();
 
         int n = (all ? path.size() : currIndex + 1);
@@ -1104,16 +1104,16 @@ public class Interview
      * @return a set of all questions in this and every child interview.
      */
     public Set getQuestions() {
-        Set s = new HashSet();
+        Set<Question> s = new HashSet<>();
         getQuestions0(s);
         return s;
     }
 
-    private void getQuestions0(Set s) {
+    private void getQuestions0(Set<Question> s) {
         s.addAll(allQuestions.values());
 
         for (int i = 0; i < children.size(); i++) {
-            Interview child = (Interview) (children.elementAt(i));
+            Interview child = children.elementAt(i);
             child.getQuestions0(s);
         }
     }
@@ -1123,17 +1123,17 @@ public class Interview
      * recursively, in all child interviews.
      * @return a map containing all questions in this and every child interview.
      */
-    public Map getAllQuestions() {
-        Map m = new LinkedHashMap();
+    public Map<String, Question> getAllQuestions() {
+        Map<String, Question> m = new LinkedHashMap<>();
         getAllQuestions0(m);
         return m;
     }
 
-    private void getAllQuestions0(Map m) {
+    private void getAllQuestions0(Map<String, Question> m) {
         m.putAll(allQuestions);
 
         for (int i = 0; i < children.size(); i++) {
-            Interview child = (Interview) (children.elementAt(i));
+            Interview child = children.elementAt(i);
             child.getAllQuestions0(m);
         }
     }
@@ -1233,11 +1233,11 @@ public class Interview
             throw new NullPointerException();
 
         if (allMarkers == null)
-            allMarkers = new HashMap();
+            allMarkers = new HashMap<>();
 
-        Set markersForName = (Set) (allMarkers.get(name));
+        Set<Question> markersForName = allMarkers.get(name);
         if (markersForName == null) {
-            markersForName = new HashSet();
+            markersForName = new HashSet<>();
             allMarkers.put(name, markersForName);
         }
 
@@ -1262,7 +1262,7 @@ public class Interview
         if (allMarkers == null)
             return;
 
-        Set markersForName = (Set) (allMarkers.get(name));
+        Set markersForName = allMarkers.get(name);
         if (markersForName == null)
             return;
 
@@ -1288,7 +1288,7 @@ public class Interview
         if (allMarkers == null)
             return false;
 
-        Set markersForName = (Set) (allMarkers.get(name));
+        Set<Question> markersForName = allMarkers.get(name);
         if (markersForName == null)
             return false;
 
@@ -1335,7 +1335,7 @@ public class Interview
         if (allMarkers == null) // no markers at all
             return;
 
-        Set markersForName = (Set) (allMarkers.get(name));
+        Set markersForName = allMarkers.get(name);
         if (markersForName == null) // no markers for this name
             return;
 
@@ -1405,20 +1405,20 @@ public class Interview
         }
     }
 
-    private void saveMarkers(Map data) {
+    private void saveMarkers(Map<String, String> data) {
         if (allMarkers == null)
             return;
 
         int i = 0;
-        for (Iterator iter = allMarkers.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry e = (Map.Entry) (iter.next());
-            String name = (String) (e.getKey());
-            Set markersForName = (Set) (e.getValue());
+        for (Iterator<Map.Entry<String, Set<Question>>> iter = allMarkers.entrySet().iterator(); iter.hasNext(); ) {
+            Map.Entry<String, Set<Question>> e = iter.next();
+            String name = e.getKey();
+            Set<Question> markersForName = e.getValue();
             if (name != null)
                 data.put(MARKERS_PREF + i + ".name", name);
             StringBuffer sb = new StringBuffer();
-            for (Iterator qIter = markersForName.iterator(); qIter.hasNext(); ) {
-                Question q = (Question) (qIter.next());
+            for (Iterator<Question> qIter = markersForName.iterator(); qIter.hasNext(); ) {
+                Question q = qIter.next();
                 if (sb.length() > 0)
                     sb.append('\n');
                 sb.append(q.getTag());
@@ -1456,13 +1456,13 @@ public class Interview
      */
     public void clear() {
         updateEnabled = false;
-        for (Iterator iter = allQuestions.values().iterator(); iter.hasNext(); ) {
-            Question q = (Question) (iter.next());
+        for (Iterator<Question> iter = allQuestions.values().iterator(); iter.hasNext(); ) {
+            Question q = iter.next();
             q.clear();
         }
 
         for (int i = 0; i < children.size(); i++) {
-            Interview child = (Interview)children.elementAt(i);
+            Interview child = children.elementAt(i);
             child.clear();
         }
         if (parent == null) {
@@ -1481,7 +1481,7 @@ public class Interview
      * @param data The archive map from which the state should be loaded.
      * @throws Interview.Fault if the checksum is found to be incorrect.
      */
-    public void load(Map data) throws Fault {
+    public void load(Map<String, String> data) throws Fault {
         load(data, true);
     }
 
@@ -1495,12 +1495,12 @@ public class Interview
      * @param checkChecksum If true, the checksum in the data will be checked.
      * @throws Interview.Fault if the checksum is found to be incorrect.
      */
-    public void load(Map data, boolean checkChecksum) throws Fault {
+    public void load(Map<String, String> data, boolean checkChecksum) throws Fault {
         if (checkChecksum && !isChecksumValid(data, true))
             throw new Fault(i18n, "interview.checksumError");
 
         if (parent == null) {
-            String iTag = (String)(data.get(INTERVIEW));
+            String iTag = data.get(INTERVIEW);
             if (iTag != null && !iTag.equals(getClass().getName()))
                 throw new Fault(i18n, "interview.classMismatch");
 
@@ -1512,23 +1512,23 @@ public class Interview
 
         // clear all the answers in this interview before loading an
         // responses from the archive
-        for (Iterator iter = allQuestions.values().iterator(); iter.hasNext(); ) {
-            Question q = (Question) (iter.next());
+        for (Iterator<Question> iter = allQuestions.values().iterator(); iter.hasNext(); ) {
+            Question q = iter.next();
             q.clear();
         }
 
-        for (Iterator iter = allQuestions.values().iterator(); iter.hasNext(); ) {
-            Question q = (Question) (iter.next());
+        for (Iterator<Question> iter = allQuestions.values().iterator(); iter.hasNext(); ) {
+            Question q = iter.next();
             q.load(data);
         }
 
         for (int i = 0; i < children.size(); i++) {
-            Interview child = (Interview)children.elementAt(i);
+            Interview child = children.elementAt(i);
             child.load(data, false);
         }
 
         if (parent == null) {
-            String qTag = (String)(data.get(QUESTION));
+            String qTag = data.get(QUESTION);
             Question q = (qTag == null ? null : lookup(qTag));
             reset(q == null ? firstQuestion : q);
         }
@@ -1560,7 +1560,7 @@ public class Interview
      * its state, according to its tag.
      * @param data The archive in which the values should be saved.
      */
-    public void save(Map data) {
+    public void save(Map<String, String> data) {
         // only in the root interview
         if (parent == null) {
             data.put(INTERVIEW, getClass().getName());
@@ -1587,8 +1587,8 @@ public class Interview
 
         }
 
-        for (Iterator iter = allQuestions.values().iterator(); iter.hasNext(); ) {
-            Question q = (Question) (iter.next());
+        for (Iterator<Question> iter = allQuestions.values().iterator(); iter.hasNext(); ) {
+            Question q = iter.next();
             try {
                 q.save(data);
             }
@@ -1599,7 +1599,7 @@ public class Interview
         }
 
         for (int i = 0; i < children.size(); i++) {
-            Interview child = (Interview)children.elementAt(i);
+            Interview child = children.elementAt(i);
             child.save(data);
         }
 
@@ -1617,7 +1617,7 @@ public class Interview
      * @see #LOCALE
      * @see #readLocale(Map)
      */
-    protected static void writeLocale(Map data) {
+    protected static void writeLocale(Map<String, String> data) {
         data.put(LOCALE, Locale.getDefault().toString());
     }
 
@@ -1747,8 +1747,8 @@ public class Interview
      * @see #EXPORT_IGNORE_RUNTIME_EXCEPTIONS
      * @see #EXPORT_IGNORE_NO_EXCEPTIONS
      */
-    public void export(Map data) {
-        ArrayList<Question> path = new ArrayList();
+    public void export(Map<String, String> data) {
+        ArrayList<Question> path = new ArrayList<>();
 
         // new 4.3 semantics allow the path to contain InterviewQuestions, which
         // in turn allows sub-interviews to export data.
@@ -1765,7 +1765,7 @@ public class Interview
             export0(data, hiddenPath, true);
     }
 
-    private void export0(Map data, ArrayList<Question> path, boolean processHidden) {
+    private void export0(Map<String, String> data, ArrayList<Question> path, boolean processHidden) {
         for (int i = 0; i < path.size(); i++) {
             try {
                 if (path.get(i) instanceof InterviewQuestion) {
@@ -1952,9 +1952,9 @@ public class Interview
 
         // update the tags for the questions in the interview
         // and rebuild the tag map
-        Map newAllQuestions = new LinkedHashMap();
-        for (Iterator iter = allQuestions.values().iterator(); iter.hasNext(); ) {
-            Question q = (Question) (iter.next());
+        Map<String, Question> newAllQuestions = new LinkedHashMap<>();
+        for (Iterator<Question> iter = allQuestions.values().iterator(); iter.hasNext(); ) {
+            Question q = iter.next();
             q.updateTag();
             newAllQuestions.put(q.getTag(), q);
         }
@@ -1975,7 +1975,7 @@ public class Interview
 
     void add(Question question) {
         String qTag = question.getTag();
-        Question prev = (Question) allQuestions.put(qTag, question);
+        Question prev = allQuestions.put(qTag, question);
         if (prev != null)
             throw new IllegalArgumentException("duplicate questions for tag: " + qTag);
     }
@@ -2089,13 +2089,13 @@ public class Interview
                 if (extraValues == null)
                     return null;
                 else
-                    return (String)(extraValues.remove(key));
+                    return extraValues.remove(key);
             }
 
             if (extraValues == null)
-                extraValues = new HashMap();
+                extraValues = new HashMap<>();
 
-            return (String)(extraValues.put(key, value));
+            return extraValues.put(key, value);
         }
     }
 
@@ -2110,7 +2110,7 @@ public class Interview
             return getParent().storeTemplateProperty(key, value);
         else {
             ensureTemValuesInitialized();
-            return (String)(templateValues.put(key, value));
+            return templateValues.put(key, value);
         }
     }
 
@@ -2118,13 +2118,13 @@ public class Interview
      * Clear a previous template properties and store the new into the configuration.
      * @param props The properties to store.
      */
-    public void storeTemplateProperties(Properties props) {
+    public void storeTemplateProperties(Map<String, String> props) {
         if (getParent() != null)
             getParent().storeTemplateProperties(props);
         else {
             ensureTemValuesInitialized();
             templateValues.clear();
-            templateValues.putAll((Map) props);
+            templateValues.putAll(props);
         }
     }
 
@@ -2144,7 +2144,7 @@ public class Interview
             if (extraValues == null)
                 return null;
 
-            return (String)(extraValues.get(key));
+            return extraValues.get(key);
         }
     }
 
@@ -2159,7 +2159,7 @@ public class Interview
             return getParent().retrieveTemplateProperty(key);
         else {
             ensureTemValuesInitialized();
-            return (String)(templateValues.get(key));
+            return templateValues.get(key);
         }
     }
 
@@ -2201,7 +2201,7 @@ public class Interview
      */
     public Map<String,String> getExternalProperties() {
         if (extraValues != null)
-            return (Map)extraValues.clone();
+            return new HashMap<>(extraValues);
         else
             return null;
     }
@@ -2210,7 +2210,7 @@ public class Interview
     /**
      * @see #load(Map)
      */
-    private void loadExternalValues(Map data) {
+    private void loadExternalValues(Map<String, String> data) {
 
         if (extraValues != null) {
             extraValues.clear();
@@ -2226,9 +2226,9 @@ public class Interview
             String key = (String)(it.next());
             if (key.startsWith(EXTERNAL_PREF)) {
                 if (extraValues == null)
-                    extraValues = new HashMap();
+                    extraValues = new HashMap<>();
 
-                String val = (String)(data.get(key));
+                String val = data.get(key);
 
                 // store it, minus the special prefix
                 extraValues.put(key.substring(EXTERNAL_PREF.length()), val);
@@ -2236,7 +2236,7 @@ public class Interview
         }   // while
     }
 
-    private void loadTemplateValues(Map data) {
+    private void loadTemplateValues(Map<String, String> data) {
 
         if (templateValues != null) {
             templateValues.clear();
@@ -2249,7 +2249,7 @@ public class Interview
             String key = (String)(it.next());
             if (key.startsWith(TEMPLATE_PREF)) {
                 ensureTemValuesInitialized();
-                String val = (String)(data.get(key));
+                String val = data.get(key);
                 // store it, minus the special prefix
                 templateValues.put(key.substring(TEMPLATE_PREF.length()), val);
             }
@@ -2268,14 +2268,14 @@ public class Interview
 
     private void ensureTemValuesInitialized() {
         if (templateValues  == null) {
-            templateValues  = new HashMap();
+            templateValues  = new HashMap<>();
         }
     }
 
     private void ensurePathInitialized() {
         if (path == null) {
             path = new Path();
-            hiddenPath = new ArrayList();
+            hiddenPath = new ArrayList<>();
 
             if (parent == null)
                 rawPath = new Path();
@@ -2289,10 +2289,10 @@ public class Interview
 
 
     private Question lookup(String tag) {
-        Question q = (Question)(allQuestions.get(tag));
+        Question q = allQuestions.get(tag);
         // if q is null, search children till we find it
         for (int i = 0; i < children.size() && q == null; i++) {
-            Interview child = (Interview)children.elementAt(i);
+            Interview child = children.elementAt(i);
             q = child.lookup(tag);
         }
 
@@ -2473,7 +2473,7 @@ public class Interview
                     i2.caller = iq;
                     if (i2.path == null) {
                         i2.path = new Path();
-                        i2.hiddenPath = new ArrayList();
+                        i2.hiddenPath = new ArrayList<>();
                     }
                     else {
                         i2.path.clear();
@@ -2674,12 +2674,12 @@ public class Interview
     /**
      * Any child interviews.
      */
-    private Vector children = new Vector();
+    private Vector<Interview> children = new Vector<>();
 
     /**
      * An index of the questions in this interview.
      */
-    private Map allQuestions = new LinkedHashMap();
+    private Map<String, Question> allQuestions = new LinkedHashMap<>();
 
     /**
      * The default image for questions in the interview.
@@ -2702,9 +2702,9 @@ public class Interview
     private boolean updateEnabled;
     private boolean edited;
 
-    private Map allMarkers;
-    private HashMap<String,String> extraValues;        // used in top-level interview only
-    private HashMap<String,String> templateValues;
+    private Map<String, Set<Question>> allMarkers;
+    private Map<String, String> extraValues;        // used in top-level interview only
+    private Map<String, String> templateValues;
 
     private int semantics = SEMANTIC_PRE_32;
 

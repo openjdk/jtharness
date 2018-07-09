@@ -293,7 +293,7 @@ class TestPanel extends JPanel
                 if (c instanceof TP_Subpanel) {
                     updatePanel(currTest, (TP_Subpanel) c);
                 }  if (c instanceof CustomTestResultViewer) {
-                    updatePanel(currTest, (TP_CustomSubpanel) customViewTable.get(c));
+                    updatePanel(currTest, customViewTable.get(c));
                 }
             }
         });

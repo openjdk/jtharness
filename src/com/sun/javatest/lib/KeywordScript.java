@@ -65,8 +65,8 @@ public class KeywordScript extends Script
 
         String prefix = "script.";
         Set testKeys = td.getKeywordTable();
-        Vector choices = new Vector(); // the set of choices
-        Vector matches = new Vector(); // the set of matches
+        Vector<String> choices = new Vector<>(); // the set of choices
+        Vector<String> matches = new Vector<>(); // the set of matches
         int wordsMatchingInMatches = 0;// the number of words matching
 
     findMatch:
@@ -111,7 +111,7 @@ public class KeywordScript extends Script
                 if (debug)
                     trOut.println("new best match, " + keys.length + " keys");
 
-                matches = new Vector();
+                matches = new Vector<>();
                 wordsMatchingInMatches = keys.length;
             }
 
@@ -136,7 +136,7 @@ public class KeywordScript extends Script
                 trOut.println(s);
                 trOut.println("The keyword combinations for scripts in this environment are: ");
                 for (int i = 0; i < choices.size(); i++) {
-                    trOut.println((String)choices.elementAt(i));
+                    trOut.println(choices.elementAt(i));
                 }   // for
 
                 setStatus(Status.error(s));
@@ -153,7 +153,7 @@ public class KeywordScript extends Script
             return;
         }   // else if
 
-        String bestScript = (String)matches.elementAt(0);
+        String bestScript = matches.elementAt(0);
         //trOut.report.println("BEST " + bestScript);
 
         try {

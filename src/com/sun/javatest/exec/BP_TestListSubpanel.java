@@ -531,9 +531,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         private String getSelectedProperty(TestResult tst) {
             try {
                 if (show.equals("title"))
-                    return ((TestResult) tst).getDescription().getTitle();
+                    return tst.getDescription().getTitle();
                 else if (show.equals("keywords")) {
-                    String[] s = ((TestResult) tst).getDescription().getKeywords();
+                    String[] s = tst.getDescription().getKeywords();
                     if (s.length == 0)
                         return (uif.getI18NString("br.list.noKeywords.txt"));
                     else {
@@ -545,12 +545,12 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                         return (sb.toString());
                     }
                 } else if (show.equals(TestResult.EXEC_STATUS)) {
-                    String tmpStr = ((TestResult) tst).getStatus().getReason();
+                    String tmpStr = tst.getStatus().getReason();
                     return tmpStr == null || tmpStr.equals("") ?
                         uif.getI18NString("br.list.notAvailable.txt") : tmpStr;
                 }
-                return ((TestResult) tst).getProperty(show) == null ? uif.getI18NString("br.list.notAvailable.txt")
-                        : ((TestResult) tst).getProperty(show);
+                return tst.getProperty(show) == null ? uif.getI18NString("br.list.notAvailable.txt")
+                        : tst.getProperty(show);
             } catch (TestResult.Fault f) {
             }
             return (""); // should not be here
@@ -564,7 +564,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             // the event thread
             synchronized (pendingEvents) {
                 for (int i = 0; i < pendingEvents.size(); i++) {
-                    TableNotifier tn = (TableNotifier) (pendingEvents.get(i));
+                    TableNotifier tn = pendingEvents.get(i);
                     tn.cancel();
                 } // for
             }
@@ -585,7 +585,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             else if (SORTING_COLUMN == 1) {
                 for (int i = 0; i < v.size(); i++) {
                     if (v.get(i) instanceof TestResult)
-                        o[i] = getSelectedProperty((TestResult) v.get(i));
+                        o[i] = getSelectedProperty(v.get(i));
                     else
                         o[i] = ""; // should not happen
                 }
@@ -620,16 +620,16 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             return temp;
         }
 
-        private class Sorter implements Comparable {
+        private class Sorter implements Comparable<Sorter> {
             public int index;
 
-            public int compareTo(Object other) {
-                Sorter otherRow = (Sorter) other;
+            public int compareTo(Sorter otherRow) {
+
                 if (o[index] instanceof TestResult) {
-                    return ((Comparable) ((TestResult) o[index]).getTestName()).
+                    return (((TestResult) o[index]).getTestName()).
                              compareTo(((TestResult) o[otherRow.index]).getTestName());
                 } else if (o[index] instanceof String) {
-                    return ((Comparable) o[index]).compareTo(o[otherRow.index]);
+                    return ((String) o[index]).compareTo((String)o[otherRow.index]);
                 } else {
                     return index - otherRow.index; // should not happen
                 }

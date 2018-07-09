@@ -199,7 +199,7 @@ public class PropertyServiceReader implements ServiceReader {
     }
 
     public Set<TestPath> readTestServiceMap() {
-        Set<TestPath> result = new HashSet();
+        Set<TestPath> result = new HashSet<>();
 
         if (props == null) {
             return result;

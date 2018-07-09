@@ -101,7 +101,7 @@ public class SelectionTreeNode implements TreeNode {
                     prevNode = node;
                     int childCount;
                     while ((childCount = prevNode.getChildCount()) > 0) {
-                        prevNode = (SelectionTreeNode) prevNode.getChildAt(childCount - 1);
+                        prevNode = prevNode.getChildAt(childCount - 1);
                     }
                     children.add(node);
                 }
@@ -294,7 +294,7 @@ public class SelectionTreeNode implements TreeNode {
             }
         } else {
             depth++;
-            result = getPathToRoot((SelectionTreeNode) aNode.getParent(), depth);
+            result = getPathToRoot(aNode.getParent(), depth);
             result[result.length - depth] = aNode;
         }
 

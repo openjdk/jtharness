@@ -83,7 +83,7 @@ public class ToolBarManager {
      * no tool bar for this key.
      **/
     public JavaTestToolBar getToolBar(String toolBarID) {
-        return (JavaTestToolBar) store.get(toolBarID);
+        return store.get(toolBarID);
     }
 
     /**
@@ -92,7 +92,7 @@ public class ToolBarManager {
      **/
     public JavaTestToolBar[] getToolBars() {
         JavaTestToolBar[] ret = new JavaTestToolBar[0];
-        ret = (JavaTestToolBar[]) store.values().toArray(ret);
+        ret = store.values().toArray(ret);
         return ret;
     }
 
@@ -104,7 +104,7 @@ public class ToolBarManager {
      **/
     boolean removeToolBar(String toolBarID) {
         if (store.containsKey(toolBarID)) {
-            final JavaTestToolBar tb = (JavaTestToolBar) store.get(toolBarID);
+            final JavaTestToolBar tb = store.get(toolBarID);
 
             if (panel != null)
                 SwingUtilities.invokeLater(new Runnable() {

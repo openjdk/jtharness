@@ -163,7 +163,7 @@ public abstract class ToolAction implements Action
         }
         else {
             if (misc == null)
-                misc = new HashMap();
+                misc = new HashMap<>();
             oldVal = misc.get(key);
             if (equal(newVal, oldVal))
                 return;
@@ -189,7 +189,7 @@ public abstract class ToolAction implements Action
     }
 
     public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
-        listeners = (WeakReference[]) DynamicArray.append(listeners, new WeakReference(listener));
+        listeners = (WeakReference[]) DynamicArray.append(listeners, new WeakReference<>(listener));
     }
 
     public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
@@ -236,7 +236,7 @@ public abstract class ToolAction implements Action
     private String desc;
     private Integer mnemonic;
     private Icon icon;
-    private Map misc;
+    private Map<String, Object> misc;
     private boolean enabled = true;
 
     private WeakReference[] listeners = new WeakReference[0];

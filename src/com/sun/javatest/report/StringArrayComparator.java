@@ -28,10 +28,8 @@ package com.sun.javatest.report;
 
 import java.util.Comparator;
 
-class StringArrayComparator implements Comparator {
-    public int compare(Object o1, Object o2) {
-        String[] a = (String[])o1;
-        String[] b = (String[])o2;
+class StringArrayComparator implements Comparator<String[]> {
+    public int compare(String[] a, String[] b) {
         for (int i = 0; i < Math.min(a.length, b.length); i++) {
             int c = compare(a[i], b[i]);
             if (c != 0)

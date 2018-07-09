@@ -193,7 +193,7 @@ class TabDeskView extends DeskView {
         KeyboardFocusManager fm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         Component fo = fm.getPermanentFocusOwner();
         if (fo == null || !fo.isShowing()) {
-            Container target = (contents.getTabCount() > 0 ? (Container) contents : (Container) mainFrame);
+            Container target = contents.getTabCount() > 0 ? contents : mainFrame;
             Container fcr = (target.isFocusCycleRoot() ? target : target.getFocusCycleRootAncestor());
             FocusTraversalPolicy ftp = fcr.getFocusTraversalPolicy();
             Component c = (target.isFocusable() ? target : ftp.getComponentAfter(fcr, target));
@@ -328,21 +328,21 @@ class TabDeskView extends DeskView {
         return d;
     }
 
-    protected void saveDesktop(Map m) {
-        saveBounds(mainFrame, new PrefixMap(m, "dt"));
+    protected void saveDesktop(Map<String, String> m) {
+        saveBounds(mainFrame, new PrefixMap<>(m, "dt"));
         saveTools(m);
         int sel = contents.getSelectedIndex();
         if (sel >= 0)
             m.put("dt.selected", String.valueOf(sel));
     }
 
-    protected void restoreDesktop(Map m) {
-        restoreBounds(mainFrame, new PrefixMap(m, "dt"));
+    protected void restoreDesktop(Map<String, String> m) {
+        restoreBounds(mainFrame, new PrefixMap<>(m, "dt"));
         if (getDesktop().getRestoreOnStart()) {
             restoreTools(m);
 
             try {
-                String s = (String) (m.get("dt.selected"));
+                String s = m.get("dt.selected");
                 if (s != null) {
                     int sel = Integer.parseInt(s);
                     if (0 <= sel && sel < contents.getTabCount()) {
@@ -381,7 +381,7 @@ class TabDeskView extends DeskView {
     }
 
     private String getUniqueTabTitle(String base, Component ignoreable) {
-        Set s = new HashSet();
+        Set<String> s = new HashSet<>();
         for (int i = 0; i < contents.getTabCount(); i++) {
             if (contents.getComponentAt(i) != ignoreable)
                 s.add(contents.getTitleAt(i));

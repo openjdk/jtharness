@@ -28,6 +28,7 @@ package com.sun.javatest.httpd;
 
 import java.util.Hashtable;
 import java.io.PrintWriter;
+import java.util.Map;
 
 import com.sun.javatest.util.I18NResourceBundle;
 
@@ -78,7 +79,7 @@ public class RootRegistry extends ProviderRegistry {
      * @return The object's handler, or null if none if registered.
      */
     public static JThttpProvider getObjectHandler(Object what) {
-        return (JThttpProvider)(obj2prov.get(what));
+        return obj2prov.get(what);
     }
 
     public static void associateObject(Object what, JThttpProvider prov) {
@@ -105,7 +106,7 @@ public class RootRegistry extends ProviderRegistry {
      * Good for associating a first-class JT Harness object with a provider.
      * For example, map a TestResultTable instance to it's HTTP handler.
      */
-    protected static final Hashtable obj2prov = new Hashtable();
+    protected static final Map<Object, JThttpProvider> obj2prov = new Hashtable<>();
     private static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(RootRegistry.class);
 
     static {

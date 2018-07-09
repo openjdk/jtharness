@@ -35,10 +35,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.text.DateFormat;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.TreeMap;
+import java.util.*;
 
 import com.sun.javatest.Harness;
 import com.sun.javatest.ProductInfo;
@@ -48,7 +45,6 @@ import com.sun.javatest.tool.jthelp.JTHelpBroker;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.WrapWriter;
-import java.util.ArrayList;
 
 /**
  * A manager for command line help.
@@ -96,16 +92,16 @@ public class HelpManager extends CommandManager
      * and false otherwise
      */
     @Override
-    public boolean parseCommand(String cmd, ListIterator argIter, CommandContext ctx) {
+    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx) {
         if (cmd.equalsIgnoreCase("help")
             || cmd.equalsIgnoreCase("usage")
             || cmd.equalsIgnoreCase("?")) {
-            ArrayList v = new ArrayList();
+            List<String> v = new ArrayList<>();
             while (argIter.hasNext()) {
-                v.add(((String) (argIter.next())).toLowerCase());
+                v.add(argIter.next().toLowerCase());
             }
             commandLineHelpFlag = true;
-            commandLineHelpQuery = (String[]) (v.toArray(new String[v.size()]));
+            commandLineHelpQuery = v.toArray(new String[v.size()]);
             return true;
         }
 
@@ -174,7 +170,7 @@ public class HelpManager extends CommandManager
         }
 
         // sort the command manager help nodes according to their name
-        TreeMap tm = new TreeMap();
+        TreeMap<String, HelpTree.Node> tm = new TreeMap<>();
         for (int i = 0; i < commandManagers.length; i++) {
             HelpTree.Node n = commandManagers[i].getHelp();
             tm.put(n.getName(), n);

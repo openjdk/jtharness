@@ -28,6 +28,7 @@ package com.sun.interview;
 
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -401,14 +402,14 @@ public abstract class Question
      * using the tag as the key.
      * @param data The map from which to load the value for this question.
      */
-    protected abstract void load(Map data);
+    protected abstract void load(Map<String, String> data);
 
     /**
      * Save any state for this question in a dictionary,
      * using the tag as the key.
      * @param data The map in which to save the value for this question.
      */
-    protected abstract void save(Map data);
+    protected abstract void save(Map<String, String> data);
 
     /**
      * Export any appropriate values to the dictionary, as part
@@ -421,7 +422,7 @@ public abstract class Question
      * @see Interview#getPath
      * @see #isEnabled
      */
-    protected void export(Map data) {
+    protected void export(Map<String, String> data) {
     }
 
     /**
@@ -430,7 +431,7 @@ public abstract class Question
      * the question value.
      */
     public void reload() {
-        Map map = new java.util.HashMap();
+        Map<String, String> map = new HashMap<>();
         save(map);
         clear();
         load(map);

@@ -396,10 +396,10 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         }
     }
 
-    public Tool restoreTool(Map m) throws Fault {
+    public Tool restoreTool(Map<String, String> m) throws Fault {
         try {
             //
-            String tsp = (String) (m.get("testSuite"));
+            String tsp = m.get("testSuite");
             TestSuite ts = TestSuite.open(new File(tsp));
             ExecTool et = new ExecTool(this, ts);
             et.restore(m);
@@ -528,7 +528,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
     }
 
     void showError(String key) {
-        showError(key, (String[]) null);
+        showError(key, (Object[]) null);
     }
 
     void showError(String key, Object arg) {

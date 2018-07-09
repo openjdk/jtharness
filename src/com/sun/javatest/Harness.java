@@ -28,8 +28,7 @@ package com.sun.javatest;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.ArrayList;
+import java.util.*;
 
 import com.sun.javatest.TestResultTable.TreeIterator;
 import com.sun.javatest.httpd.HttpdServer;
@@ -38,8 +37,6 @@ import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.ReadAheadIterator;
-import java.util.HashMap;
-import java.util.Set;
 
 /**
  * The object responsible for coordinating the execution of a test run.
@@ -836,7 +833,7 @@ public class Harness
     }
 
     private static ArrayList<String> listFilterNames(final TestFilter[] filters) {
-        ArrayList<String> result = new ArrayList();
+        ArrayList<String> result = new ArrayList<>();
 
         if (filters == null || filters.length == 0)
             return result;      // i.e. empty
@@ -1107,7 +1104,7 @@ public class Harness
         TestURLCollector() {
         }
 
-        final ArrayList testURLs = new ArrayList();
+        final List<String> testURLs = new ArrayList<>();
 
         public void startingTestRun(Parameters p) { }
 

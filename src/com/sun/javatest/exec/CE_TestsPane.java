@@ -253,7 +253,7 @@ class CE_TestsPane extends CE_StdPane
             }
         }
 
-        testsField.setSelection((String[]) (paths.toArray(new String[paths.size()])));
+        testsField.setSelection(paths.toArray(new String[paths.size()]));
     }
 
     private TestsParameters testsParameters;

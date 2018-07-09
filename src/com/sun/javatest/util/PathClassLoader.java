@@ -31,6 +31,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Vector;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -94,7 +95,7 @@ public class PathClassLoader extends ClassLoader
     protected Class loadClass(String name, boolean resolve)
         throws ClassNotFoundException {
 
-            Class cl = (Class)classes.get(name);
+            Class<?> cl = classes.get(name);
 
             if (cl == null) {
                 try {
@@ -115,7 +116,7 @@ public class PathClassLoader extends ClassLoader
     private synchronized Class locateClass(String name)
         throws ClassNotFoundException {
         //System.err.println("locateClass: " + name);
-        Class c = (Class)classes.get(name);
+        Class<?> c = classes.get(name);
         if (c != null)
             return c;
 
@@ -153,7 +154,7 @@ public class PathClassLoader extends ClassLoader
         //System.err.println("locateClassInJar: " + name + " " + jarFile);
         String cname = name.replace('.', '/') + ".class";
         try {
-            ZipFile z = (ZipFile)zips.get(jarFile);
+            ZipFile z = zips.get(jarFile);
             if (z == null) {
                 z = new ZipFile(jarFile);
                 zips.put(jarFile, z);
@@ -184,7 +185,7 @@ public class PathClassLoader extends ClassLoader
 
     private File[] split(String s) {
         char pathCh = File.pathSeparatorChar;
-        Vector v = new Vector();
+        Vector<File> v = new Vector<>();
         int start = 0;
         for (int i = s.indexOf(pathCh); i != -1; i = s.indexOf(pathCh, start)) {
             add(s.substring(start, i), v);
@@ -197,12 +198,12 @@ public class PathClassLoader extends ClassLoader
         return path;
     }
 
-    private void add(String s, Vector v) {
+    private void add(String s, Vector<File> v) {
         if (s.length() != 0)
             v.addElement(new File(s));
     }
 
     private File[] path;
-    private Hashtable classes = new Hashtable();
-    private Hashtable zips = new Hashtable();
+    private Map<String, Class<?>> classes = new Hashtable<>();
+    private Map<File, ZipFile> zips = new Hashtable<>();
 }

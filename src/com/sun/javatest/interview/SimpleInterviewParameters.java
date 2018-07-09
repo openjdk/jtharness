@@ -70,7 +70,7 @@ public class SimpleInterviewParameters
     }
 
     public TestEnvironment getEnv() {
-        HashMap envProps = new HashMap();
+        Map<String, String> envProps = new HashMap<>();
         export(envProps);
         try {
             String name = qName.getValue();
@@ -107,7 +107,7 @@ public class SimpleInterviewParameters
                 return qEnvEnd;
             }
 
-            public void export(Map data) {
+            public void export(Map<String, String> data) {
                 data.put("script.mode", "precompile");
                 data.put("command.compile.java", System.getProperty("command.compile.java"));
             }
@@ -122,7 +122,7 @@ public class SimpleInterviewParameters
                 return qName;
             }
 
-            public void export(Map data) {
+            public void export(Map<String, String> data) {
                 data.put("script.mode", "developer");
                 data.put("command.compile.java", System.getProperty("command.compile.java"));
             }
@@ -153,7 +153,7 @@ public class SimpleInterviewParameters
                     return qCmdType;
             }
 
-            public void export(Map data) {
+            public void export(Map<String, String> data) {
                 data.put("description", String.valueOf(value));
             }
         };
@@ -182,7 +182,7 @@ public class SimpleInterviewParameters
             }
 
         @Override
-            public void export(Map data) {
+            public void export(Map<String, String> data) {
                 String cmd;
                 if (value != null && value.equals(OTHER_VM)) {
                     cmd = getOtherVMExecuteCommand();

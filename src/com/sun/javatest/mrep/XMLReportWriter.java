@@ -193,7 +193,7 @@ class CopyHandler extends DefaultHandler {
                 AttributesImpl newAttrs = new AttributesImpl();
                 for (int i = 0; i < attrs.getLength(); i++) {
                     if (attrs.getQName(i).equals(Scheme.WD_ID)) {
-                        String id = String.valueOf((Integer) map.get(Integer
+                        String id = String.valueOf(map.get(Integer
                                 .valueOf(attrs.getValue(i))));
                         newAttrs.addAttribute(attrs.getURI(i), attrs
                                 .getLocalName(i), attrs.getQName(i), attrs

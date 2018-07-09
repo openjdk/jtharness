@@ -107,7 +107,7 @@ class XMLReportReader {
 
 
     private static class IDHandler extends DefaultHandler {
-        private Map map = new HashMap();
+        private Map<Object, Object> map = new HashMap<>();
 
         private long time = 0;
 
@@ -125,7 +125,7 @@ class XMLReportReader {
                 map.put(id, id);
             }
             if (qualifiedName.equals(Scheme.REPORT)) {
-                String dateStr = (String) attributes
+                String dateStr = attributes
                         .getValue(Scheme.REPORT_GENTIME);
                 try {
                     time = XMLReportWriter.ISO8601toDate(dateStr).getTime();

@@ -29,6 +29,8 @@ package com.sun.javatest.interview;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+
 import com.sun.interview.FinalQuestion;
 import com.sun.interview.Interview;
 import com.sun.interview.Question;
@@ -197,15 +199,15 @@ public class KeywordsInterview
             super.setValue(modeValue);
         }
 
-        public void load(Map data) {
-            Object m = data.get(tag + ".mode");
-            Object v = data.get(tag + ".value");
+        public void load(Map<String, String> data) {
+            String m = data.get(tag + ".mode");
+            String v = data.get(tag + ".value");
             //System.err.println("KI.load: m=" + m + " v=" + v);
             if (m == null)
                 super.load(data); // support existing interview files
             else if (m instanceof String && (v == null || v instanceof String)) {
-                String ms = (String) m;
-                String vs = (String) v;
+                String ms = m;
+                String vs = v;
                 if (ms.equals("allOf"))
                     setValue(ALL_OF, vs);
                 else if (ms.equals("anyOf"))
@@ -215,7 +217,7 @@ public class KeywordsInterview
             }
         }
 
-        public void save(Map data) {
+        public void save(Map<String, String> data) {
             super.save(data);  // for backwards compatibility
             String modeText = (mode == ANY_OF ? "anyOf" : mode == ALL_OF ? "allOf" : "expr");
             data.put(tag + ".mode", modeText);
@@ -269,11 +271,11 @@ public class KeywordsInterview
                 }
 
                 String[] validKeywords = ts.getKeywords();
-                HashSet validKeywordsSet;
+                Set<String> validKeywordsSet;
                 if (validKeywords == null)
                     validKeywordsSet = null;
                 else
-                    validKeywordsSet = new HashSet(Arrays.asList(validKeywords));
+                    validKeywordsSet = new HashSet<>(Arrays.asList(validKeywords));
 
                 int mode = qKeywords.getMode();
                 String modeName = (mode == ANY_OF ? Keywords.ANY_OF

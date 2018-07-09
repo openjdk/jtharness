@@ -79,7 +79,7 @@ class StatisticsSection extends HTMLSection {
                 Arrays.sort(keys);
                 String sortedKeys = StringArray.join(keys);
 
-                int[] v = (int[])(keywordTable.get(sortedKeys));
+                int[] v = keywordTable.get(sortedKeys);
                 if (v == null) {
                     v = new int[Status.NUM_STATES];
                     keywordTable.put(sortedKeys, v);
@@ -141,7 +141,7 @@ class StatisticsSection extends HTMLSection {
             head[c] = i18n.getString("stats.total");
         }
 
-        Vector v = new Vector();
+        Vector<String[]> v = new Vector<>();
         for (Iterator iter = keywordTable.entrySet().iterator(); iter.hasNext(); ) {
             Map.Entry e = (Map.Entry) (iter.next());
             String k = (String) (e.getKey());
@@ -159,7 +159,7 @@ class StatisticsSection extends HTMLSection {
         sortedInsert:
             {
                 for (int i = 0; i < v.size(); i++) {
-                    String[] entry = (String[])v.elementAt(i);
+                    String[] entry = v.elementAt(i);
                     if (k.compareTo(entry[0]) < 0) {
                         v.insertElementAt(newEntry, i);
                         break sortedInsert;
@@ -230,7 +230,7 @@ class StatisticsSection extends HTMLSection {
 
     private TestResultTable resultTable;
     private File[] initFiles;
-    private Map keywordTable = new HashMap();
+    private Map<String, int[]> keywordTable = new HashMap<>();
     private int[] statusTotals = new int[Status.NUM_STATES];
     private final I18NResourceBundle i18n;
 

@@ -57,7 +57,7 @@ public abstract class CommandManager {
      * @throws Command.Fault if the command is recognized by this command manager
      * but could not be successfully parsed or otherwise handled.
      */
-    public abstract boolean parseCommand(String cmd, ListIterator argIter, CommandContext ctx)
+    public abstract boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault;
 
     /**

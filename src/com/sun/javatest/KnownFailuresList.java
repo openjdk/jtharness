@@ -30,14 +30,9 @@ import com.sun.javatest.util.DynamicArray;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import com.sun.javatest.util.I18NResourceBundle;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.TreeSet;
 
 /**
  * Support class to read and process a list of tests and test cases which are
@@ -281,7 +276,7 @@ public class KnownFailuresList
         else {
             // flatten the enumeration into a vector, then
             // enumerate that
-            ArrayList<Entry> v = new ArrayList(table.size());
+            List<Entry> v = new ArrayList<>(table.size());
             for (Iterator<Entry> iter = table.values().iterator(); iter.hasNext(); ) {
                 Object o = iter.next();
                 if (o instanceof Entry)
@@ -346,7 +341,7 @@ public class KnownFailuresList
                     // an entry with another set of test cases.
                     // For now, concatenate the arrays.
                     // RFE: Replace Entry[] with Set and merge the sets.
-                    table.put(key, (Entry[]) DynamicArray.append((Entry[]) o, otherEntry));
+                    table.put(key, DynamicArray.append((Entry[]) o, otherEntry));
                 }
             }
         }
@@ -583,7 +578,7 @@ public class KnownFailuresList
             // skip white space, then read and sort a list of comma-separated
             // numbers with no embedded white-space
             skipWhite();
-            TreeSet s = new TreeSet();
+            Set<String> s = new TreeSet<>();
             StringBuilder sb = new StringBuilder();
             for ( ; !isEndOfLine(ch) && !isWhitespace(ch); ch = in.read()) {
                 if (ch == ',') {
@@ -602,7 +597,7 @@ public class KnownFailuresList
             if (s.isEmpty())
                 s.add("0");  // backwards compatibility
 
-            return (String[]) (s.toArray(new String[s.size()]));
+            return s.toArray(new String[s.size()]);
         }
 
         private String readRest() throws IOException {
@@ -798,7 +793,7 @@ public class KnownFailuresList
             if (testCase == null)
                 return null;
 
-            ArrayList v = new ArrayList();
+            List<String> v = new ArrayList<>();
             int start = -1;
             for (int i = 0; i < testCase.length(); i++) {
                 if (testCase.charAt(i) == ',') {

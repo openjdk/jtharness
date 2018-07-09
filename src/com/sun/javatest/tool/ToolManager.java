@@ -197,7 +197,7 @@ public abstract class ToolManager
      * @return the tool that was started
      * @throws ToolManager.Fault if there is a problem restoring the tool
      */
-    public abstract Tool restoreTool(Map m) throws Fault;
+    public abstract Tool restoreTool(Map<String, String> m) throws Fault;
 
     //----------------------------------------------------------------------------
 

@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * This class loader loads classes from files a specified directory.
@@ -76,7 +77,7 @@ public class DirectoryClassLoader extends ClassLoader
         throws ClassNotFoundException {
 
         // check the cache first
-        Class cl = (Class)classes.get(name);
+        Class<?> cl = classes.get(name);
 
         // not found in the cache?
         if (cl == null) {
@@ -178,7 +179,7 @@ public class DirectoryClassLoader extends ClassLoader
         // check the cache at the one call site, but that was not
         // synchronized, so there is a very small remote chance another
         // caller has just loaded this class.
-        Class cl = (Class)classes.get(name);
+        Class<?> cl = classes.get(name);
         if (cl != null)
             return cl;
 
@@ -222,5 +223,5 @@ public class DirectoryClassLoader extends ClassLoader
     //----------Data members----------------------------------------------------
 
     private File loadDir;
-    private Hashtable classes = new Hashtable();
+    private Map<String, Class<?>> classes = new Hashtable<>();
 }

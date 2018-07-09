@@ -31,10 +31,8 @@ import java.util.Comparator;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestResult;
 
-class TestResultsByFileComparator implements Comparator {
-    public int compare(Object o1, Object o2) {
-        TestResult a = (TestResult)o1;
-        TestResult b = (TestResult)o2;
+class TestResultsByFileComparator implements Comparator<TestResult> {
+    public int compare(TestResult a, TestResult b) {
 
         // The simplest way to compare two URLs would be to compare their
         // external forms, but generating them generates garbage at a

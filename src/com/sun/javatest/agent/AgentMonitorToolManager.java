@@ -62,7 +62,7 @@ public class AgentMonitorToolManager extends ToolManager
 
     //----------------------------------------------------------------------------
 
-    public Tool restoreTool(Map m) {
+    public Tool restoreTool(Map<String, String> m) {
         AgentMonitorTool t = getTool();
         t.restore(m);
         return t;

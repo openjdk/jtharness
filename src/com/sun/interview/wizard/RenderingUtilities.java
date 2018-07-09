@@ -282,7 +282,7 @@ public class RenderingUtilities {
 
             }
 
-            final JComboBox cb = ((JComboBox)getComponent());
+            final JComboBox<Object> cb = (JComboBox<Object>)getComponent();
             cb.setEditable(true);
             cb.removeAllItems();
             cb.addItem(value);
@@ -376,7 +376,7 @@ public class RenderingUtilities {
             }
         }
 
-        private void setConstraints(JComboBox cb, ValueConstraints rules) {
+        private void setConstraints(JComboBox<Object> cb, ValueConstraints rules) {
             if (rules instanceof IntConstraints) {
                 // attach input filter
                 // add suggestions
@@ -438,7 +438,7 @@ public class RenderingUtilities {
                 else {}
             }
             else {      // generic constraints
-                ValueConstraints vRules = (ValueConstraints)rules;
+                ValueConstraints vRules = rules;
             }
         }
 
@@ -448,7 +448,7 @@ public class RenderingUtilities {
          * adds a blank choice (unset).  Assume the current value in the
          * combo box is the one at index zero.
          */
-        private void configureSet(JComboBox cb, String[] possible,
+        private void configureSet(JComboBox<Object> cb, String[] possible,
                                 boolean ignoreCase, boolean isUnsetAllowed) {
             // wishlist: i18n
             //           values which are independent of locale
@@ -517,10 +517,10 @@ public class RenderingUtilities {
                     }
                 }
                 else{
-                    jComboBox = new JComboBox();
+                    jComboBox = new JComboBox<>();
                     jComboBox.addItem(value);
                     jComboBox.setEditable(true);
-                    if ( q.isValueValid((String)(q.getKeyPropertyName((String)table.getValueAt(row, 0)))) != null ) {
+                    if ( q.isValueValid(q.getKeyPropertyName((String)table.getValueAt(row, 0))) != null ) {
                         jComboBox.setBorder(new LineBorder(Color.RED, 2));
                     }
                     return jComboBox;
@@ -543,7 +543,7 @@ public class RenderingUtilities {
         PropertiesQuestion q;
         JCheckBox jCheckBox;
         YesNoBox yesNoBox;
-        JComboBox jComboBox;
+        JComboBox<Object> jComboBox;
     }   // non-editing cell
 
     static class YesNoBox extends JPanel{

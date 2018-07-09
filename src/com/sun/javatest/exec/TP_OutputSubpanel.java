@@ -549,7 +549,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             return null;
 
         for (int i = 0; i < tocEntries.size(); i++) {
-            TOCEntry entry = (TOCEntry) (tocEntries.get(i));
+            TOCEntry entry = tocEntries.get(i);
             if (entry.getSection() == section) {
                 // found match, select this entry
                 return entry;
@@ -664,7 +664,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
                     int index = toc.getSelectedIndex();
                     if (index != -1) {
                         for (int i = index + 1; i < tocEntries.size(); i++) {
-                            TOCEntry entry = (TOCEntry) (tocEntries.get(i));
+                            TOCEntry entry = tocEntries.get(i);
                             String entryOutputName = entry.getOutputName();
                             if (entryOutputName == null)
                                 // name not found, reached next section entry
@@ -682,7 +682,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
                         int sectIndex = Integer.parseInt(desc);
                         TestResult.Section s = subpanelTest.getSection(sectIndex);
                         for (int i = 0; i < tocEntries.size(); i++) {
-                            TOCEntry entry = (TOCEntry) (tocEntries.get(i));
+                            TOCEntry entry = tocEntries.get(i);
                             if (entry.getSection() == s) {
                                 // found match, select this entry
                                 toc.setSelectedIndex(i);

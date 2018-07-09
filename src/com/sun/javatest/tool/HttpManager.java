@@ -56,7 +56,7 @@ public class HttpManager extends CommandManager
 
     //----------------------------------------------------------------------------
 
-    public boolean parseCommand(String cmd, ListIterator argIter, CommandContext ctx)
+    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
         if (isMatch(cmd, HttpCommand.getName())) {

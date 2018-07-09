@@ -65,7 +65,7 @@ public class ConflictResolutionDialog extends JDialog {
     private JButton resolveButton;
     private JButton cancelButton;
 
-    private DefaultListModel listModel;
+    private DefaultListModel<String> listModel;
     private JList list;
 
     private int     selectedIndex;
@@ -106,7 +106,7 @@ public class ConflictResolutionDialog extends JDialog {
         chooseTextPanel.add(chooseText);
 
         // Build list box
-        listModel=new DefaultListModel();
+        listModel=new DefaultListModel<>();
         for (int i=0; i< reportsList.length; i++) {
             listModel.addElement(reportsList[i]);
         }

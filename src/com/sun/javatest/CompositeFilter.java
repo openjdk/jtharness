@@ -196,7 +196,7 @@ public class CompositeFilter extends TestFilter {
     public int hashCode() {
         int hash = 3;
         hash = 61 * hash + (this.filters != null ?
-            new HashSet(Arrays.asList(this.filters)).hashCode() : 0);
+            new HashSet<>(Arrays.asList(this.filters)).hashCode() : 0);
         return hash;
     }
 
@@ -225,11 +225,11 @@ public class CompositeFilter extends TestFilter {
      * @return true of the two arrays of filters are equivalent.
      */
     public static boolean equals(TestFilter[] array1, TestFilter[] array2) {
-        List list1 = Arrays.asList(array1);
-        List list2 = Arrays.asList(array2);
+        List<TestFilter> list1 = Arrays.asList(array1);
+        List<TestFilter> list2 = Arrays.asList(array2);
 
-        HashSet set1 = new HashSet(list1);
-        HashSet set2 = new HashSet(list2);
+        HashSet<TestFilter> set1 = new HashSet<>(list1);
+        HashSet<TestFilter> set2 = new HashSet<>(list2);
 
         return set1.equals(set2);
     }

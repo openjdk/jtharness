@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.Set;
 
 import com.sun.javatest.Harness;
@@ -265,11 +266,11 @@ public class Main
             serviceManager = new ServiceManager.ServiceCommandManager();
             try {
                 ManagerLoader ml = new ManagerLoader(CommandManager.class, System.err);
-                Set mgrs = ml.loadManagers(CMDMGRLIST);
+                Set<Object> mgrs = ml.loadManagers(CMDMGRLIST);
                 mgrs.add(desktopManager);
                 mgrs.add(helpManager);
                 mgrs.add(serviceManager);
-                commandManagers = (CommandManager[]) mgrs.toArray(new CommandManager[mgrs.size()]);
+                commandManagers = mgrs.toArray(new CommandManager[mgrs.size()]);
                 helpManager.setCommandManagers(commandManagers);
             }
             catch (IOException e) {
@@ -445,7 +446,7 @@ public class Main
                                 }
                                 desktop.restoreHistory();
                                 Tool tool = desktop.addDefaultTool(ip);
-                                java.util.Map data = ctx.getDesktopData();
+                                Map<String, String> data = ctx.getDesktopData();
                                 if (data != null) {
                                     tool.restore(data);
                                 }

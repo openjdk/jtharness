@@ -232,7 +232,7 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
 
             for (int i = 0; i < keys.length; i++) {
                 String key = (String) keys[i];
-                String value = (String) pm.get(keys[i]);
+                String value = pm.get(keys[i]);
 
                 if (value != null)
                     lastState.put(key, value);

@@ -274,7 +274,7 @@ public class JavaCompileCommand extends Command
         }
     }
 
-    private Constructor getConstructor(Class c, Class[] argTypes) {
+    private Constructor getConstructor(Class<?> c, Class[] argTypes) {
         try {
             return c.getConstructor(argTypes);
         }
@@ -288,7 +288,7 @@ public class JavaCompileCommand extends Command
         }
     }
 
-    private Method getMethod(Class c, String name, Class[] argTypes) {
+    private Method getMethod(Class<?> c, String name, Class[] argTypes) {
         try {
             return c.getMethod(name, argTypes);
         }

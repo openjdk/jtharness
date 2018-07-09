@@ -140,7 +140,7 @@ public class XMLServiceReader implements ServiceReader {
     }
 
     public Set<TestPath> readTestServiceMap() {
-        Set<TestPath> result = new HashSet();
+        Set<TestPath> result = new HashSet<>();
 
         if (doc == null) {
             return result;
@@ -218,7 +218,7 @@ public class XMLServiceReader implements ServiceReader {
     }
 
     private Map<String, Service> readServices(Document doc, ServiceProperties common) {
-        Map<String, Service> result = new TreeMap();
+        Map<String, Service> result = new TreeMap<>();
 
         if (doc == null) {
             return result;
@@ -228,7 +228,7 @@ public class XMLServiceReader implements ServiceReader {
         Node child = root.getFirstChild();
         while (child != null) {
             if(child instanceof Element &&
-                    ((Element)child).getNodeName().equals("service")) {
+                    child.getNodeName().equals("service")) {
                 try {
                     Element elem = (Element) child;
 

@@ -61,12 +61,12 @@ class Merger {
         // shift word workgroups id renaming
         int allCnt = 0;
         // rename id's and find conflicts
-        Set all = new HashSet();
-        List confilcts = new ArrayList();
+        Set<String> all = new HashSet<>();
+        List<String> confilcts = new ArrayList<>();
         for (int i = 0; i < in.length; i++) {
             int workdirsInFile = 0;
             Iterator it = inputs[i].keySet().iterator();
-            Map newMap = new HashMap();
+            Map<Object, Object> newMap = new HashMap<>();
             while (it.hasNext()) {
                 Object o =  it.next();
                 // this is workdir ID
@@ -95,8 +95,8 @@ class Merger {
 
         // resolve each conflict
         for (int c = 0; c < confilcts.size(); c++) {
-            String url = (String)confilcts.get(c);
-            ArrayList tds = new ArrayList();
+            String url = confilcts.get(c);
+            List<TestResultDescr> tds = new ArrayList<>();
             for(int i = 0; i < in.length; i++) {
                 TestResultDescr td = (TestResultDescr) inputs[i].get(url);
                 if (td != null) {
@@ -104,7 +104,7 @@ class Merger {
                     tds.add(td);
                 }
             }
-            TestResultDescr[] tda = (TestResultDescr[])tds.toArray(new TestResultDescr[0]);
+            TestResultDescr[] tda = tds.toArray(new TestResultDescr[0]);
             int res = confilctResolver.resolve(url, tda);
             if (res < 0) {
                 // cancel

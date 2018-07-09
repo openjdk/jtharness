@@ -29,10 +29,7 @@ package com.sun.javatest;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Information about the last or current test run.  This is an interface onto
@@ -134,7 +131,7 @@ public class LastRunInfo {
      * Get the URLs of the tests that were executed in the last test run.
      * @return String array of testURLs executed.
      */
-    public ArrayList getTestURLs() {
+    public List<String> getTestURLs() {
         return testURLs;
     }
 
@@ -143,7 +140,7 @@ public class LastRunInfo {
      * @param list
      * @return A single string with all the items in the list joined.
      */
-    private static String join(ArrayList list) {
+    private static String join(List<String> list) {
         if (list == null) {
             return "";
         }
@@ -164,8 +161,8 @@ public class LastRunInfo {
      * @param joined - string to split
      * @return array list, never null.
      */
-    private static ArrayList split(String joined) {
-        ArrayList list = new ArrayList();
+    private static List<String> split(String joined) {
+        List<String> list = new ArrayList<>();
         if (joined == null || joined.trim().length() == 0) {
             return list;
         }
@@ -208,7 +205,7 @@ public class LastRunInfo {
      *                     created, opened, written into or deleted.
      */
     public static void writeInfo(WorkDirectory workdir, long start, long stop,
-            String config, ArrayList testURLs)
+            String config, List<String> testURLs)
                 throws IOException {
         Properties p = new Properties();
         p.setProperty(CONFIG, config);
@@ -231,7 +228,7 @@ public class LastRunInfo {
     private String configName;
     private long startTime;
     private long finishTime;
-    private ArrayList testURLs;
+    private List<String> testURLs;
 
     // file in the work dir
     private static final String FILENAME = "lastRun.txt";

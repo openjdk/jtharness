@@ -56,7 +56,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
 
     //----------------------------------------------------------------------------
 
-    public boolean parseCommand(String cmd, ListIterator argIter, CommandContext ctx)
+    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
         if (cmd.equalsIgnoreCase(AgentPoolPortCommand.getName())) {
@@ -86,7 +86,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
             return "agentPoolPort";
         }
 
-        AgentPoolPortCommand(ListIterator argIter) throws Fault {
+        AgentPoolPortCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -116,7 +116,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
             return "agentPoolTimeout";
         }
 
-        AgentPoolTimeoutCommand(ListIterator argIter) throws Fault {
+        AgentPoolTimeoutCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -146,7 +146,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
             return "startAgentPool";
         }
 
-        StartAgentPoolCommand(ListIterator argIter) throws Fault {
+        StartAgentPoolCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             while (argIter.hasNext()) {

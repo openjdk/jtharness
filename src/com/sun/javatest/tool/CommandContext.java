@@ -34,7 +34,6 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.Properties;
 import java.util.Vector;
 
 import com.sun.javatest.Harness;
@@ -44,9 +43,8 @@ import com.sun.javatest.TemplateUtilities;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
 
-import com.sun.javatest.util.DynamicArray;
-import com.sun.javatest.util.HelpTree;
-import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.*;
+
 import java.util.Map;
 
 /**
@@ -164,7 +162,7 @@ public class CommandContext
         boolean foundAction = false;
 
         for (int i = 0; i < commands.size(); i++) {
-            Command cmd = (Command) (commands.elementAt(i));
+            Command cmd = commands.elementAt(i);
             foundAction |= cmd.isActionCommand();
 
             // can't cache this ... may change while we execute commands
@@ -531,11 +529,11 @@ public class CommandContext
     /**
      * restore filter setting if -ts -preferred were specified
      */
-    void setDesktopData(Map desktopData) {
+    void setDesktopData(Map<String, String> desktopData) {
         this.desktopData = desktopData;
     }
 
-    Map getDesktopData() {
+    Map<String, String> getDesktopData() {
         return desktopData;
     }
 
@@ -608,7 +606,7 @@ public class CommandContext
                 || WorkDirectory.isEmptyDirectory(workDirectoryPath))) {
 
             // first, determine where the test suite is
-            Properties configData;
+            Map<String, String> configData;
             File tsPath;
 
             // get test suite path if we don't have it
@@ -616,12 +614,11 @@ public class CommandContext
                 if (configFilePath == null)
                     throw new Fault(i18n, "cc.noTestSuite");
 
-                configData = new Properties();
 
                 try {
                     InputStream in = new BufferedInputStream(new FileInputStream(configFilePath));
                     try {
-                        configData.load(in);
+                        configData = Properties.load(in);
                     }
                     catch (RuntimeException e) {
                         // can get IllegalArgumentException if the file is corrupt
@@ -639,7 +636,7 @@ public class CommandContext
                                             new Object[] { configFilePath, e });
                 }
 
-                String tsp = (String) (configData.get("TESTSUITE"));
+                String tsp = configData.get("TESTSUITE");
                 if (tsp == null)
                     throw new Fault(i18n, "cc.noTestSuiteInConfigFile", configFilePath);
 
@@ -794,7 +791,7 @@ public class CommandContext
     public boolean isDesktopRequired() {
         int mode = Command.DEFAULT_DTMODE;
         for (int i = 0; i < commands.size(); i++) {
-            Command cmd = (Command) (commands.elementAt(i));
+            Command cmd = commands.elementAt(i);
             mode = Math.max(mode, cmd.getDesktopMode());
         }
         return (mode == Command.DESKTOP_NOT_REQUIRED_DTMODE ? false : true);
@@ -906,7 +903,7 @@ public class CommandContext
         if (verboseQuiet)
             return false;
 
-        Boolean b = (Boolean) (verboseOptionValues.get(name.toLowerCase()));
+        Boolean b = verboseOptionValues.get(name.toLowerCase());
         return (b == null ? defaultValue : b.booleanValue());
     }
 
@@ -1055,14 +1052,14 @@ public class CommandContext
     //-------------------------------------------------------------------------
 
 
-    private Vector commands = new Vector();
+    private Vector<Command> commands = new Vector<>();
 
     //private TestSuite testSuite;
     //private WorkDirectory workDir;
     private File testSuitePath;
     private File workDirectoryPath;
     private String defaultWorkDirPath;
-    private Map desktopData;
+    private Map<String, String> desktopData;
     private boolean autoCreateWorkDirectory;
     private File configFilePath;
 
@@ -1074,7 +1071,7 @@ public class CommandContext
     private PrintWriter out;
     private int[] cumulativeTestStats = new int[Status.NUM_STATES];
 
-    private HashMap verboseOptionValues = new HashMap(); // HashMap<String, Boolean>
+    private Map<String, Boolean> verboseOptionValues = new HashMap<>();
     private boolean verboseMax;
     private boolean verboseQuiet;
     private boolean verboseDate = true;

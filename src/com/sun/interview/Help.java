@@ -33,6 +33,7 @@ import com.sun.javatest.tool.jthelp.HelpSet;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -97,7 +98,7 @@ public class Help {
 
         HelpSet hs = getHelpSet(i);
         if (hs != null) {
-            HashMap m = hs.getLocalMap();
+            Map m = hs.getLocalMap();
             if (m != null) {
                 helpId = HelpID.create(key, hs);
                 //System.err.println("Q: FOUND int:" + i.getTag() + " key:" + key + " helpId:" + helpId);

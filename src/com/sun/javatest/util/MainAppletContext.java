@@ -30,6 +30,8 @@ import java.applet.AppletContext;
 import java.applet.Applet;
 import java.util.Hashtable;
 import java.util.Enumeration;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class provides a means whereby tools can temporarily give access
@@ -43,7 +45,7 @@ public class MainAppletContext {
 
     private static AppletContext context = null;
 
-    private static Hashtable applets = new Hashtable();
+    private static Map<String, Applet> applets = new Hashtable<>();
 
     private static Applet agentApplet = null;
 
@@ -84,15 +86,15 @@ public class MainAppletContext {
      * @return the applet that has been registered with the given name
      */
     public static synchronized Applet getApplet(String name) {
-        return (Applet) applets.get(name);
+        return applets.get(name);
     }
 
     /**
      * Get an enumeration of all the names that have been used to register applets.
      * @return an enumeration of all the names that have been used to register applets
      */
-    public static synchronized Enumeration getAppletNames() {
-        return applets.keys();
+    public static synchronized Set<String> getAppletNames() {
+        return applets.keySet();
     }
 
     /**

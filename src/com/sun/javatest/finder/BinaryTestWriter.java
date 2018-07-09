@@ -32,15 +32,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.Vector;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -363,7 +355,7 @@ public class BinaryTestWriter
             throw new IllegalArgumentException();
 
         File rootDir = finder.getRootDir();
-        Set allFiles = new HashSet();
+        Set<File> allFiles = new HashSet<>();
 
         TestTree.Node r = null;
         for (int i = 0; i < files.length; i++) {
@@ -392,7 +384,7 @@ public class BinaryTestWriter
     /**
      * Read the tests from a file in test suite
      */
-    private TestTree.Node read0(TestFinder finder, File file, TestTree testTree, Set allFiles)
+    private TestTree.Node read0(TestFinder finder, File file, TestTree testTree, Set<File> allFiles)
     {
         // keep track of which files we have read, and ignore duplicates
         if (allFiles.contains(file))
@@ -416,7 +408,7 @@ public class BinaryTestWriter
             }
         });
 
-        Vector v = new Vector();
+        Vector<TestTree.Node> v = new Vector<>();
         for (int i = 0; i < files.length; i++) {
             TestTree.Node n = read0(finder, files[i], testTree, allFiles);
             if (n != null)
@@ -473,7 +465,7 @@ public class BinaryTestWriter
          * increase its use count.
          */
         void add(String s) {
-            Entry e = (Entry) (map.get(s));
+            Entry e = map.get(s);
             if (e == null) {
                 e = new Entry();
                 map.put(s, e);
@@ -512,7 +504,7 @@ public class BinaryTestWriter
          * Get the index of a string in the table.
          */
         int getIndex(String s) {
-            Entry e = (Entry) (map.get(s));
+            Entry e = map.get(s);
             if (e == null)
                 throw new IllegalArgumentException();
             return e.index;
@@ -537,13 +529,13 @@ public class BinaryTestWriter
          * Write the contents of the table to a stream
          */
         void write(DataOutputStream o) throws IOException {
-            Vector v = new Vector(map.size());
+            Vector<String> v = new Vector<>(map.size());
             v.addElement("");
             int nextIndex = 1;
-            for (Iterator iter = map.entrySet().iterator(); iter.hasNext(); ) {
-                Map.Entry e = (Map.Entry) (iter.next());
-                String key = (String) (e.getKey());
-                Entry entry = (Entry) (e.getValue());
+            for (Iterator<Map.Entry<String, Entry>> iter = map.entrySet().iterator(); iter.hasNext(); ) {
+                Map.Entry<String, Entry> e = iter.next();
+                String key = e.getKey();
+                Entry entry = e.getValue();
                 if (entry.isFrequent()) {
                     entry.index = nextIndex++;
                     v.addElement(key);
@@ -552,7 +544,7 @@ public class BinaryTestWriter
 
             writeInt(o, v.size());
             for (int i = 0; i < v.size(); i++)
-                o.writeUTF((String) (v.elementAt(i)));
+                o.writeUTF(v.elementAt(i));
 
             writtenSize = nextIndex;
         }
@@ -566,7 +558,7 @@ public class BinaryTestWriter
          * string, zero will be written, followed by the value of the string itself.
          */
         void writeRef(String s, DataOutputStream o) throws IOException {
-            Entry e = (Entry) (map.get(s));
+            Entry e = map.get(s);
             if (e == null)
                 throw new IllegalArgumentException();
 
@@ -578,7 +570,7 @@ public class BinaryTestWriter
             }
         }
 
-        private TreeMap map = new TreeMap();
+        private Map<String, Entry> map = new TreeMap<>();
         private int writtenSize;
 
         /**
@@ -645,7 +637,7 @@ public class BinaryTestWriter
          * written stream.
          */
         int getIndex(TestDescription td) {
-            Entry e = (Entry) (testMap.get(td));
+            Entry e = testMap.get(td);
             if (e == null)
                 throw new IllegalArgumentException();
             return e.index;
@@ -677,8 +669,8 @@ public class BinaryTestWriter
         void write(DataOutputStream o) throws IOException {
             writeInt(o, tests.size());
             for (int i = 0; i < tests.size(); i++) {
-                TestDescription td = (TestDescription) (tests.elementAt(i));
-                Entry e = (Entry) (testMap.get(td));
+                TestDescription td = tests.elementAt(i);
+                Entry e = testMap.get(td);
                 e.index = o.size();
                 write(td, o);
             }
@@ -699,8 +691,8 @@ public class BinaryTestWriter
             }
         }
 
-        private HashMap testMap = new HashMap();
-        private Vector tests = new Vector();
+        private Map<TestDescription, Entry> testMap = new HashMap<>();
+        private Vector<TestDescription> tests = new Vector<>();
         private StringTable stringTable;
 
         /**
@@ -824,19 +816,19 @@ public class BinaryTestWriter
                 if (!other.name.equals(name))
                     throw new IllegalArgumentException(name + ":" + other.name);
 
-                TreeMap mergedChildrenMap = new TreeMap();
+                TreeMap<String, Node> mergedChildrenMap = new TreeMap<>();
                 for (int i = 0; i < children.length; i++) {
                     Node child = children[i];
                     mergedChildrenMap.put(child.name, child);
                 }
                 for (int i = 0; i < other.children.length; i++) {
                     Node otherChild = other.children[i];
-                    Node c = (Node) (mergedChildrenMap.get(otherChild.name));
+                    Node c = mergedChildrenMap.get(otherChild.name);
                     mergedChildrenMap.put(otherChild.name,
                                       (c == null ? otherChild : otherChild.merge(c)));
                 }
                 Node[] mergedChildren =
-                    (Node[]) (mergedChildrenMap.values().toArray(new Node[mergedChildrenMap.size()]));
+                    mergedChildrenMap.values().toArray(new Node[mergedChildrenMap.size()]);
 
                 TestDescription[] mergedTests;
                 if (tests.length + other.tests.length == 0)

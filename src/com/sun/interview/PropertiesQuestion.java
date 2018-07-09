@@ -30,20 +30,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.Properties;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 import com.sun.interview.Interview.Fault;
 
 // todo:
-import java.util.Collections;
+
 //    how to sort values
 //    how to sort groups for display
 //    table headers - default, with set methods
@@ -143,7 +135,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         if (!localize || b == null)     // will use literal keys
             presentationKeys = null;
         else {
-            presentationKeys = new HashMap();
+            presentationKeys = new HashMap<>();
             for (int i = 0; i < keys.length; i++) {
                 String c = keys[i];
                 String rn = tag + "." + c;
@@ -307,10 +299,10 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * the tag as the key.
      * @param data The map from which to load the value for this question.
      */
-    protected void load(Map data) {
-        Object o = data.get(tag);
-        if (o != null && o instanceof String) {
-            setValue(load((String)o));
+    protected void load(Map<String, String> data) {
+        String o = data.get(tag);
+        if (o != null) {
+            setValue(load(o));
         }
     }
 
@@ -331,7 +323,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         Enumeration e = p2.propertyNames();
         while(e.hasMoreElements()) {
             Object next = e.nextElement();
-            p.put( ((String)next), p2.get(next) );
+            p.put( next, p2.get(next) );
         }   // while
 
         return p;
@@ -342,7 +334,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * the tag as the key.
      * @param data The map in which to save the value for this question.
      */
-    protected void save(Map data) {
+    protected void save(Map<String, String> data) {
         if (value == null)
             return;
 
@@ -420,8 +412,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      */
     public String[][] getInvalidKeys() {
         Enumeration names = value.propertyNames();
-        ArrayList badKeys = new ArrayList();
-        ArrayList reasons = new ArrayList();
+        List<String> badKeys = new ArrayList<>();
+        List<String> reasons = new ArrayList<>();
 
         while (names.hasMoreElements()) {
             String curr = (String)(names.nextElement());
@@ -443,8 +435,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         if (badKeys.size() > 0) {
             String[][] ret = new String[badKeys.size()][2];
             for (int i = 0; i < badKeys.size(); i++) {
-                ret[i][0] = (String)(badKeys.get(i));
-                ret[i][1] = (String)(reasons.get(i));
+                ret[i][0] = badKeys.get(i);
+                ret[i][1] = reasons.get(i);
             }   // for
 
             return ret;
@@ -559,13 +551,13 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      */
     public void createGroup(String name) {
         if (keyGroups == null)
-            keyGroups = new HashMap();
+            keyGroups = new HashMap<>();
 
         Object o = keyGroups.get(name);
         if (o != null)
             throw new IllegalStateException("Group " + name + " already exists.");
 
-        ArrayList al = new ArrayList();
+        ArrayList<String> al = new ArrayList<>();
         keyGroups.put(name, al);
     }
 
@@ -592,14 +584,14 @@ public abstract class PropertiesQuestion extends CompositeQuestion
             throw new IllegalArgumentException("No such group: " + group);
 
         // find existing group or create
-        ArrayList l = ((ArrayList)(keyGroups.get(group)));
+        ArrayList<String> l = keyGroups.get(group);
         if (l == null)
             throw new IllegalArgumentException("No such group: " + group);
 
         // remove key from all groups
-        Iterator vals = keyGroups.values().iterator();
+        Iterator<ArrayList<String>> vals = keyGroups.values().iterator();
         while (vals.hasNext()) {
-            ArrayList al = ((ArrayList)(vals.next()));
+            ArrayList<String> al = vals.next();
             for (int i = 0; i < al.size(); i++)
                 if (al.get(i).equals(key))
                     al.remove(i);
@@ -633,13 +625,13 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         if (keyGroups == null)
             return null;
 
-        ArrayList result = new ArrayList();
-        Set keys = keyGroups.keySet();
+        ArrayList<String> result = new ArrayList<>();
+        Set<String> keys = keyGroups.keySet();
         if (keys != null) {
-            Iterator it = keys.iterator();
+            Iterator<String> it = keys.iterator();
             while(it.hasNext()) {
-                Object key = it.next();
-                ArrayList al = ((ArrayList)keyGroups.get(key));
+                String key = it.next();
+                ArrayList<String> al = keyGroups.get(key);
                 if (al == null || al.size() == 0)
                     continue;       // empty group
 
@@ -651,7 +643,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
             return null;
         else {
             String[] ret = new String[result.size()];
-            ret = (String[])(result.toArray(ret));
+            ret = result.toArray(ret);
             return ret;
         }
     }
@@ -671,15 +663,15 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         if (group == null)
             return getUngrouped();
 
-        ArrayList al = ((ArrayList)keyGroups.get(group));
+        ArrayList<String> al = keyGroups.get(group);
 
         if (al == null || al.size() == 0)
             return null;
         else {
-            Iterator it = al.iterator();
+            Iterator<String> it = al.iterator();
             String[][] data = new String[al.size()][2];
             for(int i = 0; it.hasNext(); i++) {
-                data[i][0] = (String)(it.next());
+                data[i][0] = it.next();
                 data[i][1] = (String)(value.get(data[i][0]));
             }   // for
 
@@ -803,7 +795,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      */
     public void setConstraints(String key, ValueConstraints c) {
         if (constraints == null)
-            constraints = new HashMap();
+            constraints = new HashMap<>();
 
         if (value == null || value.getProperty(key) == null)
             throw new IllegalArgumentException("No such key: " + key);
@@ -859,7 +851,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     /**
      * Returns the localized key values to display
      */
-    public HashMap getPresentationKeys(){
+    public Map<String, String> getPresentationKeys(){
         return presentationKeys;
     }
 
@@ -872,7 +864,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         if (constraints == null)
             return null;
         else
-            return ((ValueConstraints)(constraints.get(key)));
+            return constraints.get(key);
     }
 
     /**
@@ -880,13 +872,13 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * set of property keys.  Null indicates that no i18n presentation values
      * are provided.
      */
-    private HashMap presentationKeys;
+    private Map<String, String> presentationKeys;
 
     /**
      * Indexed like everything else, by property key, the value is a
      * ValueConstraint.
      */
-    private HashMap constraints;
+    private Map<String, ValueConstraints> constraints;
 
     /**
      * The current (default or latest) response to this question.
@@ -902,7 +894,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * Record of key groupings.  Key is the group name string, the value is
      * a ArrayList.
      */
-    private HashMap keyGroups;
+    private Map<String, ArrayList<String>> keyGroups;
 
     // these are now represented in ValueConstraints
     //private HashSet readOnlyKeys;

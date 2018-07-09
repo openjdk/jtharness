@@ -31,11 +31,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.lang.ref.WeakReference;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Vector;
-import java.util.WeakHashMap;
+import java.util.*;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.event.MenuEvent;
@@ -62,17 +58,17 @@ public class FileHistory
      */
     public static FileHistory getFileHistory(WorkDirectory wd, String name) {
         if (cache == null)
-            cache = new WeakHashMap(8);
+            cache = new WeakHashMap<>(8);
 
         // first, get a map for all files in this wd
-        HashMap map = (HashMap) (cache.get(wd));
+        Map<String, FileHistory> map = cache.get(wd);
         if (map == null) {
-            map = new HashMap(8);
+            map = new HashMap<>(8);
             cache.put(wd, map);
         }
 
         // then, get the FileHistory for the specified file
-        FileHistory h = (FileHistory) (map.get(name));
+        FileHistory h = map.get(name);
         if (h == null) {
             h = new FileHistory(wd, name);
             map.put(name, h);
@@ -91,7 +87,7 @@ public class FileHistory
      */
     public static FileHistory getFileHistory(File wdFile, String name) {
         if (cache == null)
-            cache = new WeakHashMap(8);
+            cache = new WeakHashMap<>(8);
 
         if (!WorkDirectory.isWorkDirectory(wdFile))
             return null;
@@ -143,9 +139,9 @@ public class FileHistory
         // collecting up to count entries. Non-existent entries are
         // skipped but not deleted because they might be for other
         // platforms.
-        Vector v = new Vector();
+        Vector<File> v = new Vector<>();
         for (int i = 0; i < entries.size() && v.size() < count; i++) {
-            File f = (File) (entries.elementAt(i));
+            File f = entries.elementAt(i);
             if (f.exists())
                 v.add(f);
         }
@@ -169,7 +165,7 @@ public class FileHistory
         // skipped but not deleted because they might be for other
         // platforms.
         for (int i = 0; i < entries.size(); i++) {
-            File f = (File) (entries.elementAt(i));
+            File f = entries.elementAt(i);
             if (f.exists())
                 return f;
         }
@@ -181,7 +177,7 @@ public class FileHistory
         ensureEntriesUpToDate();
 
         for (int i = 0; i < entries.size(); i++) {
-            File f = (File) (entries.elementAt(i));
+            File f = entries.elementAt(i);
             if (f.exists()) {
                 return f;
             } else {
@@ -201,7 +197,7 @@ public class FileHistory
 
 
     private FileHistory(WorkDirectory workDir, String name) {
-        workDirRef = new WeakReference(workDir); // just used for logging errors
+        workDirRef = new WeakReference<>(workDir); // just used for logging errors
         this.name = name;
         historyFile = workDir.getSystemFile(name);
     }
@@ -213,7 +209,7 @@ public class FileHistory
 
     private void readEntries() {
         if (entries == null)
-            entries = new Vector();
+            entries = new Vector<>();
         else
             entries.clear();
 
@@ -230,7 +226,7 @@ public class FileHistory
                 br.close();
             }
             catch (IOException e) {
-                WorkDirectory workDir = (WorkDirectory) (workDirRef.get());
+                WorkDirectory workDir = workDirRef.get();
                 workDir.log(i18n, "fh.cantRead", new Object[] { name, e } );
             }
 
@@ -252,7 +248,7 @@ public class FileHistory
             bw.close();
         }
         catch (IOException e) {
-            WorkDirectory workDir = (WorkDirectory) (workDirRef.get());
+            WorkDirectory workDir = workDirRef.get();
             workDir.log(i18n, "fh.cantWrite", new Object[] { name, e } );
         }
 
@@ -399,11 +395,11 @@ public class FileHistory
         private ActionListener clientListener;
     }
 
-    private WeakReference workDirRef;
+    private WeakReference<WorkDirectory> workDirRef;
     private String name;
     private File historyFile;
     private long historyFileLastModified;
-    private Vector entries;
+    private Vector<File> entries;
 
     /**
      * The name of the client property used to access the File that identifies
@@ -412,7 +408,7 @@ public class FileHistory
      */
     public static final String FILE = "file";
 
-    private static WeakHashMap cache;
+    private static WeakHashMap<WorkDirectory, Map<String, FileHistory>> cache;
     private static final String FILE_HISTORY = "fileHistory";
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(FileHistory.class);
 

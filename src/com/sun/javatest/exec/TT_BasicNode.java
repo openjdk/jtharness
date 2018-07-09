@@ -45,7 +45,7 @@ import javax.swing.tree.TreeNode;
  */
 public class TT_BasicNode extends TT_TreeNode {
 
-    TT_BasicNode(TT_BasicNode parent, TRT_TreeNode tn, Comparator comp) {
+    TT_BasicNode(TT_BasicNode parent, TRT_TreeNode tn, Comparator<String> comp) {
         this.comp = comp;
         this.parent = parent;
         this.tn = tn;
@@ -54,10 +54,10 @@ public class TT_BasicNode extends TT_TreeNode {
     public Enumeration children() {
         updateNode();
 
-        ArrayList<TreeNode> copy = null;
+        ArrayList<TT_TreeNode> copy = null;
         synchronized (children) {
             // shallow copy child list?
-            copy = (ArrayList<TreeNode>) children.clone();
+            copy = new ArrayList<>(children);
         }
 
         final Iterator it = copy.iterator();
@@ -267,7 +267,7 @@ public class TT_BasicNode extends TT_TreeNode {
        }
     }
 
-    TreeModelEvent addTest(final TT_TestNode tn, Comparator sortComparator) {
+    TreeModelEvent addTest(final TT_TestNode tn, Comparator<String> sortComparator) {
         if (updateNode()) {
             //Debug.println("Ignoring add of " + tn.getDisplayName());
             return null;

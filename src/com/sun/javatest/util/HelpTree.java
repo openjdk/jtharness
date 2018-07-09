@@ -286,14 +286,14 @@ public class HelpTree
     }
 
     private Selection find(String[] words, int mode) {
-        Map map = null;
+        Map<Node, Selection> map = null;
 
         for (int i = 0; i < nodes.length; i++) {
             Node node = nodes[i];
             Selection s = find(node, words, mode);
             if (s != null) {
                 if (map == null)
-                    map = new TreeMap(nodeComparator);
+                    map = new TreeMap<>(nodeComparator);
                 map.put(node, s);
             }
         }
@@ -316,14 +316,14 @@ public class HelpTree
         if (node.children == null)
             return null;
 
-        Map map = null;
+        Map<Node, Selection> map = null;
 
         for (int i = 0; i < node.children.length; i++) {
             Node child = node.children[i];
             Selection s = find(child, words, mode);
             if (s != null) {
                 if (map == null)
-                    map = new TreeMap(nodeComparator);
+                    map = new TreeMap<>(nodeComparator);
                 map.put(child, s);
             }
         }

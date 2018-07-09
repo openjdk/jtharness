@@ -597,7 +597,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
         testSuite = ts;
     }
 
-    public Map getCustomRenderersMap() {
+    public Map<Class<? extends Question>, QuestionRenderer> getCustomRenderersMap() {
         return customRenderers;
     }
 

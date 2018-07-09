@@ -56,10 +56,10 @@ public class PlainTextReport implements ReportFormat {
 
         File[] initFiles = s.getInitialFiles();
 
-        SortedSet tests = new TreeSet(new TestResultsByFileComparator());
+        SortedSet<TestResult> tests = new TreeSet<>(new TestResultsByFileComparator());
         int width = 0;
 
-        Iterator iter = null;
+        Iterator<TestResult> iter = null;
         try {
             if (initFiles == null) {
                 iter = resultTable.getIterator(new TestFilter[] {s.filter});
@@ -73,7 +73,7 @@ public class PlainTextReport implements ReportFormat {
         }   // catch
 
         for (; iter.hasNext(); ) {
-            TestResult tr = (TestResult) (iter.next());
+            TestResult tr = iter.next();
             // build a list of TestResults, sorted by test name
             width = Math.max(width, tr.getTestName().length());
             tests.add(tr);
@@ -81,7 +81,7 @@ public class PlainTextReport implements ReportFormat {
 
         TextWriter out = new TextWriter(openWriter(dir, files[SMRY_TXT]));
         for (iter = tests.iterator(); iter.hasNext(); ) {
-            TestResult tr = (TestResult) (iter.next());
+            TestResult tr = iter.next();
             String u = tr.getTestName();
             out.print(u);
             for (int sp = u.length(); sp < width; sp++)

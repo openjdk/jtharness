@@ -468,7 +468,7 @@ public class BinaryTestFinder extends TestFinder
         TestDescription get(File root, File file, int index) throws IOException {
             bais.reset();
             bais.skip(index);
-            Map m = new HashMap();
+            Map<String, String> m = new HashMap<>();
             DataInputStream in = new DataInputStream(bais);
             int n = readInt(in);
             for (int i = 0; i < n; i++) {

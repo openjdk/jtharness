@@ -29,10 +29,7 @@ package com.sun.javatest.report;
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 import com.sun.interview.WizPrint;
 import com.sun.javatest.ExcludeList;
@@ -383,7 +380,7 @@ class ConfigSection extends HTMLSection {
             out.endTag(HTMLWriterEx.H2);
         }
 
-        SortedSet envTable = new TreeSet(new StringArrayComparator());
+        Set<String[]> envTable = new TreeSet<>(new StringArrayComparator());
 
         for (Iterator i = env.elements().iterator(); i.hasNext(); ) {
             TestEnvironment.Element envElem = (TestEnvironment.Element) (i.next());
@@ -419,9 +416,9 @@ class ConfigSection extends HTMLSection {
             out.writeI18N("config.excl.none");
         }
         else {
-            SortedSet sortedEntries = new TreeSet(new ExcludeListEntryComparator());
+            SortedSet<ExcludeList.Entry> sortedEntries = new TreeSet<>(new ExcludeListEntryComparator());
             for (Iterator iter = excludeList.getIterator(false); iter.hasNext(); )
-                sortedEntries.add(iter.next());
+                sortedEntries.add((ExcludeList.Entry)iter.next());
 
             out.startTag(HTMLWriterEx.TABLE);
             out.writeAttr(HTMLWriterEx.BORDER, 1);
@@ -479,11 +476,9 @@ class ConfigSection extends HTMLSection {
         out.endTag(HTMLWriterEx.TD);
     }
 
-    private static class ExcludeListEntryComparator implements Comparator
+    private static class ExcludeListEntryComparator implements Comparator<ExcludeList.Entry>
     {
-        public int compare(Object o1, Object o2) {
-            ExcludeList.Entry e1 = (ExcludeList.Entry) o1;
-            ExcludeList.Entry e2 = (ExcludeList.Entry) o2;
+        public int compare(ExcludeList.Entry e1, ExcludeList.Entry e2) {
             int x = compare(e1.getRelativeURL(), e2.getRelativeURL());
             if (x == 0)
                 x = compare(e1.getTestCases(), e2.getTestCases());

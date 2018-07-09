@@ -86,7 +86,7 @@ public class SysEnv
         if (values == null)
             initValues();
 
-        return (String) (values.get(name));
+        return values.get(name);
     }
 
     /**
@@ -95,7 +95,7 @@ public class SysEnv
      * @return a map containing all the known environment variables.
      */
     public static Map getAll() {
-        return getAll(new HashMap());
+        return getAll(new HashMap<String, String>());
     }
 
     /**
@@ -105,7 +105,7 @@ public class SysEnv
      * environment variables in the current execution context.
      * @return the argument map.
      */
-    public static Map getAll(Map m) {
+    public static Map getAll(Map<String, String> m) {
         if (values == null)
             initValues();
 
@@ -114,7 +114,7 @@ public class SysEnv
     }
 
     private static void initValues() {
-        values = new HashMap();
+        values = new HashMap<>();
 
         if (command == null)
             command = getDefaultCommand();
@@ -171,6 +171,6 @@ public class SysEnv
     }
 
     private static String command;
-    private static Map values;
+    private static Map<String, String> values;
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(SysEnv.class);
 }

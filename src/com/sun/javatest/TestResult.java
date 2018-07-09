@@ -32,21 +32,10 @@ import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
-import com.sun.javatest.util.BackupPolicy;
-import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.*;
 import com.sun.javatest.util.Properties;
-import com.sun.javatest.util.PropertyArray;
-import com.sun.javatest.util.StringArray;
-import com.sun.javatest.util.DynamicArray;
 
 /**
  * The TestResult object encapsulates the results from a test.
@@ -368,7 +357,7 @@ public class TestResult {
 
         // ---------- PACKAGE PRIVATE ----------
 
-        Section(String title) {
+        public Section(String title) {
             if (title == null)
                 throw new NullPointerException();
             if (title.indexOf(' ') != -1)
@@ -1649,7 +1638,7 @@ public class TestResult {
             out.write(JTR_V2_TESTDESC);
             out.write(lineSeparator);
 
-            Properties tdProps = new Properties();
+            Map<String, String> tdProps = new HashMap<>();
             desc.save(tdProps);
             PropertyArray.save(PropertyArray.getArray(tdProps), out);
             out.write(lineSeparator);
@@ -1717,7 +1706,7 @@ public class TestResult {
      */
     public synchronized void addObserver(Observer obs) {
         if (isMutable()) {
-            Observer[] observers = (Observer[])observersTable.get(this);
+            Observer[] observers = observersTable.get(this);
 
             if (observers == null) observers = new Observer[0];
 
@@ -1731,7 +1720,7 @@ public class TestResult {
      * @param obs the observer to be removed
      */
     public synchronized void removeObserver(Observer obs) {
-        Observer[] observers = (Observer[])observersTable.get(this);
+        Observer[] observers = observersTable.get(this);
         if (observers == null)
             return;
 
@@ -1880,7 +1869,7 @@ public class TestResult {
         this.endTime = endTime;
     }
 
-    void shareStatus(Hashtable[] tables) {
+    void shareStatus(Map<String, Status>[] tables) {
         execStatus = shareStatus(tables, execStatus);
     }
 
@@ -1901,7 +1890,7 @@ public class TestResult {
             return null;
         }
 
-        Vector tagV = new Vector(sections.length * 2);
+        Vector<String> tagV = new Vector<>(sections.length * 2);
 
         for (int i = 0; i < sections.length; i++) {
             String[] names = sections[i].getOutputNames();
@@ -2132,7 +2121,7 @@ public class TestResult {
         pairs = null;
 
         if (desc == null) {
-            File path = new File((String)(PropertyArray.get(props, "testsuite")));
+            File path = new File(PropertyArray.get(props, "testsuite"));
             if (!path.isDirectory())
                 path = new File(path.getParent());
             File file = new File(PropertyArray.get(props, "file"));
@@ -2413,10 +2402,10 @@ public class TestResult {
         }
     }
 
-    private static Status shareStatus(Hashtable[] tables, Status s) {
+    private static Status shareStatus(Map<String, Status>[] tables, Status s) {
         int type = s.getType();
         String reason = s.getReason();
-        Status result = (Status)tables[type].get(reason);
+        Status result = tables[type].get(reason);
         if (result == null) {
             tables[type].put(reason, s);
             result = s;
@@ -2433,7 +2422,7 @@ public class TestResult {
      * @param section The section that was created.
      */
     private synchronized void notifyCreatedSection(Section section) {
-        Observer[] observers = (Observer[])(observersTable.get(this));
+        Observer[] observers = observersTable.get(this);
         if (observers != null)
             for (int i = 0; i < observers.length; i++)
                 observers[i].createdSection(this, section);
@@ -2445,7 +2434,7 @@ public class TestResult {
      * @param section The section that was completed.
      */
     private synchronized void notifyCompletedSection(Section section) {
-        Observer[] observers = (Observer[])(observersTable.get(this));
+        Observer[] observers = observersTable.get(this);
         if (observers != null)
             for (int i = 0; i < observers.length; i++)
                 observers[i].completedSection(this, section);
@@ -2458,7 +2447,7 @@ public class TestResult {
      * @param outputName The name of the output.
      */
     private synchronized void notifyCreatedOutput(Section section, String outputName) {
-        Observer[] observers = (Observer[])(observersTable.get(this));
+        Observer[] observers = observersTable.get(this);
         if (observers != null)
             for (int i = 0; i < observers.length; i++)
                 observers[i].createdOutput(this, section, outputName);
@@ -2471,7 +2460,7 @@ public class TestResult {
      * @param outputName The name of the output.
      */
     private synchronized void notifyCompletedOutput(Section section, String outputName) {
-        Observer[] observers = (Observer[])(observersTable.get(this));
+        Observer[] observers = observersTable.get(this);
         if (observers != null)
             for (int i = 0; i < observers.length; i++)
                 observers[i].completedOutput(this, section, outputName);
@@ -2485,7 +2474,7 @@ public class TestResult {
      * @param text The text that was added (appended).
      */
     private synchronized void notifyUpdatedOutput(Section section, String outputName, int start, int end, String text) {
-        Observer[] observers = (Observer[])(observersTable.get(this));
+        Observer[] observers = observersTable.get(this);
         if (observers != null)
             for (int i = 0; i < observers.length; i++)
                 observers[i].updatedOutput(this, section, outputName, start, end, text);
@@ -2499,7 +2488,7 @@ public class TestResult {
      */
     private synchronized void notifyUpdatedOutput(Section section, String outputName, int start, int end,
                                                   char[] buf, int offset, int len) {
-        Observer[] observers = (Observer[])(observersTable.get(this));
+        Observer[] observers = observersTable.get(this);
         if (observers != null) {
             // only create string if there are really observers who want to see it
             String text = new String(buf, offset, len);
@@ -2515,7 +2504,7 @@ public class TestResult {
      * @param value The new value for the property.
      */
     private synchronized void notifyUpdatedProperty(String key, String value) {
-        Observer[] observers = (Observer[])(observersTable.get(this));
+        Observer[] observers = observersTable.get(this);
         if (observers != null)
             for (int i = 0; i < observers.length; i++)
                 observers[i].updatedProperty(this, key, value);
@@ -2529,7 +2518,7 @@ public class TestResult {
         // is no need to keep any observers registered after we finish here
         // so get the observers one last time, and at the same time
         // remove them from the table
-        Observer[] observers = (Observer[])(observersTable.remove(this));
+        Observer[] observers = observersTable.remove(this);
         if (observers != null) {
             for (int i = 0; i < observers.length; i++)
                 observers[i].completed(this);
@@ -2567,19 +2556,19 @@ public class TestResult {
         synchronized (shrinkList) {
             // if this object is in the list; remove it;
             // if there are dead weak refs, remove them
-            for (Iterator iter = shrinkList.iterator(); iter.hasNext(); ) {
-                WeakReference wref = (WeakReference) (iter.next());
+            for (Iterator<WeakReference<TestResult>> iter = shrinkList.iterator(); iter.hasNext(); ) {
+                WeakReference wref = iter.next();
                 Object o = wref.get();
                 if (o == null || o == this)
                     iter.remove();
             }
             while (shrinkList.size() >= maxShrinkListSize) {
-                WeakReference wref = (WeakReference) (shrinkList.removeFirst());
+                WeakReference wref = shrinkList.removeFirst();
                 TestResult tr = (TestResult) (wref.get());
                 if (tr != null)
                     tr.shrink();
             }
-            shrinkList.addLast(new WeakReference(this));
+            shrinkList.addLast(new WeakReference<>(this));
         }
     }
 
@@ -2623,7 +2612,7 @@ public class TestResult {
     // because so few test results will typically be observed (e.g. at most one)
     // we don't use a per-instance array of observers, but instead associate any
     // such arrays here.
-    private static Hashtable observersTable = new Hashtable(16);
+    private static Map<TestResult, Observer[]> observersTable = new Hashtable<>(16);
 
     /**
      * The name of the default output that all Sections are equipped with.
@@ -2752,7 +2741,7 @@ public class TestResult {
     private static final int DEFAULT_MAX_SHRINK_LIST_SIZE = 128;
     private static final int maxShrinkListSize =
         Integer.getInteger("javatest.numCachedResults", DEFAULT_MAX_SHRINK_LIST_SIZE).intValue();
-    private static LinkedList shrinkList = new LinkedList();
+    private static LinkedList<WeakReference<TestResult>> shrinkList = new LinkedList<>();
 
     private static final int DEFAULT_MAX_OUTPUT_SIZE = 100000;
     private static final int commonOutputSize =

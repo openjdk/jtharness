@@ -29,6 +29,8 @@ package com.sun.javatest.httpd;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.Map;
 
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
@@ -391,7 +393,7 @@ public class ProviderRegistry {
     /**
      * Maps the url to a HandlerEntry
      */
-    protected Hashtable url2prov = new Hashtable();
+    protected Map<String, Object> url2prov = new Hashtable<>();
 
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ProviderRegistry.class);
     protected static boolean debug = Boolean.getBoolean("debug." + ProviderRegistry.class.getName());
@@ -430,7 +432,7 @@ public class ProviderRegistry {
     }
 
     protected static class IndexHandler extends JThttpProvider {
-        IndexHandler(Hashtable ht) {
+        IndexHandler(Map<String, Object> ht) {
             urlMap = ht;
         }
 
@@ -467,9 +469,7 @@ public class ProviderRegistry {
             HandlerEntry entry;
 
             // XXX should use set of unique entries
-            Enumeration enum_ = urlMap.elements();
-            while(enum_.hasMoreElements()) {
-                Object next = enum_.nextElement();
+            for (Object next: urlMap.values()) {
                 if (next instanceof HandlerEntry) {
                     entry = (HandlerEntry)next;
 
@@ -488,7 +488,7 @@ public class ProviderRegistry {
             out.println();
         }
 
-        private Hashtable urlMap;
+        private Map<String, Object> urlMap;
     }
 }
 

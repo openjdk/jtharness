@@ -32,8 +32,7 @@ import java.awt.GridBagConstraints;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 import javax.accessibility.AccessibleContext;
 
@@ -54,8 +53,6 @@ import com.sun.interview.PropertiesQuestion;
 import com.sun.interview.Question;
 import com.sun.javatest.tool.UIFactory;
 
-import java.util.Iterator;
-import java.util.Set;
 import javax.swing.CellEditor;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -66,7 +63,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         question = (PropertiesQuestion)qq;
 
-        tables = new HashMap();
+        tables = new HashMap<>();
 
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -97,7 +94,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
                     Set keys = tables.keySet();
                     Iterator iter = keys.iterator();
                     while(iter.hasNext()) {
-                        JTable table = (JTable)tables.get((String)iter.next());
+                        JTable table = tables.get(iter.next());
                         CellEditor editor = table.getCellEditor();
                         if(editor != null) {
                             editor.stopCellEditing();
@@ -291,11 +288,11 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
             String[][] d = q.getGroup(group);
 
             if (d != null) {
-                ArrayList rm = null;
+                ArrayList<String> rm = null;
                 for (int i = 0; i < d.length; i++) {
                     if (!q.isEntryVisible(d[i][0])) {
                         if (rm == null)
-                            rm = new ArrayList();
+                            rm = new ArrayList<>();
                         else { }
                         rm.add(d[i][0]);
                     }
@@ -324,7 +321,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
                 for (int i = 0; i < d.length; i++){
                     if (q.getPresentationKeys() != null && q.getPresentationKeys().get(d[i][0]) != null){
-                        d[i][0] = (String) q.getPresentationKeys().get(d[i][0]);
+                        d[i][0] = q.getPresentationKeys().get(d[i][0]);
                     }
                 }
 
@@ -367,7 +364,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
     }
 
     protected Runnable valueSaver;
-    protected HashMap tables;
+    protected Map<String, JTable> tables;
     protected RenderingUtilities.PropCellRenderer renderer;
     protected PropertiesQuestion question;
     protected JPanel panel;

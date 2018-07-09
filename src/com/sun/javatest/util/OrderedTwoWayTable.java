@@ -38,8 +38,8 @@ import java.util.Vector;
  */
 public class OrderedTwoWayTable {
     public OrderedTwoWayTable() {
-        keys = new Vector();
-        values = new Vector();
+        keys = new Vector<>();
+        values = new Vector<>();
     }
 
     /**
@@ -129,7 +129,7 @@ public class OrderedTwoWayTable {
         return -1;
     }
 
-    private Vector keys, values;
+    private Vector<Object> keys, values;
 }
 
 

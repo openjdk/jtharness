@@ -167,7 +167,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             // try to use filter indicated in preference
             for (int i = 0; i < allFilters.size(); i++) {
                 if (allFilters.elementAt(i).getClass().getName().equals(pref))
-                    return (TestFilter)allFilters.elementAt(i);
+                    return allFilters.elementAt(i);
             }   // for
         }
 
@@ -530,7 +530,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         }
 
         public String get(String key) {
-            return (String)(prefs.getPreference(key));
+            return prefs.getPreference(key);
         }
 
         private Preferences prefs;

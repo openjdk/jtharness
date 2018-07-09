@@ -53,7 +53,7 @@ public class AuditCommandManager extends CommandManager
 
     //----------------------------------------------------------------------------
 
-    public boolean parseCommand(String cmd, ListIterator argIter, CommandContext ctx)
+    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
         if (cmd.equalsIgnoreCase(AuditCommand.getName())) {
@@ -79,7 +79,7 @@ public class AuditCommandManager extends CommandManager
             return "audit";
         }
 
-        AuditCommand(ListIterator argIter) throws Fault {
+        AuditCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
             while (argIter.hasNext()) {

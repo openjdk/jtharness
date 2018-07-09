@@ -133,13 +133,13 @@ public class CustomReportFormat implements ReportFormat {
         if (customReports == null || customReports.length == 0) {
             return NO_REPORTS;
         }
-        return (List<CustomReport>) Arrays.asList(customReports);
+        return Arrays.asList(customReports);
     }
 
 
     private CustomReport theCustomReport;
-    private ArrayList<ReportFormat> subreports = new ArrayList<ReportFormat>();
-    private static final List<CustomReport> NO_REPORTS = (List<CustomReport>) Collections.EMPTY_LIST;
+    private ArrayList<ReportFormat> subreports = new ArrayList<>();
+    private static final List<CustomReport> NO_REPORTS = Collections.emptyList();
 
 
 }

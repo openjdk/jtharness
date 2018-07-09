@@ -337,19 +337,14 @@ public abstract class InetAddressQuestion extends Question
      * the tag as the key.
      * @param data The map from which to load the value for this question.
      */
-    protected void load(Map data) {
-        Object o = data.get(tag);
-        if (o instanceof InetAddress) {
-            setValue((InetAddress) o);
+    protected void load(Map<String, String> data) {
+        String o = data.get(tag);
+        try {
+            setValue(o);
         }
-        else if (o instanceof String) {
-            try {
-                setValue((String) o);
-            }
-            catch (Interview.Fault e) {
-                // never thrown. but just in case...
-                throw new Error(e);
-            }
+        catch (Interview.Fault e) {
+            // never thrown. but just in case...
+            throw new Error(e);
         }
     }
 
@@ -358,7 +353,7 @@ public abstract class InetAddressQuestion extends Question
      * the tag as the key.
      * @param data The map in which to save the value for this question.
      */
-    protected void save(Map data) {
+    protected void save(Map<String, String> data) {
         String s = getStringValue();
         if (s != null)
             data.put(tag, s);

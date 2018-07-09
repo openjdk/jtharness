@@ -103,7 +103,7 @@ public class MultiFormatPane extends JPanel implements Printable {
     }
 
     public MediaPane getMediaPane(int mode) {
-        return (MediaPane)modesToPanes.get(mode);
+        return modesToPanes.get(mode);
     }
 
     public void clear() {
@@ -658,7 +658,7 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
         String ext = filename.substring(filename.lastIndexOf('.') + 1);
         ext = ext.toLowerCase();
 
-        return (String)extensionsToMIME.get(ext);
+        return extensionsToMIME.get(ext);
     }
 
     public void showTextArea() {

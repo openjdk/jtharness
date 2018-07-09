@@ -147,7 +147,7 @@ public class ChoiceArrayQuestionRenderer
         }
 
         public Object getValueAt(int r, int c) {
-            return (c == 0 ? (Object) (new Boolean(values[r])) : displayChoices[r]);
+            return c == 0 ? new Boolean(values[r]) : displayChoices[r];
         }
 
         public void setValueAt(Object o, int r, int c) {

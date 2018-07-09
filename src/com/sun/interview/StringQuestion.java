@@ -181,10 +181,8 @@ public abstract class StringQuestion extends Question
      * the tag as the key.
      * @param data The map from which to load the value for this question.
      */
-    protected void load(Map data) {
-        Object o = data.get(tag);
-        if (o instanceof String)
-            setValue((String)o);
+    protected void load(Map<String, String> data) {
+        setValue(data.get(tag));
     }
 
     /**
@@ -192,7 +190,7 @@ public abstract class StringQuestion extends Question
      * the tag as the key.
      * @param data The map in which to save the value for this question.
      */
-    protected void save(Map data) {
+    protected void save(Map<String, String> data) {
         if (value != null)
             data.put(tag, value);
     }

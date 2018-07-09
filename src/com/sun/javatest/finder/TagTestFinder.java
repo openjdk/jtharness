@@ -155,7 +155,7 @@ public class TagTestFinder extends TestFinder
      *                  A class to read files of a particular extension.
      *                  The class must be a subtype of CommentStream
      */
-    public void addExtension(String extn, Class commentStreamClass) {
+    public void addExtension(String extn, Class<? extends CommentStream> commentStreamClass) {
         if (!extn.startsWith("."))
             throw new IllegalArgumentException("extension must begin with `.'");
         if (!CommentStream.class.isAssignableFrom(commentStreamClass))
@@ -169,8 +169,8 @@ public class TagTestFinder extends TestFinder
      * @param extn The extension in question
      * @return the class previously registered with addExtension
      */
-    public Class getClassForExtension(String extn) {
-        return (Class)extensionTable.get(extn);
+    public Class<? extends CommentStream> getClassForExtension(String extn) {
+        return extensionTable.get(extn);
     }
 
     /**
@@ -251,14 +251,14 @@ public class TagTestFinder extends TestFinder
         if (dot == -1)
             return;
         String extn = name.substring(dot);
-        Class csc = (Class)(extensionTable.get(extn));
+        Class<? extends CommentStream> csc = extensionTable.get(extn);
         if (csc == null) {
             error(i18n, "tag.noParser", new Object[] {file, extn});
             return;
         }
         CommentStream cs = null;
         try {
-            cs = (CommentStream)(csc.newInstance());
+            cs = csc.newInstance();
         }
         catch (InstantiationException e) {
             error(i18n, "tag.cantCreateClass", new Object[] {csc.getName(), extn});
@@ -276,7 +276,7 @@ public class TagTestFinder extends TestFinder
 
             String comment;
             while ((comment = cs.readComment()) != null) {
-                Map tagValues = parseComment(comment, file);
+                Map<String, String> tagValues = parseComment(comment, file);
                 if (tagValues.isEmpty())
                     continue;
 
@@ -320,8 +320,8 @@ public class TagTestFinder extends TestFinder
      * @param currFile  The name of the file currently being read.
      * @return A map containing the name-value pairs read from the comment.
      */
-    protected Map parseComment(String comment, File currFile) {
-        Map tagValues = new HashMap();
+    protected Map<String, String> parseComment(String comment, File currFile) {
+        Map<String, String> tagValues = new HashMap<>();
         int tagStart = 0;
         int tagEnd   = 0;
 
@@ -399,8 +399,8 @@ public class TagTestFinder extends TestFinder
     //----------member variables------------------------------------------------
 
     private File currFile;
-    private HashMap excludeList   = new HashMap();
-    private HashMap extensionTable = new HashMap();
+    private Map<String, String> excludeList   = new HashMap<>();
+    private Map<String, Class<? extends CommentStream>> extensionTable = new HashMap<>();
     private boolean fastScan = false;
     private String initialTag = "test";
 
