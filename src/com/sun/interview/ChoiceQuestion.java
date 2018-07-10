@@ -138,9 +138,9 @@ public abstract class ChoiceQuestion extends Question
                 interview.updatePath(this);
                 interview.setEdited(true);
             } else {
-                for (int i = 0; i < choices.length; i++) {
-                    if (value.equals(choices[i])) {
-                        value = choices[i];
+                for (String choice : choices) {
+                    if (value.equals(choice)) {
+                        value = choice;
                         return;
                     }
                 }
@@ -304,9 +304,9 @@ public abstract class ChoiceQuestion extends Question
         }
         else {
             // try and canonicalize newValue to one of the specified choices
-            for (int i = 0; i < choices.length; i++) {
-                if (newValue.equals(choices[i])) {
-                    newValue = choices[i];
+            for (String choice : choices) {
+                if (newValue.equals(choice)) {
+                    newValue = choice;
                     break;
                 }
             }
@@ -321,8 +321,8 @@ public abstract class ChoiceQuestion extends Question
 
     public boolean isValueValid() {
         // value is valid if it matches one of the specified choices
-        for (int i = 0; i < choices.length; i++) {
-            if (value == null ? choices[i] == null : value.equals(choices[i]))
+        for (String choice : choices) {
+            if (value == null ? choice == null : value.equals(choice))
                 return true;
         }
         return false;

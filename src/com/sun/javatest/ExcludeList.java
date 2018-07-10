@@ -137,8 +137,8 @@ public class ExcludeList
         throws FileNotFoundException, IOException, Fault
     {
         setStrictModeEnabled(strict);
-        for (int i = 0; i < files.length; i++) {
-            ExcludeList et = new ExcludeList(files[i], strict);
+        for (File file : files) {
+            ExcludeList et = new ExcludeList(file, strict);
             merge(et);
         }
     }
@@ -370,8 +370,7 @@ public class ExcludeList
         }
         else {
             Entry[] entries = (Entry[])o;
-            for (int i = 0; i < entries.length; i++) {
-                Entry e = entries[i];
+            for (Entry e : entries) {
                 if (isInList(e.testCase, testCase))
                     return e;
             }
@@ -416,11 +415,10 @@ public class ExcludeList
                     String[] bugIdStrings = otherEntry.bugIdStrings;
                     String[] platforms = otherEntry.platforms;
                     String synopsis = otherEntry.synopsis;
-                    Entry[] curr = (Entry[])o;
-                    for (int i = 0; i < curr.length; i++) {
-                        bugIdStrings = mergeBugIds(bugIdStrings, curr[i].bugIdStrings);
-                        platforms = mergePlatforms(platforms, curr[i].platforms);
-                        synopsis = mergeSynopsis(synopsis, curr[i].synopsis);
+                    for (Entry entry : (Entry[])o) {
+                        bugIdStrings = mergeBugIds(bugIdStrings, entry.bugIdStrings);
+                        platforms = mergePlatforms(platforms, entry.platforms);
+                        synopsis = mergeSynopsis(synopsis, entry.synopsis);
                     }
                     table.put(key, new Entry(otherEntry.relativeURL, null,
                                              bugIdStrings, platforms, synopsis));
@@ -512,10 +510,9 @@ public class ExcludeList
     public int size() {
         // ouch, this is now expensive to compute
         int n = 0;
-        for (Iterator i = table.values().iterator(); i.hasNext(); ) {
-            Object o = i.next();
+        for (Object o : table.values()) {
             if (o instanceof Entry[])
-                n += ((Entry[])o).length;
+                n += ((Entry[]) o).length;
             else
                 n++;
         }
@@ -534,21 +531,18 @@ public class ExcludeList
      * and @link(Entry)[], depending on the <code>group</code>
      * parameter.
      */
-    public Iterator getIterator(boolean group) {
+    public Iterator<Object> getIterator(boolean group) {
         if (group)
             return table.values().iterator();
         else {
             // flatten the enumeration into a vector, then
             // enumerate that
             Vector<Object> v = new Vector<>(table.size());
-            for (Iterator iter = table.values().iterator(); iter.hasNext(); ) {
-                Object o = iter.next();
+            for (Object o : table.values()) {
                 if (o instanceof Entry)
                     v.addElement(o);
                 else {
-                    Entry[] entries = (Entry[])o;
-                    for (int i = 0; i < entries.length; i++)
-                        v.addElement(entries[i]);
+                    for (Entry entry : (Entry[]) o) v.addElement(entry);
                 }
             }
             return v.iterator();
@@ -606,8 +600,7 @@ public class ExcludeList
             out.write("### title " + title);
             out.newLine();
         }
-        for (Iterator iter = entries.iterator(); iter.hasNext(); ) {
-            Entry e = (Entry) (iter.next());
+        for (Entry e : entries) {
             if (e.testCase == null)
                 write(out, e.relativeURL, maxURLWidth + 2);
             else

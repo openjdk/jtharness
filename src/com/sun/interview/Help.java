@@ -98,7 +98,7 @@ public class Help {
 
         HelpSet hs = getHelpSet(i);
         if (hs != null) {
-            Map m = hs.getLocalMap();
+            Map<String, URL> m = hs.getLocalMap();
             if (m != null) {
                 helpId = HelpID.create(key, hs);
                 //System.err.println("Q: FOUND int:" + i.getTag() + " key:" + key + " helpId:" + helpId);

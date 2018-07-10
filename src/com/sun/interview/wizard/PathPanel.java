@@ -282,8 +282,7 @@ class PathPanel extends JPanel
         //----- state support for menus -----------------------------
 
         boolean isQuestionVisible(Question q) {
-            for (int i = 0; i < currEntries.length; i++) {
-                Object e = currEntries[i];
+            for (Object e : currEntries) {
                 if (e instanceof Question && e == q)
                     return true;
                 else if (e instanceof List && ((List) e).contains(q))

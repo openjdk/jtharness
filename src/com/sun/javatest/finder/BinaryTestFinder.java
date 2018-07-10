@@ -211,9 +211,9 @@ public class BinaryTestFinder extends TestFinder
             // simulate files to be scanned for child nodes
             TestTree.Node[] children = node.children;
             if (children != null) {
-                for (int i = 0; i < children.length; i++) {
-                    File f = (relPath.length() == 0 ? new File(children[i].name) :
-                                            new File(relPath, children[i].name));
+                for (TestTree.Node child : children) {
+                    File f = (relPath.length() == 0 ? new File(child.name) :
+                            new File(relPath, child.name));
                     foundFile(f);
                 }
             }

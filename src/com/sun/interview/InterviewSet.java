@@ -177,14 +177,12 @@ public class InterviewSet
         List<Interview> list = new ArrayList<>();
         Set<Interview> cycleSet = new HashSet<>();
 
-        for (Iterator iter = children.iterator(); iter.hasNext(); ) {
-            Interview child = (Interview) (iter.next());
+        for (Interview child : children) {
             if (!list.contains(child))
                 addToList(list, child, cycleSet);
         }
 
-        for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-            Interview i = (Interview) (iter.next());
+        for (Interview i : list) {
             System.err.println(i.getTag() + " " + i);
         }
 

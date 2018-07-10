@@ -105,8 +105,8 @@ public abstract class ChoiceArrayQuestion extends Question
         if (choices == null)
             throw new NullPointerException();
 
-        for (int i = 0; i < choices.length; i++) {
-            if (choices[i] == null)
+        for (String choice : choices) {
+            if (choice == null)
                 throw new NullPointerException();
         }
 

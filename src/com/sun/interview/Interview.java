@@ -535,7 +535,7 @@ public class Interview
         return null;
     }
 
-    Set getInterviews() {
+    Set<Interview> getInterviews() {
         Set<Interview> s = new HashSet<>();
         getInterviews0(s);
         return s;
@@ -1168,8 +1168,7 @@ public class Interview
             Question q = (Question) (iter.next());
             Checklist.Item[] items = q.getChecklistItems();
             if (items != null) {
-                for (int i = 0; i < items.length; i++)
-                    c.add(items[i]);
+                for (Checklist.Item item : items) c.add(item);
             }
         }
         return c;
@@ -1262,7 +1261,7 @@ public class Interview
         if (allMarkers == null)
             return;
 
-        Set markersForName = allMarkers.get(name);
+        Set<Question> markersForName = allMarkers.get(name);
         if (markersForName == null)
             return;
 
@@ -1335,15 +1334,14 @@ public class Interview
         if (allMarkers == null) // no markers at all
             return;
 
-        Set markersForName = allMarkers.get(name);
+        Set<Question> markersForName = allMarkers.get(name);
         if (markersForName == null) // no markers for this name
             return;
 
         updateEnabled = false;
         Question oldCurrentQuestion = getCurrentQuestion();
 
-        for (Iterator iter = markersForName.iterator(); iter.hasNext(); ) {
-            Question q = (Question) (iter.next());
+        for (Question q : markersForName) {
             q.clear();
         }
 
@@ -1410,15 +1408,13 @@ public class Interview
             return;
 
         int i = 0;
-        for (Iterator<Map.Entry<String, Set<Question>>> iter = allMarkers.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry<String, Set<Question>> e = iter.next();
+        for (Map.Entry<String, Set<Question>> e : allMarkers.entrySet()) {
             String name = e.getKey();
             Set<Question> markersForName = e.getValue();
             if (name != null)
                 data.put(MARKERS_PREF + i + ".name", name);
             StringBuffer sb = new StringBuffer();
-            for (Iterator<Question> qIter = markersForName.iterator(); qIter.hasNext(); ) {
-                Question q = qIter.next();
+            for (Question q : markersForName) {
                 if (sb.length() > 0)
                     sb.append('\n');
                 sb.append(q.getTag());
@@ -1456,8 +1452,7 @@ public class Interview
      */
     public void clear() {
         updateEnabled = false;
-        for (Iterator<Question> iter = allQuestions.values().iterator(); iter.hasNext(); ) {
-            Question q = iter.next();
+        for (Question q : allQuestions.values()) {
             q.clear();
         }
 
@@ -1512,13 +1507,11 @@ public class Interview
 
         // clear all the answers in this interview before loading an
         // responses from the archive
-        for (Iterator<Question> iter = allQuestions.values().iterator(); iter.hasNext(); ) {
-            Question q = iter.next();
+        for (Question q : allQuestions.values()) {
             q.clear();
         }
 
-        for (Iterator<Question> iter = allQuestions.values().iterator(); iter.hasNext(); ) {
-            Question q = iter.next();
+        for (Question q : allQuestions.values()) {
             q.load(data);
         }
 
@@ -1568,27 +1561,21 @@ public class Interview
             writeLocale(data);
 
             if (extraValues != null && extraValues.size() > 0) {
-                Set keys = getPropertyKeys();
-                Iterator it = keys.iterator();
-                while (it.hasNext()) {
-                    Object key = it.next();
+                Set<String> keys = getPropertyKeys();
+                for (String key : keys) {
                     data.put(EXTERNAL_PREF + key, extraValues.get(key));
                 }   // while
             }
 
             if (templateValues != null && templateValues.size() > 0) {
-                Set keys = templateValues.keySet();
-                Iterator it = keys.iterator();
-                while (it.hasNext()) {
-                    String key = (String)it.next();
+                Set<String> keys = templateValues.keySet();
+                for (String key : keys) {
                     data.put(TEMPLATE_PREF + key, retrieveTemplateProperty(key));
                 }   // while
             }
 
         }
-
-        for (Iterator<Question> iter = allQuestions.values().iterator(); iter.hasNext(); ) {
-            Question q = iter.next();
+        for (Question q : allQuestions.values()) {
             try {
                 q.save(data);
             }
@@ -1598,8 +1585,7 @@ public class Interview
             }
         }
 
-        for (int i = 0; i < children.size(); i++) {
-            Interview child = children.elementAt(i);
+        for (Interview child : children) {
             child.save(data);
         }
 
@@ -1765,35 +1751,32 @@ public class Interview
             export0(data, hiddenPath, true);
     }
 
-    private void export0(Map<String, String> data, ArrayList<Question> path, boolean processHidden) {
-        for (int i = 0; i < path.size(); i++) {
+    private void export0(Map<String, String> data, ArrayList<Question> paths, boolean processHidden) {
+        for (Question path : paths) {
             try {
-                if (path.get(i) instanceof InterviewQuestion) {
+                if (path instanceof InterviewQuestion) {
                     if (!processHidden)
-                        ((InterviewQuestion)path.get(i)).getTargetInterview().export(data);
+                        ((InterviewQuestion) path).getTargetInterview().export(data);
                     else
                         continue;
+                } else {
+                    path.export(data);
                 }
-                else {
-                    path.get(i).export(data);
-                }
-            }
-            catch (RuntimeException e) {
+            } catch (RuntimeException e) {
                 switch (exportIgnoreExceptionPolicy) {
-                case EXPORT_IGNORE_ALL_EXCEPTIONS:
-                case EXPORT_IGNORE_RUNTIME_EXCEPTIONS:
-                    break;
-                case EXPORT_IGNORE_NO_EXCEPTIONS:
-                    throw e;
+                    case EXPORT_IGNORE_ALL_EXCEPTIONS:
+                    case EXPORT_IGNORE_RUNTIME_EXCEPTIONS:
+                        break;
+                    case EXPORT_IGNORE_NO_EXCEPTIONS:
+                        throw e;
                 }
-            }
-            catch (Error e) {
+            } catch (Error e) {
                 switch (exportIgnoreExceptionPolicy) {
-                case EXPORT_IGNORE_ALL_EXCEPTIONS:
-                    break;
-                case EXPORT_IGNORE_RUNTIME_EXCEPTIONS:
-                case EXPORT_IGNORE_NO_EXCEPTIONS:
-                    throw e;
+                    case EXPORT_IGNORE_ALL_EXCEPTIONS:
+                        break;
+                    case EXPORT_IGNORE_RUNTIME_EXCEPTIONS:
+                    case EXPORT_IGNORE_NO_EXCEPTIONS:
+                        throw e;
                 }
             }
         }
@@ -1902,8 +1885,8 @@ public class Interview
         if (o == null)
             throw new NullPointerException();
 
-        for (int i = 0; i < observers.length; i++) {
-            if (observers[i] == o) {
+        for (Observer observer : observers) {
+            if (observer == o) {
                 return true;
             }
         }
@@ -1917,8 +1900,7 @@ public class Interview
     }
 
     private void notifyPathUpdated() {
-        for (int i = 0; i < observers.length; i++)
-            observers[i].pathUpdated();
+        for (Observer observer : observers) observer.pathUpdated();
     }
 
     private Observer[] observers = new Observer[0];
@@ -1953,16 +1935,14 @@ public class Interview
         // update the tags for the questions in the interview
         // and rebuild the tag map
         Map<String, Question> newAllQuestions = new LinkedHashMap<>();
-        for (Iterator<Question> iter = allQuestions.values().iterator(); iter.hasNext(); ) {
-            Question q = iter.next();
+        for (Question q : allQuestions.values()) {
             q.updateTag();
             newAllQuestions.put(q.getTag(), q);
         }
         allQuestions = newAllQuestions;
 
         // recursively update children
-        for (Iterator iter = children.iterator(); iter.hasNext(); ) {
-            Interview i = (Interview) (iter.next());
+        for (Interview i : children) {
             i.updateTags();
         }
     }
@@ -2182,7 +2162,7 @@ public class Interview
      * @see #storeProperty
      * @see #retrieveProperty
      */
-    public Set getPropertyKeys() {
+    public Set<String> getPropertyKeys() {
         if (getParent() != null)
             return parent.getPropertyKeys();
         else {
@@ -2216,14 +2196,12 @@ public class Interview
             extraValues.clear();
         }
 
-        Set keys = data.keySet();
-        Iterator it = keys.iterator();
+        Set<String> keys = data.keySet();
 
-        while (it.hasNext()) {
+        for (String key : keys) {
             // look for special external value keys
             // should consider removing it from data, is it safe to alter
             // that object?
-            String key = (String)(it.next());
             if (key.startsWith(EXTERNAL_PREF)) {
                 if (extraValues == null)
                     extraValues = new HashMap<>();
@@ -2242,11 +2220,8 @@ public class Interview
             templateValues.clear();
         }
 
-        Set keys = data.keySet();
-        Iterator it = keys.iterator();
-
-        while (it.hasNext()) {
-            String key = (String)(it.next());
+        Set<String> keys = data.keySet();
+        for (String key : keys) {
             if (key.startsWith(TEMPLATE_PREF)) {
                 ensureTemValuesInitialized();
                 String val = data.get(key);
@@ -2258,8 +2233,7 @@ public class Interview
 
     public void propagateTemplateForAll() {
         ensureTemValuesInitialized();
-        for (Iterator iter = getAllQuestions().values().iterator(); iter.hasNext(); ) {
-            Question q = (Question) (iter.next());
+        for (Question q : getAllQuestions().values()) {
                 q.load(templateValues);
         }
     }
@@ -2376,12 +2350,9 @@ public class Interview
     }
 
     private void verifyPredictPath(){
-        for (Object o : getInterviews()){
-            if (o instanceof Interview){
-                Interview i = (Interview) o;
-                if (i.path != null && i.currIndex >= i.path.size()){
-                    i.currIndex = i.path.size()-1;
-                }
+        for (Interview i : getInterviews()) {
+            if (i.path != null && i.currIndex >= i.path.size()) {
+                i.currIndex = i.path.size() - 1;
             }
         }
     }

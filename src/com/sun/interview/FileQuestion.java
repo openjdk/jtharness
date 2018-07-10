@@ -67,8 +67,8 @@ public abstract class FileQuestion extends Question
      */
     public void setSuggestions(File[] newSuggestions) {
         if (newSuggestions != null) {
-            for (int i = 0; i < newSuggestions.length; i++) {
-                if (newSuggestions[i] == null)
+            for (File newSuggestion : newSuggestions) {
+                if (newSuggestion == null)
                     throw new IllegalArgumentException();
             }
         }
