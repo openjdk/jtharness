@@ -51,7 +51,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
 
         if (observers == null) observers = new TestResultTable.TreeNodeObserver[0];
-        observers = (TestResultTable.TreeNodeObserver[])(DynamicArray.append(observers, obs));
+        observers = DynamicArray.append(observers, obs);
         observerTable.put(this, observers);
     }
 
@@ -63,7 +63,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         if (observers == null)
             return;
 
-        observers = (TestResultTable.TreeNodeObserver[])(DynamicArray.remove(observers, obs));
+        observers = DynamicArray.remove(observers, obs);
         if (observers == null)
             observerTable.remove(this);
         else
@@ -1416,7 +1416,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
         // if no conflicts were found, append it
         if (node.filesToScan == null || i >= node.filesToScan.length)
-            node.filesToScan = (String[])DynamicArray.append(node.filesToScan, file);
+            node.filesToScan = DynamicArray.append(node.filesToScan, file);
         else {
             // name collision, ignore
             // actually, with scan suppression, this may be normal

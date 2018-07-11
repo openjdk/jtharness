@@ -479,7 +479,7 @@ public class ExcludeList
                     table.remove(key);
             }
             else {
-                Entry[] o2 = (Entry[])DynamicArray.remove((Entry[])o, e);
+                Entry[] o2 = DynamicArray.remove((Entry[])o, e);
                 if (o2 == o)
                     // not found
                     return;

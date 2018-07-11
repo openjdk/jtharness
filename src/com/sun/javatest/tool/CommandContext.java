@@ -194,7 +194,7 @@ public class CommandContext
      * @see #getHarnessObservers
      */
     public void addHarnessObserver(Harness.Observer o) {
-        harnessObservers = (Harness.Observer[]) (DynamicArray.append(harnessObservers, o));
+        harnessObservers = DynamicArray.append(harnessObservers, o);
     }
 
     /**

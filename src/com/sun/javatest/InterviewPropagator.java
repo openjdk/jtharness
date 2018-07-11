@@ -80,7 +80,7 @@ public class InterviewPropagator {
             InputStream in = null;
             PrintStream psConflicts = null;
             PrintStream psUpdates = null;
-            boolean needToSave1=false, needToSave2=false;
+            boolean needToSave1 = false, needToSave2 = false;
 
             Map<String, String> templateData = new HashMap<>();
 
@@ -91,10 +91,10 @@ public class InterviewPropagator {
 
                 fireEvent(EventType.TemplateLoaded, templateData);
             } catch (FileNotFoundException ex) {
-                notifyError(i18n.getString("tmpltProp.tmpFileError", new String[] {interview.getTemplatePath()}));
+                notifyError(i18n.getString("tmpltProp.tmpFileError", new String[]{interview.getTemplatePath()}));
                 logException(ex);
             } catch (IOException ex) {
-                notifyError(i18n.getString("tmpltProp.tmpFileError", new String[] {interview.getTemplatePath()}));
+                notifyError(i18n.getString("tmpltProp.tmpFileError", new String[]{interview.getTemplatePath()}));
                 logException(ex);
             }
 
@@ -113,7 +113,7 @@ public class InterviewPropagator {
                 needToSave2 = processNotUpdatableKeys(templateData, interview);
 
                 // don't optimize this expression! both of methods must be invoked
-                if(needToSave1 || needToSave2) {
+                if (needToSave1 || needToSave2) {
                     // save to file!
                     saveInterview();
                 }
@@ -157,7 +157,7 @@ public class InterviewPropagator {
                     logException(ex);
                 }
             }
-            if(needToSave1 || needToSave2 || pm.hasConflicts() || pm.hasUpdates())
+            if (needToSave1 || needToSave2 || pm.hasConflicts() || pm.hasUpdates())
                 fireEvent(EventType.Finish, null);
         }
         cleanup();
@@ -172,13 +172,13 @@ public class InterviewPropagator {
         boolean wasUpdate = false;
         for (Object key : templateData.keySet()) {
             String templateKey = (String) key;
-            if(!isSystemIgnorableTemplateProperty(templateKey) && !this.interview.isUpdatableKey(templateKey)) {
+            if (!isSystemIgnorableTemplateProperty(templateKey) && !this.interview.isUpdatableKey(templateKey)) {
                 String newTV = templateData.get(templateKey);
                 String oldTV = interview.retrieveTemplateProperty(templateKey);
                 if (oldTV != null &&
                         !oldTV.equals(newTV)) {
                     wasUpdate = true;
-                    interview.storeTemplateProperty(templateKey,  newTV);
+                    interview.storeTemplateProperty(templateKey, newTV);
                 }
             }
         }
@@ -189,7 +189,7 @@ public class InterviewPropagator {
         Iterator keys = templateData.keySet().iterator();
         boolean updated = false;
         while (keys.hasNext()) {
-            String questionKey = (String)keys.next();
+            String questionKey = (String) keys.next();
             if (!interview.isUpdatableKey(questionKey)) {
                 continue;
             }
@@ -211,7 +211,7 @@ public class InterviewPropagator {
                 boolean currentQuestionUpdated = false;
                 Properties2 oldValuesMap = new Properties2();
                 while (itt.hasNext()) {
-                    String subKey = (String)itt.next();
+                    String subKey = (String) itt.next();
                     if (interview.isAutoUpdatableKey(questionKey, subKey) ||
                             !actualProps.containsKey(subKey)) {
                         String templateSubValue = templateProps.getProperty(subKey);
@@ -246,8 +246,8 @@ public class InterviewPropagator {
                     pq.setValue(sw.toString());
                     interview.setEdited(true);
                     updated = true;
-                    String [] data = new String[] {sw.toString(), swOld.toString(), swOld.toString(),
-                    getQuestionText(questionKey, allQuestionMap)};
+                    String[] data = new String[]{sw.toString(), swOld.toString(), swOld.toString(),
+                            getQuestionText(questionKey, allQuestionMap)};
                     pm.partialUpdateMap.put(questionKey, data);
                 }
             }
@@ -258,8 +258,8 @@ public class InterviewPropagator {
     private void processQuestionFromSet(Map<String, String> templateData, Map<String, Question> allQ, Set keySet, Map<String, String> actual) {
         Iterator keys = keySet.iterator();
         while (keys.hasNext()) {
-            String questionKey = (String)keys.next();
-            if (! isIgnorableTemplateProperty(questionKey)) {
+            String questionKey = (String) keys.next();
+            if (!isIgnorableTemplateProperty(questionKey)) {
                 String templateV = templateData.get(questionKey);
                 String oldTemplateV = interview.retrieveTemplateProperty(questionKey);
                 String configurationV = actual.get(questionKey);
@@ -296,7 +296,7 @@ public class InterviewPropagator {
 
 
     private boolean isFromTemplate() {
-        return ! interview.isTemplate() && interview.getTemplatePath() != null;
+        return !interview.isTemplate() && interview.getTemplatePath() != null;
     }
 
     private String getQuestionText(String key, Map<String, Question> allQ) {
@@ -312,6 +312,7 @@ public class InterviewPropagator {
 
     /**
      * Gets current PropogateMap
+     *
      * @return InterviewPropagator.PropogateMap with actual data
      */
     public InterviewPropagator.PropogateMap getPropagateMap() {
@@ -356,7 +357,7 @@ public class InterviewPropagator {
     }
 
     // autoupdatable values
-    private void updateAll()  {
+    private void updateAll() {
         InterviewPropagator.PropogateMap pm = getPropagateMap();
         if (pm.hasUpdates()) {
             Map<String, String[]> map = pm.updateMap;
@@ -381,7 +382,7 @@ public class InterviewPropagator {
     }
 
 
-    private void acceptTemplateDatafromMap(final Map<String, String[]> map, boolean  templateOnly) {
+    private void acceptTemplateDatafromMap(final Map<String, String[]> map, boolean templateOnly) {
         Iterator<String> it = map.keySet().iterator();
         while (it.hasNext()) {
             String key = it.next();
@@ -436,6 +437,7 @@ public class InterviewPropagator {
 
     /**
      * Converts string representation of property question to Properties2 object
+     *
      * @param str - string representation of property question
      * @return corresponding Properties2 object
      * @throws IOException
@@ -451,10 +453,11 @@ public class InterviewPropagator {
     /**
      * Properties2 object to its string representation.
      * Used for property question processing
+     *
      * @param pr - Properties2 object
      * @return corresponding string representation
      */
-    public static String properties2ToString(Properties2 pr)  {
+    public static String properties2ToString(Properties2 pr) {
         StringWriter sw = new StringWriter();
         pr.save(sw, null);
         return sw.toString();
@@ -462,7 +465,8 @@ public class InterviewPropagator {
 
     /**
      * Returns is the specified question is properties question
-     * @param key - question key
+     *
+     * @param key       - question key
      * @param interview - InterviewParameters object
      * @return true if the specified question is properties question, otherwise false
      */
@@ -472,7 +476,8 @@ public class InterviewPropagator {
 
     /**
      * Returns is the specified question is properties question
-     * @param key - question key
+     *
+     * @param key  - question key
      * @param allQ - question map
      * @return true if the specified question is properties question, otherwise false
      */
@@ -483,7 +488,6 @@ public class InterviewPropagator {
         }
         return false;
     }
-
 
 
     /**
@@ -508,9 +512,9 @@ public class InterviewPropagator {
         private void add(Map<String, String[]> aMap, String key, String templV, String oldTemplV, String confV, String questionText, boolean isPropQ, Map<String, String[]> updateMap) {
 
 
-            if (templV != null ) {
-                String [] data = new String[] {templV, oldTemplV, confV, questionText};
-                String [] comp_data = data;
+            if (templV != null) {
+                String[] data = {templV, oldTemplV, confV, questionText};
+                String[] comp_data = data;
                 boolean added = false;
                 boolean isUpdate = false;
                 if (isPropQ) {
@@ -521,21 +525,21 @@ public class InterviewPropagator {
 
                 // is it "new template value" ?
                 if (comp_data[OLD_TEMPLATE] == null && !comp_data[NEW_TEMPLATE].equals(comp_data[CONFIGURATION])) {
-                    comp_data[OLD_TEMPLATE] = notAvailable ;
+                    comp_data[OLD_TEMPLATE] = notAvailable;
                     if (comp_data[CONFIGURATION] == null) comp_data[CONFIGURATION] = notAvailable;
-                    updateMap.put(key, data );
+                    updateMap.put(key, data);
                     isUpdate = added = true;
 
-                // is it "simple template update with no conflicts" ?
+                    // is it "simple template update with no conflicts" ?
                 } else if (comp_data[OLD_TEMPLATE] != null && comp_data[CONFIGURATION] != null) {
                     if (!comp_data[NEW_TEMPLATE].equals(comp_data[CONFIGURATION]) &&
                             comp_data[OLD_TEMPLATE].equals(comp_data[CONFIGURATION])) {
-                        updateMap.put(key, data );
+                        updateMap.put(key, data);
                         isUpdate = added = true;
                     } else if (!comp_data[NEW_TEMPLATE].equals(comp_data[CONFIGURATION]) &&
                             !comp_data[NEW_TEMPLATE].equals(comp_data[OLD_TEMPLATE])) {
                         // cases 1 and 3, notify and ask user
-                        aMap.put(key,  data);
+                        aMap.put(key, data);
                         added = true;
                     } else if (!comp_data[NEW_TEMPLATE].equals(comp_data[CONFIGURATION]) &&
                             comp_data[NEW_TEMPLATE].equals(comp_data[OLD_TEMPLATE])) {
@@ -543,7 +547,7 @@ public class InterviewPropagator {
                         //
                     } else if (!comp_data[NEW_TEMPLATE].equals(comp_data[OLD_TEMPLATE])) {
                         // case 2 notify and show user
-                        aMap.put(key, data );
+                        aMap.put(key, data);
                         added = true;
                     }
                 }
@@ -587,7 +591,7 @@ public class InterviewPropagator {
 
         private void makeReport(PrintStream sw, Map<String, String[]> m, boolean hideOldTemplate) {
             Iterator<String> it = m.keySet().iterator();
-            if (! it.hasNext()) {
+            if (!it.hasNext()) {
                 return;
             }
             try {
@@ -635,29 +639,29 @@ public class InterviewPropagator {
 
                 while (it.hasNext()) {
                     String key = it.next();
-                    String [] data = m.get(key);
+                    String[] data = m.get(key);
                     writer.startTag(HTMLWriterEx.TR);
                     writer.startTag(HTMLWriterEx.TD);
                     writer.writeAttr("class", "pname");
-                    writer.writeAttr("colspan", hideOldTemplate? 2:3);
+                    writer.writeAttr("colspan", hideOldTemplate ? 2 : 3);
                     writer.startTag(HTMLWriterEx.HR);
                     writer.write(data[QUESTION_TEXT]);
                     writer.endTag(HTMLWriterEx.TD);
                     writer.endTag(HTMLWriterEx.TR);
 
                     String[] s;
-                    if(!propQs.contains(key)) {
+                    if (!propQs.contains(key)) {
                         s = new String[data.length];
-                        for(int i = 0; i < data.length; i++)
+                        for (int i = 0; i < data.length; i++)
                             s[i] = data[i];
                     } else
                         s = convertPQ(data);
 
                     writer.startTag(HTMLWriterEx.TR);
 
-                    for(int i = CONFIGURATION; i >= NEW_TEMPLATE; i--) {
+                    for (int i = CONFIGURATION; i >= NEW_TEMPLATE; i--) {
 
-                        if (i != OLD_TEMPLATE || ! hideOldTemplate) {
+                        if (i != OLD_TEMPLATE || !hideOldTemplate) {
                             writer.startTag(HTMLWriterEx.TD);
                             writer.writeAttr("class", "val");
                             writer.writeAttr("valign", "top");
@@ -673,16 +677,16 @@ public class InterviewPropagator {
                 writer.endTag(HTMLWriterEx.BODY);
                 writer.endTag(HTMLWriterEx.HTML);
                 writer.close();
-            } catch (IOException ex){
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
             // no finally block to close stream because it wasn't created here
             return;
         }
 
-        private String [] convertPQ(Object[] data) {
+        private String[] convertPQ(Object[] data) {
 
-            try{
+            try {
 
                 Properties2 oldT = InterviewPropagator.stringToProperties2((String) data[OLD_TEMPLATE]);
                 Properties2 newT = InterviewPropagator.stringToProperties2((String) data[NEW_TEMPLATE]);
@@ -690,7 +694,7 @@ public class InterviewPropagator {
 
                 HTMLWriterEx[] writers = new HTMLWriterEx[3];
                 StringWriter[] stringWriters = new StringWriter[writers.length];
-                for(int i = 0; i < writers.length; i++) {
+                for (int i = 0; i < writers.length; i++) {
                     stringWriters[i] = new StringWriter();
                     writers[i] = new HTMLWriterEx(stringWriters[i], i18n);
                     writers[i].startTag(HTMLWriterEx.TABLE);
@@ -720,7 +724,7 @@ public class InterviewPropagator {
                 }
 
                 String[] result = new String[writers.length];
-                for(int i = 0; i < writers.length; i++) {
+                for (int i = 0; i < writers.length; i++) {
                     writers[i].endTag(HTMLWriterEx.TABLE);
                     writers[i].flush();
                     result[i] = stringWriters[i].toString();
@@ -730,7 +734,7 @@ public class InterviewPropagator {
             } catch (IOException ex) {
                 logException(ex);
             }
-            return new String[] {"", "", ""};
+            return new String[]{"", "", ""};
         }
 
         private String getCSS() {
@@ -745,7 +749,7 @@ public class InterviewPropagator {
                 r = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
 
                 String line;
-                while( (line = r.readLine()) != null )
+                while ((line = r.readLine()) != null)
                     sb.append(line);
                 return sb.toString();
             } catch (IOException ex) {
@@ -806,7 +810,9 @@ public class InterviewPropagator {
 
     public interface ViewManager {
         void showView(InterviewPropagator prop, InterviewParameters interview);
+
         void logException(Throwable th, InterviewParameters interview);
+
         void notifyError(String message, InterviewParameters interview);
     }
 
@@ -835,8 +841,8 @@ public class InterviewPropagator {
     private static TestRefresher refresher;
     private InterviewParameters interview;
     private PropogateMap pm;
-    private String [] ignorableProps ;
-    private String [] ignorablePrefs ;
+    private String[] ignorableProps;
+    private String[] ignorablePrefs;
 }
 
 

@@ -451,11 +451,11 @@ public class Agent implements Runnable {
 
     private class Notifier {
         public synchronized void addObserver(Observer o) {
-            observers = (Observer[])(DynamicArray.append(observers, o));
+            observers = DynamicArray.append(observers, o);
         }
 
         public synchronized void removeObserver(Agent.Observer o) {
-            observers = (Observer[])(DynamicArray.remove(observers, o));
+            observers = DynamicArray.remove(observers, o);
         }
 
         public synchronized void started() {

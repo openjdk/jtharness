@@ -28,6 +28,7 @@ package com.sun.javatest.finder;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Vector;
@@ -585,7 +586,7 @@ public class HTMLTestFinder extends TestFinder
 
     //----------member variables------------------------------------------------
 
-    private Map<String, Integer> namesInFile = new Hashtable<>();
+    private Map<String, Integer> namesInFile = new HashMap<>();
     private Map<String, String> excludeList;
     private static final String[] excludeNames = {"SCCS", "deleted_files"};
     private Map<String, String> extensionTable;

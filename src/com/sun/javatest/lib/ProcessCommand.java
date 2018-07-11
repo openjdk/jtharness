@@ -401,7 +401,7 @@ public class ProcessCommand extends Command
         if (logStatus != null)
             return logStatus;
         else if (statusTable != null) {
-            Status s = statusTable.get(new Integer(exitCode));
+            Status s = statusTable.get(Integer.valueOf(exitCode));
             return (s == null ? defaultStatus.augment("exit code: " + exitCode) : s);
         }
         else if (exitCode == 0)

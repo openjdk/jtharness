@@ -106,7 +106,7 @@ public class Preferences
                 InputStream in = new BufferedInputStream(new FileInputStream(prefsFile));
                 props = Properties.loadSorted(in);
                 in.close();
-        fileModifiedTime = prefsFile.lastModified();
+                fileModifiedTime = prefsFile.lastModified();
             }
         }
         catch (FileNotFoundException ignore) {
@@ -203,7 +203,7 @@ public class Preferences
         if (obs == null)
             obs = new Observer[] { o };
         else
-            obs = (Observer[])DynamicArray.append(obs, o);
+            obs = DynamicArray.append(obs, o);
         observers.put(prefix, obs);
     }
 
@@ -236,7 +236,7 @@ public class Preferences
     public void removeObserver(String prefix, Observer o) {
         Observer[] obs = observers.get(prefix);
         if (obs != null) {
-            obs = (Observer[])DynamicArray.remove(obs, o);
+            obs = DynamicArray.remove(obs, o);
             observers.put(prefix, obs);
         }
     }

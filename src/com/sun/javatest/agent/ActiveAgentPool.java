@@ -375,12 +375,12 @@ public class ActiveAgentPool
         }
 
         synchronized void addObserver(Observer o) {
-            observers = (Observer[])(DynamicArray.append(observers, o));
+            observers = DynamicArray.append(observers, o);
         }
 
 
         synchronized void deleteObserver(Observer o) {
-            observers = (Observer[])(DynamicArray.remove(observers, o));
+            observers = DynamicArray.remove(observers, o);
         }
 
         private synchronized void notifyAddedToPool(Entry e) {

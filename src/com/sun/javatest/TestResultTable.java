@@ -1158,7 +1158,7 @@ public class TestResultTable {
     public synchronized void addObserver(Observer o) {
         if (o == null)
             throw new NullPointerException();
-        observers = (Observer[])DynamicArray.append(observers, o);
+        observers = DynamicArray.append(observers, o);
     }
 
     /**
@@ -1168,7 +1168,7 @@ public class TestResultTable {
      * @param o The observer to remove.
      */
     public synchronized void removeObserver(Observer o) {
-        observers = (Observer[])DynamicArray.remove(observers, o);
+        observers = DynamicArray.remove(observers, o);
     }
 
     /**
@@ -1177,7 +1177,7 @@ public class TestResultTable {
      * @param obs The observer to attach.  Must never be null.
      */
     public void addObserver(TreeObserver obs) {
-        treeObservers = (TreeObserver[])DynamicArray.append(treeObservers, obs);
+        treeObservers = DynamicArray.append(treeObservers, obs);
     }
 
     /**
@@ -1188,7 +1188,7 @@ public class TestResultTable {
      */
     public void removeObserver(TreeObserver obs) {
         if (treeObservers != null)
-            treeObservers = (TreeObserver[])(DynamicArray.remove(treeObservers, obs));
+            treeObservers = DynamicArray.remove(treeObservers, obs);
     }
 
     /**
@@ -1681,7 +1681,7 @@ public class TestResultTable {
             // in the test suite.
             TestResult oldTR = node.addChild(tr, suppressScan, !cacheInitialized);
             //tr.setParent(node);   // now done in TRT_TreeNode.addChild()
-            rec = (TRT_TreeNode[])DynamicArray.append(rec, node);
+            rec = DynamicArray.append(rec, node);
 
             // index will be -1 if the node insertion was rejected
             // perhaps upgrade the code so that addChild() throws and
@@ -1762,13 +1762,13 @@ public class TestResultTable {
                 tn.setName(getDirName(nextDir));
                 node.addChild(tn, suppressScan);
 
-                rec = (TRT_TreeNode[])DynamicArray.append(rec, tn);
+                rec = DynamicArray.append(rec, tn);
                 notifyNewBranch(rec, tn, node.getIndex(tn, suppressScan));
 
                 return insert(tn, newPath, tr, rec, suppressScan);
             }
             else {                  // no work, just recurse
-                rec = (TRT_TreeNode[])DynamicArray.append(rec, node);
+                rec = DynamicArray.append(rec, node);
                 return insert(next, newPath, tr, rec, suppressScan);
             }
 
@@ -2809,7 +2809,7 @@ public class TestResultTable {
         void addNode(TreeNode tn) {
             if (tr != null) throw new JavaTestError(i18n, "trt.invalidPath");
 
-            nodes = (TreeNode[])DynamicArray.append(nodes, tn);
+            nodes = DynamicArray.append(nodes, tn);
         }
 
 /*
@@ -2866,7 +2866,7 @@ public class TestResultTable {
             TreeNode node = tr.getParent();
 
             while (node != null) {
-                nodes = (TreeNode[])DynamicArray.insert(nodes, node, 0);
+                nodes = DynamicArray.insert(nodes, node, 0);
                 node = node.getParent();
             }
 

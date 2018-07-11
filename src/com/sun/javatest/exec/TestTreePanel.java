@@ -714,9 +714,9 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 Object item = what[i].getLastPathComponent();
                 if (item instanceof TT_TestNode) {
                     ackTargets[i] = ((TT_TestNode) item).getLongPath();
-                    ackNodes = (TT_TreeNode[])DynamicArray.append(ackNodes, item, TT_TreeNode.class);
+                    ackNodes = DynamicArray.append(ackNodes, (TT_TestNode)item, TT_TreeNode.class);
                 } else if (item instanceof TT_BasicNode) {
-                    ackNodes = (TT_TreeNode[])DynamicArray.append(ackNodes, item, TT_TreeNode.class);
+                    ackNodes = DynamicArray.append(ackNodes, (TT_BasicNode)item, TT_TreeNode.class);
                     TT_BasicNode tn = (TT_BasicNode) item;
                     if (tn.isRoot()) {
                         ackTargets = new String[1];

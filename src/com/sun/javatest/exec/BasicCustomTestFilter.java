@@ -124,12 +124,12 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     // must be notified of changes
     @Override
     public void addObserver(Observer o) {
-        obs = (Observer[]) DynamicArray.append(obs, o);
+        obs = DynamicArray.append(obs, o);
     }
 
     @Override
     public void removeObserver(Observer o) {
-        obs = (Observer[]) DynamicArray.remove(obs, o);
+        obs = DynamicArray.remove(obs, o);
     }
 
     @Override

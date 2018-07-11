@@ -546,7 +546,7 @@ class TT_NodeCache implements Runnable {
         }
 
         if (obs != null) {
-            observers = (TT_NodeCacheObserver[]) DynamicArray.append(observers, obs);
+            observers = DynamicArray.append(observers, obs);
         }
 
         return cp;
@@ -557,7 +557,7 @@ class TT_NodeCache implements Runnable {
     // THEN itself (the GUI component) for proper locking sequence, since the
     // highest contention is for this cache object.
     synchronized void removeObserver(TT_NodeCacheObserver obs) {
-        observers = (TT_NodeCacheObserver[]) DynamicArray.remove(observers, obs);
+        observers = DynamicArray.remove(observers, obs);
     }
 
     // ------------- PRIVATE -----------------

@@ -189,7 +189,7 @@ public abstract class ToolAction implements Action
     }
 
     public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
-        listeners = (WeakReference[]) DynamicArray.append(listeners, new WeakReference<>(listener));
+        listeners = DynamicArray.append(listeners, new WeakReference<>(listener));
     }
 
     public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {

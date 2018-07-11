@@ -90,11 +90,11 @@ class FilterSelectionHandler {
         if (obs == null)
             obs = new Observer[0];
 
-        obs = (Observer[])DynamicArray.append(obs, o);
+        obs = DynamicArray.append(obs, o);
     }
 
     public void removeObserver(Observer o) {
-        obs = (Observer[])DynamicArray.remove(obs, o);
+        obs = DynamicArray.remove(obs, o);
     }
 
     /**

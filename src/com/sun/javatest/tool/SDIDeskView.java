@@ -170,7 +170,7 @@ class SDIDeskView extends DeskView {
             public void windowClosed(WindowEvent e) {
                 JFrame f = (JFrame) (e.getSource());
                 //removeToolMenuItemsFromFrameMenuBar(f);
-                frames = (JFrame[]) (DynamicArray.remove(frames, f));
+                frames = DynamicArray.remove(frames, f);
 
                 if (f.getContentPane() instanceof Tool) {
                     Tool t = (Tool) (f.getContentPane());
@@ -194,7 +194,7 @@ class SDIDeskView extends DeskView {
         //f.setLocation(screenSize.width/2 - size.width/2, screenSize.height/2 - size.height/2);
         f.setVisible(visible);
 
-        frames = (JFrame[]) (DynamicArray.append(frames, f));
+        frames = DynamicArray.append(frames, f);
 
         t.setDeskView(this);
 
@@ -206,7 +206,7 @@ class SDIDeskView extends DeskView {
     public void removeTool(Tool t) {
         //System.err.println("SDI: remove " + t);
         JFrame f = getFrameForTool(t);
-        frames = (JFrame[]) (DynamicArray.remove(frames, f));    // remove it from list of frames
+        frames = DynamicArray.remove(frames, f);    // remove it from list of frames
         f.setVisible(false);                          // hide it before we start disassembling it
 
         removeToolMenuItemsFromFrameMenuBar(f, t);

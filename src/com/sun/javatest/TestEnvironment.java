@@ -88,8 +88,8 @@ public class TestEnvironment
             throw new NullPointerException();
 
         //System.err.println("TEC: add default propTable " + name);
-        defaultPropTableNames = (String[]) (DynamicArray.append(defaultPropTableNames, name));
-        defaultPropTables = (Map[]) (DynamicArray.append(defaultPropTables, propTable));
+        defaultPropTableNames = DynamicArray.append(defaultPropTableNames, name);
+        defaultPropTables = DynamicArray.append(defaultPropTables, propTable);
     }
 
     /**
@@ -138,8 +138,8 @@ public class TestEnvironment
     {
         this.name = name;
         if (defaultPropTables != null && defaultPropTables.length > 0) {
-            propTables = (Map[]) (DynamicArray.join(defaultPropTables, propTables));
-            propTableNames = (String[]) (DynamicArray.join(defaultPropTableNames, propTableNames));
+            propTables = DynamicArray.join(defaultPropTables, propTables);
+            propTableNames = DynamicArray.join(defaultPropTableNames, propTableNames);
         }
 
         // First, figure out the inheritance chain

@@ -288,7 +288,7 @@ public class TestResult {
                     checkMutable();
 
                     OutputBuffer b = new WritableOutputBuffer(name);
-                    buffers = (OutputBuffer[])(DynamicArray.append(buffers, b));
+                    buffers = DynamicArray.append(buffers, b);
 
                     notifyCreatedOutput(this, name);
 
@@ -398,7 +398,7 @@ public class TestResult {
 
             while ((line = in.readLine()).startsWith(JTR_V2_SECTSTREAM)) {
                 OutputBuffer b = new FixedOutputBuffer(line, in);
-                buffers = (OutputBuffer[])(DynamicArray.append(buffers, b));
+                buffers = DynamicArray.append(buffers, b);
             }
 
             // if not in the message section, line should have the section result
@@ -522,7 +522,7 @@ public class TestResult {
             if (name.equals(MESSAGE_OUTPUT_NAME))
                 name = MESSAGE_OUTPUT_NAME;
             OutputBuffer b = new FixedOutputBuffer(name, data);
-            buffers = (OutputBuffer[])(DynamicArray.append(buffers, b));
+            buffers = DynamicArray.append(buffers, b);
         }
 
         /**
@@ -928,7 +928,7 @@ public class TestResult {
         }
 
         Section section = new Section(name);
-        sections = (Section[])(DynamicArray.append(sections, section));
+        sections = DynamicArray.append(sections, section);
         notifyCreatedSection(section);
         // avoid creating output (which will cause observer messages)
         // before the createdSection has been notified
@@ -1710,7 +1710,7 @@ public class TestResult {
 
             if (observers == null) observers = new Observer[0];
 
-            observers = (Observer[])(DynamicArray.append(observers, obs));
+            observers = DynamicArray.append(observers, obs);
             observersTable.put(this, observers);
         }
     }
@@ -1724,7 +1724,7 @@ public class TestResult {
         if (observers == null)
             return;
 
-        observers = (Observer[])(DynamicArray.remove(observers, obs));
+        observers = DynamicArray.remove(observers, obs);
         if (observers == null)
             observersTable.remove(this);
         else
@@ -2140,7 +2140,7 @@ public class TestResult {
                 Section blk = processOldSection(line, in);
 
                 if (blk != null) {
-                    sections = (Section[])(DynamicArray.append(sections, blk));
+                    sections = DynamicArray.append(sections, blk);
                 }
             }
             else if (line.startsWith(JTR_V1_TSTRESULT)) {

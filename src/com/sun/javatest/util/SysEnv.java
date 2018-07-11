@@ -94,7 +94,7 @@ public class SysEnv
      * execution context.
      * @return a map containing all the known environment variables.
      */
-    public static Map getAll() {
+    public static Map<String, String> getAll() {
         return getAll(new HashMap<String, String>());
     }
 
@@ -105,7 +105,7 @@ public class SysEnv
      * environment variables in the current execution context.
      * @return the argument map.
      */
-    public static Map getAll(Map<String, String> m) {
+    public static Map<String, String> getAll(Map<String, String> m) {
         if (values == null)
             initValues();
 

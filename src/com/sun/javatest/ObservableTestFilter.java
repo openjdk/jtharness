@@ -52,7 +52,7 @@ public abstract class ObservableTestFilter extends TestFilter {
      * @param o The observer to be registered.  Should never be null.
      */
     public void addObserver(Observer o) {
-        observers = (Observer[])DynamicArray.append(observers, o);
+        observers = DynamicArray.append(observers, o);
     }
 
     /**
@@ -61,7 +61,7 @@ public abstract class ObservableTestFilter extends TestFilter {
      * @param o The filter to be un-registered.
      */
     public void removeObserver(Observer o) {
-        observers = (Observer[])DynamicArray.remove(observers, o);
+        observers = DynamicArray.remove(observers, o);
     }
 
     /**

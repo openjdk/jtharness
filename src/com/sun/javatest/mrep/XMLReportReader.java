@@ -63,7 +63,7 @@ class XMLReportReader {
     private static final String JAXP_SCHEMA_SOURCE =
         "http://java.sun.com/xml/jaxp/properties/schemaSource";
 
-    Map readIDs(File file) throws SAXException, IOException, ParserConfigurationException {
+    Map<Object, Object> readIDs(File file) throws SAXException, IOException, ParserConfigurationException {
         XMLReader reader = XMLReportReader.createXMLReader(true);
         IDHandler handler = new IDHandler();
         reader.setContentHandler(handler);
@@ -135,7 +135,7 @@ class XMLReportReader {
             }
         }
 
-        public Map getMap() {
+        public Map<Object, Object> getMap() {
             return map;
         }
     }

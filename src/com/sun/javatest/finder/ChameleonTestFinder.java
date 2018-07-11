@@ -327,7 +327,7 @@ public class ChameleonTestFinder extends TestFinder {
     private boolean ignoreCase;
     private Entry currEntry;
     private ClassLoader loader;
-    private Map<String, String> excludeList = new Hashtable<>();
+    private Map<String, String> excludeList = new HashMap<>();
 
     private static final String[] excludeNames = {
         "SCCS", "deleted_files"

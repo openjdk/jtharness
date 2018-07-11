@@ -82,11 +82,11 @@ class MonitorState {
     }
 
     void addObserver(Observer o) {
-        obs = (Observer[])DynamicArray.append(obs, o);
+        obs = DynamicArray.append(obs, o);
     }
 
     void removeObserver(Observer o) {
-        obs = (Observer[])DynamicArray.remove(obs, o);
+        obs = DynamicArray.remove(obs, o);
     }
 
     /**

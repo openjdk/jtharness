@@ -57,7 +57,7 @@ class StatisticsSection extends HTMLSection {
         initFiles = settings.getInitialFiles();
 
         resultTable = settings.getInterview().getWorkDirectory().getTestResultTable();
-        Iterator iter =  null;
+        Iterator<TestResult> iter =  null;
         try {
             iter = (initFiles == null) ?
                         resultTable.getIterator(new TestFilter[] {settings.filter}) :
@@ -69,7 +69,7 @@ class StatisticsSection extends HTMLSection {
         }       // catch
 
         for (; iter.hasNext(); ) {
-            TestResult tr = (TestResult) (iter.next());
+            TestResult tr = iter.next();
 
             try {
                 Status s = tr.getStatus();

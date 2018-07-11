@@ -102,7 +102,7 @@ public class FilterConfig {
             return;
 
         // record this filter officially
-        filters = (TestFilter[])DynamicArray.append(filters, f);
+        filters = DynamicArray.append(filters, f);
 
         // register as change observer if possible
         if (f instanceof ObservableTestFilter) {
@@ -135,7 +135,7 @@ public class FilterConfig {
             return;
 
         // remove this filter officially
-        filters = (TestFilter[])DynamicArray.remove(filters, f);
+        filters = DynamicArray.remove(filters, f);
 
         if (f instanceof ObservableTestFilter)
             ((ObservableTestFilter)f).removeObserver(listener);
@@ -202,7 +202,7 @@ public class FilterConfig {
 
     synchronized FilterSelectionHandler createFilterSelectionHandler() {
         FilterSelectionHandler fsh = new FilterSelectionHandler(this, uif);
-        handlers = (FilterSelectionHandler[])DynamicArray.append(handlers, fsh);
+        handlers = DynamicArray.append(handlers, fsh);
 
         return fsh;
     }
@@ -214,11 +214,11 @@ public class FilterConfig {
         if (obs == null)
             obs = new Observer[0];
 
-        obs = (Observer[])DynamicArray.append(obs, o);
+        obs = DynamicArray.append(obs, o);
     }
 
     public synchronized void removeObserver(Observer o) {
-        obs = (Observer[])DynamicArray.remove(obs, o);
+        obs = DynamicArray.remove(obs, o);
     }
 
     /**

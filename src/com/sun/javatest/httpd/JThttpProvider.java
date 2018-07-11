@@ -128,7 +128,7 @@ public abstract class JThttpProvider {
 
     void addRegistredURL(String url) {
         if (url != null) {
-            regURLs = (String[])DynamicArray.append(regURLs, url);
+            regURLs = DynamicArray.append(regURLs, url);
             if (debug) System.out.println("PROV-registered URL (" + url + ") in " + this);
         }
     }
@@ -136,7 +136,7 @@ public abstract class JThttpProvider {
     void removeRegisteredURL(String url) {
         for (int i = 0; i < regURLs.length; i++) {
             if (regURLs[i].equals(url)) {
-                regURLs = (String[])DynamicArray.remove(regURLs, i);
+                regURLs = DynamicArray.remove(regURLs, i);
                 break;
             }
         }   // for

@@ -180,7 +180,7 @@ class TestTree extends JTree {
             if (!isExpanded(tp))    // if it's not expanded, we don't need it
                 continue;
 
-            paths = (TreePath[])DynamicArray.append(paths, tp);
+            paths = DynamicArray.append(paths, tp);
         }   // while
 
         return paths;

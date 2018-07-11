@@ -969,11 +969,11 @@ public class Harness
         void addObserver(Observer o) {
             if (o == null)
                 throw new NullPointerException();
-            observers = (Observer[])DynamicArray.append(observers, o);
+            observers = DynamicArray.append(observers, o);
         }
 
         void removeObserver(Observer o) {
-            observers = (Observer[])DynamicArray.remove(observers, o);
+            observers = DynamicArray.remove(observers, o);
         }
 
         public void startingTestRun(Parameters params) {

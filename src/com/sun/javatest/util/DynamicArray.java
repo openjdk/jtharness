@@ -48,12 +48,12 @@ public final class DynamicArray {
      * @throws IllegalArgumentException If newObj is null.
      * @throws ArrayStoreException If there is a type mismatch between oldArr and newObj.
      */
-    public static Object[] append(Object[] oldArr, Object newObj) {
-        Object[] newArr;
+    public static <T> T[] append(T[] oldArr, T newObj) {
+        T[] newArr;
 
         if (oldArr == null) {
             if (newObj != null) {
-                newArr = (Object[])(Array.newInstance(newObj.getClass(), 1));
+                newArr = (T[])(Array.newInstance(newObj.getClass(), 1));
                 newArr[0] = newObj;
             }
             else {
@@ -61,7 +61,7 @@ public final class DynamicArray {
             }
         }
         else {
-            newArr = (Object[])(Array.newInstance(getArrayClass(oldArr), oldArr.length+1));
+            newArr = (T[])(Array.newInstance(getArrayClass(oldArr), oldArr.length+1));
             System.arraycopy(oldArr, 0, newArr, 0, oldArr.length);
             newArr[newArr.length-1] = newObj;
         }
@@ -80,11 +80,11 @@ public final class DynamicArray {
      * @throws IllegalArgumentException If newObj is null.
      * @throws ArrayStoreException If there is a type mismatch between oldArr and newObj.
      */
-    public static Object[] append(Object[] oldArr, Object newObj, Class arrayClass) {
-        Object[] localArr;
+    public static <T> T[] append(T[] oldArr, T newObj, Class<? extends T> arrayClass) {
+        T[] localArr;
 
         if (oldArr == null && arrayClass != null)
-            localArr = (Object[])(Array.newInstance(arrayClass, 0));
+            localArr = (T[])(Array.newInstance(arrayClass, 0));
         else
             localArr = oldArr;
 
@@ -100,7 +100,7 @@ public final class DynamicArray {
      * the first array, containing the elements of the first array, followed
      * by the elements of the second array.
      */
-    public static Object[] join(Object[] array1, Object[] array2) {
+    public static <T> T[] join(T[] array1, T[] array2) {
         if (array1 == null)
             return array2;
 
@@ -109,7 +109,7 @@ public final class DynamicArray {
 
         Class type = array1.getClass().getComponentType();
         int size = array1.length + array2.length;
-        Object[] newArray = (Object[]) Array.newInstance(type, size);
+        T[] newArray = (T[]) Array.newInstance(type, size);
         System.arraycopy(array1, 0, newArray, 0, array1.length);
         System.arraycopy(array2, 0, newArray, array1.length, array2.length);
         return newArray;
@@ -127,12 +127,12 @@ public final class DynamicArray {
      *        operation.
      * @return A new array with the object inserted into it at the specified location.
      */
-    public static Object[] insert(Object[] oldArr, Object newObj, int location) {
-        Object[] newArr;
+    public static <T> T[] insert(T[] oldArr, T newObj, int location) {
+        T[] newArr;
 
         if (oldArr == null) {
             if (newObj != null) {
-                newArr = (Object[])(Array.newInstance(newObj.getClass(), 1));
+                newArr = (T[])(Array.newInstance(newObj.getClass(), 1));
                 newArr[0] = newObj;
             }
             else {
@@ -143,7 +143,7 @@ public final class DynamicArray {
             if (location > oldArr.length)
                 throw new IllegalArgumentException("Index location too large (" + location +
                                                     ").");
-            newArr = (Object[])(Array.newInstance(getArrayClass(oldArr), oldArr.length+1));
+            newArr = (T[])(Array.newInstance(getArrayClass(oldArr), oldArr.length+1));
 
             if (location == 0) {
                 newArr[0] = newObj;
@@ -177,8 +177,8 @@ public final class DynamicArray {
      * @exception ArrayStoreException May occur if all the objects in the
      *          array do not match.
      */
-    public static Object[] remove(Object[] oldArr, int index) {
-        Object[] newArr;
+    public static <T> T[] remove(T[] oldArr, int index) {
+        T[] newArr;
 
         if (oldArr == null)
             throw new IllegalArgumentException("Cannot remove from null array.");
@@ -188,17 +188,17 @@ public final class DynamicArray {
         }
         else if (index == 0) {
             // chop the head
-            newArr = (Object[])(Array.newInstance(getArrayClass(oldArr), oldArr.length-1));
+            newArr = (T[])(Array.newInstance(getArrayClass(oldArr), oldArr.length-1));
             System.arraycopy(oldArr, 1, newArr, 0, oldArr.length-1);
         }
         else if (index == oldArr.length-1) {
             // chop the tail
-            newArr = (Object[])(Array.newInstance(getArrayClass(oldArr), oldArr.length-1));
+            newArr = (T[])(Array.newInstance(getArrayClass(oldArr), oldArr.length-1));
             System.arraycopy(oldArr, 0, newArr, 0, oldArr.length-1);
         }
         else {
             // chop the middle
-            newArr = (Object[])(Array.newInstance(getArrayClass(oldArr), oldArr.length-1));
+            newArr = (T[])(Array.newInstance(getArrayClass(oldArr), oldArr.length-1));
             System.arraycopy(oldArr, 0, newArr, 0, index);
             System.arraycopy(oldArr, index+1, newArr, index,
                              oldArr.length-index-1);
@@ -216,8 +216,8 @@ public final class DynamicArray {
      * @param victim The object to remove from the array.  May be null.
      * @return Zero length array if the last element is removed.
      */
-    public static Object[] remove(Object[] oldArr, Object victim) {
-        Object[] newArr;
+    public static <T> T[] remove(T[] oldArr, T victim) {
+        T[] newArr;
 
         if (oldArr == null) {
             newArr = oldArr;
@@ -242,7 +242,7 @@ public final class DynamicArray {
      * @param target The reference to search for; can be null.
      * @return The array index of the target.
      */
-    public static int find(Object[] arr, Object target) {
+    public static <T> int find(T[] arr, T target) {
         int index = -1;
 
         for(int i = 0; i < arr.length; i++) {

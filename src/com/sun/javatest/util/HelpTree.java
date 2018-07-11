@@ -201,7 +201,7 @@ public class HelpTree
      * @param node the node to be added to the tree
      */
     public void addNode(Node node) {
-        nodes = (Node[]) DynamicArray.append(nodes, node);
+        nodes = DynamicArray.append(nodes, node);
     }
 
     /**

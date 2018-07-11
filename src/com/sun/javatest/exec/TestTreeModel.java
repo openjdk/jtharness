@@ -118,7 +118,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
     // TreeModel methods
     public void addTreeModelListener(TreeModelListener l) {
-        treeModelListeners = (TreeModelListener[]) DynamicArray.append(treeModelListeners, l);
+        treeModelListeners = DynamicArray.append(treeModelListeners, l);
     }
 
     public Object getChild(Object parent, int index) {
@@ -175,7 +175,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     }
 
     public void removeTreeModelListener(TreeModelListener l) {
-        treeModelListeners = (TreeModelListener[]) DynamicArray.remove(treeModelListeners, l);
+        treeModelListeners = DynamicArray.remove(treeModelListeners, l);
     }
 
     public void valueForPathChanged(TreePath path, Object newValue) {
@@ -1396,7 +1396,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
             // switch event format if the node is the root
             if (node.isRoot() && getRoot() != null) {
-                e = new TreeModelEvent(this, new Object[]{getRoot()}, (int[]) null, (Object[]) null);
+                e = new TreeModelEvent(this, new Object[]{getRoot()}, null, null);
             } else {
                 // full path to the node, inclusive
                 //TestResultTable.TreeNode[] fp = TestResultTable.getObjectPath(node);

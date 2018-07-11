@@ -30,11 +30,6 @@ package com.sun.javatest.util;
 // InputStream/OutputStream
 
 import java.io.*;
-//import java.io.InputStream;
-//import java.io.InputStreamReader;
-//import java.io.OutputStream;
-//import java.io.OutputStreamWriter;
-//import java.io.PrintStream;
 import java.util.*;
 
 /**
@@ -86,9 +81,7 @@ class Properties extends Hashtable<String, String> {
      */
     public static void store(Map<String, String> stringProps, OutputStream out, String comments) throws IOException {
         java.util.Properties properties = new java.util.Properties();
-        for (Map.Entry<String, String> entry: stringProps.entrySet()) {
-            properties.put(entry.getKey(), entry.getValue());
-        }
+        properties.putAll(stringProps);
         properties.store(out, comments);
     }
 

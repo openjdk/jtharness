@@ -45,16 +45,16 @@ class Merger {
     /**
      * @param in array of files with XML reports
      * @param out file to put results
-     * @param confilctResolver ConflictResolver to resolve conflicts during merge
+     * @param conflictResolver ConflictResolver to resolve conflicts during merge
      */
-    public boolean merge(File[] in, File out, ConflictResolver confilctResolver) throws SAXException,
+    public boolean merge(File[] in, File out, ConflictResolver conflictResolver) throws SAXException,
             ParserConfigurationException, IOException{
         // Maps with statistics
         Map[] inputs = new Map[in.length];
         // read statistics
         for (int i = 0; i < in.length; i++) {
             XMLReportReader reader = new XMLReportReader();
-            Map map = reader.readIDs(in[i]);
+            Map<Object, Object> map = reader.readIDs(in[i]);
             inputs[i] = map;
         }
 
@@ -62,10 +62,10 @@ class Merger {
         int allCnt = 0;
         // rename id's and find conflicts
         Set<String> all = new HashSet<>();
-        List<String> confilcts = new ArrayList<>();
+        List<String> conflicts = new ArrayList<>();
         for (int i = 0; i < in.length; i++) {
             int workdirsInFile = 0;
-            Iterator it = inputs[i].keySet().iterator();
+            Iterator<Object> it = inputs[i].keySet().iterator();
             Map<Object, Object> newMap = new HashMap<>();
             while (it.hasNext()) {
                 Object o =  it.next();
@@ -79,8 +79,8 @@ class Merger {
                 // this is test result url
                 if (o instanceof String) {
                     String url = (String) o;
-                    if (all.contains(url) && !confilcts.contains(url)) {
-                        confilcts.add(url);
+                    if (all.contains(url) && !conflicts.contains(url)) {
+                        conflicts.add(url);
                     }
                     all.add(url);
                     TestResultDescr td = (TestResultDescr)inputs[i].get(o);
@@ -94,8 +94,8 @@ class Merger {
         }
 
         // resolve each conflict
-        for (int c = 0; c < confilcts.size(); c++) {
-            String url = confilcts.get(c);
+        for (int c = 0; c < conflicts.size(); c++) {
+            String url = conflicts.get(c);
             List<TestResultDescr> tds = new ArrayList<>();
             for(int i = 0; i < in.length; i++) {
                 TestResultDescr td = (TestResultDescr) inputs[i].get(url);
@@ -105,7 +105,7 @@ class Merger {
                 }
             }
             TestResultDescr[] tda = tds.toArray(new TestResultDescr[0]);
-            int res = confilctResolver.resolve(url, tda);
+            int res = conflictResolver.resolve(url, tda);
             if (res < 0) {
                 // cancel
                 return false;

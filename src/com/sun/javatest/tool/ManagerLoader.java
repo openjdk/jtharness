@@ -210,7 +210,7 @@ class ManagerLoader
             URL u = ResourceLoader.getExtUrl(new File(s));
 
             if (u != null) {
-                urls = (URL[]) (DynamicArray.append(urls, u));
+                urls = DynamicArray.append(urls, u);
                 someCPok = true;
             }
         }   // for

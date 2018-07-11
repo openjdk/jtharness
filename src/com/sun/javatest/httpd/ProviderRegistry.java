@@ -262,7 +262,7 @@ public class ProviderRegistry {
 
         boolean result;
         String file = url[0];
-        url = (String[])DynamicArray.remove(url, 0);
+        url = DynamicArray.remove(url, 0);
 
         if (debug) System.out.println("    PR-Partial insert of " + file);
 
@@ -305,7 +305,7 @@ public class ProviderRegistry {
         }
 
         String file = url[0];
-        url = (String[])DynamicArray.remove(url, 0);
+        url = DynamicArray.remove(url, 0);
 
         if (debug) System.out.println("    PR-(del)Partial remove of " + file);
 
@@ -369,7 +369,7 @@ public class ProviderRegistry {
             currC = url.charAt(pos);
             switch (currC) {
                 case '/':   if (pos > start+1)
-                                result = (String[])DynamicArray.append(result, url.substring(start, pos));
+                                result = DynamicArray.append(result, url.substring(start, pos));
                             start = pos + 1;
                             pos++;
                             break;
@@ -382,7 +382,7 @@ public class ProviderRegistry {
         }
 
         if (!done && pos >= urlLen && (pos - start) >= 1)
-            result = (String[])DynamicArray.append(result, url.substring(start, pos));
+            result = DynamicArray.append(result, url.substring(start, pos));
 
         if (debug)
             System.out.println("PR-Dissolved url " + url + " into " + result.length + " files.");

@@ -68,7 +68,7 @@ public class TestEnvContext
      */
     public TestEnvContext(File[] files) throws Fault {
         Vector<String> n = new Vector<>();
-        Vector<Map> p = new Vector<>();
+        Vector<Map<String, String>> p = new Vector<>();
         try {
             if (files != null) {
                 for (int i = 0; i < files.length; i++) {
@@ -95,7 +95,7 @@ public class TestEnvContext
      */
     public TestEnvContext(Map[] tables, String[] tableNames) {
         Vector<String> n = new Vector<>();
-        Vector<Map> p = new Vector<>();
+        Vector<Map<String, String>> p = new Vector<>();
         for (int i = 0; i < tables.length; i++) {
             add(p, n, tables[i], tableNames[i]);
         }
@@ -114,7 +114,7 @@ public class TestEnvContext
      */
     public TestEnvContext(Map table, String tableName) {
         Vector<String> n = new Vector<>();
-        Vector<Map> p = new Vector<>();
+        Vector<Map<String, String>> p = new Vector<>();
         add(p, n, table, tableName);
         propTables = new Map[p.size()];
         p.copyInto(propTables);
@@ -177,14 +177,13 @@ public class TestEnvContext
         return envMenuNames;
     }
 
-    private Map load(File f) throws Fault {
+    private Map<String, String> load(File f) throws Fault {
         if (f == null)
             return null;
 
         try {
-            Properties p = new Properties();
-            Reader in = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
-            p.load(in);
+            InputStream in = new BufferedInputStream(new FileInputStream(f));
+            Map<String, String> p = Properties.load(in);
             in.close();
 
             /*
@@ -227,7 +226,7 @@ public class TestEnvContext
         */
     }
 
-    private void add(Vector<Map> pv, Vector<String> nv, Map p, String n) {
+    private void add(Vector<Map<String, String>> pv, Vector<String> nv, Map<String, String> p, String n) {
         if (p != null) {
             pv.addElement(p);
             nv.addElement(n);
@@ -246,8 +245,8 @@ public class TestEnvContext
         // if there are defaults, merge them with the TestEnvContext tables
         // for the purposes of determining the EnvTable
         if (defaultTables != null && defaultTables.length > 0) {
-            tables = (Map[]) (DynamicArray.join(defaultTables, tables));
-            tableNames = (String[]) (DynamicArray.join(defaultTableNames, tableNames));
+            tables = DynamicArray.join(defaultTables, tables);
+            tableNames = DynamicArray.join(defaultTableNames, tableNames);
         }
 
         Vector<String> allVec = new Vector<>();

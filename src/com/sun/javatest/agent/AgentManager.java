@@ -107,7 +107,7 @@ public class AgentManager
      * @see #removeObserver
      */
     public synchronized void addObserver(Observer o) {
-        observers = (Observer[])(DynamicArray.append(observers, o));
+        observers = DynamicArray.append(observers, o);
     }
 
     /**
@@ -115,7 +115,7 @@ public class AgentManager
      * @param o         The observer to be removed.
      */
     public synchronized void removeObserver(Observer o) {
-        observers = (Observer[])(DynamicArray.remove(observers, o));
+        observers = DynamicArray.remove(observers, o);
     }
 
     private synchronized void notifyStarted(Connection connection,

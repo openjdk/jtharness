@@ -95,8 +95,7 @@ class OptionsPane extends JPanel {
     }
 
     CustomReport[] getCustomSelected() {
-        return getActiveCustomReports().
-                toArray(new CustomReport[0]);
+        return getActiveCustomReports().toArray(new CustomReport[0]);
     }
     protected void initGUI() {
         setName("opts");

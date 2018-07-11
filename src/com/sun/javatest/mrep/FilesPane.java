@@ -451,7 +451,7 @@ class FilesPane extends JPanel {
         for (int i = 0; i < merged.size(); i++) {
             String s = merged.get(i).getText().trim();
             if (!"".equals(s)) {
-                result[l++] = merged.get(i).getText().trim();
+                result[l++] = s;
             }
         }
         return result;

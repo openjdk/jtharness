@@ -628,11 +628,11 @@ public class TestFinderQueue {
 
     private static class Notifier implements Observer {
         public synchronized void addObserver(Observer o) {
-            observers = (Observer[])DynamicArray.append(observers, o);
+            observers = DynamicArray.append(observers, o);
         }
 
         public synchronized void removeObserver(Observer o) {
-            observers = (Observer[])DynamicArray.remove(observers, o);
+            observers = DynamicArray.remove(observers, o);
         }
 
         public synchronized void found(File file) {
