@@ -60,7 +60,7 @@ public class TestDescription implements Serializable
      * filename and does not begin with the root filename.
      *
      */
-    public TestDescription(File root, File file, Map<String, String> params)
+    public TestDescription(File root, File file, Map<?, ?> params)
                 throws IllegalArgumentException {
 
         synchronized (this.getClass()) {
@@ -91,10 +91,8 @@ public class TestDescription implements Serializable
         rootRelativePath = rootRelativeFile.replace(File.separatorChar, '/');
 
         Vector<String> v = new Vector<>(0, params.size() * 2);
-        for (Iterator<String> i = params.keySet().iterator(); i.hasNext(); ) {
-            String key = i.next();
-            String value = params.get(key);
-            insert(v, key, value);
+        for (Map.Entry entry : params.entrySet()) {
+            insert(v, (String) entry.getKey(), (String) entry.getValue());
         }
         fields = new String[v.size()];
         v.copyInto(fields);

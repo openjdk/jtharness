@@ -280,7 +280,7 @@ public class Interview
     {
         // name is not null
         if (!name.equals(bundleName)) {
-            Class c = getClass();
+            Class<?> c = getClass();
             final ClassLoader cl = c.getClassLoader();
             final String rn;
             if (name.startsWith("/"))
@@ -429,7 +429,7 @@ public class Interview
      */
     private static HelpSetFactory createHelpFactory() {
         try {
-            Class factoryClass = Class.forName("com.sun.interview.JavaHelpFactory");
+            Class<?> factoryClass = Class.forName("com.sun.interview.JavaHelpFactory");
             return (HelpSetFactory) factoryClass.newInstance();
         } catch (ClassNotFoundException e) {
             return HelpSetFactory.DEFAULT;
@@ -1000,7 +1000,7 @@ public class Interview
      * @return an Iterator for the questions on the current path
      * @see #iteratePathToCurrent
      */
-    public Iterator iteratePath(boolean flattenNestedInterviews) {
+    public Iterator<Question> iteratePath(boolean flattenNestedInterviews) {
         Vector<Question> v = new Vector<>();
         iteratePath0(v, flattenNestedInterviews, true, true);
         return v.iterator();
@@ -1017,7 +1017,7 @@ public class Interview
      * up to and including the current question
      * @see #iteratePath
      */
-    public Iterator iteratePathToCurrent(boolean flattenNestedInterviews) {
+    public Iterator<Question> iteratePathToCurrent(boolean flattenNestedInterviews) {
         Vector<Question> v = new Vector<>();
         iteratePath0(v, flattenNestedInterviews, false, true);
         return v.iterator();
@@ -1103,7 +1103,7 @@ public class Interview
      * recursively, in all child interviews.
      * @return a set of all questions in this and every child interview.
      */
-    public Set getQuestions() {
+    public Set<Question> getQuestions() {
         Set<Question> s = new HashSet<>();
         getQuestions0(s);
         return s;
@@ -1145,8 +1145,8 @@ public class Interview
      * items, and false otherwise.
      */
     public boolean isChecklistEmpty() {
-        for (Iterator iter = iteratePath(true); iter.hasNext(); ) {
-            Question q = (Question) (iter.next());
+        for (Iterator<Question> iter = iteratePath(true); iter.hasNext(); ) {
+            Question q = iter.next();
             Checklist.Item[] items = q.getChecklistItems();
             if (items != null && items.length > 0)
                 return false;
@@ -1164,8 +1164,8 @@ public class Interview
      */
     public Checklist createChecklist() {
         Checklist c = new Checklist();
-        for (Iterator iter = iteratePath(true); iter.hasNext(); ) {
-            Question q = (Question) (iter.next());
+        for (Iterator<Question> iter = iteratePath(true); iter.hasNext(); ) {
+            Question q = iter.next();
             Checklist.Item[] items = q.getChecklistItems();
             if (items != null) {
                 for (Checklist.Item item : items) c.add(item);
@@ -1353,8 +1353,8 @@ public class Interview
             notifyCurrentQuestionChanged(newCurrentQuestion);
     }
 
-    private void loadMarkers(Map data) {
-        String s = (String) (data.get(MARKERS));
+    private void loadMarkers(Map<String, String> data) {
+        String s = data.get(MARKERS);
         int count = 0;
         if (s != null) {
             try {
@@ -1368,8 +1368,8 @@ public class Interview
         allMarkers = null;
 
         for (int i = 0; i < count; i++) {
-            String name = (String) (data.get(MARKERS_PREF + i + ".name"));
-            String tags = (String) (data.get(MARKERS_PREF + i));
+            String name = data.get(MARKERS_PREF + i + ".name");
+            String tags = data.get(MARKERS_PREF + i);
             if (tags != null)
                 loadMarkers(name, tags);
         }
@@ -1542,7 +1542,7 @@ public class Interview
      * @deprecated As of version 4.4.1, checksums are no longer
      *    calculated or checked.  True is always returned.
      */
-    public static boolean isChecksumValid(Map data, boolean okIfOmitted) {
+    public static boolean isChecksumValid(Map<String, String> data, boolean okIfOmitted) {
         return true;
     }
 
@@ -1616,7 +1616,7 @@ public class Interview
      * @see #LOCALE
      * @see #writeLocale(Map)
      */
-    protected static Locale readLocale(Map data) {
+    protected static Locale readLocale(Map<?, ?> data) {
         Locale result = null;
         Object o = data.get(LOCALE);
         if (o != null) {
@@ -2143,7 +2143,7 @@ public class Interview
         }
     }
 
-    public Set retrieveTemplateKeys() {
+    public Set<String> retrieveTemplateKeys() {
         if (getParent() != null)
             return getParent().retrieveTemplateKeys();
         else {

@@ -170,8 +170,7 @@ public class InterviewPropagator {
 
     private boolean processNotUpdatableKeys(Map<String, String> templateData, InterviewParameters interview) {
         boolean wasUpdate = false;
-        for (Object key : templateData.keySet()) {
-            String templateKey = (String) key;
+        for (String templateKey : templateData.keySet()) {
             if (!isSystemIgnorableTemplateProperty(templateKey) && !this.interview.isUpdatableKey(templateKey)) {
                 String newTV = templateData.get(templateKey);
                 String oldTV = interview.retrieveTemplateProperty(templateKey);
@@ -185,11 +184,11 @@ public class InterviewPropagator {
         return wasUpdate;
     }
 
-    private boolean processPartialQuestions(Map<String, String> templateData, Map<String, Question> allQuestionMap, Map actual) throws IOException {
-        Iterator keys = templateData.keySet().iterator();
+    private boolean processPartialQuestions(Map<String, String> templateData, Map<String, Question> allQuestionMap, Map<String, String> actual) throws IOException {
+        Iterator<String> keys = templateData.keySet().iterator();
         boolean updated = false;
         while (keys.hasNext()) {
-            String questionKey = (String) keys.next();
+            String questionKey = keys.next();
             if (!interview.isUpdatableKey(questionKey)) {
                 continue;
             }
@@ -198,7 +197,7 @@ public class InterviewPropagator {
                 String templateValue = templateData.get(questionKey);
                 Properties2 templateProps = InterviewPropagator.stringToProperties2(templateValue);
                 // create actual map
-                String actualValue = (String) actual.get(questionKey);
+                String actualValue = actual.get(questionKey);
                 Properties2 actualProps = InterviewPropagator.stringToProperties2(actualValue);
                 String oldTVal = interview.retrieveTemplateProperty(questionKey);
                 Properties2 oldTemplateProps = null;
@@ -207,11 +206,11 @@ public class InterviewPropagator {
                 }
 
 
-                Iterator itt = templateProps.keySet().iterator();
+                Iterator<String> itt = templateProps.keySet().iterator();
                 boolean currentQuestionUpdated = false;
                 Properties2 oldValuesMap = new Properties2();
                 while (itt.hasNext()) {
-                    String subKey = (String) itt.next();
+                    String subKey = itt.next();
                     if (interview.isAutoUpdatableKey(questionKey, subKey) ||
                             !actualProps.containsKey(subKey)) {
                         String templateSubValue = templateProps.getProperty(subKey);
@@ -255,10 +254,8 @@ public class InterviewPropagator {
         return updated;
     }
 
-    private void processQuestionFromSet(Map<String, String> templateData, Map<String, Question> allQ, Set keySet, Map<String, String> actual) {
-        Iterator keys = keySet.iterator();
-        while (keys.hasNext()) {
-            String questionKey = (String) keys.next();
+    private void processQuestionFromSet(Map<String, String> templateData, Map<String, Question> allQ, Set<String> keySet, Map<String, String> actual) {
+        for (String questionKey : keySet) {
             if (!isIgnorableTemplateProperty(questionKey)) {
                 String templateV = templateData.get(questionKey);
                 String oldTemplateV = interview.retrieveTemplateProperty(questionKey);
@@ -383,18 +380,14 @@ public class InterviewPropagator {
 
 
     private void acceptTemplateDatafromMap(final Map<String, String[]> map, boolean templateOnly) {
-        Iterator<String> it = map.keySet().iterator();
-        while (it.hasNext()) {
-            String key = it.next();
+        for (String key : map.keySet()) {
             String[] vals = map.get(key);
             interview.storeTemplateProperty(key, vals[NEW_TEMPLATE].toString());
         }
         if (!templateOnly) {
             Map<String, String> actual = new HashMap<>();
             interview.save(actual);
-            it = map.keySet().iterator();
-            while (it.hasNext()) {
-                String key = it.next();
+            for (String key : map.keySet()) {
                 String[] vals = map.get(key);
                 actual.put(key, vals[NEW_TEMPLATE]);
             }

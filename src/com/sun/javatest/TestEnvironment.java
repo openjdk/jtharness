@@ -36,6 +36,7 @@ import java.util.Vector;
 
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.Properties;
 import com.sun.javatest.util.StringArray;
 
 /**
@@ -75,7 +76,7 @@ public class TestEnvironment
 
     /**
      * Add a default set of properties to be included when environments are
-     * created.
+     * created. Properties are passed in as a {@code Map<String, String>} instance.
      * @param name a name for this collection or properties, so that the
      * source of the properties can be identified when browing an environment
      * @param propTable a table of properties to be included when environments
@@ -90,6 +91,20 @@ public class TestEnvironment
         //System.err.println("TEC: add default propTable " + name);
         defaultPropTableNames = DynamicArray.append(defaultPropTableNames, name);
         defaultPropTables = DynamicArray.append(defaultPropTables, propTable);
+    }
+
+    /**
+     * Add a default set of properties to be included when environments are
+     * created. Properties are passed in as a {@code java.util.Properties} instance.
+     * @param name a name for this collection or properties, so that the
+     * source of the properties can be identified when browing an environment
+     * @param propTable a table of properties to be included when environments
+     * are created
+     * @see #clearDefaultPropTables
+     * @throws NullPointerException if either name or propTable is null.
+     */
+    public static synchronized void addDefaultPropTable(String name, java.util.Properties propTable) {
+        addDefaultPropTable(name, Properties.convertToStringProps(propTable));
     }
 
     /**

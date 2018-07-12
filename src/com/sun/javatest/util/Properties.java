@@ -113,7 +113,8 @@ class Properties extends Hashtable<String, String> {
     }
 
     /**
-     * Saves string keys and values of the given properties list into the given {@code Map<String, String>} and returns it.
+     * Converts the given properties to {@code Map<String, String>} instance
+     * picking only string properties from the given {@code java.util.Properties} instance.
      */
     public static Map<String, String> convertToStringProps(java.util.Properties properties) {
         return extractStringPropsTo(new HashMap<String, String>(), properties);
