@@ -379,9 +379,7 @@ class FilesPane extends JPanel {
         String formatVersion = "formatVersion=\"v1\"";
 
         if (!f.getName().endsWith(".xml")) return false;
-        BufferedReader r = null;
-        try {
-            r = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
+        try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))) {
             boolean hasSchema, hasVersion = false;
 
             // line 1
@@ -396,12 +394,6 @@ class FilesPane extends JPanel {
             return (hasSchema && hasVersion);
         } catch (IOException ex) {
             return false;
-        } finally {
-            try {
-                if (r != null) r.close();
-            } catch (IOException ex) {
-                // nothing...
-            }
         }
     }
 

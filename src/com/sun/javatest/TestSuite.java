@@ -817,9 +817,7 @@ public class TestSuite
                                                          InterviewParameters ip)
         throws Fault, IOException
     {
-        InputStream in = null;
-        try {
-            in = new BufferedInputStream(new FileInputStream(template));
+        try (InputStream in = new BufferedInputStream(new FileInputStream(template))) {
             Map<String, String> stringProps = com.sun.javatest.util.Properties.load(in);
             String tm = stringProps.get(InterviewParameters.IS_TEMPLATE);
             if (InterviewParameters.TRUE.equals(tm)) {
@@ -832,8 +830,6 @@ public class TestSuite
                 //     or throw Fault
                 return null;
             }
-        } finally {
-            if (in != null) in.close();
         }
     }
 

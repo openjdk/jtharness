@@ -238,10 +238,8 @@ public class BinaryTestWriter
         if (log != null)
             log.println("Writing " + outFile);
 
-        FileOutputStream fos = new FileOutputStream(outFile);
-        ZipOutputStream zos = null;
-        try {
-            zos = new ZipOutputStream(new BufferedOutputStream(fos));
+        try (FileOutputStream fos = new FileOutputStream(outFile);
+             ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos))) {
             zos.setMethod(ZipOutputStream.DEFLATED);
             zos.setLevel(9);
             ZipEntry stringZipEntry = stringTable.write(zos);
@@ -262,17 +260,6 @@ public class BinaryTestWriter
             }
             else {
                 return 0;
-            }
-        }
-        finally {
-            // attempt to close zip writer first
-            // followed by the underlying writer for leak prevention
-            if (zos != null){
-                try { zos.close(); } catch (IOException e) { }
-            }
-
-            if (fos != null){
-                try { fos.close(); } catch (IOException e) { }
             }
         }
     }

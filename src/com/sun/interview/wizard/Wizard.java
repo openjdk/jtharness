@@ -153,8 +153,7 @@ public class Wizard extends JComponent {
      * @see #setFile
      */
     public void open(File f) throws Interview.Fault, IOException {
-        InputStream in = new BufferedInputStream(new FileInputStream(f));
-        try {
+        try (InputStream in = new BufferedInputStream(new FileInputStream(f))) {
 
             Map<String, String> stringProps = com.sun.javatest.util.Properties.load(in);
             interview.load(stringProps);
@@ -165,9 +164,6 @@ public class Wizard extends JComponent {
             }
             initialInfoVisible = info.equals("true");
         }
-        finally {
-            in.close();
-        }
     }
 
     /**
@@ -177,17 +173,13 @@ public class Wizard extends JComponent {
      * @see Interview#save
      */
     public void save(File f) throws IOException {
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(f));
-        try {
+        try (OutputStream out = new BufferedOutputStream(new FileOutputStream(f))) {
             Properties p = new Properties();
             if (infoPanel != null)
                 p.put("INFO", String.valueOf(infoPanel.isShowing()));
             interview.save(com.sun.javatest.util.Properties.convertToStringProps(p));
             interview.setEdited(false);
             p.save(out, "Wizard data file: " + interview.getTitle());
-        }
-        finally {
-            out.close();
         }
     }
 

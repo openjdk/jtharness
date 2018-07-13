@@ -848,18 +848,11 @@ public class Desktop
             File dir = f.getParentFile();
             if (dir != null && !dir.exists())
                 dir.mkdirs();
-            FileOutputStream fos = null;
-            try {
-                fos = new FileOutputStream(f);
+            try (FileOutputStream fos = new FileOutputStream(f)) {
                 OutputStream out = new BufferedOutputStream(fos);
                 Properties.store(p, out, "JT Harness Desktop");
                 out.close();
             }
-            finally {
-                if (fos != null){
-                    try { fos.close(); } catch (IOException e) { }
-                }
-            }   // finally
         }
         catch (IOException e) {
             System.err.println(uif.getI18NString("dt.cantWriteDt.txt", e.getMessage()));
@@ -1016,9 +1009,7 @@ public class Desktop
         Map<String, String> stringPropsMap = new HashMap<>();
 
         if (file != null && file.exists()) {
-            FileInputStream fis = null;
-            try {
-                fis = new FileInputStream(file);
+            try (FileInputStream fis = new FileInputStream(file)) {
                 InputStream in = new BufferedInputStream(fis);
                 stringPropsMap = Properties.load(in);
                 in.close();
@@ -1026,11 +1017,6 @@ public class Desktop
             catch (IOException e) {
                 // I18N
                 System.err.println("Error reading desktop file: " + e);
-            }
-            finally {
-                if (fis != null){
-                    try { fis.close(); } catch (IOException e) { }
-                }
             }
         }
 

@@ -987,16 +987,12 @@ public abstract class InterviewParameters
         // read the .jti data
         Map<String, String> data;
 
-        InputStream in = new BufferedInputStream(new FileInputStream(file));
-        try {
+        try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
             data = Properties.load(in);
         }
         catch (RuntimeException e) {
             // can get IllegalArgumentException if the file is corrupt
             throw new JTIFault(i18n, "ip.errorReadingFile", new Object[] { file, e });
-        }
-        finally {
-            in.close();
         }
 
         // if the test suite has not been given, set it from the .jti data
@@ -1273,13 +1269,9 @@ public abstract class InterviewParameters
      * @return true if there was an update from template
      */
     public boolean load(File file) throws FileNotFoundException, IOException, Fault {
-        InputStream in = new BufferedInputStream(new FileInputStream(file));
-        try {
+        try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
             Map<String, String> data = Properties.load(in);
             return load(data, file);
-        }
-        finally {
-            in.close();
         }
     }
 

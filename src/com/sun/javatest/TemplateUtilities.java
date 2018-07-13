@@ -71,9 +71,7 @@ public class TemplateUtilities {
         File dataFile = wd.getSystemFile(TEMPLATE_FILE);
         Properties p = new Properties();
 
-        FileInputStream in = null;
-        try {
-            in = new FileInputStream(dataFile);
+        try (FileInputStream in = new FileInputStream(dataFile)) {
             p.load(in);
         }
         catch (FileNotFoundException e) {
@@ -83,14 +81,6 @@ public class TemplateUtilities {
         }
         catch (IOException e) {
             // should log the error
-        }
-        finally {
-            try {
-                if (in != null)
-                    in.close();
-            }
-            catch (IOException e) {
-            }
         }
 
         if (p != null)

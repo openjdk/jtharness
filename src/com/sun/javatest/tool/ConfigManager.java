@@ -968,11 +968,8 @@ public class ConfigManager
         }
 
         private Map loadFile(File file) throws Fault {
-            FileInputStream fis = null;
-            InputStream in = null;
-            try {
-                fis = new FileInputStream(file);
-                in = new BufferedInputStream(fis);
+            try (FileInputStream fis = new FileInputStream(file);
+                 InputStream in = new BufferedInputStream(fis)) {
                 Properties props = new Properties();
                 props.load(in);
                 in.close();
@@ -984,15 +981,6 @@ public class ConfigManager
             catch (IOException e) {
                 throw new Fault(i18n, "cnfg.set.cantReadFile",
                                 new Object[] { file, e.getMessage() });
-            }
-            finally {
-                if (in != null){
-                    try { in.close(); } catch (IOException e) { }
-                }
-
-                if (fis != null){
-                    try { fis.close(); } catch (IOException e) { }
-                }
             }
         }
 
@@ -1056,9 +1044,7 @@ public class ConfigManager
         }
 
         private Map loadFile(File file) throws Fault {
-            FileInputStream fis = null;
-            try {
-                fis = new FileInputStream(file);
+            try (FileInputStream fis = new FileInputStream(file)) {
                 InputStream in = new BufferedInputStream(fis);
                 Properties props = new Properties();
                 props.load(in);
@@ -1071,11 +1057,6 @@ public class ConfigManager
             catch (IOException e) {
                 throw new Fault(i18n, "cnfg.set.cantReadFile",
                                 new Object[] { file, e.getMessage() });
-            }
-            finally {
-                if (fis != null){
-                    try { fis.close(); } catch (IOException e) { }
-                }
             }
         }
 

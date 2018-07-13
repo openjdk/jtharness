@@ -354,18 +354,13 @@ public class Report implements ReportModel {
         public Vector<String> getLinks() {
             Vector<String> links = new Vector<>();
             StringBuilder content = new StringBuilder();
-            BufferedReader r = null;
-            try {
-                r = new BufferedReader(new InputStreamReader(new FileInputStream(index), StandardCharsets.UTF_8));
+            try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(index), StandardCharsets.UTF_8))) {
                 String line;
                 while( (line = r.readLine()) != null ) {
                     content.append(line);
                     content.append("\n");
                 }
             } catch (IOException e) {}
-            finally {
-                try { if (r != null) r.close(); } catch (IOException e) {}
-            }
 
             int i = 0;
             while (i < (content.length() - 1) ) {
@@ -413,18 +408,13 @@ public class Report implements ReportModel {
      */
     private void updateIndexLinks(File index, int backupNumb) {
         StringBuilder sb = new StringBuilder();
-        BufferedReader r = null;
-        try {
-            r = new BufferedReader(new InputStreamReader(new FileInputStream(index), StandardCharsets.UTF_8));
+        try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(index), StandardCharsets.UTF_8))) {
             String line;
             while( (line = r.readLine()) != null ) {
                 sb.append(line);
                 sb.append("\n");
             }
         } catch (IOException e) {}
-        finally {
-            try { if (r != null) r.close(); } catch (IOException e) {}
-        }
 
         String oldId = backupNumb == 1 ? "" : "~" + (backupNumb - 1) + "~";
         String newId = "~" + backupNumb + "~";
@@ -457,17 +447,12 @@ public class Report implements ReportModel {
             }
         }
 
-        Writer writer = null;
-        try {
-            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(index), StandardCharsets.UTF_8));
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(index), StandardCharsets.UTF_8))) {
             writer.write(sb.toString());
             writer.flush();
             writer.close();
         }
         catch (IOException ex) {}
-        finally {
-            try { if (writer != null) writer.close(); } catch (IOException e) {}
-        }
     }
 
 
@@ -501,9 +486,7 @@ public class Report implements ReportModel {
     }
 
     private void fillIndexFile(File index, ReportSettings s,  List<ReportLink> links) {
-        Writer writer = null;
-        try {
-            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(index), StandardCharsets.UTF_8));
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(index), StandardCharsets.UTF_8))) {
             HTMLWriterEx out = new HTMLWriterEx(writer);
             out.setI18NResourceBundle(i18n);
 
@@ -542,9 +525,6 @@ public class Report implements ReportModel {
 
         } catch (IOException e) {
             //return;
-        }
-        finally {
-            try { if (writer != null) writer.close(); } catch (IOException e) {}
         }
     }
 

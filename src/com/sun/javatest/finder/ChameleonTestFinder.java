@@ -153,9 +153,7 @@ public class ChameleonTestFinder extends TestFinder {
             }
         });
 
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
             String line;
             int lineNum = 0;
             while ((line = in.readLine()) != null) {
@@ -184,13 +182,6 @@ public class ChameleonTestFinder extends TestFinder {
         catch (IOException e) {
             throw new Fault(i18n, "cham.ioError",
                             new Object[] {file, e});
-        }
-        finally {
-            // attempt to close buffered writer first
-            // followed by the underlying writer for leak prevention
-            if (in != null){
-                try { in.close(); } catch (IOException e) { }
-            }
         }
 
         entryFile = file;

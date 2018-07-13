@@ -188,18 +188,13 @@ public class DirectoryClassLoader extends ClassLoader
         File file = new File(loadDir, cname);
 
         try {
-            InputStream in = new FileInputStream(file);
             byte[] data;
-            try {
+            try (InputStream in = new FileInputStream(file)) {
                 int len = in.available();
                 data = new byte[len];
                 for (int total = 0; total < data.length; ) {
                     total += in.read(data, total, data.length - total);
                 }
-            }
-            finally {
-                if (in != null)
-                    in.close();
             }
             // the next line may throw LinkageError, which we let
             // escape to the caller

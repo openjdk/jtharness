@@ -616,16 +616,12 @@ public class CommandContext
 
 
                 try {
-                    InputStream in = new BufferedInputStream(new FileInputStream(configFilePath));
-                    try {
+                    try (InputStream in = new BufferedInputStream(new FileInputStream(configFilePath))) {
                         configData = Properties.load(in);
                     }
                     catch (RuntimeException e) {
                         // can get IllegalArgumentException if the file is corrupt
                         throw new Fault(i18n, "cc.cantReadConfig", new Object[] { configFilePath, e });
-                    }
-                    finally {
-                        in.close();
                     }
                 }
                 catch (FileNotFoundException e) {

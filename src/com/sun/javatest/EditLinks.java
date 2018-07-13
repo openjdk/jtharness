@@ -287,22 +287,14 @@ public class EditLinks
         int size = (int)(from.length());
         byte data[] = new byte[size];
 
-        InputStream in = new BufferedInputStream(new FileInputStream(from));
-        try {
+        try (InputStream in = new BufferedInputStream(new FileInputStream(from))) {
             for (int total = 0; total < data.length; ) {
                 total += in.read(data, total, data.length - total);
             }
         }
-        finally {
-            in.close();
-        }
 
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(to));
-        try {
+        try (OutputStream out = new BufferedOutputStream(new FileOutputStream(to))) {
             out.write(data, 0, data.length);
-        }
-        finally {
-            out.close();
         }
     }
 

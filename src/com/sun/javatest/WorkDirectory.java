@@ -434,15 +434,10 @@ public class WorkDirectory {
         File templateData = new File(canonDir, JTDATA + File.separator + "template.data");
         if (templateData.exists()) {
             Properties p = new Properties();
-            FileInputStream fis = null;
-            try {
-                fis = new FileInputStream(templateData.getAbsolutePath());
+            try (FileInputStream fis = new FileInputStream(templateData.getAbsolutePath())) {
                 p.load(fis);
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-            finally {
-                try { if (fis != null) fis.close(); } catch (IOException e) {}
             }
 
             String templateFile = p.getProperty("file");

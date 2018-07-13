@@ -887,9 +887,8 @@ class QuickStartWizard extends ToolDialog
             }
 
             try {
-                InputStream in = new BufferedInputStream(new FileInputStream(f));
 
-                try {
+                try (InputStream in = new BufferedInputStream(new FileInputStream(f))) {
                     data.clear();
                     data.load(in);
                     file = f;
@@ -898,9 +897,6 @@ class QuickStartWizard extends ToolDialog
                         // can get IllegalArgumentException if the file is corrupt
                     uif.showError("qsw.cfg.cantReadFile", e);
                 return null;
-                }
-                finally {
-                    in.close();
                 }
             }
             catch (IOException e) {

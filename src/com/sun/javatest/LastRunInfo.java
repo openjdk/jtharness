@@ -42,14 +42,10 @@ public class LastRunInfo {
     private LastRunInfo(WorkDirectory wd) throws IOException {
         this();
 
-        FileInputStream in = null;
         Properties p;
-        try {
-            in = new FileInputStream(wd.getSystemFile(FILENAME));
+        try (FileInputStream in = new FileInputStream(wd.getSystemFile(FILENAME))) {
             p = new Properties();
             p.load(in);
-        } finally {
-            try { if (in != null) in.close(); } catch (IOException e) {}
         }
 
         String val = p.getProperty(START);
@@ -213,15 +209,10 @@ public class LastRunInfo {
         p.setProperty(FINISH, Long.toString(stop));
         p.setProperty(TEST_URLS, join(testURLs));
 
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(workdir.getSystemFile(FILENAME));
+        try (FileOutputStream out = new FileOutputStream(workdir.getSystemFile(FILENAME))) {
 
             // this is a date file, does not need i18n
             p.store(out, "Last test run info");
-        }
-        finally {
-            try { if (out != null) out.close(); } catch (IOException e) {}
         }
     }
 

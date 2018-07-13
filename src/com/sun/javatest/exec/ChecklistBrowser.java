@@ -222,12 +222,9 @@ class ChecklistBrowser extends ToolDialog
             }
         }
 
-        Writer fw = null;
-        Writer out = null;
-        try {
-            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
-            out = new BufferedWriter(fw);
-            TextPane pane = (TextPane)body.getMediaPane(body.TEXT);
+        try (Writer fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
+             Writer out = new BufferedWriter(fw)) {
+            TextPane pane = (TextPane) body.getMediaPane(body.TEXT);
             out.write(pane.getText());
             out.close();
         }
@@ -239,17 +236,6 @@ class ChecklistBrowser extends ToolDialog
             else
                 uif.showError("cb.save.error", new Object[] { file, e } );
         }
-        finally {
-            // attempt to close buffered writer first
-            // followed by the underlying writer for leak prevention
-            if (out != null){
-                try { out.close(); } catch (IOException e) { }
-            }
-
-            if (fw != null){
-                try { fw.close(); } catch (IOException e) { }
-            }
-        }   // finally
     }
 
     private void doPrintSetup() {

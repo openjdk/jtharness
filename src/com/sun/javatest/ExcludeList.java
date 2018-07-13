@@ -93,17 +93,13 @@ public class ExcludeList
     {
         setStrictModeEnabled(strict);
         if (f != null) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
-            try {
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))) {
                 Parser p = new Parser(in);
                 Entry e;
                 while ((e = p.readEntry()) != null)
                     addEntry(e);
 
                 title = p.getTitle();
-            }
-            finally {
-                in.close();
             }
         }
     }

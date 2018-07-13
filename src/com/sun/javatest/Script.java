@@ -733,9 +733,7 @@ public abstract class Script
             // if none found, set setPrefix to empty string
             // if error, report the error, ignore pkgPrefix, and set file to
             // be unconditionally compiled.
-            BufferedReader r = null;
-            try {
-                r = new BufferedReader(new FileReader(src));
+            try (BufferedReader r = new BufferedReader(new FileReader(src))) {
                 StreamTokenizer tr = new StreamTokenizer(r);
                 tr.ordinaryChar('/');
                 tr.slashStarComments(true);
@@ -763,15 +761,6 @@ public abstract class Script
                 trOut.println(i18n.getString("script.badDateStamp", new Object[] { src, e }));
                 v.addElement(src);
                 continue;
-            }
-            finally {
-                if (r != null) {
-                    try {
-                        r.close();
-                    }
-                    catch (IOException ignore) {
-                    }
-                }
             }
 
 
@@ -1007,20 +996,10 @@ public abstract class Script
             section.getMessageWriter().println(i18n.getString("script.command",
                                                               new Object[] {className, StringArray.join(args) }));
 
-            PrintWriter out1 = null;
-            PrintWriter out2 = null;
-            try {
-                out1 = section.createOutput(cmdOut1Name);
-                out2 = section.createOutput(cmdOut2Name);
+            try (PrintWriter out1 = section.createOutput(cmdOut1Name);
+                 PrintWriter out2 = section.createOutput(cmdOut2Name)) {
 
                 s = invokeClass(className, args, out1, out2);
-
-                out1.close();
-                out2.close();
-            }
-            finally {
-                if (out2 != null)  out2.close();
-                if (out1 != null)  out1.close();
             }
 
             section.setStatus(s);
