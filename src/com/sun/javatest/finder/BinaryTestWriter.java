@@ -245,7 +245,6 @@ public class BinaryTestWriter
             ZipEntry stringZipEntry = stringTable.write(zos);
             ZipEntry testTableZipEntry = testTable.write(zos);
             ZipEntry testTreeZipEntry = testTree.write(zos);
-            zos.close();
 
             // report statistics
             if (log != null) {

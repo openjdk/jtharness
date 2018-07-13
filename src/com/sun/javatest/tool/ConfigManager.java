@@ -972,7 +972,6 @@ public class ConfigManager
                  InputStream in = new BufferedInputStream(fis)) {
                 Properties props = new Properties();
                 props.load(in);
-                in.close();
                 return props;
             }
             catch (FileNotFoundException e) {
@@ -1044,11 +1043,10 @@ public class ConfigManager
         }
 
         private Map loadFile(File file) throws Fault {
-            try (FileInputStream fis = new FileInputStream(file)) {
-                InputStream in = new BufferedInputStream(fis);
+            try (FileInputStream fis = new FileInputStream(file);
+                InputStream in = new BufferedInputStream(fis)) {
                 Properties props = new Properties();
                 props.load(in);
-                in.close();
                 return props;
             }
             catch (FileNotFoundException e) {

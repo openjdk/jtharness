@@ -848,10 +848,9 @@ public class Desktop
             File dir = f.getParentFile();
             if (dir != null && !dir.exists())
                 dir.mkdirs();
-            try (FileOutputStream fos = new FileOutputStream(f)) {
-                OutputStream out = new BufferedOutputStream(fos);
+            try (FileOutputStream fos = new FileOutputStream(f);
+                 OutputStream out = new BufferedOutputStream(fos)) {
                 Properties.store(p, out, "JT Harness Desktop");
-                out.close();
             }
         }
         catch (IOException e) {
@@ -1009,10 +1008,9 @@ public class Desktop
         Map<String, String> stringPropsMap = new HashMap<>();
 
         if (file != null && file.exists()) {
-            try (FileInputStream fis = new FileInputStream(file)) {
-                InputStream in = new BufferedInputStream(fis);
+            try (FileInputStream fis = new FileInputStream(file);
+                 InputStream in = new BufferedInputStream(fis)) {
                 stringPropsMap = Properties.load(in);
-                in.close();
             }
             catch (IOException e) {
                 // I18N

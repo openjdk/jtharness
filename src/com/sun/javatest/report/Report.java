@@ -450,7 +450,6 @@ public class Report implements ReportModel {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(index), StandardCharsets.UTF_8))) {
             writer.write(sb.toString());
             writer.flush();
-            writer.close();
         }
         catch (IOException ex) {}
     }

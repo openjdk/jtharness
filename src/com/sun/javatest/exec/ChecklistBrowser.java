@@ -226,7 +226,6 @@ class ChecklistBrowser extends ToolDialog
              Writer out = new BufferedWriter(fw)) {
             TextPane pane = (TextPane) body.getMediaPane(body.TEXT);
             out.write(pane.getText());
-            out.close();
         }
         catch (IOException e) {
             if (!file.canWrite())

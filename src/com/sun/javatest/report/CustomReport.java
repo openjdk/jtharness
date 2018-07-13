@@ -79,11 +79,10 @@ public abstract class CustomReport {
             } else {
                 // make it!
                 env.tmpXmlReportFile = File.createTempFile("jtrep", "tmp");
-                try (FileOutputStream fos = new FileOutputStream(env.tmpXmlReportFile)) {
-                    Writer fw = new BufferedWriter(new OutputStreamWriter(fos, XMLReportMaker.XML_CHARSET));
+                try (FileOutputStream fos = new FileOutputStream(env.tmpXmlReportFile);
+                     Writer fw = new BufferedWriter(new OutputStreamWriter(fos, XMLReportMaker.XML_CHARSET))) {
                     XMLReport xr = new XMLReport();
                     xr.write(fw, env);
-                    fw.close();
                 }
                 xmlSrc = env.tmpXmlReportFile;
             }
