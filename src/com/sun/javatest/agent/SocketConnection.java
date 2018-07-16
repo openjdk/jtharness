@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Hashtable;
 
@@ -223,7 +224,12 @@ public class SocketConnection implements Connection {
             prev = jtSm.setAllowPropertiesAccess(true);
         }
         try {
-            ServerSocket serverSocket = new ServerSocket(port, backlog);
+            ServerSocket serverSocket = new ServerSocket();
+            // Ensure SO_REUSEADDR is false. (It is only needed if we're
+            // using a fixed port.) The default setting for SO_REUSEADDR
+            // is platform-specific, and Solaris has it on by default.
+            serverSocket.setReuseAddress(false);
+            serverSocket.bind(new InetSocketAddress(port), backlog);
             return serverSocket;
         } finally {
             if (jtSm != null) {
