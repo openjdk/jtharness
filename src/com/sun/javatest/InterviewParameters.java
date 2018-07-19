@@ -1139,10 +1139,7 @@ public abstract class InterviewParameters
                 testSuite = TestSuite.open(testSuitePath);
             }
             catch (FileNotFoundException e) {
-                throw new Fault(i18n, "ip.cantFindTestSuite", testSuitePath);
-            }
-            catch (IOException e) {
-                throw new Fault(i18n, "ip.cantOpenTestSuite", new Object[] { testSuitePath, e });
+                throw new Fault(i18n, "ip.cantFindTestSuite", new Object[] { testSuitePath, e });
             }
             catch (TestSuite.Fault e) {
                 throw new Fault(i18n, "ip.cantOpenTestSuite", new Object[] { testSuitePath, e.getMessage() });
@@ -1165,10 +1162,7 @@ public abstract class InterviewParameters
                     workDir = WorkDirectory.open(workDirPath, testSuite);
             }
             catch (FileNotFoundException e) {
-                throw new Fault(i18n, "ip.cantFindWorkDir", workDirPath);
-            }
-            catch (IOException e) {
-                throw new Fault(i18n, "ip.cantOpenWorkDir", new Object[] { workDirPath, e });
+                throw new Fault(i18n, "ip.cantFindWorkDir", new Object[] { workDirPath, e });
             }
             catch (WorkDirectory.Fault e) {
                 throw new Fault(i18n, "ip.cantOpenWorkDir", new Object[] { workDirPath, e.getMessage() });

@@ -593,11 +593,7 @@ public class EditJTI
             in = new BufferedInputStream(new FileInputStream(file));
         }
         catch (FileNotFoundException e) {
-            throw new Fault(i18n, "editJTI.cantFindImport", file);
-        }
-        catch (IOException e) {
-            throw new Fault(i18n, "editJTI.cantOpenImport",
-                            new Object[] { file, e });
+            throw new Fault(i18n, "editJTI.cantFindImport", new Object[] { file, e });
         }
 
         Properties p;
