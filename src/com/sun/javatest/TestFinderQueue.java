@@ -186,7 +186,7 @@ public class TestFinderQueue {
 
         // build up the fifo of tests to be used by readNextFile
 
-        tests = new Fifo();
+        tests = new Fifo<>();
         currInitialFile = null;
 
         for (int pass = 0; pass < 2; pass++) {
@@ -233,7 +233,7 @@ public class TestFinderQueue {
      */
     public void repeat(TestDescription[] tds) {
         if (tests == null)
-            tests = new Fifo(); // for now
+            tests = new Fifo<>(); // for now
         for (int i = 0; i < tds.length; i++) {
             TestDescription td = tds[i];
             testDescsFound.insert(td);
@@ -258,7 +258,7 @@ public class TestFinderQueue {
 
             // read files until there is a test description available or there
             // are no more files.
-            while ((td = (TestDescription)(testDescsFound.remove())) == null) {
+            while ((td = testDescsFound.remove()) == null) {
                 boolean ok = readNextFile();
                 if (!ok)
                     return null;
@@ -507,7 +507,7 @@ public class TestFinderQueue {
             // are there any more tests that have not been read?
             // check until we find one (just one).
             while (filesToRead.isEmpty() && !tests.isEmpty()) {
-                currInitialFile = (File)tests.remove();
+                currInitialFile = tests.remove();
                 foundFile(currInitialFile);
             }
 
@@ -687,7 +687,7 @@ public class TestFinderQueue {
 
 
     private TestFinder testFinder;
-    private Fifo tests;
+    private Fifo<File> tests;
     private TestFilter[] filters;
     private String selectedId;
     private File rootDir;
@@ -697,7 +697,7 @@ public class TestFinderQueue {
 
     private Vector<File> filesToRead  = new Vector<>(32, 8);
     private int fileInsertPosn;
-    private Fifo testDescsFound = new Fifo();
+    private Fifo<TestDescription> testDescsFound = new Fifo<>();
     private int filesRemainingCount;
     private int filesDoneCount;
     private int testsDoneCount;

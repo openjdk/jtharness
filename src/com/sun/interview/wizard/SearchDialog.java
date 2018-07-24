@@ -263,7 +263,7 @@ class SearchDialog extends JDialog
         return b;
     }
 
-    private JComboBox createChoice(final String uiKey, final String[] choiceKeys) {
+    private JComboBox<String> createChoice(final String uiKey, final String[] choiceKeys) {
         // create a cache of the presentation string, for use when
         // rendering, but otherwise, let the JComboBox work in terms of the
         // choiceKeys
@@ -277,7 +277,7 @@ class SearchDialog extends JDialog
         ac.setAccessibleName(i18n.getString(uiKey + ".tip"));
 
         choice.setRenderer(new DefaultListCellRenderer() {
-            public Component getListCellRendererComponent(JList list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
+            public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
                 Object c = o;
                 for (int i = 0; i < choiceKeys.length; i++) {
                     if (choiceKeys[i] == o) {
@@ -329,7 +329,7 @@ class SearchDialog extends JDialog
     private HelpBroker helpBroker;
     private String helpPrefix;
     private JTextField textField;
-    private JComboBox whereChoice;
+    private JComboBox<String> whereChoice;
     private JCheckBox caseChk;
     private JCheckBox wordChk;
 

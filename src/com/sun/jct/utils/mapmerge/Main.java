@@ -136,8 +136,8 @@ public class Main
         }
 
         public void execute() {
-            for (Iterator iter = fileSets.iterator(); iter.hasNext(); ) {
-                FileSet fs = (FileSet) iter.next();
+            for (Iterator<FileSet> iter = fileSets.iterator(); iter.hasNext(); ) {
+                FileSet fs = iter.next();
                 FileScanner s = fs.getDirectoryScanner(getProject());
                 m.addFiles(s.getBasedir(), s.getIncludedFiles());
             }
@@ -184,17 +184,17 @@ public class Main
         out.println("<map version=\"1.0\">");
 
         int maxLen = 0;
-        for (Iterator iter = map.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry e = (Map.Entry) (iter.next());
-            String target = (String) (e.getKey());
-            String url = (String) (e.getValue());
+        for (Iterator<Map.Entry<String, String>> iter = map.entrySet().iterator(); iter.hasNext(); ) {
+            Map.Entry<String, String> e = iter.next();
+            String target = e.getKey();
+            String url = e.getValue();
             maxLen = Math.max(maxLen, target.length());
         }
 
-        for (Iterator iter = map.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry e = (Map.Entry) (iter.next());
-            String target = (String) (e.getKey());
-            String url = (String) (e.getValue());
+        for (Iterator<Map.Entry<String, String>> iter = map.entrySet().iterator(); iter.hasNext(); ) {
+            Map.Entry<String, String> e = iter.next();
+            String target = e.getKey();
+            String url = e.getValue();
             out.print("  <mapID target=\"" + target + "\"  ");
             for (int i = target.length(); i < maxLen; i++)
                 out.print(' ');

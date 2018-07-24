@@ -332,7 +332,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
 
 //----------member variables------------------------------------------------
 
-    protected ArrayList<String> requiredSuperclass = new ArrayList();
+    protected ArrayList<String> requiredSuperclass = new ArrayList<>();
     protected String initialTag = "test";
     protected final MethodFinderVisitor mfv = new MethodFinderVisitor();
     protected static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(JUnitSuperTestFinder.class);

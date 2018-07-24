@@ -153,7 +153,7 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
      */
     protected void scanFile(File file) {
         testMethods = new ArrayList<>();  // new every time we visit a new class
-        tdValues = new HashMap();
+        tdValues = new HashMap<>();
 
         String name = file.getName();
         int dot = name.indexOf('.');

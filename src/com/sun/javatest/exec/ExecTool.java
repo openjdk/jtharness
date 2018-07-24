@@ -72,7 +72,6 @@ public class ExecTool extends Tool implements ExecModel,
     final List<ET_Control> controls = new ArrayList<ET_Control>();
 
     JMenuBar menuBar = null;
-    HashMap map = new HashMap();
     private boolean shouldPauseTree;
     private PageFormat pageFormat;
 

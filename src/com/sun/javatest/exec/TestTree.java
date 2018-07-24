@@ -171,10 +171,10 @@ class TestTree extends JTree {
             return null;
 
         TreePath[] paths = new TreePath[0];
-        Enumeration e = getDescendantToggledPaths(new TreePath(currModel.getRoot()));
+        Enumeration<TreePath> e = getDescendantToggledPaths(new TreePath(currModel.getRoot()));
 
         while (e != null && e.hasMoreElements()) {
-            TreePath tp = (TreePath)(e.nextElement());
+            TreePath tp = (e.nextElement());
             if (!isVisible(tp))     // if we can't see it, we don't care
                 continue;
             if (!isExpanded(tp))    // if it's not expanded, we don't need it

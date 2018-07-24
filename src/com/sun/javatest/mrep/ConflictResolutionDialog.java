@@ -66,7 +66,7 @@ public class ConflictResolutionDialog extends JDialog {
     private JButton cancelButton;
 
     private DefaultListModel<String> listModel;
-    private JList list;
+    private JList<?> list;
 
     private int     selectedIndex;
     private boolean bPreferredReport;

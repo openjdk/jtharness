@@ -227,7 +227,7 @@ public class PropertyArray {
      * @return an array that does not contain the named property
      */
     public static String[] remove(String[] data, String key) {
-        Vector vec = copyOutOf(data);
+        Vector<String> vec = copyOutOf(data);
         int lower = 0;
         int upper = vec.size() - 2;
         int mid = 0;
@@ -239,7 +239,7 @@ public class PropertyArray {
         }
 
         // goes at the end
-        String last = (String)vec.elementAt(upper);
+        String last = vec.elementAt(upper);
         int cmp = key.compareTo(last);
         if (cmp > 0) {
             return data;
@@ -248,7 +248,7 @@ public class PropertyArray {
         while (lower <= upper) {
             // in next line, take care to ensure that mid is always even
             mid = lower + ((upper - lower) / 4) * 2;
-            String e = (String)(vec.elementAt(mid));
+            String e = (vec.elementAt(mid));
             cmp = key.compareTo(e);
             if (cmp < 0) {
                 upper = mid - 2;
@@ -259,7 +259,7 @@ public class PropertyArray {
             else {
                 // strings equal, zap key and value
                 vec.removeElementAt(mid);
-                old = (String)(vec.elementAt(mid));
+                old = vec.elementAt(mid);
                 vec.removeElementAt(mid);
                 break;
             }
@@ -373,15 +373,15 @@ public class PropertyArray {
      * @param props an array of sequential name value properties
      * @return an enumeration of the properties in the array
      */
-    public static Enumeration enumerate(final String[] props) {
-        return new Enumeration() {
+    public static Enumeration<String> enumerate(final String[] props) {
+        return new Enumeration<String>() {
             int pos = 0;
 
             public boolean hasMoreElements() {
                 return (props != null && pos < props.length);
             }
 
-            public Object nextElement() {
+            public String nextElement() {
                 if (props == null || pos >= props.length) {
                    return null;
                 }

@@ -93,7 +93,7 @@ public class TestEnvContext
      *  that will be used to identify the source of the properties in any
      *  environments that are created
      */
-    public TestEnvContext(Map[] tables, String[] tableNames) {
+    public TestEnvContext(Map<String, String>[] tables, String[] tableNames) {
         Vector<String> n = new Vector<>();
         Vector<Map<String, String>> p = new Vector<>();
         for (int i = 0; i < tables.length; i++) {
@@ -112,7 +112,7 @@ public class TestEnvContext
      * @param tableName The name that will be used to identify the source
      *   of the properties in any environments that are created.
      */
-    public TestEnvContext(Map table, String tableName) {
+    public TestEnvContext(Map<String, String> table, String tableName) {
         Vector<String> n = new Vector<>();
         Vector<Map<String, String>> p = new Vector<>();
         add(p, n, table, tableName);
@@ -235,11 +235,11 @@ public class TestEnvContext
 
     private void updateEnvTable() {
         // the tables given to the constructor ...
-        Map[] tables = propTables;
+        Map<String, String>[] tables = propTables;
         String[] tableNames = propTableNames;
 
         // defaults given to TestEnvironment
-        Map[] defaultTables = TestEnvironment.defaultPropTables;
+        Map<String, String>[] defaultTables = TestEnvironment.defaultPropTables;
         String[] defaultTableNames = TestEnvironment.defaultPropTableNames;
 
         // if there are defaults, merge them with the TestEnvContext tables
@@ -269,9 +269,9 @@ public class TestEnvContext
             if (debug)
                 System.err.println("Checking " + tableNames[i] + " for environments...");
 
-            Map table = tables[i];
-            for (Iterator ii = table.keySet().iterator(); ii.hasNext(); ) {
-                String prop = (String) (ii.next());
+            Map<String, String> table = tables[i];
+            for (Iterator<String> ii = table.keySet().iterator(); ii.hasNext(); ) {
+                String prop = (ii.next());
                 String name = null;
 
                 if (debug)
@@ -285,7 +285,7 @@ public class TestEnvContext
                 }
                 else if (prop.endsWith(DOT_MENU)) {
                     name = prop.substring(ENV_DOT.length(), prop.length() - DOT_MENU.length());
-                    String value = (String) (table.get(prop));
+                    String value = (table.get(prop));
                     if ("false".equals(value))
                         sortedInsert(menuExcludeVec, name);
                 }
@@ -341,7 +341,7 @@ public class TestEnvContext
         v.addElement(s);
     }
 
-    private Map[] propTables;
+    private Map<String, String>[] propTables;
     private String[] propTableNames;
     private String[] envNames;
     private String[] envMenuNames;

@@ -383,7 +383,7 @@ public class ExcludeList
      */
     public void merge(ExcludeList other) {
         synchronized (table) {
-            for (Iterator iter = other.getIterator(false); iter.hasNext(); ) {
+            for (Iterator<?> iter = other.getIterator(false); iter.hasNext(); ) {
                 Entry otherEntry = (Entry) (iter.next());
                 Key key = new Key(otherEntry.relativeURL);
                 Object o = table.get(key);
@@ -527,7 +527,7 @@ public class ExcludeList
      * and @link(Entry)[], depending on the <code>group</code>
      * parameter.
      */
-    public Iterator<Object> getIterator(boolean group) {
+    public Iterator<?> getIterator(boolean group) {
         if (group)
             return table.values().iterator();
         else {
@@ -576,7 +576,7 @@ public class ExcludeList
         int maxBugIdWidth = 0;
         int maxPlatformWidth = 0;
         SortedSet<Entry> entries = new TreeSet<>();
-        for (Iterator iter = getIterator(false); iter.hasNext(); ) {
+        for (Iterator<?> iter = getIterator(false); iter.hasNext(); ) {
             Entry entry = (Entry) (iter.next());
             entries.add(entry);
             if (entry.testCase == null)
@@ -936,7 +936,7 @@ public class ExcludeList
     /**
      * An entry in the exclude list.
      */
-    public static final class Entry implements Comparable {
+    public static final class Entry implements Comparable<Entry> {
         /**
          * Create an ExcludeList entry.
          * @param u The URL for the test, specified relative to the test suite root.
@@ -994,8 +994,7 @@ public class ExcludeList
             synopsis = s;
         }
 
-        public int compareTo(Object o) {
-            Entry e = (Entry) o;
+        public int compareTo(Entry e) {
             int n = relativeURL.compareTo(e.relativeURL);
             if (n == 0) {
                 if (testCase == null && e.testCase == null)

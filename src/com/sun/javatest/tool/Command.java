@@ -130,7 +130,7 @@ public abstract class Command
      * entry from the argument array.
      * @param argIter the iterator from which teh argument was obtained
      */
-    protected void putbackArg(ListIterator argIter) {
+    protected void putbackArg(ListIterator<String> argIter) {
         argIter.previous();
         args.remove(args.size() - 1);
     }

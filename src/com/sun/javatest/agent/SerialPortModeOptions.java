@@ -46,7 +46,7 @@ class SerialPortModeOptions extends ModeOptions {
         super("serial port");
 
         try {
-            Class c = Class.forName(Proxy.class.getName() + "Impl");
+            Class<?> c = Class.forName(Proxy.class.getName() + "Impl");
             proxy = (Proxy)(c.newInstance());
         }
         catch (Throwable ignore) {
@@ -112,7 +112,7 @@ class ProxyImpl implements Proxy {
     public String[] getPortNames() {
         try {
             Vector<String> v = new Vector<>();
-            for (Enumeration e = CommPortIdentifier.getPortIdentifiers(); e.hasMoreElements(); ) {
+            for (Enumeration<?> e = CommPortIdentifier.getPortIdentifiers(); e.hasMoreElements(); ) {
                 CommPortIdentifier p = (CommPortIdentifier)(e.nextElement());
                 if (p.getPortType() == CommPortIdentifier.PORT_SERIAL)
                     v.addElement(p.getName());

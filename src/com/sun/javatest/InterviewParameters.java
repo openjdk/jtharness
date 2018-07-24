@@ -799,7 +799,7 @@ public abstract class InterviewParameters
         return true;
     }
 
-    private static boolean equal(Vector v, TestFilter[] f) {
+    private static boolean equal(Vector<TestFilter> v, TestFilter[] f) {
         if (f == null || v.size() != f.length)
             return false;
         for (int i = 0; i < v.size(); i++) {

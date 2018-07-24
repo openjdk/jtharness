@@ -41,6 +41,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiFileFormat;
@@ -959,14 +960,14 @@ class ImagePane extends JLabel implements MultiFormatPane.MediaPane {
     public static boolean isImageResource(URL url) {
         String file = url.getFile();
         String ext = file.substring(file.lastIndexOf('.')+1);
-        Iterator iter = ImageIO.getImageReadersBySuffix(ext);
+        Iterator<ImageReader> iter = ImageIO.getImageReadersBySuffix(ext);
         return iter.hasNext();
     }
 
     public static boolean isImageFormatSupported(URL url) {
         try {
             ImageInputStream iis = ImageIO.createImageInputStream(new File(url.getFile()));
-            Iterator iter = ImageIO.getImageReaders(iis);
+            Iterator<ImageReader> iter = ImageIO.getImageReaders(iis);
             if(!iter.hasNext())
                 return false;
         } catch (IOException exc) {

@@ -30,10 +30,8 @@ import java.util.Comparator;
 
 import com.sun.javatest.TestResult;
 
-class TestResultsByTitleComparator implements Comparator {
-    public int compare(Object o1, Object o2) {
-        TestResult tr1 = (TestResult)o1;
-        TestResult tr2 = (TestResult)o2;
+class TestResultsByTitleComparator implements Comparator<TestResult> {
+    public int compare(TestResult tr1, TestResult tr2) {
 
         return compare(tr1.getTestName(), tr2.getTestName());
     }

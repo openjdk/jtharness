@@ -91,8 +91,8 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
         valueSaver = new Runnable() {
                 public void run() {
-                    Set keys = tables.keySet();
-                    Iterator iter = keys.iterator();
+                    Set<String> keys = tables.keySet();
+                    Iterator<String> iter = keys.iterator();
                     while(iter.hasNext()) {
                         JTable table = tables.get(iter.next());
                         CellEditor editor = table.getCellEditor();

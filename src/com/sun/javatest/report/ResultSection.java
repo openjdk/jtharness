@@ -58,7 +58,7 @@ class ResultSection extends HTMLSection {
         initFiles = settings.getInitialFiles();
         lists = sortedResults;
 
-        for (TreeSet s: sortedResults)
+        for (TreeSet<TestResult> s: sortedResults)
             totalFound += s.size();
         /*
         lists = new TreeSet[Status.NUM_STATES];
@@ -116,7 +116,7 @@ class ResultSection extends HTMLSection {
 
         for (int i = 0; i < lists.length; i++ ) {
             String reportFile = HTMLReport.files[fileCodes[i]];
-            TreeSet l = lists[i];
+            TreeSet<TestResult> l = lists[i];
 
             int n = l.size();
             if (n > 0) {
@@ -200,12 +200,12 @@ class ResultSection extends HTMLSection {
 
         ReportWriter out = openAuxFile(fileCodes[i], headings[i], i18n);
         try {
-            TreeSet list = lists[i];
+            TreeSet<TestResult> list = lists[i];
             if (list.size() > 0) {
                 boolean inList = false;
 
-                for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-                    TestResult e = (TestResult) (iter.next());
+                for (Iterator<TestResult> iter = list.iterator(); iter.hasNext(); ) {
+                    TestResult e = (iter.next());
                     String title;
                     try {
                         TestDescription e_td = e.getDescription();
@@ -247,12 +247,12 @@ class ResultSection extends HTMLSection {
         ReportWriter out = openAuxFile(groupedFileCodes[i], headings[i], i18n);
         out.write(i18n.getString("result.groupByStatus"));
         try {
-            TreeSet list = lists[i];
+            TreeSet<TestResult> list = lists[i];
             if (list.size() > 0) {
                 boolean inList = false;
                 String currentHead = null;
-                for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-                    TestResult e = (TestResult) (iter.next());
+                for (Iterator<TestResult> iter = list.iterator(); iter.hasNext(); ) {
+                    TestResult e = (iter.next());
                     String title;
                     try {
                         TestDescription e_td = e.getDescription();

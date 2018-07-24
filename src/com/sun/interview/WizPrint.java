@@ -200,7 +200,7 @@ public class WizPrint
                     throw new BadArgs(i18n, "wp.noOutput");
             }
 
-            Class ic = Class.forName(interviewClassName, true, ClassLoader.getSystemClassLoader());
+            Class<?> ic = Class.forName(interviewClassName, true, ClassLoader.getSystemClassLoader());
             Interview interview = (Interview)(ic.newInstance());
             Question[] questions;
 
@@ -213,8 +213,8 @@ public class WizPrint
             else {
                 // enumerate questions, sort on tag
                 SortedVector v = new SortedVector();
-                for (Iterator iter = interview.getQuestions().iterator(); iter.hasNext(); ) {
-                    Question q = (Question) (iter.next());
+                for (Iterator<Question> iter = interview.getQuestions().iterator(); iter.hasNext(); ) {
+                    Question q = iter.next();
                     v.insert(q);
                 }
                 questions = new Question[v.size()];

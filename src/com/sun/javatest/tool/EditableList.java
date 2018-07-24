@@ -158,7 +158,7 @@ public class EditableList extends JComponent implements Accessible
      * @return an array containing the items currently in the list
      * @see #setItems
      */
-    public Object[] getItems(Class c) {
+    public Object[] getItems(Class<?> c) {
         Object[] items = (Object[]) (Array.newInstance(c, listModel.size()));
         listModel.copyInto(items);
         return items;
@@ -336,7 +336,7 @@ public class EditableList extends JComponent implements Accessible
 
     private class Renderer
         extends DefaultListCellRenderer {
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             return super.getListCellRendererComponent(list,
                                                       getDisplayValue(value),
                                                       index,

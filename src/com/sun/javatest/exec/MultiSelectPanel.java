@@ -91,7 +91,7 @@ class MultiSelectPanel
         setLayout(new GridBagLayout());
         setMinimumSize(new Dimension(150, 100));
 
-        listModel = new DefaultListModel();
+        listModel = new DefaultListModel<>();
         nodeList = uif.createList("ms.nlist", listModel);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx= 1.0;
@@ -167,8 +167,8 @@ class MultiSelectPanel
 
     private TestTreeModel ttm;
     private TreePanelModel tpm;
-    private JList nodeList;
-    private DefaultListModel listModel;
+    private JList<?> nodeList;
+    private DefaultListModel<Object> listModel;
     private Object[] nodes;
 
     private UIFactory uif;

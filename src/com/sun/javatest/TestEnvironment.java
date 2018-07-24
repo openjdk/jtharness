@@ -117,7 +117,7 @@ public class TestEnvironment
     }
 
     static String[] defaultPropTableNames = { };
-    static Map[] defaultPropTables = { };
+    static Map<String, String>[] defaultPropTables = new Map[0];
 
     /**
      * Construct an environment for a named group of properties.
@@ -130,7 +130,7 @@ public class TestEnvironment
      * @throws TestEnvironment.Fault if there is an error in the table
      *
      */
-    public TestEnvironment(String name, Map propTable, String propTableName)
+    public TestEnvironment(String name, Map<String, String> propTable, String propTableName)
                 throws Fault {
         this(name, (new Map[] {propTable}), (new String[] {propTableName}));
     }
@@ -178,14 +178,14 @@ public class TestEnvironment
         for (int inheritIndex = 0; inheritIndex < inherits.length; inheritIndex++) {
             String prefix = "env." + inherits[inheritIndex] + ".";
             for (int propIndex = propTables.length - 1; propIndex >= 0; propIndex--) {
-                Map propTable = propTables[propIndex];
-                for (Iterator i = propTable.keySet().iterator(); i.hasNext(); ) {
-                    String prop = (String) (i.next());
+                Map<String, String> propTable = propTables[propIndex];
+                for (Iterator<String> i = propTable.keySet().iterator(); i.hasNext(); ) {
+                    String prop = (i.next());
                     if (prop.startsWith(prefix)) {
                         String key = prop.substring(prefix.length());
                         if (!table.containsKey(key)) {
                             Element elem = new Element(key,
-                                                       (String)(propTable.get(prop)),
+                                    (propTable.get(prop)),
                                                        inherits[inheritIndex],
                                                        propTableNames[propIndex]);
                             table.put(key, elem);
@@ -197,13 +197,13 @@ public class TestEnvironment
 
         // finally, add in any top-level names (not beginning with env.)
         for (int propIndex = propTables.length - 1; propIndex >= 0; propIndex--) {
-            Map propTable = propTables[propIndex];
-            for (Iterator i = propTable.keySet().iterator(); i.hasNext(); ) {
-                String key = (String) (i.next());
+            Map<String, String> propTable = propTables[propIndex];
+            for (Iterator<String> i = propTable.keySet().iterator(); i.hasNext(); ) {
+                String key = (i.next());
                 if (!key.startsWith("env.")) {
                     if (!table.containsKey(key)) {
                         Element elem = new Element(key,
-                                                   (String)(propTable.get(key)),
+                                (propTable.get(key)),
                                                    null,
                                                    propTableNames[propIndex]);
                         table.put(key, elem);
@@ -558,8 +558,8 @@ public class TestEnvironment
      * VALUE_NOT_DEFINED.
      */
     public boolean hasUndefinedValues() {
-        for (Iterator i = elements().iterator(); i.hasNext(); ) {
-            TestEnvironment.Element entry = (TestEnvironment.Element) (i.next());
+        for (Iterator<Element> i = elements().iterator(); i.hasNext(); ) {
+            Element entry = i.next();
             if (entry.value.indexOf("VALUE_NOT_DEFINED") >= 0)
                 return true;
         }
@@ -625,7 +625,7 @@ public class TestEnvironment
      *          include the `env.<em>environment-name</em>.' prefix of the corresponding
      *          property names.
      */
-    public Set keys() {
+    public Set<String> keys() {
         return table.keySet();
     }
 
@@ -637,7 +637,7 @@ public class TestEnvironment
      * referenced.
      * @see #resetElementsUsed
      */
-    public Collection elementsUsed() {
+    public Collection<Element> elementsUsed() {
         return cache.values();
     }
 
@@ -655,7 +655,7 @@ public class TestEnvironment
      * @return  An enumeration that yields the various elements, explicit or inherited,
      *          that are available in this environment.
      */
-    public Collection elements() {
+    public Collection<Element> elements() {
         return table.values();
     }
 

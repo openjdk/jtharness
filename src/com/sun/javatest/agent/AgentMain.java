@@ -375,7 +375,7 @@ public class AgentMain {
         case ACTIVE:
             try {
                 Class<?> c = Class.forName(pkg + ".ActiveConnectionFactory");
-                Constructor m = c.getConstructor(new Class[] {String.class, int.class});
+                Constructor<?> m = c.getConstructor(new Class<?>[] {String.class, int.class});
                 Object[] args = { activeHost, new Integer(activePort) };
                 return (ConnectionFactory)(m.newInstance(args));
             }
@@ -392,7 +392,7 @@ public class AgentMain {
         case PASSIVE:
             try {
                 Class<?> c = Class.forName(pkg + ".PassiveConnectionFactory");
-                Constructor m = c.getConstructor(new Class[] {int.class, int.class});
+                Constructor<?> m = c.getConstructor(new Class<?>[] {int.class, int.class});
                 Object[] args = { new Integer(passivePort), new Integer(concurrency + 1) };
                 return (ConnectionFactory)(m.newInstance(args));
             }
@@ -413,7 +413,7 @@ public class AgentMain {
         case SERIAL:
             try {
                 Class<?> c = Class.forName(pkg + ".SerialPortConnectionFactory");
-                Constructor m = c.getConstructor(new Class[] {String.class, String.class, int.class});
+                Constructor<?> m = c.getConstructor(new Class<?>[] {String.class, String.class, int.class});
                 Object[] args = {serialPort, Agent.productName, new Integer(10*1000)};
                 return (ConnectionFactory)(m.newInstance(args));
             }
@@ -460,7 +460,7 @@ public class AgentMain {
 
         if (observerClassName != null) {
             try {
-                Class observerClass = Class.forName(observerClassName);
+                Class<?> observerClass = Class.forName(observerClassName);
                 Agent.Observer observer = (Agent.Observer)(observerClass.newInstance());
                 agent.addObserver(observer);
             }
@@ -621,7 +621,7 @@ public class AgentMain {
         public void completed(Agent agent, Connection c) {
         }
 
-        private Class connectExceptionClass;
-        private Class unknownHostExceptionClass;
+        private Class<?> connectExceptionClass;
+        private Class<?> unknownHostExceptionClass;
     }
 }

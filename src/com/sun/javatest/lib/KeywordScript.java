@@ -64,14 +64,14 @@ public class KeywordScript extends Script
         }   // for
 
         String prefix = "script.";
-        Set testKeys = td.getKeywordTable();
+        Set<String> testKeys = td.getKeywordTable();
         Vector<String> choices = new Vector<>(); // the set of choices
         Vector<String> matches = new Vector<>(); // the set of matches
         int wordsMatchingInMatches = 0;// the number of words matching
 
     findMatch:
-        for (Iterator iter = env.keys().iterator(); iter.hasNext(); ) {
-            String key = (String) (iter.next());
+        for (Iterator<String> iter = env.keys().iterator(); iter.hasNext(); ) {
+            String key = (iter.next());
 
             // if the key does not begin with the `script.' prefix, ignore key
             if (!key.startsWith(prefix))
@@ -177,7 +177,7 @@ public class KeywordScript extends Script
             printStrArr(trOut, msgs);
 
             try {
-                Class c = Class.forName(command[0]);
+                Class<?> c = Class.forName(command[0]);
 
                 Script script = (Script)c.newInstance();
                 String[] scriptArgs = new String[command.length - 1];

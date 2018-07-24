@@ -364,9 +364,9 @@ public class WorkDirectory {
         return false;
     }
 
-    private static void undo(ArrayList undoList) {
+    private static void undo(ArrayList<File> undoList) {
         for (int i = undoList.size() - 1; i >= 0; i--) {
-            File f = (File) (undoList.get(i));
+            File f = undoList.get(i);
             delete(f);
         }
     }
@@ -445,7 +445,7 @@ public class WorkDirectory {
 
                 try {
                     // try to calculate relocation
-                    String oldWDpath = loadWdInfo(jtData).getProperty(PREV_WD_PATH);
+                    String oldWDpath = loadWdInfo(jtData).get(PREV_WD_PATH);
                     String[] begins = getDiffInPaths(dir.getPath(), oldWDpath);
                     if (begins != null) {
                         if (templateFile.startsWith(begins[1])) {
@@ -551,18 +551,18 @@ public class WorkDirectory {
 
         synchronized (dirMap) {
             // sync-ed to make dirMap data consistent
-            WeakReference ref = (WeakReference)(dirMap.get(canonDir));
-            wd = (ref == null ? null : (WorkDirectory) (ref.get()));
+            WeakReference<WorkDirectory> ref = dirMap.get(canonDir);
+            wd = (ref == null ? null : ref.get());
 
             if (wd != null)
                 return wd;
 
-            Properties tsInfo;
+            Map<String, String> tsInfo;
             TestSuite ts;
 
             try {
                 tsInfo = loadTestSuiteInfo(jtData);
-                String root = tsInfo.getProperty(TESTSUITE_ROOT);
+                String root = tsInfo.get(TESTSUITE_ROOT);
                 if (root == null)
                     throw new BadDirectoryFault(i18n, "wd.noTestSuiteRoot", canonDir);
 
@@ -572,7 +572,7 @@ public class WorkDirectory {
 
                 ts = TestSuite.open(tsr);
 
-                String wdID = (tsInfo == null ? null : (String) (tsInfo.get(TESTSUITE_ID)));
+                String wdID = (tsInfo == null ? null : tsInfo.get(TESTSUITE_ID));
                 String tsID = ts.getID();
                 if (!(wdID == null ? "" : wdID).equals(tsID == null ? "" : tsID))
                     throw new MismatchFault(i18n, "wd.mismatchID", canonDir);
@@ -633,19 +633,19 @@ public class WorkDirectory {
 
         WorkDirectory wd = null;
         synchronized (dirMap) {
-            WeakReference ref = (WeakReference)(dirMap.get(canonDir));
+            WeakReference<WorkDirectory> ref = dirMap.get(canonDir);
             if (ref != null)
-                wd = (WorkDirectory)(ref.get());
+                wd = ref.get();
 
             if (wd == null) {
-                Properties tsInfo;
+                Map<String, String> tsInfo;
                 try {
                     tsInfo = loadTestSuiteInfo(jtData);
                 } catch (IOException e) {
                     tsInfo = null;
                 }
 
-                String wdID = (tsInfo == null ? null : (String) (tsInfo.get(TESTSUITE_ID)));
+                String wdID = (tsInfo == null ? null : tsInfo.get(TESTSUITE_ID));
                 String tsID = testSuite.getID();
                 if (!(wdID == null ? "" : wdID).equals(tsID == null ? "" : tsID))
                     throw new MismatchFault(i18n, "wd.mismatchID", canonDir);
@@ -668,7 +668,7 @@ public class WorkDirectory {
      * Create a WorkDirectory object for a given directory and testsuite.
      * The directory is assumed to be valid (exists(), isDirectory(), canRead() etc)
      */
-    private WorkDirectory(File root, TestSuite testSuite, Map tsInfo) {
+    private WorkDirectory(File root, TestSuite testSuite, Map<String, String> tsInfo) {
         if (root == null || testSuite == null)
             throw new NullPointerException();
         this.root = root;
@@ -691,7 +691,7 @@ public class WorkDirectory {
         // -- possibly conditionally (don't need to write it in case of normal open)
 
         if (tsInfo != null) {
-            String testC = (String) (tsInfo.get(TESTSUITE_TESTCOUNT));
+            String testC = (tsInfo.get(TESTSUITE_TESTCOUNT));
             int tc;
             if (testC == null)
                 tc = -1;
@@ -717,7 +717,7 @@ public class WorkDirectory {
 
     private void doWDinfo(File jtData, TestSuite testSuite) {
         try {
-            oldWDpath = loadWdInfo(jtData).getProperty(PREV_WD_PATH);
+            oldWDpath = loadWdInfo(jtData).get(PREV_WD_PATH);
         } catch (IOException ex) {
             oldWDpath = null;
         }
@@ -1184,21 +1184,18 @@ public class WorkDirectory {
         return result;
     }
 
-    private static Properties loadTestSuiteInfo(File jtData) throws FileNotFoundException, IOException {
+    private static Map<String, String> loadTestSuiteInfo(File jtData) throws FileNotFoundException, IOException {
         return loadInfo(jtData, TESTSUITE);
     }
 
-    private static Properties loadWdInfo(File jtData) throws FileNotFoundException, IOException {
+    private static Map<String, String> loadWdInfo(File jtData) throws FileNotFoundException, IOException {
         return loadInfo(jtData, WD_INFO);
     }
 
-    private static Properties loadInfo(File jtData, String name) throws FileNotFoundException, IOException {
-        File f = new File(jtData, name);
-        InputStream in = new BufferedInputStream(new FileInputStream(f));
-        Properties p = new Properties();
-        p.load(in);
-        in.close();
-        return p;
+    private static Map<String, String> loadInfo(File jtData, String name) throws FileNotFoundException, IOException {
+        try (InputStream in = new BufferedInputStream(new FileInputStream(new File(jtData, name)))) {
+            return com.sun.javatest.util.Properties.load(in);
+        }
     }
 
 
@@ -1254,7 +1251,7 @@ public class WorkDirectory {
     private File jtData;
     private String logFileName;
     private LogFile logFile;
-    private static HashMap dirMap = new HashMap(2);     // must be manually synchronized
+    private static HashMap<File, WeakReference<WorkDirectory>> dirMap = new HashMap<>(2);     // must be manually synchronized
     public static final String JTDATA = "jtData";
     private static final String TESTSUITE = "testsuite";
     private static final String WD_INFO = "wdinfo";

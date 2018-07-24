@@ -141,9 +141,9 @@ class TRT_HttpHandler extends JThttpProvider {
         }
         else {
             */
-            Iterator it = trt.getIterator();
+        Iterator<TestResult> it = trt.getIterator();
             while (it.hasNext()) {
-                TestResult tr = (TestResult)(it.next());
+                TestResult tr = it.next();
                 String url;
                 try {
                     url = tr.getDescription().getRootRelativeURL();

@@ -131,11 +131,10 @@ public class Audit
                 if (!checkTestCases(tr, excludeList))
                     badTestCaseTestsV.addElement(tr);
 
-                Map trEnv = tr.getEnvironment();
-                for (Iterator i = trEnv.entrySet().iterator(); i.hasNext(); ) {
-                    Map.Entry e = (Map.Entry) (i.next());
-                    String key = (String) (e.getKey());
-                    String value = (String) (e.getValue());
+                Map<String, String> trEnv = tr.getEnvironment();
+                for (Map.Entry<String, String> e : trEnv.entrySet() ) {
+                    String key = e.getKey();
+                    String value = e.getValue();
                     Vector<String> allValuesForKey = envTable.get(key);
                     if (allValuesForKey == null) {
                         allValuesForKey = new Vector<>();
@@ -167,9 +166,9 @@ public class Audit
             }
         }
 
-        for (Enumeration e = envTable.keys(); e.hasMoreElements(); ) {
-            String key = (String)(e.nextElement());
-            Vector allValuesForKey = envTable.get(key);
+        for (Enumeration<String> e = envTable.keys(); e.hasMoreElements(); ) {
+            String key = e.nextElement();
+            Vector<String> allValuesForKey = envTable.get(key);
             envCounts[allValuesForKey.size() == 1 ? 0 : 1]++;
         }
 
@@ -252,7 +251,7 @@ public class Audit
      * The keys to the table are strings; the values are vectors of strings
      * containing the various values for that key.
      */
-    public Hashtable getEnvTable() {
+    public Hashtable<String, Vector<String>> getEnvTable() {
         return envTable;
     }
 
@@ -493,14 +492,14 @@ public class Audit
         out.print(i18n.getString("adt.envList.title"));
 
         SortedSet<String> ss = new TreeSet<>();
-        for (Enumeration e = envTable.keys(); e.hasMoreElements(); ) {
-            String key = (String)(e.nextElement());
+        for (Enumeration<String> e = envTable.keys(); e.hasMoreElements(); ) {
+            String key = (e.nextElement());
             ss.add(key);
         }
 
-        for (Iterator iter = ss.iterator(); iter.hasNext(); ) {
-            String key = (String) (iter.next());
-            Vector allValuesForKey = envTable.get(key);
+        for (Iterator<String> iter = ss.iterator(); iter.hasNext(); ) {
+            String key = (iter.next());
+            Vector<String> allValuesForKey = envTable.get(key);
             if (allValuesForKey.size() == 1) {
                 if (showAll)
                     out.println(i18n.getString("adt.envKeyValue",
@@ -633,11 +632,11 @@ public class Audit
         //if (!a.rootRelativeFile.equals(b.rootRelativeFile))
         //    return false;
 
-        Iterator eA = a.getParameterKeys();
-        Iterator eB = b.getParameterKeys();
+        Iterator<String> eA = a.getParameterKeys();
+        Iterator<String> eB = b.getParameterKeys();
         while (eA.hasNext() && eB.hasNext()) {
-            String keyA = (String)eA.next();
-            String keyB = (String)eB.next();
+            String keyA = eA.next();
+            String keyB = eB.next();
             if (!keyA.equals(keyB)) {
                 //System.err.println("mismatch " + a.getRootRelativePath() + " a:" + keyA + " b:" + keyB);
                 return false;

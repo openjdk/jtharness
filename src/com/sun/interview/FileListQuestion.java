@@ -126,7 +126,7 @@ public abstract class FileListQuestion extends Question
      */
     @Override
     public void setValue(String paths) {
-        setValue(paths == null ? (File[])null : split(paths));
+        setValue(paths == null ? null : split(paths));
     }
 
     /**

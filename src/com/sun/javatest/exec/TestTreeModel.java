@@ -997,7 +997,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
      */
     void invalidateNodeInfo() {
         synchronized (htLock) {
-            Enumeration e = cache.keys();
+            Enumeration<TestResultTable.TreeNode> e = cache.keys();
             while (e.hasMoreElements()) {
                 (cache.get(e.nextElement())).invalidate();
             }   // while
@@ -1008,9 +1008,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         }
 
         // reprocess any needed nodes
-        Iterator it = relevantNodes.iterator();
+        Iterator<TT_TreeNode> it = relevantNodes.iterator();
         while (it.hasNext()) {
-            TT_TreeNode tn = (TT_TreeNode) it.next();
+            TT_TreeNode tn = it.next();
             if (tn instanceof TT_BasicNode) {
                 getNodeInfo(((TT_BasicNode) tn).getTableNode(), false);
             }
@@ -1337,7 +1337,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             //      basically equivalent
             TT_NodeCache selected = null;
             int depth = -1;
-            LinkedList theList = cacheQueue;
+            LinkedList<TT_NodeCache> theList = cacheQueue;
             boolean notDone = true;
             int count = 0;
 
@@ -1351,7 +1351,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             }
 
             while (notDone) {
-                TT_NodeCache possible = (TT_NodeCache) (theList.get(count));
+                TT_NodeCache possible = (theList.get(count));
                 int thisDepth = TestResultTable.getObjectPath(possible.getNode()).length;
 
                 if (thisDepth > depth) {

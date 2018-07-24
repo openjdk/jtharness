@@ -664,12 +664,12 @@ abstract class DeskView {
      * @param m the map in which the information is to be recorded
      * @see #saveBounds
      */
-    protected static void restoreBounds(Component c, Map m) {
+    protected static void restoreBounds(Component c, Map<String, String> m) {
         try {
-            String xs = (String) (m.get("x"));
-            String ys = (String) (m.get("y"));
-            String ws = (String) (m.get("w"));
-            String hs = (String) (m.get("h"));
+            String xs = (m.get("x"));
+            String ys = (m.get("y"));
+            String ws = (m.get("w"));
+            String hs = (m.get("h"));
             if (xs != null && ys != null && ws != null && hs != null) {
                 Rectangle restored = new Rectangle(Integer.parseInt(xs),
                         Integer.parseInt(ys),
@@ -791,14 +791,14 @@ abstract class DeskView {
 
             }   // for
 
-            List fileHistory = desktop.getFileHistory();
+            List<Desktop.FileHistoryEntry> fileHistory = desktop.getFileHistory();
 //          if (!fileHistory.isEmpty()) {
         JMenu hm = uif.createMenu("dt.file.recentwd");
         if (!fileHistory.isEmpty()) {
                 int n = 0;
 
-                for (Iterator i = fileHistory.iterator(); i.hasNext(); ) {
-                    Desktop.FileHistoryEntry h = (Desktop.FileHistoryEntry) (i.next());
+                for (Iterator<Desktop.FileHistoryEntry> i = fileHistory.iterator(); i.hasNext(); ) {
+                    Desktop.FileHistoryEntry h = (i.next());
                     if (!h.file.exists())
                         continue;
                     String s = uif.getI18NString("dt.file.historyX.mit",

@@ -141,9 +141,9 @@ class NewReportDialog extends ToolDialog
 
     // ---------------------------------------------------------------------------
 
-    void setLastState(Map h) {
-        String rd = (String) (h.get(REPORT_DIR));
-        String filter = (String) (h.get(FILTER));
+    void setLastState(Map<String, String> h) {
+        String rd = (h.get(REPORT_DIR));
+        String filter = (h.get(FILTER));
 
         if (dirField == null)
             initGUI();
@@ -901,9 +901,9 @@ class NewReportDialog extends ToolDialog
 
         ArrayList<CustomReport> customReps = new ArrayList<>();
         if (customBoxes != null && customBoxes.size() > 0) {
-            Iterator it = customBoxes.keySet().iterator();
+            Iterator<JCheckBox> it = customBoxes.keySet().iterator();
             while (it.hasNext()) {
-                JCheckBox box = (JCheckBox)(it.next());
+                JCheckBox box = (it.next());
                 if (box.isSelected()) {
                     customReps.add(customBoxes.get(box));
                 }
@@ -1096,9 +1096,9 @@ class NewReportDialog extends ToolDialog
                 }
 
                 // validate custom reports
-                Iterator it = getActiveCustomReports().iterator();
+                Iterator<CustomReport> it = getActiveCustomReports().iterator();
                 while (it.hasNext()) {
-                    CustomReport cr = (CustomReport) it.next();
+                    CustomReport cr = it.next();
                     String error = cr.validateOptions();
                     if (error != null) {
                         for (int i = 0; i < listModel.getSize(); i++ ) {
@@ -1367,7 +1367,7 @@ class NewReportDialog extends ToolDialog
          * @param p parent Panel
          * @param cardLayout The CardLayout for options
          */
-        SelectListener(JList lst, JPanel p, CardLayout cardLayout ) {
+        SelectListener(JList<?> lst, JPanel p, CardLayout cardLayout ) {
             list = lst;
             listModel = list.getModel();
             lastSelected = listModel.getElementAt(0);
@@ -1477,8 +1477,8 @@ class NewReportDialog extends ToolDialog
         }
 
         Object lastSelected;
-        JList list;
-        ListModel listModel;
+        JList<?> list;
+        ListModel<?> listModel;
         JPanel panel;
         CardLayout cards;
         JButton okBtn = null; // should be disable iff all check boxes are off

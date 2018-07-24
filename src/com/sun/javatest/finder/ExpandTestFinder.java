@@ -110,9 +110,9 @@ public class ExpandTestFinder extends TagTestFinder
             expandVars   = new HashMap<>(3);
             expandVarLen = new HashMap<>(3);
 
-            for (Iterator i = env.keys().iterator(); i.hasNext(); ) {
+            for (Iterator<String> i = env.keys().iterator(); i.hasNext(); ) {
                 try {
-                    String n = (String) (i.next());
+                    String n = (i.next());
 
                     if (! n.startsWith("expand."))
                         continue;

@@ -101,7 +101,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         init(null);
     }
 
-    BasicCustomTestFilter(Map map, ExecModel e, UIFactory uif) {
+    BasicCustomTestFilter(Map<String, String> map, ExecModel e, UIFactory uif) {
         super(map, e);
         this.uif = uif;
         init(map);
@@ -149,7 +149,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     }
 
     @Override
-    boolean load(Map map) {
+    boolean load(Map<String, String> map) {
         boolean result = super.load(map);
         activeSettings = new SettingsSnapshot(map);
         putSettings(activeSettings);
@@ -274,7 +274,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     }
 
     // ----- PRIVATE -----
-    private void init(Map map) {
+    private void init(Map<String, String> map) {
         if (NAME == null) {
             NAME = uif.getI18NString("basicTf.name");
         }
@@ -883,7 +883,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     private ButtonGroup keyBtnGrp;
     private JRadioButton keyAllBtn;
     private JRadioButton keyMatchBtn;
-    private JComboBox keywordsChoice;
+    private JComboBox<String> keywordsChoice;
     private JTextField keywordsField;
     private static final String ALL_OF = "allOf";
     private static final String ANY_OF = "anyOf";
@@ -907,7 +907,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
 
     // jtx info fields
     private JTextField jtxMode;
-    private JList jtxFileList;
+    private JList<?> jtxFileList;
     private DefaultListModel<String> jtxFiles;
     private static String NAME,  REASON,  DESCRIPTION;
 
@@ -996,7 +996,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
             keyString = "";
         }
 
-        SettingsSnapshot(Map m) {
+        SettingsSnapshot(Map<String, String> m) {
             this();
             load(m);
         }
@@ -1068,21 +1068,21 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
             map.put(MAP_KEY_STRING, keyString);
         }
 
-        void load(Map map) {
-            urlsEnabled = intToBoolean((String) (map.get(MAP_URL_ENABLE)));
-            keywordsEnabled = intToBoolean((String) (map.get(MAP_KEY_ENABLE)));
-            statusEnabled = intToBoolean((String) (map.get(MAP_STATUS_ENABLE)));
-            jtxEnabled = intToBoolean((String) (map.get(MAP_JTX_ENABLE)));
-            tsfEnabled = intToBoolean((String) (map.get(MAP_TSF_ENABLE)));
+        void load(Map<String, String> map) {
+            urlsEnabled = intToBoolean((map.get(MAP_URL_ENABLE)));
+            keywordsEnabled = intToBoolean((map.get(MAP_KEY_ENABLE)));
+            statusEnabled = intToBoolean((map.get(MAP_STATUS_ENABLE)));
+            jtxEnabled = intToBoolean((map.get(MAP_JTX_ENABLE)));
+            tsfEnabled = intToBoolean((map.get(MAP_TSF_ENABLE)));
 
             for (int i = 0; i < Status.NUM_STATES; i++) {
-                statusFields[i] = intToBoolean((String) (map.get(MAP_STATUS_PREFIX + i)));
+                statusFields[i] = intToBoolean((map.get(MAP_STATUS_PREFIX + i)));
             }   // for
 
-            initialUrls = StringArray.split((String) (map.get(MAP_URLS)));
+            initialUrls = StringArray.split((map.get(MAP_URLS)));
 
-            keyChoice = (String) (map.get(MAP_KEY_CHOICE));
-            keyString = (String) (map.get(MAP_KEY_STRING));
+            keyChoice = map.get(MAP_KEY_CHOICE);
+            keyString = map.get(MAP_KEY_STRING);
 
             validate();
         }

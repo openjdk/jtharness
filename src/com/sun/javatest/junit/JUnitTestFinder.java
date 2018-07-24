@@ -121,7 +121,7 @@ public abstract class JUnitTestFinder extends TestFinder {
      *                  A class to read files of a particular extension.
      *                  The class must be a subtype of CommentStream
      */
-    public void addExtension(String extn, Class commentStreamClass) {
+    public void addExtension(String extn, Class<?> commentStreamClass) {
         if (!extn.startsWith("."))
             throw new IllegalArgumentException("extension must begin with `.'");
         if (commentStreamClass != null && !CommentStream.class.isAssignableFrom(commentStreamClass))
@@ -135,7 +135,7 @@ public abstract class JUnitTestFinder extends TestFinder {
      * @param extn The extension in question
      * @return the class previously registered with addExtension
      */
-    public Class getClassForExtension(String extn) {
+    public Class<?> getClassForExtension(String extn) {
         return extensionTable.get(extn);
     }
 
@@ -151,7 +151,7 @@ public abstract class JUnitTestFinder extends TestFinder {
     protected boolean scanClasses = false;
     protected File currFile;
     protected Map<String, String> excludeList   = new HashMap<>();
-    protected Map<String, Class> extensionTable = new HashMap<>();
+    protected Map<String, Class<?>> extensionTable = new HashMap<>();
     protected List<String> testMethods;
     protected static final String[] excludeNames = {
         "SCCS", "deleted_files", ".svn"

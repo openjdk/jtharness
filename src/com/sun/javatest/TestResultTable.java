@@ -703,7 +703,7 @@ public class TestResultTable {
      * @see #getIterator()
      * @since 3.0
      */
-    public Enumeration elements() {
+    public Enumeration<TestResult> elements() {
         return getIterator();
     }
 
@@ -733,7 +733,7 @@ public class TestResultTable {
      * @since 3.0
      * @see #getIterator()
      */
-    public Enumeration elements(TestFilter[] filters) {
+    public Enumeration<TestResult> elements(TestFilter[] filters) {
         return getIterator(filters);
     }
 
@@ -759,7 +759,7 @@ public class TestResultTable {
      * @see #getIterator()
      * @since 3.0
      */
-    public static Enumeration elements(TreeNode node) {
+    public static Enumeration<TestResult> elements(TreeNode node) {
         return getIterator(node);
     }
 
@@ -796,7 +796,7 @@ public class TestResultTable {
      * @see #getIterator()
      * @since 3.0
      */
-    public static Enumeration elements(TreeNode node, TestFilter filter) {
+    public static Enumeration<TestResult> elements(TreeNode node, TestFilter filter) {
         return getIterator(node, filter);
     }
 
@@ -829,7 +829,7 @@ public class TestResultTable {
      * @see #getIterator()
      * @since 3.0
      */
-    public static Enumeration elements(TreeNode node, TestFilter[] filters) {
+    public static Enumeration<TestResult> elements(TreeNode node, TestFilter[] filters) {
         return getIterator(node, filters);
     }
 
@@ -850,7 +850,7 @@ public class TestResultTable {
      * @see #getIterator()
      * @since 3.0
      */
-    public Enumeration elements(String url, TestFilter[] filters) {
+    public Enumeration<TestResult> elements(String url, TestFilter[] filters) {
         if (url == null)
             return NullEnum.getInstance();
         else {
@@ -898,7 +898,7 @@ public class TestResultTable {
      * @see #getIterator()
      * @since 3.0
      */
-    public Enumeration elements(File[] tests, TestFilter[] filters) throws Fault {
+    public Enumeration<TestResult> elements(File[] tests, TestFilter[] filters) throws Fault {
         return getIterator(tests, filters);
     }
 
@@ -985,7 +985,7 @@ public class TestResultTable {
      * @see #getIterator()
      * @since 3.0
      */
-    public Enumeration elements(String[] urls, TestFilter[] filters) {
+    public Enumeration<TestResult> elements(String[] urls, TestFilter[] filters) {
         return getIterator(urls, filters);
     }
 

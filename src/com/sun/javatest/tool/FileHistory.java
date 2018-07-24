@@ -93,10 +93,10 @@ public class FileHistory
             return null;
 
         // let's find in the cache work dir corresponding to the path
-        Iterator it = cache.keySet().iterator();
+        Iterator<WorkDirectory> it = cache.keySet().iterator();
         WorkDirectory wd = null;
         while (it.hasNext()) {
-            WorkDirectory tempWD = ((WorkDirectory)it.next());
+            WorkDirectory tempWD = it.next();
             if (tempWD.getRoot().equals(wdFile)) {
                 wd = tempWD;
                 break;

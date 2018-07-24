@@ -412,7 +412,7 @@ public class UIFactory {
      * @param c the class used to determine the i18n properties
      * @param helpBroker the help broker to be used when creating help buttons
      */
-    public UIFactory(Class c, HelpBroker helpBroker) {
+    public UIFactory(Class<?> c, HelpBroker helpBroker) {
         this(c, null, helpBroker);
     }
 
@@ -437,7 +437,7 @@ public class UIFactory {
      * @param p the parent component to be used for any dialogs that are created
      * @param helpBroker the help broker to be used when creating help buttons
      */
-    public UIFactory(Class c, Component p, HelpBroker helpBroker) {
+    public UIFactory(Class<?> c, Component p, HelpBroker helpBroker) {
         this.helpBroker = helpBroker;
         clientClass = c;
         parent = p;
@@ -1161,7 +1161,7 @@ public class UIFactory {
      * @return the choice item that was created
      * @see #createLiteralChoice
      */
-    public JComboBox createChoice(final String uiKey, final String[] choiceKeys) {
+    public JComboBox<String> createChoice(final String uiKey, final String[] choiceKeys) {
         return createChoice(uiKey, choiceKeys, false);
     }
 
@@ -1206,7 +1206,7 @@ public class UIFactory {
         }
 
         choice.setRenderer(new DefaultListCellRenderer() {
-            public Component getListCellRendererComponent(JList list, Object o, int index,
+            public Component getListCellRendererComponent(JList<?> list, Object o, int index,
                                 boolean isSelected, boolean cellHasFocus) {
                 Object c = o;
                 for (int i = 0; i < choiceKeys.length; i++) {
@@ -1232,7 +1232,7 @@ public class UIFactory {
      * @param uiKey the base name of the resources to be used for the menu
      * @return the choice component that was created
      */
-    public JComboBox createChoice(String uiKey) {
+    public <E> JComboBox<E> createChoice(String uiKey) {
         return createChoice(uiKey, false);
     }
 
@@ -1245,8 +1245,8 @@ public class UIFactory {
      * @return the choice component that was created
      * @see #createChoice(String)
      */
-    public JComboBox createChoice(String uiKey, boolean editable) {
-        return createChoice(uiKey, editable, (JLabel) null);
+    public <E> JComboBox<E> createChoice(String uiKey, boolean editable) {
+        return createChoice(uiKey, editable, null);
     }
 
     /**
@@ -3552,7 +3552,7 @@ public class UIFactory {
             }
         };
 
-    private Class clientClass;
+    private Class<?> clientClass;
     private Component parent;
     private I18NResourceBundle i18n;
     private HelpBroker helpBroker;
@@ -3571,9 +3571,9 @@ public class UIFactory {
      */
     public static class UIFactoryExt extends UIFactory {
         private I18NResourceBundle i18n_alt;
-        private Class altClass;
+        private Class<?> altClass;
 
-        public UIFactoryExt(UIFactory uif, Class altClass) {
+        public UIFactoryExt(UIFactory uif, Class<?> altClass) {
             super(uif.clientClass, uif.parent, uif.helpBroker);
             i18n_alt = I18NResourceBundle.getBundleForClass(altClass);
             this.altClass = altClass;

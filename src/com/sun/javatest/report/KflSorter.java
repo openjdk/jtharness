@@ -132,7 +132,7 @@ public class KflSorter {
      * @param tests
      * @return Number of comparison problems encountered.
      */
-    synchronized int run(TreeSet[] tests) {
+    synchronized int run(TreeSet<?>[] tests) {
         Iterator<KnownFailuresList.Entry> it = kfl.getIterator(false);
         int probs = 0;
         int tcprobs = 0;
@@ -422,7 +422,7 @@ public class KflSorter {
 
     private int addListedTestCases(final KnownFailuresList.Entry entry,
             final String url, final TestResult tr,
-            Transitions t, TreeSet set) {
+            Transitions t, TreeSet<?> set) {
         int problems = 0;
 
         String[] tcs = entry.getTestCaseList();
@@ -619,7 +619,7 @@ public class KflSorter {
      * based on the KFL. Using this class allows the analysis to be done once
      * then queried again and again for different purposes.
      */
-    public static class TestDiff implements Comparable {
+    public static class TestDiff implements Comparable<TestDiff> {
         public TestDiff(String url, TestResult tr, Transitions type) {
             this.tr = tr;
             this.url = url;
@@ -700,8 +700,7 @@ public class KflSorter {
         }
 
         @Override
-        public int compareTo(Object o) {
-            TestDiff e = (TestDiff) o;
+        public int compareTo(TestDiff e) {
             int n = getName().compareTo(e.getName());
 /*          if (n == 0) {
                 if (testCase == null && e.testCase == null)

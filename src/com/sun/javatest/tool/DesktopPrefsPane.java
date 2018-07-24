@@ -33,16 +33,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
 import java.util.Map;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
-import javax.swing.Box;
-import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 
 /**
  * Preferences for the desktop itself.
@@ -80,7 +72,7 @@ class DesktopPrefsPane extends PreferencesPane {
         if (styleName == null)
             styleName = Desktop.styleNames[desktop.getStyle()];
 
-        for (Enumeration e = styleGrp.getElements(); e.hasMoreElements(); ) {
+        for (Enumeration<AbstractButton> e = styleGrp.getElements(); e.hasMoreElements(); ) {
             JRadioButton rb = (JRadioButton)e.nextElement();
             if (rb.getActionCommand().equals(styleName)) {
                 rb.setSelected(true);

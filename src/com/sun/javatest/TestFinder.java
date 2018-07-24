@@ -515,7 +515,7 @@ public abstract class TestFinder
             System.err.println("Found TestDescription");
 
             System.err.println("--------values----------------------------");
-            for (Iterator i = entries.keySet().iterator() ; i.hasNext() ;) {
+            for (Iterator<String> i = entries.keySet().iterator() ; i.hasNext() ;) {
                 Object key = i.next();
                 System.err.println(">> " + key + ": " + entries.get(key) );
             }

@@ -1040,7 +1040,7 @@ public abstract class Script
         // says in the environment file:
         Command testCommand;
         try {
-            Class c = (loader == null ? Class.forName(className) : loader.loadClass(className));
+            Class<?> c = (loader == null ? Class.forName(className) : loader.loadClass(className));
             testCommand = (Command)(c.newInstance());
         }
         catch (ClassCastException e) {

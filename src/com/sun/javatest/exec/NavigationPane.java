@@ -304,7 +304,7 @@ public class NavigationPane extends JPanel {
             sf = new StringFitter(getFontMetrics(getFont()));
         }
 
-        public Component getListCellRendererComponent(JList list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
             String name = null;
             if (o instanceof URL) {
                 URL url = (URL) o;

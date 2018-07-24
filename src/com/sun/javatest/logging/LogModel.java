@@ -427,7 +427,7 @@ public class LogModel {
 
 
     private class MessageCache extends LinkedHashMap<LiteLogRecord, String> {
-        protected boolean removeEldestEntry(Map.Entry eldest) {
+        protected boolean removeEldestEntry(Map.Entry<LiteLogRecord, String> eldest) {
             return size() > PAGE_SIZE*2;
         }
     }

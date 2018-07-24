@@ -168,7 +168,7 @@ class PathPanel extends JPanel
         setFocusable(false);
         setLayout(new BorderLayout());
         pathList = new PathList();
-        list = new JList(pathList);
+        list = new JList<>(pathList);
         setInfo(list, "path.list", true);
         list.setCellRenderer(pathList);
         KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
@@ -244,9 +244,9 @@ class PathPanel extends JPanel
     private static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
 
     private class PathList
-                extends AbstractListModel
+                extends AbstractListModel<Object>
                 implements ActionListener, AncestorListener,
-                           ListCellRenderer, ListSelectionListener,
+                           ListCellRenderer<Object>, ListSelectionListener,
                            MouseListener,
                            Interview.Observer
     {
@@ -285,7 +285,7 @@ class PathPanel extends JPanel
             for (Object e : currEntries) {
                 if (e instanceof Question && e == q)
                     return true;
-                else if (e instanceof List && ((List) e).contains(q))
+                else if (e instanceof List && ((List<?>) e).contains(q))
                     return false;
             }
             return false;
@@ -306,7 +306,7 @@ class PathPanel extends JPanel
                     else if (qe == q)
                         return autoOpened;
                 }
-                else if (e instanceof List && ((List) e).contains(q))
+                else if (e instanceof List && ((List<?>) e).contains(q))
                     return false;
             }
             return false;
@@ -408,7 +408,7 @@ class PathPanel extends JPanel
             }
         };
 
-        public Component getListCellRendererComponent(JList list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
             if (o instanceof Question) {
                 Question q = (Question)o;
                 Font f;
@@ -508,7 +508,7 @@ class PathPanel extends JPanel
         // invoked by keyboard "enter"
         public void actionPerformed(ActionEvent e) {
             //System.err.println("PP.actionPerformed");
-            JList list = (JList)(e.getSource());
+            JList<?> list = (JList<?>)(e.getSource());
             Object o = list.getSelectedValue();
             if (o != null && o instanceof Question) {
                 Question q = (Question)o;
@@ -532,7 +532,7 @@ class PathPanel extends JPanel
 
         // invoked by mouse selection (or by list.setSelectedXXX ??)
         public void valueChanged(ListSelectionEvent e) {
-            JList list = (JList) (e.getSource());
+            JList<?> list = (JList<?>) (e.getSource());
             Object o = list.getSelectedValue();
             if (o == null)
                 return;
@@ -554,7 +554,7 @@ class PathPanel extends JPanel
                 }
             }
             else if (o instanceof List) {
-                List l = (List) o;
+                List<?> l = (List<?>) o;
                 if (l.contains(interview.getCurrentQuestion()))
                     return;
 
@@ -606,7 +606,7 @@ class PathPanel extends JPanel
         }
 
         private boolean isOverSelection(MouseEvent e) {
-            JList l = (JList) (e.getComponent());
+            JList<?> l = (JList<?>) (e.getComponent());
             Rectangle r = l.getCellBounds(currIndex, currIndex);
             return (r.contains(e.getX(), e.getY()));
         }
@@ -659,7 +659,7 @@ class PathPanel extends JPanel
             currQuestion = q;
             for (int i = 0; i < currEntries.length; i++) {
                 Object o = currEntries[i];
-                if (o == q || (o instanceof List && ((List) o).contains(q))) {
+                if (o == q || (o instanceof List && ((List<?>) o).contains(q))) {
                     currIndex = i;
                     break;
                 }
@@ -754,7 +754,7 @@ class PathPanel extends JPanel
             for (int i = 0; i < currEntries.length; i++) {
                 Object o = currEntries[i];
                 if (o == currQuestion
-                    || (o instanceof List && ((List) o).contains(currQuestion))) {
+                    || (o instanceof List && ((List<?>) o).contains(currQuestion))) {
                     currIndex = i;
                     break;
                 }
@@ -806,7 +806,7 @@ class PathPanel extends JPanel
 
             // auto-expand the final section if it doesn't end in FinalQuestion
             if (!(last instanceof FinalQuestion) && v.lastElement() instanceof List) {
-                List l = (List) (v.lastElement());
+                List<?> l = (List<?>) (v.lastElement());
                 v.setSize(v.size() - 1);
                 v.addAll(l);
             }

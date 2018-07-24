@@ -476,7 +476,7 @@ class ProgressMonitor extends ToolDialog {
 
         private void initRunningCard() {
             testListData = new DefaultListModel<>();
-            final JList list = uif.createList("pm.runlist", testListData);
+            final JList<?> list = uif.createList("pm.runlist", testListData);
             list.setBorder(BorderFactory.createEtchedBorder());
             list.setCellRenderer(RenderingUtilities.createTestListRenderer());
             list.addMouseListener(new MouseAdapter() {
@@ -515,7 +515,6 @@ class ProgressMonitor extends ToolDialog {
 
         private JTextField fileField;
         private DefaultListModel<TestResult> testListData;
-        private JList testList;
         private String rootDir;
     }
 

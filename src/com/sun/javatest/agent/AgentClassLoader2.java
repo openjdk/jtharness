@@ -98,8 +98,8 @@ class AgentClassLoader2 extends InstantiationClassLoader {
         return instance;
     }
 
-    public Class loadClassLocal(String name) throws ClassNotFoundException {
-        Class target = null;
+    public Class<?> loadClassLocal(String name) throws ClassNotFoundException {
+        Class<?> target = null;
 System.out.println("FORCE REMOTE " + name);
         try {
             target = findClass(name);
@@ -118,7 +118,7 @@ System.out.println("FORCE REMOTE " + name);
 
 
     @Override
-    public Class findClass(String className) throws ClassNotFoundException {
+    public Class<?> findClass(String className) throws ClassNotFoundException {
         if (className != null) {
             int i = className.lastIndexOf('.');
             if (i > 0) {

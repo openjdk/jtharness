@@ -36,13 +36,13 @@ import java.beans.PropertyChangeListener;
 public class JTHelpProgressBar extends Component implements PropertyChangeListener {
 
     private JProgressBar progressBar;
-    private SwingWorker task;
+    private SwingWorker<Void, Void> task;
     private JDialog frame;
     private JPanel сontentPane;
     private UIFactory uif;
 
 
-    public JTHelpProgressBar(SwingWorker progressTask) {
+    public JTHelpProgressBar(SwingWorker<Void, Void> progressTask) {
         uif = new UIFactory(this, null);
 
         task = progressTask;

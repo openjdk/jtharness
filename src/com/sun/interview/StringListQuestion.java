@@ -141,7 +141,7 @@ public abstract class StringListQuestion extends Question
     }
 
     public void setValue(String s) {
-        setValue(s == null ? ((String[]) null) : split(s));
+        setValue(s == null ? null : split(s));
     }
 
     /**

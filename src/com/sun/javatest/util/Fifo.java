@@ -31,7 +31,7 @@ package com.sun.javatest.util;
  * A simple variable length first-in first-out queue.
  */
 
-public class Fifo
+public class Fifo<E>
 {
     /**
      * Create a buffer with a default initial size.
@@ -48,7 +48,7 @@ public class Fifo
      */
     public Fifo(int initialSlots) {
         bufSize = initialSlots;
-        buf = new Object[bufSize];
+        buf = (E[]) new Object[bufSize];
         insertSlot = 0;
         removeSlot = 0;
         entries = 0;
@@ -78,13 +78,13 @@ public class Fifo
      *
      * @param obj               The object to be inserted.  It must not be null.
      */
-    public synchronized void insert(Object obj) {
+    public synchronized void insert(E obj) {
         if (obj == null)
             throw new NullPointerException();
 
         if (entries == bufSize) {
             int newBufSize = 2 * bufSize;
-            Object[] newBuf = new Object[newBufSize];
+            E[] newBuf = (E[]) new Object[newBufSize];
             int saveEntries = entries;
             for (int i = 0; entries > 0; i++) {
                 newBuf[i] = remove();
@@ -107,11 +107,11 @@ public class Fifo
      * @return                  The next object in line to be removed, if one is available,
      *                          or null if none are available.
      */
-    public synchronized Object remove() {
+    public synchronized E remove() {
         if (entries == 0)
             return null;
 
-        Object o = buf[removeSlot];
+        E o = buf[removeSlot];
         buf[removeSlot] = null;
         removeSlot = (removeSlot + 1) % bufSize;
         entries--;
@@ -135,7 +135,7 @@ public class Fifo
 
     private final static int defaultInitialSlots = 16;
 
-    private Object[] buf;               // The circular array to hold the entries
+    private E[] buf;               // The circular array to hold the entries
     private int bufSize;                // The size of the array: buf.length
     private int insertSlot;             // The next slot to store an entry
     private int removeSlot;             // The next slot from which to remove an entry

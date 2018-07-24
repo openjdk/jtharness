@@ -781,7 +781,7 @@ public class Agent implements Runnable {
             PrintWriter testRef = new PrintWriter(new AgentWriter(REF, this));
 
             try {
-                Class c;
+                Class<?> c;
                 ClassLoader cl = null;
                 if (remoteClasses) {
                     cl = getAgentClassLoader(sharedClassLoader);
@@ -834,7 +834,7 @@ public class Agent implements Runnable {
             }
         }
 
-        private Status executeTest(Class c, String[] args,
+        private Status executeTest(Class<?> c, String[] args,
                 PrintWriter testLog, PrintWriter testRef)
                 throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
             notifier.execTest(connection, tag, c.getName(), args);
@@ -842,7 +842,7 @@ public class Agent implements Runnable {
             return t.run(args, testLog, testRef);
         }
 
-        private Status executeCommand(Class c, String[] args,
+        private Status executeCommand(Class<?> c, String[] args,
                 PrintWriter testLog, PrintWriter testRef,
                 ClassLoader cl)
                 throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
@@ -945,7 +945,7 @@ public class Agent implements Runnable {
             PrintStream err = Deprecated.createPrintStream(new WriterStream(testLog));
             try {
                 setSystemStreams(this, out, err);
-                Method main = c.getDeclaredMethod("main", new Class[] {String[].class});
+                Method main = c.getDeclaredMethod("main", new Class<?>[] {String[].class});
                 main.invoke(null, new Object[] {args});
                 return Status.passed("OK");
             } catch (NoSuchMethodException e) {
@@ -1107,16 +1107,16 @@ public class Agent implements Runnable {
 
         private ClassLoader getAgentClassLoader(boolean useSharedClassLoader)
                 throws InstantiationException, IllegalAccessException {
-            Class<?> classLoaderClass;
+            Class<? extends ClassLoader> classLoaderClass;
             try {
                 String s = getClass().getName();
                 String pkg = s.substring(0, s.lastIndexOf('.'));
-                classLoaderClass = Class.forName(pkg + ".AgentClassLoader2");
+                classLoaderClass = (Class<? extends ClassLoader>) Class.forName(pkg + ".AgentClassLoader2");
             } catch (Throwable t) {
                 classLoaderClass = AgentClassLoader.class;
             }
 
-            Class[] argTypes = {Task.class};
+            Class<?>[] argTypes = {Task.class};
             if (useSharedClassLoader && factoryMethod == null) {
                 try {
                     factoryMethod = classLoaderClass.getDeclaredMethod("getInstance", argTypes);
@@ -1139,7 +1139,7 @@ public class Agent implements Runnable {
                 if (useSharedClassLoader && factoryMethod != null) {
                     return (ClassLoader) factoryMethod.invoke(null, args);
                 } else {
-                    return (ClassLoader) (classLoaderConstructor.newInstance(args));
+                    return classLoaderConstructor.newInstance(args);
                 }
             } catch (InvocationTargetException e) {
                 Throwable t = e.getTargetException();
@@ -1162,7 +1162,7 @@ public class Agent implements Runnable {
         private Integer timeoutValue;
     }
 
-    private static Constructor classLoaderConstructor;
+    private static Constructor<? extends ClassLoader> classLoaderConstructor;
     private static Method factoryMethod = null;
 }
 

@@ -75,7 +75,7 @@ public class RenderingUtilities {
         private PropertiesQuestion q;
 
         public PCE(PropertiesQuestion q) {
-            cbCE =  new PropCellEditor(new JComboBox(), q);
+            cbCE =  new PropCellEditor(new JComboBox<Object>(), q);
             tfCE =  new RestrainedCellEditor(new JTextField(), q);
             this.q = q;
         }
@@ -218,11 +218,11 @@ public class RenderingUtilities {
      * for editing.
      */
     public static class PropCellEditor extends DefaultCellEditor {
-        protected PropCellEditor(JComboBox box) {
+        protected PropCellEditor(JComboBox<Object> box) {
             super(box);
         }
 
-        PropCellEditor(JComboBox box, PropertiesQuestion q) {
+        PropCellEditor(JComboBox<Object> box, PropertiesQuestion q) {
             this(box);
             question = q;
         }
@@ -231,7 +231,7 @@ public class RenderingUtilities {
          * For use when this renderer is being used outside the context of
          * an interview and question.
          */
-        PropCellEditor(JComboBox box, ValueConstraints rules) {
+        PropCellEditor(JComboBox<Object> box, ValueConstraints rules) {
             this(box);
             this.rules = rules;
         }

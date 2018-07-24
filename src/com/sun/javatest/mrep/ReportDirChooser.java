@@ -51,7 +51,7 @@ class ReportDirChooser extends JFileChooser
     // be safely loaded, before the JFileChooser starts running its background
     // thread, exposing a JVM bug in class loading.
     static {
-        Class reportClass = Report.class;
+        Class<?> reportClass = Report.class;
     }
 
     /**

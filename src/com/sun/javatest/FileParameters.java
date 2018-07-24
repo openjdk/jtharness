@@ -309,8 +309,8 @@ public class FileParameters
                 envError = i18n.getString("fp.envNotFound", envName);
                 return;
             }
-            for (Iterator i = env.elements().iterator(); i.hasNext(); ) {
-                TestEnvironment.Element entry = (TestEnvironment.Element) (i.next());
+            for (Iterator<TestEnvironment.Element> i = env.elements().iterator(); i.hasNext(); ) {
+                TestEnvironment.Element entry = i.next();
                 if (entry.value.indexOf("VALUE_NOT_DEFINED") >= 0) {
                     String eText =
                         ( (entry.definedInEnv == null ? "" : "env." +  entry.definedInEnv + ".") +

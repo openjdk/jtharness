@@ -122,7 +122,7 @@ public class AuditCommandManager extends CommandManager
             return "showAudit";
         }
 
-        ShowAuditCommand(ListIterator argIter) {
+        ShowAuditCommand(ListIterator<String> argIter) {
             super(getName());
         }
 

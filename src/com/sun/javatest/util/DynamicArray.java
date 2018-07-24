@@ -107,7 +107,7 @@ public final class DynamicArray {
         if (array2 == null)
             return array1;
 
-        Class type = array1.getClass().getComponentType();
+        Class<?> type = array1.getClass().getComponentType();
         int size = array1.length + array2.length;
         T[] newArray = (T[]) Array.newInstance(type, size);
         System.arraycopy(array1, 0, newArray, 0, array1.length);
@@ -261,7 +261,7 @@ public final class DynamicArray {
      * @param arr The array to examine.
      * @return The class of objects that the given array can hold.
      */
-    protected static Class getArrayClass(Object[] arr) {
+    protected static Class<?> getArrayClass(Object[] arr) {
         if(arr != null) {
             return arr.getClass().getComponentType();
         } else {

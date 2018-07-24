@@ -176,8 +176,8 @@ public class HelpManager extends CommandManager
             tm.put(n.getName(), n);
         }
 
-        for (Iterator iter = tm.values().iterator(); iter.hasNext(); ) {
-            commandHelpTree.addNode((HelpTree.Node) (iter.next()));
+        for (Iterator<HelpTree.Node> iter = tm.values().iterator(); iter.hasNext(); ) {
+            commandHelpTree.addNode((iter.next()));
         }
 
         // now add file types

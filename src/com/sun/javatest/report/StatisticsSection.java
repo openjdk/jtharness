@@ -142,10 +142,10 @@ class StatisticsSection extends HTMLSection {
         }
 
         Vector<String[]> v = new Vector<>();
-        for (Iterator iter = keywordTable.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry e = (Map.Entry) (iter.next());
-            String k = (String) (e.getKey());
-            int[] kv = (int[]) (e.getValue());
+        for (Iterator<Map.Entry<String, int[]>> iter = keywordTable.entrySet().iterator(); iter.hasNext(); ) {
+            Map.Entry<String, int[]> e = (iter.next());
+            String k = (e.getKey());
+            int[] kv = (e.getValue());
             String[] newEntry = new String[ncols];
             int c = 0, total = 0;
             newEntry[c++] = k;

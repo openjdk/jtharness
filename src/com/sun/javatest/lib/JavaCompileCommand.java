@@ -182,7 +182,7 @@ public class JavaCompileCommand extends Command
             else
                 loader = new PathClassLoader(classpath);
 
-            Class compilerClass;
+            Class<?> compilerClass;
             if (compilerClassName != null) {
                 compilerClass = getClass(loader, compilerClassName);
                 if (compilerClass == null)
@@ -201,12 +201,12 @@ public class JavaCompileCommand extends Command
 
             Object[] compileMethodArgs;
             Method compileMethod = getMethod(compilerClass, "compile", // JDK1.4+
-                                             new Class[] { String[].class, PrintWriter.class });
+                                             new Class<?>[] { String[].class, PrintWriter.class });
             if (compileMethod != null)
                 compileMethodArgs = new Object[] { args, ref };
             else {
                 compileMethod = getMethod(compilerClass, "compile",   // JDK1.1-3
-                                          new Class[] { String[].class });
+                                          new Class<?>[] { String[].class });
                 if (compileMethod != null)
                     compileMethodArgs = new Object[] { args };
                 else
@@ -218,12 +218,12 @@ public class JavaCompileCommand extends Command
                 compiler =  null;
             else {
                 Object[] constrArgs;
-                Constructor constr = getConstructor(compilerClass, // JDK1.1-2
-                                                    new Class[] { OutputStream.class, String.class });
+                Constructor<?> constr = getConstructor(compilerClass, // JDK1.1-2
+                                                    new Class<?>[] { OutputStream.class, String.class });
                 if (constr != null)
                     constrArgs = new Object[] { new WriterStream(ref), compilerName };
                 else {
-                    constr = getConstructor(compilerClass, new Class[0]); // JDK1.3
+                    constr = getConstructor(compilerClass, new Class<?>[0]); // JDK1.3
                     if (constr != null)
                         constrArgs = new Object[0];
                     else
@@ -265,7 +265,7 @@ public class JavaCompileCommand extends Command
         }
     }
 
-    private Class getClass(ClassLoader loader, String name) {
+    private Class<?> getClass(ClassLoader loader, String name) {
         try {
             return (loader == null ? Class.forName(name) : loader.loadClass(name));
         }
@@ -274,7 +274,7 @@ public class JavaCompileCommand extends Command
         }
     }
 
-    private Constructor getConstructor(Class<?> c, Class[] argTypes) {
+    private Constructor<?> getConstructor(Class<?> c, Class<?>[] argTypes) {
         try {
             return c.getConstructor(argTypes);
         }
@@ -288,7 +288,7 @@ public class JavaCompileCommand extends Command
         }
     }
 
-    private Method getMethod(Class<?> c, String name, Class[] argTypes) {
+    private Method getMethod(Class<?> c, String name, Class<?>[] argTypes) {
         try {
             return c.getMethod(name, argTypes);
         }

@@ -71,7 +71,7 @@ public class Properties2 extends Hashtable<String, Object> {
     }
 
     public void load(java.util.Properties source) {
-        Enumeration e = source.propertyNames();
+        Enumeration<?> e = source.propertyNames();
         while(e.hasMoreElements()) {
             Object next = e.nextElement();
             put( ((String)next), source.get(next) );
@@ -203,8 +203,8 @@ public class Properties2 extends Hashtable<String, Object> {
         prnt.write('#');
         prnt.println(new Date());
 
-        for (Enumeration e = keys() ; e.hasMoreElements() ;) {
-            String key = (String)e.nextElement();
+        for (Enumeration<String> e = keys() ; e.hasMoreElements() ;) {
+            String key = e.nextElement();
             prnt.print(key);
             prnt.write('=');
 
@@ -285,7 +285,7 @@ public class Properties2 extends Hashtable<String, Object> {
      * @see     java.util.Enumeration
      * @see     com.sun.interview.Properties2#defaults
      */
-    public Enumeration propertyNames() {
+    public Enumeration<String> propertyNames() {
         Hashtable<String, Object> h = new Hashtable<>();
         enumerate(h);
         return h.keys();
@@ -307,8 +307,8 @@ public class Properties2 extends Hashtable<String, Object> {
         out.println("-- listing properties --");
         Hashtable<String, Object> h = new Hashtable<>();
         enumerate(h);
-        for (Enumeration e = h.keys() ; e.hasMoreElements() ;) {
-            String key = (String)e.nextElement();
+        for (Enumeration<String> e = h.keys() ; e.hasMoreElements() ;) {
+            String key = e.nextElement();
             String val = (String)h.get(key);
             if (val.length() > 40) {
                 val = val.substring(0, 37) + "...";
@@ -325,8 +325,8 @@ public class Properties2 extends Hashtable<String, Object> {
         if (defaults != null) {
             defaults.enumerate(h);
         }
-        for (Enumeration e = keys() ; e.hasMoreElements() ;) {
-            String key = (String)e.nextElement();
+        for (Enumeration<String> e = keys() ; e.hasMoreElements() ;) {
+            String key = e.nextElement();
             h.put(key, get(key));
         }
     }

@@ -285,7 +285,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             for (int i = paths.length; i > 0; i--)
                 model.add(model.getSize(), paths[model.getSize()]);
 
-            JList list = uif.createList("rh.confirmList", model);
+            JList<?> list = uif.createList("rh.confirmList", model);
             p.add(uif.createScrollPane(list,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);

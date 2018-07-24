@@ -129,11 +129,11 @@ public class JTHelpBroker implements HelpBroker{
                 File helpVersion = new File(destDir, HELP_VERSION_NAME);
 
                 JarFile jar = new JarFile(jarFile);
-                Enumeration enumEntries = jar.entries();
+                Enumeration<JarEntry> enumEntries = jar.entries();
 
                 int total = 0;
                 while (enumEntries.hasMoreElements()) {
-                    JarEntry file = (JarEntry) enumEntries.nextElement();
+                    JarEntry file = enumEntries.nextElement();
                     if (isHelpFile(file)) {
                         total++;
                     }
@@ -150,7 +150,7 @@ public class JTHelpBroker implements HelpBroker{
                 enumEntries = jar.entries();
 
                 while (enumEntries.hasMoreElements()) {
-                    JarEntry file = (JarEntry) enumEntries.nextElement();
+                    JarEntry file = enumEntries.nextElement();
                     File f = new java.io.File(destDir + java.io.File.separator + file.getName());
                     if (isHelpFile(file)) {
                         f.getParentFile().mkdirs();

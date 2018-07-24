@@ -47,7 +47,7 @@ public interface HelpSetFactory {
      *
      * @throws com.sun.interview.Interview.Fault if something went wrong
      */
-    public Object createHelpSetObject(String name, Class c) throws Interview.Fault;
+    public Object createHelpSetObject(String name, Class<?> c) throws Interview.Fault;
 
     /**
      * Creates an instance of HelpSet.
@@ -78,7 +78,7 @@ public interface HelpSetFactory {
     static class Default implements HelpSetFactory {
         private static final Object EMPTY = new Object();
 
-        public Object createHelpSetObject(String name, Class c) throws Fault {
+        public Object createHelpSetObject(String name, Class<?> c) throws Fault {
             return EMPTY;
         }
 

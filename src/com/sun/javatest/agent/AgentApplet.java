@@ -128,7 +128,7 @@ public class AgentApplet extends Applet implements Agent.Observer
 
         ModeOptions smo = null;
         try {
-            Class serial = Class.forName("com.sun.javatest.agent.SerialPortModeOptions");
+            Class<?> serial = Class.forName("com.sun.javatest.agent.SerialPortModeOptions");
             smo = (ModeOptions)serial.newInstance();
         } catch (Exception e) {
             System.err.println("There is no support for serial port");
@@ -163,7 +163,7 @@ public class AgentApplet extends Applet implements Agent.Observer
 
         if (observerClassName != null) {
             try {
-                Class observerClass = Class.forName(observerClassName);
+                Class<?> observerClass = Class.forName(observerClassName);
                 Agent.Observer observer = (Agent.Observer)(observerClass.newInstance());
                 ap.addObserver(observer);
             }

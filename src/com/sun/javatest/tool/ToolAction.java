@@ -193,7 +193,7 @@ public abstract class ToolAction implements Action
     }
 
     public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
-        WeakReference[] l = listeners;
+        WeakReference<PropertyChangeListener>[] l = listeners;
         int size = l.length;
         for (int i = size - 1; i >= 0; i--) {
             if (l[i].get() == listener)
@@ -208,10 +208,10 @@ public abstract class ToolAction implements Action
 
     private void firePropertyChangeEvent(String name, Object oldVal, Object newVal) {
         PropertyChangeEvent ev = null; // lazy create event if needed
-        WeakReference[] l = listeners;
+        WeakReference<PropertyChangeListener>[] l = listeners;
         if (l.length > 0) {
             for (int i = l.length - 1; i >= 0; i--) {
-                PropertyChangeListener pcl = (PropertyChangeListener) (l[i].get());
+                PropertyChangeListener pcl = (l[i].get());
                 if (pcl != null) {
                     if (ev == null)
                         ev = new PropertyChangeEvent(this, name, oldVal, newVal);
@@ -239,5 +239,5 @@ public abstract class ToolAction implements Action
     private Map<String, Object> misc;
     private boolean enabled = true;
 
-    private WeakReference[] listeners = new WeakReference[0];
+    private WeakReference<PropertyChangeListener>[] listeners = new WeakReference[0];
 }

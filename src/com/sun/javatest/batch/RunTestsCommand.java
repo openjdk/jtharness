@@ -30,6 +30,7 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 import com.sun.javatest.Harness;
 import com.sun.javatest.Parameters;
@@ -68,7 +69,7 @@ class RunTestsCommand extends Command
         super(getName());
     }
 
-    RunTestsCommand(Iterator argIter) {
+    RunTestsCommand(ListIterator<String> argIter) {
         super(getName());
     }
 

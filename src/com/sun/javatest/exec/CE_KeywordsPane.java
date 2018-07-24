@@ -398,7 +398,7 @@ class CE_KeywordsPane extends CE_StdPane {
     private KeywordsParameters keywordsParameters;
     private MutableKeywordsParameters mutableKeywordsParameters;
     private JCheckBox selectCheck;
-    private JComboBox keywordsChoice;
+    private JComboBox<String> keywordsChoice;
     private JTextField keywordsField;
     private JButton keywordBtn;
     private JPopupMenu keywordPopup;

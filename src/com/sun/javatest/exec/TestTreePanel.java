@@ -1583,7 +1583,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
      * @param prefix i18n bundle prefix
      * @param args Arguments for the user message string, which is prefix.txt.
      */
-    private int showConfirmListDialog(String prefix, Object[] args, ListModel model) {
+    private int showConfirmListDialog(String prefix, Object[] args, ListModel<?> model) {
         // resources needed:
         // prefix.title
         JPanel p = uif.createPanel("ttp.confirmPanel", false);
@@ -1591,7 +1591,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         p.setLayout(new BorderLayout());
         p.add(msg, BorderLayout.NORTH);
 
-        JList list = uif.createList("treep.nodeList", model);
+        JList<?> list = uif.createList("treep.nodeList", model);
         p.add(uif.createScrollPane(list,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);

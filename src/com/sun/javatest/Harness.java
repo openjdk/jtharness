@@ -720,12 +720,12 @@ public class Harness
         notifier.addObserver(testURLCollector);
         testsStartTime = System.currentTimeMillis();
         try {
-            ok = r.runTests(new Iterator() {
+            ok = r.runTests(new Iterator<TestDescription>() {
                     public boolean hasNext() {
                         return (stopping ? false : raTestIter.hasNext());
                     }
-                    public Object next() {
-                        TestResult tr = (TestResult) (raTestIter.next());
+                    public TestDescription next() {
+                        TestResult tr = raTestIter.next();
                         try {
                             return tr.getDescription();
                         }

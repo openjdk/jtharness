@@ -211,7 +211,6 @@ public class ConfigManager
         return new OpenCommand(file);
     }
 
-    private static Map commandFactory;
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ConfigManager.class);
 
     //--------------------------------------------------------------------------
@@ -879,10 +878,10 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             Question[] path = p.getPath();
             if (file != null) {
-                Map values = loadFile(file);
+                Map<String, String> values = loadFile(file);
                 for (int i = 0; i < path.length; i++) {
                     Question q = path[i];
-                    String v = (String) (values.get(q.getTag()));
+                    String v = (values.get(q.getTag()));
                     if (v != null) {
                         setValue(q, v);
                         path = p.getPath();
@@ -967,12 +966,10 @@ public class ConfigManager
             return (sb.toString());
         }
 
-        private Map loadFile(File file) throws Fault {
+        private Map<String, String> loadFile(File file) throws Fault {
             try (FileInputStream fis = new FileInputStream(file);
                  InputStream in = new BufferedInputStream(fis)) {
-                Properties props = new Properties();
-                props.load(in);
-                return props;
+                return com.sun.javatest.util.Properties.load(in);
             }
             catch (FileNotFoundException e) {
                 throw new Fault(i18n, "cnfg.set.cantFindFile", file);
@@ -1022,19 +1019,19 @@ public class ConfigManager
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
             if (file != null) {
-                Map values = loadFile(file);
-                Set keys = values.keySet();
-                Iterator it = keys.iterator();
+                Map<String, String> values = loadFile(file);
+                Set<String> keys = values.keySet();
+                Iterator<String> it = keys.iterator();
                 String name = null;
                 for (int i = 0; it.hasNext(); i++) {
-                    name = (String)(it.next());
+                    name = it.next();
                     /*  could do it this way to reject unknown props
                     String v = p.retrieveProperty(name);
                     if (v != null) {
                         p.storeProperty(name, (String)(values.get(name)));
                     }
                     */
-                    p.storeProperty(name, (String)(values.get(name)));
+                    p.storeProperty(name, (values.get(name)));
                 }
             }
             else {
@@ -1042,12 +1039,10 @@ public class ConfigManager
             }
         }
 
-        private Map loadFile(File file) throws Fault {
+        private Map<String, String> loadFile(File file) throws Fault {
             try (FileInputStream fis = new FileInputStream(file);
                 InputStream in = new BufferedInputStream(fis)) {
-                Properties props = new Properties();
-                props.load(in);
-                return props;
+                return com.sun.javatest.util.Properties.load(in);
             }
             catch (FileNotFoundException e) {
                 throw new Fault(i18n, "cnfg.set.cantFindFile", file);

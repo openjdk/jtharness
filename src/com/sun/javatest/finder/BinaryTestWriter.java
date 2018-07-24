@@ -278,7 +278,7 @@ public class BinaryTestWriter
             throw new NullPointerException();
 
         try {
-            Class c = Class.forName(finder);
+            Class<?> c = Class.forName(finder);
             testFinder = (TestFinder) (c.newInstance());
             testFinder.init(args, ts, null);
         }
@@ -386,10 +386,8 @@ public class BinaryTestWriter
             return null;
 
         Arrays.sort(files);
-        Arrays.sort(tests, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                TestDescription td1 = (TestDescription) o1;
-                TestDescription td2 = (TestDescription) o2;
+        Arrays.sort(tests, new Comparator<TestDescription>() {
+            public int compare(TestDescription td1, TestDescription td2) {
                 return td1.getRootRelativeURL().compareTo(td2.getRootRelativeURL());
             }
         });
@@ -463,8 +461,8 @@ public class BinaryTestWriter
          * Add all the strings used in a test description to the table.
          */
         void add(TestDescription test) {
-            for (Iterator i = test.getParameterKeys(); i.hasNext(); ) {
-                String key = (String) (i.next());
+            for (Iterator<String> i = test.getParameterKeys(); i.hasNext(); ) {
+                String key = (i.next());
                 String param = test.getParameter(key);
                 add(key);
                 add(param);
@@ -669,8 +667,8 @@ public class BinaryTestWriter
         private void write(TestDescription td, DataOutputStream o) throws IOException {
             // should consider using load/save here
             writeInt(o, td.getParameterCount());
-            for (Iterator i = td.getParameterKeys(); i.hasNext(); ) {
-                String key = (String) (i.next());
+            for (Iterator<String> i = td.getParameterKeys(); i.hasNext(); ) {
+                String key = (i.next());
                 String value = td.getParameter(key);
                 stringTable.writeRef(key, o);
                 stringTable.writeRef(value, o);

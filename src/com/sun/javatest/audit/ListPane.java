@@ -79,7 +79,7 @@ abstract class ListPane extends AuditPane {
     }
 
     private class Renderer extends DefaultListCellRenderer {
-        public Component getListCellRendererComponent(JList list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
             String name;
             if (o instanceof TestResult) {
                 TestResult tr = (TestResult) o;

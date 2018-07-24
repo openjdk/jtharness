@@ -118,8 +118,8 @@ class HelpMenu extends JMenu
         // for the active test suites, add any available help sets to the menu
         // e.g. those specified in the testsuite.jtt
         int count = 0;
-        for (Iterator iter = loadedTestSuites.iterator(); iter.hasNext(); ) {
-            TestSuite ts = (TestSuite) (iter.next());
+        for (Iterator<TestSuite> iter = loadedTestSuites.iterator(); iter.hasNext(); ) {
+            TestSuite ts = (iter.next());
             JMenuItem[] menuItems = getMenuItems(ts, count);
             if (menuItems != null && menuItems.length > 0) {
                 for (int i = 0; i < menuItems.length; i++) {

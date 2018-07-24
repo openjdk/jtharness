@@ -552,9 +552,9 @@ class QuestionPanel extends JPanel
         return result;
     }
 
-    private QuestionRenderer getRenderer(Question q, Map rendMap) {
-        for (Class c = q.getClass(); c != null; c = c.getSuperclass()) {
-            QuestionRenderer r = (QuestionRenderer) (rendMap.get(c));
+    private QuestionRenderer getRenderer(Question q, Map<Class<? extends Question>, QuestionRenderer> rendMap) {
+        for (Class<?> c = q.getClass(); c != null; c = c.getSuperclass()) {
+            QuestionRenderer r = rendMap.get(c);
             if (r != null)
                 return r;
         }

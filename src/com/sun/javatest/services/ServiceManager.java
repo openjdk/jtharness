@@ -290,7 +290,7 @@ public class ServiceManager implements Harness.Observer {
         if (mode == StartMode.UP_FRONT) {
             Set<String> active = new TreeSet<>();
             try {
-                Iterator iter = harness.getTestsIterator(null);
+                Iterator<TestResult> iter = harness.getTestsIterator(null);
                 active = selectActiveServices(iter);
             } catch (Harness.Fault f) {
                 commonLog.log(Level.SEVERE, f.getMessage());
@@ -367,13 +367,13 @@ public class ServiceManager implements Harness.Observer {
         this.mode = mode;
     }
 
-    private Set<String> selectActiveServices(Iterator iter) {
+    private Set<String> selectActiveServices(Iterator<TestResult> iter) {
         Set<String> active = new TreeSet<>();
         Set<TestPath> copy = new HashSet<>(testServiceMap);
         TestResult tr;
         TestDescription td;
         while (!copy.isEmpty() && active.size() < services.size() &&
-                (tr = (TestResult)iter.next()) != null ) {
+                (tr = iter.next()) != null ) {
             try {
                 td = tr.getDescription();
                 HashSet<TestPath> toRemove = new HashSet<>();

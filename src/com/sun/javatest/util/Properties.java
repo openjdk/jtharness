@@ -536,7 +536,7 @@ class Properties extends Hashtable<String, String> {
      * @see     com.sun.javatest.util.Properties#defaults
      * @since   JDK1.0
      */
-    public Enumeration propertyNames() {
+    public Enumeration<String> propertyNames() {
         Hashtable<String, String> h = new Hashtable<>();
         enumerate(h);
         return h.keys();
@@ -587,8 +587,8 @@ class Properties extends Hashtable<String, String> {
         if (defaults != null) {
             defaults.enumerate(h);
         }
-        for (Enumeration e = keys() ; e.hasMoreElements() ;) {
-            String key = (String)e.nextElement();
+        for (Enumeration<String> e = keys() ; e.hasMoreElements() ;) {
+            String key = e.nextElement();
             h.put(key, get(key));
         }
     }

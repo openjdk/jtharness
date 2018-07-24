@@ -700,8 +700,8 @@ class TP_OutputSubpanel extends TP_Subpanel {
         }
 
         public void valueChanged(ListSelectionEvent e) {
-            JList l = (JList) (e.getSource());
-            TOCEntry entry = (TOCEntry) (l.getSelectedValue());
+            JList<TOCEntry> l = (JList<TOCEntry>) (e.getSource());
+            TOCEntry entry = (l.getSelectedValue());
             if (entry == null)
                 return;
             titleField.setText(entry.getTitle());
@@ -877,7 +877,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
     }
 
     private class TOCRenderer extends DefaultListCellRenderer {
-        public Component getListCellRendererComponent(JList list,
+        public Component getListCellRendererComponent(JList<?> list,
                                                       Object value,
                                                       int index,
                                                       boolean isSelected,

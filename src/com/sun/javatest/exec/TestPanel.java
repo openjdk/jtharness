@@ -170,7 +170,7 @@ class TestPanel extends JPanel
             // check if there are any environment entries recorded
             boolean hasEnv;
             try {
-                Map map = currTest.getEnvironment();
+                Map<String, String> map = currTest.getEnvironment();
                 hasEnv = (map != null && map.size() > 0);
             }
             catch (TestResult.Fault f) {

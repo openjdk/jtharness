@@ -92,7 +92,7 @@ public class PathClassLoader extends ClassLoader
      * @return the class that was loaded
      * @throws ClassNotFoundException if the class was not found.
      */
-    protected Class loadClass(String name, boolean resolve)
+    protected Class<?> loadClass(String name, boolean resolve)
         throws ClassNotFoundException {
 
             Class<?> cl = classes.get(name);
@@ -113,7 +113,7 @@ public class PathClassLoader extends ClassLoader
     }
 
 
-    private synchronized Class locateClass(String name)
+    private synchronized Class<?> locateClass(String name)
         throws ClassNotFoundException {
         //System.err.println("locateClass: " + name);
         Class<?> c = classes.get(name);
@@ -135,7 +135,7 @@ public class PathClassLoader extends ClassLoader
         throw new ClassNotFoundException(name);
     }
 
-    private Class locateClassInDir(String name, File dir)
+    private Class<?> locateClassInDir(String name, File dir)
         throws ClassNotFoundException {
         //System.err.println("locateClassInDir: " + name + " " + dir);
         String cname = name.replace('.', '/') + ".class";
@@ -149,7 +149,7 @@ public class PathClassLoader extends ClassLoader
         }
     }
 
-    private Class locateClassInJar(String name, File jarFile)
+    private Class<?> locateClassInJar(String name, File jarFile)
         throws ClassNotFoundException {
         //System.err.println("locateClassInJar: " + name + " " + jarFile);
         String cname = name.replace('.', '/') + ".class";
@@ -170,7 +170,7 @@ public class PathClassLoader extends ClassLoader
         }
     }
 
-    private Class readClass(String name, InputStream in, int size) throws IOException {
+    private Class<?> readClass(String name, InputStream in, int size) throws IOException {
         byte[] data = new byte[size];
         try {
             for (int total = 0; total < size; ) {

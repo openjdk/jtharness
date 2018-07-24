@@ -324,8 +324,8 @@ public class ActiveAgentPool
             return v.contains(e);
         }
 
-        synchronized Enumeration elements() {
-            return ((Vector)(v.clone())).elements();
+        synchronized Enumeration<Connection> elements() {
+            return ((Vector<Connection>)(v.clone())).elements();
         }
 
         synchronized void add(final Entry e) {
@@ -590,7 +590,7 @@ public class ActiveAgentPool
     /**
      * Get an enumeration of the entries currently in the active agent pool.
      */
-    Enumeration elements() {
+    Enumeration<Connection> elements() {
         return entries.elements();
     }
 

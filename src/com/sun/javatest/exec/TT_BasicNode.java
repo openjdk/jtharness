@@ -51,7 +51,7 @@ public class TT_BasicNode extends TT_TreeNode {
         this.tn = tn;
     }
     // ------- interface methods --------
-    public Enumeration children() {
+    public Enumeration<TT_TreeNode> children() {
         updateNode();
 
         ArrayList<TT_TreeNode> copy = null;
@@ -60,14 +60,14 @@ public class TT_BasicNode extends TT_TreeNode {
             copy = new ArrayList<>(children);
         }
 
-        final Iterator it = copy.iterator();
-        return new Enumeration() {
+        final Iterator<TT_TreeNode> it = copy.iterator();
+        return new Enumeration<TT_TreeNode>() {
 
             public boolean hasMoreElements() {
                 return it.hasNext();
             }
 
-            public Object nextElement() {
+            public TT_TreeNode nextElement() {
                 return it.next();
             }
         };

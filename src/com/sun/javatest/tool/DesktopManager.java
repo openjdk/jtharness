@@ -111,7 +111,7 @@ public class DesktopManager extends CommandManager
 
     private static class SetLafCommand extends Command {
 
-        private SetLafCommand(ListIterator argIter, CommandContext ctx) throws Fault {
+        private SetLafCommand(ListIterator<String> argIter, CommandContext ctx) throws Fault {
             super("laf");
 
             if (!argIter.hasNext()) {
@@ -120,7 +120,7 @@ public class DesktopManager extends CommandManager
 
             int laf;
 
-            String lafName = (String) argIter.next();
+            String lafName = argIter.next();
             if ("nimbus".equalsIgnoreCase(lafName)) {
                 laf = CommandContext.NIMBUS_LAF;
             } else if ("metal".equalsIgnoreCase(lafName)) {

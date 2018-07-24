@@ -47,16 +47,16 @@ import com.sun.javatest.util.StringArray;
 
 class ManagerLoader
 {
-    ManagerLoader(Class managerClass, PrintStream log) {
+    ManagerLoader(Class<?> managerClass, PrintStream log) {
         setManagerClass(managerClass);
         setLog(log);
     }
 
-    void setManagerClass(Class managerClass) {
+    void setManagerClass(Class<?> managerClass) {
         this.managerClass = managerClass;
     }
 
-    void setManagerConstructorArgs(Class[] argTypes, Object[] args) {
+    void setManagerConstructorArgs(Class<?>[] argTypes, Object[] args) {
         constrArgTypes = argTypes;
         constrArgs = args;
     }
@@ -69,12 +69,12 @@ class ManagerLoader
         throws IOException
     {
 
-        Enumeration e = ResourceLoader.getResources(resourceName, getClass());
+        Enumeration<URL> e = ResourceLoader.getResources(resourceName, getClass());
         Set<Object> mgrs = new HashSet<>();
         URLClassLoader altLoader = null;
 
         while (e.hasMoreElements()) {
-            URL entry = (URL)(e.nextElement());
+            URL entry = e.nextElement();
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(entry.openStream()));
                 String line;
@@ -156,7 +156,7 @@ class ManagerLoader
         }
 
         try {
-            Class c = Class.forName(className, true, cl);
+            Class<?> c = Class.forName(className, true, cl);
             Object mgr = newInstance(c);
             if (managerClass.isInstance(mgr)) {
                 return mgr;
@@ -180,7 +180,7 @@ class ManagerLoader
         }
 
         try {
-            Constructor constr = c.getConstructor(constrArgTypes);
+            Constructor<?> constr = c.getConstructor(constrArgTypes);
             return constr.newInstance(constrArgs);
         }
         catch (InvocationTargetException e) {
@@ -241,8 +241,8 @@ class ManagerLoader
     }
 
     private Class<?> managerClass;
-    private Constructor constr;
-    private Class[] constrArgTypes;
+    private Constructor<?> constr;
+    private Class<?>[] constrArgTypes;
     private Object[] constrArgs;
     private PrintStream log;
 

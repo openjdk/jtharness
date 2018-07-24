@@ -124,7 +124,7 @@ class XMLReportWriter {
         ser.startElement("", "", Scheme.REPORT, atts);
     }
 
-    public void write(File[] file, Map[] map) throws SAXException,
+    public void write(File[] file, Map<?, ?>[] map) throws SAXException,
             ParserConfigurationException, IOException {
         try {
             ser.startDocument();
@@ -171,9 +171,9 @@ class CopyHandler extends DefaultHandler {
 
     // id -> new_id mapping
     // url -> new_TestDescr mapping
-    private Map map;
+    private Map<?, ?> map;
 
-    public CopyHandler(ContentHandler ser, boolean isWorkDir, Map map) {
+    public CopyHandler(ContentHandler ser, boolean isWorkDir, Map<?, ?> map) {
         this.ser = ser;
         if (ser instanceof LexicalHandler) {
             lh = (LexicalHandler) ser;

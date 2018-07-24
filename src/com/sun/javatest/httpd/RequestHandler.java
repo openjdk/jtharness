@@ -163,7 +163,6 @@ class RequestHandler implements Runnable {
         out.println("</body></html>");
     }
 
-    private static Hashtable urlMap;
 
     private Socket soc;
     private PrintWriter out;

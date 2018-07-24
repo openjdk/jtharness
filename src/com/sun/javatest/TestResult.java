@@ -950,8 +950,8 @@ public class TestResult {
             throw new IllegalStateException(
                         "This TestResult is no longer mutable!");
         }
-        for (Iterator i = environment.elementsUsed().iterator(); i.hasNext(); ) {
-            TestEnvironment.Element elem = (TestEnvironment.Element) (i.next());
+        for (Iterator<TestEnvironment.Element> i = environment.elementsUsed().iterator(); i.hasNext(); ) {
+            TestEnvironment.Element elem = i.next();
             // this is stunningly inefficient and should be fixed
             env = PropertyArray.put(env, elem.getKey(), elem.getValue());
         }
@@ -1301,7 +1301,7 @@ public class TestResult {
      * Get the keys of the properties that this object has stored.
      * @return the keys of the properties that this object has stored
      */
-    public synchronized Enumeration getPropertyNames() {
+    public synchronized Enumeration<String> getPropertyNames() {
         return PropertyArray.enumerate(props);
     }
 
@@ -1332,7 +1332,7 @@ public class TestResult {
      *          recreating data from the results file.
      * @see #setEnvironment
      */
-    public synchronized Map getEnvironment() throws Fault {
+    public synchronized Map<String, String> getEnvironment() throws Fault {
         if (env == null) {
             // reconstitute environment
             // this may result in a Fault, which is okay
@@ -1982,10 +1982,10 @@ public class TestResult {
 
     private static long computeChecksum(TestDescription td) {
         long cs = 0;
-        for (Iterator i = td.getParameterKeys(); i.hasNext(); ) {
+        for (Iterator<String> i = td.getParameterKeys(); i.hasNext(); ) {
             // don't rely on enumeration in a particular order
             // so simply add the checksum products together
-            String key = (String) (i.next());
+            String key = (i.next());
             cs += computeChecksum(key) * computeChecksum(td.getParameter(key));
         }
         return cs;
@@ -2557,14 +2557,14 @@ public class TestResult {
             // if this object is in the list; remove it;
             // if there are dead weak refs, remove them
             for (Iterator<WeakReference<TestResult>> iter = shrinkList.iterator(); iter.hasNext(); ) {
-                WeakReference wref = iter.next();
+                WeakReference<TestResult> wref = iter.next();
                 Object o = wref.get();
                 if (o == null || o == this)
                     iter.remove();
             }
             while (shrinkList.size() >= maxShrinkListSize) {
-                WeakReference wref = shrinkList.removeFirst();
-                TestResult tr = (TestResult) (wref.get());
+                WeakReference<TestResult> wref = shrinkList.removeFirst();
+                TestResult tr = wref.get();
                 if (tr != null)
                     tr.shrink();
             }

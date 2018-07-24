@@ -63,7 +63,7 @@ import com.sun.javatest.util.PrefixMap;
  */
 public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
     ET_FilterHandler(JComponent parent, ExecModel model, Harness h, UIFactory uif,
-                     Map map) {
+                     Map<String, String> map) {
         this(parent, model, uif);
         setHarness(h);
         restore(map);
@@ -160,9 +160,9 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         return fHandler;
     }
 
-    private TestFilter getDefaultFilter(Map map) {
+    private TestFilter getDefaultFilter(Map<String, String> map) {
         if (map != null) {
-            String pref = (String)(map.get(ExecTool.ACTIVE_FILTER));
+            String pref = (map.get(ExecTool.ACTIVE_FILTER));
 
             // try to use filter indicated in preference
             for (int i = 0; i < allFilters.size(); i++) {
@@ -281,7 +281,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
         prefs.save();
     }
-    public void restore(Map m) {
+    public void restore(Map<String, String> m) {
         this.map = m;
         fHandler.setFilter(getDefaultFilter(m));
     }
@@ -441,7 +441,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
     private ExecModel model;
     private UIFactory uif;
     private JComponent parentComponent;
-    private Map map;        // saved desktop map to restore from
+    private Map<String, String> map;        // saved desktop map to restore from
 
     // filters
     private LastRunFilter ltrFilter;        // last test run
@@ -513,7 +513,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             return null;
         }
 
-        public void putAll(Map t) {
+        public void putAll(Map<? extends String, ? extends String> t) {
             throw new UnsupportedOperationException();
         }
 

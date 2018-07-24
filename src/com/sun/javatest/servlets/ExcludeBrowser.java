@@ -82,7 +82,7 @@ public class ExcludeBrowser extends HttpServlet {
             out.println("Exclude list is empty.");
         else {
             out.println("<table border=1>");
-            for (Iterator iter = excludeList.getIterator(false); iter.hasNext(); ) {
+            for (Iterator<?> iter = excludeList.getIterator(false); iter.hasNext(); ) {
                 ExcludeList.Entry entry = (ExcludeList.Entry) (iter.next());
                 String[] bugIds = entry.getBugIdStrings();
                 StringBuffer bugIdText = new StringBuffer();

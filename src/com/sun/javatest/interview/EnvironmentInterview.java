@@ -259,9 +259,9 @@ public class EnvironmentInterview
                         // verify all entries defined
                         cachedEnvError = null;
                         cachedEnvErrorArgs = null;
-                        for (Iterator i = cachedEnv.elements().iterator();
+                        for (Iterator<TestEnvironment.Element> i = cachedEnv.elements().iterator();
                              i.hasNext() && cachedEnvError == null; ) {
-                            TestEnvironment.Element entry = (TestEnvironment.Element) (i.next());
+                            TestEnvironment.Element entry = (i.next());
                             if (entry.getValue().indexOf("VALUE_NOT_DEFINED") >= 0) {
                                 cachedEnv = null;
                                 String eText =

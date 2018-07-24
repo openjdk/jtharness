@@ -277,7 +277,7 @@ public class KnownFailuresList
             // flatten the enumeration into a vector, then
             // enumerate that
             List<Entry> v = new ArrayList<>(table.size());
-            for (Iterator<Entry> iter = table.values().iterator(); iter.hasNext(); ) {
+            for (Iterator<Object> iter = table.values().iterator(); iter.hasNext(); ) {
                 Object o = iter.next();
                 if (o instanceof Entry)
                     v.add((Entry)o);
@@ -302,8 +302,8 @@ public class KnownFailuresList
      */
     public void merge(KnownFailuresList other) {
         synchronized (table) {
-            for (Iterator iter = other.getIterator(false); iter.hasNext(); ) {
-                Entry otherEntry = (Entry) (iter.next());
+            for (Iterator<Entry> iter = other.getIterator(false); iter.hasNext(); ) {
+                Entry otherEntry = iter.next();
                 Key key = new Key(otherEntry.relativeURL);
                 Object o = table.get(key);
                 if (o == null) {
@@ -707,7 +707,7 @@ public class KnownFailuresList
     /**
      * An entry in the exclude list.
      */
-    public static final class Entry implements Comparable {
+    public static final class Entry implements Comparable<Entry> {
         /**
          * Create an ExcludeList entry.
          * @param u The URL for the test, specified relative to the test suite root.
@@ -732,8 +732,7 @@ public class KnownFailuresList
             notes = s;
         }
 
-        public int compareTo(Object o) {
-            Entry e = (Entry) o;
+        public int compareTo(Entry e) {
             int n = relativeURL.compareTo(e.relativeURL);
             if (n == 0) {
                 if (testCase == null && e.testCase == null)

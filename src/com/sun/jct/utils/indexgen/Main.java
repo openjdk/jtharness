@@ -521,8 +521,8 @@ public class Main {
 
         char currLetter = 0;
 
-        for (Iterator iter = root.iterator(); iter.hasNext(); ) {
-            Node node = (Node) (iter.next());
+        for (Iterator<Node> iter = root.iterator(); iter.hasNext(); ) {
+            Node node = (iter.next());
             String name = node.getName();
             char initial = Character.toUpperCase(name.charAt(0));
             if (Character.isLetter(initial) && initial != currLetter) {
@@ -597,8 +597,8 @@ public class Main {
         }
 
         if (node.getChildCount() > 0) {
-            for (Iterator iter = node.iterator(); iter.hasNext(); ) {
-                Node child = (Node) (iter.next());
+            for (Iterator<Node> iter = node.iterator(); iter.hasNext(); ) {
+                Node child = (iter.next());
                 write(xmlOut, mapOut, htmlOut, child, depth + 1);
             }
 

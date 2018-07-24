@@ -74,7 +74,7 @@ public class HelpExternalLink extends HelpLink {
                 } else if (os.startsWith("Mac OS")) {
                     Class<?> fileMgr = Class.forName("com.apple.eio.FileManager");
                     Method openURL = fileMgr.getDeclaredMethod("openURL",
-                            new Class[]{String.class});
+                            new Class<?>[]{String.class});
                     openURL.invoke(null, new Object[]{url});
                 } else {
                     String[] commands = {

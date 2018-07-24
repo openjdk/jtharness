@@ -144,7 +144,7 @@ public class XMLReport  implements ReportFormat {
         maker.sTestResults();
 
         File[] initFiles = sett.getInitialFiles();
-        Iterator iter = null;
+        Iterator<TestResult> iter = null;
         TestResultTable resultTable = sett.getInterview().getWorkDirectory().getTestResultTable();
 
         try {
@@ -154,7 +154,7 @@ public class XMLReport  implements ReportFormat {
                 iter = resultTable.getIterator(initFiles, new TestFilter[] {sett.getTestFilter()});
             }
             for (; iter.hasNext(); ) {
-                TestResult tr = (TestResult) (iter.next());
+                TestResult tr = (iter.next());
                 writeResult(maker, tr);
             }
             maker.eTestResults();
@@ -203,9 +203,9 @@ public class XMLReport  implements ReportFormat {
         String time = testResult.getProperty(TestResult.END);
 
         maker.sResultProps(time);
-        Enumeration en = testResult.getPropertyNames();
+        Enumeration<String> en = testResult.getPropertyNames();
         while (en.hasMoreElements()) {
-            String key = (String) en.nextElement();
+            String key = en.nextElement();
             String val = testResult.getProperty(key);
             if (!TestResult.END.equals(key)) {
                 maker.makeProperty(key, val);
@@ -216,14 +216,14 @@ public class XMLReport  implements ReportFormat {
 
     private void writeEnvironment(final XMLReportMaker maker, final TestResult testResult) throws SAXException {
 
-        Iterator keysIt;
+        Iterator<String> keysIt;
         try {
-            Map m = testResult.getEnvironment();
+            Map<String, String> m = testResult.getEnvironment();
             keysIt =  m.keySet().iterator();
             maker.sTestEnvironment();
             while (keysIt.hasNext()) {
-                String key = (String) keysIt.next();
-                String val = (String) m.get(key);
+                String key = keysIt.next();
+                String val = m.get(key);
                 maker.makeProperty(key, val);
             }
             maker.eTestEnvironment();
@@ -296,8 +296,8 @@ public class XMLReport  implements ReportFormat {
         maker.sEnvironment(name, descr);
         TestEnvironment env = sett.getInterview().getEnv();
         if (env != null) {
-            for (Iterator i = env.elements().iterator(); i.hasNext(); ) {
-                TestEnvironment.Element envElem = (TestEnvironment.Element) (i.next());
+            for (Iterator<TestEnvironment.Element> i = env.elements().iterator(); i.hasNext(); ) {
+                TestEnvironment.Element envElem = (i.next());
                 maker.makeProperty(envElem.getKey(), envElem.getValue());
             }
         }

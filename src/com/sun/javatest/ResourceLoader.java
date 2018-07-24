@@ -45,7 +45,7 @@ import com.sun.javatest.util.DynamicArray;
 
 public class ResourceLoader {
 
-    public static Enumeration getResources(String name, Class ownClass) throws IOException  {
+    public static Enumeration<URL> getResources(String name, Class<?> ownClass) throws IOException  {
         URL extResource = getExtResource(name, null);
         if (extResource != null) {
             Vector<URL> r = new Vector<>();
@@ -55,7 +55,7 @@ public class ResourceLoader {
         return ownClass.getClassLoader().getResources(name);
     }
 
-    public static InputStream getResourceAsStream(final String name, final Class ownClass) {
+    public static InputStream getResourceAsStream(final String name, final Class<?> ownClass) {
         URL url = getExtResource(name, ownClass);
         try {
             if (url != null) {
@@ -75,7 +75,7 @@ public class ResourceLoader {
         }
     }
 
-    public static File getResourceFile(String name, Class ownClass) {
+    public static File getResourceFile(String name, Class<?> ownClass) {
         File f = getExtResourceFile(name, ownClass);
         if (f != null) {
             return f;
@@ -101,7 +101,7 @@ public class ResourceLoader {
         return url;
     }
 
-    private static URL getExtResource(String name, Class ownClass) {
+    private static URL getExtResource(String name, Class<?> ownClass) {
         URL ret = null;
         File rf = getExtResourceFile(name, ownClass);
         if (rf != null) {
@@ -114,7 +114,7 @@ public class ResourceLoader {
         return ret;
     }
 
-    private static File getExtResourceFile(String name, Class ownClass) {
+    private static File getExtResourceFile(String name, Class<?> ownClass) {
         if (ext != null) {
             String relName;
             if (ownClass == null) {
@@ -133,7 +133,7 @@ public class ResourceLoader {
 
 
     // get from java.lang.Class with minimal changes
-    private static String resolveName(String name, Class baseClass) {
+    private static String resolveName(String name, Class<?> baseClass) {
         if (name == null || baseClass == null) {
             return name;
         }

@@ -121,7 +121,7 @@ public class PageGenerator {
     /**
      * Prints the contents of any dictionary in a two column table.
      */
-    public static void writeDictionary(PrintWriter out, Dictionary dict,
+    public static void writeDictionary(PrintWriter out, Dictionary<String, String> dict,
                                        String keyHeader, String valHeader) {
         // XXX should include HTML filtering of strings
 
@@ -148,7 +148,7 @@ public class PageGenerator {
             buf.append("</tr>");
         }
         else {
-            Enumeration keys = dict.keys();
+            Enumeration<?> keys = dict.keys();
             while (keys.hasMoreElements()) {
                 Object key = keys.nextElement();
                 out.println("<tr>");

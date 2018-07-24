@@ -132,7 +132,7 @@ public class Debug {
      *    a return value of zero.
      * @return the debugging setting for the specified class
      */
-    public static boolean getBoolean(Class c) {
+    public static boolean getBoolean(Class<?> c) {
         init(false);
 
         if (!masterSwitch)
@@ -156,7 +156,7 @@ public class Debug {
      *    of just the classname.
      * @return the debugging setting for the specified class
      */
-    public static boolean getBoolean(Class c, String suffix) {
+    public static boolean getBoolean(Class<?> c, String suffix) {
         init(false);
 
         if (!masterSwitch)
@@ -200,7 +200,7 @@ public class Debug {
      * @return the debugging setting for the given class, or 0 if no class
      *    was specified
      */
-    public static int getInt(Class c) {
+    public static int getInt(Class<?> c) {
         init(false);
 
         if (!masterSwitch || c == null)
@@ -224,7 +224,7 @@ public class Debug {
      *    null will result in a lookup of just the classname.
      * @return the debugging setting for the class
      */
-    public static int getInt(Class c, String suffix) {
+    public static int getInt(Class<?> c, String suffix) {
         init(false);
 
         if (!masterSwitch || c == null)
@@ -317,7 +317,7 @@ public class Debug {
             return;
         }
 
-        Enumeration keys = props.propertyNames();
+        Enumeration<?> keys = props.propertyNames();
 
         dProps = new Properties();
         wildProps = new WildcardProperties();
@@ -348,7 +348,7 @@ public class Debug {
      *
      * @param c Must not be null.
      */
-    private static String getName(Class c) {
+    private static String getName(Class<?> c) {
         // null checking skipped
 
         String name = c.getName();
@@ -455,7 +455,7 @@ public class Debug {
             String lowerKey = key.toLowerCase();
             String target = trimTarget(lowerKey);
 
-            Enumeration keys = propertyNames();
+            Enumeration<?> keys = propertyNames();
             while (keys.hasMoreElements()) {
                 String k = (String)(keys.nextElement());
                 String lowerK = k.toLowerCase();

@@ -94,7 +94,7 @@ public class AgentFrame extends Frame
         ModeOptions smo = null;
 
         try {
-            Class serial = Class.forName("com.sun.javatest.agent.SerialPortModeOptions");
+            Class<?> serial = Class.forName("com.sun.javatest.agent.SerialPortModeOptions");
             smo = (ModeOptions)serial.newInstance();
         } catch (Exception e) {
             System.err.println("There is no support for serial port");
@@ -208,7 +208,7 @@ public class AgentFrame extends Frame
 
         if (observerClassName != null) {
             try {
-                Class observerClass = Class.forName(observerClassName);
+                Class<?> observerClass = Class.forName(observerClassName);
                 Agent.Observer observer = (Agent.Observer)(observerClass.newInstance());
                 sf.panel.addObserver(observer);
             }
@@ -261,7 +261,7 @@ public class AgentFrame extends Frame
             sp.start();
 
         try {
-            Method invokeLater = EventQueue.class.getMethod("invokeLater", new Class[] { Runnable.class });
+            Method invokeLater = EventQueue.class.getMethod("invokeLater", new Class<?>[] { Runnable.class });
             invokeLater.invoke(null, new Object[] { new Runnable() {
                     public void run() {
                         sf.showCentered();

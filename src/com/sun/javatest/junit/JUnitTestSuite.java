@@ -37,7 +37,7 @@ import java.net.URL;
  * Basic implementation of a test suite for JUnit tests.
  */
 public class JUnitTestSuite extends TestSuite {
-    public JUnitTestSuite(File root, Map props, ClassLoader loader) throws TestSuite.Fault {
+    public JUnitTestSuite(File root, Map<String, String> props, ClassLoader loader) throws TestSuite.Fault {
         super(root, props, loader);
         try {
             if (getTestsDir() != null)
@@ -56,7 +56,7 @@ public class JUnitTestSuite extends TestSuite {
         // will need to add options to test suite to be passed to runner
         // for ex. - to run setup/teardown, etc...
         try {
-            Class c = loadClass("com.sun.javatest.junit.JUnitTestRunner");
+            Class<?> c = loadClass("com.sun.javatest.junit.JUnitTestRunner");
             JUnitTestRunner tr = (JUnitTestRunner)(c.newInstance());
             tr.setClassLoader(getClassLoader());
             return tr;

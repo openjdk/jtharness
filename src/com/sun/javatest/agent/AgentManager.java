@@ -536,8 +536,8 @@ public class AgentManager
             ref.flush();
 
             // might be better not to flush these ...
-            for (Enumeration e = zips.keys(); e.hasMoreElements(); ) {
-                File f = (File)(e.nextElement());
+            for (Enumeration<File> e = zips.keys(); e.hasMoreElements(); ) {
+                File f = (e.nextElement());
                 ZipFile z = zips.get(f);
                 zips.remove(f);
                 z.close();

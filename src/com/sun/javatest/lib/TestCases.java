@@ -138,15 +138,15 @@ public class TestCases {
      * select and exclude calls that have been made, if any.
      * @return An enumeration of the test cases.
      */
-    public Enumeration enumerate() {
+    public Enumeration<Method> enumerate() {
         Vector<Method> v = new Vector<>();
         if (selectedCases.isEmpty()) {
             Method[] methods = testClass.getMethods();
             for (int i = 0; i < methods.length; i++) {
                 Method m = methods[i];
                 if (excludedCases.get(m.getName()) == null) {
-                    Class[] paramTypes = m.getParameterTypes();
-                    Class returnType = m.getReturnType();
+                    Class<?>[] paramTypes = m.getParameterTypes();
+                    Class<?> returnType = m.getReturnType();
                     if ((paramTypes.length == 0) && Status.class.isAssignableFrom(returnType))
                         v.addElement(m);
                 }
@@ -176,7 +176,7 @@ public class TestCases {
         // see if test object provides  Status invokeTestCase(Method m)
         Method invoker;
         try {
-            invoker = testClass.getMethod("invokeTestCase", new Class[] {Method.class});
+            invoker = testClass.getMethod("invokeTestCase", new Class<?>[] {Method.class});
             if (!Status.class.isAssignableFrom(invoker.getReturnType()))
                 invoker = null;
         }
@@ -185,8 +185,8 @@ public class TestCases {
         }
 
         MultiStatus ms = new MultiStatus(log);
-        for (Enumeration e = enumerate(); e.hasMoreElements(); ) {
-            Method m = (Method)(e.nextElement());
+        for (Enumeration<Method> e = enumerate(); e.hasMoreElements(); ) {
+            Method m = (e.nextElement());
             Status s;
             try {
                 if (invoker != null)
@@ -271,5 +271,5 @@ public class TestCases {
     private PrintWriter log;
 
     private static final Object[] noArgs = { };
-    private static final Class[] noArgTypes = { };
+    private static final Class<?>[] noArgTypes = { };
 }

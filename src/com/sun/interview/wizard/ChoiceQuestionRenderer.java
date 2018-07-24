@@ -185,7 +185,7 @@ public class ChoiceQuestionRenderer
 
     protected class TestTableModel extends AbstractTableModel {
 
-        public Class getColumnClass(int c) {
+        public Class<?> getColumnClass(int c) {
             return String.class;
         }
 

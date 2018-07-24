@@ -145,8 +145,8 @@ public class PrefixMap<V> implements Map<String, V>
 
     public int size() {
         int n = 0;
-        for (Iterator i = map.keySet().iterator(); i.hasNext(); ) {
-            String key = (String) (i.next());
+        for (Iterator<String> i = map.keySet().iterator(); i.hasNext(); ) {
+            String key = (i.next());
             if (key.startsWith(prefix))
                 n++;
         }

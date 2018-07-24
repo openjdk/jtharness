@@ -149,7 +149,7 @@ public class httpURL {
      * Set the key-value pairs encoded in this URL.
      * Not implemented yet.
      */
-    public void setProperties(Dictionary props) {
+    public void setProperties(Dictionary<String, String> props) {
     }
 
     /**

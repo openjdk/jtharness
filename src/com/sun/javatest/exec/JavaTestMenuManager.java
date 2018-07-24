@@ -67,7 +67,7 @@ public abstract class JavaTestMenuManager {
         if (bank == null)
             return null;
         else {
-            ArrayList al = bank[position];
+            ArrayList<JMenuItem> al = bank[position];
             if (al.size() == 0)
                 return null;
             else {

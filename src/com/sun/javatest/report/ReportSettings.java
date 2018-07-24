@@ -448,9 +448,9 @@ public class ReportSettings {
      *
      * @return Map for data exchange
      */
-    public Map getExchangeData() {
+    public Map<?, ?> getExchangeData() {
         if (exchangeData == null) {
-            exchangeData = new HashMap();
+            exchangeData = new HashMap<>();
         }
         return exchangeData;
     }
@@ -465,7 +465,7 @@ public class ReportSettings {
         for (int i = 0; i < sortedResults.length; i++) {
             sortedResults[i] = new TreeSet<>(new TestResultsByNameComparator());
         }
-        Iterator iter;
+        Iterator<TestResult> iter;
         try {
             TestFilter[] fs = null;
             // Note: settings.filter should not really be null, modernized clients
@@ -480,7 +480,7 @@ public class ReportSettings {
             throw new JavaTestError(ReportSettings.i18n.getString("result.testResult.err"));
         }
         for (; iter.hasNext();) {
-            TestResult tr = (TestResult) (iter.next());
+            TestResult tr = (iter.next());
             Status s = tr.getStatus();
             TreeSet<TestResult> list = sortedResults[s == null ? Status.NOT_RUN : s.getType()];
             list.add(tr);
@@ -530,7 +530,7 @@ public class ReportSettings {
     File xmlReportFile = null;
     File tmpXmlReportFile = null;
     private File[] mif = new File[0];
-    private HashMap exchangeData;
+    private HashMap<?, ?> exchangeData;
     private InterviewParameters ip;
 
     private List<CustomReport> customReports = Collections.emptyList();

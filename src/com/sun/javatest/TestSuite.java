@@ -216,11 +216,8 @@ public class TestSuite
 
         File f = new File(canonRootDir, TESTSUITE_JTT);
         if (isReadableFile(f)) {
-            try {
-                Properties p = new Properties();
-                InputStream in = new BufferedInputStream(new FileInputStream(f));
-                p.load(in);
-                in.close();
+            try (InputStream in = new BufferedInputStream(new FileInputStream(f))) {
+                Map<String, String> p = com.sun.javatest.util.Properties.load(in);
                 return open(canonRoot, p);
             }
             catch (IOException e) {
@@ -233,7 +230,7 @@ public class TestSuite
             File parentDir = canonRootDir.getParentFile();
             File parent_jtt = (parentDir == null ? null : new File(parentDir, TESTSUITE_JTT));
             if (isReadableFile(ts_html) && (parent_jtt == null || !parent_jtt.exists()))
-                return open(canonRoot, new HashMap());
+                return open(canonRoot, new HashMap<String, String>());
             else
                 throw new NotTestSuiteFault(i18n, "ts.notTestSuiteFile", canonRoot);
         }
@@ -246,7 +243,7 @@ public class TestSuite
      * @return A TestSuite object for the test suite in question.
      * @throws TestSuite.Fault if any problems occur while opening the test suite
      */
-    private static TestSuite open(File root, Map tsInfo) throws Fault {
+    private static TestSuite open(File root, Map<String, String> tsInfo) throws Fault {
         synchronized (dirMap) {
             TestSuite ts;
 
@@ -268,8 +265,8 @@ public class TestSuite
         }
     }
 
-    private static TestSuite open0(File root, Map tsInfo) throws Fault {
-        String[] classPath = StringArray.split((String) (tsInfo.get("classpath")));
+    private static TestSuite open0(File root, Map<String, String> tsInfo) throws Fault {
+        String[] classPath = StringArray.split(tsInfo.get("classpath"));
 
         ClassLoader cl;
         if (classPath.length == 0)
@@ -297,7 +294,7 @@ public class TestSuite
             }
         }
 
-        String[] tsClassAndArgs = StringArray.split((String) (tsInfo.get("testsuite")));
+        String[] tsClassAndArgs = StringArray.split(tsInfo.get("testsuite"));
 
         TestSuite testSuite;
         if (tsClassAndArgs.length == 0)
@@ -306,8 +303,8 @@ public class TestSuite
             String className = tsClassAndArgs[0];
 
             try {
-                Class c = loadClass(className, cl);
-                Class[] tsArgTypes = {File.class, Map.class, ClassLoader.class};
+                Class<?> c = loadClass(className, cl);
+                Class<?>[] tsArgTypes = {File.class, Map.class, ClassLoader.class};
                 Object[] tsArgs = {root, tsInfo, cl};
                 testSuite = (TestSuite)(newInstance(c, tsArgTypes, tsArgs));
             }
@@ -365,12 +362,12 @@ public class TestSuite
      * typically using a class path defined in the test suite properties file.
      * @throws TestSuite.Fault if a problem occurs while creating this test suite.
      */
-    public TestSuite(File root, Map tsInfo, ClassLoader cl) throws Fault {
+    public TestSuite(File root, Map<String, String> tsInfo, ClassLoader cl) throws Fault {
         this.root = root;
         this.tsInfo = tsInfo;
         this.loader = cl;
 
-        String kw = (tsInfo == null ? null : (String) (tsInfo.get("keywords")));
+        String kw = (tsInfo == null ? null : tsInfo.get("keywords"));
         keywords = (kw == null ? null : StringArray.split(kw));
     }
 
@@ -440,7 +437,7 @@ public class TestSuite
      * @return the directory that contains the tests
      */
     public File getTestsDir() {
-        String t = (String) (tsInfo == null ? null : tsInfo.get("tests"));
+        String t = (tsInfo == null ? null : tsInfo.get("tests"));
         if (t == null || t.length() == 0) {
             File rootDir = getRootDir();
             File testsDir = new File(rootDir, "tests");
@@ -551,7 +548,7 @@ public class TestSuite
         File testsDir = getTestsDir();
 
         // no BTF file; look for a finder=class args... entry
-        String[] finderCmd = StringArray.split((String) (tsInfo.get("finder")));
+        String[] finderCmd = StringArray.split((tsInfo.get("finder")));
         String finderClassName;
         String[] finderArgs = new String[0];
 
@@ -573,7 +570,7 @@ public class TestSuite
         }
 
         // first, try looking for testsuite.jtd
-        String jtd = (String) (tsInfo.get("testsuite.jtd"));
+        String jtd = tsInfo.get("testsuite.jtd");
         File jtdFile = (jtd == null ? new File(testsDir, "testsuite.jtd") : new File(root, jtd));
         if (jtdFile.exists()) {
             try {
@@ -591,7 +588,7 @@ public class TestSuite
         }
 
         try {
-            Class c = loadClass(finderClassName);
+            Class<?> c = loadClass(finderClassName);
             TestFinder tf = (TestFinder) (newInstance(c));
             // called old deprecated entry till we know no-one cares
             //tf.init(finderArgs, testsRoot, null, null, tsInfo/*pass in env?*/);
@@ -631,7 +628,7 @@ public class TestSuite
             TestFinder tf = null;
 
             if (finderClassName != null) {
-                Class c = loadClass(finderClassName);
+                Class<?> c = loadClass(finderClassName);
                 tf = (TestFinder) (newInstance(c));
             }
 
@@ -697,7 +694,7 @@ public class TestSuite
         if (scriptClass == null) {
             String[] script = envLookup(scriptEnv, "script");
             if (script.length == 0)
-                script = StringArray.split((String) tsInfo.get("script"));
+                script = StringArray.split(tsInfo.get("script"));
             if (script.length > 0) {
                 scriptClass = loadClass(script[0]);
                 if (!Script.class.isAssignableFrom(scriptClass)) {
@@ -711,8 +708,8 @@ public class TestSuite
                 // for backwards compatibility,
                 // see if KeywordScript is a reasonable default
                 boolean keywordScriptOK = false;
-                for (Iterator i = scriptEnv.keys().iterator(); i.hasNext() && !keywordScriptOK; ) {
-                    String key = (String)(i.next());
+                for (Iterator<String> i = scriptEnv.keys().iterator(); i.hasNext() && !keywordScriptOK; ) {
+                    String key = i.next();
                     keywordScriptOK = key.startsWith("script.");
                 }
                 if (keywordScriptOK) {
@@ -758,7 +755,7 @@ public class TestSuite
     public InterviewParameters createInterview()
         throws Fault
     {
-        String[] classNameAndArgs = StringArray.split((String) (tsInfo.get("interview")));
+        String[] classNameAndArgs = StringArray.split((tsInfo.get("interview")));
         if (classNameAndArgs == null || classNameAndArgs.length == 0) {
             try {
                 return new LegacyParameters(this);
@@ -775,7 +772,7 @@ public class TestSuite
         System.arraycopy(classNameAndArgs, 1, args, 0, args.length);
 
         try {
-            Class c = loadClass(className);
+            Class<?> c = loadClass(className);
             InterviewParameters p = (InterviewParameters) (newInstance(c));
             p.init(args);
             p.setTestSuite(this);
@@ -842,7 +839,7 @@ public class TestSuite
      * @see #getName
      */
     public String getID() {
-        return (tsInfo == null ? null : (String) (tsInfo.get("id")));
+        return (tsInfo == null ? null : tsInfo.get("id"));
     }
 
     /**
@@ -854,7 +851,7 @@ public class TestSuite
      * @see #getID
      */
     public String getName() {
-        return (tsInfo == null ? null : (String) (tsInfo.get("name")));
+        return (tsInfo == null ? null : tsInfo.get("name"));
     }
 
     /**
@@ -867,7 +864,7 @@ public class TestSuite
     public int getEstimatedTestCount() {
         try {
             if (tsInfo != null) {
-                String s = (String) (tsInfo.get("testCount"));
+                String s = tsInfo.get("testCount");
                 if (s != null)
                     return Integer.parseInt(s);
             }
@@ -886,7 +883,7 @@ public class TestSuite
      * @return the name of the default exclude list, or null if none specified.
      */
     public File getInitialExcludeList() {
-        String s = (tsInfo == null ? null : (String) (tsInfo.get("initial.jtx")));
+        String s = (tsInfo == null ? null : tsInfo.get("initial.jtx"));
         if (s == null)
             return null;
 
@@ -917,7 +914,7 @@ public class TestSuite
      */
     public URL getLatestExcludeList() {
         try {
-            String s = (tsInfo == null ? null : (String) (tsInfo.get("latest.jtx")));
+            String s = (tsInfo == null ? null : tsInfo.get("latest.jtx"));
             return (s == null ? null : new URL(s));
         }
         catch (MalformedURLException e) {
@@ -955,7 +952,7 @@ public class TestSuite
     public String[] getAdditionalDocNames() {
         return (tsInfo == null
                 ? null
-                : StringArray.split((String) (tsInfo.get("additionalDocs"))));
+                : StringArray.split((tsInfo.get("additionalDocs"))));
     }
 
     /**
@@ -1010,7 +1007,7 @@ public class TestSuite
      */
     public URL getLogo() {
         try {
-            String s = (tsInfo == null ? null : (String) (tsInfo.get("logo")));
+            String s = (tsInfo == null ? null : tsInfo.get("logo"));
             return (s == null ? null : new URL(getRootDir().toURL(), s));
         }
         catch (MalformedURLException e) {
@@ -1037,7 +1034,7 @@ public class TestSuite
      * @throws TestSuite.Fault if any errors arise while trying to instantiate
      * the class.
      */
-    protected static Object newInstance(Class c) throws Fault {
+    protected static Object newInstance(Class<?> c) throws Fault {
         try {
             return c.newInstance();
         }
@@ -1063,7 +1060,7 @@ public class TestSuite
      * @throws TestSuite.Fault if any errors arise while trying to instantiate
      * the class.
      */
-    protected static Object newInstance(Class<?> c, Class[] argTypes, Object[] args)
+    protected static Object newInstance(Class<?> c, Class<?>[] argTypes, Object[] args)
         throws Fault
     {
         try {
@@ -1087,7 +1084,7 @@ public class TestSuite
         catch (NoSuchMethodException e) {
             // don't recurse past the use of a single arg constructor
             if (argTypes.length > 1 && Boolean.getBoolean(FIND_LEGACY_CONSTRUCTOR)) {
-                return newInstance(c, new Class[] {File.class}, new Object[] {args[0]});
+                return newInstance(c, new Class<?>[] {File.class}, new Object[] {args[0]});
             }
 
             throw new Fault(i18n, "ts.cantFindConstructor",
@@ -1101,7 +1098,7 @@ public class TestSuite
      * @return the class that was loaded
      * @throws TestSuite.Fault if there was a problem loading the specified class
      */
-    public Class loadClass(String className) throws Fault {
+    public Class<?> loadClass(String className) throws Fault {
         return loadClass(className, loader);
     }
 
@@ -1113,7 +1110,7 @@ public class TestSuite
      * @return the class that was loaded
      * @throws TestSuite.Fault if there was a problem loading the specified class
      */
-    protected static Class loadClass(String className, ClassLoader cl) throws Fault {
+    protected static Class<?> loadClass(String className, ClassLoader cl) throws Fault {
         try {
             if (cl == null)
                 return Class.forName(className);
@@ -1169,7 +1166,7 @@ public class TestSuite
          */
         boolean isLegacy = false;
         try {
-            Method m = sr.getClass().getMethod("getServiceDescriptorFileName", new Class[0]);
+            Method m = sr.getClass().getMethod("getServiceDescriptorFileName", new Class<?>[0]);
             if (Modifier.isAbstract(m.getModifiers())) {
                 isLegacy = true;
             }
@@ -1193,11 +1190,11 @@ public class TestSuite
             return serviceReader;
         }
 
-        String servInfo = (String)tsInfo.get("serviceReader");
+        String servInfo = tsInfo.get("serviceReader");
         if (servInfo != null) {
             String[] args = servInfo.split(" ");
             try {
-                Class c = loadClass(args[0]);
+                Class<?> c = loadClass(args[0]);
                 serviceReader = (ServiceReader) (newInstance(c));
                 if (args.length > 1) {
                     // problem with java1.5, which has no Arrays.copyOfRange();
@@ -1227,7 +1224,7 @@ public class TestSuite
      * Get a map containing the test suite data in the .jtt file.
      * @return a map containing the test suite data in the .jtt file
      */
-    protected Map getTestSuiteInfo() {
+    protected Map<String, String> getTestSuiteInfo() {
         return tsInfo;
     }
 
@@ -1240,7 +1237,7 @@ public class TestSuite
         if (tsInfo == null)
             return null;
         else
-            return (String) (tsInfo.get(name));
+            return (tsInfo.get(name));
     }
 
     /**
@@ -1483,12 +1480,12 @@ public class TestSuite
     private static final String FIND_LEGACY_CONSTRUCTOR = "com.sun.javatest.ts.findLegacyCtor";
 
     private File root;
-    private Map tsInfo;
+    private Map<String, String> tsInfo;
     private ClassLoader loader;
     private TestFinder finder;
 
     // the following are used by the default impl of createScript
-    private Class scriptClass;
+    private Class<?> scriptClass;
     private String[] scriptArgs;
 
     private String[] keywords;

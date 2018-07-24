@@ -42,7 +42,7 @@ public class TT_TestNode extends TT_TreeNode {
         this.parent = parent;
     }
     // ------- interface methods --------
-    public Enumeration children() {
+    public Enumeration<?> children() {
         throw new UnsupportedOperationException("Not supported.");
     }
 

@@ -494,7 +494,7 @@ public abstract class PreferencesPane extends JPanel {
                     return oldValue;
                 }
 
-                public void putAll(Map m) {
+                public void putAll(Map<? extends String, ? extends String> m) {
                     throw new UnsupportedOperationException();
                 }
 

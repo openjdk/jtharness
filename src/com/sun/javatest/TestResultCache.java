@@ -676,7 +676,7 @@ public class TestResultCache {
         // it till its empty, even though some tests may even have been added
         // after the worker woke up
         TestResult tr;
-        while ((tr = (TestResult) (testsToWrite.remove())) != null) {
+        while ((tr = testsToWrite.remove()) != null) {
             // check if test is in the set we've just read
             String name = tr.getTestName();
             TestResult tr2 = tests.get(name);
@@ -694,8 +694,8 @@ public class TestResultCache {
         lastSerial = (int) ((now >> 16) + (now & 0xffff));
         raf.writeInt(lastSerial);
 
-        for (Iterator iter = tests.values().iterator(); iter.hasNext(); ) {
-            tr = (TestResult) (iter.next());
+        for (Iterator<TestResult> iter = tests.values().iterator(); iter.hasNext(); ) {
+            tr = iter.next();
             writeCacheEntry(tr);
         }
 
@@ -714,7 +714,7 @@ public class TestResultCache {
         int debugCount = 0;
         raf.seek(lastFileSize);
         TestResult tr;
-        while ((tr = (TestResult) (testsToWrite.remove())) != null) {
+        while ((tr = testsToWrite.remove()) != null) {
             if (tests != null) {
                 // check if test is in the set we've just read
                 String name = tr.getTestName();
@@ -883,7 +883,7 @@ public class TestResultCache {
     private boolean compressRequested;
     private boolean flushRequested;
     private boolean shutdownRequested;
-    private Fifo testsToWrite = new Fifo();
+    private Fifo<TestResult> testsToWrite = new Fifo<>();
 
     private static final String V1_FILENAME = "ResultCache.jtw";
     private static final String V1_LOCKNAME = V1_FILENAME + ".lck";

@@ -105,8 +105,8 @@ public abstract class Keywords
      * @return A Keywords object for the specified type and text.
      * @throws Keywords.Fault if there are errors in the arguments.
      */
-    public static Keywords create(String type, String text, Set validKeywords) throws Fault {
-        Set lowerCaseValidKeywords = toLowerCase(validKeywords);
+    public static Keywords create(String type, String text, Set<String> validKeywords) throws Fault {
+        Set<String> lowerCaseValidKeywords = toLowerCase(validKeywords);
         if (text == null) {
             text = "";
         }
@@ -191,13 +191,13 @@ public abstract class Keywords
      */
     public abstract boolean accepts(Set<String> s);
 
-    private static Set toLowerCase(Set words) {
+    private static Set<String> toLowerCase(Set<String> words) {
         if (words == null)
             return null;
 
         boolean allLowerCase = true;
-        for (Iterator iter = words.iterator(); iter.hasNext() && allLowerCase; ) {
-            String word = (String) (iter.next());
+        for (Iterator<String> iter = words.iterator(); iter.hasNext() && allLowerCase; ) {
+            String word = iter.next();
             allLowerCase &= word.equals(word.toLowerCase());
         }
 
@@ -205,8 +205,8 @@ public abstract class Keywords
             return words;
 
         Set<String> s = new HashSet<>();
-        for (Iterator iter = words.iterator(); iter.hasNext(); ) {
-            String word = (String) (iter.next());
+        for (Iterator<String> iter = words.iterator(); iter.hasNext(); ) {
+            String word = iter.next();
             s.add(word.toLowerCase());
         }
 
@@ -234,7 +234,7 @@ abstract class SetKeywords extends Keywords {
     Set<String> keys;
     String allKwds = ""; // string to be used by toString()
 
-    SetKeywords(String[] kwds, Set validKeywords) throws Keywords.Fault {
+    SetKeywords(String[] kwds, Set<String> validKeywords) throws Keywords.Fault {
         if (kwds.length == 0) {
             throw new Keywords.Fault(i18n, "kw.noKeywords");
         }
@@ -278,7 +278,7 @@ abstract class SetKeywords extends Keywords {
 
 }
 class AllKeywords extends SetKeywords {
-    AllKeywords(String[] keys, Set validKeywords) throws Keywords.Fault {
+    AllKeywords(String[] keys, Set<String> validKeywords) throws Keywords.Fault {
         super(keys, validKeywords);
     }
 
@@ -301,7 +301,7 @@ class AllKeywords extends SetKeywords {
 
 
 class AnyKeywords extends SetKeywords {
-    AnyKeywords(String[] keys, Set validKeywords) throws Keywords.Fault {
+    AnyKeywords(String[] keys, Set<String> validKeywords) throws Keywords.Fault {
         super(keys, validKeywords);
     }
 
@@ -328,7 +328,7 @@ class AnyKeywords extends SetKeywords {
 //------------------------------------------------------------------------------
 
 class ExprParser {
-    ExprParser(String text, Set validKeywords) {
+    ExprParser(String text, Set<String> validKeywords) {
         this.text = text;
         this.validKeywords = validKeywords;
         nextToken();
@@ -437,7 +437,7 @@ class ExprParser {
     protected static boolean allowNumericKeywords =
         Boolean.getBoolean("javatest.allowNumericKeywords");
     private String text;
-    private Set validKeywords;
+    private Set<String> validKeywords;
     private int index;
     private int token;
     private String idValue;

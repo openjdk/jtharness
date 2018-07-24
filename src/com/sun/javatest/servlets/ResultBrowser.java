@@ -117,8 +117,8 @@ public class ResultBrowser extends HttpServlet {
         try {
             TestDescription td = tr.getDescription();
             out.println("<table>");
-            for (Iterator iter = td.getParameterKeys(); iter.hasNext(); ) {
-                String key = (String) (iter.next());
+            for (Iterator<String> iter = td.getParameterKeys(); iter.hasNext(); ) {
+                String key = (iter.next());
                 String value = td.getParameter(key);
                 if (key.equals("$root") || key.equals("$file") || key.equals("testsuite") || key.equals("file"))
                     out.println("<tr><td align=top>" + key + "<td><a href=\"" + value + "\">" + filter(value, false) + "</a>");
@@ -151,8 +151,8 @@ public class ResultBrowser extends HttpServlet {
         out.println("<h2><a name=tr>Test Result properties</a></h2>");
         try {
             out.println("<table>");
-            for (Enumeration e = tr.getPropertyNames(); e.hasMoreElements(); ) {
-                String key = (String)(e.nextElement());
+            for (Enumeration<String> e = tr.getPropertyNames(); e.hasMoreElements(); ) {
+                String key = (e.nextElement());
                 out.println("<tr><td>" + key + "<td>" + filter(tr.getProperty(key), true));
             }
         }
@@ -167,16 +167,16 @@ public class ResultBrowser extends HttpServlet {
         // test environment
         out.println("<h2><a name=env>Test Environment</a></h2>");
         try {
-            Map env = tr.getEnvironment();
+            Map<String, String> env = tr.getEnvironment();
             if (env.size() == 0) {
                 out.println("<tr><td>No environment details found");
             }
             else {
                 out.println("<table>");
-                for (Iterator i = env.entrySet().iterator(); i.hasNext(); ) {
-                    Map.Entry e = (Map.Entry) (i.next());
-                    String key = (String) (e.getKey());
-                    String value = (String) (e.getValue());
+                for (Iterator<Map.Entry<String, String>> i = env.entrySet().iterator(); i.hasNext(); ) {
+                    Map.Entry<String, String> e = (i.next());
+                    String key = (e.getKey());
+                    String value = (e.getValue());
                     out.println("<tr><td>" + key + "<td>" + filter(value, true));
                 }
                 out.println("</table>");

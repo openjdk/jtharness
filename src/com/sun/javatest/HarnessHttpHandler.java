@@ -221,8 +221,8 @@ class HarnessHttpHandler extends JThttpProvider
 
             String[] pa = new String[0];
 
-            for (Iterator i = env.elements().iterator(); i.hasNext(); ) {
-                TestEnvironment.Element elem = (TestEnvironment.Element) (i.next());
+            for (Iterator<TestEnvironment.Element> i = env.elements().iterator(); i.hasNext(); ) {
+                TestEnvironment.Element elem = i.next();
                 // this is stunningly inefficient and should be fixed
                 pa = PropertyArray.put(pa, elem.getKey(), elem.getValue());
             }
@@ -310,14 +310,14 @@ class HarnessHttpHandler extends JThttpProvider
             TestFilter[] filters = params.getFilters();
             String[] tests = params.getTests();
 
-            Iterator it = null;
+            Iterator<TestResult> it = null;
             if (tests == null || tests.length == 0)
                 it = trt.getIterator(filters);
             else
                 it = trt.getIterator(params.getTests(), filters);
 
             while (it.hasNext()) {
-                TestResult tr = (TestResult)(it.next());
+                TestResult tr = it.next();
                 out.println(tr.getTestName());
                 out.println(tr.getStatus().toString());
             }   // while
@@ -544,8 +544,8 @@ class HarnessHttpHandler extends JThttpProvider
         buf.append("</tr>");
         out.println(buf.toString());
 
-        for (Iterator keys = env.keys().iterator(); keys.hasNext(); ) {
-            String key = (String) (keys.next());
+        for (Iterator<String> keys = env.keys().iterator(); keys.hasNext(); ) {
+            String key = keys.next();
             out.println("<tr>");
             buf.setLength(0);
             buf.append("<td>");

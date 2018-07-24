@@ -48,7 +48,7 @@ public class JavaHelpFactory implements HelpSetFactory {
     public JavaHelpFactory() {
     }
 
-    public Object createHelpSetObject(String name, Class c) throws Interview.Fault {
+    public Object createHelpSetObject(String name, Class<?> c) throws Interview.Fault {
         ClassLoader cl = c.getClassLoader();
         String hsn;
         String pref = "";
@@ -87,7 +87,7 @@ public class JavaHelpFactory implements HelpSetFactory {
     public Object createHelpID(Object hsObject, String target) {
         if (hsObject != null) {
             HelpSet hs = (HelpSet) hsObject;
-            HashMap m = hs.getCombinedMap();
+            HashMap<String, URL> m = hs.getCombinedMap();
             if (m != null && !m.isEmpty()) {
                 return HelpID.create(target, hs);
             }
@@ -103,8 +103,8 @@ public class JavaHelpFactory implements HelpSetFactory {
             if (oldHelpSet == null) {
                 // no previously registered helpset
                 // so add in any helpsets for child interviews
-                for (Iterator iter = interview.getInterviews().iterator(); iter.hasNext(); ) {
-                    Interview i = (Interview) (iter.next());
+                for (Iterator<Interview> iter = interview.getInterviews().iterator(); iter.hasNext(); ) {
+                    Interview i = iter.next();
                     HelpSet ihs = (HelpSet)i.getHelpSet();
                     if (ihs != null)
                         newHelpSet.add(ihs);

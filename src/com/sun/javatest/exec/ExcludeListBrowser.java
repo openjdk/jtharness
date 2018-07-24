@@ -299,7 +299,7 @@ class ExcludeListBrowser extends ToolDialog
                 });
 
             if (list != null) {
-                for (Iterator iter = list.getIterator(false); iter.hasNext(); ) {
+                for (Iterator<?> iter = list.getIterator(false); iter.hasNext(); ) {
                     ExcludeList.Entry ee = (ExcludeList.Entry) (iter.next());
                     sortedEntries.add(ee);
                 }
@@ -317,7 +317,7 @@ class ExcludeListBrowser extends ToolDialog
             // model never changes, so ignore listener
         }
 
-        public Class getColumnClass(int columnIndex) {
+        public Class<?> getColumnClass(int columnIndex) {
             // for now, all are strings
             return String.class;
         }

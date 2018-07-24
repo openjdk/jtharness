@@ -83,10 +83,10 @@ class TabDeskView extends DeskView {
 
         // perhaps would be nice to have getTools(Comparator) and have it return a sorted
         // array of tools
-        Arrays.sort(tools, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                Long l1 = new Long(((Tool)o1).getCreationTime());
-                Long l2 = new Long(((Tool)o2).getCreationTime());
+        Arrays.sort(tools, new Comparator<Tool>() {
+            public int compare(Tool o1, Tool o2) {
+                Long l1 = new Long(o1.getCreationTime());
+                Long l2 = new Long(o2.getCreationTime());
                 return (l1.compareTo(l2));
             }
         });

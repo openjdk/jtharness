@@ -53,7 +53,7 @@ public class JUnitBaseInterview extends BasicInterviewParameters implements Para
 
     public TestEnvironment getEnv() {
         try {
-            return new TestEnvironment("junitenv", new HashMap(), "junit");
+            return new TestEnvironment("junitenv", new HashMap<String, String>(), "junit");
         }
         catch (TestEnvironment.Fault f) {
            f.printStackTrace();

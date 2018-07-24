@@ -73,7 +73,7 @@ public class DirectoryClassLoader extends ClassLoader
      * @return the class that was loaded
      * @throws ClassNotFoundException if the class was not found.
      */
-    protected Class loadClass(String name, boolean resolve)
+    protected Class<?> loadClass(String name, boolean resolve)
         throws ClassNotFoundException {
 
         // check the cache first
@@ -173,7 +173,7 @@ public class DirectoryClassLoader extends ClassLoader
 
     //----------internal methods------------------------------------------------
 
-    private synchronized Class locateClass(String name)
+    private synchronized Class<?> locateClass(String name)
         throws ClassNotFoundException {
         //This check is currently necessary; we just
         // check the cache at the one call site, but that was not

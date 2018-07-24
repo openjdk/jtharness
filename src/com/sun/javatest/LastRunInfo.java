@@ -141,8 +141,8 @@ public class LastRunInfo {
             return "";
         }
         StringBuffer sb = new StringBuffer();
-        for (Iterator it = list.iterator(); it.hasNext();) {
-            sb.append((String)it.next());
+        for (Iterator<String> it = list.iterator(); it.hasNext();) {
+            sb.append(it.next());
             sb.append(SEP);
         }
 

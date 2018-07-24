@@ -92,23 +92,23 @@ class ObserverCommand extends Command
 
     public void run(CommandContext ctx) throws Fault {
         try {
-            Class oc = loadClass(className);
+            Class<?> oc = loadClass(className);
 
             Harness.Observer o = null;
             if (classArgs == null || classArgs.length == 0) {
                 o = tryConstructor(oc,
-                                   new Class[] { },
+                                   new Class<?>[] { },
                                    new Object[] { });
             }
             else if (classArgs.length == 1) {
                 o = tryConstructor(oc,
-                                   new Class[] { String.class },
+                                   new Class<?>[] { String.class },
                                    new Object[] { classArgs[0] });
             }
 
             if (o == null)
                 o = tryConstructor(oc,
-                                   new Class[] { String[].class },
+                                   new Class<?>[] { String[].class },
                                    new Object[] { classArgs });
 
             if (o == null)
@@ -130,11 +130,11 @@ class ObserverCommand extends Command
         }
     }
 
-    private Harness.Observer tryConstructor(Class<?> obsClass, Class[] argTypes, Object[] args)
+    private Harness.Observer tryConstructor(Class<?> obsClass, Class<?>[] argTypes, Object[] args)
         throws IllegalAccessException, InstantiationException, InvocationTargetException
     {
         try {
-            Constructor c = obsClass.getConstructor(argTypes);
+            Constructor<?> c = obsClass.getConstructor(argTypes);
             return (Harness.Observer) (c.newInstance(args));
         }
         catch (NoSuchMethodException e) {
@@ -160,7 +160,7 @@ class ObserverCommand extends Command
         classLoader = new URLClassLoader(path);
     }
 
-    private Class loadClass(String name) throws ClassNotFoundException {
+    private Class<?> loadClass(String name) throws ClassNotFoundException {
         return (classLoader == null ? Class.forName(name) : classLoader.loadClass(name));
     }
 

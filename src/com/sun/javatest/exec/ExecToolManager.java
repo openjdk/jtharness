@@ -430,10 +430,10 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         }
     }
 
-    private static InterviewParameters getInterview(Map m) throws Interview.Fault {
-        String tsp = (String) (m.get("testSuite"));
-        String wdp = (String) (m.get("workDir"));
-        String cfp = (String) (m.get("config"));
+    private static InterviewParameters getInterview(Map<String, String> m) throws Interview.Fault {
+        String tsp = (m.get("testSuite"));
+        String wdp = (m.get("workDir"));
+        String cfp = (m.get("config"));
         if (isEmpty(tsp) && isEmpty(wdp) && isEmpty(cfp))
             return null;
 
@@ -528,7 +528,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
     }
 
     void showError(String key) {
-        showError(key, (Object[]) null);
+        showError(key, null);
     }
 
     void showError(String key, Object arg) {

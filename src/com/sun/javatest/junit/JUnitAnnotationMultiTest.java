@@ -82,7 +82,7 @@ public class JUnitAnnotationMultiTest extends JUnitMultiTest {
     protected void setup(String executeClass) {
 
         try {
-            Class junitTestCaseClass = getClassLoader().loadClass(executeClass);
+            Class<?> junitTestCaseClass = getClassLoader().loadClass(executeClass);
             testCaseClass = junitTestCaseClass;
 
 
@@ -95,5 +95,5 @@ public class JUnitAnnotationMultiTest extends JUnitMultiTest {
         t.printStackTrace(log);
     }
 
-    protected Class testCaseClass;
+    protected Class<?> testCaseClass;
 }

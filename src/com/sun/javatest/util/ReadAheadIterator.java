@@ -26,6 +26,8 @@
  */
 package com.sun.javatest.util;
 
+import com.sun.javatest.TestResult;
+
 import java.util.Iterator;
 
 /**
@@ -33,7 +35,7 @@ import java.util.Iterator;
  * performance reasons or to help find out the number of items returned by an
  * iterator before accessing them.
  */
-public class ReadAheadIterator implements Iterator
+public class ReadAheadIterator implements Iterator<TestResult>
 {
     /**
      * A constant indicating that no read ahead is required.
@@ -61,7 +63,7 @@ public class ReadAheadIterator implements Iterator
      * @see #LIMITED
      * @see #FULL
      */
-    public ReadAheadIterator(Iterator source, int mode) {
+    public ReadAheadIterator(Iterator<TestResult> source, int mode) {
         this(source, mode, DEFAULT_LIMITED_READAHEAD);
     }
 
@@ -76,7 +78,7 @@ public class ReadAheadIterator implements Iterator
      * @see #LIMITED
      * @see #FULL
      */
-    public ReadAheadIterator(Iterator source, int mode, int amount) {
+    public ReadAheadIterator(Iterator<TestResult> source, int mode, int amount) {
         this.source = source;
         setMode(mode, amount);
     }
@@ -173,9 +175,9 @@ public class ReadAheadIterator implements Iterator
                 || (worker == null ? source.hasNext() : sourceHasNext));
     }
 
-    public synchronized Object next() {
+    public synchronized TestResult next() {
         // see if there are items in the read ahead queue
-        Object result = queue.remove();
+        TestResult result = queue.remove();
 
         if (result == null) {
             // queue is empty: check whether to read source directly, or rely on the worker thread
@@ -256,7 +258,7 @@ public class ReadAheadIterator implements Iterator
                 // sourceHasNext is true, which means there is another item
                 // to be read, so read it, and also check whether there is
                 // another item after that
-                Object srcNext  = source.next();
+                TestResult srcNext  = source.next();
                 boolean srcHasNext = source.hasNext();
 
                 // get the lock to update the queue and sourceHasNext;
@@ -296,7 +298,7 @@ public class ReadAheadIterator implements Iterator
     /**
      * The queue to hold the items that have been read from the underlying source iterator.
      */
-    private final Fifo queue = new Fifo();
+    private final Fifo<TestResult> queue = new Fifo<>();
 
     /**
      * The underlying source iterator.  If the worker thread is running, it alone
@@ -304,7 +306,7 @@ public class ReadAheadIterator implements Iterator
      * along with everything else.
      * @see #worker
      */
-    private final Iterator source;
+    private final Iterator<TestResult> source;
 
     /**
      * A value indicating whether the underlying source iterator has more values to be read.

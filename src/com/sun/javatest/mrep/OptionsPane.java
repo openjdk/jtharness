@@ -322,7 +322,7 @@ class OptionsPane extends JPanel {
          * @param p parent Panel
          * @param cardLayout The CardLayout for options
          */
-        SelectListener(JList lst, JPanel p, CardLayout cardLayout) {
+        SelectListener(JList<JCheckBox> lst, JPanel p, CardLayout cardLayout) {
             list = lst;
             listModel = list.getModel();
             lastSelected = listModel.getElementAt(0);
@@ -344,7 +344,7 @@ class OptionsPane extends JPanel {
 
         public void valueChanged(ListSelectionEvent e) {
             int index = list.getSelectedIndex();
-            JCheckBox box = (JCheckBox) (listModel.getElementAt(index));
+            JCheckBox box = (listModel.getElementAt(index));
 
             if (lastSelected != box) {
                 cards.show(panel, box.getName());
@@ -379,7 +379,7 @@ class OptionsPane extends JPanel {
         }
 
         private void process(final int index) {
-            JCheckBox box = (JCheckBox) (listModel.getElementAt(index));
+            JCheckBox box = (listModel.getElementAt(index));
 
             if (lastSelected == box) {
                 box.doClick();
@@ -396,8 +396,8 @@ class OptionsPane extends JPanel {
         }
 
         Object lastSelected;
-        JList list;
-        ListModel listModel;
+        JList<JCheckBox> list;
+        ListModel<JCheckBox> listModel;
         JPanel panel;
         CardLayout cards;
         double emptyCBW = new JCheckBox("").getPreferredSize().getWidth() + 2;
@@ -469,7 +469,7 @@ class OptionsPane extends JPanel {
     }
 
     private class CheckBoxListCellRenderer implements ListCellRenderer<JCheckBox> {
-        public Component getListCellRendererComponent(JList list, JCheckBox comp,
+        public Component getListCellRendererComponent(JList<? extends JCheckBox> list, JCheckBox comp,
                 int index, boolean isSelected, boolean cellHasFocus) {
             // assert: value is a JCheckBox
             if (isSelected) {

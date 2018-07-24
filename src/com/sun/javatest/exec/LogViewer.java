@@ -978,7 +978,7 @@ class LogViewer extends ToolDialog {
     private class CustomRenderer extends JComponent
             implements ListCellRenderer<Object> {
         public Component getListCellRendererComponent(
-                JList list, Object value, int index, boolean isSelected,
+                JList<?> list, Object value, int index, boolean isSelected,
                 boolean cellHasFocus) {
             if (!(value instanceof JSeparator) && !(value instanceof JCheckBox)) {
                 DefaultListCellRenderer defRend = new DefaultListCellRenderer();
@@ -1135,7 +1135,7 @@ class LogViewer extends ToolDialog {
         }
 
         public void actionPerformed(ActionEvent e) {
-            JComboBox cb = (JComboBox) e.getSource();
+            JComboBox<?> cb = (JComboBox<?>) e.getSource();
             Object o = cb.getSelectedItem();
             if (o instanceof FilterComboboxItem) {
                 FilterComboboxItem fc = (FilterComboboxItem) o;

@@ -758,8 +758,8 @@ public class InterviewEditor extends ToolDialog {
         keys.addAll(aQuestions.keySet());
         keys.addAll(bQuestions.keySet());
 
-        for (Iterator iter = keys.iterator(); iter.hasNext(); ) {
-            String key = (String) (iter.next());
+        for (Iterator<String> iter = keys.iterator(); iter.hasNext(); ) {
+            String key = (iter.next());
             Question aq = aQuestions.get(key);
             Question bq = bQuestions.get(key);
             if (aq == null || bq == null) {
@@ -789,8 +789,8 @@ public class InterviewEditor extends ToolDialog {
             }
         }
         // Checking external values
-        Set aKeys = a.getPropertyKeys();
-        Set bKeys = b.getPropertyKeys();
+        Set<String> aKeys = a.getPropertyKeys();
+        Set<String> bKeys = b.getPropertyKeys();
 
         if (aKeys == null || bKeys == null) {
             return aKeys == bKeys;
@@ -800,8 +800,8 @@ public class InterviewEditor extends ToolDialog {
             return false;
         }
 
-        for (Iterator iter = aKeys.iterator(); iter.hasNext(); ) {
-            String key = (String)iter.next();
+        for (Iterator<String> iter = aKeys.iterator(); iter.hasNext(); ) {
+            String key = iter.next();
             if (!bKeys.contains(key)) {
                 return false;
             }

@@ -209,15 +209,13 @@ class EnvironmentBrowser extends ToolDialog
         }
     };
 
-    private class EnvEntryComparator implements Comparator {
+    private class EnvEntryComparator implements Comparator<TestEnvironment.Element> {
         EnvEntryComparator(int sortMode, String[] inherits) {
             this.sortMode = sortMode;
             this.inherits = inherits;
         }
 
-        public int compare(Object o1, Object o2) {
-            TestEnvironment.Element e1 = (TestEnvironment.Element)o1;
-            TestEnvironment.Element e2 = (TestEnvironment.Element)o2;
+        public int compare(TestEnvironment.Element e1, TestEnvironment.Element e2) {
             // the following should be a switch statement, but JDK
             // 1.1.7 can't compile it: doesn't recognize KEY etc as
             // constants.
@@ -276,8 +274,8 @@ class EnvironmentBrowser extends ToolDialog
             if (currEnv == null)
                 elems = null;
             else {
-                Collection e = currEnv.elements();
-                elems = (TestEnvironment.Element[]) (e.toArray(new TestEnvironment.Element[e.size()]));
+                Collection<TestEnvironment.Element> e = currEnv.elements();
+                elems = e.toArray(new TestEnvironment.Element[e.size()]);
                 Arrays.sort(elems, new EnvEntryComparator(KEY, currEnv.getInherits()));
             }
             int newRowCount = getRowCount();
@@ -323,7 +321,7 @@ class EnvironmentBrowser extends ToolDialog
             return headings[columnIndex];
         }
 
-        public Class getColumnClass(int columnIndex) {
+        public Class<?> getColumnClass(int columnIndex) {
             return String.class;
         }
 

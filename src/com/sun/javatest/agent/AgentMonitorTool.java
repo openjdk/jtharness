@@ -192,8 +192,8 @@ public class AgentMonitorTool extends Tool
             // Ensure any existing entries in the pool are displayed
             // Note there is a slight synchronization window between the call of
             // elements and that of addObserver.
-            for (Enumeration e = activeAgentPool.elements(); e.hasMoreElements(); ) {
-                Connection conn = (Connection)(e.nextElement());
+            for (Enumeration<Connection> e = activeAgentPool.elements(); e.hasMoreElements(); ) {
+                Connection conn = e.nextElement();
                 listData.addElement(conn.getName());
             }
 
@@ -357,7 +357,7 @@ public class AgentMonitorTool extends Tool
             list.setVisibleRowCount(5);
 
             list.setCellRenderer(new DefaultListCellRenderer() {
-                public Component getListCellRendererComponent(JList list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
+                public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
                     String name = o.toString();
                     return super.getListCellRendererComponent(list, name, index, isSelected, cellHasFocus);
                 }

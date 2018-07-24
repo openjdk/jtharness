@@ -41,11 +41,11 @@ import com.sun.javatest.tool.I18NUtils;
 import com.sun.javatest.util.I18NResourceBundle;
 
 class RenderingUtilities {
-    static ListCellRenderer createTestListRenderer() {
+    static ListCellRenderer<Object> createTestListRenderer() {
         return new TestCellRenderer(i18n);
     }
 
-    static ListCellRenderer createTRTNodeRenderer() {
+    static ListCellRenderer<Object> createTRTNodeRenderer() {
         return new TestCellRenderer(i18n);
     }
 
@@ -63,13 +63,13 @@ class RenderingUtilities {
     /**
      * Render a list of tests (TestResult objects).
      */
-    static class TestCellRenderer extends JLabel implements ListCellRenderer {
+    static class TestCellRenderer extends JLabel implements ListCellRenderer<Object> {
          public TestCellRenderer(I18NResourceBundle i18n) {
              setOpaque(false);
              this.i18n = i18n;
          }
 
-        public Component getListCellRendererComponent(JList list,
+        public Component getListCellRendererComponent(JList<?> list,
             Object value, int index, boolean isSelected, boolean cellHasFocus) {
             if (value == null)  // very strange...
                 return this;
@@ -107,7 +107,7 @@ class RenderingUtilities {
             return this;
         }
 
-        private void setBasicAttribs(boolean isSelected, JList list) {
+        private void setBasicAttribs(boolean isSelected, JList<?> list) {
             // Hopefully safe to share...will help with saving space
             // This border is to provide space between the text and the
             // side of the widget, helping readability.
@@ -159,7 +159,7 @@ class RenderingUtilities {
             return this;
         }
 
-        private void setColors(boolean isSelected, JList list) {
+        private void setColors(boolean isSelected, JList<?> list) {
             if (isSelected) {
                 setOpaque(true);
                 setForeground(list.getSelectionForeground());

@@ -42,7 +42,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  */
 public class DefaultTestRunner extends TestRunner
 {
-    public synchronized boolean runTests(Iterator testIter)
+    public synchronized boolean runTests(Iterator<TestDescription> testIter)
         throws InterruptedException
     {
         this.testIter = testIter;
@@ -101,8 +101,7 @@ public class DefaultTestRunner extends TestRunner
             stopping = true;    // stop workers from starting any new tests
 
             // interrupt the worker threads
-            for (Iterator iter = activeThreads.iterator() ; iter.hasNext(); ) {
-                Thread t = (Thread) (iter.next());
+            for (Thread t : activeThreads) {
                 t.interrupt();
             }
 
@@ -141,7 +140,7 @@ public class DefaultTestRunner extends TestRunner
             return null;
 
         if (testIter.hasNext())
-            return (TestDescription) (testIter.next());
+            return (testIter.next());
         else {
             stopping = true;
             return null;
@@ -254,7 +253,7 @@ public class DefaultTestRunner extends TestRunner
     private static final Integer THROWABLE = new Integer(2);
 
 
-    private Iterator testIter;
+    private Iterator<TestDescription> testIter;
     private Set<Thread> activeThreads;
     private boolean allPassed;
     private boolean stopping;

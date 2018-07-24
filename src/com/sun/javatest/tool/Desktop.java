@@ -167,14 +167,14 @@ public class Desktop
                 break;
             case CommandContext.METAL_LAF:
                 try {
-                    Class nimbusClass = Class.forName("javax.swing.plaf.metal.MetalLookAndFeel");
+                    Class<?> nimbusClass = Class.forName("javax.swing.plaf.metal.MetalLookAndFeel");
                     UIManager.setLookAndFeel((LookAndFeel) nimbusClass.newInstance());
                 } catch (Throwable e) {
                 }
                 break;
             case CommandContext.NIMBUS_LAF:
                 try {
-                    Class nimbusClass = Class.forName("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+                    Class<?> nimbusClass = Class.forName("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
                     UIManager.setLookAndFeel((LookAndFeel) nimbusClass.newInstance());
                 } catch (Throwable e) {
                 }
@@ -399,7 +399,7 @@ public class Desktop
                     // this is to avoid a class dependency to exec package, which is
                     // normally not allowed in this package
                     Method m = mgr.getClass().getMethod("startTool",
-                                            new Class[] { InterviewParameters.class} );
+                                            new Class<?>[] { InterviewParameters.class} );
 
                     return (Tool) m.invoke(mgr, new Object[] { ip });
                 }
@@ -449,7 +449,7 @@ public class Desktop
      * @param c the class of the desired tool manager.
      * @return a tool manager of the desired type, or null if none found
      */
-    public ToolManager getToolManager(Class c) {
+    public ToolManager getToolManager(Class<?> c) {
         for (int i = 0; i < toolManagers.length; i++) {
             ToolManager m = toolManagers[i];
             if (c.isInstance(m))
@@ -522,7 +522,7 @@ public class Desktop
      * @return  a list of the current entries on the file history associated with this desktop
      * @see #addToFileHistory
      */
-    List getFileHistory()
+    List<FileHistoryEntry> getFileHistory()
     {
         return fileHistory;
     }
@@ -1438,9 +1438,9 @@ public class Desktop
 
         try {
             ManagerLoader ml = new ManagerLoader(ToolManager.class, System.err);
-            ml.setManagerConstructorArgs(new Class[] { Desktop.class }, new Object[] { this });
-            Set s = ml.loadManagers(TOOLMGRLIST);
-            toolManagers = (ToolManager[]) (s.toArray(new ToolManager[s.size()]));
+            ml.setManagerConstructorArgs(new Class<?>[] { Desktop.class }, new Object[] { this });
+            Set<?> s = ml.loadManagers(TOOLMGRLIST);
+            toolManagers = s.toArray(new ToolManager[s.size()]);
         }
         catch (IOException e) {
             throw new JavaTestError(uif.getI18NResourceBundle(),

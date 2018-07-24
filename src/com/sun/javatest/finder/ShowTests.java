@@ -223,7 +223,7 @@ public class ShowTests
         TestFinder testFinder;
 
         try {
-            Class c = Class.forName(finder);
+            Class<?> c = Class.forName(finder);
             testFinder = (TestFinder) (c.newInstance());
             testFinder.init(args, ts, null);
         }
@@ -258,8 +258,8 @@ public class ShowTests
                 TestDescription td = tests[i];
                 out.println("    " + td.getRootRelativeURL());
                 if (fullTests) {
-                    for (Iterator iter = td.getParameterKeys(); iter.hasNext(); ) {
-                        String key = (String) (iter.next());
+                    for (Iterator<String> iter = td.getParameterKeys(); iter.hasNext(); ) {
+                        String key = (iter.next());
                         String value = td.getParameter(key);
                         out.print("        ");
                         out.print(key);

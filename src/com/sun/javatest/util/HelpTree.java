@@ -168,17 +168,17 @@ public class HelpTree
             this(node, null);
         }
 
-        private Selection(Map map) {
+        private Selection(Map<Node, Selection> map) {
             this(null, map);
         }
 
-        private Selection(Node node, Map map) {
+        private Selection(Node node, Map<Node, Selection> map) {
             this.node = node;
             this.map = map;
         }
 
         private Node node;
-        private Map map;
+        private Map<Node, Selection> map;
     }
 
     /**
@@ -413,12 +413,12 @@ public class HelpTree
         return nodeComparator;
     }
 
-    private void write(WrapWriter out, Map m) throws IOException {
+    private void write(WrapWriter out, Map<Node, Selection> m) throws IOException {
         int margin = out.getLeftMargin();
-        for (Iterator iter = m.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry e = (Map.Entry) (iter.next());
-            Node node = (Node) (e.getKey());
-            Selection s = (Selection) (e.getValue());
+        for (Iterator<Map.Entry<Node, Selection>> iter = m.entrySet().iterator(); iter.hasNext(); ) {
+            Map.Entry<Node, Selection> e = iter.next();
+            Node node = (e.getKey());
+            Selection s = (e.getValue());
             if (s.map == null)
                 write(out, node);
             else {

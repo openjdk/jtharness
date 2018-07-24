@@ -108,7 +108,7 @@ public class InterviewSet
         if (dependency == null)
             throw new NullPointerException();
 
-        Set allDeps = getAllDependencies(dependency);
+        Set<Interview> allDeps = getAllDependencies(dependency);
         if (allDeps != null && allDeps.contains(child))
             throw new CycleFault(child, dependency);
 
@@ -131,7 +131,7 @@ public class InterviewSet
         if (dependency == null)
             throw new NullPointerException();
 
-        Set deps = getDependencies(child, false);
+        Set<Interview> deps = getDependencies(child, false);
 
         if (deps != null)
             deps.remove(dependency);
@@ -153,7 +153,7 @@ public class InterviewSet
         return deps;
     }
 
-    private Set getAllDependencies(Interview child) {
+    private Set<Interview> getAllDependencies(Interview child) {
         Set<Interview> s = new HashSet<>();
         getAllDependencies(child, s);
         return s;
@@ -246,8 +246,8 @@ public class InterviewSet
             if (o1 == o2)
                 return 0;
 
-            for (Iterator iter = children.iterator(); iter.hasNext(); ) {
-                Object o = iter.next();
+            for (Iterator<Interview> iter = children.iterator(); iter.hasNext(); ) {
+                Interview o = iter.next();
                 if (o == o1)
                     return -1;
                 if (o == o2)

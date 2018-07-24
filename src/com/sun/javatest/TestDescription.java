@@ -91,7 +91,7 @@ public class TestDescription implements Serializable
         rootRelativePath = rootRelativeFile.replace(File.separatorChar, '/');
 
         Vector<String> v = new Vector<>(0, params.size() * 2);
-        for (Map.Entry entry : params.entrySet()) {
+        for (Map.Entry<?, ?> entry : params.entrySet()) {
             insert(v, (String) entry.getKey(), (String) entry.getValue());
         }
         fields = new String[v.size()];

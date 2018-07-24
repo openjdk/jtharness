@@ -50,12 +50,12 @@ public class JUnitTestRunner extends TestRunner {
         // by the corresponding TestSuite class.
     }
 
-    protected boolean runTests(Iterator testIter) throws InterruptedException {
+    protected boolean runTests(Iterator<TestDescription> testIter) throws InterruptedException {
         WorkDirectory wd = getWorkDirectory();
         TestDescription td = null;
         //for (TestDescription td: testIter) {
         for (; testIter.hasNext() ;) {
-            td = (TestDescription)(testIter.next());
+            td = testIter.next();
             TestResult tr = new TestResult(td);
             TestResult.Section outSection = tr.createSection("Main");
 
@@ -85,7 +85,7 @@ public class JUnitTestRunner extends TestRunner {
         this.loader = loader;
 
         try {
-            Class c = loader.loadClass("com.sun.javatest.junit.JUnitMultiTest");
+            Class<?> c = loader.loadClass("com.sun.javatest.junit.JUnitMultiTest");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

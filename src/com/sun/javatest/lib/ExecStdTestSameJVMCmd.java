@@ -105,7 +105,7 @@ public class ExecStdTestSameJVMCmd extends Command
 
         Status status = null;
         try {
-            Class c;
+            Class<?> c;
             if (loader == null)
                 c = Class.forName(className);
             else

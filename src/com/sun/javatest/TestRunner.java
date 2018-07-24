@@ -200,7 +200,7 @@ public abstract class TestRunner
      * @return true if and only if all the tests executed successfully and passed
      * @throws InterruptedException if the test run was interrupted
      */
-    protected abstract boolean runTests(Iterator testIter) throws InterruptedException;
+    protected abstract boolean runTests(Iterator<TestDescription> testIter) throws InterruptedException;
 
     /**
      * This method must be called as each test is started, to notify any

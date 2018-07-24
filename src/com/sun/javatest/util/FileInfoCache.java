@@ -38,7 +38,7 @@ public class FileInfoCache
 
     // we can't use generics in util package but this is actually Map<String, Boolean>
     private Map<String, Boolean> map = Collections.synchronizedMap( new LinkedHashMap<String, Boolean>() {
-        protected boolean removeEldestEntry(Map.Entry eldest) {
+        protected boolean removeEldestEntry(Map.Entry<String, Boolean> eldest) {
             return size() > SIZE;
         }
     });

@@ -34,10 +34,10 @@ class AgentClassLoader extends ClassLoader {
         this.parent = parent;
     }
 
-    public synchronized Class loadClass(String className, boolean resolve) throws ClassNotFoundException {
+    public synchronized Class<?> loadClass(String className, boolean resolve) throws ClassNotFoundException {
 
         // check the cache first
-        Class c = findLoadedClass(className);
+        Class<?> c = findLoadedClass(className);
 
         // not found in the cache?
         if (c == null) {

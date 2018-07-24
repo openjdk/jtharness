@@ -50,11 +50,11 @@ class Merger {
     public boolean merge(File[] in, File out, ConflictResolver conflictResolver) throws SAXException,
             ParserConfigurationException, IOException{
         // Maps with statistics
-        Map[] inputs = new Map[in.length];
+        Map<?, ?>[] inputs = new Map<?, ?>[in.length];
         // read statistics
         for (int i = 0; i < in.length; i++) {
             XMLReportReader reader = new XMLReportReader();
-            Map<Object, Object> map = reader.readIDs(in[i]);
+            Map<?, ?> map = reader.readIDs(in[i]);
             inputs[i] = map;
         }
 
@@ -65,7 +65,7 @@ class Merger {
         List<String> conflicts = new ArrayList<>();
         for (int i = 0; i < in.length; i++) {
             int workdirsInFile = 0;
-            Iterator<Object> it = inputs[i].keySet().iterator();
+            Iterator<?> it = inputs[i].keySet().iterator();
             Map<Object, Object> newMap = new HashMap<>();
             while (it.hasNext()) {
                 Object o =  it.next();

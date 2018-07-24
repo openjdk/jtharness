@@ -80,7 +80,7 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
      * @throws IllegalStateException If the instance name is not present in the map or
      *         the exec model argument is null.
      */
-    protected ConfigurableTestFilter(Map map, ExecModel e) {
+    protected ConfigurableTestFilter(Map<String, String> map, ExecModel e) {
         if (e == null)
             throw new IllegalArgumentException(i18n.getString("ctf.nullExec"));
 
@@ -134,8 +134,8 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
      *         false if the operation failed.
      * @throws IllegalStateException If the instance name is not present in the map.
      */
-    boolean load(Map map) {
-        instanceName = (String)(map.get(INSTANCE_KEY));
+    boolean load(Map<String, String> map) {
+        instanceName = map.get(INSTANCE_KEY);
 
         if (instanceName == null)
             throw new IllegalStateException(i18n.getString("ctf.mapNoName"));

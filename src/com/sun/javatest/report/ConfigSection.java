@@ -382,16 +382,16 @@ class ConfigSection extends HTMLSection {
 
         Set<String[]> envTable = new TreeSet<>(new StringArrayComparator());
 
-        for (Iterator i = env.elements().iterator(); i.hasNext(); ) {
-            TestEnvironment.Element envElem = (TestEnvironment.Element) (i.next());
+        for (Iterator<TestEnvironment.Element> i = env.elements().iterator(); i.hasNext(); ) {
+            TestEnvironment.Element envElem = (i.next());
             String[] envTableRow = {envElem.getKey(), envElem.getValue()};
             envTable.add(envTableRow);
         }
 
         out.startTag(HTMLWriterEx.TABLE);
         out.writeAttr(HTMLWriterEx.BORDER, 1);
-        for (Iterator i = envTable.iterator(); i.hasNext(); ) {
-            String[] envEntry = (String[]) (i.next());
+        for (Iterator<String[]> i = envTable.iterator(); i.hasNext(); ) {
+            String[] envEntry = (i.next());
             out.startTag(HTMLWriterEx.TR);
 
             for (int j = 0; j < envEntry.length; j++ ) {
@@ -417,7 +417,7 @@ class ConfigSection extends HTMLSection {
         }
         else {
             SortedSet<ExcludeList.Entry> sortedEntries = new TreeSet<>(new ExcludeListEntryComparator());
-            for (Iterator iter = excludeList.getIterator(false); iter.hasNext(); )
+            for (Iterator<?> iter = excludeList.getIterator(false); iter.hasNext(); )
                 sortedEntries.add((ExcludeList.Entry)iter.next());
 
             out.startTag(HTMLWriterEx.TABLE);
@@ -440,8 +440,8 @@ class ConfigSection extends HTMLSection {
             out.endTag(HTMLWriterEx.TH);
             out.endTag(HTMLWriterEx.TR);
 
-            for (Iterator iter = sortedEntries.iterator(); iter.hasNext(); ) {
-                ExcludeList.Entry e = (ExcludeList.Entry) (iter.next());
+            for (Iterator<ExcludeList.Entry> iter = sortedEntries.iterator(); iter.hasNext(); ) {
+                ExcludeList.Entry e = (iter.next());
                 out.startTag(HTMLWriterEx.TR);
                 writeTD(out, e.getRelativeURL());
                 writeTD(out, e.getTestCases());

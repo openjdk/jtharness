@@ -114,7 +114,7 @@ public class Wizard extends JComponent {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
-            Class ic = (Class.forName(args[0], true, ClassLoader.getSystemClassLoader()));
+            Class<?> ic = Class.forName(args[0], true, ClassLoader.getSystemClassLoader());
             Interview i = (Interview)(ic.newInstance());
             Wizard w = new Wizard(i);
             w.showInFrame(true);
@@ -546,7 +546,7 @@ public class Wizard extends JComponent {
      */
     private void perform(String s) {
         try {
-            Method m = Wizard.class.getDeclaredMethod(s, new Class[] { });
+            Method m = Wizard.class.getDeclaredMethod(s, new Class<?>[] { });
             m.invoke(Wizard.this, new Object[] { });
         }
         catch (IllegalAccessException ex) {

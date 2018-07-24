@@ -131,7 +131,7 @@ public abstract class FileQuestion extends Question
      * @see #getValue
      */
     public void setValue(String path) {
-        setValue(path == null ? (File)null : new File(path));
+        setValue(path == null ? null : new File(path));
     }
 
     /**

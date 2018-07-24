@@ -156,7 +156,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * @return The set of keys (internal non-i18n value)
      * @see #setKeys
      */
-    public Enumeration getKeys() {
+    public Enumeration<?> getKeys() {
         if (value != null)
             return value.keys();
         else
@@ -216,11 +216,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         if (value != null) {
             String sep = System.getProperty("line.separator");
 
-            Enumeration names = value.propertyNames();
-            ArrayList list = Collections.list(names);
-            Collections.sort(list);
-            for (Object o : list) {
-                String key = (String)o;
+            SortedSet<String> names = new TreeSet<>(value.stringPropertyNames());
+            for (String key : names) {
                 result.append(key);
                 result.append("=");
                 result.append(value.getProperty(key));
@@ -320,7 +317,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         // repopulate a J2SE properties object
         Properties p = new Properties();
 
-        Enumeration e = p2.propertyNames();
+        Enumeration<?> e = p2.propertyNames();
         while(e.hasMoreElements()) {
             Object next = e.nextElement();
             p.put( next, p2.get(next) );
@@ -411,7 +408,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      *         in index one.  Null means there are no invalid keys.
      */
     public String[][] getInvalidKeys() {
-        Enumeration names = value.propertyNames();
+        Enumeration<?> names = value.propertyNames();
         List<String> badKeys = new ArrayList<>();
         List<String> reasons = new ArrayList<>();
 
@@ -690,7 +687,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
             return null;
 
         if (keyGroups != null) {
-            Set keys = keyGroups.keySet();
+            Set<String> keys = keyGroups.keySet();
             if (keys != null) {
                 String[] gps = getGroups();
                 Properties copy = (Properties)(value.clone());
@@ -705,12 +702,10 @@ public abstract class PropertiesQuestion extends CompositeQuestion
                 }
 
                 if (copy.size() > 0) {
-                    Enumeration en = copy.propertyNames();
+                    Set<String> en = copy.stringPropertyNames();
                     String[][] ret = new String[copy.size()][2];
                     int i = 0;
-
-                    while (en.hasMoreElements()) {
-                        String key = (String)(en.nextElement());
+                    for (String key : en) {
                         ret[i][0] = key;
                         ret[i][1] = copy.getProperty(key);
                         i++;
@@ -724,7 +719,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         }
         // no groups, return the entire value set
         String[][] ret = new String[value.size()][2];
-        Enumeration en = value.propertyNames();
+        Enumeration<?> en = value.propertyNames();
         int i = 0;
 
         while (en.hasMoreElements()) {

@@ -278,7 +278,7 @@ public class ChameleonTestFinder extends TestFinder {
         currEntry = null;
     }
 
-    private Object newInstance(Class c) throws Fault {
+    private Object newInstance(Class<?> c) throws Fault {
         try {
             return c.newInstance();
         }
@@ -292,7 +292,7 @@ public class ChameleonTestFinder extends TestFinder {
         }
     }
 
-    private Class loadClass(String className) throws Fault {
+    private Class<?> loadClass(String className) throws Fault {
         try {
             if (loader == null)
                 return Class.forName(className);

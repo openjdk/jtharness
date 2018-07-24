@@ -26,15 +26,7 @@
  */
 package com.sun.javatest.tool;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.FocusTraversalPolicy;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.KeyboardFocusManager;
-import java.awt.Window;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -398,9 +390,9 @@ class FocusMonitor
         if (c == null)
             return null;
 
-        Set s = c.getFocusTraversalKeys(mode);
+        Set<AWTKeyStroke> s = c.getFocusTraversalKeys(mode);
         StringBuffer sb = new StringBuffer();
-        for (Iterator iter = s.iterator(); iter.hasNext(); ) {
+        for (Iterator<AWTKeyStroke> iter = s.iterator(); iter.hasNext(); ) {
             if (sb.length() > 0)
                 sb.append(", ");
             sb.append(iter.next());

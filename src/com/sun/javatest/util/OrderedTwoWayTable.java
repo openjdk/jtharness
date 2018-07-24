@@ -121,7 +121,7 @@ public class OrderedTwoWayTable {
      * @param target the object to search for
      * @return the index of the target in the vector, or -1 if not found
      */
-    protected int findIndex(Vector data, Object target) {
+    protected int findIndex(Vector<?> data, Object target) {
         for (int i = 0; i < data.size(); i++)
             if (data.elementAt(i) == target)
                 return i;

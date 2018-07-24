@@ -454,9 +454,9 @@ public class EditJTI
 
         String interviewClassName = (String) (p.get("INTERVIEW"));
         try {
-            Class interviewClass = loader.loadClass(interviewClassName);
+            Class<InterviewParameters> interviewClass = (Class<InterviewParameters>) loader.loadClass(interviewClassName);
 
-            interview = (InterviewParameters)(interviewClass.newInstance());
+            interview = interviewClass.newInstance();
         }
         catch (ClassCastException e) {
             throw new Fault(i18n, "editJTI.invalidInterview", inFile);

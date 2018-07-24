@@ -125,9 +125,9 @@ public abstract class ListQuestion extends Question
         public String getDefaultSummary() {
             if (defaultSummary == null) {
                 // recycle any default summaries that are no longer required
-                Vector bodies = question.bodies;
+                Vector<Body> bodies = question.bodies;
                 for (int i = 0; i < bodies.size(); i++) {
-                    Body b = (Body) (bodies.elementAt(i));
+                    Body b = (bodies.elementAt(i));
                     if (b.defaultSummary != null
                         && b.getSummary() != null
                         && !b.defaultSummary.equals(b.getSummary())) {
@@ -142,7 +142,7 @@ public abstract class ListQuestion extends Question
                     // check s is not the same as any current default summary;
                     // if it is, reset it to null
                     for (int i = 0; i < bodies.size(); i++) {
-                        Body b = (Body) (bodies.elementAt(i));
+                        Body b = (bodies.elementAt(i));
                         if (s.equals(b.defaultSummary)) {
                             s = null;
                             break;

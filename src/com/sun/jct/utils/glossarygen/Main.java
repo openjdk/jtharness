@@ -273,8 +273,8 @@ public class Main {
 
         char currLetter = 0;
 
-        for (Iterator iter = glossary.values().iterator(); iter.hasNext(); ) {
-            Entry e = (Entry) (iter.next());
+        for (Iterator<Entry> iter = glossary.values().iterator(); iter.hasNext(); ) {
+            Entry e = (iter.next());
             if (!e.matches(keyword))
                 continue;
 
@@ -1007,7 +1007,7 @@ class Entry {
     private File file;
     private String head1;
     private String text;
-    private Set keywords;
+    private Set<String> keywords;
 
     private Reader in;
     private Writer out;

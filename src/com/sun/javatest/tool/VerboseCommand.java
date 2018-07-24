@@ -122,10 +122,9 @@ public class VerboseCommand extends Command
     }
 
     public void run(CommandContext ctx) throws Fault {
-        for (Iterator iter = optionValues.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry e = (Map.Entry) (iter.next());
-            String name = (String) (e.getKey());
-            boolean value = ((Boolean) (e.getValue())).booleanValue();
+        for (Map.Entry<String, Boolean> e : optionValues.entrySet()) {
+            String name = (e.getKey());
+            boolean value = e.getValue().booleanValue();
             if (name.equalsIgnoreCase(MAX))
                 ctx.setVerboseMax(value);
             else if (name.equalsIgnoreCase(QUIET))
@@ -142,8 +141,8 @@ public class VerboseCommand extends Command
 
         HelpTree.Node[] nodes = new HelpTree.Node[allOptions.size()];
         int i = 0;
-        for (Iterator iter = allOptions.values().iterator(); iter.hasNext(); )
-            nodes[i++] = (HelpTree.Node) (iter.next());
+        for (Iterator<HelpTree.Node> iter = allOptions.values().iterator(); iter.hasNext(); )
+            nodes[i++] = iter.next();
 
         return new HelpTree.Node(i18n, "verb", nodes);
     }

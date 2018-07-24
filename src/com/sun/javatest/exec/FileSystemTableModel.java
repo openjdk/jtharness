@@ -42,7 +42,7 @@ public class FileSystemTableModel extends AbstractTableModel  {
     static protected String[]  cNames = {"File Name", "Name", "Description"};
 
     // Types of the columns.
-    static protected Class[]  cTypes = { String.class,
+    static protected Class<?>[]  cTypes = { String.class,
                                          String.class, String.class};
 
     private FileTableFilter filter = null;
@@ -82,7 +82,7 @@ public class FileSystemTableModel extends AbstractTableModel  {
         return cNames[column];
     }
 
-    public Class getColumnClass(int column) {
+    public Class<?> getColumnClass(int column) {
         return cTypes[column];
     }
 

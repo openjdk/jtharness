@@ -63,9 +63,9 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
         if (tests == null) {
             return Status.failed("No test cases found in test.");
         }
-        Iterator iterator = ((Set)tests.entrySet()).iterator();
+        Iterator<Map.Entry<String, Method>> iterator = tests.entrySet().iterator();
         while (iterator.hasNext()) {
-            Method method  = (Method)((Map.Entry)iterator.next()).getValue();
+            Method method  = iterator.next().getValue();
             Status status = null;
             try {
                 status = invokeTestCase(method);
@@ -95,7 +95,7 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
     protected void setup(String executeClass) {
         TestCase test;
         try {
-            Class tc = getClassLoader().loadClass(executeClass);
+            Class<?> tc = getClassLoader().loadClass(executeClass);
             String name = tc.getName();
             String constructor = tc.getConstructors()[0].toGenericString();
             test = (constructor.indexOf("java.lang.String") > -1)?
@@ -144,8 +144,8 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
                 if(m == null || excludeTestCases.contains(m.getName())){
                     continue;
                 }
-                Class[] paramTypes = m.getParameterTypes();
-                Class returnType = m.getReturnType();
+                Class<?>[] paramTypes = m.getParameterTypes();
+                Class<?> returnType = m.getReturnType();
                 String name = m.getName();
                 if ((paramTypes.length == 0) &&
                         Void.TYPE.isAssignableFrom(returnType) && name.startsWith("test") ) {
@@ -161,5 +161,5 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
     protected SortedMap <String, Method> tests;
 
     protected String testCases[] = null;
-    protected Vector excludeTestCases = new Vector();
+    protected Vector<String> excludeTestCases = new Vector<>();
 }

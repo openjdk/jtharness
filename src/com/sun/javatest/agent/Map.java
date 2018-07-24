@@ -62,7 +62,7 @@ public class Map {
     public static Map readFile(String name) throws IOException {
         try {
             Class<?> c = Class.forName("java.io.FileReader"); // optional API in Jersonal Java
-            Constructor m = c.getConstructor(new Class[] {String.class});
+            Constructor<?> m = c.getConstructor(new Class<?>[] {String.class});
             Reader r = (Reader)(m.newInstance(new Object[] {name}));
             return new Map(r);
         }

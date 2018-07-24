@@ -49,7 +49,7 @@ public class I18NResourceBundle extends ResourceBundle
      * @param c the class for which to obtain the resource bundle
      * @return the appropriate resource bundle for the class
      */
-    public static I18NResourceBundle getBundleForClass(Class c) {
+    public static I18NResourceBundle getBundleForClass(Class<?> c) {
         String cn = c.getName();
         int dot = cn.lastIndexOf('.');
         String rn = (dot == -1 ? "i18n" : cn.substring(0, dot) + ".i18n");

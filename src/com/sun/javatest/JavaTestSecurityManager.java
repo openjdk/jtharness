@@ -154,7 +154,7 @@ public class JavaTestSecurityManager extends SecurityManager
 
     // These methods are added for forward-compatibility with JDK1.1
     public void checkAwtEventQueueAccess() { }
-    public void checkMemberAccess(Class clazz, int which) { }
+    public void checkMemberAccess(Class<?> clazz, int which) { }
     public void checkMulticast(InetAddress maddr) { }
     public void checkMulticast(InetAddress maddr, byte ttl) { }
     public void checkPrintJobAccess() { }
