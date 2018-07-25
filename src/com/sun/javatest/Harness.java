@@ -795,11 +795,11 @@ public class Harness
         return ok;
     }
 
-    public ReadAheadIterator getTestsIterator(TreeIterator iter) throws Fault {
+    public ReadAheadIterator<TestResult> getTestsIterator(TreeIterator iter) throws Fault {
         if (iter == null) {
             iter = createTreeIterator();
         }
-        return new ReadAheadIterator(iter, readAheadMode, DEFAULT_READ_AHEAD);
+        return new ReadAheadIterator<TestResult>(iter, readAheadMode, DEFAULT_READ_AHEAD);
     }
 
     private TreeIterator createTreeIterator() throws Fault {
@@ -945,7 +945,7 @@ public class Harness
     private ExcludeList excludeList;
     private TestResultTable.TreeIterator testIter;
     private int readAheadMode = ReadAheadIterator.FULL;
-    private ReadAheadIterator raTestIter;
+    private ReadAheadIterator<TestResult> raTestIter;
     private int numTestsDone;
     private TestEnvironment env;
     private TestResultTable resultTable;
