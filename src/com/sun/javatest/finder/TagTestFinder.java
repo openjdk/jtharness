@@ -27,6 +27,7 @@
 package com.sun.javatest.finder;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.HashMap;
@@ -258,9 +259,9 @@ public class TagTestFinder extends TestFinder
         }
         CommentStream cs = null;
         try {
-            cs = csc.newInstance();
+            cs = csc.getDeclaredConstructor().newInstance();
         }
-        catch (InstantiationException e) {
+        catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             error(i18n, "tag.cantCreateClass", new Object[] {csc.getName(), extn});
             return;
         }

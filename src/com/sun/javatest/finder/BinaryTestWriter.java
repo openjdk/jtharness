@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -278,14 +279,14 @@ public class BinaryTestWriter
             throw new NullPointerException();
 
         try {
-            Class<?> c = Class.forName(finder);
-            testFinder = (TestFinder) (c.newInstance());
+            Class<? extends TestFinder> c = Class.forName(finder).asSubclass(TestFinder.class);
+            testFinder = c.getDeclaredConstructor().newInstance();
             testFinder.init(args, ts, null);
         }
         catch (ClassNotFoundException e) {
             throw new Fault("Error: Can't find class for test finder specified: " + finder);
         }
-        catch (InstantiationException e) {
+        catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             throw new Fault("Error: Can't create new instance of test finder: " + e);
         }
         catch (IllegalAccessException e) {

@@ -303,10 +303,10 @@ public class TestSuite
             String className = tsClassAndArgs[0];
 
             try {
-                Class<?> c = loadClass(className, cl);
+                Class<? extends TestSuite> c = loadClass(className, cl);
                 Class<?>[] tsArgTypes = {File.class, Map.class, ClassLoader.class};
                 Object[] tsArgs = {root, tsInfo, cl};
-                testSuite = (TestSuite)(newInstance(c, tsArgTypes, tsArgs));
+                testSuite = newInstance(c, tsArgTypes, tsArgs);
             }
             catch (ClassCastException e) {
                 throw new Fault(i18n, "ts.notASubtype",
@@ -588,8 +588,8 @@ public class TestSuite
         }
 
         try {
-            Class<?> c = loadClass(finderClassName);
-            TestFinder tf = (TestFinder) (newInstance(c));
+            Class<? extends TestFinder> c = loadClass(finderClassName);
+            TestFinder tf = newInstance(c);
             // called old deprecated entry till we know no-one cares
             //tf.init(finderArgs, testsRoot, null, null, tsInfo/*pass in env?*/);
             // this likely kills ExpandTestFinder, finally
@@ -628,8 +628,8 @@ public class TestSuite
             TestFinder tf = null;
 
             if (finderClassName != null) {
-                Class<?> c = loadClass(finderClassName);
-                tf = (TestFinder) (newInstance(c));
+                Class<? extends TestFinder> c = loadClass(finderClassName);
+                tf = newInstance(c);
             }
 
             if (tf instanceof BinaryTestFinder) {
@@ -772,8 +772,8 @@ public class TestSuite
         System.arraycopy(classNameAndArgs, 1, args, 0, args.length);
 
         try {
-            Class<?> c = loadClass(className);
-            InterviewParameters p = (InterviewParameters) (newInstance(c));
+            Class<? extends InterviewParameters> c = loadClass(className);
+            InterviewParameters p = newInstance(c);
             p.init(args);
             p.setTestSuite(this);
             return p;
@@ -1034,11 +1034,11 @@ public class TestSuite
      * @throws TestSuite.Fault if any errors arise while trying to instantiate
      * the class.
      */
-    protected static Object newInstance(Class<?> c) throws Fault {
+    protected static <T> T newInstance(Class<? extends T> c) throws Fault {
         try {
-            return c.newInstance();
+            return c.getDeclaredConstructor().newInstance();
         }
-        catch (InstantiationException e) {
+        catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             throw new Fault(i18n, "ts.cantInstantiate",
                             new Object[] { c.getName(), e });
         }
@@ -1060,7 +1060,7 @@ public class TestSuite
      * @throws TestSuite.Fault if any errors arise while trying to instantiate
      * the class.
      */
-    protected static Object newInstance(Class<?> c, Class<?>[] argTypes, Object[] args)
+    protected static <T> T newInstance(Class<? extends T> c, Class<?>[] argTypes, Object[] args)
         throws Fault
     {
         try {
@@ -1098,7 +1098,7 @@ public class TestSuite
      * @return the class that was loaded
      * @throws TestSuite.Fault if there was a problem loading the specified class
      */
-    public Class<?> loadClass(String className) throws Fault {
+    public <T> Class<? extends T> loadClass(String className) throws Fault {
         return loadClass(className, loader);
     }
 
@@ -1110,12 +1110,12 @@ public class TestSuite
      * @return the class that was loaded
      * @throws TestSuite.Fault if there was a problem loading the specified class
      */
-    protected static Class<?> loadClass(String className, ClassLoader cl) throws Fault {
+    protected static <T> Class<? extends T> loadClass(String className, ClassLoader cl) throws Fault {
         try {
             if (cl == null)
-                return Class.forName(className);
+                return (Class<? extends T>)Class.forName(className);
             else
-                return cl.loadClass(className);
+                return (Class<? extends T>)cl.loadClass(className);
         }
         catch (ClassNotFoundException e) {
             throw new Fault(i18n, "ts.classNotFound",
@@ -1194,8 +1194,8 @@ public class TestSuite
         if (servInfo != null) {
             String[] args = servInfo.split(" ");
             try {
-                Class<?> c = loadClass(args[0]);
-                serviceReader = (ServiceReader) (newInstance(c));
+                Class<? extends ServiceReader> c = loadClass(args[0]);
+                serviceReader = newInstance(c);
                 if (args.length > 1) {
                     // problem with java1.5, which has no Arrays.copyOfRange();
                     String[] copy = new String[args.length - 1];

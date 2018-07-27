@@ -136,8 +136,8 @@ public class InterviewEditor extends ToolDialog {
     ContextManager getContextManager() {
         if (contextManager == null) {
             try {
-                contextManager = (ContextManager) ((Class.forName(
-                        "com.sun.javatest.exec.ContextManager")).newInstance());
+                contextManager = Class.forName("com.sun.javatest.exec.ContextManager")
+                        .asSubclass(ContextManager.class).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 e.printStackTrace();
             }

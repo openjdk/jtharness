@@ -36,6 +36,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -156,8 +157,8 @@ public class WizEdit
                 String interviewClassName = stringProps.get("INTERVIEW");
                 if (interviewClassName == null)
                     throw new Fault(i18n, "edit.noInterview");
-                Class<?> ic = Class.forName(interviewClassName);
-                interview = (Interview)(ic.newInstance());
+                Class<? extends Interview> ic = Class.forName(interviewClassName).asSubclass(Interview.class);
+                interview = ic.getDeclaredConstructor().newInstance();
                 interview.load(stringProps, false);
             }
             catch (FileNotFoundException e) {
@@ -200,7 +201,7 @@ public class WizEdit
             System.err.println("Problem reading file: the interview could not be loaded because some classes that are required by the interview caused access violations. The specific exception that occurred was: " + e);
             System.exit(2);
         }
-        catch (InstantiationException e) {
+        catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             System.err.println("Problem reading file: the interview could not be loaded because some classes that are required by the interview could not be instantiated. The specific exception that occurred was: " + e);
             System.exit(2);
         }

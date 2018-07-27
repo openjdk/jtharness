@@ -29,6 +29,7 @@ package com.sun.javatest.report;
 import com.sun.javatest.TestSuite;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -98,7 +99,7 @@ public class CustomReportFormat implements ReportFormat {
         return subreports;
     }
 
-    private List<CustomReport> getCustomReports(ReportSettings settings) {
+    private List<CustomReport> getCustomReports(ReportSettings settings) throws ReflectiveOperationException {
         TestSuite ts = settings.getInterview().getTestSuite();
         if (settings.getInterview() == null || settings.getInterview().getTestSuite() == null) {
             return NO_REPORTS;
@@ -106,17 +107,18 @@ public class CustomReportFormat implements ReportFormat {
         return getCustomReports(ts);
     }
 
-    private List<CustomReport> getCustomReports(TestSuite testSuite) {
+    private List<CustomReport> getCustomReports(TestSuite testSuite) throws ReflectiveOperationException {
         String cls = testSuite.getTestSuiteInfo("tmcontext");
         Report.CustomReportManager cm;
 
         try {
             if (cls == null) {
                 // use default implementation
-                cm = (Report.CustomReportManager) ((Class.forName("com.sun.javatest.exec.ContextManager")).newInstance());
+                cm = Class.forName("com.sun.javatest.exec.ContextManager")
+                        .asSubclass(Report.CustomReportManager.class).getDeclaredConstructor().newInstance();
             } else {
-                cm = (Report.CustomReportManager) ((Class.forName(cls, true,
-                        testSuite.getClassLoader())).newInstance());
+                cm = Class.forName(cls, true, testSuite.getClassLoader())
+                        .asSubclass(Report.CustomReportManager.class).getDeclaredConstructor().newInstance();
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

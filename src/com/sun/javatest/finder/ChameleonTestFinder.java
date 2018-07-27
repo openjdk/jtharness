@@ -27,6 +27,7 @@
 package com.sun.javatest.finder;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -278,11 +279,11 @@ public class ChameleonTestFinder extends TestFinder {
         currEntry = null;
     }
 
-    private Object newInstance(Class<?> c) throws Fault {
+    private TestFinder newInstance(Class<? extends TestFinder> c) throws Fault {
         try {
-            return c.newInstance();
+            return c.getDeclaredConstructor().newInstance();
         }
-        catch (InstantiationException e) {
+        catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             throw new Fault(i18n, "cham.cantCreateClass",
                             new Object[] {c.getName(), e});
         }
@@ -292,12 +293,12 @@ public class ChameleonTestFinder extends TestFinder {
         }
     }
 
-    private Class<?> loadClass(String className) throws Fault {
+    private Class<? extends TestFinder> loadClass(String className) throws Fault {
         try {
             if (loader == null)
-                return Class.forName(className);
+                return Class.forName(className).asSubclass(TestFinder.class);
             else
-                return loader.loadClass(className);
+                return loader.loadClass(className).asSubclass(TestFinder.class);
         }
         catch (ClassNotFoundException e) {
             throw new Fault(i18n, "cham.cantFindClass",
@@ -390,7 +391,7 @@ public class ChameleonTestFinder extends TestFinder {
         private void init() {
             try {
                 if (!finderClassName.equals("-")) {
-                    finder = (TestFinder)(newInstance(loadClass(finderClassName)));
+                    finder = newInstance(loadClass(finderClassName));
                     finder.init(finderArgs, getRoot(), getEnv());
                 }
             }

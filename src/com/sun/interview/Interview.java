@@ -429,8 +429,9 @@ public class Interview
      */
     private static HelpSetFactory createHelpFactory() {
         try {
-            Class<?> factoryClass = Class.forName("com.sun.interview.JavaHelpFactory");
-            return (HelpSetFactory) factoryClass.newInstance();
+            Class<? extends HelpSetFactory> factoryClass =
+                    Class.forName("com.sun.interview.JavaHelpFactory").asSubclass(HelpSetFactory.class);
+            return factoryClass.getDeclaredConstructor().newInstance();
         } catch (ClassNotFoundException e) {
             return HelpSetFactory.DEFAULT;
         } catch (Exception e) {

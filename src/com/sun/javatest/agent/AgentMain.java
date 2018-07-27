@@ -460,8 +460,9 @@ public class AgentMain {
 
         if (observerClassName != null) {
             try {
-                Class<?> observerClass = Class.forName(observerClassName);
-                Agent.Observer observer = (Agent.Observer)(observerClass.newInstance());
+                Class<? extends Agent.Observer> observerClass =
+                        Class.forName(observerClassName).asSubclass(Agent.Observer.class);
+                Agent.Observer observer = observerClass.getDeclaredConstructor().newInstance();
                 agent.addObserver(observer);
             }
             catch (ClassCastException e) {
@@ -471,10 +472,7 @@ public class AgentMain {
             catch (ClassNotFoundException e) {
                 throw new Fault("cannot find observer class: " + observerClassName);
             }
-            catch (IllegalAccessException e) {
-                throw new Fault("problem instantiating observer: " + e);
-            }
-            catch (InstantiationException e) {
+            catch (Exception e) {
                 throw new Fault("problem instantiating observer: " + e);
             }
         }

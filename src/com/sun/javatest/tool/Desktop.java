@@ -167,15 +167,17 @@ public class Desktop
                 break;
             case CommandContext.METAL_LAF:
                 try {
-                    Class<?> nimbusClass = Class.forName("javax.swing.plaf.metal.MetalLookAndFeel");
-                    UIManager.setLookAndFeel((LookAndFeel) nimbusClass.newInstance());
+                    Class<? extends LookAndFeel> nimbusClass =
+                            Class.forName("javax.swing.plaf.metal.MetalLookAndFeel").asSubclass(LookAndFeel.class);
+                    UIManager.setLookAndFeel(nimbusClass.getDeclaredConstructor().newInstance());
                 } catch (Throwable e) {
                 }
                 break;
             case CommandContext.NIMBUS_LAF:
                 try {
-                    Class<?> nimbusClass = Class.forName("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-                    UIManager.setLookAndFeel((LookAndFeel) nimbusClass.newInstance());
+                    Class<? extends LookAndFeel> nimbusClass =
+                            Class.forName("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel").asSubclass(LookAndFeel.class);
+                    UIManager.setLookAndFeel(nimbusClass.getDeclaredConstructor().newInstance());
                 } catch (Throwable e) {
                 }
                 break;
@@ -449,7 +451,7 @@ public class Desktop
      * @param c the class of the desired tool manager.
      * @return a tool manager of the desired type, or null if none found
      */
-    public ToolManager getToolManager(Class<?> c) {
+    public ToolManager getToolManager(Class<? extends ToolManager> c) {
         for (int i = 0; i < toolManagers.length; i++) {
             ToolManager m = toolManagers[i];
             if (c.isInstance(m))
@@ -1079,24 +1081,13 @@ public class Desktop
                     try {
                         if (cls != null) {
                             PreferencesPane pane =
-                                (PreferencesPane)((Class.forName(cls, true,
-                                tss[j].getClassLoader())).newInstance());
+                                Class.forName(cls, true, tss[j].getClassLoader())
+                                        .asSubclass(PreferencesPane.class).getDeclaredConstructor().newInstance();
                             al.add(pane);
                         }
-                    }
-                    catch (ClassNotFoundException e) {
-                        e.printStackTrace();        // XXX rm
-                        // should print log entry
-                    }
-                    catch (InstantiationException e) {
-                        e.printStackTrace();        // XXX rm
-                        // should print log entry
-                    }
-                    catch (IllegalAccessException e) {
-                        e.printStackTrace();        // XXX rm
-                        // should print log entry
-                    }   // try
-                    finally {
+                    } catch (ReflectiveOperationException e) {
+                        e.printStackTrace();
+                        // todo should print log entry
                     }
                 }   // inner for j
             }

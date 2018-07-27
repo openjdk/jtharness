@@ -95,15 +95,15 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
     protected void setup(String executeClass) {
         TestCase test;
         try {
-            Class<?> tc = getClassLoader().loadClass(executeClass);
+            Class<? extends TestCase> tc = getClassLoader().loadClass(executeClass).asSubclass(TestCase.class);
             String name = tc.getName();
             String constructor = tc.getConstructors()[0].toGenericString();
-            test = (constructor.indexOf("java.lang.String") > -1)?
-                (TestCase)tc.getConstructors()[0].newInstance(new Object[] {name}):
-                (TestCase)tc.newInstance();
+            test = constructor.indexOf("java.lang.String") > -1
+                    ? (TestCase)tc.getConstructors()[0].newInstance(name)
+                    : tc.getDeclaredConstructor().newInstance();
             setTestCaseClass(test);
 
-        } catch(InstantiationException e){
+        } catch (NoSuchMethodException | InstantiationException e) {
             log.println("Cannot instantiate test: " + executeClass + " (" + exceptionToString(e) + ")");
         } catch(InvocationTargetException e){
             log.println("Exception in constructor: " + executeClass + " (" + exceptionToString(e.getTargetException()) + ")");

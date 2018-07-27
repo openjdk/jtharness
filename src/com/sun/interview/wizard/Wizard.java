@@ -114,8 +114,9 @@ public class Wizard extends JComponent {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
-            Class<?> ic = Class.forName(args[0], true, ClassLoader.getSystemClassLoader());
-            Interview i = (Interview)(ic.newInstance());
+            Class<? extends Interview> ic =
+                    Class.forName(args[0], true, ClassLoader.getSystemClassLoader()).asSubclass(Interview.class);
+            Interview i = ic.getDeclaredConstructor().newInstance();
             Wizard w = new Wizard(i);
             w.showInFrame(true);
         }

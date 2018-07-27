@@ -26,6 +26,7 @@
  */
 package com.sun.javatest.services;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -55,21 +56,19 @@ public class TestPath {
      * regexp and custom matching.
      * @param ts test suite
      * @param pathPattern patter for matching test paths.
-     * @param tdMatcherClass {@link com.sun.javatest.services.TestPath.TDMatcher}
+     * @param tdMatcherClassName {@link com.sun.javatest.services.TestPath.TDMatcher}
      * to customize matching rules.
      */
-    public TestPath(TestSuite ts, String pathPattern, String tdMatcherClass) {
+    public TestPath(TestSuite ts, String pathPattern, String tdMatcherClassName) {
         if (pathPattern != null) {
             p = Pattern.compile(pathPattern);
         }
-        if (tdMatcherClass != null && tdMatcherClass.length() != 0 ) {
+        if (tdMatcherClassName != null && tdMatcherClassName.length() != 0 ) {
             try {
-                tdm = (TDMatcher) ts.loadClass(tdMatcherClass).newInstance();
-            } catch (TestSuite.Fault ex) {
-                Logger.getLogger(TestPath.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-                Logger.getLogger(TestPath.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
+
+                Class<? extends TDMatcher> tdMatcherClass = ts.loadClass(tdMatcherClassName);
+                tdm = tdMatcherClass.getDeclaredConstructor().newInstance();
+            } catch (Exception ex) {
                 Logger.getLogger(TestPath.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

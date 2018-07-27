@@ -836,19 +836,19 @@ public class Agent implements Runnable {
 
         private Status executeTest(Class<?> c, String[] args,
                 PrintWriter testLog, PrintWriter testRef)
-                throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
+                throws Exception {
             notifier.execTest(connection, tag, c.getName(), args);
-            Test t = (Test)(c.newInstance());
+            Test t = (Test)c.getDeclaredConstructor().newInstance();
             return t.run(args, testLog, testRef);
         }
 
         private Status executeCommand(Class<?> c, String[] args,
                 PrintWriter testLog, PrintWriter testRef,
                 ClassLoader cl)
-                throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
+                throws Exception {
             notifier.execCommand(connection, tag, c.getName(), args);
 
-            Command tc = (Command)(c.newInstance());
+            Command tc = (Command)c.getDeclaredConstructor().newInstance();
             tc.setClassLoader(cl);
             return new CommandExecutor(tc, args, testLog, testRef, timeoutValue).execute();
         }

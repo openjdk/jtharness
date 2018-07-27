@@ -94,8 +94,9 @@ public class AgentFrame extends Frame
         ModeOptions smo = null;
 
         try {
-            Class<?> serial = Class.forName("com.sun.javatest.agent.SerialPortModeOptions");
-            smo = (ModeOptions)serial.newInstance();
+            Class<? extends ModeOptions> serial =
+                    Class.forName("com.sun.javatest.agent.SerialPortModeOptions").asSubclass(ModeOptions.class);
+            smo = serial.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             System.err.println("There is no support for serial port");
         }
@@ -208,8 +209,9 @@ public class AgentFrame extends Frame
 
         if (observerClassName != null) {
             try {
-                Class<?> observerClass = Class.forName(observerClassName);
-                Agent.Observer observer = (Agent.Observer)(observerClass.newInstance());
+                Class<? extends Agent.Observer> observerClass =
+                        Class.forName(observerClassName).asSubclass(Agent.Observer.class);
+                Agent.Observer observer = observerClass.getDeclaredConstructor().newInstance();
                 sf.panel.addObserver(observer);
             }
             catch (ClassCastException e) {
@@ -221,11 +223,7 @@ public class AgentFrame extends Frame
                 System.err.println("cannot find observer class: " + observerClassName);
                 System.exit(1);
             }
-            catch (IllegalAccessException e) {
-                System.err.println("problem instantiating observer: " + e);
-                System.exit(1);
-            }
-            catch (InstantiationException e) {
+            catch (Exception e) {
                 System.err.println("problem instantiating observer: " + e);
                 System.exit(1);
             }

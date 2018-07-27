@@ -28,6 +28,8 @@ package com.sun.javatest.lib;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
+
 import com.sun.javatest.Command;
 import com.sun.javatest.Status;
 import com.sun.javatest.Test;
@@ -105,18 +107,18 @@ public class ExecStdTestSameJVMCmd extends Command
 
         Status status = null;
         try {
-            Class<?> c;
+            Class<? extends Test> c;
             if (loader == null)
-                c = Class.forName(className);
+                c = Class.forName(className).asSubclass(Test.class);
             else
-                c = loader.loadClass(className);
+                c = loader.loadClass(className).asSubclass(Test.class);
 
             Status prevStatus = null;
             for (int j = 0; j < repeat; j++) {
                 if (repeat > 1)
                     log.println("iteration: " + (j+1));
 
-                Test t = (Test) (c.newInstance());
+                Test t = c.getDeclaredConstructor().newInstance();
                 status = t.run(executeArgs, log, ref);
 
                 if (repeat > 1)
@@ -137,7 +139,7 @@ public class ExecStdTestSameJVMCmd extends Command
         catch (ClassNotFoundException e) {
             status = Status.failed("Can't load test: " + e);
         }
-        catch (InstantiationException e) {
+        catch (NoSuchMethodException | InstantiationException | InvocationTargetException e) {
             status = Status.failed("Can't instantiate test: " + e);
         }
         catch (IllegalAccessException e) {

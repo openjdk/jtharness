@@ -173,7 +173,8 @@ public class PropertyServiceReader implements ServiceReader {
             }
             try {
 
-                Service service = (Service) ts.loadClass(serviceClass).newInstance();
+                Class<? extends Service> sClass = ts.loadClass(serviceClass);
+                Service service = sClass.getDeclaredConstructor().newInstance();
                 service.setId(serviceID);
                 service.setDescription(serviceDescr);
                 Connector conn = new LocalConnector(service.getDefaultServiceExecutor());

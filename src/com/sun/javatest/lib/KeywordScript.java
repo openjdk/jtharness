@@ -26,6 +26,7 @@
  */
 package com.sun.javatest.lib;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
@@ -177,9 +178,9 @@ public class KeywordScript extends Script
             printStrArr(trOut, msgs);
 
             try {
-                Class<?> c = Class.forName(command[0]);
+                Class<? extends Script> c = Class.forName(command[0]).asSubclass(Script.class);
 
-                Script script = (Script)c.newInstance();
+                Script script = c.getDeclaredConstructor().newInstance();;
                 String[] scriptArgs = new String[command.length - 1];
                 System.arraycopy(command, 1, scriptArgs, 0, scriptArgs.length);
                 initDelegate(script, scriptArgs);
@@ -190,11 +191,15 @@ public class KeywordScript extends Script
                 setStatus(Status.error("Can't find class `" +
                                      command[0] + "' for `" + env.getName() + "'"));
             }
+            catch (NoSuchMethodException ex) {
+                setStatus(Status.error("Can't find no-arg constructor `" +
+                                     command[0] + "' for `" + env.getName() + "'"));
+            }
             catch (IllegalAccessException ex) {
                 setStatus(Status.error("Illegal access to class `" +
                                      command[0] + "' for `" + env.getName() + "'"));
             }
-            catch (InstantiationException ex) {
+            catch (InstantiationException | InvocationTargetException ex) {
                 setStatus(Status.error("Can't instantiate class`" +
                                      command[0] + "' for `" + env.getName() + "'"));
             }

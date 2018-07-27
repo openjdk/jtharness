@@ -27,6 +27,7 @@
 package com.sun.javatest;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
@@ -454,9 +455,10 @@ public class EditJTI
 
         String interviewClassName = (String) (p.get("INTERVIEW"));
         try {
-            Class<InterviewParameters> interviewClass = (Class<InterviewParameters>) loader.loadClass(interviewClassName);
+            Class<? extends InterviewParameters> interviewClass =
+                    loader.loadClass(interviewClassName).asSubclass(InterviewParameters.class);
 
-            interview = interviewClass.newInstance();
+            interview = interviewClass.getDeclaredConstructor().newInstance();
         }
         catch (ClassCastException e) {
             throw new Fault(i18n, "editJTI.invalidInterview", inFile);
@@ -465,7 +467,7 @@ public class EditJTI
             throw new Fault(i18n, "editJTI.cantFindClass",
                             new Object[] { interviewClassName, inFile });
         }
-        catch (InstantiationException e) {
+        catch (NoSuchMethodException | InstantiationException | InvocationTargetException e) {
             throw new Fault(i18n, "editJTI.cantInstantiateClass",
                             new Object[] { interviewClassName, inFile });
         }

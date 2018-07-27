@@ -176,11 +176,11 @@ public class ExecTool extends Tool implements ExecModel,
         try {
             if (cls == null) {
                 // use default implementation
-                cm = (ContextManager) ((Class.forName(
-                        "com.sun.javatest.exec.ContextManager")).newInstance());
+                cm = Class.forName("com.sun.javatest.exec.ContextManager")
+                        .asSubclass(ContextManager.class).getDeclaredConstructor().newInstance();
             } else {
-                cm = (ContextManager) ((Class.forName(cls, true,
-                        ts.getClassLoader())).newInstance());
+                cm = Class.forName(cls, true, ts.getClassLoader())
+                        .asSubclass(ContextManager.class).getDeclaredConstructor().newInstance();
             }
             cm.setTestSuite(ts);
         } catch (Exception e) {

@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
@@ -223,18 +224,18 @@ public class ShowTests
         TestFinder testFinder;
 
         try {
-            Class<?> c = Class.forName(finder);
-            testFinder = (TestFinder) (c.newInstance());
+            Class<? extends TestFinder> c = Class.forName(finder).asSubclass(TestFinder.class);
+            testFinder = c.getDeclaredConstructor().newInstance();
             testFinder.init(args, ts, null);
         }
         catch (ClassNotFoundException e) {
-            throw new Fault("Error: Can't find class for TestFinder specified");
+            throw new Fault("Error: Can't find class for TestFinder specified - " + finder);
         }
-        catch (InstantiationException e) {
-            throw new Fault("Error: Can't create new instance of TestFinder");
+        catch (InstantiationException | InvocationTargetException | NoSuchMethodException e) {
+            throw new Fault("Error: Can't create new instance of TestFinder - " + finder);
         }
         catch (IllegalAccessException e) {
-            throw new Fault("Error: Illegal Access Exception");
+            throw new Fault("Error: Illegal Access Exception. TestFinder - " + finder);
         }
         catch (TestFinder.Fault e) {
             throw new Fault("Error: Can't initialize test-finder: " + e.getMessage());

@@ -46,8 +46,8 @@ class SerialPortModeOptions extends ModeOptions {
         super("serial port");
 
         try {
-            Class<?> c = Class.forName(Proxy.class.getName() + "Impl");
-            proxy = (Proxy)(c.newInstance());
+            Class<? extends Proxy> c = Class.forName(Proxy.class.getName() + "Impl").asSubclass(Proxy.class);
+            proxy = c.getDeclaredConstructor().newInstance();
         }
         catch (Throwable ignore) {
             // leave proxy unset if we can't load the class, and cope with it later

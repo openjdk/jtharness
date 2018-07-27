@@ -1040,8 +1040,10 @@ public abstract class Script
         // says in the environment file:
         Command testCommand;
         try {
-            Class<?> c = (loader == null ? Class.forName(className) : loader.loadClass(className));
-            testCommand = (Command)(c.newInstance());
+            Class<? extends Command> c = (loader == null
+                    ? Class.forName(className).asSubclass(Command.class)
+                    : loader.loadClass(className)).asSubclass(Command.class);
+            testCommand = c.getDeclaredConstructor().newInstance();
         }
         catch (ClassCastException e) {
             return Status.error(i18n.getString("script.cantRunClass",

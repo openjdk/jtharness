@@ -29,6 +29,7 @@ package com.sun.javatest.junit;
 import com.sun.javatest.TestRunner;
 import com.sun.javatest.TestSuite;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.net.URLClassLoader;
 import java.net.URL;
@@ -56,21 +57,16 @@ public class JUnitTestSuite extends TestSuite {
         // will need to add options to test suite to be passed to runner
         // for ex. - to run setup/teardown, etc...
         try {
-            Class<?> c = loadClass("com.sun.javatest.junit.JUnitTestRunner");
-            JUnitTestRunner tr = (JUnitTestRunner)(c.newInstance());
+            Class<? extends JUnitTestRunner> c =
+                    loadClass("com.sun.javatest.junit.JUnitTestRunner").asSubclass(JUnitTestRunner.class);
+            JUnitTestRunner tr = c.getDeclaredConstructor().newInstance();
             tr.setClassLoader(getClassLoader());
             return tr;
-        }
-        catch (TestSuite.Fault f) {
+        } catch (TestSuite.Fault f) {
             f.printStackTrace();
-            // this will probably be ok, should log and error though
+            // todo this will probably be ok, should log and error though
             return new JUnitTestRunner();
-        }
-        catch (InstantiationException e) {
-            e.printStackTrace();
-            return new JUnitTestRunner();
-        }
-        catch (IllegalAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return new JUnitTestRunner();
         }

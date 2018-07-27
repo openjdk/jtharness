@@ -200,8 +200,10 @@ public class WizPrint
                     throw new BadArgs(i18n, "wp.noOutput");
             }
 
-            Class<?> ic = Class.forName(interviewClassName, true, ClassLoader.getSystemClassLoader());
-            Interview interview = (Interview)(ic.newInstance());
+            Class<? extends Interview> ic =
+                    Class.forName(interviewClassName, true, ClassLoader.getSystemClassLoader())
+                            .asSubclass(Interview.class);
+            Interview interview = ic.getDeclaredConstructor().newInstance();
             Question[] questions;
 
             if (interviewData != null)

@@ -128,8 +128,9 @@ public class AgentApplet extends Applet implements Agent.Observer
 
         ModeOptions smo = null;
         try {
-            Class<?> serial = Class.forName("com.sun.javatest.agent.SerialPortModeOptions");
-            smo = (ModeOptions)serial.newInstance();
+            Class<? extends ModeOptions> serial =
+                    Class.forName("com.sun.javatest.agent.SerialPortModeOptions").asSubclass(ModeOptions.class);
+            smo = serial.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             System.err.println("There is no support for serial port");
         }
@@ -163,8 +164,9 @@ public class AgentApplet extends Applet implements Agent.Observer
 
         if (observerClassName != null) {
             try {
-                Class<?> observerClass = Class.forName(observerClassName);
-                Agent.Observer observer = (Agent.Observer)(observerClass.newInstance());
+                Class<? extends Agent.Observer> observerClass =
+                        Class.forName(observerClassName).asSubclass(Agent.Observer.class);
+                Agent.Observer observer = observerClass.getDeclaredConstructor().newInstance();
                 ap.addObserver(observer);
             }
             catch (ClassCastException e) {
@@ -179,6 +181,12 @@ public class AgentApplet extends Applet implements Agent.Observer
             }
             catch (InstantiationException e) {
                 showStatus("problem instantiating observer: " + e);
+            }
+            catch (NoSuchMethodException e) {
+                showStatus("cannot find no-arg constructor. " + e);
+            }
+            catch (InvocationTargetException e) {
+                showStatus("exception thrown by no-arg constructor. " + e);
             }
         }
 

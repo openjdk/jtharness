@@ -31,6 +31,7 @@ import com.sun.javatest.TestSuite;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
@@ -236,7 +237,8 @@ public class XMLServiceReader implements ServiceReader {
                     String svClassName = elem.getAttribute("class");
                     String descr = elem.getAttribute("description");
 
-                    Service service = (Service) ts.loadClass(svClassName).newInstance();
+                    Class<? extends Service> serviceClass = ts.loadClass(svClassName);
+                    Service service = serviceClass.getDeclaredConstructor().newInstance();
                     service.setId(id);
                     service.setDescription(descr);
                     Connector conn = new LocalConnector(service.getDefaultServiceExecutor());
@@ -258,7 +260,7 @@ public class XMLServiceReader implements ServiceReader {
                     result.put(service.getId(), service);
                 } catch (TestSuite.Fault ex) {
 // TODO                    logClassExc();
-                } catch (InstantiationException ex) {
+                } catch (InstantiationException | NoSuchMethodException | InvocationTargetException ex) {
 // TODO                    logClassExc();
                 } catch (IllegalAccessException ex) {
 // TODO                    logClassExc();
