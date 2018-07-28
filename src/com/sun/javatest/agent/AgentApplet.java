@@ -251,9 +251,9 @@ public class AgentApplet extends Applet implements Agent.Observer
      * the author, version and copyright of the applet.
      */
     public String getAppletInfo() {
-        return (Agent.productName + " " +
-                Agent.productVersion + " " +
-                Agent.productCopyright);
+        return (Agent.PRODUCT_NAME + " " +
+                Agent.PRODUCT_VERSION + " " +
+                Agent.PRODUCT_COPYRIGHT);
     }
 
     /**

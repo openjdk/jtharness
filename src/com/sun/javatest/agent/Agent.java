@@ -595,9 +595,9 @@ public class Agent implements Runnable {
     static final byte REF_FLUSH = (byte)'r';
     static final byte STATUS = (byte)'S';
 
-    static final String productName = "JT Harness Agent";
-    static final String productVersion = "JTA_5.0";
-    static final String productCopyright = "Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.";
+    static final String PRODUCT_NAME = "JT Harness Agent";
+    static final String PRODUCT_VERSION = "JTA_6.0";
+    static final String PRODUCT_COPYRIGHT = "Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.";
 
 
     /**

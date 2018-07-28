@@ -129,7 +129,7 @@ class ProxyImpl implements Proxy {
 
     public ConnectionFactory createConnectionFactory(String port) throws BadValue {
         try {
-            return new SerialPortConnectionFactory(port, Agent.productName, 10*1000);
+            return new SerialPortConnectionFactory(port, Agent.PRODUCT_NAME, 10*1000);
         }
         catch (NoSuchPortException e) {
             throw new BadValue("invalid port: " + port);

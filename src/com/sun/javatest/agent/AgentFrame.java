@@ -310,7 +310,7 @@ public class AgentFrame extends Frame
      * @param modeOptions An array of option panels for different connection modes.
      */
     public AgentFrame(ModeOptions[] modeOptions) {
-        super(Agent.productName);
+        super(Agent.PRODUCT_NAME);
 
         ExitCount.inc();
         addWindowListener(new WindowAdapter() {

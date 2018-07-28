@@ -414,7 +414,7 @@ public class AgentMain {
             try {
                 Class<?> c = Class.forName(pkg + ".SerialPortConnectionFactory");
                 Constructor<?> m = c.getConstructor(new Class<?>[] {String.class, String.class, int.class});
-                Object[] args = {serialPort, Agent.productName, new Integer(10*1000)};
+                Object[] args = {serialPort, Agent.PRODUCT_NAME, new Integer(10*1000)};
                 return (ConnectionFactory)(m.newInstance(args));
             }
             catch (InvocationTargetException e) {
