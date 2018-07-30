@@ -51,6 +51,8 @@ import com.sun.javatest.Status;
 import com.sun.javatest.tool.Tool;
 import com.sun.javatest.util.StringArray;
 
+import static com.sun.javatest.agent.Agent.MILLIS_PER_SECOND;
+
 /**
  * The "Agent Monitor" tool, which allows a user to monitor and control
  * the agents used to help run tests.
@@ -213,7 +215,7 @@ public class AgentMonitorTool extends Tool
                             }
 
                             // field is in seconds; agentMgr API is in msec
-                            activeAgentPool.setTimeout(timeout*1000);
+                            activeAgentPool.setTimeout(timeout * MILLIS_PER_SECOND);
                         } catch (NumberFormatException ex) {
                             uif.showError("tool.badTimeout");
                             return;

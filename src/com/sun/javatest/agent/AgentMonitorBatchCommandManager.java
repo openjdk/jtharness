@@ -35,6 +35,8 @@ import com.sun.javatest.tool.CommandManager;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
 
+import static com.sun.javatest.agent.Agent.MILLIS_PER_SECOND;
+
 
 /**
  * The ToolManager for {@link AgentMonitorTool agent monitor} window.
@@ -133,7 +135,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
         public void run(CommandContext ctx) {
             AgentManager mgr = AgentManager.access();
             ActiveAgentPool pool = mgr.getActiveAgentPool();
-            pool.setTimeout(timeout * 1000);
+            pool.setTimeout(timeout * MILLIS_PER_SECOND);
         }
 
         private int timeout;

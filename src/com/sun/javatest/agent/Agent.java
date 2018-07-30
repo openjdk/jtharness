@@ -429,7 +429,7 @@ public class Agent implements Runnable {
                     close();
                     return;
                 } else {
-                    int millis = 1000*min(5, getRetryDelay());
+                    int millis = MILLIS_PER_SECOND * min(5, getRetryDelay());
                     Thread.currentThread().sleep(millis);
                     continue;
                 }
@@ -563,6 +563,8 @@ public class Agent implements Runnable {
     public static final int DEFAULT_RETRY_DELAY = 5;
     private int retryDelay = DEFAULT_RETRY_DELAY;
     private ConnectionFactory connectionFactory;
+
+    public static final int MILLIS_PER_SECOND = 1000;
 
     private Map map;
     private Timer timer;
@@ -889,7 +891,7 @@ public class Agent implements Runnable {
                                 LOCK.notifyAll();
                             }
                         }
-                    }, timeoutValue * 1000);
+                    }, timeoutValue * MILLIS_PER_SECOND);
                 }
 
                 Thread executeThread = new Thread(new Runnable() {

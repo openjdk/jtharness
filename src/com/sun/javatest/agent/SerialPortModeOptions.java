@@ -34,6 +34,8 @@ import java.util.Vector;
 import javax.comm.CommPortIdentifier;
 import javax.comm.NoSuchPortException;
 
+import static com.sun.javatest.agent.Agent.MILLIS_PER_SECOND;
+
 
 // The functionality of SerialPortModeOptions is split in two, to cope
 // with the possibility that the gnu.io extension might not be present.
@@ -129,7 +131,7 @@ class ProxyImpl implements Proxy {
 
     public ConnectionFactory createConnectionFactory(String port) throws BadValue {
         try {
-            return new SerialPortConnectionFactory(port, Agent.PRODUCT_NAME, 10*1000);
+            return new SerialPortConnectionFactory(port, Agent.PRODUCT_NAME, 10 * MILLIS_PER_SECOND);
         }
         catch (NoSuchPortException e) {
             throw new BadValue("invalid port: " + port);

@@ -34,6 +34,8 @@ import java.util.HashMap;
 import com.sun.javatest.JavaTestSecurityManager;
 import com.sun.javatest.Status;
 
+import static com.sun.javatest.agent.Agent.MILLIS_PER_SECOND;
+
 /**
  * Start an agent, based on command line arguments.
  * No GUI is used.  To create an agent with a GUI, see
@@ -409,10 +411,10 @@ public class AgentMain {
 
         case SERIAL:
             try {
-                Class<?> c = Class.forName(pkg + ".SerialPortConnectionFactory");
-                Constructor<?> m = c.getConstructor(new Class<?>[] {String.class, String.class, int.class});
-                Object[] args = {serialPort, Agent.PRODUCT_NAME, new Integer(10*1000)};
-                return (ConnectionFactory)(m.newInstance(args));
+                Class<? extends ConnectionFactory> clazz =
+                        Class.forName(pkg + ".SerialPortConnectionFactory").asSubclass(ConnectionFactory.class);
+                return clazz.getConstructor(String.class, String.class, int.class)
+                        .newInstance(serialPort, Agent.PRODUCT_NAME, Integer.valueOf(10 * MILLIS_PER_SECOND));
             }
             catch (InvocationTargetException e) {
                 Throwable t = e.getTargetException();
@@ -590,7 +592,7 @@ public class AgentMain {
 
         private long lastNotRespondMsgTime = 0;
         private int lastNotRespondMsgInterval =
-            max(Integer.getInteger("notResponding.message.interval", 60).intValue(), 10)*1000;
+            max(Integer.getInteger("notResponding.message.interval", 60).intValue(), 10) * MILLIS_PER_SECOND;
 
         public void finished(Agent agent) {
         }
