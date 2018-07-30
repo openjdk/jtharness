@@ -547,8 +547,8 @@ public class Wizard extends JComponent {
      */
     private void perform(String s) {
         try {
-            Method m = Wizard.class.getDeclaredMethod(s, new Class<?>[] { });
-            m.invoke(Wizard.this, new Object[] { });
+            Method m = Wizard.class.getDeclaredMethod(s);
+            m.invoke(Wizard.this);
         }
         catch (IllegalAccessException ex) {
             System.err.println(s);

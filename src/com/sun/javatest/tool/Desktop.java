@@ -400,10 +400,9 @@ public class Desktop
                 try {
                     // this is to avoid a class dependency to exec package, which is
                     // normally not allowed in this package
-                    Method m = mgr.getClass().getMethod("startTool",
-                                            new Class<?>[] { InterviewParameters.class} );
+                    Method m = mgr.getClass().getMethod("startTool", InterviewParameters.class);
 
-                    return (Tool) m.invoke(mgr, new Object[] { ip });
+                    return (Tool) m.invoke(mgr, ip );
                 }
                 catch (NoSuchMethodException e) {
                     // ignore??

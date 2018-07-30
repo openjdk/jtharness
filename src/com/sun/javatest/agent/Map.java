@@ -61,9 +61,8 @@ public class Map {
      */
     public static Map readFile(String name) throws IOException {
         try {
-            Class<?> c = Class.forName("java.io.FileReader"); // optional API in Jersonal Java
-            Constructor<?> m = c.getConstructor(new Class<?>[] {String.class});
-            Reader r = (Reader)(m.newInstance(new Object[] {name}));
+            Class<? extends Reader> clazz = Class.forName("java.io.FileReader").asSubclass(Reader.class);
+            Reader r = clazz.getConstructor(String.class).newInstance(name);
             return new Map(r);
         }
         catch (ClassNotFoundException e) {

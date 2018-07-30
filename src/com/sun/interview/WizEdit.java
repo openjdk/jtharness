@@ -69,7 +69,7 @@ public class WizEdit
          * {@link java.text.MessageFormat#format}
          */
         BadArgs(ResourceBundle i18n, String s, Object o) {
-            super(MessageFormat.format(i18n.getString(s), new Object[] {o}));
+            super(MessageFormat.format(i18n.getString(s), o));
         }
 
 
@@ -108,7 +108,7 @@ public class WizEdit
          * {@link java.text.MessageFormat#format}
          */
         Fault(ResourceBundle i18n, String s, Object o) {
-            super(MessageFormat.format(i18n.getString(s), new Object[] {o}));
+            super(MessageFormat.format(i18n.getString(s), o));
         }
 
         /**

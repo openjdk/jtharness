@@ -268,8 +268,7 @@ public class EditableList extends JPanel
     }
 
     private void showDuplicateError(Object item) {
-        String text = MessageFormat.format(i18n.getString("elst.duplicate.text"),
-                                           new Object[] { getDisplayValue(item) });
+        String text = MessageFormat.format(i18n.getString("elst.duplicate.text"), getDisplayValue(item));
 
         String title = i18n.getString("elst.duplicate.title");
 

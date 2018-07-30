@@ -28,7 +28,6 @@ package com.sun.javatest.agent;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
@@ -374,10 +373,9 @@ public class AgentMain {
         switch (mode) {
         case ACTIVE:
             try {
-                Class<?> c = Class.forName(pkg + ".ActiveConnectionFactory");
-                Constructor<?> m = c.getConstructor(new Class<?>[] {String.class, int.class});
-                Object[] args = { activeHost, new Integer(activePort) };
-                return (ConnectionFactory)(m.newInstance(args));
+                Class<? extends ConnectionFactory> clazz =
+                        Class.forName(pkg + ".ActiveConnectionFactory").asSubclass(ConnectionFactory.class);
+                return clazz.getConstructor(String.class, int.class).newInstance(activeHost, activePort);
             }
             catch (Throwable e) {
                 Throwable t = unwrapInvocationTargetException(e);
@@ -391,10 +389,9 @@ public class AgentMain {
 
         case PASSIVE:
             try {
-                Class<?> c = Class.forName(pkg + ".PassiveConnectionFactory");
-                Constructor<?> m = c.getConstructor(new Class<?>[] {int.class, int.class});
-                Object[] args = { new Integer(passivePort), new Integer(concurrency + 1) };
-                return (ConnectionFactory)(m.newInstance(args));
+                Class<? extends ConnectionFactory> clazz =
+                        Class.forName(pkg + ".PassiveConnectionFactory").asSubclass(ConnectionFactory.class);
+                return clazz.getConstructor(int.class, int.class).newInstance(passivePort, concurrency + 1);
             }
             catch (Throwable e) {
                 Throwable t = unwrapInvocationTargetException(e);

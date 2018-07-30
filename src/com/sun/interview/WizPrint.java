@@ -61,7 +61,7 @@ public class WizPrint
          * {@link java.text.MessageFormat#format}
          */
         public BadArgs(ResourceBundle i18n, String s, Object o) {
-            super(MessageFormat.format(i18n.getString(s), new Object[] {o}));
+            super(MessageFormat.format(i18n.getString(s), o));
         }
 
         /**
@@ -98,7 +98,7 @@ public class WizPrint
          * {@link java.text.MessageFormat#format}
          */
         public Fault(ResourceBundle i18n, String s, Object o) {
-            super(MessageFormat.format(i18n.getString(s), new Object[] {o}));
+            super(MessageFormat.format(i18n.getString(s), o));
         }
 
         /**
@@ -932,7 +932,7 @@ public class WizPrint
     }
 
     private static String formatI18N(String key, Object arg) {
-        return MessageFormat.format(i18n.getString(key), new Object[] { arg });
+        return MessageFormat.format(i18n.getString(key), arg);
     }
 
     private static String formatI18N(String key, Object[] args) {

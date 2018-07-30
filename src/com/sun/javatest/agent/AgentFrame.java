@@ -259,12 +259,12 @@ public class AgentFrame extends Frame
             sp.start();
 
         try {
-            Method invokeLater = EventQueue.class.getMethod("invokeLater", new Class<?>[] { Runnable.class });
-            invokeLater.invoke(null, new Object[] { new Runnable() {
+            Method invokeLater = EventQueue.class.getMethod("invokeLater", Runnable.class);
+            invokeLater.invoke(null, new Runnable() {
                     public void run() {
                         sf.showCentered();
                     }
-                } });
+                });
         }
         catch (NoSuchMethodException e) {
             // must be JDK 1.1

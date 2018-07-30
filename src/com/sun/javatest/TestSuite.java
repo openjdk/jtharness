@@ -1166,7 +1166,7 @@ public class TestSuite
          */
         boolean isLegacy = false;
         try {
-            Method m = sr.getClass().getMethod("getServiceDescriptorFileName", new Class<?>[0]);
+            Method m = sr.getClass().getMethod("getServiceDescriptorFileName");
             if (Modifier.isAbstract(m.getModifiers())) {
                 isLegacy = true;
             }

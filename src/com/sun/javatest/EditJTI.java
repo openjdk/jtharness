@@ -71,7 +71,7 @@ public class EditJTI
          * @param o An argument to be formatted with the detail message by
          * {@link java.text.MessageFormat#format}
          */     BadArgs(ResourceBundle i18n, String s, Object o) {
-            super(MessageFormat.format(i18n.getString(s), new Object[] {o}));
+            super(MessageFormat.format(i18n.getString(s), o));
         }
 
 

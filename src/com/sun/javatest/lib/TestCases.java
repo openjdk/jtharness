@@ -176,7 +176,7 @@ public class TestCases {
         // see if test object provides  Status invokeTestCase(Method m)
         Method invoker;
         try {
-            invoker = testClass.getMethod("invokeTestCase", new Class<?>[] {Method.class});
+            invoker = testClass.getMethod("invokeTestCase", Method.class);
             if (!Status.class.isAssignableFrom(invoker.getReturnType()))
                 invoker = null;
         }

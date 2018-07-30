@@ -945,7 +945,7 @@ public class Agent implements Runnable {
             PrintStream err = Deprecated.createPrintStream(new WriterStream(testLog));
             try {
                 setSystemStreams(this, out, err);
-                Method main = c.getDeclaredMethod("main", new Class<?>[] {String[].class});
+                Method main = c.getDeclaredMethod("main", String[].class);
                 main.invoke(null, new Object[] {args});
                 return Status.passed("OK");
             } catch (NoSuchMethodException e) {

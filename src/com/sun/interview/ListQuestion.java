@@ -137,8 +137,7 @@ public abstract class ListQuestion extends Question
 
                 // try and find an unused unique value v not used by any other default summary
                 for (int v = 0; v < bodies.size(); v++) {
-                    String s = MessageFormat.format(i18n.getString("lp.newValue"),
-                                                    new Object[] { new Integer(v) });
+                    String s = MessageFormat.format(i18n.getString("lp.newValue"), v);
                     // check s is not the same as any current default summary;
                     // if it is, reset it to null
                     for (int i = 0; i < bodies.size(); i++) {

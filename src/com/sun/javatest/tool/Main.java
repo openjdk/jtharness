@@ -502,9 +502,7 @@ public class Main
     private static void trace(String msg) {
         long now = System.currentTimeMillis();
         traceOut.println(MessageFormat.format("{0,number,[##0.0]} {1}",
-                                       new Object[] {
-                                           new Float((now - traceStartTime)/1000f),
-                                           msg }));
+                new Float((now - traceStartTime)/1000f), msg));
         traceOut.flush();
     }
 
