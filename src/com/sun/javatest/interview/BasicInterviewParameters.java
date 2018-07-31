@@ -464,7 +464,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
         @Override
             public Object[] getTextArgs() {
                 String name = (testSuite == null ? null : testSuite.getName());
-                return new Object[] { new Integer(name == null ? 0 : 1), name };
+                return new Object[] {Integer.valueOf(name == null ? 0 : 1), name };
             }
 
             private Object helpID;
@@ -514,7 +514,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
             @Override
                 public Object[] getTextArgs() {
                     String name = (testSuite == null ? null : testSuite.getName());
-                    return new Object[] { new Integer(name == null ? 0 : 1), name };
+                    return new Object[] {Integer.valueOf(name == null ? 0 : 1), name };
                 }
 
                 private Object helpID;
@@ -587,7 +587,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
             @Override
                 public Object[] getTextArgs() {
                     String name = (testSuite == null ? null : testSuite.getName());
-                    return new Object[] { new Integer(name == null ? 0 : 1), name };
+                    return new Object[] {Integer.valueOf(name == null ? 0 : 1), name };
                 }
 
                 private Object helpID;

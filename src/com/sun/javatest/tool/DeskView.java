@@ -408,7 +408,7 @@ abstract class DeskView {
                 }
                 frameMenu.insertSeparator(toolMenuSize);
             }
-            frameMenu.putClientProperty(getClass(), new Integer(toolMenuSize));
+            frameMenu.putClientProperty(getClass(), Integer.valueOf(toolMenuSize));
         }   // for
         frameMenuBar.putClientProperty(getClass(), tool);
     }
@@ -574,18 +574,18 @@ abstract class DeskView {
                     }
                     catch (ToolManager.Fault e) {
                         uif.showError("dv.restore.cantRestoreTool",
-                                      new Object[] { new Integer(i), e.getMessage() });
+                                      new Object[] {Integer.valueOf(i), e.getMessage() });
                     }
                     catch (Fault e) {
                         uif.showError("dv.restore.cantRestoreTool",
-                                      new Object[] { new Integer(i), e.getMessage() });
+                                      new Object[] {Integer.valueOf(i), e.getMessage() });
                     }
                     catch (Throwable e) {
                         uif.showError("dv.restore.cantRestoreTool",
-                                      new Object[] { new Integer(i), e.toString() });
+                                      new Object[] {Integer.valueOf(i), e.toString() });
                         I18NResourceBundle i18n = uif.getI18NResourceBundle();
                         desktop.log(i18n, "dv.restore.cantRestoreTool",
-                                    new Object[] { e, new Integer(i) });
+                                    new Object[] { e, Integer.valueOf(i)});
                     }
                 }
             }
@@ -802,7 +802,7 @@ abstract class DeskView {
                     if (!h.file.exists())
                         continue;
                     String s = uif.getI18NString("dt.file.historyX.mit",
-                                             new Object[] {new Integer(n), h.file.getPath()});
+                                             new Object[] {Integer.valueOf(n), h.file.getPath()});
                     JMenuItem mi = new JMenuItem(s);
                     mi.setActionCommand(HISTORY);
                     mi.addActionListener(this);

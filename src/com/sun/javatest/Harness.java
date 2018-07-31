@@ -790,7 +790,7 @@ public class Harness
         // TRT may need to reread the entire cache
         resultTable.waitUntilReady();
 
-        workDir.log(i18n, "harness.done", new Integer(ok ? 0 : 1));
+        workDir.log(i18n, "harness.done", Integer.valueOf(ok ? 0 : 1));
         cleanupFinishTime = System.currentTimeMillis();
         return ok;
     }

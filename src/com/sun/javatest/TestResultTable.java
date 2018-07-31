@@ -2591,7 +2591,7 @@ public class TestResultTable {
             int minutes = seconds/60;
             seconds = seconds - 60*minutes;
             writeI18N("trt.waitingForLock",
-                      new Object[] { workDir.getRoot(), new Integer(minutes), new Integer(seconds) });
+                      new Object[] { workDir.getRoot(), Integer.valueOf(minutes), Integer.valueOf(seconds)});
         }
 
         public void timeoutWaitingForLock() {

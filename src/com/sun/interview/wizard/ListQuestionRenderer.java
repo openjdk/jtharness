@@ -52,7 +52,7 @@ public class ListQuestionRenderer
 
     public String getInvalidValueMessage(Question qq) {
         ListQuestion q = (ListQuestion) qq;
-        return i18n.getString("list.invalid", new Integer(q.getIncompleteBodyCount()));
+        return i18n.getString("list.invalid", Integer.valueOf(q.getIncompleteBodyCount()));
     }
 
     protected JComponent createMoreButton(final ListQuestion q) {

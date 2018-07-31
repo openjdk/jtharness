@@ -350,7 +350,7 @@ public class TemplateSessionControl extends BasicSessionControl {
                 }
 
                 if (log != null) {
-                    Integer loadTime = new Integer((int) (time / 1000));
+                    Integer loadTime = Integer.valueOf((int) (time / 1000));
                     Object[] params = new Object[]{loadTime,
                         cfg.getFile().getAbsolutePath()};
                     String output = uif.getI18NString(whichUpdate, params);

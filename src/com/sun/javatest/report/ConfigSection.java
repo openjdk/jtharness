@@ -209,7 +209,7 @@ class ConfigSection extends HTMLSection {
         ExcludeList excludeList = settings.getInterview().getExcludeList();
         if (excludeList != null) {
             // content cell
-            out.writeI18N("config.entries", new Object[] { new Integer(excludeList.size()) });
+            out.writeI18N("config.entries", new Object[] {Integer.valueOf(excludeList.size())});
 
             Parameters.ExcludeListParameters exclParams = settings.getInterview().getExcludeListParameters();
             File[] excludeFiles = null;

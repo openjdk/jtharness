@@ -542,7 +542,7 @@ class MDIDeskView extends DeskView {
 
         private void addMenuItem(JMenu m, int n, String s, Object o) {
             JMenuItem mi = new JMenuItem(uif.getI18NString("dt.windows.toolX.mit",
-                                                 new Object[] { new Integer(n), s }));
+                                                 new Object[] {Integer.valueOf(n), s }));
             if (n < 10)
                 mi.setMnemonic(Character.forDigit(n, 10));
             mi.addActionListener(this);

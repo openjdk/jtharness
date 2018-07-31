@@ -746,11 +746,11 @@ public class WizPrint
             float upb = fq.getUpperBound();
             writeResponseType(formatI18N("wp.type.float",
                                      new Object[] {
-                                         new Integer(lwb == Float.MIN_VALUE ? 0 : 1),
-                                         new Float(lwb),
-                                         new Integer(upb == Float.MAX_VALUE ? 0 : 1),
-                                         new Float(upb) }));
-        }
+                                         Integer.valueOf(lwb == Float.MIN_VALUE ? 0 : 1),
+                                         Float.valueOf(lwb),
+                                         Integer.valueOf(upb == Float.MAX_VALUE ? 0 : 1),
+                                         Float.valueOf(upb) }));
+                                     }
         else if (q instanceof InetAddressQuestion) {
             writeResponseType(i18n.getString("wp.type.inetAddress"));
         }
@@ -760,11 +760,11 @@ public class WizPrint
             int upb = iq.getUpperBound();
             writeResponseType(formatI18N("wp.type.int",
                                      new Object[] {
-                                         new Integer(lwb == Integer.MIN_VALUE ? 0 : 1),
-                                         new Integer(lwb),
-                                         new Integer(upb == Integer.MAX_VALUE ? 0 : 1),
-                                         new Integer(upb) }));
-        }
+                                         Integer.valueOf(lwb == Integer.MIN_VALUE ? 0 : 1),
+                                         Integer.valueOf(lwb),
+                                         Integer.valueOf(upb == Integer.MAX_VALUE ? 0 : 1),
+                                         Integer.valueOf(upb)}));
+                                     }
         else if (q instanceof NullQuestion) {
             // no response
         }

@@ -91,8 +91,8 @@ class CE_ExecutionPane extends CE_StdPane
                 int c = num.intValue();
                 if (c < ConcurrencyParameters.MIN_CONCURRENCY || c > ConcurrencyParameters.MAX_CONCURRENCY) {
                     uif.showError("ce.exec.badRangeConcurrency",
-                                  new Object[] { new Integer(ConcurrencyParameters.MIN_CONCURRENCY),
-                                                 new Integer(ConcurrencyParameters.MAX_CONCURRENCY) });
+                                  new Object[] {Integer.valueOf(ConcurrencyParameters.MIN_CONCURRENCY),
+                                          Integer.valueOf(ConcurrencyParameters.MAX_CONCURRENCY)});
                     return false;
                 }
             }
@@ -119,8 +119,8 @@ class CE_ExecutionPane extends CE_StdPane
                 float t = num.floatValue();
                 if (t < TimeoutFactorParameters.MIN_TIMEOUT_FACTOR || t > TimeoutFactorParameters.MAX_TIMEOUT_FACTOR) {
                     uif.showError("ce.exec.badRangeTimeoutFactor",
-                                  new Object[] { new Float(TimeoutFactorParameters.MIN_TIMEOUT_FACTOR),
-                                                 new Float(TimeoutFactorParameters.MAX_TIMEOUT_FACTOR) });
+                                  new Object[] { Float.valueOf(TimeoutFactorParameters.MIN_TIMEOUT_FACTOR),
+                                                 Float.valueOf(TimeoutFactorParameters.MAX_TIMEOUT_FACTOR) });
                     return false;
                 }
             }
@@ -144,7 +144,7 @@ class CE_ExecutionPane extends CE_StdPane
         concurrencyField.setEnabled(mutableConcurrencyParameters != null);
 
         NumberFormat fmt = NumberFormat.getNumberInstance();  // is locale-specific
-        timeoutFactorField.setText(fmt.format(new Double(config.getTimeoutFactor())));
+        timeoutFactorField.setText(fmt.format(Double.valueOf(config.getTimeoutFactor())));
         timeoutFactorField.setEnabled(mutableTimeoutFactorParameters != null);
     }
 

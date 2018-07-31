@@ -596,7 +596,7 @@ public abstract class BasicParameters
     public void setConcurrency(int conc) {
         if (conc <= 0) {
             concurrencyError =
-                i18n.getString("bp.badConcurrency", new Integer(conc));
+                i18n.getString("bp.badConcurrency", Integer.valueOf(conc));
             concurrency = 1;
         }
         else {
@@ -628,7 +628,7 @@ public abstract class BasicParameters
 
     public void setTimeoutFactor(float tf) {
         if (tf <= 0) {
-            timeoutFactorError = i18n.getString("bp.badTimeout", new Float(tf));
+            timeoutFactorError = i18n.getString("bp.badTimeout", Float.valueOf(tf));
             timeoutFactor = 1;
         }
         else {

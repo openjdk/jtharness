@@ -284,7 +284,7 @@ public class ActiveAgentPool
             // new owner (via getInputStream), and the thread will be marked as no
             // longer doing a read.
             try {
-                data = new Integer(socketInput.read());
+                data = Integer.valueOf(socketInput.read());
             }
             catch (IOException e) {
                 data = e;

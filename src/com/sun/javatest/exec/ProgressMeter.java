@@ -309,15 +309,15 @@ class ProgressMeter extends JComponent implements Accessible {
             for (int i = 0; i < stats.length - 1; i++)
                 ttl += stats[i];
 
-            return new Integer(ttl);
+            return Integer.valueOf(ttl);
         }
 
         public Number getMaximumAccessibleValue() {
-            return new Integer(state.getTestsFoundCount());
+            return Integer.valueOf(state.getTestsFoundCount());
         }
 
         public Number getMinimumAccessibleValue() {
-            return new Integer(0);
+            return Integer.valueOf(0);
         }
 
         public boolean setCurrentAccessibleValue(Number n) {

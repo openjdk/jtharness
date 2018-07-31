@@ -185,7 +185,7 @@ public abstract class IntQuestion extends Question
                 stringValue = "";
             else {
                 NumberFormat fmt = NumberFormat.getIntegerInstance(Locale.getDefault());  // will be locale-specific
-                stringValue = fmt.format(new Integer(value));
+                stringValue = fmt.format(Integer.valueOf(value));
             }
         }
 
@@ -246,7 +246,7 @@ public abstract class IntQuestion extends Question
                 i = num.intValue();
                 //below is equal to getStringValue()
                 fmt = NumberFormat.getIntegerInstance(Locale.getDefault());  //in current locale
-                s = fmt.format(new Integer(i));
+                s = fmt.format(Integer.valueOf(i));
             } else {
                 i = Integer.MIN_VALUE;
             }

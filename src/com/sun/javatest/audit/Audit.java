@@ -420,7 +420,7 @@ public class Audit
      */
     private void showBadTestCaseTests() {
         if (badTestCaseTests != null) {
-            out.println(i18n.getString("adt.tooManyTestCases", new Integer(badTestCaseTests.length)));
+            out.println(i18n.getString("adt.tooManyTestCases", Integer.valueOf(badTestCaseTests.length)));
             for (int i = 0; i < badTestCaseTests.length; i++) {
                 TestResult tr = badTestCaseTests[i];
                 out.println(tr.getWorkRelativePath());
@@ -434,7 +434,7 @@ public class Audit
      */
     private void showBadTests() {
         if (badTests != null) {
-            out.println(i18n.getString("adt.badTests", new Integer(badTests.length)));
+            out.println(i18n.getString("adt.badTests", Integer.valueOf(badTests.length)));
             for (int i = 0; i < badTests.length; i++) {
                 TestDescription td = badTests[i];
                 out.println(TestResult.getWorkRelativePath(td));
@@ -451,7 +451,7 @@ public class Audit
             out.println(i18n.getString("adt.noDateStamps"));
         }
         else {
-            Integer b = new Integer(badDates ? 1 : 0);
+            Integer b = Integer.valueOf(badDates ? 1 : 0);
             out.println(i18n.getString("adt.earliestResult",
                                     new Object[] {earliestStart, b}));
             out.println(i18n.getString("adt.latestResult",
@@ -474,9 +474,9 @@ public class Audit
             else {
                 out.println(i18n.getString("adt.env.count",
                                            new Object[] {
-                                               new Integer(u),
-                                               new Integer((u > 0 && m > 0) ? 1 : 0),
-                                               new Integer(m)
+                                                   Integer.valueOf(u),
+                                                   Integer.valueOf((u > 0 && m > 0) ? 1 : 0),
+                                                   Integer.valueOf(m)
                                                    } ));
             }
         }
@@ -528,11 +528,11 @@ public class Audit
             else
                 out.println(i18n.getString("adt.cs.count",
                                            new Object[] {
-                                               new Integer(g),
-                                               new Integer((g > 0) && (b + n > 0) ? 1 : 0),
-                                               new Integer(b),
-                                               new Integer((b > 0) && (n > 0) ? 1 : 0),
-                                               new Integer(n)
+                                                   Integer.valueOf(g),
+                                                   Integer.valueOf((g > 0) && (b + n > 0) ? 1 : 0),
+                                                   Integer.valueOf(b),
+                                                   Integer.valueOf((b > 0) && (n > 0) ? 1 : 0),
+                                                   Integer.valueOf(n)
                                                    }));
         }
     }
@@ -554,13 +554,13 @@ public class Audit
             else
                 out.println(i18n.getString("adt.status.count",
                                            new Object[] {
-                                               new Integer(p),
-                                               new Integer((p > 0) && (f + e + nr > 0) ? 1 : 0),
-                                               new Integer(f),
-                                               new Integer((f > 0) && (e + nr > 0) ? 1 : 0),
-                                               new Integer(e),
-                                               new Integer((e > 0) && (nr > 0) ? 1 : 0),
-                                               new Integer(nr)
+                                                   Integer.valueOf(p),
+                                                   Integer.valueOf((p > 0) && (f + e + nr > 0) ? 1 : 0),
+                                                   Integer.valueOf(f),
+                                                   Integer.valueOf((f > 0) && (e + nr > 0) ? 1 : 0),
+                                                   Integer.valueOf(e),
+                                                   Integer.valueOf((e > 0) && (nr > 0) ? 1 : 0),
+                                                   Integer.valueOf(nr)
                                                    }));
         }
     }
@@ -577,7 +577,7 @@ public class Audit
             return needSep;
         else {
             out.print(i18n.getString(msg,
-                                  new Object[] {new Integer(needSep ? 1 : 0), new Integer(count)}));
+                                  new Object[] {Integer.valueOf(needSep ? 1 : 0), Integer.valueOf(count)}));
             return true;
         }
     }

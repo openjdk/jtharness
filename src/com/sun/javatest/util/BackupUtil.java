@@ -89,7 +89,7 @@ public class BackupUtil {
                 if(!renamed) {
                     return -1;
                 }
-                backups.addElement(new Integer(index));
+                backups.addElement(Integer.valueOf(index));
             }
         }
 
@@ -97,7 +97,7 @@ public class BackupUtil {
         if(!renamed) {
             return -1;
         }
-        backups.addElement(new Integer(1));
+        backups.addElement(Integer.valueOf(1));
 
         int maxIndex = 0;
         for(int j = 0; j < backups.size(); j++) {
@@ -155,7 +155,7 @@ public class BackupUtil {
                 if(!renamed) {
                     return;
                 }
-                backups.addElement(new Integer(index));
+                backups.addElement(Integer.valueOf(index));
             }
         }
 
@@ -199,7 +199,7 @@ public class BackupUtil {
             if(files[i].isDirectory()) {
                 String fileName = files[i].getName();
                 if(!fileName.endsWith(suffix)) {
-                    layers.add(new Integer(0));
+                    layers.add(Integer.valueOf(0));
                     continue;
                 }
 
@@ -207,7 +207,7 @@ public class BackupUtil {
                 String numb = prefix.substring(prefix.lastIndexOf(suffix) + 1, prefix.length());
 
                 if(checkForInteger(numb)) {
-                    layers.add(new Integer(Integer.parseInt(numb)));
+                    layers.add(Integer.valueOf(Integer.parseInt(numb)));
                 }
             }
         }

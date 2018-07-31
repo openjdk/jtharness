@@ -207,10 +207,12 @@ public class LineParser
         }
         catch (IOException e) {
             throw new Fault(i18n, "lineParser.ioError",
-                            new Object[] {new Integer(file == null ? 0 : 1),
-                                          file,
-                                          new Integer(lineNumber),
-                                          e } );
+                            new Object[] {
+                                    Integer.valueOf(file == null ? 0 : 1),
+                                    file,
+                                    Integer.valueOf(lineNumber),
+                                    e
+                            });
         }
     }
 
@@ -223,9 +225,11 @@ public class LineParser
             case '\r':
             case '\n':
                 throw new Fault(i18n, "lineParser.unterminatedString",
-                                new Object[] {new Integer(file == null ? 0 : 1),
-                                              file,
-                                              new Integer(lineNumber) } );
+                                new Object[] {
+                                        Integer.valueOf(file == null ? 0 : 1),
+                                        file,
+                                        Integer.valueOf(lineNumber)
+                                });
 
             case '\\':
                 nextCh();

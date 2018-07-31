@@ -2114,7 +2114,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                         activeNodes.put(nodes[i], ONE);
                     } else {
                         activeNodes.put(nodes[i],
-                                new Integer(1 + hit));
+                                Integer.valueOf(1 + hit));
                     }
                 }
             }
@@ -2154,7 +2154,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                     } else {
                         int currHits = hit.intValue();
                         activeNodes.put(nodes[i],
-                                (currHits == 2 ? ONE : new Integer(--currHits)));
+                                (currHits == 2 ? ONE : Integer.valueOf(--currHits)));
                     }
                 }   // for
             }

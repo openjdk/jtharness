@@ -166,7 +166,7 @@ public class ChameleonTestFinder extends TestFinder {
                 String[] words = StringArray.split(line);
                 if (words.length < 2) {
                     throw new Fault(i18n, "cham.missingData",
-                                    new Object[] {new Integer(lineNum), line});
+                                    new Object[] {Integer.valueOf(lineNum), line});
                 }
 
                 String pattern = words[0];

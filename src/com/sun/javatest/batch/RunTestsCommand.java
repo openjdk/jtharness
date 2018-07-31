@@ -157,13 +157,13 @@ class RunTestsCommand extends Command
         else {
             ctx.printMessage(i18n, "runTests.tests",
                       new Object[] {
-                          new Integer(p),
-                          new Integer((p > 0) && (f + e + nr > 0) ? 1 : 0),
-                          new Integer(f),
-                          new Integer((f > 0) && (e + nr > 0) ? 1 : 0),
-                          new Integer(e),
-                          new Integer((e > 0) && (nr > 0) ? 1 : 0),
-                          new Integer(nr)
+                              Integer.valueOf(p),
+                              Integer.valueOf((p > 0) && (f + e + nr > 0) ? 1 : 0),
+                              Integer.valueOf(f),
+                              Integer.valueOf((f > 0) && (e + nr > 0) ? 1 : 0),
+                              Integer.valueOf(e),
+                              Integer.valueOf((e > 0) && (nr > 0) ? 1 : 0),
+                              Integer.valueOf(nr)
                               });
         }
     }
@@ -368,10 +368,10 @@ class RunTestsCommand extends Command
 
             out.print(i18n.getString("cmgr.verb.prog",
                       new Object[] {
-                          new Integer(p),
-                          new Integer(f),
-                          new Integer(e),
-                          new Integer(nr)
+                              Integer.valueOf(p),
+                              Integer.valueOf(f),
+                              Integer.valueOf(e),
+                              Integer.valueOf(nr)
                       }));
             out.print("    ");
 

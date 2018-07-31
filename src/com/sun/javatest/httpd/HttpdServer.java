@@ -141,7 +141,7 @@ public class HttpdServer implements Runnable {
                 if (i + 1 >= soc_num + MAX_PORT_SEARCH)
                     throw e;
                 else {
-                    System.out.println(i18n.getString("server.portBusy", new Integer(i)));
+                    System.out.println(i18n.getString("server.portBusy", Integer.valueOf(i)));
                 }
             }
             catch (IOException e) {

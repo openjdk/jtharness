@@ -248,9 +248,9 @@ public class DefaultTestRunner extends TestRunner
     }
 
     // constants used by classifyThrowable and i18n key unexpectedThrowable
-    private static final Integer EXCEPTION = new Integer(0);
-    private static final Integer ERROR = new Integer(1);
-    private static final Integer THROWABLE = new Integer(2);
+    private static final Integer EXCEPTION = Integer.valueOf(0);
+    private static final Integer ERROR = Integer.valueOf(1);
+    private static final Integer THROWABLE = Integer.valueOf(2);
 
 
     private Iterator<TestDescription> testIter;

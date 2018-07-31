@@ -228,13 +228,13 @@ public class CommandParser
         catch (Fault e) {
             throw new Fault(i18n, "cmdp.errorInFile",
                             new Object[] { file,
-                                           new Integer(p.getLineNumber()),
+                                    Integer.valueOf(p.getLineNumber()),
                                            e.getMessage() });
         }
         catch (LineParser.Fault e) {
             throw new Fault(i18n, "cmdp.errorInFile",
                             new Object[] { file,
-                                           new Integer(p.getLineNumber()),
+                                    Integer.valueOf(p.getLineNumber()),
                                            e.getMessage() } );
         }
     }

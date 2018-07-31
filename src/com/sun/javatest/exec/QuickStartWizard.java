@@ -1238,7 +1238,7 @@ class QuickStartWizard extends ToolDialog
             // update text according to whether config is complete or not
             // (and so whether config editor required)
             // set configCheck if config incomplete
-            Integer haveConfig = new Integer(configData == null ? 0 : 1);
+            Integer haveConfig = Integer.valueOf(configData == null ? 0 : 1);
 
             StringBuffer sb = new StringBuffer();
             if (config.isFinishable()) {

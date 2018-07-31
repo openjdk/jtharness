@@ -1422,12 +1422,12 @@ public abstract class Script
 
         public synchronized void timeout() {
             if (count == 0)
-                trOut.println(i18n.getString("script.timeout", new Float(delay/1000.f)));
+                trOut.println(i18n.getString("script.timeout", Float.valueOf(delay/1000.f)));
             else if (count%100 == 0) {
-                trOut.println(i18n.getString("script.notResponding", new Integer(count)));
+                trOut.println(i18n.getString("script.notResponding", Integer.valueOf(count)));
                 if (count%1000 == 0)
                     System.err.println(i18n.getString("script.timedOut",
-                                                      new Object[] { td.getRootRelativeURL(), new Integer(count) }));
+                                                      new Object[] { td.getRootRelativeURL(), Integer.valueOf(count)}));
             }
             if (debugAlarm)
                 System.err.println(i18n.getString("script.alarm.interrupt", new Object[] { this, threadToInterrupt }));

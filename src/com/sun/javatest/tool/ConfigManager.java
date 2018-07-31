@@ -239,8 +239,8 @@ public class ConfigManager
                     throw new Fault(i18n, "cnfg.conc.badRange",
                                     new Object[] {
                                         arg,
-                                        new Integer(Parameters.ConcurrencyParameters.MIN_CONCURRENCY),
-                                        new Integer(Parameters.ConcurrencyParameters.MAX_CONCURRENCY) });
+                                            Integer.valueOf(Parameters.ConcurrencyParameters.MIN_CONCURRENCY),
+                                            Integer.valueOf(Parameters.ConcurrencyParameters.MAX_CONCURRENCY)});
                 }
             }
             else
@@ -1368,8 +1368,8 @@ public class ConfigManager
                     throw new Fault(i18n, "cnfg.tf.badRange",
                                     new Object[] {
                                         arg,
-                                        new Float(Parameters.TimeoutFactorParameters.MIN_TIMEOUT_FACTOR),
-                                        new Float(Parameters.TimeoutFactorParameters.MAX_TIMEOUT_FACTOR) });
+                                        Float.valueOf(Parameters.TimeoutFactorParameters.MIN_TIMEOUT_FACTOR),
+                                        Float.valueOf(Parameters.TimeoutFactorParameters.MAX_TIMEOUT_FACTOR) });
                 }
             }
             else

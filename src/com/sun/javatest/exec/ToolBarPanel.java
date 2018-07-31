@@ -118,7 +118,7 @@ class ToolBarPanel extends JPanel {
                         } else {
                             // start new row
                             row++;
-                            hs.add(new Integer(dim.height));
+                            hs.add(Integer.valueOf(dim.height));
                             dim.height += maxHeight + getVgap();
                             maxHeight = 0;
                             // this is bug

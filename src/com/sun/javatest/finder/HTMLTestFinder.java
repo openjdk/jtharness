@@ -299,7 +299,7 @@ public class HTMLTestFinder extends TestFinder
             error(i18n, "html.cantFindFile", file);
         }
         catch (IOException ex) {
-            error(i18n, "html.ioError", new Object[] {file, new Integer(line), ex});
+            error(i18n, "html.ioError", new Object[] {file, Integer.valueOf(line), ex});
         }
         finally {
             if (input != null) {
@@ -506,7 +506,7 @@ public class HTMLTestFinder extends TestFinder
             }
             if (att.equals("name")) {
                 lastName = value;
-                Integer here = new Integer(line);
+                Integer here = Integer.valueOf(line);
                 Integer prev = namesInFile.put(value, here);
                 if (prev != null) {
                     error(i18n, "html.multipleName",
@@ -537,7 +537,7 @@ public class HTMLTestFinder extends TestFinder
                 (c != '\n') && (c != '\r') && (c != '>')) ||
                ((quote >= 0) && (c != quote))) {
             if (c == -1 || c == '\n' || c == '\r') {
-                error(i18n, "html.quoteMismatch", new Object[] {currFile, new Integer(line)});
+                error(i18n, "html.quoteMismatch", new Object[] {currFile, Integer.valueOf(line)});
                 break;
             }
             buf.append((char)c);

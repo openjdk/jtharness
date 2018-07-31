@@ -509,7 +509,7 @@ public class TestsInterview
             if (sb.length() > 0) {
                 // got bad tests
                 cachedTestsError = qBadTestsError;
-                cachedTestsErrorArgs = new Object[] { new Integer(v.size()), sb.toString() };
+                cachedTestsErrorArgs = new Object[] {Integer.valueOf(v.size()), sb.toString() };
             }
         }
     }

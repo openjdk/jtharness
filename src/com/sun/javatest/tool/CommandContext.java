@@ -651,13 +651,13 @@ public class CommandContext
             catch (FileNotFoundException e) {
                 throw new Fault(i18n, "cc.cantFindTS",
                                         new Object[] { tsPath,
-                                                       new Integer(testSuitePath != null ? 0 : 1),
+                                                Integer.valueOf(testSuitePath != null ? 0 : 1),
                                                        configFilePath });
             }
             catch (TestSuite.Fault e) {
                 throw new Fault(i18n, "cc.cantOpenTS",
                                         new Object[] { tsPath,
-                                                       new Integer(testSuitePath != null ? 0 : 1),
+                                                Integer.valueOf(testSuitePath != null ? 0 : 1),
                                                        configFilePath,
                                                        e.getMessage() });
             }

@@ -187,7 +187,7 @@ public class SelectionTree extends JTree {
         try {
             String mnemonic = i18n.getString(actionID + ".mnemonic");
             Field field = KeyEvent.class.getField(mnemonic);
-            action.putValue(Action.MNEMONIC_KEY, new Integer(field.getInt(null)));
+            action.putValue(Action.MNEMONIC_KEY, Integer.valueOf(field.getInt(null)));
         } catch (Exception ex) {
         }
 

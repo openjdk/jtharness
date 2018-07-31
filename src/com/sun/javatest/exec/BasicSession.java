@@ -513,7 +513,7 @@ public class BasicSession implements SessionExt {
         }
 
         if (log != null) {
-            Integer loadTime = new Integer((int) (time / 1000));
+            Integer loadTime = Integer.valueOf((int) (time / 1000));
             Object[] params = new Object[]{loadTime, msg};
             String output = i18n.getString(res, params);
             log.info(output);

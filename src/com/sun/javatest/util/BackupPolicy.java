@@ -101,7 +101,7 @@ public abstract class BackupPolicy
                     int index = Integer.parseInt(mid);
                     if (index > maxBackupIndex)
                         maxBackupIndex = index;
-                    backups.addElement(new Integer(index));
+                    backups.addElement(Integer.valueOf(index));
                 }
             }
         }

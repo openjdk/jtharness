@@ -537,7 +537,7 @@ public abstract class TestFinder
             error(i18n, "finder.nonUniqueId",
                   new Object[] { file,
                                      (id.equals("") ? "(unset)" : id),
-                                     new Integer(line),
+                          Integer.valueOf(line),
                                      prevLine,
                                      newId }
                   );
@@ -546,7 +546,7 @@ public abstract class TestFinder
             entries.put("id", id);
         }
 
-        testsInFile.put(id, new Integer(line));
+        testsInFile.put(id, Integer.valueOf(line));
 
         // create the test description
         TestDescription td = new TestDescription(root, file, entries);

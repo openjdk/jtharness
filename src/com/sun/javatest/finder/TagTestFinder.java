@@ -283,7 +283,7 @@ public class TagTestFinder extends TestFinder
 
                 if (tagValues.get("id") == null) {
                     if (testDescNumber  != 0)
-                        tagValues.put("id", "id" + (new Integer(testDescNumber)).toString());
+                        tagValues.put("id", "id" + (Integer.valueOf(testDescNumber)).toString());
                     testDescNumber++;
                 }
 

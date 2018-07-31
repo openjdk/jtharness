@@ -131,7 +131,7 @@ class SummaryPane extends AuditPane {
         if (count == 0)
             out.writeI18N("smry.tr.allOK");
         else
-            out.writeI18N("smry.tr.count", new Integer(count));
+            out.writeI18N("smry.tr.count", Integer.valueOf(count));
     }
 
     private void writeChecksumDetails() throws IOException {
@@ -156,11 +156,11 @@ class SummaryPane extends AuditPane {
         else
             out.writeI18N("smry.cs.count",
                       new Object[] {
-                          new Integer(g),
-                          new Integer((g > 0) && (b + n > 0) ? 1 : 0),
-                          new Integer(b),
-                          new Integer((b > 0) && (n > 0) ? 1 : 0),
-                          new Integer(n)
+                              Integer.valueOf(g),
+                              Integer.valueOf((g > 0) && (b + n > 0) ? 1 : 0),
+                              Integer.valueOf(b),
+                              Integer.valueOf((b > 0) && (n > 0) ? 1 : 0),
+                              Integer.valueOf(n)
                               });
 
     }
@@ -183,7 +183,7 @@ class SummaryPane extends AuditPane {
         if (count == 0)
             out.writeI18N("smry.td.allOK");
         else
-            out.writeI18N("smry.td.count", new Integer(count));
+            out.writeI18N("smry.td.count", Integer.valueOf(count));
     }
 
     private void writeTestCaseDetails() throws IOException {
@@ -204,7 +204,7 @@ class SummaryPane extends AuditPane {
         if (count == 0)
             out.writeI18N("smry.tc.allOK");
         else
-            out.writeI18N("smry.tc.count", new Integer(count));
+            out.writeI18N("smry.tc.count", Integer.valueOf(count));
     }
 
     private void writeStatusDetails() throws IOException {
@@ -234,13 +234,13 @@ class SummaryPane extends AuditPane {
         else {
             out.writeI18N("smry.status.count",
                       new Object[] {
-                          new Integer(p),
-                          new Integer((p > 0) && (f + e + nr > 0) ? 1 : 0),
-                          new Integer(f),
-                          new Integer((f > 0) && (e + nr > 0) ? 1 : 0),
-                          new Integer(e),
-                          new Integer((e > 0) && (nr > 0) ? 1 : 0),
-                          new Integer(nr)
+                              Integer.valueOf(p),
+                              Integer.valueOf((p > 0) && (f + e + nr > 0) ? 1 : 0),
+                              Integer.valueOf(f),
+                              Integer.valueOf((f > 0) && (e + nr > 0) ? 1 : 0),
+                              Integer.valueOf(e),
+                              Integer.valueOf((e > 0) && (nr > 0) ? 1 : 0),
+                              Integer.valueOf(nr)
                               });
         }
     }
@@ -266,7 +266,7 @@ class SummaryPane extends AuditPane {
             out.writeI18N("smry.dates.noStamps");
         }
         else {
-            Integer b = new Integer(badStarts ? 1 : 0);
+            Integer b = Integer.valueOf(badStarts ? 1 : 0);
             out.writeI18N("smry.dates.earliest",
                       new Object[] { earliestStart, b } );
             out.startTag("br");

@@ -55,7 +55,7 @@ public abstract class ToolAction implements Action
     public ToolAction(String name, String desc, int mnemonic) {
         this.name = name;
         this.desc = desc;
-        this.mnemonic = new Integer(mnemonic);
+        this.mnemonic = Integer.valueOf(mnemonic);
         enabled = true;
     }
 

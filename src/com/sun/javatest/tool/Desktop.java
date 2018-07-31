@@ -677,7 +677,7 @@ public class Desktop
             return false;
         }
 
-        Integer m = new Integer(mode);
+        Integer m = Integer.valueOf(mode);
 
         if (alerts.length > 0) {
             // protect against reentrant calls by setting confirmDialog
@@ -776,23 +776,23 @@ public class Desktop
         final int delay = 30/*seconds*/;
         final JTextArea body = new JTextArea();
         body.setOpaque(false);
-        body.setText(uif.getI18NString("dt.autoExit.txt", new Integer(delay)));
+        body.setText(uif.getI18NString("dt.autoExit.txt", Integer.valueOf(delay)));
         body.setEditable(false);
         body.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         body.setSize(new Dimension(4 * uif.getDotsPerInch(), Integer.MAX_VALUE));
 
         final JOptionPane pane = new JOptionPane(body, JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
-        String title = uif.getI18NString("dt.confirm.title", new Integer(EXIT));
+        String title = uif.getI18NString("dt.confirm.title", Integer.valueOf(EXIT));
         final JDialog dialog = pane.createDialog(null, title);
 
         final Timer timer = new Timer(1000, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     if (--timeRemaining == 0) {
-                        pane.setValue(new Integer(JOptionPane.OK_OPTION));
+                        pane.setValue(Integer.valueOf(JOptionPane.OK_OPTION));
                         dialog.setVisible(false);
                     }
                     else
-                        body.setText(uif.getI18NString("dt.autoExit.txt", new Integer(timeRemaining)));
+                        body.setText(uif.getI18NString("dt.autoExit.txt", Integer.valueOf(timeRemaining)));
                 }
 
                 private int timeRemaining = delay;
@@ -803,7 +803,7 @@ public class Desktop
         timer.stop();
 
         Object value = pane.getValue();
-        return (value != null && value.equals(new Integer(JOptionPane.OK_OPTION)));
+        return (value != null && value.equals(Integer.valueOf(JOptionPane.OK_OPTION)));
     }
 
 

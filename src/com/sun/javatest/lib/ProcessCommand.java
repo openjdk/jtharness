@@ -88,7 +88,7 @@ public class ProcessCommand extends Command
             if (defaultStatus == null)
                 defaultStatus = Status.error("unrecognized exit code");
         }
-        statusTable.put(new Integer(exitCode), status);
+        statusTable.put(Integer.valueOf(exitCode), status);
     }
 
     /**

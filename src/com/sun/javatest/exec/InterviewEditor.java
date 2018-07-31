@@ -1023,8 +1023,8 @@ public class InterviewEditor extends ToolDialog {
     protected void updateTitle() {
         File f = viewConfig.getFile();
         setI18NTitle("ce.title",
-                    new Object[] { new Integer(currView == fullView ? 0 : 1),
-                    new Integer(f == null ? 0 : 1), f });
+                    new Object[] {Integer.valueOf(currView == fullView ? 0 : 1),
+                            Integer.valueOf(f == null ? 0 : 1), f });
     }
 
     private boolean isInfoVisible() {
@@ -1133,7 +1133,7 @@ public class InterviewEditor extends ToolDialog {
 
             currView.save();
             if (!viewConfig.isFinishable()) {
-                Integer rp = new Integer(runPending ? 1 : 0);
+                Integer rp = Integer.valueOf(runPending ? 1 : 0);
                 int rc = uif.showOKCancelDialog("ce.okToClose", rp);
                 if (rc != JOptionPane.OK_OPTION)
                     return;

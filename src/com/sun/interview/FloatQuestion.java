@@ -208,7 +208,7 @@ public abstract class FloatQuestion extends Question
             }
             else {
                 NumberFormat fmt = NumberFormat.getNumberInstance(Locale.getDefault());  // will be locale-specific
-                stringValue = fmt.format(new Double(value));
+                stringValue = fmt.format(Double.valueOf(value));
             }
         }
 
@@ -271,7 +271,7 @@ public abstract class FloatQuestion extends Question
                 f = num.floatValue();
                 //below is equal to getStringValue()
                 fmt = NumberFormat.getNumberInstance(Locale.getDefault());  // in current locale
-                s = fmt.format(new Double(f));
+                s = fmt.format(Double.valueOf(f));
             } else {
                 f = Float.NaN;
             }

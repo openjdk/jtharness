@@ -97,7 +97,7 @@ public class InetAddressQuestionRenderer
             byte b = addr[i];
             JTextField field = new JTextField(String.valueOf(b < 0 ? b + 256 : b), 3);
             field.setName("inet." + i);
-            field.setToolTipText(i18n.getString("inet.field.tip", new Integer(i)));
+            field.setToolTipText(i18n.getString("inet.field.tip", Integer.valueOf(i)));
             field.getDocument().addDocumentListener(new ActionDocListener(field, listener, EDITED));
             Keymap keymap = field.addKeymap("IP field", field.getKeymap());
             //keymap.addActionForKeyStroke(enterKey, enterListener);

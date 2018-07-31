@@ -130,7 +130,7 @@ public class ExpandTestFinder extends TagTestFinder
                     Integer len = expandVarLen.get(stem);
                     if (len == null) {
                         // add to hashtable of valid stems
-                        expandVarLen.put(stem, new Integer(v.length));
+                        expandVarLen.put(stem, Integer.valueOf(v.length));
                     } else {
                         if (v.length != len.intValue()) {
                             error(i18n, "expand.lengthMismatch",
@@ -244,7 +244,7 @@ public class ExpandTestFinder extends TagTestFinder
 
                             entries.put(name, StringArray.join(words));
                             boolean loopy = !(qualifier.equals(""));
-                            if (loopy) loopVars.put(stem, new Integer(j));
+                            if (loopy) loopVars.put(stem, Integer.valueOf(j));
                             // clone needed here because we over-wrote words[i]
                             foundTestDescription_1(new HashMap<>(entries), file, line,
                                                    loopVars, id);

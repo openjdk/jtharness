@@ -654,7 +654,7 @@ public abstract class InterviewParameters
                                   new Object[] { lastQuestion.getSummary(),
                                                  lastQuestion.getText(),
                                                  lastQuestion.getTag(),
-                                                 new Integer(v == null ? 0 : 1),
+                                          Integer.valueOf(v == null ? 0 : 1),
                                                  trim(v),
                                   } );
         }

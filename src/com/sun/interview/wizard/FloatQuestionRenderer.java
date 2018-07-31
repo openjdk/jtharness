@@ -96,7 +96,7 @@ public class FloatQuestionRenderer
             resetBtn.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         NumberFormat fmt = NumberFormat.getNumberInstance();  // will be locale-specific
-                        p.setValue(fmt.format(new Double(defVal)));
+                        p.setValue(fmt.format(Double.valueOf(defVal)));
                     }
                 });
         }

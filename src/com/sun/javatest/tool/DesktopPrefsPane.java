@@ -264,7 +264,8 @@ class DesktopPrefsPane extends PreferencesPane {
         c.weightx = 1;
         p.add(ttipsCheck, c);
 
-        loadTooltipResources();
+        tooltipDurations = new Integer[] {1000, 2000, 3000, 5000, 10000, 15000, -1};
+        tooltipDelays    = new Integer[] {0, 1000, 2000, 3000, 5000, 10000};
 
         JLabel l = uif.createLabel("dt.prefs.ttDelay", true);
 
@@ -303,23 +304,6 @@ class DesktopPrefsPane extends PreferencesPane {
         p.add(ttDuration, c);
 
         return p;
-    }
-
-    private void loadTooltipResources() {
-        tooltipDurations = new Integer[] { new Integer(1000),
-                                           new Integer(2000),
-                                           new Integer(3000),
-                                           new Integer(5000),
-                                           new Integer(10000),
-                                           new Integer(15000),
-                                           new Integer(-1) };
-
-        tooltipDelays = new Integer[] { new Integer(0),
-                                        new Integer(1000),
-                                        new Integer(2000),
-                                        new Integer(3000),
-                                        new Integer(5000),
-                                        new Integer(10000) };
     }
 
     /**
@@ -367,7 +351,7 @@ class DesktopPrefsPane extends PreferencesPane {
             if (value instanceof Integer) {
                 int val = ((Integer)value).intValue();
                 // convert to seconds and create localized text
-                theVal = uif.getI18NString("dt.prefs.ttDelay", new Integer(val/1000));
+                theVal = uif.getI18NString("dt.prefs.ttDelay", Integer.valueOf(val / 1000));
             }
             else {
                 theVal = value;
@@ -399,7 +383,7 @@ class DesktopPrefsPane extends PreferencesPane {
                 if (val > 0) {
                     // convert to seconds and create localized text
                     theVal = uif.getI18NString("dt.prefs.ttDuration.sec",
-                                new Integer(val/1000));
+                            Integer.valueOf(val / 1000));
                 }
                 else
                     theVal = TIP_SHOW_FOREVER;

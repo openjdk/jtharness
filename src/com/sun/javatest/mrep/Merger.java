@@ -72,7 +72,7 @@ class Merger {
                 // this is workdir ID
                 if (o instanceof Integer) {
                     Integer id = (Integer) o;
-                    Integer nid = new Integer(id.intValue() + allCnt);
+                    Integer nid = Integer.valueOf(id.intValue() + allCnt);
                     newMap.put(id, nid);
                     workdirsInFile++;
                 }
