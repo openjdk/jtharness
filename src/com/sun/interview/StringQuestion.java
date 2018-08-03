@@ -176,14 +176,6 @@ public abstract class StringQuestion extends Question
         setValue(defaultValue);
     }
 
-    /**
-     * Load the value for this question from a dictionary, using
-     * the tag as the key.
-     * @param data The map from which to load the value for this question.
-     */
-    protected void load(Map<String, String> data) {
-        setValue(data.get(tag));
-    }
 
     /**
      * Save the value for this question in a dictionary, using

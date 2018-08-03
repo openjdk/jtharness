@@ -342,16 +342,6 @@ public abstract class ChoiceArrayQuestion extends Question
         setValue(defaultValue);
     }
 
-    /**
-     * Load the value for this question from a dictionary, using
-     * the tag as the key.
-     * @param data The map from which to load the value for this question.
-     */
-    protected void load(Map<String, String> data) {
-        String o = data.get(tag);
-        if (o != null)
-            setValue(o);
-    }
 
     /**
      * Save the value for this question in a dictionary, using

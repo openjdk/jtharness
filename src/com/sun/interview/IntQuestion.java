@@ -327,18 +327,21 @@ public abstract class IntQuestion extends Question
      * the tag as the key.
      * @param data The map from which to load the value for this question.
      */
+    @Override
     protected void load(Map<String, String> data) {
         String o = data.get(tag);
-        if (o == null)
+        if (o == null) {
             clear();
-        else {
+        } else {
             //get locate to parse string with
             Locale l = Interview.readLocale(data);
             try {
                 setValue(o, l);
             }
             catch (Interview.Fault e) {
-                throw new Error(e); // should not happen
+                throw new RuntimeException("Interview.Fault thrown " +
+                        "when tried to set value '" + o + " using locale '" + l +
+                        "' for question with tag '" + tag + "'", e);
             }
         }
     }

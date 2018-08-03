@@ -398,11 +398,22 @@ public abstract class Question
     public abstract boolean isValueAlwaysValid();
 
     /**
-     * Load any state for this question from a dictionary,
-     * using the tag as the key.
+     * Loads any state for this question from the given map, using tag as the key.
+     * If the loaded value is not null then calls method {@code setValue(String)} passing the value.
      * @param data The map from which to load the value for this question.
      */
-    protected abstract void load(Map<String, String> data);
+    protected void load(Map<String, String> data) {
+        String value = data.get(tag);
+        if (value != null) {
+            try {
+                setValue(value);
+            } catch (Interview.Fault e) {
+                throw new RuntimeException("Interview.Fault thrown " +
+                        "when tried to set value '" + value +
+                        "' for question with tag '" + tag + "'", e);
+            }
+        }
+    }
 
     /**
      * Save any state for this question in a dictionary,

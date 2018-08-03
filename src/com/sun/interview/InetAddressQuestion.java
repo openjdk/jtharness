@@ -332,21 +332,6 @@ public abstract class InetAddressQuestion extends Question
         setValue(defaultValue);
     }
 
-    /**
-     * Load the value for this question from a dictionary, using
-     * the tag as the key.
-     * @param data The map from which to load the value for this question.
-     */
-    protected void load(Map<String, String> data) {
-        String o = data.get(tag);
-        try {
-            setValue(o);
-        }
-        catch (Interview.Fault e) {
-            // never thrown. but just in case...
-            throw new Error(e);
-        }
-    }
 
     /**
      * Save the value for this question in a dictionary, using
