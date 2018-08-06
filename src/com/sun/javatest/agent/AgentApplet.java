@@ -72,6 +72,7 @@ public class AgentApplet extends Applet implements Agent.Observer
      * <tr><td>observer    <em>classname</em>   <td> add an observer to the agent that is used
      * </table>
      */
+    @Override
     public void init() {
 
         String mode = getParameter("mode", "active");
@@ -150,6 +151,7 @@ public class AgentApplet extends Applet implements Agent.Observer
         ModeOptions[] modeOptions = new ModeOptions[] {amo, pmo, smo};
 
         AgentPanel.MapReader mapReader = new AgentPanel.MapReader() {
+            @Override
             public Map read(String name) throws IOException {
                 if (name == null || name.length() == 0)
                     return null;
@@ -232,12 +234,14 @@ public class AgentApplet extends Applet implements Agent.Observer
             ap.start();
     }
 
+    @Override
     public void start() {
         if (shareAppletContext)
             MainAppletContext.setStarted(true);
         super.start();
     }
 
+    @Override
     public void destroy() {
         Component c = getComponent(0);
         if (c instanceof AgentPanel) {
@@ -250,6 +254,7 @@ public class AgentApplet extends Applet implements Agent.Observer
      * Returns a string containing information about
      * the author, version and copyright of the applet.
      */
+    @Override
     public String getAppletInfo() {
         return (Agent.PRODUCT_NAME + " " +
                 Agent.PRODUCT_VERSION + " " +
@@ -261,6 +266,7 @@ public class AgentApplet extends Applet implements Agent.Observer
      * parameters that are understood by this
      * applet.
      */
+    @Override
     public String[][] getParameterInfo() {
         String[][] pinfo = {
             {"mode",       "\"active\" or \"passive\"",
@@ -293,42 +299,52 @@ public class AgentApplet extends Applet implements Agent.Observer
         return (s == null ? dflt : s);
     }
 
+    @Override
     public void started(Agent sl) {
         showStatus("agent started");
     }
 
+    @Override
     public void errorOpeningConnection(Agent sl, Exception e) {
         showStatus("error opening connection: " + e.getMessage());
     }
 
+    @Override
     public void finished(Agent sl) {
         showStatus("agent stopped");
     }
 
+    @Override
     public synchronized void openedConnection(Agent sl, Connection c) {
         showStatus("OPENED SOCKET");
     }
 
+    @Override
     public synchronized void execTest(Agent sl, Connection c, String tag, String className, String[] args) {
         showStatus("EXEC");
     }
 
+    @Override
     public synchronized void execCommand(Agent sl, Connection c, String tag, String className, String[] args) {
         showStatus("EXEC");
     }
 
+    @Override
     public synchronized void execMain(Agent sl, Connection c, String tag, String className, String[] args) {
         showStatus("EXEC");
     }
 
+    @Override
     public synchronized void result(Agent sl, Connection c, Status r) {
         showStatus("RESULT");
     }
 
+    @Override
     public synchronized void exception(Agent sl, Connection c, Throwable t) {
         showStatus("EXCEPTION (NYI)");
     }
 
+    @Override
     public synchronized void completed(Agent sl, Connection c) {
         showStatus("COMPLETED (NYI)");
     }

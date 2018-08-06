@@ -1418,6 +1418,7 @@ public class TestSuite
             //addHandler(new ErrorDialogHandler());
         }
 
+        @Override
         public synchronized void log(LogRecord record) {
             record.setLoggerName(this.getName());
             if (record.getThrown() != null) {
@@ -1428,6 +1429,7 @@ public class TestSuite
 
 
         // overwrite to make sure exception is handled
+        @Override
         public void throwing(String sourceClass, String sourceMethod, Throwable thrown) {
             LogRecord lr = new LogRecord(Level.INFO, "THROW");
             lr.setSourceClassName(sourceClass);
@@ -1454,6 +1456,7 @@ public class TestSuite
             setLevel(Level.ALL);
         }
 
+        @Override
         public void log(LogRecord record) {
             Handler targets[] = getHandlers();
             if (targets != null) {

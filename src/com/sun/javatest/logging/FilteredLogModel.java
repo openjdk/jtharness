@@ -37,6 +37,7 @@ public class FilteredLogModel extends LogModel {
         super(logFile, fileName);
         setFilter(new LogFilter(this));
         super.addNewPageListener(new NewPageListener() {
+            @Override
             public void onNewPage(int startRecord, int endRecord, int p) {
                 if (noFilter() && isStableState()) {
                     fireNewPage(startRecord, endRecord, p);
@@ -96,6 +97,7 @@ public class FilteredLogModel extends LogModel {
         }
     }
 
+    @Override
     public ArrayList<LiteLogRecord> getRecords() {
         return shownRecords;
     }
@@ -104,6 +106,7 @@ public class FilteredLogModel extends LogModel {
         return super.getRecords();
     }
 
+    @Override
     public void dispose() {
         super.dispose();
         resetModel();
@@ -132,6 +135,7 @@ public class FilteredLogModel extends LogModel {
 
     }
 
+    @Override
     public void addNewPageListener(NewPageListener lst) {
         pageListeners.add(lst);
     }
@@ -158,6 +162,7 @@ public class FilteredLogModel extends LogModel {
     }
 
 
+    @Override
     public int recordsRead() {
         if (shownRecords != null) {
             return shownRecords.size();
@@ -173,6 +178,7 @@ public class FilteredLogModel extends LogModel {
     private ArrayList<NewPageListener> pageListeners = new ArrayList<NewPageListener>();
     private ArrayList<FilterChangedListener> filterListeners = new ArrayList<FilterChangedListener>();
 
+    @Override
     public boolean isStableState() {
         if (noFilter()) {
             return super.isStableState();
@@ -181,6 +187,7 @@ public class FilteredLogModel extends LogModel {
         }
     }
 
+    @Override
     void setObservedFile(ObservedFile of) {
         super.setObservedFile(of);
         if (this.of != null && fileListener != null) {
@@ -194,6 +201,7 @@ public class FilteredLogModel extends LogModel {
     }
 
     class LogFileListener implements FileListener {
+        @Override
         public void fileModified(FileEvent e) {
             synchronized (FilteredLogModel.this) {
                 if (e.getType().equals(FileEvent.START_ERASING)){
@@ -213,6 +221,7 @@ public class FilteredLogModel extends LogModel {
 
         boolean stopFlag = false;
 
+        @Override
         public void run() {
             ArrayList<LiteLogRecord> tmp = new ArrayList<LiteLogRecord>();
             int firstRecordOnPage = 0;

@@ -241,21 +241,25 @@ public class TemplateSessionControl extends BasicSessionControl {
         // uif doesn't work here, because uif.getI18NResourceBundle() will
         // return not overriden bundle
         newTemplateAction = new ToolAction(i18n, "tcc.file.new") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 newTemplate();
             }
         };
         showTemplateAction = new ToolAction(i18n, "tcc.file.edit") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 editTemplate();
             }
         };
         loadTemplateAction = new ToolAction(i18n, "tcc.file.load") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 loadTemplate();
             }
         };
         checkUpdatesAction = new ToolAction(i18n, "tcc.file.chUpdate") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 checkUpdate();
             }
@@ -266,6 +270,7 @@ public class TemplateSessionControl extends BasicSessionControl {
     protected void initHistoryListeners() {
         super.initHistoryListeners();
         configTemplateHistoryListener = new FileHistory.Listener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     JMenuItem mi = (JMenuItem) (e.getSource());
                     File f = (File) (mi.getClientProperty(FileHistory.FILE));
@@ -386,6 +391,7 @@ public class TemplateSessionControl extends BasicSessionControl {
             templateEditor.setCustomRenderers(cm.getCustomRenderersMap());
         }
         templateEditor.setCheckExcludeListListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     Object src = e.getSource();
                     JComponent p = (src instanceof JComponent ? (JComponent) src : parent);

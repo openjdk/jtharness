@@ -69,10 +69,12 @@ public class XMLServiceReader implements ServiceReader {
     /**
      * @return value of SERVICE_XML
      */
+    @Override
     public String getServiceDescriptorFileName() {
         return SERVICES_XML;
     }
 
+    @Override
     public void init(TestSuite ts, String[] args) {
         this.ts = ts;
         File tsRoot = ts.getRootDir();
@@ -134,12 +136,14 @@ public class XMLServiceReader implements ServiceReader {
         }
     }
 
+    @Override
     public Map<String, Service> readServices() {
         ServiceProperties common = readProperties(doc);
 
         return readServices(doc, common);
     }
 
+    @Override
     public Set<TestPath> readTestServiceMap() {
         Set<TestPath> result = new HashSet<>();
 

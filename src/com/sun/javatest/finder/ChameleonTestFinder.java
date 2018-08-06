@@ -117,6 +117,7 @@ public class ChameleonTestFinder extends TestFinder {
      * @param env               This argument is not required by this test finder.
      * @throws TestFinder.Fault if an error is found during initialization.
      */
+    @Override
     public void init(String[] args, File testSuiteRoot, TestEnvironment env) throws Fault {
         super.init(args, testSuiteRoot, env);
 
@@ -147,6 +148,7 @@ public class ChameleonTestFinder extends TestFinder {
     public void readEntries(File file) throws Fault {
         //System.err.println("reading " + file);
         SortedSet<Entry> s = new TreeSet<>(new Comparator<Entry>() {
+            @Override
             public int compare(Entry o1, Entry o2) {
                 int n = o1.compareTo(o2);
                 // this gives us the reverse of the order we want, so ...
@@ -192,6 +194,7 @@ public class ChameleonTestFinder extends TestFinder {
         //    System.err.println(entries[i].prefix + "   " + entries[i].suffix);
     }
 
+    @Override
     protected int decodeArg(String[] args, int i) throws Fault {
         if (args[i].equals("-f") && i + 1 < args.length) {
             entryFile = new File(args[i + 1]);
@@ -216,6 +219,7 @@ public class ChameleonTestFinder extends TestFinder {
      * finder.
      * @param file The file to scan
      */
+    @Override
     protected void scan(File file) {
         //System.err.println("SCAN: " + file);
         if (file.isDirectory())
@@ -224,6 +228,7 @@ public class ChameleonTestFinder extends TestFinder {
             scanFile(file);
     }
 
+    @Override
     public File[] getFiles() {
         if (currEntry == null)
             return super.getFiles();
@@ -233,6 +238,7 @@ public class ChameleonTestFinder extends TestFinder {
             return currEntry.finder.getFiles();
     }
 
+    @Override
     public TestDescription[] getTests() {
         if (currEntry == null)
             return super.getTests();

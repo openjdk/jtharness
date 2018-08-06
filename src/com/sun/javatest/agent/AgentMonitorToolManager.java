@@ -51,8 +51,10 @@ public class AgentMonitorToolManager extends ToolManager
 
     //----------------------------------------------------------------------------
 
+    @Override
     public Action[] getWindowOpenMenuActions() {
         Action a = new ToolAction(i18n, "tmgr.openMonitor") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 startTool();
             }
@@ -62,6 +64,7 @@ public class AgentMonitorToolManager extends ToolManager
 
     //----------------------------------------------------------------------------
 
+    @Override
     public Tool restoreTool(Map<String, String> m) {
         AgentMonitorTool t = getTool();
         t.restore(m);
@@ -73,6 +76,7 @@ public class AgentMonitorToolManager extends ToolManager
     /**
      * Start the {@link AgentMonitorTool agent monitor} window.
      */
+    @Override
     public Tool startTool() {
         AgentMonitorTool t = getTool();
 
@@ -92,10 +96,13 @@ public class AgentMonitorToolManager extends ToolManager
         if (tool == null) {
             tool = new AgentMonitorTool(this);
             tool.addObserver(new Tool.Observer() {
+                    @Override
                     public void shortTitleChanged(Tool t, String newValue) { }
 
+                    @Override
                     public void titleChanged(Tool t, String newValue) { }
 
+                    @Override
                     public void toolDisposed(Tool t) {
                         if (t == tool)
                             tool = null;

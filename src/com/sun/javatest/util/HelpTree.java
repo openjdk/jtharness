@@ -507,6 +507,7 @@ public class HelpTree
     private static final int ANY = 2;
 
     private Comparator<Node> nodeComparator = new Comparator<Node>() {
+            @Override
             public int compare(Node n1, Node n2) {
                 int v = compareStrings(n1.name, n2.name);
                 return (v != 0 ? v : compareStrings(n1.description, n2.description));

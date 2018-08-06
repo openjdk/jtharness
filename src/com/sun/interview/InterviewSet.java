@@ -77,6 +77,7 @@ public class InterviewSet
     }
 
     // extend Interview.add(Interview)
+    @Override
     void add(Interview child) {
         super.add(child);
         children.add(child);
@@ -84,6 +85,7 @@ public class InterviewSet
     }
 
     // disallow Interview.add(Question)
+    @Override
     void add(Question q) {
         throw new UnsupportedOperationException();
     }
@@ -210,10 +212,12 @@ public class InterviewSet
     }
 
     private NullQuestion sorter = new NullQuestion(this) {
+            @Override
             public boolean isEnabled() {
                 return false; // always hide this question
             }
 
+            @Override
             public Question getNext() {
                 if (sortedCalls == null) {
                     Interview[] cc = sortChildren();
@@ -239,6 +243,7 @@ public class InterviewSet
 
     private class ChildComparator implements Comparator<Interview>
     {
+        @Override
         public int compare(Interview o1, Interview o2) {
             if (!children.contains(o1) || !children.contains(o2))
                 throw new IllegalArgumentException();

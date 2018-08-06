@@ -90,6 +90,7 @@ public class PieChart extends JComponent /* implements Accessible*/ {
         repaint();
     }
 
+    @Override
     protected void paintComponent(Graphics g) {
         Image image = new BufferedImage(getWidth(), getHeight(),
                                   BufferedImage.TYPE_INT_ARGB);

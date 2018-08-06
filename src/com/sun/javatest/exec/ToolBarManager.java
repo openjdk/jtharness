@@ -61,6 +61,7 @@ public class ToolBarManager {
 
             if (panel != null) {
                 SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         panel.add(theBar);
                         mmanager.addToolbar(theBar);
@@ -108,6 +109,7 @@ public class ToolBarManager {
 
             if (panel != null)
                 SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         panel.remove(tb);
                         mmanager.removeToolbar(tb);
@@ -243,6 +245,7 @@ public class ToolBarManager {
             super(bar.getName());
             theBar = bar;
         }
+        @Override
         public void actionPerformed(ActionEvent evt) {
             theBar.setVisible(!theBar.isVisible());
         }

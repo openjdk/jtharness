@@ -142,8 +142,10 @@ public class NavigationPane extends JPanel {
         selectBox.setUI(new BasicComboBoxUI() {
             // wrap the content with a scrolling interface
             // would be nice if Swing did this for us
+            @Override
             protected ComboPopup createPopup() {
                 BasicComboPopup popup = new BasicComboPopup(selectBox) {
+                    @Override
                     protected JScrollPane createScroller() {
                         return new JScrollPane(list,
                             ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -177,6 +179,7 @@ public class NavigationPane extends JPanel {
 
     private void initActions() {
         homeAction = new ToolAction(uif, "np.home", true) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (homeURL == null) {
                     mediaPane.setDefaultView();
@@ -189,6 +192,7 @@ public class NavigationPane extends JPanel {
         };
 
         backAction = new ToolAction(uif, "np.back", true) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 URL url = history.prev();
                 if (url != null) {
@@ -199,6 +203,7 @@ public class NavigationPane extends JPanel {
         };
 
         forwardAction = new ToolAction(uif, "np.forward", true) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 URL url = history.next();
                 if (url != null) {
@@ -229,6 +234,7 @@ public class NavigationPane extends JPanel {
     }
 
     private class Listener implements ItemListener {
+        @Override
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 mediaPane.stopAudio();
@@ -304,6 +310,7 @@ public class NavigationPane extends JPanel {
             sf = new StringFitter(getFontMetrics(getFont()));
         }
 
+        @Override
         public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
             String name = null;
             if (o instanceof URL) {

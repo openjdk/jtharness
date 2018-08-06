@@ -143,6 +143,7 @@ public class TestFinderQueue {
 
         this.testFinder = finder;
         testFinder.setErrorHandler(new TestFinder.ErrorHandler() {
+            @Override
             public void error(String msg) {
                 errorCount++;
                 notifier.error(msg);
@@ -399,6 +400,7 @@ public class TestFinderQueue {
             readAheadMode = mode;
             if (readAheadWorker == null) {
                 readAheadWorker = new Thread() {
+                    @Override
                     public void run() {
                         // This is intended to be interruptible and
                         // relies on safe atomic access to worker
@@ -635,46 +637,55 @@ public class TestFinderQueue {
             observers = DynamicArray.remove(observers, o);
         }
 
+        @Override
         public synchronized void found(File file) {
             for (int i = 0; i < observers.length; i++)
                 observers[i].found(file);
         }
 
+        @Override
         public synchronized void reading(File file) {
             for (int i = 0; i < observers.length; i++)
                 observers[i].reading(file);
         }
 
+        @Override
         public synchronized void done(File file) {
             for (int i = 0; i < observers.length; i++)
                 observers[i].done(file);
         }
 
+        @Override
         public synchronized void found(TestDescription td) {
             for (int i = 0; i < observers.length; i++)
                 observers[i].found(td);
         }
 
+        @Override
         public synchronized void ignored(TestDescription td, TestFilter f) {
             for (int i = 0; i < observers.length; i++)
                 observers[i].ignored(td, f);
         }
 
+        @Override
         public synchronized void done(TestDescription td) {
             for (int i = 0; i < observers.length; i++)
                 observers[i].done(td);
         }
 
+        @Override
         public synchronized void flushed() {
             for (int i = 0; i < observers.length; i++)
                 observers[i].flushed();
         }
 
+        @Override
         public synchronized void error(String msg) {
             for (int i = 0; i < observers.length; i++)
                 observers[i].error(msg);
         }
 
+        @Override
         public synchronized void error(TestDescription td, String msg) {
             for (int i = 0; i < observers.length; i++)
                 observers[i].error(td, msg);

@@ -70,6 +70,7 @@ class QuestionLogBrowser extends ToolDialog
         listener = new Listener();
     }
 
+    @Override
     protected void initGUI() {
         setHelp("quLog.window.csh");
 
@@ -109,6 +110,7 @@ class QuestionLogBrowser extends ToolDialog
             setI18NTitle("qlb.titleWithFile", f);
 
         final Thread t = new Thread() {
+            @Override
             public void run() {
                 try {
                     WizPrint wp = new WizPrint(params);
@@ -128,6 +130,7 @@ class QuestionLogBrowser extends ToolDialog
         };  // thread
 
         ActionListener al = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 // show dialog if still processing
                 if (t.isAlive()) {
@@ -150,6 +153,7 @@ class QuestionLogBrowser extends ToolDialog
                                      final StringWriter out) {
         // done generating report, switch back to GUI thread
         EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 waitDialog.hide();
 
@@ -233,6 +237,7 @@ class QuestionLogBrowser extends ToolDialog
         implements ActionListener, Interview.Observer
     {
         // ActionListener
+        @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
             if (cmd.equals(SAVE_AS))
@@ -244,19 +249,23 @@ class QuestionLogBrowser extends ToolDialog
         }
 
         // ComponentListener
+        @Override
         public void componentShown(ComponentEvent e) {
             params.addObserver(this);
             updateContent();
         }
 
+        @Override
         public void componentHidden(ComponentEvent e) {
             params.removeObserver(this);
         }
 
         // Interview.Observer
+        @Override
         public void currentQuestionChanged(Question q) {
         }
 
+        @Override
         public void pathUpdated() {
             updateContent();
         }

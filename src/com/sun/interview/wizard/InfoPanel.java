@@ -76,6 +76,7 @@ class InfoPanel extends JComponent
         }
     }
 
+    @Override
     public Dimension getPreferredSize() {
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension d = new Dimension(PREFERRED_WIDTH*tk.getScreenResolution(),
@@ -97,21 +98,26 @@ class InfoPanel extends JComponent
     {
         // ---------- from AncestorListener -----------
 
+        @Override
         public void ancestorAdded(AncestorEvent e) {
             interview.addObserver(this);
             currentQuestionChanged(interview.getCurrentQuestion());
         }
 
+        @Override
         public void ancestorMoved(AncestorEvent e) { }
 
+        @Override
         public void ancestorRemoved(AncestorEvent e) {
             interview.removeObserver(this);
         }
 
         //----- from Interview.Observer -----------
 
+        @Override
         public void pathUpdated() { }
 
+        @Override
         public void currentQuestionChanged(Question q) {
             if (!(q instanceof ErrorQuestion))
                 setCurrentID(q);

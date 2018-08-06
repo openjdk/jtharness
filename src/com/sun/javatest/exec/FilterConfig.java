@@ -269,11 +269,13 @@ public class FilterConfig {
         extends ComponentAdapter
         implements ObservableTestFilter.Observer
     {
+        @Override
         public void filterUpdated(ObservableTestFilter otf) {
             notifyUpdated(otf);
         }
 
         // ComponentListener
+        @Override
         public void componentHidden(ComponentEvent e) {
             fep.doReset();
         }
@@ -304,6 +306,7 @@ public class FilterConfig {
         }
 
         // ActionListener
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object source = e.getSource();
             String result = null;
@@ -380,6 +383,7 @@ public class FilterConfig {
         }
 
         // ListSelectionListener
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             //int newSelected = e.getLastIndex();
             int newSelected = leftList.getSelectedIndex();
@@ -439,6 +443,7 @@ public class FilterConfig {
             leftList.requestFocus();
         }
 
+        @Override
         protected void initGUI() {
             setHelp("execFilters.dialog.csh");
 

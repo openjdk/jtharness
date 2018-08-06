@@ -76,6 +76,7 @@ class PrefsPane extends PreferencesPane
         return childPanes;
     }
 
+    @Override
     public String getText() {
         return uif.getI18NString("ep.title");
     }
@@ -171,6 +172,7 @@ class PrefsPane extends PreferencesPane
             initGUI();
         }
 
+        @Override
         public String getText() {
             return uif.getI18NString("ep.ce.title");
         }
@@ -232,6 +234,7 @@ class PrefsPane extends PreferencesPane
             initGUI();
         }
 
+        @Override
         public String getText() {
             return uif.getI18NString("ep.rpt.title");
         }
@@ -302,6 +305,7 @@ class PrefsPane extends PreferencesPane
             initGUI();
         }
 
+        @Override
         public String getText() {
             return uif.getI18NString("ep.run.title");
         }

@@ -43,6 +43,7 @@ class Trace implements Harness.Observer
 
     //------methods from Harness.Observer----------------------------------------
 
+    @Override
     public synchronized void startingTestRun(Parameters params) {
         openOutput(params);
         if (out != null) {
@@ -55,6 +56,7 @@ class Trace implements Harness.Observer
         }
     }
 
+    @Override
     public synchronized void startingTest(TestResult tr) {
         if (out != null) {
             TestDescription td = null;
@@ -69,6 +71,7 @@ class Trace implements Harness.Observer
         }
     }
 
+    @Override
     public synchronized void finishedTest(TestResult tr) {
         if (out != null) {
             try {
@@ -82,16 +85,19 @@ class Trace implements Harness.Observer
         }
     }
 
+    @Override
     public synchronized void stoppingTestRun() {
         if (out != null)
             println(i18n, "trace.stopping");
     }
 
+    @Override
     public synchronized void finishedTesting() {
         if (out != null)
             println(i18n, "trace.cleanup");
     }
 
+    @Override
     public synchronized void finishedTestRun(boolean allOK) {
         if (out != null) {
             if (allOK)
@@ -102,6 +108,7 @@ class Trace implements Harness.Observer
         }
     }
 
+    @Override
     public synchronized void error(String s) {
         if (out != null) {
             println(i18n, "trace.error", s);

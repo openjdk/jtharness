@@ -42,6 +42,7 @@ import com.sun.interview.Question;
 public class ListQuestionRenderer
     implements QuestionRenderer
 {
+    @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         ListQuestion q = (ListQuestion) qq;
         if (q.isEnd())
@@ -50,6 +51,7 @@ public class ListQuestionRenderer
             return createList(q, listener);
     }
 
+    @Override
     public String getInvalidValueMessage(Question qq) {
         ListQuestion q = (ListQuestion) qq;
         return i18n.getString("list.invalid", Integer.valueOf(q.getIncompleteBodyCount()));
@@ -75,6 +77,7 @@ public class ListQuestionRenderer
 
     protected ActionListener createMoreBtnListener(final ListQuestion q) {
         return new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 ListQuestion listStart = q.getOther();
                 /* suppress automatic new
@@ -143,6 +146,7 @@ public class ListQuestionRenderer
             question = q;
         }
 
+        @Override
         protected Object getDisplayValue(Object item) {
             if (item instanceof ListQuestion.Body) {
                 ListQuestion.Body b = (ListQuestion.Body) item;
@@ -163,6 +167,7 @@ public class ListQuestionRenderer
                 return item;
         }
 
+        @Override
         protected Object getNewItem() {
             // we know that the newly created item will be inserted
             // after the current selection if there is one,
@@ -173,6 +178,7 @@ public class ListQuestionRenderer
             return question.createBody(i);
         }
 
+        @Override
         protected Object getNewItem(Object item) {
             question.setValue(getSelectedIndex());
             try {
@@ -183,6 +189,7 @@ public class ListQuestionRenderer
             return null;
         }
 
+        @Override
         protected void insertItem() {
             super.insertItem();
             itemsChanged(); // pre-empt EditableList call, since we want to do auto-next
@@ -194,10 +201,12 @@ public class ListQuestionRenderer
         }
 
 
+        @Override
         protected void itemsChanged() {
             question.setBodies(getBodies(), getSelectedIndex());
         }
 
+        @Override
         protected void selectedItemChanged() {
             itemsChanged();
             question.setValue(getSelectedIndex());

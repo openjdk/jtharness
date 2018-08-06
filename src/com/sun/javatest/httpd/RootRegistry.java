@@ -54,6 +54,7 @@ public class RootRegistry extends ProviderRegistry {
         return myInstance;
     }
 
+    @Override
     public void addHandler(String url, String descrip, JThttpProvider obj) {
         if (!url.equals("/"))
             super.addHandler(url, descrip, obj);
@@ -116,6 +117,7 @@ public class RootRegistry extends ProviderRegistry {
     }
 
     private static class SpecialURLHandler extends JThttpProvider {
+        @Override
         public void serviceRequest(httpURL url, PrintWriter out) {
             url.resetIterator();
             String target = url.getNextFile();

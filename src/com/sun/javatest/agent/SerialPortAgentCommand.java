@@ -63,6 +63,7 @@ public class SerialPortAgentCommand extends Command
      * @param out An additional stream to which to write any additional output.
      * @return a Status object indicating the outcome of the command that was executed
      */
+    @Override
     public Status run(String[] args, PrintWriter err, PrintWriter out) {
         String classPath = null;
         String tag = null;

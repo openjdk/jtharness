@@ -79,6 +79,7 @@ class SerialPortModeOptions extends ModeOptions {
         add(portChoice, c);
     }
 
+    @Override
     ConnectionFactory createConnectionFactory(int concurrency) throws BadValue {
         if (proxy == null)
             throw new BadValue("no serial ports found or accessible");
@@ -111,6 +112,7 @@ interface Proxy {
 // and default answers or exceptions thrown.
 
 class ProxyImpl implements Proxy {
+    @Override
     public String[] getPortNames() {
         try {
             Vector<String> v = new Vector<>();
@@ -129,6 +131,7 @@ class ProxyImpl implements Proxy {
     }
 
 
+    @Override
     public ConnectionFactory createConnectionFactory(String port) throws BadValue {
         try {
             return new SerialPortConnectionFactory(port, Agent.PRODUCT_NAME, 10 * MILLIS_PER_SECOND);

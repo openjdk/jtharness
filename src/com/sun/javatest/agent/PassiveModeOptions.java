@@ -48,6 +48,7 @@ class PassiveModeOptions extends ModeOptions {
         add(portField, c);
     }
 
+    @Override
     ConnectionFactory createConnectionFactory(int concurrency) throws BadValue, ConnectionFactory.Fault {
         try {
             int port = getInt("port", portField);

@@ -40,6 +40,7 @@ public class FileEvent extends EventObject {
         return type;
     }
 
+    @Override
     public String toString() {
         return "FileEvent[file: " + f.getAbsolutePath() + "; event type: " + type + "]";
     }

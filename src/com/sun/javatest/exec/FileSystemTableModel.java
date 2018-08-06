@@ -60,6 +60,7 @@ public class FileSystemTableModel extends AbstractTableModel  {
         init(file);
     }
 
+    @Override
     public void fireTableDataChanged() {
     }
 
@@ -74,14 +75,17 @@ public class FileSystemTableModel extends AbstractTableModel  {
         fireTableChanged(new TableModelEvent(this));
     }
 
+    @Override
     public int getColumnCount() {
         return cNames.length;
     }
 
+    @Override
     public String getColumnName(int column) {
         return cNames[column];
     }
 
+    @Override
     public Class<?> getColumnClass(int column) {
         return cTypes[column];
     }
@@ -134,6 +138,7 @@ public class FileSystemTableModel extends AbstractTableModel  {
         }
     }
 
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if (rowIndex < 0 || rowIndex >= data.size() ) return null;
         FileTableNode f = data.get(rowIndex);
@@ -152,6 +157,7 @@ public class FileSystemTableModel extends AbstractTableModel  {
     }
 
 
+    @Override
     public int getRowCount() {
         return data.size();
     }
@@ -167,6 +173,7 @@ public class FileSystemTableModel extends AbstractTableModel  {
     private String[] getInfo(File file) {
 
         if (fileData == null) fileData = new LinkedHashMap<String, String[]>() {
+                @Override
                 protected boolean removeEldestEntry(Map.Entry<String, String[]> eldest) {
                     return size() > 500;
                 }
@@ -230,6 +237,7 @@ class FileTableNode {
         this.mode = mode;
     }
 
+    @Override
     public String toString() {
         return file.getName();
     }

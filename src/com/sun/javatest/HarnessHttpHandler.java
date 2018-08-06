@@ -48,6 +48,7 @@ class HarnessHttpHandler extends JThttpProvider
         harness.addObserver(this);
     }
 
+    @Override
     public void serviceRequest(httpURL requestURL, PrintWriter out) {
         String nf = requestURL.getNextFile();
         if (nf == null) {                           // request for root
@@ -574,17 +575,24 @@ class HarnessHttpHandler extends JThttpProvider
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HarnessHttpHandler.class);
 
     // ------------ Harness.Observer ------------
+    @Override
     public void startingTestRun(Parameters params) { }
 
+    @Override
     public void startingTest(TestResult tr) { }
 
+    @Override
     public void finishedTest(TestResult tr) {
         stats[tr.getStatus().getType()]++;
     }
 
+    @Override
     public void stoppingTestRun() { }
+    @Override
     public void finishedTesting() { }
+    @Override
     public void finishedTestRun(boolean allOK) { }
 
+    @Override
     public void error(String msg) { }
 }

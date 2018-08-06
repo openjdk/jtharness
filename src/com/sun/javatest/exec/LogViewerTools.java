@@ -72,6 +72,7 @@ class LogViewerTools extends Thread {
         waitDialogEnabled = true;
 
         ActionListener al = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 // show dialog if still processing
                 if (isAlive() && waitDialogEnabled) {
@@ -89,6 +90,7 @@ class LogViewerTools extends Thread {
         start();
     }
 
+    @Override
     public void run() {
         Properties outputProps = new Properties();
         outputProps.put("indent", "yes");
@@ -188,6 +190,7 @@ class StopWatcher extends Thread {
         this.lv = lv;
     }
     private LogViewer lv;
+    @Override
     public void run() {
         while (lv.isVisible()) {
             try {

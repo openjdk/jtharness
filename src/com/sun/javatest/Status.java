@@ -249,6 +249,7 @@ public class Status
      * Convert a Status to a string.
      * @see #parse
      */
+    @Override
     public String toString() {
         if (reason == null || reason.length() == 0)
             return texts[type];

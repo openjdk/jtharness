@@ -113,6 +113,7 @@ public class SerialPortConnection implements Connection
         // and to close this connection when they become false
         try {
             port.addEventListener(new SerialPortEventListener() {
+                @Override
                 public void serialEvent(SerialPortEvent ev) {
                     int t = ev.getEventType();
                     switch (ev.getEventType()) {
@@ -135,18 +136,22 @@ public class SerialPortConnection implements Connection
         waitUntilReady();
     }
 
+    @Override
     public String getName() {
         return port.getName();
     }
 
+    @Override
     public InputStream getInputStream() {
         return portInputStream;
     }
 
+    @Override
     public OutputStream getOutputStream() {
         return new FilterOutputStream(portOutputStream) {
             // flushing stream after it has been closed causes
             // IllegalStateException
+            @Override
             public void flush() throws IOException {
                 if (!closed)
                     super.flush();
@@ -154,6 +159,7 @@ public class SerialPortConnection implements Connection
         };
     }
 
+    @Override
     public synchronized void close() throws IOException {
         if (!closed) {
             try {
@@ -184,10 +190,12 @@ public class SerialPortConnection implements Connection
         }
     }
 
+    @Override
     public synchronized boolean isClosed() {
         return closed;
     }
 
+    @Override
     public synchronized void waitUntilClosed(int timeout) throws InterruptedException {
         long now = System.currentTimeMillis();
         long end = now + timeout;
@@ -209,6 +217,7 @@ public class SerialPortConnection implements Connection
         else {
             //System.err.println("lost DSR and CD, closing connection");
             Thread t = new Thread() {
+                @Override
                 public void run() {
                     try {
                         // WARNING: The following line may cause ThreadDeath if

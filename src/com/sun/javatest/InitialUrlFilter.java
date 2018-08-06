@@ -101,6 +101,7 @@ public class InitialUrlFilter extends TestFilter {
         }
     }
 
+    @Override
     public boolean accepts(TestDescription td) {
         if (initUrls == null) // all urls being accepted
             return true;
@@ -156,14 +157,17 @@ public class InitialUrlFilter extends TestFilter {
         return initStrings;
     }
 
+    @Override
     public String getName() {
         return i18n.getString("iurlFilter.name");
     }
 
+    @Override
     public String getDescription() {
         return i18n.getString("iurlFilter.description");
     }
 
+    @Override
     public String getReason() {
         return i18n.getString("iurlFilter.reason");
     }

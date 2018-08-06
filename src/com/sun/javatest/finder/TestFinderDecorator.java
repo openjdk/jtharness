@@ -74,30 +74,37 @@ public class TestFinderDecorator extends TestFinder {
         }
     }
 
+    @Override
     public File getRoot() {
         return currentTestFinder.getRoot();
     }
 
+    @Override
     public File getRootDir() {
         return currentTestFinder.getRootDir();
     }
 
+    @Override
     public void read(File file) {
         currentTestFinder.read(file);
     }
 
+    @Override
     public TestDescription[] getTests() {
         return currentTestFinder.getTests();
     }
 
+    @Override
     public File[] getFiles() {
         return currentTestFinder.getFiles();
     }
 
+    @Override
     public Comparator<String> getComparator() {
         return currentTestFinder.getComparator();
     }
 
+    @Override
     public void setComparator(Comparator<String> c) {
         currentTestFinder.setComparator(c);
     }
@@ -106,14 +113,17 @@ public class TestFinderDecorator extends TestFinder {
         return currentTestFinder;
     }
 
+    @Override
     public long lastModified(File f) {
         return currentTestFinder.lastModified(f);
     }
 
+    @Override
     public boolean isFolder(File path) {
         return currentTestFinder.isFolder(path);
     }
 
+    @Override
     protected void scan(File file) {
         throw new Error("should not be called!");
     }

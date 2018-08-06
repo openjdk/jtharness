@@ -32,18 +32,22 @@ import com.sun.javatest.util.I18NResourceBundle;
  * Basic filter which accepts all tests presented to it.
  */
 public class AllTestsFilter extends TestFilter {
+    @Override
     public String getName() {
         return i18n.getString("allTestsFilter.name");
     }
 
+    @Override
     public String getDescription() {
         return i18n.getString("allTestsFilter.description");
     }
 
+    @Override
     public String getReason() {
         return i18n.getString("allTestsFilter.reason");
     }
 
+    @Override
     public boolean accepts(TestDescription td) throws Fault {
         return true;
     }

@@ -69,6 +69,7 @@ class CE_TemplateDialog extends ToolDialog
                                           uif.getI18NString("ct.jtiFiles"));
     }
 
+    @Override
     public void setVisible(boolean on) {
         if (on) {
             if (markersCheckBox == null)
@@ -82,6 +83,7 @@ class CE_TemplateDialog extends ToolDialog
         super.setVisible(on);
     }
 
+    @Override
     protected void initGUI() {
         setI18NTitle("ct.title");
         setHelp("confEdit.templateDialog.csh");
@@ -273,6 +275,7 @@ class CE_TemplateDialog extends ToolDialog
     {
         //----- for ActionListener ----------------------
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
             if (src == browseBtn)
@@ -286,6 +289,7 @@ class CE_TemplateDialog extends ToolDialog
 
         //----- for ChangeListener ----------------------
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             Object src = e.getSource();
             if (src == testSuiteCheckBox) {
@@ -298,14 +302,17 @@ class CE_TemplateDialog extends ToolDialog
 
         //----- for DocumentListener ----------------------
 
+        @Override
         public void insertUpdate(DocumentEvent e) {
             changedUpdate(e);
         }
 
+        @Override
         public void removeUpdate(DocumentEvent e) {
             changedUpdate(e);
         }
 
+        @Override
         public void changedUpdate(DocumentEvent e) {
             String path = fileField.getText();
             boolean ok;

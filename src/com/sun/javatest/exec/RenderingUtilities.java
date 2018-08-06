@@ -69,8 +69,9 @@ class RenderingUtilities {
              this.i18n = i18n;
          }
 
+        @Override
         public Component getListCellRendererComponent(JList<?> list,
-            Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                                                      Object value, int index, boolean isSelected, boolean cellHasFocus) {
             if (value == null)  // very strange...
                 return this;
 
@@ -139,6 +140,7 @@ class RenderingUtilities {
              this.i18n = i18n;
         }
 
+        @Override
         public Component getListCellRendererComponent(JList<? extends TestFilter> list,
                                                       TestFilter value, int index, boolean isSelected, boolean cellHasFocus) {
 

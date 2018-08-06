@@ -74,13 +74,16 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     /**
      * This method is normally invoked after QSW...
      */
+    @Override
     public void runTests() {
         start();
     }
+    @Override
     public void setConfig(Session config) {
         this.config = config;
     }
 
+    @Override
     public void setTreePanelModel(TreePanelModel tpm) {
         this.tpm = tpm;
 
@@ -88,6 +91,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             progMonitor.setTreePanelModel(tpm);
     }
 
+    @Override
     public JMenu getMenu() {
         JMenu menu = uif.createMenu("rh");
         menu.add(uif.createMenuItem(startAction));
@@ -138,6 +142,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         };
     }
 
+    @Override
     public Harness getHarness() {
         return harness;
     }
@@ -149,6 +154,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             monitors[1] = new RunProgressMonitor(mState, uif);
 
             ActionListener zoom = (new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         setProgressMonitorVisible(!isProgressMonitorVisible());
                     }
@@ -162,20 +168,25 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         return messageStrip;
     }
 
+    @Override
     public JComponent getViewComponent() {
         return getMessageStrip();
     }
 
 
+    @Override
     public List<Action> getToolBarActionList() {
         return Arrays.asList(getToolBarActions());
     }
 
+    @Override
     public void save(Map<String, String> m) {
     }
+    @Override
     public void restore(Map<String, String> m) {
     }
 
+    @Override
     public synchronized void dispose() {
         if (harness != null) {
             harness.stop();
@@ -193,6 +204,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     }
 
     // should really be observing ExecModel
+    @Override
     public void updateGUI() {
         testSuite = model.getTestSuite();
         workDir = model.getWorkDirectory();
@@ -245,6 +257,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
      * @param tests Null or zero length indicates all tests.  Otherwise,
      *        the strings must be root relative locations in the testsuite.
      */
+    @Override
     public void executeImmediate(String[] paths) {
 
         if (!interviewReady()) {
@@ -470,9 +483,11 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         // Should be moved down into harness land? or at least reused by
         // batch mode and regtest; note: Preferences are currently a GUI feature.
         BackupPolicy backupPolicy = new BackupPolicy() {
+            @Override
             public int getNumBackupsToKeep(File file) {
                 return numBackupsToKeep;
             }
+            @Override
             public boolean isBackupRequired(File file) {
                 if (ignoreExtns != null) {
                     for (int i = 0; i < ignoreExtns.length; i++) {
@@ -511,12 +526,14 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
 
     private void initActions() {
         showProgressAction = new ToolAction(uif, "rh.progress") {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     setProgressMonitorVisible(true);
                 }
             };
 
         startAction = new ToolAction(uif, "rh.start", true) {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     start();
                 }
@@ -529,6 +546,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
                 setEnabled(false);
             }
 
+            @Override
             public void actionPerformed(ActionEvent e) {
                 harness.stop();
             }
@@ -573,12 +591,14 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     private final ArrayList<Observer> observers = new ArrayList<Observer>();
 
 
+    @Override
     public void addObserver(Observer obs) {
         if (obs != null && !observers.contains(obs)) {
             observers.add(obs);
         }
     }
 
+    @Override
     public void removeObserver(Observer obs) {
         if (obs != null && observers.contains(obs)) {
             observers.remove(obs);
@@ -596,6 +616,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         }
     }
 
+    @Override
     public void updated(Event ev) {
         if (ev instanceof BasicSession.E_NewConfig) {
             if (waitForConfig) {
@@ -613,8 +634,10 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
 
 
     private class HarnessObserver implements Harness.Observer {
+        @Override
         public void startingTestRun(final Parameters params) {
             EventQueue.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     startAction.setEnabled(false);
                     //pauseCheckBox.setEnabled(true);
@@ -627,20 +650,26 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             });
         }
 
+        @Override
         public void startingTest(TestResult tr) {
         }
 
+        @Override
         public void finishedTest(TestResult tr) {
         }
 
+        @Override
         public void stoppingTestRun() {
         }
 
+        @Override
         public void finishedTesting() {
         }
 
+        @Override
         public void finishedTestRun(boolean allOK) {
             EventQueue.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     startAction.setEnabled(true);
                     //pauseCheckBox.setEnabled(false);
@@ -654,8 +683,10 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             }
         }
 
+        @Override
         public void error(final String msg) {
             EventQueue.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     uif.showError("rh.error", msg);
                 }

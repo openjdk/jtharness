@@ -54,6 +54,7 @@ public class ChoiceQuestionRenderer
         implements QuestionRenderer
 {
 
+    @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         q = (ChoiceQuestion)qq;
         displayChoices = q.getDisplayChoices();
@@ -64,6 +65,7 @@ public class ChoiceQuestionRenderer
         return createChoiceTable();
     }
 
+    @Override
     public String getInvalidValueMessage(Question q) {
         return null;
     }
@@ -101,6 +103,7 @@ public class ChoiceQuestionRenderer
             bg.add(rb[i]);
 
             rb[i].addActionListener(new ActionListener() {
+               @Override
                public void actionPerformed(ActionEvent e) {
                    CellEditor editor = tbl.getCellEditor();
                    if (editor != null) {
@@ -185,22 +188,27 @@ public class ChoiceQuestionRenderer
 
     protected class TestTableModel extends AbstractTableModel {
 
+        @Override
         public Class<?> getColumnClass(int c) {
             return String.class;
         }
 
+        @Override
         public int getColumnCount() {
             return 1;
         }
 
+        @Override
         public int getRowCount() {
             return displayChoices.length - starts_from;
         }
 
+        @Override
         public Object getValueAt(int r, int c) {
             return values[r + starts_from];
         }
 
+        @Override
         public void setValueAt(Object o, int r, int c) {
             if (c == 0) {
                 q.setValue(values[r + starts_from]);
@@ -208,6 +216,7 @@ public class ChoiceQuestionRenderer
             }
         }
 
+        @Override
         public boolean isCellEditable(int r, int c) {
             return true;
         }
@@ -220,8 +229,9 @@ public class ChoiceQuestionRenderer
 
     protected class TestTableRenderer implements TableCellRenderer {
 
+        @Override
         public Component getTableCellRendererComponent(JTable table, Object value,
-                boolean isSelected, boolean hasFocus, int row, int column) {
+                                                       boolean isSelected, boolean hasFocus, int row, int column) {
 
             return rb[row];
         }
@@ -233,11 +243,13 @@ public class ChoiceQuestionRenderer
 
     protected class TestTableEditor extends AbstractCellEditor
             implements TableCellEditor {
+        @Override
         public Object getCellEditorValue() {
             return null;
         }
+        @Override
         public Component getTableCellEditorComponent(JTable table, Object value,
-                boolean isSelected, int row, int column) {
+                                                     boolean isSelected, int row, int column) {
 
             rb[row].setSelected(true);
             return rb[row];

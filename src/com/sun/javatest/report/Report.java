@@ -558,6 +558,7 @@ public class Report implements ReportModel {
      * Gets the report directory that is currently defined.
      * @return The report directory.
      */
+    @Override
     public File getReportDir() {
         return reportDir;
     }

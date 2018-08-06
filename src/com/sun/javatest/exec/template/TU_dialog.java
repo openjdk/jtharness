@@ -215,6 +215,7 @@ public class TU_dialog extends JDialog {
         btnClose      = uif.createButton("tu_dialog.btnClose");
 
         btnChangeNow.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                propagator.acceptAll();
                setVisible(false);
@@ -222,6 +223,7 @@ public class TU_dialog extends JDialog {
         });
 
         btnDontChange.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                propagator.rejectAll();
                setVisible(false);
@@ -229,12 +231,14 @@ public class TU_dialog extends JDialog {
         });
 
         btnLater.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                setVisible(false);
             }
         });
 
         btnClose.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                setVisible(false);
             }

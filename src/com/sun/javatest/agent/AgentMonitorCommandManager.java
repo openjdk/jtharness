@@ -84,6 +84,7 @@ public class AgentMonitorCommandManager extends AgentMonitorBatchCommandManager
             return DESKTOP_REQUIRED_DTMODE;
         }
 
+        @Override
         public void run(CommandContext ctx) {
             Desktop d = ctx.getDesktop();
             AgentMonitorToolManager tm = (AgentMonitorToolManager) (d.getToolManager(AgentMonitorToolManager.class));

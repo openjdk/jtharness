@@ -64,18 +64,22 @@ class InterviewQuestion extends Question
      * that follows the nested interview.
      * @return The question that follows the interview
      */
+    @Override
     protected Question getNext() {
         return next;
     }
 
+    @Override
     public boolean isValueValid() {
         return true;
     }
 
+    @Override
     public boolean isValueAlwaysValid() {
         return true;
     }
 
+    @Override
     public boolean isEnabled() {
         return true;
     }
@@ -86,9 +90,11 @@ class InterviewQuestion extends Question
      * is just used to mark a call to a sub-interview,
      * there is no value, and so no action is performed.
      */
+    @Override
     public void clear() {
     }
 
+    @Override
     public String getStringValue() {
         throw new UnsupportedOperationException();
     }
@@ -98,6 +104,7 @@ class InterviewQuestion extends Question
      * a string-valued argument. For this question, no value is
      * appropriate and an exception is always thrown.
      */
+    @Override
     public void setValue(String ignore) {
         throw new UnsupportedOperationException();
     }
@@ -108,6 +115,7 @@ class InterviewQuestion extends Question
      * there is no value, and so no action is performed.
      * @param data The map from which to load the state for this question.
      */
+    @Override
     protected void load(Map<String, String> data) {
         // no need to super.load(data)
     }
@@ -118,6 +126,7 @@ class InterviewQuestion extends Question
      * there is no value, and so no action is performed.
      * @param data The map from which to load the state for this question.
      */
+    @Override
     protected void save(Map<String, String> data) {
         // no need to super.save(data)
     }

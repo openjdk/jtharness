@@ -261,6 +261,7 @@ public class AgentFrame extends Frame
         try {
             Method invokeLater = EventQueue.class.getMethod("invokeLater", Runnable.class);
             invokeLater.invoke(null, new Runnable() {
+                    @Override
                     public void run() {
                         sf.showCentered();
                     }
@@ -314,11 +315,13 @@ public class AgentFrame extends Frame
 
         ExitCount.inc();
         addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 setVisible(false);
                 AgentFrame.this.dispose();
             }
 
+            @Override
             public void windowClosed(WindowEvent e) {
                 ExitCount.dec();
             }
@@ -329,6 +332,7 @@ public class AgentFrame extends Frame
         GridBagConstraints c = new GridBagConstraints();
 
         panel = new AgentPanel(modeOptions, new AgentPanel.MapReader() {
+            @Override
             public Map read(String name) throws IOException {
                 // Experiments indicate that the following code works OK
                 // on versions of PersonalJava that do not support local file systems.
@@ -356,6 +360,7 @@ public class AgentFrame extends Frame
     }
 
     private class Listener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
             if (cmd.equals(EXIT)) {

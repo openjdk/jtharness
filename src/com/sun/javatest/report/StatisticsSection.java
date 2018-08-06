@@ -94,6 +94,7 @@ class StatisticsSection extends HTMLSection {
         }
     }
 
+    @Override
     void writeContents(ReportWriter out) throws IOException {
         // arguably, this should be conditional on whether
         // the test suite has tests that use keywords!
@@ -108,6 +109,7 @@ class StatisticsSection extends HTMLSection {
         out.newLine();
     }
 
+    @Override
     void writeSummary(ReportWriter out) throws IOException {
         // arguably, this should be conditional on whether
         // the test suite has tests that use keywords!

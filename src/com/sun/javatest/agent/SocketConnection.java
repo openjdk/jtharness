@@ -100,6 +100,7 @@ public class SocketConnection implements Connection {
         socketOutput = socket.getOutputStream();
     }
 
+    @Override
     public String getName() {
         if (name == null) {
             StringBuffer sb = new StringBuffer(32);
@@ -113,14 +114,17 @@ public class SocketConnection implements Connection {
         return name;
     }
 
+    @Override
     public InputStream getInputStream() {
         return socketInput;
     }
 
+    @Override
     public OutputStream getOutputStream() {
         return socketOutput;
     }
 
+    @Override
     public synchronized void close() throws IOException {
         socket.close();
         socketInput.close();
@@ -132,10 +136,12 @@ public class SocketConnection implements Connection {
         }
     }
 
+    @Override
     public synchronized boolean isClosed() {
         return closed;
     }
 
+    @Override
     public void waitUntilClosed(int timeout) throws InterruptedException {
         synchronized (this) {
             waitThread = Thread.currentThread();
@@ -143,6 +149,7 @@ public class SocketConnection implements Connection {
 
         Timer.Timeable cb = new Timer.Timeable() {
 
+            @Override
             public void timeout() {
                 synchronized (SocketConnection.this) {
                     if (waitThread != null) {

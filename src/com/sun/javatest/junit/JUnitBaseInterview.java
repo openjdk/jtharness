@@ -43,14 +43,17 @@ public class JUnitBaseInterview extends BasicInterviewParameters implements Para
         super("junit");
     }
 
+    @Override
     protected Question getEnvFirstQuestion() {
         return getEnvSuccessorQuestion();
     }
 
+    @Override
     public EnvParameters getEnvParameters() {
         return this;
     }
 
+    @Override
     public TestEnvironment getEnv() {
         try {
             return new TestEnvironment("junitenv", new HashMap<String, String>(), "junit");

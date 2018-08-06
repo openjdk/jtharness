@@ -49,10 +49,12 @@ public class TestTreeSelectionPane extends TreeSelectionPane
             this.trt = trt;
         }
 
+        @Override
         public Object getRoot() {
             return trt.getRoot();
         }
 
+        @Override
         public int getChildCount(Object node) {
             if (node == null)
                 throw new NullPointerException();
@@ -64,6 +66,7 @@ public class TestTreeSelectionPane extends TreeSelectionPane
                 throw new IllegalArgumentException();
         }
 
+        @Override
         public Object getChild(Object node, int index) {
             if (node == null)
                 throw new NullPointerException();
@@ -75,6 +78,7 @@ public class TestTreeSelectionPane extends TreeSelectionPane
                 throw new IllegalArgumentException();
         }
 
+        @Override
         public String getName(Object node) {
             if (node == null)
                 throw new NullPointerException();
@@ -93,6 +97,7 @@ public class TestTreeSelectionPane extends TreeSelectionPane
                 throw new IllegalArgumentException();
         }
 
+        @Override
         public String getPath(Object node) {
             if (node == null)
                 throw new NullPointerException();
@@ -109,6 +114,7 @@ public class TestTreeSelectionPane extends TreeSelectionPane
                 throw new IllegalArgumentException();
         }
 
+        @Override
         public boolean isLeaf(Object node) {
             if (node == null)
                 throw new NullPointerException();

@@ -53,6 +53,7 @@ public class JUnitTestSuite extends TestSuite {
      * Implementation here creates a JUnitTestRunner.
      * Override if you wish to supply your own test runner.
      */
+    @Override
     public TestRunner createTestRunner() {
         // will need to add options to test suite to be passed to runner
         // for ex. - to run setup/teardown, etc...

@@ -98,6 +98,7 @@ class QuickStartWizard extends ToolDialog
     }
 
 
+    @Override
     protected void initGUI() {
         disableDefaultDisposeHandler();
         initDirs();
@@ -187,6 +188,7 @@ class QuickStartWizard extends ToolDialog
         doneBtn = uif.createButton("qsw.done", listener);
         JButton cancelBtn = uif.createCancelButton("qsw.cancel");
         cancelBtn.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 closeExecTool(e);
             }
@@ -399,6 +401,7 @@ class QuickStartWizard extends ToolDialog
 
     private class Listener implements ActionListener
     {
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
             if (src == nextBtn)
@@ -424,6 +427,7 @@ class QuickStartWizard extends ToolDialog
 
             button = uif.createButton(key + ".browse");
             button.addActionListener(new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         // seed the path if the user has started to enter
                         // something
@@ -460,6 +464,7 @@ class QuickStartWizard extends ToolDialog
             add(button, BorderLayout.EAST);
         }
 
+        @Override
         public void setEnabled(boolean b) {
             super.setEnabled(b);
             label.setEnabled(b);
@@ -611,13 +616,17 @@ class QuickStartWizard extends ToolDialog
 
             if (rb != null) {
                 fp.addAncestorListener(new AncestorListener() {
+                        @Override
                         public void ancestorAdded(AncestorEvent e) {
                             fp.setEnabled(rb.isSelected());
                         }
+                        @Override
                         public void ancestorMoved(AncestorEvent e) { }
+                        @Override
                         public void ancestorRemoved(AncestorEvent e) { }
                     });
                 rb.addChangeListener(new ChangeListener() {
+                        @Override
                         public void stateChanged(ChangeEvent e) {
                             fp.setEnabled(rb.isSelected());
                         }
@@ -625,12 +634,15 @@ class QuickStartWizard extends ToolDialog
             }
 
             fp.setDocumentListener(new DocumentListener() {
+                    @Override
                     public void changedUpdate(DocumentEvent e) {
                         changeListener.stateChanged(new ChangeEvent(fp));
                     }
+                    @Override
                     public void insertUpdate(DocumentEvent e) {
                         changedUpdate(e);
                     }
+                    @Override
                     public void removeUpdate(DocumentEvent e) {
                         changedUpdate(e);
                     }
@@ -677,6 +689,7 @@ class QuickStartWizard extends ToolDialog
         }
 
         private ChangeListener changeListener = new ChangeListener() {
+                @Override
                 public void stateChanged(ChangeEvent e) {
                     Pane.this.stateChanged();
                 }
@@ -697,6 +710,7 @@ class QuickStartWizard extends ToolDialog
             browse = addChoice("browse", bg);
         }
 
+        @Override
         void stateChanged() {
             task = (newRun.isSelected() ? NEW
                     : resumeRun.isSelected() ? RESUME
@@ -705,11 +719,13 @@ class QuickStartWizard extends ToolDialog
             updateNextButton();
         }
 
+        @Override
         void updateNextButton() {
             nextBtn.setEnabled(task != UNSET);
         }
 
 
+        @Override
         Pane getNext() {
 
             return (task == NEW || task == BROWSE ? testSuitePane
@@ -771,12 +787,14 @@ class QuickStartWizard extends ToolDialog
         }
 
 
+        @Override
         void stateChanged() {
             showError(null);
             updateNextButton();
         }
 
 
+        @Override
         void updateNextButton() {
 
             tunePane();
@@ -791,6 +809,7 @@ class QuickStartWizard extends ToolDialog
                 nextBtn.setEnabled(false);
         }
 
+        @Override
         Pane getNext() {
             if (bg.getSelection() == null)
                 return null;
@@ -930,11 +949,13 @@ class QuickStartWizard extends ToolDialog
             testSuitePanel = addFile("file", chooser);
         }
 
+        @Override
         void stateChanged() {
             showError(null);
             updateNextButton();
         }
 
+        @Override
         void update() {
             super.update();
 
@@ -963,6 +984,7 @@ class QuickStartWizard extends ToolDialog
                 testSuitePanel.setSuggestions( s.toArray(new String[s.size()]));
         }
 
+        @Override
         void updateNextButton() {
             File file = testSuitePanel.getFile();
             TestSuite chooserTestSuite = chooser.getSelectedTestSuite();
@@ -978,6 +1000,7 @@ class QuickStartWizard extends ToolDialog
             }
         }
 
+        @Override
         Pane getNext() {
             // update test suite and check validity?
             // if ts == chooser.getSelectedFile, use chooser.getSelectedTestSuite
@@ -1065,19 +1088,23 @@ class QuickStartWizard extends ToolDialog
             chooser.setMode(WorkDirChooser.NEW);
         }
 
+        @Override
         void stateChanged() {
             updateNextButton();
         }
 
+        @Override
         public void update() {
             chooser.setTestSuite(testSuite);
         }
 
+        @Override
         void updateNextButton() {
             String path = workDirPanel.getPath();
             nextBtn.setEnabled(path != null && path.length() > 0);
         }
 
+        @Override
         Pane getNext() {
             File file = workDirPanel.getFile();
 
@@ -1135,10 +1162,12 @@ class QuickStartWizard extends ToolDialog
                 workDirPanel.setSuggestions(new String[] { userDir.getPath() });
         }
 
+        @Override
         void stateChanged() {
             updateNextButton();
         }
 
+        @Override
         void updateNextButton() {
             File file = workDirPanel.getFile();
             WorkDirectory chooserWorkDir = chooser.getSelectedWorkDirectory();
@@ -1151,6 +1180,7 @@ class QuickStartWizard extends ToolDialog
                 nextBtn.setEnabled(WorkDirectory.isWorkDirectory(file));
         }
 
+        @Override
         Pane getNext() {
             File file = workDirPanel.getFile();
 
@@ -1232,6 +1262,7 @@ class QuickStartWizard extends ToolDialog
             runTestsCheck = addCheck("run");
         }
 
+        @Override
         void update() {
             super.update();
 
@@ -1281,10 +1312,12 @@ class QuickStartWizard extends ToolDialog
             stateChanged();
         }
 
+        @Override
         void updateNextButton() {
             nextBtn.setEnabled(false);
         }
 
+        @Override
         void stateChanged() {
             if (runTestsCheck.isSelected()
                 && (config == null || !config.isFinishable()))
@@ -1299,6 +1332,7 @@ class QuickStartWizard extends ToolDialog
         private JCheckBox runTestsCheck;
     };
 
+    @Override
     protected void windowClosingAction(AWTEvent e) {
         setVisible(false);
         closeExecTool(e);

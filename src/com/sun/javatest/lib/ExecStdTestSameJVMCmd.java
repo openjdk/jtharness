@@ -65,6 +65,7 @@ public class ExecStdTestSameJVMCmd extends Command
      * @param ref       A stream to which to write reference output
      * @return          The result of the command
      */
+    @Override
     public Status run(String[] args, PrintWriter log, PrintWriter ref) {
         int repeat = 1;
         String className = null;

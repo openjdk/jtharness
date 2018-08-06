@@ -361,6 +361,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
      *
      * @return null
      */
+    @Override
     public Tool startTool() {
         showQSW();
         return null;
@@ -396,6 +397,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         }
     }
 
+    @Override
     public Tool restoreTool(Map<String, String> m) throws Fault {
         try {
             //
@@ -586,8 +588,9 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
      * @param showConfigEditorFlag
      * @param runTestsFlag
      */
+    @Override
     public void finishQSW(TestSuite ts, WorkDirectory wd, InterviewParameters ip,
-            boolean showConfigEditorFlag, boolean runTestsFlag) {
+                          boolean showConfigEditorFlag, boolean runTestsFlag) {
 
         qsw = null;
         ExecTool et = addNewExecTool(ts, wd, ip, "tmgr.errorOpenWorkDir");
@@ -604,6 +607,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
     /**
      * QSW_Listener interface method
      */
+    @Override
     public void cancelQSW() {
         qsw = null;
     }
@@ -622,12 +626,14 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
 
     QuickStartWizard qsw = null;
     private Action openQuickStartAction = new ToolAction(i18n, "mgr.openQuickStart") {
+        @Override
         public void actionPerformed(ActionEvent e) {
             showQSW();
         }
     };
 
     private Action openTMQSWAction = new ToolAction(i18n, "mgr.openTMQSW") {
+        @Override
         public void actionPerformed(ActionEvent e) {
             showQSW();
         }
@@ -636,6 +642,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
     //-------------------------------------------------------------------------
 
     private Action openTestSuiteAction = new ToolAction(i18n, "mgr.openTestSuite") {
+        @Override
         public void actionPerformed(ActionEvent e) {
             //System.err.println("EM:openTestSuiteAction " + e);
             TestSuiteChooser tsc = getTestSuiteChooser();
@@ -651,6 +658,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
     //-------------------------------------------------------------------------
 
     private Action openWorkDirAction = new ToolAction(i18n, "mgr.openWorkDir") {
+        @Override
         public void actionPerformed(ActionEvent e) {
             WorkDirectory wd = WorkDirChooseTool.chooseWD(emptyTool, null, null, WorkDirChooser.OPEN_FOR_ANY_TESTSUITE);
             if (wd == null) {
@@ -660,6 +668,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         }
     };
     private Action createWorkDirAction = new ToolAction(i18n, "mgr.createWorkDir") {
+        @Override
         public void actionPerformed(ActionEvent e) {
 
             Desktop d = getDesktop();
@@ -684,10 +693,12 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
     //-------------------------------------------------------------------------
 
     private FileOpener testSuiteOpener = new FileOpener() {
+        @Override
         public String getFileType() {
             return "testSuite";
         }
 
+        @Override
         public void open(File f) throws FileNotFoundException, Fault {
             try {
                 TestSuite ts = TestSuite.open(f);
@@ -701,10 +712,12 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
     //-------------------------------------------------------------------------
 
     private FileOpener workDirOpener = new FileOpener() {
+        @Override
         public String getFileType() {
             return "workDirectory";
         }
 
+        @Override
         public void open(File f) throws FileNotFoundException, Fault {
             try {
                 WorkDirectory wd = WorkDirectory.open(f);

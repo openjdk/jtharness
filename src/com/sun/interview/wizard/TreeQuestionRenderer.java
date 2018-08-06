@@ -41,6 +41,7 @@ import com.sun.interview.wizard.selectiontree.selection.SelectionType;
 public class TreeQuestionRenderer
     implements QuestionRenderer
 {
+    @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         final TreeQuestion tq = (TreeQuestion) qq;
 
@@ -55,6 +56,7 @@ public class TreeQuestionRenderer
         tree.setSelection(tq.getValue());
 
         Runnable valueSaver = new Runnable() {
+                @Override
                 public void run() {
                     tq.setValue(tree.getSelection());
                 }
@@ -65,6 +67,7 @@ public class TreeQuestionRenderer
         return sp;
     }
 
+    @Override
     public String getInvalidValueMessage(Question q) {
         return null;
     }
@@ -81,28 +84,34 @@ public class TreeQuestionRenderer
             this.object = object;
         }
 
+        @Override
         public SelectionType getSelectionType() {
             return type;
         }
 
+        @Override
         public void setSelectionType(SelectionType selectionType) {
             if (!type.equals(selectionType)) {
                     type = selectionType;
             }
         }
 
+        @Override
         public String getDisplayableName() {
             return getName();
         }
 
+        @Override
         public String getToolTip() {
             return null;
         }
 
+        @Override
         public boolean isToolTipAlwaysShown() {
             return false;
         }
 
+        @Override
         public List<SelectionElement> getChildren() {
             if (children == null) {
                 initChildren();

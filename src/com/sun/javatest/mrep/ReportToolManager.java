@@ -42,6 +42,7 @@ public class ReportToolManager extends ToolManager {
         super(desktop);
     }
 
+    @Override
     public Tool startTool() {
         ReportTool t = getTool();
 
@@ -54,8 +55,10 @@ public class ReportToolManager extends ToolManager {
         return t;
     }
 
+    @Override
     public Action[] getWindowOpenMenuActions() {
         Action a = new ToolAction(i18n, "tmgr.openReport") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 startTool();
             }
@@ -63,6 +66,7 @@ public class ReportToolManager extends ToolManager {
         return new Action[] { a };
     }
 
+    @Override
     public Tool restoreTool(Map<String, String> m) {
         ReportTool t = getTool();
         t.restore(m);
@@ -72,10 +76,13 @@ public class ReportToolManager extends ToolManager {
         if (tool == null) {
             tool = new ReportTool(this, getDesktop());
             tool.addObserver(new Tool.Observer() {
+                    @Override
                     public void shortTitleChanged(Tool t, String newValue) { }
 
+                    @Override
                     public void titleChanged(Tool t, String newValue) { }
 
+                    @Override
                     public void toolDisposed(Tool t) {
                         if (t == tool)
                             tool = null;

@@ -127,12 +127,15 @@ abstract public class ToolDialog
 
         defaultDisposeHandler = new Tool.Observer() {
 
+           @Override
            public void titleChanged(Tool source, String newValue) {
            }
 
+           @Override
            public void shortTitleChanged(Tool source, String newValue) {
            }
 
+            @Override
             public void toolDisposed(Tool source) {
                 closing();
             }
@@ -557,10 +560,12 @@ abstract public class ToolDialog
             }
 
             d.addWindowListener(new WindowAdapter() {
+                    @Override
                     public void windowActivated(WindowEvent e) {
                         if(defaultButton != null)
                             defaultButton.requestFocus();
                     }
+                    @Override
                     public void windowClosing(WindowEvent e) {
                         windowClosingAction(e);
                     }
@@ -575,10 +580,12 @@ abstract public class ToolDialog
             }
 
             d.addWindowListener(new WindowAdapter() {
+                    @Override
                     public void windowActivated(WindowEvent e) {
                         if(defaultButton != null)
                             defaultButton.requestFocus();
                     }
+                    @Override
                     public void windowClosing(WindowEvent e) {
                         windowClosingAction(e);
                     }
@@ -601,6 +608,7 @@ abstract public class ToolDialog
                 */
             }
             f.addInternalFrameListener(new InternalFrameAdapter() {
+                @Override
                 public void internalFrameClosing(InternalFrameEvent e) {
                     windowClosingAction(e);
                 }
@@ -620,6 +628,7 @@ abstract public class ToolDialog
             ActionMap actionMap = p.getActionMap();
             inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), UIFactory.CANCEL);
             actionMap.put(UIFactory.CANCEL, new AbstractAction() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         cancelButton.doClick(250);
                     }
@@ -633,6 +642,7 @@ abstract public class ToolDialog
             ActionMap actionMap = p.getActionMap();
             inputMap.put(KeyStroke.getKeyStroke("ctrl 0"), "showInfo");
             actionMap.put("showInfo", new AbstractAction() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         showInfo();
                     }

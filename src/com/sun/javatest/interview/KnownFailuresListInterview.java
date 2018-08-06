@@ -148,6 +148,7 @@ public class KnownFailuresListInterview
             super.clear();
         }
 
+        @Override
         protected Question getNext() {
             if (value == null)
                 return null;
@@ -181,6 +182,7 @@ public class KnownFailuresListInterview
             setDuplicatesAllowed(false);
         }
 
+        @Override
         protected Question getNext() {
             if (value == null || value.length == 0)
                 return null;

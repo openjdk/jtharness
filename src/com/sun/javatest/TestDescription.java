@@ -457,6 +457,7 @@ public class TestDescription implements Serializable
         return new Iterator<String>() {
             int pos = 0;
 
+            @Override
             public boolean hasNext() {
                 if(fields == null || fields.length == 0 ||
                    pos >= fields.length) {
@@ -466,6 +467,7 @@ public class TestDescription implements Serializable
                 }
             }
 
+            @Override
             public String next() {
                 if(fields == null || fields.length == 0 ||
                    pos == fields.length) {
@@ -477,6 +479,7 @@ public class TestDescription implements Serializable
                 }
             }
 
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
@@ -523,6 +526,7 @@ public class TestDescription implements Serializable
     /**
      * Simple standard debugging output.
      */
+    @Override
     public String toString() {
         return ("TestDescription[" + getTitle() + "]");
     }

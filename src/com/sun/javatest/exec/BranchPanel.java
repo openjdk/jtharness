@@ -148,6 +148,7 @@ class BranchPanel
         bPane.setBorder(BorderFactory.createEmptyBorder());
 
         bPane.addChangeListener(new ChangeListener() {
+            @Override
             public void stateChanged(ChangeEvent e) {
                 Component c = bPane.getSelectedComponent();
                 if (c instanceof BP_BranchSubpanel) {
@@ -185,21 +186,25 @@ class BranchPanel
 
         // --- anonymous class ---
         ComponentListener cl = new ComponentListener() {
+            @Override
             public void componentResized(ComponentEvent e) {
                 // MAY NOT NEED THIS
                 currPanel.invalidate();
                 bPane.invalidate();
             }
 
+            @Override
             public void componentMoved(ComponentEvent e) {
             }
 
+            @Override
             public void componentShown(ComponentEvent e) {
                 if (needToUpdateGUIWhenShown) {
                     updateGUI();
                     needToUpdateGUIWhenShown = false;
                 }
             }
+            @Override
             public void componentHidden(ComponentEvent e) {
             }
         };
@@ -301,12 +306,14 @@ class BranchPanel
         return false;
     }
 
+    @Override
     protected void finalize() throws Throwable {
         super.finalize();
     }
 
     // --- FilterSelectionHandler.Observer ---
 
+    @Override
     public void filterUpdated(TestFilter f) {
         for (int i = 0; i < allPanels.length; i++)
             allPanels[i].invalidateFilters();
@@ -314,6 +321,7 @@ class BranchPanel
         updateGUI();
     }
 
+    @Override
     public void filterSelected(TestFilter f) {
         for (int i = 0; i < allPanels.length; i++)
             allPanels[i].invalidateFilters();
@@ -321,10 +329,12 @@ class BranchPanel
         updateGUI();
     }
 
+    @Override
     public void filterAdded(TestFilter f) {
         // we don't care here
     }
 
+    @Override
     public void filterRemoved(TestFilter f) {
         // we don't care here
     }
@@ -373,6 +383,7 @@ class BranchPanel
      * TestPanelModel to dispatch the messages it receives.
      */
     class BranchModel implements BP_Model {
+        @Override
         public boolean isRunning() {
             return harness.isRunning();
         }
@@ -381,17 +392,21 @@ class BranchPanel
          * Message are automatically placed onto the event thread.
          * @param msg Localized message to be displayed.
          */
+        @Override
         public void showMessage(String msg) {
             EventQueue.invokeLater(new TextUpdater(statusTf, msg, uif));
         }
 
+        @Override
         public void showTest(TestResult tr, Object[] path) {
             tpm.showTest(tr, new TreePath(path));
         }
 
+        @Override
         public void setEnabled(final Component c, final boolean state) {
             if (!EventQueue.isDispatchThread()) {
                 Runnable cmd = new Runnable() {
+                    @Override
                     public void run() {
                         BranchPanel.BranchModel.this.setEnabled(c, state);
                     }   // run()
@@ -408,6 +423,7 @@ class BranchPanel
             }
         }
 
+        @Override
         public boolean isEnabled(Component c) {
             int index = bPane.indexOfComponent(c);
             if (index == -1)
@@ -416,6 +432,7 @@ class BranchPanel
                 return listDisplayStatus[index];
         }
 
+        @Override
         public TestFilter getFilter() {
             return filterHandler.getActiveFilter();
         }
@@ -429,6 +446,7 @@ class BranchPanel
 
             if (!EventQueue.isDispatchThread()) {
                 Runnable cmd = new Runnable() {
+                    @Override
                     public void run() {
                         BranchPanel.BranchModel.this.setEnabled(index, newState);
                     }   // run()
@@ -474,6 +492,7 @@ class BranchPanel
             this.uif = uif;
         }
 
+        @Override
         public void run() {
             //if (!needUpdate)
             //    return;
@@ -533,21 +552,25 @@ class BranchPanel
             interestList[MSGS_FILTERED] = false;
         }
 
+        @Override
         public void testAdded(int msgType, TestResultTable.TreeNode[] path,
                               TestResult what, int index) {
             // ignore
         }
 
+        @Override
         public void testRemoved(int msgType, TestResultTable.TreeNode[] path,
                                 TestResult what, int index) {
             // ignore
         }
 
+        @Override
         public void statsUpdated(final int[] stats) {
             // enabled any disabled tabs which have contents
             // disable any enabled tabs which are empty
             if (!EventQueue.isDispatchThread()) {
                 Runnable cmd = new Runnable() {
+                    @Override
                     public void run() {
                         statsUpdated(stats);
                     }

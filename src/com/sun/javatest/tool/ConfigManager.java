@@ -69,6 +69,7 @@ import java.util.Map.Entry;
 public class ConfigManager
     extends CommandManager
 {
+    @Override
     public HelpTree.Node getHelp() {
         Object[] childData = {
             ConcurrencyCommand.getName(),
@@ -113,6 +114,7 @@ public class ConfigManager
         return new HelpTree.Node(i18n, prefix, childNodes);
     }
 
+    @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
@@ -247,6 +249,7 @@ public class ConfigManager
                 throw new Fault(i18n, "cnfg.conc.badValue", arg);
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
             if (p.getConcurrencyParameters() instanceof Parameters.MutableConcurrencyParameters) {
@@ -285,6 +288,7 @@ public class ConfigManager
             this.path = path;
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             /*OLD
             try {
@@ -353,6 +357,7 @@ public class ConfigManager
             this.path = path;
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             try {
                 InterviewParameters p = getConfig(ctx);
@@ -389,6 +394,7 @@ public class ConfigManager
             name = nextArg(argIter);
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
             if (p.getEnvParameters() instanceof Parameters.LegacyEnvParameters) {
@@ -433,6 +439,7 @@ public class ConfigManager
             v.toArray(files);
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
             if (p.getEnvParameters() instanceof Parameters.LegacyEnvParameters) {
@@ -478,6 +485,7 @@ public class ConfigManager
             v.toArray(files);
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
             if (p.getExcludeListParameters() instanceof Parameters.MutableExcludeListParameters) {
@@ -523,6 +531,7 @@ public class ConfigManager
             v.toArray(files);
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
             p.setKnownFailureFiles(files);
@@ -561,6 +570,7 @@ public class ConfigManager
             cmdForFile = getCommandForFile(new File(arg));
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             cmdForFile.run(ctx);
         }
@@ -616,6 +626,7 @@ public class ConfigManager
             expr = nextArg(argIter);
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
             if (p.getKeywordsParameters() instanceof Parameters.MutableKeywordsParameters) {
@@ -690,6 +701,7 @@ public class ConfigManager
             this.path = path;
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             try {
                 FileParameters params = new FileParameters(path);
@@ -754,6 +766,7 @@ public class ConfigManager
                 throw new Fault(i18n, "cnfg.params.badValue", params.getErrorMessage());
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             setParameters(ctx, params);
         }
@@ -804,6 +817,7 @@ public class ConfigManager
                 throw new Fault(i18n, "cnfg.status.noValues");
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
             if (p.getPriorStatusParameters() instanceof Parameters.MutablePriorStatusParameters) {
@@ -874,6 +888,7 @@ public class ConfigManager
             }
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
             Question[] path = p.getPath();
@@ -1016,6 +1031,7 @@ public class ConfigManager
             }
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
             if (file != null) {
@@ -1089,6 +1105,7 @@ public class ConfigManager
             v.toArray(tests);
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
             if (p.getTestsParameters() instanceof Parameters.MutableTestsParameters) {
@@ -1136,6 +1153,7 @@ public class ConfigManager
             this.path = path;
         }
 
+        @Override
         public URL getCustomSplash() {
             String basePath = path.getAbsolutePath() +
                               File.separator + "lib";
@@ -1182,6 +1200,7 @@ public class ConfigManager
          * The classpath value is relative to the root of the test suite, not
          * the <code>lib</code> directory.
          */
+        @Override
         ClassLoader getCustomHelpLoader() {
             try {
                 String basePath = path.getCanonicalPath() +
@@ -1222,6 +1241,7 @@ public class ConfigManager
             }
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             /*OLD
             if (ctx.getTestSuite() != null)
@@ -1376,6 +1396,7 @@ public class ConfigManager
                 throw new Fault(i18n, "cnfg.tf.badValue", arg);
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
             if (p.getTimeoutFactorParameters() instanceof Parameters.MutableTimeoutFactorParameters) {
@@ -1426,6 +1447,7 @@ public class ConfigManager
             this.path = path;
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             /*OLD
             TestSuite ts = ctx.getTestSuite();

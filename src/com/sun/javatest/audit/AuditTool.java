@@ -66,6 +66,7 @@ class AuditTool extends Tool
         initGUI();
     }
 
+    @Override
     public void dispose() {
         super.dispose();
 
@@ -75,20 +76,24 @@ class AuditTool extends Tool
         }
     }
 
+    @Override
     public JMenuBar getMenuBar() {
         return menuBar;
     }
 
+    @Override
     public TestSuite[] getLoadedTestSuites() {
         TestSuite ts = (interviewParams == null ? null : interviewParams.getTestSuite());
         return (ts == null ? null : new TestSuite[] { ts });
     }
 
+    @Override
     public WorkDirectory[] getLoadedWorkDirectories() {
         WorkDirectory wd = (interviewParams == null ? null : interviewParams.getWorkDirectory());
         return (wd == null ? null : new WorkDirectory[] { wd });
     }
 
+    @Override
     public void save(Map<String, String> m) {
         if (interviewParams == null)
             return;
@@ -182,6 +187,7 @@ class AuditTool extends Tool
         tabs = uif.createTabbedPane("tool.tabs", panes);
         tabs.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         tabs.addChangeListener(new ChangeListener() {
+            @Override
             public void stateChanged(ChangeEvent e) {
                 Component c = tabs.getSelectedComponent();
                 ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(c));
@@ -265,6 +271,7 @@ class AuditTool extends Tool
         d.setLocationRelativeTo(this);
 
         worker = new Thread() {
+                @Override
                 public void run() {
                     Audit a = audit; // default to previous value
                     try {
@@ -285,6 +292,7 @@ class AuditTool extends Tool
         };
 
         ActionListener al = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt){
                 // show dialog if still processing
                 if (worker != null && worker.isAlive()) {
@@ -310,6 +318,7 @@ class AuditTool extends Tool
     private void updateGUI(final Audit a, final InterviewParameters p, final String msg) {
         if (!EventQueue.isDispatchThread()) {
             EventQueue.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         updateGUI(a, p, msg);
                     }
@@ -365,6 +374,7 @@ class AuditTool extends Tool
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(AuditTool.class);
 
     private class Listener implements ActionListener, HierarchyListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
             if (cmd.equals(OPTIONS)) {
@@ -375,9 +385,11 @@ class AuditTool extends Tool
             }
         }
 
+        @Override
         public void hierarchyChanged(HierarchyEvent e) {
             if (isShowing() && autoShowOptions) {
                 EventQueue.invokeLater(new Runnable() {
+                        @Override
                         public void run() {
                             showOptions();
                         }

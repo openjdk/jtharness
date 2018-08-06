@@ -47,8 +47,10 @@ public class AuditToolManager extends ToolManager
 
     //----------------------------------------------------------------------------
 
+    @Override
     public Action[] getWindowOpenMenuActions() {
         Action a = new ToolAction(i18n, "tmgr.openAudit") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 startTool();
             }
@@ -61,6 +63,7 @@ public class AuditToolManager extends ToolManager
     /**
      * Start the {@link AuditTool audit tool} window.
      */
+    @Override
     public Tool startTool() {
         AuditTool t = getTool();
 
@@ -73,6 +76,7 @@ public class AuditToolManager extends ToolManager
         return t;
     }
 
+    @Override
     public Tool restoreTool(Map<String, String> m) {
         AuditTool t = getTool();
         t.restore(m);
@@ -86,10 +90,13 @@ public class AuditToolManager extends ToolManager
         if (tool == null) {
             tool = new AuditTool(this);
             tool.addObserver(new Tool.Observer() {
+                    @Override
                     public void shortTitleChanged(Tool t, String newValue) { }
 
+                    @Override
                     public void titleChanged(Tool t, String newValue) { }
 
+                    @Override
                     public void toolDisposed(Tool t) {
                         if (t == tool)
                             tool = null;

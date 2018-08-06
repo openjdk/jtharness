@@ -51,14 +51,17 @@ class RunProgressMonitor extends Monitor implements MonitorState.Observer {
         ms.addObserver(this);
     }
 
+    @Override
     public String getSmallMonitorName() {
         return uif.getI18NString("runprog.smName");
     }
 
+    @Override
     public Icon getSmallMonitorIcon() {
         return null;
     }
 
+    @Override
     public JComponent getSmallMonitor() {
         /* removed for JT 3.2
         if (smMeter == null) {
@@ -88,22 +91,27 @@ class RunProgressMonitor extends Monitor implements MonitorState.Observer {
         return smMeter;
     }
 
+    @Override
     public String getLargeMonitorName() {
         return uif.getI18NString("runprog.lgName");
     }
 
+    @Override
     public Icon getLargeMonitorIcon() {
         return null;
     }
 
+    @Override
     public JComponent getLargeMonitor() {
         return null;
     }
 
     // MonitorState.Observer
+    @Override
     public void starting() {
         if (pmUpdate == null) {
             pmUpdate = new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     if (lastDone != state.getTestsDoneCount()) {
                         smMeter.setMaximum(state.getTestsFoundCount());
@@ -129,13 +137,16 @@ class RunProgressMonitor extends Monitor implements MonitorState.Observer {
             pmTimer.start();
     }
 
+    @Override
     public void postProcessing() {
         stopAll();
     }
 
+    @Override
     public void stopping() {
     }
 
+    @Override
     public void finished(boolean allOk) {
     }
 

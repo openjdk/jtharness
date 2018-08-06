@@ -57,6 +57,7 @@ public class BP_DocumentationSubpanel extends BP_BranchSubpanel {
         emptyPane.add(emptyL, gbc);
     }
 
+    @Override
     protected void updateSubpanel(TT_BasicNode currNode) {
         super.updateSubpanel(currNode);
         TestSuite ts = em.getTestSuite();
@@ -77,6 +78,7 @@ public class BP_DocumentationSubpanel extends BP_BranchSubpanel {
         validateEnabledState();
     }
 
+    @Override
     protected void invalidateFilters() {
         super.invalidateFilters();
         validateEnabledState();

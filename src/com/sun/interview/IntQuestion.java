@@ -179,6 +179,7 @@ public abstract class IntQuestion extends Question
         return getValue();
     }
 
+    @Override
     public String getStringValue() {
         if (stringValue == null) {
             if (value == Integer.MIN_VALUE)
@@ -204,6 +205,7 @@ public abstract class IntQuestion extends Question
      * @see #getValue
      * @see #setValue(String, Locale)
      */
+    @Override
     public void setValue(String s) throws Interview.Fault {
         setValue(s, Locale.getDefault());
     }
@@ -277,10 +279,12 @@ public abstract class IntQuestion extends Question
         }
     }
 
+    @Override
     public boolean isValueValid() {
         return isValid();
     }
 
+    @Override
     public boolean isValueAlwaysValid() {
         return false;
     }
@@ -318,6 +322,7 @@ public abstract class IntQuestion extends Question
      * Clear any response to this question, resetting the value
      * back to its initial state.
      */
+    @Override
     public void clear() {
         setValue(defaultValue);
     }
@@ -351,6 +356,7 @@ public abstract class IntQuestion extends Question
      * the tag as the key.
      * @param data The map in which to save the value for this question.
      */
+    @Override
     protected void save(Map<String, String> data) {
         data.put(tag, getStringValue());
     }

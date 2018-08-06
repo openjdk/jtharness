@@ -1466,6 +1466,7 @@ public class TestResultTable {
             this.c = c;
         }
 
+        @Override
         public int compare(DisassembledUrl o1, DisassembledUrl o2) {
             String[] s1 = o1.data, s2 = o2.data;
             for (int i = 0; i < s1.length; i++) {
@@ -2147,6 +2148,7 @@ public class TestResultTable {
         return trCache.needsCompress();
     }
 
+    @Override
     protected void finalize() throws Throwable {
         super.finalize();
         // cleanup all the http stuff
@@ -2430,10 +2432,12 @@ public class TestResultTable {
         }
 
         // --- Iterator interface ---
+        @Override
         public boolean hasNext() {
             return hasMoreElements();
         }
 
+        @Override
         public TestResult next() {
             return nextElement();
         }
@@ -2443,15 +2447,18 @@ public class TestResultTable {
          *
          * @throws UnsupportedOperationException Not available for this iterator.
          */
+        @Override
         public void remove() {
             throw new UnsupportedOperationException("Cannot remove from TestResultTable thhrough iterator.  Do not call this method.");
         }
 
         // --- Enumerator interface ---
+        @Override
         public boolean hasMoreElements() {
             return false;
         }
 
+        @Override
         public TestResult nextElement() {
             throw new NoSuchElementException(i18n.getString("trt.noElements"));
         }
@@ -2472,11 +2479,15 @@ public class TestResultTable {
      */
     public interface TreeIterator extends Enumeration<TestResult>, Iterator<TestResult> {
         // --- Enumerator interface  ---
+        @Override
         public abstract boolean hasMoreElements();
+        @Override
         public abstract TestResult nextElement();
 
         // --- Iterator interface ---
+        @Override
         public abstract boolean hasNext();
+        @Override
         public abstract TestResult next();
 
         /**
@@ -2484,6 +2495,7 @@ public class TestResultTable {
          *
          * @throws UnsupportedOperationException Not available for this iterator.
          */
+        @Override
         public abstract void remove();
 
         // --- Statistics info ---
@@ -2580,10 +2592,12 @@ public class TestResultTable {
     class Updater implements TestResultCache.Observer
     {
         //-----methods from TestResultCache.Observer-----
+        @Override
         public void update(Map<String, TestResult> tests) {
             updateFromCache(tests);
         }
 
+        @Override
         public void waitingForLock(long timeSoFar) {
             // in time, could propogate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
@@ -2594,28 +2608,33 @@ public class TestResultTable {
                       new Object[] { workDir.getRoot(), Integer.valueOf(minutes), Integer.valueOf(seconds)});
         }
 
+        @Override
         public void timeoutWaitingForLock() {
             // in time, could propogate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
             writeI18N("trt.timeoutForLock", workDir.getRoot());
         }
 
+        @Override
         public void acquiredLock() {
             // in time, could propogate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
         }
 
+        @Override
         public void releasedLock() {
             // in time, could propogate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
         }
 
+        @Override
         public void buildingCache(boolean reset) {
             // in time, could propogate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
             rebuildCount = 0;
         }
 
+        @Override
         public void buildingCache(TestResult tr) {
             // in time, could propogate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
@@ -2626,6 +2645,7 @@ public class TestResultTable {
                 System.err.println(".");
         }
 
+        @Override
         public void builtCache() {
             // in time, could propogate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
@@ -2633,6 +2653,7 @@ public class TestResultTable {
                 System.err.println();
         }
 
+        @Override
         public void error(Throwable t) {
             // in time, could propogate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic

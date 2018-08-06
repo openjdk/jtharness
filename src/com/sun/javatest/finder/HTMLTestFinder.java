@@ -60,6 +60,7 @@ public class HTMLTestFinder extends TestFinder
             extensionTable.put(extensions[i], extensions[i]);
     }
 
+    @Override
     protected int decodeArg(String[] args, int i) throws Fault {
         if (args[i].equalsIgnoreCase("-webWalk")) {
             mode = WEB_WALK;
@@ -77,6 +78,7 @@ public class HTMLTestFinder extends TestFinder
             return super.decodeArg(args, i);
     }
 
+    @Override
     public File getRoot() {
         // we assume that providedRoot exists - see Parameters class
         File providedRoot = super.getRoot();
@@ -94,6 +96,7 @@ public class HTMLTestFinder extends TestFinder
         return validatedRoot;
     }
 
+    @Override
     protected void localizedError(String msg) {
         if (!ignoreErrors)
             super.localizedError(msg);
@@ -130,6 +133,7 @@ public class HTMLTestFinder extends TestFinder
     //-----internal routines----------------------------------------------------
 
 
+    @Override
     protected void scan(File file) {
         if (file.isDirectory())
             scanDirectory(file);

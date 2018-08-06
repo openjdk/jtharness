@@ -83,6 +83,7 @@ public class TemplateParameterFilter extends ParameterFilter {
     }
 
 
+    @Override
     public boolean accepts(TestDescription td) throws Fault {
         if (templateEnabled) {
             return super.accepts(td);
@@ -91,6 +92,7 @@ public class TemplateParameterFilter extends ParameterFilter {
         }
     }
 
+    @Override
     public boolean accepts(TestDescription td, TestFilter.Observer o) throws TestFilter.Fault {
         if (templateEnabled) {
             return super.accepts(td, o);
@@ -102,14 +104,17 @@ public class TemplateParameterFilter extends ParameterFilter {
         }
     }
 
+    @Override
     public String getName() {
         return i18n.getString("tFilter.name");
     }
 
+    @Override
     public String getDescription() {
         return i18n.getString("tFilter.desc");
     }
 
+    @Override
     public String getReason() {
         if (!templateEnabled) {
             return i18n.getString("tFilter.notAvailable");

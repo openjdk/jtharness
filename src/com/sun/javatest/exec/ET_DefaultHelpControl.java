@@ -57,28 +57,33 @@ public class ET_DefaultHelpControl implements ET_HelpControl {
     /**
      * Does nothing
      */
+    @Override
     public void updateGUI() {
     }
 
     /**
      * Does nothing
      */
+    @Override
     public void save(Map<String, String> m) {
     }
 
     /**
      * Does nothing
      */
+    @Override
     public void restore(Map<String, String> m) {
     }
 
     /**
      * @return null
      */
+    @Override
     public JMenu getMenu() {
         return null;
     }
 
+    @Override
     public List<Action> getToolBarActionList() {
         if (actionList == null) {
             actionList = new ArrayList<Action>();
@@ -90,6 +95,7 @@ public class ET_DefaultHelpControl implements ET_HelpControl {
     /**
      * Does nothing
      */
+    @Override
     public void dispose() {
     }
 
@@ -98,6 +104,7 @@ public class ET_DefaultHelpControl implements ET_HelpControl {
 
     void initActions() {
         helpAction = new ToolAction(uif, "exec.help", true) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 HelpBroker b = tool.getHelpBroker();
                 if (b != null) {

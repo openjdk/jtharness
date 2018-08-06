@@ -280,6 +280,7 @@ public class EditableList extends JPanel
 
     protected class Renderer
         extends DefaultListCellRenderer {
+        @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             return super.getListCellRendererComponent(list,
                                                       getDisplayValue(value),
@@ -292,6 +293,7 @@ public class EditableList extends JPanel
     protected class Listener
         implements ActionListener, ListSelectionListener, MouseListener {
         // ActionListener, for add, remove, up, down buttons
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
             if (src == addBtn) {
@@ -311,12 +313,14 @@ public class EditableList extends JPanel
         }
 
         // ListSelectionListener, to track list selection changes
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             selectedItemChanged();
             updateButtons();
         }
 
         // MouseListener, to react to double click in list
+        @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 int index = list.locationToIndex(e.getPoint());
@@ -325,9 +329,13 @@ public class EditableList extends JPanel
             }
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) { }
+        @Override
         public void mouseExited(MouseEvent e) { }
+        @Override
         public void mousePressed(MouseEvent e) { }
+        @Override
         public void mouseReleased(MouseEvent e) { }
     }
 

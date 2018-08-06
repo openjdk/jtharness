@@ -68,15 +68,18 @@ class CE_FullView extends CE_View
         return searchMenu;
     }
 
+    @Override
     boolean isOKToClose() {
         return true;
     }
 
+    @Override
     void load() {
         wizPane.setMarkersEnabled(config.getMarkersEnabled());
         wizPane.setMarkersFilterEnabled(config.getMarkersFilterEnabled());
     }
 
+    @Override
     void save() {
         // this line ensures that all pending edits the user has are
         // committed.  Applies mainly to things which have a editing component
@@ -89,6 +92,7 @@ class CE_FullView extends CE_View
         config.setMarkersFilterEnabled(wizPane.getMarkersFilterEnabled());
     }
 
+    @Override
     void refresh() {
         config.updatePath();
     }
@@ -187,6 +191,7 @@ class CE_FullView extends CE_View
     {
         // ---------- from ActionListener -----------
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
             if (cmd.equals(NEXT)) {
@@ -223,20 +228,24 @@ class CE_FullView extends CE_View
 
         // ---------- from AncestorListener -----------
 
+        @Override
         public void ancestorAdded(AncestorEvent e) {
             config.addObserver(this);
             pathUpdated();
             currentQuestionChanged(config.getCurrentQuestion());
         }
 
+        @Override
         public void ancestorMoved(AncestorEvent e) { }
 
+        @Override
         public void ancestorRemoved(AncestorEvent e) {
             config.removeObserver(this);
         }
 
         // ---------- from Interview.Observer -------
 
+        @Override
         public void pathUpdated() {
             String msg = (config.isFinishable() ? completeMsg : incompleteMsg);
             if (msg == null || msg.length() == 0) {
@@ -250,6 +259,7 @@ class CE_FullView extends CE_View
 
         }
 
+        @Override
         public void currentQuestionChanged(Question q) {
             boolean first = config.isFirst(q);
             boolean last = config.isLast(q);

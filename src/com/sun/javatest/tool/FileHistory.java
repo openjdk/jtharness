@@ -342,6 +342,7 @@ public class FileHistory
             history = h;
         }
 
+        @Override
         public void menuSelected(MenuEvent e) {
             // Add the recent entries, or a disabled marker if none
             JMenu menu = (JMenu) (e.getSource());
@@ -371,10 +372,12 @@ public class FileHistory
             }
         }
 
+        @Override
         public void menuDeselected(MenuEvent e) {
             removeDynamicEntries((JMenu) (e.getSource()));
         }
 
+        @Override
         public void menuCanceled(MenuEvent e) {
             removeDynamicEntries((JMenu) (e.getSource()));
         }

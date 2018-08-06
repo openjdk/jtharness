@@ -56,6 +56,7 @@ class ToolBarPanel extends JPanel {
      * Invoked by Swing to draw components.
      * @param g - the Graphics context in which to paint
      **/
+    @Override
     public void paint(java.awt.Graphics g) {
         int indent = 0;
         super.paint(g);
@@ -83,6 +84,7 @@ class ToolBarPanel extends JPanel {
             setHgap(10);
         }
 
+        @Override
         public Dimension preferredLayoutSize(Container target) {
             synchronized (target.getTreeLock()) {
                 int realW = target.getSize().width;

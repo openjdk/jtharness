@@ -56,6 +56,7 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
      * Common method for running the test, used by all entry points.
      * <code>setTestCaseClass()</code> should have been invoked before calling this.
      */
+    @Override
     public Status run0(String[] argv) {
         MultiStatus ms = new MultiStatus(log);
 
@@ -92,6 +93,7 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
     /**
      * Entry point for standalone mode.
      */
+    @Override
     protected void setup(String executeClass) {
         TestCase test;
         try {
@@ -118,6 +120,7 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
         testCaseClass = test;
     }
 
+    @Override
     protected Status invokeTestCase(Method m)
     throws IllegalAccessException, InvocationTargetException {
         try {
@@ -136,6 +139,7 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
         try {
             Method[] methods = AccessController.doPrivileged(
                     new PrivilegedAction<Method[]>() {
+                        @Override
                         public Method[] run() {
                             return testCaseClass.getClass().getMethods();
                         }

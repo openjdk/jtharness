@@ -49,10 +49,12 @@ class SwingFileFilter extends javax.swing.filechooser.FileFilter
         filter = ff;
     }
 
+    @Override
     public boolean accept(File f) {
         return f.isDirectory() || filter.accept(f);
     }
 
+    @Override
     public String getDescription() {
         return filter.getDescription();
     }

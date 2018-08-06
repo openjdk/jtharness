@@ -115,6 +115,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         initialize();
     }
 
+    @Override
     public void initialize() {
         initGUI();
     }
@@ -122,6 +123,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     /**
      * Returns the current TRT, or null if no table is available.
      */
+    @Override
     public synchronized TestResultTable getTestResultTable() {
         /*
         WorkDirectory wd = params.getWorkDirectory();
@@ -136,14 +138,17 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     /**
      * Discover which parameters this panel is using.
      */
+    @Override
     public Parameters getParameters() {
         return params;
     }
 
+    @Override
     public synchronized TreePanelModel getTreePanelModel() {
         return pm;
     }
 
+    @Override
     public synchronized void dispose() {
         disposed = true;
 
@@ -185,6 +190,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
      * @see #applyParameters
      * @see com.sun.javatest.exec.FilterConfig
      */
+    @Override
     public synchronized void setParameters(Parameters p) {
         this.newParams = p;
         newConfigAlreadyApplied = false;
@@ -536,6 +542,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                             try {
                                 EventQueue.invokeAndWait(new Runnable() {
 
+                                    @Override
                                     public void run() {
                                         if (d.isShowing()) {
                                             d.hide();
@@ -560,6 +567,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
             ActionListener al = new ActionListener() {
 
+                @Override
                 public void actionPerformed(ActionEvent evt) {
                     // show dialog if still processing
                     if (t == null) {
@@ -668,6 +676,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
         Runnable restorer = new Runnable() {
 
+            @Override
             public void run() {
                 //targetTree.restorePaths(paths);
             }
@@ -784,6 +793,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                     setName("Tree refresh");
                 }
 
+                @Override
                 public void run() {
                     if (trt == null) {
                         return; // empty tree model set
@@ -847,6 +857,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                         try {
                             EventQueue.invokeAndWait(new Runnable() {
 
+                                @Override
                                 public void run() {
                                     if (d.isShowing()) {
                                         d.hide();
@@ -868,6 +879,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
             ActionListener al = new ActionListener() {
 
+                @Override
                 public void actionPerformed(ActionEvent evt) {
                     // show dialog if still processing
                     if (t == null) {
@@ -917,6 +929,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
      *
      * @see #setParameters
      */
+    @Override
     public synchronized void updateGUI() {
         if (debug) {
             Debug.println("TTP.updateGUI()");
@@ -956,6 +969,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         if (trt != null) {
             EventQueue.invokeLater(new Runnable() {
 
+                @Override
                 public void run() {
                     new Thread("Test tree updater") {
 
@@ -1065,6 +1079,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
         deck = new Deck() {
 
+            @Override
             public Dimension getPreferredSize() {
                 int dpi = uif.getDotsPerInch();
                 return new Dimension(6 * dpi, 4 * dpi);
@@ -1648,6 +1663,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
      * ET_Config method
      * @return null - no menu required
      */
+    @Override
     public JMenu getMenu() {
         return null;
     }
@@ -1656,10 +1672,12 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
      * ET_Config method
      * @return null - no tool bar actions
      */
+    @Override
     public List<Action> getToolBarActionList() {
         return null;
     }
 
+    @Override
     public void setHarness(Harness h) {
         this.harness = h;
         if (harness != null && pm == null) {
@@ -1671,10 +1689,12 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     /**
      * @return this
      */
+    @Override
     public JComponent getViewComponent() {
         return this;
     }
 
+    @Override
     public void setFilterSelectionHandler(FilterSelectionHandler fh) {
         this.filterHandler = fh;
     }
@@ -1683,6 +1703,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
      * Session.Observer method. Invoked when parameters object has been changed.
      * @param ev
      */
+    @Override
     public void updated(Event ev) {
         if (ev instanceof BasicSession.E_NewConfig) {
             setParameters(((BasicSession.E_NewConfig)ev).ip);
@@ -1706,6 +1727,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             implements ActionListener, TreeSelectionListener,
             TreeExpansionListener {
         // --- TreeSelectionListener ---
+        @Override
         public void valueChanged(TreeSelectionEvent e) {
             // make sure source is our tree
             // ignore the message if we are unselecting a path or if
@@ -1720,6 +1742,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         // --- TreeExpansionListener ---
         // the path indicates the path to the node which contains the
         // now-(in)visible nodes
+        @Override
         public void treeCollapsed(TreeExpansionEvent event) {
             if (disposed) {
                 return;
@@ -1743,6 +1766,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             }
         }
 
+        @Override
         public void treeExpanded(TreeExpansionEvent event) {
             if (disposed || treeModel instanceof EmptyTestTreeModel) {
                 return;            // basically send a hint to the model indicating that some nodes
@@ -1794,10 +1818,12 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
 
         // MouseAdapter for tree popup
+        @Override
         public void mousePressed(MouseEvent e) {
             maybeShowPopup(e);
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             maybeShowPopup(e);
         }
@@ -1834,6 +1860,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
 
         // ActionListener
+        @Override
         public void actionPerformed(ActionEvent e) {
             TreePath[] paths = tree.getSelectionPaths();
 
@@ -1895,6 +1922,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             this.tp = path;
         }
 
+        @Override
         public void run() {
             if (tr != null) {
                 selectTest(tr, tp);
@@ -1914,6 +1942,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             name = bund.getString(key + ".act");
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (disposed) {
                 return;
@@ -1929,6 +1958,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                     loc.y + (int) loc.getHeight());
         }
 
+        @Override
         public Object getValue(String key) {
             if (key == null) {
                 throw new NullPointerException();
@@ -1952,18 +1982,21 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             activeNodes = new Hashtable<>();
         }
 
+        @Override
         public void pauseWork() {
             if (treeModel != null) {
                 treeModel.pauseWork();
             }
         }
 
+        @Override
         public void unpauseWork() {
             if (treeModel != null) {
                 treeModel.unpauseWork();
             }
         }
 
+        @Override
         public void refreshTree() {
             String[] openPaths = null;
             String[] selectedPaths = null;
@@ -1988,22 +2021,28 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             }
         }
 
+        @Override
         public void nodeSelected(Object node, TreePath path) {
         }
 
+        @Override
         public void testSelected(TestResult node, TreePath path) {
         }
 
+        @Override
         public void nodeUnSelected(Object node, TreePath path) {
         }
 
+        @Override
         public void testUnSelected(TestResult node, TreePath path) {
         }
 
+        @Override
         public void showNode(Object node, TreePath path) {
             selectBranch((TT_BasicNode) (node), path);
         }
 
+        @Override
         public void showNode(String url) {
             TreePath path = treeModel.resolveUrl(url);
             if (path != null && path.getLastPathComponent() instanceof TT_BasicNode) {
@@ -2011,10 +2050,12 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             }
         }
 
+        @Override
         public void showTest(TestResult node, TreePath path) {
             selectTest(node, path);
         }
 
+        @Override
         public void showTest(TestResult tr) {
             /*
             TreeNode[] path = TestResultTable.getObjectPath(tr);
@@ -2028,6 +2069,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             }
         }
 
+        @Override
         public void showTest(String url) {
             TestResultTable trt = getTestResultTable();
 
@@ -2041,20 +2083,25 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             }
         }
 
+        @Override
         public void hideNode(Object node, TreePath path) {
         }
 
+        @Override
         public void hideTest(TestResult node, TreePath path) {
         }
 
+        @Override
         public TestResultTable getTestResultTable() {
             return treeModel.getTestResultTable();
         }
 
+        @Override
         public String getSelectedTest() {
             return activeTest;
         }
 
+        @Override
         public boolean isActive(TestResult tr) {
             if (runningTests.containsKey(tr.getTestName())) {
                 return true;
@@ -2067,6 +2114,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             return runningTests.get(tr.getTestName());
         }
 
+        @Override
         public boolean isActive(TT_TreeNode node) {
             if (activeNodes.containsKey(node)) {
                 return true;
@@ -2076,12 +2124,14 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
 
         // Harness.Observer
+        @Override
         public void startingTestRun(Parameters params) {
             runMI.setEnabled(false);
             purgeMI.setEnabled(false);
             refreshMI.setEnabled(false);
         }
 
+        @Override
         public void startingTest(TestResult tr) {
             if (treeModel == null) // may occur during shutdown, see dispose()
             {
@@ -2122,6 +2172,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             tree.repaint();     // we're allowed to call this on any thread
         }
 
+        @Override
         public void finishedTest(TestResult tr) {
             if (treeModel == null) // may occur during shutdown, see dispose()
             {
@@ -2161,12 +2212,15 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             tree.repaint();     // we're allowed to call this on any thread
         }
 
+        @Override
         public void stoppingTestRun() {
         }
 
+        @Override
         public void finishedTesting() {
         }
 
+        @Override
         public void finishedTestRun(boolean allOK) {
             runningTests.clear();
             activeNodes.clear();
@@ -2178,10 +2232,12 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             tree.repaint();     // we're allowed to call this on any thread
         }
 
+        @Override
         public void error(String msg) {
         }
 
         // TestResultTable.Observer
+        @Override
         public void update(TestResult oldValue, TestResult newValue) {
             /* BK reenable
             if (treeModel == null || treeModel.getTestResultTable() == null)
@@ -2204,6 +2260,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
              */
         }
 
+        @Override
         public void updated(TestResult whichTR) {
             // ignore
         }

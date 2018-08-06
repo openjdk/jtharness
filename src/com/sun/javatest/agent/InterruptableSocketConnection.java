@@ -40,12 +40,14 @@ public class InterruptableSocketConnection extends SocketConnection {
         super(host, port);
     }
 
+    @Override
     public InputStream getInputStream() {
         return new InterruptableInputStream();
     }
 
     class InterruptableInputStream extends InputStream {
 
+        @Override
         public int read() throws IOException {
             byte[] b = new byte[1];
             int n = read(b);
@@ -57,6 +59,7 @@ public class InterruptableSocketConnection extends SocketConnection {
                 return n;
             }
         }
+        @Override
         public int read(byte[] buffer, int offset, int count) throws IOException {
             if (count == 0)
                 return 0;
@@ -72,6 +75,7 @@ public class InterruptableSocketConnection extends SocketConnection {
                 throw iio;
             }
         }
+        @Override
         public void close() throws IOException {
             socketInput.close();
         }
@@ -110,6 +114,7 @@ public class InterruptableSocketConnection extends SocketConnection {
                 final int c = count;
 
                 Thread reader = new Thread() {
+                    @Override
                     public void run() {
                         try {
                             n = socketInput.read(b, o, c);

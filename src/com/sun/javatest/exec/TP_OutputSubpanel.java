@@ -78,6 +78,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
         initGUI();
     }
 
+    @Override
     protected synchronized void updateSubpanel(TestResult newTest) {
         if (subpanelTest != null)
             subpanelTest.removeObserver(observer);
@@ -114,6 +115,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
         main.add(titleField, BorderLayout.NORTH);
 
         body = new JPanel(new CardLayout()) {
+            @Override
             public Dimension getPreferredSize() {
                 int dpi = uif.getDotsPerInch();
                 return new Dimension(3 * dpi, 3 * dpi);
@@ -507,6 +509,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             updateTOC();
         else {
             EventQueue.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         updateTOC(); // will also update current entry
                     }
@@ -655,6 +658,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
 
     private class Listener implements HyperlinkListener, ListSelectionListener
     {
+        @Override
         public void hyperlinkUpdate(HyperlinkEvent e) {
             if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
                 String desc = e.getDescription();
@@ -699,6 +703,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             }
         }
 
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             JList<TOCEntry> l = (JList<TOCEntry>) (e.getSource());
             TOCEntry entry = (l.getSelectedValue());
@@ -728,33 +733,39 @@ class TP_OutputSubpanel extends TP_Subpanel {
     private class TRObserver
         implements TestResult.Observer
     {
+        @Override
         public void completed(TestResult tr) {
             //System.err.println("TPOS_TRO: completed: " + tr.getWorkRelativePath());
             updateTOCLater();
             tr.removeObserver(this);
         }
 
+        @Override
         public void createdSection(TestResult tr, TestResult.Section section) {
             //System.err.println("TPOS_TRO: created section[" + section.getTitle() + "]: " + tr.getWorkRelativePath());
             updateTOCLater();
         }
 
+        @Override
         public void completedSection(TestResult tr, TestResult.Section section) {
             //System.err.println("TPOS_TRO: completed section[" + section.getTitle() + "]: " + tr.getWorkRelativePath());
             updateTOCLater();
         }
 
+        @Override
         public void createdOutput(TestResult tr, TestResult.Section section,
                                   String outputName) {
             //System.err.println("TPOS_TRO: created output[" + section.getTitle() + "/" + outputName + "]: " + tr.getWorkRelativePath());
             updateTOCLater();
         }
 
+        @Override
         public void completedOutput(TestResult tr, TestResult.Section section,
                                     String outputName) {
             //System.err.println("TPOS_TRO: completed output[" + section.getTitle() + "/" + outputName + "]: " + tr.getWorkRelativePath());
         }
 
+        @Override
         public void updatedOutput(final TestResult tr, final TestResult.Section section,
                                   final String outputName,
                                   final int start, final int end, final String text) {
@@ -762,6 +773,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             // this msg almost always on different thread - send it to the
             // event thread
             Runnable t = new Runnable() {
+                @Override
                 public void run() {
                     updateOutput(tr, section, outputName, start, end, text);
                 }
@@ -770,6 +782,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             EventQueue.invokeLater(t);
         }
 
+        @Override
         public void updatedProperty(TestResult tr, String name, String value) {
             // ignore
         }
@@ -877,6 +890,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
     }
 
     private class TOCRenderer extends DefaultListCellRenderer {
+        @Override
         public Component getListCellRendererComponent(JList<?> list,
                                                       Object value,
                                                       int index,

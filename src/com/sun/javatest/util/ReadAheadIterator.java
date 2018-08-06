@@ -169,11 +169,13 @@ public class ReadAheadIterator<T> implements Iterator<T>
         }
     }
 
+    @Override
     public synchronized boolean hasNext() {
         return (queue.size() > 0
                 || (worker == null ? source.hasNext() : sourceHasNext));
     }
 
+    @Override
     public synchronized T next() {
         // see if there are items in the read ahead queue
         T result = queue.remove();
@@ -190,6 +192,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
                     if (sourceHasNext) {
                         // there is more to be read, so start a worker to read it
                         worker = new Thread("ReadAheadIterator" + (workerNum++)) {
+                                @Override
                                 public void run() {
                                     readAhead();
                                 }
@@ -231,6 +234,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
     /**
      * @throws UnsupportedOperationException
      */
+    @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }

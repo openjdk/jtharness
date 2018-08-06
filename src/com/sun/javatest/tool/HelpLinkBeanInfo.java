@@ -41,6 +41,7 @@ public class HelpLinkBeanInfo extends SimpleBeanInfo
      * @return property descriptors for properties of HelpLink objects
      * @see HelpLink
      */
+    @Override
     public PropertyDescriptor[] getPropertyDescriptors() {
         try {
             PropertyDescriptor[] pds = {

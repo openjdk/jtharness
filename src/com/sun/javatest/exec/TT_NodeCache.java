@@ -72,6 +72,7 @@ class TT_NodeCache implements Runnable {
     /**
      * Start or resume processing.
      */
+    @Override
     public void run() {
         if (debug) {
             Debug.println("TT_NodeCache starting");
@@ -838,6 +839,7 @@ class TT_NodeCache implements Runnable {
 
     static class FilterObserver implements TestFilter.Observer {
 
+        @Override
         public void rejected(TestDescription d, TestFilter rejector) {
             lastTd = d;
             lastRejector = rejector;

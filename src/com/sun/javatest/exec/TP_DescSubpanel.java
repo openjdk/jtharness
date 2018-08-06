@@ -42,6 +42,7 @@ class TP_DescSubpanel extends TP_PropertySubpanel {
         ContextHelpManager.setHelpIDString(this, "browse.testDescriptionTab.csh");
     }
 
+    @Override
     protected void updateSubpanel(TestResult currTest) {
         super.updateSubpanel(currTest);
 

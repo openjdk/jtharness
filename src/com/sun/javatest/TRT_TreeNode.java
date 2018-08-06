@@ -47,6 +47,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     /**
      * Add an observer to watch this node for changes.
      */
+    @Override
     public synchronized void addObserver(TestResultTable.TreeNodeObserver obs) {
         TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
 
@@ -58,6 +59,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     /**
      * Remove an observer that was previously added.
      */
+    @Override
     public synchronized void removeObserver(TestResultTable.TreeNodeObserver obs) {
         TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
         if (observers == null)
@@ -76,6 +78,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      * TestFinder, this may cause a synchronous retrieval of data from the
      * TestFinder.  <b>Use with caution!</b>
      */
+    @Override
     public int getSize() {
         scanSubtree(this);
 
@@ -91,19 +94,23 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         return counter;
     }
 
+    @Override
     public TestResultTable.TreeNode getParent() {
         return parent;
     }
 
+    @Override
     public boolean isRoot() {
         if (parent != null) return false;
         else return true;
     }
 
+    @Override
     public TestResultTable getEnclosingTable() {
         return table;
     }
 
+    @Override
     public boolean isUpToDate() {
         // compare timestamp in the future
         if (lastScanDate == 0) return false;
@@ -116,6 +123,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      * TestFinder, this may cause a synchronous retrieval of data from the
      * TestFinder.
      */
+    @Override
     public int getChildCount() {
         scanIfNeeded();
 
@@ -123,6 +131,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         else return childs.length;
     }
 
+    @Override
     public Object getChild(int index) {
         return getChild(index, false);
     }
@@ -150,6 +159,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     /**
      * @return List of TestResult objects in this node.  null if none
      */
+    @Override
     public TestResult[] getTestResults() {
         scanIfNeeded();
 
@@ -169,6 +179,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      * Get only the children of this node which are branches.
      * @return List of children nodes objects in this node.  null if none.
      */
+    @Override
     public TestResultTable.TreeNode[] getTreeNodes() {
         scanIfNeeded();
 
@@ -185,10 +196,12 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         return leafs;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public boolean isLeaf(int index) {
         scanIfNeeded();
 
@@ -204,6 +217,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             return false;
     }
 
+    @Override
     public int[] getChildStatus() {
         scanSubtree(this);
 
@@ -213,6 +227,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         return childStats;
     }
 
+    @Override
     public int getIndex(Object target) {
         return getIndex(target, false);
     }
@@ -234,6 +249,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         return -1;
     }
 
+    @Override
     public TestResult matchTest(String url) {
         scanIfNeeded();
 

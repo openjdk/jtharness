@@ -72,6 +72,7 @@ public class PriorStatusInterview
      * will cause a test to be selected for execution.
      * @see #setPriorStatusValues
      */
+    @Override
     public boolean[] getPriorStatusValues() {
         if (qNeedStatus.getValue() == YesNoQuestion.YES)
             return getMatchPriorStatusValues();
@@ -79,6 +80,7 @@ public class PriorStatusInterview
             return null;
     }
 
+    @Override
     public void setPriorStatusValues(boolean[] b) {
         if (b == null)
             setPriorStatusMode(NO_PRIOR_STATUS);
@@ -88,14 +90,17 @@ public class PriorStatusInterview
         }
     }
 
+    @Override
     public int getPriorStatusMode() {
         return (qNeedStatus.getValue() == YesNoQuestion.YES ? MATCH_PRIOR_STATUS : NO_PRIOR_STATUS);
     }
 
+    @Override
     public void setPriorStatusMode(int mode) {
         qNeedStatus.setValue(mode == MATCH_PRIOR_STATUS ? YesNoQuestion.YES : YesNoQuestion.NO);
     }
 
+    @Override
     public boolean[] getMatchPriorStatusValues() {
         boolean[] choices = qStatus.getValue();
         boolean[] b = new boolean[Status.NUM_STATES];
@@ -115,6 +120,7 @@ public class PriorStatusInterview
      * which "prior status" values will cause a test to be selected for execution.
      * @see #getMatchPriorStatusValues
      */
+    @Override
     public void setMatchPriorStatusValues(boolean[] b) {
         if (b.length != Status.NUM_STATES)
             throw new IllegalArgumentException();
@@ -143,6 +149,7 @@ public class PriorStatusInterview
     // Need status
 
     private YesNoQuestion qNeedStatus = new YesNoQuestion(this, "needStatus", YesNoQuestion.NO) {
+        @Override
         protected Question getNext() {
             if (value == null)
                 return null;
@@ -171,6 +178,7 @@ public class PriorStatusInterview
             setChoices(new String[] {ERROR, FAILED, NOT_RUN, PASSED}, true);
         }
 
+        @Override
         public boolean isValueValid() {
             // one of the choices must be set
             for (int i = 0; i < value.length; i++) {
@@ -181,6 +189,7 @@ public class PriorStatusInterview
         }
 
 
+        @Override
         protected Question getNext() {
             return qEnd;
         }

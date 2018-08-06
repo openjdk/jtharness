@@ -53,6 +53,7 @@ public class ChoiceArrayQuestionRenderer
         implements QuestionRenderer
 {
 
+    @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         q = (ChoiceArrayQuestion)qq;
         displayChoices = q.getDisplayChoices();
@@ -62,6 +63,7 @@ public class ChoiceArrayQuestionRenderer
         return createChoiceTable();
     }
 
+    @Override
     public String getInvalidValueMessage(Question q) {
         return null;
     }
@@ -134,22 +136,27 @@ public class ChoiceArrayQuestionRenderer
     }
 
     protected class TestTableModel extends AbstractTableModel {
+        @Override
         public Class<?> getColumnClass(int c) {
             return (c == 0 ? Boolean.class : String.class);
         }
 
+        @Override
         public int getColumnCount() {
             return 2;
         }
 
+        @Override
         public int getRowCount() {
             return displayChoices.length;
         }
 
+        @Override
         public Object getValueAt(int r, int c) {
             return c == 0 ? new Boolean(values[r]) : displayChoices[r];
         }
 
+        @Override
         public void setValueAt(Object o, int r, int c) {
             if (c == 0) {
                 values[r] = ((Boolean) o).booleanValue();
@@ -158,6 +165,7 @@ public class ChoiceArrayQuestionRenderer
             }
         }
 
+        @Override
         public boolean isCellEditable(int r, int c) {
             return (c == 0 ? true : false);
         }
@@ -171,6 +179,7 @@ public class ChoiceArrayQuestionRenderer
         public TestKeyListener(AbstractTableModel tm) {
             this.tm = tm;
         }
+        @Override
         public void keyPressed(KeyEvent e) {
            if((e.getModifiersEx() & e.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == e.VK_A) {
                boolean allSelected = true;

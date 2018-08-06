@@ -575,14 +575,17 @@ public class TestResult {
                 this.output = output;
             }
 
+            @Override
             public String getName() {
                 return name;
             }
 
+            @Override
             public String getOutput() {
                 return output;
             }
 
+            @Override
             public PrintWriter getPrintWriter() {
                 throw new IllegalStateException("This section is immutable");
             }
@@ -712,18 +715,22 @@ public class TestResult {
                 pw = new LockedWriter(this, TestResult.this);
             }
 
+            @Override
             public String getName() {
                 return name;
             }
 
+            @Override
             public String getOutput() {
                 return new String(output);
             }
 
+            @Override
             public PrintWriter getPrintWriter() {
                 return pw;
             }
 
+            @Override
             public void write(char[] buf, int offset, int len) throws IOException {
                 if (output == null)
                     throw new IOException("stream has been closed");
@@ -770,6 +777,7 @@ public class TestResult {
                 }
             }
 
+            @Override
             public void flush() {
                 //no-op
             }
@@ -781,6 +789,7 @@ public class TestResult {
                 overflowed = false;
             }
 
+            @Override
             public void close() {
                 makeOutputImmutable(this, name, new String(output));
                 notifyCompletedOutput(Section.this, name);

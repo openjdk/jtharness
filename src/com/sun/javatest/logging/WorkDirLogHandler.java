@@ -55,6 +55,7 @@ public class WorkDirLogHandler extends StreamHandler {
     }
 
 
+    @Override
     public void publish(LogRecord record) {
         publish(record, null);
     }
@@ -94,6 +95,7 @@ public class WorkDirLogHandler extends StreamHandler {
         return pattern;
     }
 
+    @Override
     public void close() {
         synchronized (WorkDirLogHandler.class) {
             if (bout != null) {

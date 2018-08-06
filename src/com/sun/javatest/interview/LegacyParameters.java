@@ -67,6 +67,7 @@ public class LegacyParameters extends BasicInterviewParameters
 
     //--------------------------------------------------------------------------
 
+    @Override
     public Parameters.EnvParameters getEnvParameters() {
         return iEnvironment;
     }
@@ -80,6 +81,7 @@ public class LegacyParameters extends BasicInterviewParameters
      * set up and used for each test to be run.
      * @see #getEnvSuccessorQuestion
      */
+    @Override
     protected Question getEnvFirstQuestion() {
         return callInterview(iEnvironment, getEnvSuccessorQuestion());
     }

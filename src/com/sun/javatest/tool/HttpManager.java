@@ -47,6 +47,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  */
 public class HttpManager extends CommandManager
 {
+    @Override
     public HelpTree.Node getHelp() {
         String[] cmds = {
             HttpCommand.getName()
@@ -56,6 +57,7 @@ public class HttpManager extends CommandManager
 
     //----------------------------------------------------------------------------
 
+    @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
@@ -81,6 +83,7 @@ public class HttpManager extends CommandManager
             super(getName());
         }
 
+        @Override
         public void run(CommandContext ctx) {
             HttpdServer server = new HttpdServer();
             Thread thr = new Thread(server);

@@ -120,6 +120,7 @@ public class MultiTest implements Test
      * @param ref Output stream for reference output from the tests.
      * @return Overall status of running all of the test cases.
      */
+    @Override
     public Status run(String[] args, PrintWriter log, PrintWriter ref) {
         this.log = log;
         this.ref = ref;

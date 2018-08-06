@@ -36,6 +36,7 @@ import java.io.IOException;
   */
 public class HTMLCommentStream extends CommentStream
 {
+    @Override
     public String readComment() throws IOException {
         String comment, line;
         int startComment;

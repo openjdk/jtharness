@@ -87,6 +87,7 @@ public abstract class Service implements MessageHandler {
      *
      * @param msg message to handle.
      */
+    @Override
     public void handleMessage(Message msg) {}
 
     /**

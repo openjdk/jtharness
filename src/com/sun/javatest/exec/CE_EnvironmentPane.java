@@ -66,12 +66,14 @@ class CE_EnvironmentPane extends CE_StdPane
         initGUI();
     }
 
+    @Override
     boolean isOKToClose() {
         // Errors about files are posted as soon as they are entered.
         // The environment name is from a combo box, so allow that
         return true;
     }
 
+    @Override
     void load() {
         if (legacyEnvParameters != null) {
             envFilesField.setItems(legacyEnvParameters.getEnvFiles());
@@ -103,6 +105,7 @@ class CE_EnvironmentPane extends CE_StdPane
         }
     }
 
+    @Override
     void save() {
         if (legacyEnvParameters != null) {
             legacyEnvParameters.setEnvFiles(envFilesField.getFiles());
@@ -133,6 +136,7 @@ class CE_EnvironmentPane extends CE_StdPane
         envFilesChooser.addChoosableFileFilter(FileType.jteFiles);
         envFilesChooser.setFileFilter(FileType.jteFiles);
         envFilesField = new EditableFileList(envFilesChooser) {
+            @Override
             public Object getNewItem() {
                 File f = (File) (super.getNewItem());
                 if (f != null)
@@ -142,12 +146,15 @@ class CE_EnvironmentPane extends CE_StdPane
         };
         envFilesField.setDuplicatesAllowed(false);
         envFilesField.addListDataListener(new ListDataListener() {
+            @Override
             public void contentsChanged(ListDataEvent e) {
                 envFilesChanged();
             }
+            @Override
             public void intervalAdded(ListDataEvent e) {
                 envFilesChanged();
             }
+            @Override
             public void intervalRemoved(ListDataEvent e) {
                 envFilesChanged();
             }

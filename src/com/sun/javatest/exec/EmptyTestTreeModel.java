@@ -52,66 +52,82 @@ class EmptyTestTreeModel extends TestTreeModel implements TreeModel, TestResultT
 
     private TestResultTable.TreeNode root = new TestResultTable.TreeNode() {
 
+        @Override
         public void addObserver(TestResultTable.TreeNodeObserver obs) {
             rootObservers.add(obs);
         }
 
+        @Override
         public void removeObserver(TestResultTable.TreeNodeObserver obs) {
             rootObservers.remove(obs);
         }
 
+        @Override
         public int getSize() {
             return 0;
         }
 
+        @Override
         public TestResultTable.TreeNode getParent() {
             return null;
         }
 
+        @Override
         public boolean isRoot() {
             return true;
         }
 
+        @Override
         public TestResultTable getEnclosingTable() {
             return null;
         }
 
+        @Override
         public boolean isUpToDate() {
             return false;
         }
 
+        @Override
         public int getChildCount() {
             return 0;
         }
 
+        @Override
         public Object getChild(int index) {
             return null;
         }
 
+        @Override
         public TestResult[] getTestResults() {
             return new TestResult[0];
         }
 
+        @Override
         public TestResultTable.TreeNode[] getTreeNodes() {
             return new TestResultTable.TreeNode[0];
         }
 
+        @Override
         public String getName() {
             return "";
         }
 
+        @Override
         public boolean isLeaf(int index) {
             return false;
         }
 
+        @Override
         public int[] getChildStatus() {
             return new int[0];
         }
 
+        @Override
         public int getIndex(Object target) {
             return 0;
         }
 
+        @Override
         public TestResult matchTest(String url) {
             return null;
         }
@@ -123,35 +139,43 @@ class EmptyTestTreeModel extends TestTreeModel implements TreeModel, TestResultT
         this.params = p;
     }
 
+    @Override
     public Object getRoot() {
         return root;
     }
 
+    @Override
     public Object getChild(Object parent, int index) {
         return null;
     }
 
+    @Override
     public int getChildCount(Object parent) {
         return 0;
     }
 
+    @Override
     public boolean isLeaf(Object node) {
         return false;
     }
 
+    @Override
     public void valueForPathChanged(TreePath path, Object newValue) {
 
     }
 
+    @Override
     public int getIndexOfChild(Object parent, Object child) {
         return 0;
     }
 
+    @Override
     public void addTreeModelListener(TreeModelListener l) {
         treeModelListeners.add(l);
 
     }
 
+    @Override
     public void removeTreeModelListener(TreeModelListener l) {
         treeModelListeners.remove(l);
     }
@@ -161,18 +185,22 @@ class EmptyTestTreeModel extends TestTreeModel implements TreeModel, TestResultT
     }
 
 
+    @Override
     public void nodeInserted(TestResultTable.TreeNode[] path, Object what, int index) {
 
     }
 
+    @Override
     public void nodeChanged(TestResultTable.TreeNode[] path, Object what, int index, Object old) {
 
     }
 
+    @Override
     public void nodeRemoved(TestResultTable.TreeNode[] path, Object what, int index) {
 
     }
 
+    @Override
     synchronized TT_NodeCache getNodeInfo(TestResultTable.TreeNode node, boolean highPriority) {
         if (node != oldNode || oldInfo == null) {
             oldNode = node;
@@ -181,6 +209,7 @@ class EmptyTestTreeModel extends TestTreeModel implements TreeModel, TestResultT
         return oldInfo;
     }
 
+    @Override
     TestFilter getTestFilter() {
         return filterHandler.getActiveFilter();
     }
@@ -188,28 +217,35 @@ class EmptyTestTreeModel extends TestTreeModel implements TreeModel, TestResultT
     void setActiveNode(TestResultTable.TreeNode node) {
     }
 
+    @Override
     void pauseWork() {
     }
 
+    @Override
     void unpauseWork() {
     }
 
+    @Override
     void setParameters(Parameters p) {
         params = p;
     }
 
+    @Override
     Parameters getParameters() {
         return params;
     }
 
+    @Override
     TestResultTable getTestResultTable() {
         return null;
     }
 
+    @Override
     void invalidateNodeInfo(TestResultTable.TreeNode[] path) {
 
     }
 
+    @Override
     void invalidateNodeInfo() {
 
     }
@@ -218,6 +254,7 @@ class EmptyTestTreeModel extends TestTreeModel implements TreeModel, TestResultT
         return rootObservers;
     }
 
+    @Override
     synchronized void dispose() {
         treeModelListeners.clear();
         rootObservers.clear();

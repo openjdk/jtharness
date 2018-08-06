@@ -50,6 +50,7 @@ public class JUnitTestRunner extends TestRunner {
         // by the corresponding TestSuite class.
     }
 
+    @Override
     protected boolean runTests(Iterator<TestDescription> testIter) throws InterruptedException {
         WorkDirectory wd = getWorkDirectory();
         TestDescription td = null;
@@ -77,6 +78,7 @@ public class JUnitTestRunner extends TestRunner {
         return false;
     }
 
+    @Override
     public BackupPolicy getBackupPolicy() {
         return backupPolicy;
     }

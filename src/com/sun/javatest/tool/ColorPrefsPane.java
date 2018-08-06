@@ -69,6 +69,7 @@ public class ColorPrefsPane extends PreferencesPane {
                                 private String title;
                                 private JButton button;
 
+                                @Override
                                 public void actionPerformed(ActionEvent e) {
                                         Color newColor = JColorChooser.showDialog(ColorPrefsPane.this, title, button.getBackground());
                                         if(newColor != null)
@@ -94,6 +95,7 @@ public class ColorPrefsPane extends PreferencesPane {
                 this.add(inputColors, c);
 
                 JButton defaults = uif.createButton("colorprefs.setdefaults", new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                                 Component[] components = inputColors.getComponents();
                                 for(Component c: components) {
@@ -117,6 +119,7 @@ public class ColorPrefsPane extends PreferencesPane {
                 return i18n.getString("colorprefs.name");
         }
 
+        @Override
         public void save(Map<String, String> m) {
                 super.save(m);
                 Component[] components = inputColors.getComponents();

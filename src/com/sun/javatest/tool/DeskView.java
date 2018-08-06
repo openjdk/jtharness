@@ -332,6 +332,7 @@ abstract class DeskView {
 
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosed(WindowEvent e) {
                 // WARNING: this event may be called more than once
                 // so only do post-processing the first time it is called
@@ -342,6 +343,7 @@ abstract class DeskView {
                     if (allFrames.remove(frame) && allFrames.isEmpty()) {
                         // defer until outstanding events are processed
                         EventQueue.invokeLater(new Runnable() {
+                            @Override
                             public void run() {
                                 ExitCount.dec();
                             }
@@ -755,6 +757,7 @@ abstract class DeskView {
             // additional entries are created dynamically
         }
 
+        @Override
         public void menuSelected(MenuEvent e) {
             //System.err.println("DT:FileMenu: selected " + e);
             JMenu m = (JMenu) (e.getSource());
@@ -828,16 +831,19 @@ abstract class DeskView {
             m.add(exit);
         }
 
+        @Override
         public void menuDeselected(MenuEvent e) {
             JMenu m = (JMenu) (e.getSource());
             m.removeAll();
         }
 
+        @Override
         public void menuCanceled(MenuEvent e) {
             JMenu m = (JMenu) (e.getSource());
             m.removeAll();
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             //System.err.println("DT:FileMenu: action " + e);
             Component src = (Component) (e.getSource());

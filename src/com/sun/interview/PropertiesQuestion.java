@@ -211,6 +211,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         return getValue();
     }
 
+    @Override
     public String getStringValue() {
         StringBuffer result = new StringBuffer();
         if (value != null) {
@@ -234,6 +235,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      *    an empty string.
      * @see #getValue
      */
+    @Override
     public void setValue(String newValue) {
         if (value == null || value.size() == 0)
             return;
@@ -257,6 +259,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * @throws NullPointerException if either parameter is null
      * @throws Interview.Fault if the specified key does not exist in the question
      */
+    @Override
     public void setValue(String key, String v) throws Interview.Fault {
         if (key == null || v == null)
             throw new NullPointerException();
@@ -270,6 +273,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         interview.setEdited(true);
     }
 
+    @Override
     public boolean isValueValid() {
         String[][] badVals = getInvalidKeys();
 
@@ -279,6 +283,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
             return false;
     }
 
+    @Override
     public boolean isValueAlwaysValid() {
         return false;
     }
@@ -287,6 +292,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * Clear any response to this question, resetting the value
      * back to its initial state.
      */
+    @Override
     public void clear() {
         setValue(defaultValue);
     }
@@ -296,6 +302,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * the tag as the key.
      * @param data The map from which to load the value for this question.
      */
+    @Override
     protected void load(Map<String, String> data) {
         String o = data.get(tag);
         if (o != null) {
@@ -331,6 +338,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * the tag as the key.
      * @param data The map in which to save the value for this question.
      */
+    @Override
     protected void save(Map<String, String> data) {
         if (value == null)
             return;
@@ -1076,6 +1084,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * @return Null if the valid is valid, a localized reason string
          *         otherwise.
          */
+        @Override
         public String isValid(String v) {
             try {
                 int number = Integer.parseInt(v);
@@ -1259,6 +1268,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * @return Null if the valid is valid, a localized reason string
          *         otherwise.
          */
+        @Override
         public String isValid(String v) {
             try {
                 float number = Float.parseFloat(v);

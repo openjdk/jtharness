@@ -212,11 +212,13 @@ class NewReportDialog extends ToolDialog
 
     // ---------------------------------------------------------------------------
 
+    @Override
     protected void initGUI() {
         setHelp("report.newReport.csh");
         setI18NTitle("nrd.title");
 
         JPanel body = new JPanel() {
+                @Override
                 public Dimension getPreferredSize() {
                     Dimension d = super.getPreferredSize();
                     int dpi = uif.getDotsPerInch();
@@ -358,6 +360,7 @@ class NewReportDialog extends ToolDialog
 
         Action listMnemonics = new AbstractAction() {
 
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                                 int ord;
                 try {
@@ -710,6 +713,7 @@ class NewReportDialog extends ToolDialog
         // elsewhere before the user sees them
         JCheckBox cb = cbBak = uif.createCheckBox("nrd.backup.bak", true);
         cbBak.addChangeListener(new ChangeListener() {
+                @Override
                 public void stateChanged(ChangeEvent e) {
                     if (numBak != null) {
                         numBak.setEnabled(cbBak.isSelected());
@@ -732,6 +736,7 @@ class NewReportDialog extends ToolDialog
         numBak.setText("1");
 
         Action action = new AbstractAction() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                     JTextField src = (JTextField) (e.getSource());
                     String cmd = e.getActionCommand();
@@ -1049,6 +1054,7 @@ class NewReportDialog extends ToolDialog
     }
 
     private ActionListener cbHtmlListener = new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
 
@@ -1062,6 +1068,7 @@ class NewReportDialog extends ToolDialog
     };
 
     private ActionListener listener = new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
 
@@ -1147,6 +1154,7 @@ class NewReportDialog extends ToolDialog
 
             final Stopper stopper = new Stopper();
             final Thread worker = new Thread() {
+                @Override
                 public void run() {
                     try {
                         runReport(snap);
@@ -1187,6 +1195,7 @@ class NewReportDialog extends ToolDialog
             waitDialog.pack();
             final String cancelling = uif.getI18NString("nrd.cancelling");
             cancelBtn.addActionListener( new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     JButton butt = (JButton) e.getSource();
                     butt.setEnabled(false);
@@ -1211,6 +1220,7 @@ class NewReportDialog extends ToolDialog
 
 
             ActionListener al = new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent evt) {
                     // show dialog if still processing
                     if (worker.isAlive()) {
@@ -1233,6 +1243,7 @@ class NewReportDialog extends ToolDialog
                                   final ReportSettings snap, final Stopper stopper) {
             // done generating report, switch back to GUI thread
             EventQueue.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         waitDialog.hide();
                         if(!stopper.waitWasHidden) {
@@ -1271,6 +1282,7 @@ class NewReportDialog extends ToolDialog
                                 final JDialog waitDialog) {
             // switch back to GUI thread
             EventQueue.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         waitDialog.hide();
                         uif.showError(uiKey, msg);
@@ -1332,6 +1344,7 @@ class NewReportDialog extends ToolDialog
     }
 
     private class ReportGenListener implements StartGenListener {
+        @Override
         public void startReportGeneration(ReportSettings s, String reportID) {
             String reportName;
             if(reportID.equals("xml") || reportID.equals("pt") ||
@@ -1375,6 +1388,7 @@ class NewReportDialog extends ToolDialog
             cards = cardLayout;
         }
 
+        @Override
         public void keyTyped(KeyEvent e) {
             if (e.getKeyChar() == ' ') {
                 process(list.getSelectedIndex());
@@ -1388,6 +1402,7 @@ class NewReportDialog extends ToolDialog
             }
         }
 
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             int index = list.getSelectedIndex();
             if (index < 0) {
@@ -1460,9 +1475,11 @@ class NewReportDialog extends ToolDialog
             lastSelected = box;
         }
 
+        @Override
         public void keyReleased(KeyEvent e) {
         }
 
+        @Override
         public void keyPressed(KeyEvent e) {
         }
 
@@ -1499,6 +1516,7 @@ class NewReportDialog extends ToolDialog
          * Catches changes of "enabled" property
          * and changes enabled status for all child components
          */
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if ("enabled".equals(evt.getPropertyName())) {
                 boolean oldV = (Boolean) evt.getOldValue();
@@ -1542,6 +1560,7 @@ class NewReportDialog extends ToolDialog
     }
 
     private class CheckBoxListCellRenderer implements ListCellRenderer<JComponent> {
+        @Override
         public Component getListCellRendererComponent(
                     JList<? extends JComponent> list,
                     JComponent value,

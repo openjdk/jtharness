@@ -111,6 +111,7 @@ class QuestionPanel extends JPanel
 
     // ---------- Component stuff ---------------------------------------
 
+    @Override
     public Dimension getPreferredSize() {
         Dimension d = super.getPreferredSize();
         d.height = Math.max(d.height, PREFERRED_HEIGHT * DOTS_PER_INCH);
@@ -120,6 +121,7 @@ class QuestionPanel extends JPanel
 
     // ---------- Scrollable stuff ---------------------------------------
 
+    @Override
     public Dimension getPreferredScrollableViewportSize() {
         Dimension maxD = new Dimension(PREFERRED_WIDTH * DOTS_PER_INCH, PREFERRED_HEIGHT * DOTS_PER_INCH);
         Dimension ps = getPreferredSize();
@@ -128,6 +130,7 @@ class QuestionPanel extends JPanel
         return ps;
     }
 
+    @Override
     public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
         switch(orientation) {
         case SwingConstants.VERTICAL:
@@ -139,6 +142,7 @@ class QuestionPanel extends JPanel
         }
     }
 
+    @Override
     public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
         switch(orientation) {
         case SwingConstants.VERTICAL:
@@ -150,6 +154,7 @@ class QuestionPanel extends JPanel
         }
     }
 
+    @Override
     public boolean getScrollableTracksViewportHeight() {
         // We can't use getPreferred size here, because of situation, when
         // getPreferredSize() gives default values. In this case, and if horizontal scroll exists,
@@ -161,6 +166,7 @@ class QuestionPanel extends JPanel
             return false;
     }
 
+    @Override
     public final boolean getScrollableTracksViewportWidth() {
 
 //        if (currentRenderer instanceof SizeSensitiveQuestionRenderer) {
@@ -361,18 +367,21 @@ class QuestionPanel extends JPanel
         ActionMap actionMap = getActionMap();
 
         actionMap.put("hideProps", new AbstractAction() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     propsPanel.setVisible(false);
                 }
             });
 
         actionMap.put("showProps", new AbstractAction() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     propsPanel.setVisible(true);
                 }
             });
 
         actionMap.put("toggleProps", new AbstractAction() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     propsPanel.setVisible(!propsPanel.isVisible());
                 }
@@ -596,6 +605,7 @@ class QuestionPanel extends JPanel
 
     private KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
     private Action valueAction = new AbstractAction() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 String cmd = e.getActionCommand();
                 if (cmd.equals(QuestionRenderer.EDITED))
@@ -654,24 +664,29 @@ class QuestionPanel extends JPanel
 
         // ---------- AncestorListener
 
+        @Override
         public void ancestorAdded(AncestorEvent e) {
             interview.addObserver(this);
             showQuestion(interview.getCurrentQuestion());
         }
 
+        @Override
         public void ancestorMoved(AncestorEvent e) { }
 
+        @Override
         public void ancestorRemoved(AncestorEvent e) {
             interview.removeObserver(this);
         }
 
         // ---------- Interview.Observer ----------
 
+        @Override
         public void pathUpdated() {
             // if path is updated as a result of refresh, clear the error message
             showValueMessage(null);
         }
 
+        @Override
         public void currentQuestionChanged(Question q) {
             showQuestion(q);
         }

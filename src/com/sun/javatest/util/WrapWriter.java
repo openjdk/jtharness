@@ -110,16 +110,19 @@ public class WrapWriter extends Writer
         return charsOnLineSoFar;
     }
 
+    @Override
     public void close() throws IOException {
         flush();
         out.close();
     }
 
+    @Override
     public void flush() throws IOException {
         write(' ');
         out.flush();
     }
 
+    @Override
     public void write(char cbuf[], int off, int len) throws IOException {
         for (int i = off; i < off + len; i++)
             write(cbuf[i]);

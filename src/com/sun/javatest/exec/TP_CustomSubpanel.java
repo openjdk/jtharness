@@ -38,10 +38,12 @@ class TP_CustomSubpanel extends TP_Subpanel {
 
     private CustomTestResultViewer ctrv;
 
+    @Override
     protected void updateSubpanel(com.sun.javatest.TestResult currTest) {
         ctrv.setResult(currTest);
     }
 
+    @Override
     boolean isUpdateRequired(com.sun.javatest.TestResult currTest) {
         return (subpanelTest != currTest);
     }

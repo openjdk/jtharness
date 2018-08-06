@@ -73,6 +73,7 @@ public class DirectoryClassLoader extends ClassLoader
      * @return the class that was loaded
      * @throws ClassNotFoundException if the class was not found.
      */
+    @Override
     protected Class<?> loadClass(String name, boolean resolve)
         throws ClassNotFoundException {
 
@@ -110,6 +111,7 @@ public class DirectoryClassLoader extends ClassLoader
      *
      *  redundant in 1.2
      */
+    @Override
     public InputStream getResourceAsStream(String name) {
         URL url = getResource(name);
         try {
@@ -138,6 +140,7 @@ public class DirectoryClassLoader extends ClassLoader
      *
      *  redundant in 1.2
      */
+    @Override
     public URL getResource(String name) {
         // the ordering of this code looks very strange, but it
         // corresponds to the implementation in JDK 1.2.
@@ -158,6 +161,7 @@ public class DirectoryClassLoader extends ClassLoader
      *         if the resource could not be found
      * @since  JDK1.2
      */
+    @Override
     public URL findResource(String name) {
        try {
            File f = new File(loadDir, name);

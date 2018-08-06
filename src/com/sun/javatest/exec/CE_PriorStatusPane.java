@@ -51,6 +51,7 @@ class CE_PriorStatusPane extends CE_StdPane
         initGUI();
     }
 
+    @Override
     boolean isOKToClose() {
         if (mutablePriorStatusParameters == null)
             return true;
@@ -75,6 +76,7 @@ class CE_PriorStatusPane extends CE_StdPane
     }
 
 
+    @Override
     void load() {
         updateConfig();
 
@@ -107,6 +109,7 @@ class CE_PriorStatusPane extends CE_StdPane
         enableStatusFields();
     }
 
+    @Override
     void save() {
         if (mutablePriorStatusParameters != null) {
             int sm = (selectCheck.isSelected()
@@ -135,6 +138,7 @@ class CE_PriorStatusPane extends CE_StdPane
 
         selectCheck = uif.createCheckBox("ce.status.select");
         selectCheck.addChangeListener(new ChangeListener() {
+            @Override
             public void stateChanged(ChangeEvent e) {
                 enableStatusFields();
             }

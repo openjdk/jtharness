@@ -40,14 +40,17 @@ class ActionDocListener implements DocumentListener
         this.cmd = cmd;
     }
 
+    @Override
     public void insertUpdate(DocumentEvent e) {
         changedUpdate(e);
     }
 
+    @Override
     public void removeUpdate(DocumentEvent e) {
         changedUpdate(e);
     }
 
+    @Override
     public void changedUpdate(DocumentEvent e) {
         ActionEvent ae = new ActionEvent(src, ActionEvent.ACTION_PERFORMED, cmd);
         listener.actionPerformed(ae);

@@ -42,6 +42,7 @@ import com.sun.interview.Question;
 public class FileQuestionRenderer
     implements QuestionRenderer
 {
+    @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         final FileQuestion q = (FileQuestion) qq;
         final JFileChooser chooser = createChooser(q.getSummary(), q.getFilters());
@@ -85,6 +86,7 @@ public class FileQuestionRenderer
                                               listener);
 
         browseBtn.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 // default chooser to point at specified entry
                 String s = p.getValue();
@@ -163,6 +165,7 @@ public class FileQuestionRenderer
         return chooser;
     }
 
+    @Override
     public String getInvalidValueMessage(Question q) {
         return null;
     }

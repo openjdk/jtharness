@@ -77,6 +77,7 @@ public class ET_DefaultControlFactory implements ET_ControlFactory {
      * @return BasicSessionControl instance, unless overriden
      * @throws com.sun.javatest.exec.Session.Fault if failed to create session
      */
+    @Override
     public ET_SessionControl createSessionControl() throws Session.Fault {
         if (sessionControl == null) {
             sessionControl = new BasicSessionControl(parent, uif, ts, cm);
@@ -87,6 +88,7 @@ public class ET_DefaultControlFactory implements ET_ControlFactory {
     /**
      * @return ET_FilterHandler instance, unless overriden
      */
+    @Override
     public ET_FilterControl createFilterControl() {
         if (filterControl == null) {
             filterControl = new ET_FilterHandler(parent, execModel, uif);
@@ -97,6 +99,7 @@ public class ET_DefaultControlFactory implements ET_ControlFactory {
     /**
      * @return ET_DefaultHelpControl instance, unless overriden
      */
+    @Override
     public ET_HelpControl createHelpControl() {
         if (helpControl == null) {
             helpControl = new ET_DefaultHelpControl(tool, uif);
@@ -107,6 +110,7 @@ public class ET_DefaultControlFactory implements ET_ControlFactory {
     /**
      * @return ET_DefaultViewControl instance, unless overriden
      */
+    @Override
     public ET_ViewControl createViewControl() {
         if (viewControl == null) {
             viewControl = new ET_DefaultViewControl(parent, ts, execModel, uif,
@@ -118,6 +122,7 @@ public class ET_DefaultControlFactory implements ET_ControlFactory {
     /**
      * @return ReportHandler instance, unless overriden
      */
+    @Override
     public ET_ReportControl createReportControl() {
         if (reportControl == null) {
             reportControl = new ReportHandler(parent, execModel, uif);
@@ -129,6 +134,7 @@ public class ET_DefaultControlFactory implements ET_ControlFactory {
      * No custom controls by default.
      * @return null
      */
+    @Override
     public List<ET_Control> createCustomControls() {
         return null;
     }

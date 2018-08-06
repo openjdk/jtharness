@@ -97,6 +97,7 @@ class OptionsDialog extends ToolDialog
         return (String) (cfField.getSelectedItem());
     }
 
+    @Override
     protected void initGUI() {
         setI18NTitle("opts.title");
         listener = new Listener();
@@ -264,10 +265,12 @@ class OptionsDialog extends ToolDialog
             if (userDir != null)
                 configFileChooser.setCurrentDirectory(new File(userDir));
             configFileChooser.addChoosableFileFilter(new FileFilter() {
+                    @Override
                     public boolean accept(File f) {
                         return (f.isDirectory() || f.getPath().endsWith(".jti"));
                     }
 
+                    @Override
                     public String getDescription() {
                         return uif.getI18NString("opts.jtiFiles");
                     }
@@ -350,11 +353,13 @@ class OptionsDialog extends ToolDialog
         implements ActionListener
     {
         // ComponentListener
+        @Override
         public void componentShown(ComponentEvent e) {
             updateFieldChoices();
         }
 
         // ActionListener
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
             if (src == tsField)

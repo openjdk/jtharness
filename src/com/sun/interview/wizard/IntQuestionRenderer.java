@@ -42,6 +42,7 @@ import com.sun.interview.Question;
 public class IntQuestionRenderer
     implements QuestionRenderer
 {
+    @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         IntQuestion q = (IntQuestion) qq;
 
@@ -56,6 +57,7 @@ public class IntQuestionRenderer
             return createSlider(q, listener);
     }
 
+    @Override
     public String getInvalidValueMessage(Question q) {
         return null;
     }
@@ -97,6 +99,7 @@ public class IntQuestionRenderer
 
         if (resetBtn != null) {
             resetBtn.addActionListener(new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         NumberFormat fmt = NumberFormat.getNumberInstance();  // will be locale-specific
                         p.setValue(fmt.format(Integer.valueOf(defVal)));
@@ -141,6 +144,7 @@ public class IntQuestionRenderer
         panel.add(slider, c);
 
         Runnable valueSaver = new Runnable() {
+                @Override
                 public void run() {
                     q.setValue(slider.getValue());
                 }

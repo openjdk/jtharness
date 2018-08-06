@@ -52,6 +52,7 @@ class TP_FilesSubpanel extends TP_Subpanel {
         add(filesPane, BorderLayout.CENTER);
     }
 
+    @Override
     protected void updateSubpanel(TestResult currTest) {
         if (testSuite == null)
             throw new IllegalStateException();
@@ -66,6 +67,7 @@ class TP_FilesSubpanel extends TP_Subpanel {
                 updateFiles();
             else
                 SwingUtilities.invokeLater(new Runnable() {
+                        @Override
                         public void run() {
                             updateFiles();
                         }

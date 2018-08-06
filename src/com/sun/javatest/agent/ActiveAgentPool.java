@@ -89,6 +89,7 @@ public class ActiveAgentPool
             socketOutput = socket.getOutputStream();
         }
 
+        @Override
         public String getName() {
             if (name == null) {
                 StringBuffer sb = new StringBuffer(32);
@@ -102,6 +103,7 @@ public class ActiveAgentPool
             return name;
         }
 
+        @Override
         public synchronized InputStream getInputStream() {
             // If there is no read outstanding in the watcher thread and
             // no buffered data available take the fast way out and simply
@@ -113,6 +115,7 @@ public class ActiveAgentPool
             // is already buffered data available, create a stream to return that
             // data first.
             return new InputStream() {
+                @Override
                 public int read() throws IOException {
                     // don't bother to optimize method this because stream should
                     // be wrapped in a BufferedInputStream
@@ -126,6 +129,7 @@ public class ActiveAgentPool
                         return n;
                     }
                 }
+                @Override
                 public int read(byte[] buffer, int offset, int count) throws IOException {
                     if (count == 0) // we ought to check
                         return 0;
@@ -173,6 +177,7 @@ public class ActiveAgentPool
                         data = null;
                     }
                 }
+                @Override
                 public void close() throws IOException {
                     socketInput.close();
                 }
@@ -216,6 +221,7 @@ public class ActiveAgentPool
                 final int c = count;
 
                 Thread reader = new Thread() {
+                    @Override
                     public void run() {
                         try {
                             n = socketInput.read(b, o, c);
@@ -236,10 +242,12 @@ public class ActiveAgentPool
             }
         }
 
+        @Override
         public OutputStream getOutputStream() {
             return socketOutput;
         }
 
+        @Override
         public synchronized void close() throws IOException {
             socketInput.close();
             socketOutput.close();
@@ -247,10 +255,12 @@ public class ActiveAgentPool
             notifyAll();
         }
 
+        @Override
         public synchronized boolean isClosed() {
             return closed;
         }
 
+        @Override
         public synchronized void waitUntilClosed(int timeout) throws InterruptedException {
             long now = System.currentTimeMillis();
             long end = now + timeout;
@@ -333,6 +343,7 @@ public class ActiveAgentPool
             notifyAddedToPool(e);
             notifyAll();
             Runnable r = new Runnable() {
+                @Override
                 public void run() {
                     e.readAhead();
                 }
@@ -493,6 +504,7 @@ public class ActiveAgentPool
             serverSocket = SocketConnection.createServerSocket(port);
 
             Runnable r = new Runnable() {
+                @Override
                 public void run() {
                     acceptRequests();
                 }

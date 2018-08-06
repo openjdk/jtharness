@@ -99,6 +99,7 @@ public class BinaryTestFinder extends TestFinder
      * @throws TestFinder.Fault
      *                  if there is a problem while reading the data file.
      */
+    @Override
     public void init(String[] args, File testSuiteRoot, TestEnvironment env) throws Fault {
         super.init(args, testSuiteRoot, env);
         openBinaryFile(true);
@@ -135,6 +136,7 @@ public class BinaryTestFinder extends TestFinder
      * @throws TestFinder.Fault
      *                  if any problems occur while decoding the next argument
      */
+    @Override
     protected int decodeArg(String[] args, int i) throws Fault {
         if (args[i].equalsIgnoreCase("-binary") || args[i].equalsIgnoreCase("-jtd")) {
             String e = args[i+1];
@@ -149,6 +151,7 @@ public class BinaryTestFinder extends TestFinder
             return super.decodeArg(args, i);
     }
 
+    @Override
     public long lastModified(File f) {
         // with BTF, the file will never change, so rescanning should never be
         // needed.  And, after the first scan, 1 will always be earlier than the
@@ -156,6 +159,7 @@ public class BinaryTestFinder extends TestFinder
         return 1;
     }
 
+    @Override
     public boolean isFolder(File path) {
         if (zipFile != null || zipFileRead)
             readBinaryFile();
@@ -193,6 +197,7 @@ public class BinaryTestFinder extends TestFinder
      * recreating the effect of the original read of this file by the original
      * test finder.
      */
+    @Override
     protected void scan(File file) {
         if (zipFile != null || zipFileRead)
             readBinaryFile();

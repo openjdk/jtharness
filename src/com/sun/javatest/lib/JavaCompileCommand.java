@@ -118,6 +118,7 @@ public class JavaCompileCommand extends Command
      *          being compiler; or `error' if some more serious problem arose
      *          that prevented the compiler performing its task.
      */
+    @Override
     public Status run(String[] args, PrintWriter log, PrintWriter ref) {
 
         if (args.length == 0)

@@ -149,10 +149,12 @@ public class JavaTestError extends Error
         this.original = original;
     }
 
+    @Override
     public void printStackTrace() {
         printStackTrace(System.err);
     }
 
+    @Override
     public void printStackTrace(PrintStream s) {
         s.println(GENERIC_START);
         super.printStackTrace(s);
@@ -165,6 +167,7 @@ public class JavaTestError extends Error
         s.println(GENERIC_END);
     }
 
+    @Override
     public void printStackTrace(PrintWriter s) {
         s.println(GENERIC_START);
         super.printStackTrace(s);

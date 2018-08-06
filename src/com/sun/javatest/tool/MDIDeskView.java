@@ -88,16 +88,19 @@ class MDIDeskView extends DeskView {
         JDialog.setDefaultLookAndFeelDecorated(true);
     }
 
+    @Override
     public void dispose() {
         mainFrame.setVisible(false);
         mainFrame.dispose();
         super.dispose();
     }
 
+    @Override
     public boolean isVisible() {
         return mainFrame.isVisible();
     }
 
+    @Override
     public void setVisible(boolean v) {
         if (v == mainFrame.isVisible())
             return;
@@ -113,15 +116,18 @@ class MDIDeskView extends DeskView {
         }
     }
 
+    @Override
     public boolean isEmpty() {
         return (internalFrames.size() == 0);
     }
 
+    @Override
     public Tool[] getTools() {
         Tool[] tools = new Tool[internalFrames.size()];
         return internalFrames.keySet().toArray(tools);
     }
 
+    @Override
     public void addTool(Tool t) {
         DeskView view = t.getDeskView();
         if (view == this)
@@ -184,6 +190,7 @@ class MDIDeskView extends DeskView {
             tds[i].initDialog(this, vis[i]);
     }
 
+    @Override
     public void removeTool(Tool t) {
         //System.err.println("MDI: remove " + t);
         JInternalFrame f = internalFrames.get(t);
@@ -201,6 +208,7 @@ class MDIDeskView extends DeskView {
             desktopPane.requestFocusInWindow();
     }
 
+    @Override
     public Tool getSelectedTool() {
         JInternalFrame f = desktopPane.getSelectedFrame(); // NOT VALID FOR DIALOGS!
         if (f == null)
@@ -210,6 +218,7 @@ class MDIDeskView extends DeskView {
         return t;
     }
 
+    @Override
     public void setSelectedTool(Tool t) {
         JInternalFrame f = internalFrames.get(t);
         if (f != null) {
@@ -223,18 +232,22 @@ class MDIDeskView extends DeskView {
         }
     }
 
+    @Override
     public int getStyle() {
         return Desktop.MDI_STYLE;
     }
 
+    @Override
     public JFrame[] getFrames() {
         return new JFrame[] { mainFrame };
     }
 
+    @Override
     public Rectangle getBounds() {
         return mainFrame.getBounds();
     }
 
+    @Override
     public boolean isToolOwnerForDialog(Tool tool, Container dialog) {
         if (dialog == null)
             return false;
@@ -245,6 +258,7 @@ class MDIDeskView extends DeskView {
             return (dialog.getParent() == mainFrame);
     }
 
+    @Override
     public Container createDialog(Tool tool, String uiKey, String title,
                                   JMenuBar menuBar, Container body,
                                   Rectangle bounds, int type) {
@@ -308,22 +322,26 @@ class MDIDeskView extends DeskView {
         }
     }
 
+    @Override
     protected void saveDesktop(Map<String, String> m) {
         saveBounds(mainFrame, new PrefixMap<>(m, "dt"));
         saveTools(m);
     }
 
+    @Override
     protected void restoreDesktop(Map<String, String> m) {
         restoreBounds(mainFrame, new PrefixMap<>(m, "dt"));
         restoreTools(m);
     }
 
+    @Override
     protected void saveTool(Map<String, String> m, Tool t) {
         super.saveTool(m, t);
         JInternalFrame f = internalFrames.get(t);
         saveBounds(f, new PrefixMap<>(m, "dt"));
     }
 
+    @Override
     protected Tool restoreTool(Map<String, String> m, String name) throws Fault, ToolManager.Fault
     {
         Tool t = super.restoreTool(m, name);
@@ -346,6 +364,7 @@ class MDIDeskView extends DeskView {
         mainFrame.setBounds(bounds);
 
         mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 getDesktop().checkToolsAndExitIfOK(mainFrame);
             }
@@ -419,6 +438,7 @@ class MDIDeskView extends DeskView {
     {
         // --------- ActionListener  ---------
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
             if (cmd.equals(CASCADE))
@@ -439,6 +459,7 @@ class MDIDeskView extends DeskView {
 
         // --------- AncestorListener ---------
 
+        @Override
         public void ancestorAdded(AncestorEvent event) {
             Tool[] tools = getTools();
             for (int i = 0; i < tools.length; i++) {
@@ -447,8 +468,10 @@ class MDIDeskView extends DeskView {
             }
         }
 
+        @Override
         public void ancestorMoved(AncestorEvent event) { }
 
+        @Override
         public void ancestorRemoved(AncestorEvent event) {
             Tool[] tools = getTools();
             for (int i = 0; i < tools.length; i++) {
@@ -459,6 +482,7 @@ class MDIDeskView extends DeskView {
 
         // --------- InternalFrameListener ---------
 
+        @Override
         public void internalFrameClosed(InternalFrameEvent e)  {
             JInternalFrame f = (JInternalFrame) (e.getSource());
             if (f.getContentPane() instanceof Tool) {
@@ -472,6 +496,7 @@ class MDIDeskView extends DeskView {
             }
         }
 
+        @Override
         public void internalFrameClosing(InternalFrameEvent e)  {
             JInternalFrame f = (JInternalFrame) (e.getSource());
             Tool t = (Tool) (f.getContentPane());
@@ -479,18 +504,24 @@ class MDIDeskView extends DeskView {
                 f.dispose();
         }
 
+        @Override
         public void internalFrameActivated(InternalFrameEvent e) { }
 
+        @Override
         public void internalFrameDeactivated(InternalFrameEvent e) { }
 
+        @Override
         public void internalFrameDeiconified(InternalFrameEvent e)  { }
 
+        @Override
         public void internalFrameIconified(InternalFrameEvent e)  { }
 
+        @Override
         public void internalFrameOpened(InternalFrameEvent e)  { }
 
         // --------- MenuListener ---------
 
+        @Override
         public void menuSelected(MenuEvent e) {
             Tool[] tools = getTools();
 
@@ -550,23 +581,28 @@ class MDIDeskView extends DeskView {
             m.add(mi);
         }
 
+        @Override
         public void menuDeselected(MenuEvent e) {
         }
 
+        @Override
         public void menuCanceled(MenuEvent e) {
         }
 
         // --------- Tool.Observer ---------
 
+        @Override
         public void shortTitleChanged(Tool src, String newValue) {
         }
 
+        @Override
         public void titleChanged(Tool src, String newValue) {
             JInternalFrame f = internalFrames.get(src);
             f.setTitle(newValue);
             //System.err.println("Tool title changed: " + newValue);
         }
 
+        @Override
         public void toolDisposed(Tool src) { }
 
     }

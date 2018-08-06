@@ -73,6 +73,7 @@ public class Timer
      */
     public Timer() {
         Thread t = new Thread() {
+            @Override
             public void run() {
                 try {
                     Entry e;

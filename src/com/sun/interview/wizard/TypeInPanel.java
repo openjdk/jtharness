@@ -120,6 +120,7 @@ public class TypeInPanel extends JPanel
         }
 
         Runnable valueSaver = new Runnable() {
+                @Override
                 public void run() {
                     try {
                         q.setValue(getValue());

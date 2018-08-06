@@ -249,6 +249,7 @@ public class Agent implements Runnable {
      * Run the agent. Since an Agent is {@link Runnable runnable}, this method
      * will typically be called on a separate thread.
      */
+    @Override
     public synchronized void run() {
         if (mainThread != null)
             throw new IllegalStateException("Agent already running");
@@ -274,6 +275,7 @@ public class Agent implements Runnable {
             while (!closing) {
                 while (threads.size() < maxThreads && !closing) {
                     Thread t = new Thread(new Runnable() {
+                        @Override
                         public void run() {
                             Thread curr = Thread.currentThread();
                             if (tracing)
@@ -1194,6 +1196,7 @@ class AgentWriter extends Writer {
      * @param ch        the char
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public synchronized void write(int ch) throws IOException {
         buf[count++] = (char)ch;
         if (count == buf.length) {
@@ -1212,6 +1215,7 @@ class AgentWriter extends Writer {
      * @param c the data to be written
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public void write(char c[]) throws IOException {
         write(c, 0, c.length);
     }
@@ -1223,6 +1227,7 @@ class AgentWriter extends Writer {
      * @param len       the number of bytes that are written
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public synchronized void write(char c[], int off, int len) throws IOException {
         if (len < buf.length - count) {
             // there is room for the bytes in the current buffer
@@ -1247,6 +1252,7 @@ class AgentWriter extends Writer {
      * output bytes.
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public synchronized void flush() throws IOException {
         if (count > 0) {
             switch (type) {
@@ -1268,6 +1274,7 @@ class AgentWriter extends Writer {
      * stream.
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public void close() throws IOException {
         flush();
     }

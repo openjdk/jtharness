@@ -67,6 +67,7 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
         setHarness(harness);
     }
 
+    @Override
     public JMenu getMenu() {
         Action[] reportActions = {
             newReportAction,
@@ -119,6 +120,7 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
                             getReportBrowser(), model);
 
         newReportD.addObserver(new NewReportDialog.Observer() {
+                @Override
                 public void update(Map<String, String> l) {
                     lastState = l;
                     String lastReportDir =
@@ -128,14 +130,17 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
                        history.add(new File(lastReportDir));
                 }
 
+                @Override
                 public void writingReport() {
                     newReportAction.setEnabled(false);
                 }
 
+                @Override
                 public void wroteReport() {
                     newReportAction.setEnabled(true);
                 }
 
+                @Override
                 public void errorWriting(String problem) {
                     newReportAction.setEnabled(true);
                 }
@@ -195,6 +200,7 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
     }
 
     // should really be observing ExecModel
+    @Override
     public void updateGUI() {
 
         workDir = model.getWorkDirectory();
@@ -211,6 +217,7 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
         }
     }
 
+    @Override
     public void save(Map<String, String> parentMap) {
         if (lastState != null && lastState.size() > 0)  {
            PrefixMap<String> pm = new PrefixMap<>(parentMap, REPORT_PREFIX);
@@ -218,6 +225,7 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
         }
     }
 
+    @Override
     public void restore(Map<String, String> parentMap) {
         if (parentMap == null)
             return;
@@ -242,6 +250,7 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
         }
     }
 
+    @Override
     public void dispose() {
         if (newReportD != null) {
             newReportD.dispose();
@@ -260,22 +269,30 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
         lastState = null;
     }
 
+    @Override
     public void setHarness(Harness h) {
         h.addObserver(new Harness.Observer() {
 
+            @Override
             public void startingTestRun(Parameters params) {
                 newReportAction.setEnabled(false);
             }
 
+            @Override
             public void startingTest(TestResult tr) {}
+            @Override
             public void finishedTest(TestResult tr) {}
+            @Override
             public void stoppingTestRun() {}
+            @Override
             public void finishedTesting() {}
 
+            @Override
             public void finishedTestRun(boolean allOK) {
                 newReportAction.setEnabled(true);
             }
 
+            @Override
             public void error(String msg) {}
         });
     }
@@ -284,6 +301,7 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
      * ET_Control interface method
      * @return null
      */
+    @Override
     public List<Action> getToolBarActionList() {
         return null;
     }
@@ -295,18 +313,21 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
     // on uif being initialized in the constructor
     private void initActions() {
         newReportAction = new ToolAction(uif, "rpth.new") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 showNewReportDialog();
             }
         };
 
         openReportAction = new ToolAction(uif, "rpth.open") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 showReportDialog(ReportDirChooser.OPEN);
             }
         };
 
         reportHistoryListener = new FileHistory.Listener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 JMenuItem mi = (JMenuItem) (e.getSource());
                 File f = (File) (mi.getClientProperty(FileHistory.FILE));

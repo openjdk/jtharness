@@ -39,6 +39,7 @@ import java.io.IOException;
   */
 public class ShScriptCommentStream extends CommentStream
 {
+    @Override
     public String readComment() throws IOException {
         String comment, line;
 

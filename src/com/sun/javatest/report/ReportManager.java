@@ -50,6 +50,7 @@ import com.sun.javatest.util.StringArray;
 public class ReportManager
     extends CommandManager
 {
+    @Override
     public HelpTree.Node getHelp() {
         HelpTree.Node[] cmdNodes = {
             getCommandHelp(ReportCommand.getName()),
@@ -63,6 +64,7 @@ public class ReportManager
         return new HelpTree.Node(i18n, "rm.help." + name);
     }
 
+    @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
@@ -110,6 +112,7 @@ public class ReportManager
             path = new File(nextArg(argIter));
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             ctx.setAutoRunReportDir(path);
         }
@@ -180,10 +183,12 @@ public class ReportManager
 
         }
 
+        @Override
         public boolean isActionCommand() {
             return true;
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             try {
                 if (ctx.getWorkDirectory() == null) {

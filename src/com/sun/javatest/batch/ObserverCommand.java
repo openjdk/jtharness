@@ -90,6 +90,7 @@ class ObserverCommand extends Command
         }
     }
 
+    @Override
     public void run(CommandContext ctx) throws Fault {
         try {
             Class<?> oc = loadClass(className);

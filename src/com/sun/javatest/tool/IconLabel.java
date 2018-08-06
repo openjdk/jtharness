@@ -48,10 +48,12 @@ import javax.swing.JLabel;
  */
 public class IconLabel extends JLabel
 {
+    @Override
     public float getAlignmentY() {
         return .7f;
     }
 
+    @Override
     public Icon getIcon() {
         if (type == null)
             return null;

@@ -70,6 +70,7 @@ class ProgressMonitor extends ToolDialog {
         this.state = state;
     }
 
+    @Override
     protected void initGUI() {
         setI18NTitle("pm.title");
         setHelp("browse.testMonitor.csh");
@@ -216,6 +217,7 @@ class ProgressMonitor extends ToolDialog {
             timer = new Timer(UPDATE_FREQUENCY, this);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == timer) {
                 for (int i = 0; i < subpanels.length; i++)
@@ -225,6 +227,7 @@ class ProgressMonitor extends ToolDialog {
 
         // these are probably on whichever thread the harness is running on
         // be sure to switch them onto the event thread
+        @Override
         public void starting() {
             running = true;
 
@@ -234,6 +237,7 @@ class ProgressMonitor extends ToolDialog {
             timer.start();
         }
 
+        @Override
         public void postProcessing() {
             for (int i = 0; i < subpanels.length; i++) {
                     // make sure the panels update one last time
@@ -242,10 +246,12 @@ class ProgressMonitor extends ToolDialog {
             }   // for
         }
 
+        @Override
         public void stopping() {
             // it is assumed that finished() will be called right away
         }
 
+        @Override
         public void finished(final boolean allOk) {
             running = false;
             for (int i = 0; i < subpanels.length; i++) {
@@ -382,6 +388,7 @@ class ProgressMonitor extends ToolDialog {
             uif.setToolTip(this, "pm.tests");
         }
 
+        @Override
         public void update() {
             updateAll();
         }
@@ -433,18 +440,22 @@ class ProgressMonitor extends ToolDialog {
             showCard(idleCard);
         }
 
+        @Override
         void starting() {
             showCard(runningCard);
             //StatusDialog.this.validate();
         }
 
+        @Override
         void postProcessing() {
             showCard(idleCard);
         }
 
+        @Override
         void stopping() {
         }
 
+        @Override
         void update() {
             testListData.removeAllElements();
             TestResult[] rt = state.getRunningTests();
@@ -480,6 +491,7 @@ class ProgressMonitor extends ToolDialog {
             list.setBorder(BorderFactory.createEtchedBorder());
             list.setCellRenderer(RenderingUtilities.createTestListRenderer());
             list.addMouseListener(new MouseAdapter() {
+                    @Override
                     public void mouseClicked(MouseEvent e) {
                         int index = list.locationToIndex(e.getPoint());
                         if (index < 0)
@@ -557,6 +569,7 @@ class ProgressMonitor extends ToolDialog {
             uif.setToolTip(this, "pm.time");
         }
 
+        @Override
         void update() {
             long elapsed = state.getElapsedTime();
             elapsedField.setText(ElapsedTimeMonitor.millisToString(elapsed));
@@ -618,6 +631,7 @@ class ProgressMonitor extends ToolDialog {
             uif.setToolTip(this, "pm.memory");
         }
 
+        @Override
         void update() {
             int freeMem = (int)(runtime.freeMemory() / 1024);
             int totalMem = (int)(runtime.totalMemory() / 1024);

@@ -48,6 +48,7 @@ public class JavaHelpFactory implements HelpSetFactory {
     public JavaHelpFactory() {
     }
 
+    @Override
     public Object createHelpSetObject(String name, Class<?> c) throws Interview.Fault {
         ClassLoader cl = c.getClassLoader();
         String hsn;
@@ -68,6 +69,7 @@ public class JavaHelpFactory implements HelpSetFactory {
         return new HelpSet(cl, u, pref);
     }
 
+    @Override
     public Object createHelpSetObject(String name, File file) throws Interview.Fault {
         try {
             URL[] urls = {new URL("file:" + file.getAbsolutePath() + "/")};
@@ -84,6 +86,7 @@ public class JavaHelpFactory implements HelpSetFactory {
         }
     }
 
+    @Override
     public Object createHelpID(Object hsObject, String target) {
         if (hsObject != null) {
             HelpSet hs = (HelpSet) hsObject;
@@ -96,6 +99,7 @@ public class JavaHelpFactory implements HelpSetFactory {
         return null;
     }
 
+    @Override
     public Object updateHelpSetObject(Interview interview, Object object) {
         HelpSet newHelpSet = (HelpSet)object;
         HelpSet oldHelpSet = (HelpSet)interview.getHelpSet();

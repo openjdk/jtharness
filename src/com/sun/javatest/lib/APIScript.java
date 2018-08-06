@@ -53,6 +53,7 @@ public class APIScript extends Script
      * @return     The result of running the script on the given test
      *             description.
      */
+    @Override
     public Status run(String [] args, TestDescription td, TestEnvironment env) {
 
         PrintWriter trOut = getTestResult().getTestCommentWriter();

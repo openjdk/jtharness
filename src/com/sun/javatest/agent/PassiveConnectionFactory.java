@@ -72,6 +72,7 @@ public class PassiveConnectionFactory implements ConnectionFactory
         return serverSocket.getLocalPort();
     }
 
+    @Override
     public Connection nextConnection() throws ConnectionFactory.Fault {
         try {
 //          return new SocketConnection(serverSocket.accept());
@@ -82,6 +83,7 @@ public class PassiveConnectionFactory implements ConnectionFactory
         }
     }
 
+    @Override
     public void close() throws ConnectionFactory.Fault {
         try {
             serverSocket.close();

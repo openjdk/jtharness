@@ -117,6 +117,7 @@ public abstract class StringListQuestion extends Question
      * @return a string representing the current response to this question, or null.
      * @see #setValue(String)
      */
+    @Override
     public String getStringValue() {
         if (value == null)
             return null;
@@ -132,14 +133,17 @@ public abstract class StringListQuestion extends Question
         return sb.toString();
     }
 
+    @Override
     public boolean isValueValid() {
         return true;
     }
 
+    @Override
     public boolean isValueAlwaysValid() {
         return false;
     }
 
+    @Override
     public void setValue(String s) {
         setValue(s == null ? null : split(s));
     }
@@ -174,6 +178,7 @@ public abstract class StringListQuestion extends Question
      * Clear any response to this question, resetting the value
      * back to its initial state.
      */
+    @Override
     public void clear() {
         setValue(defaultValue);
     }
@@ -184,6 +189,7 @@ public abstract class StringListQuestion extends Question
      * the tag as the key.
      * @param data The map in which to save the value for this question.
      */
+    @Override
     protected void save(Map<String, String> data) {
         if (value != null)
             data.put(tag, getStringValue());

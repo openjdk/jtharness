@@ -39,6 +39,7 @@ class JTFormatter extends Formatter {
 
     private int lastOffset;
 
+    @Override
     public String format(LogRecord record) {
         StringBuffer sb = new StringBuffer();
         StringBuffer msgBuf = new StringBuffer(record.getMessage());
@@ -80,6 +81,7 @@ class JTFormatter extends Formatter {
         return sb.toString();
     }
 
+    @Override
     public String getHead(Handler h) {
         return LOG_SIGNATURE + '\n';
     }

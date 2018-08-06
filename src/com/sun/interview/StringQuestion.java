@@ -91,14 +91,17 @@ public abstract class StringQuestion extends Question
         return getValue();
     }
 
+    @Override
     public String getStringValue() {
         return value;
     }
 
+    @Override
     public boolean isValueValid() {
         return true;
     }
 
+    @Override
     public boolean isValueAlwaysValid() {
         return false;
     }
@@ -159,6 +162,7 @@ public abstract class StringQuestion extends Question
      *
      * @see #getValue
      */
+    @Override
     public void setValue(String newValue) {
         String oldValue = value;
         value = (newValue == null ? null : newValue.trim());
@@ -172,6 +176,7 @@ public abstract class StringQuestion extends Question
      * Clear any response to this question, resetting the value
      * back to its initial state.
      */
+    @Override
     public void clear() {
         setValue(defaultValue);
     }
@@ -182,6 +187,7 @@ public abstract class StringQuestion extends Question
      * the tag as the key.
      * @param data The map in which to save the value for this question.
      */
+    @Override
     protected void save(Map<String, String> data) {
         if (value != null)
             data.put(tag, value);

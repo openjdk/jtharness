@@ -37,6 +37,7 @@ import com.sun.interview.Question;
 public class StringListQuestionRenderer
     implements QuestionRenderer
 {
+    @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         final StringListQuestion q = (StringListQuestion) qq;
 
@@ -60,6 +61,7 @@ public class StringListQuestionRenderer
         panel.add(list, BorderLayout.CENTER);
 
         Runnable valueSaver = new Runnable() {
+            @Override
             public void run() {
                 q.setValue((String[]) list.getItems(String.class));
             }
@@ -70,6 +72,7 @@ public class StringListQuestionRenderer
         return panel;
     }
 
+    @Override
     public String getInvalidValueMessage(Question q) {
         return null;
     }

@@ -94,6 +94,7 @@ public class LogModel {
 
         boolean stop = false;
 
+        @Override
         public void run() {
             RandomAccessFile r = null;
             int firstRecordOnPage = 0;
@@ -411,6 +412,7 @@ public class LogModel {
     }
 
     class LogFileListener implements FileListener {
+        @Override
         public void fileModified(FileEvent e) {
             synchronized (LogModel.this) {
                 if (e.getType().equals(FileEvent.START_ERASING)){
@@ -427,6 +429,7 @@ public class LogModel {
 
 
     private class MessageCache extends LinkedHashMap<LiteLogRecord, String> {
+        @Override
         protected boolean removeEldestEntry(Map.Entry<LiteLogRecord, String> eldest) {
             return size() > PAGE_SIZE*2;
         }

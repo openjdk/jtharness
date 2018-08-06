@@ -330,18 +330,21 @@ class OptionsPane extends JPanel {
             cards = cardLayout;
         }
 
+        @Override
         public void keyTyped(KeyEvent e) {
             if (e.getKeyChar() == ' ') {
                 process(list.getSelectedIndex());
             }
         }
 
+        @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getPoint().getX() <= emptyCBW) {
                 process(list.locationToIndex(e.getPoint()));
             }
         }
 
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             int index = list.getSelectedIndex();
             JCheckBox box = (listModel.getElementAt(index));
@@ -389,9 +392,11 @@ class OptionsPane extends JPanel {
             lastSelected = box;
         }
 
+        @Override
         public void keyReleased(KeyEvent e) {
         }
 
+        @Override
         public void keyPressed(KeyEvent e) {
         }
 
@@ -418,6 +423,7 @@ class OptionsPane extends JPanel {
          * Catches changes of "enabled" property
          * and changes enabled status for all child components
          */
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if ("enabled".equals(evt.getPropertyName())) {
                 boolean oldV = ((Boolean) evt.getOldValue()).booleanValue();
@@ -469,8 +475,9 @@ class OptionsPane extends JPanel {
     }
 
     private class CheckBoxListCellRenderer implements ListCellRenderer<JCheckBox> {
+        @Override
         public Component getListCellRendererComponent(JList<? extends JCheckBox> list, JCheckBox comp,
-                int index, boolean isSelected, boolean cellHasFocus) {
+                                                      int index, boolean isSelected, boolean cellHasFocus) {
             // assert: value is a JCheckBox
             if (isSelected) {
                 comp.setOpaque(true);

@@ -62,6 +62,7 @@ class SummaryPane extends AuditPane {
         ERROR = uif.getI18NString("smry.state.error");
     }
 
+    @Override
     void show(Audit audit) {
         if (audit == currAudit)
             showBody();

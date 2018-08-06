@@ -377,10 +377,12 @@ public class PropertyArray {
         return new Enumeration<String>() {
             int pos = 0;
 
+            @Override
             public boolean hasMoreElements() {
                 return (props != null && pos < props.length);
             }
 
+            @Override
             public String nextElement() {
                 if (props == null || pos >= props.length) {
                    return null;

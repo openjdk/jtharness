@@ -72,6 +72,7 @@ class ProgressMeter extends JComponent implements Accessible {
         //setBorder(BorderFactory.createEmptyBorder(10,5,10,5));
     }
 
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (ac == null)
             ac = new PM_AccessibleContext(this);
@@ -86,6 +87,7 @@ class ProgressMeter extends JComponent implements Accessible {
     public void start() {
         if (indet == false) {
             myThread = new Thread() {
+                @Override
                 public void run() {
                     while(myThread == currentThread()) {
                         try {
@@ -115,6 +117,7 @@ class ProgressMeter extends JComponent implements Accessible {
         else {
             clear();
             indetTimer = new Timer(100, new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent evt) {
                     System.err.println("updating, width=" + getSize().width);
                 }
@@ -144,6 +147,7 @@ class ProgressMeter extends JComponent implements Accessible {
         actionListener = AWTEventMulticaster.add(actionListener, l);
         if (actionListener != null && mouseListener == null) {
             mouseListener = new MouseAdapter() {
+                @Override
                 public void mouseClicked(MouseEvent me) {
                     int index = resolve(me.getX(), me.getY());
                     if (index == -1)
@@ -172,10 +176,12 @@ class ProgressMeter extends JComponent implements Accessible {
         repaint();
     }
 
+    @Override
     public Dimension getMinimumSize() {
         return new Dimension(30, 8);
     }
 
+    @Override
     public Dimension getPreferredSize() {
         return new Dimension(50, 15);
     }
@@ -217,6 +223,7 @@ class ProgressMeter extends JComponent implements Accessible {
         }
     }
 
+    @Override
     public synchronized void paint(Graphics g) {
         Dimension dims = getSize();
         g.drawRect(0, 0, dims.width - 1, dims.height - 1);
@@ -265,6 +272,7 @@ class ProgressMeter extends JComponent implements Accessible {
             this.pm = pm;
         }
 
+        @Override
         public String getAccessibleDescription() {
             String superdesc = super.getAccessibleDescription();
             if (superdesc == null)
@@ -277,6 +285,7 @@ class ProgressMeter extends JComponent implements Accessible {
             }
         }
 
+        @Override
         public String getAccessibleName() {
             String supername = super.getAccessibleName();
             if (supername == null) {
@@ -291,15 +300,18 @@ class ProgressMeter extends JComponent implements Accessible {
             }
         }
 
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PROGRESS_BAR;
         }
 
+        @Override
         public AccessibleValue getAccessibleValue() {
             return this;
         }
 
         // accessible value
+        @Override
         public Number getCurrentAccessibleValue() {
             int ttl = 0;
             int[] stats = state.getStats();
@@ -312,14 +324,17 @@ class ProgressMeter extends JComponent implements Accessible {
             return Integer.valueOf(ttl);
         }
 
+        @Override
         public Number getMaximumAccessibleValue() {
             return Integer.valueOf(state.getTestsFoundCount());
         }
 
+        @Override
         public Number getMinimumAccessibleValue() {
             return Integer.valueOf(0);
         }
 
+        @Override
         public boolean setCurrentAccessibleValue(Number n) {
             // not a valid action
             return false;

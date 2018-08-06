@@ -62,6 +62,7 @@ public class TimeoutFactorInterview
      * @return a value representing the desired timeout factor for a test run.
      * @see #setTimeoutFactor
      */
+    @Override
     public float getTimeoutFactor() {
         return qTimeout.getValue();
     }
@@ -71,6 +72,7 @@ public class TimeoutFactorInterview
      * @param t The desired value for the timeout factor.
      * @see #getTimeoutFactor
      */
+    @Override
     public void setTimeoutFactor(float t) {
         qTimeout.setValue(t);
     }
@@ -86,10 +88,12 @@ public class TimeoutFactorInterview
             setResolution(0.1f);
         }
 
+        @Override
         protected Question getNext() {
             return qEnd;
         }
 
+        @Override
         public void clear() {
             setValue(1);
         }

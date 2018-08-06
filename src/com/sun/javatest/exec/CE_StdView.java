@@ -62,6 +62,7 @@ class CE_StdView extends CE_View
         initGUI();
     }
 
+    @Override
     public Dimension getPreferredSize() {
         Insets tabInsets = tabs.getInsets();
         int w = (tabInsets == null ? 0 : tabInsets.left + tabInsets.right);
@@ -76,6 +77,7 @@ class CE_StdView extends CE_View
         return d;
     }
 
+    @Override
     public void setVisible(boolean b) {
         if (b)
             load();
@@ -83,6 +85,7 @@ class CE_StdView extends CE_View
     }
 
 
+    @Override
     public void setParentToolDialog(ToolDialog d) {
         super.setParentToolDialog(d);
         for (CE_StdPane pane : panes) {
@@ -140,6 +143,7 @@ class CE_StdView extends CE_View
     static final int TIMEOUT_FACTOR_PANE = 7; // note displayed in EXECUTION_PANE
     static final int KFL_PANE = 8;
 
+    @Override
     boolean isOKToClose() {
         CE_StdPane currPane = (CE_StdPane) (tabs.getSelectedComponent());
         if (currPane == null)
@@ -147,11 +151,13 @@ class CE_StdView extends CE_View
         return currPane.isOKToClose();
     }
 
+    @Override
     void load() {
         for (int i = 0; i < panes.length; i++)
             panes[i].load();
     }
 
+    @Override
     void save() {
         for (int i = 0; i < panes.length; i++)
             panes[i].save();
@@ -188,6 +194,7 @@ class CE_StdView extends CE_View
         };
 
         tabs = new JTabbedPane() {
+                @Override
                 public void setSelectedIndex(int index) {
                     if (index == getSelectedIndex())
                         return;
@@ -275,17 +282,21 @@ class CE_StdView extends CE_View
     {
         // ---------- from AncestorListener -----------
 
+        @Override
         public void ancestorAdded(AncestorEvent e) {
             updateCSHAndInfo();
         }
 
+        @Override
         public void ancestorMoved(AncestorEvent e) { }
 
+        @Override
         public void ancestorRemoved(AncestorEvent e) {
         }
 
         // ---------- from ChangeListener -----------
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             updateCSHAndInfo();
         }

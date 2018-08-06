@@ -38,6 +38,7 @@ import com.sun.javatest.util.StringArray;
  */
 public class StdTestScript extends Script
 {
+    @Override
     public Status run(String[] args, TestDescription td, TestEnvironment env) {
         try {
             String[] m = env.lookup("script.mode");

@@ -135,6 +135,7 @@ public class Main
         Debug.setProperties(System.getProperties());
 
         PrintWriter out = new PrintWriter(System.err) {
+                @Override
                 public void close() {
                     flush();
                 }
@@ -410,6 +411,7 @@ public class Main
             if (ctx.isCloseDesktopWhenDoneEnabled()
                 && desktop.isOKToAutoExit()) {
                 Runnable task = new Runnable() {
+                    @Override
                     public void run() {
                         desktop.setVisible(false);
                         desktop.dispose();
@@ -437,6 +439,7 @@ public class Main
                 final InterviewParameters ip = ip_tmp;
 
                 Runnable task = new Runnable() {
+                    @Override
                     public void run() {
                         // if a desktop has been started, make sure it is not empty
                         if (desktop.isEmpty()) {

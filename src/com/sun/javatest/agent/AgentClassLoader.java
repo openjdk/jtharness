@@ -34,6 +34,7 @@ class AgentClassLoader extends ClassLoader {
         this.parent = parent;
     }
 
+    @Override
     public synchronized Class<?> loadClass(String className, boolean resolve) throws ClassNotFoundException {
 
         // check the cache first
@@ -66,6 +67,7 @@ class AgentClassLoader extends ClassLoader {
         return c;
     }
 
+    @Override
     public synchronized InputStream getResourceAsStream(String resourceName) {
         // check local classpath first
         // the resource should already be absolute, if we've got here

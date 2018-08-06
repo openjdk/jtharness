@@ -206,6 +206,7 @@ public class WorkDirChooser extends JFileChooser
         return showDialog(parent, getApproveButtonText());
     }
 
+    @Override
     public void approveSelection() {
         // the validity of the selection depends on whether the
         // selected directory is to be created or opened.
@@ -269,6 +270,7 @@ public class WorkDirChooser extends JFileChooser
     private Map<String, String[]> fileData;
     private Map<String, Boolean> wdData;
 
+    @Override
     public String getName(File f) {
         String retValue;
         String baseName = super.getName(f);
@@ -286,6 +288,7 @@ public class WorkDirChooser extends JFileChooser
 
     private boolean isWorkDir(File dir) {
         if (wdData == null) wdData = new LinkedHashMap<String, Boolean>() {
+                @Override
                 protected boolean removeEldestEntry(Map.Entry<String, Boolean> eldest) {
                     return size() > 500;
                 }
@@ -309,6 +312,7 @@ public class WorkDirChooser extends JFileChooser
     private String[] getInfo(File file) {
 
         if (fileData == null) fileData = new LinkedHashMap<String, String[]>() {
+                @Override
                 protected boolean removeEldestEntry(Map.Entry<String, String[]> eldest) {
                     return size() > 500;
                 }

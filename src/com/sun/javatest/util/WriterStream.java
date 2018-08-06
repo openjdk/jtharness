@@ -70,6 +70,7 @@ public class WriterStream extends OutputStream
       *
       * @exception IOException if an I/O error occurs
       */
+    @Override
     public void flush() throws IOException {
         String result = new String(buff, 0, index, charsetName);
         char[] chars = result.toCharArray();
@@ -87,6 +88,7 @@ public class WriterStream extends OutputStream
      *
      * @throws java.io.IOException
      */
+    @Override
     public void close() throws IOException {
         flush();
     }
@@ -103,6 +105,7 @@ public class WriterStream extends OutputStream
      * @param b next byte from OutputStream to write.
      * @throws java.io.IOException
      */
+    @Override
     public void write(int b) throws IOException {
 
         if (index >= MAX_BUFF_SIZE) {

@@ -50,6 +50,7 @@ public class KeywordScript extends Script
      * Run the script, using the parameters set up by the standard initialization
      * methods.
      */
+    @Override
     public void run() {
 
         PrintWriter trOut = getTestResult().getTestCommentWriter();
@@ -212,6 +213,7 @@ public class KeywordScript extends Script
         }
     }
 
+    @Override
     public Status run(String[] args, TestDescription td, TestEnvironment env) {
         throw new Error("Method not applicable.");
     }

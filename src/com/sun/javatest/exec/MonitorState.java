@@ -224,6 +224,7 @@ class MonitorState {
 
     class Dispatcher implements Harness.Observer {
 
+        @Override
         public void startingTestRun(Parameters p) {
             running = true;
 
@@ -238,6 +239,7 @@ class MonitorState {
             notifySimple(0);
         }
 
+        @Override
         public void startingTest(TestResult tr) {
             synchronized (vLock) {
                 if (!runningTests.contains(tr))
@@ -245,6 +247,7 @@ class MonitorState {
             }
         }
 
+        @Override
         public void finishedTest(TestResult tr) {
             synchronized (vLock) {
                 runningTests.remove(tr);
@@ -253,10 +256,12 @@ class MonitorState {
             incrementStat(tr.getStatus().getType());
         }
 
+        @Override
         public void stoppingTestRun() {
             notifySimple(1);
         }
 
+        @Override
         public void finishedTesting() {
             finishTime = System.currentTimeMillis();
 
@@ -267,11 +272,13 @@ class MonitorState {
             notifySimple(2);
         }
 
+        @Override
         public void finishedTestRun(boolean allOk) {
             running = false;
             notifyComplete(allOk);
         }
 
+        @Override
         public void error(String msg) {
         }
 
@@ -279,6 +286,7 @@ class MonitorState {
         private void notifySimple(final int which) {
             if (!EventQueue.isDispatchThread()) {
                 Runnable cmd = new Runnable() {
+                    @Override
                     public void run() {
                         MonitorState.Dispatcher.this.notifySimple(which);
                     }   // run()
@@ -305,6 +313,7 @@ class MonitorState {
         private void notifyComplete(final boolean allOk) {
             if (!EventQueue.isDispatchThread()) {
                 Runnable cmd = new Runnable() {
+                    @Override
                     public void run() {
                         MonitorState.Dispatcher.this.notifyComplete(allOk);
                     }   // run()

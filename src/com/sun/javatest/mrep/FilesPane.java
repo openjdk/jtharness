@@ -131,6 +131,7 @@ class FilesPane extends JPanel {
         // Buttons begin
 
         nextBtn = uif.createButton("files.next", new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (checkInput())
                     nextListener.actionPerformed(e);
@@ -247,6 +248,7 @@ class FilesPane extends JPanel {
             this.mergedBtns = new ArrayList<>();
 
             addMore = uif.createButton("files.addmore", new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     addXmlToMerge();
                 }
@@ -284,6 +286,7 @@ class FilesPane extends JPanel {
             this.add(mergedField, fc);
             JButton xmlBtn = uif.createButton("files.result.browse",
                     new ActionListener() {
+                        @Override
                         public void actionPerformed(ActionEvent e) {
                             Object src = e.getSource();
                             for (int i = 0; i < mergedBtns.size(); i++) {
@@ -320,10 +323,12 @@ class FilesPane extends JPanel {
             xmlFileChooser.setFileView(new XMLReportView());
             xmlFileChooser.setCurrentDirectory(null);
             xmlFileChooser.addChoosableFileFilter(new FileFilter() {
+                @Override
                 public boolean accept(File f) {
                     return (f.isDirectory() || isXMLReport(f));
                 }
 
+                @Override
                 public String getDescription() {
                     return uif.getI18NString("files.xmlFiles");
                 }
@@ -416,6 +421,7 @@ class FilesPane extends JPanel {
             icon = IconFactory.getReportIcon();
         }
 
+        @Override
         public Icon getIcon(File f) {
             return isXMLReport(f) ? icon : null;
         }
@@ -454,11 +460,13 @@ class FilesPane extends JPanel {
 
     private class Listener extends ComponentAdapter implements ActionListener, FocusListener, KeyListener {
         // ComponentListener
+        @Override
         public void componentShown(ComponentEvent e) {
 
         }
 
         // ActionListener
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
             if (src == resultBtn) {
@@ -468,18 +476,23 @@ class FilesPane extends JPanel {
 
         }
 
+        @Override
         public void focusGained(FocusEvent e) {
             enableNext();
         }
 
+        @Override
         public void focusLost(FocusEvent e) {
             enableNext();
         }
 
+        @Override
         public void keyTyped(KeyEvent e) {}
 
+        @Override
         public void keyPressed(KeyEvent e) {}
 
+        @Override
         public void keyReleased(KeyEvent e) {
             enableNext();
         }

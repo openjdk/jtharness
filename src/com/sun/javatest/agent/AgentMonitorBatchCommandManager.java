@@ -44,6 +44,7 @@ import static com.sun.javatest.agent.Agent.MILLIS_PER_SECOND;
 public class AgentMonitorBatchCommandManager extends CommandManager
 {
 
+    @Override
     public HelpTree.Node getHelp() {
         return new HelpTree.Node(i18n, "cmgr.help", getCommands());
     }
@@ -58,6 +59,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
 
     //----------------------------------------------------------------------------
 
+    @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
@@ -102,6 +104,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
             }
         }
 
+        @Override
         public void run(CommandContext ctx) {
             AgentManager mgr = AgentManager.access();
             ActiveAgentPool pool = mgr.getActiveAgentPool();
@@ -132,6 +135,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
             }
         }
 
+        @Override
         public void run(CommandContext ctx) {
             AgentManager mgr = AgentManager.access();
             ActiveAgentPool pool = mgr.getActiveAgentPool();
@@ -168,6 +172,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
             }
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             if (portSubcommand != null)
                 portSubcommand.run(ctx);

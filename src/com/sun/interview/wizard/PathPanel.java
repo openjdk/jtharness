@@ -94,24 +94,29 @@ class PathPanel extends JPanel
 
     // ---------- Component stuff ---------------------------------------
 
+    @Override
     public Dimension getPreferredSize() {
         return list.getPreferredSize(); // should not be necessary
     }
 
     // ---------- Scrollable stuff ---------------------------------------
 
+    @Override
     public Dimension getPreferredScrollableViewportSize() {
         return list.getPreferredScrollableViewportSize();
     }
 
+    @Override
     public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
         return list.getScrollableBlockIncrement(visibleRect, orientation, direction);
     }
 
+    @Override
     public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
         return list.getScrollableUnitIncrement(visibleRect, orientation, direction);
     }
 
+    @Override
     public boolean getScrollableTracksViewportHeight() {
         if (getParent() instanceof JViewport) {
             return getParent().getHeight() > getPreferredSize().height;
@@ -119,6 +124,7 @@ class PathPanel extends JPanel
         return false;
     }
 
+    @Override
     public boolean getScrollableTracksViewportWidth() {
         return true;
     }
@@ -392,10 +398,12 @@ class PathPanel extends JPanel
 
         //----- from AbstractListModel -----------
 
+        @Override
         public int getSize() {
             return (currEntries == null ? 0 : currEntries.length);
         }
 
+        @Override
         public Object getElementAt(int index) {
             return (index < currEntries.length ? currEntries[index] : null);
         }
@@ -403,11 +411,13 @@ class PathPanel extends JPanel
         //----- from ListCellRenderer -----------
 
         private JLabel sample = new JLabel() {
+            @Override
             public Dimension getMaximumSize() {
                 return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
             }
         };
 
+        @Override
         public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
             if (o instanceof Question) {
                 Question q = (Question)o;
@@ -506,6 +516,7 @@ class PathPanel extends JPanel
         //----- from ActionListener -----------
 
         // invoked by keyboard "enter"
+        @Override
         public void actionPerformed(ActionEvent e) {
             //System.err.println("PP.actionPerformed");
             JList<?> list = (JList<?>)(e.getSource());
@@ -531,6 +542,7 @@ class PathPanel extends JPanel
         //----- from ListSelectionListener -----------
 
         // invoked by mouse selection (or by list.setSelectedXXX ??)
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             JList<?> list = (JList<?>) (e.getSource());
             Object o = list.getSelectedValue();
@@ -578,28 +590,35 @@ class PathPanel extends JPanel
 
         // ---------- from AncestorListener -----------
 
+        @Override
         public void ancestorAdded(AncestorEvent e) {
             interview.addObserver(this);
             pathUpdated();
         }
 
+        @Override
         public void ancestorMoved(AncestorEvent e) { }
 
+        @Override
         public void ancestorRemoved(AncestorEvent e) {
             interview.removeObserver(this);
         }
 
         //----- from MouseListener -----------
 
+        @Override
         public void mouseEntered(MouseEvent e) { }
 
+        @Override
         public void mouseExited(MouseEvent e) { }
 
+        @Override
         public void mousePressed(MouseEvent e) {
             if (markersEnabled && e.isPopupTrigger() && isOverSelection(e))
                 showPopupMenu(e);
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             if (markersEnabled && e.isPopupTrigger() && isOverSelection(e))
                 showPopupMenu(e);
@@ -617,6 +636,7 @@ class PathPanel extends JPanel
             popupMenu.show(e.getComponent(), e.getX(), e.getY());
         }
 
+        @Override
         public void mouseClicked(MouseEvent e) {
             if (!markersEnabled)
                 return;
@@ -650,10 +670,12 @@ class PathPanel extends JPanel
 
         //----- from Interview.Observer -----------
 
+        @Override
         public void pathUpdated() {
             update(interview.getPath(), interview.getCurrentQuestion());
         }
 
+        @Override
         public void currentQuestionChanged(Question q) {
             int prevIndex = currIndex;
             currQuestion = q;
@@ -1004,6 +1026,7 @@ class PathPanel extends JPanel
 
         // ---------- from ActionListener -----------
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
             if (cmd.equals(MARK)) {
@@ -1047,6 +1070,7 @@ class PathPanel extends JPanel
 
         // ---------- from ChangeListener -----------
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             Object src = e.getSource();
             if (src == enableItem) {
@@ -1063,25 +1087,31 @@ class PathPanel extends JPanel
 
         // ---------- from MenuListener -----------
 
+        @Override
         public void menuSelected(MenuEvent e) {
             updateItems();
         }
 
+        @Override
         public void menuDeselected(MenuEvent e) {
         }
 
+        @Override
         public void menuCanceled(MenuEvent e) {
         }
 
         // ---------- from PopupMenuListener -----------
 
+        @Override
         public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
             updateItems();
         }
 
+        @Override
         public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
         }
 
+        @Override
         public void popupMenuCanceled(PopupMenuEvent e) {
         }
 
@@ -1117,14 +1147,17 @@ class PathPanel extends JPanel
             this.on = on;
         }
 
+        @Override
         public int getIconWidth() {
             return iconWidth;
         }
 
+        @Override
         public int getIconHeight() {
             return iconHeight;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (on) {
                 if (image == null) {
@@ -1178,14 +1211,17 @@ class PathPanel extends JPanel
 
     private static class EllipsisIcon implements Icon
     {
+        @Override
         public int getIconWidth() {
             return iconWidth;
         }
 
+        @Override
         public int getIconHeight() {
             return iconHeight;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (image == null) {
                 image = new BufferedImage(getIconWidth(), getIconHeight(),

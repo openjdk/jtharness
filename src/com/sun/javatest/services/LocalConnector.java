@@ -65,6 +65,7 @@ public class LocalConnector implements Connector {
         return executor;
     }
 
+    @Override
     public Message send(Message msg) {
         switch (msg.getType()) {
             case START:
@@ -79,27 +80,33 @@ public class LocalConnector implements Connector {
         return null;
     }
 
+    @Override
     public InputStream getServiceErrorStream() {
         return executor.getServiceErrorStream();
     }
 
+    @Override
     public InputStream getServiceOutputStream() {
         return executor.getServiceOutputStream();
     }
 
+    @Override
     public void esteblishConnection() {
         //needs nothing to do
     }
 
+    @Override
     public void refuseConnection() {
         //needs nothing to do
     }
 
+    @Override
     public boolean connected() {
         return executor != null;
     }
 
     // Default implementation
+    @Override
     public void setMessageHandler(MessageHandler handler) {
     }
 

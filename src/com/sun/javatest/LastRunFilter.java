@@ -94,14 +94,17 @@ public class LastRunFilter extends ObservableTestFilter {
     }
 
     // ------- TestFilter ---------
+    @Override
     public String getName() {
         return i18n.getString("ltr.name");
     }
 
+    @Override
     public String getDescription() {
         return i18n.getString("ltr.desc");
     }
 
+    @Override
     public String getReason() {
         return i18n.getString("ltr.reason");
     }
@@ -143,6 +146,7 @@ public class LastRunFilter extends ObservableTestFilter {
         return accepts(td, null);
     }
 
+    @Override
     public boolean accepts(TestDescription td, TestFilter.Observer o)
                     throws Fault {
 

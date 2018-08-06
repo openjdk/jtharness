@@ -84,6 +84,7 @@ public class ShowFile
 {
     public ShowFile() {
         addMouseListener(new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
                 showFile();
             }
@@ -91,6 +92,7 @@ public class ShowFile
         setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
+    @Override
     public Dimension getPreferredSize() {
         Graphics g = getGraphics();
         if (g == null)
@@ -102,6 +104,7 @@ public class ShowFile
         return new Dimension(w, h);
     }
 
+    @Override
     public float getAlignmentY() {
         Graphics g = getGraphics();
         if (g == null)
@@ -113,6 +116,7 @@ public class ShowFile
         return (ascent / height);
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         g.setColor(color);
         if (font != null)

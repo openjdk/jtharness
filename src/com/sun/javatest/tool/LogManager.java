@@ -39,6 +39,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  */
 public class LogManager extends CommandManager
 {
+    @Override
     public HelpTree.Node getHelp() {
         HelpTree.Node[] cmdNodes = {
             getCommandHelp(LogCommand.getName()),
@@ -51,6 +52,7 @@ public class LogManager extends CommandManager
         return new HelpTree.Node(i18n, "logm.help." + name);
     }
 
+    @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
@@ -88,6 +90,7 @@ public class LogManager extends CommandManager
             file = new File(nextArg(argIter));
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             PrintWriter newLog;
 

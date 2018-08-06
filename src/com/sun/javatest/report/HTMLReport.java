@@ -385,11 +385,13 @@ public class HTMLReport implements ReportFormat {
             targets[1] = w2;
         }
 
+        @Override
         public void close() throws IOException {
             for (int i = 0; i < targets.length; i++)
                 targets[i].close();
         }
 
+        @Override
         public void flush() throws IOException {
             for (int i = 0; i < targets.length; i++)
                 targets[i].flush();
@@ -401,6 +403,7 @@ public class HTMLReport implements ReportFormat {
                 targets[i].write(cbuf);
         }
 
+        @Override
         public void write(char[] cbuf, int off, int len) throws IOException {
             for (int i = 0; i < targets.length; i++)
                 targets[i].write(cbuf, off, len);

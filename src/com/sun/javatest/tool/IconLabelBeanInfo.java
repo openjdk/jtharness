@@ -41,6 +41,7 @@ public class IconLabelBeanInfo extends SimpleBeanInfo
      * @return property descriptors for properties of IconLabel objects
      * @see IconLabel
      */
+    @Override
     public PropertyDescriptor[] getPropertyDescriptors() {
         try {
             PropertyDescriptor[] pds = {

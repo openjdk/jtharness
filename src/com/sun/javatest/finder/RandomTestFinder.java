@@ -52,30 +52,36 @@ public class RandomTestFinder extends TestFinder {
         this.delegate = delegate;
     }
 
+    @Override
     public File getRoot() {
         return delegate.getRoot();
     }
 
+    @Override
     public File getRootDir() {
         return delegate.getRootDir();
     }
 
+    @Override
     public void read(File file) {
         delegate.read(file);
     }
 
+    @Override
     public TestDescription[] getTests() {
         TestDescription[] tds = delegate.getTests();
         Collections.shuffle(Arrays.asList(tds));
         return tds;
     }
 
+    @Override
     public File[] getFiles() {
         File[] fs = delegate.getFiles();
         Collections.shuffle(Arrays.asList(fs));
         return fs;
     }
 
+    @Override
     protected void scan(File file) {
         throw new Error("should not be called!");
     }

@@ -40,6 +40,7 @@ class Deck extends Panel
         super(new CardLayout());
     }
 
+    @Override
     public void setLayout(LayoutManager lm) {
         if (lm instanceof CardLayout)
             super.setLayout(lm);
@@ -47,6 +48,7 @@ class Deck extends Panel
             throw new AWTError("Can't set layout for " + getClass().getName());
     }
 
+    @Override
     public Component add(Component comp) {
         if (comp.getName() == null)
             comp.setName("card" + cardNum++);
@@ -57,6 +59,7 @@ class Deck extends Panel
     /**
      * @deprecated
      */
+    @Override
     public Dimension preferredSize() {
         Component comp = getCurrentCard();
         Dimension d = comp.getPreferredSize();
@@ -64,6 +67,7 @@ class Deck extends Panel
         return d;
     }
 
+    @Override
     public void add(Component comp, Object x) {
         throw new AWTError("Can't add with constraints for " + getClass().getName());
     }

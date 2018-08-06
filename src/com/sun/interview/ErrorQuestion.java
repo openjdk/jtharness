@@ -42,14 +42,17 @@ public class ErrorQuestion extends NullQuestion
         super(interview, tag);
     }
 
+    @Override
     public final Question getNext() {
         return null;
     }
 
+    @Override
     public boolean isValueValid() {
         return false;
     }
 
+    @Override
     public boolean isValueAlwaysValid() {
         return false;
     }

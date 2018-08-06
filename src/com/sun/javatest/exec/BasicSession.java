@@ -169,6 +169,7 @@ public class BasicSession implements SessionExt {
     * @param u
     * @throws com.sun.javatest.exec.Session.Fault
     */
+   @Override
    public void update(Update u) throws Fault {
         // here to preserve 4.4.0 behavior (true)
         update(u, true);
@@ -182,6 +183,7 @@ public class BasicSession implements SessionExt {
     * @throws com.sun.javatest.exec.Session.Fault
     * @since 4.4.1
     */
+   @Override
    public void update(Update u, boolean updateConfig) throws Fault {
         if (u instanceof U_NewWD) {
             updateWorkDir(((U_NewWD)u).wd, updateConfig);
@@ -190,6 +192,7 @@ public class BasicSession implements SessionExt {
         }
     }
 
+    @Override
     public void addObserver(Observer obs) {
         if (obs != null && !observers.contains(obs)) {
             observers.add(obs);
@@ -197,6 +200,7 @@ public class BasicSession implements SessionExt {
         }
     }
 
+    @Override
     public void removeObserver(Observer obs) {
         if (obs != null && observers.contains(obs)) {
             observers.remove(obs);
@@ -207,6 +211,7 @@ public class BasicSession implements SessionExt {
      * Delivers events to the all registered observers
      * @param evn - event to be sent out.
      */
+    @Override
     public void notifyObservers(Event evn) {
         if (!isSorted) {
             sortObservers();
@@ -247,6 +252,7 @@ public class BasicSession implements SessionExt {
      */
     private void sortObservers() {
         Collections.sort(observers, new Comparator<Observer>() {
+            @Override
             public int compare(Observer o1, Observer o2) {
                 long order1 = 0;
                 if (o1 instanceof OrderedObserver) {
@@ -299,6 +305,7 @@ public class BasicSession implements SessionExt {
         return filterNames;
     }
 
+    @Override
     public void save(Map<String, String> map) {
         if (wd != null)
             map.put("workDir", wd.getPath());
@@ -307,6 +314,7 @@ public class BasicSession implements SessionExt {
             map.put("config", config.getFile().getPath());
     }
 
+    @Override
     public void restore(Map<String, String> map) throws Fault {
         if (map == null)
             return;
@@ -344,6 +352,7 @@ public class BasicSession implements SessionExt {
      * @param cfgFile
      * @throws com.sun.javatest.exec.Session.Fault
      */
+    @Override
     public void loadInterviewFromFile(WorkDirectory wd, File cfgFile) throws Fault {
         try {
             final long start = System.currentTimeMillis();
@@ -358,13 +367,16 @@ public class BasicSession implements SessionExt {
         }
     }
 
+    @Override
     public void dispose() {
         config.dispose();
     }
+    @Override
     public List<String> getPropertyNames() {
         return props;
     }
 
+    @Override
     public String getValue(String name) {
         if (props.contains(name)) {
             if (WD_PROP.equals(name)) {
@@ -384,18 +396,22 @@ public class BasicSession implements SessionExt {
      * Work directory assigned to the session.
      * @return The current wd set.
      */
+    @Override
     public WorkDirectory getWorkDirectory() {
         return wd;
     }
 
+    @Override
     public InterviewParameters getInterviewParameters() {
         return config;
     }
 
+    @Override
     public Parameters getParameters() {
         return getInterviewParameters();
     }
 
+    @Override
     public boolean isReady() {
         return config != null && config.isFinishable() && config.getFile() != null;
     }
@@ -478,6 +494,7 @@ public class BasicSession implements SessionExt {
     /**
      * Reloads interview if out of date.
      */
+    @Override
     public void reloadInterview() throws Fault {
         ensureInterviewUpToDate();
     }

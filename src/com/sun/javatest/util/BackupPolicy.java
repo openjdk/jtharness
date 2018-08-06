@@ -236,9 +236,11 @@ public abstract class BackupPolicy
      */
     public static BackupPolicy noBackups() {
         return new BackupPolicy() {
+            @Override
             public int getNumBackupsToKeep(File file) {
                 return 0;
             }
+            @Override
             public boolean isBackupRequired(File file) {
                 return false;
             }
@@ -252,9 +254,11 @@ public abstract class BackupPolicy
      */
     public static BackupPolicy simpleBackups(final int n) {
         return new BackupPolicy() {
+            @Override
             public int getNumBackupsToKeep(File file) {
                 return n;
             }
+            @Override
             public boolean isBackupRequired(File file) {
                 return true;
             }

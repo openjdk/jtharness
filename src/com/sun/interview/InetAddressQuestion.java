@@ -204,6 +204,7 @@ public abstract class InetAddressQuestion extends Question
         return getValue();
     }
 
+    @Override
     public String getStringValue() {
         if (stringValue == null && value != null)
             stringValue = value.getHostAddress();
@@ -237,10 +238,12 @@ public abstract class InetAddressQuestion extends Question
         }
     }
 
+    @Override
     public boolean isValueValid() {
         return valid; // set by setValue
     }
 
+    @Override
     public boolean isValueAlwaysValid() {
         return false;
     }
@@ -251,6 +254,7 @@ public abstract class InetAddressQuestion extends Question
      * @throws Interview.Fault (retained for compatibility; should not be thrown)
      * @see #getValue
      */
+    @Override
     public void setValue(String newValue) throws Interview.Fault {
         InetAddress v = parse(newValue);
 
@@ -328,6 +332,7 @@ public abstract class InetAddressQuestion extends Question
      * Clear any response to this question, resetting the value
      * back to its initial state.
      */
+    @Override
     public void clear() {
         setValue(defaultValue);
     }
@@ -338,6 +343,7 @@ public abstract class InetAddressQuestion extends Question
      * the tag as the key.
      * @param data The map in which to save the value for this question.
      */
+    @Override
     protected void save(Map<String, String> data) {
         String s = getStringValue();
         if (s != null)

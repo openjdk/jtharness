@@ -109,11 +109,13 @@ public class FileChooser extends JFileChooser
             this.desc = desc;
         }
 
+        @Override
         public boolean accept(File f) {
             return ((enableDirs && f.isDirectory())
                     || f.getName().endsWith(extn));
         }
 
+        @Override
         public String getDescription() {
             return desc;
         }

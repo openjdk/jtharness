@@ -37,6 +37,7 @@ public class FileInfoCache
     private final int SIZE = 500;
 
     private Map<String, Boolean> map = Collections.synchronizedMap( new LinkedHashMap<String, Boolean>() {
+        @Override
         protected boolean removeEldestEntry(Map.Entry<String, Boolean> eldest) {
             return size() > SIZE;
         }

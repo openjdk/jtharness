@@ -49,18 +49,22 @@ public class ExcludeListFilter extends TestFilter
         return table;
     }
 
+    @Override
     public String getName() {
         return i18n.getString("excludeFilter.name");
     }
 
+    @Override
     public String getDescription() {
         return i18n.getString("excludeFilter.description");
     }
 
+    @Override
     public String getReason() {
         return i18n.getString("excludeFilter.reason");
     }
 
+    @Override
     public boolean accepts(TestDescription td) {
         return !table.excludesAllOf(td);
     }

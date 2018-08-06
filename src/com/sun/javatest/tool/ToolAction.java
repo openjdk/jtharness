@@ -111,6 +111,7 @@ public abstract class ToolAction implements Action
      * @return the value of the property with the given key
      * @see #putValue
      */
+    @Override
     public Object getValue(String key) {
         if (key == null)
             throw new NullPointerException();
@@ -134,6 +135,7 @@ public abstract class ToolAction implements Action
      * @param key    the key of the property to be stored
      * @param newVal  the new value for the property
      */
+    @Override
     public void putValue(String key, Object newVal) {
         Object oldVal;
 
@@ -172,11 +174,13 @@ public abstract class ToolAction implements Action
         firePropertyChangeEvent(key, oldVal, newVal);
     }
 
+    @Override
     public boolean isEnabled() {
         // no need to synchronize just to read a single simple boolean
         return enabled;
     }
 
+    @Override
     public void setEnabled(boolean newVal) {
         if (enabled == newVal)
             return;
@@ -188,10 +192,12 @@ public abstract class ToolAction implements Action
             firePropertyChangeEvent("enabled", new Boolean(oldVal), new Boolean(newVal));
     }
 
+    @Override
     public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
         listeners = DynamicArray.append(listeners, new WeakReference<>(listener));
     }
 
+    @Override
     public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
         WeakReference<PropertyChangeListener>[] l = listeners;
         int size = l.length;

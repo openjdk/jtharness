@@ -71,6 +71,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
         this.filterControl = filterControl;
     }
 
+    @Override
     public void setConfig(Session cfg) {
         if (cfg instanceof SessionExt) {
             config = (SessionExt)cfg;
@@ -79,10 +80,12 @@ public class ET_DefaultViewControl implements ET_ViewControl {
         }
     }
 
+    @Override
     public Session getConfig() {
         return config;
     }
 
+    @Override
     public void updateGUI() {
         boolean isWD  = (config != null && config.getWorkDirectory() != null);
 
@@ -100,14 +103,17 @@ public class ET_DefaultViewControl implements ET_ViewControl {
         }
     }
 
+    @Override
     public void save(Map<String, String> m) {
         // nothing to save
     }
 
+    @Override
     public void restore(Map<String, String> m) {
         // nothing to restore
     }
 
+    @Override
     public JMenu getMenu() {
         JMenu viewMenu = uif.createMenu("exec.view");
 
@@ -145,6 +151,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
 
     }
 
+    @Override
     public List<Action> getToolBarActionList() {
         return null;
     }
@@ -167,6 +174,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
         return actions;
     }
 
+    @Override
     public void dispose() {
         // nothing to dispose
     }
@@ -174,6 +182,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     private Action propertiesAction;
     private Action createPropertyAction() {
         return new ToolAction(uif, "exec.view.props") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (propertiesBrowser == null) {
                     propertiesBrowser = new PropertiesBrowser(parent, uif);
@@ -190,6 +199,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     private Action testSuiteErrorsAction;
     private Action createTestSuiteErrorsAction() {
         return new ToolAction(uif, "exec.view.testSuiteErrors") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (testSuiteErrorsDialog == null)
                     testSuiteErrorsDialog = new TestSuiteErrorsDialog(parent, uif);
@@ -201,6 +211,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     private Action logViewerAction;
     private Action createLogViewerAction() {
         return new ToolAction(uif, "exec.view.logviewer") {
+            @Override
             public void actionPerformed(ActionEvent e) {
 
                 if (config != null && config.getWorkDirectory() != null)
@@ -221,6 +232,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     private Action serviceViewerAction;
     private Action createServiceViewerAction() {
         return new ToolAction(uif, "exec.view.serviceviewer") {
+            @Override
             public void actionPerformed(ActionEvent e) {
 
                 if (config != null && config.getWorkDirectory() != null)
@@ -262,24 +274,28 @@ public class ET_DefaultViewControl implements ET_ViewControl {
         List<Action> acts = new LinkedList<Action>();
 
         showEnvironmentAction = new ToolAction(uif, "ch.env") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 showEnvironment();
             }
         };
 
         showExcludeListAction = new ToolAction(uif, "ch.excl") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 showExcludeList();
             }
         };
 
         showChecklistAction = new ToolAction(uif, "ch.checkList") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 showChecklist();
             }
         };
 
         showQuestionLogAction = new ToolAction(uif, "ch.quLog") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 showQuestionLog();
             }

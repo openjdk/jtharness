@@ -75,6 +75,7 @@ public class TagTestFinder extends TestFinder
      *             arg is unrecognized: in that case, an implementation should
      *             delegate the call to the supertype.
      */
+    @Override
     protected int decodeArg(String[] args, int i) throws Fault {
         if ("-fast".equalsIgnoreCase(args[i])) {
             fastScan = true;
@@ -88,6 +89,7 @@ public class TagTestFinder extends TestFinder
      * Scan a file, looking for test descriptions and/or more files to scan.
      * @param file The file to scan
      */
+    @Override
     public void scan(File file) {
         currFile = file;
         if (file.isDirectory())

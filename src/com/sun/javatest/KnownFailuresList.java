@@ -732,6 +732,7 @@ public class KnownFailuresList
             notes = s;
         }
 
+        @Override
         public int compareTo(Entry e) {
             int n = relativeURL.compareTo(e.relativeURL);
             if (n == 0) {

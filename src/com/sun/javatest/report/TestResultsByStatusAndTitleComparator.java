@@ -32,6 +32,7 @@ import com.sun.javatest.Status;
 import com.sun.javatest.TestResult;
 
 class TestResultsByStatusAndTitleComparator implements Comparator<TestResult> {
+    @Override
     public int compare(TestResult tr1, TestResult tr2) {
         Status s1 = tr1.getStatus();
         Status s2 = tr2.getStatus();

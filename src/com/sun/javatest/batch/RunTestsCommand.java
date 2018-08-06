@@ -73,10 +73,12 @@ class RunTestsCommand extends Command
         super(getName());
     }
 
+    @Override
     public boolean isActionCommand() {
         return true;
     }
 
+    @Override
     public void run(CommandContext ctx) throws Fault {
         this.ctx = ctx;
 
@@ -187,21 +189,28 @@ class RunTestsCommand extends Command
             return finderErrors;
         }
 
+        @Override
         public void startingTestRun(Parameters params) {
             stats = new int[Status.NUM_STATES];
         }
 
+        @Override
         public void startingTest(TestResult tr) { }
 
+        @Override
         public void finishedTest(TestResult tr) {
             stats[tr.getStatus().getType()]++;
         }
 
+        @Override
         public void stoppingTestRun() { }
 
+        @Override
         public void finishedTesting() { }
+        @Override
         public void finishedTestRun(boolean allOK) { }
 
+        @Override
         public void error(String msg) {
             ctx.printMessage(i18n, "runTests.error", msg);
             finderErrors++;
@@ -253,6 +262,7 @@ class RunTestsCommand extends Command
         }
 
         // ---- Harness.Observer ----
+        @Override
         public void startingTestRun(Parameters params) {
             stats = new int[Status.NUM_STATES];
 
@@ -267,6 +277,7 @@ class RunTestsCommand extends Command
             }
         }
 
+        @Override
         public void startingTest(TestResult tr) {
             if (!isVerbose(START))
                 return;
@@ -281,6 +292,7 @@ class RunTestsCommand extends Command
             progressOnline = false;
         }
 
+        @Override
         public void finishedTest(TestResult tr) {
             Status s = tr.getStatus();
             stats[s.getType()]++;
@@ -304,6 +316,7 @@ class RunTestsCommand extends Command
             out.flush();
         }
 
+        @Override
         public void stoppingTestRun() {
             if (progressOnline)
                 out.println();
@@ -315,6 +328,7 @@ class RunTestsCommand extends Command
             progressOnline = false;
         }
 
+        @Override
         public void finishedTesting() {
             if (!quiet_flag) {
                 if (progressOnline)
@@ -328,6 +342,7 @@ class RunTestsCommand extends Command
             }
         }
 
+        @Override
         public void finishedTestRun(boolean allOK) {
             if (!quiet_flag) {
                 if (progressOnline)
@@ -341,6 +356,7 @@ class RunTestsCommand extends Command
             }
         }
 
+        @Override
         public void error(String msg) {
             if (progressOnline)
                 out.println();

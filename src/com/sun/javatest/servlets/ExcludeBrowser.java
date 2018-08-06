@@ -37,6 +37,7 @@ import com.sun.javatest.ExcludeList;
 import com.sun.javatest.util.StringArray;
 
 public class ExcludeBrowser extends HttpServlet {
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res)
                 throws ServletException, IOException {
         String uri = req.getRequestURI();

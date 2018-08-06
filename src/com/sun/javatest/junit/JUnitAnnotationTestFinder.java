@@ -83,6 +83,7 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
      *             arg is unrecognized: in that case, an implementation should
      *             delegate the call to the supertype.
      */
+    @Override
     protected void decodeAllArgs(String[] args) throws Fault {
         super.decodeAllArgs(args);
     }
@@ -91,6 +92,7 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
      * Scan a file, looking for test descriptions and/or more files to scan.
      * @param file The file to scan
      */
+    @Override
     public void scan(File file) {
         currFile = file;
         if (file.isDirectory())
@@ -103,6 +105,7 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
     /**
      * Call to register the methods which are test methods.
      */
+    @Override
     public void foundTestMethod(String name) {
         testMethods.add(name);
     }
@@ -231,6 +234,7 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
             this.outer = outer;
         }
 
+        @Override
         public AnnotationVisitor visitAnnotation(String string, boolean b) {
             if (outer.methodAnnotation.equals(string))
                 outer.foundTestMethod(outer.currMethod);
@@ -249,12 +253,14 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
             methodVisitor = new JUnitAnnotationMethodVisitor(outer);
         }
 
+        @Override
         public void visit(int version, int access, String name, String signature,
                           String superName, String[] interfaces) {
             if (verbose)
                 System.out.println("found class " + name + " with super " + superName);
         }
 
+        @Override
         public MethodVisitor visitMethod(int access, String name, String desc,
                                          String signature, String[] exceptions) {
             if (access == Opcodes.ACC_PUBLIC) {

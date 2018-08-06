@@ -73,6 +73,7 @@ class CE_ExcludeListPane extends CE_StdPane
         initGUI();
     }
 
+    @Override
     boolean isOKToClose() {
         if (mutableExcludeListParameters == null)
             return true;
@@ -100,6 +101,7 @@ class CE_ExcludeListPane extends CE_StdPane
             mutableExcludeListParameters = null;
     }
 
+    @Override
     void load() {
         updateConfig();
 
@@ -153,6 +155,7 @@ class CE_ExcludeListPane extends CE_StdPane
         }
     }
 
+    @Override
     void save() {
         if (mutableExcludeListParameters != null) {
             int mode;
@@ -251,6 +254,7 @@ class CE_ExcludeListPane extends CE_StdPane
     private Listener listener = new Listener();
 
     private class Listener implements ChangeListener {
+        @Override
         public void stateChanged(ChangeEvent e) {
             Component comp;
             if (customBtn.isSelected())
@@ -294,6 +298,7 @@ class CE_ExcludeListPane extends CE_StdPane
             add(filesField, c);
         }
 
+        @Override
         public void setEnabled(boolean b) {
             filesField.setEnabled(b);
         }
@@ -574,6 +579,7 @@ class CE_ExcludeListPane extends CE_StdPane
             checkExcludeListListener = l;
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (checkExcludeListListener != null) {
                 checkExcludeListListener.actionPerformed(e);
@@ -582,6 +588,7 @@ class CE_ExcludeListPane extends CE_StdPane
         }
 
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             boolean ac = autoCheck.isSelected();
             daysButton.setEnabled(ac);

@@ -1009,6 +1009,7 @@ public class UIFactory {
         try {
             i18n = local_i18n;
             JButton b = createButton(uiKey, new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         Component c = (Component) (e.getSource());
                         JOptionPane op = (JOptionPane) SwingUtilities.getAncestorOfClass(JOptionPane.class, c);
@@ -1206,8 +1207,9 @@ public class UIFactory {
         }
 
         choice.setRenderer(new DefaultListCellRenderer() {
+            @Override
             public Component getListCellRendererComponent(JList<?> list, Object o, int index,
-                                boolean isSelected, boolean cellHasFocus) {
+                                                          boolean isSelected, boolean cellHasFocus) {
                 Object c = o;
                 for (int i = 0; i < choiceKeys.length; i++) {
                     if (choiceKeys[i] == o) {
@@ -2122,6 +2124,7 @@ public class UIFactory {
      */
     public JTextField createInputField(String uiKey, int cols, JLabel label) {
         JTextField tf = new JTextField("", cols) {
+            @Override
             public Dimension getMinimumSize() {
                 return getPreferredSize();
             }
@@ -2453,11 +2456,13 @@ public class UIFactory {
         tf.setOpaque(false);
         if(autoSelect)
             tf.addFocusListener(new java.awt.event.FocusListener() {
+                @Override
                 public void focusGained(java.awt.event.FocusEvent e) {
                     tf.setSelectionStart(0);
                     tf.setSelectionEnd(tf.getText().length());
                 }
 
+                @Override
                 public void focusLost(java.awt.event.FocusEvent e) {
                     tf.setSelectionStart(0);
                     tf.setSelectionEnd(0);
@@ -2504,6 +2509,7 @@ public class UIFactory {
      */
     public JTextArea createTextArea(String uiKey, JLabel label) {
         JTextArea t = new JTextArea() {
+            @Override
             public Dimension getPreferredScrollableViewportSize() {
                 return new Dimension(100, 100);
             }
@@ -3541,6 +3547,7 @@ public class UIFactory {
     private static Font baseFont = new JLabel().getFont();
 
     private static final ActionListener closeListener = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 Component src = (Component) (e.getSource());
                 for (Container p = src.getParent(); p != null; p = p.getParent()) {

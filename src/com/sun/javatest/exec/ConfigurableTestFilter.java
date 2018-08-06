@@ -99,6 +99,7 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
      * Overridden to create a new instance.
      * Settings from the original instance may not necessarily be copied.
      */
+    @Override
     public Object clone() {
         return cloneInstance();
     }

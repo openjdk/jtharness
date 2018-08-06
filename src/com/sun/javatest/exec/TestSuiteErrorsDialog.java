@@ -81,6 +81,7 @@ class TestSuiteErrorsDialog extends ToolDialog
         setVisible(true);
     }
 
+    @Override
     protected void initGUI() {
         setHelp("browse.testSuiteErrors.csh");
         setI18NTitle("tse.title");

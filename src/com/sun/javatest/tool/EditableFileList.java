@@ -82,6 +82,7 @@ public class EditableFileList extends EditableList
      * @param items the array of strings or files to be put in the list.
      * @see #getItems
      */
+    @Override
     public void setItems(Object[] items) {
         listModel.clear();
         if (items == null)
@@ -125,6 +126,7 @@ public class EditableFileList extends EditableList
      * otherwise, the result will be null, to indicate that no file was selected.
      * @return a file to be added to the list, or null if none
      */
+    @Override
     protected Object getNewItem() {
         if (chooser == null)
             chooser = new JFileChooser();

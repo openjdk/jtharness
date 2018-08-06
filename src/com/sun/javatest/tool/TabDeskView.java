@@ -84,6 +84,7 @@ class TabDeskView extends DeskView {
         // perhaps would be nice to have getTools(Comparator) and have it return a sorted
         // array of tools
         Arrays.sort(tools, new Comparator<Tool>() {
+            @Override
             public int compare(Tool o1, Tool o2) {
                 Long l1 = Long.valueOf(o1.getCreationTime());
                 Long l2 = Long.valueOf(o2.getCreationTime());
@@ -104,16 +105,19 @@ class TabDeskView extends DeskView {
         JDialog.setDefaultLookAndFeelDecorated(false);
     }
 
+    @Override
     public void dispose() {
         mainFrame.setVisible(false);
         mainFrame.dispose();
         super.dispose();
     }
 
+    @Override
     public boolean isVisible() {
         return mainFrame.isVisible();
     }
 
+    @Override
     public void setVisible(boolean v) {
         //System.err.println("Tab: setVisible: " + v);
         if (v == mainFrame.isVisible())
@@ -130,6 +134,7 @@ class TabDeskView extends DeskView {
         }
     }
 
+    @Override
     public void addTool(Tool t) {
         DeskView view = t.getDeskView();
         if (view == this)
@@ -159,10 +164,12 @@ class TabDeskView extends DeskView {
             tds[i].initDialog(this, vis[i]);
     }
 
+    @Override
     public boolean isEmpty() {
         return (contents.getComponentCount() == 0);
     }
 
+    @Override
     public Tool[] getTools() {
         Tool[] tools = new Tool[contents.getComponentCount()];
         for (int i = 0; i < tools.length; i++)
@@ -170,6 +177,7 @@ class TabDeskView extends DeskView {
         return tools;
     }
 
+    @Override
     public void removeTool(Tool t) {
         t.removeObserver(listener);
 
@@ -207,10 +215,12 @@ class TabDeskView extends DeskView {
         closeAction.setEnabled(contents.getTabCount() > 0);
     }
 
+    @Override
     public Tool getSelectedTool() {
         return selectedTool;
     }
 
+    @Override
     public void setSelectedTool(Tool t) {
         if (t == selectedTool)
             // already selected
@@ -241,18 +251,22 @@ class TabDeskView extends DeskView {
 
     }
 
+    @Override
     public int getStyle() {
         return Desktop.TAB_STYLE;
     }
 
+    @Override
     public JFrame[] getFrames() {
         return new JFrame[] { mainFrame };
     }
 
+    @Override
     public Rectangle getBounds() {
         return mainFrame.getBounds();
     }
 
+    @Override
     public boolean isToolOwnerForDialog(Tool tool, Container dialog) {
         for (ToolDialog td: tool.getToolDialogs()) {
             if (td.getDialogParent() == dialog)
@@ -262,9 +276,10 @@ class TabDeskView extends DeskView {
                 && (dialog.getParent() == mainFrame));
     }
 
+    @Override
     public Window createDialog(Tool tool, String uiKey, String title,
-                                  JMenuBar menuBar, Container body,
-                                  Rectangle bounds, int type) {
+                               JMenuBar menuBar, Container body,
+                               Rectangle bounds, int type) {
         UIFactory uif = tool.uif;
         if ((type & ToolDialog.FRAME) != 0) {
             JFrame d = uif.createFrame(uiKey, title, body);
@@ -328,6 +343,7 @@ class TabDeskView extends DeskView {
         return d;
     }
 
+    @Override
     protected void saveDesktop(Map<String, String> m) {
         saveBounds(mainFrame, new PrefixMap<>(m, "dt"));
         saveTools(m);
@@ -336,6 +352,7 @@ class TabDeskView extends DeskView {
             m.put("dt.selected", String.valueOf(sel));
     }
 
+    @Override
     protected void restoreDesktop(Map<String, String> m) {
         restoreBounds(mainFrame, new PrefixMap<>(m, "dt"));
         if (getDesktop().getRestoreOnStart()) {
@@ -374,6 +391,7 @@ class TabDeskView extends DeskView {
         mainFrame.setBounds(bounds);
 
         mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 getDesktop().checkToolsAndExitIfOK(mainFrame);
             }
@@ -414,6 +432,7 @@ class TabDeskView extends DeskView {
             setEnabled(false);  // enabled if/when there are tools
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             Tool t = (Tool) (contents.getSelectedComponent());
             if (t != null)
@@ -433,6 +452,7 @@ class TabDeskView extends DeskView {
     {
         // --------- ActionListener  ---------
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             JMenuItem mi = (JMenuItem) (e.getSource());
             Object o = mi.getClientProperty(this);
@@ -444,6 +464,7 @@ class TabDeskView extends DeskView {
 
         // ---------- AncestorListener ----------
 
+        @Override
         public void ancestorAdded(AncestorEvent event) {
             Tool t = (Tool)(contents.getSelectedComponent());
             if (t != null) {
@@ -454,8 +475,10 @@ class TabDeskView extends DeskView {
             }
         }
 
+        @Override
         public void ancestorMoved(AncestorEvent event) { }
 
+        @Override
         public void ancestorRemoved(AncestorEvent event) {
             // // update menubar
             // removeToolMenuItemsFromBasicMenuBar();
@@ -468,6 +491,7 @@ class TabDeskView extends DeskView {
 
         // ---------- ChangeListener ----------
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             setSelectedTool((Tool) (contents.getSelectedComponent()));
         }
@@ -475,6 +499,7 @@ class TabDeskView extends DeskView {
         // --------- MenuListener ---------
 
         // note this is for Windows menu only
+        @Override
         public void menuSelected(MenuEvent e) {
             Tool[] tools = getTools();
 
@@ -528,6 +553,7 @@ class TabDeskView extends DeskView {
             m.add(mi);
         }
 
+        @Override
         public void menuDeselected(MenuEvent e) {
             // it's not so much the menu items we want to get rid of, as the
             // client properties on those items
@@ -535,6 +561,7 @@ class TabDeskView extends DeskView {
             m.removeAll();
         }
 
+        @Override
         public void menuCanceled(MenuEvent e) {
             // it's not so much the menu items we want to get rid of, as the
             // client properties on those items
@@ -544,6 +571,7 @@ class TabDeskView extends DeskView {
 
         // ---------- Tool.Observer ----------
 
+        @Override
         public void shortTitleChanged(Tool src, String newValue) {
             for (int i = 0; i < contents.getTabCount(); i++) {
                 if (contents.getComponentAt(i) == src) {
@@ -554,6 +582,7 @@ class TabDeskView extends DeskView {
             }
         }
 
+        @Override
         public void titleChanged(Tool src, String newValue) {
             if (src == contents.getSelectedComponent())
                 mainFrame.setTitle(uif.getI18NString("dt.title.tool.txt", newValue));
@@ -567,6 +596,7 @@ class TabDeskView extends DeskView {
             //System.err.println("Tool title changed: " + newValue);
         }
 
+        @Override
         public void toolDisposed(Tool src) { }
     };
 }

@@ -270,6 +270,7 @@ public abstract class ListQuestion extends Question
      * selected loop body, or an out of range value
      * (typically less than zero) if none is selected.
      */
+    @Override
     public String getStringValue() {
         return String.valueOf(value);
     }
@@ -301,6 +302,7 @@ public abstract class ListQuestion extends Question
      * integer, the value will be set to -1.
      * @see #getValue
      */
+    @Override
     public void setValue(String s) {
         try {
             if (s != null) {
@@ -320,6 +322,7 @@ public abstract class ListQuestion extends Question
      * @return true if the question currently has a valid response,
      * and false otherwise.
      **/
+    @Override
     public boolean isValueValid() {
         return true;  // should probably reflect whether bodies are valid
     }
@@ -330,6 +333,7 @@ public abstract class ListQuestion extends Question
      * @return true if the question always has a valid response,
      * and false otherwise.
      **/
+    @Override
     public boolean isValueAlwaysValid() {
         return false;
     }
@@ -339,6 +343,7 @@ public abstract class ListQuestion extends Question
      * and set the value of the question to indicate no loop
      * body selected.
      */
+    @Override
     public void clear() {
         setValue(Integer.MIN_VALUE);
         bodies.setSize(0);
@@ -393,6 +398,7 @@ public abstract class ListQuestion extends Question
         return end.getDefaultTextArgs();
     }
 
+    @Override
     protected void load(Map<String, String> data) {
         bodies.setSize(0);
         String c = data.get(tag + ".count");
@@ -421,6 +427,7 @@ public abstract class ListQuestion extends Question
         }
     }
 
+    @Override
     protected void save(Map<String, String> data) {
         data.put(tag + ".count", String.valueOf(bodies.size()));
         data.put(tag + ".curr", String.valueOf(value));
@@ -529,6 +536,7 @@ public abstract class ListQuestion extends Question
             this.head = head;
         }
 
+        @Override
         public Question getNext() {
             boolean allBodiesFinishable = true;
             for (int i = 0; i < head.getBodyCount(); i++) {
@@ -542,6 +550,7 @@ public abstract class ListQuestion extends Question
             return (allBodiesFinishable ? head.getNext() : null);
         }
 
+        @Override
         public String getSummary() {
             // ListQuestion.getEndSummary can be overridden, but defaults to
             // getDefaultSummary() here, which calls super.getSummary()
@@ -552,6 +561,7 @@ public abstract class ListQuestion extends Question
             return super.getSummary();
         }
 
+        @Override
         public String getText() {
             // ListQuestion.getEndText can be overridden, but defaults to
             // getDefaultText() here, which calls super.getText()
@@ -562,6 +572,7 @@ public abstract class ListQuestion extends Question
             return super.getText();
         }
 
+        @Override
         public Object[] getTextArgs() {
             // ListQuestion.getEndTextArgs can be overridden, but defaults to
             // getDefaultTextArgs() here, which calls super.getText()
@@ -572,60 +583,75 @@ public abstract class ListQuestion extends Question
             return super.getTextArgs();
         }
 
+        @Override
         public int getValue() {
             return head.getValue();
         }
 
+        @Override
         public String getStringValue() {
             return head.getStringValue();
         }
 
+        @Override
         public void setValue(int value) {
             head.setValue(value);
         }
 
+        @Override
         public void setValue(String s) {
             head.setValue(s);
         }
 
+        @Override
         public Body getSelectedBody() {
             return head.getSelectedBody();
         }
 
+        @Override
         public Body createBody(int index) {
             return head.createBody(index);
         }
 
+        @Override
         public ListQuestion getOther() {
             return head;
         }
 
+        @Override
         public void clear() {
             head.clear();
         }
 
+        @Override
         protected void load(Map<String, String> data) {
         }
 
+        @Override
         protected void save(Map<String, String> data) {
         }
 
+        @Override
         public Body[] getBodies() {
             return head.getBodies();
         }
 
+        @Override
         public int getBodyCount() {
             return head.getBodyCount();
         }
 
+        @Override
         public Body getBody(int index) {
             return head.getBody(index);
         }
 
+        @Override
         public void setBodies(Body[] newBodies, int newValue) {
             head.setBodies(newBodies, newValue);
         }
 
+        @Override
         public int getIncompleteBodyCount() {
             return head.getIncompleteBodyCount();
         }

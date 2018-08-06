@@ -435,6 +435,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
         return f;
     }
 
+    @Override
     protected void updateSubpanel(TT_BasicNode currNode) {
         super.updateSubpanel(currNode);
 
@@ -526,6 +527,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
             return node;
         }
 
+        @Override
         public void run() {
             if (debug) {
                 Debug.println("BP_SP.CT - thread running");
@@ -769,6 +771,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
             pieStats[I18NUtils.FILTERED_OUT] = values[FILTERED_INDEX];
             EventQueue.invokeLater(new Runnable() {
 
+                @Override
                 public void run() {
                     pie.setValue(pieStats, pieColors);
                 /*
@@ -807,6 +810,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
             space = spacing;
         }
 
+        @Override
         protected void paintComponent(Graphics g) {
             if (isOpaque()) {
                 g.setColor(getBackground());
@@ -841,10 +845,12 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
          */
         }
 
+        @Override
         public Dimension getPreferredSize() {
             return getMinimumSize();
         }
 
+        @Override
         public Dimension getMinimumSize() {
             Insets inset = getInsets();
             return new Dimension(10 + inset.left + inset.right,
@@ -864,6 +870,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
             thick = thickness;
         }
 
+        @Override
         protected void paintComponent(Graphics g) {
             if (isOpaque()) {
                 g.setColor(getBackground());
@@ -891,10 +898,12 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
             }
         }
 
+        @Override
         public Dimension getPreferredSize() {
             return getMinimumSize();
         }
 
+        @Override
         public Dimension getMinimumSize() {
             Insets inset = getInsets();
             return new Dimension(arcWidth * 2 + inset.left + inset.right,
@@ -917,14 +926,17 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
             color = shadowColor = null;
         }
 
+        @Override
         public int getIconWidth() {
             return 16;
         }
 
+        @Override
         public int getIconHeight() {
             return 16;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (image == null) {
                 image = new BufferedImage(getIconWidth(), getIconHeight(),

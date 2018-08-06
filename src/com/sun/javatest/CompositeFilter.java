@@ -104,6 +104,7 @@ public class CompositeFilter extends TestFilter {
     }
 
     // ------- TestFilter ---------
+    @Override
     public String getName() {
         if (name == null)
             return i18n.getString("compFilter.name");
@@ -111,6 +112,7 @@ public class CompositeFilter extends TestFilter {
             return name;
     }
 
+    @Override
     public String getDescription() {
         if (description == null)
             return i18n.getString("compFilter.description");
@@ -118,6 +120,7 @@ public class CompositeFilter extends TestFilter {
             return description;
     }
 
+    @Override
     public String getReason() {
         if (reason == null)
             return i18n.getString("compFilter.reason");
@@ -125,6 +128,7 @@ public class CompositeFilter extends TestFilter {
             return reason;
     }
 
+    @Override
     public boolean accepts(TestDescription td) throws Fault {
         if (filters == null || filters.length == 0)
             return true;
@@ -142,6 +146,7 @@ public class CompositeFilter extends TestFilter {
         }
     }
 
+    @Override
     public boolean accepts(TestDescription td, TestFilter.Observer o)
                 throws TestFilter.Fault {
         if (filters == null || filters.length == 0)

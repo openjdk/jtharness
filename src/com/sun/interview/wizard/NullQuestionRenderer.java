@@ -33,10 +33,12 @@ import com.sun.interview.Question;
 class NullQuestionRenderer
     implements QuestionRenderer
 {
+    @Override
     public JComponent getQuestionRendererComponent(Question q, ActionListener listener) {
         return null;
     }
 
+    @Override
     public String getInvalidValueMessage(Question q) {
         return null;
     }

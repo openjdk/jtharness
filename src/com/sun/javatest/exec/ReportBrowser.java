@@ -87,6 +87,7 @@ class ReportBrowser extends ToolDialog
     //------------------------------------------------------------------------------
 
 
+    @Override
     protected void initGUI() {
         setHelp("report.reportBrowser.csh");
 
@@ -127,18 +128,21 @@ class ReportBrowser extends ToolDialog
         Action openReport = reportHandler.getOpenReportAction();
 
         Action printSetup = new ToolAction(uif, "rb.file.printSetup") {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     model.printSetup();
                 }
             };
 
         Action print = new ToolAction(uif, "rb.file.print") {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     model.print(fp);
                 }
             };
 
         Action close = new ToolAction(uif, "rb.file.close") {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     setVisible(false);
                     cleanup();
@@ -157,6 +161,7 @@ class ReportBrowser extends ToolDialog
         return helpMenu;
     }
 
+    @Override
     protected void windowClosingAction(AWTEvent e) {
         setVisible(false);
         cleanup();

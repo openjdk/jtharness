@@ -66,6 +66,7 @@ public class SerialPortConnectionFactory implements ConnectionFactory
         this.timeout = timeout;
     }
 
+    @Override
     public synchronized Connection nextConnection() throws ConnectionFactory.Fault {
         try {
             Connection c = new SerialPortConnection(portId, app, timeout);
@@ -86,6 +87,7 @@ public class SerialPortConnectionFactory implements ConnectionFactory
         }
     }
 
+    @Override
     public void close() {
     }
 

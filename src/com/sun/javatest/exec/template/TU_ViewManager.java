@@ -39,6 +39,7 @@ class TU_ViewManager implements InterviewPropagator.ViewManager, InterviewPropag
     private static HashMap<InterviewParameters, TU_dialog> store =
             new HashMap<InterviewParameters, TU_dialog>();
 
+    @Override
     public void showView(InterviewPropagator prop, InterviewParameters intTerview) {
         TU_dialog tud = store.get(intTerview);
         if (tud != null)  {
@@ -46,6 +47,7 @@ class TU_ViewManager implements InterviewPropagator.ViewManager, InterviewPropag
         }
     }
 
+    @Override
     public void notifyError(String message, InterviewParameters ip) {
         TU_dialog tud = store.get(ip);
         if (tud != null)  {
@@ -59,6 +61,7 @@ class TU_ViewManager implements InterviewPropagator.ViewManager, InterviewPropag
         }
     }
 
+    @Override
     public void logException(Throwable th, InterviewParameters ip) {
         TU_dialog tud = store.get(ip);
         if (tud != null)  {
@@ -92,6 +95,7 @@ class TU_ViewManager implements InterviewPropagator.ViewManager, InterviewPropag
         store.remove(ip);
     }
 
+    @Override
     public void refreshTestTree(InterviewParameters ip) {
         TU_dialog tud = store.get(ip);
         if (tud != null)  {

@@ -57,6 +57,7 @@ public class FinalQuestion extends NullQuestion
      * and the result is always null.
      * @return null
      */
+    @Override
     protected final Question getNext() {
         return null;
     }

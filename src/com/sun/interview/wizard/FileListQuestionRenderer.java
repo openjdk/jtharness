@@ -40,6 +40,7 @@ import java.io.File;
 public class FileListQuestionRenderer
     implements QuestionRenderer
 {
+    @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         final FileListQuestion q = (FileListQuestion) qq;
 
@@ -96,6 +97,7 @@ public class FileListQuestionRenderer
         panel.add(list, BorderLayout.CENTER);
 
         Runnable valueSaver = new Runnable() {
+            @Override
             public void run() {
                 q.setValue(list.getFiles());
             }
@@ -110,6 +112,7 @@ public class FileListQuestionRenderer
         return new FileList(uiKey, files);
     }
 
+    @Override
     public String getInvalidValueMessage(Question q) {
         return null;
     }

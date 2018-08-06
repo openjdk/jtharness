@@ -1381,6 +1381,7 @@ public abstract class Script
     }
 
     private class DefaultTimeoutProvider implements TimeoutProvider {
+        @Override
         public int getTestTimeout() {
             float factor = 1;
             try {
@@ -1420,6 +1421,7 @@ public abstract class Script
             alarmTimer.cancel(entry);
         }
 
+        @Override
         public synchronized void timeout() {
             if (count == 0)
                 trOut.println(i18n.getString("script.timeout", Float.valueOf(delay/1000.f)));

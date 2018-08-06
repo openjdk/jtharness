@@ -39,6 +39,7 @@ import java.io.IOException;
   */
 public class JavaCommentStream extends CommentStream
 {
+    @Override
     public String readComment() throws IOException {
         int c;
         StringBuffer comment = new StringBuffer(0);

@@ -39,6 +39,7 @@ import java.util.TreeSet;
 public class SortedProperties extends Properties
 {
     // override Keys() to return a sorted set
+    @Override
     public Enumeration<Object> keys() {
         Set<Object> s = new TreeSet<>(); // ordered
         for (Enumeration<?> e = super.keys(); e.hasMoreElements(); ) {
@@ -47,9 +48,11 @@ public class SortedProperties extends Properties
 
         final Iterator<?> iter = s.iterator();
         return new Enumeration<Object>() {
+                @Override
                 public boolean hasMoreElements() {
                     return iter.hasNext();
                 }
+                @Override
                 public Object nextElement() {
                     return iter.next();
                 }

@@ -38,6 +38,7 @@ import com.sun.interview.Question;
 public class FloatQuestionRenderer
     implements QuestionRenderer
 {
+    @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         FloatQuestion q = (FloatQuestion) qq;
 
@@ -49,6 +50,7 @@ public class FloatQuestionRenderer
         return createTextField(q, listener);
     }
 
+    @Override
     public String getInvalidValueMessage(Question q) {
         return null;
     }
@@ -94,6 +96,7 @@ public class FloatQuestionRenderer
 
         if (resetBtn != null) {
             resetBtn.addActionListener(new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         NumberFormat fmt = NumberFormat.getNumberInstance();  // will be locale-specific
                         p.setValue(fmt.format(Double.valueOf(defVal)));

@@ -70,6 +70,7 @@ public class Deck extends JPanel
         }
     }
 
+    @Override
     public void setLayout(LayoutManager lm) {
         if (lm instanceof CardLayout)
             super.setLayout(lm);
@@ -84,6 +85,7 @@ public class Deck extends JPanel
      * @param comp The component to be added.
      * @return The component that was added (comp).
      */
+    @Override
     public Component add(Component comp) {
         if (comp.getName() == null)
             comp.setName("card" + cardNum++);
@@ -96,6 +98,7 @@ public class Deck extends JPanel
      * @param comp The component to be added
      * @param x Ignored
      */
+    @Override
     public void add(Component comp, Object x) {
         add(comp);
     }

@@ -111,30 +111,37 @@ public class SelectionTreeNode implements TreeNode {
         this.children = children;
     }
 
+    @Override
     public int getChildCount() {
         return children.size();
     }
 
+    @Override
     public boolean getAllowsChildren() {
         return !children.isEmpty();
     }
 
+    @Override
     public boolean isLeaf() {
         return children.isEmpty();
     }
 
+    @Override
     public Enumeration<SelectionTreeNode> children() {
         return Collections.enumeration(children);
     }
 
+    @Override
     public SelectionTreeNode getParent() {
         return parent;
     }
 
+    @Override
     public SelectionTreeNode getChildAt(int childIndex) {
         return children.get(childIndex);
     }
 
+    @Override
     public int getIndex(TreeNode node) {
         return children.indexOf(node);
     }
@@ -272,6 +279,7 @@ public class SelectionTreeNode implements TreeNode {
         ((DefaultTreeModel) tree.getModel()).nodeChanged(this);
     }
 
+    @Override
     public String toString() {
         return element.getDisplayableName();
     }

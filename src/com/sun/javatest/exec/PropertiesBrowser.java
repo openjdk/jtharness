@@ -67,6 +67,7 @@ class PropertiesBrowser extends ToolDialog
         setVisible(true);
     }
 
+    @Override
     protected void initGUI() {
         setHelp("execProps.dialog.csh");
         setI18NTitle("props.title");
@@ -97,6 +98,7 @@ class PropertiesBrowser extends ToolDialog
         }
 
         tabs.addChangeListener(new ChangeListener() {
+            @Override
             public void stateChanged(ChangeEvent e) {
                 Component t = tabs.getSelectedComponent();
                 ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(t));
@@ -199,6 +201,7 @@ class PropertiesBrowser extends ToolDialog
             id = addLabelledField("props.ts.id");
         }
 
+        @Override
         void update() {
             if (testSuite == null) {
                 setField(path, null);
@@ -226,6 +229,7 @@ class PropertiesBrowser extends ToolDialog
             // id?
         }
 
+        @Override
         void update() {
             setField(path, (workDir == null ? null : workDir.getPath()));
         }
@@ -247,6 +251,7 @@ class PropertiesBrowser extends ToolDialog
             templatePath = addLabelledField("props.template.path");
         }
 
+        @Override
         void update() {
             setField(templatePath, null);
             if (config == null || config.isTemplate()) {
@@ -297,6 +302,7 @@ class PropertiesBrowser extends ToolDialog
             configClassName = addLabelledField("props.pi.config");
         }
 
+        @Override
         void update() {
             if (testSuite == null) {
                 setField(testSuiteClassName, null);

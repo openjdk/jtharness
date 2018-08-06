@@ -45,6 +45,7 @@ class TP_ResultsSubpanel
         ContextHelpManager.setHelpIDString(this, "browse.resultPropertiesTab.csh");
     }
 
+    @Override
     protected synchronized void updateSubpanel(TestResult currTest) {
         if (subpanelTest != null)
             subpanelTest.removeObserver(observer);
@@ -76,6 +77,7 @@ class TP_ResultsSubpanel
                 updateEntries();
             else {
                 EventQueue.invokeLater(new Runnable() {
+                        @Override
                         public void run() {
                             if (tr == subpanelTest)
                                 updateEntries();
@@ -91,6 +93,7 @@ class TP_ResultsSubpanel
                 updateEntry(name, value);
             else {
                 EventQueue.invokeLater(new Runnable() {
+                        @Override
                         public void run() {
                             if (tr == subpanelTest)
                                 updateEntry(name, value);
@@ -107,30 +110,37 @@ class TP_ResultsSubpanel
     private class TRObserver
         implements TestResult.Observer
     {
+        @Override
         public void completed(TestResult tr) {
             updateEntriesLater(tr);
             tr.removeObserver(this);
         }
 
+        @Override
         public void createdSection(TestResult tr, TestResult.Section section) {
         }
 
+        @Override
         public void completedSection(TestResult tr, TestResult.Section section) {
         }
 
+        @Override
         public void createdOutput(TestResult tr, TestResult.Section section,
                                   String outputName) {
         }
 
+        @Override
         public void completedOutput(TestResult tr, TestResult.Section section,
                                     String outputName) {
         }
 
+        @Override
         public void updatedOutput(TestResult tr, TestResult.Section section,
                                   String outputName,
                                   int start, int end, String text) {
         }
 
+        @Override
         public void updatedProperty(TestResult tr, String name, String value) {
             updateEntryLater(tr, name, value);
         }

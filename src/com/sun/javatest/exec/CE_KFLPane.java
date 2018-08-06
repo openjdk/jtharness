@@ -56,6 +56,7 @@ class CE_KFLPane extends CE_StdPane {
         initGUI();
     }
 
+    @Override
     boolean isOKToClose() {
         if (kflFiles == null) {
             return true;
@@ -81,6 +82,7 @@ class CE_KFLPane extends CE_StdPane {
         kflFiles = config.getKnownFailureFiles();
     }
 
+    @Override
     void load() {
         updateConfig();
 
@@ -106,6 +108,7 @@ class CE_KFLPane extends CE_StdPane {
         }
     }
 
+    @Override
     void save() {
         if (customBtn.isSelected()) {
             customPanel.save();
@@ -153,6 +156,7 @@ class CE_KFLPane extends CE_StdPane {
 
     private class Listener implements ChangeListener {
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             if (noneBtn.isSelected()) {
                 customPanel.setEnabled(false);

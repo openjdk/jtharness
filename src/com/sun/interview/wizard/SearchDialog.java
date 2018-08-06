@@ -173,6 +173,7 @@ class SearchDialog extends JDialog
         setLocationRelativeTo(parent);
     }
 
+    @Override
     public void setVisible(boolean b) {
         super.setVisible(b);
         if (b)
@@ -277,6 +278,7 @@ class SearchDialog extends JDialog
         ac.setAccessibleName(i18n.getString(uiKey + ".tip"));
 
         choice.setRenderer(new DefaultListCellRenderer() {
+            @Override
             public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
                 Object c = o;
                 for (int i = 0; i < choiceKeys.length; i++) {
@@ -312,6 +314,7 @@ class SearchDialog extends JDialog
     }
 
     private ActionListener listener = new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
             if (cmd.equals(FIND))

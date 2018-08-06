@@ -721,9 +721,11 @@ public class Harness
         testsStartTime = System.currentTimeMillis();
         try {
             ok = r.runTests(new Iterator<TestDescription>() {
+                    @Override
                     public boolean hasNext() {
                         return (stopping ? false : raTestIter.hasNext());
                     }
+                    @Override
                     public TestDescription next() {
                         TestResult tr = raTestIter.next();
                         try {
@@ -734,6 +736,7 @@ public class Harness
                             throw new JavaTestError(i18n, "harness.trProb",  tr.getWorkRelativePath(), e);
                         }
                     }
+                    @Override
                     public void remove() {
                         throw new UnsupportedOperationException();
                     }
@@ -976,6 +979,7 @@ public class Harness
             observers = DynamicArray.remove(observers, o);
         }
 
+        @Override
         public void startingTestRun(Parameters params) {
             resultTable.starting();
 
@@ -985,6 +989,7 @@ public class Harness
                 stableObservers[i].startingTestRun(params);
         }
 
+        @Override
         public void startingTest(TestResult tr) {
             // protect against removing observers during notification
             Observer[] stableObservers = observers;
@@ -992,6 +997,7 @@ public class Harness
                 stableObservers[i].startingTest(tr);
         }
 
+        @Override
         public void finishedTest(TestResult tr) {
             numTestsDone++;
             resultTable.update(tr);
@@ -1017,6 +1023,7 @@ public class Harness
             }   // switch
         }
 
+        @Override
         public void stoppingTestRun() {
             // protect against removing observers during notification
             Observer[] stableObservers = observers;
@@ -1024,6 +1031,7 @@ public class Harness
                 stableObservers[i].stoppingTestRun();
         }
 
+        @Override
         public void finishedTesting() {
             resultTable.finished();
 
@@ -1033,6 +1041,7 @@ public class Harness
                 stableObservers[i].finishedTesting();
         }
 
+        @Override
         public void finishedTestRun(boolean allOK) {
             // protect against removing observers during notification
             Observer[] stableObservers = observers;
@@ -1040,6 +1049,7 @@ public class Harness
                 stableObservers[i].finishedTestRun(allOK);
         }
 
+        @Override
         public void error(String msg) {
             // protect against removing observers during notification
             Observer[] stableObservers = observers;
@@ -1065,10 +1075,13 @@ public class Harness
             this.threshold = threshold;
         }
 
+        @Override
         public void startingTestRun(Parameters p) { }
 
+        @Override
         public void startingTest(TestResult tr) { }
 
+        @Override
         public void finishedTest(TestResult tr) {
             switch (tr.getStatus().getType()) {
             case Status.FAILED:
@@ -1085,12 +1098,16 @@ public class Harness
                 stop();
             }
         }
+        @Override
         public void stoppingTestRun() { }
 
+        @Override
         public void finishedTesting() { }
 
+        @Override
         public void finishedTestRun(boolean allOK) { }
 
+        @Override
         public void error(String msg) { }
 
         private int level;
@@ -1106,20 +1123,27 @@ public class Harness
 
         final List<String> testURLs = new ArrayList<>();
 
+        @Override
         public void startingTestRun(Parameters p) { }
 
+        @Override
         public synchronized void startingTest(TestResult tr) {
             testURLs.add(tr.getTestName());
         }
 
+        @Override
         public void finishedTest(TestResult tr) { }
 
+        @Override
         public void stoppingTestRun() { }
 
+        @Override
         public void finishedTesting() { }
 
+        @Override
         public void finishedTestRun(boolean allOK) { }
 
+        @Override
         public void error(String msg) { }
     }
 }

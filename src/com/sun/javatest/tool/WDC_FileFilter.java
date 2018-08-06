@@ -35,10 +35,12 @@ public class WDC_FileFilter extends FileFilter {
         this.description = description;
     }
 
+    @Override
     public boolean accept(File f) {
         return (f.isDirectory());
     }
 
+    @Override
     public String getDescription() {
         return description;
     }

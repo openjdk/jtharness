@@ -65,6 +65,7 @@ class CE_TestsPane extends CE_StdPane
         initGUI();
     }
 
+    @Override
     boolean isOKToClose() {
         if (mutableTestsParameters == null)
             return true;
@@ -85,6 +86,7 @@ class CE_TestsPane extends CE_StdPane
             mutableTestsParameters = null;
     }
 
+    @Override
     void load() {
         updateConfig();
 
@@ -116,6 +118,7 @@ class CE_TestsPane extends CE_StdPane
         }
     }
 
+    @Override
     void save() {
         if (mutableTestsParameters != null) {
             if (allTestsBtn.isSelected())
@@ -143,6 +146,7 @@ class CE_TestsPane extends CE_StdPane
 
         selectTestsBtn = uif.createRadioButton("ce.tests.select", btnGrp);
         selectTestsBtn.addChangeListener(new ChangeListener() {
+            @Override
             public void stateChanged(ChangeEvent e) {
                 boolean s = selectTestsBtn.isSelected();
                 testsField.setEnabled(s);
@@ -164,6 +168,7 @@ class CE_TestsPane extends CE_StdPane
         p.add(testsField, c);
 
         loadBtn = uif.createButton("ce.tests.load", new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     selectFromFile();
                 }

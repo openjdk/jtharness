@@ -125,6 +125,7 @@ public class TestSuiteChooser extends JFileChooser
     }
 
     // override JFileChooser method
+    @Override
     public void approveSelection() {
         File file = getSelectedFile();
 
@@ -220,34 +221,41 @@ public class TestSuiteChooser extends JFileChooser
     private Icon icon;
 
     private class TSC_FileView extends FileView {
+        @Override
         public String getDescription(File f) {
             return null;
         }
 
+        @Override
         public Icon getIcon(File f) {
             return (isTestSuite(f) ? icon : null);
         }
 
+        @Override
         public String getName(File f) {
             // Take care to get names of file system roots correct
             String name = f.getName();
             return (name.length() == 0 ? f.getPath() : name);
         }
 
+        @Override
         public String getTypeDescription(File f) {
             return null;
         }
 
+        @Override
         public Boolean isTraversable(File f) {
             return (isDirectory(f) && !isTestSuite(f) ? Boolean.TRUE : Boolean.FALSE);
         }
     }
 
     private class TSC_FileFilter extends FileFilter {
+        @Override
         public boolean accept(File f) {
             return (isDirectory(f) ? true : isTestSuite(f));
         }
 
+        @Override
         public String getDescription() {
             return uif.getI18NString("tsc.ft");
         }

@@ -53,6 +53,7 @@ class ActiveModeOptions extends ModeOptions {
         add(portField, c);
     }
 
+    @Override
     ConnectionFactory createConnectionFactory(int concurrency) throws BadValue {
         String host = hostField.getText();
         if (host == null || host.length() == 0)

@@ -125,6 +125,7 @@ class FilesPane extends JPanel implements Printable {
     private JTextField noteField;
     private UIFactory uif;
 
+    @Override
     public int print (Graphics g, PageFormat pf, int pageIndex) {
         return mediaPane.print(g, pf, pageIndex);
     }

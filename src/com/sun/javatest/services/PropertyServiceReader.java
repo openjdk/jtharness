@@ -85,6 +85,7 @@ public class PropertyServiceReader implements ServiceReader {
     public static final String SERVICES_PROPERTIES =
             File.separator + "lib" + File.separator + "services.properties";
 
+    @Override
     public void init(TestSuite ts, String[] args) {
         this.ts = ts;
         File tsRoot = ts.getRootDir();
@@ -147,6 +148,7 @@ public class PropertyServiceReader implements ServiceReader {
         return set;
     }
 
+    @Override
     public Map<String, Service> readServices() {
         Map<String, Service> result = new TreeMap<String, Service>();
         if (props == null) {
@@ -199,6 +201,7 @@ public class PropertyServiceReader implements ServiceReader {
         return result;
     }
 
+    @Override
     public Set<TestPath> readTestServiceMap() {
         Set<TestPath> result = new HashSet<>();
 
@@ -222,6 +225,7 @@ public class PropertyServiceReader implements ServiceReader {
         return result;
     }
 
+    @Override
     public String getServiceDescriptorFileName() {
         return SERVICES_PROPERTIES;
     }

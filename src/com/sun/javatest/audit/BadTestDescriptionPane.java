@@ -37,6 +37,7 @@ class BadTestDescriptionPane extends ListPane {
         ContextHelpManager.setHelpIDString(this, "audit.badTestDescriptionTab.csh");
     }
 
+    @Override
     void show(Audit audit) {
         if (audit == currAudit)
             showBody();

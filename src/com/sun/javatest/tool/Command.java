@@ -152,6 +152,7 @@ public abstract class Command
      * The string is composed of the entries in the argument array.
      * @return a printable representation of this command
      */
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < args.size(); i++) {

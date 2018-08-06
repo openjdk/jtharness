@@ -73,6 +73,7 @@ public class HelpLink extends JComponent implements Accessible
      */
     public HelpLink() {
         addMouseListener(new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
                 JHelpContentViewer cv = (JHelpContentViewer) SwingUtilities.getAncestorOfClass(JHelpContentViewer.class, e.getComponent());
                 HelpBroker hb = (HelpBroker) (cv.getClientProperty(HELPBROKER_FOR_HELPLINK));
@@ -94,12 +95,14 @@ public class HelpLink extends JComponent implements Accessible
      * Get the accessible context for this pane.
      * @return the accessible context for this pane
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null)
             accessibleContext = new AccessibleJComponent() { };
         return accessibleContext;
     }
 
+    @Override
     public Dimension getPreferredSize() {
         Graphics g = getGraphics();
         if (g == null)
@@ -111,6 +114,7 @@ public class HelpLink extends JComponent implements Accessible
         return new Dimension(w, h);
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         g.setColor(color);
         g.setFont(font);

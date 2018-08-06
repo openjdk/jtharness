@@ -114,6 +114,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         init(null);
     }
 
+    @Override
     ConfigurableTestFilter cloneInstance() {
         return new BasicCustomTestFilter(uif.getI18NString("basicTf.namePrefix") +
                 instanceCount, execModel, uif);
@@ -172,6 +173,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         activateSettings(activeSettings);
     }
 
+    @Override
     synchronized JComponent getEditorPane() {
         if (editorPane == null) {
             editorPane = uif.createTabbedPane("basicTf.tabs", createTabPanels());
@@ -193,6 +195,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         return editorPane;
     }
 
+    @Override
     String commitEditorSettings() {
         SettingsSnapshot nowSettings = null;
 
@@ -210,11 +213,13 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         }
     }
 
+    @Override
     void resetEditorSettings() {
         // set GUI to match live settings
         putSettings(activeSettings);
     }
 
+    @Override
     boolean isEditorChanged() {
         SettingsSnapshot nowSettings = null;
 
@@ -232,11 +237,13 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     }
 
     // TestFilter interface
+    @Override
     public boolean accepts(TestDescription td)
             throws TestFilter.Fault {
         return accepts(td, null);
     }
 
+    @Override
     public boolean accepts(TestDescription td, TestFilter.Observer o)
             throws TestFilter.Fault {
         if (statusFilterNeedsUpdate)
@@ -257,18 +264,22 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         return true;
     }
 
+    @Override
     public String getBaseName() {
         return NAME;
     }
 
+    @Override
     public String getName() {
         return instanceName;
     }
 
+    @Override
     public String getReason() {
         return REASON;
     }
 
+    @Override
     public String getDescription() {
         return DESCRIPTION;
     }
@@ -538,6 +549,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         keyMatchBtn.setMnemonic(uif.getI18NString("basicTf.keywords.match.mne").charAt(0));
         keyMatchBtn.addChangeListener(new ChangeListener() {
 
+            @Override
             public void stateChanged(ChangeEvent e) {
                 enableKeywordFields();
             }
@@ -588,6 +600,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         statusAnyOfBtn.setMnemonic(uif.getI18NString("basicTf.status.anyOf.mne").charAt(0));
         statusAnyOfBtn.addChangeListener(new ChangeListener() {
 
+            @Override
             public void stateChanged(ChangeEvent e) {
                 enableStatusFields();
             }
@@ -647,6 +660,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
 
         p.addComponentListener(new ComponentAdapter() {
 
+            @Override
             public void componentShown(ComponentEvent e) {
                 TestResultTable nowTrt = execModel.getActiveTestResultTable();
                 // replaces widget with an updated one
@@ -740,6 +754,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
 
         jtxCheckBox.addActionListener(new ActionListener() {
 
+            @Override
             public void actionPerformed(ActionEvent e) {
                 jtxFileList.setEnabled(jtxCheckBox.isSelected());
                 jtxMode.setEnabled(jtxCheckBox.isSelected());
@@ -924,10 +939,12 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
             return interview;
         }
 
+        @Override
         public void currentQuestionChanged(Question q) {
             // ignore
         }
 
+        @Override
         public void pathUpdated() {
             TestFilter underTest;
             boolean needsUpdate = false;
@@ -1001,6 +1018,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
             load(m);
         }
 
+        @Override
         public boolean equals(Object settings) {
 
             if (settings == null) {

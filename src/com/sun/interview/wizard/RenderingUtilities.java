@@ -80,6 +80,7 @@ public class RenderingUtilities {
             this.q = q;
         }
 
+        @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
             assignDelegate(table, row, column);
             return delegate.getTableCellEditorComponent(table, value, isSelected, row, column);
@@ -138,30 +139,37 @@ public class RenderingUtilities {
                     tfCE;
         }
 
+        @Override
         public Object getCellEditorValue() {
             return delegate.getCellEditorValue();
         }
 
+        @Override
         public boolean isCellEditable(EventObject anEvent) {
             return delegate == null || delegate.isCellEditable(anEvent);
         }
 
+        @Override
         public boolean shouldSelectCell(EventObject anEvent) {
             return delegate.shouldSelectCell(anEvent);
         }
 
+        @Override
         public boolean stopCellEditing() {
             return delegate.stopCellEditing();
         }
 
+        @Override
         public void cancelCellEditing() {
             delegate.cancelCellEditing();
         }
 
+        @Override
         public void addCellEditorListener(CellEditorListener l) {
             delegate.addCellEditorListener(l);
         }
 
+        @Override
         public void removeCellEditorListener(CellEditorListener l) {
             delegate.removeCellEditorListener(l);
         }
@@ -335,6 +343,7 @@ public class RenderingUtilities {
                 browseBtn.setMnemonic(i18n.getString("file.browse.mne").charAt(0));
                 browseBtn.setToolTipText(i18n.getString("file.browse.tip"));
                 browseBtn.addActionListener(new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         // default chooser to point at specified entry
                         String s = (String)(cb.getSelectedItem());
@@ -497,8 +506,9 @@ public class RenderingUtilities {
             this.q = q;
         }
 
+        @Override
         public Component getTableCellRendererComponent(JTable table, Object value,
-                  boolean isSelected, boolean hasFocus, int row, int column) {
+                                                       boolean isSelected, boolean hasFocus, int row, int column) {
 
             if (column == 1){
                 String keyName = q.getKeyPropertyName((String)table.getValueAt(row, 0));

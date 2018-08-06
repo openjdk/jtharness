@@ -40,24 +40,29 @@ public class WDC_FileView extends FileView {
         icon = IconFactory.getSelectableFolderIcon();
     }
 
+    @Override
     public String getDescription(File f) {
         return "";
     }
 
+    @Override
     public Icon getIcon(File f) {
         return (swda.isWorkDirectory(f) ? icon : null);
     }
 
+    @Override
     public String getName(File f) {
         // Take care to get names of file system roots correct
         String name = f.getName();
         return (name.length() == 0 ? f.getPath() : name);
     }
 
+    @Override
     public String getTypeDescription(File f) {
         return null;
     }
 
+    @Override
     public Boolean isTraversable(File f) {
         return (f.isDirectory() && !swda.isWorkDirectory(f) ? Boolean.TRUE : Boolean.FALSE);
     }

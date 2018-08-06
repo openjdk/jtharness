@@ -200,6 +200,7 @@ public class ConflictResolutionDialog extends JDialog {
 
     class ConflictResolutionActionListener implements ActionListener {
 
+        @Override
         public void actionPerformed(ActionEvent e) {
 
             String cmd = e.getActionCommand();
@@ -239,6 +240,7 @@ public class ConflictResolutionDialog extends JDialog {
 
 
     class ReportsListSelectionListener implements ListSelectionListener {
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             if(e.getValueIsAdjusting()) return;
 

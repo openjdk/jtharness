@@ -84,6 +84,7 @@ class CE_KeywordsPane extends CE_StdPane {
         initGUI();
     }
 
+    @Override
     boolean isOKToClose() {
         if (mutableKeywordsParameters == null)
             return true;
@@ -127,6 +128,7 @@ class CE_KeywordsPane extends CE_StdPane {
             mutableKeywordsParameters = null;
     }
 
+    @Override
     void load() {
         updateConfig();
 
@@ -175,6 +177,7 @@ class CE_KeywordsPane extends CE_StdPane {
         enableKeywordFields();
     }
 
+    @Override
     void save() {
         if (mutableKeywordsParameters != null) {
             int km = (selectCheck.isSelected()
@@ -311,6 +314,7 @@ class CE_KeywordsPane extends CE_StdPane {
             lst = new JList<>(keywords);
 
             ok = uif.createButton("keywordChooser.insert", new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     Object[] sels = lst.getSelectedValues();
                     String inserted = "";
@@ -326,6 +330,7 @@ class CE_KeywordsPane extends CE_StdPane {
 
 
             cancel = uif.createButton("keywordChooser.cancel", new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     lst.clearSelection();
                     setVisible(false);
@@ -368,6 +373,7 @@ class CE_KeywordsPane extends CE_StdPane {
             s.height = (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.75);
             ok.setEnabled(false);
             lst.addListSelectionListener(new ListSelectionListener() {
+                @Override
                 public void valueChanged(ListSelectionEvent e) {
                     ok.setEnabled(lst.getSelectedIndex() != -1);
                 }
@@ -423,6 +429,7 @@ class CE_KeywordsPane extends CE_StdPane {
             implements ActionListener, ChangeListener, ItemListener {
         // ---------- ActionListener -----------------------------------
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             Component src = (Component) (e.getSource());
             String cmd = e.getActionCommand();
@@ -491,12 +498,14 @@ class CE_KeywordsPane extends CE_StdPane {
 
         // ---------- ChangeListener -----------------------------------
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             enableKeywordFields();
         }
 
         // ---------- ItemListener -----------------------------------
 
+        @Override
         public void itemStateChanged(ItemEvent e) {
             enableKeywordFields();
         }
@@ -504,6 +513,7 @@ class CE_KeywordsPane extends CE_StdPane {
 
     private static class DropDownIcon implements Icon {
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             JComponent component = (JComponent)c;
             int iconWidth = getIconWidth();
@@ -521,8 +531,10 @@ class CE_KeywordsPane extends CE_StdPane {
             g.translate( -x, -y );
         }
 
+        @Override
         public int getIconWidth() { return 10; }
 
+        @Override
         public int getIconHeight()  { return 5; }
 
     }

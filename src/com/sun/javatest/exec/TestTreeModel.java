@@ -117,10 +117,12 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     }
 
     // TreeModel methods
+    @Override
     public void addTreeModelListener(TreeModelListener l) {
         treeModelListeners = DynamicArray.append(treeModelListeners, l);
     }
 
+    @Override
     public Object getChild(Object parent, int index) {
         if (parent instanceof TT_BasicNode) {
             return ((TT_BasicNode) parent).getChildAt(index);
@@ -129,6 +131,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         }
     }
 
+    @Override
     public int getChildCount(Object parent) {
         if (parent instanceof TreeNode) {
             return ((TreeNode) parent).getChildCount();
@@ -137,6 +140,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         }
     }
 
+    @Override
     public int getIndexOfChild(Object parent, Object child) {
         if (parent instanceof TT_BasicNode) {
             return ((TT_BasicNode) parent).getIndex((TT_TreeNode) child);
@@ -145,6 +149,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         }
     }
 
+    @Override
     public Object getRoot() {
         if (disposed) {
             if (debug > 0) {
@@ -160,6 +165,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         return root;
     }
 
+    @Override
     public boolean isLeaf(Object node) {
         if (node == null) {
             return true;
@@ -174,22 +180,26 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         }
     }
 
+    @Override
     public void removeTreeModelListener(TreeModelListener l) {
         treeModelListeners = DynamicArray.remove(treeModelListeners, l);
     }
 
+    @Override
     public void valueForPathChanged(TreePath path, Object newValue) {
         // XXX
         System.err.println(getClass().getName() + ": VFPC");
     }
 
     // TRT TreeObserver methods
+    @Override
     public void nodeInserted(final TestResultTable.TreeNode[] path,
-            final Object what, final int index) {
+                             final Object what, final int index) {
 
         if (!EventQueue.isDispatchThread()) {
             Runnable t = new Runnable() {
 
+                @Override
                 public void run() {
                     nodeInserted0(path, what, index);
                 }
@@ -297,11 +307,13 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         }
     }
 
+    @Override
     public void nodeChanged(final TestResultTable.TreeNode[] path,
-            final Object what, final int index, final Object old) {
+                            final Object what, final int index, final Object old) {
         if (!EventQueue.isDispatchThread()) {
             Runnable t = new Runnable() {
 
+                @Override
                 public void run() {
                     nodeChanged0(path, what, index, old);
                 }
@@ -364,12 +376,14 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         }
     }
 
+    @Override
     public void nodeRemoved(final TestResultTable.TreeNode[] path,
-            final Object what, final int index) {
+                            final Object what, final int index) {
 
         if (!EventQueue.isDispatchThread()) {
             Runnable t = new Runnable() {
 
+                @Override
                 public void run() {
                     nodeRemoved0(path, what, index);
                 }
@@ -443,6 +457,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         if (!EventQueue.isDispatchThread()) {
             Runnable t = new Runnable() {
 
+                @Override
                 public void run() {
                     processRemove0(path, tr, index);
                 }
@@ -472,6 +487,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         if (!EventQueue.isDispatchThread()) {
             Runnable t = new Runnable() {
 
+                @Override
                 public void run() {
                     processInsert0(path, tr);
                 }
@@ -1072,6 +1088,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         notifyModelListeners(e, Notifier.STRUCT);
     }
 
+    @Override
     protected void finalize() throws Throwable {
         super.finalize();
 
@@ -1139,6 +1156,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             super("Test Tree Cache Worker");
         }
 
+        @Override
         public void run() {
             try {
                 synchronized (CacheWorker.this) {
@@ -1466,6 +1484,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             l = copy;
         }
 
+        @Override
         public void run() {
             if (e == null)
                 return;
@@ -1519,11 +1538,13 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     // FilterSelectionHandler.Observer - may not be on event thread
     private class FilterWatcher implements FilterSelectionHandler.Observer {
 
+        @Override
         public void filterUpdated(TestFilter f) {
             //notifyFullStructure();
             invalidateNodeInfo();
         }
 
+        @Override
         public void filterSelected(TestFilter f) {
             //notifyFullStructure();
             if (!lastFilter.equals(f)) {
@@ -1532,10 +1553,12 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             lastFilter = f;
         }
 
+        @Override
         public void filterAdded(TestFilter f) {
             // don't care
         }
 
+        @Override
         public void filterRemoved(TestFilter f) {
             // don't care
         }

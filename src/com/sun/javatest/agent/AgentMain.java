@@ -573,9 +573,11 @@ public class AgentMain {
             }
         }
 
+        @Override
         public void started(Agent agent) {
         }
 
+        @Override
         public void errorOpeningConnection(Agent agent, Exception e) {
             if (connectExceptionClass != null && connectExceptionClass.isInstance(e)) {
                 long now = System.currentTimeMillis();
@@ -594,27 +596,35 @@ public class AgentMain {
         private int lastNotRespondMsgInterval =
             max(Integer.getInteger("notResponding.message.interval", 60).intValue(), 10) * MILLIS_PER_SECOND;
 
+        @Override
         public void finished(Agent agent) {
         }
 
+        @Override
         public void openedConnection(Agent agent, Connection c) {
         }
 
+        @Override
         public void execTest(Agent agent, Connection c, String tag, String className, String[] args) {
         }
 
+        @Override
         public void execCommand(Agent agent, Connection c, String tag, String className, String[] args) {
         }
 
+        @Override
         public void execMain(Agent agent, Connection c, String tag, String className, String[] args) {
         }
 
+        @Override
         public void result(Agent agent, Connection c, Status result) {
         }
 
+        @Override
         public void exception(Agent agent, Connection c, Throwable e) {
         }
 
+        @Override
         public void completed(Agent agent, Connection c) {
         }
 

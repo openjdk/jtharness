@@ -180,6 +180,7 @@ public abstract class PreferencesPane extends JPanel {
             owner.addWindowListener(this);
         }
 
+        @Override
         public void setVisible(boolean b) {
             if (b) {
                 for (int i = 0; i < panes.length; i++)
@@ -242,11 +243,12 @@ public abstract class PreferencesPane extends JPanel {
             tree.setVisibleRowCount(10);
 
             tree.setCellRenderer(new DefaultTreeCellRenderer() {
+                @Override
                 public Component getTreeCellRendererComponent(JTree tree, Object value,
-                                                      boolean selected,
-                                                      boolean expanded,
-                                                      boolean leaf, int row,
-                                                      boolean hasFocus) {
+                                                              boolean selected,
+                                                              boolean expanded,
+                                                              boolean leaf, int row,
+                                                              boolean hasFocus) {
                     if (value instanceof PreferencesPane) {
                         return super.getTreeCellRendererComponent(tree, ((PreferencesPane)value).getText(),
                             selected, expanded, leaf, row, hasFocus);
@@ -310,6 +312,7 @@ public abstract class PreferencesPane extends JPanel {
             ActionMap actionMap = p.getActionMap();
             inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), UIFactory.CANCEL);
             actionMap.put(UIFactory.CANCEL, new AbstractAction() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         cancelBtn.doClick(250);
                     }
@@ -355,6 +358,7 @@ public abstract class PreferencesPane extends JPanel {
 
         // ---------- ActionListener -------------------------------
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
             if (src == okBtn) {
@@ -411,6 +415,7 @@ public abstract class PreferencesPane extends JPanel {
 
         // ---------- TreeSelectionListener ---------------------------------
 
+        @Override
         public void valueChanged(TreeSelectionEvent e) {
             TreePath path = e.getNewLeadSelectionPath();
             if (path != null) {
@@ -421,14 +426,17 @@ public abstract class PreferencesPane extends JPanel {
 
         // --------- TreeModel --------------------------------------
 
+        @Override
         public Object getChild(Object parent, int index) {
             return getChildren(parent)[index];
         }
 
+        @Override
         public int getChildCount(Object parent) {
             return getChildren(parent).length;
         }
 
+        @Override
         public int getIndexOfChild(Object parent, Object child) {
             PreferencesPane[] children = getChildren(parent);
             for (int i = 0; i < children.length; i++) {
@@ -438,10 +446,12 @@ public abstract class PreferencesPane extends JPanel {
             return -1;
         }
 
+        @Override
         public Object getRoot() {
             return this;
         }
 
+        @Override
         public boolean isLeaf(Object node) {
             PreferencesPane[] children = getChildren(node);
             return (children == null || children.length == 0);
@@ -450,42 +460,52 @@ public abstract class PreferencesPane extends JPanel {
         private void setPreferences(PreferencesPane[] panes) {
             Map<String, String> m = new Map<String, String>() {
 
+                @Override
                 public void clear() {
                     throw new UnsupportedOperationException();
                 }
 
+                @Override
                 public boolean containsKey(Object key) {
                     return props.containsKey(key);
                 }
 
+                @Override
                 public boolean containsValue(Object value) {
                     return props.containsValue(value);
                 }
 
+                @Override
                 public Set<Map.Entry<String, String>> entrySet() {
                     return props.entrySet();
                 }
 
+                @Override
                 public boolean equals(Object o) {
                     return props.equals(o);
                 }
 
+                @Override
                 public String get(Object key) {
                     return props.get(key);
                 }
 
+                @Override
                 public int hashCode() {
                     return props.hashCode();
                 }
 
+                @Override
                 public boolean isEmpty() {
                     return props.isEmpty();
                 }
 
+                @Override
                 public Set<String> keySet() {
                     return props.keySet();
                 }
 
+                @Override
                 public String put(String key, String value) {
                     String oldValue = props.get(key);
                     if (oldValue == null || !oldValue.equals(value)) {
@@ -494,18 +514,22 @@ public abstract class PreferencesPane extends JPanel {
                     return oldValue;
                 }
 
+                @Override
                 public void putAll(Map<? extends String, ? extends String> m) {
                     throw new UnsupportedOperationException();
                 }
 
+                @Override
                 public String remove(Object key) {
                     throw new UnsupportedOperationException();
                 }
 
+                @Override
                 public int size() {
                     return props.size();
                 }
 
+                @Override
                 public Collection<String> values() {
                     return props.values();
                 }
@@ -518,45 +542,55 @@ public abstract class PreferencesPane extends JPanel {
 
         // --------- TreeModelListener ---------------------------------------
 
+        @Override
         public void addTreeModelListener(TreeModelListener l) {
         }
 
+        @Override
         public void removeTreeModelListener(TreeModelListener l) {
         }
 
+        @Override
         public void valueForPathChanged(TreePath path, Object newValue) {
         }
 
         // --------- WindowListener -----------------------------------------
 
+        @Override
         public void windowOpened(WindowEvent e) {
             //System.err.println("Prefs.dialog " + e);
         }
 
+        @Override
         public void windowClosing(WindowEvent e) {
             //System.err.println("Prefs.dialog " + e);
         }
 
+        @Override
         public void windowClosed(WindowEvent e) {
             //System.err.println("Prefs.dialog " + e);
         }
 
+        @Override
         public void windowIconified(WindowEvent e) {
             //System.err.println("Prefs.dialog " + e);
         }
 
+        @Override
         public void windowDeiconified(WindowEvent e) {
             //System.err.println("Prefs.dialog " + e + " (" + e.getSource() + ")");
             if (e.getSource() == owner)
                 toFront();
         }
 
+        @Override
         public void windowActivated(WindowEvent e) {
             //System.err.println("Prefs.dialog " + e + " (" + e.getSource() + ")");
             if (e.getSource() == owner)
                 toFront();
         }
 
+        @Override
         public void windowDeactivated(WindowEvent e) {
             //System.err.println("Prefs.dialog " + e);
         }

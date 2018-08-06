@@ -40,14 +40,17 @@ class ActionListDataListener implements ListDataListener
         this.cmd = cmd;
     }
 
+    @Override
     public void intervalAdded(ListDataEvent e) {
         contentsChanged(e);
     }
 
+    @Override
     public void intervalRemoved(ListDataEvent e) {
         contentsChanged(e);
     }
 
+    @Override
     public void contentsChanged(ListDataEvent e) {
         ActionEvent ae = new ActionEvent(src, ActionEvent.ACTION_PERFORMED, cmd);
         listener.actionPerformed(ae);

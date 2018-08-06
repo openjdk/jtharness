@@ -454,6 +454,7 @@ public abstract class Question
      * and the string values are either both null
      * or are equal.
      */
+    @Override
     public boolean equals(Object other) {
         if (this == other)
             return true;
@@ -470,6 +471,7 @@ public abstract class Question
         return (s1 == null || s2 == null ? s1 == s2 : s1.equals(s2));
     }
 
+    @Override
     public int hashCode()  {
         int hash = 7;
         hash = 31 * hash + (null == tag ? 0 : tag.hashCode());

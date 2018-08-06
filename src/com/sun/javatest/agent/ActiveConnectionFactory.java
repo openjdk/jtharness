@@ -72,6 +72,7 @@ public class ActiveConnectionFactory implements ConnectionFactory
         return port;
     }
 
+    @Override
     public Connection nextConnection() throws ConnectionFactory.Fault {
         try {
             return new SocketConnection(new Socket(host, port));
@@ -84,6 +85,7 @@ public class ActiveConnectionFactory implements ConnectionFactory
         }
     }
 
+    @Override
     public void close() {
     }
 

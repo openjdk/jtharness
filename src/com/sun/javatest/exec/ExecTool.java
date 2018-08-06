@@ -326,6 +326,7 @@ public class ExecTool extends Tool implements ExecModel,
 
     }
 
+    @Override
     public TestSuite getTestSuite() {
         return testSuite;
     }
@@ -338,18 +339,22 @@ public class ExecTool extends Tool implements ExecModel,
         return (testSuite == null ? null : new TestSuite[]{testSuite});
     }
 
+    @Override
     public WorkDirectory getWorkDirectory() {
         return session.getWorkDirectory();
     }
 
+    @Override
     public InterviewParameters getInterviewParameters() {
         return session.getInterviewParameters();
     }
 
+    @Override
     public FilterConfig getFilterConfig() {
          return filterHandler.getFilterConfig();
     }
 
+    @Override
     public ContextManager getContextManager() {
         if (context == null) {
             try {
@@ -364,6 +369,7 @@ public class ExecTool extends Tool implements ExecModel,
         return context;
     }
 
+    @Override
     public TestResultTable getActiveTestResultTable() {
         WorkDirectory workDir = getWorkDirectory();
         if (workDir != null)
@@ -454,6 +460,7 @@ public class ExecTool extends Tool implements ExecModel,
      * Session.Observer interface method
      * @param e
      */
+    @Override
     public void updated(Session.Event e) {
         updateGUI();
     }
@@ -461,17 +468,21 @@ public class ExecTool extends Tool implements ExecModel,
     /**
      * BasicSession.OrderedObserver interface method.
      */
+    @Override
     public int order() {
         return Integer.MAX_VALUE;
     }
 
+    @Override
     public void showWorkDirDialog(boolean allowTemplates) {
         throw new UnsupportedOperationException("Not supported already.");
     }
 
+    @Override
     public void showConfigEditor(boolean runTests) {
         throw new UnsupportedOperationException("Not supported already.");
     }
+    @Override
     public void showTemplateEditor() {
         throw new UnsupportedOperationException("Not supported already.");
     }
@@ -491,6 +502,7 @@ public class ExecTool extends Tool implements ExecModel,
     }
 
 
+    @Override
     public void runTests(String[] urls) {
         if (urls == null || urls.length == 0)
             // error dialog?
@@ -498,16 +510,19 @@ public class ExecTool extends Tool implements ExecModel,
         runTestsHandler.executeImmediate(urls);
     }
 
+    @Override
     public void showMessage(ResourceBundle msgs, String key) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void printSetup() {
         PageFormat pf = PrinterJob.getPrinterJob().pageDialog(
             (pageFormat == null ? PrinterJob.getPrinterJob().defaultPage() : pageFormat));
         pageFormat = (pf == null ? pageFormat : pf);
     }
 
+    @Override
     public void print(Printable p) {
         //throw new UnsupportedOperationException("Not supported yet.");
         PrinterJob pj = PrinterJob.getPrinterJob();
@@ -529,6 +544,7 @@ public class ExecTool extends Tool implements ExecModel,
         }
     }
 
+    @Override
     public void setWorkDir(WorkDirectory wd, boolean addToFileHistory) throws Fault, TestSuite.Fault {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -536,6 +552,7 @@ public class ExecTool extends Tool implements ExecModel,
     /**
      * Causes a series of actions to be performed to complete configuration.
      */
+    @Override
     public void configure() {
         sessionControl.configure();
     }
@@ -543,11 +560,13 @@ public class ExecTool extends Tool implements ExecModel,
     /**
      * @return true if configuring is in progress at the moment.
      */
+    @Override
     public boolean isConfiguring() {
         return sessionControl.isConfiguring();
     }
 
 
+    @Override
     public ExecToolManager getExecToolManager() {
         return etm;
     }

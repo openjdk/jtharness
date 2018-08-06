@@ -516,10 +516,12 @@ class AndExprKeywords extends BinaryExprKeywords {
         super(left, right);
     }
 
+    @Override
     public boolean accepts(Set<String> s) {
         return (left.accepts(s) && right.accepts(s));
     }
 
+    @Override
     int precedence() {
         return 1;
     }
@@ -540,6 +542,7 @@ class NotExprKeywords extends ExprKeywords {
         this.expr = expr;
     }
 
+    @Override
     public boolean accepts(Set<String> s) {
         return !expr.accepts(s);
     }
@@ -567,6 +570,7 @@ class NotExprKeywords extends ExprKeywords {
     }
 
 
+    @Override
     int precedence() {
         return 2;
     }
@@ -583,10 +587,12 @@ class OrExprKeywords extends BinaryExprKeywords {
         super(left, right);
     }
 
+    @Override
     public boolean accepts(Set<String> s) {
         return (left.accepts(s) || right.accepts(s));
     }
 
+    @Override
     int precedence() {
         return 0;
     }
@@ -607,6 +613,7 @@ class ParenExprKeywords extends ExprKeywords {
         this.expr = expr;
     }
 
+    @Override
     public boolean accepts(Set<String> s) {
         return expr.accepts(s);
     }
@@ -634,6 +641,7 @@ class ParenExprKeywords extends ExprKeywords {
     }
 
 
+    @Override
     int precedence() {
         return 2;
     }
@@ -650,6 +658,7 @@ class TermExprKeywords extends ExprKeywords {
         this.key = key;
     }
 
+    @Override
     public boolean accepts(Set<String> s) {
         return (s.contains(key));
     }
@@ -677,6 +686,7 @@ class TermExprKeywords extends ExprKeywords {
     }
 
 
+    @Override
     int precedence() {
         return 2;
     }

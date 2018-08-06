@@ -46,6 +46,7 @@ public class BatchManager
         RunTestsCommand.initVerboseOptions();
     }
 
+    @Override
     public HelpTree.Node getHelp() {
         HelpTree.Node[] cmdNodes = {
             getCommandHelp(BatchCommand.getName()),
@@ -60,6 +61,7 @@ public class BatchManager
         return new HelpTree.Node(i18n, "cmgr.help." + name);
     }
 
+    @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
@@ -96,10 +98,12 @@ public class BatchManager
             super(getName());
         }
 
+        @Override
         public int getDesktopMode() {
             return DESKTOP_NOT_REQUIRED_DTMODE;
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             ctx.setAutoRunCommand(new AutoRunCommand());
             ctx.setCloseDesktopWhenDoneEnabled(true);
@@ -108,6 +112,7 @@ public class BatchManager
 
     static class AutoRunCommand extends RunTestsCommand
     {
+        @Override
         public void run(CommandContext ctx) throws Fault {
             super.run(ctx);
 

@@ -119,6 +119,7 @@ class MessageStrip extends JSplitPane
 
         if (!EventQueue.isDispatchThread()) {
             EventQueue.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     setMonitor(index);
                 }
@@ -141,12 +142,14 @@ class MessageStrip extends JSplitPane
     // Harness.Observer ...
     // anything that happens here must be switched on to the event thread
 
+    @Override
     public void startingTestRun(Parameters params) {
         setText(leftField, uif.getI18NString("strip.start"));
         setMonitor(runningMonitor);
 
         if (clearTimer == null)
             clearTimer = new Timer(CLEAR_TIMEOUT, new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent evt) {
                     setText(leftField, "");
                 }
@@ -154,28 +157,34 @@ class MessageStrip extends JSplitPane
         clearTimer.start();
     }
 
+    @Override
     public void startingTest(TestResult tr) {
         setText(leftField, uif.getI18NString("strip.running", tr.getTestName()));
     }
 
+    @Override
     public void finishedTest(TestResult tr) {
     }
 
+    @Override
     public void stoppingTestRun() {
         setText(leftField, uif.getI18NString("strip.stop"));
     }
 
+    @Override
     public void finishedTesting() {
         setText(leftField, uif.getI18NString("strip.cleanup"));
         setMonitor(idleMonitor);
     }
 
+    @Override
     public void finishedTestRun(boolean allOk) {
         setText(leftField, uif.getI18NString("strip.finish"));
         if (clearTimer != null)
             clearTimer.stop();
     }
 
+    @Override
     public void error(String msg) {
     }
 
@@ -210,8 +219,9 @@ class MessageStrip extends JSplitPane
         uif.setAccessibleName(selector, "strip.sel");
         selector.addActionListener(actionListener);
         selector.setRenderer(new BasicComboBoxRenderer() {
+                @Override
                 public Component getListCellRendererComponent(JList list, Object value,
-                            int index, boolean isSelected, boolean cellHasFocus) {
+                                                              int index, boolean isSelected, boolean cellHasFocus) {
                     Component c = super.getListCellRendererComponent(list, value,
                                                 index, isSelected, cellHasFocus);
                     try {
@@ -324,11 +334,15 @@ class MessageStrip extends JSplitPane
     }
 
     // ---------- ComponentListener ----------
+    @Override
     public void componentHidden(ComponentEvent e) { }
+    @Override
     public void componentMoved(ComponentEvent e) { }
+    @Override
     public void componentResized(ComponentEvent e) {
         setDividerLocation(0.70d);
     }
+    @Override
     public void componentShown(ComponentEvent e) { }
 
     private JTextField leftField;
@@ -354,6 +368,7 @@ class MessageStrip extends JSplitPane
     private static final String MINI_PREF = "exec.monitorstrip.mini";
 
     class SelectionListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object source = e.getSource();
 

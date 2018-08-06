@@ -429,6 +429,7 @@ public class WizPane extends JPanel
         questionPanel = new QuestionPanel(interview);
         questionPanel.setBorder(BorderFactory.createLoweredBevelBorder());
         questionPanel.setNextAction(new AbstractAction() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     if (getMarkersFilterEnabled())
                         nextVisible();
@@ -501,6 +502,7 @@ public class WizPane extends JPanel
     }
 
     private class Listener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
             /*if (cmd.equals(DETAILS)) {

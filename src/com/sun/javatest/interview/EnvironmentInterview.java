@@ -75,10 +75,12 @@ public class EnvironmentInterview
      * @return the list of files specified in the interview
      * @see #setEnvFiles
      */
+    @Override
     public File[] getEnvFiles() {
         return qEnvFiles.getValue();
     }
 
+    @Override
     public File[] getAbsoluteEnvFiles() {
         TestSuite ts = parent.getTestSuite();
         File tsRootDir = (ts == null ? null : ts.getRootDir());
@@ -90,6 +92,7 @@ public class EnvironmentInterview
      * @param files the environment files for the interview
      * @see #getEnvFiles
      */
+    @Override
     public void setEnvFiles(File[] files) {
         qEnvFiles.setValue(files);
     }
@@ -99,6 +102,7 @@ public class EnvironmentInterview
      * @return the environment name specified in the interview
      * @see #setEnvName
      */
+    @Override
     public String getEnvName() {
         return qEnv.getValue();
     }
@@ -108,6 +112,7 @@ public class EnvironmentInterview
      * @param name the environment name for the interview
      * @see #getEnvName
      */
+    @Override
     public void setEnvName(String name) {
         qEnv.setValue(name);
     }
@@ -119,6 +124,7 @@ public class EnvironmentInterview
      * @see #getEnvFiles
      * @see #getEnvName
      */
+    @Override
     public TestEnvironment getEnv() {
         updateCachedEnv();
         return cachedEnv;
@@ -136,6 +142,7 @@ public class EnvironmentInterview
             setDuplicatesAllowed(false);
         }
 
+        @Override
         public File getBaseDirectory() {
             TestSuite ts = parent.getTestSuite();
             if (ts == null)
@@ -146,6 +153,7 @@ public class EnvironmentInterview
             }
         }
 
+        @Override
         protected Question getNext() {
             updateCachedEnvTable();
             if (cachedEnvTableError != null)
@@ -194,6 +202,7 @@ public class EnvironmentInterview
     // Env Table Error
 
     private ErrorQuestion qEnvTableError = new ErrorQuestion(this, "envTableError") {
+        @Override
         protected Object[] getTextArgs() {
             return new Object[] { cachedEnvTableError };
         }
@@ -205,6 +214,7 @@ public class EnvironmentInterview
     // Env
 
     private StringQuestion qEnv = new StringQuestion(this, "env") {
+        @Override
         public String[] getSuggestions() {
             // ensure the choices are up to date with envTable;
             // note that setting choices may smash the current value
@@ -225,6 +235,7 @@ public class EnvironmentInterview
             return super.getSuggestions();
         }
 
+        @Override
         protected Question getNext() {
             if (value == null)
                 return null;
@@ -298,6 +309,7 @@ public class EnvironmentInterview
     // Env Error
 
     private ErrorQuestion qEnvError = new ErrorQuestion(this, "envError") {
+        @Override
         protected Object[] getTextArgs() {
             return cachedEnvErrorArgs;
         }
@@ -308,6 +320,7 @@ public class EnvironmentInterview
     // Env Not Found
 
     private ErrorQuestion qEnvNotFound = new ErrorQuestion(this, "envNotFound") {
+        @Override
         protected Object[] getTextArgs() {
             return cachedEnvErrorArgs;
         }
@@ -318,6 +331,7 @@ public class EnvironmentInterview
     // Env Undefined Entry
 
     private ErrorQuestion qEnvUndefinedEntry = new ErrorQuestion(this, "envUndefinedEntry") {
+        @Override
         protected Object[] getTextArgs() {
             return cachedEnvErrorArgs;
         }

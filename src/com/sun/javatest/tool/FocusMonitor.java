@@ -138,6 +138,7 @@ class FocusMonitor
             Writer out;
             if (reportFile == null) {
                 out = new OutputStreamWriter(System.out) {
+                        @Override
                         public void close() throws IOException {
                             flush();  // don't close System.out
                         }
@@ -172,6 +173,7 @@ class FocusMonitor
     private FocusMonitor() {
         KeyboardFocusManager fm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         fm.addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
                 public void propertyChange(PropertyChangeEvent e) {
                     if (e.getPropertyName().equals("focusOwner"))
                         update();
@@ -261,13 +263,17 @@ class FocusMonitor
         JMenu viewMenu = new JMenu("View");
         final JCheckBoxMenuItem showBackgroundMenuItem = new JCheckBoxMenuItem("background");
         viewMenu.addMenuListener(new MenuListener() {
+                @Override
                 public void menuSelected(MenuEvent e) {
                     showBackgroundMenuItem.setSelected(highlighting);
                 }
+                @Override
                 public void menuDeselected(MenuEvent e) { }
+                @Override
                 public void menuCanceled(MenuEvent e) { }
             });
         showBackgroundMenuItem.addChangeListener(new ChangeListener() {
+                @Override
                 public void stateChanged(ChangeEvent e) {
                     setHighlightEnabled(showBackgroundMenuItem.isSelected());
                 }
@@ -299,6 +305,7 @@ class FocusMonitor
         f.setContentPane(main);
         f.pack();
         f.addWindowListener(new WindowAdapter() {
+                @Override
                 public void windowClosed(WindowEvent e) {
                     deactivate();
                 }
@@ -430,12 +437,14 @@ class FocusMonitor
     }
 
     private Action activateAction = new AbstractAction() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(true);
             }
         };
 
     private Action reportAction = new AbstractAction() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 report();
             }
@@ -560,6 +569,7 @@ class FocusMonitor
             }
         }
 
+        @Override
         public void setEnabled(boolean enabled) {
             super.setEnabled(enabled);
             for (int i = 0; i <entries.size(); i++) {
@@ -603,6 +613,7 @@ class FocusMonitor
             add(downKeys = new Entry("v keys"));
         }
 
+        @Override
         void setComponent(Component c) {
             // summary info (type, name)
             super.setComponent(c);

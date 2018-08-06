@@ -62,6 +62,7 @@ class DesktopPrefsPane extends PreferencesPane {
         add(Box.createVerticalGlue(), c);
     }
 
+    @Override
     public String getText() {
         return uif.getI18NString("dt.prefs.name");
     }
@@ -254,6 +255,7 @@ class DesktopPrefsPane extends PreferencesPane {
         uif.setAccessibleName(ttipsCheck, "dt.prefs.ttips");
 
         ttipsCheck.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     boolean state = ttipsCheck.isSelected();
                     ttDelay.setEnabled(state);

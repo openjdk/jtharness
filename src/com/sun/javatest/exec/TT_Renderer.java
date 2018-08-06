@@ -63,6 +63,7 @@ class TT_Renderer extends DefaultTreeCellRenderer {
             throw new JavaTestError(uif.getI18NString("tree.unmatched"));
     }
 
+    @Override
     public Component getTreeCellRendererComponent(JTree tree,
                                                   Object value,
                                                   boolean selected,

@@ -50,6 +50,7 @@ public abstract class BasicParameters
 {
     //---------------------------------------------------------------------
 
+    @Override
     public TestSuite getTestSuite() {
         return testSuite;
     }
@@ -88,6 +89,7 @@ public abstract class BasicParameters
      * @throws IllegalStateException if the test suite has already been set to
      * something different
      */
+    @Override
     public void setTestSuite(TestSuite ts) {
         if (ts == null)
             throw new NullPointerException();
@@ -114,6 +116,7 @@ public abstract class BasicParameters
 
     //---------------------------------------------------------------------
 
+    @Override
     public WorkDirectory getWorkDirectory() {
         return workDir;
     }
@@ -173,6 +176,7 @@ public abstract class BasicParameters
      * @throws IllegalStateException if the work directory has already been set to
      * something different
      */
+    @Override
     public void setWorkDirectory(WorkDirectory wd) {
         if (wd == null)
             throw new NullPointerException();
@@ -202,14 +206,17 @@ public abstract class BasicParameters
 
     //---------------------------------------------------------------------
 
+    @Override
     public Parameters.TestsParameters getTestsParameters() {
         return this;
     }
 
+    @Override
     public String[] getTests() {
         return tests;
     }
 
+    @Override
     public void setTests(String[] tests) {
         if (tests == null)
             testsMode = MutableTestsParameters.ALL_TESTS;
@@ -219,10 +226,12 @@ public abstract class BasicParameters
         }
     }
 
+    @Override
     public int getTestsMode() {
         return testsMode;
     }
 
+    @Override
     public void setTestsMode(int mode) {
         if (mode != ALL_TESTS &&
             mode != SPECIFIED_TESTS)
@@ -231,10 +240,12 @@ public abstract class BasicParameters
         testsMode = mode;
     }
 
+    @Override
     public String[] getSpecifiedTests() {
         return tests;
     }
 
+    @Override
     public void setSpecifiedTests(String[] tests) {
         if (tests == null)
             throw new NullPointerException();
@@ -251,10 +262,12 @@ public abstract class BasicParameters
 
     //---------------------------------------------------------------------
 
+    @Override
     public Parameters.ExcludeListParameters getExcludeListParameters() {
         return this;
     }
 
+    @Override
     public File[] getExcludeFiles() {
         TestSuite ts = getTestSuite();
         switch (excludeMode) {
@@ -285,6 +298,7 @@ public abstract class BasicParameters
         }
     }
 
+    @Override
     public void setExcludeFiles(File[] files) {
         if (files == null || files.length == 0)
             setExcludeMode(NO_EXCLUDE_LIST);
@@ -294,52 +308,64 @@ public abstract class BasicParameters
         }
     }
 
+    @Override
     public ExcludeList getExcludeList() {
         updateExcludeList();
         return cachedExcludeList;
     }
 
+    @Override
     public TestFilter getExcludeListFilter() {
         updateExcludeList();
         return cachedExcludeListFilter;
     }
 
+    @Override
     public int getExcludeMode() {
         return excludeMode;
     }
 
+    @Override
     public void setExcludeMode(int mode) {
         excludeMode = mode;
     }
 
+    @Override
     public File[] getCustomExcludeFiles() {
         return customExcludeFiles;
     }
 
+    @Override
     public void setCustomExcludeFiles(File[] files) {
         customExcludeFiles = files;
     }
 
+    @Override
     public boolean isLatestExcludeAutoCheckEnabled() {
         return false;
     }
 
+    @Override
     public void setLatestExcludeAutoCheckEnabled(boolean b) {
         latestExcludeAutoCheck = b;
     }
 
+    @Override
     public int getLatestExcludeAutoCheckMode() {
         return latestExcludeAutoCheckMode;
     }
 
+    @Override
     public void setLatestExcludeAutoCheckMode(int mode) {
         latestExcludeAutoCheckMode = mode;
     }
 
+    @Override
     public int getLatestExcludeAutoCheckInterval() {
         return latestExcludeAutoCheckInterval;
     }
 
+    @Override
     public void setLatestExcludeAutoCheckInterval(int days) {
         latestExcludeAutoCheckInterval = days;;
     }
@@ -415,15 +441,18 @@ public abstract class BasicParameters
 
     //---------------------------------------------------------------------
 
+    @Override
     public Parameters.KeywordsParameters getKeywordsParameters() {
         return this;
     }
 
+    @Override
     public Keywords getKeywords() {
         updateCachedKeywords();
         return cachedKeywords;
     }
 
+    @Override
     public void setKeywords(int mode, String value) {
         if (value == null)
             keywordsMode = NO_KEYWORDS;
@@ -434,6 +463,7 @@ public abstract class BasicParameters
         }
     }
 
+    @Override
     public TestFilter getKeywordsFilter() {
         updateCachedKeywords();
         if (keywordsMode == NO_KEYWORDS)
@@ -442,22 +472,27 @@ public abstract class BasicParameters
             return cachedKeywordsFilter;
     }
 
+    @Override
     public int getKeywordsMode() {
         return keywordsMode;
     }
 
+    @Override
     public void setKeywordsMode(int mode) {
         keywordsMode = mode;
     }
 
+    @Override
     public int getMatchKeywordsMode() {
         return keywordsMatchMode;
     }
 
+    @Override
     public String getMatchKeywordsValue() {
         return keywordsMatchValue;
     }
 
+    @Override
     public void setMatchKeywords(int mode, String value) {
         keywordsMatchMode = mode;
         keywordsMatchValue = value;
@@ -514,10 +549,12 @@ public abstract class BasicParameters
 
     //---------------------------------------------------------------------
 
+    @Override
     public Parameters.PriorStatusParameters getPriorStatusParameters() {
         return this;
     }
 
+    @Override
     public boolean[] getPriorStatusValues() {
         if (priorStatusMode == NO_PRIOR_STATUS)
             return null;
@@ -525,6 +562,7 @@ public abstract class BasicParameters
             return priorStatusValues;
     }
 
+    @Override
     public void setPriorStatusValues(boolean[] values) {
         if (values == null)
             priorStatusMode = NO_PRIOR_STATUS;
@@ -534,6 +572,7 @@ public abstract class BasicParameters
         }
     }
 
+    @Override
     public TestFilter getPriorStatusFilter() {
         WorkDirectory wd = getWorkDirectory();
         TestResultTable r = (wd == null ? null : wd.getTestResultTable());
@@ -549,10 +588,12 @@ public abstract class BasicParameters
         return cachedPriorStatusFilter;
     }
 
+    @Override
     public int getPriorStatusMode() {
         return priorStatusMode;
     }
 
+    @Override
     public void setPriorStatusMode(int mode) {
         if (mode != NO_PRIOR_STATUS &&
             mode != MATCH_PRIOR_STATUS)
@@ -561,10 +602,12 @@ public abstract class BasicParameters
         priorStatusMode = mode;
     }
 
+    @Override
     public boolean[] getMatchPriorStatusValues() {
         return priorStatusValues;
     }
 
+    @Override
     public void setMatchPriorStatusValues(boolean[] v) {
         if (v == null)
             throw new NullPointerException();
@@ -585,14 +628,17 @@ public abstract class BasicParameters
 
     //---------------------------------------------------------------------
 
+    @Override
     public Parameters.ConcurrencyParameters getConcurrencyParameters() {
         return this;
     }
 
+    @Override
     public int getConcurrency() {
         return concurrency;
     }
 
+    @Override
     public void setConcurrency(int conc) {
         if (conc <= 0) {
             concurrencyError =
@@ -618,14 +664,17 @@ public abstract class BasicParameters
 
     //---------------------------------------------------------------------
 
+    @Override
     public Parameters.TimeoutFactorParameters getTimeoutFactorParameters() {
         return this;
     }
 
+    @Override
     public float getTimeoutFactor() {
         return timeoutFactor;
     }
 
+    @Override
     public void setTimeoutFactor(float tf) {
         if (tf <= 0) {
             timeoutFactorError = i18n.getString("bp.badTimeout", Float.valueOf(tf));
@@ -650,6 +699,7 @@ public abstract class BasicParameters
 
     //---------------------------------------------------------------------
 
+    @Override
     public TestFilter getRelevantTestFilter() {
         TestSuite ts = getTestSuite();
         TestEnvironment env = getEnv();
@@ -667,6 +717,7 @@ public abstract class BasicParameters
     private TestSuite cachedRelevantTestFilterTestSuite; // do we need this?
     private TestEnvironment cachedRelevantTestFilterEnv;
 
+    @Override
     public synchronized TestFilter[] getFilters() {
         Vector<TestFilter> v = new Vector<>();
 
@@ -702,6 +753,7 @@ public abstract class BasicParameters
 
     //---------------------------------------------------------------------
 
+    @Override
     public boolean isValid() {
         return (   isTestSuiteOK()
                 && isWorkDirectoryOK()
@@ -713,6 +765,7 @@ public abstract class BasicParameters
                 && isTimeoutFactorOK());
     }
 
+    @Override
     public String getErrorMessage() {
         return (  testSuiteError != null ? testSuiteError
                 : workDirError != null ? workDirError

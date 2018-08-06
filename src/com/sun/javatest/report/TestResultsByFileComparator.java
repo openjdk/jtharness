@@ -32,6 +32,7 @@ import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestResult;
 
 class TestResultsByFileComparator implements Comparator<TestResult> {
+    @Override
     public int compare(TestResult a, TestResult b) {
 
         // The simplest way to compare two URLs would be to compare their

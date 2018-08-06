@@ -184,8 +184,9 @@ class CopyHandler extends DefaultHandler {
         this.skipByConflict = false;
     }
 
+    @Override
     public void startElement(String namespaceUri, String localName,
-            String qName, Attributes attrs) throws SAXException {
+                             String qName, Attributes attrs) throws SAXException {
         if (needWrite == true && skipByConflict == false) {
 
             if (qName.equals(Scheme.WD)) {
@@ -246,6 +247,7 @@ class CopyHandler extends DefaultHandler {
         }
     }
 
+    @Override
     public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
         if (this.needWrite == false || this.skipByConflict == true)
             return;
@@ -257,6 +259,7 @@ class CopyHandler extends DefaultHandler {
         lh.endCDATA();
     }
 
+    @Override
     public void endElement(String arg0, String arg1, String arg2)
             throws SAXException {
         // don't write TRS, WDS

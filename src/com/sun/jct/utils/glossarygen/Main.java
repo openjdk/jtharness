@@ -190,6 +190,7 @@ public class Main {
             getImplicitFileSet().setDir(dir);
         }
 
+        @Override
         public void execute() {
             FileScanner s = getImplicitFileSet().getDirectoryScanner(getProject());
             m.addFiles(s.getBasedir(), s.getIncludedFiles());

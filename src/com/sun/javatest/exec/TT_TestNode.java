@@ -42,34 +42,42 @@ public class TT_TestNode extends TT_TreeNode {
         this.parent = parent;
     }
     // ------- interface methods --------
+    @Override
     public Enumeration<?> children() {
         throw new UnsupportedOperationException("Not supported.");
     }
 
+    @Override
     public boolean getAllowsChildren() {
         return false;
     }
 
+    @Override
     public TreeNode getChildAt(int arg0) {
         throw new UnsupportedOperationException("Not supported.");
     }
 
+    @Override
     public int getChildCount() {
         return 0;
     }
 
+    @Override
     public int getIndex(TreeNode arg0) {
         return -1;
     }
 
+    @Override
     public TreeNode getParent() {
         return parent;
     }
 
+    @Override
     public boolean isLeaf() {
         return true;
     }
 
+    @Override
     boolean isRoot() {
         // not possible, right?
         return false;
@@ -80,10 +88,12 @@ public class TT_TestNode extends TT_TreeNode {
         return tr;
     }
 
+    @Override
     String getDisplayName() {
         return getShortName();
     }
 
+    @Override
     String getLongDescription() {
         // should be the long path to the folder, or custom
         return null;
@@ -95,6 +105,7 @@ public class TT_TestNode extends TT_TreeNode {
      * @return Short name for this node, containing no forward slashes or
      *    spaces.
      */
+    @Override
     String getShortName() {
         if (shortN == null) {
             String fullname = tr.getTestName();
@@ -110,6 +121,7 @@ public class TT_TestNode extends TT_TreeNode {
      * @return Null if the node is the root, else a forward slash separated
      *      path.
      */
+    @Override
     String getLongPath() {
         if (parent == null) // root
         {

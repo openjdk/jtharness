@@ -139,6 +139,7 @@ public class TestResultCache {
         raf = new RandomAccessFile(cacheFile, "rw");
 
         worker = new Thread() {
+                @Override
                 public void run() {
                     doWorkUntilDone();
                 }
@@ -154,6 +155,7 @@ public class TestResultCache {
         worker.start();
 
         shutdownHandler = new Thread() {
+                @Override
                 public void run() {
                     shutdown();
                 }

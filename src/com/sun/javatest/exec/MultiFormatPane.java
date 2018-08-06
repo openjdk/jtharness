@@ -366,6 +366,7 @@ public class MultiFormatPane extends JPanel implements Printable {
     }
 
 // Print this panel
+    @Override
     public int print (Graphics g, PageFormat pf, int pageIndex) {
 
         int response = NO_SUCH_PAGE;
@@ -431,6 +432,7 @@ public class MultiFormatPane extends JPanel implements Printable {
 // END of printing
 
     private class Listener implements HyperlinkListener {
+        @Override
         public void hyperlinkUpdate(HyperlinkEvent e) {
             HyperlinkEvent.EventType et = e.getEventType();
             if (et == HyperlinkEvent.EventType.ACTIVATED) {
@@ -584,12 +586,15 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
 
     }
 
+    @Override
     public void changeURL(URL url) {}
 
+    @Override
     public void setParent(JScrollPane owner) {
         this.owner = owner;
     }
 
+    @Override
     public int getMode() {
         return MultiFormatPane.TEXT;
     }
@@ -678,6 +683,7 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
         }
     }
 
+    @Override
     public void scrollToReference(String reference) {
         Document d = getDocument();
         if (d instanceof HTMLDocument) {
@@ -781,6 +787,7 @@ class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
         add(btnLoop, gbc);
 
         btnStart.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if(isSampledAudioResource(currURL)) {
                     loadSample(currURL);
@@ -794,12 +801,14 @@ class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
         });
 
         btnStop.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 stopAudio();
             }
         });
 
         btnLoop.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if(isSampledAudioResource(currURL)) {
                     loadSample(currURL);
@@ -818,6 +827,7 @@ class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
         owner.repaint();
     }
 
+    @Override
     public void changeURL(URL url) {
         currURL = url;
 
@@ -830,10 +840,12 @@ class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
 
     }
 
+    @Override
     public void setParent(JScrollPane owner) {
         this.owner = owner;
     }
 
+    @Override
     public int getMode() {
         return MultiFormatPane.AUDIO;
     }
@@ -863,6 +875,7 @@ class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
             clip = (Clip) AudioSystem.getLine(info);
             clip.open(stream);
             clip.addLineListener(new LineListener() {
+               @Override
                public void update(LineEvent e) {
                    if(e.getType() == LineEvent.Type.STOP) {
                        clip.stop();
@@ -936,12 +949,15 @@ class ImagePane extends JLabel implements MultiFormatPane.MediaPane {
         this.owner = owner;
     }
 
+    @Override
     public void changeURL(URL url) {}
 
+    @Override
     public void setParent(JScrollPane owner) {
         this.owner = owner;
     }
 
+    @Override
     public int getMode() {
         return MultiFormatPane.IMAGE;
     }
@@ -995,12 +1011,15 @@ class ErrorFormatPane extends JPanel implements MultiFormatPane.MediaPane {
 
     }
 
+    @Override
     public void changeURL(URL url) {}
 
+    @Override
     public void setParent(JScrollPane owner) {
         this.owner = owner;
     }
 
+    @Override
     public int getMode() {
         return MultiFormatPane.ERROR;
     }

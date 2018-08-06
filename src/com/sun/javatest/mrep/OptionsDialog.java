@@ -53,6 +53,7 @@ class OptionsDialog extends ToolDialog
         this.okListener = okListener;
         this.desktop = desktop;
         setComponentListener(new ComponentAdapter() {
+            @Override
             public void componentHidden(ComponentEvent e) {
                 tool.updateGUI();
             }
@@ -110,10 +111,12 @@ class OptionsDialog extends ToolDialog
     }
 
 
+    @Override
     protected void windowClosingAction(AWTEvent e) {
         cleanUp();
     }
 
+    @Override
     protected void initGUI() {
         setI18NTitle("opts.title");
         JPanel tabs = new JPanel();
@@ -175,6 +178,7 @@ class OptionsDialog extends ToolDialog
             this.cl = cl;
             this.parent = parent;
         }
+        @Override
         public void actionPerformed(ActionEvent e) {
             cl.show(parent, key);
         }
@@ -191,6 +195,7 @@ class OptionsDialog extends ToolDialog
             this.chain = chain;
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (chain != null)
                chain.actionPerformed(e);

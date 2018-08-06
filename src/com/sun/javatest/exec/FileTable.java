@@ -57,6 +57,7 @@ public class FileTable extends JTable {
         addAutoResizeColumn(2, true);
 
         model.addTableModelListener(new TableModelListener() {
+            @Override
             public void tableChanged(TableModelEvent e) {
                 updateWidth();
             }
@@ -150,8 +151,9 @@ public class FileTable extends JTable {
             dir = uif.createIcon("folder");
         }
 
+        @Override
         public Component getTableCellRendererComponent(JTable table, Object value,
-                boolean isSelected, boolean hasFocus, int row, int column) {
+                                                       boolean isSelected, boolean hasFocus, int row, int column) {
 
             setFont(table.getFont());
             setIcon(null);

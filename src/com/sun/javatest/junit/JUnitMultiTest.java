@@ -45,6 +45,7 @@ public abstract class JUnitMultiTest extends MultiTest {
     /**
      * Programmatic entry point.
      */
+    @Override
     public Status run(String[] argv, PrintWriter stdout, PrintWriter stderr) {
         this.log = stderr;
         this.ref = stdout;

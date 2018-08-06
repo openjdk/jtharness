@@ -436,6 +436,7 @@ public class ProviderRegistry {
             urlMap = ht;
         }
 
+        @Override
         public void serviceRequest(httpURL requestURL, PrintWriter out) {
             PageGenerator.generateDocType(out, PageGenerator.HTML32);
             PageGenerator.writeBeginDoc(out);

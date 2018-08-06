@@ -102,6 +102,7 @@ class ExcludeListBrowser extends ToolDialog
 
     }
 
+    @Override
     protected void initGUI() {
         setHelp("exclList.window.csh");
 
@@ -142,6 +143,7 @@ class ExcludeListBrowser extends ToolDialog
         table.setRowSelectionAllowed(true);
         table.setColumnSelectionAllowed(false);
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
             public void valueChanged(ListSelectionEvent e) {
                 showSelectedEntry();
             }
@@ -248,19 +250,23 @@ class ExcludeListBrowser extends ToolDialog
         implements Interview.Observer
     {
         // ComponentListener
+        @Override
         public void componentShown(ComponentEvent e) {
             params.addObserver(this);
             updateContent();
         }
 
+        @Override
         public void componentHidden(ComponentEvent e) {
             params.removeObserver(this);
         }
 
         // Interview.Observer
+        @Override
         public void currentQuestionChanged(Question q) {
         }
 
+        @Override
         public void pathUpdated() {
             updateContent();
         }
@@ -291,6 +297,7 @@ class ExcludeListBrowser extends ToolDialog
             // done by a worker thread, perhaps using the nested List class as
             // a Runnable.
             SortedSet<ExcludeList.Entry> sortedEntries = new TreeSet<>(new Comparator<ExcludeList.Entry>() {
+                    @Override
                     public int compare(ExcludeList.Entry o1, ExcludeList.Entry o2) {
                         String s1 = entryToString(o1);
                         String s2 = entryToString(o2);
@@ -313,27 +320,33 @@ class ExcludeListBrowser extends ToolDialog
             return (index < 0 || index >= entries.length ? null : entries[index]);
         }
 
+        @Override
         public void addTableModelListener(TableModelListener l) {
             // model never changes, so ignore listener
         }
 
+        @Override
         public Class<?> getColumnClass(int columnIndex) {
             // for now, all are strings
             return String.class;
         }
 
+        @Override
         public int getColumnCount() {
             return COLUMN_COUNT;
         }
 
+        @Override
         public String getColumnName(int index) {
             return columnNames[index];
         }
 
+        @Override
         public int getRowCount() {
             return entries.length;
         }
 
+        @Override
         public Object getValueAt(int rowIndex, int colIndex) {
             ExcludeList.Entry e = entries[rowIndex];
             switch (colIndex) {
@@ -356,14 +369,17 @@ class ExcludeListBrowser extends ToolDialog
             throw new IllegalArgumentException();
         }
 
+        @Override
         public boolean isCellEditable(int rowIndex, int colIndex) {
             return false;
         }
 
+        @Override
         public void removeTableModelListener(TableModelListener l) {
             // model never changes, so ignore listener
         }
 
+        @Override
         public void setValueAt(Object aValue, int rowIndex, int colIndex) {
             throw new UnsupportedOperationException();
         }

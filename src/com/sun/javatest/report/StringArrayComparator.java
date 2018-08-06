@@ -29,6 +29,7 @@ package com.sun.javatest.report;
 import java.util.Comparator;
 
 class StringArrayComparator implements Comparator<String[]> {
+    @Override
     public int compare(String[] a, String[] b) {
         for (int i = 0; i < Math.min(a.length, b.length); i++) {
             int c = compare(a[i], b[i]);

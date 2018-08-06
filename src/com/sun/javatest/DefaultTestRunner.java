@@ -42,6 +42,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  */
 public class DefaultTestRunner extends TestRunner
 {
+    @Override
     public synchronized boolean runTests(Iterator<TestDescription> testIter)
         throws InterruptedException
     {
@@ -59,6 +60,7 @@ public class DefaultTestRunner extends TestRunner
                     if (t == null || !activeThreads.contains(t)) {
                         int prio = Math.max(Thread.MIN_PRIORITY, Thread.currentThread().getPriority() - 1);
                         t = new Thread() {
+                                @Override
                                 public void run() {
                                     try {
                                         TestDescription td;

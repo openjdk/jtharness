@@ -80,10 +80,12 @@ public class ConcurrencyInterview
                       maxValue);
         }
 
+        @Override
         protected Question getNext() {
             return qEnd;
         }
 
+        @Override
         public void clear() {
             setValue(1);
         }
@@ -99,6 +101,7 @@ public class ConcurrencyInterview
      * @return an integer representing the desired concurrency for a test run.
      * @see #setConcurrency
      */
+    @Override
     public int getConcurrency() {
         return qConcurrency.getValue();
     }
@@ -108,6 +111,7 @@ public class ConcurrencyInterview
      * @param conc The desired concurrency value.
      * @see #getConcurrency
      */
+    @Override
     public void setConcurrency(int conc) {
         qConcurrency.setValue(conc);
     }

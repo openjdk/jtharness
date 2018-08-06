@@ -97,10 +97,12 @@ public class AgentMonitorTool extends Tool
         add(currAgentsSubpanel, c);
     }
 
+    @Override
     public JMenuBar getMenuBar() {
         return menuBar;
     }
 
+    @Override
     public void save(Map<String, String> m) {
         int port = agentPoolSubpanel.getPort();
         if (port != Integer.MIN_VALUE)
@@ -203,6 +205,7 @@ public class AgentMonitorTool extends Tool
             enableFields();
         }
 
+        @Override
         public void itemStateChanged(ItemEvent e) {
             if (e.getItemSelectable() == listeningCheck) {
                 try {
@@ -262,10 +265,12 @@ public class AgentMonitorTool extends Tool
             }
         }
 
+        @Override
         public void addedToPool(final Connection c) {
             // item must match that used in removedFromAgentPool
             if (!EventQueue.isDispatchThread()) {
                 Runnable cmd = new Runnable() {
+                    @Override
                     public void run() {
                         AgentMonitorTool.AgentPoolSubpanel.this.addedToPool(c);
                     }   // run()
@@ -278,10 +283,12 @@ public class AgentMonitorTool extends Tool
             }
         }
 
+        @Override
         public void removedFromPool(final Connection c) {
             // item must match that used in addedToAgentPool
             if (!EventQueue.isDispatchThread()) {
                 Runnable cmd = new Runnable() {
+                    @Override
                     public void run() {
                         AgentMonitorTool.AgentPoolSubpanel.this.removedFromPool(c);
                     }   // run()
@@ -359,6 +366,7 @@ public class AgentMonitorTool extends Tool
             list.setVisibleRowCount(5);
 
             list.setCellRenderer(new DefaultListCellRenderer() {
+                @Override
                 public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
                     String name = o.toString();
                     return super.getListCellRendererComponent(list, name, index, isSelected, cellHasFocus);
@@ -422,6 +430,7 @@ public class AgentMonitorTool extends Tool
             agentManager.addObserver(this);
         }
 
+        @Override
         public synchronized void valueChanged(ListSelectionEvent ev) {
             Entry e = list.getSelectedValue();
             if (e == null) {
@@ -444,11 +453,13 @@ public class AgentMonitorTool extends Tool
             }
         }
 
+        @Override
         public synchronized void started(final Connection c,
-                     final String tag, final String request, final String executable,
-                     final String[] args, final boolean localizeArgs) {
+                                         final String tag, final String request, final String executable,
+                                         final String[] args, final boolean localizeArgs) {
             if (!EventQueue.isDispatchThread()) {
                 Runnable cmd = new Runnable() {
+                    @Override
                     public void run() {
                         AgentMonitorTool.CurrentAgentsSubpanel.this.started(c, tag, request, executable, args, localizeArgs);
                     }   // run()
@@ -460,9 +471,11 @@ public class AgentMonitorTool extends Tool
                 listData.addElement(new Entry(c, tag, request, executable, args, localizeArgs));
         }
 
+        @Override
         public synchronized void finished(final Connection c, final Status status) {
             if (!EventQueue.isDispatchThread()) {
                 Runnable cmd = new Runnable() {
+                    @Override
                     public void run() {
                         AgentMonitorTool.CurrentAgentsSubpanel.this.finished(c, status);
                     }   // run()
@@ -493,6 +506,7 @@ public class AgentMonitorTool extends Tool
                 this.localizeArgs = localizeArgs;
             }
 
+            @Override
             public String toString() {
                 return uif.getI18NString("tool.entry",
                                          new Object[] {connection.getName(), tag});

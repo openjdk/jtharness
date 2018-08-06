@@ -41,6 +41,7 @@ import javax.swing.JRadioButton;
 
 public class YesNoQuestionRenderer implements QuestionRenderer{
 
+    @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         final YesNoQuestion q = (YesNoQuestion)qq;
         final ActionListener editedListener = listener;
@@ -105,6 +106,7 @@ public class YesNoQuestionRenderer implements QuestionRenderer{
         return result;
     }
 
+    @Override
     public String getInvalidValueMessage(Question q) {
         return null;
     }
@@ -112,6 +114,7 @@ public class YesNoQuestionRenderer implements QuestionRenderer{
     protected ActionListener createActionListener(final YesNoQuestion q,
             final ActionListener editedListener) {
         return new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 q.setValue(e.getActionCommand());
                 fireEditedEvent(e.getSource(), editedListener);

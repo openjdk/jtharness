@@ -117,18 +117,22 @@ class MultiSelectPanel
 
         // --- anonymous class ---
         ComponentListener cl = new ComponentListener() {
+            @Override
             public void componentResized(ComponentEvent e) {
             }
 
+            @Override
             public void componentMoved(ComponentEvent e) {
             }
 
+            @Override
             public void componentShown(ComponentEvent e) {
                 if (needToUpdateGUIWhenShown) {
                     updateGUI();
                     needToUpdateGUIWhenShown = false;
                 }
             }
+            @Override
             public void componentHidden(ComponentEvent e) {
             }
         };
@@ -161,6 +165,7 @@ class MultiSelectPanel
             listModel.addElement(nodes[i]);
     }
 
+    @Override
     protected void finalize() throws Throwable {
         super.finalize();
     }

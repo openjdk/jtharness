@@ -43,6 +43,7 @@ import com.sun.javatest.util.I18NResourceBundle;
 public class AuditCommandManager extends CommandManager
 {
 
+    @Override
     public HelpTree.Node getHelp() {
         String[] cmds = {
             "audit",
@@ -53,6 +54,7 @@ public class AuditCommandManager extends CommandManager
 
     //----------------------------------------------------------------------------
 
+    @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
@@ -95,10 +97,12 @@ public class AuditCommandManager extends CommandManager
             }
         }
 
+        @Override
         public boolean isActionCommand() {
             return true;
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             Parameters p = getConfig(ctx);
 
@@ -126,10 +130,12 @@ public class AuditCommandManager extends CommandManager
             super(getName());
         }
 
+        @Override
         public int getDesktopMode() {
             return DESKTOP_REQUIRED_DTMODE;
         }
 
+        @Override
         public void run(CommandContext ctx) {
             Desktop d = ctx.getDesktop();
             AuditToolManager tm = (AuditToolManager) (d.getToolManager(AuditToolManager.class));

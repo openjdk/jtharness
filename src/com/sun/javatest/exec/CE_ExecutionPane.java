@@ -54,6 +54,7 @@ class CE_ExecutionPane extends CE_StdPane
         initGUI();
     }
 
+    @Override
     boolean isOKToClose() {
         if (mutableConcurrencyParameters == null && mutableTimeoutFactorParameters == null)
             return true;
@@ -136,6 +137,7 @@ class CE_ExecutionPane extends CE_StdPane
     }
 
 
+    @Override
     void load() {
         updateConfig();
 
@@ -168,6 +170,7 @@ class CE_ExecutionPane extends CE_StdPane
 
     }
 
+    @Override
     void save() {
         if (mutableConcurrencyParameters != null) {
             int c = getInt(concurrencyField.getText(), 1);

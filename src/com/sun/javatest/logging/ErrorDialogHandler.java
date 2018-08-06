@@ -54,6 +54,7 @@ public class ErrorDialogHandler extends StreamHandler {
         super.setLevel(Level.CONFIG);
     }
 
+    @Override
     public synchronized void publish(LogRecord record) {
         StringBuffer args = new StringBuffer(record.getMessage());
 
@@ -81,6 +82,7 @@ public class ErrorDialogHandler extends StreamHandler {
     private void showError(String text, String[] args, String[] trace) {
         String title = i18n.getString("logger.dialog.error");
         ActionListener al = new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     Component c = (Component) (e.getSource());
                     JOptionPane op = (JOptionPane) SwingUtilities.getAncestorOfClass(JOptionPane.class, c);

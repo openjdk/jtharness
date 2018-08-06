@@ -70,18 +70,22 @@ class Icon extends Component {
 
     // --- Component methods ----------------------------------------------------
 
+    @Override
     public Dimension getMinimumSize() {
         return getPreferredSize();
     }
 
+    @Override
     public Dimension getPreferredSize() {
         return imageSize;
     }
 
+    @Override
     public Dimension getMaximumSize() {
         return getPreferredSize();
     }
 
+    @Override
     public void paint(Graphics g) {
         if (image != null) {
             Dimension size = getSize();

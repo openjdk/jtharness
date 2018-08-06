@@ -142,6 +142,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     /**
      * Returns the session object under control
      */
+    @Override
     public Session getSession() {
         return session;
     }
@@ -149,6 +150,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     /**
      * Returns the panel reflecting the current state of the session
      */
+    @Override
     public JComponent getViewComponent() {
         if (sessionView == null) {
             sessionView = createSessionView();
@@ -166,10 +168,12 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         };
     }
 
+    @Override
     public List<Action> getToolBarActionList() {
         return Arrays.asList(getToolBarActions());
     }
 
+    @Override
     public void save(Map<String, String> m) {
         if (testSuite != null && testSuite.getRoot() != null)
             m.put("testSuite", testSuite.getRoot().getPath());
@@ -178,6 +182,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         session.save(m);
     }
 
+    @Override
     public void restore(Map<String, String> m) {
         try {
             session.restore(m);
@@ -189,6 +194,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         }
     }
 
+    @Override
     public void dispose() {
         session.dispose();
         if (interviewEditor != null) {
@@ -249,6 +255,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     /**
      * Invoked when runTestHandler is going to start test execution
      */
+    @Override
     public void startTests(Parameters p) {
         if (getNeedToAutoCheckExcludeList(p)) {
             checkExcludeListUpdate(parent, false, p);
@@ -258,6 +265,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     /**
      * Invoked when runTestHandler completed test execution
      */
+    @Override
     public void finishTests(Parameters p) {
     }
 
@@ -290,6 +298,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         }
 
         showConfigEditor(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e2) {
                 // configuration has been completed: post a message to remind
                 // user that tests will now be run
@@ -454,6 +463,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     }
 
 
+    @Override
     public JMenu getMenu() {
         JMenu menu = uif.createMenu("ch");
         // I hope some day workdir action will become a part
@@ -533,6 +543,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             interviewEditor.setContextManager(cm);
         }
         interviewEditor.setCheckExcludeListListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     Object src = e.getSource();
                     JComponent p = (src instanceof JComponent ? (JComponent) src : parent);
@@ -587,6 +598,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
      * Causes configuration editor to appear. If workdir is not set,
      * suggests to create one first.
      */
+    @Override
     public void edit() {
         if (session.getWorkDirectory() == null) {
             createWD();
@@ -603,6 +615,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
      * If work directory is not set - suggests creating or opening one<br>
      * Opens configuration editor.
      */
+    @Override
     public void configure() {
         doConfig = true;
         try {
@@ -627,12 +640,14 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     /**
      * @return true if configure() method is running or configuration is editing.
      */
+    @Override
     public boolean isConfiguring() {
         return doConfig || isEditorVisible();
     }
 
     protected void showWorkDirDialog() {
         ActionListener optionListener = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 Component c = (Component) (e.getSource());
                 JOptionPane op = (JOptionPane) SwingUtilities.getAncestorOfClass(JOptionPane.class, c);
@@ -753,6 +768,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     protected void initActions() {
         loadConfigAction = new ToolAction(uif, "ch.load") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (session.getWorkDirectory() == null) {
                     showWorkDirDialog();
@@ -762,6 +778,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         };
 
         newConfigAction = new ToolAction(uif, "ch.new") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (session.getWorkDirectory() == null) {
                     showWorkDirDialog();
@@ -831,6 +848,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     protected ToolAction createNewWorkDirAction() {
         return new ToolAction(uif, "ch.newWorkDir") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 boolean editConfig = createWD();
                 if (editConfig) {
@@ -850,6 +868,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     protected ToolAction createSetWorkDirAction() {
         return new ToolAction(uif, "ch.setWorkDir") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 boolean editConfig = setWD();
                 if (editConfig) {
@@ -868,6 +887,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     protected void initHistoryListeners() {
         configHistoryListener = new FileHistory.Listener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     JMenuItem mi = (JMenuItem) (e.getSource());
                     File f = (File) (mi.getClientProperty(FileHistory.FILE));
@@ -888,6 +908,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         return new SessionView(session);
     }
 
+    @Override
     public void updateGUI() {
 
         Parameters params = session.getParameters();
@@ -972,6 +993,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
      * Invoked when current session has changed from InterviewEditor
      * @param p
      */
+    @Override
     public void changed(InterviewParameters p) {
         try {
             session.update(new BasicSession.U_NewConfig(p));
@@ -987,6 +1009,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
      * Implementations call updateGUI() to enable/disable actions.
      * @param isVisible - true or false
      */
+    @Override
     public void changedVisibility(boolean isVisible, InterviewEditor editor) {
         updateGUI();
         session.notifyObservers(new E_EditorVisibility(isVisible, editor));
@@ -1090,6 +1113,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         }
     }
 
+    @Override
     public void updated(Event ev) {
         if (ev instanceof BasicSession.E_NewWD) {
             E_NewWD e_WD = (BasicSession.E_NewWD)ev;
@@ -1229,6 +1253,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
         }
 
+        @Override
         public void updated(Event ev) {
             boolean wdReady = session.getParameters().getWorkDirectory() != null;
             updateWD(wd_f, wdReady);
@@ -1275,6 +1300,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         }
 
         // ---------- from MenuListener -----------
+        @Override
         public void menuSelected(MenuEvent e) {
             Parameters c = session.getParameters(); // alias, to save typing
             if (c == null) // if null, should not even be enabled
@@ -1299,9 +1325,11 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             mi.setVisible(o != null && c.isAssignableFrom(o.getClass()));
         }
 
+        @Override
         public void menuDeselected(MenuEvent e) {
         }
 
+        @Override
         public void menuCanceled(MenuEvent e) {
         }
 /*
@@ -1342,6 +1370,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             this.mode = mode;
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (!isEnabled())
                 return;

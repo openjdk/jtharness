@@ -79,6 +79,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
      *             arg is unrecognized: in that case, an implementation should
      *             delegate the call to the supertype.
      */
+    @Override
     protected void decodeAllArgs(String[] args) throws Fault {
         super.decodeAllArgs(args);
 
@@ -101,6 +102,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
      * Scan a file, looking for test descriptions and/or more files to scan.
      * @param file The file to scan
      */
+    @Override
     public void scan(File file) {
         currFile = file;
         if (file.isDirectory())
@@ -280,6 +282,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
             this.outer = outer;
         }
 
+        @Override
         public void visit(int version, int access, String name, String signature,
                           String superName, String[] interfaces) {
             if (verbose)
@@ -296,6 +299,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
          * use foundTestMethod(String) to register any test methods which you
          * find.
          */
+        @Override
         public MethodVisitor visitMethod(int access, String name, String desc,
                                          String signature, String[] exceptions) {
             if (access == Opcodes.ACC_PUBLIC) {
@@ -321,6 +325,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
             return thisSupername.replaceAll("/", ".");
         }
 
+        @Override
         public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
             thisSupername = superName;
         }

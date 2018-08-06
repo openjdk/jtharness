@@ -36,6 +36,7 @@ class BadChecksumPane extends ListPane {
         ContextHelpManager.setHelpIDString(this, "audit.badChecksumTab.csh");
     }
 
+    @Override
     void show(Audit audit) {
         if (audit == currAudit)
             showBody();

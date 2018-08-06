@@ -268,6 +268,7 @@ public class Wizard extends JComponent {
 
         if (!EventQueue.isDispatchThread()) {
             EventQueue.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     showInFrame(exitOnClose);
                 }
@@ -289,12 +290,14 @@ public class Wizard extends JComponent {
 
         f.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         f.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 if (interview.isEdited() && !okToContinue())
                     return;
                 e.getWindow().dispose();
             }
 
+            @Override
             public void windowClosed(WindowEvent e) {
                 if (exitOnClose)
                     System.exit(0);
@@ -325,6 +328,7 @@ public class Wizard extends JComponent {
 
         if (!EventQueue.isDispatchThread()) {
             EventQueue.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     showInDialog(parent, okListener);
                 }
@@ -348,11 +352,13 @@ public class Wizard extends JComponent {
 
         d.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         d.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 if (!interview.isEdited() || okToContinue())
                     e.getWindow().dispose();
             }
 
+            @Override
             public void windowClosed(WindowEvent e) {
             }
         });
@@ -370,6 +376,7 @@ public class Wizard extends JComponent {
      * @return true if the wizard is currently being displayed,
      * and false otherwise.
      */
+    @Override
     public boolean isShowing() {
         return (window != null && window.isShowing());
     }
@@ -906,6 +913,7 @@ public class Wizard extends JComponent {
 
     private JToggleButton createToggle(String uiKey, String actionCommand, ActionListener l) {
         JToggleButton b = new JToggleButton(createIcon(uiKey)) {
+            @Override
             public Insets getInsets() {
                 return (nextBtn == null ? super.getInsets() : nextBtn.getInsets()); // !!
             }
@@ -943,6 +951,7 @@ public class Wizard extends JComponent {
     }
 
     private ActionListener performer = new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent e) {
             perform(e.getActionCommand());
         }
@@ -1022,6 +1031,7 @@ public class Wizard extends JComponent {
             this.description = description;
         }
 
+        @Override
         public boolean accept(File f) {
             if (f.isDirectory())
                 return true;
@@ -1031,6 +1041,7 @@ public class Wizard extends JComponent {
             return false;
         }
 
+        @Override
         public String getDescription() {
             if (description == null) {
                 StringBuffer sb = new StringBuffer("wizard.extn");
@@ -1064,6 +1075,7 @@ public class Wizard extends JComponent {
             getPopupMenu().addPopupMenuListener(this);
         }
 
+        @Override
         public void actionPerformed(ActionEvent ev) {
             questionPanel.saveCurrentResponse();
             JMenuItem mi = (JMenuItem)(ev.getSource());
@@ -1071,12 +1083,15 @@ public class Wizard extends JComponent {
             export(e);
         }
 
+        @Override
         public void popupMenuCanceled(PopupMenuEvent e) {
         }
 
+        @Override
         public void popupMenuWillBecomeInvisible(PopupMenuEvent ev) {
         }
 
+        @Override
         public void popupMenuWillBecomeVisible(PopupMenuEvent ev) {
             JPopupMenu m = (JPopupMenu)(ev.getSource());
             for (int i = 0; i < m.getComponentCount(); i++) {
@@ -1136,24 +1151,29 @@ public class Wizard extends JComponent {
     {
         // ---------- from AncestorListener -----------
 
+        @Override
         public void ancestorAdded(AncestorEvent e) {
             interview.addObserver(this);
             pathUpdated();
             currentQuestionChanged(interview.getCurrentQuestion());
         }
 
+        @Override
         public void ancestorMoved(AncestorEvent e) { }
 
+        @Override
         public void ancestorRemoved(AncestorEvent e) {
             interview.removeObserver(this);
         }
 
         //----- from Interview.Observer -----------
 
+        @Override
         public void pathUpdated() {
             okBtn.setEnabled(interview.isFinishable());
         }
 
+        @Override
         public void currentQuestionChanged(Question q) {
             backBtn.setEnabled(!interview.isFirst(q));
             nextBtn.setEnabled(!interview.isLast(q));

@@ -157,6 +157,7 @@ class FilterSelectionHandler {
         filterMenuTable = new OrderedTwoWayTable();
 
         Action showEditorAction = new ToolAction(uif, "fconfig.submenu.edit") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 filterConfig.showEditorDialog(getActiveFilter());
             }
@@ -361,6 +362,7 @@ class FilterSelectionHandler {
     private static boolean debug = Debug.getBoolean(FilterConfig.class);
 
     class Listener implements ActionListener, FilterConfig.Observer {
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object source = e.getSource();
             if (source == selectBox) {
@@ -394,6 +396,7 @@ class FilterSelectionHandler {
             }
         }
 
+        @Override
         public void filterUpdated(TestFilter f) {
             if (obs == null)    // this really should not happen
                 return;
@@ -404,6 +407,7 @@ class FilterSelectionHandler {
             }
         }
 
+        @Override
         public void filterAdded(TestFilter f) {
             // add to the list box
             if (selectBox != null)
@@ -421,6 +425,7 @@ class FilterSelectionHandler {
        /**
         * Removing the active filter will result in an exception.
         */
+        @Override
         public void filterRemoved(TestFilter f) {
             // remove from list box
             if (selectBox != null)

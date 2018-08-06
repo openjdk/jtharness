@@ -86,6 +86,7 @@ class EnvironmentBrowser extends ToolDialog
         envTableModel.setEnvironment(env);
     }
 
+    @Override
     protected void initGUI() {
         setHelp("env.window.csh");
 
@@ -99,6 +100,7 @@ class EnvironmentBrowser extends ToolDialog
         table.setPreferredScrollableViewportSize(new Dimension(100, 100));
         table.setCellSelectionEnabled(true);
         table.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent e) {
                 Object src = e.getSource();
                 if (src instanceof JTableHeader) {
@@ -165,16 +167,19 @@ class EnvironmentBrowser extends ToolDialog
         implements ListSelectionListener, Interview.Observer
     {
         // ComponentListener
+        @Override
         public void componentShown(ComponentEvent e) {
             params.addObserver(listener);
             updateContent();
         }
 
+        @Override
         public void componentHidden(ComponentEvent e) {
             params.removeObserver(listener);
         }
 
         // ListSelectionListener
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             //System.err.println(e);
             int r = table.getSelectedRow();
@@ -197,9 +202,11 @@ class EnvironmentBrowser extends ToolDialog
         }
 
         // Interview.Observer
+        @Override
         public void currentQuestionChanged(Question q) {
         }
 
+        @Override
         public void pathUpdated() {
             updateContent();
         }
@@ -215,6 +222,7 @@ class EnvironmentBrowser extends ToolDialog
             this.inherits = inherits;
         }
 
+        @Override
         public int compare(TestEnvironment.Element e1, TestEnvironment.Element e2) {
             // the following should be a switch statement, but JDK
             // 1.1.7 can't compile it: doesn't recognize KEY etc as
@@ -307,24 +315,29 @@ class EnvironmentBrowser extends ToolDialog
         private void update() {
         }
 
+        @Override
         public synchronized int getRowCount() {
             return (elems == null ? 0 : elems.length);
         }
 
+        @Override
         public int getColumnCount() {
             // might be nice to make this more dynamic ...
             // have "defined in env" and "defined in file" be dynamic, specified on View menu
             return 4; // key, value, defined_in_env, defined_in_file
         }
 
+        @Override
         public String getColumnName(int columnIndex) {
             return headings[columnIndex];
         }
 
+        @Override
         public Class<?> getColumnClass(int columnIndex) {
             return String.class;
         }
 
+        @Override
         public synchronized Object getValueAt(int rowIndex, int columnIndex) {
             if (rowIndex < 0 || rowIndex >= getRowCount()
                 || columnIndex < 0 || columnIndex >= getColumnCount())

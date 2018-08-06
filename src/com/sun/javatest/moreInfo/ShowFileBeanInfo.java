@@ -40,6 +40,7 @@ public class ShowFileBeanInfo extends SimpleBeanInfo
      * @return property descriptors for properties of ShowFile objects
      * @see ShowFile
      */
+    @Override
     public PropertyDescriptor[] getPropertyDescriptors() {
         try {
             PropertyDescriptor[] pds = {

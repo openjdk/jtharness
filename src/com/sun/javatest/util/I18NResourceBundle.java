@@ -117,6 +117,7 @@ public class I18NResourceBundle extends ResourceBundle
             if (delegate == null) {
                 delegate = AccessController.doPrivileged(
                         new PrivilegedAction<ResourceBundle>() {
+                            @Override
                             public ResourceBundle run() {
                                 return ResourceLoader.getBundle(name, Locale.getDefault(), classLoader);
                             }
@@ -126,6 +127,7 @@ public class I18NResourceBundle extends ResourceBundle
         } catch (MissingResourceException e) {
             ResourceBundle bundle = AccessController.doPrivileged(
                     new PrivilegedAction<ResourceBundle>() {
+                        @Override
                         public ResourceBundle run() {
                             return ResourceBundle.getBundle(name, Locale.getDefault(), classLoader);
                         }
@@ -152,6 +154,7 @@ public class I18NResourceBundle extends ResourceBundle
      * If the resource cannot be found, a message is printed to the console
      * and the result will be the original key.
      */
+    @Override
     protected Object handleGetObject(String key) throws MissingResourceException {
         try {
             if (logging) {
@@ -170,10 +173,12 @@ public class I18NResourceBundle extends ResourceBundle
      * Load the actual resource bundle, if it has not yet been loaded,
      * then hand the request off to that bundle.
      */
+    @Override
     public Enumeration<String> getKeys() {
         if (delegate == null) {
             delegate = AccessController.doPrivileged(
                     new PrivilegedAction<ResourceBundle>() {
+                        @Override
                         public ResourceBundle run() {
                             return ResourceLoader.getBundle(name, Locale.getDefault(), classLoader);
                         }
@@ -186,6 +191,7 @@ public class I18NResourceBundle extends ResourceBundle
 
         ResourceBundle bundle = AccessController.doPrivileged(
                 new PrivilegedAction<ResourceBundle>() {
+                    @Override
                     public ResourceBundle run() {
                         return ResourceBundle.getBundle(name, Locale.getDefault(), classLoader);
                     }

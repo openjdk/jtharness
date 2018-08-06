@@ -73,6 +73,7 @@ class TestPanel extends JPanel
 
     // most of the tabs have arbitrary, accommodating sizes,
     // so set a default preferred size here for the panel
+    @Override
     public Dimension getPreferredSize() {
         int dpi = uif.getDotsPerInch();
         return new Dimension(5 * dpi, 4 * dpi);
@@ -118,6 +119,7 @@ class TestPanel extends JPanel
         else {
             if (!updatePending && !needToUpdateGUIWhenShown) {
                 EventQueue.invokeLater(new Runnable() {
+                        @Override
                         public void run() {
                             synchronized (TestPanel.this) {
                                 updateGUIWhenVisible();
@@ -288,6 +290,7 @@ class TestPanel extends JPanel
         tabs.setName("testTabs");
         tabs.setSelectedComponent(outputPanel);
         tabs.addChangeListener(new ChangeListener() {
+            @Override
             public void stateChanged(ChangeEvent e) {
                 Component c = tabs.getSelectedComponent();
                 if (c instanceof TP_Subpanel) {
@@ -310,11 +313,14 @@ class TestPanel extends JPanel
 
         // --- anonymous class ---
         ComponentListener cl = new ComponentListener() {
+            @Override
             public void componentResized(ComponentEvent e) {
             }
 
+            @Override
             public void componentMoved(ComponentEvent e) {
             }
+            @Override
             public void componentShown(ComponentEvent e) {
                 if (needToUpdateGUIWhenShown) {
                     updateGUI();
@@ -323,6 +329,7 @@ class TestPanel extends JPanel
                 //System.err.println("TP: showing");
                 harness.addObserver(observer);
             }
+            @Override
             public void componentHidden(ComponentEvent e) {
                 //System.err.println("TP: hidden");
                 harness.removeObserver(observer);
@@ -340,6 +347,7 @@ class TestPanel extends JPanel
         private CustomTestResultViewer[] cv;
         private int pos, offset;
 
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             Boolean state = (Boolean) evt.getNewValue();
             if (state.booleanValue()) {
@@ -394,9 +402,11 @@ class TestPanel extends JPanel
 
     private class Observer implements Harness.Observer, TestResult.Observer {
             // ---------- Harness.Observer ----------
+        @Override
         public void startingTestRun(Parameters params) {
         }
 
+        @Override
         public void startingTest(TestResult tr) {
         //System.err.println("TP$Observer.starting: " + tr);
             try {
@@ -411,6 +421,7 @@ class TestPanel extends JPanel
             }
         }
 
+        @Override
         public void finishedTest(TestResult tr) {
             //System.err.println("TP$Observer.finished: " + tr);
             if (tr == currTest) {
@@ -419,38 +430,49 @@ class TestPanel extends JPanel
             }
         }
 
+        @Override
         public void stoppingTestRun() {
         }
 
+        @Override
         public void finishedTesting() {
         }
 
+        @Override
         public void finishedTestRun(boolean allOK) {
         }
 
+        @Override
         public void error(String msg) {
         }
 
         // ----- TestResult.Observer interface -----
+        @Override
         public void completed(TestResult tr) {
             tr.removeObserver(this);
             updateStatus();
         }
 
+        @Override
         public void createdSection(TestResult tr, TestResult.Section section) { }
 
+        @Override
         public void completedSection(TestResult tr, TestResult.Section section) { }
 
+        @Override
         public void createdOutput(TestResult tr, TestResult.Section section,
-                      String outputName) { }
+                                  String outputName) { }
 
+        @Override
         public void completedOutput(TestResult tr, TestResult.Section section,
-                        String outputName) { }
+                                    String outputName) { }
 
+        @Override
         public void updatedOutput(TestResult tr, TestResult.Section section,
-                      String outputName,
-                      int start, int end, String text) { }
+                                  String outputName,
+                                  int start, int end, String text) { }
 
+        @Override
         public void updatedProperty(TestResult tr, String name, String value) { }
     }
 

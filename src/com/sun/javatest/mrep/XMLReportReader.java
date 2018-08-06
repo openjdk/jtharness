@@ -111,8 +111,9 @@ class XMLReportReader {
 
         private long time = 0;
 
+        @Override
         public void startElement(String namespaceUri, String localName,
-                String qualifiedName, Attributes attributes)
+                                 String qualifiedName, Attributes attributes)
                 throws SAXException {
             if (qualifiedName.equals(Scheme.TR)) {
                 String url = attributes.getValue(Scheme.TR_URL);

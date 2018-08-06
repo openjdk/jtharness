@@ -104,6 +104,7 @@ public abstract class NullQuestion extends Question
      * back to its initial state. Since this question has no response,
      * there is no value, and so no action is performed.
      */
+    @Override
     public void clear() {
     }
 
@@ -112,6 +113,7 @@ public abstract class NullQuestion extends Question
      * returns null.
      * @return null
      */
+    @Override
     public String getStringValue() {
         return null;
     }
@@ -122,6 +124,7 @@ public abstract class NullQuestion extends Question
      * appropriate and an exception is always thrown.
      * @throws UnsupportedOperationException always
      */
+    @Override
     public void setValue(String ignore) {
         throw new UnsupportedOperationException();
     }
@@ -131,6 +134,7 @@ public abstract class NullQuestion extends Question
      * returns true.
      * @return true
      */
+    @Override
     public boolean isValueValid() {
         return true;
     }
@@ -141,6 +145,7 @@ public abstract class NullQuestion extends Question
      * returns true.
      * @return true
      */
+    @Override
     public boolean isValueAlwaysValid() {
         return true;
     }
@@ -150,6 +155,7 @@ public abstract class NullQuestion extends Question
      * the tag as the key.
      * @param data ignored
      */
+    @Override
     protected void load(Map<String, String> data) {
     }
 
@@ -158,6 +164,7 @@ public abstract class NullQuestion extends Question
      * the tag as the key. Since there is no value, this method is a no-op.
      * @param data ignored
      */
+    @Override
     protected void save(Map<String, String> data) {
     }
 

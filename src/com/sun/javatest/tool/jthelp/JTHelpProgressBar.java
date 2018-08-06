@@ -62,10 +62,12 @@ public class JTHelpProgressBar extends Component implements PropertyChangeListen
         сontentPane.add(panel, BorderLayout.PAGE_START);
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if ("progress".equals(evt.getPropertyName())) {
             final int progress = (Integer) evt.getNewValue();
             SwingUtilities.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     progressBar.setValue(progress);
                 }
@@ -73,6 +75,7 @@ public class JTHelpProgressBar extends Component implements PropertyChangeListen
         }
         if (SwingWorker.StateValue.DONE == evt.getNewValue()) {
             SwingUtilities.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     frame.dispose();
                 }

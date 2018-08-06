@@ -80,6 +80,7 @@ public abstract class TT_TreeNode implements TreeNode {
 
     abstract boolean isRoot();
 
+    @Override
     public String toString() {
         return getShortName();
     }

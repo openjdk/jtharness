@@ -86,6 +86,7 @@ class TestTree extends JTree {
         repaint();
     }
 
+    @Override
     public void setModel(TreeModel newModel) {
         super.setModel(newModel);
         newModel.addTreeModelListener(watcher);
@@ -201,6 +202,7 @@ class TestTree extends JTree {
 
             if (!EventQueue.isDispatchThread() || queue) {
                 EventQueue.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         restorePaths(paths);
                     }
@@ -241,6 +243,7 @@ class TestTree extends JTree {
 
     private class EventWatcher implements TreeModelListener, FilterSelectionHandler.Observer {
         // TreeModelListener - on event thread
+        @Override
         public void treeNodesChanged(TreeModelEvent e) {
             // NOTE: cannot get selected item from tree because if it has
             // been replaced already, there may be nothing selected
@@ -264,6 +267,7 @@ class TestTree extends JTree {
             repaint();
         }
 
+        @Override
         public void treeNodesInserted(TreeModelEvent e) {
             // NOTE: cannot get selected item from tree because if it has
             // been replaced already, there may be nothing selected
@@ -285,11 +289,13 @@ class TestTree extends JTree {
                 }
         }
 
+        @Override
         public void treeNodesRemoved(TreeModelEvent e) {
             // XXX need to handle case when shown node is removed
             // select root in that case?
         }
 
+        @Override
         public void treeStructureChanged(TreeModelEvent e) {
             TreePath[] tp = snapshotOpenPaths();
 
@@ -304,18 +310,22 @@ class TestTree extends JTree {
         }
 
         // FilterConfig.Observer - may not be on event thread
+        @Override
         public void filterUpdated(TestFilter f) {
             updateGUI();
         }
 
+        @Override
         public void filterSelected(TestFilter f) {
             updateGUI();
         }
 
+        @Override
         public void filterAdded(TestFilter f) {
             // don't care
         }
 
+        @Override
         public void filterRemoved(TestFilter f) {
             // don't care
         }

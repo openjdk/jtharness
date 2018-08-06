@@ -63,6 +63,7 @@ public abstract class JUnitTestFinder extends TestFinder {
      *             arg is unrecognized: in that case, an implementation should
      *             delegate the call to the supertype.
      */
+    @Override
     protected void decodeAllArgs(String[] args) throws Fault {
         // supports selection of two modes -
         // 1 - scan for .java files, use to locate .class file

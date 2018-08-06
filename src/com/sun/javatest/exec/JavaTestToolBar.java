@@ -103,6 +103,7 @@ public class JavaTestToolBar extends JToolBar {
      * getId().tb.name from the resource bundle.
      * @return the short for the tool bar.
      **/
+    @Override
     public String getName() {
         return theBundle.getString(getId() + ".tb.name" );
     }
@@ -119,6 +120,7 @@ public class JavaTestToolBar extends JToolBar {
      * Shows or hides this component depending on the value of parameter visible.
      * visible - true to make the component visible; false to make it invisible
      **/
+    @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
         saveVisibleState(visible);
@@ -186,18 +188,21 @@ public class JavaTestToolBar extends JToolBar {
             super(BevelBorder.RAISED);
         }
 
+        @Override
         public Insets getBorderInsets(Component c)       {
             return new Insets(2, 2, 2, lIn );
         }
 
+        @Override
         public Insets getBorderInsets(Component c, Insets insets) {
             insets.right = lIn;
             insets.top = insets.left = insets.bottom = 2;
             return insets;
         }
 
+        @Override
         protected void paintRaisedBevel(Component c, Graphics g, int x, int y,
-                int width, int height)  {
+                                        int width, int height)  {
             int gap = 4;
             int hlen=12;
 

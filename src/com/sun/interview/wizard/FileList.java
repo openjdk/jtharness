@@ -93,6 +93,7 @@ public class FileList extends EditableList
         return (File[]) (getItems(File.class));
     }
 
+    @Override
     protected Object getNewItem() {
         chooser.setDialogTitle(i18n.getString("flst.addFile.title"));
         int opt = chooser.showDialog(FileList.this, i18n.getString("flst.addFile.ok"));
@@ -102,6 +103,7 @@ public class FileList extends EditableList
             return null;
     }
 
+    @Override
     protected Object getNewItem(Object oldItem) {
         File f = (File) oldItem;
         if (!f.isAbsolute() && baseDir != null)

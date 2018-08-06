@@ -40,6 +40,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  */
 public class DesktopManager extends CommandManager
 {
+    @Override
     public HelpTree.Node getHelp() {
         String[] cmds = {"cleanDesktop", "newDesktop", "resume", "laf"};
         return new HelpTree.Node(i18n, "dt.opts", cmds);
@@ -68,6 +69,7 @@ public class DesktopManager extends CommandManager
 
     //----------------------------------------------------------------------------
 
+    @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
@@ -95,6 +97,7 @@ public class DesktopManager extends CommandManager
             super("newDesktop");
         }
 
+        @Override
         public void run(CommandContext ctx) {
         }
     }
@@ -105,6 +108,7 @@ public class DesktopManager extends CommandManager
             super("resume");
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
         }
     }

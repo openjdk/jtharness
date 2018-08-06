@@ -129,28 +129,34 @@ public class TreeSelectionPane extends JComponent implements Accessible
             this.object = object;
         }
 
+        @Override
         public SelectionType getSelectionType() {
             return type;
         }
 
+        @Override
         public void setSelectionType(SelectionType selectionType) {
             if (!type.equals(selectionType)) {
                     type = selectionType;
             }
         }
 
+        @Override
         public String getDisplayableName() {
             return getName();
         }
 
+        @Override
         public String getToolTip() {
             return null;
         }
 
+        @Override
         public boolean isToolTipAlwaysShown() {
             return false;
         }
 
+        @Override
         public List<SelectionElement> getChildren() {
             if (children == null) {
                 initChildren();
@@ -182,6 +188,7 @@ public class TreeSelectionPane extends JComponent implements Accessible
      * Get the accessible context for this pane.
      * @return the accessible context for this pane
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null)
             accessibleContext = new AccessibleJComponent() { };
@@ -227,6 +234,7 @@ public class TreeSelectionPane extends JComponent implements Accessible
         tree.setSelection(null);
     }
 
+    @Override
     public void setEnabled(boolean b) {
         super.setEnabled(b);
         // propogate enabled-ness onto tree

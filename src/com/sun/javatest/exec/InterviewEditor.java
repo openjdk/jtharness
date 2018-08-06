@@ -641,6 +641,7 @@ public class InterviewEditor extends ToolDialog {
         close(true);
     }
 
+    @Override
     protected void windowClosingAction(AWTEvent e) {
         if (!canInterruptTemplateCreation()) {
             uif.showError("ce.force_close");
@@ -865,6 +866,7 @@ public class InterviewEditor extends ToolDialog {
         super.dispose();
     }
 
+    @Override
     protected void initGUI() {
         setHelp("confEdit.window.csh");
         listener = new Listener();
@@ -1601,6 +1603,7 @@ public class InterviewEditor extends ToolDialog {
     {
         // ---------- from ActionListener -----------
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
             if (src instanceof JMenuItem) {
@@ -1616,6 +1619,7 @@ public class InterviewEditor extends ToolDialog {
 
         // ---------- from ChangeListener -----------
 
+        @Override
         public void stateChanged(ChangeEvent e) {
             Object src = e.getSource();
             if (src == viewInfoCheckBox && infoPanel != null)
@@ -1626,15 +1630,18 @@ public class InterviewEditor extends ToolDialog {
 
         // ---------- from MenuListener -----------
 
+        @Override
         public void menuSelected(MenuEvent e) {
             Object src = e.getSource();
             if (src == viewMenu)
                 viewTagCheckBox.setSelected(fullView.isTagVisible());
         }
 
+        @Override
         public void menuDeselected(MenuEvent e) {
         }
 
+        @Override
         public void menuCanceled(MenuEvent e) {
         }
 

@@ -69,6 +69,7 @@ public class SimpleInterviewParameters
         }
     }
 
+    @Override
     public TestEnvironment getEnv() {
         Map<String, String> envProps = new HashMap<>();
         export(envProps);
@@ -83,10 +84,12 @@ public class SimpleInterviewParameters
         }
     }
 
+    @Override
     public EnvParameters getEnvParameters() {
         return this;
     }
 
+    @Override
     public Question getEnvFirstQuestion() {
         switch (mode) {
         case PRECOMPILE:
@@ -103,10 +106,12 @@ public class SimpleInterviewParameters
     // Precompile mode
 
     private Question qPrecompile = new NullQuestion(this, "precompile") {
+            @Override
             public Question getNext() {
                 return qEnvEnd;
             }
 
+            @Override
             public void export(Map<String, String> data) {
                 data.put("script.mode", "precompile");
                 data.put("command.compile.java", System.getProperty("command.compile.java"));
@@ -118,10 +123,12 @@ public class SimpleInterviewParameters
     // Developer mode
 
     private Question qDeveloper = new NullQuestion(this, "developer") {
+            @Override
             public Question getNext() {
                 return qName;
             }
 
+            @Override
             public void export(Map<String, String> data) {
                 data.put("script.mode", "developer");
                 data.put("command.compile.java", System.getProperty("command.compile.java"));
@@ -133,6 +140,7 @@ public class SimpleInterviewParameters
     // Give a name for this configuration
 
     private StringQuestion qName = new StringQuestion(this, "name") {
+            @Override
             public Question getNext() {
                 if (value == null || value.length() == 0)
                     return null;
@@ -146,6 +154,7 @@ public class SimpleInterviewParameters
     // Give a description for this configuration
 
     private Question qDesc = new StringQuestion(this, "desc") {
+            @Override
             public Question getNext() {
                 if (value == null || value.length() == 0)
                     return null;
@@ -153,6 +162,7 @@ public class SimpleInterviewParameters
                     return qCmdType;
             }
 
+            @Override
             public void export(Map<String, String> data) {
                 data.put("description", String.valueOf(value));
             }
@@ -172,6 +182,7 @@ public class SimpleInterviewParameters
                 setChoices(new String[] { null, OTHER_VM, AGENT }, true);
             }
 
+            @Override
             public Question getNext() {
                 if (value == null || value.length() == 0)
                     return null;
@@ -200,6 +211,7 @@ public class SimpleInterviewParameters
     // What is the path for the JVM you wish to use to execute the tests?
 
     private FileQuestion qJVM = new FileQuestion(this, "jvm") {
+            @Override
             public Question getNext() {
                 if (value == null || value.getPath().length() == 0)
                     return null;
@@ -211,6 +223,7 @@ public class SimpleInterviewParameters
         };
 
     private Question qBadJVM = new ErrorQuestion(this, "badJVM") {
+            @Override
             public Object[] getTextArgs() {
                 return new Object[] { qJVM.getValue().getPath() };
             }
@@ -249,6 +262,7 @@ public class SimpleInterviewParameters
                 setFilters(filters);
             }
 
+            @Override
             public Question getNext() {
                 // check all files valid?
                 return qEnvEnd;
@@ -259,6 +273,7 @@ public class SimpleInterviewParameters
     //----------------------------------------------------------------------
 
     private Question qEnvEnd = new NullQuestion(this, "envEnd") {
+            @Override
             public Question getNext() {
                 return getEnvSuccessorQuestion();
             }

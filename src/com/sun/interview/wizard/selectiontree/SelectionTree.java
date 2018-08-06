@@ -565,6 +565,7 @@ public class SelectionTree extends JTree {
 
         return findNodeByObjectFilter(new SelectionTreeFilter() {
 
+            @Override
             public boolean accept(SelectionElement candidateNodeObject) {
                 return candidateNodeObject == nodeObject;
             }
@@ -992,6 +993,7 @@ public class SelectionTree extends JTree {
                         node.changeSelection();
                         SwingUtilities.invokeLater(new Runnable() {
 
+                            @Override
                             public void run() {
                                 SelectionTree.this.setSelectionPath(treePath);
                             }
@@ -1011,12 +1013,15 @@ public class SelectionTree extends JTree {
             this.actionListener = actionListener;
         }
 
+        @Override
         public void actionPerformed(final ActionEvent e) {
             new Thread(new Runnable() {
 
+                @Override
                 public void run() {
                     SwingUtilities.invokeLater(new Runnable() {
 
+                        @Override
                         public void run() {
                             if (actionListener != null) {
                                 actionListener.actionPerformed(e);

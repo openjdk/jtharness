@@ -84,6 +84,7 @@ abstract class TP_PropertySubpanel
         table.setHead(nameTitle, valueTitle);
     }
 
+    @Override
     protected void updateSubpanel(TestResult currTest) {
         //System.err.println("TP_PS: updateSubpanel");
         super.updateSubpanel(currTest);
@@ -169,16 +170,19 @@ abstract class TP_PropertySubpanel
 
         // JComponent
 
+        @Override
         public void addNotify() {
             super.addNotify();
             configureEnclosingScrollPane();
         }
 
+        @Override
         public void removeNotify() {
             super.removeNotify();
             unconfigureEnclosingScrollPane();
         }
 
+        @Override
         public void revalidate() {
             // real revalidate does not work inside scrollpanes ... sigh
             // so emulate the necessary behavior instead
@@ -190,6 +194,7 @@ abstract class TP_PropertySubpanel
                         //System.err.println("TP_PS.Table: revalidate inScrollPane !valid");
                         invalidate();
                         SwingUtilities.invokeLater(new Runnable() {
+                            @Override
                             public void run() {
                                 //System.err.println("TP_PS.Table: revalidate callback");
                                 synchronized (getTreeLock()) {
@@ -208,25 +213,30 @@ abstract class TP_PropertySubpanel
 
         // ComponentListener
 
+        @Override
         public void componentHidden(ComponentEvent e) {
             //System.err.println("TP_PS.Table: componentHidden");
         }
 
+        @Override
         public void componentMoved(ComponentEvent e) {
             //System.err.println("TP_PS.Table: componentMoved");
         }
 
+        @Override
         public void componentResized(ComponentEvent e) {
             //System.err.println("TP_PS.Table: componentResized " + getSize());
             revalidate();
         }
 
+        @Override
         public void componentShown(ComponentEvent e) {
             //System.err.println("TP_PS.Table: componentShown");
         }
 
         // Layout
 
+        @Override
         public void doLayout() {
             //System.err.println("TP_PS.Table: doLayout");
             synchronized (getTreeLock()) {
@@ -255,6 +265,7 @@ abstract class TP_PropertySubpanel
             }
         }
 
+        @Override
         public Dimension getMinimumSize() {
             //System.err.println("TP_PS.Table: minimumLayoutSize");
             int h = (inScrollPane ? 0 : nameLabel.getPreferredSize().height);
@@ -265,6 +276,7 @@ abstract class TP_PropertySubpanel
             return new Dimension(maxNameStringWidth + 400, h);
         }
 
+        @Override
         public Dimension getPreferredSize() {
             //System.err.println("TP_PS.Table: preferredLayoutSize");
             int h = (inScrollPane ? 0 : nameLabel.getPreferredSize().height);
@@ -277,18 +289,22 @@ abstract class TP_PropertySubpanel
 
         // Scrollable
 
+        @Override
         public Dimension getPreferredScrollableViewportSize() {
             return getPreferredSize();
         }
 
+        @Override
         public boolean getScrollableTracksViewportHeight() {
             return false;
         }
 
+        @Override
         public boolean getScrollableTracksViewportWidth() {
             return true;
         }
 
+        @Override
         public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
             switch(orientation) {
             case SwingConstants.VERTICAL:
@@ -300,6 +316,7 @@ abstract class TP_PropertySubpanel
             }
         }
 
+        @Override
         public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
             switch(orientation) {
             case SwingConstants.VERTICAL:
@@ -404,6 +421,7 @@ abstract class TP_PropertySubpanel
                                      nameLabel.getMinimumSize().height);
             }
 
+            @Override
             public Dimension getPreferredSize() {
                 return new Dimension(Table.this.getPreferredSize().width,
                                      nameLabel.getPreferredSize().height);

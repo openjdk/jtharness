@@ -65,11 +65,13 @@ public class EnvironmentManager extends CommandManager
     }
 
 
+    @Override
     public HelpTree.Node getHelp() {
         String[] opts = { "EsysProps", "EnameVar" };
         return new HelpTree.Node(i18n, "env", opts);
     }
 
+    @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
         throws Command.Fault
     {
@@ -100,6 +102,7 @@ public class EnvironmentManager extends CommandManager
             this.value = value;
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             Map<String, String> m = new HashMap<>(1);  // would be nice to have a singleton map
             m.put(name, value);
@@ -117,6 +120,7 @@ public class EnvironmentManager extends CommandManager
             super("EsysProps");
         }
 
+        @Override
         public void run(CommandContext ctx) throws Fault {
             try {
                 Map<String, String> sysProps;

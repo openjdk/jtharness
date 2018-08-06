@@ -61,6 +61,7 @@ import com.sun.interview.Question;
 public class InetAddressQuestionRenderer
     implements QuestionRenderer
 {
+    @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         q = (InetAddressQuestion) qq;
         int type = q.getType();
@@ -132,6 +133,7 @@ public class InetAddressQuestionRenderer
 
     protected class KeyMapAction extends AbstractAction {
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             JTextField src = (JTextField) (e.getSource());
             JTextField next = (JTextField) (src.getClientProperty("next"));
@@ -183,6 +185,7 @@ public class InetAddressQuestionRenderer
     };
 
     protected class ValueSaver implements Runnable {
+        @Override
         public void run() {
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < 4; i++) {
@@ -236,6 +239,7 @@ public class InetAddressQuestionRenderer
         lookupPane = new LookupPane(type);
 
         lookupBtn.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 JDialog d = lookupPane.createDialog(p, i18n.getString("inet.lookup.title"));
                 d.setVisible(true);
@@ -246,6 +250,7 @@ public class InetAddressQuestionRenderer
         return p;
     }
 
+    @Override
     public String getInvalidValueMessage(Question q) {
         return null;
     }
@@ -327,6 +332,7 @@ public class InetAddressQuestionRenderer
 
         //----- for ActionListener -------------------
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
             if (cmd.equals(LOOKUP)) {
@@ -366,20 +372,24 @@ public class InetAddressQuestionRenderer
 
         //----- for DocumentListener -------------------
 
+        @Override
         public void insertUpdate(DocumentEvent e) {
             changedUpdate(e);
         }
 
+        @Override
         public void removeUpdate(DocumentEvent e) {
             changedUpdate(e);
         }
 
+        @Override
         public void changedUpdate(DocumentEvent e) {
             errorField.setText("");
         }
 
         //----- for ListSelectionListener -----------
 
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             okBtn.setEnabled(list.getSelectedValue() != null);
         }

@@ -105,6 +105,7 @@ public class EditableList extends JComponent implements Accessible
      * Get the accessible context for this pane.
      * @return the accessible context for this pane
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null)
             accessibleContext = new AccessibleJComponent() { };
@@ -116,6 +117,7 @@ public class EditableList extends JComponent implements Accessible
      * @param b if true, the component can be edited by the user;
      *   if false, it cannot
      */
+    @Override
     public void setEnabled(boolean b) {
         super.setEnabled(b);
         list.setEnabled(b);
@@ -170,6 +172,7 @@ public class EditableList extends JComponent implements Accessible
      * @return the tool tip text that appears on the list
      * @see #setToolTipText
      */
+    @Override
     public String getToolTipText() {
         return list.getToolTipText();
     }
@@ -181,6 +184,7 @@ public class EditableList extends JComponent implements Accessible
      * @param tip the tool tip text to appear on the list
      * @see #getToolTipText
      */
+    @Override
     public void setToolTipText(String tip) {
         list.setToolTipText(tip);
     }
@@ -336,6 +340,7 @@ public class EditableList extends JComponent implements Accessible
 
     private class Renderer
         extends DefaultListCellRenderer {
+        @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             return super.getListCellRendererComponent(list,
                                                       getDisplayValue(value),
@@ -349,6 +354,7 @@ public class EditableList extends JComponent implements Accessible
         implements ActionListener, ListDataListener, ListSelectionListener, MouseListener
     {
         // ActionListener events, for buttons
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
             if (src == addBtn)
@@ -364,11 +370,13 @@ public class EditableList extends JComponent implements Accessible
         }
 
         // ListSelect events, to update buttons depending on list selection
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             updateButtons();
         }
 
         // MouseListener, to react to double click in list
+        @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 int index = list.locationToIndex(e.getPoint());
@@ -377,12 +385,17 @@ public class EditableList extends JComponent implements Accessible
             }
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) { }
+        @Override
         public void mouseExited(MouseEvent e) { }
+        @Override
         public void mousePressed(MouseEvent e) { }
+        @Override
         public void mouseReleased(MouseEvent e) { }
 
         // ListData events, to redispatch to client, with EditableList.this as the source
+        @Override
         public void contentsChanged(ListDataEvent e) {
             ListDataEvent e2 = null;
             Object[] listeners = listenerList.getListenerList();
@@ -395,6 +408,7 @@ public class EditableList extends JComponent implements Accessible
             }
         }
 
+        @Override
         public void intervalAdded(ListDataEvent e) {
             ListDataEvent e2 = null;
             Object[] listeners = listenerList.getListenerList();
@@ -407,6 +421,7 @@ public class EditableList extends JComponent implements Accessible
             }
         }
 
+        @Override
         public void intervalRemoved(ListDataEvent e) {
             ListDataEvent e2 = null;
             Object[] listeners = listenerList.getListenerList();

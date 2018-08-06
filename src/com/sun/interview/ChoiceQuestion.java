@@ -280,6 +280,7 @@ public abstract class ChoiceQuestion extends Question
         return getValue();
     }
 
+    @Override
     public String getStringValue() {
         return getValue();
     }
@@ -291,6 +292,7 @@ public abstract class ChoiceQuestion extends Question
      * choices for this question, as distinct from the display choices.
      * @see #getValue
      */
+    @Override
     public void setValue(String newValue) {
         if (choices == null)
             return;
@@ -319,6 +321,7 @@ public abstract class ChoiceQuestion extends Question
         }
     }
 
+    @Override
     public boolean isValueValid() {
         // value is valid if it matches one of the specified choices
         for (String choice : choices) {
@@ -328,6 +331,7 @@ public abstract class ChoiceQuestion extends Question
         return false;
     }
 
+    @Override
     public boolean isValueAlwaysValid() {
         return false;
     }
@@ -336,6 +340,7 @@ public abstract class ChoiceQuestion extends Question
      * Clear any response to this question, resetting the value
      * back to its initial state.
      */
+    @Override
     public void clear() {
         setValue(defaultValue);
     }
@@ -346,6 +351,7 @@ public abstract class ChoiceQuestion extends Question
      * the tag as the key.
      * @param data The map in which to save the value for this question.
      */
+    @Override
     protected void save(Map<String, String> data) {
         if (value != null)
             data.put(tag, value);

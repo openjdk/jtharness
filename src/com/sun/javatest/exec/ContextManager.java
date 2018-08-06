@@ -121,6 +121,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * Get custom report types.
      * @return Null if no custom types are requested.
      */
+    @Override
     public CustomReport[] getCustomReports() {
         return null;
     }
@@ -238,6 +239,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
         // the GUI
         if (EventQueue.isDispatchThread()) {
             Runnable cmd = new Runnable() {
+                @Override
                 public void run() {
                     refreshTestsImpl();
                 }   // run()
@@ -358,6 +360,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * @param file template file
      * @return true if this operation is allowed, false otherwise
      */
+    @Override
     public boolean canSaveTemplate(File file) {
         return true;
     }
@@ -628,6 +631,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * Invoked when session has been changed.
      * @param ev
      */
+    @Override
     public void updated(Event ev) {
         if (ev instanceof BasicSession.E_NewWD) {
             updatedWorkDirectory(((BasicSession.E_NewWD)ev).wd);
@@ -642,6 +646,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * Integer.MAX_VALUE - 100 to be notified after controls, but before
      * ExecTool.
      */
+    @Override
     public int order() {
         return Integer.MAX_VALUE - 100;
     }

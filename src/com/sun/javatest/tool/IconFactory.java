@@ -127,6 +127,7 @@ public class IconFactory
             this.style = style;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (image == null) {
                 image = new BufferedImage(getIconWidth(), getIconHeight(),
@@ -194,7 +195,9 @@ public class IconFactory
         public int getShift() { return 0; }
         public int getAdditionalHeight() { return 0; }
 
+        @Override
         public int getIconWidth() { return folderIcon16Size.width; }
+        @Override
         public int getIconHeight() { return folderIcon16Size.height + getAdditionalHeight(); }
 
         private int style;
@@ -209,12 +212,15 @@ public class IconFactory
             super(style);
         }
 
+        @Override
         public int getShift() { return -1; }
+        @Override
         public int getAdditionalHeight() { return 2; }
     }
 
     // File Chooser Up Folder code
     private static class UpFolderIcon16 implements Icon {
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             g.translate(x, y);
 
@@ -251,10 +257,12 @@ public class IconFactory
             g.translate(-x, -y);
         }
 
+        @Override
         public int getIconWidth() {
             return 18;
         }
 
+        @Override
         public int getIconHeight() {
             return 18;
         }
@@ -265,6 +273,7 @@ public class IconFactory
 
     private static class FileIcon16 implements Icon {
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (image == null) {
                 image = new BufferedImage(getIconWidth(), getIconHeight(),
@@ -311,13 +320,16 @@ public class IconFactory
         public int getShift() { return 0; }
         public int getAdditionalHeight() { return 0; }
 
+        @Override
         public int getIconWidth() { return fileIcon16Size.width; }
+        @Override
         public int getIconHeight() { return fileIcon16Size.height + getAdditionalHeight(); }
 
         private Image image;
     }
 
     private static class ReportIcon16 extends FileIcon16 {
+        @Override
         protected void paintMe(Component c, Graphics g) {
             int [][] blacks = {{},{},{5,7,8,9}, {}, {5,6,7,9}, {}, {5,6,7,9,10,11},
                                {}, {5, 7,8,9,10,11}, {}, {5, 7,8,9,10,11}, {},
@@ -339,7 +351,9 @@ public class IconFactory
 
 
     private static class TreeLeafIcon extends FileIcon16 {
+        @Override
         public int getShift() { return 2; }
+        @Override
         public int getAdditionalHeight() { return 4; }
     }
 
@@ -578,14 +592,17 @@ public class IconFactory
             this.glyph = glyph;
         }
 
+        @Override
         public int getIconWidth() {
             return testIconWidth;
         }
 
+        @Override
         public int getIconHeight() {
             return testIconHeight;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (image == null) {
                 image = new BufferedImage(getIconWidth(), getIconHeight(),
@@ -645,14 +662,17 @@ public class IconFactory
             this.glyph = glyph;
         }
 
+        @Override
         public int getIconWidth() {
             return testIconWidth;
         }
 
+        @Override
         public int getIconHeight() {
             return testIconHeight;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (image == null) {
                 image = new BufferedImage(getIconWidth(), getIconHeight(),
@@ -710,14 +730,17 @@ public class IconFactory
             this.state = state;
         }
 
+        @Override
         public int getIconWidth() {
             return sectIconWidth;
         }
 
+        @Override
         public int getIconHeight() {
             return sectIconHeight;
         }
 
+        @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (image == null) {
                 image = new BufferedImage(getIconWidth(), getIconHeight(),

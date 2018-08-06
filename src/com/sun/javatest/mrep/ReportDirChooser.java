@@ -155,6 +155,7 @@ class ReportDirChooser extends JFileChooser
         return showDialog(parent, getApproveButtonText());
     }
 
+    @Override
     public void approveSelection() {
         // the validity of the selection depends on whether the
         // selected directory is to be created or opened.
@@ -263,34 +264,41 @@ class ReportDirChooser extends JFileChooser
     private Icon icon;
 
     private class RDC_FileView extends FileView {
+        @Override
         public String getDescription(File f) {
             return null;
         }
 
+        @Override
         public Icon getIcon(File f) {
             return (isReportDirectory(f) ? icon : null);
         }
 
+        @Override
         public String getName(File f) {
             // Take care to get names of file system roots correct
             String name = f.getName();
             return (name.length() == 0 ? f.getPath() : name);
         }
 
+        @Override
         public String getTypeDescription(File f) {
             return null;
         }
 
+        @Override
         public Boolean isTraversable(File f) {
             return (isDirectory(f) && !isReportDirectory(f) ? Boolean.TRUE : Boolean.FALSE);
         }
     }
 
     private class RDC_FileFilter extends FileFilter {
+        @Override
         public boolean accept(File f) {
             return (isDirectory(f));
         }
 
+        @Override
         public String getDescription() {
             return uif.getI18NString("rdc.ft");
         }

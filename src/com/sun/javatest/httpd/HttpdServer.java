@@ -56,6 +56,7 @@ public class HttpdServer implements Runnable {
         }
     }
 
+    @Override
     public void run() {
         while (true) {
             try {
@@ -157,6 +158,7 @@ public class HttpdServer implements Runnable {
         System.out.println("Starting JT Harness httpd in debug mode.");
 
         JThttpProvider prov = new JThttpProvider() {
+            @Override
             public void serviceRequest(httpURL url, PrintWriter out) {
                 PageGenerator.generateDocType(out, PageGenerator.HTML32);
                 out.println("<html>");

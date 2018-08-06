@@ -51,6 +51,7 @@ public class TT_BasicNode extends TT_TreeNode {
         this.tn = tn;
     }
     // ------- interface methods --------
+    @Override
     public Enumeration<TT_TreeNode> children() {
         updateNode();
 
@@ -63,20 +64,24 @@ public class TT_BasicNode extends TT_TreeNode {
         final Iterator<TT_TreeNode> it = copy.iterator();
         return new Enumeration<TT_TreeNode>() {
 
+            @Override
             public boolean hasMoreElements() {
                 return it.hasNext();
             }
 
+            @Override
             public TT_TreeNode nextElement() {
                 return it.next();
             }
         };
     }
 
+    @Override
     public boolean getAllowsChildren() {
         return true;
     }
 
+    @Override
     public TreeNode getChildAt(int arg0) {
         if (children == null) {
             return null;
@@ -87,6 +92,7 @@ public class TT_BasicNode extends TT_TreeNode {
         }
     }
 
+    @Override
     public int getChildCount() {
         updateNode();
 
@@ -95,6 +101,7 @@ public class TT_BasicNode extends TT_TreeNode {
         }
     }
 
+    @Override
     public int getIndex(TreeNode arg0) {
         if (children == null) {
             return -1;
@@ -112,14 +119,17 @@ public class TT_BasicNode extends TT_TreeNode {
         }
     }
 
+    @Override
     public TreeNode getParent() {
         return parent;
     }
 
+    @Override
     public boolean isLeaf() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     // --------- basic interface -------------
+    @Override
     boolean isRoot() {
         return (parent == null);
     }
@@ -130,12 +140,14 @@ public class TT_BasicNode extends TT_TreeNode {
      * @see #getShortName()
      * @return Shortest possible name of this node when displayed.
      */
+    @Override
     String getDisplayName() {
         // could allow override of this
         // maybe translate underscores to spaces?
         return getShortName();
     }
 
+    @Override
     String getLongDescription() {
         // should be the long path to the folder, or custom
         return null;
@@ -147,6 +159,7 @@ public class TT_BasicNode extends TT_TreeNode {
      * @return Short name for this node, containing no forward slashes or
      *    spaces.
      */
+    @Override
     String getShortName() {
         return tn.getName();
     }
@@ -156,6 +169,7 @@ public class TT_BasicNode extends TT_TreeNode {
      * @return Null if the node is the root, else a forward slash separated
      *      path.
      */
+    @Override
     String getLongPath() {
         if (parent == null) // root
         {

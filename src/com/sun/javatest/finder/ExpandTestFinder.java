@@ -64,6 +64,7 @@ public class ExpandTestFinder extends TagTestFinder
         addExtension(".jcod", JavaCommentStream.class);
     } // ExpandTestFinder()
 
+    @Override
     protected int decodeArg(String[] args, int i) throws Fault {
         if (args[i].equals("-verify")) {
             verify = true;
@@ -104,6 +105,7 @@ public class ExpandTestFinder extends TagTestFinder
 
     //--------------------------------------------------------------------------
 
+    @Override
     public void init(String [] args, File testSuiteRoot, TestEnvironment env) throws Fault {
         // grab all environment variables open for expansion
         if (expandVars == null) {
@@ -166,6 +168,7 @@ public class ExpandTestFinder extends TagTestFinder
         super.init(args, testSuiteRoot, env);
     } // init()
 
+    @Override
     protected void foundTestDescription(Map<String, String> entries, File file, int line) {
         // cross-product and loop call up
         String origId = entries.get("id");
@@ -261,6 +264,7 @@ public class ExpandTestFinder extends TagTestFinder
         super.foundTestDescription(new HashMap<>(entries), file, line);
     } // foundTestDescription_1()
 
+    @Override
     protected void processEntry(Map<String, String> entries, String name, String value) {
 //      System.out.println("NAME: " + name + " VALUE: " + value);
         if (name.equals("expand")) {

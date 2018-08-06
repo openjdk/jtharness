@@ -76,6 +76,7 @@ class ReportWriter extends HTMLWriterEx
         endTag(HTMLWriterEx.H1);
     }
 
+    @Override
     public void close() throws IOException {
         Date now = new Date();
         String name = ProductInfo.getName();

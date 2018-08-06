@@ -92,6 +92,7 @@ public class PathClassLoader extends ClassLoader
      * @return the class that was loaded
      * @throws ClassNotFoundException if the class was not found.
      */
+    @Override
     protected Class<?> loadClass(String name, boolean resolve)
         throws ClassNotFoundException {
 

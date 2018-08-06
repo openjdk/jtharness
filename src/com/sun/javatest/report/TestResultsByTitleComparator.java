@@ -31,6 +31,7 @@ import java.util.Comparator;
 import com.sun.javatest.TestResult;
 
 class TestResultsByTitleComparator implements Comparator<TestResult> {
+    @Override
     public int compare(TestResult tr1, TestResult tr2) {
 
         return compare(tr1.getTestName(), tr2.getTestName());

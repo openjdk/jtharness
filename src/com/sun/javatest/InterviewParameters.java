@@ -211,6 +211,7 @@ public abstract class InterviewParameters
      * @param workDir the work directory to be used for this test run.
      * It must match the test suite to be used for this test run
      */
+    @Override
     public abstract void setWorkDirectory(WorkDirectory workDir);
 
     /**
@@ -344,6 +345,7 @@ public abstract class InterviewParameters
     //----------------------------------------------------------------------------
 
 
+    @Override
     public TestEnvironment getEnv() {
         EnvParameters eParams = getEnvParameters();
         if (eParams == null)
@@ -375,6 +377,7 @@ public abstract class InterviewParameters
         return getTestsFirstQuestion();
     }
 
+    @Override
     public String[] getTests() {
         TestsParameters iParams = getTestsParameters();
         return (iParams == null ? null : iParams.getTests());
@@ -401,6 +404,7 @@ public abstract class InterviewParameters
         return getExcludeListFirstQuestion();
     }
 
+    @Override
     public ExcludeList getExcludeList() {
         ExcludeListParameters eParams = getExcludeListParameters();
         return (eParams == null ? new ExcludeList() : eParams.getExcludeList());
@@ -502,6 +506,7 @@ public abstract class InterviewParameters
         return getExcludeListSuccessorQuestion();
     }
 
+    @Override
     public Keywords getKeywords() {
         KeywordsParameters kParams = getKeywordsParameters();
         return (kParams == null ? null : kParams.getKeywords());
@@ -528,6 +533,7 @@ public abstract class InterviewParameters
         return getPriorStatusFirstQuestion();
     }
 
+    @Override
     public boolean[] getPriorStatusValues() {
         PriorStatusParameters sParams = getPriorStatusParameters();
         return (sParams == null ? null : sParams.getPriorStatusValues());
@@ -556,6 +562,7 @@ public abstract class InterviewParameters
         return getConcurrencyFirstQuestion();
     }
 
+    @Override
     public int getConcurrency() {
         ConcurrencyParameters cParams = getConcurrencyParameters();
         return (cParams == null ? 1 : cParams.getConcurrency());
@@ -582,6 +589,7 @@ public abstract class InterviewParameters
         return getTimeoutFactorFirstQuestion();
     }
 
+    @Override
     public float getTimeoutFactor() {
         TimeoutFactorParameters tParams = getTimeoutFactorParameters();
         return (tParams == null ? 1 : tParams.getTimeoutFactor());
@@ -629,6 +637,7 @@ public abstract class InterviewParameters
      * @see #getErrorMessage
      * @see #isFinishable
      */
+    @Override
     public boolean isValid() {
         return isFinishable();
     }
@@ -641,6 +650,7 @@ public abstract class InterviewParameters
      * or null if none.
      * @see #isValid
      */
+    @Override
     public String getErrorMessage() {
         Question[] path = getPath();
         Question lastQuestion = path[path.length - 1];
@@ -682,6 +692,7 @@ public abstract class InterviewParameters
         return getExcludeListFilter();
     }
 
+    @Override
     public TestFilter getExcludeListFilter() {
         ExcludeList t = getExcludeList();
         if (t == null)
@@ -694,6 +705,7 @@ public abstract class InterviewParameters
 
     private ExcludeListFilter cachedExcludeListFilter;
 
+    @Override
     public TestFilter getKeywordsFilter() {
         Keywords k = getKeywords();
         if (k == null)
@@ -706,6 +718,7 @@ public abstract class InterviewParameters
 
     private KeywordsFilter cachedKeywordsFilter;
 
+    @Override
     public TestFilter getPriorStatusFilter() {
         WorkDirectory wd = getWorkDirectory();
         TestResultTable r = (wd == null ? null : wd.getTestResultTable());
@@ -724,6 +737,7 @@ public abstract class InterviewParameters
 
     private StatusFilter cachedStatusFilter;
 
+    @Override
     public TestFilter getRelevantTestFilter() {
         TestSuite ts = getTestSuite();
         TestEnvironment env = getEnv();
@@ -741,6 +755,7 @@ public abstract class InterviewParameters
     private TestSuite cachedRelevantTestFilterTestSuite; // do we need this?
     private TestEnvironment cachedRelevantTestFilterEnv;
 
+    @Override
     public synchronized TestFilter[] getFilters() {
         Vector<TestFilter> v = new Vector<>();
 
@@ -1060,6 +1075,7 @@ public abstract class InterviewParameters
         return parameters;
     }
 
+    @Override
     public void clear() {
         WorkDirectory wd = getWorkDirectory();
         super.clear();
@@ -1299,6 +1315,7 @@ public abstract class InterviewParameters
         return prop.checkForUpdate();
     }
 
+    @Override
     public void load(Map<String, String> data, boolean checkChecksum) throws Fault {
         super.load(data, checkChecksum);
 
@@ -1610,6 +1627,7 @@ public abstract class InterviewParameters
         saveAs(file, saveTestSuite, saveWorkDir, false);
     }
 
+    @Override
     public void save(Map<String, String> data) {
         if (markersEnabled)
             data.put(MARKERS_ENABLED, TRUE);

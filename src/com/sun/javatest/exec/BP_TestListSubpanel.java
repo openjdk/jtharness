@@ -177,6 +177,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         // table.clearSelection();
     }
 
+    @Override
     protected void invalidateFilters() {
         super.invalidateFilters();
 
@@ -201,6 +202,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
     /**
      * Only called when this panel is onscreen and needs to be kept up to date.
      */
+    @Override
     protected synchronized void updateSubpanel(TT_BasicNode currNode) {
         super.updateSubpanel(currNode);
 
@@ -249,6 +251,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             setPriority(Thread.MIN_PRIORITY + 2);
         }
 
+        @Override
         public void run() {
             // grab cache lock first because many other threads may alter that
             // object, causing a deadlock here.
@@ -419,16 +422,19 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         }
 
         // ---------- TableModel interface ----------
+        @Override
         public int getRowCount() {
             synchronized (liveData) {
                 return liveData.size();
             }
         }
 
+        @Override
         public int getColumnCount() {
             return COLUMN_COUNT;
         }
 
+        @Override
         public String getColumnName(int columnIndex) {
             if (columnIndex >= colNames.length)
                 throw new IndexOutOfBoundsException();
@@ -436,6 +442,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 return columnIndex == 0 ? colNames[0] : uif.getI18NString("br.runtime.show.status.mit");
         }
 
+        @Override
         public Object getValueAt(int row, int column) {
             if (column == 0) {
                 synchronized (liveData) {
@@ -455,6 +462,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                         + ", " + column);
         }
 
+        @Override
         public boolean isCellEditable(int rowIndex, int colIndex) {
             return false;
         }
@@ -623,6 +631,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         private class Sorter implements Comparable<Sorter> {
             public int index;
 
+            @Override
             public int compareTo(Sorter otherRow) {
 
                 if (o[index] instanceof TestResult) {
@@ -888,20 +897,23 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             } // switch
         }
 
+        @Override
         public void testAdded(int msgType, TestResultTable.TreeNode[] path,
-                TestResult what, int index) {
+                              TestResult what, int index) {
             synchronized (BP_TestListSubpanel.this) {
                 mod.addTest(what, false);
             }
         }
 
+        @Override
         public void testRemoved(int msgType, TestResultTable.TreeNode[] path,
-                TestResult what, int index) {
+                                TestResult what, int index) {
             synchronized (BP_TestListSubpanel.this) {
                 mod.removeTest(what);
             }
         }
 
+        @Override
         public void statsUpdated(int[] stats) {
             // ignore
         }
@@ -926,6 +938,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             tme = e;
         }
 
+        @Override
         public void run() {
             tm.pendingEvents.remove(this);
 
@@ -965,6 +978,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             ActionListener {
 
         // ActionListener
+        @Override
         public void actionPerformed(ActionEvent e) {
             final int[] rows = table.getSelectedRows();
 
@@ -1008,6 +1022,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                         // setPopupItemsEnabled(false);
 
                         final Thread t = new Thread() {
+                            @Override
                             public void run() {
                                 for (int i = 0; i < rows.length; i++) {
                                     try {
@@ -1024,6 +1039,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                                         // fixup GUI on GUI thread
                                         try {
                                             EventQueue.invokeAndWait(new Runnable() {
+                                                @Override
                                                 public void run() {
                                                     if (d.isShowing())
                                                         d.hide();
@@ -1041,6 +1057,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                         }; // thread
 
                         ActionListener al = new ActionListener() {
+                            @Override
                             public void actionPerformed(ActionEvent evt) {
                                 // show dialog if still processing
                                 if (t == null)
@@ -1166,6 +1183,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         } // action performed
 
         // Mouse Adapter
+        @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getComponent() == table) {
                 if (e.getButton() == MouseEvent.BUTTON3) {
@@ -1211,6 +1229,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         }
 
         // ListSelectionListener
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             int index = e.getLastIndex();
 
@@ -1243,6 +1262,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             name = bund.getString(key + ".act");
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             int row = table.getSelectedRow();
 
@@ -1260,6 +1280,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             showTest(tr);
         }
 
+        @Override
         public Object getValue(String key) {
             if (key == null)
                 throw new NullPointerException();
@@ -1282,9 +1303,10 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             setOpaque(false);
         }
 
+        @Override
         public Component getTableCellRendererComponent(JTable table,
-                Object value, boolean isSelected, boolean hasFocus, int row,
-                int column) {
+                                                       Object value, boolean isSelected, boolean hasFocus, int row,
+                                                       int column) {
             if (value == null) // very strange...
                 return this;
 

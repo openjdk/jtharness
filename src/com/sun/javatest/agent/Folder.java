@@ -69,12 +69,14 @@ class Folder extends Panel implements ItemSelectable
 
     private class Layout extends CardLayout
     {
+        @Override
         public Dimension minimumLayoutSize(Container parent) {
             Dimension size = super.minimumLayoutSize(parent);
             int width = Math.max(size.width, ((Folder)parent).getMinimumWidth());
             return new Dimension(width, size.height);
         }
 
+        @Override
         public Dimension preferredLayoutSize(Container parent) {
             Dimension size = super.preferredLayoutSize(parent);
             int width = Math.max(size.width, ((Folder)parent).getMinimumWidth());
@@ -101,6 +103,7 @@ class Folder extends Panel implements ItemSelectable
         setLayout(new CardLayout());
 
         MouseListener mouseListener = new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
                 Folder.this.mousePressed(e.getX(), e.getY());
             }
@@ -109,6 +112,7 @@ class Folder extends Panel implements ItemSelectable
         addMouseListener(mouseListener);
     }
 
+    @Override
     public Insets getInsets() {
         FontMetrics fm = getFontMetrics(getFont());
         int left_right = border + hgap;
@@ -117,6 +121,7 @@ class Folder extends Panel implements ItemSelectable
         return new Insets(top, left_right, bottom, left_right);
     }
 
+    @Override
     public Component add(String name, Component comp) {
         entries.addElement(new Entry(comp, name, null, true));
         return super.add(name, comp);
@@ -203,6 +208,7 @@ class Folder extends Panel implements ItemSelectable
         }
     }
 
+    @Override
     public void paint(Graphics g) {
 
         if (entries == null || entries.isEmpty()) {
@@ -262,14 +268,17 @@ class Folder extends Panel implements ItemSelectable
         super.paint(g);
     }
 
+    @Override
     public void addItemListener(ItemListener l) {
         itemListener = AWTEventMulticaster.add(itemListener, l);
     }
 
+    @Override
     public void removeItemListener(ItemListener l) {
         itemListener = AWTEventMulticaster.remove(itemListener, l);
     }
 
+    @Override
     public Object[] getSelectedObjects() {
         Entry ce = getCurrentEntry();
         if (ce == null)

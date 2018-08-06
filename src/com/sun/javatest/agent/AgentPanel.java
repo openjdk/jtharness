@@ -221,6 +221,7 @@ class AgentPanel extends ScrollPane
 
     //-------------------------------------------------------------------
 
+    @Override
     public Dimension getPreferredSize() {
         Insets i = getInsets();
         Dimension d = deck.getPreferredSize();
@@ -368,6 +369,7 @@ class AgentPanel extends ScrollPane
     //-------------------------------------------------------------------
 
     private class AgentObserver implements Agent.Observer {
+        @Override
         public void started(Agent sl) {
             synchronized (AgentPanel.this) {
                 if (sl != currAgent)
@@ -379,6 +381,7 @@ class AgentPanel extends ScrollPane
             }
         }
 
+        @Override
         public void errorOpeningConnection(Agent sl, Exception e) {
             synchronized (AgentPanel.this) {
                 if (sl != currAgent)
@@ -389,6 +392,7 @@ class AgentPanel extends ScrollPane
             }
         }
 
+        @Override
         public void finished(Agent sl) {
             synchronized (AgentPanel.this) {
                 if (sl != currAgent)
@@ -398,6 +402,7 @@ class AgentPanel extends ScrollPane
             }
         }
 
+        @Override
         public void openedConnection(Agent sl, Connection c) {
             synchronized (AgentPanel.this) {
                 if (sl != currAgent)
@@ -411,6 +416,7 @@ class AgentPanel extends ScrollPane
             }
         }
 
+        @Override
         public void execTest(Agent sl, Connection c, String tag, String className, String[] args) {
             synchronized (AgentPanel.this) {
                 if (sl != currAgent)
@@ -427,6 +433,7 @@ class AgentPanel extends ScrollPane
             }
         }
 
+        @Override
         public void execCommand(Agent sl, Connection c, String tag, String className, String[] args) {
             synchronized (AgentPanel.this) {
                 if (sl != currAgent)
@@ -443,6 +450,7 @@ class AgentPanel extends ScrollPane
             }
         }
 
+        @Override
         public void execMain(Agent sl, Connection c, String tag, String className, String[] args) {
             synchronized (AgentPanel.this) {
                 if (sl != currAgent)
@@ -459,6 +467,7 @@ class AgentPanel extends ScrollPane
             }
         }
 
+        @Override
         public void result(Agent sl, Connection c, Status r) {
             synchronized (AgentPanel.this) {
                 if (sl != currAgent)
@@ -473,6 +482,7 @@ class AgentPanel extends ScrollPane
             }
         }
 
+        @Override
         public void exception(Agent sl, Connection c, Throwable t) {
             synchronized (AgentPanel.this) {
                 if (sl != currAgent)
@@ -487,6 +497,7 @@ class AgentPanel extends ScrollPane
             }
         }
 
+        @Override
         public void completed(Agent sl, Connection c) {
             synchronized (AgentPanel.this) {
                 if (sl != currAgent)
@@ -521,6 +532,7 @@ class AgentPanel extends ScrollPane
             add(helpButton, c);
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
             if (src == startButton) {
@@ -578,6 +590,7 @@ class AgentPanel extends ScrollPane
             validate();
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             ackError();
         }
@@ -674,6 +687,7 @@ class AgentPanel extends ScrollPane
 
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             ackError(); // hmm, not the most obvious name, but it will work
         }
@@ -717,6 +731,7 @@ class AgentPanel extends ScrollPane
             return tasks.elementAt(super.getSelectedIndex());
         }
 
+        @Override
         public synchronized void removeAll() {
             tasks.setSize(0);
             if (getItemCount() > 0)
@@ -739,6 +754,7 @@ class AgentPanel extends ScrollPane
             super.replaceItem(getKey(state, detail), tasks.indexOf(task));
         }
 
+        @Override
         public void itemStateChanged(ItemEvent e) {
             Object src = e.getItemSelectable();
             if (src == this) {
@@ -826,6 +842,7 @@ class AgentPanel extends ScrollPane
 
         }
 
+        @Override
         public void setEnabled(boolean b) {
             modeChoice.setEnabled(b);
             for (int i = 0; i < modeDeck.getComponentCount(); i++) {
@@ -890,6 +907,7 @@ class AgentPanel extends ScrollPane
             return deck;
         }
 
+        @Override
         public void itemStateChanged(ItemEvent e) {
             Object src = e.getItemSelectable();
             if (src == modeChoice) {

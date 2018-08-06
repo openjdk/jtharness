@@ -147,6 +147,7 @@ class I18NResourceBundle extends ResourceBundle
      * If the resource cannot be found, a message is printed to the console
      * and the result will be the original key.
      */
+    @Override
     protected Object handleGetObject(String key) throws MissingResourceException {
         if (logging)
             System.out.println("i18n: " + key);
@@ -166,6 +167,7 @@ class I18NResourceBundle extends ResourceBundle
      * Load the actual resource bundle, if it has not yet been loaded,
      * then hand the request off to that bundle.
      */
+    @Override
     public Enumeration<String> getKeys() {
         if (delegate == null)
             delegate = ResourceBundle.getBundle(name, Locale.getDefault(), classLoader);

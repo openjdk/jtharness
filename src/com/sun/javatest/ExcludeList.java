@@ -994,6 +994,7 @@ public class ExcludeList
             synopsis = s;
         }
 
+        @Override
         public int compareTo(Entry e) {
             int n = relativeURL.compareTo(e.relativeURL);
             if (n == 0) {
@@ -1141,6 +1142,7 @@ public class ExcludeList
          * @return true is the objects are bothe ExcludeList.Entries containing
          *    the same details
          */
+        @Override
         public boolean equals(Object o) {
             if (o instanceof Entry) {
                 Entry e = (Entry)o;

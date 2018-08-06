@@ -60,6 +60,7 @@ import javax.swing.table.TableCellEditor;
 
 
 public class PropertiesQuestionRenderer implements QuestionRenderer {
+    @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         question = (PropertiesQuestion)qq;
 
@@ -90,6 +91,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
         }
 
         valueSaver = new Runnable() {
+                @Override
                 public void run() {
                     Set<String> keys = tables.keySet();
                     Iterator<String> iter = keys.iterator();
@@ -109,12 +111,15 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
         // This inserted to handle programmatically fired events
         // when user click 'X' button in ConfigEditor
         panel.addAncestorListener(new AncestorListener() {
+            @Override
             public void ancestorAdded(AncestorEvent e) {
 
             }
+            @Override
             public void ancestorMoved(AncestorEvent e) {
 
             }
+            @Override
             public void ancestorRemoved(AncestorEvent e) {
                 if (valueSaver != null) {
                     valueSaver.run();
@@ -126,6 +131,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
         return panel;
     }
 
+    @Override
     public String getInvalidValueMessage(Question q) {
         return null;
     }
@@ -264,6 +270,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
             setFocusable(false);
         }
 
+        @Override
         public boolean isCellEditable(int row, int column) {
             if (column == 0)
                 return false;
@@ -345,6 +352,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
         String[] headers;
          */
 
+        @Override
         public void setValueAt(Object o, int row, int col) {
             if (col == 1) {
                 String key = q.getKeyPropertyName((String)(getValueAt(row, 0)));

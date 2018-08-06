@@ -78,6 +78,7 @@ public class ExtensionFileFilter implements FileFilter
         return caseSensitive;
     }
 
+    @Override
     public boolean accept(File f) {
         for (int i = 0; i < extns.length; i++)
             if (endsWith(f.getName(), extns[i]))
@@ -85,6 +86,7 @@ public class ExtensionFileFilter implements FileFilter
         return false;
     }
 
+    @Override
     public boolean acceptsDirectories() {
         return false;
     }
@@ -93,6 +95,7 @@ public class ExtensionFileFilter implements FileFilter
      * Get a short description for this filter.
      * @return a short description of this filter
      */
+    @Override
     public String getDescription() {
         return description;
     }

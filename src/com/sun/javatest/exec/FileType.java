@@ -43,6 +43,7 @@ class FileType extends FileFilter
         this.extns = extns;
     }
 
+    @Override
     public String getDescription() {
         if (desc == null) {
             StringBuffer sb = new StringBuffer("filetype");
@@ -61,6 +62,7 @@ class FileType extends FileFilter
         return extns;
     }
 
+    @Override
     public boolean accept(File f) {
         if (f.isDirectory() || extns == null || extns.length == 0)
             return true;

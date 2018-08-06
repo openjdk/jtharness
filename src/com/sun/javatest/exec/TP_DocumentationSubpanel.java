@@ -56,6 +56,7 @@ public class TP_DocumentationSubpanel extends TP_Subpanel{
         emptyPane.add(emptyL, gbc);
     }
 
+    @Override
     protected void updateSubpanel(TestResult currTest) {
         super.updateSubpanel(currTest);
         try {

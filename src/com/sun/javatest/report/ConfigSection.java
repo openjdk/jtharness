@@ -50,6 +50,7 @@ class ConfigSection extends HTMLSection {
         this.i18n = i18n;
     }
 
+    @Override
     void writeContents(ReportWriter out) throws IOException {
         super.writeContents(out);
 
@@ -84,6 +85,7 @@ class ConfigSection extends HTMLSection {
         }
     }
 
+    @Override
     void writeSummary(ReportWriter out) throws IOException {
         super.writeSummary(out);
 
@@ -117,6 +119,7 @@ class ConfigSection extends HTMLSection {
         writeLocationSummary(out);
     }
 
+    @Override
     void writeExtraFiles() throws IOException {
         // optional section
         // tied to question log option
@@ -478,6 +481,7 @@ class ConfigSection extends HTMLSection {
 
     private static class ExcludeListEntryComparator implements Comparator<ExcludeList.Entry>
     {
+        @Override
         public int compare(ExcludeList.Entry e1, ExcludeList.Entry e2) {
             int x = compare(e1.getRelativeURL(), e2.getRelativeURL());
             if (x == 0)

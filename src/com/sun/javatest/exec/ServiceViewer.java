@@ -72,6 +72,7 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
         initGUI();
         mgr.addObserver( new ServiceManager.Observer() {
 
+            @Override
             public void handleAlive(String sID, boolean alive) {
                 int i = Arrays.binarySearch(ids, sID);
                 if (i != -1) {
@@ -84,6 +85,7 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
                 table.repaint();
             }
 
+            @Override
             public void handleNotConnected(String sID, NotConnectedException ex) {
                 int i = Arrays.binarySearch(ids, sID);
                 if (i != -1) {
@@ -92,6 +94,7 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
                 table.repaint();
             }
 
+            @Override
             public void handleError(String sID, ServiceError ex) {
                 int i = Arrays.binarySearch(ids, sID);
                 if (i != -1) {
@@ -104,6 +107,7 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
         table.getSelectionModel().addListSelectionListener
                 (new ListSelectionListener() {
 
+            @Override
             public void valueChanged(ListSelectionEvent e) {
                 int[] ix = table.getSelectedRows();
 //                boolean allAlive = true;
@@ -145,6 +149,7 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
 //        table.setFillsViewportHeight(true);
         btnStart = uif.createButton("serviceviewer.button.start");
         btnStart.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 int[] selected = table.getSelectedRows();
                 for (int i : selected) {
@@ -155,6 +160,7 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
 
         btnStop = uif.createButton("serviceviewer.button.stop");
         btnStop.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 int[] selected = table.getSelectedRows();
                 for (int i : selected) {
@@ -165,6 +171,7 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
 
         JButton btnClose = uif.createButton("serviceviewer.button.close");
         btnClose.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
             }
@@ -200,6 +207,7 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
             }
         }
 
+        @Override
         public int getRowCount() {
             if (ids != null) {
                 return ids.length;
@@ -207,22 +215,27 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
             return 0;
         }
 
+        @Override
         public int getColumnCount() {
             return 3;
         }
 
+        @Override
         public String getColumnName(int columnIndex) {
             return names[columnIndex];
         }
 
+        @Override
         public Class<?> getColumnClass(int columnIndex) {
             return String.class;
         }
 
+        @Override
         public boolean isCellEditable(int rowIndex, int columnIndex) {
             return false;
         }
 
+        @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             switch (columnIndex) {
                 case 0:
@@ -237,6 +250,7 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
 
         }
 
+        @Override
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
             stats[rowIndex] = (Status)aValue;
         }
@@ -251,14 +265,17 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
             this.str = str;
         }
 
+        @Override
         public String toString() {
             return str;
         }
     }
 
+    @Override
     public void currentQuestionChanged(Question q) {
     }
 
+    @Override
     public void pathUpdated() {
         ExecTool et = (ExecTool) parent;
         mgr.setParameters(et.getInterviewParameters());

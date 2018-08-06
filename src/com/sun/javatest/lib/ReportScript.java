@@ -39,6 +39,7 @@ import com.sun.javatest.TestResult;
  */
 public class ReportScript extends Script
 {
+    @Override
     public final void run() {
         TestResult tr = getTestResult();
         try {
@@ -53,6 +54,7 @@ public class ReportScript extends Script
      *
      * @throws Error if called
      */
+    @Override
     public Status run(String[] args, TestDescription td, TestEnvironment env) {
         throw new Error("should not be called");
     }

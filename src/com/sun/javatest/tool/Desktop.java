@@ -367,6 +367,7 @@ public class Desktop
     public void addDefaultTool() {
         if (!EventQueue.isDispatchThread()) {
             invokeOnEventThread(new Runnable() {
+                    @Override
                     public void run() {
                         addDefaultTool();
                     }
@@ -545,6 +546,7 @@ public class Desktop
     public void setVisible(final boolean b) {
         if (!EventQueue.isDispatchThread()) {
             invokeOnEventThread(new Runnable() {
+                    @Override
                     public void run() {
                         setVisible(b);
                     }
@@ -743,6 +745,7 @@ public class Desktop
 
             final JOptionPane pane = new JOptionPane(body, JOptionPane.WARNING_MESSAGE);
             ActionListener l = new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         pane.setValue(e.getSource());
                         pane.setVisible(false);
@@ -786,6 +789,7 @@ public class Desktop
         final JDialog dialog = pane.createDialog(null, title);
 
         final Timer timer = new Timer(1000, new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     if (--timeRemaining == 0) {
                         pane.setValue(Integer.valueOf(JOptionPane.OK_OPTION));
@@ -892,6 +896,7 @@ public class Desktop
         //System.err.println("DT: restore " + file);
         if (!EventQueue.isDispatchThread()) {
             invokeOnEventThread(new Runnable() {
+                    @Override
                     public void run() {
                         restore0(p);
                     }
@@ -1497,6 +1502,7 @@ public class Desktop
             throw new IllegalArgumentException();
 
         ActionListener showFocusListener = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 Component src = (Component) e.getSource();
                 Component comp = javax.swing.SwingUtilities.findFocusOwner(src);
@@ -1523,6 +1529,7 @@ public class Desktop
             throw new IllegalArgumentException();
 
         ActionListener showPrefSizeListener = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 Component src = (Component) e.getSource();
                 Component c = javax.swing.SwingUtilities.findFocusOwner(src);

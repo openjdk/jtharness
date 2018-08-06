@@ -90,6 +90,7 @@ class ReportTool extends Tool {
         textHidden = i18n.getString("tool.helptext.hidden");
     }
 
+    @Override
     public JMenuBar getMenuBar() {
         return menuBar;
     }
@@ -98,6 +99,7 @@ class ReportTool extends Tool {
     protected void restore(Map<String, String> map) {
     }
 
+    @Override
     protected void save(Map<String, String> m) {
     }
 
@@ -141,6 +143,7 @@ class ReportTool extends Tool {
     void updateGUI() {
         if (!EventQueue.isDispatchThread()) {
             EventQueue.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     updateGUI();
                 }
@@ -238,6 +241,7 @@ class ReportTool extends Tool {
         waitDialogController = new WaitDialogController(waitDialog);
         final String cancelling = uif.getI18NString("tool.cancelling");
         cancelBtn.addActionListener( new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 JButton butt = (JButton) e.getSource();
                 butt.setEnabled(false);
@@ -258,6 +262,7 @@ class ReportTool extends Tool {
         });
 
         worker = new Thread() {
+            @Override
             public void run() {
                 try {
                     Merger merger = new Merger();
@@ -305,6 +310,7 @@ class ReportTool extends Tool {
         };
 
         ActionListener al = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 // show dialog if still processing
                 if (worker != null && worker.isAlive()) {
@@ -330,6 +336,7 @@ class ReportTool extends Tool {
             waitDialogController.finish();
         // switch back to GUI thread
         EventQueue.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     uif.showError(uiKey, msg);
                 }
@@ -379,6 +386,7 @@ class ReportTool extends Tool {
             }  else {
                 try {
                     SwingUtilities.invokeAndWait(new Runnable() {
+                        @Override
                         public void run() {
                             waitDialog.setVisible(b);
                         }
@@ -400,6 +408,7 @@ class ReportTool extends Tool {
 
     class MostRecentConfilctResolver implements ConflictResolver {
 
+        @Override
         public int resolve(String testUrl, TestResultDescr[] descrs) {
             int res = 0;
 
@@ -431,6 +440,7 @@ class ReportTool extends Tool {
             this.wdc = wdc;
         }
 
+        @Override
         public int resolve(String testUrl, TestResultDescr[] descrs) {
             String[] conflictFiles = new String[descrs.length];
             for (int i = 0; i < descrs.length; i++) {
@@ -635,6 +645,7 @@ class ReportTool extends Tool {
         public OkListener() {
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if(setOptions())
                 optionsDialog.cleanUp();
@@ -678,6 +689,7 @@ class ReportTool extends Tool {
     }
 
     private class Listener implements ActionListener, HierarchyListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
             if (cmd.equals(NEW)) {
@@ -688,9 +700,11 @@ class ReportTool extends Tool {
             updateGUI();
         }
 
+        @Override
         public void hierarchyChanged(HierarchyEvent e) {
             if (isShowing() && autoShowOptions) {
                 EventQueue.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         showOptions();
                         updateGUI();
@@ -703,6 +717,7 @@ class ReportTool extends Tool {
     };
 
     private class HTMLListener implements HyperlinkListener, ItemListener {
+        @Override
         public void hyperlinkUpdate(HyperlinkEvent e) {
             HyperlinkEvent.EventType et = e.getEventType();
             if (et == HyperlinkEvent.EventType.ACTIVATED) {
@@ -722,6 +737,7 @@ class ReportTool extends Tool {
             }
         }
 
+        @Override
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 URL url = (URL) e.getItem();

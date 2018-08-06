@@ -164,6 +164,7 @@ class BrowserPane extends JPanel {
 
     private void initActions() {
         homeAction = new ToolAction(uif, "fp.home", true) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (homeURL == null)
                     if (textHomePage != null) {
@@ -179,6 +180,7 @@ class BrowserPane extends JPanel {
         };
 
         backAction = new ToolAction(uif, "fp.back", true) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 URL url = history.prev();
                 if (url != null)
@@ -187,6 +189,7 @@ class BrowserPane extends JPanel {
         };
 
         forwardAction = new ToolAction(uif, "fp.forward", true) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 URL url = history.next();
                 if (url != null)
@@ -217,8 +220,10 @@ class BrowserPane extends JPanel {
         selectBox.setUI(new BasicComboBoxUI() {
             // wrap the content with a scrolling interface
             // would be nice if Swing did this for us
+            @Override
             protected ComboPopup createPopup() {
                 BasicComboPopup popup = new BasicComboPopup(selectBox) {
+                    @Override
                     protected JScrollPane createScroller() {
                         return new JScrollPane(list,
                             ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -527,6 +532,7 @@ class BrowserPane extends JPanel {
     }
 
     private class Listener implements HyperlinkListener, ItemListener {
+        @Override
         public void hyperlinkUpdate(HyperlinkEvent e) {
             HyperlinkEvent.EventType et = e.getEventType();
             if (et == HyperlinkEvent.EventType.ACTIVATED) {
@@ -551,6 +557,7 @@ class BrowserPane extends JPanel {
             }
         }
 
+        @Override
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 URL url = (URL) e.getItem();
@@ -562,6 +569,7 @@ class BrowserPane extends JPanel {
     //------------------------------------------------------------------------------------
 
     private class Renderer extends DefaultListCellRenderer {
+        @Override
         public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
             String name = null;
             if (o instanceof URL) {

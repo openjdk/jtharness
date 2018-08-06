@@ -45,14 +45,17 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
         ms.addObserver(this);
     }
 
+    @Override
     public String getSmallMonitorName() {
         return uif.getI18NString("et.sm.Name");
     }
 
+    @Override
     public Icon getSmallMonitorIcon() {
         return null;
     }
 
+    @Override
     public JComponent getSmallMonitor() {
         if (smTimer == null)
             smTimer = new SmallTimer(uif, state);
@@ -65,19 +68,23 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
         return smTimer;
     }
 
+    @Override
     public String getLargeMonitorName() {
         return uif.getI18NString("et.lg.Name");
     }
 
+    @Override
     public Icon getLargeMonitorIcon() {
         return null;
     }
 
+    @Override
     public JComponent getLargeMonitor() {
         return null;
     }
 
     // MonitorState.Observer
+    @Override
     public void starting() {
         isRunning = true;
 
@@ -85,14 +92,17 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
             smTimer.start();
     }
 
+    @Override
     public void postProcessing() {
         if (smTimer != null)
             smTimer.stop();
     }
 
+    @Override
     public void stopping() {
     }
 
+    @Override
     public void finished(boolean allOk) {
         isRunning = false;
         stopAll();
@@ -145,6 +155,7 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
 
         public void start() {
             myThread = new Thread() {
+                @Override
                 public void run() {
                     while(myThread == currentThread()) {
                         try {

@@ -59,6 +59,7 @@ public class JTHelpBroker implements HelpBroker{
         helpMap = HelpSet.readHelpMap(url);
     }
 
+    @Override
     public void enableHelpKey(final Component component, String helpID){
         if (component instanceof JComponent) {
             KeyStroke keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
@@ -103,6 +104,7 @@ public class JTHelpBroker implements HelpBroker{
 
     }
 
+    @Override
     public void displayCurrentID(String helpID){
 
         unpackHelpIfNeeded();

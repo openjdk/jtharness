@@ -72,6 +72,7 @@ class SDIDeskView extends DeskView {
         setVisible(other.isVisible());
     }
 
+    @Override
     public void dispose() {
         for (int i = 0; i < frames.length; i++)
             frames[i].setVisible(false);
@@ -82,10 +83,12 @@ class SDIDeskView extends DeskView {
         super.dispose();
     }
 
+    @Override
     public boolean isVisible() {
         return visible;
     }
 
+    @Override
     public void setVisible(boolean v) {
         //System.err.println("SDI: setVisible: " + v);
         if (v != visible) {
@@ -104,10 +107,12 @@ class SDIDeskView extends DeskView {
         }
     }
 
+    @Override
     public boolean isEmpty() {
         return (frames.length == 1);
     }
 
+    @Override
     public Tool[] getTools() {
         // frames[0] is the console
         Tool[] tools = new Tool[frames.length - 1];
@@ -116,6 +121,7 @@ class SDIDeskView extends DeskView {
         return tools;
     }
 
+    @Override
     public void addTool(final Tool t) {
         DeskView view = t.getDeskView();
         if (view == this)
@@ -133,6 +139,7 @@ class SDIDeskView extends DeskView {
 
         //System.err.println("SDI: add " + t);
         Action closeAction = (new ToolAction(uif, "sdi.file.close") {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 removeTool(t);
                 t.dispose();
@@ -146,6 +153,7 @@ class SDIDeskView extends DeskView {
         f.pack();
         t.addObserver(listener);
         f.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowActivated(WindowEvent e) {
                 JFrame f = (JFrame) (e.getSource());
                 if (f.getContentPane() instanceof Tool) {
@@ -154,10 +162,12 @@ class SDIDeskView extends DeskView {
                 }
             }
 
+            @Override
             public void windowDeactivated(WindowEvent e) {
                 selectedTool = null;
             }
 
+            @Override
             public void windowClosing(WindowEvent e) {
                 JFrame f = (JFrame) (e.getSource());
                 if (f.getContentPane() instanceof Tool) {
@@ -167,6 +177,7 @@ class SDIDeskView extends DeskView {
                 }
             }
 
+            @Override
             public void windowClosed(WindowEvent e) {
                 JFrame f = (JFrame) (e.getSource());
                 //removeToolMenuItemsFromFrameMenuBar(f);
@@ -203,6 +214,7 @@ class SDIDeskView extends DeskView {
             tds[i].initDialog(this, vis[i]);
     }
 
+    @Override
     public void removeTool(Tool t) {
         //System.err.println("SDI: remove " + t);
         JFrame f = getFrameForTool(t);
@@ -217,11 +229,13 @@ class SDIDeskView extends DeskView {
         t.setDeskView(null);
     }
 
+    @Override
     public Tool getSelectedTool() {
         //System.err.println("SDI: selected tool " + selectedTool);
         return selectedTool;
     }
 
+    @Override
     public void setSelectedTool(Tool t) {
         JFrame f = getFrameForTool(t);
         if (f.getState() == JFrame.ICONIFIED)
@@ -232,14 +246,17 @@ class SDIDeskView extends DeskView {
         // be no way to query directly which window has focus
     }
 
+    @Override
     public int getStyle() {
         return Desktop.SDI_STYLE;
     }
 
+    @Override
     public JFrame[] getFrames() {
         return frames;
     }
 
+    @Override
     public Rectangle getBounds() {
         Rectangle bounds = null;
         // start loop at 0 to include console, start at 1 to ignore it
@@ -250,6 +267,7 @@ class SDIDeskView extends DeskView {
         return (bounds == null ? getDefaultBounds() : bounds);
     }
 
+    @Override
     public boolean isToolOwnerForDialog(Tool tool, Container dialog) {
         if (dialog == null)
             return false;
@@ -258,6 +276,7 @@ class SDIDeskView extends DeskView {
         return (dialog.getParent() == f);
     }
 
+    @Override
     public Container createDialog(Tool tool, String uiKey, String title,
                                   JMenuBar menuBar, Container body,
                                   Rectangle bounds, int type) {
@@ -282,21 +301,25 @@ class SDIDeskView extends DeskView {
         return d;
     }
 
+    @Override
     protected void saveDesktop(Map<String, String> m) {
         saveBounds(console, new PrefixMap<>(m, "dt.console"));
         saveTools(m);
     }
 
+    @Override
     protected void restoreDesktop(Map<String, String> m) {
         restoreBounds(console, new PrefixMap<>(m, "dt.console"));
         restoreTools(m);
     }
 
+    @Override
     protected void saveTool(Map<String, String> m, Tool t) {
         super.saveTool(m, t);
         saveBounds(getFrameForTool(t), new PrefixMap<>(m, "dt"));
     }
 
+    @Override
     protected Tool restoreTool(Map<String, String> m, String name) throws Fault, ToolManager.Fault
     {
         Tool t = super.restoreTool(m, name);
@@ -308,6 +331,7 @@ class SDIDeskView extends DeskView {
         console = createFrame(listener, "sdi.console");
         console.setTitle(uif.getI18NString("dt.title.console"));
         console.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 getDesktop().checkToolsAndExitIfOK(console);
             }
@@ -394,6 +418,7 @@ class SDIDeskView extends DeskView {
     {
         // --------- ActionListener  ---------
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
             if (cmd.equals(CASCADE))
@@ -419,6 +444,7 @@ class SDIDeskView extends DeskView {
 
         // --------- MenuListener ---------
 
+        @Override
         public void menuSelected(MenuEvent e) {
             Tool[] tools = getTools();
 
@@ -472,23 +498,28 @@ class SDIDeskView extends DeskView {
             m.add(mi);
         }
 
+        @Override
         public void menuDeselected(MenuEvent e) {
         }
 
+        @Override
         public void menuCanceled(MenuEvent e) {
         }
 
         // ---------- Tool.Observer ----------
 
+        @Override
         public void shortTitleChanged(Tool src, String newValue) {
         }
 
+        @Override
         public void titleChanged(Tool src, String newValue) {
             JFrame f = getFrameForTool(src);
             f.setTitle(uif.getI18NString("dt.title.tool.txt", newValue));
             //System.err.println("Tool title changed: " + newValue);
         }
 
+        @Override
         public void toolDisposed(Tool src) { }
     };
 }

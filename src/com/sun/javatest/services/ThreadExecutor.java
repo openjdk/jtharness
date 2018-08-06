@@ -41,6 +41,7 @@ public class ThreadExecutor implements ServiceExecutor {
         runner = r;
     }
 
+    @Override
     public synchronized Message startService(Message startMsg) {
         if (startMsg.getType() != MessageType.START) {
             return new Message(MessageType.ERROR, "Bad Start Message");
@@ -59,6 +60,7 @@ public class ThreadExecutor implements ServiceExecutor {
         return new Message(MessageType.STARTED, "Execution Thread Started");
     }
 
+    @Override
     public synchronized Message stopService(Message stopMsg) {
         if (stopMsg.getType() != MessageType.STOP) {
             return new Message(MessageType.ERROR, "Bad stop Message");
@@ -72,6 +74,7 @@ public class ThreadExecutor implements ServiceExecutor {
         return new Message(MessageType.STOPPED, "Thread Was Stopped Successfully");
     }
 
+    @Override
     public synchronized Message isAlive(Message isAlive) {
         if (isAlive.getType() != MessageType.IS_ALIVE) {
             return new Message(MessageType.ERROR, "Bad isAlive Message");
@@ -85,10 +88,12 @@ public class ThreadExecutor implements ServiceExecutor {
         }
     }
 
+    @Override
     public InputStream getServiceErrorStream() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public InputStream getServiceOutputStream() {
         throw new UnsupportedOperationException("Not supported yet.");
     }

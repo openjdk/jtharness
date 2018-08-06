@@ -72,8 +72,9 @@ public class ReverseTestFinder extends TestFinder
      *          delegates the reading.
      * @throws TestFinder.Fault if any problems occur during initialization.
      */
+    @Override
     public synchronized void init(String[] args, File testSuiteRoot,
-                     TestEnvironment env) throws Fault {
+                                  TestEnvironment env) throws Fault {
          String delegateClassName = args[0];
          try {
              Class<? extends TestFinder> delegateClass =
@@ -88,18 +89,22 @@ public class ReverseTestFinder extends TestFinder
          }
     }
 
+    @Override
     public File getRoot() {
         return delegate.getRoot();
     }
 
+    @Override
     public File getRootDir() {
         return delegate.getRootDir();
     }
 
+    @Override
     public void read(File file) {
         delegate.read(file);
     }
 
+    @Override
     public TestDescription[] getTests() {
         TestDescription[] tds = delegate.getTests();
         if (tds != null) {
@@ -113,6 +118,7 @@ public class ReverseTestFinder extends TestFinder
         return tds;
     }
 
+    @Override
     public File[] getFiles() {
         File[] fs = delegate.getFiles();
         if (fs != null) {
@@ -126,6 +132,7 @@ public class ReverseTestFinder extends TestFinder
         return fs;
     }
 
+    @Override
     protected void scan(File file) {
         throw new Error("should not be called!");
     }

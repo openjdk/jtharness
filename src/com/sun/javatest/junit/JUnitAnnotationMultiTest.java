@@ -45,6 +45,7 @@ public class JUnitAnnotationMultiTest extends JUnitMultiTest {
         super(cl);
     }
 
+    @Override
     public Status run(String[] argv, PrintWriter stdout, PrintWriter stderr) {
         this.log = stderr;
         this.ref = stdout;
@@ -55,6 +56,7 @@ public class JUnitAnnotationMultiTest extends JUnitMultiTest {
     /**
      * Common method for running the test, used by all entry points.
      */
+    @Override
     public Status run0(String[] argv) {
         JUnitCore core = new JUnitCore();
         Result junitresult = core.run(testCaseClass);
@@ -79,6 +81,7 @@ public class JUnitAnnotationMultiTest extends JUnitMultiTest {
     /**
      * Entry point for standalone mode.
      */
+    @Override
     protected void setup(String executeClass) {
 
         try {
@@ -91,6 +94,7 @@ public class JUnitAnnotationMultiTest extends JUnitMultiTest {
         }
     }
 
+    @Override
     protected void printStackTrace(Throwable t) {
         t.printStackTrace(log);
     }

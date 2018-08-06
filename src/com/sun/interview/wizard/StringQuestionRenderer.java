@@ -40,6 +40,7 @@ import com.sun.interview.Question;
 public class StringQuestionRenderer
     implements QuestionRenderer
 {
+    @Override
     public JComponent getQuestionRendererComponent(final Question q, ActionListener listener) {
         StringQuestion sq = (StringQuestion) q;
         int nomMaxLen = sq.getNominalMaxLength();
@@ -50,6 +51,7 @@ public class StringQuestionRenderer
             return createTypeInPanel(sq, listener);
     }
 
+    @Override
     public String getInvalidValueMessage(Question q) {
         return null;
     }
@@ -97,6 +99,7 @@ public class StringQuestionRenderer
             final JTextArea textArea) {
 
         return new Runnable() {
+                @Override
                 public void run() {
                     q.setValue(textArea.getText());
                 }

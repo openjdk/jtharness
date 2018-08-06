@@ -78,6 +78,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
     }
 
+    @Override
     public void setHarness(Harness h) {
         h.addObserver(new Watcher());
     }
@@ -151,6 +152,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         return null;
     }
 
+    @Override
     public JMenu getFilterMenu() {
         return getFilterSelectionHandler().getFilterMenu();
     }
@@ -233,6 +235,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         }
     }
 
+    @Override
     public JMenu getMenu() {
         loadFilters();
         return null;
@@ -246,6 +249,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
     /**
      * Save internal state.
      */
+    @Override
     public void save(Map<String, String> m) {
         // -------- saved to given map (desktop) -------
         Preferences prefs = Preferences.access();
@@ -281,18 +285,22 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
         prefs.save();
     }
+    @Override
     public void restore(Map<String, String> m) {
         this.map = m;
         fHandler.setFilter(getDefaultFilter(m));
     }
+    @Override
     public void updateGUI() {
         // do nothing
     }
 
+    @Override
     public List<Action> getToolBarActionList() {
         return null;
     }
 
+    @Override
     public void dispose() {
         // do nothing
     }
@@ -461,6 +469,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
     private static final String META_NAME = "meta_tsn";
     private static final String META_CLASS = "meta_class";
 
+    @Override
     public void updated(Event ev) {
         if (ev instanceof BasicSession.E_NewConfig) {
             paramFilter.update(((BasicSession.E_NewConfig)ev).ip);
@@ -477,22 +486,27 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             prefs = p;
         }
 
+        @Override
         public void clear() {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean containsKey(Object o) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean containsValue(Object v) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Set<Map.Entry<String, String>> entrySet() {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public String get(Object key) {
             if (!(key instanceof String))
                 throw new IllegalArgumentException("key must be a string");
@@ -500,31 +514,38 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             return prefs.getPreference((String)key);
         }
 
+        @Override
         public boolean isEmpty() {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Set<String> keySet() {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public String put(String key, String value) {
             prefs.setPreference(key, value);
             return null;
         }
 
+        @Override
         public void putAll(Map<? extends String, ? extends String> t) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public String remove(Object key) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public int size() {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Collection<String> values() {
             throw new UnsupportedOperationException();
         }
@@ -539,10 +560,12 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
     private class FilterWatcher implements FilterSelectionHandler.Observer {
         // NOTE: disconnected in loadFilters()
         // ---------- FilterConfig.Observer ----------
+        @Override
         public void filterUpdated(TestFilter f) {
             // ignore here
         }
 
+        @Override
         public void filterSelected(TestFilter f) {
             // change menu selection
             /* XXX not implemented yet
@@ -558,6 +581,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         //      updateGUI();
         }
 
+        @Override
         public void filterAdded(TestFilter f) {
             // add to menu
             /* XXX not implemented yet
@@ -568,6 +592,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             */
         }
 
+        @Override
         public void filterRemoved(TestFilter f) {
             // rm from menu
             /* XXX not implemented yet
@@ -579,6 +604,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
     }
 
     class Watcher implements Harness.Observer {
+        @Override
         public void startingTestRun(Parameters params) {
             ltrFilter.setLastStartTime(System.currentTimeMillis());
             ltrFilter.clearTestURLs();
@@ -591,6 +617,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
                                                       false);
                     final JTextArea msg = uif.createMessageArea("exec.fltr.note");
                     EventQueue.invokeLater(new Runnable() {
+                        @Override
                         public void run() {
                             pan.setLayout(new BorderLayout());
                             pan.add(cb, BorderLayout.SOUTH);
@@ -616,18 +643,24 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             }   // if
         }
 
+        @Override
         public void startingTest(TestResult tr) {
             ltrFilter.addTestURL(tr.getTestName());
         }
 
+        @Override
         public void finishedTest(TestResult tr) { }
 
+        @Override
         public void stoppingTestRun() { }
 
+        @Override
         public void finishedTesting() { }
 
+        @Override
         public void finishedTestRun(boolean allOK) { }
 
+        @Override
         public void error(String msg) { }
     }
 }

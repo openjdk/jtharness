@@ -40,10 +40,12 @@ public class AllFilesFileFilter implements FileFilter {
         this.description = description;
     }
 
+    @Override
     public boolean accept(File f) {
         return (!f.isDirectory());
     }
 
+    @Override
     public boolean acceptsDirectories() {
         return false;
     }
@@ -52,6 +54,7 @@ public class AllFilesFileFilter implements FileFilter {
      * Get a short description for this filter.
      * @return a short description of this filter
      */
+    @Override
     public String getDescription() {
         return description;
     }

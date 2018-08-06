@@ -204,6 +204,7 @@ public class ProcessCommand extends Command
      * @see #getStatus
      *
      **/
+    @Override
     public Status run(String[] args, PrintWriter log, PrintWriter ref) {
         // analyze options
         int i = 0;
@@ -433,6 +434,7 @@ public class ProcessCommand extends Command
         /**
          * Set the thread going.
          */
+        @Override
         public void run() {
             //System.out.println("Copying stream");
             try {

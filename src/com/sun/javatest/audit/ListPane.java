@@ -62,10 +62,12 @@ abstract class ListPane extends AuditPane {
     }
 
     private class ListModel extends AbstractListModel<Object> {
+        @Override
         public Object getElementAt(int index) {
             return data[index];
         }
 
+        @Override
         public int getSize() {
             return (data == null ? 0 : data.length);
         }
@@ -79,6 +81,7 @@ abstract class ListPane extends AuditPane {
     }
 
     private class Renderer extends DefaultListCellRenderer {
+        @Override
         public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
             String name;
             if (o instanceof TestResult) {

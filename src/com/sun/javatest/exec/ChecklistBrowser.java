@@ -67,6 +67,7 @@ class ChecklistBrowser extends ToolDialog
         listener = new Listener();
     }
 
+    @Override
     protected void initGUI() {
         setHelp("checklist.window.csh");
 
@@ -254,6 +255,7 @@ class ChecklistBrowser extends ToolDialog
         implements ActionListener, Interview.Observer
     {
         // ActionListener
+        @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
             if (cmd.equals(SAVE_AS))
@@ -265,19 +267,23 @@ class ChecklistBrowser extends ToolDialog
         }
 
         // ComponentListener
+        @Override
         public void componentShown(ComponentEvent e) {
             params.addObserver(this);
             updateContent();
         }
 
+        @Override
         public void componentHidden(ComponentEvent e) {
             params.removeObserver(this);
         }
 
         // Interview.Observer
+        @Override
         public void currentQuestionChanged(Question q) {
         }
 
+        @Override
         public void pathUpdated() {
             updateContent();
         }
