@@ -277,14 +277,20 @@ public class TagTestFinder extends TestFinder
             if (fastScan)
                 cs.setFastScan(true);
 
-            String comment;
-            while ((comment = cs.readComment()) != null) {
+            String comment = cs.readComment();
+            while (comment != null) {
                 Map<String, String> tagValues = parseComment(comment, file);
+
+                // Look ahead to see if there are more comments
+                comment = cs.readComment();
+
                 if (tagValues.isEmpty())
                     continue;
 
                 if (tagValues.get("id") == null) {
-                    if (testDescNumber  != 0)
+                    // if there are more comments to come, or if there have already
+                    // been additional comments, set an explicit id for each set of tags
+                    if (comment != null || testDescNumber != 0)
                         tagValues.put("id", "id" + (Integer.valueOf(testDescNumber)).toString());
                     testDescNumber++;
                 }
