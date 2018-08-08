@@ -37,6 +37,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -59,6 +60,31 @@ public class ProductInfo
      */
     public static String getVersion() {
         return getProperty("version");
+    }
+
+    private static final DateFormat BUILD_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+    /**
+     * Returns detailed version string of this product.
+     * Format of the returned string is the following: $VNUM-$MLSTN+$BUILDNUM(-$BLDDATE)?
+     * where $VNUM value is provided by {@code ProductInfo.getVersion()},
+     * $MLSTN value is provided by {@code ProductInfo.getMilestone()},
+     * $BLDNUM value is provided by {@code ProductInfo.getBuildNumber()}.
+     * $BLDDATE is optional and is provided by {@code ProductInfo.getBuildDate()} in 'yyyy-MM-dd' format
+     * if returned date is not null.
+     *
+     * @return a string identifying detailed version of this product
+     * including milestone, build number and (optionally) product build date.
+     */
+    public static String getDetailedVersion() {
+        StringBuilder sb = new StringBuilder(getVersion()).append('-')
+                                     .append(getMilestone()).append('+')
+                                     .append(getBuildNumber());
+        Date buildDate = getBuildDate();
+        if (buildDate != null) {
+            sb.append('-').append(BUILD_DATE_FORMAT.format(buildDate));
+        }
+        return sb.toString();
     }
 
     /**

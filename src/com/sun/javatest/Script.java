@@ -193,7 +193,7 @@ public abstract class Script
             descUrl += "#" + id;
         testResult.putProperty(TestResult.DESCRIPTION, descUrl);
         testResult.putProperty(TestResult.START, testResult.formatDate(new Date()));
-        testResult.putProperty(TestResult.VERSION, ProductInfo.getVersion());
+        testResult.putProperty(TestResult.VERSION, ProductInfo.getDetailedVersion());
         testResult.putProperty(TestResult.WORK, testWork.getAbsolutePath());
         testResult.putProperty(TestResult.ENVIRONMENT, env.getName());
         testResult.putProperty(TestResult.VARIETY, ProductInfo.getHarnessVariety());
