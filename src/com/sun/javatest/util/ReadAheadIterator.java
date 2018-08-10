@@ -27,7 +27,9 @@
 package com.sun.javatest.util;
 
 
+import java.util.ArrayDeque;
 import java.util.Iterator;
+import java.util.Queue;
 
 /**
  * An iterator that can read ahead of the current position, either for
@@ -178,7 +180,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
     @Override
     public synchronized T next() {
         // see if there are items in the read ahead queue
-        T result = queue.remove();
+        T result = queue.poll();
 
         if (result == null) {
             // queue is empty: check whether to read source directly, or rely on the worker thread
@@ -216,7 +218,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
                     }
                 }
 
-                result = queue.remove();
+                result = queue.poll();
             }
         }
         else if (sourceHasNext && (queue.size() < minQueueSize)) {
@@ -268,7 +270,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
                 // check that the worker is still required; and
                 // wait (if necessary) for the queue to empty a bit
                 synchronized (this) {
-                    queue.insert(srcNext);
+                    queue.offer(srcNext);
                     sourceHasNext = srcHasNext;
                     notifyAll();
 
@@ -301,7 +303,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
     /**
      * The queue to hold the items that have been read from the underlying source iterator.
      */
-    private final Fifo<T> queue = new Fifo<>();
+    private final Queue<T> queue = new ArrayDeque<>();
 
     /**
      * The underlying source iterator.  If the worker thread is running, it alone

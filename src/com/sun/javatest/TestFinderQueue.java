@@ -30,9 +30,10 @@ import java.io.File;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Vector;
+import java.util.Queue;
+import java.util.ArrayDeque;
 
 import com.sun.javatest.util.DynamicArray;
-import com.sun.javatest.util.Fifo;
 import com.sun.javatest.util.I18NResourceBundle;
 
 /**
@@ -187,7 +188,7 @@ public class TestFinderQueue {
 
         // build up the fifo of tests to be used by readNextFile
 
-        tests = new Fifo<>();
+        tests = new ArrayDeque<>();
         currInitialFile = null;
 
         for (int pass = 0; pass < 2; pass++) {
@@ -207,7 +208,7 @@ public class TestFinderQueue {
                 String p = f.getPath();
                 if (p.endsWith(File.separator))
                     f = new File(p.substring(0, p.length() - 1));
-                tests.insert(f);
+                tests.offer(f);
             }
         }
 
@@ -234,10 +235,10 @@ public class TestFinderQueue {
      */
     public void repeat(TestDescription[] tds) {
         if (tests == null)
-            tests = new Fifo<>(); // for now
+            tests = new ArrayDeque<>(); // for now
         for (int i = 0; i < tds.length; i++) {
             TestDescription td = tds[i];
-            testDescsFound.insert(td);
+            testDescsFound.offer(td);
             testsFoundCount++;
             notifier.found(td);
         }
@@ -259,7 +260,7 @@ public class TestFinderQueue {
 
             // read files until there is a test description available or there
             // are no more files.
-            while ((td = testDescsFound.remove()) == null) {
+            while ((td = testDescsFound.poll()) == null) {
                 boolean ok = readNextFile();
                 if (!ok)
                     return null;
@@ -454,8 +455,8 @@ public class TestFinderQueue {
     public void flush() {
         synchronized (this) {
             filesToRead.setSize(0);
-            tests.flush();
-            testDescsFound.flush();
+            tests.clear();
+            testDescsFound.clear();
             filesRemainingCount = 0;
         }
         notifier.flushed();
@@ -509,7 +510,7 @@ public class TestFinderQueue {
             // are there any more tests that have not been read?
             // check until we find one (just one).
             while (filesToRead.isEmpty() && !tests.isEmpty()) {
-                currInitialFile = tests.remove();
+                currInitialFile = tests.poll();
                 foundFile(currInitialFile);
             }
 
@@ -620,7 +621,7 @@ public class TestFinderQueue {
                 }
             }
 
-            testDescsFound.insert(td);
+            testDescsFound.offer(td);
             testsFoundCount++;
             notifier.found(td);
         }
@@ -698,7 +699,7 @@ public class TestFinderQueue {
 
 
     private TestFinder testFinder;
-    private Fifo<File> tests;
+    private Queue<File> tests;
     private TestFilter[] filters;
     private String selectedId;
     private File rootDir;
@@ -708,7 +709,7 @@ public class TestFinderQueue {
 
     private Vector<File> filesToRead  = new Vector<>(32, 8);
     private int fileInsertPosn;
-    private Fifo<TestDescription> testDescsFound = new Fifo<>();
+    private Queue<TestDescription> testDescsFound = new ArrayDeque<>();
     private int filesRemainingCount;
     private int filesDoneCount;
     private int testsDoneCount;

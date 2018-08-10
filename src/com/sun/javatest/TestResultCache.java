@@ -33,10 +33,11 @@ import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Queue;
+import java.util.ArrayDeque;
 
 import com.sun.javatest.logging.WorkDirLogHandler;
 import com.sun.javatest.util.Debug;
-import com.sun.javatest.util.Fifo;
 import com.sun.javatest.util.I18NResourceBundle;
 
 import java.util.logging.Handler;
@@ -173,7 +174,7 @@ public class TestResultCache {
             Debug.println("TRC.insert " + tr.getWorkRelativePath() + " " + tr.getStatus());
 
         reviveWeakReferences();
-        testsToWrite.insert(tr);
+        testsToWrite.offer(tr);
         notifyAll();
     }
 
@@ -339,7 +340,7 @@ public class TestResultCache {
             // quit rebuilding the cache and give up, as quickly as possible,
             // leaving the next client to rebuild the cache instead
             if (rebuildCache && shutdownRequested) {
-                testsToWrite.flush();
+                testsToWrite.clear();
                 raf.setLength(0);
                 return;
             }
@@ -678,7 +679,7 @@ public class TestResultCache {
         // it till its empty, even though some tests may even have been added
         // after the worker woke up
         TestResult tr;
-        while ((tr = testsToWrite.remove()) != null) {
+        while ((tr = testsToWrite.poll()) != null) {
             // check if test is in the set we've just read
             String name = tr.getTestName();
             TestResult tr2 = tests.get(name);
@@ -716,7 +717,7 @@ public class TestResultCache {
         int debugCount = 0;
         raf.seek(lastFileSize);
         TestResult tr;
-        while ((tr = testsToWrite.remove()) != null) {
+        while ((tr = testsToWrite.poll()) != null) {
             if (tests != null) {
                 // check if test is in the set we've just read
                 String name = tr.getTestName();
@@ -885,7 +886,7 @@ public class TestResultCache {
     private boolean compressRequested;
     private boolean flushRequested;
     private boolean shutdownRequested;
-    private Fifo<TestResult> testsToWrite = new Fifo<>();
+    private Queue<TestResult> testsToWrite = new ArrayDeque<>();
 
     private static final String V1_FILENAME = "ResultCache.jtw";
     private static final String V1_LOCKNAME = V1_FILENAME + ".lck";
