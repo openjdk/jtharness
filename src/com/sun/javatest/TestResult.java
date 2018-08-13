@@ -35,7 +35,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.sun.javatest.util.*;
-import com.sun.javatest.util.Properties;
 
 /**
  * The TestResult object encapsulates the results from a test.
@@ -2112,14 +2111,13 @@ public class TestResult {
         }
 
         // store if needed
-        Properties pairs = new Properties();
+        Map<String, String> pairs = new HashMap<>();
         if (props == null || desc == null) {
             StringReader sr = new StringReader(buff.toString());
             buff = null;
             line = null;
 
-            pairs = new Properties();
-            pairs.load(sr);
+            pairs = com.sun.javatest.util.Properties.load(sr);
         }
 
         if (props == null) {

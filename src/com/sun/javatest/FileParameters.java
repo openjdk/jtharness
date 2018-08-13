@@ -29,6 +29,7 @@ package com.sun.javatest;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
+import java.util.Map;
 
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.Properties;
@@ -69,30 +70,30 @@ public class FileParameters
     public FileParameters(File file)
         throws FileNotFoundException, IOException
     {
-        Properties p = new Properties();
-        Reader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
-        p.load(in);
-        in.close();
+        Map<String, String> p;
+        try (Reader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+            p = Properties.load(in);
+        }
 
-        setTestSuite(adjustPath(p.getProperty("javasoft.sqe.javatest.selection.testSuite")));
-        setWorkDirectory(p.getProperty("javasoft.sqe.javatest.results.workDir"));
-        setTests(p.getProperty("javasoft.sqe.javatest.selection.tests"));
-        setExcludeFiles(p.getProperty("javasoft.sqe.javatest.selection.excludeList"));
-        String keywordOp = p.getProperty("javasoft.sqe.javatest.selection.keywordOp");
-        String keywords = p.getProperty("javasoft.sqe.javatest.selection.keywords");
+        setTestSuite(adjustPath(p.get("javasoft.sqe.javatest.selection.testSuite")));
+        setWorkDirectory(p.get("javasoft.sqe.javatest.results.workDir"));
+        setTests(p.get("javasoft.sqe.javatest.selection.tests"));
+        setExcludeFiles(p.get("javasoft.sqe.javatest.selection.excludeList"));
+        String keywordOp = p.get("javasoft.sqe.javatest.selection.keywordOp");
+        String keywords = p.get("javasoft.sqe.javatest.selection.keywords");
         setKeywords(keywordOp, keywords);
-        String statusOp = p.getProperty("javasoft.sqe.javatest.selection.status");
+        String statusOp = p.get("javasoft.sqe.javatest.selection.status");
         String[] statusTests = new String[Status.NUM_STATES];
-        statusTests[Status.PASSED] = p.getProperty("javasoft.sqe.javatest.selection.prev.passed");
-        statusTests[Status.FAILED] = p.getProperty("javasoft.sqe.javatest.selection.prev.failed");
-        statusTests[Status.ERROR] = p.getProperty("javasoft.sqe.javatest.selection.prev.error");
-        statusTests[Status.NOT_RUN] = p.getProperty("javasoft.sqe.javatest.selection.prev.notRun");
+        statusTests[Status.PASSED] = p.get("javasoft.sqe.javatest.selection.prev.passed");
+        statusTests[Status.FAILED] = p.get("javasoft.sqe.javatest.selection.prev.failed");
+        statusTests[Status.ERROR] = p.get("javasoft.sqe.javatest.selection.prev.error");
+        statusTests[Status.NOT_RUN] = p.get("javasoft.sqe.javatest.selection.prev.notRun");
         setPriorStatusValues(statusOp, statusTests);
-        setEnvFiles(p.getProperty("javasoft.sqe.javatest.execution.envFiles"));
-        setEnvName(p.getProperty("javasoft.sqe.javatest.execution.environment"));
-        setConcurrency(p.getProperty("javasoft.sqe.javatest.execution.concurrency"));
-        setTimeoutFactor(p.getProperty("javasoft.sqe.javatest.execution.timeFactor"));
-        setReportDir(p.getProperty("javasoft.sqe.javatest.results.reportDir"));
+        setEnvFiles(p.get("javasoft.sqe.javatest.execution.envFiles"));
+        setEnvName(p.get("javasoft.sqe.javatest.execution.environment"));
+        setConcurrency(p.get("javasoft.sqe.javatest.execution.concurrency"));
+        setTimeoutFactor(p.get("javasoft.sqe.javatest.execution.timeFactor"));
+        setReportDir(p.get("javasoft.sqe.javatest.results.reportDir"));
     }
 
     /**
