@@ -41,7 +41,6 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
-import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.Vector;
@@ -60,6 +59,8 @@ import com.sun.javatest.util.DirectoryClassLoader;
 //import com.sun.javatest.util.PathClassLoader;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.PropertyUtils;
+
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -984,7 +985,7 @@ public class ConfigManager
         private Map<String, String> loadFile(File file) throws Fault {
             try (FileInputStream fis = new FileInputStream(file);
                  InputStream in = new BufferedInputStream(fis)) {
-                return com.sun.javatest.util.Properties.load(in);
+                return PropertyUtils.load(in);
             }
             catch (FileNotFoundException e) {
                 throw new Fault(i18n, "cnfg.set.cantFindFile", file);
@@ -1058,7 +1059,7 @@ public class ConfigManager
         private Map<String, String> loadFile(File file) throws Fault {
             try (FileInputStream fis = new FileInputStream(file);
                 InputStream in = new BufferedInputStream(fis)) {
-                return com.sun.javatest.util.Properties.load(in);
+                return PropertyUtils.load(in);
             }
             catch (FileNotFoundException e) {
                 throw new Fault(i18n, "cnfg.set.cantFindFile", file);

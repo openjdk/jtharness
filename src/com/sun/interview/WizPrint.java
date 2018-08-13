@@ -26,7 +26,7 @@
  */
 package com.sun.interview;
 
-import com.sun.javatest.util.Properties;
+import com.sun.javatest.util.PropertyUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -174,7 +174,7 @@ public class WizPrint
             if (interviewFile != null) {
                 try {
                     InputStream in = new BufferedInputStream(new FileInputStream(interviewFile));
-                    interviewData = Properties.load(in);
+                    interviewData = PropertyUtils.load(in);
                     interviewClassName = interviewData.get("INTERVIEW");
                 }
                 catch (FileNotFoundException e) {

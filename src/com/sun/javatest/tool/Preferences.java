@@ -28,7 +28,7 @@ package com.sun.javatest.tool;
 
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.Properties;
+import com.sun.javatest.util.PropertyUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -104,7 +104,7 @@ public class Preferences
         try {
             if (prefsFile != null) {
                 InputStream in = new BufferedInputStream(new FileInputStream(prefsFile));
-                props = Properties.loadSorted(in);
+                props = PropertyUtils.loadSorted(in);
                 in.close();
                 fileModifiedTime = prefsFile.lastModified();
             }
@@ -129,7 +129,7 @@ public class Preferences
                 if (!parentDir.exists())
                     parentDir.mkdirs();
                 OutputStream out = new BufferedOutputStream(new FileOutputStream(prefsFile));
-                Properties.store(props, out, "JT Harness Preferences");
+                PropertyUtils.store(props, out, "JT Harness Preferences");
                 out.close();
                 isUpToDate = true;
                 fileModifiedTime = prefsFile.lastModified();

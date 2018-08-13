@@ -48,6 +48,7 @@ import java.util.TreeMap;
 import com.sun.javatest.logging.LoggerFactory;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.LogFile;
+import com.sun.javatest.util.PropertyUtils;
 
 /**
  * A class providing access to the working state of a test run, as embodied
@@ -1194,7 +1195,7 @@ public class WorkDirectory {
 
     private static Map<String, String> loadInfo(File jtData, String name) throws FileNotFoundException, IOException {
         try (InputStream in = new BufferedInputStream(new FileInputStream(new File(jtData, name)))) {
-            return com.sun.javatest.util.Properties.load(in);
+            return PropertyUtils.load(in);
         }
     }
 

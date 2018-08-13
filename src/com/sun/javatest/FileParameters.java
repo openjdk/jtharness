@@ -32,7 +32,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.Properties;
+import com.sun.javatest.util.PropertyUtils;
 import com.sun.javatest.util.StringArray;
 
 /**
@@ -72,7 +72,7 @@ public class FileParameters
     {
         Map<String, String> p;
         try (Reader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
-            p = Properties.load(in);
+            p = PropertyUtils.load(in);
         }
 
         setTestSuite(adjustPath(p.get("javasoft.sqe.javatest.selection.testSuite")));

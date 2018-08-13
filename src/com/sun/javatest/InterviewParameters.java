@@ -45,7 +45,7 @@ import com.sun.javatest.tool.CustomPropagationController;
 import com.sun.javatest.tool.FileHistory;
 import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.Properties;
+import com.sun.javatest.util.PropertyUtils;
 
 /**
  * Configuration parameters provided via an interview.
@@ -1003,7 +1003,7 @@ public abstract class InterviewParameters
         Map<String, String> data;
 
         try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
-            data = Properties.load(in);
+            data = PropertyUtils.load(in);
         }
         catch (RuntimeException e) {
             // can get IllegalArgumentException if the file is corrupt
@@ -1280,7 +1280,7 @@ public abstract class InterviewParameters
      */
     public boolean load(File file) throws FileNotFoundException, IOException, Fault {
         try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
-            Map<String, String> data = Properties.load(in);
+            Map<String, String> data = PropertyUtils.load(in);
             return load(data, file);
         }
     }
@@ -1599,7 +1599,7 @@ public abstract class InterviewParameters
             out = backupPolicy.backupAndOpenStream(file);
 
         try {
-            Properties.store(data, out, "JT Harness Configuration Interview");
+            PropertyUtils.store(data, out, "JT Harness Configuration Interview");
         }
         finally {
             out.close();

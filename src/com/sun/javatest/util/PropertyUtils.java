@@ -33,7 +33,7 @@ import java.util.*;
 /**
  * A collection of utility methods related to {@code java.util.Properties} loading, saving and transformation.
  */
-public class Properties {
+public class PropertyUtils {
 
     /**
      * Utility method that writes the given map of strings to the given output stream with provided comments

@@ -26,6 +26,8 @@
  */
 package com.sun.interview;
 
+import com.sun.javatest.util.PropertyUtils;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -153,7 +155,7 @@ public class WizEdit
 
             try {
                 InputStream in = new BufferedInputStream(new FileInputStream(interviewFile));
-                Map<String, String> stringProps = com.sun.javatest.util.Properties.load(in);
+                Map<String, String> stringProps = PropertyUtils.load(in);
                 String interviewClassName = stringProps.get("INTERVIEW");
                 if (interviewClassName == null)
                     throw new Fault(i18n, "edit.noInterview");
@@ -177,7 +179,7 @@ public class WizEdit
             try {
                 OutputStream out = new BufferedOutputStream(new FileOutputStream(outFileName));
                 Properties p = new Properties();
-                interview.save(com.sun.javatest.util.Properties.convertToStringProps(p));
+                interview.save(PropertyUtils.convertToStringProps(p));
                 p.store(out, "Interview: " + interview.getTitle());
             }
             catch (IOException e) {

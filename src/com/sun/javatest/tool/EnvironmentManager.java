@@ -35,7 +35,7 @@ import com.sun.javatest.JavaTestSecurityManager;
 import com.sun.javatest.TestEnvironment;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.Properties;
+import com.sun.javatest.util.PropertyUtils;
 
 /**
  * A command manager to handle the command line options for adding
@@ -129,7 +129,7 @@ public class EnvironmentManager extends CommandManager
                     // open up the properties access permission to get system props.
                     boolean prev = ((JavaTestSecurityManager) sc).setAllowPropertiesAccess(true);
                     try {
-                        sysProps = Properties.convertToStringProps( System.getProperties() );
+                        sysProps = PropertyUtils.convertToStringProps( System.getProperties() );
                     }
                     finally {
                         ((JavaTestSecurityManager) sc).setAllowPropertiesAccess(prev);
@@ -138,7 +138,7 @@ public class EnvironmentManager extends CommandManager
                 else {
                     // if not JTSecurityManager, try to get properties anyway
                     // and handle the exception if we can't get them
-                    sysProps = Properties.convertToStringProps( System.getProperties() );
+                    sysProps = PropertyUtils.convertToStringProps( System.getProperties() );
                 }
                 TestEnvironment.addDefaultPropTable(i18n.getString("env.def.sysProps"), sysProps);
             }

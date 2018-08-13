@@ -334,11 +334,11 @@ public class PropertyArray {
         for (int i = 0; i < data.length; i+=2) {
             String key = data[i];
             String val = data[i+1];
-            key = Properties.saveConvert(key, true, false);
+            key = PropertyUtils.saveConvert(key, true, false);
             /* No need to escape embedded and trailing spaces for value, hence
              * pass false to flag.
              */
-            val = Properties.saveConvert(val, false, false);
+            val = PropertyUtils.saveConvert(val, false, false);
             bout.write(key + "=" + val);
             bout.newLine();
         }
@@ -357,7 +357,7 @@ public class PropertyArray {
      */
     public static String[] load(Reader in) throws IOException {
 
-        Vector<String> v = Properties.load0(in, true);
+        Vector<String> v = PropertyUtils.load0(in, true);
         Vector<String> sorted = new Vector<>(v.size());
         for (int i = 0; i < v.size(); i+=2) {
             insert(sorted, v.elementAt(i), v.elementAt(i + 1));

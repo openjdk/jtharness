@@ -36,7 +36,7 @@ import java.util.Vector;
 
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.Properties;
+import com.sun.javatest.util.PropertyUtils;
 import com.sun.javatest.util.StringArray;
 
 /**
@@ -104,7 +104,7 @@ public class TestEnvironment
      * @throws NullPointerException if either name or propTable is null.
      */
     public static synchronized void addDefaultPropTable(String name, java.util.Properties propTable) {
-        addDefaultPropTable(name, Properties.convertToStringProps(propTable));
+        addDefaultPropTable(name, PropertyUtils.convertToStringProps(propTable));
     }
 
     /**

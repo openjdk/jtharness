@@ -617,7 +617,7 @@ public class CommandContext
 
                 try {
                     try (InputStream in = new BufferedInputStream(new FileInputStream(configFilePath))) {
-                        configData = Properties.load(in);
+                        configData = PropertyUtils.load(in);
                     }
                     catch (RuntimeException e) {
                         // can get IllegalArgumentException if the file is corrupt

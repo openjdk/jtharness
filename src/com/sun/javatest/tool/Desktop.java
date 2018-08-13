@@ -71,7 +71,7 @@ import com.sun.javatest.tool.jthelp.HelpSet;
 import com.sun.javatest.tool.jthelp.JTHelpBroker;
 import com.sun.javatest.util.*;
 import com.sun.javatest.report.HTMLWriterEx;
-import com.sun.javatest.util.Properties;
+import com.sun.javatest.util.PropertyUtils;
 
 import java.awt.print.Printable;
 import java.awt.print.PrinterJob;
@@ -855,7 +855,7 @@ public class Desktop
                 dir.mkdirs();
             try (FileOutputStream fos = new FileOutputStream(f);
                  OutputStream out = new BufferedOutputStream(fos)) {
-                Properties.store(p, out, "JT Harness Desktop");
+                PropertyUtils.store(p, out, "JT Harness Desktop");
             }
         }
         catch (IOException e) {
@@ -1016,7 +1016,7 @@ public class Desktop
         if (file != null && file.exists()) {
             try (FileInputStream fis = new FileInputStream(file);
                  InputStream in = new BufferedInputStream(fis)) {
-                stringPropsMap = Properties.load(in);
+                stringPropsMap = PropertyUtils.load(in);
             }
             catch (IOException e) {
                 // I18N

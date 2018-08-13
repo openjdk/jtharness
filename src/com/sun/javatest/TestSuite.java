@@ -40,7 +40,6 @@ import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,6 +57,7 @@ import com.sun.javatest.services.ServiceReader;
 import com.sun.javatest.services.PropertyServiceReader;
 import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.PropertyUtils;
 import com.sun.javatest.util.StringArray;
 
 import java.lang.reflect.Method;
@@ -217,7 +217,7 @@ public class TestSuite
         File f = new File(canonRootDir, TESTSUITE_JTT);
         if (isReadableFile(f)) {
             try (InputStream in = new BufferedInputStream(new FileInputStream(f))) {
-                Map<String, String> p = com.sun.javatest.util.Properties.load(in);
+                Map<String, String> p = PropertyUtils.load(in);
                 return open(canonRoot, p);
             }
             catch (IOException e) {
@@ -815,7 +815,7 @@ public class TestSuite
         throws Fault, IOException
     {
         try (InputStream in = new BufferedInputStream(new FileInputStream(template))) {
-            Map<String, String> stringProps = com.sun.javatest.util.Properties.load(in);
+            Map<String, String> stringProps = PropertyUtils.load(in);
             String tm = stringProps.get(InterviewParameters.IS_TEMPLATE);
             if (InterviewParameters.TRUE.equals(tm)) {
                 stringProps.put(InterviewParameters.TEMPLATE_PATH,

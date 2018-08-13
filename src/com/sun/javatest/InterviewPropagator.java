@@ -33,7 +33,7 @@ import com.sun.interview.Question;
 import com.sun.javatest.report.HTMLWriterEx;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.tool.CustomPropagationController.EventType;
-import com.sun.javatest.util.Properties;
+import com.sun.javatest.util.PropertyUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -87,7 +87,7 @@ public class InterviewPropagator {
             try {
                 File template = new File(interview.getTemplatePath());
                 in = new BufferedInputStream(new FileInputStream(template));
-                templateData = Properties.load(in);
+                templateData = PropertyUtils.load(in);
 
                 fireEvent(EventType.TemplateLoaded, templateData);
             } catch (FileNotFoundException ex) {

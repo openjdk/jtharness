@@ -77,6 +77,7 @@ import com.sun.interview.WizPrint;
 import com.sun.javatest.tool.jthelp.HelpBroker;
 import com.sun.javatest.tool.jthelp.HelpSet;
 import com.sun.javatest.tool.jthelp.JTHelpBroker;
+import com.sun.javatest.util.PropertyUtils;
 
 /**
  * A wizard to present an {@link Interview interview} consisting of
@@ -156,7 +157,7 @@ public class Wizard extends JComponent {
     public void open(File f) throws Interview.Fault, IOException {
         try (InputStream in = new BufferedInputStream(new FileInputStream(f))) {
 
-            Map<String, String> stringProps = com.sun.javatest.util.Properties.load(in);
+            Map<String, String> stringProps = PropertyUtils.load(in);
             interview.load(stringProps);
             interview.setEdited(false);
             String info = stringProps.get("INFO");
@@ -178,7 +179,7 @@ public class Wizard extends JComponent {
             Properties p = new Properties();
             if (infoPanel != null)
                 p.put("INFO", String.valueOf(infoPanel.isShowing()));
-            interview.save(com.sun.javatest.util.Properties.convertToStringProps(p));
+            interview.save(PropertyUtils.convertToStringProps(p));
             interview.setEdited(false);
             p.save(out, "Wizard data file: " + interview.getTitle());
         }

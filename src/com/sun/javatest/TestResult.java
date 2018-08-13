@@ -2117,7 +2117,7 @@ public class TestResult {
             buff = null;
             line = null;
 
-            pairs = com.sun.javatest.util.Properties.load(sr);
+            pairs = PropertyUtils.load(sr);
         }
 
         if (props == null) {

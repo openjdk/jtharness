@@ -28,13 +28,12 @@ package com.sun.javatest;
 
 import java.io.*;
 //import java.util.Hashtable;
-import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
 import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.Properties;
+import com.sun.javatest.util.PropertyUtils;
 import com.sun.javatest.util.DynamicArray;
 //import com.sun.interview.Interview;
 
@@ -183,7 +182,7 @@ public class TestEnvContext
 
         try {
             InputStream in = new BufferedInputStream(new FileInputStream(f));
-            Map<String, String> p = Properties.load(in);
+            Map<String, String> p = PropertyUtils.load(in);
             in.close();
 
             /*
