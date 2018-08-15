@@ -180,10 +180,8 @@ public class TestEnvContext
         if (f == null)
             return null;
 
-        try {
-            InputStream in = new BufferedInputStream(new FileInputStream(f));
+        try (InputStream in = new BufferedInputStream(new FileInputStream(f))) {
             Map<String, String> p = PropertyUtils.load(in);
-            in.close();
 
             /*
             if (f.getName().endsWith(".jti" )) {  //BETTER TO GET THIS FROM SOMEWHERE

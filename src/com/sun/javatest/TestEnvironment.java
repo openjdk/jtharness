@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.Vector;
 
@@ -103,7 +104,7 @@ public class TestEnvironment
      * @see #clearDefaultPropTables
      * @throws NullPointerException if either name or propTable is null.
      */
-    public static synchronized void addDefaultPropTable(String name, java.util.Properties propTable) {
+    public static synchronized void addDefaultPropTable(String name, Properties propTable) {
         addDefaultPropTable(name, PropertyUtils.convertToStringProps(propTable));
     }
 

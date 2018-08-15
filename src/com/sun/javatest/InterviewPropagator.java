@@ -77,16 +77,14 @@ public class InterviewPropagator {
             interview.getPropagationController().setInterview(interview);
             fireEvent(EventType.Start, null);
 
-            InputStream in = null;
             PrintStream psConflicts = null;
             PrintStream psUpdates = null;
             boolean needToSave1 = false, needToSave2 = false;
 
             Map<String, String> templateData = new HashMap<>();
 
-            try {
-                File template = new File(interview.getTemplatePath());
-                in = new BufferedInputStream(new FileInputStream(template));
+            File template = new File(interview.getTemplatePath());
+            try (InputStream in = new BufferedInputStream(new FileInputStream(template))) {
                 templateData = PropertyUtils.load(in);
 
                 fireEvent(EventType.TemplateLoaded, templateData);
@@ -149,13 +147,8 @@ public class InterviewPropagator {
             } catch (IOException ex) {
                 logException(ex);
             } finally {
-                try {
-                    if (psConflicts != null) psConflicts.close();
-                    if (psUpdates != null) psUpdates.close();
-                    if (in != null) in.close();     // this one can throw
-                } catch (IOException ex) {
-                    logException(ex);
-                }
+                if (psConflicts != null) psConflicts.close();
+                if (psUpdates != null) psUpdates.close();
             }
             if (needToSave1 || needToSave2 || pm.hasConflicts() || pm.hasUpdates())
                 fireEvent(EventType.Finish, null);
