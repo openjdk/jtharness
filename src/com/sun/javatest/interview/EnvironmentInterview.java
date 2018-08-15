@@ -83,7 +83,7 @@ public class EnvironmentInterview
     @Override
     public File[] getAbsoluteEnvFiles() {
         TestSuite ts = parent.getTestSuite();
-        File tsRootDir = (ts == null ? null : ts.getRootDir());
+        File tsRootDir = ts == null ? null : ts.getRootDir();
         return getAbsoluteFiles(tsRootDir, getEnvFiles());
     }
 
@@ -272,12 +272,12 @@ public class EnvironmentInterview
                         cachedEnvErrorArgs = null;
                         for (Iterator<TestEnvironment.Element> i = cachedEnv.elements().iterator();
                              i.hasNext() && cachedEnvError == null; ) {
-                            TestEnvironment.Element entry = (i.next());
+                            TestEnvironment.Element entry = i.next();
                             if (entry.getValue().indexOf("VALUE_NOT_DEFINED") >= 0) {
                                 cachedEnv = null;
                                 String eText =
-                                    ( (entry.getDefinedInEnv() == null ? "" : "env." +  entry.getDefinedInEnv() + ".") +
-                                      entry.getKey() + "=" + entry.getValue());
+                                        (entry.getDefinedInEnv() == null ? "" : "env." +  entry.getDefinedInEnv() + ".") +
+                                          entry.getKey() + "=" + entry.getValue();
                                 cachedEnvError = qEnvUndefinedEntry;
                                 cachedEnvErrorArgs = new Object[] {eText, entry.getDefinedInFile()};
                             }
@@ -362,7 +362,7 @@ public class EnvironmentInterview
         File[] absoluteFiles = new File[files.length];
         for (int i = 0; i < files.length; i++) {
             File f = files[i];
-            absoluteFiles[i] = (f.isAbsolute() ? f : new File(baseDir, f.getPath()));
+            absoluteFiles[i] = f.isAbsolute() ? f : new File(baseDir, f.getPath());
         }
 
         return absoluteFiles;
@@ -371,12 +371,12 @@ public class EnvironmentInterview
     //----------------------------------------------------------------------------
 
     private static boolean equal(File f1, File f2) {
-        return (f1 == null ? f2 == null : f1.equals(f2));
+        return f1 == null ? f2 == null : f1.equals(f2);
     }
 
     private static boolean equal(File[] f1, File[] f2) {
         if (f1 == null || f2 == null)
-            return (f1 == f2);
+            return f1 == f2;
 
         if (f1.length != f2.length)
             return false;
@@ -390,7 +390,7 @@ public class EnvironmentInterview
     }
 
     private static boolean equal(String s1, String s2) {
-        return (s1 == null ? s2 == null : s1.equals(s2));
+        return s1 == null ? s2 == null : s1.equals(s2);
     }
 
 

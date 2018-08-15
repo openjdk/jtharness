@@ -128,7 +128,7 @@ class SummaryPane extends AuditPane {
         out.startTag(HTMLWriterEx.TD);
 
         TestDescription[] bad = currAudit.getBadTests();
-        int count = (bad == null ? 0 : bad.length);
+        int count = bad == null ? 0 : bad.length;
         if (count == 0)
             out.writeI18N("smry.tr.allOK");
         else
@@ -180,7 +180,7 @@ class SummaryPane extends AuditPane {
         out.startTag(HTMLWriterEx.TD);
 
         TestResult[] bad = currAudit.getBadTestDescriptions();
-        int count = (bad == null ? 0 : bad.length);
+        int count = bad == null ? 0 : bad.length;
         if (count == 0)
             out.writeI18N("smry.td.allOK");
         else
@@ -201,7 +201,7 @@ class SummaryPane extends AuditPane {
         out.startTag(HTMLWriterEx.TD);
 
         TestResult[] bad = currAudit.getBadTestCaseTests();
-        int count = (bad == null ? 0 : bad.length);
+        int count = bad == null ? 0 : bad.length;
         if (count == 0)
             out.writeI18N("smry.tc.allOK");
         else

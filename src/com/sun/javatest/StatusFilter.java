@@ -113,7 +113,7 @@ public class StatusFilter extends TestFilter {
 
     @Override
     public boolean accepts(TestResult tr) throws Fault {
-        assert(tr != null);
+        assert tr != null;
 
         Status s = tr.getStatus();
         if (s == null)
@@ -135,7 +135,7 @@ public class StatusFilter extends TestFilter {
                 return false;
         }
 
-        return (trt == other.trt);
+        return trt == other.trt;
     }
 
     @Override

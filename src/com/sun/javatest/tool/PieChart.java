@@ -133,8 +133,8 @@ public class PieChart extends JComponent /* implements Accessible*/ {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                              RenderingHints.VALUE_ANTIALIAS_ON);
 
-        int maxDia = Math.min((getWidth() - inset.left - inset.right),
-                              (getHeight() - inset.top - inset.bottom));
+        int maxDia = Math.min(getWidth() - inset.left - inset.right,
+                getHeight() - inset.top - inset.bottom);
         float targetDia = (float)maxDia * 0.8f;
 
 
@@ -146,7 +146,7 @@ public class PieChart extends JComponent /* implements Accessible*/ {
         }
         else {
             // vertical centering
-            boxY = ((float)(getHeight() / 2)) - (0.5f * targetDia);
+            boxY = (float)(getHeight() / 2) - (0.5f * targetDia);
         }
 
         // center of gradient circle
@@ -180,7 +180,7 @@ public class PieChart extends JComponent /* implements Accessible*/ {
             else if (Math.abs( slices[i] - sum) < .0000001) // slices[i] == sum
                 dist[i] = 360.0f;
             else
-                dist[i] = 360.0f * (((float)slices[i]) / sum);
+                dist[i] = 360.0f * ((float)slices[i] / sum);
         }
 
         // post process to provide slices of minimal viewable size

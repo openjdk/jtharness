@@ -219,7 +219,7 @@ public class ConflictResolutionDialog extends JDialog {
 
             } else if (cmd.equals(useMostRecentCheckBoxStr)) {
                 if ((list.getSelectedValues().length == 0) &&
-                        (!useMostRecentCheckBox.isSelected())) {
+                        !useMostRecentCheckBox.isSelected()) {
                     resolveButton.setEnabled(false);
                 } else {
                     resolveButton.setEnabled(true);
@@ -245,7 +245,7 @@ public class ConflictResolutionDialog extends JDialog {
             if(e.getValueIsAdjusting()) return;
 
             if ((list.getSelectedValues().length == 0) &&
-                    (!useMostRecentCheckBox.isSelected())) {
+                    !useMostRecentCheckBox.isSelected()) {
                 resolveButton.setEnabled(false);
             } else {
                 resolveButton.setEnabled(true);

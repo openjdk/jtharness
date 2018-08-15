@@ -203,7 +203,7 @@ public class LineParser
                 currWord = null;
             }
 
-            return (currLine.size() > 0 ? endLine() : null);
+            return currLine.size() > 0 ? endLine() : null;
         }
         catch (IOException e) {
             throw new Fault(i18n, "lineParser.ioError",

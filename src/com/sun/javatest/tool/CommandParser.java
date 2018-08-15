@@ -295,7 +295,7 @@ public class CommandParser
     }
 
     private static ListIterator<String> getIterator(final String[] args) {
-        return (new ListIterator<String>() {
+        return new ListIterator<String>() {
                 @Override
                 public void add(String o) {
                     throw new UnsupportedOperationException();
@@ -303,17 +303,17 @@ public class CommandParser
 
                 @Override
                 public boolean hasNext() {
-                    return (index < args.length);
+                    return index < args.length;
                 }
 
                 @Override
                 public boolean hasPrevious() {
-                    return (index > 0);
+                    return index > 0;
                 }
 
                 @Override
                 public String next() {
-                    return (index < args.length ? args[index++] : null);
+                    return index < args.length ? args[index++] : null;
                 }
 
                 @Override
@@ -323,12 +323,12 @@ public class CommandParser
 
                 @Override
                 public String previous() {
-                    return (index > 0 ? args[--index] : null);
+                    return index > 0 ? args[--index] : null;
                 }
 
                 @Override
                 public int previousIndex() {
-                    return (index - 1);
+                    return index - 1;
                 }
 
                 @Override
@@ -342,7 +342,7 @@ public class CommandParser
                 }
 
                 private int index;
-            });
+            };
     }
 
     private CommandManager[] mgrs;

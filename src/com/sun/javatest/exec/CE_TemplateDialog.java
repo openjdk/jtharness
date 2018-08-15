@@ -239,7 +239,7 @@ class CE_TemplateDialog extends ToolDialog
         boolean wdb = workDirCheckBox.isSelected();
 
         try {
-            c.saveAs(file, tsb, (tsb == false ? false : wdb), true);
+            c.saveAs(file, tsb, tsb == false ? false : wdb, true);
             if (createdNew) {
                 c.dispose();
             }
@@ -325,7 +325,7 @@ class CE_TemplateDialog extends ToolDialog
                     ok = false;
                 else {
                     File parent = f.getParentFile();
-                    ok = (parent != null && parent.exists() && parent.isDirectory());
+                    ok = parent != null && parent.exists() && parent.isDirectory();
                 }
             }
 

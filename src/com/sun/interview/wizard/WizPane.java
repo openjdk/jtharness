@@ -132,7 +132,7 @@ public class WizPane extends JPanel
      * and false otherwise
      */
     public boolean hasInfo() {
-        return (infoPanel != null);
+        return infoPanel != null;
     }
 
     /**
@@ -142,7 +142,7 @@ public class WizPane extends JPanel
      * @see #setInfoVisible
      */
     public boolean isInfoVisible() {
-        return (main instanceof JSplitPane);
+        return main instanceof JSplitPane;
     }
 
     /**
@@ -191,7 +191,7 @@ public class WizPane extends JPanel
         add(main);
 
         // adjust the size of the window up or down as appropriate
-        Window window = (Window) (SwingUtilities.getAncestorOfClass(Window.class, this));
+        Window window = (Window) SwingUtilities.getAncestorOfClass(Window.class, this);
         if (window != null) {
             Dimension winSize = window.getSize();
             int divWidth = new JSplitPane().getDividerSize();

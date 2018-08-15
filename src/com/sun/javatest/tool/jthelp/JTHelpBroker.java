@@ -182,9 +182,9 @@ public class JTHelpBroker implements HelpBroker{
         }
 
         private boolean isHelpFile(JarEntry file) {
-            return  (file.getName().endsWith(".html")
+            return file.getName().endsWith(".html")
                     || file.getName().endsWith(".gif")
-                    || file.getName().endsWith(".css"));
+                    || file.getName().endsWith(".css");
         }
 
     }

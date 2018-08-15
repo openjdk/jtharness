@@ -210,8 +210,8 @@ public abstract class Script
             testResult.putProperty("excludedTestCases", StringArray.join(excludedTestCases));
 
         String classDir = td.getParameter("classDir");
-        File f = (classDir == null ? workDir.getFile(defaultClassDir) :
-                 new File(testWork, classDir));
+        File f = classDir == null ? workDir.getFile(defaultClassDir) :
+                 new File(testWork, classDir);
         env.putUrlAndFile("testClassDir", f);
         env.putUrlAndFile("testWorkDir", testWork);
         env.put("test", td.getFile().getPath());
@@ -725,7 +725,7 @@ public abstract class Script
             String src = srcs[i];
             int x = src.lastIndexOf(File.separatorChar);
             int y = src.indexOf('.', x+1);
-            String className = src.substring(x+1, (y == -1 ? src.length() : y));
+            String className = src.substring(x+1, y == -1 ? src.length() : y);
             String pkgPrefix;  // deliberately unset to have compiler check init in all required cases
 
             // read the source file to see if a package statement exists
@@ -849,7 +849,7 @@ public abstract class Script
     protected Status execute(String command, String executeClass,
                              String executeArgs) {
         try {
-            String[] args = (executeArgs == null ? nullArgs : env.resolve(executeArgs));
+            String[] args = executeArgs == null ? nullArgs : env.resolve(executeArgs);
             if (excludedTestCases != null)
                 args = exclude(args, excludedTestCases);
             return execute(command, executeClass, args);
@@ -1066,7 +1066,7 @@ public abstract class Script
                                                new Object[] { className, env.getName() }));
         }
         catch (ThreadDeath e) {
-            throw (ThreadDeath)(e.fillInStackTrace());
+            throw (ThreadDeath) e.fillInStackTrace();
         }
         catch (Exception e) {
             e.printStackTrace(out1);
@@ -1086,7 +1086,7 @@ public abstract class Script
             return testCommand.run(args, out1, out2);
         }
         catch (ThreadDeath e) {
-            throw (ThreadDeath)(e.fillInStackTrace());
+            throw (ThreadDeath) e.fillInStackTrace();
         }
         catch (Exception e) {
             e.printStackTrace(out1);

@@ -792,7 +792,7 @@ public class UIFactory {
      */
     public JButton createButton(Action a) {
         JButton b = new JButton(a);
-        b.setName((String) (a.getValue(Action.NAME)));
+        b.setName((String) a.getValue(Action.NAME));
         return b;
     }
 
@@ -1011,7 +1011,7 @@ public class UIFactory {
             JButton b = createButton(uiKey, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        Component c = (Component) (e.getSource());
+                        Component c = (Component) e.getSource();
                         JOptionPane op = (JOptionPane) SwingUtilities.getAncestorOfClass(JOptionPane.class, c);
                         op.setValue(c); // JOptionPane expects the value to be set to the selected button
                         op.setVisible(false);
@@ -1669,7 +1669,7 @@ public class UIFactory {
      */
     public JMenuItem createMenuItem(Action action) {
         JMenuItem item = new JMenuItem(action);
-        item.setName((String)(action.getValue(Action.NAME)));
+        item.setName((String) action.getValue(Action.NAME));
         // could (should?) ensure everything is set correctly
         return item;
     }
@@ -2623,7 +2623,7 @@ public class UIFactory {
                 tb.addSeparator();
             else {
                 JButton b = tb.add(action);
-                b.setName((String) (action.getValue(Action.NAME)));
+                b.setName((String) action.getValue(Action.NAME));
                 b.getAccessibleContext().setAccessibleName(b.getName());
             }
         }
@@ -2672,7 +2672,7 @@ public class UIFactory {
                 tb.addSeparator();
             else {
                 JButton b = tb.add(action);
-                b.setName((String) (action.getValue(Action.NAME)));
+                b.setName((String) action.getValue(Action.NAME));
                 b.getAccessibleContext().setAccessibleName(b.getName());
             }
         }
@@ -2921,9 +2921,11 @@ public class UIFactory {
                                               null,
                                               new Object[] { okBtn, cancelBtn },
                                               null);
-        return (rc == 0 ? JOptionPane.OK_OPTION /*0*/
+        /*0*/
+        /*2*/
+        return rc == 0 ? JOptionPane.OK_OPTION /*0*/
                 : rc == 1 ? JOptionPane.CANCEL_OPTION /*2*/
-                : rc);
+                : rc;
     }
 
     /**
@@ -3332,7 +3334,7 @@ public class UIFactory {
      * @see #initDialog
      */
     public JDialog createDialog(String uiKey, Component parent) {
-        JFrame owner = (JFrame) (SwingUtilities.getAncestorOfClass(JFrame.class, parent));
+        JFrame owner = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, parent);
         return createDialog(uiKey, owner);
     }
 
@@ -3419,7 +3421,7 @@ public class UIFactory {
      * @return a dialog appropriate for asking the user to wait
      */
     public JDialog createWaitDialog(String uiKey, Component parent) {
-        JFrame owner = (JFrame) (SwingUtilities.getAncestorOfClass(JFrame.class, parent));
+        JFrame owner = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, parent);
         return createWaitDialog(uiKey, owner);
     }
 
@@ -3549,7 +3551,7 @@ public class UIFactory {
     private static final ActionListener closeListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Component src = (Component) (e.getSource());
+                Component src = (Component) e.getSource();
                 for (Container p = src.getParent(); p != null; p = p.getParent()) {
                     if (p instanceof JInternalFrame || p instanceof Window) {
                         p.setVisible(false);

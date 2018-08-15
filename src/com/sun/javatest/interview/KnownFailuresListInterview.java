@@ -92,8 +92,8 @@ public class KnownFailuresListInterview
     }
 
     public File[] getKflFiles() {
-        return (qNeedKfl.getValue().equals(YesNoQuestion.NO) ?
-            null : qCustomFiles.getValue());
+        return qNeedKfl.getValue().equals(YesNoQuestion.NO) ?
+            null : qCustomFiles.getValue();
     }
 
     protected void setCustomKflFiles(File[] files) {
@@ -193,7 +193,7 @@ public class KnownFailuresListInterview
         @Override
         public File getBaseDirectory() {
             TestSuite ts = parent.getTestSuite();
-            return (ts == null ? null : ts.getRootDir());
+            return ts == null ? null : ts.getRootDir();
         }
     };
 
@@ -201,7 +201,7 @@ public class KnownFailuresListInterview
 
     private void updateCachedExcludeListData() {
         TestSuite ts = parent.getTestSuite();
-        File tsRootDir = (ts == null ? null : ts.getRootDir());
+        File tsRootDir = ts == null ? null : ts.getRootDir();
         File[] files = getAbsoluteFiles(tsRootDir, getKflFiles());
         if (!equal(cachedExcludeList_files, files) || cachedExcludeList_testSuite != ts) {
             try {
@@ -304,7 +304,7 @@ public class KnownFailuresListInterview
         File[] absoluteFiles = new File[files.length];
         for (int i = 0; i < files.length; i++) {
             File f = files[i];
-            absoluteFiles[i] = (f.isAbsolute() ? f : new File(baseDir, f.getPath()));
+            absoluteFiles[i] = f.isAbsolute() ? f : new File(baseDir, f.getPath());
         }
 
         return absoluteFiles;
@@ -313,12 +313,12 @@ public class KnownFailuresListInterview
     //----------------------------------------------------------------------------
 
     private static boolean equal(File f1, File f2) {
-        return (f1 == null ? f2 == null : f1.equals(f2));
+        return f1 == null ? f2 == null : f1.equals(f2);
     }
 
     private static boolean equal(File[] f1, File[] f2) {
         if (f1 == null || f2 == null)
-            return (f1 == f2);
+            return f1 == f2;
 
         if (f1.length != f2.length)
             return false;

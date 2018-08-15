@@ -150,7 +150,7 @@ public abstract class IntQuestion extends Question
         //      return (min <= value && value <= max);
         // but if min = Integer.MIN_VALUE, that behaves like -0 (negative zero)
         // and can lead to false results, so check for that case specially
-        return ((min == Integer.MIN_VALUE || min <= value) && (value <= max));
+        return (min == Integer.MIN_VALUE || min <= value) && (value <= max);
     }
 
     /**

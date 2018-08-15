@@ -59,11 +59,11 @@ class SearchDialog extends JDialog
 {
     static SearchDialog create(Component parent, Interview i,
                                HelpBroker helpBroker, String helpPrefix) {
-        Dialog d = (Dialog)(SwingUtilities.getAncestorOfClass(Dialog.class, parent));
+        Dialog d = (Dialog) SwingUtilities.getAncestorOfClass(Dialog.class, parent);
         if (d != null)
             return new SearchDialog(d, i, helpBroker, helpPrefix);
         else {
-            Frame f = (Frame)(SwingUtilities.getAncestorOfClass(Frame.class, parent));
+            Frame f = (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
             return new SearchDialog(f, i, helpBroker, helpPrefix);
         }
     }
@@ -212,17 +212,17 @@ class SearchDialog extends JDialog
 
     private boolean matches(Question q, String answer, boolean considerCase, boolean word) {
         String text = textField.getText();
-        String where = (String)(whereChoice.getSelectedItem());
+        String where = (String) whereChoice.getSelectedItem();
         if (where.equals(TITLE))
             return match(text, q.getSummary(), considerCase, word);
         else if (where.equals(QUESTION))
             return match(text, q.getText(), considerCase, word);
         else if (where.equals(ANSWER))
-            return (answer != null && match(text, answer, considerCase, word));
+            return answer != null && match(text, answer, considerCase, word);
         else
-            return ( match(text, q.getSummary(), considerCase, word) ||
+            return match(text, q.getSummary(), considerCase, word) ||
                      match(text, q.getText(), considerCase, word) ||
-                     (answer != null && match(text, answer, considerCase, word)) );
+                     (answer != null && match(text, answer, considerCase, word));
     }
 
     private static boolean match(String s1, String s2, boolean considerCase, boolean word) {
@@ -231,8 +231,8 @@ class SearchDialog extends JDialog
         for (int i = 0; i <= s2len - s1len; i++) {
             if (s1.regionMatches(!considerCase, 0, s2, i, s1len)) {
                 if (word)
-                    return ( (i == 0 || isBoundaryCh(s2.charAt(i-1)))
-                             && (i+s1len == s2.length() || isBoundaryCh(s2.charAt(i+s1len))) );
+                    return (i == 0 || isBoundaryCh(s2.charAt(i-1)))
+                             && (i+s1len == s2.length() || isBoundaryCh(s2.charAt(i+s1len)));
                 else
                     return true;
             }

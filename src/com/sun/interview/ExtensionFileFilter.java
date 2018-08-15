@@ -117,7 +117,7 @@ public class ExtensionFileFilter implements FileFilter
             if (endsWith(path, extns[i]))
                 return path;
 
-        return (path + extns[0]);
+        return path + extns[0];
     }
 
 
@@ -136,7 +136,7 @@ public class ExtensionFileFilter implements FileFilter
 
         String path = file.getPath();
         String newPath = ensureExtension(path);
-        return (newPath.equals(path) ? file : new File(newPath));
+        return newPath.equals(path) ? file : new File(newPath);
     }
 
     private boolean endsWith(String s, String sfx) {

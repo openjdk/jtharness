@@ -88,7 +88,7 @@ class TabDeskView extends DeskView {
             public int compare(Tool o1, Tool o2) {
                 Long l1 = Long.valueOf(o1.getCreationTime());
                 Long l2 = Long.valueOf(o2.getCreationTime());
-                return (l1.compareTo(l2));
+                return l1.compareTo(l2);
             }
         });
 
@@ -166,14 +166,14 @@ class TabDeskView extends DeskView {
 
     @Override
     public boolean isEmpty() {
-        return (contents.getComponentCount() == 0);
+        return contents.getComponentCount() == 0;
     }
 
     @Override
     public Tool[] getTools() {
         Tool[] tools = new Tool[contents.getComponentCount()];
         for (int i = 0; i < tools.length; i++)
-            tools[i] = (Tool) (contents.getComponentAt(i));
+            tools[i] = (Tool) contents.getComponentAt(i);
         return tools;
     }
 
@@ -202,9 +202,9 @@ class TabDeskView extends DeskView {
         Component fo = fm.getPermanentFocusOwner();
         if (fo == null || !fo.isShowing()) {
             Container target = contents.getTabCount() > 0 ? contents : mainFrame;
-            Container fcr = (target.isFocusCycleRoot() ? target : target.getFocusCycleRootAncestor());
+            Container fcr = target.isFocusCycleRoot() ? target : target.getFocusCycleRootAncestor();
             FocusTraversalPolicy ftp = fcr.getFocusTraversalPolicy();
-            Component c = (target.isFocusable() ? target : ftp.getComponentAfter(fcr, target));
+            Component c = target.isFocusable() ? target : ftp.getComponentAfter(fcr, target);
             c.requestFocusInWindow();
         }
 
@@ -272,8 +272,8 @@ class TabDeskView extends DeskView {
             if (td.getDialogParent() == dialog)
                 return true;
         }
-        return (dialog != null
-                && (dialog.getParent() == mainFrame));
+        return dialog != null
+                && (dialog.getParent() == mainFrame);
     }
 
     @Override
@@ -434,7 +434,7 @@ class TabDeskView extends DeskView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Tool t = (Tool) (contents.getSelectedComponent());
+            Tool t = (Tool) contents.getSelectedComponent();
             if (t != null)
                 // should never be null because action should be disabled if there
                 // are no tabs
@@ -454,7 +454,7 @@ class TabDeskView extends DeskView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            JMenuItem mi = (JMenuItem) (e.getSource());
+            JMenuItem mi = (JMenuItem) e.getSource();
             Object o = mi.getClientProperty(this);
             if (o instanceof Window)
                 ((Window) o).toFront();
@@ -466,7 +466,7 @@ class TabDeskView extends DeskView {
 
         @Override
         public void ancestorAdded(AncestorEvent event) {
-            Tool t = (Tool)(contents.getSelectedComponent());
+            Tool t = (Tool) contents.getSelectedComponent();
             if (t != null) {
                 // OLD addToolMenuItemsToBasicMenuBar(t);
                 addToolMenuItemsToFrameMenuBar(mainFrame, t);
@@ -483,7 +483,7 @@ class TabDeskView extends DeskView {
             // // update menubar
             // removeToolMenuItemsFromBasicMenuBar();
             // stop observing current tool
-            Tool t = (Tool) (contents.getSelectedComponent());
+            Tool t = (Tool) contents.getSelectedComponent();
             if (t != null)
                 t.removeObserver(this);
             mainFrame.setTitle(uif.getI18NString("dt.title.txt"));
@@ -493,7 +493,7 @@ class TabDeskView extends DeskView {
 
         @Override
         public void stateChanged(ChangeEvent e) {
-            setSelectedTool((Tool) (contents.getSelectedComponent()));
+            setSelectedTool((Tool) contents.getSelectedComponent());
         }
 
         // --------- MenuListener ---------
@@ -503,7 +503,7 @@ class TabDeskView extends DeskView {
         public void menuSelected(MenuEvent e) {
             Tool[] tools = getTools();
 
-            JMenu m = (JMenu) (e.getSource());
+            JMenu m = (JMenu) e.getSource();
             m.removeAll();
 
             /*
@@ -557,7 +557,7 @@ class TabDeskView extends DeskView {
         public void menuDeselected(MenuEvent e) {
             // it's not so much the menu items we want to get rid of, as the
             // client properties on those items
-            JMenu m = (JMenu) (e.getSource());
+            JMenu m = (JMenu) e.getSource();
             m.removeAll();
         }
 
@@ -565,7 +565,7 @@ class TabDeskView extends DeskView {
         public void menuCanceled(MenuEvent e) {
             // it's not so much the menu items we want to get rid of, as the
             // client properties on those items
-            JMenu m = (JMenu) (e.getSource());
+            JMenu m = (JMenu) e.getSource();
             m.removeAll();
         }
 

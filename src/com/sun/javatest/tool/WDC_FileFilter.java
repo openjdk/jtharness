@@ -37,7 +37,7 @@ public class WDC_FileFilter extends FileFilter {
 
     @Override
     public boolean accept(File f) {
-        return (f.isDirectory());
+        return f.isDirectory();
     }
 
     @Override

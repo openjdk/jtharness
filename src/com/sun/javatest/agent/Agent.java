@@ -296,7 +296,7 @@ public class Agent implements Runnable {
                     });
                     t.setName("Agent" + nextThreadNum());
                     int currPrio = Thread.currentThread().getPriority();
-                    int slvPrio = ((currPrio + Thread.MIN_PRIORITY) / 2);
+                    int slvPrio = (currPrio + Thread.MIN_PRIORITY) / 2;
                     t.setPriority(slvPrio);
                     t.start();
                     threads.addElement(t);
@@ -448,7 +448,7 @@ public class Agent implements Runnable {
     }
 
     private static final int min(int a, int b) {
-        return (a < b ? a : b);
+        return a < b ? a : b;
     }
 
     private class Notifier {

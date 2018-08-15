@@ -186,10 +186,10 @@ class ManagerLoader
         catch (InvocationTargetException e) {
             Throwable t = e.getTargetException();
             if (t instanceof RuntimeException) {
-                throw ((RuntimeException) t);
+                throw (RuntimeException) t;
             }
             else if (t instanceof Error) {
-                throw ((Error) t);
+                throw (Error) t;
             }
             else {
                 throw new Error(e);

@@ -117,7 +117,7 @@ class ProxyImpl implements Proxy {
         try {
             Vector<String> v = new Vector<>();
             for (Enumeration<?> e = CommPortIdentifier.getPortIdentifiers(); e.hasMoreElements(); ) {
-                CommPortIdentifier p = (CommPortIdentifier)(e.nextElement());
+                CommPortIdentifier p = (CommPortIdentifier) e.nextElement();
                 if (p.getPortType() == CommPortIdentifier.PORT_SERIAL)
                     v.addElement(p.getName());
             }

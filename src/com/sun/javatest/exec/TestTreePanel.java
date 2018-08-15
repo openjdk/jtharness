@@ -406,7 +406,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     private void setPopupItemsEnabled(boolean state) {
         if (state) {
             // enable all if possible
-            boolean haveWorkDir = (params != null && params.getWorkDirectory() != null);
+            boolean haveWorkDir = params != null && params.getWorkDirectory() != null;
             purgeMI.setEnabled(haveWorkDir);
             refreshMI.setEnabled(params != null && params.getTestSuite() != null);
 
@@ -477,7 +477,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             }
         } // just one node
         else if (what[0].getLastPathComponent() instanceof TT_TestNode) {
-            TestResult tr = ((TT_TestNode) (what[0].getLastPathComponent())).getTestResult();
+            TestResult tr = ((TT_TestNode) what[0].getLastPathComponent()).getTestResult();
 
             int confirm = uif.showYesNoDialog("treep.purgeTestSure",
                     tr.getTestName());
@@ -491,7 +491,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 toPurge[0] = tr.getWorkRelativePath();
             }
         } else {
-            TT_BasicNode tn = (TT_BasicNode) (what[0].getLastPathComponent());
+            TT_BasicNode tn = (TT_BasicNode) what[0].getLastPathComponent();
 
             int confirm = 0;
             if (tn.isRoot()) {
@@ -651,7 +651,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
     private void showNodeInfoDialog(TreePath what) {
         if (what.getLastPathComponent() instanceof TT_TreeNode) {
-            TT_TreeNode tn = (TT_TreeNode) (what.getLastPathComponent());
+            TT_TreeNode tn = (TT_TreeNode) what.getLastPathComponent();
             Debug.println("info for this node not implemented" +
                     tn.getDisplayName() + " (" + tn + ")");
         }
@@ -741,7 +741,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
         } // BK deprecated, will never happen
         else if (what[0].getLastPathComponent() instanceof TestResult) {
-            final TestResult tr = (TestResult) (what[0].getLastPathComponent());
+            final TestResult tr = (TestResult) what[0].getLastPathComponent();
 
             int confirm = uif.showYesNoDialog("treep.refreshTestSure",
                     tr.getTestName());
@@ -754,7 +754,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             ackTargets[0] = tr.getTestName();
         } // single node of any type is selected
         else {
-            final TT_TreeNode tn = (TT_TreeNode) (what[0].getLastPathComponent());
+            final TT_TreeNode tn = (TT_TreeNode) what[0].getLastPathComponent();
             int confirm = JOptionPane.NO_OPTION;
             ackTargets[0] = tn.getLongPath();
             if (tn.isRoot()) {
@@ -945,7 +945,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         if (popup != null && params != null) {
             MenuElement[] elems = popup.getSubElements();
             if (elems != null) {
-                boolean haveWorkDir = (params.getWorkDirectory() != null);
+                boolean haveWorkDir = params.getWorkDirectory() != null;
                 purgeMI.setEnabled(haveWorkDir);
                 refreshMI.setEnabled(params.getTestSuite() != null);
 
@@ -983,7 +983,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                     trt.waitUntilReady();
                                     trt.refreshIfNeeded(trt.getRoot());
 
-                                    TT_BasicNode root = (TT_BasicNode) (treeModel.getRoot());
+                                    TT_BasicNode root = (TT_BasicNode) treeModel.getRoot();
                                     for (int i = 0; i >= 0 && i < root.getChildCount(); i++) {
                                         Object c = root.getChildAt(i);
                                         if (c instanceof TT_BasicNode) {
@@ -1246,7 +1246,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         if (tree.getSelectionPath() == null) {
             TreeModel tm = tree.getModel();
             try {
-                TT_BasicNode root = (TT_BasicNode) (tm.getRoot());
+                TT_BasicNode root = (TT_BasicNode) tm.getRoot();
                 //selectBranch(root, new TreePath(root));
                 tree.setRootVisible(true);
                 EventQueue.invokeLater(new Selector(root, new TreePath(root)));
@@ -1465,7 +1465,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             // test so we can provide real-time monitoring, so we check the
             // list of active TR objects.
             TestResult atr = pm.getActive(tr);
-            testPanel.setTest((atr == null ? tr : atr));
+            testPanel.setTest(atr == null ? tr : atr);
         } else {
             // should we ask for a refresh if == ?
             // XXX could force an update here, which is needed
@@ -1734,7 +1734,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             // this is a deletion event
             if (e.isAddedPath() && e.getSource() == tree) {
                 TreePath[] tp = e.getPaths();
-                TestTree source = (TestTree) (e.getSource());
+                TestTree source = (TestTree) e.getSource();
                 dispatchSelection(source);
             }
         }
@@ -1773,11 +1773,11 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             // are now visible
             }
             TreePath tp = event.getPath();
-            TT_BasicNode tn = (TT_BasicNode) (tp.getLastPathComponent());
+            TT_BasicNode tn = (TT_BasicNode) tp.getLastPathComponent();
             //Debug.println("expanded " + ((TreeNode)(tp.getLastPathComponent())).getName());
 
             for (int i = 0; i < tn.getChildCount(); i++) {
-                treeModel.addRelevantNode((TT_TreeNode) (tn.getChildAt(i)));
+                treeModel.addRelevantNode((TT_TreeNode) tn.getChildAt(i));
             /*
             TestResult[] trs = tn.getTestResults();
             if (trs != null)
@@ -2039,14 +2039,14 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
         @Override
         public void showNode(Object node, TreePath path) {
-            selectBranch((TT_BasicNode) (node), path);
+            selectBranch((TT_BasicNode) node, path);
         }
 
         @Override
         public void showNode(String url) {
             TreePath path = treeModel.resolveUrl(url);
             if (path != null && path.getLastPathComponent() instanceof TT_BasicNode) {
-                selectBranch((TT_BasicNode) (path.getLastPathComponent()), path);
+                selectBranch((TT_BasicNode) path.getLastPathComponent(), path);
             }
         }
 
@@ -2205,7 +2205,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                     } else {
                         int currHits = hit.intValue();
                         activeNodes.put(nodes[i],
-                                (currHits == 2 ? ONE : Integer.valueOf(--currHits)));
+                                currHits == 2 ? ONE : Integer.valueOf(--currHits));
                     }
                 }   // for
             }

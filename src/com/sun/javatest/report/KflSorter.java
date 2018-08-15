@@ -252,7 +252,7 @@ public class KflSorter {
                     KnownFailuresList.Entry[] full = kfl.find(tr.getTestName());
                     // different behavior if entire test listed vs
                     // specific test cases
-                    boolean fullTestListed =  (full != null && !hasTestCases(full));
+                    boolean fullTestListed = full != null && !hasTestCases(full);
                     for (String name: tcs.keySet()) {
                         KnownFailuresList.Entry e = kfl.find(tr.getTestName(), name);
                         switch(tcs.get(name).getType()) {
@@ -496,7 +496,7 @@ public class KflSorter {
                 KnownFailuresList.Entry[] full = kfl.find(tr.getTestName());
                 // different behavior if entire test listed vs
                 // specific test cases
-                boolean fullTestListed = (full != null && !hasTestCases(full));
+                boolean fullTestListed = full != null && !hasTestCases(full);
 
                 // test case not listed in KFL
                 // no need to list a passing test case which wasn't
@@ -611,7 +611,7 @@ public class KflSorter {
             }
         }
 
-        return (result.isEmpty() ? null : result);
+        return result.isEmpty() ? null : result;
     }
 
     /**
@@ -654,7 +654,7 @@ public class KflSorter {
          * @see #getTestCase()
          */
         public String getName() {
-            String u = (url != null ? url : tr.getTestName());
+            String u = url != null ? url : tr.getTestName();
             if (tc == null) {
                 return u;
             }

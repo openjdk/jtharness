@@ -107,7 +107,7 @@ public abstract class BackupPolicy
         }
 
         // try renaming file to file~(++maxBackupIndex)~
-        File backup = new File(file.getPath() + "~" + (++maxBackupIndex) + "~");
+        File backup = new File(file.getPath() + "~" + ++maxBackupIndex + "~");
 
         boolean ok = file.renameTo(backup);
         if (!ok)
@@ -116,7 +116,7 @@ public abstract class BackupPolicy
         // delete old backups
         int numBackupsToKeep = getNumBackupsToKeep(file);
         for (int i = 0; i < backups.size(); i++) {
-            int index = (backups.elementAt(i)).intValue();
+            int index = backups.elementAt(i).intValue();
             if (index <= (maxBackupIndex-numBackupsToKeep)) {
                 File backupToGo = new File(file.getPath() + "~" + index + "~");
                 // let SecurityExceptions out, but otherwise ignore failures

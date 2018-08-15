@@ -127,7 +127,7 @@ public abstract class ListQuestion extends Question
                 // recycle any default summaries that are no longer required
                 Vector<Body> bodies = question.bodies;
                 for (int i = 0; i < bodies.size(); i++) {
-                    Body b = (bodies.elementAt(i));
+                    Body b = bodies.elementAt(i);
                     if (b.defaultSummary != null
                         && b.getSummary() != null
                         && !b.defaultSummary.equals(b.getSummary())) {
@@ -141,7 +141,7 @@ public abstract class ListQuestion extends Question
                     // check s is not the same as any current default summary;
                     // if it is, reset it to null
                     for (int i = 0; i < bodies.size(); i++) {
-                        Body b = (bodies.elementAt(i));
+                        Body b = bodies.elementAt(i);
                         if (s.equals(b.defaultSummary)) {
                             s = null;
                             break;
@@ -214,7 +214,7 @@ public abstract class ListQuestion extends Question
      * automatically created to appear at the end of the lop.
      */
     public final boolean isEnd() {
-        return (this instanceof EndQuestion);
+        return this instanceof EndQuestion;
     }
 
     /**
@@ -291,7 +291,7 @@ public abstract class ListQuestion extends Question
     }
 
     private int normalizeValue(int value) {
-        return (value >= 0 && value < bodies.size() ? value : -1);
+        return value >= 0 && value < bodies.size() ? value : -1;
     }
 
     /**
@@ -449,7 +449,7 @@ public abstract class ListQuestion extends Question
      * @return the number of bodies currently allocated within the loop
      */
     public int getBodyCount() {
-        return (bodies == null ? 0 : bodies.size());
+        return bodies == null ? 0 : bodies.size();
     }
 
     /**
@@ -547,7 +547,7 @@ public abstract class ListQuestion extends Question
                 }
             }
 
-            return (allBodiesFinishable ? head.getNext() : null);
+            return allBodiesFinishable ? head.getNext() : null;
         }
 
         @Override

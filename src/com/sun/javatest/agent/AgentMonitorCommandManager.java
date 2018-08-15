@@ -87,7 +87,7 @@ public class AgentMonitorCommandManager extends AgentMonitorBatchCommandManager
         @Override
         public void run(CommandContext ctx) {
             Desktop d = ctx.getDesktop();
-            AgentMonitorToolManager tm = (AgentMonitorToolManager) (d.getToolManager(AgentMonitorToolManager.class));
+            AgentMonitorToolManager tm = (AgentMonitorToolManager) d.getToolManager(AgentMonitorToolManager.class);
             tm.startTool();
         }
     }

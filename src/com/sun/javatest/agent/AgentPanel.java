@@ -770,7 +770,7 @@ class AgentPanel extends ScrollPane
         }
 
         private String getKey(String state, String detail) {
-            return (state + " " + detail);
+            return state + " " + detail;
         }
 
         private int maxTasks = 10;
@@ -846,7 +846,7 @@ class AgentPanel extends ScrollPane
         public void setEnabled(boolean b) {
             modeChoice.setEnabled(b);
             for (int i = 0; i < modeDeck.getComponentCount(); i++) {
-                ModeOptions o = (ModeOptions)(modeDeck.getComponent(i));
+                ModeOptions o = (ModeOptions) modeDeck.getComponent(i);
                 o.setEnabled(b);
             }
             mapFileField.setEnabled(b);
@@ -856,7 +856,7 @@ class AgentPanel extends ScrollPane
         public void setMode(String modeName) {
             modeChoice.select(modeName);
             for (int i = 0; i < modeDeck.getComponentCount(); i++) {
-                ModeOptions m = (ModeOptions)(modeDeck.getComponent(i));
+                ModeOptions m = (ModeOptions) modeDeck.getComponent(i);
                 if (modeName.equals(m.getModeName())) {
                     modeDeck.show(m);
                     return;
@@ -885,7 +885,7 @@ class AgentPanel extends ScrollPane
                 throw new BadValue("Bad value for `concurrency field': " + concurrency);
             }
 
-            ModeOptions mo = (ModeOptions)(modeDeck.getCurrentCard());
+            ModeOptions mo = (ModeOptions) modeDeck.getCurrentCard();
 
             try {
                 ConnectionFactory cf = mo.createConnectionFactory(concurrency);
@@ -913,7 +913,7 @@ class AgentPanel extends ScrollPane
             if (src == modeChoice) {
                 String modeName = ((Choice)src).getSelectedItem();
                 for (int i = 0; i < modeDeck.getComponentCount(); i++) {
-                    ModeOptions m = (ModeOptions)(modeDeck.getComponent(i));
+                    ModeOptions m = (ModeOptions) modeDeck.getComponent(i);
                     if (modeName.equals(m.getModeName())) {
                         modeDeck.show(m);
                         return;

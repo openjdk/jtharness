@@ -209,7 +209,7 @@ class ProgressMeter extends JComponent implements Accessible {
         int totalSoFar = 0;
         for (int i = 0; i < v.length; i++) {
             totalSoFar += v[i];
-            int x = (total == 0 ? 0 : totalSoFar * SCALE / total);
+            int x = total == 0 ? 0 : totalSoFar * SCALE / total;
             if (values[i] != x ) {
                 values[i] = x;
                 changed = true;

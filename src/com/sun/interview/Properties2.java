@@ -74,7 +74,7 @@ public class Properties2 extends Hashtable<String, Object> {
         Enumeration<?> e = source.propertyNames();
         while(e.hasMoreElements()) {
             Object next = e.nextElement();
-            put( ((String)next), source.get(next) );
+            put((String)next, source.get(next) );
         }   // while
     }
 
@@ -193,8 +193,8 @@ public class Properties2 extends Hashtable<String, Object> {
     }
 
     private void save(Writer out, String header, boolean localize) {
-        PrintWriter prnt = (out instanceof PrintWriter ? (PrintWriter)out :
-                            new PrintWriter(out, false));
+        PrintWriter prnt = out instanceof PrintWriter ? (PrintWriter)out :
+                            new PrintWriter(out, false);
 
         if (header != null) {
             prnt.write('#');
@@ -336,7 +336,7 @@ public class Properties2 extends Hashtable<String, Object> {
      * @param   nibble  the nibble to convert.
      */
     private static char toHex(int nibble) {
-        return hexDigit[(nibble & 0xF)];
+        return hexDigit[nibble & 0xF];
     }
 
     /** A table of hex digits */

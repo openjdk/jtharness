@@ -256,7 +256,7 @@ public abstract class Tool extends JPanel
      */
     protected Tool(ToolManager m, String uiKey) {
         super(new BorderLayout());
-        setName(uiKey + ":" + (toolIndex++));
+        setName(uiKey + ":" + toolIndex++);
         setFocusable(false);
         manager = m;
         uif = new UIFactory(this, m.getDesktop().getHelpBroker());

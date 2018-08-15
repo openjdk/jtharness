@@ -290,7 +290,7 @@ public class SelectedWorkDirApprover {
         // This means we can't put a work directory in the root of
         // the file system, but that is a lesser inconvenience
         // than those floppy dialogs!
-        return (f.getName().equals(""));
+        return f.getName().equals("");
     }
 
     public boolean isApprovedOpenSelection_dirExists() {

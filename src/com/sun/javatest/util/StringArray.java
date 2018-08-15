@@ -103,7 +103,7 @@ public class StringArray
 
         int l = (ss.length - 1) * sep.length();
         for (int i = 0; i < ss.length; i++)
-            l += (ss[i] == null ? 0 : ss[i].length());
+            l += ss[i] == null ? 0 : ss[i].length();
 
         StringBuffer sb = new StringBuffer(l);
         sb.append(ss[0]);
@@ -196,7 +196,7 @@ public class StringArray
     }
 
     private static boolean white(char c) {
-        return (c == ' '  ||  c == '\t'  ||  c == '\n');
+        return c == ' '  ||  c == '\t'  ||  c == '\n';
     }
 
     private static final String[] empty = { };

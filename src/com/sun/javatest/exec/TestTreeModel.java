@@ -160,7 +160,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
         // trt is never supposed to be null
         if (root == null) {
-            root = new TT_BasicNode(null, (TRT_TreeNode) (trt.getRoot()), trt.getTestFinder().getComparator());
+            root = new TT_BasicNode(null, (TRT_TreeNode) trt.getRoot(), trt.getTestFinder().getComparator());
         }
         return root;
     }
@@ -658,7 +658,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
         String[] result = new String[paths.length];
         for (int i = 0; i < paths.length; i++) {
-            TT_TreeNode tn = (TT_TreeNode)(paths[i].getLastPathComponent());
+            TT_TreeNode tn = (TT_TreeNode) paths[i].getLastPathComponent();
             result[i] = tn.getLongPath();
         }
 
@@ -700,8 +700,8 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             }
 
             transPath[i+1] = mnode;
-            location = (transPath[i+1] instanceof TT_BasicNode ?
-                        (TT_BasicNode)transPath[i+1] : null);
+            location = transPath[i+1] instanceof TT_BasicNode ?
+                        (TT_BasicNode)transPath[i+1] : null;
         }
 
         return new TreePath(transPath);
@@ -829,17 +829,17 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             trt.addObserver(this);
         }
 
-        root = new TT_BasicNode(null, (TRT_TreeNode) (trt.getRoot()),
-                (trt.getTestFinder() == null ? null : trt.getTestFinder().getComparator()));
+        root = new TT_BasicNode(null, (TRT_TreeNode) trt.getRoot(),
+                trt.getTestFinder() == null ? null : trt.getTestFinder().getComparator());
 
         // prime relevant nodes with root and first level
         relevantNodes = Collections.synchronizedSet(new HashSet<TT_TreeNode>());
         relevantTests = Collections.synchronizedSet(new HashSet<TestResult>());
 
         addRelevantNode((TT_TreeNode) getRoot());
-        TT_BasicNode tn = ((TT_BasicNode) getRoot());
+        TT_BasicNode tn = (TT_BasicNode) getRoot();
         for (int i = 0; i < ((TT_BasicNode) getRoot()).getChildCount(); i++) {
-            addRelevantNode((TT_TreeNode) (tn.getChildAt(i)));
+            addRelevantNode((TT_TreeNode) tn.getChildAt(i));
         }
         notifyFullStructure();
 
@@ -1015,7 +1015,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         synchronized (htLock) {
             Enumeration<TestResultTable.TreeNode> e = cache.keys();
             while (e.hasMoreElements()) {
-                (cache.get(e.nextElement())).invalidate();
+                cache.get(e.nextElement()).invalidate();
             }   // while
 
             cache = new Hashtable<>();
@@ -1369,7 +1369,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             }
 
             while (notDone) {
-                TT_NodeCache possible = (theList.get(count));
+                TT_NodeCache possible = theList.get(count);
                 int thisDepth = TestResultTable.getObjectPath(possible.getNode()).length;
 
                 if (thisDepth > depth) {
@@ -1427,8 +1427,8 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                     // index in parent of target node - required by JTree
                     // ignore this operation if we are at the root (length==1)
                     TreePath pp = path.getParentPath();
-                    TT_BasicNode bn = (TT_BasicNode)(path.getLastPathComponent());
-                    int index = ((TT_BasicNode)(pp.getLastPathComponent())).getIndex(bn);
+                    TT_BasicNode bn = (TT_BasicNode) path.getLastPathComponent();
+                    int index = ((TT_BasicNode) pp.getLastPathComponent()).getIndex(bn);
 
                     //e = makeEvent(pp, bn, index);
                     e = new TreeModelEvent(this, pp, new int[] {index}, new Object[] {bn});
@@ -1494,7 +1494,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                     Object[] path = e.getPath();
                     if (path != null && path.length > 0 &&
                         path[path.length-1] instanceof TT_BasicNode) {
-                        TT_BasicNode bn = (TT_BasicNode)(path[path.length-1]);
+                        TT_BasicNode bn = (TT_BasicNode) path[path.length-1];
                         if (e.getChildIndices() != null &&
                             e.getChildIndices().length >= 1) {
                             if (bn.getChildCount() <= e.getChildIndices()[0])

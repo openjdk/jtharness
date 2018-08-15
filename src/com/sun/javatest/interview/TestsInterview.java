@@ -113,7 +113,7 @@ public class TestsInterview
 
     @Override
     public int getTestsMode() {
-        return (qNeedTests.getValue() == YesNoQuestion.YES ? SPECIFIED_TESTS : ALL_TESTS);
+        return qNeedTests.getValue() == YesNoQuestion.YES ? SPECIFIED_TESTS : ALL_TESTS;
     }
 
     @Override
@@ -251,7 +251,7 @@ public class TestsInterview
     protected FileQuestion qTestFile = new FileQuestion(this, "testFile") {
         @Override
         public boolean isValueValid() {
-            return (value != null && value.getPath().length() > 0);
+            return value != null && value.getPath().length() > 0;
         }
 
         @Override
@@ -383,9 +383,9 @@ public class TestsInterview
                 TestResult tr = (TestResult) node;
                 String fullName = tr.getTestName();
                 int lastSlash = fullName.lastIndexOf("/");
-                return (lastSlash == -1
+                return lastSlash == -1
                         ? fullName
-                        : fullName.substring(lastSlash+1));
+                        : fullName.substring(lastSlash+1);
 
             }
             else {
@@ -537,7 +537,7 @@ public class TestsInterview
 
     private static boolean equal(String[] s1, String[] s2) {
         if (s1 == null || s2 == null) {
-            return (s1 == s2);
+            return s1 == s2;
         }
 
         if (s1.length != s2.length) {

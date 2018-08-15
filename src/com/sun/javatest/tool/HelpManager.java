@@ -135,7 +135,7 @@ public class HelpManager extends CommandManager
     }
 
     boolean isInfoRequired() {
-        return (versionFlag || commandLineHelpFlag || onlineHelpFlag);
+        return versionFlag || commandLineHelpFlag || onlineHelpFlag;
     }
 
     void showRequiredInfo(PrintWriter out, CommandContext ctx) {
@@ -177,7 +177,7 @@ public class HelpManager extends CommandManager
         }
 
         for (Iterator<HelpTree.Node> iter = tm.values().iterator(); iter.hasNext(); ) {
-            commandHelpTree.addNode((iter.next()));
+            commandHelpTree.addNode(iter.next());
         }
 
         // now add file types
@@ -299,7 +299,7 @@ public class HelpManager extends CommandManager
     void showVersion(PrintWriter out) {
         File classDir = Harness.getClassDir();
         String classDirPath =
-            (classDir == null ? i18n.getString("help.version.unknown") : classDir.getPath());
+                classDir == null ? i18n.getString("help.version.unknown") : classDir.getPath();
         DateFormat df = DateFormat.getDateInstance(DateFormat.LONG);
 
         Object[] versionArgs = {

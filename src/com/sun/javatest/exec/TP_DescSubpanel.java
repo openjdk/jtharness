@@ -56,7 +56,7 @@ class TP_DescSubpanel extends TP_PropertySubpanel {
         }
 
         for (Iterator<String> iter = td.getParameterKeys(); iter.hasNext(); ) {
-            String key = (iter.next());
+            String key = iter.next();
             String val = td.getParameter(key);
             updateEntry(key, val);
         }

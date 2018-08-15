@@ -112,9 +112,9 @@ class CE_PriorStatusPane extends CE_StdPane
     @Override
     void save() {
         if (mutablePriorStatusParameters != null) {
-            int sm = (selectCheck.isSelected()
+            int sm = selectCheck.isSelected()
                       ? MutablePriorStatusParameters.MATCH_PRIOR_STATUS
-                      : MutablePriorStatusParameters.NO_PRIOR_STATUS);
+                      : MutablePriorStatusParameters.NO_PRIOR_STATUS;
             mutablePriorStatusParameters.setPriorStatusMode(sm);
 
             boolean[] b = new boolean[Status.NUM_STATES];

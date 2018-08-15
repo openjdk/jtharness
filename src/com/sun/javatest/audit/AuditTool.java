@@ -83,14 +83,14 @@ class AuditTool extends Tool
 
     @Override
     public TestSuite[] getLoadedTestSuites() {
-        TestSuite ts = (interviewParams == null ? null : interviewParams.getTestSuite());
-        return (ts == null ? null : new TestSuite[] { ts });
+        TestSuite ts = interviewParams == null ? null : interviewParams.getTestSuite();
+        return ts == null ? null : new TestSuite[] { ts };
     }
 
     @Override
     public WorkDirectory[] getLoadedWorkDirectories() {
-        WorkDirectory wd = (interviewParams == null ? null : interviewParams.getWorkDirectory());
-        return (wd == null ? null : new WorkDirectory[] { wd });
+        WorkDirectory wd = interviewParams == null ? null : interviewParams.getWorkDirectory();
+        return wd == null ? null : new WorkDirectory[] { wd };
     }
 
     @Override
@@ -328,16 +328,16 @@ class AuditTool extends Tool
 
         audit = a;
 
-        TestSuite ts = (p == null ? null : p.getTestSuite());
-        String tsp = (ts == null ? "" : ts.getPath());
+        TestSuite ts = p == null ? null : p.getTestSuite();
+        String tsp = ts == null ? "" : ts.getPath();
         testSuiteField.setText(tsp);
 
-        WorkDirectory wd = (p == null ? null : p.getWorkDirectory());
-        String wdp = (wd == null? "" : wd.getPath());
+        WorkDirectory wd = p == null ? null : p.getWorkDirectory();
+        String wdp = wd == null? "" : wd.getPath();
         workDirField.setText(wdp);
 
-        File configFile = (p == null ? null : p.getFile());
-        String cfp = (configFile == null ? "" : configFile.getPath());
+        File configFile = p == null ? null : p.getFile();
+        String cfp = configFile == null ? "" : configFile.getPath();
         configFileField.setText(cfp);
 
         for (int i = 0; i < panes.length; i++) {
@@ -350,7 +350,7 @@ class AuditTool extends Tool
     }
 
     private static boolean isEmpty(String s) {
-        return (s == null || s.length() == 0);
+        return s == null || s.length() == 0;
     }
 
 

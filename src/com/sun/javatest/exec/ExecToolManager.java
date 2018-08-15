@@ -433,16 +433,16 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
     }
 
     private static InterviewParameters getInterview(Map<String, String> m) throws Interview.Fault {
-        String tsp = (m.get("testSuite"));
-        String wdp = (m.get("workDir"));
-        String cfp = (m.get("config"));
+        String tsp = m.get("testSuite");
+        String wdp = m.get("workDir");
+        String cfp = m.get("config");
         if (isEmpty(tsp) && isEmpty(wdp) && isEmpty(cfp))
             return null;
 
         return InterviewParameters.open(tsp, wdp, cfp);
     }
     private static boolean isEmpty(String s) {
-        return (s == null || s.length() == 0);
+        return s == null || s.length() == 0;
     }
 
     //-------------------------------------------------------------------------
@@ -563,7 +563,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
             }
             this.addToFileHistory(ts);
             if (wd != null) {
-                et.update(wd, (ip == null));
+                et.update(wd, ip == null);
                 addToFileHistory(wd);
             }
             if (wd != null && ip != null) {

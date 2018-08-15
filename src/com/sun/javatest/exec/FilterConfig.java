@@ -448,7 +448,7 @@ public class FilterConfig {
             setHelp("execFilters.dialog.csh");
 
             TestSuite ts = execModel.getTestSuite();
-            String tsName = ((ts == null ? uif.getI18NString("fconfig.dTitle.unknown") : ts.getName()));
+            String tsName = ts == null ? uif.getI18NString("fconfig.dTitle.unknown") : ts.getName();
             setI18NTitle("fconfig.dTitle", tsName);
 
             JPanel body = uif.createPanel("fe.body", false);
@@ -741,7 +741,7 @@ public class FilterConfig {
                 return;
 
             if (f instanceof ConfigurableTestFilter) {
-                infoName.setText(((ConfigurableTestFilter)(f)).getBaseName());
+                infoName.setText(((ConfigurableTestFilter) f).getBaseName());
             }
             else
                 infoName.setText(f.getName());

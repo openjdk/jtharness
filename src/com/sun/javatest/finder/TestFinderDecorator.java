@@ -60,7 +60,7 @@ public class TestFinderDecorator extends TestFinder {
     private void setCurrentTestFinder() {
         String value = Preferences.access().getPreference("javatest.executionOrder");
 
-        String sysValue = (System.getProperties().getProperty("javatest.executionOrder"));
+        String sysValue = System.getProperties().getProperty("javatest.executionOrder");
         if (sysValue != null && !sysValue.isEmpty()) {
             value = sysValue;
         }

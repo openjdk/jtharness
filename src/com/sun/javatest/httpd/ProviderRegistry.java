@@ -171,19 +171,19 @@ public class ProviderRegistry {
             if (target == null)
                 prov = null;
             else if (target instanceof HandlerEntry) {
-                HandlerEntry he = (HandlerEntry)(target);
+                HandlerEntry he = (HandlerEntry) target;
                 //prov = (he == null ? null : he.getProvider());
                 prov = he.getProvider();
             }
             else {
-                prov = (((ProviderRegistry)target).getHandler(url));
+                prov = ((ProviderRegistry)target).getHandler(url);
             }
         }
 
         if (debug) System.out.println("PR-URL resolved to: " + prov);
 
         // we always return a valid handler
-        return (prov == null ? getIndexProvider() : prov);
+        return prov == null ? getIndexProvider() : prov;
     }
 
     public JThttpProvider getIndexProvider() {
@@ -201,7 +201,7 @@ public class ProviderRegistry {
     }
 
     public boolean isEmpty() {
-        return (url2prov.size() == 0);
+        return url2prov.size() == 0;
     }
 
 // ---------- Protected or better -----------
@@ -361,7 +361,7 @@ public class ProviderRegistry {
 
         // ignore the leading slash
         int urlLen = url.length();      // just an optimization
-        int start = (url.charAt(0) == '/' ? 1 : 0);
+        int start = url.charAt(0) == '/' ? 1 : 0;
         int pos = start + 1;
         char currC;
         boolean done = false;

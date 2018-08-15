@@ -364,7 +364,7 @@ public class CommandContext
      * @return true if the work directory has been set, and false otherwise
      */
     public boolean isWorkDirectorySet() {
-        return (hasConfig() && (config.getWorkDirectory() != null));
+        return hasConfig() && (config.getWorkDirectory() != null);
     }
 
     /**
@@ -488,10 +488,10 @@ public class CommandContext
      * @return true if a configuration has been set, and false otherwise
      */
     public boolean hasConfig() {
-        return (config != null
+        return config != null
                 || testSuitePath != null
                 || workDirectoryPath != null
-                || configFilePath != null);
+                || configFilePath != null;
     }
 
     /**
@@ -579,9 +579,9 @@ public class CommandContext
     }
 
     private boolean isInitConfigRequired() {
-        return (config == null && (testSuitePath != null
+        return config == null && (testSuitePath != null
                                    || workDirectoryPath != null
-                                   || configFilePath != null));
+                                   || configFilePath != null);
     }
 
     private void initConfig()
@@ -790,7 +790,7 @@ public class CommandContext
             Command cmd = commands.elementAt(i);
             mode = Math.max(mode, cmd.getDesktopMode());
         }
-        return (mode == Command.DESKTOP_NOT_REQUIRED_DTMODE ? false : true);
+        return mode == Command.DESKTOP_NOT_REQUIRED_DTMODE ? false : true;
 
     }
 
@@ -900,7 +900,7 @@ public class CommandContext
             return false;
 
         Boolean b = verboseOptionValues.get(name.toLowerCase());
-        return (b == null ? defaultValue : b.booleanValue());
+        return b == null ? defaultValue : b.booleanValue();
     }
 
     /**
@@ -911,7 +911,7 @@ public class CommandContext
      * and false otherwise
      */
     public boolean isVerboseOptionSet(String name) {
-        return (verboseOptionValues.get(name.toLowerCase()) != null);
+        return verboseOptionValues.get(name.toLowerCase()) != null;
     }
 
     /**

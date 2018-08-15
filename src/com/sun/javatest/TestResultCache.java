@@ -145,7 +145,7 @@ public class TestResultCache {
                     doWorkUntilDone();
                 }
             };
-        worker.setName("TestResultCache.worker" + (workerNumber++) + "[" + workDir.getRoot() + "]");
+        worker.setName("TestResultCache.worker" + workerNumber++ + "[" + workDir.getRoot() + "]");
         worker.setDaemon(true); // allows thread to run during shutdown
 
         // ensure priority is lower than that of the calling thread, but don't
@@ -282,7 +282,7 @@ public class TestResultCache {
                         // unique entries. Everything after that is essentially unknown.
                         // If that latter part gets disproportionately big, set compressNeeded.
                         int uncompressedEntryCount = totalEntryCount - uniqueInitialEntryCount;
-                        compressNeeded = (uncompressedEntryCount * 100 / totalEntryCount > compressPercentLevel);
+                        compressNeeded = uncompressedEntryCount * 100 / totalEntryCount > compressPercentLevel;
                     }
                 }
             }
@@ -592,9 +592,9 @@ public class TestResultCache {
 
         if (lastFileSize == -1 || fileSerial != lastSerial
             || fullUpdateRequested || compressRequested) {
-            updateNeeded = (fullUpdateRequested
+            updateNeeded = fullUpdateRequested
                             || fileSerial != lastSerial
-                            || raf.length() > lastFileSize);
+                            || raf.length() > lastFileSize;
             // read full cache
             lastSerial = fileSerial;
             totalEntryCount = 0;
@@ -902,9 +902,9 @@ public class TestResultCache {
     private static final int MAX_REASON_LENGTH = 256;
 
     private static int debug = Debug.getInt(TestResultCache.class);
-    private static final boolean DEBUG_BASIC =      (debug >= 1);  // basic messages and stack trace
-    private static final boolean DEBUG_TESTS =      (debug >= 2);  // details about tests
-    private static final boolean DEBUG_WORK  =      (debug >= 3);  // details about work done
-    private static final boolean DEBUG_CHECK_WORK = (debug >= 4);  // details when checking for work
-    private static final boolean DEBUG_SYNC =       (debug >= 5);  // details about thread syncs
+    private static final boolean DEBUG_BASIC = debug >= 1;  // basic messages and stack trace
+    private static final boolean DEBUG_TESTS = debug >= 2;  // details about tests
+    private static final boolean DEBUG_WORK  = debug >= 3;  // details about work done
+    private static final boolean DEBUG_CHECK_WORK = debug >= 4;  // details when checking for work
+    private static final boolean DEBUG_SYNC = debug >= 5;  // details about thread syncs
 }

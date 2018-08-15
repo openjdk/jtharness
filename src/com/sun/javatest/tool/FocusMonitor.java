@@ -382,7 +382,7 @@ class FocusMonitor
             return rootAncestor;
 
         Container window =
-            (c instanceof Container) ? ((Container)c) : c.getParent();
+            (c instanceof Container) ? (Container)c : c.getParent();
         while (window != null && !(window instanceof Window)) {
             window = window.getParent();
         }
@@ -619,22 +619,22 @@ class FocusMonitor
             super.setComponent(c);
 
             // accessible info (name, description)
-            AccessibleContext ac = (c == null ? null : c.getAccessibleContext());
+            AccessibleContext ac = c == null ? null : c.getAccessibleContext();
             if (ac == null) {
                 accName.setText(null, "not accessible");
                 accDesc.setText(null, "not accessible");
             }
             else {
-                boolean sb = (c instanceof JScrollBar);
+                boolean sb = c instanceof JScrollBar;
                 String an = ac.getAccessibleName();
-                accName.setText((an != null ? an : "no accessible name"), (an != null || sb));
+                accName.setText(an != null ? an : "no accessible name", an != null || sb);
                 String ad = ac.getAccessibleDescription();
-                accDesc.setText((ad != null ? ad : "no accessible description"), (ad != null || sb));
+                accDesc.setText(ad != null ? ad : "no accessible description", ad != null || sb);
             }
 
             if (c != null && c instanceof JComponent) {
                 String ttText = ((JComponent)c).getToolTipText();
-                boolean ttEmpty = (ttText == null || ttText.length() == 0);
+                boolean ttEmpty = ttText == null || ttText.length() == 0;
                 boolean toolTipOK = !ttEmpty
                     || c instanceof JTree
                     || c instanceof JEditorPane
@@ -643,7 +643,7 @@ class FocusMonitor
                     || c instanceof JRootPane
                     || c instanceof JScrollBar
                     || (c instanceof JTextComponent && !((JTextComponent) c).isEditable());
-                toolTip.setText((ttEmpty ? "no tooltip" : ttText), toolTipOK);
+                toolTip.setText(ttEmpty ? "no tooltip" : ttText, toolTipOK);
             }
             else
                 toolTip.setEnabled(false);
@@ -676,16 +676,16 @@ class FocusMonitor
             if (c instanceof JLabel) {
                 JLabel l = (JLabel) c;
                 int mne = l.getDisplayedMnemonic();
-                boolean mnemonicOK = (mne != 0
-                                      || l.getLabelFor() == null);
-                mnemonic.setText((mne == 0 ? "no mnemonic" : String.valueOf((char)mne)), mnemonicOK);
+                boolean mnemonicOK = mne != 0
+                                      || l.getLabelFor() == null;
+                mnemonic.setText(mne == 0 ? "no mnemonic" : String.valueOf((char)mne), mnemonicOK);
             }
             else if (c instanceof JButton) {
                 JButton b = (JButton) c;
                 int mne = b.getMnemonic();
                 String cmd = b.getActionCommand();
-                boolean mnemonicOK = (mne != 0
-                                     || (cmd != null && cmd.equals(UIFactory.CANCEL)));
+                boolean mnemonicOK = mne != 0
+                                     || (cmd != null && cmd.equals(UIFactory.CANCEL));
                 mnemonic.setText(mne == 0 ? "no mnemonic" : String.valueOf((char)mne), mnemonicOK);
             }
             else

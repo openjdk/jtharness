@@ -236,8 +236,8 @@ public class Main {
 
         read(inFiles);
 
-        PrintWriter glossaryOut = (xmlOutFile == null ? null
-                                   : new PrintWriter(new BufferedWriter(new FileWriter(xmlOutFile))));
+        PrintWriter glossaryOut = xmlOutFile == null ? null
+                                   : new PrintWriter(new BufferedWriter(new FileWriter(xmlOutFile)));
         if (glossaryOut != null) {
             glossaryOut.println("<?xml version='1.0' encoding='ISO-8859-1'  ?>");
             glossaryOut.println("<!DOCTYPE index");
@@ -247,8 +247,8 @@ public class Main {
             glossaryOut.println("<index version=\"1.0\">");
         }
 
-        PrintWriter mapOut = (mapOutFile == null ? null
-                              : new PrintWriter(new BufferedWriter(new FileWriter(mapOutFile))));
+        PrintWriter mapOut = mapOutFile == null ? null
+                              : new PrintWriter(new BufferedWriter(new FileWriter(mapOutFile)));
         if (mapOut != null) {
             mapOut.println("<?xml version='1.0' encoding='ISO-8859-1' ?>");
             mapOut.println("<!DOCTYPE map");
@@ -257,8 +257,8 @@ public class Main {
             mapOut.println("<map version=\"1.0\">");
         }
 
-        PrintWriter htmlOut = (htmlOutFile == null ? null
-                               : new PrintWriter(new BufferedWriter(new FileWriter(htmlOutFile))));
+        PrintWriter htmlOut = htmlOutFile == null ? null
+                               : new PrintWriter(new BufferedWriter(new FileWriter(htmlOutFile)));
         if (htmlOut != null) {
             htmlOut.println("<!DOCTYPE HTML>");
             htmlOut.println("<html>");
@@ -275,14 +275,14 @@ public class Main {
         char currLetter = 0;
 
         for (Iterator<Entry> iter = glossary.values().iterator(); iter.hasNext(); ) {
-            Entry e = (iter.next());
+            Entry e = iter.next();
             if (!e.matches(keyword))
                 continue;
 
             String key = e.getKey();
             char initial = key.charAt(0);
             if (Character.isLetter(initial) && initial != currLetter) {
-                for (char c = (currLetter == 0 ? 'A' : (char) (currLetter + 1));
+                for (char c = currLetter == 0 ? 'A' : (char) (currLetter + 1);
                      c <= initial; c++) {
                     if (glossaryOut != null) {
                         glossaryOut.println("");
@@ -306,7 +306,7 @@ public class Main {
                 htmlOut.println(e.getText());
         }
 
-        for (char c = (currLetter == 0 ? 'A' : (char) (currLetter + 1)); c <= 'Z'; c++) {
+        for (char c = currLetter == 0 ? 'A' : (char) (currLetter + 1); c <= 'Z'; c++) {
             if (htmlOut != null)
                 htmlOut.println("<p class=\"glossaryHead2\">" + c + "</p>");
         }
@@ -349,7 +349,7 @@ public class Main {
     private File getRelativeFile(File dir, File file) {
         String dp = dir.getPath() + "/";
         String fp = file.getPath();
-        return (fp.startsWith(dp) ? new File(fp.substring(dp.length())) : file);
+        return fp.startsWith(dp) ? new File(fp.substring(dp.length())) : file;
     }
 
     private static String getTarget(String key) {
@@ -486,7 +486,7 @@ class Entry {
             }
             else {
                 if (inHead1)
-                    head1 += ((char) c);
+                    head1 += (char) c;
                 nextCh();
             }
         }
@@ -562,9 +562,9 @@ class Entry {
     }
 
     private boolean isHead(String tag) {
-        return ( tag.length() == 2
+        return tag.length() == 2
                  && tag.charAt(0) == 'h'
-                 && Character.isDigit(tag.charAt(1)) );
+                 && Character.isDigit(tag.charAt(1));
     }
 
     private void scanHead(int level, boolean start) throws IOException {

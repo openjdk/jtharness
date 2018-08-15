@@ -323,7 +323,7 @@ public class Debug {
         wildProps = new WildcardProperties();
 
         while (keys.hasMoreElements()) {
-            String key = (String)(keys.nextElement());
+            String key = (String) keys.nextElement();
             if (key.startsWith(DEBUG_PREFIX)) {
                 // this should be a setProperty() in JDK 1.2+
                 if (key.equalsIgnoreCase(MASTER_KEY)) {
@@ -457,7 +457,7 @@ public class Debug {
 
             Enumeration<?> keys = propertyNames();
             while (keys.hasMoreElements()) {
-                String k = (String)(keys.nextElement());
+                String k = (String) keys.nextElement();
                 String lowerK = k.toLowerCase();
 
                 if (lowerK.startsWith(target)) {

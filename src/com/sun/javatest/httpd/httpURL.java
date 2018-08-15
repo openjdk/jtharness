@@ -74,7 +74,7 @@ public class httpURL {
                 // give the remainder of the string up to:
                 // 1) the first question mark ahead
                 // 2) the end of the string
-                String result = file.substring(pathPos, (firstQ == -1 ? fileLen : firstQ));
+                String result = file.substring(pathPos, firstQ == -1 ? fileLen : firstQ);
                 pathPos = fileLen;
                 ss = result;
             }
@@ -267,7 +267,7 @@ public class httpURL {
         }   // while
 
         // a zero length string is not acceptable
-        return (buf.length() == 0 ? null : buf.toString());
+        return buf.length() == 0 ? null : buf.toString();
     }
 
     private String lHost;

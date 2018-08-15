@@ -78,7 +78,7 @@ public class InetAddressQuestionRenderer
 
     protected JPanel createIPv4Panel(final InetAddressQuestion q, ActionListener listener) {
         InetAddress v = q.getValue();
-        byte[] addr = (v == null ? new byte[4] : v.getAddress());
+        byte[] addr = v == null ? new byte[4] : v.getAddress();
         fields = new JTextField[4];
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -88,7 +88,7 @@ public class InetAddressQuestionRenderer
         GridBagConstraints c = new GridBagConstraints();
 
         for (int i = 0; i < 4; i++) {
-            String lblKey = (i == 0 ? "inet.ip" : "inet.dot");
+            String lblKey = i == 0 ? "inet.ip" : "inet.dot";
             JLabel label = new JLabel(i18n.getString(lblKey + ".lbl"));
             label.setDisplayedMnemonic(i == 0 ? i18n.getString(lblKey + ".mne").charAt(0)
                                        : '0' + i);
@@ -135,8 +135,8 @@ public class InetAddressQuestionRenderer
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            JTextField src = (JTextField) (e.getSource());
-            JTextField next = (JTextField) (src.getClientProperty("next"));
+            JTextField src = (JTextField) e.getSource();
+            JTextField next = (JTextField) src.getClientProperty("next");
             String cmd = e.getActionCommand();
             if (cmd.equals(".")) {
                 if (next != null) {
@@ -217,7 +217,7 @@ public class InetAddressQuestionRenderer
             ss = new String[suggestions.length];
             for (int i = 0; i < suggestions.length; i++) {
                 InetAddress sugg = suggestions[i];
-                ss[i] = (sugg == null ? "" : sugg.getHostAddress());
+                ss[i] = sugg == null ? "" : sugg.getHostAddress();
             }
         }
 
@@ -227,7 +227,7 @@ public class InetAddressQuestionRenderer
         lookupBtn.setToolTipText(i18n.getString("inet.lookup.tip"));
 
         int type = q.getType();
-        int width = (type == InetAddressQuestion.IPv4 ? 16 : 0);
+        int width = type == InetAddressQuestion.IPv4 ? 16 : 0;
 
         final TypeInPanel p = new TypeInPanel("inet",
                                               q,
@@ -243,7 +243,7 @@ public class InetAddressQuestionRenderer
             public void actionPerformed(ActionEvent e) {
                 JDialog d = lookupPane.createDialog(p, i18n.getString("inet.lookup.title"));
                 d.setVisible(true);
-                p.setValue((String) (lookupPane.getValue()));
+                p.setValue((String) lookupPane.getValue());
             }
             });
 
@@ -270,7 +270,7 @@ public class InetAddressQuestionRenderer
             setMessageType(JOptionPane.QUESTION_MESSAGE);
             this.type = type;
 
-            JPanel msgPanel = (JPanel) (getMessage());
+            JPanel msgPanel = (JPanel) getMessage();
 
             GridBagConstraints c = new GridBagConstraints();
 
@@ -289,8 +289,8 @@ public class InetAddressQuestionRenderer
 
             String r = i18n.getString("inet.lookup.icon");
             URL url = getClass().getResource(r);
-            JButton lookupBtn = (url == null ? new JButton(r)
-                : new JButton(new ImageIcon(url)));
+            JButton lookupBtn = url == null ? new JButton(r)
+                : new JButton(new ImageIcon(url));
             lookupBtn.setActionCommand(LOOKUP);
             lookupBtn.addActionListener(this);
             c.weightx = 0;

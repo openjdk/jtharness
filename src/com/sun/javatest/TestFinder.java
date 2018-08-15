@@ -205,10 +205,10 @@ public abstract class TestFinder
         if (root != null)
             throw new IllegalStateException("root already set");
 
-        root = (testSuiteRoot.isAbsolute() ?
-                testSuiteRoot : new File(userDir, testSuiteRoot.getPath()));
-        rootDir = (root.isDirectory() ?
-                   root : new File(root.getParent()));
+        root = testSuiteRoot.isAbsolute() ?
+                testSuiteRoot : new File(userDir, testSuiteRoot.getPath());
+        rootDir = root.isDirectory() ?
+                   root : new File(root.getParent());
     }
 
     /**
@@ -531,12 +531,12 @@ public abstract class TestFinder
         if (prevLine != null) {
             int i = 1;
             String newId;
-            while (testsInFile.get(newId = (id + "__" + i)) != null)
+            while (testsInFile.get(newId = id + "__" + i) != null)
                 i++;
 
             error(i18n, "finder.nonUniqueId",
                   new Object[] { file,
-                                     (id.equals("") ? "(unset)" : id),
+                          id.equals("") ? "(unset)" : id,
                           Integer.valueOf(line),
                                      prevLine,
                                      newId }
@@ -590,7 +590,7 @@ public abstract class TestFinder
             String name = td.getName();
 
             while (left < right) {
-                center = ((right+left)/2);
+                center = (right+left)/2;
                 int cmp = comp.compare(name, tests.get(center).getName());
                 if (cmp < 0)
                     right = center;
@@ -662,7 +662,7 @@ public abstract class TestFinder
             String path = newFile.getPath();
 
             while (left < right) {
-                center = ((right+left)/2);
+                center = (right+left)/2;
                 int cmp = comp.compare(path, files.get(center).getPath());
                 if (cmp < 0)
                     right = center;

@@ -205,7 +205,7 @@ public abstract class StringListQuestion extends Question
      */
     protected static boolean equal(String[] s1, String[] s2) {
         if (s1 == null || s2 == null)
-            return (s1 == s2);
+            return s1 == s2;
 
         if (s1.length != s2.length)
             return false;
@@ -227,7 +227,7 @@ public abstract class StringListQuestion extends Question
      * and equal.
      */
     protected static boolean equal(String s1, String s2) {
-        return (s1 == null ? s2 == null : s1.equals(s2));
+        return s1 == null ? s2 == null : s1.equals(s2);
     }
 
     /**

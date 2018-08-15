@@ -357,7 +357,7 @@ public class InterviewEditor extends ToolDialog {
     private boolean save0(File file) {
         if (file == null) {
             File mainConfigFile = mainConfig.getFile();
-            File mainConfigDir = (mainConfigFile == null ? null : mainConfigFile.getParentFile());
+            File mainConfigDir = mainConfigFile == null ? null : mainConfigFile.getParentFile();
             file = getSaveFile(mainConfigDir);
             if (file == null)
                 return false; // exit without saving
@@ -587,7 +587,7 @@ public class InterviewEditor extends ToolDialog {
             // note whether the focus is in the current view
             KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
             Component fo = kfm.getPermanentFocusOwner();
-            boolean focusInView = (fo != null && currView != null && currView.isAncestorOf(fo));
+            boolean focusInView = fo != null && currView != null && currView.isAncestorOf(fo);
 
             currView = newView;
 
@@ -595,20 +595,20 @@ public class InterviewEditor extends ToolDialog {
             currView.load();
 
             // set up the appropriate view and controls
-            ((CardLayout)(views.getLayout())).show(views, currView.getName());
+            ((CardLayout) views.getLayout()).show(views, currView.getName());
 
             // The following is a workaround for what may be a JDK bug.
             // As a result of changing the view, the permanent focus owner may no longer
             // be showing, and therefore not accepting any keyboard input.
             if (focusInView) {
-                Container fcr = (currView.isFocusCycleRoot() ? currView : currView.getFocusCycleRootAncestor());
+                Container fcr = currView.isFocusCycleRoot() ? currView : currView.getFocusCycleRootAncestor();
                 FocusTraversalPolicy ftp = fcr.getFocusTraversalPolicy();
                 Component c = ftp.getDefaultComponent(fcr);
                 if (c != null)
                     c.requestFocusInWindow();
             }
 
-            boolean currIsFull = (currView == fullView);
+            boolean currIsFull = currView == fullView;
             markerMenu.setEnabled(currIsFull);
             searchMenu.setEnabled(currIsFull);
             (currIsFull ? viewFullBtn : viewStdBtn).setSelected(true);
@@ -760,7 +760,7 @@ public class InterviewEditor extends ToolDialog {
         keys.addAll(bQuestions.keySet());
 
         for (Iterator<String> iter = keys.iterator(); iter.hasNext(); ) {
-            String key = (iter.next());
+            String key = iter.next();
             Question aq = aQuestions.get(key);
             Question bq = bQuestions.get(key);
             if (aq == null || bq == null) {
@@ -854,7 +854,7 @@ public class InterviewEditor extends ToolDialog {
     }
 
     private static boolean equal(String a, String b) {
-        return (a == null || b == null ? a == b : a.equals(b));
+        return a == null || b == null ? a == b : a.equals(b);
     }
 
     @Override
@@ -1030,7 +1030,7 @@ public class InterviewEditor extends ToolDialog {
     }
 
     private boolean isInfoVisible() {
-        return (body instanceof JSplitPane);
+        return body instanceof JSplitPane;
     }
 
     private void setInfoVisible(boolean b) {
@@ -1297,7 +1297,7 @@ public class InterviewEditor extends ToolDialog {
 
         if (defaultConfigLoadPath != null) {
             if (!allowConfigLoadOutsideDefault) {
-                if (!(new File(defaultConfigLoadPath.getAbsolutePath())).canRead()) {
+                if (!new File(defaultConfigLoadPath.getAbsolutePath()).canRead()) {
                     uif.showError("ce.load.defDirNotExists", defaultConfigLoadPath);
                     return null;
                 }
@@ -1323,7 +1323,7 @@ public class InterviewEditor extends ToolDialog {
                 File f = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf(File.separator)));
 
                 try {
-                    isMatch = (f.getCanonicalPath().indexOf((defaultConfigLoadPath.getCanonicalPath())) == 0);
+                    isMatch = f.getCanonicalPath().indexOf(defaultConfigLoadPath.getCanonicalPath()) == 0;
                 } catch ( IOException ioe) {
                     ioe.printStackTrace(System.err);
                     return null;
@@ -1608,7 +1608,7 @@ public class InterviewEditor extends ToolDialog {
             Object src = e.getSource();
             if (src instanceof JMenuItem) {
                 JMenuItem mi = (JMenuItem) src;
-                File f = (File) (mi.getClientProperty(FileHistory.FILE));
+                File f = (File) mi.getClientProperty(FileHistory.FILE);
                 if (f != null && askAndSave("ce.load.warn")) {
                     loadConfigFromFile(f);
                     return;

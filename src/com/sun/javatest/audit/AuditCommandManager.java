@@ -138,7 +138,7 @@ public class AuditCommandManager extends CommandManager
         @Override
         public void run(CommandContext ctx) {
             Desktop d = ctx.getDesktop();
-            AuditToolManager tm = (AuditToolManager) (d.getToolManager(AuditToolManager.class));
+            AuditToolManager tm = (AuditToolManager) d.getToolManager(AuditToolManager.class);
             tm.startTool();
         }
     }

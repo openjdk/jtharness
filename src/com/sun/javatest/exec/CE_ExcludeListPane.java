@@ -266,7 +266,7 @@ class CE_ExcludeListPane extends CE_StdPane
             else
                 comp = blankPanel;
 
-            ((CardLayout)(body.getLayout())).show(body, comp.getName());
+            ((CardLayout) body.getLayout()).show(body, comp.getName());
         }
     }
 
@@ -316,8 +316,8 @@ class CE_ExcludeListPane extends CE_StdPane
             }
             for (int i = 0; i < files.length; i++) {
                 File file = files[i];
-                File absFile = (file.isAbsolute() ? file
-                                : new File(tsr, file.getPath()));
+                File absFile = file.isAbsolute() ? file
+                                : new File(tsr, file.getPath());
                 if (!absFile.exists()) {
                     uif.showError("ce.excl.custom.cantFindFile", file);
                     return false;
@@ -558,9 +558,9 @@ class CE_ExcludeListPane extends CE_StdPane
             boolean ac = autoCheck.isSelected();
             mutableExcludeListParameters.setLatestExcludeAutoCheckEnabled(ac);
 
-            int acm = (daysButton.isSelected()
+            int acm = daysButton.isSelected()
                        ? MutableExcludeListParameters.CHECK_EVERY_X_DAYS
-                       : MutableExcludeListParameters.CHECK_EVERY_RUN);
+                       : MutableExcludeListParameters.CHECK_EVERY_RUN;
             mutableExcludeListParameters.setLatestExcludeAutoCheckMode(acm);
 
             try {

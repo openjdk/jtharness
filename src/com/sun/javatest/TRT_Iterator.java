@@ -423,7 +423,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
                             // it would be nicer if we could just cast to TRT.TreeNode
                             PseudoFrame frame = stack.elementAt(j);
-                            TRT_TreeNode tn = (TRT_TreeNode)(frame.getNode());
+                            TRT_TreeNode tn = (TRT_TreeNode) frame.getNode();
                             int pos = tn.getNodeIndex(dir, false);
                             int currIndex = frame.getCurrentIndex();
 
@@ -496,7 +496,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
             // special case to check currFrame which is never
             // represented on the stack
             if (!done) {
-                TRT_TreeNode tn = (TRT_TreeNode)(currFrame.getNode());
+                TRT_TreeNode tn = (TRT_TreeNode) currFrame.getNode();
                 String dir = TestResultTable.getDirName(partial);
                 partial = TestResultTable.behead(partial);
 
@@ -518,7 +518,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                     result = false;         // can't find location
                     // test is *below* this node
                     dir = TestResultTable.getDirName(partial);
-                    tn = (TRT_TreeNode)(currFrame.getNode());
+                    tn = (TRT_TreeNode) currFrame.getNode();
                     int pos = tn.getNodeIndex(dir, false);
                     int currIndex = currFrame.getCurrentIndex();
 
@@ -836,7 +836,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     private static int checkTestPosition(PseudoFrame frame, String testName) {
         // need to determine if it is before or after the
         // current iterator position
-        TRT_TreeNode tn = (TRT_TreeNode)(frame.getNode());
+        TRT_TreeNode tn = (TRT_TreeNode) frame.getNode();
         int targetIndex = tn.getTestIndex(testName);
         int currIndex = frame.getCurrentIndex();
         int result = 3;

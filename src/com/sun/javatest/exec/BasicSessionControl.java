@@ -373,9 +373,9 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             remoteText.setBorder(null);
             // should consider better date formatting; is this i18n-ok?
             long remoteDate =  eluh.getRemoteURLLastModified();
-            String remoteDateText = (remoteDate <= 0 ?
+            String remoteDateText = remoteDate <= 0 ?
                                      uif.getI18NString("ch.elu.notAvailable")
-                                     : new Date(remoteDate).toString());
+                                     : new Date(remoteDate).toString();
             remoteText.setText(remoteDateText);
             remoteText.setColumns(remoteDateText.length());
             info.add(remoteText, fc);
@@ -387,9 +387,9 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             localText.setBorder(null);
             // should consider better date formatting; is this i18n-ok?
             long localDate =  eluh.getLocalFileLastModified();
-            String localDateText = (localDate <= 0 ?
+            String localDateText = localDate <= 0 ?
                                     uif.getI18NString("ch.elu.notAvailable")
-                                    : new Date(localDate).toString());
+                                    : new Date(localDate).toString();
             localText.setText(localDateText);
             localText.setColumns(localDateText.length());
             info.add(localText, fc);
@@ -546,7 +546,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Object src = e.getSource();
-                    JComponent p = (src instanceof JComponent ? (JComponent) src : parent);
+                    JComponent p = src instanceof JComponent ? (JComponent) src : parent;
                     checkExcludeListUpdate(p, false, session.getParameters());
                 }
             });
@@ -649,7 +649,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         ActionListener optionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Component c = (Component) (e.getSource());
+                Component c = (Component) e.getSource();
                 JOptionPane op = (JOptionPane) SwingUtilities.getAncestorOfClass(JOptionPane.class, c);
                 op.setValue(c); // JOptionPane expects the value to be set to the selected button
                 op.setVisible(false);
@@ -889,8 +889,8 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         configHistoryListener = new FileHistory.Listener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    JMenuItem mi = (JMenuItem) (e.getSource());
-                    File f = (File) (mi.getClientProperty(FileHistory.FILE));
+                    JMenuItem mi = (JMenuItem) e.getSource();
+                    File f = (File) mi.getClientProperty(FileHistory.FILE);
                     if (f != null) {
                         if (initEditor()) {
                             // ensureConfigEditorInitialized();
@@ -1079,8 +1079,8 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
                 if (dir != null && defaultConfigLoadPath != null)
                     try {
-                        isMatch = (dir.getCanonicalPath().indexOf
-                                ((defaultConfigLoadPath.getCanonicalPath())) == 0);
+                        isMatch = dir.getCanonicalPath().indexOf
+                                (defaultConfigLoadPath.getCanonicalPath()) == 0;
                     } catch (IOException ioe) {
                         // use logging subsystem instead when available
                         // Internal error in ExecToolManager: exception thrown:

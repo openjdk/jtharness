@@ -324,7 +324,7 @@ public class ProcessCommand extends Command
             }
 
             Runtime r = Runtime.getRuntime();
-            p = (execDir == null ? r.exec(cmd, cmdEnv) : r.exec(cmd, cmdEnv, execDir));
+            p = execDir == null ? r.exec(cmd, cmdEnv) : r.exec(cmd, cmdEnv, execDir);
 
             inReader = new InputStreamReader(p.getInputStream()); // output stream from process
             StreamCopier refConnector = new StreamCopier(inReader, ref);
@@ -356,11 +356,11 @@ public class ProcessCommand extends Command
             if (p != null)
                 p.destroy();
             String msg = "Program `" + cmd[0] + "' interrupted! (timed out?)";
-            s = (useFailedOnException ? Status.failed(msg) : Status.error(msg));
+            s = useFailedOnException ? Status.failed(msg) : Status.error(msg);
         }
         catch (IOException e) {
             String msg = "Error invoking program `" + cmd[0] + "': " + e;
-            s = (useFailedOnException ? Status.failed(msg) : Status.error(msg));
+            s = useFailedOnException ? Status.failed(msg) : Status.error(msg);
         }
         finally  {
            try {
@@ -403,7 +403,7 @@ public class ProcessCommand extends Command
             return logStatus;
         else if (statusTable != null) {
             Status s = statusTable.get(Integer.valueOf(exitCode));
-            return (s == null ? defaultStatus.augment("exit code: " + exitCode) : s);
+            return s == null ? defaultStatus.augment("exit code: " + exitCode) : s;
         }
         else if (exitCode == 0)
             return Status.passed("exit code 0");
@@ -425,7 +425,7 @@ public class ProcessCommand extends Command
          * @param out   the log to copy to
          */
         StreamCopier(Reader from, PrintWriter to) {
-            super(Thread.currentThread().getName() + "_StreamCopier_" + (serial++));
+            super(Thread.currentThread().getName() + "_StreamCopier_" + serial++);
             in = new BufferedReader(from);
             out = to;
             lastStatusLine = null;

@@ -154,7 +154,7 @@ class TT_NodeCache implements Runnable {
                 }
             }   // sync
 
-            needsProcessing = (!it.isPending(what));
+            needsProcessing = !it.isPending(what);
 
             if (!needsProcessing) {
                 // It's still going to come out of the iterator.
@@ -198,8 +198,8 @@ class TT_NodeCache implements Runnable {
             }
 
             // send out notifications if needed
-            notify((wouldAccept ? what.getStatus().getType() + TT_NodeCacheObserver.OFFSET_FROM_STATUS
-                    : TT_NodeCacheObserver.MSGS_FILTERED),
+            notify(wouldAccept ? what.getStatus().getType() + TT_NodeCacheObserver.OFFSET_FROM_STATUS
+                    : TT_NodeCacheObserver.MSGS_FILTERED,
                     true, path, what, index);
 
             if (result) {
@@ -353,7 +353,7 @@ class TT_NodeCache implements Runnable {
             }   // catch
 
             // inserting into one of the status lists or the filtered out list
-            int targetList = (wouldAcceptNew ? typeNew : testLists.length - 1);
+            int targetList = wouldAcceptNew ? typeNew : testLists.length - 1;
             int[] rmList = null;
 
             // optimization to search based on expected location of old test
@@ -420,7 +420,7 @@ class TT_NodeCache implements Runnable {
     }
 
     boolean isPaused() {
-        return (state == PAUSED);
+        return state == PAUSED;
     }
 
     /**
@@ -428,8 +428,8 @@ class TT_NodeCache implements Runnable {
      * This translates to being either unprocessed or paused.
      */
     boolean canRun() {
-        return ((state == PAUSED || state == NOT_COMPUTED) &&
-                valid == true);
+        return (state == PAUSED || state == NOT_COMPUTED) &&
+                valid == true;
     }
 
     void halt() {
@@ -450,7 +450,7 @@ class TT_NodeCache implements Runnable {
      * @see #isPaused()
      */
     boolean isActive() {
-        return (state == COMPUTING);
+        return state == COMPUTING;
     }
 
     /**
@@ -459,11 +459,11 @@ class TT_NodeCache implements Runnable {
      *         unless this node is invalidated.
      */
     boolean isComplete() {
-        return (state == COMPLETED);
+        return state == COMPLETED;
     }
 
     boolean isAborted() {
-        return (state == ABORTED);
+        return state == ABORTED;
     }
 
     /**
@@ -542,7 +542,7 @@ class TT_NodeCache implements Runnable {
         if (needSnapshot) {
             cp = new Vector[testLists.length];
             for (int i = 0; i < testLists.length; i++) {
-                cp[i] = (Vector<TestResult>) (testLists[i].clone());
+                cp[i] = (Vector<TestResult>) testLists[i].clone();
             }
         }
 

@@ -347,7 +347,7 @@ class OptionsPane extends JPanel {
         @Override
         public void valueChanged(ListSelectionEvent e) {
             int index = list.getSelectedIndex();
-            JCheckBox box = (listModel.getElementAt(index));
+            JCheckBox box = listModel.getElementAt(index);
 
             if (lastSelected != box) {
                 cards.show(panel, box.getName());
@@ -382,7 +382,7 @@ class OptionsPane extends JPanel {
         }
 
         private void process(final int index) {
-            JCheckBox box = (listModel.getElementAt(index));
+            JCheckBox box = listModel.getElementAt(index);
 
             if (lastSelected == box) {
                 box.doClick();

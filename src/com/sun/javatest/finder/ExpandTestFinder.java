@@ -114,7 +114,7 @@ public class ExpandTestFinder extends TagTestFinder
 
             for (Iterator<String> i = env.keys().iterator(); i.hasNext(); ) {
                 try {
-                    String n = (i.next());
+                    String n = i.next();
 
                     if (! n.startsWith("expand."))
                         continue;
@@ -246,7 +246,7 @@ public class ExpandTestFinder extends TagTestFinder
                             entries.put("id", id);
 
                             entries.put(name, StringArray.join(words));
-                            boolean loopy = !(qualifier.equals(""));
+                            boolean loopy = !qualifier.equals("");
                             if (loopy) loopVars.put(stem, Integer.valueOf(j));
                             // clone needed here because we over-wrote words[i]
                             foundTestDescription_1(new HashMap<>(entries), file, line,
@@ -280,7 +280,7 @@ public class ExpandTestFinder extends TagTestFinder
             // This part of this method is only needed to ensure that this
             // test finder behaves the same as JCKTagTestFinder.  If that
             // finder ever derives from this one, it may be removed.
-            boolean valid = (validEntries.get(name.toLowerCase()) != null);
+            boolean valid = validEntries.get(name.toLowerCase()) != null;
 
             if (verify) {
                 if (!valid) {

@@ -239,7 +239,7 @@ public class FileHistory
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(historyFile), StandardCharsets.UTF_8));
             bw.write("# Configuration File History");
             bw.newLine();
-            bw.write("# written at " + (new Date()));
+            bw.write("# written at " + new Date());
             bw.newLine();
             for (int i = 0; i < entries.size(); i++) {
                 bw.write(entries.elementAt(i).toString());
@@ -345,8 +345,8 @@ public class FileHistory
         @Override
         public void menuSelected(MenuEvent e) {
             // Add the recent entries, or a disabled marker if none
-            JMenu menu = (JMenu) (e.getSource());
-            File[] entries = (history == null ? null : history.getRecentEntries(5));
+            JMenu menu = (JMenu) e.getSource();
+            File[] entries = history == null ? null : history.getRecentEntries(5);
             if (entries == null || entries.length == 0) {
                 JMenuItem noEntries = new JMenuItem(i18n.getString("fh.empty"));
                 noEntries.putClientProperty(FILE_HISTORY, this);
@@ -374,12 +374,12 @@ public class FileHistory
 
         @Override
         public void menuDeselected(MenuEvent e) {
-            removeDynamicEntries((JMenu) (e.getSource()));
+            removeDynamicEntries((JMenu) e.getSource());
         }
 
         @Override
         public void menuCanceled(MenuEvent e) {
-            removeDynamicEntries((JMenu) (e.getSource()));
+            removeDynamicEntries((JMenu) e.getSource());
         }
 
         private void removeDynamicEntries(JMenu menu) {

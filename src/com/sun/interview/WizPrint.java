@@ -947,7 +947,7 @@ public class WizPrint
     }
 
     private static boolean equal(String s1, String s2) {
-        return (s1 == null ? s2 == null : s1.equals(s2));
+        return s1 == null ? s2 == null : s1.equals(s2);
     }
 
     private Interview interview;

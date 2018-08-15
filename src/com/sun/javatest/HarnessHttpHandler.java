@@ -173,7 +173,7 @@ class HarnessHttpHandler extends JThttpProvider
                 println(out, i18n.getString("harnessHttp.interview.none"));
             }
             else {
-                InterviewParameters interview = (InterviewParameters)(harness.getParameters());
+                InterviewParameters interview = (InterviewParameters) harness.getParameters();
                 WizPrint wp = new WizPrint(interview);
                 wp.setShowResponses(true);
                 wp.setShowResponseTypes(true);
@@ -295,7 +295,7 @@ class HarnessHttpHandler extends JThttpProvider
                                 stats[Status.FAILED] - stats[Status.ERROR];
 
             for (int i = 0; i < Status.NUM_STATES; i++) {
-                out.print((Status.typeToString(i)).replace(' ', '_'));
+                out.print(Status.typeToString(i).replace(' ', '_'));
                 out.print("=");
                 out.println(stats[i]);
             }   // for
@@ -381,16 +381,16 @@ class HarnessHttpHandler extends JThttpProvider
         // print test suite
         print(out, i18n.getString("harnessHttp.parameters.tsName"));
         String name = params.getTestSuite().getName();
-        println(out, (name == null ?
+        println(out, name == null ?
                       i18n.getString("harnessHttp.parameters.noTs") :
-                      name));
+                      name);
 
         out.println("<br>");
         print(out, i18n.getString("harnessHttp.parameters.tsPath"));
         File tsr = params.getTestSuite().getRoot();
-        println(out, (tsr == null ?
+        println(out, tsr == null ?
                       i18n.getString("harnessHttp.parameters.noTs") :
-                      tsr.getPath()));
+                      tsr.getPath());
 
         out.println("<br>");
 
@@ -457,9 +457,9 @@ class HarnessHttpHandler extends JThttpProvider
             out.print("<a href=\"");
             out.print(getRootURL());
             out.print("/interview\">");
-            print(out, (ipf == null ?
+            print(out, ipf == null ?
                        i18n.getString("harnessHttp.parameters.noInterviewFile") :
-                       ipf.getPath()));
+                       ipf.getPath());
             out.println("</a>");
         }
         else {
@@ -481,7 +481,7 @@ class HarnessHttpHandler extends JThttpProvider
 
         if (exclParams instanceof Parameters.MutableExcludeListParameters) {
             Parameters.MutableExcludeListParameters e =
-                (Parameters.MutableExcludeListParameters) (exclParams);
+                (Parameters.MutableExcludeListParameters) exclParams;
             File[] jtx = e.getExcludeFiles();
             if (jtx == null || jtx.length == 0)
                 println(out, i18n.getString("harnessHttp.parameters.emptyJtx"));
@@ -553,7 +553,7 @@ class HarnessHttpHandler extends JThttpProvider
             buf.append(key.toString());
             buf.append("<td>");
             try {
-                buf.append(filterTags(StringArray.join((env.lookup(key)))));
+                buf.append(filterTags(StringArray.join(env.lookup(key))));
             }
             catch (TestEnvironment.Fault f) {
                 buf.append(i18n.getString("harnessHttp.env.error"));

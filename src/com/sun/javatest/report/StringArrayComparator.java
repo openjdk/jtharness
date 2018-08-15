@@ -36,7 +36,7 @@ class StringArrayComparator implements Comparator<String[]> {
             if (c != 0)
                 return c;
         }
-        return (a.length < b.length ? -1 : a.length == b.length ? 0 : +1);
+        return a.length < b.length ? -1 : a.length == b.length ? 0 : +1;
     }
 
     private static int compare(String a, String b) {

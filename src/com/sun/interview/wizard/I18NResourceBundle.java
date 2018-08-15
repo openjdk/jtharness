@@ -58,8 +58,8 @@ class I18NResourceBundle extends ResourceBundle
     public static I18NResourceBundle getBundleForClass(Class<?> c) {
         String cn = c.getName();
         int dot = cn.lastIndexOf('.');
-        String rn = (dot == -1 ? "i18n" : cn.substring(0, dot) + ".i18n");
-        boolean logging = (logClassPrefix == null ? false : cn.startsWith(logClassPrefix));
+        String rn = dot == -1 ? "i18n" : cn.substring(0, dot) + ".i18n";
+        boolean logging = logClassPrefix == null ? false : cn.startsWith(logClassPrefix);
         return new I18NResourceBundle(rn, logging, c.getClassLoader());
     }
 

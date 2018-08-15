@@ -355,7 +355,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
         @Override
         public void setValueAt(Object o, int row, int col) {
             if (col == 1) {
-                String key = q.getKeyPropertyName((String)(getValueAt(row, 0)));
+                String key = q.getKeyPropertyName((String) getValueAt(row, 0));
 
                 q.updateProperty(key, (String)o);
                 fireEditedEvent(this, editedListener);

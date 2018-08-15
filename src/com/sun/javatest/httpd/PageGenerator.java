@@ -156,7 +156,7 @@ public class PageGenerator {
                 buf.append("<td>");
                 buf.append(key.toString());
                 buf.append("<td>");
-                buf.append((dict.get(key)).toString());
+                buf.append(dict.get(key).toString());
                 out.println(buf.toString());
                 out.println("</tr>");
             }   // while

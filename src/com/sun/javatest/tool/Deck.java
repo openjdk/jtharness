@@ -123,7 +123,7 @@ public class Deck extends JPanel
      * been added to the deck.
      */
     public void show(Component comp) {
-        ((CardLayout)(getLayout())).show(this, comp.getName());
+        ((CardLayout) getLayout()).show(this, comp.getName());
     }
 
     private int cardNum;

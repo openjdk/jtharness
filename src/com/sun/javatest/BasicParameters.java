@@ -102,7 +102,7 @@ public abstract class BasicParameters
     }
 
     private boolean isTestSuiteOK() {
-        return (testSuiteError == null);
+        return testSuiteError == null;
     }
 
 
@@ -193,7 +193,7 @@ public abstract class BasicParameters
     }
 
     private boolean isWorkDirectoryOK() {
-        return (workDirError == null);
+        return workDirError == null;
     }
 
     private WorkDirectory workDir;
@@ -371,7 +371,7 @@ public abstract class BasicParameters
     }
 
     private boolean isExcludeListOK() {
-        return (excludeListError == null);
+        return excludeListError == null;
     }
 
     private File[] getAbsoluteExcludeFiles() {
@@ -380,7 +380,7 @@ public abstract class BasicParameters
     }
     private void updateAbsoluteExcludeFiles() {
         TestSuite ts = getTestSuite();
-        File base = (ts == null ? null : ts.getRootDir());
+        File base = ts == null ? null : ts.getRootDir();
         File[] excludeFiles = getExcludeFiles();
         if (cachedAbsExcludeFiles == null ||
             cachedAbsExcludeFiles_base != base ||
@@ -513,9 +513,9 @@ public abstract class BasicParameters
                 try {
                     cachedKeywordsMatchMode = keywordsMatchMode;
                     cachedKeywordsMatchValue = keywordsMatchValue;
-                    String op = (keywordsMatchMode == EXPR ? "expr"
+                    String op = keywordsMatchMode == EXPR ? "expr"
                                  : keywordsMatchMode == ALL_OF ? "all of"
-                                 : "any of");
+                                 : "any of";
                     cachedKeywords = Keywords.create(op, keywordsMatchValue);
                     cachedKeywordsFilter = new KeywordsFilter(cachedKeywords);
                 }
@@ -530,7 +530,7 @@ public abstract class BasicParameters
 
     private boolean isKeywordsOK() {
         updateCachedKeywords();
-        return (keywordsError == null);
+        return keywordsError == null;
     }
 
     private int keywordsMode = NO_KEYWORDS;
@@ -575,7 +575,7 @@ public abstract class BasicParameters
     @Override
     public TestFilter getPriorStatusFilter() {
         WorkDirectory wd = getWorkDirectory();
-        TestResultTable r = (wd == null ? null : wd.getTestResultTable());
+        TestResultTable r = wd == null ? null : wd.getTestResultTable();
         boolean[] s = getPriorStatusValues();
         if (r == null || s == null)
             cachedPriorStatusFilter = null;
@@ -652,7 +652,7 @@ public abstract class BasicParameters
     }
 
     private boolean isConcurrencyOK() {
-        return (concurrencyError == null);
+        return concurrencyError == null;
     }
 
     private int concurrency = 1;
@@ -687,7 +687,7 @@ public abstract class BasicParameters
     }
 
     private boolean isTimeoutFactorOK() {
-        return (timeoutFactorError == null);
+        return timeoutFactorError == null;
     }
 
     private float timeoutFactor = 1;
@@ -755,25 +755,25 @@ public abstract class BasicParameters
 
     @Override
     public boolean isValid() {
-        return (   isTestSuiteOK()
+        return isTestSuiteOK()
                 && isWorkDirectoryOK()
                 && isTestsOK()
                 && isExcludeListOK()
                 && isKeywordsOK()
                 && isPriorStatusOK()
                 && isConcurrencyOK()
-                && isTimeoutFactorOK());
+                && isTimeoutFactorOK();
     }
 
     @Override
     public String getErrorMessage() {
-        return (  testSuiteError != null ? testSuiteError
+        return testSuiteError != null ? testSuiteError
                 : workDirError != null ? workDirError
                 : excludeListError != null ? excludeListError
                 : keywordsError != null ? keywordsError
                 : concurrencyError != null ? concurrencyError
                 : timeoutFactorError != null ? timeoutFactorError
-                : null);
+                : null;
     }
 
     //---------------------------------------------------------------------
@@ -801,7 +801,7 @@ public abstract class BasicParameters
         File[] absoluteFiles = new File[files.length];
         for (int i = 0; i < files.length; i++) {
             File f = files[i];
-            absoluteFiles[i] = (f.isAbsolute() ? f : new File(baseDir, f.getPath()));
+            absoluteFiles[i] = f.isAbsolute() ? f : new File(baseDir, f.getPath());
         }
 
         return absoluteFiles;
@@ -818,7 +818,7 @@ public abstract class BasicParameters
      */
     protected static boolean equal(boolean[] b1, boolean[] b2) {
         if (b1 == null || b2 == null)
-            return (b1 == b2);
+            return b1 == b2;
 
         if (b1.length != b2.length)
             return false;
@@ -840,7 +840,7 @@ public abstract class BasicParameters
      */
     protected static boolean equal(File[] f1, File[] f2) {
         if (f1 == null || f2 == null)
-            return (f1 == f2);
+            return f1 == f2;
 
         if (f1.length != f2.length)
             return false;

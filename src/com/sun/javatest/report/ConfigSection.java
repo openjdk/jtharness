@@ -218,7 +218,7 @@ class ConfigSection extends HTMLSection {
             File[] excludeFiles = null;
             if (exclParams instanceof Parameters.MutableExcludeListParameters)
                 excludeFiles =
-                    ((Parameters.MutableExcludeListParameters) (exclParams)).getExcludeFiles();
+                    ((Parameters.MutableExcludeListParameters) exclParams).getExcludeFiles();
 
             if (excludeFiles != null && excludeFiles.length > 0) {
                 for (int i = 0; i < excludeFiles.length; i++) {
@@ -315,7 +315,7 @@ class ConfigSection extends HTMLSection {
         }
 
         TestEnvironment env = settings.getInterview().getEnv();
-        String envName = (env != null ? env.getName() : null);
+        String envName = env != null ? env.getName() : null;
 
         if (envName != null && envName.length() > 0) {
             out.startTag(HTMLWriterEx.TR);
@@ -386,7 +386,7 @@ class ConfigSection extends HTMLSection {
         Set<String[]> envTable = new TreeSet<>(new StringArrayComparator());
 
         for (Iterator<TestEnvironment.Element> i = env.elements().iterator(); i.hasNext(); ) {
-            TestEnvironment.Element envElem = (i.next());
+            TestEnvironment.Element envElem = i.next();
             String[] envTableRow = {envElem.getKey(), envElem.getValue()};
             envTable.add(envTableRow);
         }
@@ -394,7 +394,7 @@ class ConfigSection extends HTMLSection {
         out.startTag(HTMLWriterEx.TABLE);
         out.writeAttr(HTMLWriterEx.BORDER, 1);
         for (Iterator<String[]> i = envTable.iterator(); i.hasNext(); ) {
-            String[] envEntry = (i.next());
+            String[] envEntry = i.next();
             out.startTag(HTMLWriterEx.TR);
 
             for (int j = 0; j < envEntry.length; j++ ) {
@@ -444,7 +444,7 @@ class ConfigSection extends HTMLSection {
             out.endTag(HTMLWriterEx.TR);
 
             for (Iterator<ExcludeList.Entry> iter = sortedEntries.iterator(); iter.hasNext(); ) {
-                ExcludeList.Entry e = (iter.next());
+                ExcludeList.Entry e = iter.next();
                 out.startTag(HTMLWriterEx.TR);
                 writeTD(out, e.getRelativeURL());
                 writeTD(out, e.getTestCases());
@@ -490,21 +490,21 @@ class ConfigSection extends HTMLSection {
 
         }
         private static int compare(String[] a, String[] b) {
-            int alen = (a == null ? 0 : a.length);
-            int blen = (b == null ? 0 : b.length);
+            int alen = a == null ? 0 : a.length;
+            int blen = b == null ? 0 : b.length;
             for (int i = 0; i < Math.min(alen, blen); i++) {
                 int c = compare(a[i], b[i]);
                 if (c != 0)
                     return c;
             }
-            return (alen < blen ? -1 : alen == blen ? 0 : +1);
+            return alen < blen ? -1 : alen == blen ? 0 : +1;
     }
 
         private static int compare(String a, String b) {
-            return (a == null && b == null ? 0
+            return a == null && b == null ? 0
                     : a == null ? -1
                     : b == null ? +1
-                    : a.compareTo(b));
+                    : a.compareTo(b);
         }
     }
 

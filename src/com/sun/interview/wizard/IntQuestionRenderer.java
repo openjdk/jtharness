@@ -124,7 +124,7 @@ public class IntQuestionRenderer
         label.setToolTipText(i18n.getString("int.sldr.tip"));
         panel.add(label, c);
 
-        int value = (q.isValid() ? q.getValue() : lwb);
+        int value = q.isValid() ? q.getValue() : lwb;
         final JSlider slider = new JSlider(lwb, upb, value);
         slider.setName("int.sldr");
         slider.setMajorTickSpacing((upb - lwb)/2);

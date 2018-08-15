@@ -763,7 +763,7 @@ public class SelectionTree extends JTree {
             ((SelectionTreeNode) getModel().getRoot()).changeSelection(SelectionType.UNSELECTED);
             if (paths != null) {
                 for (int i = 0; i < paths.length; i++) {
-                    SelectionTreeNode node = getNode(((SelectionTreeNode) getModel().getRoot()), paths[i]);
+                    SelectionTreeNode node = getNode((SelectionTreeNode) getModel().getRoot(), paths[i]);
                     if (node != null) {
                         node.changeSelection(SelectionType.SELECTED);
                     }
@@ -796,7 +796,7 @@ public class SelectionTree extends JTree {
         for (int i = 0; i < node.getChildCount(); i++) {
             SelectionTreeNode c = node.getChildAt(i);
             if (c.getSelectionElement().getDisplayableName().equals(head)) {
-                return (tail == null ? c : getNode(c, tail));
+                return tail == null ? c : getNode(c, tail);
             }
         }
 

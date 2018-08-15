@@ -64,7 +64,7 @@ abstract class CE_View extends JPanel
     }
 
     protected boolean isInfoVisible() {
-        return (infoPanel != null);
+        return infoPanel != null;
     }
 
     protected void showInfo(HelpID helpId) {

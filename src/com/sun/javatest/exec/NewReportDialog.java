@@ -142,8 +142,8 @@ class NewReportDialog extends ToolDialog
     // ---------------------------------------------------------------------------
 
     void setLastState(Map<String, String> h) {
-        String rd = (h.get(REPORT_DIR));
-        String filter = (h.get(FILTER));
+        String rd = h.get(REPORT_DIR);
+        String filter = h.get(FILTER);
 
         if (dirField == null)
             initGUI();
@@ -738,7 +738,7 @@ class NewReportDialog extends ToolDialog
         Action action = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    JTextField src = (JTextField) (e.getSource());
+                    JTextField src = (JTextField) e.getSource();
                     String cmd = e.getActionCommand();
                     char ch = cmd.charAt(0);
                     int savedDot = src.getCaret().getDot();
@@ -908,7 +908,7 @@ class NewReportDialog extends ToolDialog
         if (customBoxes != null && customBoxes.size() > 0) {
             Iterator<JCheckBox> it = customBoxes.keySet().iterator();
             while (it.hasNext()) {
-                JCheckBox box = (it.next());
+                JCheckBox box = it.next();
                 if (box.isSelected()) {
                     customReps.add(customBoxes.get(box));
                 }
@@ -918,7 +918,7 @@ class NewReportDialog extends ToolDialog
     }
 
     private boolean isEmptyDirectory(File f) {
-        return (f.isDirectory() && f.list().length == 0);
+        return f.isDirectory() && f.list().length == 0;
     }
 
     private void updateHtmlCheckboxStates() {
@@ -1409,7 +1409,7 @@ class NewReportDialog extends ToolDialog
                     // no element selected in the list
                 return;
             }
-            JCheckBox box = (JCheckBox)(listModel.getElementAt(index));
+            JCheckBox box = (JCheckBox) listModel.getElementAt(index);
 
             if (lastSelected != box) {
                 cards.show(panel, box.getName());
@@ -1456,7 +1456,7 @@ class NewReportDialog extends ToolDialog
             if (index < 0) {
                 return;
             }
-            JCheckBox box = (JCheckBox)(listModel.getElementAt(index));
+            JCheckBox box = (JCheckBox) listModel.getElementAt(index);
 
             if (lastSelected == box) {
                 box.doClick();

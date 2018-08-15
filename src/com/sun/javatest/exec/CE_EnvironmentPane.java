@@ -59,7 +59,7 @@ class CE_EnvironmentPane extends CE_StdPane
 
         envParameters = config.getEnvParameters();
         if (envParameters instanceof LegacyEnvParameters)
-            legacyEnvParameters = (LegacyEnvParameters) (envParameters);
+            legacyEnvParameters = (LegacyEnvParameters) envParameters;
         else
             legacyEnvParameters = null;
 
@@ -97,7 +97,7 @@ class CE_EnvironmentPane extends CE_StdPane
             envNameField.removeAllItems();
 
             TestEnvironment env = envParameters.getEnv();
-            String name = (env == null ? null : env.getName());
+            String name = env == null ? null : env.getName();
             if (name == null)
                 name = uif.getI18NString("ce.env.noName");
             envNameField.addItem(name);
@@ -110,7 +110,7 @@ class CE_EnvironmentPane extends CE_StdPane
         if (legacyEnvParameters != null) {
             legacyEnvParameters.setEnvFiles(envFilesField.getFiles());
             if (envNameField.isEnabled())
-                legacyEnvParameters.setEnvName((String) (envNameField.getSelectedItem()));
+                legacyEnvParameters.setEnvName((String) envNameField.getSelectedItem());
         }
     }
 
@@ -138,7 +138,7 @@ class CE_EnvironmentPane extends CE_StdPane
         envFilesField = new EditableFileList(envFilesChooser) {
             @Override
             public Object getNewItem() {
-                File f = (File) (super.getNewItem());
+                File f = (File) super.getNewItem();
                 if (f != null)
                     f = makeTestSuiteRelative(f);
                 return f;

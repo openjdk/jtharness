@@ -92,7 +92,7 @@ public class PriorStatusInterview
 
     @Override
     public int getPriorStatusMode() {
-        return (qNeedStatus.getValue() == YesNoQuestion.YES ? MATCH_PRIOR_STATUS : NO_PRIOR_STATUS);
+        return qNeedStatus.getValue() == YesNoQuestion.YES ? MATCH_PRIOR_STATUS : NO_PRIOR_STATUS;
     }
 
     @Override
@@ -197,7 +197,7 @@ public class PriorStatusInterview
 
     private void updateCachedStatusFilter() {
         WorkDirectory wd = parent.getWorkDirectory();
-        TestResultTable r = (wd == null ? null : wd.getTestResultTable());
+        TestResultTable r = wd == null ? null : wd.getTestResultTable();
         boolean[] s = getPriorStatusValues();
         if (r == null || s == null)
             cachedStatusFilter = null;
@@ -211,7 +211,7 @@ public class PriorStatusInterview
 
     private static boolean equal(boolean[] b1, boolean[] b2) {
         if (b1 == null || b2 == null)
-            return (b1 == b2);
+            return b1 == b2;
         if (b1.length != b2.length)
             return false;
         for (int i = 0; i < b1.length; i++) {

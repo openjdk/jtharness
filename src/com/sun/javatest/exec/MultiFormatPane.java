@@ -333,7 +333,7 @@ public class MultiFormatPane extends JPanel implements Printable {
                 out.startTag(HTMLWriterEx.LI);
                 out.startTag(HTMLWriterEx.OBJECT);
                 out.writeAttr(HTMLWriterEx.CLASSID, "com.sun.javatest.tool.IconLabel");
-                out.writeParam("type", (file.isDirectory() ? "folder" : "file"));
+                out.writeParam("type", file.isDirectory() ? "folder" : "file");
                 out.endTag(HTMLWriterEx.OBJECT);
                 out.writeEntity("&nbsp;");
                 try {
@@ -497,7 +497,7 @@ public class MultiFormatPane extends JPanel implements Printable {
 
         private void processSharpLink(HyperlinkEvent e) {
             String desc = e.getDescription();
-            if (!(desc.startsWith("#"))) {
+            if (!desc.startsWith("#")) {
                 return;
             }
             textPane.scrollToReference(desc.substring(1));
@@ -655,8 +655,8 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
         String mimeType = getMIMEType(url);
         if (mimeType == null)
             return false;
-        return (mimeType.equals("text/plain") || mimeType.equals("text/html") ||
-                mimeType.equals("text/rtf"));
+        return mimeType.equals("text/plain") || mimeType.equals("text/html") ||
+                mimeType.equals("text/rtf");
     }
 
     public static String getMIMEType(URL url) {
@@ -870,7 +870,7 @@ class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
             AudioFormat format = stream.getFormat();
 
             DataLine.Info info = new DataLine.Info(
-                Clip.class, stream.getFormat(), ((int)stream.getFrameLength()*format.getFrameSize()));
+                Clip.class, stream.getFormat(), (int)stream.getFrameLength()*format.getFrameSize());
 
             clip = (Clip) AudioSystem.getLine(info);
             clip.open(stream);

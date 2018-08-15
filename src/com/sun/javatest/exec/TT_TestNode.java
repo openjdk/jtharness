@@ -110,7 +110,7 @@ public class TT_TestNode extends TT_TreeNode {
         if (shortN == null) {
             String fullname = tr.getTestName();
             int lastSlash = fullname.lastIndexOf("/");
-            shortN = (lastSlash != -1 ? fullname.substring(lastSlash + 1) : fullname);
+            shortN = lastSlash != -1 ? fullname.substring(lastSlash + 1) : fullname;
         }
 
         return shortN;

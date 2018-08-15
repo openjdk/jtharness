@@ -336,7 +336,7 @@ public class ExecTool extends Tool implements ExecModel,
      */
     @Override
     public TestSuite[] getLoadedTestSuites() {
-        return (testSuite == null ? null : new TestSuite[]{testSuite});
+        return testSuite == null ? null : new TestSuite[]{testSuite};
     }
 
     @Override
@@ -518,8 +518,8 @@ public class ExecTool extends Tool implements ExecModel,
     @Override
     public void printSetup() {
         PageFormat pf = PrinterJob.getPrinterJob().pageDialog(
-            (pageFormat == null ? PrinterJob.getPrinterJob().defaultPage() : pageFormat));
-        pageFormat = (pf == null ? pageFormat : pf);
+                pageFormat == null ? PrinterJob.getPrinterJob().defaultPage() : pageFormat);
+        pageFormat = pf == null ? pageFormat : pf;
     }
 
     @Override
@@ -527,7 +527,7 @@ public class ExecTool extends Tool implements ExecModel,
         //throw new UnsupportedOperationException("Not supported yet.");
         PrinterJob pj = PrinterJob.getPrinterJob();
 
-        pj.setPrintable(p, (pageFormat == null ? pj.defaultPage() : pageFormat));
+        pj.setPrintable(p, pageFormat == null ? pj.defaultPage() : pageFormat);
         boolean result = pj.printDialog();
 
         if (result) {
@@ -585,9 +585,9 @@ public class ExecTool extends Tool implements ExecModel,
         // - work dir path
         // all of which may be null.
 
-        String testSuiteName = (testSuite == null ? null : testSuite.getName());
+        String testSuiteName = testSuite == null ? null : testSuite.getName();
         WorkDirectory workDir = session.getParameters().getWorkDirectory();
-        String workDirPath = (workDir == null ? null : workDir.getRoot().getPath());
+        String workDirPath = workDir == null ? null : workDir.getRoot().getPath();
         if (testSuite == null)
             setI18NTitle("exec.title.noTS.txt");
         else if (workDirPath == null) {

@@ -144,7 +144,7 @@ class FilterSelectionHandler {
             selectBox.setSelectedItem(activeFilter);
         }
 
-        configButton.setEnabled((activeFilter instanceof ConfigurableTestFilter));
+        configButton.setEnabled(activeFilter instanceof ConfigurableTestFilter);
 
         return panel;
     }
@@ -212,7 +212,7 @@ class FilterSelectionHandler {
                 selectBox.setSelectedItem(activeFilter);
 
             if (configButton != null)
-                configButton.setEnabled((f instanceof ConfigurableTestFilter));
+                configButton.setEnabled(f instanceof ConfigurableTestFilter);
 
             updateMenu();
 
@@ -244,7 +244,7 @@ class FilterSelectionHandler {
             int index = filterMenuTable.getKeyIndex(f);
 
             if (index >= 0) {
-                JMenuItem jmi = (JMenuItem)(filterMenuTable.getValueAt(index));
+                JMenuItem jmi = (JMenuItem) filterMenuTable.getValueAt(index);
         int mne = jmi.getMnemonic();
         if (mne > 0)
             jmi.setText((char)mne + " " + f.getName());
@@ -324,7 +324,7 @@ class FilterSelectionHandler {
 
         int where = filterMenuTable.getKeyIndex(f);
         if (where != -1) {      // found, continue
-            JRadioButtonMenuItem mi = (JRadioButtonMenuItem)(filterMenuTable.getValueAt(where));
+            JRadioButtonMenuItem mi = (JRadioButtonMenuItem) filterMenuTable.getValueAt(where);
             editMenu.remove(mi);
             filterMenuTable.remove(where);
             menuGroup.remove(mi);
@@ -341,7 +341,7 @@ class FilterSelectionHandler {
         // select the right item in the menu
         int where = filterMenuTable.getKeyIndex(activeFilter);
         if (where != -1) {
-            JRadioButtonMenuItem mi = (JRadioButtonMenuItem)(filterMenuTable.getValueAt(where));
+            JRadioButtonMenuItem mi = (JRadioButtonMenuItem) filterMenuTable.getValueAt(where);
             mi.setSelected(true);
         }
 
@@ -367,7 +367,7 @@ class FilterSelectionHandler {
             Object source = e.getSource();
             if (source == selectBox) {
                 String action = e.getActionCommand();
-                TestFilter vf = (TestFilter)(selectBox.getSelectedItem());
+                TestFilter vf = (TestFilter) selectBox.getSelectedItem();
 
                 if (vf == getActiveFilter()) {
                     if (debug)
@@ -383,14 +383,14 @@ class FilterSelectionHandler {
                 }
             }
             else if (source == configButton) {
-                TestFilter vf = (TestFilter)(selectBox.getSelectedItem());
+                TestFilter vf = (TestFilter) selectBox.getSelectedItem();
                 filterConfig.showEditorDialog(vf);
             }
             else if (source instanceof JRadioButtonMenuItem) {
                 // a filter menu item
                 int which = filterMenuTable.getValueIndex(source);
                 if (which != -1) {
-                    TestFilter f = (TestFilter)(filterMenuTable.getKeyAt(which));
+                    TestFilter f = (TestFilter) filterMenuTable.getKeyAt(which);
                     setFilter(f);
                 }
             }

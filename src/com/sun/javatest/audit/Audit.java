@@ -291,11 +291,11 @@ public class Audit
      * @return true if all checks are OK
      */
     public boolean isOK() {
-        return (isStatusCountsOK()
+        return isStatusCountsOK()
                 && isChecksumCountsOK()
                 && isDateStampsOK()
                 && isAllTestsOK()
-                && isAllTestCasesOK())
+                && isAllTestCasesOK()
                 && isAllTestDescriptionsOK();
     }
 
@@ -304,7 +304,7 @@ public class Audit
      * @return true if all tests were analyzed successfully.
      */
     public boolean isAllTestsOK() {
-        return (badTests == null);
+        return badTests == null;
     }
 
     /**
@@ -314,7 +314,7 @@ public class Audit
      * tests that support test cases.
      */
     public boolean isAllTestCasesOK() {
-        return (badTestCaseTests == null);
+        return badTestCaseTests == null;
     }
 
     /**
@@ -322,7 +322,7 @@ public class Audit
      * @return true is all test descriptions were OK.
      */
     public boolean isAllTestDescriptionsOK() {
-        return (badTestDescriptions == null);
+        return badTestDescriptions == null;
     }
 
     /**
@@ -332,7 +332,7 @@ public class Audit
      * @return true is there were no test results with bad checksums.
      */
     public boolean isChecksumCountsOK() {
-        return (checksumCounts[TestResult.BAD_CHECKSUM] == 0);
+        return checksumCounts[TestResult.BAD_CHECKSUM] == 0;
     }
 
     /**
@@ -342,7 +342,7 @@ public class Audit
      * @return true if no dates have invalid datestamps.
      */
     public boolean isDateStampsOK() {
-        return (earliestStart != null && latestStart != null && !badDates);
+        return earliestStart != null && latestStart != null && !badDates;
     }
 
     /**
@@ -358,7 +358,7 @@ public class Audit
             if (i != Status.PASSED && statusCounts[i] != 0)
                 return false;
         }
-        return (statusCounts[Status.PASSED] == testCount);
+        return statusCounts[Status.PASSED] == testCount;
     }
 
     /**
@@ -493,12 +493,12 @@ public class Audit
 
         SortedSet<String> ss = new TreeSet<>();
         for (Enumeration<String> e = envTable.keys(); e.hasMoreElements(); ) {
-            String key = (e.nextElement());
+            String key = e.nextElement();
             ss.add(key);
         }
 
         for (Iterator<String> iter = ss.iterator(); iter.hasNext(); ) {
-            String key = (iter.next());
+            String key = iter.next();
             Vector<String> allValuesForKey = envTable.get(key);
             if (allValuesForKey.size() == 1) {
                 if (showAll)
@@ -627,7 +627,7 @@ public class Audit
 
     private static boolean equal(TestDescription a, TestDescription b) {
         if (a == null || b == null)
-            return (a == b);
+            return a == b;
 
         //if (!a.rootRelativeFile.equals(b.rootRelativeFile))
         //    return false;

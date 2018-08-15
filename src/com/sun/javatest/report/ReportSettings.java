@@ -475,12 +475,12 @@ public class ReportSettings {
             } else {
                 fs = new TestFilter[]{filter};
             }
-            iter = ((initFiles == null) ? resultTable.getIterator(fs) : resultTable.getIterator(initFiles, fs));
+            iter = (initFiles == null) ? resultTable.getIterator(fs) : resultTable.getIterator(initFiles, fs);
         } catch (TestResultTable.Fault f) {
             throw new JavaTestError(ReportSettings.i18n.getString("result.testResult.err"));
         }
         for (; iter.hasNext();) {
-            TestResult tr = (iter.next());
+            TestResult tr = iter.next();
             Status s = tr.getStatus();
             TreeSet<TestResult> list = sortedResults[s == null ? Status.NOT_RUN : s.getType()];
             list.add(tr);

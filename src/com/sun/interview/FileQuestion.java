@@ -123,7 +123,7 @@ public abstract class FileQuestion extends Question
 
     @Override
     public String getStringValue() {
-        return (value == null ? null : value.getPath());
+        return value == null ? null : value.getPath();
     }
 
     /**
@@ -295,7 +295,7 @@ public abstract class FileQuestion extends Question
      * identify the same filename
      */
     protected static boolean equal(File f1, File f2) {
-        return (f1 == null ? f2 == null : f1.equals(f2));
+        return f1 == null ? f2 == null : f1.equals(f2);
     }
 
     /**

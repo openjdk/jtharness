@@ -241,7 +241,7 @@ class Folder extends Panel implements ItemSelectable
         int baseLine = tabHeight + vgap;
         for (int i = 0; i < entries.size(); i++) {
             Entry e = entries.elementAt(i);
-            int tabH = (e.visibleTab || e.comp.isVisible() ? tabHeight : tabHeight / 3);
+            int tabH = e.visibleTab || e.comp.isVisible() ? tabHeight : tabHeight / 3;
             int w = fm.stringWidth(e.name);
             Polygon tab = new Polygon();
             tab.addPoint(x, baseLine);
@@ -299,7 +299,7 @@ class Folder extends Panel implements ItemSelectable
 
     private void show(Entry e) {
         Entry prevEntry = getCurrentEntry();
-        Component prevComp = (prevEntry == null ? null : prevEntry.comp);
+        Component prevComp = prevEntry == null ? null : prevEntry.comp;
 
         ((CardLayout)getLayout()).show(this, e.name);
         repaint(); // needed to repaint the tab area
@@ -327,7 +327,7 @@ class Folder extends Panel implements ItemSelectable
 
     private Entry getCurrentEntry() {
         int i = getCurrentIndex();
-        return (i == -1 ? null : entries.elementAt(i));
+        return i == -1 ? null : entries.elementAt(i);
     }
 
     void mousePressed(int mouseX, int mouseY) {

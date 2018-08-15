@@ -91,7 +91,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
      * have been read.
      */
     public synchronized boolean isReadAheadComplete() {
-        return (worker == null ? !source.hasNext() : !sourceHasNext);
+        return worker == null ? !source.hasNext() : !sourceHasNext;
     }
 
     /**
@@ -104,7 +104,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
      * @see #isReadAheadComplete
      */
     public synchronized int getItemsFoundCount() {
-        return (usedCount + queue.size());
+        return usedCount + queue.size();
     }
 
     /**
@@ -113,7 +113,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
      * @deprecated Use hasNext().
      */
     public synchronized boolean isSourceExhausted() {
-        return (worker == null ? !source.hasNext() : !sourceHasNext);
+        return worker == null ? !source.hasNext() : !sourceHasNext;
     }
 
     /**
@@ -173,8 +173,8 @@ public class ReadAheadIterator<T> implements Iterator<T>
 
     @Override
     public synchronized boolean hasNext() {
-        return (queue.size() > 0
-                || (worker == null ? source.hasNext() : sourceHasNext));
+        return queue.size() > 0
+                || (worker == null ? source.hasNext() : sourceHasNext);
     }
 
     @Override
@@ -193,7 +193,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
                     sourceHasNext = source.hasNext();
                     if (sourceHasNext) {
                         // there is more to be read, so start a worker to read it
-                        worker = new Thread("ReadAheadIterator" + (workerNum++)) {
+                        worker = new Thread("ReadAheadIterator" + workerNum++) {
                                 @Override
                                 public void run() {
                                     readAhead();
@@ -255,7 +255,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
 
         // check whether the thread is really required
         synchronized (this) {
-            keepReading = (sourceHasNext && (thisThread == worker));
+            keepReading = sourceHasNext && (thisThread == worker);
         }
 
         try {
@@ -274,11 +274,11 @@ public class ReadAheadIterator<T> implements Iterator<T>
                     sourceHasNext = srcHasNext;
                     notifyAll();
 
-                    keepReading = (sourceHasNext && (thisThread == worker));
+                    keepReading = sourceHasNext && (thisThread == worker);
 
                     while (queue.size() >= maxQueueSize && keepReading) {
                         wait();
-                        keepReading = (sourceHasNext && (thisThread == worker));
+                        keepReading = sourceHasNext && (thisThread == worker);
                     }
                 }
             }

@@ -258,7 +258,7 @@ public class Main {
                 String[] files = absFile.list();
                 for (int i = 0; i < files.length; i++) {
                     read(new File(absFile, files[i]),
-                         (relFile.getPath().equals(".") ? new File(files[i]) : new File(relFile, files[i])));
+                            relFile.getPath().equals(".") ? new File(files[i]) : new File(relFile, files[i]));
                 }
             }
             return;
@@ -484,8 +484,8 @@ public class Main {
 
     private void writeIndex() throws IOException {
 
-        PrintWriter indexOut = (xmlOutFile == null ? null
-                                   : new PrintWriter(new BufferedWriter(new FileWriter(xmlOutFile))));
+        PrintWriter indexOut = xmlOutFile == null ? null
+                                   : new PrintWriter(new BufferedWriter(new FileWriter(xmlOutFile)));
         if (indexOut != null) {
             indexOut.println("<?xml version='1.0' encoding='ISO-8859-1'  ?>");
             indexOut.println("<!DOCTYPE index");
@@ -495,8 +495,8 @@ public class Main {
             indexOut.println("<index version=\"1.0\">");
         }
 
-        PrintWriter mapOut = (mapOutFile == null ? null
-                              : new PrintWriter(new BufferedWriter(new FileWriter(mapOutFile))));
+        PrintWriter mapOut = mapOutFile == null ? null
+                              : new PrintWriter(new BufferedWriter(new FileWriter(mapOutFile)));
         if (mapOut != null) {
             mapOut.println("<?xml version='1.0' encoding='ISO-8859-1' ?>");
             mapOut.println("<!DOCTYPE map");
@@ -505,8 +505,8 @@ public class Main {
             mapOut.println("<map version=\"1.0\">");
         }
 
-        PrintWriter htmlOut = (htmlOutFile == null ? null
-                               : new PrintWriter(new BufferedWriter(new FileWriter(htmlOutFile))));
+        PrintWriter htmlOut = htmlOutFile == null ? null
+                               : new PrintWriter(new BufferedWriter(new FileWriter(htmlOutFile)));
         if (htmlOut != null) {
             htmlOut.println("<!DOCTYPE HTML>");
             htmlOut.println("<html>");
@@ -523,11 +523,11 @@ public class Main {
         char currLetter = 0;
 
         for (Iterator<Node> iter = root.iterator(); iter.hasNext(); ) {
-            Node node = (iter.next());
+            Node node = iter.next();
             String name = node.getName();
             char initial = Character.toUpperCase(name.charAt(0));
             if (Character.isLetter(initial) && initial != currLetter) {
-                for (char c = (currLetter == 0 ? 'A' : (char) (currLetter + 1));
+                for (char c = currLetter == 0 ? 'A' : (char) (currLetter + 1);
                      c <= initial; c++) {
                     if (htmlOut != null) {
                         htmlOut.println("");
@@ -599,7 +599,7 @@ public class Main {
 
         if (node.getChildCount() > 0) {
             for (Iterator<Node> iter = node.iterator(); iter.hasNext(); ) {
-                Node child = (iter.next());
+                Node child = iter.next();
                 write(xmlOut, mapOut, htmlOut, child, depth + 1);
             }
 
@@ -800,11 +800,11 @@ public class Main {
         }
 
         int getChildCount() {
-            return (children == null ? 0 : children.size());
+            return children == null ? 0 : children.size();
         }
 
         Iterator<Node> iterator() {
-            return (children == null ? nullIterator : children.iterator());
+            return children == null ? nullIterator : children.iterator();
         }
 
         private void add(Node child) {

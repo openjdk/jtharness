@@ -262,7 +262,7 @@ class PathPanel extends JPanel
             for (int i = currIndex + 1; i < currEntries.length; i++) {
                 Object e = currEntries[i];
                 if (e instanceof Question)
-                    return ((Question) e);
+                    return (Question) e;
             }
             return null;
         }
@@ -271,7 +271,7 @@ class PathPanel extends JPanel
             for (int i = currIndex - 1; i >= 0; i--) {
                 Object e = currEntries[i];
                 if (e instanceof Question)
-                    return ((Question) e);
+                    return (Question) e;
             }
             return null;
         }
@@ -280,7 +280,7 @@ class PathPanel extends JPanel
             for (int i = currEntries.length - 1; i >= 0; i--) {
                 Object e = currEntries[i];
                 if (e instanceof Question)
-                    return ((Question) e);
+                    return (Question) e;
             }
             return null;
         }
@@ -400,12 +400,12 @@ class PathPanel extends JPanel
 
         @Override
         public int getSize() {
-            return (currEntries == null ? 0 : currEntries.length);
+            return currEntries == null ? 0 : currEntries.length;
         }
 
         @Override
         public Object getElementAt(int index) {
-            return (index < currEntries.length ? currEntries[index] : null);
+            return index < currEntries.length ? currEntries[index] : null;
         }
 
         //----- from ListCellRenderer -----------
@@ -519,7 +519,7 @@ class PathPanel extends JPanel
         @Override
         public void actionPerformed(ActionEvent e) {
             //System.err.println("PP.actionPerformed");
-            JList<?> list = (JList<?>)(e.getSource());
+            JList<?> list = (JList<?>) e.getSource();
             Object o = list.getSelectedValue();
             if (o != null && o instanceof Question) {
                 Question q = (Question)o;
@@ -544,7 +544,7 @@ class PathPanel extends JPanel
         // invoked by mouse selection (or by list.setSelectedXXX ??)
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            JList<?> list = (JList<?>) (e.getSource());
+            JList<?> list = (JList<?>) e.getSource();
             Object o = list.getSelectedValue();
             if (o == null)
                 return;
@@ -573,7 +573,7 @@ class PathPanel extends JPanel
                 questionPanel.saveCurrentResponse();
 
                 try {
-                    Question q = (Question) (l.get(0));
+                    Question q = (Question) l.get(0);
                     interview.setCurrentQuestion(q);
                 }
                 catch (Interview.Fault ex) {
@@ -625,9 +625,9 @@ class PathPanel extends JPanel
         }
 
         private boolean isOverSelection(MouseEvent e) {
-            JList<?> l = (JList<?>) (e.getComponent());
+            JList<?> l = (JList<?>) e.getComponent();
             Rectangle r = l.getCellBounds(currIndex, currIndex);
-            return (r.contains(e.getX(), e.getY()));
+            return r.contains(e.getX(), e.getY());
         }
 
         private void showPopupMenu(MouseEvent e) {
@@ -706,7 +706,7 @@ class PathPanel extends JPanel
                 for (int i = 0; i < currEntries.length; i++) {
                     Object e = currEntries[i];
                     if (e == q) {
-                        currMarks[i] = (markersEnabled && q.hasMarker(markerName));
+                        currMarks[i] = markersEnabled && q.hasMarker(markerName);
                         fireContentsChanged(this, i, i);
                         break;
                     }
@@ -726,8 +726,8 @@ class PathPanel extends JPanel
             boolean[] newMarks = new boolean[newEntries.length];
             if (markersEnabled) {
                 for (int i = 0; i < newEntries.length; i++) {
-                    newMarks[i] = (newEntries[i] instanceof Question
-                                   && ((Question) newEntries[i]).hasMarker(markerName));
+                    newMarks[i] = newEntries[i] instanceof Question
+                                   && ((Question) newEntries[i]).hasMarker(markerName);
                 }
             }
 
@@ -828,7 +828,7 @@ class PathPanel extends JPanel
 
             // auto-expand the final section if it doesn't end in FinalQuestion
             if (!(last instanceof FinalQuestion) && v.lastElement() instanceof List) {
-                List<?> l = (List<?>) (v.lastElement());
+                List<?> l = (List<?>) v.lastElement();
                 v.setSize(v.size() - 1);
                 v.addAll(l);
             }
@@ -872,11 +872,11 @@ class PathPanel extends JPanel
     //-----------------------------------------------------------------------
 
     private JMenu createMenu() {
-        return (JMenu) (new Menu(Menu.JMENU).getComponent());
+        return (JMenu) new Menu(Menu.JMENU).getComponent();
     }
 
     private JPopupMenu createPopupMenu() {
-        return (JPopupMenu) (new Menu(Menu.JPOPUPMENU).getComponent());
+        return (JPopupMenu) new Menu(Menu.JPOPUPMENU).getComponent();
     }
 
     private class Menu

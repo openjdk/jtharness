@@ -111,7 +111,7 @@ public class PrefixMap<V> implements Map<String, V>
 
     @Override
     public int hashCode() {
-        return (map.hashCode() + prefix.hashCode());
+        return map.hashCode() + prefix.hashCode();
     }
 
     @Override
@@ -158,7 +158,7 @@ public class PrefixMap<V> implements Map<String, V>
     public int size() {
         int n = 0;
         for (Iterator<String> i = map.keySet().iterator(); i.hasNext(); ) {
-            String key = (i.next());
+            String key = i.next();
             if (key.startsWith(prefix))
                 n++;
         }

@@ -229,23 +229,23 @@ class EnvironmentBrowser extends ToolDialog
             // constants.
             if (sortMode == KEY)
                 // key should always be unique, so should be enough to sort on that
-                return (e1.getKey().compareTo(e2.getKey()));
+                return e1.getKey().compareTo(e2.getKey());
             else if (sortMode == VALUE) {
                 // value probably unique, but if not, sort on key as well
-                int c = (e1.getValue().compareTo(e2.getValue()));
-                return (c != 0 ? c : e1.getKey().compareTo(e2.getKey()));
+                int c = e1.getValue().compareTo(e2.getValue());
+                return c != 0 ? c : e1.getKey().compareTo(e2.getKey());
             }
             else if (sortMode == DEFINED_IN_ENV) {
                 // defined_in probably not unique, so sort on key as well
                 int i1 = getInheritsIndex(e1.getDefinedInEnv());
                 int i2 = getInheritsIndex(e2.getDefinedInEnv());
-                return (i1 < i2 ? -1 :
-                        i1 > i2 ? +1 : e1.getKey().compareTo(e2.getKey()));
+                return i1 < i2 ? -1 :
+                        i1 > i2 ? +1 : e1.getKey().compareTo(e2.getKey());
             }
             else if (sortMode == DEFINED_IN_FILE) {
                 // defined_in probably not unique, so sort on key as well
-                int c = (e1.getDefinedInFile().compareTo(e2.getDefinedInFile()));
-                return (c != 0 ? c : e1.getKey().compareTo(e2.getKey()));
+                int c = e1.getDefinedInFile().compareTo(e2.getDefinedInFile());
+                return c != 0 ? c : e1.getKey().compareTo(e2.getKey());
             }
             else {
                 return 0;
@@ -317,7 +317,7 @@ class EnvironmentBrowser extends ToolDialog
 
         @Override
         public synchronized int getRowCount() {
-            return (elems == null ? 0 : elems.length);
+            return elems == null ? 0 : elems.length;
         }
 
         @Override

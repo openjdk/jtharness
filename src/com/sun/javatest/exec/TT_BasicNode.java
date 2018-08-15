@@ -131,7 +131,7 @@ public class TT_BasicNode extends TT_TreeNode {
     // --------- basic interface -------------
     @Override
     boolean isRoot() {
-        return (parent == null);
+        return parent == null;
     }
 
     /**

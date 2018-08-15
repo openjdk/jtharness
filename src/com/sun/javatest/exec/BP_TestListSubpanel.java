@@ -450,7 +450,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 }
             } else if (column == 1) {
                 synchronized (liveData) {
-                    if ((liveData.get(row)) instanceof TestResult)
+                    if (liveData.get(row) instanceof TestResult)
                         return getSelectedProperty(liveData.get(row));
                     else
                         // should not happen
@@ -543,14 +543,14 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 else if (show.equals("keywords")) {
                     String[] s = tst.getDescription().getKeywords();
                     if (s.length == 0)
-                        return (uif.getI18NString("br.list.noKeywords.txt"));
+                        return uif.getI18NString("br.list.noKeywords.txt");
                     else {
                         StringBuffer sb = new StringBuffer();
                         for (int i = 0; i < s.length; i++) {
                             sb.append(s[i]);
                             sb.append(" ");
                         }
-                        return (sb.toString());
+                        return sb.toString();
                     }
                 } else if (show.equals(TestResult.EXEC_STATUS)) {
                     String tmpStr = tst.getStatus().getReason();
@@ -561,7 +561,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                         : tst.getProperty(show);
             } catch (TestResult.Fault f) {
             }
-            return (""); // should not be here
+            return ""; // should not be here
         }
 
         private void init() {
@@ -635,7 +635,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             public int compareTo(Sorter otherRow) {
 
                 if (o[index] instanceof TestResult) {
-                    return (((TestResult) o[index]).getTestName()).
+                    return ((TestResult) o[index]).getTestName().
                              compareTo(((TestResult) o[otherRow.index]).getTestName());
                 } else if (o[index] instanceof String) {
                     return ((String) o[index]).compareTo((String)o[otherRow.index]);
@@ -1189,7 +1189,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 if (e.getButton() == MouseEvent.BUTTON3) {
                     popupTable.show(e.getComponent(), e.getX(), e.getY());
                 } else {
-                    JTable tbl = (JTable) (e.getComponent());
+                    JTable tbl = (JTable) e.getComponent();
                     int col = table.columnAtPoint(e.getPoint());
                     int row = table.rowAtPoint(e.getPoint());
                     TableModel tm = table.getModel();
@@ -1202,7 +1202,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
 
                     // always use col 1, which is where the TestResult is
                     // we only really care which row was clicked on
-                    TestResult tr = (TestResult) (tm.getValueAt(row, 0));
+                    TestResult tr = (TestResult) tm.getValueAt(row, 0);
 
                     if (e.getClickCount() == 1) {
                         // show vital stats only
@@ -1242,7 +1242,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             }
 
             if (index != lastIndex) {
-                TestResult tr = (TestResult) (mod.getValueAt(index, 0));
+                TestResult tr = (TestResult) mod.getValueAt(index, 0);
 
                 // show vital stats only
                 showMessage(I18NUtils.getStatusMessage(tr.getStatus()));

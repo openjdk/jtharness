@@ -165,7 +165,7 @@ public abstract class StringQuestion extends Question
     @Override
     public void setValue(String newValue) {
         String oldValue = value;
-        value = (newValue == null ? null : newValue.trim());
+        value = newValue == null ? null : newValue.trim();
         if (!equal(value, oldValue)) {
             interview.updatePath(this);
             interview.setEdited(true);
@@ -201,7 +201,7 @@ public abstract class StringQuestion extends Question
      * and equal.
      */
     protected static boolean equal(String s1, String s2) {
-        return (s1 == null ? s2 == null : s1.equals(s2));
+        return s1 == null ? s2 == null : s1.equals(s2);
     }
 
     /**

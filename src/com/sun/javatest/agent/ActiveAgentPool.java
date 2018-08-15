@@ -335,7 +335,7 @@ public class ActiveAgentPool
         }
 
         synchronized Enumeration<Connection> elements() {
-            return ((Vector<Connection>)(v.clone())).elements();
+            return ((Vector<Connection>) v.clone()).elements();
         }
 
         synchronized void add(final Entry e) {
@@ -436,8 +436,8 @@ public class ActiveAgentPool
      * @see #setPort
      */
     public synchronized int getPort()  {
-        return (port == 0 && serverSocket != null ?
-                serverSocket.getLocalPort() : port);
+        return port == 0 && serverSocket != null ?
+                serverSocket.getLocalPort() : port;
     }
 
 
@@ -476,7 +476,7 @@ public class ActiveAgentPool
      * @see #setListening
      */
     public synchronized boolean isListening() {
-        return (serverSocket != null);
+        return serverSocket != null;
     }
 
     /**

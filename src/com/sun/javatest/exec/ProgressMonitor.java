@@ -518,7 +518,7 @@ class ProgressMonitor extends ToolDialog {
 
         private void showCard(JComponent comp) {
             //setVisible(false);
-            ((CardLayout)(getLayout())).show(this, comp.getName());
+            ((CardLayout) getLayout()).show(this, comp.getName());
             //setVisible(true);
         }
 

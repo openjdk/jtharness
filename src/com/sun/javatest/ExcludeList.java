@@ -180,7 +180,7 @@ public class ExcludeList
      */
     public boolean excludesAllOf(String url) {
         Object o = table.get(new Key(url));
-        return (o != null && o instanceof Entry && ((Entry)o).testCase == null);
+        return o != null && o instanceof Entry && ((Entry)o).testCase == null;
     }
 
     /**
@@ -201,7 +201,7 @@ public class ExcludeList
      */
     public boolean excludesAnyOf(String url) {
         Object o = table.get(new Key(url));
-        return (o != null);
+        return o != null;
     }
 
     /**
@@ -226,7 +226,7 @@ public class ExcludeList
                     // entire test excluded
                     return null;
                 else
-                    return (new String[] {e.testCase});
+                    return new String[] {e.testCase};
             }
             else {
                 Entry[] ee = (Entry[])o;
@@ -362,7 +362,7 @@ public class ExcludeList
             if (testCase == null)
                 return e;
             else
-                return (isInList(e.testCase, testCase) ? e : null);
+                return isInList(e.testCase, testCase) ? e : null;
         }
         else {
             Entry[] entries = (Entry[])o;
@@ -384,7 +384,7 @@ public class ExcludeList
     public void merge(ExcludeList other) {
         synchronized (table) {
             for (Iterator<?> iter = other.getIterator(false); iter.hasNext(); ) {
-                Entry otherEntry = (Entry) (iter.next());
+                Entry otherEntry = (Entry) iter.next();
                 Key key = new Key(otherEntry.relativeURL);
                 Object o = table.get(key);
                 if (o == null) {
@@ -577,7 +577,7 @@ public class ExcludeList
         int maxPlatformWidth = 0;
         SortedSet<Entry> entries = new TreeSet<>();
         for (Iterator<?> iter = getIterator(false); iter.hasNext(); ) {
-            Entry entry = (Entry) (iter.next());
+            Entry entry = (Entry) iter.next();
             entries.add(entry);
             if (entry.testCase == null)
                 maxURLWidth = Math.max(entry.relativeURL.length(), maxURLWidth);
@@ -636,8 +636,8 @@ public class ExcludeList
     }
 
     private static boolean equals(String s1, String s2) {
-        return (s1 == null && s2 == null
-                || s1 != null && s2 != null && s1.equals(s2));
+        return s1 == null && s2 == null
+                || s1 != null && s2 != null && s1.equals(s2);
     }
 
     /**
@@ -730,11 +730,11 @@ public class ExcludeList
         }
 
         private boolean isEndOfLine(int ch) {
-            return (ch == -1 || ch == '\n' || ch == '\r');
+            return ch == -1 || ch == '\n' || ch == '\r';
         }
 
         private boolean isWhitespace(int ch) {
-            return (ch == ' ' || ch == '\t');
+            return ch == ' ' || ch == '\t';
         }
 
         private String readURL() throws IOException, Fault {
@@ -1191,7 +1191,7 @@ public class ExcludeList
 
         private static boolean equals(int[] i1, int[] i2) {
             if (i1 == null || i2 == null)
-                return (i1 == null && i2 == null);
+                return i1 == null && i2 == null;
 
             if (i1.length != i2.length)
                 return false;
@@ -1205,7 +1205,7 @@ public class ExcludeList
 
         private static boolean equals(String[] s1, String[] s2) {
             if (s1 == null || s2 == null)
-                return (s1 == null && s2 == null);
+                return s1 == null && s2 == null;
 
             if (s1.length != s2.length)
                 return false;
@@ -1219,8 +1219,8 @@ public class ExcludeList
         }
 
         private static boolean equals(String s1, String s2) {
-            return (s1 == null && s2 == null
-                    || s1 != null && s2 != null && s1.equals(s2));
+            return s1 == null && s2 == null
+                    || s1 != null && s2 != null && s1.equals(s2);
         }
 
 

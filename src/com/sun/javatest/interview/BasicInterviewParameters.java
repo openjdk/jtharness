@@ -319,14 +319,14 @@ public abstract class BasicInterviewParameters extends InterviewParameters
     @Override
     public Parameters.KeywordsParameters getKeywordsParameters() {
         TestSuite ts = getTestSuite();
-        String[] kw = (ts == null ? null : ts.getKeywords());
-        return (kw == null || kw.length > 0 ? iKeywords : null);
+        String[] kw = ts == null ? null : ts.getKeywords();
+        return kw == null || kw.length > 0 ? iKeywords : null;
     }
 
     @Override
     protected Question getKeywordsFirstQuestion() {
         TestSuite ts = getTestSuite();
-        String[] kw = (ts == null ? null : ts.getKeywords());
+        String[] kw = ts == null ? null : ts.getKeywords();
         if (kw == null || kw.length > 0) {
             return callInterview(iKeywords, getKeywordsSuccessorQuestion());
         }
@@ -463,7 +463,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
 
         @Override
             public Object[] getTextArgs() {
-                String name = (testSuite == null ? null : testSuite.getName());
+                String name = testSuite == null ? null : testSuite.getName();
                 return new Object[] {Integer.valueOf(name == null ? 0 : 1), name };
             }
 
@@ -513,7 +513,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
 
             @Override
                 public Object[] getTextArgs() {
-                    String name = (testSuite == null ? null : testSuite.getName());
+                    String name = testSuite == null ? null : testSuite.getName();
                     return new Object[] {Integer.valueOf(name == null ? 0 : 1), name };
                 }
 
@@ -550,7 +550,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
         qDescription = new StringQuestion(this, "description") {
             @Override
                 public boolean isValueValid() {
-                    return (value != null && value.length() > 0);
+                    return value != null && value.length() > 0;
                 }
 
             @Override
@@ -586,7 +586,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
 
             @Override
                 public Object[] getTextArgs() {
-                    String name = (testSuite == null ? null : testSuite.getName());
+                    String name = testSuite == null ? null : testSuite.getName();
                     return new Object[] {Integer.valueOf(name == null ? 0 : 1), name };
                 }
 

@@ -340,7 +340,7 @@ public abstract class FileListQuestion extends Question
         if (s == null)
             return empty;
 
-        char sep = (s.indexOf('\n') == -1 ? ' ' : '\n');
+        char sep = s.indexOf('\n') == -1 ? ' ' : '\n';
 
         ArrayList<File> v = new ArrayList<>();
         int start = -1;
@@ -424,7 +424,7 @@ public abstract class FileListQuestion extends Question
      */
     protected static boolean equal(File[] f1, File[] f2) {
         if (f1 == null || f2 == null)
-            return (f1 == f2);
+            return f1 == f2;
 
         if (f1.length != f2.length)
             return false;

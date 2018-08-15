@@ -197,7 +197,7 @@ public class TestSuiteChooser extends JFileChooser
         // This means we can't put a test suite in the root of
         // the file system, but that is a lesser inconvenience
         // than floppy dialogs!
-        return (f.getName().equals(""));
+        return f.getName().equals("");
     }
 
     private static File normalize(File dir) {
@@ -207,7 +207,7 @@ public class TestSuiteChooser extends JFileChooser
                 // found a parent directory that is a test suite,
                 // so normalize to this directory's parent
                 File p = d.getParentFile();
-                return (p != null ? p : dir);
+                return p != null ? p : dir;
             }
         }
 
@@ -228,14 +228,14 @@ public class TestSuiteChooser extends JFileChooser
 
         @Override
         public Icon getIcon(File f) {
-            return (isTestSuite(f) ? icon : null);
+            return isTestSuite(f) ? icon : null;
         }
 
         @Override
         public String getName(File f) {
             // Take care to get names of file system roots correct
             String name = f.getName();
-            return (name.length() == 0 ? f.getPath() : name);
+            return name.length() == 0 ? f.getPath() : name;
         }
 
         @Override
@@ -245,14 +245,14 @@ public class TestSuiteChooser extends JFileChooser
 
         @Override
         public Boolean isTraversable(File f) {
-            return (isDirectory(f) && !isTestSuite(f) ? Boolean.TRUE : Boolean.FALSE);
+            return isDirectory(f) && !isTestSuite(f) ? Boolean.TRUE : Boolean.FALSE;
         }
     }
 
     private class TSC_FileFilter extends FileFilter {
         @Override
         public boolean accept(File f) {
-            return (isDirectory(f) ? true : isTestSuite(f));
+            return isDirectory(f) ? true : isTestSuite(f);
         }
 
         @Override

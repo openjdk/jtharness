@@ -76,7 +76,7 @@ public class HelpLink extends JComponent implements Accessible
             @Override
             public void mousePressed(MouseEvent e) {
                 JHelpContentViewer cv = (JHelpContentViewer) SwingUtilities.getAncestorOfClass(JHelpContentViewer.class, e.getComponent());
-                HelpBroker hb = (HelpBroker) (cv.getClientProperty(HELPBROKER_FOR_HELPLINK));
+                HelpBroker hb = (HelpBroker) cv.getClientProperty(HELPBROKER_FOR_HELPLINK);
                 hb.displayCurrentID(target);
             }
         });
@@ -108,7 +108,7 @@ public class HelpLink extends JComponent implements Accessible
         if (g == null)
             return new Dimension(100, 10);
 
-        FontMetrics fm = (font == null ? g.getFontMetrics() : g.getFontMetrics(font));
+        FontMetrics fm = font == null ? g.getFontMetrics() : g.getFontMetrics(font);
         int w = fm.stringWidth(text);
         int h = fm.getHeight();
         return new Dimension(w, h);
@@ -169,7 +169,7 @@ public class HelpLink extends JComponent implements Accessible
      * @see #setTextFont
      */
     public String getTextFont() {
-        return (font == null ? null : font.toString());
+        return font == null ? null : font.toString();
     }
 
     /**

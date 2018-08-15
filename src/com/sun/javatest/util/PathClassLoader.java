@@ -142,7 +142,7 @@ public class PathClassLoader extends ClassLoader
         String cname = name.replace('.', '/') + ".class";
         try {
             File file = new File(dir, cname);
-            return readClass(name, new FileInputStream(file), (int)(file.length()));
+            return readClass(name, new FileInputStream(file), (int) file.length());
         }
         catch (IOException e) {
             //System.err.println("locateClassInDir: " + e);
@@ -163,7 +163,7 @@ public class PathClassLoader extends ClassLoader
             ZipEntry ze = z.getEntry(cname);
             if (ze == null)
                 return null;
-            return readClass(name, z.getInputStream(ze), (int)(ze.getSize()));
+            return readClass(name, z.getInputStream(ze), (int) ze.getSize());
         }
         catch (IOException e) {
             //System.err.println("locateClassInJar: " + e);

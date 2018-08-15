@@ -142,7 +142,7 @@ public class DefaultTestRunner extends TestRunner
             return null;
 
         if (testIter.hasNext())
-            return (testIter.next());
+            return testIter.next();
         else {
             stopping = true;
             return null;
@@ -211,7 +211,7 @@ public class DefaultTestRunner extends TestRunner
             }
         }
 
-        return (result.getStatus().getType() == Status.PASSED);
+        return result.getStatus().getType() == Status.PASSED;
     }
 
     private TestResult createErrorResult(TestDescription td, String reason, Throwable t) { // make more i18n

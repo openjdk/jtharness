@@ -57,7 +57,7 @@ public class HelpExternalLink extends HelpLink {
             public void mousePressed(MouseEvent e) {
                 if (!openUrl(getTarget())) {
                     JHelpContentViewer cv = (JHelpContentViewer) SwingUtilities.getAncestorOfClass(JHelpContentViewer.class, e.getComponent());
-                    HelpBroker hb = (HelpBroker) (cv.getClientProperty(HELPBROKER_FOR_HELPLINK));
+                    HelpBroker hb = (HelpBroker) cv.getClientProperty(HELPBROKER_FOR_HELPLINK);
                     hb.displayCurrentID(getTarget());
                 }
             }

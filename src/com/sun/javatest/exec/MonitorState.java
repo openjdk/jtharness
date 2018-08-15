@@ -150,7 +150,7 @@ class MonitorState {
             count = wd.getTestSuite().getEstimatedTestCount();
 
         // make sure we return -1
-        return (count < 0 ? -1 : count);
+        return count < 0 ? -1 : count;
     }
 
     /**

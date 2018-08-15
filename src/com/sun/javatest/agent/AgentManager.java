@@ -537,7 +537,7 @@ public class AgentManager
 
             // might be better not to flush these ...
             for (Enumeration<File> e = zips.keys(); e.hasMoreElements(); ) {
-                File f = (e.nextElement());
+                File f = e.nextElement();
                 ZipFile z = zips.get(f);
                 zips.remove(f);
                 z.close();
@@ -593,7 +593,7 @@ public class AgentManager
             //System.err.println("readFromDir: " + name + " " + dir);
             try {
                 File file = new File(dir, name);
-                return read(new FileInputStream(file), ((int) file.length()));
+                return read(new FileInputStream(file), (int) file.length());
             }
             catch (IOException e) {
                 //System.err.println("readFromDir: " + e);
@@ -612,7 +612,7 @@ public class AgentManager
                 ZipEntry ze = z.getEntry(name);
                 if (ze == null)
                     return null;
-                return read(z.getInputStream(ze), ((int) ze.getSize()));
+                return read(z.getInputStream(ze), (int) ze.getSize());
             }
             catch (IOException e) {
                 //System.err.println("readFromJar: " + e);

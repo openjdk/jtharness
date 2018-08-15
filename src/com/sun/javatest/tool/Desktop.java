@@ -118,7 +118,7 @@ public class Desktop
         commandContext = ctx;
 
         String val = preferences.getPreference(TTIP_PREF);
-        boolean t = (val == null || val.equalsIgnoreCase("true"));
+        boolean t = val == null || val.equalsIgnoreCase("true");
         setTooltipsEnabled(t);
 
         int delay = getTooltipDelay(preferences);
@@ -206,7 +206,7 @@ public class Desktop
      * @see #TAB_STYLE
      */
     public int getStyle() {
-        return (currView == null ? style : currView.getStyle());
+        return currView == null ? style : currView.getStyle();
     }
 
     /**
@@ -307,7 +307,7 @@ public class Desktop
      * @return true if there are no tools on the desktop, and false otherwise
      */
     public boolean isEmpty() {
-        return (currView == null ? true : currView.isEmpty());
+        return currView == null ? true : currView.isEmpty();
     }
 
     /**
@@ -315,7 +315,7 @@ public class Desktop
      * @return the set of tools currently on the desktop
      */
     public Tool[] getTools() {
-        return (currView == null ? new Tool[0] : currView.getTools());
+        return currView == null ? new Tool[0] : currView.getTools();
     }
 
     /**
@@ -344,7 +344,7 @@ public class Desktop
      * @see #setSelectedTool
      */
     public Tool getSelectedTool() {
-        return (currView == null ? null : currView.getSelectedTool());
+        return currView == null ? null : currView.getSelectedTool();
     }
 
     /**
@@ -535,7 +535,7 @@ public class Desktop
      * @see #setVisible
      */
     public boolean isVisible() {
-        return (currView == null ? false : currView.isVisible());
+        return currView == null ? false : currView.isVisible();
     }
 
     /**
@@ -807,7 +807,7 @@ public class Desktop
         timer.stop();
 
         Object value = pane.getValue();
-        return (value != null && value.equals(Integer.valueOf(JOptionPane.OK_OPTION)));
+        return value != null && value.equals(Integer.valueOf(JOptionPane.OK_OPTION));
     }
 
 
@@ -1193,7 +1193,7 @@ public class Desktop
                 // ignore? or save exception to write to logFile
             }
 
-            logFile = (f == null ? new LogFile() : new LogFile(f));
+            logFile = f == null ? new LogFile() : new LogFile(f);
         }
     }
 
@@ -1556,9 +1556,9 @@ public class Desktop
         catch (InvocationTargetException e) {
             Throwable t = e.getTargetException();
             if (t instanceof RuntimeException)
-                throw ((RuntimeException) t);
+                throw (RuntimeException) t;
             else
-                throw ((Error) t);
+                throw (Error) t;
         }
     }
 

@@ -92,7 +92,7 @@ public class Status
      * @see #PASSED
      */
     public boolean isPassed() {
-        return (type == PASSED);
+        return type == PASSED;
     }
 
     /**
@@ -103,7 +103,7 @@ public class Status
      * @see #FAILED
      */
     public boolean isFailed() {
-        return (type == FAILED);
+        return type == FAILED;
     }
 
     /**
@@ -114,7 +114,7 @@ public class Status
      * @see #ERROR
      */
     public boolean isError() {
-        return (type == ERROR);
+        return type == ERROR;
     }
 
     /**
@@ -124,7 +124,7 @@ public class Status
      * @see #NOT_RUN
      */
     public boolean isNotRun() {
-        return (type == NOT_RUN);
+        return type == NOT_RUN;
     }
 
     /**
@@ -193,7 +193,7 @@ public class Status
         if (aux == null || aux.length() == 0)
             return this;
         else
-            return new Status(type, (reason + " [" + aux + "]"));
+            return new Status(type, reason + " [" + aux + "]");
     }
 
     /**
@@ -204,7 +204,7 @@ public class Status
      * additional information in <em>aux</em>.
      */
     public Status augment(Status aux) {
-        return (aux == null ? this : augment(aux.reason));
+        return aux == null ? this : augment(aux.reason);
     }
 
     /**
@@ -372,7 +372,7 @@ public class Status
     }
 
     private static final boolean isPrintable(char c) {
-        return (32 <= c && c < 127);
+        return 32 <= c && c < 127;
     }
 
     //----------Data members----------------------------------------------------

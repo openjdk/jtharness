@@ -56,7 +56,7 @@ abstract class BP_BranchSubpanel extends JPanel {
     }
 
     boolean isUpdateRequired(TT_BasicNode currNode) {
-        return (subpanelNode != currNode);
+        return subpanelNode != currNode;
     }
 
     protected void updateSubpanel(TT_BasicNode currNode) {
@@ -93,7 +93,7 @@ abstract class BP_BranchSubpanel extends JPanel {
     }
 
     protected void showTest(final TestResult tr) {
-        TT_BasicNode root = (TT_BasicNode) (ttm.getRoot());
+        TT_BasicNode root = (TT_BasicNode) ttm.getRoot();
         if (root == null) {
             return;        // construct the path required by the model
         }

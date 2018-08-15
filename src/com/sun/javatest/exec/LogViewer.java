@@ -241,7 +241,7 @@ class LogViewer extends ToolDialog {
         autoScrollCheckBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                autoScroll = (e.getStateChange() == ItemEvent.SELECTED);
+                autoScroll = e.getStateChange() == ItemEvent.SELECTED;
                 prefs.setPreference(AUTOSCROLL_PREF, Boolean.toString(autoScroll));
             }
         });
@@ -252,7 +252,7 @@ class LogViewer extends ToolDialog {
         wordWrapCheckBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                wordWrap = (e.getStateChange() == ItemEvent.SELECTED);
+                wordWrap = e.getStateChange() == ItemEvent.SELECTED;
                 synchronized (thePane) {
 
                     // try to restore position (not exactly)  -

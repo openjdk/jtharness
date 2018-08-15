@@ -62,7 +62,7 @@ class TP_ResultsSubpanel
     private void updateEntries() {
         for (Enumeration<String> e = subpanelTest.getPropertyNames(); e.hasMoreElements(); ) {
             try {
-                String key = (e.nextElement());
+                String key = e.nextElement();
                 String val = subpanelTest.getProperty(key);
                 updateEntry(key, val);
             }

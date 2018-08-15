@@ -105,7 +105,7 @@ abstract public class ToolDialog
 
     public void setTool(Component parent) {
         Tool t = (Tool) (parent instanceof Tool ? parent
-               : (SwingUtilities.getAncestorOfClass(Tool.class, parent)));
+               : SwingUtilities.getAncestorOfClass(Tool.class, parent));
 
         if (t != null) {
             setTool(t);
@@ -160,7 +160,7 @@ abstract public class ToolDialog
      * @see #setVisible
      */
     public boolean isShowing() {
-        return (dialog != null && dialog.isShowing());
+        return dialog != null && dialog.isShowing();
     }
 
     /**
@@ -169,7 +169,7 @@ abstract public class ToolDialog
      * @see #setVisible
      */
     public boolean isVisible() {
-        return (dialog != null && dialog.isVisible());
+        return dialog != null && dialog.isVisible();
     }
 
     /**
@@ -542,11 +542,11 @@ abstract public class ToolDialog
         if (view == null) {
             Desktop desktop = tool.getDesktop();
             dialog = desktop.createDialog(tool, uiKey, title, menuBar, main,
-                                      (dialog == null ? null : dialog.getBounds()), type);
+                    dialog == null ? null : dialog.getBounds(), type);
         }
         else {
             dialog = view.createDialog(tool, uiKey, title, menuBar, main,
-                                      (dialog == null ? null : dialog.getBounds()), type);
+                    dialog == null ? null : dialog.getBounds(), type);
         }
 
 

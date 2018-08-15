@@ -273,7 +273,7 @@ public class FileParameters
 
     private void updateAbsoluteEnvFiles() {
         TestSuite ts = getTestSuite();
-        File base = (ts == null ? null : ts.getRootDir());
+        File base = ts == null ? null : ts.getRootDir();
         if (cachedAbsEnvFiles == null ||
             cachedAbsEnvFiles_base != base ||
             cachedAbsEnvFiles_envFiles != envFiles) {
@@ -321,8 +321,8 @@ public class FileParameters
                 TestEnvironment.Element entry = i.next();
                 if (entry.value.indexOf("VALUE_NOT_DEFINED") >= 0) {
                     String eText =
-                        ( (entry.definedInEnv == null ? "" : "env." +  entry.definedInEnv + ".") +
-                          entry.key + "=" + entry.value);
+                            (entry.definedInEnv == null ? "" : "env." +  entry.definedInEnv + ".") +
+                              entry.key + "=" + entry.value;
                     cachedEnv = null;
                     envError = i18n.getString("fp.undefinedEntry",
                                        new Object[] {eText, entry.definedInFile});
@@ -341,7 +341,7 @@ public class FileParameters
 
     private boolean isEnvOK() {
         updateEnv();
-        return (envTableError == null && envError == null);
+        return envTableError == null && envError == null;
     }
 
     private File[] envFiles;
@@ -363,22 +363,22 @@ public class FileParameters
 
     @Override
     public boolean isValid() {
-        return ( super.isValid() && isEnvOK() );
+        return super.isValid() && isEnvOK();
     }
 
     @Override
     public String getErrorMessage() {
         String basicError = super.getErrorMessage();
-        return (basicError != null ? basicError
+        return basicError != null ? basicError
                 : envTableError != null ? envTableError
-                : null);
+                : null;
     }
 
     //---------------------------------------------------------------------
 
     private void setTestSuite(String path) {
         legacyTsPath = path;
-        File p = (path == null ? null : new File(path));
+        File p = path == null ? null : new File(path);
 
         // we assume that the path has already be made non-relative
         // i.e. absolute
@@ -463,10 +463,10 @@ public class FileParameters
             setPriorStatusValues((boolean[]) null);
         else {
             boolean[] b = new boolean[Status.NUM_STATES];
-            b[Status.PASSED]  = (values.indexOf("pass") != -1);
-            b[Status.FAILED]  = (values.indexOf("fail") != -1);
-            b[Status.ERROR]   = (values.indexOf("erro") != -1);
-            b[Status.NOT_RUN] = (values.indexOf("notr") != -1);
+            b[Status.PASSED]  = values.indexOf("pass") != -1;
+            b[Status.FAILED]  = values.indexOf("fail") != -1;
+            b[Status.ERROR]   = values.indexOf("erro") != -1;
+            b[Status.NOT_RUN] = values.indexOf("notr") != -1;
             setPriorStatusValues(b);
         }
     }
@@ -524,7 +524,7 @@ public class FileParameters
 
     private void setReportDir(String dir) {
         if (dir == null)
-            setReportDir((File) (null));
+            setReportDir((File) null);
         else
             setReportDir(new File(dir));
     }

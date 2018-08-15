@@ -248,7 +248,7 @@ public class NavigationPane extends JPanel {
 // History
     private static class History {
         boolean hasPrev() {
-            return (index > 0);
+            return index > 0;
         }
 
         URL prev() {
@@ -259,7 +259,7 @@ public class NavigationPane extends JPanel {
         }
 
         boolean hasNext() {
-            return (index < entries.size() - 1);
+            return index < entries.size() - 1;
         }
 
         URL next() {

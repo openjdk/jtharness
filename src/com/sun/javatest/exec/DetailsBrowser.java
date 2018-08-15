@@ -168,7 +168,7 @@ class DetailsBrowser extends JDialog {
     }*/
 
     private static Frame getFrameParent(Component c) {
-        return (Frame)(SwingUtilities.getAncestorOfClass(Frame.class, c));
+        return (Frame) SwingUtilities.getAncestorOfClass(Frame.class, c);
     }
 
 

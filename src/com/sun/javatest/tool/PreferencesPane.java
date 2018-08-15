@@ -419,8 +419,8 @@ public abstract class PreferencesPane extends JPanel {
         public void valueChanged(TreeSelectionEvent e) {
             TreePath path = e.getNewLeadSelectionPath();
             if (path != null) {
-                PreferencesPane pane = (PreferencesPane) (path.getLastPathComponent());
-                ((CardLayout)(deck.getLayout())).show(deck, pane.getText());
+                PreferencesPane pane = (PreferencesPane) path.getLastPathComponent();
+                ((CardLayout) deck.getLayout()).show(deck, pane.getText());
             }
         }
 
@@ -454,7 +454,7 @@ public abstract class PreferencesPane extends JPanel {
         @Override
         public boolean isLeaf(Object node) {
             PreferencesPane[] children = getChildren(node);
-            return (children == null || children.length == 0);
+            return children == null || children.length == 0;
         }
 
         private void setPreferences(PreferencesPane[] panes) {
@@ -598,7 +598,7 @@ public abstract class PreferencesPane extends JPanel {
         // ------------------------------------------------------------------
 
         private PreferencesPane[] getChildren(Object parent) {
-            return (parent == this ? panes : ((PreferencesPane)parent).getChildPanes());
+            return parent == this ? panes : ((PreferencesPane)parent).getChildPanes();
         }
 
         private JFrame owner;

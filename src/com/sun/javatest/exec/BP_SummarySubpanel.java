@@ -452,7 +452,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
         }
 
         if (filterNameTf != null && filterDescTf != null &&
-                !(ttm.getTestFilter().getName().equals(filterNameTf.getText()))) {
+                !ttm.getTestFilter().getName().equals(filterNameTf.getText())) {
             filterNameTf.setText(ttm.getTestFilter().getName());
             filterDescTf.setText(ttm.getTestFilter().getDescription());
         }
@@ -493,7 +493,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
                 Parameters p = ttm.getParameters();
                 if (p != null) {
                     TestSuite ts = p.getTestSuite();
-                    folderNameTf.setText((ts == null ? "" : uif.getI18NString("br.summ.fldtf.root", ts.getName())));
+                    folderNameTf.setText(ts == null ? "" : uif.getI18NString("br.summ.fldtf.root", ts.getName()));
                 }
             }
 

@@ -262,35 +262,35 @@ public class AgentMain {
         try {
             if (args[i].equalsIgnoreCase("-active")) {
                 mode = ACTIVE;
-                modeCheck |= (1 << mode);
+                modeCheck |= 1 << mode;
                 return 1;
             }
             else if (args[i].equalsIgnoreCase("-passive")) {
                 mode = PASSIVE;
-                modeCheck |= (1 << mode);
+                modeCheck |= 1 << mode;
                 return 1;
             }
             else if (args[i].equalsIgnoreCase("-activeHost")) {
                 mode = ACTIVE;
-                modeCheck |= (1 << mode);
+                modeCheck |= 1 << mode;
                 activeHost = args[++i];
                 return 2;
             }
             else if (args[i].equalsIgnoreCase("-activePort")) {
                 mode = ACTIVE;
-                modeCheck |= (1 << mode);
+                modeCheck |= 1 << mode;
                 activePort = Integer.parseInt(args[++i]);
                 return 2;
             }
             else if (args[i].equalsIgnoreCase("-passivePort")) {
                 mode = PASSIVE;
-                modeCheck |= (1 << mode);
+                modeCheck |= 1 << mode;
                 passivePort = Integer.parseInt(args[++i]);
                 return 2;
             }
             else if (args[i].equalsIgnoreCase("-serialPort")) {
                 mode = SERIAL;
-                modeCheck |= (1 << mode);
+                modeCheck |= 1 << mode;
                 serialPort = args[++i];
                 return 2;
             }
@@ -317,7 +317,7 @@ public class AgentMain {
             }
             else if (args[i].equalsIgnoreCase("-help") || args[i].equalsIgnoreCase("-usage") ) {
                 helpRequested = true;
-                return (args.length - index); // consume remaining args
+                return args.length - index; // consume remaining args
             }
             else
                 return 0;   // unrecognized
@@ -553,7 +553,7 @@ public class AgentMain {
     private static final int SERIAL = 3;
 
     private static final int max(int a, int b) {
-        return (a > b ? a : b);
+        return a > b ? a : b;
     }
 
     private static class ErrorObserver implements Agent.Observer {

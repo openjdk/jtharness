@@ -153,7 +153,7 @@ public class FileSystemTableModel extends AbstractTableModel  {
 
     public File getNode(int rowIndex) {
         if (rowIndex < 0 || rowIndex >= data.size() ) return null;
-        return (data.get(rowIndex)).getFile();
+        return data.get(rowIndex).getFile();
     }
 
 

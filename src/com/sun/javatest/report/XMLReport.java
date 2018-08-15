@@ -154,7 +154,7 @@ public class XMLReport  implements ReportFormat {
                 iter = resultTable.getIterator(initFiles, new TestFilter[] {sett.getTestFilter()});
             }
             for (; iter.hasNext(); ) {
-                TestResult tr = (iter.next());
+                TestResult tr = iter.next();
                 writeResult(maker, tr);
             }
             maker.eTestResults();
@@ -297,7 +297,7 @@ public class XMLReport  implements ReportFormat {
         TestEnvironment env = sett.getInterview().getEnv();
         if (env != null) {
             for (Iterator<TestEnvironment.Element> i = env.elements().iterator(); i.hasNext(); ) {
-                TestEnvironment.Element envElem = (i.next());
+                TestEnvironment.Element envElem = i.next();
                 maker.makeProperty(envElem.getKey(), envElem.getValue());
             }
         }
@@ -332,7 +332,7 @@ public class XMLReport  implements ReportFormat {
             File[] excludeFiles = null;
             if (exclParams instanceof Parameters.MutableExcludeListParameters)
                 excludeFiles =
-                        ((Parameters.MutableExcludeListParameters) (exclParams)).getExcludeFiles();
+                        ((Parameters.MutableExcludeListParameters) exclParams).getExcludeFiles();
 
             if (excludeFiles != null && excludeFiles.length > 0) {
                 maker.sExclList();

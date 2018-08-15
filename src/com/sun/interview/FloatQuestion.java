@@ -109,9 +109,9 @@ public abstract class FloatQuestion extends Question
         //      return (!Float.isNaN(value) && min <= value && value <= max);
         // but if min = Float.MIN_VALUE, that behaves like -0 (negative zero)
         // and can lead to false results, so take care with that case
-        return (!Float.isNaN(value)
+        return !Float.isNaN(value)
                 && (min == Float.MIN_VALUE || min <= value)
-                && (value <= max));
+                && (value <= max);
     }
 
     /**

@@ -77,7 +77,7 @@ public class AgentApplet extends Applet implements Agent.Observer
 
         String mode = getParameter("mode", "active");
         URL docBase = getDocumentBase(); // may be null if run standalone, sigh
-        String defaultActiveHost = (docBase == null ? "localhost" : docBase.getHost());
+        String defaultActiveHost = docBase == null ? "localhost" : docBase.getHost();
         String activeHost = getParameter("activeHost", defaultActiveHost);
         int activePort = getIntParameter("activePort", Agent.defaultActivePort);
         int passivePort = getIntParameter("passivePort", Agent.defaultPassivePort);
@@ -87,9 +87,9 @@ public class AgentApplet extends Applet implements Agent.Observer
         int delay = getIntParameter("retryDelay", -1);
         String mapFile = getParameter("map");
         String usac = getParameter("useSharedAppletContext");
-        shareAppletContext = (usac != null && usac.equals("true"));
+        shareAppletContext = usac != null && usac.equals("true");
         String usf = getParameter("useSharedFrame");
-        boolean shareFrame = (usf == null || usf.equals("true"));
+        boolean shareFrame = usf == null || usf.equals("true");
         final boolean tracing = "true".equals(getParameter("trace"));
         boolean autostart = "true".equals(getParameter("start"));
         String observerClassName = getParameter("observer");
@@ -256,9 +256,9 @@ public class AgentApplet extends Applet implements Agent.Observer
      */
     @Override
     public String getAppletInfo() {
-        return (Agent.PRODUCT_NAME + " " +
+        return Agent.PRODUCT_NAME + " " +
                 Agent.PRODUCT_VERSION + " " +
-                Agent.PRODUCT_COPYRIGHT);
+                Agent.PRODUCT_COPYRIGHT;
     }
 
     /**
@@ -296,7 +296,7 @@ public class AgentApplet extends Applet implements Agent.Observer
 
     private String getParameter(String name, String dflt) {
         String s = getParameter(name);
-        return (s == null ? dflt : s);
+        return s == null ? dflt : s;
     }
 
     @Override

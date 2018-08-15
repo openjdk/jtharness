@@ -182,8 +182,8 @@ class TRT_HttpHandler extends JThttpProvider {
         print(out, i18n.getString("trtHttp.wd.hdr"));
         out.println("</td>");
         out.print("   <td>");
-        print(out, (trt.getWorkDir() != null ? trt.getWorkDir().getPath() :
-                i18n.getString("trtHttp.wd.unset")));
+        print(out, trt.getWorkDir() != null ? trt.getWorkDir().getPath() :
+                i18n.getString("trtHttp.wd.unset"));
         out.println("</td>");
 
         // size

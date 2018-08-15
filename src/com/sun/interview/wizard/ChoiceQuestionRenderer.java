@@ -85,7 +85,7 @@ public class ChoiceQuestionRenderer
         for(int i = 0; i < rb.length; i++) {
 
             rb[i] = new JRadioButton(displayChoices[i + starts_from],
-                                                (values[i + starts_from] == v));
+                    values[i + starts_from] == v);
             rb[i].setActionCommand(values[i + starts_from]);
 
             rb[i].setName("chc.btn." + values[i + starts_from]);

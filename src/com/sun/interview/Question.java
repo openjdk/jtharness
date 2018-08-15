@@ -121,7 +121,7 @@ public abstract class Question
         if (interview.getTag() == null)
             tag = baseTag;
         else
-            tag = (interview.getTag() + "." + baseTag);
+            tag = interview.getTag() + "." + baseTag;
     }
 
     /**
@@ -348,7 +348,7 @@ public abstract class Question
      * and false otherwise.
      */
     public boolean isEnabled() {
-        return (!isHidden());
+        return !isHidden();
     }
 
     /**
@@ -464,11 +464,11 @@ public abstract class Question
 
         Question oq = (Question) other;
 
-        return (equal(tag, oq.tag) && equal(getStringValue(), oq.getStringValue()));
+        return equal(tag, oq.tag) && equal(getStringValue(), oq.getStringValue());
     }
 
     private static boolean equal(String s1, String s2) {
-        return (s1 == null || s2 == null ? s1 == s2 : s1.equals(s2));
+        return s1 == null || s2 == null ? s1 == s2 : s1.equals(s2);
     }
 
     @Override

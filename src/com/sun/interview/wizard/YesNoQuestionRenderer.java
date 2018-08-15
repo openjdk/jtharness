@@ -50,7 +50,7 @@ public class YesNoQuestionRenderer implements QuestionRenderer{
         String[] choices = q.getChoices();
 
 
-        boolean allowUnset = (choices[0] == null);
+        boolean allowUnset = choices[0] == null;
         String v = q.getValue();
 
         ActionListener l = createActionListener(q, editedListener);
@@ -65,10 +65,10 @@ public class YesNoQuestionRenderer implements QuestionRenderer{
         ButtonGroup bg = new ButtonGroup();
 
         int realNumber = 0;
-        for (int i = (allowUnset ? 1 : 0); i < choices.length; i++) {
+        for (int i = allowUnset ? 1 : 0; i < choices.length; i++) {
             String choice = choices[i];
             String displayChoice = displayChoices[i];
-            JRadioButton rb = new JRadioButton(displayChoice, (choice.equals(v)));
+            JRadioButton rb = new JRadioButton(displayChoice, choice.equals(v));
             rb.setName("chc.btn." + choices[i]);
 
             if (realNumber < 10)

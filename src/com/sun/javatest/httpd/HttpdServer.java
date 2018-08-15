@@ -115,7 +115,7 @@ public class HttpdServer implements Runnable {
     private void init() throws IOException {
         if (debug) System.out.println("Initializing JT Harness HTTP Server");
 
-        int soc_num = (Integer.getInteger("jt.httpd.port", 1903)).intValue();
+        int soc_num = Integer.getInteger("jt.httpd.port", 1903).intValue();
 
         // this loop searches for an available port
         for (int i = soc_num; i < soc_num + MAX_PORT_SEARCH; i++) {

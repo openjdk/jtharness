@@ -84,7 +84,7 @@ public abstract class ChoiceArrayQuestion extends Question
      * @throws NullPointerException if choices is null
      */
     protected void setChoices(String[] choices, boolean localize) {
-        setChoices(choices, (localize ? null : choices));
+        setChoices(choices, localize ? null : choices);
     }
 
     /**
@@ -156,7 +156,7 @@ public abstract class ChoiceArrayQuestion extends Question
                     String c = choices[i];
                     String rn = key + "." + c;
                     try {
-                        displayChoices[i] = (c == null ? null : b.getString(rn));
+                        displayChoices[i] = c == null ? null : b.getString(rn);
                     }
                     catch (MissingResourceException e) {
                         System.err.println("WARNING: missing resource " + rn);
@@ -302,7 +302,7 @@ public abstract class ChoiceArrayQuestion extends Question
     }
 
     private static boolean white(char c) {
-        return (c == ' '  ||  c == '\t'  ||  c == '\n');
+        return c == ' '  ||  c == '\t'  ||  c == '\n';
     }
 
     /**
@@ -320,14 +320,14 @@ public abstract class ChoiceArrayQuestion extends Question
         if (newValue == null) {
             for (int i = 0; i < value.length; i++) {
                 if (!changed)
-                    changed = (value[i] != false);
+                    changed = value[i] != false;
                 value[i] = false;
             }
         }
         else {
             for (int i = 0; i < Math.min(newValue.length, value.length); i++) {
                 if (!changed)
-                    changed = (value[i] != newValue[i]);
+                    changed = value[i] != newValue[i];
                 value[i] = newValue[i];
             }
         }

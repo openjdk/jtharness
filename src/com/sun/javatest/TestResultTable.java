@@ -546,7 +546,7 @@ public class TestResultTable {
      * @see #waitUntilReady
      */
     public synchronized boolean isReady() {
-        return (cacheInitialized && !updateInProgress);
+        return cacheInitialized && !updateInProgress;
     }
 
     /**
@@ -1138,7 +1138,7 @@ public class TestResultTable {
             Debug.println("TRT.findNode() looking for " + path + " in " + node.getName());
 
         if (dir.equals(path)) { // last element of the path
-            tn = ((TRT_TreeNode)(node)).getTreeNode(path, false);
+            tn = ((TRT_TreeNode) node).getTreeNode(path, false);
         } else {                        // recurse
             TreeNode next = ((TRT_TreeNode)node).getTreeNode(dir, false);
             if (next != null)
@@ -1224,7 +1224,7 @@ public class TestResultTable {
                 Debug.println("Recovered test by replacement (1). " + newTest);
         }
         else {
-            TRT_TreeNode targetNode = (TRT_TreeNode)(location[location.length-1]);
+            TRT_TreeNode targetNode = (TRT_TreeNode) location[location.length-1];
             int index = targetNode.getIndex(tr, false);
             if (index >= 0) {
                 newTest = targetNode.resetTest(index, tr);
@@ -1351,7 +1351,7 @@ public class TestResultTable {
             return changes;
 
         for (int i = 0; i < nodes.length; i++) {
-            changes = (changes || prune(nodes[i]));
+            changes = changes || prune(nodes[i]);
         }   // for
 
         return changes;
@@ -1363,7 +1363,7 @@ public class TestResultTable {
      * @return True if some nodes were pruned, false otherwise.
      */
     synchronized public boolean prune(TreeNode node) throws Fault {
-        TRT_TreeNode parent = ((TRT_TreeNode)(node.getParent()));
+        TRT_TreeNode parent = (TRT_TreeNode) node.getParent();
 
         if (node.getChildCount() == 0) {
             int index = parent.rmChild((TRT_TreeNode)node);
@@ -1371,7 +1371,7 @@ public class TestResultTable {
             if (index != -1)
                 notifyRemoveLeaf(getObjectPath(parent), node, index);
 
-            return (index != -1 ? true : false);
+            return index != -1 ? true : false;
         }
 
         TreeNode[] nodes = node.getTreeNodes();
@@ -1389,7 +1389,7 @@ public class TestResultTable {
             if (index != -1)
                 notifyRemoveLeaf(getObjectPath(parent), node, index);
 
-            return (index != -1 ? true : false);
+            return index != -1 ? true : false;
         }
 
         return false;
@@ -1888,7 +1888,7 @@ public class TestResultTable {
         String[] files = new String[tests.length];
         int filesLen = files.length;
         int distToDel =
-            (getWorkDir() == null ? 0 : finder.getRootDir().getAbsolutePath().length() + 1);
+                getWorkDir() == null ? 0 : finder.getRootDir().getAbsolutePath().length() + 1;
 
         for (int i = 0; i < tests.length; i++) {
             if (debug > 1)
@@ -1922,7 +1922,7 @@ public class TestResultTable {
                     throw new Fault(i18n, "trt.badInitFile", thisInitPath);
                 }
 
-                distToDel += ((rrp == null || rrp.length() == 0) ? 0 : rrp.length() + 1);
+                distToDel += (rrp == null || rrp.length() == 0) ? 0 : rrp.length() + 1;
 
                 // strip length of testsuite root
                 String platformPath = thisInitPath.substring(distToDel);
@@ -1970,7 +1970,7 @@ public class TestResultTable {
 
             int location = ((TRT_TreeNode)where).getResultIndex(fullPath, false);
             if (location != -1) {
-                tr = (TestResult)(where.getChild(location));
+                tr = (TestResult) where.getChild(location);
                 if (debug == 2 || debug == 99) {
                     Debug.println("    -> TRT.findTest() located " + tr);
                     Debug.println("");

@@ -175,10 +175,10 @@ public class TestSuite
         }
         File jtt = new File(dir, TESTSUITE_JTT);
         File parentDir = dir.getParentFile();
-        File parent_jtt = (parentDir == null ? null : new File(parentDir, TESTSUITE_JTT));
+        File parent_jtt = parentDir == null ? null : new File(parentDir, TESTSUITE_JTT);
         File html = new File(dir, TESTSUITE_HTML);
-        return (isReadableFile(jtt)
-                || isReadableFile(html) && (parent_jtt == null || !parent_jtt.exists()));
+        return isReadableFile(jtt)
+                || isReadableFile(html) && (parent_jtt == null || !parent_jtt.exists());
     }
 
     /**
@@ -228,7 +228,7 @@ public class TestSuite
             // check for old style test suite
             File ts_html = new File(canonRootDir, TESTSUITE_HTML);
             File parentDir = canonRootDir.getParentFile();
-            File parent_jtt = (parentDir == null ? null : new File(parentDir, TESTSUITE_JTT));
+            File parent_jtt = parentDir == null ? null : new File(parentDir, TESTSUITE_JTT);
             if (isReadableFile(ts_html) && (parent_jtt == null || !parent_jtt.exists()))
                 return open(canonRoot, new HashMap<String, String>());
             else
@@ -273,7 +273,7 @@ public class TestSuite
             cl = null;
         else {
             try {
-                File rootDir = (root.isDirectory() ? root : root.getParentFile());
+                File rootDir = root.isDirectory() ? root : root.getParentFile();
                 URL[] p = new URL[classPath.length];
                 for (int i = 0; i < classPath.length; i++) {
                     String cpi = classPath[i];
@@ -367,8 +367,8 @@ public class TestSuite
         this.tsInfo = tsInfo;
         this.loader = cl;
 
-        String kw = (tsInfo == null ? null : tsInfo.get("keywords"));
-        keywords = (kw == null ? null : StringArray.split(kw));
+        String kw = tsInfo == null ? null : tsInfo.get("keywords");
+        keywords = kw == null ? null : StringArray.split(kw);
     }
 
 
@@ -418,7 +418,7 @@ public class TestSuite
      * @return the root directory of this test suite.
      */
     public File getRootDir() {
-        return (root.isDirectory() ? root : new File(root.getParent()));
+        return root.isDirectory() ? root : new File(root.getParent());
     }
 
     /**
@@ -437,7 +437,7 @@ public class TestSuite
      * @return the directory that contains the tests
      */
     public File getTestsDir() {
-        String t = (tsInfo == null ? null : tsInfo.get("tests"));
+        String t = tsInfo == null ? null : tsInfo.get("tests");
         if (t == null || t.length() == 0) {
             File rootDir = getRootDir();
             File testsDir = new File(rootDir, "tests");
@@ -548,7 +548,7 @@ public class TestSuite
         File testsDir = getTestsDir();
 
         // no BTF file; look for a finder=class args... entry
-        String[] finderCmd = StringArray.split((tsInfo.get("finder")));
+        String[] finderCmd = StringArray.split(tsInfo.get("finder"));
         String finderClassName;
         String[] finderArgs = new String[0];
 
@@ -571,12 +571,12 @@ public class TestSuite
 
         // first, try looking for testsuite.jtd
         String jtd = tsInfo.get("testsuite.jtd");
-        File jtdFile = (jtd == null ? new File(testsDir, "testsuite.jtd") : new File(root, jtd));
+        File jtdFile = jtd == null ? new File(testsDir, "testsuite.jtd") : new File(root, jtd);
         if (jtdFile.exists()) {
             try {
                 // found a file for BinaryTestFinder
                 // only pass the finder class if it was not defaulted to HTMLTestFinder
-                return createBinaryTestFinder((finderCmd == null ? null : finderClassName),
+                return createBinaryTestFinder(finderCmd == null ? null : finderClassName,
                         finderArgs, testsDir, jtdFile);
             }
             catch (TestFinder.Fault e) {
@@ -722,7 +722,7 @@ public class TestSuite
             }
         }
 
-        Script s = (Script)(newInstance(scriptClass));
+        Script s = (Script) newInstance(scriptClass);
         s.initArgs(scriptArgs);
         s.initTestDescription(td);
         s.initExcludedTestCases(exclTestCases);
@@ -755,7 +755,7 @@ public class TestSuite
     public InterviewParameters createInterview()
         throws Fault
     {
-        String[] classNameAndArgs = StringArray.split((tsInfo.get("interview")));
+        String[] classNameAndArgs = StringArray.split(tsInfo.get("interview"));
         if (classNameAndArgs == null || classNameAndArgs.length == 0) {
             try {
                 return new LegacyParameters(this);
@@ -839,7 +839,7 @@ public class TestSuite
      * @see #getName
      */
     public String getID() {
-        return (tsInfo == null ? null : tsInfo.get("id"));
+        return tsInfo == null ? null : tsInfo.get("id");
     }
 
     /**
@@ -851,7 +851,7 @@ public class TestSuite
      * @see #getID
      */
     public String getName() {
-        return (tsInfo == null ? null : tsInfo.get("name"));
+        return tsInfo == null ? null : tsInfo.get("name");
     }
 
     /**
@@ -883,7 +883,7 @@ public class TestSuite
      * @return the name of the default exclude list, or null if none specified.
      */
     public File getInitialExcludeList() {
-        String s = (tsInfo == null ? null : tsInfo.get("initial.jtx"));
+        String s = tsInfo == null ? null : tsInfo.get("initial.jtx");
         if (s == null)
             return null;
 
@@ -902,7 +902,7 @@ public class TestSuite
      */
     public boolean hasInitialExcludeList() {
         File f = getInitialExcludeList();
-        return (f == null ? false : f.exists());
+        return f == null ? false : f.exists();
     }
 
     /**
@@ -914,8 +914,8 @@ public class TestSuite
      */
     public URL getLatestExcludeList() {
         try {
-            String s = (tsInfo == null ? null : tsInfo.get("latest.jtx"));
-            return (s == null ? null : new URL(s));
+            String s = tsInfo == null ? null : tsInfo.get("latest.jtx");
+            return s == null ? null : new URL(s);
         }
         catch (MalformedURLException e) {
             // ignore
@@ -933,7 +933,7 @@ public class TestSuite
      */
     public boolean hasLatestExcludeList() {
         URL u = getLatestExcludeList();
-        return (u != null);
+        return u != null;
     }
 
     /**
@@ -950,9 +950,9 @@ public class TestSuite
      * such documents.
      */
     public String[] getAdditionalDocNames() {
-        return (tsInfo == null
+        return tsInfo == null
                 ? null
-                : StringArray.split((tsInfo.get("additionalDocs"))));
+                : StringArray.split(tsInfo.get("additionalDocs"));
     }
 
     /**
@@ -1007,8 +1007,8 @@ public class TestSuite
      */
     public URL getLogo() {
         try {
-            String s = (tsInfo == null ? null : tsInfo.get("logo"));
-            return (s == null ? null : new URL(getRootDir().toURL(), s));
+            String s = tsInfo == null ? null : tsInfo.get("logo");
+            return s == null ? null : new URL(getRootDir().toURL(), s);
         }
         catch (MalformedURLException e) {
             // ignore
@@ -1237,7 +1237,7 @@ public class TestSuite
         if (tsInfo == null)
             return null;
         else
-            return (tsInfo.get(name));
+            return tsInfo.get(name);
     }
 
     /**
@@ -1384,7 +1384,7 @@ public class TestSuite
     }
 
     private static boolean isReadableFile(File f) {
-        return (f.exists() && f.isFile() && f.canRead());
+        return f.exists() && f.isFile() && f.canRead();
     }
 
     /**

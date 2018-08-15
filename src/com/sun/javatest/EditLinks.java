@@ -256,7 +256,7 @@ public class EditLinks
             if (src.getName().endsWith(".html")) {
                 in = new BufferedReader(new InputStreamReader(new FileInputStream(src), StandardCharsets.UTF_8));
                 if (dest.equals(src)) {
-                    int size = (int)(src.length());
+                    int size = (int) src.length();
                     char data[] = new char[size];
                     for (int total = 0; total < data.length; ) {
                         total += in.read(data, total, data.length - total);
@@ -284,7 +284,7 @@ public class EditLinks
         if (from.equals(to))
             return;
 
-        int size = (int)(from.length());
+        int size = (int) from.length();
         byte data[] = new byte[size];
 
         try (InputStream in = new BufferedInputStream(new FileInputStream(from))) {
@@ -504,7 +504,7 @@ public class EditLinks
                     newTail = oldTail.replace(oldSep, newSep);
                 else
                     newTail = oldTail;
-                return (newHead + newTail);
+                return newHead + newTail;
             }
         }
         return ref;

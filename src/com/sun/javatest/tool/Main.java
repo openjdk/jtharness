@@ -157,9 +157,9 @@ public class Main
             out.flush(); // flush now in case ExitCount exits
 
             int[] stats = ctx.getTestStats();
-            int rc = (stats[Status.ERROR] > 0 ? RC_BATCH_TESTS_ERROR
+            int rc = stats[Status.ERROR] > 0 ? RC_BATCH_TESTS_ERROR
                       : stats[Status.FAILED] > 0 ? RC_BATCH_TESTS_FAILED
-                      : RC_OK);
+                      : RC_OK;
 
             ExitCount.dec(true, rc);
 

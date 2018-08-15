@@ -109,7 +109,7 @@ class SDIDeskView extends DeskView {
 
     @Override
     public boolean isEmpty() {
-        return (frames.length == 1);
+        return frames.length == 1;
     }
 
     @Override
@@ -117,7 +117,7 @@ class SDIDeskView extends DeskView {
         // frames[0] is the console
         Tool[] tools = new Tool[frames.length - 1];
         for (int i = 0; i < tools.length; i++)
-            tools[i] = (Tool) (frames[i + 1].getContentPane());
+            tools[i] = (Tool) frames[i + 1].getContentPane();
         return tools;
     }
 
@@ -138,13 +138,13 @@ class SDIDeskView extends DeskView {
             view.removeTool(t);
 
         //System.err.println("SDI: add " + t);
-        Action closeAction = (new ToolAction(uif, "sdi.file.close") {
+        Action closeAction = new ToolAction(uif, "sdi.file.close") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 removeTool(t);
                 t.dispose();
             }
-        });
+        };
         JFrame f = createFrame(listener, closeAction, "sdi.tool");
         f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addToolMenuItemsToFrameMenuBar(f, t);
@@ -155,9 +155,9 @@ class SDIDeskView extends DeskView {
         f.addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
-                JFrame f = (JFrame) (e.getSource());
+                JFrame f = (JFrame) e.getSource();
                 if (f.getContentPane() instanceof Tool) {
-                    Tool t = (Tool) (f.getContentPane());
+                    Tool t = (Tool) f.getContentPane();
                     selectedTool = t;
                 }
             }
@@ -169,9 +169,9 @@ class SDIDeskView extends DeskView {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                JFrame f = (JFrame) (e.getSource());
+                JFrame f = (JFrame) e.getSource();
                 if (f.getContentPane() instanceof Tool) {
-                    Tool t = (Tool) (f.getContentPane());
+                    Tool t = (Tool) f.getContentPane();
                     if (getDesktop().isOKToClose(t, f))
                         f.dispose();
                 }
@@ -179,12 +179,12 @@ class SDIDeskView extends DeskView {
 
             @Override
             public void windowClosed(WindowEvent e) {
-                JFrame f = (JFrame) (e.getSource());
+                JFrame f = (JFrame) e.getSource();
                 //removeToolMenuItemsFromFrameMenuBar(f);
                 frames = DynamicArray.remove(frames, f);
 
                 if (f.getContentPane() instanceof Tool) {
-                    Tool t = (Tool) (f.getContentPane());
+                    Tool t = (Tool) f.getContentPane();
                     t.removeObserver(listener);
                     t.dispose();
 
@@ -262,9 +262,9 @@ class SDIDeskView extends DeskView {
         // start loop at 0 to include console, start at 1 to ignore it
         for (int i = 1; i < frames.length; i++) {
             Rectangle r = frames[i].getBounds();
-            bounds = (bounds == null ? r : bounds.union(r));
+            bounds = bounds == null ? r : bounds.union(r);
         }
-        return (bounds == null ? getDefaultBounds() : bounds);
+        return bounds == null ? getDefaultBounds() : bounds;
     }
 
     @Override
@@ -272,15 +272,15 @@ class SDIDeskView extends DeskView {
         if (dialog == null)
             return false;
 
-        JFrame f = (JFrame) (SwingUtilities.getAncestorOfClass(JFrame.class, tool));
-        return (dialog.getParent() == f);
+        JFrame f = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, tool);
+        return dialog.getParent() == f;
     }
 
     @Override
     public Container createDialog(Tool tool, String uiKey, String title,
                                   JMenuBar menuBar, Container body,
                                   Rectangle bounds, int type) {
-        JFrame f = (JFrame) (SwingUtilities.getAncestorOfClass(JFrame.class, tool));
+        JFrame f = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, tool);
 
         UIFactory uif = tool.uif;
         JDialog d = uif.createDialog(uiKey, f, title, body);
@@ -360,8 +360,8 @@ class SDIDeskView extends DeskView {
         //Dimension dSize = Toolkit.getDefaultToolkit().getScreenSize();
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
-        int offsetX = (ge.getCenterPoint().x - maxWidth/2);
-        int offsetY = (ge.getCenterPoint().y - maxHeight/2);
+        int offsetX = ge.getCenterPoint().x - maxWidth/2;
+        int offsetY = ge.getCenterPoint().y - maxHeight/2;
 
         // make sure we start on-screen
         if (offsetX <= 0)
@@ -391,8 +391,8 @@ class SDIDeskView extends DeskView {
         for (int i = 0; i < n; i++) {
             // start at 0 to include console, start at 1 for just tools
             JFrame f = frames[i + 1];
-            int c = (i % cols);
-            int r = (i / cols);
+            int c = i % cols;
+            int r = i / cols;
             f.setBounds(c * tSize.width, r * tSize.height, tSize.width, tSize.height);
             //f.validate();
         }
@@ -426,7 +426,7 @@ class SDIDeskView extends DeskView {
             else if (cmd.equals(TILE))
                 doTile();
             else {
-                JMenuItem mi = (JMenuItem) (e.getSource());
+                JMenuItem mi = (JMenuItem) e.getSource();
                 Object o = mi.getClientProperty(this);
                 if (o instanceof Window)
                     ((Window) o).toFront();
@@ -448,7 +448,7 @@ class SDIDeskView extends DeskView {
         public void menuSelected(MenuEvent e) {
             Tool[] tools = getTools();
 
-            JMenu m = (JMenu) (e.getSource());
+            JMenu m = (JMenu) e.getSource();
             m.removeAll();
             JMenuItem tmi = uif.createMenuItem("dt.windows", TILE, this);
             tmi.setEnabled(tools.length > 0);

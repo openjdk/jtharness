@@ -268,7 +268,7 @@ public class TestEnvContext
 
             Map<String, String> table = tables[i];
             for (Iterator<String> ii = table.keySet().iterator(); ii.hasNext(); ) {
-                String prop = (ii.next());
+                String prop = ii.next();
                 String name = null;
 
                 if (debug)
@@ -282,7 +282,7 @@ public class TestEnvContext
                 }
                 else if (prop.endsWith(DOT_MENU)) {
                     name = prop.substring(ENV_DOT.length(), prop.length() - DOT_MENU.length());
-                    String value = (table.get(prop));
+                    String value = table.get(prop);
                     if ("false".equals(value))
                         sortedInsert(menuExcludeVec, name);
                 }

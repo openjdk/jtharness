@@ -540,7 +540,7 @@ class ReportTool extends Tool {
                 out.startTag(HTMLWriterEx.LI);
                 out.startTag(HTMLWriterEx.OBJECT);
                 out.writeAttr(HTMLWriterEx.CLASSID, "com.sun.javatest.tool.IconLabel");
-                out.writeParam("type", (file.isDirectory() ? "folder" : "file"));
+                out.writeParam("type", file.isDirectory() ? "folder" : "file");
                 out.endTag(HTMLWriterEx.OBJECT);
                 out.writeEntity("&nbsp;");
                 try {
@@ -573,7 +573,7 @@ class ReportTool extends Tool {
         File file = new File(url.getFile());
         if (protocol.equals("file") && file.isDirectory()) {
             String list = listLocalDirectory(file);
-            HTMLDocument htmlDoc = (HTMLDocument) (htmlKit.createDefaultDocument());
+            HTMLDocument htmlDoc = (HTMLDocument) htmlKit.createDefaultDocument();
             textArea.setDocument(htmlDoc);
             htmlDoc.setBase(url);
             textArea.setContentType("text/html");
@@ -596,7 +596,7 @@ class ReportTool extends Tool {
                 // this next stuff is just to avoid some screen flash if a new doc
                 // is being read
                 if (loaded == null || !loaded.sameFile(url)) {
-                    HTMLDocument htmlDoc = (HTMLDocument) (htmlKit.createDefaultDocument());
+                    HTMLDocument htmlDoc = (HTMLDocument) htmlKit.createDefaultDocument();
                     textArea.setDocument(htmlDoc);
                 }
                 textArea.setPage(url);

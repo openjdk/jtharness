@@ -205,7 +205,7 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
 
         workDir = model.getWorkDirectory();
 
-        boolean workDirSet = (workDir != null);
+        boolean workDirSet = workDir != null;
         newReportAction.setEnabled(workDirSet);
         openReportAction.setEnabled(workDirSet);
 
@@ -329,8 +329,8 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
         reportHistoryListener = new FileHistory.Listener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JMenuItem mi = (JMenuItem) (e.getSource());
-                File f = (File) (mi.getClientProperty(FileHistory.FILE));
+                JMenuItem mi = (JMenuItem) e.getSource();
+                File f = (File) mi.getClientProperty(FileHistory.FILE);
                 if (f != null)
                     showReportBrowser(f);
             }

@@ -322,8 +322,8 @@ public class WizEdit
         for (int i = 0; i <= s2len - s1len; i++) {
             if (s1.regionMatches(!considerCase, 0, s2, i, s1len)) {
                 if (!word || (word &&
-                              ( (i == 0 || isBoundaryCh(s2.charAt(i-1)))
-                                && (i+s1len == s2.length() || isBoundaryCh(s2.charAt(i+s1len))) )))
+                        (i == 0 || isBoundaryCh(s2.charAt(i - 1)))
+                        && (i + s1len == s2.length() || isBoundaryCh(s2.charAt(i + s1len)))))
                     return i;
             }
         }

@@ -174,7 +174,7 @@ public class BinaryTestWriter
             if (args[i].equalsIgnoreCase("-finder") && (i + 1 < args.length)) {
                 finder = args[++i];
                 int j = ++i;
-                while ((i < args.length - 1) && !(args[i].equalsIgnoreCase("-end")))
+                while ((i < args.length - 1) && !args[i].equalsIgnoreCase("-end"))
                     ++i;
                 finderArgs = new String[i - j];
                 System.arraycopy(args, j, finderArgs, 0, finderArgs.length);
@@ -360,7 +360,7 @@ public class BinaryTestWriter
                 n = testTree.new Node(f.getName(), noTests, new TestTree.Node[] { n });
             }
 
-            r = (r == null ? n : r.merge(n));
+            r = r == null ? n : r.merge(n);
         }
 
         if (r == null)
@@ -465,7 +465,7 @@ public class BinaryTestWriter
          */
         void add(TestDescription test) {
             for (Iterator<String> i = test.getParameterKeys(); i.hasNext(); ) {
-                String key = (i.next());
+                String key = i.next();
                 String param = test.getParameter(key);
                 add(key);
                 add(param);
@@ -580,7 +580,7 @@ public class BinaryTestWriter
              * be written out.
              */
             boolean isFrequent() {
-                return (useCount > 1);
+                return useCount > 1;
             }
         }
     }
@@ -671,7 +671,7 @@ public class BinaryTestWriter
             // should consider using load/save here
             writeInt(o, td.getParameterCount());
             for (Iterator<String> i = td.getParameterKeys(); i.hasNext(); ) {
-                String key = (i.next());
+                String key = i.next();
                 String value = td.getParameter(key);
                 stringTable.writeRef(key, o);
                 stringTable.writeRef(value, o);
@@ -724,7 +724,7 @@ public class BinaryTestWriter
          * Get the number of nodes in this tree.
          */
         int getSize() {
-            return (root == null ? 0 : root.getSize());
+            return root == null ? 0 : root.getSize();
         }
 
         /**
@@ -812,7 +812,7 @@ public class BinaryTestWriter
                     Node otherChild = other.children[i];
                     Node c = mergedChildrenMap.get(otherChild.name);
                     mergedChildrenMap.put(otherChild.name,
-                                      (c == null ? otherChild : otherChild.merge(c)));
+                            c == null ? otherChild : otherChild.merge(c));
                 }
                 Node[] mergedChildren =
                     mergedChildrenMap.values().toArray(new Node[mergedChildrenMap.size()]);

@@ -823,7 +823,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         }
 
         // keywords
-        shot.keyChoice = (String) (keywordsChoice.getSelectedItem());
+        shot.keyChoice = (String) keywordsChoice.getSelectedItem();
         shot.keyString = keywordsField.getText();
 
         return shot;
@@ -1087,17 +1087,17 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         }
 
         void load(Map<String, String> map) {
-            urlsEnabled = intToBoolean((map.get(MAP_URL_ENABLE)));
-            keywordsEnabled = intToBoolean((map.get(MAP_KEY_ENABLE)));
-            statusEnabled = intToBoolean((map.get(MAP_STATUS_ENABLE)));
-            jtxEnabled = intToBoolean((map.get(MAP_JTX_ENABLE)));
-            tsfEnabled = intToBoolean((map.get(MAP_TSF_ENABLE)));
+            urlsEnabled = intToBoolean(map.get(MAP_URL_ENABLE));
+            keywordsEnabled = intToBoolean(map.get(MAP_KEY_ENABLE));
+            statusEnabled = intToBoolean(map.get(MAP_STATUS_ENABLE));
+            jtxEnabled = intToBoolean(map.get(MAP_JTX_ENABLE));
+            tsfEnabled = intToBoolean(map.get(MAP_TSF_ENABLE));
 
             for (int i = 0; i < Status.NUM_STATES; i++) {
-                statusFields[i] = intToBoolean((map.get(MAP_STATUS_PREFIX + i)));
+                statusFields[i] = intToBoolean(map.get(MAP_STATUS_PREFIX + i));
             }   // for
 
-            initialUrls = StringArray.split((map.get(MAP_URLS)));
+            initialUrls = StringArray.split(map.get(MAP_URLS));
 
             keyChoice = map.get(MAP_KEY_CHOICE);
             keyString = map.get(MAP_KEY_STRING);

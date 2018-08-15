@@ -145,7 +145,7 @@ class QuickStartWizard extends ToolDialog
         // logo...
         JLabel logo;
 
-        URL tsLogoURL = (ts == null ? null : ts.getLogo());
+        URL tsLogoURL = ts == null ? null : ts.getLogo();
         //System.err.println("QSG: tsLogoURL=" + tsLogoURL);
         if (tsLogoURL == null) {
             logo = new JLabel(logoIcon);
@@ -216,14 +216,14 @@ class QuickStartWizard extends ToolDialog
 
     private void initDirs() {
         File classDir = Harness.getClassDir();
-        installDir = (classDir == null ? null : classDir.getParentFile());
-        installDirIsTestSuite = (installDir == null ? false : TestSuite.isTestSuite(installDir));
-        installParentDir = (installDir == null ? null : installDir.getParentFile());
-        installParentDirIsTestSuite = (installParentDir == null ? false : TestSuite.isTestSuite(installParentDir));
+        installDir = classDir == null ? null : classDir.getParentFile();
+        installDirIsTestSuite = installDir == null ? false : TestSuite.isTestSuite(installDir);
+        installParentDir = installDir == null ? null : installDir.getParentFile();
+        installParentDirIsTestSuite = installParentDir == null ? false : TestSuite.isTestSuite(installParentDir);
 
         userDir = new File(System.getProperty("user.dir"));
-        userDirIsTestSuite = (userDir == null ? false : TestSuite.isTestSuite(userDir));
-        userDirIsWorkDirectory = (userDir == null ? false : WorkDirectory.isWorkDirectory(userDir));
+        userDirIsTestSuite = userDir == null ? false : TestSuite.isTestSuite(userDir);
+        userDirIsWorkDirectory = userDir == null ? false : WorkDirectory.isWorkDirectory(userDir);
     }
 
     private void initPanes() {
@@ -439,7 +439,7 @@ class QuickStartWizard extends ToolDialog
                             File f = InterviewEditor.loadConfigFile(
                                 contextManager, parent, uif,
                                 (FileChooser)chooser);
-                            path = (f == null ? null : f.getPath());
+                            path = f == null ? null : f.getPath();
                         }
                         else {
                             // set chooser to value in field?
@@ -500,7 +500,7 @@ class QuickStartWizard extends ToolDialog
          */
         File getFile() {
             String path = getPath();
-            return (path == null || path.length() == 0 ? null : new File(path));
+            return path == null || path.length() == 0 ? null : new File(path);
         }
 
         String getPath() {
@@ -513,7 +513,7 @@ class QuickStartWizard extends ToolDialog
                 if (c.isShowing() && c instanceof JTextField)
                     return ((JTextField) c).getText();
                 else
-                    return ((String) (combo.getSelectedItem()));
+                    return (String) combo.getSelectedItem();
             }
             else
                 throw new IllegalStateException();
@@ -610,7 +610,7 @@ class QuickStartWizard extends ToolDialog
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridwidth = GridBagConstraints.REMAINDER;
             c.insets.bottom = 10;
-            c.insets.left = (rb == null ? 0 : 30);
+            c.insets.left = rb == null ? 0 : 30;
             c.weightx = 1;
             add(fp, c);
 
@@ -712,10 +712,10 @@ class QuickStartWizard extends ToolDialog
 
         @Override
         void stateChanged() {
-            task = (newRun.isSelected() ? NEW
+            task = newRun.isSelected() ? NEW
                     : resumeRun.isSelected() ? RESUME
                     : browse.isSelected() ? BROWSE
-                    : UNSET);
+                    : UNSET;
             updateNextButton();
         }
 
@@ -728,9 +728,9 @@ class QuickStartWizard extends ToolDialog
         @Override
         Pane getNext() {
 
-            return (task == NEW || task == BROWSE ? testSuitePane
+            return task == NEW || task == BROWSE ? testSuitePane
                     : task == RESUME ? openWorkDirPane
-                    : null);
+                    : null;
         }
 
 
@@ -827,7 +827,7 @@ class QuickStartWizard extends ToolDialog
                 }
 
                 if (jtmData != null) {
-                    String jtmDataInterview = (String) (jtmData.get("INTERVIEW"));
+                    String jtmDataInterview = (String) jtmData.get("INTERVIEW");
 
                     if (jtmDataInterview != null
                         && !config.getClass().getName().equals(jtmDataInterview)) {
@@ -858,7 +858,7 @@ class QuickStartWizard extends ToolDialog
                     }
                 }
 
-                return (task == NEW ? newWorkDirPane : endPane);
+                return task == NEW ? newWorkDirPane : endPane;
             }
 
 
@@ -881,7 +881,7 @@ class QuickStartWizard extends ToolDialog
                 }
             }
 
-            return (config == null ? null : task == NEW ? newWorkDirPane : endPane);
+            return config == null ? null : task == NEW ? newWorkDirPane : endPane;
 
         }
 
@@ -1056,9 +1056,9 @@ class QuickStartWizard extends ToolDialog
             }
 
 
-            return (task == NEW || task == BROWSE ? configPane
+            return task == NEW || task == BROWSE ? configPane
                     : task == RESUME ? openWorkDirPane
-                    : null);
+                    : null;
 
            // return (config == null ? null : task == NEW ? (Pane) newWorkDirPane : (Pane) endPane);
         }
@@ -1146,7 +1146,7 @@ class QuickStartWizard extends ToolDialog
         try {
             File c1 = f1.getCanonicalFile();
             File c2 = f2.getCanonicalFile();
-            return (c1.equals(c2));
+            return c1.equals(c2);
         }
         catch (IOException e) {
             return false;

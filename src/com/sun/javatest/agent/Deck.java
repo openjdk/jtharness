@@ -90,7 +90,7 @@ class Deck extends Panel
         //boolean savedVisible = isVisible();
         //setVisible(false);
         comp.validate();
-        ((CardLayout)(getLayout())).show(this, comp.getName());
+        ((CardLayout) getLayout()).show(this, comp.getName());
         //setVisible(savedVisible);
         parent.setCursor(savedCursor);
     }

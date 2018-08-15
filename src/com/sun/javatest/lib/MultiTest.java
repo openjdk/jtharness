@@ -188,9 +188,9 @@ public class MultiTest implements Test
         }
         catch (SetupException e) {
             testNotApplicable = true;
-            return (e.isPassed()
+            return e.isPassed()
                     ? Status.passed(e.getMessage())
-                    : Status.failed(e.getMessage()) );
+                    : Status.failed(e.getMessage());
         }
     }
 
@@ -266,7 +266,7 @@ public class MultiTest implements Test
                     int i;
                     for (i = index + 1; i < args.length && !args[i].startsWith("-"); i++)
                         testCases.select(args[i]);
-                    return (i - index);
+                    return i - index;
                 }
 
             }
@@ -294,7 +294,7 @@ public class MultiTest implements Test
     protected Status invokeTestCase(Method m)
                 throws IllegalAccessException, InvocationTargetException {
         Object[] testArgs = { };
-        return (Status) (m.invoke(this, testArgs));
+        return (Status) m.invoke(this, testArgs);
     }
 
     // the set of test cases to be executed

@@ -140,7 +140,7 @@ public class HelpTree
          * @return the number of children of this node
          */
         public int getChildCount() {
-            return (children == null ? 0 : children.length);
+            return children == null ? 0 : children.length;
         }
 
         /**
@@ -298,7 +298,7 @@ public class HelpTree
             }
         }
 
-        return (map == null ? null : new Selection(map));
+        return map == null ? null : new Selection(map);
     }
 
     private Selection find(Node node, String[] words, int mode) {
@@ -328,7 +328,7 @@ public class HelpTree
             }
         }
 
-        return (map == null ? null : new Selection(node, map));
+        return map == null ? null : new Selection(node, map);
     }
 
     /**
@@ -417,8 +417,8 @@ public class HelpTree
         int margin = out.getLeftMargin();
         for (Iterator<Map.Entry<Node, Selection>> iter = m.entrySet().iterator(); iter.hasNext(); ) {
             Map.Entry<Node, Selection> e = iter.next();
-            Node node = (e.getKey());
-            Selection s = (e.getValue());
+            Node node = e.getKey();
+            Selection s = e.getValue();
             if (s.map == null)
                 write(out, node);
             else {
@@ -490,12 +490,12 @@ public class HelpTree
 
         int endIndex = startIndex + word.length();
 
-        return ((startIndex == 0 || !Character.isLetter(text.charAt(startIndex - 1)))
-                && (endIndex == text.length() || !Character.isLetter(text.charAt(endIndex))));
+        return (startIndex == 0 || !Character.isLetter(text.charAt(startIndex - 1)))
+                && (endIndex == text.length() || !Character.isLetter(text.charAt(endIndex)));
     }
 
     private WrapWriter getWrapWriter(Writer out) {
-        return (out instanceof WrapWriter ? (WrapWriter) out : new WrapWriter(out));
+        return out instanceof WrapWriter ? (WrapWriter) out : new WrapWriter(out);
     }
 
     private Node[] nodes;
@@ -510,7 +510,7 @@ public class HelpTree
             @Override
             public int compare(Node n1, Node n2) {
                 int v = compareStrings(n1.name, n2.name);
-                return (v != 0 ? v : compareStrings(n1.description, n2.description));
+                return v != 0 ? v : compareStrings(n1.description, n2.description);
             }
 
             private int compareStrings(String s1, String s2) {
@@ -518,7 +518,7 @@ public class HelpTree
                     return 0;
 
                 if (s1 == null || s2 == null)
-                    return (s1 == null ? -1 : +1);
+                    return s1 == null ? -1 : +1;
 
                 return s1.toLowerCase().compareTo(s2.toLowerCase());
             }

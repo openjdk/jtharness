@@ -93,8 +93,8 @@ abstract class TP_PropertySubpanel
 
     protected void updateEntries(Map<String, String> map) {
         for (Map.Entry<String, String> e : map.entrySet()) {
-            String key = (e.getKey());
-            String val = (e.getValue());
+            String key = e.getKey();
+            String val = e.getValue();
             if (val != null && !val.trim().isEmpty()) {
                 table.updateEntry(key, val);
             }
@@ -248,16 +248,16 @@ abstract class TP_PropertySubpanel
                 nameLabel.setBounds(0, 0, nameWidth, h);
                 valueLabel.setBounds(nameWidth, 0, valueWidth, h);
 
-                int y = (inScrollPane ? 0 : h);
+                int y = inScrollPane ? 0 : h;
 
                 for (Iterator<Entry> iter = entries.values().iterator(); iter.hasNext(); ) {
-                    Entry e = (iter.next());
+                    Entry e = iter.next();
                     // need to take insets into account for value, since we are dealing
                     // with the elemental view inside the valueField
                     Insets vi = e.valueText.getInsets();
                     View v = e.valueText.getUI().getRootView(e.valueText);
                     v.setSize(valueWidth, Integer.MAX_VALUE);
-                    h = vi.top + ((int) (v.getPreferredSpan(View.Y_AXIS))) + vi.bottom;
+                    h = vi.top + (int) v.getPreferredSpan(View.Y_AXIS) + vi.bottom;
                     e.nameField.setBounds(0, y, nameWidth, h);
                     e.valueText.setBounds(nameWidth, y, valueWidth, h);
                     y += h;
@@ -268,9 +268,9 @@ abstract class TP_PropertySubpanel
         @Override
         public Dimension getMinimumSize() {
             //System.err.println("TP_PS.Table: minimumLayoutSize");
-            int h = (inScrollPane ? 0 : nameLabel.getPreferredSize().height);
+            int h = inScrollPane ? 0 : nameLabel.getPreferredSize().height;
             for (Iterator<Entry> iter = entries.values().iterator(); iter.hasNext(); ) {
-                Entry e = (iter.next());
+                Entry e = iter.next();
                 h += e.valueText.getMinimumSize().height;
             }
             return new Dimension(maxNameStringWidth + 400, h);
@@ -279,9 +279,9 @@ abstract class TP_PropertySubpanel
         @Override
         public Dimension getPreferredSize() {
             //System.err.println("TP_PS.Table: preferredLayoutSize");
-            int h = (inScrollPane ? 0 : nameLabel.getPreferredSize().height);
+            int h = inScrollPane ? 0 : nameLabel.getPreferredSize().height;
             for (Iterator<Entry> iter = entries.values().iterator(); iter.hasNext(); ) {
-                Entry e = (iter.next());
+                Entry e = iter.next();
                 h += e.valueText.getPreferredSize().height;
             }
             return new Dimension(maxNameStringWidth + 400, h);

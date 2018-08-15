@@ -138,7 +138,7 @@ public class ChoiceArrayQuestionRenderer
     protected class TestTableModel extends AbstractTableModel {
         @Override
         public Class<?> getColumnClass(int c) {
-            return (c == 0 ? Boolean.class : String.class);
+            return c == 0 ? Boolean.class : String.class;
         }
 
         @Override
@@ -167,7 +167,7 @@ public class ChoiceArrayQuestionRenderer
 
         @Override
         public boolean isCellEditable(int r, int c) {
-            return (c == 0 ? true : false);
+            return c == 0 ? true : false;
         }
     };
 

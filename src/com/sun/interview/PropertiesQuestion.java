@@ -106,7 +106,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * @throws NullPointerException if choices is null
      */
     protected void setProperties(Properties props) {
-        value = ((Properties)props.clone());
+        value = (Properties)props.clone();
         // clobber display values?
     }
 
@@ -140,7 +140,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
                 String c = keys[i];
                 String rn = tag + "." + c;
                 try {
-                    presentationKeys.put(keys[i], (c == null ? null : b.getString(rn)));
+                    presentationKeys.put(keys[i], c == null ? null : b.getString(rn));
                 }
                 catch (MissingResourceException e) {
                     System.err.println("WARNING: missing resource " + rn);
@@ -195,7 +195,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         if (value == null)
             return null;
 
-        return (Properties)(value.clone());
+        return (Properties) value.clone();
     }
 
     /**
@@ -421,7 +421,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         List<String> reasons = new ArrayList<>();
 
         while (names.hasMoreElements()) {
-            String curr = (String)(names.nextElement());
+            String curr = (String) names.nextElement();
             ValueConstraints rules = getConstraints(curr);
 
             if (rules == null) {
@@ -484,7 +484,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
             value = null;
         }
         else {
-            value = ((Properties)props.clone());
+            value = (Properties)props.clone();
         }
         // what to do about read-only and other tagging values?  flush?
         // remove the extra ones?
@@ -533,7 +533,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
                     float k = propertyValue * res;
                     if (Math.abs(k - (int)k) >= 0.5)
                         k += 1.0f;
-                    strVal = Float.toString(((int)k) / res);
+                    strVal = Float.toString((int)k / res);
                 }
             }
             catch(NumberFormatException e) {
@@ -677,7 +677,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
             String[][] data = new String[al.size()][2];
             for(int i = 0; it.hasNext(); i++) {
                 data[i][0] = it.next();
-                data[i][1] = (String)(value.get(data[i][0]));
+                data[i][1] = (String) value.get(data[i][0]);
             }   // for
 
             return data;
@@ -698,7 +698,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
             Set<String> keys = keyGroups.keySet();
             if (keys != null) {
                 String[] gps = getGroups();
-                Properties copy = (Properties)(value.clone());
+                Properties copy = (Properties) value.clone();
 
                 // remove all grouped entries from the copied
                 // question value
@@ -731,7 +731,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         int i = 0;
 
         while (en.hasMoreElements()) {
-            String key = (String)(en.nextElement());
+            String key = (String) en.nextElement();
             ret[i][0] = key;
             ret[i][1] = value.getProperty(key);
             i++;

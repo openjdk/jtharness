@@ -248,7 +248,7 @@ public class PropertyArray {
         while (lower <= upper) {
             // in next line, take care to ensure that mid is always even
             mid = lower + ((upper - lower) / 4) * 2;
-            String e = (vec.elementAt(mid));
+            String e = vec.elementAt(mid);
             cmp = key.compareTo(e);
             if (cmp < 0) {
                 upper = mid - 2;
@@ -379,7 +379,7 @@ public class PropertyArray {
 
             @Override
             public boolean hasMoreElements() {
-                return (props != null && pos < props.length);
+                return props != null && pos < props.length;
             }
 
             @Override
@@ -591,7 +591,7 @@ public class PropertyArray {
      * @param   nibble  the nibble to convert.
      */
     private static char toHex(int nibble) {
-        return hexDigit[(nibble & 0xF)];
+        return hexDigit[nibble & 0xF];
     }
 
     /** A table of hex digits */

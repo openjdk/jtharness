@@ -166,7 +166,7 @@ public class BinaryTestFinder extends TestFinder
 
         File rootDir = getRootDir();
         String relPath = getRelativePath(rootDir, path);
-        TestTree.Node node = (testTree == null ? null : testTree.getNode(relPath));
+        TestTree.Node node = testTree == null ? null : testTree.getNode(relPath);
 
         /*
         System.out.println("isFolder() for " + path.getPath() + " = " +
@@ -206,7 +206,7 @@ public class BinaryTestFinder extends TestFinder
             // locate the node for this file
             File rootDir = getRootDir();
             String relPath = getRelativePath(rootDir, file);
-            TestTree.Node node = (testTree == null ? null : testTree.getNode(relPath));
+            TestTree.Node node = testTree == null ? null : testTree.getNode(relPath);
 
             if (node == null) {
                 error(i18n, "bin.cantFindPath", file.getPath());
@@ -217,8 +217,8 @@ public class BinaryTestFinder extends TestFinder
             TestTree.Node[] children = node.children;
             if (children != null) {
                 for (TestTree.Node child : children) {
-                    File f = (relPath.length() == 0 ? new File(child.name) :
-                            new File(relPath, child.name));
+                    File f = relPath.length() == 0 ? new File(child.name) :
+                            new File(relPath, child.name);
                     foundFile(f);
                 }
             }
@@ -247,9 +247,9 @@ public class BinaryTestFinder extends TestFinder
             String rootDirPath = rootDir.getPath();
             String filePath = file.getPath();
             if (filePath.startsWith(rootDirPath)) {
-                return (filePath.equals(rootDirPath)
+                return filePath.equals(rootDirPath)
                         ? ""
-                        : filePath.substring(rootDirPath.length() + 1));
+                        : filePath.substring(rootDirPath.length() + 1);
             }
             else
                 throw new IllegalArgumentException();
@@ -276,7 +276,7 @@ public class BinaryTestFinder extends TestFinder
             // open these all here to take the hit of exceptions
             // as early as possible
             File root = getRoot();
-            File f = (jtdFile.isAbsolute() || root == null ? jtdFile : new File(root, jtdFile.getPath()));
+            File f = jtdFile.isAbsolute() || root == null ? jtdFile : new File(root, jtdFile.getPath());
             zipFile = new ZipFile(f);
             stringsEntry = zipFile.getEntry("strings");
             testsEntry = zipFile.getEntry("tests");
@@ -445,7 +445,7 @@ public class BinaryTestFinder extends TestFinder
          * as required.
          */
         static TestTable read(ZipFile zf, ZipEntry ze, StringTable stringTable) throws IOException, Fault {
-            byte[] bytes = new byte[(int) (ze.getSize())];
+            byte[] bytes = new byte[(int) ze.getSize()];
             InputStream in = zf.getInputStream(ze);
             for (int total = 0; total < bytes.length; ) {
                 total += in.read(bytes, total, bytes.length - total);
@@ -515,7 +515,7 @@ public class BinaryTestFinder extends TestFinder
          * Get the node for a path within the tree.
          */
         Node getNode(String path) {
-            return (path.length() == 0 ? root : root.getNode(path));
+            return path.length() == 0 ? root : root.getNode(path);
         }
 
         private Node root;
@@ -553,11 +553,11 @@ public class BinaryTestFinder extends TestFinder
              */
             Node getNode(String path) {
                 int sep = path.indexOf(File.separatorChar);
-                String head = (sep == -1 ? path : path.substring(0, sep));
+                String head = sep == -1 ? path : path.substring(0, sep);
                 for (int i = 0; i < children.length; i++) {
                     Node child = children[i];
                     if (child.name.equals(head))
-                        return (sep == -1 ? child : child.getNode(path.substring(sep + 1)));
+                        return sep == -1 ? child : child.getNode(path.substring(sep + 1));
                 }
                 // not found
                 return null;

@@ -145,15 +145,15 @@ class StatisticsSection extends HTMLSection {
 
         Vector<String[]> v = new Vector<>();
         for (Iterator<Map.Entry<String, int[]>> iter = keywordTable.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry<String, int[]> e = (iter.next());
-            String k = (e.getKey());
-            int[] kv = (e.getValue());
+            Map.Entry<String, int[]> e = iter.next();
+            String k = e.getKey();
+            int[] kv = e.getValue();
             String[] newEntry = new String[ncols];
             int c = 0, total = 0;
             newEntry[c++] = k;
             for (int i = 0; i < kv.length; i++) {
                 if (statusTotals[i] != 0)
-                    newEntry[c++] = (kv[i] == 0 ? "" : Integer.toString(kv[i]));
+                    newEntry[c++] = kv[i] == 0 ? "" : Integer.toString(kv[i]);
                 total += kv[i];
             }
             newEntry[c] = Integer.toString(total);

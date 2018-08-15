@@ -63,7 +63,7 @@ abstract class AuditPane extends JPanel {
 
     void show(String message) {
         textArea.setText(message);
-        ((CardLayout)(getLayout())).show(this, "text");
+        ((CardLayout) getLayout()).show(this, "text");
     }
 
     abstract void show(Audit audit);
@@ -73,7 +73,7 @@ abstract class AuditPane extends JPanel {
     }
 
     protected void showBody() {
-        ((CardLayout)(getLayout())).show(this, "body");
+        ((CardLayout) getLayout()).show(this, "body");
     }
 
     protected final UIFactory uif;

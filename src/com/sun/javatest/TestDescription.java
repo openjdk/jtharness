@@ -206,9 +206,9 @@ public class TestDescription implements Serializable
         // the name used to be a parameter you could set explicitly
         // now, it is based on the file and id
         int lastSep = rootRelativePath.lastIndexOf('/');
-        String name = (lastSep == -1 ?
+        String name = lastSep == -1 ?
                        rootRelativePath :
-                       rootRelativePath.substring(lastSep + 1));
+                       rootRelativePath.substring(lastSep + 1);
 
         // strip off extension
         int dot = name.indexOf('.');
@@ -422,7 +422,7 @@ public class TestDescription implements Serializable
     public String getRootRelativeURL() {
         if (rrurl == null) {
             String id = getParameter("id");
-            rrurl = (id == null ?  rootRelativePath : rootRelativePath + "#" + id);
+            rrurl = id == null ?  rootRelativePath : rootRelativePath + "#" + id;
             rrurl = rrurl.intern();
         }
 
@@ -437,7 +437,7 @@ public class TestDescription implements Serializable
      */
     public File getRootRelativeDir() {
         String p = getRootRelativeFile().getParent();
-        return (p == null ? new File(".") : new File(p));
+        return p == null ? new File(".") : new File(p);
     }
 
     /**
@@ -528,7 +528,7 @@ public class TestDescription implements Serializable
      */
     @Override
     public String toString() {
-        return ("TestDescription[" + getTitle() + "]");
+        return "TestDescription[" + getTitle() + "]";
     }
 
     /**

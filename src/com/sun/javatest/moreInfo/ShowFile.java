@@ -98,7 +98,7 @@ public class ShowFile
         if (g == null)
             return new Dimension(100, 10);
 
-        FontMetrics fm = (font == null ? g.getFontMetrics() : g.getFontMetrics(font));
+        FontMetrics fm = font == null ? g.getFontMetrics() : g.getFontMetrics(font);
         int w = fm.stringWidth(text);
         int h = fm.getHeight();
         return new Dimension(w, h);
@@ -110,10 +110,10 @@ public class ShowFile
         if (g == null)
             return super.getAlignmentY();
 
-        FontMetrics fm = (font == null ? g.getFontMetrics() : g.getFontMetrics(font));
+        FontMetrics fm = font == null ? g.getFontMetrics() : g.getFontMetrics(font);
         float ascent = fm.getMaxAscent();
         float height = fm.getHeight();
-        return (ascent / height);
+        return ascent / height;
     }
 
     @Override
@@ -177,7 +177,7 @@ public class ShowFile
      * @see #setTextFont
      */
     public String getTextFont() {
-        return (font == null ? null : font.toString());
+        return font == null ? null : font.toString();
     }
 
     /**
@@ -192,8 +192,8 @@ public class ShowFile
         if (g == null)
             return;
 
-        FontMetrics fm = (font == null ? g.getFontMetrics()
-                          : g.getFontMetrics(font));
+        FontMetrics fm = font == null ? g.getFontMetrics()
+                          : g.getFontMetrics(font);
         int w = fm.stringWidth(text);
         int h = fm.getHeight();
         setPreferredSize(new Dimension(w, h));
@@ -268,7 +268,7 @@ public class ShowFile
         frame.validate();
 
         String text = textArea.getText();
-        int startLineIndex = (startLine == null ? -1 : text.indexOf(startLine));
+        int startLineIndex = startLine == null ? -1 : text.indexOf(startLine);
         if (startLineIndex == -1)
             textArea.setCaretPosition(0);
         else {

@@ -208,7 +208,7 @@ public class SerialPortConnection implements Connection
     private static SerialPort open(CommPortIdentifier cpi, String app, int timeout) throws IOException, PortInUseException {
         if (cpi.getPortType() != CommPortIdentifier.PORT_SERIAL)
             throw new IllegalArgumentException("not a serial port: " + cpi.getName());
-        return ((SerialPort)cpi.open(app, timeout));
+        return (SerialPort)cpi.open(app, timeout);
     }
 
     private synchronized void updateReadyStatus() {

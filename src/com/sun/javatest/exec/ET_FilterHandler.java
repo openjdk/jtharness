@@ -164,7 +164,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
     private TestFilter getDefaultFilter(Map<String, String> map) {
         if (map != null) {
-            String pref = (map.get(ExecTool.ACTIVE_FILTER));
+            String pref = map.get(ExecTool.ACTIVE_FILTER);
 
             // try to use filter indicated in preference
             for (int i = 0; i < allFilters.size(); i++) {

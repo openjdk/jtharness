@@ -73,7 +73,7 @@ public class KeywordScript extends Script
 
     findMatch:
         for (Iterator<String> iter = env.keys().iterator(); iter.hasNext(); ) {
-            String key = (iter.next());
+            String key = iter.next();
 
             // if the key does not begin with the `script.' prefix, ignore key
             if (!key.startsWith(prefix))
@@ -123,9 +123,9 @@ public class KeywordScript extends Script
 
         // check we have a unique script selected
         String name = env.getName();
-        String envName = (name.length() == 0 ?
+        String envName = name.length() == 0 ?
                           "The anonymous environment" :
-                          "Environment `" + env.getName() + "'");
+                          "Environment `" + env.getName() + "'";
         if (matches.size() == 0) {
             if (choices.size() == 0) {
                 String s = envName + " has no `script' entries";

@@ -380,7 +380,7 @@ public abstract class InterviewParameters
     @Override
     public String[] getTests() {
         TestsParameters iParams = getTestsParameters();
-        return (iParams == null ? null : iParams.getTests());
+        return iParams == null ? null : iParams.getTests();
     }
 
     /**
@@ -407,7 +407,7 @@ public abstract class InterviewParameters
     @Override
     public ExcludeList getExcludeList() {
         ExcludeListParameters eParams = getExcludeListParameters();
-        return (eParams == null ? new ExcludeList() : eParams.getExcludeList());
+        return eParams == null ? new ExcludeList() : eParams.getExcludeList();
     }
 
     /**
@@ -509,7 +509,7 @@ public abstract class InterviewParameters
     @Override
     public Keywords getKeywords() {
         KeywordsParameters kParams = getKeywordsParameters();
-        return (kParams == null ? null : kParams.getKeywords());
+        return kParams == null ? null : kParams.getKeywords();
     }
 
     /**
@@ -536,7 +536,7 @@ public abstract class InterviewParameters
     @Override
     public boolean[] getPriorStatusValues() {
         PriorStatusParameters sParams = getPriorStatusParameters();
-        return (sParams == null ? null : sParams.getPriorStatusValues());
+        return sParams == null ? null : sParams.getPriorStatusValues();
     }
 
     /**
@@ -565,7 +565,7 @@ public abstract class InterviewParameters
     @Override
     public int getConcurrency() {
         ConcurrencyParameters cParams = getConcurrencyParameters();
-        return (cParams == null ? 1 : cParams.getConcurrency());
+        return cParams == null ? 1 : cParams.getConcurrency();
     }
 
     /**
@@ -592,7 +592,7 @@ public abstract class InterviewParameters
     @Override
     public float getTimeoutFactor() {
         TimeoutFactorParameters tParams = getTimeoutFactorParameters();
-        return (tParams == null ? 1 : tParams.getTimeoutFactor());
+        return tParams == null ? 1 : tParams.getTimeoutFactor();
     }
 
     /**
@@ -671,9 +671,9 @@ public abstract class InterviewParameters
     }
 
     private String trim(String text) {
-        return (text == null ? null
+        return text == null ? null
                 : text.length() < 40 ? text
-                : text.substring(0, 37) + "...");
+                : text.substring(0, 37) + "...";
     }
 
 
@@ -721,7 +721,7 @@ public abstract class InterviewParameters
     @Override
     public TestFilter getPriorStatusFilter() {
         WorkDirectory wd = getWorkDirectory();
-        TestResultTable r = (wd == null ? null : wd.getTestResultTable());
+        TestResultTable r = wd == null ? null : wd.getTestResultTable();
         boolean[] s = getPriorStatusValues();
         if (r == null || s == null)
             cachedStatusFilter = null;
@@ -801,7 +801,7 @@ public abstract class InterviewParameters
 
     private static boolean equal(boolean[] b1, boolean[] b2) {
         if (b1 == null || b2 == null)
-            return (b1 == b2);
+            return b1 == b2;
 
         if (b1.length != b2.length)
             return false;
@@ -925,7 +925,7 @@ public abstract class InterviewParameters
      * and false otherwise
      */
     public static boolean isInterviewFile(File f) {
-        return (f.getName().endsWith(".jti"));
+        return f.getName().endsWith(".jti");
     }
 
     /**
@@ -1116,12 +1116,12 @@ public abstract class InterviewParameters
     public static InterviewParameters open(String testSuitePath, String workDirPath, String configFilePath)
         throws InterviewParameters.Fault
     {
-        File ts = (testSuitePath != null && testSuitePath.length() > 0
-                       ? new File(testSuitePath) : null);
-        File wd = (workDirPath != null && workDirPath.length() > 0
-                       ? new File(workDirPath) : null);
-        File cf = (configFilePath != null && configFilePath.length() > 0
-                       ? new File(configFilePath) : null);
+        File ts = testSuitePath != null && testSuitePath.length() > 0
+                       ? new File(testSuitePath) : null;
+        File wd = workDirPath != null && workDirPath.length() > 0
+                       ? new File(workDirPath) : null;
+        File cf = configFilePath != null && configFilePath.length() > 0
+                       ? new File(configFilePath) : null;
         return open(ts, wd, cf);
     }
 
@@ -1697,8 +1697,8 @@ public abstract class InterviewParameters
      */
     public boolean isFileNewer() {
         File f = getFile();
-        return (f != null && f.exists() && ((currFileLastModified == 0)
-                               || (f.lastModified() > currFileLastModified)));
+        return f != null && f.exists() && ((currFileLastModified == 0)
+                               || (f.lastModified() > currFileLastModified));
     }
 
     //----------------------------------------------------------------------------

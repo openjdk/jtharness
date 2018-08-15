@@ -228,9 +228,9 @@ public abstract class InetAddressQuestion extends Question
         stringValue = newStringValue;  // only non-null if called from setValue(String s)
         newStringValue = null;
 
-        valid = (value == null ? false
+        valid = value == null ? false
                  : type == IPv4 ? (value instanceof Inet4Address)
-                 : true);
+                 : true;
 
         if (!equal(value, oldValue)) {
             interview.updatePath(this);
@@ -359,7 +359,7 @@ public abstract class InetAddressQuestion extends Question
      *
      */
     protected static boolean equal(InetAddress i1, InetAddress i2) {
-        return (i1 == null ? i2 == null : i1.equals(i2));
+        return i1 == null ? i2 == null : i1.equals(i2);
     }
 
     /**

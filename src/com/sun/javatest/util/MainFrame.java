@@ -129,9 +129,9 @@ public class MainFrame
         savedName = frame.getName();
         savedBounds = frame.getBounds();
         Color bg = frame.getBackground();
-        savedBackground = (bg == null ? SystemColor.window : bg);
+        savedBackground = bg == null ? SystemColor.window : bg;
         Color fg = frame.getForeground();
-        savedForeground = (fg == null ? SystemColor.windowText : fg);
+        savedForeground = fg == null ? SystemColor.windowText : fg;
         savedTitle = frame.getTitle();
         savedState = frame.getState();
         savedIconImage = frame.getIconImage();

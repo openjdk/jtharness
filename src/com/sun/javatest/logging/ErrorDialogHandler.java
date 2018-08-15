@@ -84,7 +84,7 @@ public class ErrorDialogHandler extends StreamHandler {
         ActionListener al = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Component c = (Component) (e.getSource());
+                    Component c = (Component) e.getSource();
                     JOptionPane op = (JOptionPane) SwingUtilities.getAncestorOfClass(JOptionPane.class, c);
                     op.setValue(c); // JOptionPane expects the value to be set to the selected button
                     op.setVisible(false);

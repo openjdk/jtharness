@@ -518,7 +518,7 @@ class AndExprKeywords extends BinaryExprKeywords {
 
     @Override
     public boolean accepts(Set<String> s) {
-        return (left.accepts(s) && right.accepts(s));
+        return left.accepts(s) && right.accepts(s);
     }
 
     @Override
@@ -589,7 +589,7 @@ class OrExprKeywords extends BinaryExprKeywords {
 
     @Override
     public boolean accepts(Set<String> s) {
-        return (left.accepts(s) || right.accepts(s));
+        return left.accepts(s) || right.accepts(s);
     }
 
     @Override
@@ -660,7 +660,7 @@ class TermExprKeywords extends ExprKeywords {
 
     @Override
     public boolean accepts(Set<String> s) {
-        return (s.contains(key));
+        return s.contains(key);
     }
 
     @Override

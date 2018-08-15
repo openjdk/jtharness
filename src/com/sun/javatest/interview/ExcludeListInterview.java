@@ -94,14 +94,14 @@ public class ExcludeListInterview
             TestSuite ts = parent.getTestSuite();
             String t = qExcludeListType.getValue();
             if (t == INITIAL) {
-                File f = (ts == null ? null : ts.getInitialExcludeList());
+                File f = ts == null ? null : ts.getInitialExcludeList();
                 if (f == null)
                     return null;
                 else
                     return new File[] { f };
             }
             else if (t == LATEST) {
-                URL u = (ts == null ? null : ts.getLatestExcludeList());
+                URL u = ts == null ? null : ts.getLatestExcludeList();
                 if (u == null)
                     return null;
                 else {
@@ -173,7 +173,7 @@ public class ExcludeListInterview
 
     @Override
     public boolean isLatestExcludeAutoCheckEnabled() {
-        return (qLatestAutoCheck.getValue() == YesNoQuestion.YES);
+        return qLatestAutoCheck.getValue() == YesNoQuestion.YES;
     }
 
     @Override
@@ -183,8 +183,8 @@ public class ExcludeListInterview
 
     @Override
     public int getLatestExcludeAutoCheckMode() {
-        return (qLatestAutoCheckMode.getValue() == EVERY_X_DAYS
-                ? CHECK_EVERY_X_DAYS : CHECK_EVERY_RUN);
+        return qLatestAutoCheckMode.getValue() == EVERY_X_DAYS
+                ? CHECK_EVERY_X_DAYS : CHECK_EVERY_RUN;
     }
 
     @Override
@@ -237,18 +237,18 @@ public class ExcludeListInterview
             return;
 
         File ijtx = ts.getInitialExcludeList();
-        hasInitialJTX = (ijtx != null);
-        hasValidInitialJTX = (hasInitialJTX && ijtx.exists());
+        hasInitialJTX = ijtx != null;
+        hasValidInitialJTX = hasInitialJTX && ijtx.exists();
 
         //System.err.println("ELI initialJTX=" + ijtx);
         //System.err.println("ELI hasInitialJTX=" + hasInitialJTX);
         //System.err.println("ELI hasValidInitialJTX=" + hasInitialJTX);
 
         URL ljtx = ts.getLatestExcludeList();
-        hasLatestJTX = (ljtx != null);
+        hasLatestJTX = ljtx != null;
         if (hasLatestJTX) {
             WorkDirectory wd = parent.getWorkDirectory();
-            hasValidLatestJTX = (wd != null && wd.getSystemFile("latest.jtx").exists());
+            hasValidLatestJTX = wd != null && wd.getSystemFile("latest.jtx").exists();
         }
         else
             hasValidLatestJTX = false;
@@ -351,13 +351,13 @@ public class ExcludeListInterview
         @Override
         public boolean isHidden() {
             // the following will implicitly call ensureInitialized()
-            return (getChoices().length == 2); // null and CUSTOM
+            return getChoices().length == 2; // null and CUSTOM
         }
 
         @Override
         public String getValue() {
             // the following will implicitly call ensureInitialized()
-            return (isHidden() ? CUSTOM : super.getValue());
+            return isHidden() ? CUSTOM : super.getValue();
         }
 
         @Override
@@ -409,7 +409,7 @@ public class ExcludeListInterview
             setChoices(choices, true);
 
             // set the default to the best valid exclude list that is already available
-            defaultValue = (hasValidLatestJTX ? LATEST : hasValidInitialJTX ? INITIAL : null);
+            defaultValue = hasValidLatestJTX ? LATEST : hasValidInitialJTX ? INITIAL : null;
             setValue(defaultValue);
 
         }
@@ -504,7 +504,7 @@ public class ExcludeListInterview
         @Override
         public File getBaseDirectory() {
             TestSuite ts = parent.getTestSuite();
-            return (ts == null ? null : ts.getRootDir());
+            return ts == null ? null : ts.getRootDir();
         }
     };
 
@@ -512,7 +512,7 @@ public class ExcludeListInterview
 
     private void updateCachedExcludeListData() {
         TestSuite ts = parent.getTestSuite();
-        File tsRootDir = (ts == null ? null : ts.getRootDir());
+        File tsRootDir = ts == null ? null : ts.getRootDir();
         File[] files = getAbsoluteFiles(tsRootDir, getExcludeFiles());
         if (!equal(cachedExcludeList_files, files) || cachedExcludeList_testSuite != ts) {
             try {
@@ -538,7 +538,7 @@ public class ExcludeListInterview
 
     private void setCachedExcludeList(ExcludeList l) {
         cachedExcludeList = l;
-        cachedExcludeListFilter = (l.isEmpty() ? null : new ExcludeListFilter(l));
+        cachedExcludeListFilter = l.isEmpty() ? null : new ExcludeListFilter(l);
         cachedExcludeListError = null;
         cachedExcludeListErrorArgs = null;
     }
@@ -617,7 +617,7 @@ public class ExcludeListInterview
         File[] absoluteFiles = new File[files.length];
         for (int i = 0; i < files.length; i++) {
             File f = files[i];
-            absoluteFiles[i] = (f.isAbsolute() ? f : new File(baseDir, f.getPath()));
+            absoluteFiles[i] = f.isAbsolute() ? f : new File(baseDir, f.getPath());
         }
 
         return absoluteFiles;
@@ -626,12 +626,12 @@ public class ExcludeListInterview
     //----------------------------------------------------------------------------
 
     private static boolean equal(File f1, File f2) {
-        return (f1 == null ? f2 == null : f1.equals(f2));
+        return f1 == null ? f2 == null : f1.equals(f2);
     }
 
     private static boolean equal(File[] f1, File[] f2) {
         if (f1 == null || f2 == null)
-            return (f1 == f2);
+            return f1 == f2;
 
         if (f1.length != f2.length)
             return false;

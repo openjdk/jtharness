@@ -380,7 +380,7 @@ public class PropertyUtils {
      * @param   nibble  the nibble to convert.
      */
     private static char toHex(int nibble) {
-        return hexDigit[(nibble & 0xF)];
+        return hexDigit[nibble & 0xF];
     }
 
     /** A table of hex digits */

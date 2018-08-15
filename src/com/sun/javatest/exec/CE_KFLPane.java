@@ -214,8 +214,8 @@ class CE_KFLPane extends CE_StdPane {
             }
             for (int i = 0; i < files.length; i++) {
                 File file = files[i];
-                File absFile = (file.isAbsolute() ? file
-                        : new File(tsr, file.getPath()));
+                File absFile = file.isAbsolute() ? file
+                        : new File(tsr, file.getPath());
                 if (!absFile.exists()) {
                     uif.showError("ce.kfl.custom.cantFindFile", file);
                     return false;

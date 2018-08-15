@@ -48,10 +48,10 @@ class Trace implements Harness.Observer
         openOutput(params);
         if (out != null) {
             TestSuite ts = params.getTestSuite();
-            String tsName = (ts == null ? "null" : ts.getClass().getName());
+            String tsName = ts == null ? "null" : ts.getClass().getName();
 
             TestFinder tf = params.getWorkDirectory().getTestResultTable().getTestFinder();
-            String tfName = (tf == null ? "null" : tf.getClass().getName());
+            String tfName = tf == null ? "null" : tf.getClass().getName();
             println(i18n, "trace.starting", new Object[] { tsName, tfName });
         }
     }
@@ -124,7 +124,7 @@ class Trace implements Harness.Observer
             boolean autoFlush = Boolean.getBoolean("javatest.trace.autoflush");
             out = new TextWriter(backupPolicy.backupAndOpenWriter(traceFile));
             // The following output is verified.
-            out.println("# Trace file started at " + (new Date()));
+            out.println("# Trace file started at " + new Date());
             out.println("# " + ProductInfo.getName() + " version " + ProductInfo.getVersion());
             out.println("# class directory: " + Harness.getClassDir());
             out.println("# using java: " + System.getProperty("java.home"));

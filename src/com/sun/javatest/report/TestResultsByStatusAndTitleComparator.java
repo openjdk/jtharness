@@ -37,9 +37,9 @@ class TestResultsByStatusAndTitleComparator implements Comparator<TestResult> {
         Status s1 = tr1.getStatus();
         Status s2 = tr2.getStatus();
         if (s1.getType() != s2.getType())
-            return (s1.getType() < s2.getType() ? -1 : +1);
+            return s1.getType() < s2.getType() ? -1 : +1;
         int x = compare(s1.getReason(), s2.getReason());
-        return (x != 0 ? x : compare(tr1.getTestName(), tr2.getTestName()));
+        return x != 0 ? x : compare(tr1.getTestName(), tr2.getTestName());
     }
 
     private static int compare(String a, String b) {

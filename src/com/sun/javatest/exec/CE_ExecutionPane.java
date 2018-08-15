@@ -228,7 +228,7 @@ class CE_ExecutionPane extends CE_StdPane
         NumberFormat fmt = NumberFormat.getIntegerInstance(); // will be locale-specific
         ParsePosition pos = new ParsePosition(0);
         Number num = fmt.parse(s, pos);
-        return (num != null && (pos.getIndex() == s.length()) ? num.intValue() : dflt);
+        return num != null && (pos.getIndex() == s.length()) ? num.intValue() : dflt;
     }
 
     private float getFloat(String s, float dflt) {
@@ -244,7 +244,7 @@ class CE_ExecutionPane extends CE_StdPane
         NumberFormat fmt = NumberFormat.getNumberInstance(); // will be locale-specific
         ParsePosition pos = new ParsePosition(0);
         Number num = fmt.parse(s, pos);
-        return (num != null && (pos.getIndex() == s.length()) ? num.floatValue() : dflt);
+        return num != null && (pos.getIndex() == s.length()) ? num.floatValue() : dflt;
     }
 
     private ConcurrencyParameters concurrencyParameters;

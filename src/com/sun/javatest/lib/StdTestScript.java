@@ -83,8 +83,8 @@ public class StdTestScript extends Script
 
         if (compile == false && execute == false) {
             // not set in args, so set from mode
-            compile = (mode == DEVELOPER || mode == PRECOMPILE);
-            execute = (mode == DEVELOPER || mode == CERTIFY);
+            compile = mode == DEVELOPER || mode == PRECOMPILE;
+            execute = mode == DEVELOPER || mode == CERTIFY;
         }
 
         if (compile) {

@@ -560,7 +560,7 @@ public class Interview
      * @return true if this is the first question.
      */
     public boolean isFirst(Question q) {
-        return (q == firstQuestion);
+        return q == firstQuestion;
     }
 
     /**
@@ -569,7 +569,7 @@ public class Interview
      * @return true if this is the last question.
      */
     public boolean isLast(Question q) {
-        return (q instanceof FinalQuestion && q.interview.caller == null);
+        return q instanceof FinalQuestion && q.interview.caller == null;
     }
 
     /**
@@ -578,7 +578,7 @@ public class Interview
      * @return true if this question has a non-null successor.
      */
     public boolean hasNext(Question q) {
-        return (q.getNext() != null);
+        return q.getNext() != null;
     }
 
 
@@ -591,7 +591,7 @@ public class Interview
      */
     public boolean hasValidNext(Question q) {
         Question qn = q.getNext();
-        return (qn != null && !(qn instanceof ErrorQuestion));
+        return qn != null && !(qn instanceof ErrorQuestion);
     }
 
     /**
@@ -668,7 +668,7 @@ public class Interview
 
         // first, step in until we get to the current question
         while (i.path.questionAt(i.currIndex) instanceof InterviewQuestion) {
-            InterviewQuestion iq = (InterviewQuestion) (i.path.questionAt(i.currIndex));
+            InterviewQuestion iq = (InterviewQuestion) i.path.questionAt(i.currIndex);
             i = iq.getTargetInterview();
         }
 
@@ -713,7 +713,7 @@ public class Interview
 
         // first, step in until we get to the current question
         while (i.path.questionAt(i.currIndex) instanceof InterviewQuestion) {
-            InterviewQuestion iq = (InterviewQuestion) (i.path.questionAt(i.currIndex));
+            InterviewQuestion iq = (InterviewQuestion) i.path.questionAt(i.currIndex);
             i = iq.getTargetInterview();
         }
 
@@ -733,7 +733,7 @@ public class Interview
                 }
             }
             else if (i.path.questionAt(i.currIndex) instanceof InterviewQuestion) {
-                InterviewQuestion iq = (InterviewQuestion) (i.path.questionAt(i.currIndex));
+                InterviewQuestion iq = (InterviewQuestion) i.path.questionAt(i.currIndex);
                 i = iq.getTargetInterview();
                 i.currIndex = i.path.size() - 1;
             }
@@ -761,7 +761,7 @@ public class Interview
 
         // first, step in until we get to the current question
         while (i.path.questionAt(i.currIndex) instanceof InterviewQuestion) {
-            InterviewQuestion iq = (InterviewQuestion) (i.path.questionAt(i.currIndex));
+            InterviewQuestion iq = (InterviewQuestion) i.path.questionAt(i.currIndex);
             i = iq.getTargetInterview();
         }
 
@@ -836,7 +836,7 @@ public class Interview
         ensurePathInitialized();
 
         Interview i = root;
-        return (i.path.lastQuestion() instanceof FinalQuestion);
+        return i.path.lastQuestion() instanceof FinalQuestion;
     }
 
     /**
@@ -850,7 +850,7 @@ public class Interview
      * @return true is this subinterview has been completed.
      */
     protected boolean isInterviewFinishable() {
-        return (path != null && path.lastQuestion() instanceof FinalQuestion);
+        return path != null && path.lastQuestion() instanceof FinalQuestion;
     }
 
 
@@ -1030,7 +1030,7 @@ public class Interview
     private void iteratePath0(List<Question> l, boolean flattenNestedInterviews, boolean all, boolean addFinal) {
         ensurePathInitialized();
 
-        int n = (all ? path.size() : currIndex + 1);
+        int n = all ? path.size() : currIndex + 1;
         for (int i = 0; i < n; i++) {
             Question q = path.questionAt(i);
             if (q instanceof InterviewQuestion) {
@@ -1525,7 +1525,7 @@ public class Interview
 
         if (parent == null) {
             String qTag = data.get(QUESTION);
-            Question q = (qTag == null ? null : lookup(qTag));
+            Question q = qTag == null ? null : lookup(qTag);
             reset(q == null ? firstQuestion : q);
         }
 
@@ -2405,7 +2405,7 @@ public class Interview
 
             // repeat with caller, all the way up the call stack
             o = i;
-            i = (i.caller == null ? null : i.caller.getInterview());
+            i = i.caller == null ? null : i.caller.getInterview();
         }
     }
 
@@ -2441,7 +2441,7 @@ public class Interview
                     i2.caller = iq;
                     i.path.addQuestion(iq);
                     i.root.rawPath.addQuestion(iq);
-                    q = (i2.path.lastQuestion() instanceof FinalQuestion ? iq.getNext() : null);
+                    q = i2.path.lastQuestion() instanceof FinalQuestion ? iq.getNext() : null;
                 }
                 else {
                     i2.caller = iq;

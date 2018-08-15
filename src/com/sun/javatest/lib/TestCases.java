@@ -186,7 +186,7 @@ public class TestCases {
 
         MultiStatus ms = new MultiStatus(log);
         for (Enumeration<Method> e = enumerate(); e.hasMoreElements(); ) {
-            Method m = (e.nextElement());
+            Method m = e.nextElement();
             Status s;
             try {
                 if (invoker != null)

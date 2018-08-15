@@ -118,7 +118,7 @@ class MDIDeskView extends DeskView {
 
     @Override
     public boolean isEmpty() {
-        return (internalFrames.size() == 0);
+        return internalFrames.size() == 0;
     }
 
     @Override
@@ -214,7 +214,7 @@ class MDIDeskView extends DeskView {
         if (f == null)
             return null;
 
-        Tool t = (Tool) (f.getClientProperty(this));
+        Tool t = (Tool) f.getClientProperty(this);
         return t;
     }
 
@@ -253,9 +253,9 @@ class MDIDeskView extends DeskView {
             return false;
 
         if (useInternalDialogs)
-            return (dialog.getParent() == desktopPane);
+            return dialog.getParent() == desktopPane;
         else
-            return (dialog.getParent() == mainFrame);
+            return dialog.getParent() == mainFrame;
     }
 
     @Override
@@ -387,7 +387,7 @@ class MDIDeskView extends DeskView {
                 catch (Exception e) { // for java.beans.PropertyVetoException
                 }
             }
-            BasicInternalFrameUI ui = (BasicInternalFrameUI) (f.getUI());
+            BasicInternalFrameUI ui = (BasicInternalFrameUI) f.getUI();
             int offset = ui.getNorthPane().getHeight();
             p.x += offset;
             p.y += offset;
@@ -403,8 +403,8 @@ class MDIDeskView extends DeskView {
         Dimension tSize = new Dimension(dSize.width / cols, dSize.height / rows);
         for (int i = 0; i < frames.length; i++) {
             JInternalFrame f = frames[i];
-            int c = (i % cols);
-            int r = (i / cols);
+            int c = i % cols;
+            int r = i / cols;
             f.setBounds(c * tSize.width, r * tSize.height, tSize.width, tSize.height);
         }
     }
@@ -446,7 +446,7 @@ class MDIDeskView extends DeskView {
             else if (cmd.equals(TILE))
                 doTile();
             else {
-                JMenuItem mi = (JMenuItem) (e.getSource());
+                JMenuItem mi = (JMenuItem) e.getSource();
                 Object o = mi.getClientProperty(this);
                 if (o instanceof Window)
                     ((Window) o).toFront();
@@ -484,9 +484,9 @@ class MDIDeskView extends DeskView {
 
         @Override
         public void internalFrameClosed(InternalFrameEvent e)  {
-            JInternalFrame f = (JInternalFrame) (e.getSource());
+            JInternalFrame f = (JInternalFrame) e.getSource();
             if (f.getContentPane() instanceof Tool) {
-                Tool t = (Tool) (f.getContentPane());
+                Tool t = (Tool) f.getContentPane();
                 removeTool(t);
                 t.removeObserver(listener);
                 t.dispose();
@@ -498,8 +498,8 @@ class MDIDeskView extends DeskView {
 
         @Override
         public void internalFrameClosing(InternalFrameEvent e)  {
-            JInternalFrame f = (JInternalFrame) (e.getSource());
-            Tool t = (Tool) (f.getContentPane());
+            JInternalFrame f = (JInternalFrame) e.getSource();
+            Tool t = (Tool) f.getContentPane();
             if (getDesktop().isOKToClose(t, mainFrame))
                 f.dispose();
         }
@@ -525,7 +525,7 @@ class MDIDeskView extends DeskView {
         public void menuSelected(MenuEvent e) {
             Tool[] tools = getTools();
 
-            JMenu m = (JMenu) (e.getSource());
+            JMenu m = (JMenu) e.getSource();
             m.removeAll();
             JMenuItem tmi = uif.createMenuItem("dt.windows", TILE, this);
             tmi.setEnabled(tools.length > 0);

@@ -103,8 +103,8 @@ public class KeywordsInterview
 
     @Override
     public int getKeywordsMode() {
-        return (qNeedKeywords.getValue() == YesNoQuestion.YES
-                ? MATCH_KEYWORDS : NO_KEYWORDS);
+        return qNeedKeywords.getValue() == YesNoQuestion.YES
+                ? MATCH_KEYWORDS : NO_KEYWORDS;
     }
 
     @Override
@@ -230,7 +230,7 @@ public class KeywordsInterview
         @Override
         public void save(Map<String, String> data) {
             super.save(data);  // for backwards compatibility
-            String modeText = (mode == ANY_OF ? "anyOf" : mode == ALL_OF ? "allOf" : "expr");
+            String modeText = mode == ANY_OF ? "anyOf" : mode == ALL_OF ? "allOf" : "expr";
             data.put(tag + ".mode", modeText);
             if (modeValue != null)
                 data.put(tag + ".value", modeValue);
@@ -291,9 +291,9 @@ public class KeywordsInterview
                     validKeywordsSet = new HashSet<>(Arrays.asList(validKeywords));
 
                 int mode = qKeywords.getMode();
-                String modeName = (mode == ANY_OF ? Keywords.ANY_OF
+                String modeName = mode == ANY_OF ? Keywords.ANY_OF
                                    : mode == ALL_OF ? Keywords.ALL_OF
-                                   : Keywords.EXPR);
+                                   : Keywords.EXPR;
                 Keywords k = Keywords.create(modeName, qKeywords.getModeValue(), validKeywordsSet);
                 cachedKeywords = k;
                 cachedKeywordsFilter = new KeywordsFilter(k);
@@ -318,7 +318,7 @@ public class KeywordsInterview
     //----------------------------------------------------------------------------
 
     private static boolean equal(String s1, String s2) {
-        return (s1 == null ? s2 == null : s1.equals(s2));
+        return s1 == null ? s2 == null : s1.equals(s2);
     }
 
     //--------------------------------------------------------

@@ -424,7 +424,7 @@ class QuestionPanel extends JPanel
         }
 
         URL u = q.getImage();
-        final Icon icon = (u == null ? null : new ImageIcon(u));
+        final Icon icon = u == null ? null : new ImageIcon(u);
 
         if (icon != null)
             graphicLabel.setIcon(icon);
@@ -457,7 +457,7 @@ class QuestionPanel extends JPanel
                 if (rc.getName() == null)
                     rc.setName(r.getClass().getName());
 
-                valueSaver = (Runnable) (rc.getClientProperty(QuestionRenderer.VALUE_SAVER));
+                valueSaver = (Runnable) rc.getClientProperty(QuestionRenderer.VALUE_SAVER);
                 //System.err.println("QP.showQuestion valueSaver=" + valueSaver);
                 valuePanel.add(rc);
                 if (focus) {
@@ -528,10 +528,10 @@ class QuestionPanel extends JPanel
     }
 
     public void showValueInvalidMessage() {
-        String msg = (currentRenderer == null
+        String msg = currentRenderer == null
                       ? null
-                      : currentRenderer.getInvalidValueMessage(currentQuestion));
-        showValueMessage((msg == null ? INVALID_VALUE : msg), INVALID_VALUE_COLOR);
+                      : currentRenderer.getInvalidValueMessage(currentQuestion);
+        showValueMessage(msg == null ? INVALID_VALUE : msg, INVALID_VALUE_COLOR);
     }
 
     private void showValueMessage(String msg) {
@@ -576,7 +576,7 @@ class QuestionPanel extends JPanel
             return true;
 
         for (int i = 0; i < p.getComponentCount(); i++) {
-            Component c = (p.getComponent(i));
+            Component c = p.getComponent(i);
             if ((c instanceof JComponent && c.hasFocus())
                 || (c instanceof JPanel && anyChildHasFocus((JPanel)c)))
                 return true;

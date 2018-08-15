@@ -86,15 +86,15 @@ class OptionsDialog extends ToolDialog
     }
 
     String getTestSuitePath() {
-        return (String) (tsField.getSelectedItem());
+        return (String) tsField.getSelectedItem();
     }
 
     String getWorkDirPath() {
-        return (String) (wdField.getSelectedItem());
+        return (String) wdField.getSelectedItem();
     }
 
     String getConfigFilePath() {
-        return (String) (cfField.getSelectedItem());
+        return (String) cfField.getSelectedItem();
     }
 
     @Override
@@ -226,7 +226,7 @@ class OptionsDialog extends ToolDialog
     private void updateWorkDirectoryChoices() {
         String tsID = null;
         try {
-            String tsp = (String) (tsField.getSelectedItem());
+            String tsp = (String) tsField.getSelectedItem();
             if (tsp != null && tsp.length() > 0) {
                 TestSuite ts = TestSuite.open(new File(tsp));
                 tsID = ts.getID();
@@ -267,7 +267,7 @@ class OptionsDialog extends ToolDialog
             configFileChooser.addChoosableFileFilter(new FileFilter() {
                     @Override
                     public boolean accept(File f) {
-                        return (f.isDirectory() || f.getPath().endsWith(".jti"));
+                        return f.isDirectory() || f.getPath().endsWith(".jti");
                     }
 
                     @Override
@@ -295,7 +295,7 @@ class OptionsDialog extends ToolDialog
 
     private void updateConfigFileChoices() {
         SortedSet<String> s = new TreeSet<>();
-        String wdp = (String) (wdField.getSelectedItem());
+        String wdp = (String) wdField.getSelectedItem();
         try {
             WorkDirectory wd = WorkDirectory.open(new File(wdp));
             FileHistory history = FileHistory.getFileHistory(wd, "configHistory.jtl");

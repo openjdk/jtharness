@@ -186,7 +186,7 @@ public class WorkDirectory {
     public static boolean isEmptyDirectory(File dir) {
         if (dir.exists() && dir.canRead() && dir.isDirectory()) {
             String[] list = dir.list();
-            return (list == null || list.length == 0);
+            return list == null || list.length == 0;
         } else
             return false;
     }
@@ -553,7 +553,7 @@ public class WorkDirectory {
         synchronized (dirMap) {
             // sync-ed to make dirMap data consistent
             WeakReference<WorkDirectory> ref = dirMap.get(canonDir);
-            wd = (ref == null ? null : ref.get());
+            wd = ref == null ? null : ref.get();
 
             if (wd != null)
                 return wd;
@@ -573,7 +573,7 @@ public class WorkDirectory {
 
                 ts = TestSuite.open(tsr);
 
-                String wdID = (tsInfo == null ? null : tsInfo.get(TESTSUITE_ID));
+                String wdID = tsInfo == null ? null : tsInfo.get(TESTSUITE_ID);
                 String tsID = ts.getID();
                 if (!(wdID == null ? "" : wdID).equals(tsID == null ? "" : tsID))
                     throw new MismatchFault(i18n, "wd.mismatchID", canonDir);
@@ -646,7 +646,7 @@ public class WorkDirectory {
                     tsInfo = null;
                 }
 
-                String wdID = (tsInfo == null ? null : tsInfo.get(TESTSUITE_ID));
+                String wdID = tsInfo == null ? null : tsInfo.get(TESTSUITE_ID);
                 String tsID = testSuite.getID();
                 if (!(wdID == null ? "" : wdID).equals(tsID == null ? "" : tsID))
                     throw new MismatchFault(i18n, "wd.mismatchID", canonDir);
@@ -692,7 +692,7 @@ public class WorkDirectory {
         // -- possibly conditionally (don't need to write it in case of normal open)
 
         if (tsInfo != null) {
-            String testC = (tsInfo.get(TESTSUITE_TESTCOUNT));
+            String testC = tsInfo.get(TESTSUITE_TESTCOUNT);
             int tc;
             if (testC == null)
                 tc = -1;
@@ -1018,7 +1018,7 @@ public class WorkDirectory {
 
         boolean result = true;
 
-        File f = (path.length() == 0 ? root : getFile(path));
+        File f = path.length() == 0 ? root : getFile(path);
 
         if (!f.exists())
             return false;

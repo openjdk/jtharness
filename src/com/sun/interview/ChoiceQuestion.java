@@ -94,7 +94,7 @@ public abstract class ChoiceQuestion extends Question
      * @throws NullPointerException if choices is null.
      */
     protected void setChoices(String[] choices, boolean localize) {
-        setChoices(choices, (localize ? null : choices));
+        setChoices(choices, localize ? null : choices);
     }
 
     /**
@@ -123,7 +123,7 @@ public abstract class ChoiceQuestion extends Question
         if (displayChoices != null && choices.length != displayChoices.length)
             throw new IllegalArgumentException();
 
-        boolean needClear = (this.choices == null);
+        boolean needClear = this.choices == null;
 
         this.choices = choices;
         this.displayChoices = displayChoices;
@@ -200,7 +200,7 @@ public abstract class ChoiceQuestion extends Question
                 for (int i = 0; i < choices.length; i++) {
                     String c = choices[i];
                     try {
-                        displayChoices[i] = (c == null ? null : b.getString(key + "." + c));
+                        displayChoices[i] = c == null ? null : b.getString(key + "." + c);
                     }
                     catch (MissingResourceException e) {
                         displayChoices[i] = c;

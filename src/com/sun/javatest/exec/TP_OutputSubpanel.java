@@ -217,9 +217,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
                 scriptAndArgs = null;
             }
 
-            String script = (scriptAndArgs == null || scriptAndArgs.length == 0
+            String script = scriptAndArgs == null || scriptAndArgs.length == 0
                              ? uif.getI18NString("test.out.smry.unknownScript")
-                             : scriptAndArgs[0]);
+                             : scriptAndArgs[0];
             out.writeI18N("test.out.script");
             out.startTag(HTMLWriterEx.TABLE);
             out.writeAttr(HTMLWriterEx.BORDER, "0");
@@ -477,7 +477,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
                 TestResult.Section s = subpanelTest.getSection(i);
                 TOCEntry e = new TOCEntry(s);
                 if (e.isScriptMessagesSection() && (currentTOCEntry == null) ||
-                    (e.getID().equals(currentTOCEntry)))
+                        e.getID().equals(currentTOCEntry))
                     newSelectedEntry = e;
                 tocEntries.addElement(e);
                 String[] names = s.getOutputNames();
@@ -540,7 +540,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
         }
 
         // are we actually looking at the section being updated?
-        entry = (TOCEntry) (toc.getSelectedValue());
+        entry = (TOCEntry) toc.getSelectedValue();
         if (entry.getSection() == section && outputName == entry.getOutputName()) {
             addText(section, outputName, text);
         }
@@ -583,7 +583,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
         }
         */
 
-        ((CardLayout)(body.getLayout())).show(body, "html");
+        ((CardLayout) body.getLayout()).show(body, "html");
     }
 
     private void showText(String s) {
@@ -603,7 +603,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             textArea.setEnabled(true);
         }
 
-        ((CardLayout)(body.getLayout())).show(body, "text");
+        ((CardLayout) body.getLayout()).show(body, "text");
     }
 
     private void addText(TestResult.Section section,
@@ -705,8 +705,8 @@ class TP_OutputSubpanel extends TP_Subpanel {
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            JList<TOCEntry> l = (JList<TOCEntry>) (e.getSource());
-            TOCEntry entry = (l.getSelectedValue());
+            JList<TOCEntry> l = (JList<TOCEntry>) e.getSource();
+            TOCEntry entry = l.getSelectedValue();
             if (entry == null)
                 return;
             titleField.setText(entry.getTitle());
@@ -810,7 +810,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
         }
 
         boolean isScriptMessagesSection() {
-            return (section != null && section.getTitle().equals(TestResult.MSG_SECTION_NAME));
+            return section != null && section.getTitle().equals(TestResult.MSG_SECTION_NAME);
         }
 
         TestResult.Section getSection() {
@@ -872,7 +872,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             else {
                 Status s = section.getStatus();
                 //return (s == null ? null : sectIcons[s.getType()]);
-                return (s == null ? null : IconFactory.getTestSectionIcon(s.getType()));
+                return s == null ? null : IconFactory.getTestSectionIcon(s.getType());
             }
         }
 

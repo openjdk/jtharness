@@ -378,7 +378,7 @@ public abstract class TreeQuestion extends Question
     }
 
     public static boolean white(char c) {
-        return (c == ' '  ||  c == '\t'  ||  c == '\n');
+        return c == ' '  ||  c == '\t'  ||  c == '\n';
     }
 
     private static String[] empty = { };

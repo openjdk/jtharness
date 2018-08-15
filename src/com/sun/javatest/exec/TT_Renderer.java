@@ -74,7 +74,7 @@ class TT_Renderer extends DefaultTreeCellRenderer {
         super.getTreeCellRendererComponent(tree, value, selected, expanded,
                                            leaf, row, hasFocus);
 
-        setIcon(getIcon(value, (TestTreeModel)(tree.getModel())));
+        setIcon(getIcon(value, (TestTreeModel) tree.getModel()));
         setText(getLabelText(value, (TestTreeModel)tree.getModel()));
         setToolTipText(getTipText(value));
 
@@ -169,9 +169,10 @@ class TT_Renderer extends DefaultTreeCellRenderer {
             else {
                 return brIcons[selectBranchIconIndex(stats, false)];
             }*/
-            boolean active = ( !info.isValid()
+            // being processed
+            boolean active = !info.isValid()
                                || info.isActive()       // being processed
-                               || (info.isValid() && !info.isComplete()) );   // to be processed
+                               || (info.isValid() && !info.isComplete());   // to be processed
 
             active = active || tpm.isActive(tn);
             return IconFactory.getTestFolderIcon(

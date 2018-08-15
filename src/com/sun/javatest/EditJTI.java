@@ -370,7 +370,7 @@ public class EditJTI
                 String msg;
                 if (interview.isEdited())
                     msg = i18n.getString("editJTI.wouldSaveEdited",
-                                (outFile != null ? outFile : inFile));
+                            outFile != null ? outFile : inFile);
                 else if (outFile != null)
                     msg = i18n.getString("editJTI.wouldSaveNotEdited", outFile);
                 else
@@ -387,16 +387,16 @@ public class EditJTI
         catch (Interview.Fault e) {
             throw new Fault(i18n, "editJTI.cantOpenFile",
                             new Object[] {
-                                (outFile == null || outFile.getPath() == null ?
-                                 "??": outFile.getPath()), e });
+                                    outFile == null || outFile.getPath() == null ?
+                                     "??": outFile.getPath(), e });
         }
         catch (IOException e) {
-            File f = (outFile == null ? interview.getFile() : outFile);
+            File f = outFile == null ? interview.getFile() : outFile;
             throw new Fault(i18n, "editJTI.cantSaveFile",
                             new Object[] { f.getPath(), e });
         }
 
-        return (interview.isFinishable());
+        return interview.isFinishable();
     }
 
     /**
@@ -453,7 +453,7 @@ public class EditJTI
         p.load(in);
         in.close();
 
-        String interviewClassName = (String) (p.get("INTERVIEW"));
+        String interviewClassName = (String) p.get("INTERVIEW");
         try {
             Class<? extends InterviewParameters> interviewClass =
                     loader.loadClass(interviewClassName).asSubclass(InterviewParameters.class);
@@ -680,8 +680,8 @@ public class EditJTI
         for (int i = 0; i <= s2len - s1len; i++) {
             if (s1.regionMatches(!considerCase, 0, s2, i, s1len)) {
                 if (!word || (word &&
-                              ( (i == 0 || isBoundaryCh(s2.charAt(i-1)))
-                                && (i+s1len == s2.length() || isBoundaryCh(s2.charAt(i+s1len))) )))
+                        (i == 0 || isBoundaryCh(s2.charAt(i - 1)))
+                        && (i + s1len == s2.length() || isBoundaryCh(s2.charAt(i + s1len)))))
                     return i;
             }
         }

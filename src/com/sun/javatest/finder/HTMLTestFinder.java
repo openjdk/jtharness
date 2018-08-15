@@ -263,11 +263,11 @@ public class HTMLTestFinder extends TestFinder
                         nextCh();
                         tag = "#";
                         while ('0' <= c && c <= '9') {
-                            tag += ((char) c);
+                            tag += (char) c;
                             n = (n * 10) + (c - '0');
                             nextCh();
                         }
-                        replace = "" + ((char)n);
+                        replace = "" + (char)n;
                     }
                     else {
                         tag = scanIdentifier();
@@ -280,11 +280,11 @@ public class HTMLTestFinder extends TestFinder
                         else if (tag.equals("copy"))
                             replace = "�";
                         if (replace == null)
-                            replace = "&" + tag + ((char) c);
+                            replace = "&" + tag + (char) c;
                     }
                     if (c != ';') {
                         if (!Character.isWhitespace((char) c))
-                            tag += ((char) c);
+                            tag += (char) c;
                         error(i18n, "html.badEscape", new Object[] {tag, file});
                     }
                     if (text != null)
@@ -332,7 +332,7 @@ public class HTMLTestFinder extends TestFinder
     }
 
     private boolean inTestDescription() {
-        return (params != null);
+        return params != null;
     }
 
     //-----internal routines------------------------------------------------------
@@ -505,7 +505,7 @@ public class HTMLTestFinder extends TestFinder
 
                 File file = new File(context.getParent(), value.replace('/', File.separatorChar));
                 String f = file.getPath();
-                if ((f.endsWith(".html") || f.endsWith(".htm")))
+                if (f.endsWith(".html") || f.endsWith(".htm"))
                     foundFile(file);
             }
             if (att.equals("name")) {

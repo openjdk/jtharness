@@ -87,7 +87,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
 
     @Override
     public void updateGUI() {
-        boolean isWD  = (config != null && config.getWorkDirectory() != null);
+        boolean isWD  = config != null && config.getWorkDirectory() != null;
 
         // we always allow View/Properties action
         // even if config and/or wd is not set

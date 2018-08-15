@@ -159,9 +159,9 @@ public abstract class Command
             if (sb.length() > 0)
                 sb.append(' ');
             String arg = args.elementAt(i);
-            boolean hasSpace = (arg.indexOf(' ') != -1);
-            boolean hasQuote = (arg.indexOf('"') != -1);
-            boolean hasEscape = (arg.indexOf('\\') != -1);
+            boolean hasSpace = arg.indexOf(' ') != -1;
+            boolean hasQuote = arg.indexOf('"') != -1;
+            boolean hasEscape = arg.indexOf('\\') != -1;
             if (hasSpace)
                 sb.append('"');
             if (hasQuote || hasEscape) {
@@ -191,7 +191,7 @@ public abstract class Command
      * @see #DESKTOP_REQUIRED_DTMODE
      */
     public int getDesktopMode() {
-        return (isActionCommand() ? DESKTOP_NOT_REQUIRED_DTMODE : DEFAULT_DTMODE);
+        return isActionCommand() ? DESKTOP_NOT_REQUIRED_DTMODE : DEFAULT_DTMODE;
     }
 
     /**

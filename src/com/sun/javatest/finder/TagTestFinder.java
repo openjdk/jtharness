@@ -291,7 +291,7 @@ public class TagTestFinder extends TestFinder
                     // if there are more comments to come, or if there have already
                     // been additional comments, set an explicit id for each set of tags
                     if (comment != null || testDescNumber != 0)
-                        tagValues.put("id", "id" + (Integer.valueOf(testDescNumber)).toString());
+                        tagValues.put("id", "id" + Integer.valueOf(testDescNumber).toString());
                     testDescNumber++;
                 }
 

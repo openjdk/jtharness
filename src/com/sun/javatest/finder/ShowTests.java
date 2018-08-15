@@ -166,7 +166,7 @@ public class ShowTests
             if (args[i].equalsIgnoreCase("-finder") && (i + 1 < args.length)) {
                 finder = args[++i];
                 int j = ++i;
-                while ((i < args.length - 1) && !(args[i].equalsIgnoreCase("-end")))
+                while ((i < args.length - 1) && !args[i].equalsIgnoreCase("-end"))
                     ++i;
                 finderArgs = new String[i - j];
                 System.arraycopy(args, j, finderArgs, 0, finderArgs.length);
@@ -260,7 +260,7 @@ public class ShowTests
                 out.println("    " + td.getRootRelativeURL());
                 if (fullTests) {
                     for (Iterator<String> iter = td.getParameterKeys(); iter.hasNext(); ) {
-                        String key = (iter.next());
+                        String key = iter.next();
                         String value = td.getParameter(key);
                         out.print("        ");
                         out.print(key);

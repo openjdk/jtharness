@@ -251,11 +251,11 @@ public class JavaCompileCommand extends Command
             // result might be a boolean (old javac) or an int (new javac)
             if (result instanceof Boolean) {
                 boolean ok = ((Boolean)result).booleanValue();
-                return (ok ? passed : failed);
+                return ok ? passed : failed;
             }
             else if (result instanceof Integer) {
                 int rc = ((Integer)result).intValue();
-                return (rc == 0 ? passed : failed);
+                return rc == 0 ? passed : failed;
             }
             else
                 return Status.error("Unexpected return value from compiler: " + result);
@@ -268,7 +268,7 @@ public class JavaCompileCommand extends Command
 
     private Class<?> getClass(ClassLoader loader, String name) {
         try {
-            return (loader == null ? Class.forName(name) : loader.loadClass(name));
+            return loader == null ? Class.forName(name) : loader.loadClass(name);
         }
         catch (ClassNotFoundException e) {
             return null;

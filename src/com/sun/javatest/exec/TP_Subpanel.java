@@ -54,7 +54,7 @@ abstract class TP_Subpanel extends JPanel
     }
 
     boolean isUpdateRequired(TestResult currTest) {
-        return (subpanelTest != currTest);
+        return subpanelTest != currTest;
     }
 
     protected void updateSubpanel(TestResult currTest) {

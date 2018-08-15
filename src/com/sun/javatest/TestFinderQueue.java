@@ -183,8 +183,8 @@ public class TestFinderQueue {
             }
         }
 
-        rootDir = (testSuiteRoot.isDirectory() ?
-                   testSuiteRoot : new File(testSuiteRoot.getParent()));
+        rootDir = testSuiteRoot.isDirectory() ?
+                   testSuiteRoot : new File(testSuiteRoot.getParent());
 
         // build up the fifo of tests to be used by readNextFile
 
@@ -487,7 +487,7 @@ public class TestFinderQueue {
                 return true;
             else {
                 double percent = 1 - Math.exp(-0.0002 * testsFoundCount);
-                return (testsDoneCount > (testsFoundCount * percent));
+                return testsDoneCount > (testsFoundCount * percent);
             }
         default:
             return false;

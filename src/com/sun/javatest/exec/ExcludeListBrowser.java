@@ -207,7 +207,7 @@ class ExcludeListBrowser extends ToolDialog
     private String entryToString(ExcludeList.Entry e) {
         String u = e.getRelativeURL();
         String tc = e.getTestCases();
-        return (tc == null ? u : u + "[" + tc + "]");
+        return tc == null ? u : u + "[" + tc + "]";
     }
 
     private String getBugIds(ExcludeList.Entry e) {
@@ -307,7 +307,7 @@ class ExcludeListBrowser extends ToolDialog
 
             if (list != null) {
                 for (Iterator<?> iter = list.getIterator(false); iter.hasNext(); ) {
-                    ExcludeList.Entry ee = (ExcludeList.Entry) (iter.next());
+                    ExcludeList.Entry ee = (ExcludeList.Entry) iter.next();
                     sortedEntries.add(ee);
                 }
             }
@@ -317,7 +317,7 @@ class ExcludeListBrowser extends ToolDialog
         }
 
         ExcludeList.Entry getEntry(int index) {
-            return (index < 0 || index >= entries.length ? null : entries[index]);
+            return index < 0 || index >= entries.length ? null : entries[index];
         }
 
         @Override

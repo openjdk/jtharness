@@ -161,7 +161,7 @@ public class EditableList extends JComponent implements Accessible
      * @see #setItems
      */
     public Object[] getItems(Class<?> c) {
-        Object[] items = (Object[]) (Array.newInstance(c, listModel.size()));
+        Object[] items = (Object[]) Array.newInstance(c, listModel.size());
         listModel.copyInto(items);
         return items;
     }
@@ -447,7 +447,7 @@ public class EditableList extends JComponent implements Accessible
             removeBtn.setEnabled(true);
             int i = list.getSelectedIndex();
             upBtn.setEnabled(i > 0);
-            downBtn.setEnabled((i + 1 < listModel.size()));
+            downBtn.setEnabled(i + 1 < listModel.size());
         }
     }
 

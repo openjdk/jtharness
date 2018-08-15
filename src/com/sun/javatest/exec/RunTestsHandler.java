@@ -153,12 +153,12 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             monitors[0] = new ElapsedTimeMonitor(mState, uif);
             monitors[1] = new RunProgressMonitor(mState, uif);
 
-            ActionListener zoom = (new ActionListener() {
+            ActionListener zoom = new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         setProgressMonitorVisible(!isProgressMonitorVisible());
                     }
-                });
+                };
             messageStrip = new MessageStrip(uif, monitors, mState, zoom);
             messageStrip.setRunningMonitor(monitors[1]);
             messageStrip.setIdleMonitor(monitors[0]);
@@ -391,7 +391,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
 
             for (int j = 0; j < iTests.length; j++) {
                 int slash = curr.lastIndexOf('/');
-                int pound = (slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#'));
+                int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
 
                 if (curr.startsWith(iTests[j]) &&
                     (curr.length() == iTests[j].length() || curr.charAt(iTests[j].length()) == '#' ||
@@ -408,7 +408,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
 
             for (int j = 0; j < requested.length; j++) {
                 int slash = curr.lastIndexOf('/');
-                int pound = (slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#'));
+                int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
 
                 if (curr.startsWith(requested[j]) &&
                     (curr.length() == requested[j].length() || curr.charAt(requested[j].length()) == '#' ||

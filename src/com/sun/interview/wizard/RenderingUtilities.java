@@ -328,7 +328,7 @@ public class RenderingUtilities {
                 final JFileChooser chooser = FileQuestionRenderer.createChooser(
                                                 key, fc.getFilters());
                 // setup chooser
-                File f = new File((String)(cb.getSelectedItem()));
+                File f = new File((String) cb.getSelectedItem());
                 if (!f.exists()) {
                     File dir = fc.getBaseDirectory();
                     if (dir == null)
@@ -346,7 +346,7 @@ public class RenderingUtilities {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         // default chooser to point at specified entry
-                        String s = (String)(cb.getSelectedItem());
+                        String s = (String) cb.getSelectedItem();
                         if (s != null && s.length() > 0) {
                             File f = new File(s);
                             File baseDir = fc.getBaseDirectory();
@@ -440,7 +440,7 @@ public class RenderingUtilities {
                 if (sugs != null) {
                     // add all suggestions
                     for (int i = 0; i < sugs.length; i++) {
-                        if (!sugs[i].getPath().equalsIgnoreCase((String)(cb.getItemAt(0))))
+                        if (!sugs[i].getPath().equalsIgnoreCase((String) cb.getItemAt(0)))
                             cb.addItem(sugs[i].getPath());
                     }   // for
                 }
@@ -461,7 +461,7 @@ public class RenderingUtilities {
                                 boolean ignoreCase, boolean isUnsetAllowed) {
             // wishlist: i18n
             //           values which are independent of locale
-            String curr = (String)(cb.getItemAt(0));
+            String curr = (String) cb.getItemAt(0);
 
             // add unset choice if allowed and needed
             if (isUnsetAllowed)

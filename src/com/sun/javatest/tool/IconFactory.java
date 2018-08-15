@@ -554,7 +554,7 @@ public class IconFactory
         int refY = testIconHeight;
         int dRefX = refX - lightX;
         int dRefY = refY - lightY;
-        float d0 = (float) (Math.sqrt(dRefX * dRefX + dRefY * dRefY));
+        float d0 = (float) Math.sqrt(dRefX * dRefX + dRefY * dRefY);
 
         // calculate hsb at reference point
         int refRed =  refColor.getRed();
@@ -576,7 +576,7 @@ public class IconFactory
             for (int y = y1; y < y2; y++) {
                 int dx = x - lightX;
                 int dy = y - lightY;
-                float d = (float) (Math.sqrt(dx * dx + dy * dy));
+                float d = (float) Math.sqrt(dx * dx + dy * dy);
                 float s = ms * d + cs;
                 float b = mb * d + cb;
                 int rgb = Color.HSBtoRGB(refHSB[0], s, b);
@@ -773,7 +773,7 @@ public class IconFactory
                 for (int y = hCenterY - sectHighlightSize; y <= hCenterY + sectHighlightSize; y++) {
                     int dx = x - hCenterX;
                     int dy = y - hCenterY;
-                    float d = (float) (Math.sqrt(dx * dx + dy * dy));
+                    float d = (float) Math.sqrt(dx * dx + dy * dy);
                     int t = Math.min((int) ( d * 255 / sectHighlightSize), 255);
                     g.setColor(new Color(255, 255, 255, 255 - t));
                     g.drawLine(x, y, x, y);

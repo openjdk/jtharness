@@ -208,7 +208,7 @@ public class ReportDirChooser extends JFileChooser
     //-------------------------------------------------------------------------
 
     private boolean isDirectory(File f) {
-        return (f.isDirectory());
+        return f.isDirectory();
     }
 
     private boolean isReportDirectory(File f) {
@@ -226,7 +226,7 @@ public class ReportDirChooser extends JFileChooser
     }
 
     private boolean isEmptyDirectory(File f) {
-        return (f.isDirectory() && f.list().length == 0);
+        return f.isDirectory() && f.list().length == 0;
     }
 
     private boolean isIgnoreable(File f) {
@@ -237,7 +237,7 @@ public class ReportDirChooser extends JFileChooser
         // This means we can't put a work directory in the root of
         // the file system, but that is a lesser inconvenience
         // than floppy dialogs!
-        return (f.getName().equals(""));
+        return f.getName().equals("");
     }
 
     private FileInfoCache cache = new FileInfoCache();
@@ -255,14 +255,14 @@ public class ReportDirChooser extends JFileChooser
 
         @Override
         public Icon getIcon(File f) {
-            return (isReportDirectory(f) ? icon : null);
+            return isReportDirectory(f) ? icon : null;
         }
 
         @Override
         public String getName(File f) {
             // Take care to get names of file system roots correct
             String name = f.getName();
-            return (name.length() == 0 ? f.getPath() : name);
+            return name.length() == 0 ? f.getPath() : name;
         }
 
         @Override
@@ -272,14 +272,14 @@ public class ReportDirChooser extends JFileChooser
 
         @Override
         public Boolean isTraversable(File f) {
-            return (isDirectory(f) && !isReportDirectory(f) ? Boolean.TRUE : Boolean.FALSE);
+            return isDirectory(f) && !isReportDirectory(f) ? Boolean.TRUE : Boolean.FALSE;
         }
     }
 
     private class RDC_FileFilter extends FileFilter {
         @Override
         public boolean accept(File f) {
-            return (isDirectory(f));
+            return isDirectory(f);
         }
 
         @Override

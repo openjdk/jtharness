@@ -108,7 +108,7 @@ class ResultSection extends HTMLSection {
         boolean thirdColumn = false;
         boolean secondColumn = false;
         for (int i = 0; i < lists.length; i++ ) {
-            thirdColumn |= (settings.isStateFileEnabled(i) && hasGroupedReport(i));
+            thirdColumn |= settings.isStateFileEnabled(i) && hasGroupedReport(i);
             secondColumn |= settings.isStateFileEnabled(i) ;
         }
         String grouped = i18n.getString("result.grouped");
@@ -205,7 +205,7 @@ class ResultSection extends HTMLSection {
                 boolean inList = false;
 
                 for (Iterator<TestResult> iter = list.iterator(); iter.hasNext(); ) {
-                    TestResult e = (iter.next());
+                    TestResult e = iter.next();
                     String title;
                     try {
                         TestDescription e_td = e.getDescription();
@@ -252,7 +252,7 @@ class ResultSection extends HTMLSection {
                 boolean inList = false;
                 String currentHead = null;
                 for (Iterator<TestResult> iter = list.iterator(); iter.hasNext(); ) {
-                    TestResult e = (iter.next());
+                    TestResult e = iter.next();
                     String title;
                     try {
                         TestDescription e_td = e.getDescription();

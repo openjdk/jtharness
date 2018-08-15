@@ -111,8 +111,8 @@ public class FileChooser extends JFileChooser
 
         @Override
         public boolean accept(File f) {
-            return ((enableDirs && f.isDirectory())
-                    || f.getName().endsWith(extn));
+            return (enableDirs && f.isDirectory())
+                    || f.getName().endsWith(extn);
         }
 
         @Override

@@ -90,7 +90,7 @@ public class FileList extends EditableList
      * @return the set of files currently in the list
      */
     public File[] getFiles() {
-        return (File[]) (getItems(File.class));
+        return (File[]) getItems(File.class);
     }
 
     @Override

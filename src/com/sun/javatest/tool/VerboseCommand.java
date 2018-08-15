@@ -124,7 +124,7 @@ public class VerboseCommand extends Command
     @Override
     public void run(CommandContext ctx) throws Fault {
         for (Map.Entry<String, Boolean> e : optionValues.entrySet()) {
-            String name = (e.getKey());
+            String name = e.getKey();
             boolean value = e.getValue().booleanValue();
             if (name.equalsIgnoreCase(MAX))
                 ctx.setVerboseMax(value);

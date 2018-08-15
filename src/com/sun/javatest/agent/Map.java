@@ -129,7 +129,7 @@ public class Map {
      */
     public Map(Reader r) throws IOException {
         BufferedReader in =
-            (r instanceof BufferedReader ? (BufferedReader)r : new BufferedReader(r))
+                r instanceof BufferedReader ? (BufferedReader)r : new BufferedReader(r)
 ;
         // data arrives in rows, but we want it in columns
         Vector<String> from = new Vector<>();

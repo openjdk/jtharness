@@ -91,7 +91,7 @@ class TestPanel extends JPanel
     void setTest(TestResult tr) {
         for (int i=stdPanels.length ; i < panels.length; i++) {
               TP_CustomSubpanel sp = (TP_CustomSubpanel) panels[i];
-              sp.onCangedTestResult(tr, (sp == currPanel));
+              sp.onCangedTestResult(tr, sp == currPanel);
         }
         updatePanel(tr, currPanel);
     }
@@ -173,7 +173,7 @@ class TestPanel extends JPanel
             boolean hasEnv;
             try {
                 Map<String, String> map = currTest.getEnvironment();
-                hasEnv = (map != null && map.size() > 0);
+                hasEnv = map != null && map.size() > 0;
             }
             catch (TestResult.Fault f) {
                 hasEnv = false;
@@ -185,7 +185,7 @@ class TestPanel extends JPanel
             tabs.setEnabledAt(tabs.indexOfComponent(resultPanel), hasResults);
 
             // check if there is any output recorded
-            boolean hasOutput = (currTest.getSectionCount() > 0);
+            boolean hasOutput = currTest.getSectionCount() > 0;
             tabs.setEnabledAt(tabs.indexOfComponent(outputPanel), hasOutput);
 
             for (int i = stdPanels.length; i < tabs.getTabCount(); i++) {

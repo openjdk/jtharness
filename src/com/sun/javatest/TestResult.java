@@ -196,8 +196,8 @@ public class TestResult {
         public boolean isMutable() {
             synchronized (TestResult.this) {
                 synchronized (this) {
-                    return (TestResult.this.isMutable() &&
-                            this.result == inProgress);
+                    return TestResult.this.isMutable() &&
+                            this.result == inProgress;
                 }
             }
         }
@@ -309,7 +309,7 @@ public class TestResult {
             synchronized (TestResult.this) {
                 synchronized (this) {
                     OutputBuffer b = findOutputBuffer(name);
-                    return (b == null ? null : b.getOutput());
+                    return b == null ? null : b.getOutput();
                 }
             }
         }
@@ -443,7 +443,7 @@ public class TestResult {
                         numNonASCII++;
                 }
 
-                needsEscape = (numBackslashes > 0 || numNonASCII > 0);
+                needsEscape = numBackslashes > 0 || numNonASCII > 0;
 
                 // Check the text ends with a final newline ('\n', not line.separator)
                 // Note this must match the check when reading the text back in,
@@ -608,7 +608,7 @@ public class TestResult {
                         chars = Integer.parseInt(extractSlice(header, start, "/", ")"));
                         int rp = header.indexOf(")", start);
                         if (rp >= 0 && rp < header.length() - 2)
-                            needsEscape = (header.charAt(rp + 1) == '*');
+                            needsEscape = header.charAt(rp + 1) == '*';
                         else
                             needsEscape = false;
                     }
@@ -688,7 +688,7 @@ public class TestResult {
                             c = in.read();
                         if (c != '\n') {
                             System.err.println("TR.badChars: output=" + (output.length() < 32 ? output : output.substring(0, 9) + " ... " + output.substring(output.length() - 10) ));
-                            System.err.println("TR.badChars: '" + ((char)c) + "' (" + c + ")");
+                            System.err.println("TR.badChars: '" + (char)c + "' (" + c + ")");
                             throw new ReloadFault(i18n, "rslt.badChars", name);
                         }
                     }
@@ -1159,7 +1159,7 @@ public class TestResult {
      * @return true if the result file for this object can be read
      */
     public boolean isReloadable() {
-        return (resultsFile != null && resultsFile.canRead());
+        return resultsFile != null && resultsFile.canRead();
     }
 
     /**
@@ -1383,7 +1383,7 @@ public class TestResult {
     public synchronized boolean isMutable() {
         // must be mutable during reload (internal operation)
         // mutable as long as possible, to allow max time for writing log messages
-        return (execStatus == inProgress);
+        return execStatus == inProgress;
     }
 
 
@@ -1504,7 +1504,7 @@ public class TestResult {
      */
     public static boolean isResultFile(File f) {
         String p = f.getPath();
-        return (p.endsWith(EXTN));
+        return p.endsWith(EXTN);
     }
 
     /**
@@ -1587,7 +1587,7 @@ public class TestResult {
             out.write(lineSeparator);
 
             // date and time
-            out.write("#" + (new Date()).toString());
+            out.write("#" + new Date().toString());
             out.write(lineSeparator);
 
             // checksum header and data
@@ -1993,7 +1993,7 @@ public class TestResult {
         for (Iterator<String> i = td.getParameterKeys(); i.hasNext(); ) {
             // don't rely on enumeration in a particular order
             // so simply add the checksum products together
-            String key = (i.next());
+            String key = i.next();
             cs += computeChecksum(key) * computeChecksum(td.getParameter(key));
         }
         return cs;

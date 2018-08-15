@@ -313,7 +313,7 @@ class DesktopPrefsPane extends PreferencesPane {
      * @return Zero for no delay, otherwise a delay in milliseconds.
      */
     private int getTooltipDelay() {
-        Integer value = (Integer)(ttDelay.getSelectedItem());
+        Integer value = (Integer) ttDelay.getSelectedItem();
         return value.intValue();
     }
 
@@ -323,8 +323,8 @@ class DesktopPrefsPane extends PreferencesPane {
      *         milliseconds.
      */
     private int getTooltipDuration() {
-        int value = ((Integer) (ttDuration.getSelectedItem())).intValue();
-        return (value < 0 ? Desktop.TTIP_DURATION_FOREVER : value);
+        int value = ((Integer) ttDuration.getSelectedItem()).intValue();
+        return value < 0 ? Desktop.TTIP_DURATION_FOREVER : value;
     }
 
     private Desktop desktop;

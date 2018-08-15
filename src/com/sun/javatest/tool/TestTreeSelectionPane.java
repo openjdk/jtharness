@@ -88,9 +88,9 @@ public class TestTreeSelectionPane extends TreeSelectionPane
                 TestResult tr = (TestResult) node;
                 String fullName = tr.getTestName();
                 int lastSlash = fullName.lastIndexOf("/");
-                return (lastSlash == -1
+                return lastSlash == -1
                         ? fullName
-                        : fullName.substring(lastSlash+1));
+                        : fullName.substring(lastSlash+1);
 
             }
             else

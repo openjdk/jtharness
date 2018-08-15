@@ -81,7 +81,7 @@ class CE_TestsPane extends CE_StdPane
     void updateConfig() {
         testsParameters = config.getTestsParameters();
         if (testsParameters instanceof MutableTestsParameters)
-            mutableTestsParameters = ((MutableTestsParameters) (testsParameters));
+            mutableTestsParameters = (MutableTestsParameters) testsParameters;
         else
             mutableTestsParameters = null;
     }
@@ -209,7 +209,7 @@ class CE_TestsPane extends CE_StdPane
                 if (line.length() == 0 || line.startsWith("#"))
                     continue;
                 int sp = line.indexOf(' ');
-                String path = (sp == -1 ? line : line.substring(0, sp));
+                String path = sp == -1 ? line : line.substring(0, sp);
                 if (!seen.contains(path)) {
                     if (trt.validatePath(path))
                         paths.add(path);

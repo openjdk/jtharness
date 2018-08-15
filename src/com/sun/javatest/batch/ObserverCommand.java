@@ -136,7 +136,7 @@ class ObserverCommand extends Command
     {
         try {
             Constructor<?> c = obsClass.getConstructor(argTypes);
-            return (Harness.Observer) (c.newInstance(args));
+            return (Harness.Observer) c.newInstance(args);
         }
         catch (NoSuchMethodException e) {
             return null;
@@ -162,7 +162,7 @@ class ObserverCommand extends Command
     }
 
     private Class<?> loadClass(String name) throws ClassNotFoundException {
-        return (classLoader == null ? Class.forName(name) : classLoader.loadClass(name));
+        return classLoader == null ? Class.forName(name) : classLoader.loadClass(name);
     }
 
     private void addClassPathEntry(String s, Vector<URL> v) throws Fault {

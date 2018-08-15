@@ -90,7 +90,7 @@ class PrefsPane extends PreferencesPane
         filterWarnChk.setSelected(p == null || p.equals("true"));
         p = m.get(TP_OutputSubpanel.LINE_WRAP_PREF);
         // selected by default
-        wrapResChk.setSelected((p == null ? true : p.equals("true")));
+        wrapResChk.setSelected(p == null ? true : p.equals("true"));
     }
 
     @Override
@@ -328,9 +328,9 @@ class PrefsPane extends PreferencesPane
             }
 
             mp = m.get(ExecTool.TESTS2RUN_PREF);
-            tests2RunChk.setSelected((mp == null ? false : mp.equals("true")));
+            tests2RunChk.setSelected(mp == null ? false : mp.equals("true"));
             mp = m.get("javatest.sortExecution");
-            testSortingChk.setSelected((mp == null ? false : mp.equals("false")));
+            testSortingChk.setSelected(mp == null ? false : mp.equals("false"));
         }
 
         @Override

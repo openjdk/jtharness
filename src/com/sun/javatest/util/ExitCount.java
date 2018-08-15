@@ -68,7 +68,7 @@ public class ExitCount
                 System.exit(exitCode);
         }
 
-        return (count == 0);
+        return count == 0;
     }
 
     //-----member variables-------------------------------------------------------

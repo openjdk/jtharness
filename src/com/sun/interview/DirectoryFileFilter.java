@@ -43,7 +43,7 @@ public class DirectoryFileFilter implements FileFilter
 
     @Override
     public boolean accept(File f) {
-        return (f.isDirectory());
+        return f.isDirectory();
     }
 
     @Override

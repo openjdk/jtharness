@@ -272,8 +272,8 @@ public class TemplateSessionControl extends BasicSessionControl {
         configTemplateHistoryListener = new FileHistory.Listener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    JMenuItem mi = (JMenuItem) (e.getSource());
-                    File f = (File) (mi.getClientProperty(FileHistory.FILE));
+                    JMenuItem mi = (JMenuItem) e.getSource();
+                    File f = (File) mi.getClientProperty(FileHistory.FILE);
                     if (f != null) {
                         if (initTemplateEditor()) {
                             // ensureConfigEditorInitialized();
@@ -394,7 +394,7 @@ public class TemplateSessionControl extends BasicSessionControl {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Object src = e.getSource();
-                    JComponent p = (src instanceof JComponent ? (JComponent) src : parent);
+                    JComponent p = src instanceof JComponent ? (JComponent) src : parent;
                     checkExcludeListUpdate(p, false, template);
                 }
             });

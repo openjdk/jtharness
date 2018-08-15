@@ -68,7 +68,7 @@ public class JavaCommentStream extends CommentStream
                 skipString(c);
                 break;
             default:
-                if ((!Character.isWhitespace((char) c)) && fastScan)
+                if (!Character.isWhitespace((char) c) && fastScan)
                     return null;
                 break;
             }

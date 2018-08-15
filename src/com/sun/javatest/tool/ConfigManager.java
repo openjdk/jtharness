@@ -255,7 +255,7 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getConcurrencyParameters() instanceof Parameters.MutableConcurrencyParameters) {
                 Parameters.MutableConcurrencyParameters cParams =
-                    (Parameters.MutableConcurrencyParameters) (p.getConcurrencyParameters());
+                    (Parameters.MutableConcurrencyParameters) p.getConcurrencyParameters();
                 cParams.setConcurrency(value);
             }
             else
@@ -400,7 +400,7 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getEnvParameters() instanceof Parameters.LegacyEnvParameters) {
                 Parameters.LegacyEnvParameters eParams =
-                    (Parameters.LegacyEnvParameters) (p.getEnvParameters());
+                    (Parameters.LegacyEnvParameters) p.getEnvParameters();
                 eParams.setEnvName(name);
             }
             else
@@ -445,7 +445,7 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getEnvParameters() instanceof Parameters.LegacyEnvParameters) {
                 Parameters.LegacyEnvParameters eParams =
-                    (Parameters.LegacyEnvParameters) (p.getEnvParameters());
+                    (Parameters.LegacyEnvParameters) p.getEnvParameters();
                 eParams.setEnvFiles(files);
             }
             else
@@ -491,7 +491,7 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getExcludeListParameters() instanceof Parameters.MutableExcludeListParameters) {
                 Parameters.MutableExcludeListParameters eParams =
-                    (Parameters.MutableExcludeListParameters) (p.getExcludeListParameters());
+                    (Parameters.MutableExcludeListParameters) p.getExcludeListParameters();
                 eParams.setExcludeMode(Parameters.MutableExcludeListParameters.CUSTOM_EXCLUDE_LIST);
                 eParams.setCustomExcludeFiles(files);
             }
@@ -632,7 +632,7 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getKeywordsParameters() instanceof Parameters.MutableKeywordsParameters) {
                 Parameters.MutableKeywordsParameters kParams =
-                    (Parameters.MutableKeywordsParameters) (p.getKeywordsParameters());
+                    (Parameters.MutableKeywordsParameters) p.getKeywordsParameters();
                 if (expr == null)
                     kParams.setKeywordsMode(Parameters.MutableKeywordsParameters.NO_KEYWORDS);
                 else {
@@ -823,7 +823,7 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getPriorStatusParameters() instanceof Parameters.MutablePriorStatusParameters) {
                 Parameters.MutablePriorStatusParameters sParams =
-                    (Parameters.MutablePriorStatusParameters) (p.getPriorStatusParameters());
+                    (Parameters.MutablePriorStatusParameters) p.getPriorStatusParameters();
                 sParams.setPriorStatusMode(Parameters.MutablePriorStatusParameters.MATCH_PRIOR_STATUS);
                 sParams.setMatchPriorStatusValues(values);
             }
@@ -897,7 +897,7 @@ public class ConfigManager
                 Map<String, String> values = loadFile(file);
                 for (int i = 0; i < path.length; i++) {
                     Question q = path[i];
-                    String v = (values.get(q.getTag()));
+                    String v = values.get(q.getTag());
                     if (v != null) {
                         setValue(q, v);
                         path = p.getPath();
@@ -979,7 +979,7 @@ public class ConfigManager
                 }
                 sb.append(lineSep); // arguably better to do it later when printing to terminal
             }
-            return (sb.toString());
+            return sb.toString();
         }
 
         private Map<String, String> loadFile(File file) throws Fault {
@@ -1048,7 +1048,7 @@ public class ConfigManager
                         p.storeProperty(name, (String)(values.get(name)));
                     }
                     */
-                    p.storeProperty(name, (values.get(name)));
+                    p.storeProperty(name, values.get(name));
                 }
             }
             else {
@@ -1111,7 +1111,7 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getTestsParameters() instanceof Parameters.MutableTestsParameters) {
                 Parameters.MutableTestsParameters iParams =
-                    (Parameters.MutableTestsParameters) (p.getTestsParameters());
+                    (Parameters.MutableTestsParameters) p.getTestsParameters();
                 iParams.setTestsMode(Parameters.MutableTestsParameters.SPECIFIED_TESTS);
                 iParams.setSpecifiedTests(tests);
             }
@@ -1402,7 +1402,7 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getTimeoutFactorParameters() instanceof Parameters.MutableTimeoutFactorParameters) {
                 Parameters.MutableTimeoutFactorParameters cParams =
-                (Parameters.MutableTimeoutFactorParameters) (p.getTimeoutFactorParameters());
+                (Parameters.MutableTimeoutFactorParameters) p.getTimeoutFactorParameters();
                 cParams.setTimeoutFactor(value);
             }
             else

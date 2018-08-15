@@ -379,7 +379,7 @@ public class Wizard extends JComponent {
      */
     @Override
     public boolean isShowing() {
-        return (window != null && window.isShowing());
+        return window != null && window.isShowing();
     }
 
     /**
@@ -868,7 +868,7 @@ public class Wizard extends JComponent {
     private Icon createIcon(String uiKey) {
         String iconResource = i18n.getString("wizard." + uiKey + ".icon");
         URL url = getClass().getResource(iconResource);
-        return (url == null ? null : new ImageIcon(url));
+        return url == null ? null : new ImageIcon(url);
     }
 
     /**
@@ -916,7 +916,7 @@ public class Wizard extends JComponent {
         JToggleButton b = new JToggleButton(createIcon(uiKey)) {
             @Override
             public Insets getInsets() {
-                return (nextBtn == null ? super.getInsets() : nextBtn.getInsets()); // !!
+                return nextBtn == null ? super.getInsets() : nextBtn.getInsets(); // !!
             }
         };
         b.setToolTipText(i18n.getString("wizard." + uiKey + ".tip"));
@@ -939,7 +939,7 @@ public class Wizard extends JComponent {
                                          i18n.getString("wizard.unsavedAnswers.txt"),
                                          i18n.getString("wizard.unsavedAnswers.title"),
                                          JOptionPane.YES_NO_OPTION);
-        return (response == JOptionPane.YES_OPTION);
+        return response == JOptionPane.YES_OPTION;
     }
 
     private boolean okToOverwrite(File f) {
@@ -948,7 +948,7 @@ public class Wizard extends JComponent {
                                          i18n.getString("wizard.overwrite.txt", f),
                                          i18n.getString("wizard.overwrite.title"),
                                          JOptionPane.YES_NO_OPTION);
-        return (response == JOptionPane.YES_OPTION);
+        return response == JOptionPane.YES_OPTION;
     }
 
     private ActionListener performer = new ActionListener() {
@@ -1079,8 +1079,8 @@ public class Wizard extends JComponent {
         @Override
         public void actionPerformed(ActionEvent ev) {
             questionPanel.saveCurrentResponse();
-            JMenuItem mi = (JMenuItem)(ev.getSource());
-            Exporter e = (Exporter)(mi.getClientProperty("exporter"));
+            JMenuItem mi = (JMenuItem) ev.getSource();
+            Exporter e = (Exporter) mi.getClientProperty("exporter");
             export(e);
         }
 
@@ -1094,11 +1094,11 @@ public class Wizard extends JComponent {
 
         @Override
         public void popupMenuWillBecomeVisible(PopupMenuEvent ev) {
-            JPopupMenu m = (JPopupMenu)(ev.getSource());
+            JPopupMenu m = (JPopupMenu) ev.getSource();
             for (int i = 0; i < m.getComponentCount(); i++) {
-                JMenuItem mi = (JMenuItem)(m.getComponent(i));
+                JMenuItem mi = (JMenuItem) m.getComponent(i);
                 if (mi != null) {
-                    Exporter e = (Exporter)(mi.getClientProperty("exporter"));
+                    Exporter e = (Exporter) mi.getClientProperty("exporter");
                     if (e != null)
                         mi.setEnabled(e.isExportable());
                 }

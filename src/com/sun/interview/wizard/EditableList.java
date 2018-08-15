@@ -121,7 +121,7 @@ public class EditableList extends JPanel
      * @return an array containing the items currently in the list
      */
     public Object[] getItems(Class<?> c) {
-        Object[] items = (Object[]) (Array.newInstance(c, listModel.size()));
+        Object[] items = (Object[]) Array.newInstance(c, listModel.size());
         listModel.copyInto(items);
         return items;
     }
@@ -349,7 +349,7 @@ public class EditableList extends JPanel
             removeBtn.setEnabled(true);
             int i = list.getSelectedIndex();
             upBtn.setEnabled(i > 0);
-            downBtn.setEnabled((i + 1 < listModel.size()));
+            downBtn.setEnabled(i + 1 < listModel.size());
         }
     }
 

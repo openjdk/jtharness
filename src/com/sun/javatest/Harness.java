@@ -196,7 +196,7 @@ public class Harness
      * @see #setTracingRequired
      */
     public boolean isTracingRequired() {
-        return (trace != null);
+        return trace != null;
     }
 
     /**
@@ -274,8 +274,8 @@ public class Harness
      *         without doing a new run.
      */
     public TestResultTable getResultTable() {
-        WorkDirectory wd = (params == null ? null : params.getWorkDirectory());
-        return (wd == null ? null : wd.getTestResultTable());
+        WorkDirectory wd = params == null ? null : params.getWorkDirectory();
+        return wd == null ? null : wd.getTestResultTable();
     }
 
     //--------------------------------------------------------------------------
@@ -421,7 +421,7 @@ public class Harness
      * @see #waitUntilDone
      */
     public boolean isRunning() {
-        return (worker != null);
+        return worker != null;
     }
 
     /**
@@ -663,7 +663,7 @@ public class Harness
             tf = 1.0f;
 
         String[] timeoutFactors = {
-            String.valueOf((int) (Math.ceil(tf))),
+            String.valueOf((int) Math.ceil(tf)),
             String.valueOf(tf)
         };
 
@@ -677,12 +677,12 @@ public class Harness
         // esp. for backwards compatibility with JT 2.x test suites
         String altTSRoot = testSuite.getTestSuiteInfo("env.tsRoot");
         // need to validate alt and change into File
-        File atsr = (altTSRoot == null ? null : new File(altTSRoot));
+        File atsr = altTSRoot == null ? null : new File(altTSRoot);
 
         if (atsr != null && atsr.exists()) {
             env.putUrlAndFile("testSuiteRoot", atsr);
             env.putUrlAndFile("testSuiteRootDir",
-                    (atsr.isDirectory() ? atsr : atsr.getParentFile()));
+                    atsr.isDirectory() ? atsr : atsr.getParentFile());
         }
         else {
             // normal case
@@ -723,7 +723,7 @@ public class Harness
             ok = r.runTests(new Iterator<TestDescription>() {
                     @Override
                     public boolean hasNext() {
-                        return (stopping ? false : raTestIter.hasNext());
+                        return stopping ? false : raTestIter.hasNext();
                     }
                     @Override
                     public TestDescription next() {
@@ -880,7 +880,7 @@ public class Harness
             return "";
         }
         else {
-            treeit = ((TRT_Iterator)iter);
+            treeit = (TRT_Iterator)iter;
         }
 
         TestFilter[] filters = treeit.getFilters();
@@ -935,7 +935,7 @@ public class Harness
     private BackupPolicy backupPolicy;
     private int autostopThreshold;
     { Integer i = Integer.getInteger("javatest.autostop.threshold");
-      autostopThreshold = (i == null ? 0 : i.intValue());
+      autostopThreshold = i == null ? 0 : i.intValue();
     }
 
     private HarnessHttpHandler httpHandler;

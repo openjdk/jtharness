@@ -231,7 +231,7 @@ class PropertiesBrowser extends ToolDialog
 
         @Override
         void update() {
-            setField(path, (workDir == null ? null : workDir.getPath()));
+            setField(path, workDir == null ? null : workDir.getPath());
         }
 
         private JTextField path;
@@ -262,7 +262,7 @@ class PropertiesBrowser extends ToolDialog
             }
             else {
                 File f = config.getFile();
-                setField(path, (f == null ? null : f.getPath()));
+                setField(path, f == null ? null : f.getPath());
                 //TestEnvironment env = (config == null ? null : config.getEnv());
                 //setField(configName, (env == null ? null : env.getName()));
                 //setField(configDesc, (env == null ? null : env.getDescription()));

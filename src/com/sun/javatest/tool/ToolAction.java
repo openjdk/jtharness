@@ -125,7 +125,7 @@ public abstract class ToolAction implements Action
         else if (key.equals(SMALL_ICON))
             return icon;
         else
-            return (misc == null ? null : misc.get(key));
+            return misc == null ? null : misc.get(key);
     }
 
     /**
@@ -203,7 +203,7 @@ public abstract class ToolAction implements Action
         int size = l.length;
         for (int i = size - 1; i >= 0; i--) {
             if (l[i].get() == listener)
-                System.arraycopy(l, i+1, l, i, (--size) - i);
+                System.arraycopy(l, i+1, l, i, --size - i);
         }
 
         if (size < l.length) {
@@ -217,7 +217,7 @@ public abstract class ToolAction implements Action
         WeakReference<PropertyChangeListener>[] l = listeners;
         if (l.length > 0) {
             for (int i = l.length - 1; i >= 0; i--) {
-                PropertyChangeListener pcl = (l[i].get());
+                PropertyChangeListener pcl = l[i].get();
                 if (pcl != null) {
                     if (ev == null)
                         ev = new PropertyChangeEvent(this, name, oldVal, newVal);
@@ -231,11 +231,11 @@ public abstract class ToolAction implements Action
     private static int getMnemonic(I18NResourceBundle i18n, String key) {
         String keyString = i18n.getString(key);
         KeyStroke keyStroke = KeyStroke.getKeyStroke(keyString);
-        return (keyStroke == null ? 0 : keyStroke.getKeyCode());
+        return keyStroke == null ? 0 : keyStroke.getKeyCode();
     }
 
     private static boolean equal(Object a, Object b) {
-        return (a == null ? b == null : a.equals(b));
+        return a == null ? b == null : a.equals(b);
     }
 
     private String name;

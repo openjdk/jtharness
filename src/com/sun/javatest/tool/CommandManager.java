@@ -68,7 +68,7 @@ public abstract class CommandManager {
      * @return true if the strings match, and false otherwise
      */
     protected static boolean isMatch(String s1, String s2) {
-        return (s1.equalsIgnoreCase(s2));
+        return s1.equalsIgnoreCase(s2);
     }
 
     /**

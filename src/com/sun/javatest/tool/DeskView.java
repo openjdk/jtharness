@@ -272,7 +272,7 @@ abstract class DeskView {
     protected JFrame createFrame(MenuListener winMenuListener, Action fileCloseAction,
                                  String uiKey) {
         JFrame frame = new JFrame();
-        frame.setName(uiKey + ":" + (frameIndex++));
+        frame.setName(uiKey + ":" + frameIndex++);
         frame.setTitle(uif.getI18NString("dt.title.txt"));
         frame.setIconImage(uif.createImage("images/jticon.gif"));
         uif.setAccessibleInfo(frame, uiKey);
@@ -337,7 +337,7 @@ abstract class DeskView {
                 // WARNING: this event may be called more than once
                 // so only do post-processing the first time it is called
                 // for this window
-                final JFrame frame = (JFrame) (e.getSource());
+                final JFrame frame = (JFrame) e.getSource();
                 //System.err.println("DT: closed " + frame.getTitle());
                 synchronized (allFrames) {
                     if (allFrames.remove(frame) && allFrames.isEmpty()) {
@@ -372,7 +372,7 @@ abstract class DeskView {
      */
     protected void addToolMenuItemsToFrameMenuBar(JFrame frame, Tool tool) {
         JMenuBar frameMenuBar = frame.getJMenuBar();
-        Tool curr = (Tool)(frameMenuBar.getClientProperty(getClass()));
+        Tool curr = (Tool) frameMenuBar.getClientProperty(getClass());
         if (tool == curr)
             return;
         else if (curr != null)
@@ -417,7 +417,7 @@ abstract class DeskView {
 
     private void removeToolMenuItemsFromFrameMenuBar(JFrame frame) {
         JMenuBar frameMenuBar = frame.getJMenuBar();
-        Tool tool = (Tool)(frameMenuBar.getClientProperty(getClass()));
+        Tool tool = (Tool) frameMenuBar.getClientProperty(getClass());
         if (tool == null)
             return;
         removeToolMenuItemsFromFrameMenuBar(frame, tool);
@@ -440,7 +440,7 @@ abstract class DeskView {
                 continue;
 
             JMenu frameMenu = findMenu(frameMenuBar, toolMenu.getText());
-            int toolMenuSize = ((Integer)(frameMenu.getClientProperty(getClass()))).intValue();
+            int toolMenuSize = ((Integer) frameMenu.getClientProperty(getClass())).intValue();
             for (int j = 0; j < toolMenuSize; j++) {
                 toolMenu.add(frameMenu.getMenuComponent(0));
             }
@@ -668,10 +668,10 @@ abstract class DeskView {
      */
     protected static void restoreBounds(Component c, Map<String, String> m) {
         try {
-            String xs = (m.get("x"));
-            String ys = (m.get("y"));
-            String ws = (m.get("w"));
-            String hs = (m.get("h"));
+            String xs = m.get("x");
+            String ys = m.get("y");
+            String ws = m.get("w");
+            String hs = m.get("h");
             if (xs != null && ys != null && ws != null && hs != null) {
                 Rectangle restored = new Rectangle(Integer.parseInt(xs),
                         Integer.parseInt(ys),
@@ -760,7 +760,7 @@ abstract class DeskView {
         @Override
         public void menuSelected(MenuEvent e) {
             //System.err.println("DT:FileMenu: selected " + e);
-            JMenu m = (JMenu) (e.getSource());
+            JMenu m = (JMenu) e.getSource();
             m.removeAll();
 
             // this code is not ideal, and essentially works (for now) because
@@ -801,7 +801,7 @@ abstract class DeskView {
                 int n = 0;
 
                 for (Iterator<Desktop.FileHistoryEntry> i = fileHistory.iterator(); i.hasNext(); ) {
-                    Desktop.FileHistoryEntry h = (i.next());
+                    Desktop.FileHistoryEntry h = i.next();
                     if (!h.file.exists())
                         continue;
                     String s = uif.getI18NString("dt.file.historyX.mit",
@@ -833,21 +833,21 @@ abstract class DeskView {
 
         @Override
         public void menuDeselected(MenuEvent e) {
-            JMenu m = (JMenu) (e.getSource());
+            JMenu m = (JMenu) e.getSource();
             m.removeAll();
         }
 
         @Override
         public void menuCanceled(MenuEvent e) {
-            JMenu m = (JMenu) (e.getSource());
+            JMenu m = (JMenu) e.getSource();
             m.removeAll();
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             //System.err.println("DT:FileMenu: action " + e);
-            Component src = (Component) (e.getSource());
-            JFrame parent = (JFrame) (SwingUtilities.getAncestorOfClass(JFrame.class, src));
+            Component src = (Component) e.getSource();
+            JFrame parent = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, src);
             if (parent == null) // only happens during testing when invoking menuitem directly,
                 parent = getFrames()[0];
 
@@ -856,8 +856,8 @@ abstract class DeskView {
                 doPrefs(parent);
             }
             else if (cmd.equals(HISTORY)) {
-                JMenuItem mi = (JMenuItem) (e.getSource());
-                Desktop.FileHistoryEntry h = (Desktop.FileHistoryEntry) (mi.getClientProperty(this));
+                JMenuItem mi = (JMenuItem) e.getSource();
+                Desktop.FileHistoryEntry h = (Desktop.FileHistoryEntry) mi.getClientProperty(this);
                 try {
                     h.fileOpener.open(h.file);
                 }

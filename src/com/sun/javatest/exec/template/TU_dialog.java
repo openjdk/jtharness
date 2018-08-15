@@ -88,7 +88,7 @@ public class TU_dialog extends JDialog {
     protected void show(InterviewPropagator prop) {
         propagator = prop;
 
-        boolean UItestMode = (propagator == null);
+        boolean UItestMode = propagator == null;
         if (!UItestMode) {
             hasUpdates = propagator.getPropagateMap().hasUpdates();
             hasConflicts = propagator.getPropagateMap().hasConflicts();

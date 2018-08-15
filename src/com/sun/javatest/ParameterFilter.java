@@ -181,7 +181,7 @@ public class ParameterFilter extends ObservableTestFilter {
         boolean wasUpdated = false;
         try {
             if (p == null) {
-                boolean isUpdated = (filters != null);
+                boolean isUpdated = filters != null;
                 filters = null;
                 iurlFilter = null;
                 if (isUpdated) {
@@ -217,7 +217,7 @@ public class ParameterFilter extends ObservableTestFilter {
 
             // could optimize out this code if rmInitFiles is false
             iurlFilter = new InitialUrlFilter(initFiles);
-            wasUpdated = (wasUpdated || !StringArray.join(initStrings).equals(lastInitStrings));
+            wasUpdated = wasUpdated || !StringArray.join(initStrings).equals(lastInitStrings);
             lastInitStrings = StringArray.join(initStrings);
 
         } finally {

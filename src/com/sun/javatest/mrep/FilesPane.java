@@ -226,7 +226,7 @@ class FilesPane extends JPanel {
                 } else {
                     error = true;
                     tField.setBackground(UIFactory.getInvalidInputColor());
-                    (merged.get(used.indexOf(s))).setBackground(UIFactory.getInvalidInputColor());
+                    merged.get(used.indexOf(s)).setBackground(UIFactory.getInvalidInputColor());
                 }
             }
         }
@@ -325,7 +325,7 @@ class FilesPane extends JPanel {
             xmlFileChooser.addChoosableFileFilter(new FileFilter() {
                 @Override
                 public boolean accept(File f) {
-                    return (f.isDirectory() || isXMLReport(f));
+                    return f.isDirectory() || isXMLReport(f);
                 }
 
                 @Override
@@ -394,9 +394,9 @@ class FilesPane extends JPanel {
 
             // line 2
             line = r.readLine();
-            hasSchema = (hasSchema || hasLineContent(line, schemaLocation));
-            hasVersion = (hasVersion || hasLineContent(line, formatVersion));
-            return (hasSchema && hasVersion);
+            hasSchema = hasSchema || hasLineContent(line, schemaLocation);
+            hasVersion = hasVersion || hasLineContent(line, formatVersion);
+            return hasSchema && hasVersion;
         } catch (IOException ex) {
             return false;
         }
@@ -411,7 +411,7 @@ class FilesPane extends JPanel {
         if (line == null || target == null)
             return false;
 
-        return (line.indexOf(target) >= 0 ? true : false);
+        return line.indexOf(target) >= 0 ? true : false;
     }
 
     private class XMLReportView extends FileView {

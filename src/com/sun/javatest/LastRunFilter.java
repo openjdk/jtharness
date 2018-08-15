@@ -90,7 +90,7 @@ public class LastRunFilter extends ObservableTestFilter {
     }
 
     public boolean isWorkDirectorySet() {
-        return (workdir != null);
+        return workdir != null;
     }
 
     // ------- TestFilter ---------

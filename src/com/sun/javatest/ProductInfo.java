@@ -215,8 +215,8 @@ public class ProductInfo
         String VERBOSE_CLASSDIR_PROPNAME = "verbose_javatestClassDir";
         String CLASSDIR_PROPNAME = "javatestClassDir";
 
-        boolean verbose = (log == null ? false : Boolean.getBoolean(VERBOSE_CLASSDIR_PROPNAME));
-        I18NResourceBundle i18n = (verbose ? I18NResourceBundle.getBundleForClass(ProductInfo.class) : null);
+        boolean verbose = log == null ? false : Boolean.getBoolean(VERBOSE_CLASSDIR_PROPNAME);
+        I18NResourceBundle i18n = verbose ? I18NResourceBundle.getBundleForClass(ProductInfo.class) : null;
 
         // javatestClassDir is made available by the harness in the environment
         // so that tests running in other JVM's can access Test, Status etc
@@ -232,7 +232,7 @@ public class ProductInfo
         try {
 
             String className = ProductInfo.class.getName();
-            String classEntry = ("/" + className.replace('.', '/') + ".class");
+            String classEntry = "/" + className.replace('.', '/') + ".class";
 
             URL url = ProductInfo.class.getResource(classEntry);
             if (url.getProtocol().equals("jar")) {

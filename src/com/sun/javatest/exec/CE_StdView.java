@@ -65,7 +65,7 @@ class CE_StdView extends CE_View
     @Override
     public Dimension getPreferredSize() {
         Insets tabInsets = tabs.getInsets();
-        int w = (tabInsets == null ? 0 : tabInsets.left + tabInsets.right);
+        int w = tabInsets == null ? 0 : tabInsets.left + tabInsets.right;
         Graphics g = tabs.getGraphics();
         if (g != null) {
             FontMetrics fm = g.getFontMetrics();
@@ -145,7 +145,7 @@ class CE_StdView extends CE_View
 
     @Override
     boolean isOKToClose() {
-        CE_StdPane currPane = (CE_StdPane) (tabs.getSelectedComponent());
+        CE_StdPane currPane = (CE_StdPane) tabs.getSelectedComponent();
         if (currPane == null)
             return true;
         return currPane.isOKToClose();
@@ -199,7 +199,7 @@ class CE_StdView extends CE_View
                     if (index == getSelectedIndex())
                         return;
 
-                    CE_StdPane p = (CE_StdPane) (getSelectedComponent());
+                    CE_StdPane p = (CE_StdPane) getSelectedComponent();
                     if (p != null && !p.isOKToClose())
                         return;
 
@@ -256,7 +256,7 @@ class CE_StdView extends CE_View
     }
 
     private void showInfoForTab(CE_StdPane p) {
-        HelpID helpId = (HelpID) (p.getClientProperty(this));
+        HelpID helpId = (HelpID) p.getClientProperty(this);
         if (helpId == null) {
             String s = "ConfigEditor.stdValues." + p.getName();
             HelpSet configHelpSet = Help.getHelpSet(config);
@@ -304,7 +304,7 @@ class CE_StdView extends CE_View
         // --------------------------------------------
 
         private void updateCSHAndInfo() {
-            CE_StdPane p = (CE_StdPane) (tabs.getSelectedComponent());
+            CE_StdPane p = (CE_StdPane) tabs.getSelectedComponent();
             ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(p));
             if (isInfoVisible())
                 showInfoForTab(p);

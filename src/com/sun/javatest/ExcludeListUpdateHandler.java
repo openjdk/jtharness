@@ -112,7 +112,7 @@ public class ExcludeListUpdateHandler
     public boolean isUpdateAvailable() throws IOException {
         getLocalFileLastModified();
         getRemoteURLLastModified();
-        return (remoteURLLastModified > localFileLastModified);
+        return remoteURLLastModified > localFileLastModified;
     }
 
     /**

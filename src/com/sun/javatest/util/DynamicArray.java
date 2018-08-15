@@ -53,7 +53,7 @@ public final class DynamicArray {
 
         if (oldArr == null) {
             if (newObj != null) {
-                newArr = (T[])(Array.newInstance(newObj.getClass(), 1));
+                newArr = (T[]) Array.newInstance(newObj.getClass(), 1);
                 newArr[0] = newObj;
             }
             else {
@@ -61,7 +61,7 @@ public final class DynamicArray {
             }
         }
         else {
-            newArr = (T[])(Array.newInstance(getArrayClass(oldArr), oldArr.length+1));
+            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length+1);
             System.arraycopy(oldArr, 0, newArr, 0, oldArr.length);
             newArr[newArr.length-1] = newObj;
         }
@@ -84,7 +84,7 @@ public final class DynamicArray {
         T[] localArr;
 
         if (oldArr == null && arrayClass != null)
-            localArr = (T[])(Array.newInstance(arrayClass, 0));
+            localArr = (T[]) Array.newInstance(arrayClass, 0);
         else
             localArr = oldArr;
 
@@ -132,7 +132,7 @@ public final class DynamicArray {
 
         if (oldArr == null) {
             if (newObj != null) {
-                newArr = (T[])(Array.newInstance(newObj.getClass(), 1));
+                newArr = (T[]) Array.newInstance(newObj.getClass(), 1);
                 newArr[0] = newObj;
             }
             else {
@@ -143,7 +143,7 @@ public final class DynamicArray {
             if (location > oldArr.length)
                 throw new IllegalArgumentException("Index location too large (" + location +
                                                     ").");
-            newArr = (T[])(Array.newInstance(getArrayClass(oldArr), oldArr.length+1));
+            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length+1);
 
             if (location == 0) {
                 newArr[0] = newObj;
@@ -188,17 +188,17 @@ public final class DynamicArray {
         }
         else if (index == 0) {
             // chop the head
-            newArr = (T[])(Array.newInstance(getArrayClass(oldArr), oldArr.length-1));
+            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length-1);
             System.arraycopy(oldArr, 1, newArr, 0, oldArr.length-1);
         }
         else if (index == oldArr.length-1) {
             // chop the tail
-            newArr = (T[])(Array.newInstance(getArrayClass(oldArr), oldArr.length-1));
+            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length-1);
             System.arraycopy(oldArr, 0, newArr, 0, oldArr.length-1);
         }
         else {
             // chop the middle
-            newArr = (T[])(Array.newInstance(getArrayClass(oldArr), oldArr.length-1));
+            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length-1);
             System.arraycopy(oldArr, 0, newArr, 0, index);
             System.arraycopy(oldArr, index+1, newArr, index,
                              oldArr.length-index-1);

@@ -133,7 +133,7 @@ public class TestEnvironment
      */
     public TestEnvironment(String name, Map<String, String> propTable, String propTableName)
                 throws Fault {
-        this(name, (new Map[] {propTable}), (new String[] {propTableName}));
+        this(name, new Map[] {propTable}, new String[] {propTableName});
     }
 
     /**
@@ -167,7 +167,7 @@ public class TestEnvironment
             v.addElement(n);
             String prefix = "env." + n + ".";
             for (int i = propTables.length - 1; i >= 0 && inherit == null; i--) {
-                inherit = (String)(propTables[i].get("env." + n + ".inherits"));
+                inherit = (String) propTables[i].get("env." + n + ".inherits");
             }
         }
         inherits = new String[v.size()];
@@ -181,12 +181,12 @@ public class TestEnvironment
             for (int propIndex = propTables.length - 1; propIndex >= 0; propIndex--) {
                 Map<String, String> propTable = propTables[propIndex];
                 for (Iterator<String> i = propTable.keySet().iterator(); i.hasNext(); ) {
-                    String prop = (i.next());
+                    String prop = i.next();
                     if (prop.startsWith(prefix)) {
                         String key = prop.substring(prefix.length());
                         if (!table.containsKey(key)) {
                             Element elem = new Element(key,
-                                    (propTable.get(prop)),
+                                    propTable.get(prop),
                                                        inherits[inheritIndex],
                                                        propTableNames[propIndex]);
                             table.put(key, elem);
@@ -200,11 +200,11 @@ public class TestEnvironment
         for (int propIndex = propTables.length - 1; propIndex >= 0; propIndex--) {
             Map<String, String> propTable = propTables[propIndex];
             for (Iterator<String> i = propTable.keySet().iterator(); i.hasNext(); ) {
-                String key = (i.next());
+                String key = i.next();
                 if (!key.startsWith("env.")) {
                     if (!table.containsKey(key)) {
                         Element elem = new Element(key,
-                                (propTable.get(key)),
+                                propTable.get(key),
                                                    null,
                                                    propTableNames[propIndex]);
                         table.put(key, elem);
@@ -389,7 +389,7 @@ public class TestEnvironment
                         case '#':
                 // # at top level introduces comment to end of line and terminates
                 //command (if found); otherwise, it goes into the current word
-                        if ((!isInlineCommentsDisabled() || (i == 0 || s.charAt(i - 1) == ' ' || s.charAt(i - 1) == '\t')) && (term == 0 || term == ' '))
+                        if ((!isInlineCommentsDisabled() || i == 0 || s.charAt(i - 1) == ' ' || s.charAt(i - 1) == '\t') && (term == 0 || term == ' '))
                                         break loop;
                                 else
                                         current.append(c);
@@ -600,7 +600,7 @@ public class TestEnvironment
                 s += '_';
             for (int j = 0; j < v[i].length(); j++) {
                 char c = v[i].charAt(j);
-                s += (isNameChar(c) ? c : '_');
+                s += isNameChar(c) ? c : '_';
             }
         }
         return s;
@@ -610,11 +610,11 @@ public class TestEnvironment
      * Identifies the characters recognized for $ names
      */
     private static boolean isNameChar(char c) {
-        return (Character.isUpperCase(c)
+        return Character.isUpperCase(c)
                 || Character.isLowerCase(c)
                 || Character.isDigit(c)
                 || (c == '_')
-                || (c == '.'));
+                || (c == '.');
     }
 
     /**

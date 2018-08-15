@@ -242,7 +242,7 @@ public class WorkDirChooser extends JFileChooser
                 // found a parent directory that is a test suite,
                 // so normalize to this directory's parent
                 File p = d.getParentFile();
-                return (p != null ? p : dir);
+                return p != null ? p : dir;
             }
         }
 

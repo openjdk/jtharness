@@ -101,7 +101,7 @@ class CE_KeywordsPane extends CE_StdPane {
             else
                 validKeywordsSet = new HashSet<String>(Arrays.asList(validKeywords));
 
-            String kc = (String) (keywordsChoice.getSelectedItem());
+            String kc = (String) keywordsChoice.getSelectedItem();
             String type;
             if (kc.equals(ANY_OF))
                 type = Keywords.ANY_OF;
@@ -180,12 +180,12 @@ class CE_KeywordsPane extends CE_StdPane {
     @Override
     void save() {
         if (mutableKeywordsParameters != null) {
-            int km = (selectCheck.isSelected()
+            int km = selectCheck.isSelected()
             ? MutableKeywordsParameters.MATCH_KEYWORDS
-                    : MutableKeywordsParameters.NO_KEYWORDS);
+                    : MutableKeywordsParameters.NO_KEYWORDS;
             mutableKeywordsParameters.setKeywordsMode(km);
 
-            String kc = (String) (keywordsChoice.getSelectedItem());
+            String kc = (String) keywordsChoice.getSelectedItem();
             int kmm;
             if (kc.equals(ANY_OF))
                 kmm = MutableKeywordsParameters.ANY_OF;
@@ -431,7 +431,7 @@ class CE_KeywordsPane extends CE_StdPane {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Component src = (Component) (e.getSource());
+            Component src = (Component) e.getSource();
             String cmd = e.getActionCommand();
             if (src == keywordBtn) {
                 if (keywordPopup != null) {

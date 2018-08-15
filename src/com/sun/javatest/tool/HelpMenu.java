@@ -119,7 +119,7 @@ class HelpMenu extends JMenu
         // e.g. those specified in the testsuite.jtt
         int count = 0;
         for (Iterator<TestSuite> iter = loadedTestSuites.iterator(); iter.hasNext(); ) {
-            TestSuite ts = (iter.next());
+            TestSuite ts = iter.next();
             JMenuItem[] menuItems = getMenuItems(ts, count);
             if (menuItems != null && menuItems.length > 0) {
                 for (int i = 0; i < menuItems.length; i++) {
@@ -351,7 +351,7 @@ class HelpMenu extends JMenu
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
             if (cmd.equals(ABOUT_JAVATEST)) {
-                JMenuItem src = (JMenuItem)(e.getSource());
+                JMenuItem src = (JMenuItem) e.getSource();
 
                 // read en_US date, and prepare to emit it using the
                 // current locale
@@ -379,7 +379,7 @@ class HelpMenu extends JMenu
                             "hm.aboutJavaTest.text");
             }
             else if (cmd.equals(ABOUT_JAVA)) {
-                JMenuItem src = (JMenuItem)(e.getSource());
+                JMenuItem src = (JMenuItem) e.getSource();
                 String aboutJava =
                     uif.getI18NString("hm.aboutJava", new Object[] {
                         System.getProperty("java.version"),
