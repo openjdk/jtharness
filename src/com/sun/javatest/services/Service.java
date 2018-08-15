@@ -127,7 +127,7 @@ public abstract class Service implements MessageHandler {
             return false;
         }
         return true;
-    };
+    }
 
     /**
      * Method to stop service. Checks connection, prepares stop message without
@@ -167,7 +167,7 @@ public abstract class Service implements MessageHandler {
         }
         return true;
 
-    };
+    }
 
     /**
      * Method to check that service is alive. Checks connection, prepares
@@ -210,7 +210,7 @@ public abstract class Service implements MessageHandler {
         }
         return response.getType() == MessageType.ALIVE;
 
-    };
+    }
 
     /**
      * Method to provide access for ServiceExecutor's error output. Redirects
@@ -225,7 +225,7 @@ public abstract class Service implements MessageHandler {
         }
 
         return conn.getServiceOutputStream();
-    };
+    }
 
     /**
      * Method to provide access for ServiceExecutor's output. Redirects
@@ -240,8 +240,7 @@ public abstract class Service implements MessageHandler {
         }
 
         return conn.getServiceErrorStream();
-    };
-
+    }
 
 
     public static class NotConnectedException extends Exception {
@@ -296,7 +295,7 @@ public abstract class Service implements MessageHandler {
      */
     public void setProperties(ServiceProperties props) {
         this.props = props;
-    };
+    }
 
     /**
      * Method to set ServiceProperties for this service.

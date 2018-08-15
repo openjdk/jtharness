@@ -221,7 +221,7 @@ public class ChoiceQuestionRenderer
             return true;
         }
 
-    };
+    }
 
     protected TableCellRenderer createCellRenderer() {
         return new TestTableRenderer();
@@ -235,7 +235,7 @@ public class ChoiceQuestionRenderer
 
             return rb[row];
         }
-    };
+    }
 
     protected TableCellEditor createCellEditor() {
         return new TestTableEditor();
@@ -254,7 +254,7 @@ public class ChoiceQuestionRenderer
             rb[row].setSelected(true);
             return rb[row];
         }
-    };
+    }
 
 
     protected ChoiceQuestion q;

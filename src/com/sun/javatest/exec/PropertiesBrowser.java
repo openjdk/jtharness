@@ -235,7 +235,7 @@ class PropertiesBrowser extends ToolDialog
         }
 
         private JTextField path;
-    };
+    }
 
     private class ConfigurationPane extends Pane {
         ConfigurationPane() {
@@ -290,7 +290,7 @@ class PropertiesBrowser extends ToolDialog
         private JTextField state;
         private String completed;
         private String incomplete;
-    };
+    }
 
     private class PluginsPane extends Pane {
         PluginsPane() {
@@ -337,5 +337,5 @@ class PropertiesBrowser extends ToolDialog
         private JTextField testFinderClassName;
         private JTextField testRunnerClassName;
         private JTextField configClassName;
-    };
+    }
 }

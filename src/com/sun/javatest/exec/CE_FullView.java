@@ -270,7 +270,7 @@ class CE_FullView extends CE_View
             if (isInfoVisible())
                 showInfoForQuestion(q);
         }
-    };
+    }
 
 
     /**

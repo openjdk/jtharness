@@ -62,7 +62,7 @@ class AgentPanel extends ScrollPane
 {
     public interface MapReader {
         public abstract Map read(String name) throws IOException;
-    };
+    }
 
     /**
      * Create a standard AgentPanel to control and monitor a Agent.

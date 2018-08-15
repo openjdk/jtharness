@@ -511,7 +511,7 @@ public class Agent implements Runnable {
         }
 
         private Observer[] observers = new Observer[0];
-    };
+    }
 
     private synchronized void setSystemStreams(Object owner, PrintStream out, PrintStream err)
     throws InterruptedException, SecurityException {

@@ -193,7 +193,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
 
             private PropertiesBrowser propertiesBrowser;
         };
-    };
+    }
 
     TestSuiteErrorsDialog testSuiteErrorsDialog = null;
     private Action testSuiteErrorsAction;

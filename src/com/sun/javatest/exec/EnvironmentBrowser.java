@@ -214,7 +214,7 @@ class EnvironmentBrowser extends ToolDialog
         private void updateContent() {
             setEnv(params.getEnv());
         }
-    };
+    }
 
     private class EnvEntryComparator implements Comparator<TestEnvironment.Element> {
         EnvEntryComparator(int sortMode, String[] inherits) {

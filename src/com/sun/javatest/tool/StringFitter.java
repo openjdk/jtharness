@@ -108,7 +108,7 @@ public class StringFitter {
      */
     public StringFitter(FontMetrics fm) {
         this(fm, "...", "...", "");
-    };
+    }
 
     /**
      * Creates a StringFitter with universal replace string, specified split string

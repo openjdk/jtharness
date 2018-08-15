@@ -59,7 +59,7 @@ public class Checklist
         private String sectionName;
         private String text;
 
-    };
+    }
 
     /**
      * Create an empty checklist.

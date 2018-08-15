@@ -367,7 +367,7 @@ public abstract class BasicParameters
 
     @Override
     public void setLatestExcludeAutoCheckInterval(int days) {
-        latestExcludeAutoCheckInterval = days;;
+        latestExcludeAutoCheckInterval = days;
     }
 
     private boolean isExcludeListOK() {

@@ -697,7 +697,7 @@ class QuickStartWizard extends ToolDialog
 
         private String paneKey;
         private String head;
-    };
+    }
 
     //------------------------------------------------------------------------------
 
@@ -738,7 +738,7 @@ class QuickStartWizard extends ToolDialog
         private JRadioButton newRun;
         private JRadioButton resumeRun;
         private JRadioButton browse;
-    };
+    }
 
     //------------------------------------------------------------------------------
 
@@ -937,7 +937,7 @@ class QuickStartWizard extends ToolDialog
 
         private long configLastModified;
 
-    };
+    }
 
     //------------------------------------------------------------------------------
 
@@ -1065,7 +1065,7 @@ class QuickStartWizard extends ToolDialog
 
         private FilePanel testSuitePanel;
         private TestSuiteChooser chooser;
-    };
+    }
 
     //------------------------------------------------------------------------------
 
@@ -1080,7 +1080,7 @@ class QuickStartWizard extends ToolDialog
         protected final JTextArea textArea;
         protected final FilePanel workDirPanel;
         protected WorkDirChooser chooser;
-    };
+    }
 
     private class CreateWorkDirPane extends WorkDirPane {
         CreateWorkDirPane() {
@@ -1140,7 +1140,7 @@ class QuickStartWizard extends ToolDialog
 
             return endPane;
         }
-    };
+    }
 
     private static boolean canonicalEquals(File f1, File f2) {
         try {
@@ -1249,7 +1249,7 @@ class QuickStartWizard extends ToolDialog
 
             return endPane;
         }
-    };
+    }
 
     //------------------------------------------------------------------------------
 
@@ -1330,7 +1330,7 @@ class QuickStartWizard extends ToolDialog
         private JCheckBox configCheck;
         private JTextArea runTestsTextArea;
         private JCheckBox runTestsCheck;
-    };
+    }
 
     @Override
     protected void windowClosingAction(AWTEvent e) {

@@ -443,7 +443,7 @@ class TabDeskView extends DeskView {
                     t.dispose();
                 }
         }
-    };
+    }
 
     private class Listener
         implements ActionListener, AncestorListener,
@@ -598,5 +598,5 @@ class TabDeskView extends DeskView {
 
         @Override
         public void toolDisposed(Tool src) { }
-    };
+    }
 }

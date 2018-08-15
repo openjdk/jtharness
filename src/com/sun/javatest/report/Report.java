@@ -395,7 +395,7 @@ public class Report implements ReportModel {
             }
             return links;
         }
-    };
+    }
 
 
     /**

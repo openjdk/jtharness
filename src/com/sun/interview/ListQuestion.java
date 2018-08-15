@@ -172,7 +172,7 @@ public abstract class ListQuestion extends Question
         private ListQuestion question;
         private int index;
         private String defaultSummary;
-    };
+    }
 
     /**
      * Create a question with a nominated tag.

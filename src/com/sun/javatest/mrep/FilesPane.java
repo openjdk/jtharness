@@ -496,7 +496,7 @@ class FilesPane extends JPanel {
         public void keyReleased(KeyEvent e) {
             enableNext();
         }
-    };
+    }
 
     private JButton resultBtn;
     private JButton[] buttons;

@@ -651,7 +651,7 @@ class ReportTool extends Tool {
                 optionsDialog.cleanUp();
             updateGUI();
         }
-    };
+    }
 
     private void showReportBrowser(File reportDir) {
         // if if is a dir, try to find a particular file to show
@@ -714,7 +714,7 @@ class ReportTool extends Tool {
             }
         }
 
-    };
+    }
 
     private class HTMLListener implements HyperlinkListener, ItemListener {
         @Override

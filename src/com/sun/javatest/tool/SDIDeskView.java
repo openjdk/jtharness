@@ -521,5 +521,5 @@ class SDIDeskView extends DeskView {
 
         @Override
         public void toolDisposed(Tool src) { }
-    };
+    }
 }

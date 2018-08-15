@@ -133,7 +133,7 @@ public class InterruptableSocketConnection extends SocketConnection {
                 reading = true;
                 reader.start();
             }
-        };
-    };
+        }
+    }
 
 }

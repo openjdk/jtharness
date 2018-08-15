@@ -182,7 +182,7 @@ public class InetAddressQuestionRenderer
                 return;
             fields[0].getToolkit().beep();
         }
-    };
+    }
 
     protected class ValueSaver implements Runnable {
         @Override

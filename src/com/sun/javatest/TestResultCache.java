@@ -106,7 +106,7 @@ public class TestResultCache {
          * @param t an object identifying the error that occurred
          */
         void error(Throwable t);
-    };
+    }
 
     /**
      * Primary constructor for a cache.

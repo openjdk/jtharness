@@ -733,9 +733,9 @@ abstract class DeskView {
             focusMonitor.setReportKey("shift alt 2");
             focusMonitor.setReportFile(System.getProperty("javatest.focus.monitor.log"));
         }
-    };
+    }
 
-            static final String CLOSE = "close"; // visible for file close listeners
+    static final String CLOSE = "close"; // visible for file close listeners
     private static final String EXIT = "exit";
     private static final String PREFS = "prefs";
     private static final String HISTORY = "history";

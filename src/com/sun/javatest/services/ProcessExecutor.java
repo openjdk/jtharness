@@ -48,18 +48,18 @@ public class ProcessExecutor implements ServiceExecutor {
     protected List<String> getCommand(Message start) {
         ProcessParams params = (ProcessParams)start.getContent();
         return params.getCommand();
-    };
+    }
 
     protected Map<String, String> getEnv(Message start) {
         ProcessParams params = (ProcessParams)start.getContent();
         return params.getEnvironment();
 
-    };
+    }
 
     protected File getWorkDir(Message start) {
         ProcessParams params = (ProcessParams)start.getContent();
         return params.getWorkDirectory();
-    };
+    }
 
     protected void checkMessage(Message msg, MessageType desired)
             throws BadMessageException {

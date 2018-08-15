@@ -1645,7 +1645,7 @@ public class InterviewEditor extends ToolDialog {
         public void menuCanceled(MenuEvent e) {
         }
 
-    };
+    }
 
     /**
      * For private communication with SessionControl, not for broadcast outside

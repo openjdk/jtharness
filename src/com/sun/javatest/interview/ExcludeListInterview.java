@@ -305,7 +305,7 @@ public class ExcludeListInterview
         }
 
         private boolean doneSuper;
-    };
+    }
 
     private NeedExcludeListsQuestion qNeedExcludeLists; // defer initialization
 
@@ -416,7 +416,7 @@ public class ExcludeListInterview
 
         private boolean initialized;
         private String defaultValue;
-    };
+    }
 
     private ExcludeListTypeQuestion qExcludeListType; // defer initialization
 

@@ -159,7 +159,7 @@ public class KnownFailuresListInterview
         }
 
         private boolean doneSuper;
-    };
+    }
 
     private NeedKflQuestion qNeedKfl; // defer initialization
 

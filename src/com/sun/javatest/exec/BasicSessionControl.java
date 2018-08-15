@@ -854,7 +854,8 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                 if (editConfig) {
                     showConfig();
                 }
-            };
+            }
+
             @Override
             public Object getValue(String key) {
                 if (SessionView.ACTION_NAME.equals(key)){
@@ -1359,7 +1360,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         private static final String CHANGE_ENVIRONMENT = "envt";
         private static final String CHANGE_CONCURRENCY = "conc";
         private static final String CHANGE_TIMEOUT_FACTOR = "time";
-    };
+    }
 
 
     private class ConfigAction extends ToolAction {

@@ -270,7 +270,7 @@ class QuestionLogBrowser extends ToolDialog
             updateContent();
         }
 
-    };
+    }
 
     private ExecModel model;
     private InterviewParameters params;

@@ -511,6 +511,6 @@ public class ProcessCommand extends Command
     private Status defaultStatus;
     private File execDir;
     private boolean inheritEnv =
-            Boolean.getBoolean("javatest.processCommand.inheritEnv");;
+            Boolean.getBoolean("javatest.processCommand.inheritEnv");
 }
 

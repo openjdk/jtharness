@@ -867,7 +867,7 @@ public class ExcludeList
         private Map<String, String[]> platformCache = new HashMap<>();
                                 // cache of results for readPlatforms
         private String title;
-    };
+    }
 
     private static class Key {
         Key(String url) {

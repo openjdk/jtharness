@@ -181,7 +181,7 @@ public class KeywordScript extends Script
             try {
                 Class<? extends Script> c = Class.forName(command[0]).asSubclass(Script.class);
 
-                Script script = c.getDeclaredConstructor().newInstance();;
+                Script script = c.getDeclaredConstructor().newInstance();
                 String[] scriptArgs = new String[command.length - 1];
                 System.arraycopy(command, 1, scriptArgs, 0, scriptArgs.length);
                 initDelegate(script, scriptArgs);

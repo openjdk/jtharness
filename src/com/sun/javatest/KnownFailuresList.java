@@ -649,7 +649,7 @@ public class KnownFailuresList
         private Reader in;      // source stream being read
         private int ch;         // current character
         private String title;
-    };
+    }
 
     private static class Key {
         Key(String url) {

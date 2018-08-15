@@ -1279,7 +1279,7 @@ public class Desktop
         }
 
         if (result < 0)
-            result = TTIP_DELAY_DEFAULT;;
+            result = TTIP_DELAY_DEFAULT;
 
         return result;
     }

@@ -143,6 +143,6 @@ public abstract class JThttpProvider {
     }
 
     private String[] regURLs = new String[0];
-    protected static boolean debug = Boolean.getBoolean("debug." + JThttpProvider.class.getName());;
+    protected static boolean debug = Boolean.getBoolean("debug." + JThttpProvider.class.getName());
 }
 

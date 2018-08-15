@@ -94,7 +94,7 @@ public abstract class TreeQuestion extends Question
          * false otherwise.
          */
         boolean isLeaf(Object node);
-    };
+    }
 
     /**
      * Create a tree question with a nominated tag and tree model.

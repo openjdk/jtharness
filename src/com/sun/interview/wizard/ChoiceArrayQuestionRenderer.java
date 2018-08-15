@@ -169,7 +169,7 @@ public class ChoiceArrayQuestionRenderer
         public boolean isCellEditable(int r, int c) {
             return c == 0 ? true : false;
         }
-    };
+    }
 
     protected KeyListener createKeyListener(AbstractTableModel tm) {
         return new TestKeyListener(tm);
@@ -201,7 +201,7 @@ public class ChoiceArrayQuestionRenderer
 
         }
         protected AbstractTableModel tm;
-    };
+    }
 
     protected String[] displayChoices;
     protected boolean[] values;

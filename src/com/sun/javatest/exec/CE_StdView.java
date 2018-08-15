@@ -309,5 +309,5 @@ class CE_StdView extends CE_View
             if (isInfoVisible())
                 showInfoForTab(p);
         }
-    };
+    }
 }

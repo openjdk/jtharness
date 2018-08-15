@@ -373,6 +373,6 @@ class OptionsDialog extends ToolDialog
             else if (src == cfBtn)
                 chooseConfigFile();
         }
-    };
+    }
 
 }

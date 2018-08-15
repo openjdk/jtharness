@@ -117,7 +117,7 @@ public class Interview
         public BadHelpFault(ResourceBundle i18n, String s, Object e) {
             super(i18n, s, e);
         }
-    };
+    }
 
 
     /**
@@ -129,7 +129,7 @@ public class Interview
         public HelpNotFoundFault(ResourceBundle i18n, String s, String name) {
             super(i18n, s, name);
         }
-    };
+    }
 
 
     /**

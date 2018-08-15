@@ -288,7 +288,7 @@ class ChecklistBrowser extends ToolDialog
             updateContent();
         }
 
-    };
+    }
 
     private ExecModel model;
     private InterviewParameters params;

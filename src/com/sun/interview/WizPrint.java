@@ -145,7 +145,7 @@ public class WizPrint
      */
     public static void main(String[] args) {
         try {
-            boolean path = false;;
+            boolean path = false;
             String interviewClassName = null;
             File interviewFile = null;
             File outFileName = null;

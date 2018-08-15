@@ -361,7 +361,7 @@ class AuditTool extends Tool
     private AuditPane[] panes;
     private JTabbedPane tabs;
     private OptionsDialog optionsDialog;
-    private boolean autoShowOptions = true;;
+    private boolean autoShowOptions = true;
     private Listener listener = new Listener();
 
     private InterviewParameters interviewParams;
@@ -397,5 +397,5 @@ class AuditTool extends Tool
                 autoShowOptions = false;
             }
         }
-    };
+    }
 }

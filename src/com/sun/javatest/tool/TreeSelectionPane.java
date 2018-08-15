@@ -97,7 +97,7 @@ public class TreeSelectionPane extends JComponent implements Accessible
          * @return true if the node is a leaf node, and false otherwise
          */
         boolean isLeaf(Object node);
-    };
+    }
 
     /**
      * Create a TreeSelectionPane, using a specified tree model.
