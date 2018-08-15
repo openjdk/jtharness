@@ -80,8 +80,7 @@ class TestPanel extends JPanel
     }
 
     void setTestSuite(TestSuite ts) {
-        for (int i = 0; i < panels.length; i++)
-            panels[i].setTestSuite(ts);
+        for (TP_Subpanel panel : panels) panel.setTestSuite(ts);
     }
 
     TestResult getTest() {

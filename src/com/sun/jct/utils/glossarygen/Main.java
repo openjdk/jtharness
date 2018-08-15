@@ -211,8 +211,7 @@ public class Main {
         List<File> files = new ArrayList<File>();
         if (inFiles != null)
             files.addAll(Arrays.asList(inFiles));
-        for (int i = 0; i < paths.length; i++)
-            files.add(new File(baseDir, paths[i]));
+        for (String path : paths) files.add(new File(baseDir, path));
         inFiles = files.toArray(new File[files.size()]);
     }
 
@@ -274,8 +273,7 @@ public class Main {
 
         char currLetter = 0;
 
-        for (Iterator<Entry> iter = glossary.values().iterator(); iter.hasNext(); ) {
-            Entry e = iter.next();
+        for (Entry e : glossary.values()) {
             if (!e.matches(keyword))
                 continue;
 
@@ -329,8 +327,7 @@ public class Main {
     }
 
     private void read(File[] files) throws IOException {
-        for (int i = 0; i < files.length; i++)
-            read(files[i]);
+        for (File file : files) read(file);
     }
 
     private void read(File file) throws IOException {

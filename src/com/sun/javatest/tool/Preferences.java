@@ -180,8 +180,8 @@ public class Preferences
         for (String prefix: observers.keySet()) {
             if (name.startsWith(prefix)) {
                 Observer[] obs = observers.get(prefix);
-                for (int i = 0; i < obs.length; i++) {
-                    obs[i].updated(name, newValue);
+                for (Observer ob : obs) {
+                    ob.updated(name, newValue);
                 }
             }
         }
@@ -218,8 +218,8 @@ public class Preferences
      * @see #removeObserver
      */
     public void addObserver(String[] prefixes, Observer o) {
-        for (int i = 0; i < prefixes.length; i++) {
-            addObserver(prefixes[i], o);
+        for (String prefixe : prefixes) {
+            addObserver(prefixe, o);
         }
     }
 
@@ -252,8 +252,8 @@ public class Preferences
      * @see #addObserver
      */
     public void removeObserver(String[] prefixes, Observer o) {
-        for (int i = 0; i < prefixes.length; i++) {
-            removeObserver(prefixes[i], o);
+        for (String prefixe : prefixes) {
+            removeObserver(prefixe, o);
         }
     }
 

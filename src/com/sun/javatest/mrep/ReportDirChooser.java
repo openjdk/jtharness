@@ -228,8 +228,8 @@ class ReportDirChooser extends JFileChooser
             boolean v = Report.isReportDirectory(f);
             String[] l = f.list();
             if (l != null) {
-                for (int i = 0; i < l.length; i++) {
-                    if (l[i].endsWith(".html")) {
+                for (String aL : l) {
+                    if (aL.endsWith(".html")) {
                         v = true;
                     }
                 }

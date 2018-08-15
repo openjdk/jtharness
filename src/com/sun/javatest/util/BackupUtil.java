@@ -100,11 +100,11 @@ public class BackupUtil {
         backups.addElement(Integer.valueOf(1));
 
         int maxIndex = 0;
-        for(int j = 0; j < backups.size(); j++) {
-            int index = backups.get(j).intValue();
+        for (Integer backup : backups) {
+            int index = backup.intValue();
             maxIndex = index > maxIndex ? index : maxIndex;
-            if(index > maxBackups) {
-                File oldBackup = new File(filename + "~" + backups.get(j) + "~");
+            if (index > maxBackups) {
+                File oldBackup = new File(filename + "~" + backup + "~");
                 oldBackup.delete();
             }
         }
@@ -167,10 +167,10 @@ public class BackupUtil {
 //        file.mkdir();
 //        backups.addElement(new Integer(1));
 
-        for(int j = 0; j < backups.size(); j++) {
-            int index = backups.get(j).intValue();
-            if(index > maxBackups) {
-                File oldBackup = new File(filename + "~" + backups.get(j) + "~");
+        for (Integer backup : backups) {
+            int index = backup.intValue();
+            if (index > maxBackups) {
+                File oldBackup = new File(filename + "~" + backup + "~");
                 deleteDir(oldBackup);
             }
         }
@@ -195,18 +195,18 @@ public class BackupUtil {
 
         Set<Integer> layers = new HashSet<>();
         String suffix = "~";
-        for(int i = 0; i < files.length; i++) {
-            if(files[i].isDirectory()) {
-                String fileName = files[i].getName();
-                if(!fileName.endsWith(suffix)) {
+        for (File file : files) {
+            if (file.isDirectory()) {
+                String fileName = file.getName();
+                if (!fileName.endsWith(suffix)) {
                     layers.add(Integer.valueOf(0));
                     continue;
                 }
 
-                String prefix = fileName.substring(0,fileName.lastIndexOf(suffix));
+                String prefix = fileName.substring(0, fileName.lastIndexOf(suffix));
                 String numb = prefix.substring(prefix.lastIndexOf(suffix) + 1, prefix.length());
 
-                if(checkForInteger(numb)) {
+                if (checkForInteger(numb)) {
                     layers.add(Integer.valueOf(Integer.parseInt(numb)));
                 }
             }
@@ -235,19 +235,19 @@ public class BackupUtil {
         File[] layer = parentDir.listFiles(filter);
         if (layer != null) {
             if (number >= maxBackups) {
-                for (int i = 0; i < layer.length; i++) {
-                    deleteDir(layer[i]);
+                for (File aLayer : layer) {
+                    deleteDir(aLayer);
                 }
             } else {
-                for (int i = 0; i < layer.length; i++) {
+                for (File aLayer : layer) {
                     try {
                         String newName;
                         if (number != 0) {
-                            newName = layer[i].getCanonicalPath().replaceAll(suffix, newSuffix);
+                            newName = aLayer.getCanonicalPath().replaceAll(suffix, newSuffix);
                         } else {
-                            newName = layer[i].getCanonicalPath() + newSuffix;
+                            newName = aLayer.getCanonicalPath() + newSuffix;
                         }
-                        layer[i].renameTo(new File(newName));
+                        aLayer.renameTo(new File(newName));
                     } catch (IOException e) {
                     }
                 }
@@ -290,12 +290,11 @@ public class BackupUtil {
         }
 
         String[] list = dir.list();
-        for (int i = 0; i < list.length; i++) {
-            File f = new File(dir, list[i]);
-            if(f.isDirectory() || f.getPath().endsWith("~")) {
+        for (String aList : list) {
+            File f = new File(dir, aList);
+            if (f.isDirectory() || f.getPath().endsWith("~")) {
                 continue;
-            }
-            else {
+            } else {
                 backupFile(f, maxBackups);
             }
         }
@@ -331,8 +330,8 @@ public class BackupUtil {
         if(!deleted) {
             String[] list = dir.list();
             if(list != null) {
-                for(int i = 0; i < list.length; i++) {
-                    deleteDir(new File(dir, list[i]));
+                for (String aList : list) {
+                    deleteDir(new File(dir, aList));
                 }
             }
             deleted = dir.delete();

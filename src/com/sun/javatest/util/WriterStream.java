@@ -74,8 +74,8 @@ public class WriterStream extends OutputStream
     public void flush() throws IOException {
         String result = new String(buff, 0, index, charsetName);
         char[] chars = result.toCharArray();
-        for (int i = 0; i < chars.length; i++) {
-            writer.write(chars[i]);
+        for (char aChar : chars) {
+            writer.write(aChar);
         }
         index = 0;
 
@@ -129,8 +129,8 @@ public class WriterStream extends OutputStream
                     if (chars.length < ch_numb) {
                         System.arraycopy(buff, index - k, buff, 0, k);
                         index = k;
-                        for (int i = 0; i < chars.length; i++) {
-                            writer.write(chars[i]);
+                        for (char aChar : chars) {
+                            writer.write(aChar);
                         }
                         break;
                     }

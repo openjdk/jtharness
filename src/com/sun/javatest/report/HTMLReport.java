@@ -150,24 +150,24 @@ public class HTMLReport implements ReportFormat {
 
             // info from sections for main report
             out.startTag(HTMLWriterEx.UL);
-            for (int i = 0; i < mainSections.length; i++) {
+            for (HTMLSection mainSection1 : mainSections) {
                 out.startTag(HTMLWriterEx.LI);
-                mainSections[i].writeContents(out);
+                mainSection1.writeContents(out);
                 out.endTag(HTMLWriterEx.LI);
             }
             out.endTag(HTMLWriterEx.UL);
 
-            for (int i = 0; i < mainSections.length; i++) {
+            for (HTMLSection mainSection : mainSections) {
                 out.startTag(HTMLWriterEx.HR);
-                mainSections[i].writeSummary(out);
+                mainSection.writeSummary(out);
                 out.newLine();
             }
 
             out.close();
         }
 
-        for (int i = 0; i < auxSections.length; i++) {
-            auxSections[i].writeExtraFiles();
+        for (HTMLSection auxSection : auxSections) {
+            auxSection.writeExtraFiles();
         }
 
         File f;
@@ -387,44 +387,37 @@ public class HTMLReport implements ReportFormat {
 
         @Override
         public void close() throws IOException {
-            for (int i = 0; i < targets.length; i++)
-                targets[i].close();
+            for (Writer target : targets) target.close();
         }
 
         @Override
         public void flush() throws IOException {
-            for (int i = 0; i < targets.length; i++)
-                targets[i].flush();
+            for (Writer target : targets) target.flush();
         }
 
         @Override
         public void write(char[] cbuf) throws IOException {
-            for (int i = 0; i < targets.length; i++)
-                targets[i].write(cbuf);
+            for (Writer target : targets) target.write(cbuf);
         }
 
         @Override
         public void write(char[] cbuf, int off, int len) throws IOException {
-            for (int i = 0; i < targets.length; i++)
-                targets[i].write(cbuf, off, len);
+            for (Writer target : targets) target.write(cbuf, off, len);
         }
 
         @Override
         public void write(int c) throws IOException {
-            for (int i = 0; i < targets.length; i++)
-                targets[i].write(c);
+            for (Writer target : targets) target.write(c);
         }
 
         @Override
         public void write(String str) throws IOException {
-            for (int i = 0; i < targets.length; i++)
-                targets[i].write(str);
+            for (Writer target : targets) target.write(str);
         }
 
         @Override
         public void write(String str, int off, int len) throws IOException {
-            for (int i = 0; i < targets.length; i++)
-                targets[i].write(str, off, len);
+            for (Writer target : targets) target.write(str, off, len);
         }
 
         private Writer[] targets;

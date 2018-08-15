@@ -678,8 +678,8 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
             // subtotal position
             if (validSub) {
                 int sub = 0;
-                for (int i = 0; i < basic.length; i++) {
-                    sub += basic[i];
+                for (int aBasic : basic) {
+                    sub += aBasic;
                 }
 
                 result[SUBTOTAL_INDEX] = sub;
@@ -707,9 +707,9 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
             // convenient here.  also this panel may not always be updated if
             // not visible, so this code will not run on time
             int worstIndex = -1;
-            for (int i = 0; i < stateOrdering.length; i++) {
-                if (stats[stateOrdering[i]] > 0) {
-                    worstIndex = stateOrdering[i];
+            for (int aStateOrdering : stateOrdering) {
+                if (stats[aStateOrdering] > 0) {
+                    worstIndex = aStateOrdering;
                     break;
                 }
             }   // for

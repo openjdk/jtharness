@@ -80,8 +80,8 @@ public class ExtensionFileFilter implements FileFilter
 
     @Override
     public boolean accept(File f) {
-        for (int i = 0; i < extns.length; i++)
-            if (endsWith(f.getName(), extns[i]))
+        for (String extn : extns)
+            if (endsWith(f.getName(), extn))
                 return true;
         return false;
     }
@@ -113,8 +113,8 @@ public class ExtensionFileFilter implements FileFilter
         if (path == null || path.length() == 0)
             return path;
 
-        for (int i = 0; i < extns.length; i++)
-            if (endsWith(path, extns[i]))
+        for (String extn : extns)
+            if (endsWith(path, extn))
                 return path;
 
         return path + extns[0];

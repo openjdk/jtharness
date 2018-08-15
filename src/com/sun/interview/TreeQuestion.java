@@ -364,8 +364,7 @@ public abstract class TreeQuestion extends Question
             return "";
 
         int l = paths.length - 1; // allow for spaces between words
-        for (int i = 0; i < paths.length; i++)
-            l += paths[i].length();
+        for (String path : paths) l += path.length();
 
         StringBuffer sb = new StringBuffer(l);
         sb.append(paths[0]);

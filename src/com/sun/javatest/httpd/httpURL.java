@@ -191,9 +191,9 @@ public class httpURL {
 
         if (leadingSlash) result.append("/");
 
-        for (int i = 0; i < path.length; i++) {
-            if (path[i] != null) {
-                result.append(path[i]);
+        for (String aPath : path) {
+            if (aPath != null) {
+                result.append(aPath);
                 result.append("/");
             }
         }   // for

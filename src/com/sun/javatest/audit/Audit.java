@@ -394,8 +394,7 @@ public class Audit
     private void showBadChecksums() {
         if (badChecksumTests != null) {
             out.println("The following " + badChecksumTests.length + " tests had bad checksums.");
-            for (int i = 0; i < badChecksumTests.length; i++) {
-                TestResult tr = badChecksumTests[i];
+            for (TestResult tr : badChecksumTests) {
                 out.println(tr.getWorkRelativePath());
             }
         }
@@ -407,8 +406,7 @@ public class Audit
     private void showBadTestDescriptions() {
         if (badTestDescriptions != null) {
             out.println("The following " + badTestDescriptions.length + " tests had bad test descriptions.");
-            for (int i = 0; i < badTestDescriptions.length; i++) {
-                TestResult tr = badTestDescriptions[i];
+            for (TestResult tr : badTestDescriptions) {
                 out.println(tr.getWorkRelativePath());
             }
         }
@@ -421,8 +419,7 @@ public class Audit
     private void showBadTestCaseTests() {
         if (badTestCaseTests != null) {
             out.println(i18n.getString("adt.tooManyTestCases", Integer.valueOf(badTestCaseTests.length)));
-            for (int i = 0; i < badTestCaseTests.length; i++) {
-                TestResult tr = badTestCaseTests[i];
+            for (TestResult tr : badTestCaseTests) {
                 out.println(tr.getWorkRelativePath());
             }
         }
@@ -435,8 +432,7 @@ public class Audit
     private void showBadTests() {
         if (badTests != null) {
             out.println(i18n.getString("adt.badTests", Integer.valueOf(badTests.length)));
-            for (int i = 0; i < badTests.length; i++) {
-                TestDescription td = badTests[i];
+            for (TestDescription td : badTests) {
                 out.println(TestResult.getWorkRelativePath(td));
             }
         }
@@ -497,19 +493,17 @@ public class Audit
             ss.add(key);
         }
 
-        for (Iterator<String> iter = ss.iterator(); iter.hasNext(); ) {
-            String key = iter.next();
+        for (String key : ss) {
             Vector<String> allValuesForKey = envTable.get(key);
             if (allValuesForKey.size() == 1) {
                 if (showAll)
                     out.println(i18n.getString("adt.envKeyValue",
-                                            new Object[] {key, allValuesForKey.elementAt(0)}));
-            }
-            else {
+                            new Object[]{key, allValuesForKey.elementAt(0)}));
+            } else {
                 out.println(i18n.getString("adt.envKey", key));
                 for (int j = 0; j < allValuesForKey.size(); j++) {
                     out.println(i18n.getString("adt.envValue",
-                                            allValuesForKey.elementAt(j)));
+                            allValuesForKey.elementAt(j)));
                 }
             }
         }
@@ -610,15 +604,15 @@ public class Audit
 
         // now check that etcTest is a subset of etcTable
     nextTestCase:
-        for (int i = 0; i < etcTest.length; i++) {
-            for (int j = 0; j < etcTable.length; j++) {
-                if (etcTest[i].equals(etcTable[j]))
-                    continue nextTestCase;
-            }
-            // etcTest[i] was not found in etcTable;
-            // that means we have a problem
-            return false;
+    for (String anEtcTest : etcTest) {
+        for (String anEtcTable : etcTable) {
+            if (anEtcTest.equals(anEtcTable))
+                continue nextTestCase;
         }
+        // etcTest[i] was not found in etcTable;
+        // that means we have a problem
+        return false;
+    }
 
         // if we're here, we found all the test cases that were actually
         // excluded were all validly excluded, according to excludedTestCases.

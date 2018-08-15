@@ -62,9 +62,9 @@ class TestSuiteErrorsDialog extends ToolDialog
                 sb.append("<ul>");
 
                 String[] errors = tf.getErrors();
-                for (int i = 0; i < errors.length; i++) {
+                for (String error : errors) {
                     sb.append("<li>");
-                    sb.append(escape(errors[i]));
+                    sb.append(escape(error));
                 }
                 sb.append("</ul>");
             }

@@ -137,8 +137,7 @@ public class FileQuestionRenderer
             // add API to disable the all files filter perhaps?
             // chooser.setAcceptAllFileFilterUsed(false);
 
-            for (int i = 0; i < filters.length; i++) {
-                FileFilter filter = filters[i];
+            for (FileFilter filter : filters) {
                 chooser.addChoosableFileFilter(SwingFileFilter.wrap(filter));
                 if (filter.acceptsDirectories()) {
                     if (mode == -1) {
@@ -148,11 +147,9 @@ public class FileQuestionRenderer
                         // unacceptable files
                         // Same issue in FileListQuestionRenderer
                         mode = JFileChooser.FILES_AND_DIRECTORIES;
-                    }
-                    else if (mode == JFileChooser.FILES_ONLY)
+                    } else if (mode == JFileChooser.FILES_ONLY)
                         mode = JFileChooser.FILES_AND_DIRECTORIES;
-                }
-                else {
+                } else {
                     if (mode == -1)
                         mode = JFileChooser.FILES_ONLY;
                     else if (mode == JFileChooser.DIRECTORIES_ONLY)

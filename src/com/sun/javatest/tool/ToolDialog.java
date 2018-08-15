@@ -735,14 +735,13 @@ abstract public class ToolDialog
 
             // set all the buttons to the same preferred size, per JL&F
             Dimension maxBtnDims = new Dimension();
-            for (int i = 0; i < buttons.length; i++) {
-                Dimension d = buttons[i].getPreferredSize();
+            for (JButton button2 : buttons) {
+                Dimension d = button2.getPreferredSize();
                 maxBtnDims.width = Math.max(maxBtnDims.width, d.width);
                 maxBtnDims.height = Math.max(maxBtnDims.height, d.height);
             }
 
-            for (int i = 0; i < buttons.length; i++)
-                buttons[i].setPreferredSize(maxBtnDims);
+            for (JButton button1 : buttons) button1.setPreferredSize(maxBtnDims);
 
             Container p = uif.createPanel(uiKey + ".btns", false);
             p.setLayout(new GridBagLayout());
@@ -753,8 +752,8 @@ abstract public class ToolDialog
             c.insets.right = 11;   // value from JL&F Guidelines
             c.weightx = 1;         // first button absorbs space to the left
 
-            for (int i = 0; i < buttons.length; i++) {
-                p.add(buttons[i], c);
+            for (JButton button : buttons) {
+                p.add(button, c);
                 c.weightx = 0;
             }
 

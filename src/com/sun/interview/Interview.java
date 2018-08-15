@@ -2557,7 +2557,7 @@ public class Interview
         }
 
         StringBuffer sb = new StringBuffer(key);
-        for (int i = 0; i < args.length; i++) {
+        for (Object arg : args) {
             sb.append('\n');
             sb.append(Arrays.toString(args));
         }

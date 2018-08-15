@@ -102,8 +102,7 @@ public class StringArray
             return "";
 
         int l = (ss.length - 1) * sep.length();
-        for (int i = 0; i < ss.length; i++)
-            l += ss[i] == null ? 0 : ss[i].length();
+        for (String s : ss) l += s == null ? 0 : s.length();
 
         StringBuffer sb = new StringBuffer(l);
         sb.append(ss[0]);
@@ -166,8 +165,8 @@ public class StringArray
         if (list == null || list.length == 0)
             return false;
 
-        for (int i = 0; i < list.length; i++) {
-            if (list[i].equals(target))
+        for (String aList : list) {
+            if (aList.equals(target))
                 return true;
         }   // for
 

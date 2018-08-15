@@ -395,14 +395,14 @@ public class ActiveAgentPool
         }
 
         private synchronized void notifyAddedToPool(Entry e) {
-            for (int i = 0; i < observers.length; i++) {
-                observers[i].addedToPool(e);
+            for (Observer observer : observers) {
+                observer.addedToPool(e);
             }
         }
 
         private synchronized void notifyRemovedFromPool(Entry e) {
-            for (int i = 0; i < observers.length; i++) {
-                observers[i].removedFromPool(e);
+            for (Observer observer : observers) {
+                observer.removedFromPool(e);
             }
         }
 

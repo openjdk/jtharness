@@ -86,8 +86,7 @@ public class ExpandTestFinder extends TagTestFinder
 
     private Map<String, String> initTable(String[] entries) {
         Map<String, String> map = new HashMap<>();
-        for (int i = 0; i < entries.length; i++)
-            map.put(entries[i].toLowerCase(), entries[i]);
+        for (String entry : entries) map.put(entry.toLowerCase(), entry);
         return map;
     } // initTable()
 
@@ -112,13 +111,13 @@ public class ExpandTestFinder extends TagTestFinder
             expandVars   = new HashMap<>(3);
             expandVarLen = new HashMap<>(3);
 
-            for (Iterator<String> i = env.keys().iterator(); i.hasNext(); ) {
+            for (String s : env.keys()) {
                 try {
-                    String n = i.next();
+                    String n = s;
 
-                    if (! n.startsWith("expand."))
+                    if (!n.startsWith("expand."))
                         continue;
-                    String[] v =  env.lookup(n);
+                    String[] v = env.lookup(n);
                     String fqvName = n.substring("expand.".length());
                     // add to hashtable of fully-qualified varNames
                     expandVars.put(fqvName, v);
@@ -136,7 +135,7 @@ public class ExpandTestFinder extends TagTestFinder
                     } else {
                         if (v.length != len.intValue()) {
                             error(i18n, "expand.lengthMismatch",
-                                  new Object[] {stem, fqvName.substring(pos+1)} );
+                                    new Object[]{stem, fqvName.substring(pos + 1)});
                         }
                     }
                 } catch (TestEnvironment.Fault f) {
@@ -179,8 +178,7 @@ public class ExpandTestFinder extends TagTestFinder
     } // foundTestDescription()
 
     private void foundTestDescription_1(Map<String, String> entries, File file, int line, Map<String, Integer> loopVars, String id) {
-        for (Iterator<String> iter = entries.keySet().iterator(); iter.hasNext(); ) {
-            String name  = iter.next();
+        for (String name : entries.keySet()) {
             String value = entries.get(name);
 //          System.out.println("------ NAME:  " + name + " VALUE: " + value);
 
@@ -188,18 +186,18 @@ public class ExpandTestFinder extends TagTestFinder
                 // don't tokenize
                 continue;
 
-            String [] words = StringArray.split(value);
+            String[] words = StringArray.split(value);
             for (int i = 0; i < words.length; i++) {
                 if (words[i].startsWith("$")) {
                     String varName = words[i].substring(1);
 
                     // strip out {}'s
                     if (varName.startsWith("{")) {
-                        if (! varName.endsWith("}")) {
+                        if (!varName.endsWith("}")) {
                             error(i18n, "expand.missingCloseCurly", words[i]);
                             continue;
                         }
-                        varName = varName.substring(1, varName.length()-1);
+                        varName = varName.substring(1, varName.length() - 1);
                     }
 
                     // separate foo.bar into stem=foo and qualifier=bar
@@ -211,7 +209,7 @@ public class ExpandTestFinder extends TagTestFinder
                         qualifier = "";
                     } else {
                         stem = varName.substring(0, pos);
-                        qualifier = varName.substring(pos+1);
+                        qualifier = varName.substring(pos + 1);
                     }
 
 //                  System.out.println("stem: " + stem + " qual: " + qualifier);
@@ -220,7 +218,7 @@ public class ExpandTestFinder extends TagTestFinder
                         // this is something we shouldn't expand
                         continue;
 
-                    String [] valueList;
+                    String[] valueList;
                     if ((valueList = expandVars.get(varName)) == null) {
                         //String [] msgs = {"unable to find `expand' definition in environment",
                         //words[i]};
@@ -230,7 +228,7 @@ public class ExpandTestFinder extends TagTestFinder
 
                     String saveId = id;
                     Integer idx = loopVars.get(stem);
-                    if (idx != null){
+                    if (idx != null) {
                         int j = idx.intValue();
                         words[i] = valueList[j];
 
@@ -250,7 +248,7 @@ public class ExpandTestFinder extends TagTestFinder
                             if (loopy) loopVars.put(stem, Integer.valueOf(j));
                             // clone needed here because we over-wrote words[i]
                             foundTestDescription_1(new HashMap<>(entries), file, line,
-                                                   loopVars, id);
+                                    loopVars, id);
                             if (loopy) loopVars.remove(stem);
 
                         }
@@ -273,8 +271,7 @@ public class ExpandTestFinder extends TagTestFinder
             }
             testStems = new HashMap<>(3);
             String [] stems = StringArray.split(value);
-            for (int i = 0 ; i < stems.length; i++)
-                testStems.put(stems[i], TRUE);
+            for (String stem : stems) testStems.put(stem, TRUE);
         } else {
 
             // This part of this method is only needed to ensure that this
@@ -290,13 +287,12 @@ public class ExpandTestFinder extends TagTestFinder
                 if (name.equalsIgnoreCase("keywords")) {
                     String[] keys = StringArray.split(value);
                     if (keys != null) {
-                        for (int i = 0; i < keys.length; i++) {
-                            String key = keys[i];
+                        for (String key : keys) {
                             // minor modification here to allow no keywords
                             //if (validKeywords.get(key.toLowerCase()) == null) {
                             if ((validKeywords.size() > 0) && (validKeywords.get(key.toLowerCase()) == null)) {
                                 error(i18n, "expand.unknownKeyword",
-                                      new Object[] {key, getCurrentFile()} );
+                                        new Object[]{key, getCurrentFile()});
                             }
                         }
                     }

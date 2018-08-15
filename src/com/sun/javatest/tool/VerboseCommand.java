@@ -104,14 +104,13 @@ public class VerboseCommand extends Command
         if (items == null)
             throw new Fault(i18n, "verb.noOpts");
 
-        for (int i = 0; i < items.length; i++) {
-            String item = items[i];
+        for (String item1 : items) {
+            String item = item1;
             boolean on;
             if (item.startsWith(NO_PREFIX)) {
                 on = false;
                 item = item.substring(NO_PREFIX.length());
-            }
-            else
+            } else
                 on = true;
 
             if (!allOptions.containsKey(item.toLowerCase()))
@@ -142,8 +141,7 @@ public class VerboseCommand extends Command
 
         HelpTree.Node[] nodes = new HelpTree.Node[allOptions.size()];
         int i = 0;
-        for (Iterator<HelpTree.Node> iter = allOptions.values().iterator(); iter.hasNext(); )
-            nodes[i++] = iter.next();
+        for (HelpTree.Node node : allOptions.values()) nodes[i++] = node;
 
         return new HelpTree.Node(i18n, "verb", nodes);
     }

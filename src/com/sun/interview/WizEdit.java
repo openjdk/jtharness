@@ -252,8 +252,7 @@ public class WizEdit
      * @see #edit(String)
      */
     public void edit(String[] cmds) throws Fault {
-        for (int i = 0; i < cmds.length; i++)
-            edit(cmds[i]);
+        for (String cmd : cmds) edit(cmd);
     }
 
     /**
@@ -283,8 +282,7 @@ public class WizEdit
         interview.save(answers);
 
         Question[] path = interview.getPath();
-        for (int i = 0; i < path.length; i++) {
-            Question q = path[i];
+        for (Question q : path) {
             try {
                 String answer = answers.get(q.getTag());
                 if (answer == null)
@@ -307,10 +305,9 @@ public class WizEdit
                         out.println("          to: " + h.get(q.getTag()));
                     }
                 }
-            }
-            catch (Interview.Fault e) {
+            } catch (Interview.Fault e) {
                 throw new Fault(i18n, "edit.cantSetValue",
-                                new Object[] { q.getSummary(), e.getMessage() });
+                        new Object[]{q.getSummary(), e.getMessage()});
             }
         }
 

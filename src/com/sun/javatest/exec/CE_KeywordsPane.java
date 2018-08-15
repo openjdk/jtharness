@@ -276,8 +276,7 @@ class CE_KeywordsPane extends CE_StdPane {
                 // so create a popup menu for them
                 keywordPopup = uif.createPopupMenu("ce.keywords.keyword");
                 keywordChooser = false;
-                for (int i = 0; i < keywords.length; i++)
-                    keywordPopup.add(uif.createLiteralMenuItem(keywords[i], listener));
+                for (String keyword : keywords) keywordPopup.add(uif.createLiteralMenuItem(keyword, listener));
                 if (keywordPopup.getPreferredSize().getHeight() > (Toolkit.getDefaultToolkit().getScreenSize().height - 50)) {
                     keywordPopup = null;
                     keywordChooser = true;
@@ -318,8 +317,8 @@ class CE_KeywordsPane extends CE_StdPane {
                 public void actionPerformed(ActionEvent e) {
                     Object[] sels = lst.getSelectedValues();
                     String inserted = "";
-                    for (int i = 0; i < sels.length; i++) {
-                        inserted += sels[i] + " ";
+                    for (Object sel : sels) {
+                        inserted += sel + " ";
                     }
                     listener.insert(inserted.trim());
                     lst.clearSelection();

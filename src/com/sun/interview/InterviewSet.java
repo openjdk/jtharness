@@ -167,8 +167,7 @@ public class InterviewSet
 
         Set<Interview> deps = getDependencies(child, false);
         if (deps != null) {
-            for (Iterator<Interview> iter = deps.iterator(); iter.hasNext(); ) {
-                Interview i = iter.next();
+            for (Interview i : deps) {
                 getAllDependencies(i, s);
                 s.add(i);
             }
@@ -200,8 +199,7 @@ public class InterviewSet
 
         Set<Interview> deps = dependencies.get(child);
         if (deps != null) {
-            for (Iterator<Interview> iter = deps.iterator(); iter.hasNext(); ) {
-                Interview dep = iter.next();
+            for (Interview dep : deps) {
                 addToList(list, dep, cycleSet);
             }
         }
@@ -251,8 +249,7 @@ public class InterviewSet
             if (o1 == o2)
                 return 0;
 
-            for (Iterator<Interview> iter = children.iterator(); iter.hasNext(); ) {
-                Interview o = iter.next();
+            for (Interview o : children) {
                 if (o == o1)
                     return -1;
                 if (o == o2)

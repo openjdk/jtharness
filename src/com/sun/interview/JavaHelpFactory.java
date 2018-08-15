@@ -107,12 +107,11 @@ public class JavaHelpFactory implements HelpSetFactory {
             if (oldHelpSet == null) {
                 // no previously registered helpset
                 // so add in any helpsets for child interviews
-                for (Iterator<Interview> iter = interview.getInterviews().iterator(); iter.hasNext(); ) {
-                    Interview i = iter.next();
-                    HelpSet ihs = (HelpSet)i.getHelpSet();
+                for (Interview i : interview.getInterviews()) {
+                    HelpSet ihs = (HelpSet) i.getHelpSet();
                     if (ihs != null)
                         newHelpSet.add(ihs);
-                    }
+                }
                 }
             else {
                 // reregister child help sets with new help set
@@ -126,9 +125,7 @@ public class JavaHelpFactory implements HelpSetFactory {
 
 
                 // now remove the sets from the old helpset
-                for (Iterator<HelpSet> iterator = helpSetsToRemove.iterator();
-                               iterator.hasNext();) {
-                    HelpSet helpToRemove = iterator.next();
+                for (HelpSet helpToRemove : helpSetsToRemove) {
                     oldHelpSet.remove(helpToRemove);
                 }  // for
             }

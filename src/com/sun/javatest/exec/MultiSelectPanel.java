@@ -161,8 +161,7 @@ class MultiSelectPanel
         if (nodes == null)
             return;
 
-        for (int i = 0; i < nodes.length; i++)
-            listModel.addElement(nodes[i]);
+        for (Object node : nodes) listModel.addElement(node);
     }
 
     @Override

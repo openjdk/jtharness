@@ -104,9 +104,9 @@ class OptionsDialog extends ToolDialog
             max = max > all[i].getMinimumSize().width ? max
                     : all[i].getMinimumSize().width;
         }
-        for (int i = 0; i < all.length; i++) {
-            all[i].setPreferredSize(new Dimension(max, all[i].getPreferredSize().height));
-            all[i].setMinimumSize(all[i].getPreferredSize());
+        for (JButton anAll : all) {
+            anAll.setPreferredSize(new Dimension(max, anAll.getPreferredSize().height));
+            anAll.setMinimumSize(anAll.getPreferredSize());
         }
     }
 

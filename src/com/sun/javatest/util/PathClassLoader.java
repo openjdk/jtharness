@@ -121,11 +121,11 @@ public class PathClassLoader extends ClassLoader
         if (c != null)
             return c;
 
-        for (int i = 0; i < path.length; i++) {
-            if (path[i].isDirectory())
-                c = locateClassInDir(name, path[i]);
+        for (File aPath : path) {
+            if (aPath.isDirectory())
+                c = locateClassInDir(name, aPath);
             else
-                c = locateClassInJar(name, path[i]);
+                c = locateClassInJar(name, aPath);
 
             if (c != null) {
                 classes.put(name, c);

@@ -197,12 +197,10 @@ class OptionsDialog extends ToolDialog
         Desktop d = tool.getDesktop();
         Tool[] tools = d.getTools();
         if (tools != null) {
-            for (int i = 0; i < tools.length; i++) {
-                Tool t = tools[i];
+            for (Tool t : tools) {
                 TestSuite[] tss = t.getLoadedTestSuites();
                 if (tss != null) {
-                    for (int j = 0; j < tss.length; j++)
-                        s.add(tss[j].getPath());
+                    for (TestSuite ts : tss) s.add(ts.getPath());
                 }
             }
         }
@@ -242,12 +240,10 @@ class OptionsDialog extends ToolDialog
         Desktop d = tool.getDesktop();
         Tool[] tools = d.getTools();
         if (tools != null) {
-            for (int i = 0; i < tools.length; i++) {
-                Tool t = tools[i];
+            for (Tool t : tools) {
                 WorkDirectory[] wds = t.getLoadedWorkDirectories();
                 if (wds != null) {
-                    for (int j = 0; j < wds.length; j++) {
-                        WorkDirectory wd = wds[j];
+                    for (WorkDirectory wd : wds) {
                         if (tsID == null || tsID.equals(wd.getTestSuite().getID()))
                             s.add(wd.getPath());
                     }
@@ -300,8 +296,7 @@ class OptionsDialog extends ToolDialog
             WorkDirectory wd = WorkDirectory.open(new File(wdp));
             FileHistory history = FileHistory.getFileHistory(wd, "configHistory.jtl");
             File[] entries = history.getRecentEntries(10);
-            for (int i = 0; i < entries.length; i++)
-                s.add(entries[i].getPath());
+            for (File entry : entries) s.add(entry.getPath());
         }
         catch (Exception e) {
             // ignore
@@ -324,8 +319,7 @@ class OptionsDialog extends ToolDialog
         }
 
         // those items remaining in s need to be added to the field
-        for (Iterator<String> iter = s.iterator(); iter.hasNext(); )
-            field.addItem(iter.next());
+        for (String value : s) field.addItem(value);
     }
 
     private Tool tool;

@@ -411,15 +411,15 @@ public class TT_BasicNode extends TT_TreeNode {
         if (tests == null || tests.length == 0) {
             return;
         }
-        for (int i = 0; i < tests.length; i++) {
-            TT_TestNode tn = new TT_TestNode(this, tests[i]);
+        for (TestResult test : tests) {
+            TT_TestNode tn = new TT_TestNode(this, test);
 
             synchronized (children) {
                 if (children.size() == 0 || comp == null) {
                     children.add(tn);
                 } else {
-                    int result = recursiveIns(0, children.size()-1, tn,
-                        tn.getDisplayName(), comp);
+                    int result = recursiveIns(0, children.size() - 1, tn,
+                            tn.getDisplayName(), comp);
                 }
             }   // sync
         }
@@ -431,15 +431,13 @@ public class TT_BasicNode extends TT_TreeNode {
      * @return Position of duplicate, -1 if not found.
      */
     private int findDuplicateNode(TRT_TreeNode node) {
-        Iterator<TT_TreeNode> it = children.iterator();
-        while (it.hasNext()) {
-            TreeNode tn = it.next();
+        for (TT_TreeNode tn : children) {
             if (tn instanceof TT_BasicNode) {
                 if (((TT_BasicNode) tn).tn == node) {
                     return children.indexOf(tn);
                 }
             }
-        // skipping TT_TestNodes
+            // skipping TT_TestNodes
         }
 
         return -1;  // no dup

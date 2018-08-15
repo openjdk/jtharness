@@ -68,11 +68,10 @@ public class FileListQuestionRenderer
         }
         else {
             int mode = -1;
-            for (int i = 0; i < filters.length; i++) {
-                FileFilter filter = filters[i];
+            for (FileFilter filter : filters) {
                 list.addFilter(SwingFileFilter.wrap(filter));
                 if (filter.acceptsDirectories()) {
-                    if (mode == -1){
+                    if (mode == -1) {
                         //
                         // setting mode to DIRECTORIES_ONLY ignores the possibility
                         // that the filter might accept (some) files, so set it to
@@ -80,11 +79,9 @@ public class FileListQuestionRenderer
                         // unacceptable files.
                         // Same issue in FileQuestionRenderer
                         mode = JFileChooser.FILES_AND_DIRECTORIES;
-                    }
-                    else if (mode == JFileChooser.FILES_ONLY)
+                    } else if (mode == JFileChooser.FILES_ONLY)
                         mode = JFileChooser.FILES_AND_DIRECTORIES;
-                }
-                else {
+                } else {
                     if (mode == -1)
                         mode = JFileChooser.FILES_ONLY;
                     else if (mode == JFileChooser.DIRECTORIES_ONLY)

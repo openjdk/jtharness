@@ -448,9 +448,9 @@ public class XMLReportMaker {
 
     void makeItems(String[] vals) throws SAXException {
         if (vals != null) {
-            for (int i = 0 ; i < vals.length; i++) {
-                if (vals[i] != null) {
-                    makeItem(vals[i]);
+            for (String val : vals) {
+                if (val != null) {
+                    makeItem(val);
                 }
             }
         }
@@ -458,8 +458,8 @@ public class XMLReportMaker {
 
     void makeItems(File[] files) throws SAXException {
         if (files != null) {
-            for (int i = 0 ; i < files.length; i++) {
-                makeItem(files[i].getPath());
+            for (File file : files) {
+                makeItem(file.getPath());
             }
         }
     }
@@ -501,16 +501,16 @@ public class XMLReportMaker {
     public static String convertProhibitedChars(String cdata) {
         StringBuffer sb = new StringBuffer();
         char [] data = cdata.toCharArray();
-        for (int i = 0; i < data.length; i++) {
-            if (prohibited(data[i])) {
+        for (char aData : data) {
+            if (prohibited(aData)) {
                 sb.append("\\u");
-                String rX = Integer.toHexString((int)data[i]);
-                for (int ii = rX.length();  ii < 4; ii++) {
+                String rX = Integer.toHexString((int) aData);
+                for (int ii = rX.length(); ii < 4; ii++) {
                     sb.append("0");  //
                 }
                 sb.append(rX);
             } else {
-                sb.append(data[i]);
+                sb.append(aData);
             }
         }
         return sb.toString();

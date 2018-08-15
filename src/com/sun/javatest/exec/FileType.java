@@ -50,8 +50,7 @@ class FileType extends FileFilter
             if (extns == null)
                 sb.append(".allFiles");
             else {
-                for (int i = 0; i < extns.length; i++)
-                    sb.append("." + extns[i]);
+                for (String extn : extns) sb.append("." + extn);
             }
             desc = i18n.getString(sb.toString());
         }
@@ -68,8 +67,8 @@ class FileType extends FileFilter
             return true;
 
         String fName = f.getName();
-        for (int i = 0; i < extns.length; i++) {
-            if (fName.endsWith(extns[i]))
+        for (String extn : extns) {
+            if (fName.endsWith(extn))
                 return true;
         }
         return false;

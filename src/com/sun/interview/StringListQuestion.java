@@ -123,11 +123,11 @@ public abstract class StringListQuestion extends Question
             return null;
 
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < value.length; i++) {
+        for (String aValue : value) {
             if (sb.length() > 0)
                 sb.append('\n');
-            if (value[i] != null)
-                sb.append(value[i]);
+            if (aValue != null)
+                sb.append(aValue);
         }
 
         return sb.toString();
@@ -156,8 +156,8 @@ public abstract class StringListQuestion extends Question
      */
     public void setValue(String[] newValue) {
         if (newValue != null) {
-            for (int i = 0; i < newValue.length; i++) {
-                if (newValue[i] == null || (newValue[i].indexOf("\n") != -1))
+            for (String aNewValue : newValue) {
+                if (aNewValue == null || (aNewValue.indexOf("\n") != -1))
                     throw new IllegalArgumentException();
             }
         }

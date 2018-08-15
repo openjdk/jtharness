@@ -255,8 +255,7 @@ public class ShowTests
         File[] files = testFinder.getFiles();
 
         if (tests != null) {
-            for (int i = 0; i < tests.length; i++) {
-                TestDescription td = tests[i];
+            for (TestDescription td : tests) {
                 out.println("    " + td.getRootRelativeURL());
                 if (fullTests) {
                     for (Iterator<String> iter = td.getParameterKeys(); iter.hasNext(); ) {
@@ -273,8 +272,7 @@ public class ShowTests
         }
 
         if (files != null) {
-            for (int i = 0; i < files.length; i++)
-                list(files[i]);
+            for (File file1 : files) list(file1);
         }
     }
 

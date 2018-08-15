@@ -489,8 +489,7 @@ class QuickStartWizard extends ToolDialog
                 }
                 setPathComponent(combo);
                 combo.removeAllItems();
-                for (int i = 0; i < suggestions.length; i++)
-                    combo.addItem(suggestions[i]);
+                for (String suggestion : suggestions) combo.addItem(suggestion);
             }
         }
 

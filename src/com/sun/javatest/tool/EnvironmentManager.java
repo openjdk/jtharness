@@ -57,8 +57,7 @@ public class EnvironmentManager extends CommandManager
         // set basic defaults
         String[] stdSysProps = {"user.dir", "user.home"};
         Map<String, String> m = new HashMap<>();
-        for (int i = 0; i < stdSysProps.length; i++) {
-            String name = stdSysProps[i];
+        for (String name : stdSysProps) {
             m.put(name, System.getProperty(name));
         }
         TestEnvironment.addDefaultPropTable(i18n.getString("env.def.sysProps"), m);

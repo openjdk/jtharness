@@ -375,8 +375,7 @@ public class Desktop
             return;
         }
 
-        for (int i = 0; i < toolManagers.length; i++) {
-            ToolManager m = toolManagers[i];
+        for (ToolManager m : toolManagers) {
             if (m.getClass().getName().equals(defaultToolManager)) {
                 m.startTool();
                 return;
@@ -395,25 +394,21 @@ public class Desktop
      * @see #removeTool
      */
     public Tool addDefaultTool(InterviewParameters ip) {
-        for (int i = 0; i < toolManagers.length; i++) {
-            ToolManager mgr = toolManagers[i];
+        for (ToolManager mgr : toolManagers) {
             if (mgr.getClass().getName().equals(defaultToolManager)) {
                 try {
                     // this is to avoid a class dependency to exec package, which is
                     // normally not allowed in this package
                     Method m = mgr.getClass().getMethod("startTool", InterviewParameters.class);
 
-                    return (Tool) m.invoke(mgr, ip );
-                }
-                catch (NoSuchMethodException e) {
+                    return (Tool) m.invoke(mgr, ip);
+                } catch (NoSuchMethodException e) {
                     // ignore??
                     e.printStackTrace();
-                }
-                catch (IllegalAccessException e) {
+                } catch (IllegalAccessException e) {
                     // ignore??
                     e.printStackTrace();
-                }
-                catch (InvocationTargetException e) {
+                } catch (InvocationTargetException e) {
                     // ignore??
                     unwrap(e).printStackTrace();
                 }
@@ -429,8 +424,8 @@ public class Desktop
      */
     public boolean containsTool(Tool t) {
         Tool[] tools = getTools();
-        for (int i = 0; i < tools.length; i++) {
-            if (t == tools[i])
+        for (Tool tool : tools) {
+            if (t == tool)
                 return true;
         }
         return false;
@@ -452,8 +447,7 @@ public class Desktop
      * @return a tool manager of the desired type, or null if none found
      */
     public ToolManager getToolManager(Class<? extends ToolManager> c) {
-        for (int i = 0; i < toolManagers.length; i++) {
-            ToolManager m = toolManagers[i];
+        for (ToolManager m : toolManagers) {
             if (c.isInstance(m))
                 return m;
         }
@@ -466,8 +460,7 @@ public class Desktop
      * @return a tool manager of the desired type, or null if none found
      */
     public ToolManager getToolManager(String className) {
-        for (int i = 0; i < toolManagers.length; i++) {
-            ToolManager m = toolManagers[i];
+        for (ToolManager m : toolManagers) {
             if (m.getClass().getName().equals(className))
                 return m;
         }
@@ -653,8 +646,8 @@ public class Desktop
         Vector<String> v = new Vector<>();
 
         Tool[] tools = getTools();
-        for (int ti = 0; ti < tools.length; ti++) {
-            String[] alerts = tools[ti].getCloseAlerts();
+        for (Tool tool : tools) {
+            String[] alerts = tool.getCloseAlerts();
             if (alerts != null)
                 v.addAll(Arrays.asList(alerts));
         }
@@ -707,9 +700,9 @@ public class Desktop
                 out.endTag(HTMLWriterEx.P);
                 out.startTag(HTMLWriterEx.UL);
                 out.writeStyleAttr("margin-top:0; margin-bottom:0; margin-left:30");
-                for (int i = 0; i < alerts.length; i++) {
+                for (String alert : alerts) {
                     out.startTag(HTMLWriterEx.LI);
-                    out.write(alerts[i]);
+                    out.write(alert);
                 }
                 out.endTag(HTMLWriterEx.UL);
                 out.startTag(HTMLWriterEx.P);
@@ -842,8 +835,7 @@ public class Desktop
 
         p.put("file.count", String.valueOf(fileHistory.size()));
         int n = 0;
-        for (Iterator<FileHistoryEntry> i = fileHistory.iterator(); i.hasNext(); ) {
-            FileHistoryEntry h = i.next();
+        for (FileHistoryEntry h : fileHistory) {
             p.put("fileHistory." + n + ".type", h.fileOpener.getFileType());
             p.put("fileHistory." + n + ".path", h.file.getPath());
             n++;
@@ -967,12 +959,10 @@ public class Desktop
 
     private void restoreHistory(Map<String, String> p) {
         HashMap<String, FileOpener> allOpeners  = new HashMap<>();
-        for (int i = 0; i < toolManagers.length; i++) {
-            ToolManager m = toolManagers[i];
+        for (ToolManager m : toolManagers) {
             FileOpener[] mgrOpeners = m.getFileOpeners();
             if (mgrOpeners != null) {
-                for (int j = 0; j < mgrOpeners.length; j++) {
-                    FileOpener fo = mgrOpeners[j];
+                for (FileOpener fo : mgrOpeners) {
                     allOpeners.put(fo.getFileType(), fo);
                 }
             }
@@ -1040,8 +1030,7 @@ public class Desktop
         Vector<PreferencesPane> v = new Vector<>();
         v.addElement(prefsPane);
         v.addElement(colorPane);
-        for (int i = 0; i < toolManagers.length; i++) {
-            ToolManager m = toolManagers[i];
+        for (ToolManager m : toolManagers) {
             PreferencesPane p = m.getPrefsPane();
             if (p != null)
                 v.addElement(p);
@@ -1049,8 +1038,7 @@ public class Desktop
 
         PreferencesPane[] custom = getCustomPreferences();
         if (custom != null)
-           for (int i = 0; i < custom.length; i++)
-               v.add(custom[i]);
+            for (PreferencesPane aCustom : custom) v.add(aCustom);
 
         PreferencesPane[] panes = new PreferencesPane[v.size()];
         v.copyInto(panes);
@@ -1071,22 +1059,22 @@ public class Desktop
         Set<String> customPrefsClasses = new HashSet<>();
 
         Tool[] tools = getTools();
-        for (int i = 0; i < tools.length; i++) {
-            TestSuite[] tss = tools[i].getLoadedTestSuites();
+        for (Tool tool : tools) {
+            TestSuite[] tss = tool.getLoadedTestSuites();
             if (tss != null && tss.length > 0) {
-                for (int j = 0; j < tss.length; j++) {
+                for (TestSuite ts : tss) {
                     // only process each test suite once
-                    if (customPrefsClasses.contains(tss[j].getID()))
+                    if (customPrefsClasses.contains(ts.getID()))
                         continue;
                     else
-                        customPrefsClasses.add(tss[j].getID());
+                        customPrefsClasses.add(ts.getID());
 
-                    String cls = tss[j].getTestSuiteInfo("prefsPane");
+                    String cls = ts.getTestSuiteInfo("prefsPane");
                     try {
                         if (cls != null) {
                             PreferencesPane pane =
-                                Class.forName(cls, true, tss[j].getClassLoader())
-                                        .asSubclass(PreferencesPane.class).getDeclaredConstructor().newInstance();
+                                    Class.forName(cls, true, ts.getClassLoader())
+                                            .asSubclass(PreferencesPane.class).getDeclaredConstructor().newInstance();
                             al.add(pane);
                         }
                     } catch (ReflectiveOperationException e) {
@@ -1386,8 +1374,8 @@ public class Desktop
             final Command[] cmds = commandContext.getCommands();
             // uses the first custom help loader found.
             // use a customized HelpBroker that will exit the VM when closed.
-            for (int i = 0; i < cmds.length; i++) {
-                theLoader = cmds[i].getCustomHelpLoader();
+            for (Command cmd : cmds) {
+                theLoader = cmd.getCustomHelpLoader();
                 // could also upgrade this to accept a different help set name
                 u = HelpSet.findHelpSet(theLoader, "jthelp.hs");
                 if (u != null)
@@ -1464,9 +1452,9 @@ public class Desktop
 
     private static void appendStrings(StringBuffer sb, String[] msgs) {
         if (msgs != null) {
-            for (int i = 0; i < msgs.length; i++) {
-                sb.append(msgs[i]);
-                if (!msgs[i].endsWith("\n"))
+            for (String msg : msgs) {
+                sb.append(msg);
+                if (!msg.endsWith("\n"))
                     sb.append('\n');
             }
         }

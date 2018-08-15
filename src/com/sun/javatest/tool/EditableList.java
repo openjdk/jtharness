@@ -132,8 +132,7 @@ public class EditableList extends JComponent implements Accessible
     public void setItems(Object[] items) {
         listModel.clear();
         if (items != null) {
-            for (int i = 0; i < items.length; i++)
-                listModel.addElement(items[i]);
+            for (Object item : items) listModel.addElement(item);
         }
     }
 

@@ -115,8 +115,7 @@ public class FilterConfig {
 
         // tell people about the addition
         // obs should never be null
-        for (int i = 0; i < obs.length; i++)
-            obs[i].filterAdded(f);
+        for (Observer ob : obs) ob.filterAdded(f);
 
         if (fep != null)
             fep.listModel.addElement(f);
@@ -146,8 +145,7 @@ public class FilterConfig {
 
         // tell people about the removal
         // obs should never be null
-        for (int i = 0; i < obs.length; i++)
-            obs[i].filterRemoved(f);
+        for (Observer ob : obs) ob.filterRemoved(f);
 
         if (fep != null)
             fep.listModel.removeElement(f);
@@ -179,9 +177,9 @@ public class FilterConfig {
     synchronized TestFilter getFilter(String name) {
         int count = filters.length;
 
-        for (int i = 0; i < count; i++)
-            if (name.equals(filters[i].getName()))
-                return filters[i];
+        for (TestFilter filter : filters)
+            if (name.equals(filter.getName()))
+                return filter;
 
         // not found
         return null;
@@ -192,8 +190,8 @@ public class FilterConfig {
      * Done by reference compare.
      */
     synchronized boolean contains(TestFilter f) {
-        for (int i = 0; i < filters.length; i++)
-            if (filters[i] == f)
+        for (TestFilter filter : filters)
+            if (filter == f)
                 return true;
 
         // not found
@@ -230,8 +228,8 @@ public class FilterConfig {
         if (obs == null)    // this really should not happen
             return;
 
-        for (int i = 0; i < obs.length; i++) {
-            obs[i].filterUpdated(f);
+        for (Observer ob : obs) {
+            ob.filterUpdated(f);
         }   // for
     }
 
@@ -512,8 +510,7 @@ public class FilterConfig {
         private ListModel<TestFilter> createListModel() {
             listModel = new DefaultListModel<>();
 
-            for (int i = 0; i < filters.length; i++)
-                listModel.addElement(filters[i]);
+            for (TestFilter filter : filters) listModel.addElement(filter);
 
             return listModel;
         }
@@ -776,8 +773,7 @@ public class FilterConfig {
             String status = ctf.commitEditorSettings();
 
             if (handlers != null)
-                for (int i = 0; i < handlers.length; i++)
-                    handlers[i].updateFilterMetaInfo(ctf);
+                for (FilterSelectionHandler handler : handlers) handler.updateFilterMetaInfo(ctf);
 
             return status;
         }

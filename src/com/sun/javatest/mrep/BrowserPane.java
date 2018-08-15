@@ -401,8 +401,8 @@ class BrowserPane extends JPanel {
                 }
             }
 
-            for (int i = 0; i < filelist.length; i++) {
-                File file = new File(dir, filelist[i]);
+            for (String aFilelist : filelist) {
+                File file = new File(dir, aFilelist);
                 out.startTag(HTMLWriterEx.LI);
                 out.startTag(HTMLWriterEx.OBJECT);
                 out.writeAttr(HTMLWriterEx.CLASSID, "com.sun.javatest.tool.IconLabel");
@@ -411,8 +411,7 @@ class BrowserPane extends JPanel {
                 out.writeEntity("&nbsp;");
                 try {
                     out.writeLink(file.toURL(), file.getName());
-                }
-                catch (MalformedURLException e) {
+                } catch (MalformedURLException e) {
                     out.write(file.getName());
                 }
             }

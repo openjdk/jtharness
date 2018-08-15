@@ -114,8 +114,8 @@ public abstract class ChoiceArrayQuestion extends Question
             if (choices.length != displayChoices.length)
                 throw new IllegalArgumentException();
 
-            for (int i = 0; i < displayChoices.length; i++) {
-                if (displayChoices[i] == null)
+            for (String displayChoice : displayChoices) {
+                if (displayChoice == null)
                     throw new NullPointerException();
             }
         }

@@ -153,19 +153,16 @@ class CE_StdView extends CE_View
 
     @Override
     void load() {
-        for (int i = 0; i < panes.length; i++)
-            panes[i].load();
+        for (CE_StdPane pane : panes) pane.load();
     }
 
     @Override
     void save() {
-        for (int i = 0; i < panes.length; i++)
-            panes[i].save();
+        for (CE_StdPane pane : panes) pane.save();
     }
 
     void setCheckExcludeListListener(ActionListener l) {
-        for (int i = 0; i < panes.length; i++) {
-            CE_StdPane pane = panes[i];
+        for (CE_StdPane pane : panes) {
             if (pane instanceof CE_ExcludeListPane)
                 ((CE_ExcludeListPane) pane).setCheckExcludeListListener(l);
         }
@@ -213,9 +210,9 @@ class CE_StdView extends CE_View
         // contentious design issue here:
         // should we disable the tabs for disabled panes, or completely hide them,
         // or choose on a pane by pane basis
-        for (int i = 0; i < panes.length; i++) {
-            if (panes[i].isEnabled())
-                uif.addTab(tabs, "ce." + panes[i].getName(), panes[i]);
+        for (CE_StdPane pane : panes) {
+            if (pane.isEnabled())
+                uif.addTab(tabs, "ce." + pane.getName(), pane);
         }
 
         tabs.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

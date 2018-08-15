@@ -563,8 +563,8 @@ public class PropertyArray {
         else {
             vec = new Vector<>(data.length,2);
 
-            for (int i = 0; i < data.length; i++) {
-                vec.addElement(data[i]);
+            for (String aData : data) {
+                vec.addElement(aData);
             }   // for
         }
 

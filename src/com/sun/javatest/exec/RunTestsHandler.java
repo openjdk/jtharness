@@ -113,8 +113,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
                 JMenuItem[] items =
                     mm.getMenuItems(JavaTestMenuManager.RUN_PRIMARY);
                 if (items != null)
-                    for (int i = 0; i < items.length; i++)
-                        menu.add(items[i]);
+                    for (JMenuItem item : items) menu.add(item);
             }
         }
 
@@ -127,8 +126,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
                 mm.getMenuItems(JavaTestMenuManager.RUN_OTHER);
             if (items != null) {
                 menu.addSeparator();
-                for (int i = 0; i < items.length; i++)
-                    menu.add(items[i]);
+                for (JMenuItem item : items) menu.add(item);
             }
         }
 
@@ -386,38 +384,34 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     static String[] reprocessTests2Run(final String[] requested, final String[] iTests) {
         ArrayList<String> result = new ArrayList<>();
     outer:
-        for (int i = 0; i < requested.length; i++) {
-            String curr = requested[i];
+    for (String curr : requested) {
+        for (String iTest : iTests) {
+            int slash = curr.lastIndexOf('/');
+            int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
 
-            for (int j = 0; j < iTests.length; j++) {
-                int slash = curr.lastIndexOf('/');
-                int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
-
-                if (curr.startsWith(iTests[j]) &&
-                    (curr.length() == iTests[j].length() || curr.charAt(iTests[j].length()) == '#' ||
-                     curr.charAt(iTests[j].length()) == '/')) {
-                    result.add(curr);
-                    continue outer;
-                }
-            }   // for j
-        }   // for i
+            if (curr.startsWith(iTest) &&
+                    (curr.length() == iTest.length() || curr.charAt(iTest.length()) == '#' ||
+                            curr.charAt(iTest.length()) == '/')) {
+                result.add(curr);
+                continue outer;
+            }
+        }   // for j
+    }   // for i
 
      outer2:
-        for (int i = 0; i < iTests.length; i++) {
-            String curr = iTests[i];
+     for (String curr : iTests) {
+         for (String aRequested : requested) {
+             int slash = curr.lastIndexOf('/');
+             int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
 
-            for (int j = 0; j < requested.length; j++) {
-                int slash = curr.lastIndexOf('/');
-                int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
-
-                if (curr.startsWith(requested[j]) &&
-                    (curr.length() == requested[j].length() || curr.charAt(requested[j].length()) == '#' ||
-                     curr.charAt(requested[j].length()) == '/')) {
-                    result.add(curr);
-                    // don't terminate search as in above case
-                }
-            }   // for j
-        }   // for i
+             if (curr.startsWith(aRequested) &&
+                     (curr.length() == aRequested.length() || curr.charAt(aRequested.length()) == '#' ||
+                             curr.charAt(aRequested.length()) == '/')) {
+                 result.add(curr);
+                 // don't terminate search as in above case
+             }
+         }   // for j
+     }   // for i
 
         return result.toArray(new String[result.size()]);
     }
@@ -490,8 +484,8 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             @Override
             public boolean isBackupRequired(File file) {
                 if (ignoreExtns != null) {
-                    for (int i = 0; i < ignoreExtns.length; i++) {
-                        if (file.getPath().endsWith(ignoreExtns[i]))
+                    for (String ignoreExtn : ignoreExtns) {
+                        if (file.getPath().endsWith(ignoreExtn))
                             return false;
                     }
                 }

@@ -93,8 +93,7 @@ public class SelectionTreeNode implements TreeNode {
         SelectionTreeNode prevNode = this;
 
         if (element.getChildren() != null) {
-            for (ListIterator<SelectionElement> iter = element.getChildren().listIterator(); iter.hasNext();) {
-                SelectionElement child = iter.next();
+            for (SelectionElement child : element.getChildren()) {
                 if (filter == null || filter.accept(child)) {
                     SelectionTreeNode node = new SelectionTreeNode(tree, child, filter, this, prevNode);
                     prevNode = node;
@@ -206,8 +205,8 @@ public class SelectionTreeNode implements TreeNode {
         boolean selected = false;
         boolean unselected = false;
 
-        for (Iterator<SelectionTreeNode> it = children.iterator(); it.hasNext();) {
-            SelectionType selectionType = it.next().getSelectionType();
+        for (SelectionTreeNode aChildren : children) {
+            SelectionType selectionType = aChildren.getSelectionType();
             switch (selectionType) {
                 case UNSELECTED:
                     unselected = true;
@@ -239,8 +238,7 @@ public class SelectionTreeNode implements TreeNode {
     private void updateChildren() {
         SelectionType selectionType = element.getSelectionType();
         if (SelectionType.SELECTED.equals(selectionType) || SelectionType.UNSELECTED.equals(selectionType)) {
-            for (Iterator<SelectionTreeNode> it = children.iterator(); it.hasNext();) {
-                SelectionTreeNode child = it.next();
+            for (SelectionTreeNode child : children) {
                 if (child.setSelectionType(selectionType)) {
                     child.updateChildren();
                 }

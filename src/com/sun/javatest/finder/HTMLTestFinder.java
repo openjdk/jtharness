@@ -52,12 +52,10 @@ public class HTMLTestFinder extends TestFinder
         // if necessary, the tables could be dynamically updated by the
         // init args; this is not currently supported
         excludeList = new Hashtable<>(excludeNames.length);
-        for (int i = 0; i < excludeNames.length; i++)
-            excludeList.put(excludeNames[i], excludeNames[i]);
+        for (String excludeName : excludeNames) excludeList.put(excludeName, excludeName);
 
         extensionTable = new Hashtable<>(extensions.length);
-        for (int i = 0; i < extensions.length; i++)
-            extensionTable.put(extensions[i], extensions[i]);
+        for (String extension : extensions) extensionTable.put(extension, extension);
     }
 
     @Override
@@ -148,8 +146,7 @@ public class HTMLTestFinder extends TestFinder
         // scan the contents of the directory, checking for
         // subdirectories and other files that should be scanned
         String[] names = dir.list();
-        for (int i = 0; i < names.length; i++) {
-            String name = names[i];
+        for (String name : names) {
             // if the file should be ignored, skip it
             // This is typically for directories like SCCS etc
             if (excludeList.containsKey(name))
@@ -159,8 +156,7 @@ public class HTMLTestFinder extends TestFinder
             if (file.isDirectory()) {
                 // if its a directory, add it to the list to be scanned
                 foundFile(file);
-            }
-            else {
+            } else {
                 // if its a file, check its extension
                 int dot = name.lastIndexOf('.');
                 if (dot == -1)

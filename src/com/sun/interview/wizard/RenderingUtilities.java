@@ -395,9 +395,9 @@ public class RenderingUtilities {
                 int[] sugs = intRules.getSuggestions();
                 if (sugs != null)
                     // add all suggestions
-                    for (int i = 0; i < sugs.length; i++) {
-                        if (!Integer.toString(sugs[i]).equals(cb.getItemAt(0)))
-                            cb.addItem(Integer.toString(sugs[i]));
+                    for (int sug : sugs) {
+                        if (!Integer.toString(sug).equals(cb.getItemAt(0)))
+                            cb.addItem(Integer.toString(sug));
                     }
             }
             else if (rules instanceof FloatConstraints) {
@@ -409,9 +409,9 @@ public class RenderingUtilities {
 
                 if (sugs != null)
                     // add all suggestions
-                    for (int i = 0; i < sugs.length; i++) {
-                        if (!Float.toString(sugs[i]).equals(cb.getItemAt(0)))
-                            cb.addItem(Float.toString(sugs[i]));
+                    for (float sug : sugs) {
+                        if (!Float.toString(sug).equals(cb.getItemAt(0)))
+                            cb.addItem(Float.toString(sug));
                     }
             }
             else if (rules instanceof StringConstraints) {
@@ -422,9 +422,9 @@ public class RenderingUtilities {
                 if (sugs != null) {
                     if (strRules.isCustomValuesAllowed()) {
                         // add all suggestions
-                        for (int i = 0; i < sugs.length; i++) {
-                            if (!sugs[i].equals(cb.getItemAt(0)))
-                                cb.addItem(sugs[i]);
+                        for (String sug : sugs) {
+                            if (!sug.equals(cb.getItemAt(0)))
+                                cb.addItem(sug);
                         }   // for
                     }
                     else
@@ -439,9 +439,9 @@ public class RenderingUtilities {
                 File[] sugs = strRules.getSuggestions();
                 if (sugs != null) {
                     // add all suggestions
-                    for (int i = 0; i < sugs.length; i++) {
-                        if (!sugs[i].getPath().equalsIgnoreCase((String) cb.getItemAt(0)))
-                            cb.addItem(sugs[i].getPath());
+                    for (File sug : sugs) {
+                        if (!sug.getPath().equalsIgnoreCase((String) cb.getItemAt(0)))
+                            cb.addItem(sug.getPath());
                     }   // for
                 }
                 else {}
@@ -467,8 +467,7 @@ public class RenderingUtilities {
             if (isUnsetAllowed)
                 cb.addItem("");
 
-            for (int i = 0; i < possible.length; i++)
-                cb.addItem(possible[i]);
+            for (String aPossible : possible) cb.addItem(aPossible);
 
             for (int i = 0; i < possible.length; i++) {
                 if (compareStr(curr, possible[i], ignoreCase)) {

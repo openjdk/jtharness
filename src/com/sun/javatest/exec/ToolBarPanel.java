@@ -62,12 +62,12 @@ class ToolBarPanel extends JPanel {
         super.paint(g);
         int[] separators = theLayout.getRowPositions();
         Color oldColor = g.getColor();
-        for (int i = 0; i < separators.length; i++) {
+        for (int separator : separators) {
             g.setColor(b.getShadowInnerColor(this));
             // x1, y1, x2, y2
-            g.drawLine(indent, separators[i], getWidth()-indent, separators[i]);
+            g.drawLine(indent, separator, getWidth() - indent, separator);
             g.setColor(b.getHighlightInnerColor(this));
-            g.drawLine(indent, separators[i]+1, getWidth()-indent, separators[i]+1);
+            g.drawLine(indent, separator + 1, getWidth() - indent, separator + 1);
         }
 
         g.setColor(oldColor);

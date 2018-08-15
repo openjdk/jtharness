@@ -300,19 +300,16 @@ class PathPanel extends JPanel
         boolean isQuestionAutoOpened(Question q) {
             // only return true if the preceding marked question is in the autoOpen set
             boolean autoOpened = autoOpenSet.contains(null);
-            for (int i = 0; i < currEntries.length; i++) {
-                Object e = currEntries[i];
+            for (Object e : currEntries) {
                 if (e instanceof Question) {
                     Question qe = (Question) e;
                     if (qe.hasMarker(markerName)) {
                         if (qe == q)
                             return false;
                         autoOpened = autoOpenSet.contains(qe);
-                    }
-                    else if (qe == q)
+                    } else if (qe == q)
                         return autoOpened;
-                }
-                else if (e instanceof List && ((List<?>) e).contains(q))
+                } else if (e instanceof List && ((List<?>) e).contains(q))
                     return false;
             }
             return false;

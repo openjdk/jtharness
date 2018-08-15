@@ -130,11 +130,11 @@ public class ResultBrowser extends HttpServlet {
                         File tdFile = td.getFile();
                         String tdFilePath = tdFile == null ? null : tdFile.getPath();
                         String tdDir = tdFilePath == null ? null : tdFilePath.substring(0, tdFilePath.lastIndexOf('/') + 1); // File.separator?
-                        for (int i = 0; i < srcs.length; i++) {
+                        for (String src : srcs) {
                             if (tdDir == null)
-                                out.println(srcs[i]);
+                                out.println(src);
                             else
-                                out.println("<a href=\"" + tdDir + srcs[i] + "\">" + srcs[i] + "</a>");
+                                out.println("<a href=\"" + tdDir + src + "\">" + src + "</a>");
                         }
                     }
                 }
@@ -174,8 +174,7 @@ public class ResultBrowser extends HttpServlet {
             }
             else {
                 out.println("<table>");
-                for (Iterator<Map.Entry<String, String>> i = env.entrySet().iterator(); i.hasNext(); ) {
-                    Map.Entry<String, String> e = i.next();
+                for (Map.Entry<String, String> e : env.entrySet()) {
                     String key = e.getKey();
                     String value = e.getValue();
                     out.println("<tr><td>" + key + "<td>" + filter(value, true));
@@ -201,12 +200,12 @@ public class ResultBrowser extends HttpServlet {
                         out.println("<p><hr align=left width=\"25%\">");
                     out.println("<h3><a name=\"output-" + s.getTitle() + "\">" + s.getTitle() + "</a></h3>");
                     String[] sects = s.getOutputNames();
-                    for (int j = 0; j < sects.length; j++) {
-                        if (!sects[j].equals("messages"))
-                            out.println("<h4>Output: " + sects[j] + "</h4>");
-                        String output = s.getOutput(sects[j]);
+                    for (String sect : sects) {
+                        if (!sect.equals("messages"))
+                            out.println("<h4>Output: " + sect + "</h4>");
+                        String output = s.getOutput(sect);
                         if (output.equals(""))
-                        out.println("<em>(No output.)</em>");
+                            out.println("<em>(No output.)</em>");
                         out.println("<pre>" + output + "</pre>");
                     }
                     if (s.getStatus() != null) {

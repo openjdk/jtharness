@@ -56,11 +56,11 @@ public class KeywordScript extends Script
         PrintWriter trOut = getTestResult().getTestCommentWriter();
         TestDescription td = getTestDescription();
 
-        for (int i = 0; i < scriptArgs.length; i++) {
-            if (scriptArgs[i].equals("-debug"))
+        for (String scriptArg : scriptArgs) {
+            if (scriptArg.equals("-debug"))
                 debug = true;
             else {
-                setStatus(Status.error("bad args for script: " + scriptArgs[i]));
+                setStatus(Status.error("bad args for script: " + scriptArg));
                 return;
             }   // else
         }   // for
@@ -72,54 +72,52 @@ public class KeywordScript extends Script
         int wordsMatchingInMatches = 0;// the number of words matching
 
     findMatch:
-        for (Iterator<String> iter = env.keys().iterator(); iter.hasNext(); ) {
-            String key = iter.next();
+    for (String key : env.keys()) {
+        // if the key does not begin with the `script.' prefix, ignore key
+        if (!key.startsWith(prefix))
+            continue;
 
-            // if the key does not begin with the `script.' prefix, ignore key
-            if (!key.startsWith(prefix))
-                continue;
+        if (debug)
+            trOut.println("CHECKING " + key);
 
-            if (debug)
-                trOut.println("CHECKING " + key);
+        String keyList = key.substring(prefix.length()).replace('_', ' ').toLowerCase();
+        String[] keys = StringArray.split(keyList);
 
-            String keyList = key.substring(prefix.length()).replace('_', ' ').toLowerCase();
-            String[] keys = StringArray.split(keyList);
+        choices.addElement(keyList);
 
-            choices.addElement(keyList);
+        if (debug)
+            trOut.println("keys: " + StringArray.join(keys));
 
-            if (debug)
-                trOut.println("keys: " + StringArray.join(keys));
+        // if there are no words after the `script.' prefix,
+        // or if it has fewer words than the best match so far, ignore key
+        if (keys == null || keys.length < wordsMatchingInMatches)
+            continue;
 
-            // if there are no words after the `script.' prefix,
-            // or if it has fewer words than the best match so far, ignore key
-            if (keys == null || keys.length < wordsMatchingInMatches)
-                continue;
-
-            for (int i = 0; i < keys.length; i++) {
-                // if key has a word that is not for the test, ignore key
-                if (!testKeys.contains(keys[i])) {
-
-                    if (debug)
-                        trOut.println("discarding, because of " + keys[i]);
-
-                    continue findMatch;
-                }
-            }
-
-            // see if key is better than best so far
-            if (keys.length > wordsMatchingInMatches) {
-                // update best so far
+        for (String key1 : keys) {
+            // if key has a word that is not for the test, ignore key
+            if (!testKeys.contains(key1)) {
 
                 if (debug)
-                    trOut.println("new best match, " + keys.length + " keys");
+                    trOut.println("discarding, because of " + key1);
 
-                matches = new Vector<>();
-                wordsMatchingInMatches = keys.length;
+                continue findMatch;
             }
+        }
 
-            // this key deserves note
-            matches.addElement(key);
-        }   // for
+        // see if key is better than best so far
+        if (keys.length > wordsMatchingInMatches) {
+            // update best so far
+
+            if (debug)
+                trOut.println("new best match, " + keys.length + " keys");
+
+            matches = new Vector<>();
+            wordsMatchingInMatches = keys.length;
+        }
+
+        // this key deserves note
+        matches.addElement(key);
+    }   // for
 
         // check we have a unique script selected
         String name = env.getName();
@@ -221,8 +219,8 @@ public class KeywordScript extends Script
     private static void printStrArr(PrintWriter pw, String[] data) {
         if(data == null) return;
 
-        for(int i = 0; i < data.length; i++) {
-            pw.println(data[i]);
+        for (String aData : data) {
+            pw.println(aData);
         }
     }
 

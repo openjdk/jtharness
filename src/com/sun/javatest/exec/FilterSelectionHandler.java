@@ -166,8 +166,7 @@ class FilterSelectionHandler {
         editMenu = uif.createMenu("fconfig.submenu");
 
         TestFilter[] filters = filterConfig.getFilters();
-        for (int i = 0; i < filters.length; i++)
-            addToMenu(filters[i], -1);
+        for (TestFilter filter : filters) addToMenu(filter, -1);
 
         // make sure a filter is selected
         // addToMenu() also tries to do this
@@ -216,8 +215,7 @@ class FilterSelectionHandler {
 
             updateMenu();
 
-            for (int i = 0; i < obs.length; i++)
-                obs[i].filterSelected(f);
+            for (Observer ob : obs) ob.filterSelected(f);
         }
     }
 
@@ -402,8 +400,7 @@ class FilterSelectionHandler {
                 return;
 
             if (activeFilter == f) {
-                for (int i = 0; i < obs.length; i++)
-                    obs[i].filterUpdated(f);
+                for (Observer ob : obs) ob.filterUpdated(f);
             }
         }
 
@@ -418,8 +415,7 @@ class FilterSelectionHandler {
 
             // tell people about the addition
             // obs should never be null
-            for (int i = 0; i < obs.length; i++)
-                obs[i].filterAdded(f);
+            for (Observer ob : obs) ob.filterAdded(f);
         }
 
        /**
@@ -436,8 +432,7 @@ class FilterSelectionHandler {
 
             // tell people about the removal
             // obs should never be null
-            for (int i = 0; i < obs.length; i++)
-                obs[i].filterRemoved(f);
+            for (Observer ob : obs) ob.filterRemoved(f);
         }
     }
 }

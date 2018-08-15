@@ -151,8 +151,8 @@ public abstract class Tool extends JPanel
             return;
 
         title = newTitle;
-        for (int i = 0; i < observers.length; i++) {
-            observers[i].titleChanged(this, title);
+        for (Observer observer : observers) {
+            observer.titleChanged(this, title);
         }
     }
 
@@ -179,8 +179,8 @@ public abstract class Tool extends JPanel
             return;
 
         shortTitle = newShortTitle;
-        for (int i = 0; i < observers.length; i++) {
-            observers[i].shortTitleChanged(this, shortTitle);
+        for (Observer observer : observers) {
+            observer.shortTitleChanged(this, shortTitle);
         }
     }
 

@@ -65,8 +65,7 @@ class SerialPortModeOptions extends ModeOptions {
 
         if (proxy != null) {
             String[] portNames = proxy.getPortNames();
-            for (int i = 0; i < portNames.length; i++)
-                portChoice.addItem(portNames[i]);
+            for (String portName : portNames) portChoice.addItem(portName);
         }
 
         if (portChoice.getItemCount() == 0) {

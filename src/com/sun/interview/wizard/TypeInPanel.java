@@ -98,8 +98,7 @@ public class TypeInPanel extends JPanel
                 ed_ac.setAccessibleDescription(i18n.getString(uiKey + ".chc.ed.desc"));
             }
 
-            for (int i = 0; i < suggestions.length; i++)
-                choice.addItem(suggestions[i]);
+            for (String suggestion : suggestions) choice.addItem(suggestion);
 
             if (fieldWidth <= 0) {
                 c.fill = GridBagConstraints.HORIZONTAL;

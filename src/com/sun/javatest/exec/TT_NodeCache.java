@@ -760,13 +760,13 @@ class TT_NodeCache implements Runnable {
             return;
         }
 
-        for (int i = 0; i < observers.length; i++) {
-            boolean[] mask = observers[i].getEventMasks();
+        for (TT_NodeCacheObserver observer : observers) {
+            boolean[] mask = observer.getEventMasks();
             if (mask[0] || mask[type]) {
                 if (isAdd) {
-                    observers[i].testAdded(type, path, what, index);
+                    observer.testAdded(type, path, what, index);
                 } else {
-                    observers[i].testRemoved(type, path, what, index);
+                    observer.testRemoved(type, path, what, index);
                 }
             }
         }   // for
@@ -777,10 +777,10 @@ class TT_NodeCache implements Runnable {
             return;
         }
 
-        for (int i = 0; i < observers.length; i++) {
-            boolean[] mask = observers[i].getEventMasks();
+        for (TT_NodeCacheObserver observer : observers) {
+            boolean[] mask = observer.getEventMasks();
             if (mask[0] || mask[TT_NodeCacheObserver.MSGS_STATS]) {
-                observers[i].statsUpdated(stats);
+                observer.statsUpdated(stats);
             }
         }   // for
     }

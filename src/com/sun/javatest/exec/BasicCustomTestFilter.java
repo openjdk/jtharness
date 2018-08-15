@@ -144,8 +144,8 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
             return;
         }
 
-        for (int i = 0; i < obs.length; i++) {
-            obs[i].filterUpdated(filter);
+        for (Observer ob : obs) {
+            ob.filterUpdated(filter);
         }
     }
 
@@ -249,11 +249,11 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         if (statusFilterNeedsUpdate)
             updateStatusFilter();
 
-        for (int i = 0; i < activeFilters.length; i++) {
-            if (activeFilters[i] != null &&
-                    !activeFilters[i].accepts(td)) {
+        for (TestFilter activeFilter : activeFilters) {
+            if (activeFilter != null &&
+                    !activeFilter.accepts(td)) {
                 if (o != null) {
-                    o.rejected(td, activeFilters[i]);
+                    o.rejected(td, activeFilter);
                 } else {
                 }
 
@@ -515,8 +515,8 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         if (files == null || files.length == 0) {
             return;
         } else {
-            for (int i = 0; i < files.length; i++) {
-                jtxFiles.addElement(files[i].getPath());
+            for (File file : files) {
+                jtxFiles.addElement(file.getPath());
             }
         }
     }
@@ -641,8 +641,8 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
 
     private void enableStatusFields() {
         boolean enable = statusAnyOfBtn.isEnabled() && statusAnyOfBtn.isSelected();
-        for (int i = 0; i < statusChecks.length; i++) {
-            statusChecks[i].setEnabled(enable);
+        for (JCheckBox statusCheck : statusChecks) {
+            statusCheck.setEnabled(enable);
         }
     }
 

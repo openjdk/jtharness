@@ -554,8 +554,7 @@ public class BinaryTestFinder extends TestFinder
             Node getNode(String path) {
                 int sep = path.indexOf(File.separatorChar);
                 String head = sep == -1 ? path : path.substring(0, sep);
-                for (int i = 0; i < children.length; i++) {
-                    Node child = children[i];
+                for (Node child : children) {
                     if (child.name.equals(head))
                         return sep == -1 ? child : child.getNode(path.substring(sep + 1));
                 }

@@ -759,8 +759,7 @@ public class InterviewEditor extends ToolDialog {
         keys.addAll(aQuestions.keySet());
         keys.addAll(bQuestions.keySet());
 
-        for (Iterator<String> iter = keys.iterator(); iter.hasNext(); ) {
-            String key = iter.next();
+        for (String key : keys) {
             Question aq = aQuestions.get(key);
             Question bq = bQuestions.get(key);
             if (aq == null || bq == null) {
@@ -771,8 +770,8 @@ public class InterviewEditor extends ToolDialog {
                 boolean eq = (aq.getStringValue() == null &&
                         empty.equals(bq.getStringValue())) ||
                         (empty.equals(aq.getStringValue()) &&
-                        bq.getStringValue() == null);
-                if(!eq) {
+                                bq.getStringValue() == null);
+                if (!eq) {
                     /*
                      Hopefully, question reloading is not required anymore,
                      not because questions are equal now, but because
@@ -801,8 +800,7 @@ public class InterviewEditor extends ToolDialog {
             return false;
         }
 
-        for (Iterator<String> iter = aKeys.iterator(); iter.hasNext(); ) {
-            String key = iter.next();
+        for (String key : aKeys) {
             if (!bKeys.contains(key)) {
                 return false;
             }

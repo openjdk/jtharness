@@ -91,8 +91,7 @@ class RunTestsCommand extends Command
             harness = h;
 
             Harness.Observer[] observers = ctx.getHarnessObservers();
-            for (int i = 0; i < observers.length; i++)
-                h.addObserver(observers[i]);
+            for (Harness.Observer observer : observers) h.addObserver(observer);
 
             // should really merge VerboseObserver and BatchObserver
             VerboseObserver vo = new VerboseObserver(ctx);

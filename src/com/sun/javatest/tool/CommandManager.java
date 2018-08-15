@@ -80,8 +80,8 @@ public abstract class CommandManager {
      * @return true if a match is found, and false otherwise
      */
     protected static boolean isMatch(String s1, String[] s2) {
-        for (int i = 0; i < s2.length; i++) {
-            if (s1.equalsIgnoreCase(s2[i]))
+        for (String aS2 : s2) {
+            if (s1.equalsIgnoreCase(aS2))
                 return true;
         }
         return false;

@@ -163,9 +163,9 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
             String[] names = Report.getHtmlReportFilenames();
             long newestTime = 0;
 
-            for (int i = 0; i < names.length; i++) {
-                File f = new File(reportDir, names[i]);
-                if (f.exists()  && f.lastModified() > newestTime) {
+            for (String name : names) {
+                File f = new File(reportDir, name);
+                if (f.exists() && f.lastModified() > newestTime) {
                     target = f;
                     newestTime = f.lastModified();
                 }
@@ -238,9 +238,9 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
             if (lastState == null)
                 lastState = new HashMap<>();
 
-            for (int i = 0; i < keys.length; i++) {
-                String key = (String) keys[i];
-                String value = pm.get(keys[i]);
+            for (Object key1 : keys) {
+                String key = (String) key1;
+                String value = pm.get(key1);
 
                 if (value != null)
                     lastState.put(key, value);

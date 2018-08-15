@@ -162,13 +162,11 @@ public class CommandParser
                     throw new Fault(i18n, "cmdp.badReadOpt");
             }
 
-            for (int i = 0; i < mgrs.length; i++) {
-                CommandManager m = mgrs[i];
+            for (CommandManager m : mgrs) {
                 try {
                     if (m.parseCommand(cmd, argIter, ctx))
                         return;
-                }
-                catch (Command.Fault e) {
+                } catch (Command.Fault e) {
                     throw new Fault(e);
                 }
             }
@@ -268,8 +266,7 @@ public class CommandParser
                 throw new Fault(i18n, "cmdp.badReadCmd");
             }
 
-            for (int i = 0; i < mgrs.length; i++) {
-                CommandManager m = mgrs[i];
+            for (CommandManager m : mgrs) {
                 try {
                     if (m.parseCommand(cmd, iter, ctx)) {
                         if (iter.hasNext())
@@ -277,8 +274,7 @@ public class CommandParser
                         else
                             continue nextLine;
                     }
-                }
-                catch (Command.Fault e) {
+                } catch (Command.Fault e) {
                     throw new Fault(e);
                 }
             }

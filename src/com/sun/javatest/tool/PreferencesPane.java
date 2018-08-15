@@ -116,8 +116,7 @@ public abstract class PreferencesPane extends JPanel {
     public void load(Map<String, String> m) {
         PreferencesPane[] p = getChildPanes();
         if (p != null) {
-            for (int i = 0; i < p.length; i++)
-                p[i].load(m);
+            for (PreferencesPane aP : p) aP.load(m);
         }
     }
 
@@ -130,8 +129,7 @@ public abstract class PreferencesPane extends JPanel {
     public void save(Map<String, String> m) {
         PreferencesPane[] p = getChildPanes();
         if (p != null) {
-            for (int i = 0; i < p.length; i++)
-                p[i].save(m);
+            for (PreferencesPane aP : p) aP.save(m);
         }
     }
 
@@ -183,8 +181,7 @@ public abstract class PreferencesPane extends JPanel {
         @Override
         public void setVisible(boolean b) {
             if (b) {
-                for (int i = 0; i < panes.length; i++)
-                    panes[i].load(props);
+                for (PreferencesPane pane : panes) pane.load(props);
             }
             super.setVisible(b);
 
@@ -283,14 +280,13 @@ public abstract class PreferencesPane extends JPanel {
 
             // set all the buttons to the same preferred size, per JL&F
             Dimension maxBtnDims = new Dimension();
-            for (int i = 0; i < btns.length; i++) {
-                Dimension d = btns[i].getPreferredSize();
+            for (JButton btn2 : btns) {
+                Dimension d = btn2.getPreferredSize();
                 maxBtnDims.width = Math.max(maxBtnDims.width, d.width);
                 maxBtnDims.height = Math.max(maxBtnDims.height, d.height);
             }
 
-            for (int i = 0; i < btns.length; i++)
-                btns[i].setPreferredSize(maxBtnDims);
+            for (JButton btn1 : btns) btn1.setPreferredSize(maxBtnDims);
 
             JPanel p = uif.createPanel("prefs.btns", false);
             p.setLayout(new GridBagLayout());
@@ -301,8 +297,8 @@ public abstract class PreferencesPane extends JPanel {
             c.insets.right = 11;   // value from JL&F Guidelines
             c.weightx = 1;         // first button absorbs space to the left
 
-            for (int i = 0; i < btns.length; i++) {
-                p.add(btns[i], c);
+            for (JButton btn : btns) {
+                p.add(btn, c);
                 c.weightx = 0;
             }
 
@@ -336,9 +332,7 @@ public abstract class PreferencesPane extends JPanel {
         }
 
         private void addAllPanes(JPanel deck, PreferencesPane[] panes) {
-            for (int i = 0; i < panes.length; i++) {
-                PreferencesPane pane = panes[i];
-
+            for (PreferencesPane pane : panes) {
                 JPanel p = uif.createPanel("prefs.card" + cardNum++, false);
                 p.setLayout(new BorderLayout());
                 JLabel head = new JLabel(pane.getText());
@@ -372,28 +366,27 @@ public abstract class PreferencesPane extends JPanel {
                 setVisible(false);
             }
                 else if (src == cancelBtn) {
-                        for (int i = 0; i < panes.length; i++)
-                                panes[i].load(props);
+                for (PreferencesPane pane : panes) pane.load(props);
                         setVisible(false);
                 }
         }
 
         private boolean okToSave() {
             String reason = null;
-            for (int i = 0; i < panes.length; i++) {
-                reason = panes[i].validateValues();
+            for (PreferencesPane pane : panes) {
+                reason = pane.validateValues();
                 if (reason != null) {
-                    tree.setSelectionPath(new TreePath(new Object[] {this, panes[i]}));
+                    tree.setSelectionPath(new TreePath(new Object[]{this, pane}));
                     break;
                 }
 
-                PreferencesPane[] p = panes[i].getChildPanes();
+                PreferencesPane[] p = pane.getChildPanes();
                 if (p != null) {
-                    for (int j = 0; j < p.length; j++) {
-                        reason = p[j].validateValues();
+                    for (PreferencesPane aP : p) {
+                        reason = aP.validateValues();
                         if (reason != null) {
                             tree.setSelectionPath(new TreePath(
-                                new Object[] {this, panes[i], p[j]}));
+                                    new Object[]{this, pane, aP}));
                             break;
                         }
                     }   // for j
@@ -535,8 +528,8 @@ public abstract class PreferencesPane extends JPanel {
                 }
             };
 
-            for (int i = 0; i < panes.length; i++) {
-                panes[i].save(m);
+            for (PreferencesPane pane : panes) {
+                pane.save(m);
             }
         }
 

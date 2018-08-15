@@ -461,53 +461,43 @@ public class Agent implements Runnable {
         }
 
         public synchronized void started() {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].started(Agent.this);
+            for (Observer observer : observers) observer.started(Agent.this);
         }
 
         public synchronized void finished() {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].finished(Agent.this);
+            for (Observer observer : observers) observer.finished(Agent.this);
         }
 
         public synchronized void openedConnection(Connection connection) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].openedConnection(Agent.this, connection);
+            for (Observer observer : observers) observer.openedConnection(Agent.this, connection);
         }
 
         public synchronized void errorOpeningConnection(Exception e) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].errorOpeningConnection(Agent.this, e);
+            for (Observer observer : observers) observer.errorOpeningConnection(Agent.this, e);
         }
 
         public synchronized void execTest(Connection cconnection, String tag, String className, String[] args) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].execTest(Agent.this, cconnection, tag, className, args);
+            for (Observer observer : observers) observer.execTest(Agent.this, cconnection, tag, className, args);
         }
 
         public synchronized void execCommand(Connection cconnection, String tag, String className, String[] args) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].execCommand(Agent.this, cconnection, tag, className, args);
+            for (Observer observer : observers) observer.execCommand(Agent.this, cconnection, tag, className, args);
         }
 
         public synchronized void execMain(Connection connection, String tag, String className, String[] args) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].execMain(Agent.this, connection, tag, className, args);
+            for (Observer observer : observers) observer.execMain(Agent.this, connection, tag, className, args);
         }
 
         public synchronized void result(Connection connection, Status status) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].result(Agent.this, connection, status);
+            for (Observer observer : observers) observer.result(Agent.this, connection, status);
         }
 
         public synchronized void exception(Connection connection, Exception e) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].exception(Agent.this, connection, e);
+            for (Observer observer : observers) observer.exception(Agent.this, connection, e);
         }
 
         public synchronized void completed(Connection connection) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].completed(Agent.this, connection);
+            for (Observer observer : observers) observer.completed(Agent.this, connection);
         }
 
         private Observer[] observers = new Observer[0];

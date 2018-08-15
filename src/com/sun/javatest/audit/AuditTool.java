@@ -340,8 +340,7 @@ class AuditTool extends Tool
         String cfp = configFile == null ? "" : configFile.getPath();
         configFileField.setText(cfp);
 
-        for (int i = 0; i < panes.length; i++) {
-            AuditPane pane = panes[i];
+        for (AuditPane pane : panes) {
             if (a != null)
                 pane.show(a);
             else if (msg != null)

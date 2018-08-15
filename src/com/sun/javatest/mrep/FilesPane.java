@@ -150,8 +150,8 @@ class FilesPane extends JPanel {
         co.insets = new Insets(5,0,0,0);
         this.add(buttonsPanel, co);
         buttonsPanel.setLayout(new GridLayout(1, 3, 5, 5));
-        for (int i = 0; i < buttons.length; i++) {
-            buttonsPanel.add(buttons[i]);
+        for (JButton button : buttons) {
+            buttonsPanel.add(button);
         }
 
     }
@@ -160,9 +160,9 @@ class FilesPane extends JPanel {
         String[] merged = getXmlFiles();
 
         // check the files
-        for (int i=0; i < merged.length; i++) {
-            if (!FilesPane.isXMLReport(new File(merged[i]))) {
-                uif.showError("files.wrongfileformat", merged[i]);
+        for (String aMerged : merged) {
+            if (!FilesPane.isXMLReport(new File(aMerged))) {
+                uif.showError("files.wrongfileformat", aMerged);
                 return false;
             }
         }
@@ -209,16 +209,15 @@ class FilesPane extends JPanel {
 
         boolean error = false;  // block "next" button if any error occurred (should be false to unblock)
         ArrayList<String> used = new ArrayList<String>();
-        for (int i = 0; i < merged.size(); i++) {
-            JTextField tField = merged.get(i);
+        for (JTextField tField : merged) {
             String s = tField.getText().trim();
             tField.setBackground(UIFactory.getDefaultInputColor());
             if (!"".equals(s)) {        // do nothing, if value is empty
-                if(!used.contains(s)) { // check, if such value was already used
+                if (!used.contains(s)) { // check, if such value was already used
                     used.add(s);
                     if (!isXMLReport(new File(s))) {    // check file is xml report
                         error = true;
-                        if(!tField.hasFocus())
+                        if (!tField.hasFocus())
                             tField.setBackground(UIFactory.getInvalidInputColor());
                     } else {
                         tField.setBackground(UIFactory.getValidInputColor());
@@ -439,15 +438,15 @@ class FilesPane extends JPanel {
 
     String[] getXmlFiles() {
         int l=0;
-        for (int i = 0; i < merged.size(); i++) {
-            String s = merged.get(i).getText().trim();
+        for (JTextField aMerged1 : merged) {
+            String s = aMerged1.getText().trim();
             if (!"".equals(s)) l++;
         }
 
         String[] result = new String[l];
         l = 0;
-        for (int i = 0; i < merged.size(); i++) {
-            String s = merged.get(i).getText().trim();
+        for (JTextField aMerged : merged) {
+            String s = aMerged.getText().trim();
             if (!"".equals(s)) {
                 result[l++] = s;
             }

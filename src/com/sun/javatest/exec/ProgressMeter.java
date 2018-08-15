@@ -189,8 +189,7 @@ class ProgressMeter extends JComponent implements Accessible {
 
     public synchronized void set(int[] v) {
         int total = 0;
-        for (int i = 0; i < v.length; i++)
-            total += v[i];
+        for (int aV : v) total += aV;
         set(v, total);
     }
 

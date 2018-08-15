@@ -171,13 +171,13 @@ public class HelpManager extends CommandManager
 
         // sort the command manager help nodes according to their name
         TreeMap<String, HelpTree.Node> tm = new TreeMap<>();
-        for (int i = 0; i < commandManagers.length; i++) {
-            HelpTree.Node n = commandManagers[i].getHelp();
+        for (CommandManager commandManager : commandManagers) {
+            HelpTree.Node n = commandManager.getHelp();
             tm.put(n.getName(), n);
         }
 
-        for (Iterator<HelpTree.Node> iter = tm.values().iterator(); iter.hasNext(); ) {
-            commandHelpTree.addNode(iter.next());
+        for (HelpTree.Node node : tm.values()) {
+            commandHelpTree.addNode(node);
         }
 
         // now add file types
@@ -263,8 +263,8 @@ public class HelpManager extends CommandManager
         URL u = null;      // URL for help set
         // uses the first custom help loader found.
         // use a customized HelpBroker that will exit the VM when closed.
-        for (int i = 0; i < cmds.length; i++) {
-            theLoader = cmds[i].getCustomHelpLoader();
+        for (Command cmd : cmds) {
+            theLoader = cmd.getCustomHelpLoader();
 
             // could also upgrade this to accept a different help set name
             u = HelpSet.findHelpSet(theLoader, "jthelp.hs");

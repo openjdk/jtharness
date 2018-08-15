@@ -170,8 +170,7 @@ class MonitorState {
      */
     synchronized int getTestsDoneCount() {
         int done = 0;
-        for (int i = 0; i < stats.length; i++)
-            done += stats[i];
+        for (int stat : stats) done += stat;
 
         return done;
     }
@@ -295,14 +294,17 @@ class MonitorState {
                 EventQueue.invokeLater(cmd);
             }
             else {      // now on event thread
-                for (int i = 0; i < obs.length; i++)
+                for (Observer ob : obs)
                     switch (which) {
                         case 0:
-                            obs[i].starting(); break;
+                            ob.starting();
+                            break;
                         case 1:
-                            obs[i].stopping(); break;
+                            ob.stopping();
+                            break;
                         case 2:
-                            obs[i].postProcessing(); break;
+                            ob.postProcessing();
+                            break;
                         default:
                             throw new IllegalStateException();
                     }   // switch
@@ -322,8 +324,7 @@ class MonitorState {
                 EventQueue.invokeLater(cmd);
             }
             else {      // now on event thread
-                for (int i = 0; i < obs.length; i++)
-                    obs[i].finished(allOk);
+                for (Observer ob : obs) ob.finished(allOk);
             }
         }
     }

@@ -122,16 +122,16 @@ public class FileSystemTableModel extends AbstractTableModel  {
 
         if (lst != null && lst.length > 0) {
 //            if (allowTraversDirs) {
-                for (int i = 0; i < lst.length; i++) {
-                    if (lst[i].isDirectory()) {
-                        data.add(new FileTableNode(lst[i], 'd'));
-                    }
-                }   // for
+            for (File aLst1 : lst) {
+                if (aLst1.isDirectory()) {
+                    data.add(new FileTableNode(aLst1, 'd'));
+                }
+            }   // for
 //            }
-            for (int i = 0; i < lst.length; i++) {
-                if (!lst[i].isDirectory()) {
-                    if (filter == null || filter.isApplicableFile(lst[i])) {
-                        data.add(new FileTableNode(lst[i], 'f'));
+            for (File aLst : lst) {
+                if (!aLst.isDirectory()) {
+                    if (filter == null || filter.isApplicableFile(aLst)) {
+                        data.add(new FileTableNode(aLst, 'f'));
                     }
                 }
             }   // for

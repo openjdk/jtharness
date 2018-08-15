@@ -128,8 +128,8 @@ public class ProviderRegistry {
 
         String[] urls = obj.getRegisteredURLs();
 
-        for (int i = 0; i < urls.length; i++) {
-            deleteHandler(disassembleURL(urls[i]), obj);
+        for (String url : urls) {
+            deleteHandler(disassembleURL(url), obj);
         }
     }
 

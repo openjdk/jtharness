@@ -429,8 +429,7 @@ public class SelectionTree extends JTree {
         TreePath[] paths = getSelectionPaths();
         List<SelectionTreeNode> result = new ArrayList<SelectionTreeNode>();
         if (paths != null) {
-            for (int i = 0; i < paths.length; i++) {
-                TreePath treePath = paths[i];
+            for (TreePath treePath : paths) {
                 if (treePath != null) {
                     Object obj = treePath.getLastPathComponent();
                     if (obj instanceof SelectionTreeNode) {
@@ -623,12 +622,10 @@ public class SelectionTree extends JTree {
 
     @SuppressWarnings("unchecked")
     private void expandHierarchyMap(List<SelectionTreeNode> curLevelNodes, Map<SelectionElement, Object> expanded) {
-        for (Iterator<Map.Entry<SelectionElement, Object>> iter = expanded.entrySet().iterator(); iter.hasNext();) {
-            Map.Entry<SelectionElement, Object> entry = iter.next();
+        for (Map.Entry<SelectionElement, Object> entry : expanded.entrySet()) {
             SelectionElement nodeObject = entry.getKey();
             SelectionTreeNode nodeToExpand = null;
-            for (Iterator<SelectionTreeNode> levelIter = curLevelNodes.iterator(); levelIter.hasNext();) {
-                SelectionTreeNode node = levelIter.next();
+            for (SelectionTreeNode node : curLevelNodes) {
                 SelectionElement nodeElement = node.getSelectionElement();
                 if (nodeElement == nodeObject || nodeElement.equals(nodeObject)) {
                     nodeToExpand = node;
@@ -675,8 +672,8 @@ public class SelectionTree extends JTree {
      */
     protected void fireSelectionTypeChanged(SelectionTreeNode node, SelectionType oldType, SelectionType newType) {
         if (listeners != null) {
-            for (Iterator<SelectionTreeListener> iter = listeners.iterator(); iter.hasNext();) {
-                iter.next().selectionTypeChanged(node, oldType, newType);
+            for (SelectionTreeListener listener : listeners) {
+                listener.selectionTypeChanged(node, oldType, newType);
             }
         }
     }
@@ -688,8 +685,8 @@ public class SelectionTree extends JTree {
      */
     protected void fireSelectionChangeStarted(SelectionTreeNode node) {
         if (listeners != null) {
-            for (Iterator<SelectionTreeListener> iter = listeners.iterator(); iter.hasNext();) {
-                iter.next().selectionChangeStarted(node);
+            for (SelectionTreeListener listener : listeners) {
+                listener.selectionChangeStarted(node);
             }
         }
     }
@@ -701,8 +698,8 @@ public class SelectionTree extends JTree {
      */
     protected void fireSelectionChangeFinished(SelectionTreeNode node) {
         if (listeners != null) {
-            for (Iterator<SelectionTreeListener> iter = listeners.iterator(); iter.hasNext();) {
-                iter.next().selectionChangeFinished(node);
+            for (SelectionTreeListener listener : listeners) {
+                listener.selectionChangeFinished(node);
             }
         }
     }
@@ -769,8 +766,8 @@ public class SelectionTree extends JTree {
         } else {
             ((SelectionTreeNode) getModel().getRoot()).changeSelection(SelectionType.UNSELECTED);
             if (paths != null) {
-                for (int i = 0; i < paths.length; i++) {
-                    SelectionTreeNode node = getNode((SelectionTreeNode) getModel().getRoot(), paths[i]);
+                for (String path : paths) {
+                    SelectionTreeNode node = getNode((SelectionTreeNode) getModel().getRoot(), path);
                     if (node != null) {
                         node.changeSelection(SelectionType.SELECTED);
                     }

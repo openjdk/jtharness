@@ -239,8 +239,7 @@ class BranchPanel
                 Debug.println("   -> old node " + (currNode == null ? "[null]" : currNode.getShortName()) + "  " + currNode);
             }
 
-            for (int i = 0; i < lists.length; i++)
-                lists[i].setUpdateRequired(true);
+            for (BP_TestListSubpanel list : lists) list.setUpdateRequired(true);
 
             currNode = newNode;
             //currNode.addObserver(this);
@@ -284,8 +283,8 @@ class BranchPanel
             docPanel.updateSubpanel(currNode);
             foPanel.reset(cache);
 
-            for (int i = 0; i < lists.length; i++) {
-                lists[i].reset(cache);
+            for (BP_TestListSubpanel list : lists) {
+                list.reset(cache);
             }   // for
 
             if (currPanel != summPanel)
@@ -299,8 +298,8 @@ class BranchPanel
      */
     private static boolean isAlongPath(TestResultTable.TreeNode[] path,
                                        TestResultTable.TreeNode node) {
-        for (int i = 0; i < path.length; i++)
-            if (path[i] == node)
+        for (TestResultTable.TreeNode aPath : path)
+            if (aPath == node)
                 return true;
 
         return false;
@@ -315,16 +314,14 @@ class BranchPanel
 
     @Override
     public void filterUpdated(TestFilter f) {
-        for (int i = 0; i < allPanels.length; i++)
-            allPanels[i].invalidateFilters();
+        for (BP_BranchSubpanel allPanel : allPanels) allPanel.invalidateFilters();
 
         updateGUI();
     }
 
     @Override
     public void filterSelected(TestFilter f) {
-        for (int i = 0; i < allPanels.length; i++)
-            allPanels[i].invalidateFilters();
+        for (BP_BranchSubpanel allPanel : allPanels) allPanel.invalidateFilters();
 
         updateGUI();
     }
@@ -510,12 +507,10 @@ class BranchPanel
                     }
                     break;
                 case CLEAR:
-                    for (int i = 0; i < tfs.length; i++)
-                        tfs[i].setText("");
+                    for (JTextComponent tf1 : tfs) tf1.setText("");
                     break;
                 case WAIT:
-                    for (int i = 0; i < tfs.length; i++)
-                        tfs[i].setText("wait...");
+                    for (JTextComponent tf : tfs) tf.setText("wait...");
                     break;
                 case MSG:
                     stf.setText(msg);

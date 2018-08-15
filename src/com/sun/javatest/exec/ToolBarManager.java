@@ -168,9 +168,9 @@ public class ToolBarManager {
 
         if (store.size() > 0) {
             JavaTestToolBar[] tbs = getToolBars();
-            for (int i = 0; i < tbs.length; i++) {
-                panel.add(tbs[i]);
-                mmanager.addToolbar(tbs[i]);
+            for (JavaTestToolBar tb : tbs) {
+                panel.add(tb);
+                mmanager.addToolbar(tb);
             }   // for
         }
     }

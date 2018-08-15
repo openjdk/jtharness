@@ -298,8 +298,7 @@ class AgentPanel extends ScrollPane
     }
 
     private void error(String[] msgs) {
-        for (int i = 0; i < msgs.length; i++)
-            System.out.println(msgs[i]);
+        for (String msg : msgs) System.out.println(msg);
         errorPanel.show(msgs);
         deck.show(errorPanel);
     }
@@ -576,8 +575,8 @@ class AgentPanel extends ScrollPane
             c.gridwidth = GridBagConstraints.REMAINDER;
             c.insets = new Insets(30, 30, 0, 30); // top, left, bottom, right
 
-            for (int i = 0; i < msgs.length; i++) {
-                Label msg = new Label(msgs[i]);
+            for (String msg1 : msgs) {
+                Label msg = new Label(msg1);
                 add(msg, c);
                 c.insets.top = 0;
             }
@@ -800,8 +799,7 @@ class AgentPanel extends ScrollPane
             modeChoice = new Choice();
             modeDeck = new Deck();
 
-            for (int i = 0; i < modeOptions.length; i++) {
-                ModeOptions m = modeOptions[i];
+            for (ModeOptions m : modeOptions) {
                 if (m != null) {
                     modeChoice.addItem(m.getModeName());
                     modeDeck.add(m);

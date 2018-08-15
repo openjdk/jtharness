@@ -314,10 +314,9 @@ class CE_ExcludeListPane extends CE_StdPane
                 uif.showError("ce.excl.custom.noFiles");
                 return false;
             }
-            for (int i = 0; i < files.length; i++) {
-                File file = files[i];
+            for (File file : files) {
                 File absFile = file.isAbsolute() ? file
-                                : new File(tsr, file.getPath());
+                        : new File(tsr, file.getPath());
                 if (!absFile.exists()) {
                     uif.showError("ce.excl.custom.cantFindFile", file);
                     return false;

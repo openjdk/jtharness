@@ -461,8 +461,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             // arguably, this should be solved by putting this init() onto
             // the event thread
             synchronized (pendingEvents) {
-                for (int i = 0; i < pendingEvents.size(); i++) {
-                    TableNotifier tn = pendingEvents.get(i);
+                for (TableNotifier tn : pendingEvents) {
                     tn.cancel();
                 }   // for
             }

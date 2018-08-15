@@ -369,8 +369,8 @@ class KflSection extends HTMLSection {
         String urlPrefix = Preferences.access().getPreference(ReportManager.BUGRPT_URL_PREF, null);
         Set<String> hs = new HashSet<>();
 
-        for (int i = 0; i < e.length; i++) {
-            String[] bugs = e[i].getBugIdStrings();
+        for (KnownFailuresList.Entry anE : e) {
+            String[] bugs = anE.getBugIdStrings();
             if (bugs == null || bugs.length == 0) {
                 return;
             }
@@ -384,8 +384,7 @@ class KflSection extends HTMLSection {
                 // already been printed once
                 if (hs.contains(bugs[j])) {
                     continue;
-                }
-                else {
+                } else {
                     hs.add(bugs[j]);
                 }
 
@@ -397,7 +396,7 @@ class KflSection extends HTMLSection {
                     writer.newLine();
                 }
 
-                if (bugs.length != j+1)
+                if (bugs.length != j + 1)
                     writer.write(",");
             }
         }   // for

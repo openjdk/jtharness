@@ -205,8 +205,7 @@ public class MainFrame
         frame.setBackground(savedBackground);
         frame.setBounds(savedBounds);
         frame.setName(savedName);
-        for (int i = 0; i < savedComponents.length; i++)
-            frame.add(savedComponents[i]);
+        for (Component savedComponent : savedComponents) frame.add(savedComponent);
         frame.setLayout(savedLayout);
         frame.setTitle(savedTitle);
         frame.setState(savedState);

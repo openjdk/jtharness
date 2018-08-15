@@ -206,8 +206,7 @@ class CE_EnvironmentPane extends CE_StdPane
             System.arraycopy(names, 0, sortedNames, 0, names.length);
             Arrays.sort(sortedNames);
             envNameField.removeAllItems();
-            for (int i = 0; i < sortedNames.length; i++)
-                envNameField.addItem(sortedNames[i]);
+            for (String sortedName : sortedNames) envNameField.addItem(sortedName);
         }
         catch (TestEnvContext.Fault ex) {
             uif.showError("ce.env.cannotEvalEnvs", ex.getMessage());

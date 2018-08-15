@@ -316,8 +316,7 @@ public class ProcessCommand extends Command
                 }
                 else {
                     log.println("Command environment is:");
-                    for (int i = 0; i < cmdEnv.length; i++)
-                        log.println(cmdEnv[i]);
+                    for (String aCmdEnv : cmdEnv) log.println(aCmdEnv);
                 }
                 if (execDir != null)
                     log.println("Execution directory is " + execDir);

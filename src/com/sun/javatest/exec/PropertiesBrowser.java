@@ -61,8 +61,7 @@ class PropertiesBrowser extends ToolDialog
         testSuite = ts;
         workDir = wd;
         config = p;
-        for (int i = 0; i < panes.length; i++)
-            panes[i].update();
+        for (Pane pane : panes) pane.update();
 
         setVisible(true);
     }
@@ -92,8 +91,7 @@ class PropertiesBrowser extends ToolDialog
 
     private JComponent createTabbedPane(Pane[] panes) {
         final JTabbedPane tabs = new JTabbedPane();
-        for (int i = 0; i < panes.length; i++) {
-            Pane pane = panes[i];
+        for (Pane pane : panes) {
             uif.addTab(tabs, pane.getKey(), pane);
         }
 
@@ -118,8 +116,7 @@ class PropertiesBrowser extends ToolDialog
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1;
-        for (int i = 0; i < panes.length; i++) {
-            Pane pane = panes[i];
+        for (Pane pane : panes) {
             String title = uif.getI18NString(pane.getKey() + ".tab");
             pane.setBorder(BorderFactory.createTitledBorder(title));
             p.add(pane, c);

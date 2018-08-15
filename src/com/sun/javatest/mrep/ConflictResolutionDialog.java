@@ -107,8 +107,8 @@ public class ConflictResolutionDialog extends JDialog {
 
         // Build list box
         listModel=new DefaultListModel<>();
-        for (int i=0; i< reportsList.length; i++) {
-            listModel.addElement(reportsList[i]);
+        for (String aReportsList : reportsList) {
+            listModel.addElement(aReportsList);
         }
         list = uif.createList("conflict.list", listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

@@ -130,8 +130,8 @@ class ChecklistBrowser extends ToolDialog
         else {
             out.write(escape(uif.getI18NString("cb.html.intro")));
             String[] names = c.getSectionNames();
-            for (int i = 0; i < names.length; i++) {
-                writeSection(c, names[i], out);
+            for (String name : names) {
+                writeSection(c, name, out);
             }
         }
 
@@ -150,9 +150,9 @@ class ChecklistBrowser extends ToolDialog
 
         out.write("<ul>");
         String[] msgs = c.getSectionMessages(name);
-        for (int i = 0; i < msgs.length; i++) {
+        for (String msg : msgs) {
             out.write("<li>");
-            out.write(escape(msgs[i]));
+            out.write(escape(msg));
             out.write("\n");
         }
         out.write("</ul>\n");

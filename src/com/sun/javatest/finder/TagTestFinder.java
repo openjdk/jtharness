@@ -123,8 +123,7 @@ public class TagTestFinder extends TestFinder
      * @param names The names of files to be excluded.
      */
     public void exclude(String[] names) {
-        for (int i = 0; i < names.length; i++) {
-            String name = names[i];
+        for (String name : names) {
             excludeList.put(name, name);
         }
     }
@@ -215,8 +214,7 @@ public class TagTestFinder extends TestFinder
             return;
         }
 
-        for (int i = 0; i < names.length; i++) {
-            String name = names[i];
+        for (String name : names) {
             // if the file should be ignored, skip it
             // This is typically for directories like SCCS etc
             if (excludeList.containsKey(name))
@@ -226,8 +224,7 @@ public class TagTestFinder extends TestFinder
             if (file.isDirectory()) {
                 // if its a directory, add it to the list to be scanned
                 foundFile(file);
-            }
-            else {
+            } else {
                 // if its a file, check its extension
                 int dot = name.indexOf('.');
                 if (dot == -1)

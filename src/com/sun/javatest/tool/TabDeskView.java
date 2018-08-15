@@ -92,8 +92,7 @@ class TabDeskView extends DeskView {
             }
         });
 
-        for (int i = 0; i < tools.length; i++)
-            addTool(tools[i]);
+        for (Tool tool : tools) addTool(tool);
 
         setVisible(other.isVisible());
     }
@@ -128,8 +127,7 @@ class TabDeskView extends DeskView {
         if (v) {
             Window[] ww = mainFrame.getOwnedWindows();
             if (ww != null) {
-                for (int i = 0; i < ww.length; i++)
-                    ww[i].toFront();
+                for (Window aWw : ww) aWw.toFront();
             }
         }
     }
@@ -524,15 +522,13 @@ class TabDeskView extends DeskView {
                 int n = 0;
 
                 // add entries for all current tools
-                for (int i = 0; i < tools.length; i++) {
-                    Tool tool = tools[i];
+                for (Tool tool : tools) {
                     addMenuItem(m, n++, tool.getTitle(), tool);
                 }
 
                 // add entries for any dialogs
                 Window[] ownedWindows = mainFrame.getOwnedWindows();
-                for (int i = 0; i < ownedWindows.length; i++) {
-                    Window w = ownedWindows[i];
+                for (Window w : ownedWindows) {
                     if (w.isVisible()) {
                         if (w instanceof JDialog)
                             addMenuItem(m, n++, ((JDialog) w).getTitle(), w);

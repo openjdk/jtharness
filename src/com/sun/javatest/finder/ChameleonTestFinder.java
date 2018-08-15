@@ -71,8 +71,7 @@ public class ChameleonTestFinder extends TestFinder {
      * @param names The names of files to be excluded
      */
     public void exclude(String[] names) {
-        for (int i = 0; i < names.length; i++) {
-            String name = names[i];
+        for (String name : names) {
             excludeList.put(name, name);
         }
     }
@@ -260,8 +259,7 @@ public class ChameleonTestFinder extends TestFinder {
         // subdirectories and other files that should be scanned
         currEntry = null;
         String[] names = dir.list();
-        for (int i = 0; i < names.length; i++) {
-            String name = names[i];
+        for (String name : names) {
             // if the file should be ignored, skip it
             // This is typically for directories like SCCS etc
             if (excludeList.containsKey(name))
@@ -274,9 +272,9 @@ public class ChameleonTestFinder extends TestFinder {
     private void scanFile(File file) {
         // see if the file matches a registered test finder, and if so
         // delegate to that
-        for (int i = 0; i < entries.length; i++) {
-            if (entries[i].matches(file)) {
-                currEntry = entries[i];
+        for (Entry entry : entries) {
+            if (entry.matches(file)) {
+                currEntry = entry;
                 currEntry.scanFile(file);
                 return;
             }

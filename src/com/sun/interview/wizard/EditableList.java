@@ -67,8 +67,7 @@ public class EditableList extends JPanel
 
         listModel = new DefaultListModel<>(); // need to force the type of model
         if (items != null) {
-            for (int i = 0; i < items.length; i++)
-                listModel.addElement(items[i]);
+            for (Object item : items) listModel.addElement(item);
         }
         list = new JList<>(listModel);
         list.setName(uiKey);

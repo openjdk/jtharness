@@ -296,8 +296,7 @@ public class XMLReport  implements ReportFormat {
         maker.sEnvironment(name, descr);
         TestEnvironment env = sett.getInterview().getEnv();
         if (env != null) {
-            for (Iterator<TestEnvironment.Element> i = env.elements().iterator(); i.hasNext(); ) {
-                TestEnvironment.Element envElem = i.next();
+            for (TestEnvironment.Element envElem : env.elements()) {
                 maker.makeProperty(envElem.getKey(), envElem.getValue());
             }
         }
@@ -360,8 +359,8 @@ public class XMLReport  implements ReportFormat {
         maker.sTests();
         String [] tests = sett.getInterview().getTests();
         if (tests != null && tests.length > 0) {
-            for (int i = 0; i < tests.length; i++) {
-                maker.makeItem(tests[i]);
+            for (String test : tests) {
+                maker.makeItem(test);
             }
         } else {
             maker.makeEntireTestTree();
@@ -386,8 +385,7 @@ public class XMLReport  implements ReportFormat {
 
         maker.sInterview();
         Question [] questions = sett.getInterview().getPath();
-        for (int i = 0; i < questions.length; i++) {
-            Question q = questions[i];
+        for (Question q : questions) {
             maker.sQuestion(q.getStringValue(), q.getText(), q.getSummary());
             if (q instanceof TreeQuestion || q instanceof StringListQuestion || q instanceof FileListQuestion) {
                 writeListQuestion(maker, q);
@@ -423,8 +421,7 @@ public class XMLReport  implements ReportFormat {
         String h1 = pq.getKeyHeaderName();
         String h2 = pq.getValueHeaderName();
         if (grs != null) {
-            for (int i = 0; i < grs.length; i++) {
-                String name = grs[i];
+            for (String name : grs) {
                 maker.sGroup(name, h1, h2);
                 if (name != null) {
                     String[][] table = pq.getGroup(name);
@@ -453,8 +450,8 @@ public class XMLReport  implements ReportFormat {
 
     private void writeTable(XMLReportMaker maker, String[][] table) throws SAXException {
         if (table != null ) {
-            for (int i=0 ; i < table.length ;i++) {
-                maker.makeRow(table[i][0], table[i][1]);
+            for (String[] aTable : table) {
+                maker.makeRow(aTable[0], aTable[1]);
             }
         }
     }

@@ -53,31 +53,23 @@ public class StdTestScript extends Script
         boolean execute = false;
         boolean expectFail = false;
 
-        for (int i = 0; i < args.length; i++) {
-            String arg = args[i];
-
+        for (String arg : args) {
             if (arg.equals("-certify")) {
                 compile = false;
                 execute = true;
-            }
-            else if (arg.equals("-precompile")) {
+            } else if (arg.equals("-precompile")) {
                 compile = true;
                 execute = false;
-            }
-            else if (arg.equals("-developer")) {
+            } else if (arg.equals("-developer")) {
                 compile = true;
                 execute = true;
-            }
-            else if (arg.equals("-compile")) {
+            } else if (arg.equals("-compile")) {
                 compile = true;
-            }
-            else if (arg.equals("-execute")) {
+            } else if (arg.equals("-execute")) {
                 execute = true;
-            }
-            else if (arg.equals("-expectFail")) {
+            } else if (arg.equals("-expectFail")) {
                 expectFail = true;
-            }
-            else
+            } else
                 return Status.failed("bad arg for script: `" + arg + "'");
         }
 

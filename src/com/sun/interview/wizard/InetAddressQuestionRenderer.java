@@ -354,8 +354,7 @@ public class InetAddressQuestionRenderer
                         errorField.setText(i18n.getString("inet.lookup.notFound.err"));
                     else {
                         errorField.setText("");
-                        for (int i = 0; i < addrs.length; i++)
-                            listModel.addElement(addrs[i].getHostAddress());
+                        for (InetAddress addr : addrs) listModel.addElement(addr.getHostAddress());
                         list.setSelectedIndex(0);
                     }
                 }

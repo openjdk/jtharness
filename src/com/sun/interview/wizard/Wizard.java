@@ -887,8 +887,7 @@ public class Wizard extends JComponent {
         JMenu m = new JMenu(i18n.getString("wizard." + uiKey + ".menu"));
         m.setName("wizard." + uiKey);
         m.setMnemonic(i18n.getString("wizard." + uiKey + ".mne").charAt(0));
-        for (int i = 0; i < menuData.length; i++) {
-            String[] data = menuData[i];
+        for (String[] data : menuData) {
             if (data == null)
                 m.addSeparator();
             else {
@@ -1036,8 +1035,8 @@ public class Wizard extends JComponent {
         public boolean accept(File f) {
             if (f.isDirectory())
                 return true;
-            for (int i = 0; i < extns.length; i++)
-                if (f.getName().endsWith(extns[i]))
+            for (String extn : extns)
+                if (f.getName().endsWith(extn))
                     return true;
             return false;
         }
@@ -1049,8 +1048,7 @@ public class Wizard extends JComponent {
                 if (extns.length == 0)
                     sb.append(".allFiles");
                 else {
-                    for (int i = 0; i < extns.length; i++)
-                        sb.append(extns[i]);
+                    for (String extn : extns) sb.append(extn);
                 }
                 description = i18n.getString(sb.toString());
             }
@@ -1066,9 +1064,9 @@ public class Wizard extends JComponent {
             super(i18n.getString("wizard.export.menu"));
             setName("export");
             setMnemonic(i18n.getString("wizard.export.mne").charAt(0));
-            for (int i = 0; i < exporters.length; i++) {
-                JMenuItem mi = new JMenuItem(exporters[i].getName());
-                mi.putClientProperty("exporter", exporters[i]);
+            for (Exporter exporter : exporters) {
+                JMenuItem mi = new JMenuItem(exporter.getName());
+                mi.putClientProperty("exporter", exporter);
                 mi.setActionCommand("performGenericExport");
                 mi.addActionListener(this);
                 add(mi);

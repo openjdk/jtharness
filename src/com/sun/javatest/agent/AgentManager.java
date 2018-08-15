@@ -121,14 +121,14 @@ public class AgentManager
     private synchronized void notifyStarted(Connection connection,
                                             String tag, String request, String executable, String[] args,
                                             boolean localizeArgs) {
-        for (int i = 0; i < observers.length; i++) {
-            observers[i].started(connection, tag, request, executable, args, localizeArgs);
+        for (Observer observer : observers) {
+            observer.started(connection, tag, request, executable, args, localizeArgs);
         }
     }
 
     private synchronized void notifyFinished(Connection connection, Status status) {
-        for (int i = 0; i < observers.length; i++) {
-            observers[i].finished(connection, status);
+        for (Observer observer : observers) {
+            observer.finished(connection, status);
         }
     }
 
@@ -290,8 +290,8 @@ public class AgentManager
                 throw new NullPointerException();
             }
 
-            for (int i = 0; i < path.length; i++) {
-                if (path[i] == null) {
+            for (File aPath : path) {
+                if (aPath == null) {
                     throw new IllegalArgumentException();
                 }
             }
@@ -416,8 +416,8 @@ public class AgentManager
                 out.writeUTF(request);
                 out.writeUTF(executable);
                 out.writeShort(args.length);
-                for (int i = 0; i < args.length; i++) {
-                    out.writeUTF(args[i]);
+                for (String arg : args) {
+                    out.writeUTF(arg);
 //                    if ("-sharedCl".equalsIgnoreCase(args[i]) ||
 //                        "-sharedClassLoader".equalsIgnoreCase(args[i])) {
 //                        sharedClOption = true;
@@ -550,16 +550,16 @@ public class AgentManager
             //System.err.println("locateClass: " + name);
             if (classPath != null) {
                 String cname = name.replace('.', '/') + ".class";
-                for (int i = 0; i < classPath.length; i++) {
+                for (File aClassPath : classPath) {
                     byte[] data;
-                    if (classPath[i].isDirectory())
-                        data = readFromDir(cname, classPath[i]);
+                    if (aClassPath.isDirectory())
+                        data = readFromDir(cname, aClassPath);
                     else
-                        data = readFromJar(cname, classPath[i]);
+                        data = readFromJar(cname, aClassPath);
                     if (data != null) {
                         String codeSource = "";
                         try {
-                            codeSource = classPath[i].toURI().toURL().getPath();
+                            codeSource = aClassPath.toURI().toURL().getPath();
                         } catch (IOException e) {
                             //codeSource will not be set
                         }
@@ -575,12 +575,12 @@ public class AgentManager
         private byte[] locateData(String name) {
             //System.err.println("locateData: " + name);
             if (classPath != null) {
-                for (int i = 0; i < classPath.length; i++) {
+                for (File aClassPath : classPath) {
                     byte[] data;
-                    if (classPath[i].isDirectory())
-                        data = readFromDir(name, classPath[i]);
+                    if (aClassPath.isDirectory())
+                        data = readFromDir(name, aClassPath);
                     else
-                        data = readFromJar(name, classPath[i]);
+                        data = readFromJar(name, aClassPath);
                     if (data != null)
                         return data;
                 }

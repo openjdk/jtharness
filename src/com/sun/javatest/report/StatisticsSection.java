@@ -129,8 +129,8 @@ class StatisticsSection extends HTMLSection {
         // compute the keyword statistics
 
         int ncols = 2; // keywords, total
-        for (int i = 0; i < statusTotals.length; i++)
-            if (statusTotals[i] > 0)
+        for (int statusTotal1 : statusTotals)
+            if (statusTotal1 > 0)
                 ncols++;
 
         String[] head = new String[ncols];
@@ -144,8 +144,7 @@ class StatisticsSection extends HTMLSection {
         }
 
         Vector<String[]> v = new Vector<>();
-        for (Iterator<Map.Entry<String, int[]>> iter = keywordTable.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry<String, int[]> e = iter.next();
+        for (Map.Entry<String, int[]> e : keywordTable.entrySet()) {
             String k = e.getKey();
             int[] kv = e.getValue();
             String[] newEntry = new String[ncols];
@@ -158,7 +157,7 @@ class StatisticsSection extends HTMLSection {
             }
             newEntry[c] = Integer.toString(total);
 
-        sortedInsert:
+            sortedInsert:
             {
                 for (int i = 0; i < v.size(); i++) {
                     String[] entry = v.elementAt(i);
@@ -175,10 +174,10 @@ class StatisticsSection extends HTMLSection {
             String[] totalsEntry = new String[ncols];
             int c = 0, total = 0;
             totalsEntry[c++] = i18n.getString("stats.total");
-            for (int i = 0; i < statusTotals.length; i++) {
-                if (statusTotals[i] != 0)
-                    totalsEntry[c++] = Integer.toString(statusTotals[i]);
-                total += statusTotals[i];
+            for (int statusTotal : statusTotals) {
+                if (statusTotal != 0)
+                    totalsEntry[c++] = Integer.toString(statusTotal);
+                total += statusTotal;
             }
             totalsEntry[c] = Integer.toString(total);
             v.addElement(totalsEntry);
@@ -212,15 +211,15 @@ class StatisticsSection extends HTMLSection {
 
         // table content
         // column 1 left aligned, others right
-        for (int r = 0; r < table.length; r++) {
+        for (String[] aTable : table) {
             out.startTag(HTMLWriterEx.TR);
-            for (int c = 0; c < table[r].length; c++) {
+            for (int c = 0; c < aTable.length; c++) {
                 out.startTag(HTMLWriterEx.TD);
                 out.writeAttr(HTMLWriterEx.STYLE, c == 0 ? HTMLWriterEx.TEXT_LEFT : HTMLWriterEx.TEXT_RIGHT);
-                if (table[r][c] == null || table[r][c].equals(""))
+                if (aTable[c] == null || aTable[c].equals(""))
                     out.writeEntity("&nbsp;");
                 else
-                    out.write(table[r][c]);
+                    out.write(aTable[c]);
                 out.endTag(HTMLWriterEx.TD);
             }
             out.endTag(HTMLWriterEx.TR);

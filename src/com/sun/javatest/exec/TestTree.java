@@ -222,13 +222,13 @@ class TestTree extends JTree {
         if (paths == null || paths.length == 0)
             return;
 
-        for (int i = 0; i < paths.length; i++) {
-            if (paths[i].getPathCount() == 1)
+        for (TreePath path : paths) {
+            if (path.getPathCount() == 1)
                 continue;
 
             //expandPath(paths[i]);
-            setExpandedState(paths[i], true);
-            makeVisible(paths[i]);
+            setExpandedState(path, true);
+            makeVisible(path);
         }   // for
     }
 
@@ -256,9 +256,9 @@ class TestTree extends JTree {
             if (targets == null)
                 return;     // don't care then
 
-            for (int i = 0; i < targets.length; i++)
-                if (targets[i] instanceof TT_TestNode) {
-                    TestResult tr = ((TT_TestNode)targets[i]).getTestResult();
+            for (Object target : targets)
+                if (target instanceof TT_TestNode) {
+                    TestResult tr = ((TT_TestNode) target).getTestResult();
 
                     if (tr.getTestName().equals(activeTest))
                         tpm.showTest(tr);
@@ -280,9 +280,9 @@ class TestTree extends JTree {
             if (targets == null)
                 return;     // don't care then
 
-            for (int i = 0; i < targets.length; i++)
-                if (targets[i] instanceof TT_TestNode) {
-                    TestResult tr = ((TT_TestNode)targets[i]).getTestResult();
+            for (Object target : targets)
+                if (target instanceof TT_TestNode) {
+                    TestResult tr = ((TT_TestNode) target).getTestResult();
 
                     if (tr.getTestName().equals(activeTest))
                         tpm.showTest(tr);

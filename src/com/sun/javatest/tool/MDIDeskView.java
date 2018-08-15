@@ -75,8 +75,7 @@ class MDIDeskView extends DeskView {
         //System.err.println("MDI: create " + other.getTools().length + " tools");
 
         Tool[] tools = other.getTools();
-        for (int i = 0; i < tools.length; i++)
-            addTool(tools[i]);
+        for (Tool tool : tools) addTool(tool);
 
         setVisible(other.isVisible());
     }
@@ -110,8 +109,7 @@ class MDIDeskView extends DeskView {
         if (v) {
             Window[] ww = mainFrame.getOwnedWindows();
             if (ww != null) {
-                for (int i = 0; i < ww.length; i++)
-                    ww[i].toFront();
+                for (Window aWw : ww) aWw.toFront();
             }
         }
     }
@@ -462,8 +460,7 @@ class MDIDeskView extends DeskView {
         @Override
         public void ancestorAdded(AncestorEvent event) {
             Tool[] tools = getTools();
-            for (int i = 0; i < tools.length; i++) {
-                Tool t = tools[i];
+            for (Tool t : tools) {
                 t.addObserver(listener);
             }
         }
@@ -474,8 +471,7 @@ class MDIDeskView extends DeskView {
         @Override
         public void ancestorRemoved(AncestorEvent event) {
             Tool[] tools = getTools();
-            for (int i = 0; i < tools.length; i++) {
-                Tool t = tools[i];
+            for (Tool t : tools) {
                 t.removeObserver(listener);
             }
         }
@@ -548,24 +544,21 @@ class MDIDeskView extends DeskView {
             int n = 0;
 
             // add entries for all current tools
-            for (int i = 0; i < tools.length; i++) {
-                Tool tool = tools[i];
+            for (Tool tool : tools) {
                 addMenuItem(m, n++, tool.getTitle(), tool);
             }
 
             // add entries for all internal dialogs,
             // which are internal frames not containing tools
             JInternalFrame[] frames = desktopPane.getAllFrames();
-            for (int i = 0; i < frames.length; i++) {
-                JInternalFrame f = frames[i];
-                if (f.isVisible() && !(f.getContentPane() instanceof Tool) )
+            for (JInternalFrame f : frames) {
+                if (f.isVisible() && !(f.getContentPane() instanceof Tool))
                     addMenuItem(m, n++, f.getTitle(), f);
             }
 
             // add entries for any external dialogs
             Window[] ownedWindows = mainFrame.getOwnedWindows();
-            for (int i = 0; i < ownedWindows.length; i++) {
-                Window w = ownedWindows[i];
+            for (Window w : ownedWindows) {
                 if (w instanceof JDialog && w.isVisible())
                     addMenuItem(m, n++, ((JDialog) w).getTitle(), w);
             }

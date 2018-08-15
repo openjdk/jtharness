@@ -303,15 +303,15 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
                         FeatureManager.SINGLE_TEST_MANAGER)) {
             Tool[] tools = d.getTools();
             ArrayList<Tool> list = new ArrayList<>();
-            for (int i = 0; i < tools.length; i++) {
-                if (tools[i] instanceof ExecTool) {
-                    ExecTool tool = (ExecTool) tools[i];
+            for (Tool tool1 : tools) {
+                if (tool1 instanceof ExecTool) {
+                    ExecTool tool = (ExecTool) tool1;
                     ContextManager cm = tool.getContextManager();
                     if (cm != null) {
                         FeatureManager fm = cm.getFeatureManager();
                         if (fm.isEnabled(FeatureManager.SINGLE_TEST_MANAGER)) {
                             // only single test manager
-                            list.add(tools[i]);
+                            list.add(tool1);
                         }
                     }
                 }

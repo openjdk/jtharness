@@ -124,8 +124,7 @@ abstract class DeskView {
      */
     public void dispose() {
         Tool[] tools = getTools();
-        for (int i = 0; i < tools.length; i++)
-            tools[i].dispose();
+        for (Tool tool : tools) tool.dispose();
 
         /*
         if (this == theOne) {
@@ -292,12 +291,11 @@ abstract class DeskView {
         JMenu toolMenu = uif.createMenu("dt.tasks");
         // could dynamically create this list when menu invoked
         ToolManager[] mgrs = desktop.getToolManagers();
-        for (int i = 0; i < mgrs.length; i++) {
+        for (ToolManager mgr : mgrs) {
             //Action[] actions = mgrs[i].getTaskMenuActions();
-            Action[] actions = mgrs[i].getWindowOpenMenuActions();  // method name is out of date
+            Action[] actions = mgr.getWindowOpenMenuActions();  // method name is out of date
             if (actions != null) {
-                for (int j = 0; j < actions.length; j++)
-                    toolMenu.add(actions[j]);
+                for (Action action : actions) toolMenu.add(action);
             }
         }
         mb.add(toolMenu);
@@ -459,11 +457,10 @@ abstract class DeskView {
         JMenu menu = uif.createMenu("dt.windows.open");
         // could dynamically create this list when menu invoked
         ToolManager[] mgrs = desktop.getToolManagers();
-        for (int i = 0; i < mgrs.length; i++) {
-            Action[] actions = mgrs[i].getWindowOpenMenuActions();
+        for (ToolManager mgr : mgrs) {
+            Action[] actions = mgr.getWindowOpenMenuActions();
             if (actions != null) {
-                for (int j = 0; j < actions.length; j++)
-                    menu.add(actions[j]);
+                for (Action action : actions) menu.add(action);
             }
         }
         return menu;
@@ -471,8 +468,7 @@ abstract class DeskView {
 
     private void copyMenuListeners(JMenu src, JMenu dst) {
         MenuListener[] ll = src.getListeners(MenuListener.class);
-        for (int i = 0; i < ll.length; i++)
-            dst.addMenuListener(ll[i]);
+        for (MenuListener aLl : ll) dst.addMenuListener(aLl);
     }
 
     private JMenu findMenu(JMenuBar mb, String text) {
@@ -695,11 +691,10 @@ abstract class DeskView {
         Rectangle result = new Rectangle();
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] gs = ge.getScreenDevices();
-        for (int j = 0; j < gs.length; j++) {
-            GraphicsDevice gd = gs[j];
+        for (GraphicsDevice gd : gs) {
             GraphicsConfiguration[] gc = gd.getConfigurations();
-            for (int i = 0; i < gc.length; i++) {
-                result = result.union(gc[i].getBounds());
+            for (GraphicsConfiguration aGc : gc) {
+                result = result.union(aGc.getBounds());
             }
         }
 
@@ -768,27 +763,24 @@ abstract class DeskView {
             // If that gets changed, we'll want to consider sorting/grouping
             // the actions somehow.
             ToolManager[] mgrs = desktop.getToolManagers();
-            for (int i = 0; i < mgrs.length; i++) {
-                Action[] fma = mgrs[i].getFileMenuActions();
+            for (ToolManager mgr1 : mgrs) {
+                Action[] fma = mgr1.getFileMenuActions();
                 if (fma != null) {
-                    for (int j = 0; j < fma.length; j++)
-                        m.add(new JMenuItem(fma[j]));
+                    for (Action aFma : fma) m.add(new JMenuItem(aFma));
                 }
 
-                JMenuItem[] jmi = mgrs[i].getFileMenuPrimaries();
+                JMenuItem[] jmi = mgr1.getFileMenuPrimaries();
                 if (jmi != null) {
-                    for (int j = 0; j < jmi.length; j++)
-                        m.add(jmi[j]);
+                    for (JMenuItem aJmi : jmi) m.add(aJmi);
                 }
 
             }   // for
 
             // add secondary items before prefs, close, exit
-            for (int i = 0; i < mgrs.length; i++) {
-                JMenuItem[] jmi = mgrs[i].getFileMenuSecondaries();
+            for (ToolManager mgr : mgrs) {
+                JMenuItem[] jmi = mgr.getFileMenuSecondaries();
                 if (jmi != null) {
-                    for (int j = 0; j < jmi.length; j++)
-                        m.add(jmi[j]);
+                    for (JMenuItem aJmi : jmi) m.add(aJmi);
                     m.addSeparator();
                 }
 
@@ -800,21 +792,20 @@ abstract class DeskView {
         if (!fileHistory.isEmpty()) {
                 int n = 0;
 
-                for (Iterator<Desktop.FileHistoryEntry> i = fileHistory.iterator(); i.hasNext(); ) {
-                    Desktop.FileHistoryEntry h = i.next();
-                    if (!h.file.exists())
-                        continue;
-                    String s = uif.getI18NString("dt.file.historyX.mit",
-                                             new Object[] {Integer.valueOf(n), h.file.getPath()});
-                    JMenuItem mi = new JMenuItem(s);
-                    mi.setActionCommand(HISTORY);
-                    mi.addActionListener(this);
-                    mi.putClientProperty(this, h);
-                    if (n < 10)
-                        mi.setMnemonic(Character.forDigit(n, 10));
-                    n++;
-                    hm.add(mi);
-                }
+            for (Desktop.FileHistoryEntry h : fileHistory) {
+                if (!h.file.exists())
+                    continue;
+                String s = uif.getI18NString("dt.file.historyX.mit",
+                        new Object[]{Integer.valueOf(n), h.file.getPath()});
+                JMenuItem mi = new JMenuItem(s);
+                mi.setActionCommand(HISTORY);
+                mi.addActionListener(this);
+                mi.putClientProperty(this, h);
+                if (n < 10)
+                    mi.setMnemonic(Character.forDigit(n, 10));
+                n++;
+                hm.add(mi);
+            }
         } else {
                 JMenuItem noEntries = new JMenuItem(i18n.getString("fh.empty"));
                 noEntries.setEnabled(false);

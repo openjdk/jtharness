@@ -250,8 +250,7 @@ abstract class TP_PropertySubpanel
 
                 int y = inScrollPane ? 0 : h;
 
-                for (Iterator<Entry> iter = entries.values().iterator(); iter.hasNext(); ) {
-                    Entry e = iter.next();
+                for (Entry e : entries.values()) {
                     // need to take insets into account for value, since we are dealing
                     // with the elemental view inside the valueField
                     Insets vi = e.valueText.getInsets();
@@ -269,8 +268,7 @@ abstract class TP_PropertySubpanel
         public Dimension getMinimumSize() {
             //System.err.println("TP_PS.Table: minimumLayoutSize");
             int h = inScrollPane ? 0 : nameLabel.getPreferredSize().height;
-            for (Iterator<Entry> iter = entries.values().iterator(); iter.hasNext(); ) {
-                Entry e = iter.next();
+            for (Entry e : entries.values()) {
                 h += e.valueText.getMinimumSize().height;
             }
             return new Dimension(maxNameStringWidth + 400, h);
@@ -280,8 +278,7 @@ abstract class TP_PropertySubpanel
         public Dimension getPreferredSize() {
             //System.err.println("TP_PS.Table: preferredLayoutSize");
             int h = inScrollPane ? 0 : nameLabel.getPreferredSize().height;
-            for (Iterator<Entry> iter = entries.values().iterator(); iter.hasNext(); ) {
-                Entry e = iter.next();
+            for (Entry e : entries.values()) {
                 h += e.valueText.getPreferredSize().height;
             }
             return new Dimension(maxNameStringWidth + 400, h);

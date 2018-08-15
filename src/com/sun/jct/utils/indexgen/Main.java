@@ -206,8 +206,7 @@ public class Main {
         List<File> files = new ArrayList<File>();
         if (inFiles != null)
             files.addAll(Arrays.asList(inFiles));
-        for (int i = 0; i < paths.length; i++)
-            files.add(new File(paths[i]));
+        for (String path1 : paths) files.add(new File(path1));
         inFiles = files.toArray(new File[files.size()]);
     }
 
@@ -232,16 +231,15 @@ public class Main {
     }
 
     private void read(File[] files) throws IOException {
-        for (int i = 0; i < files.length; i++)
-            read(files[i]);
+        for (File file : files) read(file);
     }
 
     private void read(File file) throws IOException {
         if (path == null)
             read(file, file);
         else {
-            for (int i = 0; i < path.length; i++) {
-                File f = new File(path[i], file.getPath());
+            for (File aPath : path) {
+                File f = new File(aPath, file.getPath());
                 if (f.exists()) {
                     read(f, file);
                     return;
@@ -256,9 +254,9 @@ public class Main {
         if (absFile.isDirectory()) {
             if (!absFile.getName().equals("SCCS")) {
                 String[] files = absFile.list();
-                for (int i = 0; i < files.length; i++) {
-                    read(new File(absFile, files[i]),
-                            relFile.getPath().equals(".") ? new File(files[i]) : new File(relFile, files[i]));
+                for (String file : files) {
+                    read(new File(absFile, file),
+                            relFile.getPath().equals(".") ? new File(file) : new File(relFile, file));
                 }
             }
             return;
@@ -416,8 +414,7 @@ public class Main {
 
         if (comment.startsWith("index:")) {
             String[] entries = split(comment.substring(6).trim(), ';');
-            for (int i = 0; i < entries.length; i++)
-                addToIndex(split(entries[i].trim(), ':'), currFile, currName);
+            for (String entry : entries) addToIndex(split(entry.trim(), ':'), currFile, currName);
         }
     }
 
@@ -782,8 +779,7 @@ public class Main {
 
         Node getChild(String name) {
             if (children != null) {
-                for (Iterator<Node> iter = children.iterator(); iter.hasNext(); ) {
-                    Node child = iter.next();
+                for (Node child : children) {
                     if (child.name.equals(name))
                         return child;
                 }
@@ -794,8 +790,7 @@ public class Main {
 
         Node getChild(String[] path) {
             Node c = this;
-            for (int index = 0; index < path.length; index++)
-                c = c.getChild(path[index]);
+            for (String aPath : path) c = c.getChild(aPath);
             return c;
         }
 

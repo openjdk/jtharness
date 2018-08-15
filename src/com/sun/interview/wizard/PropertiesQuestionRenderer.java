@@ -82,8 +82,8 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
         // note that empty groups are not returned by the next call
         String[] groups = question.getGroups();
         if (groups != null)
-            for (int i = 0; i < groups.length; i++) {
-                addGroup(groups[i], panel, listener);
+            for (String group : groups) {
+                addGroup(group, panel, listener);
             }   // for
 
         if (panel.getComponentCount() == 0) {
@@ -94,11 +94,10 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
                 @Override
                 public void run() {
                     Set<String> keys = tables.keySet();
-                    Iterator<String> iter = keys.iterator();
-                    while(iter.hasNext()) {
-                        JTable table = tables.get(iter.next());
+                    for (String key : keys) {
+                        JTable table = tables.get(key);
                         CellEditor editor = table.getCellEditor();
-                        if(editor != null) {
+                        if (editor != null) {
                             editor.stopCellEditing();
                         }
                     }
@@ -296,14 +295,14 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
             if (d != null) {
                 ArrayList<String> rm = null;
-                for (int i = 0; i < d.length; i++) {
-                    if (!q.isEntryVisible(d[i][0])) {
+                for (String[] aD1 : d) {
+                    if (!q.isEntryVisible(aD1[0])) {
                         if (rm == null)
                             rm = new ArrayList<>();
-                        else { }
-                        rm.add(d[i][0]);
-                    }
-                    else {
+                        else {
+                        }
+                        rm.add(aD1[0]);
+                    } else {
                         // this entry is visible
                     }
                 }   // for
@@ -312,15 +311,15 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
                 if (rm != null) {
                     String[][] d2 = new String[d.length-rm.size()][2];
                     int pos = 0;
-                    for (int i = 0; i < d.length; i++) {
-                        if (rm.contains(d[i][0]))
+                    for (String[] aD : d) {
+                        if (rm.contains(aD[0]))
                             continue;
                         else {
-                            d2[pos][0] = d[i][0];
-                            d2[pos][1] = d[i][1];
+                            d2[pos][0] = aD[0];
+                            d2[pos][1] = aD[1];
                             pos++;
                         }
-                    // assert: pos == d2.length
+                        // assert: pos == d2.length
                     }   // loop should fill d2.length!
 
                     d = d2;

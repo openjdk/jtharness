@@ -215,8 +215,7 @@ public class WizPrint
             else {
                 // enumerate questions, sort on tag
                 SortedVector v = new SortedVector();
-                for (Iterator<Question> iter = interview.getQuestions().iterator(); iter.hasNext(); ) {
-                    Question q = iter.next();
+                for (Question q : interview.getQuestions()) {
                     v.insert(q);
                 }
                 questions = new Question[v.size()];
@@ -367,8 +366,7 @@ public class WizPrint
     private void writeIndex() throws IOException {
         startTag(UL);
         newLine();
-        for (int i = 0; i < questions.length; i++) {
-            Question q = questions[i];
+        for (Question q : questions) {
             startTag(LI);
             startTag(A);
             writeAttr(HREF, "#" + q.getTag());
@@ -614,12 +612,12 @@ public class WizPrint
             endTag(I);
             endTag(P);
             startTag(UL);
-            for (int i = 0; i < responses.length; i++) {
-                if (responses[i] != null && !responses[i].isEmpty()) {
+            for (String response : responses) {
+                if (response != null && !response.isEmpty()) {
                     startTag(LI);
                     startTag(B);
                     startTag(I);
-                    writeText(responses[i]);
+                    writeText(response);
                     endTag(I);
                     endTag(B);
                 }
@@ -650,16 +648,16 @@ public class WizPrint
         }
 
         if (groups != null)
-            for (int i = 0; i < groups.length; i++) {
+            for (String group : groups) {
                 // heading
                 startTag(BR);
                 startTag(B);
-                writeText(pq.getGroupDisplayName(groups[i]));
+                writeText(pq.getGroupDisplayName(group));
                 endTag(B);
 
                 // data
                 startTag(BR);
-                writePQTable(headers, pq.getGroup(groups[i]));
+                writePQTable(headers, pq.getGroup(group));
                 startTag(P);
             }   // for
     }
@@ -687,12 +685,12 @@ public class WizPrint
         writeAttr("scope", "col");      // 508
         writeText(headers[1]);
 
-        for (int i = 0; i < values.length; i++) {
+        for (String[] value : values) {
             startTag(TR);
             startTag(TD);
-            writeText(values[i][0]);
+            writeText(value[0]);
             startTag(TD);
-            writeText(values[i][1]);
+            writeText(value[1]);
             endTag(TR);
         }   // for
 

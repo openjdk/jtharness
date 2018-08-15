@@ -346,8 +346,8 @@ public class BinaryTestWriter
         Set<File> allFiles = new HashSet<>();
 
         TestTree.Node r = null;
-        for (int i = 0; i < files.length; i++) {
-            File f = files[i];
+        for (File file : files) {
+            File f = file;
             if (!f.isAbsolute())
                 f = new File(rootDir, f.getPath());
 
@@ -357,7 +357,7 @@ public class BinaryTestWriter
 
             while (!f.equals(rootDir)) {
                 f = f.getParentFile();
-                n = testTree.new Node(f.getName(), noTests, new TestTree.Node[] { n });
+                n = testTree.new Node(f.getName(), noTests, new TestTree.Node[]{n});
             }
 
             r = r == null ? n : r.merge(n);
@@ -396,8 +396,8 @@ public class BinaryTestWriter
         });
 
         Vector<TestTree.Node> v = new Vector<>();
-        for (int i = 0; i < files.length; i++) {
-            TestTree.Node n = read0(finder, files[i], testTree, allFiles);
+        for (File file1 : files) {
+            TestTree.Node n = read0(finder, file1, testTree, allFiles);
             if (n != null)
                 v.addElement(n);
         }
@@ -519,8 +519,7 @@ public class BinaryTestWriter
             Vector<String> v = new Vector<>(map.size());
             v.addElement("");
             int nextIndex = 1;
-            for (Iterator<Map.Entry<String, Entry>> iter = map.entrySet().iterator(); iter.hasNext(); ) {
-                Map.Entry<String, Entry> e = iter.next();
+            for (Map.Entry<String, Entry> e : map.entrySet()) {
                 String key = e.getKey();
                 Entry entry = e.getValue();
                 if (entry.isFrequent()) {
@@ -775,8 +774,7 @@ public class BinaryTestWriter
                 this.tests = tests;
                 this.children = children;
 
-                for (int i = 0; i < tests.length; i++)
-                    testTable.add(tests[i]);
+                for (TestDescription test : tests) testTable.add(test);
             }
 
             /**
@@ -786,8 +784,7 @@ public class BinaryTestWriter
             int getSize() {
                 int n = 1;
                 if (children != null) {
-                    for (int i = 0; i < children.length; i++)
-                        n += children[i].getSize();
+                    for (Node aChildren : children) n += aChildren.getSize();
                 }
                 return n;
             }
@@ -804,8 +801,7 @@ public class BinaryTestWriter
                     throw new IllegalArgumentException(name + ":" + other.name);
 
                 TreeMap<String, Node> mergedChildrenMap = new TreeMap<>();
-                for (int i = 0; i < children.length; i++) {
-                    Node child = children[i];
+                for (Node child : children) {
                     mergedChildrenMap.put(child.name, child);
                 }
                 for (int i = 0; i < other.children.length; i++) {
@@ -838,11 +834,9 @@ public class BinaryTestWriter
             void write(DataOutputStream o) throws IOException {
                 o.writeUTF(name);
                 writeInt(o, tests.length);
-                for (int i = 0; i < tests.length; i++)
-                    writeInt(o, testTable.getIndex(tests[i]));
+                for (TestDescription test : tests) writeInt(o, testTable.getIndex(test));
                 writeInt(o, children.length);
-                for (int i = 0; i < children.length; i++)
-                    children[i].write(o);
+                for (Node aChildren : children) aChildren.write(o);
             }
 
             private String name;

@@ -246,8 +246,7 @@ class MessageStrip extends JSplitPane
 
         monitorCards = new CardLayout();
         rightPanel = uif.createPanel("strip.", monitorCards, false);
-        for (int i = 0; i < monitors.length; i++)
-            rightPanel.add(monitors[i].getSmallMonitorName(), monitors[i].getSmallMonitor());
+        for (Monitor monitor : monitors) rightPanel.add(monitor.getSmallMonitorName(), monitor.getSmallMonitor());
         currMonitor = getDefaultSmallMonitor();
         monitorCards.show(rightPanel, monitors[currMonitor].getSmallMonitorName());
 

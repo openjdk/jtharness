@@ -478,8 +478,8 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             return;
         }
 
-        for (int i = 0; i < treeModelListeners.length; i++) {
-            treeModelListeners[i].treeNodesRemoved(tme);
+        for (TreeModelListener treeModelListener : treeModelListeners) {
+            treeModelListener.treeNodesRemoved(tme);
         }
     }
 
@@ -505,8 +505,8 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         TreeModelEvent tme = path[path.length - 1].addTest(newNode, sortComparator);
         if (tme == null) return;
 
-        for (int i = 0; i < treeModelListeners.length; i++) {
-            treeModelListeners[i].treeNodesInserted(tme);
+        for (TreeModelListener treeModelListener : treeModelListeners) {
+            treeModelListener.treeNodesInserted(tme);
         }
 
     }
@@ -668,8 +668,8 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     TreePath[] urlsToPaths(String[] urls) {
         ArrayList<TreePath> result = new ArrayList<>();
 
-        for (int i = 0; i < urls.length; i++) {
-            TreePath thisOne = urlToPath(urls[i]);
+        for (String url : urls) {
+            TreePath thisOne = urlToPath(url);
             if (thisOne == null)
                 continue;   // skipped for some reason
             else
@@ -943,8 +943,8 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             int[] stats = ni.getStats();
             int total = 0;
 
-            for (int i = 0; i < stats.length; i++) {
-                total += stats[i];
+            for (int stat : stats) {
+                total += stat;
             }
             total += ni.getRejectCount();
 
@@ -978,13 +978,13 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         // do this as a batch
         // we can reverse the sync and for if stalls are noticeable
         synchronized (htLock) {
-            for (int i = 0; i < path.length; i++) {
-                TT_NodeCache info = cache.get(path[i]);
+            for (TestResultTable.TreeNode aPath : path) {
+                TT_NodeCache info = cache.get(aPath);
 
                 if (info != null) {
                     if (debug > 1) {
                         Debug.println("TTM - halting thread and removed from node cache");
-                        Debug.println("   -> " + path[i]);
+                        Debug.println("   -> " + aPath);
                         Debug.println("   -> " + info);
                     }
 
@@ -1024,9 +1024,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         }
 
         // reprocess any needed nodes
-        Iterator<TT_TreeNode> it = relevantNodes.iterator();
-        while (it.hasNext()) {
-            TT_TreeNode tn = it.next();
+        for (TT_TreeNode tn : relevantNodes) {
             if (tn instanceof TT_BasicNode) {
                 getNodeInfo(((TT_BasicNode) tn).getTableNode(), false);
             }
@@ -1502,23 +1500,23 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                         }
                     }
 
-                    for (int i = 0; i < l.length; i++) {
-                        l[i].treeNodesChanged(e);
+                    for (TreeModelListener aL3 : l) {
+                        aL3.treeNodesChanged(e);
                     }
                     break;
                 case STRUCT:
-                    for (int i = 0; i < l.length; i++) {
-                        l[i].treeStructureChanged(e);
+                    for (TreeModelListener aL2 : l) {
+                        aL2.treeStructureChanged(e);
                     }
                     break;
                 case INS:
-                    for (int i = 0; i < l.length; i++) {
-                        l[i].treeNodesInserted(e);
+                    for (TreeModelListener aL1 : l) {
+                        aL1.treeNodesInserted(e);
                     }
                     break;
                 case DEL:
-                    for (int i = 0; i < l.length; i++) {
-                        l[i].treeNodesRemoved(e);
+                    for (TreeModelListener aL : l) {
+                        aL.treeNodesRemoved(e);
                     }
                     break;
                 default:

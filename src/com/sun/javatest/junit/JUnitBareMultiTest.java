@@ -64,9 +64,8 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
         if (tests == null) {
             return Status.failed("No test cases found in test.");
         }
-        Iterator<Map.Entry<String, Method>> iterator = tests.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Method method  = iterator.next().getValue();
+        for (Map.Entry<String, Method> stringMethodEntry : tests.entrySet()) {
+            Method method = stringMethodEntry.getValue();
             Status status = null;
             try {
                 status = invokeTestCase(method);

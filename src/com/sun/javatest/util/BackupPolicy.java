@@ -87,8 +87,7 @@ public abstract class BackupPolicy
         Vector<Integer> backups = new Vector<>();
     nextFile:
         if (dirFiles != null) {
-            for (int i = 0; i < dirFiles.length; i++) {
-                String s = dirFiles[i];
+            for (String s : dirFiles) {
                 if (s.length() > (prefix.length() + suffix.length()) &&
                         s.startsWith(prefix) && s.endsWith(suffix)) {
                     String mid = s.substring(prefix.length(), s.length() - suffix.length());

@@ -487,8 +487,7 @@ public class TestsInterview
         else {
             ArrayList<String> v = new ArrayList<>();
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < tests.length; i++) {
-                String test = tests[i];
+            for (String test : tests) {
                 // ignore duplicates, and look for otherwise bad tests
                 if (!v.contains(test) && !trt.validatePath(test)) {
                     // if too many, abbreviate the list, to stop it being

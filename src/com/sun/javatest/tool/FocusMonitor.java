@@ -79,13 +79,13 @@ class FocusMonitor
     }
 
     public void setOptions(String[] opts) {
-        for (int i = 0; i < opts.length; i++) {
-            if (opts[i].equals("-open"))
+        for (String opt : opts) {
+            if (opt.equals("-open"))
                 setVisible(true);
-            else if (opts[i].equals("-bg"))
+            else if (opt.equals("-bg"))
                 setHighlightEnabled(true);
             else
-                System.err.println("Warning: bad option for FocusMonitor: " + opts[i]);
+                System.err.println("Warning: bad option for FocusMonitor: " + opt);
         }
     }
 
@@ -399,10 +399,10 @@ class FocusMonitor
 
         Set<AWTKeyStroke> s = c.getFocusTraversalKeys(mode);
         StringBuffer sb = new StringBuffer();
-        for (Iterator<AWTKeyStroke> iter = s.iterator(); iter.hasNext(); ) {
+        for (AWTKeyStroke value : s) {
             if (sb.length() > 0)
                 sb.append(", ");
-            sb.append(iter.next());
+            sb.append(value);
         }
         if (!c.areFocusTraversalKeysSet(mode))
             sb.append(" (inherited)");

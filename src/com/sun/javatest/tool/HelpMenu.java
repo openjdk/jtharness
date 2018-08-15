@@ -100,8 +100,8 @@ class HelpMenu extends JMenu
             }
         }
         else {
-            for (int i = 0; i < tools.length; i++) {
-                TestSuite[] tss = tools[i].getLoadedTestSuites();
+            for (Tool tool : tools) {
+                TestSuite[] tss = tool.getLoadedTestSuites();
                 if (tss != null) {
                     loadedTestSuites.addAll(Arrays.asList(tss));
                 }
@@ -118,12 +118,10 @@ class HelpMenu extends JMenu
         // for the active test suites, add any available help sets to the menu
         // e.g. those specified in the testsuite.jtt
         int count = 0;
-        for (Iterator<TestSuite> iter = loadedTestSuites.iterator(); iter.hasNext(); ) {
-            TestSuite ts = iter.next();
+        for (TestSuite ts : loadedTestSuites) {
             JMenuItem[] menuItems = getMenuItems(ts, count);
             if (menuItems != null && menuItems.length > 0) {
-                for (int i = 0; i < menuItems.length; i++) {
-                    JMenuItem mi = menuItems[i];
+                for (JMenuItem mi : menuItems) {
                     // mark the entry as a dynamic entry
                     mi.putClientProperty(getClass(), this);
                     insert(mi, insertPoint++);
@@ -142,34 +140,34 @@ class HelpMenu extends JMenu
         // this is suboptimal/wrong if the test suite uses both
         // custom GUI menus and help from the testsuite.jtt
         ToolManager[] mgrs = desktop.getToolManagers();
-        for (int i = 0; i < mgrs.length; i++) {
-            JMenuItem[] jmi = mgrs[i].getHelpPrimaryMenus();
+        for (ToolManager mgr2 : mgrs) {
+            JMenuItem[] jmi = mgr2.getHelpPrimaryMenus();
             if (jmi != null) {
-                for (int j = 0; j < jmi.length; j++)  {
-                    jmi[j].putClientProperty(getClass(), this);
-                    insert(jmi[j], insertPoint++);
+                for (JMenuItem aJmi : jmi) {
+                    aJmi.putClientProperty(getClass(), this);
+                    insert(aJmi, insertPoint++);
                 }   // inner for
             }
         }   // for
 
         // add secondary test suite help items
-        for (int i = 0; i < mgrs.length; i++) {
-            JMenuItem[] jmi = mgrs[i].getHelpTestSuiteMenus();
+        for (ToolManager mgr1 : mgrs) {
+            JMenuItem[] jmi = mgr1.getHelpTestSuiteMenus();
             if (jmi != null) {
-                for (int j = 0; j < jmi.length; j++)  {
-                    jmi[j].putClientProperty(getClass(), this);
-                    insert(jmi[j], insertPoint++);
+                for (JMenuItem aJmi : jmi) {
+                    aJmi.putClientProperty(getClass(), this);
+                    insert(aJmi, insertPoint++);
                 }   // inner for (j)
             }
         }   // for
 
         // add test suite specified About items
-        for (int i = 0; i < mgrs.length; i++) {
-            JMenuItem[] jmi = mgrs[i].getHelpAboutMenus();
+        for (ToolManager mgr : mgrs) {
+            JMenuItem[] jmi = mgr.getHelpAboutMenus();
             if (jmi != null) {
-                for (int j = 0; j < jmi.length; j++)  {
-                    jmi[j].putClientProperty(getClass(), this);
-                    add(jmi[j]);
+                for (JMenuItem aJmi : jmi) {
+                    aJmi.putClientProperty(getClass(), this);
+                    add(aJmi);
                 }   // inner for (j)
             }
         }   // for
@@ -207,8 +205,8 @@ class HelpMenu extends JMenu
 
         //JTextField[] tfs = new JTextField[v.size()];
         ArrayList<JComponent> tfs = new ArrayList<>();
-        for (int i = 0; i < v.size(); i++) {
-            JTextField tf = new JTextField(v.get(i));
+        for (String aV : v) {
+            JTextField tf = new JTextField(aV);
             tf.setBorder(null);
             tf.setHorizontalAlignment(JTextField.CENTER);
             tf.setOpaque(false);

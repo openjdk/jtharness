@@ -93,8 +93,7 @@ class CE_PriorStatusPane extends CE_StdPane
             boolean[] statusValues = priorStatusParameters.getPriorStatusValues();
             if (statusValues == null) {
                 selectCheck.setSelected(false);
-                for (int i = 0; i < statusChecks.length; i++)
-                    statusChecks[i].setSelected(false);
+                for (JCheckBox statusCheck : statusChecks) statusCheck.setSelected(false);
             }
             else {
                 selectCheck.setSelected(true);
@@ -186,8 +185,8 @@ class CE_PriorStatusPane extends CE_StdPane
     }
 
     private boolean isAnyStatusCheckSelected() {
-        for (int i = 0; i < statusChecks.length; i++) {
-            if (statusChecks[i].isSelected())
+        for (JCheckBox statusCheck : statusChecks) {
+            if (statusCheck.isSelected())
                 return true;
         }
         return false;
@@ -195,8 +194,8 @@ class CE_PriorStatusPane extends CE_StdPane
 
     private void enableStatusFields() {
         boolean enable = selectCheck.isEnabled() && selectCheck.isSelected();
-        for (int i = 0; i < statusChecks.length; i++) {
-            statusChecks[i].setEnabled(enable);
+        for (JCheckBox statusCheck : statusChecks) {
+            statusCheck.setEnabled(enable);
         }
     }
 

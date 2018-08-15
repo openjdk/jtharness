@@ -204,14 +204,12 @@ class ResultSection extends HTMLSection {
             if (list.size() > 0) {
                 boolean inList = false;
 
-                for (Iterator<TestResult> iter = list.iterator(); iter.hasNext(); ) {
-                    TestResult e = iter.next();
+                for (TestResult e : list) {
                     String title;
                     try {
                         TestDescription e_td = e.getDescription();
                         title = e_td.getTitle();
-                    }
-                    catch (TestResult.Fault ex) {
+                    } catch (TestResult.Fault ex) {
                         title = null;
                     }
 
@@ -251,14 +249,12 @@ class ResultSection extends HTMLSection {
             if (list.size() > 0) {
                 boolean inList = false;
                 String currentHead = null;
-                for (Iterator<TestResult> iter = list.iterator(); iter.hasNext(); ) {
-                    TestResult e = iter.next();
+                for (TestResult e : list) {
                     String title;
                     try {
                         TestDescription e_td = e.getDescription();
                         title = e_td.getTitle();
-                    }
-                    catch (TestResult.Fault ex) {
+                    } catch (TestResult.Fault ex) {
                         title = null;
                     }
 

@@ -83,8 +83,7 @@ public class PrefixMap<V> implements Map<String, V>
 
     @Override
     public boolean containsValue(Object value) {
-        for (Iterator<Map.Entry<String, V>> i = map.entrySet().iterator(); i.hasNext(); ) {
-            Map.Entry<String, V> e = i.next();
+        for (Entry<String, V> e : map.entrySet()) {
             String key = e.getKey();
             if (key.startsWith(prefix) && e.getValue().equals(value))
                 return true;
@@ -95,8 +94,7 @@ public class PrefixMap<V> implements Map<String, V>
     @Override
     public Set<Map.Entry<String, V>> entrySet() {
         Map<String, V> m = new HashMap<String, V>();
-        for (Iterator<Map.Entry<String, V>> i = map.entrySet().iterator(); i.hasNext(); ) {
-            Map.Entry<String, V> e = i.next();
+        for (Entry<String, V> e : map.entrySet()) {
             String key = e.getKey();
             if (key.startsWith(prefix))
                 m.put(key.substring(prefix.length()), e.getValue());
@@ -116,8 +114,7 @@ public class PrefixMap<V> implements Map<String, V>
 
     @Override
     public boolean isEmpty() {
-        for (Iterator<String> i = map.keySet().iterator(); i.hasNext(); ) {
-            String key = i.next();
+        for (String key : map.keySet()) {
             if (key.startsWith(prefix))
                 return false;
         }
@@ -127,8 +124,7 @@ public class PrefixMap<V> implements Map<String, V>
     @Override
     public Set<String> keySet() {
         Set<String> s = new HashSet<>();
-        for (Iterator<String> i = map.keySet().iterator(); i.hasNext(); ) {
-            String key = i.next();
+        for (String key : map.keySet()) {
             if (key.startsWith(prefix))
                 s.add(key.substring(prefix.length()));
         }
@@ -142,8 +138,7 @@ public class PrefixMap<V> implements Map<String, V>
 
     @Override
     public void putAll(Map<? extends String, ? extends V> t) {
-        for (Iterator<? extends Entry<? extends String, ? extends V>> i = t.entrySet().iterator(); i.hasNext(); ) {
-            Map.Entry<? extends String, ? extends V> e = i.next();
+        for (Entry<? extends String, ? extends V> e : t.entrySet()) {
             String key = e.getKey();
             put(key, e.getValue());
         }
@@ -157,8 +152,7 @@ public class PrefixMap<V> implements Map<String, V>
     @Override
     public int size() {
         int n = 0;
-        for (Iterator<String> i = map.keySet().iterator(); i.hasNext(); ) {
-            String key = i.next();
+        for (String key : map.keySet()) {
             if (key.startsWith(prefix))
                 n++;
         }
@@ -168,8 +162,7 @@ public class PrefixMap<V> implements Map<String, V>
     @Override
     public Collection<V> values() {
         Collection<V> c = new Vector<>();
-        for (Iterator<Map.Entry<String, V>> i = map.entrySet().iterator(); i.hasNext(); ) {
-            Map.Entry<String, V> e = i.next();
+        for (Entry<String, V> e : map.entrySet()) {
             String key = e.getKey();
             if (key.startsWith(prefix))
                 c.add(e.getValue());

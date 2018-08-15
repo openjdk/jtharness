@@ -174,11 +174,11 @@ class ProgressMonitor extends ToolDialog {
 
         //ToolDialog pack();
 
-        for (int i = 0; i < subpanels.length; i++) {
+        for (StatusSubpanel subpanel : subpanels) {
             // make sure the panels are in any initial state
             // important for getting the "last" run info, less important if
             // there's a run in progress or a future runs
-            subpanels[i].update();
+            subpanel.update();
         }
 
         /*ToolDialog
@@ -220,8 +220,7 @@ class ProgressMonitor extends ToolDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == timer) {
-                for (int i = 0; i < subpanels.length; i++)
-                    subpanels[i].update();
+                for (StatusSubpanel subpanel : subpanels) subpanel.update();
             }
         }
 
@@ -231,18 +230,17 @@ class ProgressMonitor extends ToolDialog {
         public void starting() {
             running = true;
 
-            for (int i = 0; i < subpanels.length; i++)
-                subpanels[i].starting();
+            for (StatusSubpanel subpanel : subpanels) subpanel.starting();
 
             timer.start();
         }
 
         @Override
         public void postProcessing() {
-            for (int i = 0; i < subpanels.length; i++) {
-                    // make sure the panels update one last time
-                subpanels[i].update();
-                subpanels[i].postProcessing();
+            for (StatusSubpanel subpanel : subpanels) {
+                // make sure the panels update one last time
+                subpanel.update();
+                subpanel.postProcessing();
             }   // for
         }
 
@@ -254,10 +252,10 @@ class ProgressMonitor extends ToolDialog {
         @Override
         public void finished(final boolean allOk) {
             running = false;
-            for (int i = 0; i < subpanels.length; i++) {
+            for (StatusSubpanel subpanel : subpanels) {
                 // make sure the panels update one last time
-                subpanels[i].update();
-                subpanels[i].stopping();
+                subpanel.update();
+                subpanel.stopping();
             }   // for
 
             timer.stop();
@@ -459,8 +457,7 @@ class ProgressMonitor extends ToolDialog {
         void update() {
             testListData.removeAllElements();
             TestResult[] rt = state.getRunningTests();
-            for (int i = 0; i < rt.length; i++)
-                testListData.addElement(rt[i]);
+            for (TestResult aRt : rt) testListData.addElement(aRt);
         }
 
         //------------------------------------------------------------------

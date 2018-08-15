@@ -94,10 +94,9 @@ class Merger {
         }
 
         // resolve each conflict
-        for (int c = 0; c < conflicts.size(); c++) {
-            String url = conflicts.get(c);
+        for (String url : conflicts) {
             List<TestResultDescr> tds = new ArrayList<>();
-            for(int i = 0; i < in.length; i++) {
+            for (int i = 0; i < in.length; i++) {
                 TestResultDescr td = (TestResultDescr) inputs[i].get(url);
                 if (td != null) {
                     td.setFile(in[i]);
@@ -110,9 +109,9 @@ class Merger {
                 // cancel
                 return false;
             }
-            for(int i = 0; i < in.length; i++) {
+            for (int i = 0; i < in.length; i++) {
                 if (!in[i].equals(tda[res].getFile())) {
-                    TestResultDescr td = (TestResultDescr)inputs[i].get(url);
+                    TestResultDescr td = (TestResultDescr) inputs[i].get(url);
                     if (td != null) {
                         td.setID(-1);
                     }

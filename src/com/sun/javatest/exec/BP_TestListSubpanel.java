@@ -39,6 +39,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Vector;
@@ -546,8 +547,8 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                         return uif.getI18NString("br.list.noKeywords.txt");
                     else {
                         StringBuffer sb = new StringBuffer();
-                        for (int i = 0; i < s.length; i++) {
-                            sb.append(s[i]);
+                        for (String value : s) {
+                            sb.append(value);
                             sb.append(" ");
                         }
                         return sb.toString();
@@ -571,8 +572,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             // arguably, this should be solved by putting this init() onto
             // the event thread
             synchronized (pendingEvents) {
-                for (int i = 0; i < pendingEvents.size(); i++) {
-                    TableNotifier tn = pendingEvents.get(i);
+                for (TableNotifier tn : pendingEvents) {
                     tn.cancel();
                 } // for
             }
@@ -1024,11 +1024,10 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                         final Thread t = new Thread() {
                             @Override
                             public void run() {
-                                for (int i = 0; i < rows.length; i++) {
+                                for (int row : rows) {
                                     try {
                                         // this may take a long while...
-                                        for (int j = 0; j < finalList.length; j++)
-                                            wd.purge(finalList[j]);
+                                        for (String aFinalList : finalList) wd.purge(aFinalList);
                                     } // try
                                     catch (WorkDirectory.PurgeFault f) {
                                         // print something in log...
@@ -1049,7 +1048,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                                                 }
                                             });
                                         } catch (InterruptedException e) {
-                                        } catch (java.lang.reflect.InvocationTargetException e) {
+                                        } catch (InvocationTargetException e) {
                                         }
                                     } // outer try
                                 } // for

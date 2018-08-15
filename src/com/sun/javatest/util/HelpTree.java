@@ -288,8 +288,7 @@ public class HelpTree
     private Selection find(String[] words, int mode) {
         Map<Node, Selection> map = null;
 
-        for (int i = 0; i < nodes.length; i++) {
-            Node node = nodes[i];
+        for (Node node : nodes) {
             Selection s = find(node, words, mode);
             if (s != null) {
                 if (map == null)
@@ -344,8 +343,8 @@ public class HelpTree
     public void write(Writer out) throws IOException {
         WrapWriter ww = getWrapWriter(out);
 
-        for (int i = 0; i < nodes.length; i++) {
-            write(ww, nodes[i]);
+        for (Node node : nodes) {
+            write(ww, node);
             ww.write('\n');
         }
 
@@ -388,8 +387,7 @@ public class HelpTree
     public void writeSummary(Writer out) throws IOException {
         WrapWriter ww = getWrapWriter(out);
 
-        for (int i = 0; i < nodes.length; i++)
-            writeHead(ww, nodes[i]);
+        for (Node node : nodes) writeHead(ww, node);
 
         if (ww != out)
             ww.flush();
@@ -415,8 +413,7 @@ public class HelpTree
 
     private void write(WrapWriter out, Map<Node, Selection> m) throws IOException {
         int margin = out.getLeftMargin();
-        for (Iterator<Map.Entry<Node, Selection>> iter = m.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry<Node, Selection> e = iter.next();
+        for (Map.Entry<Node, Selection> e : m.entrySet()) {
             Node node = e.getKey();
             Selection s = e.getValue();
             if (s.map == null)
@@ -440,8 +437,7 @@ public class HelpTree
         Node[] children = node.children;
         if (children != null && children.length > 0) {
             out.setLeftMargin(baseMargin + nodeIndent);
-            for (int i = 0; i < children.length; i++)
-                write(out, children[i]);
+            for (Node aChildren : children) write(out, aChildren);
         }
 
         out.setLeftMargin(baseMargin);
@@ -468,16 +464,16 @@ public class HelpTree
     }
 
     private boolean containsAllOf(String text, String[] words) {
-        for (int i = 0; i < words.length; i++) {
-            if (!contains(text, words[i]))
+        for (String word : words) {
+            if (!contains(text, word))
                 return false;
         }
         return true;
     }
 
     private boolean containsAnyOf(String text, String[] words) {
-        for (int i = 0; i < words.length; i++) {
-            if (contains(text, words[i]))
+        for (String word : words) {
+            if (contains(text, word))
                 return true;
         }
         return false;

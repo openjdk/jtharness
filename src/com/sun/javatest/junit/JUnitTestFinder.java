@@ -109,8 +109,7 @@ public abstract class JUnitTestFinder extends TestFinder {
      * @param names The names of files to be excluded.
      */
     public void exclude(String[] names) {
-        for (int i = 0; i < names.length; i++) {
-            String name = names[i];
+        for (String name : names) {
             excludeList.put(name, name);
         }
     }

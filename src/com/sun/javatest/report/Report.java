@@ -242,8 +242,8 @@ public class Report implements ReportModel {
         if (list == null)
             return false;
 
-        for(int i = 0; i < list.length; i++) {
-            if(list[i].equals(MARKER_FILE_NAME)) {
+        for (String aList : list) {
+            if (aList.equals(MARKER_FILE_NAME)) {
                 return true;
             }
         }
@@ -422,21 +422,20 @@ public class Report implements ReportModel {
         File reportDir = index.getParentFile();
         File[] files = reportDir.listFiles();
         List<File> subdirs = new ArrayList<>();
-        for(int i = 0; i < files.length; i ++) {
-            if(files[i].isDirectory() &&
-                    files[i].getName().lastIndexOf(newId) != -1) {
-                subdirs.add(files[i]);
+        for (File file : files) {
+            if (file.isDirectory() &&
+                    file.getName().lastIndexOf(newId) != -1) {
+                subdirs.add(file);
             }
         }
 
         LinkFinder finder = new LinkFinder(index);
         Vector<String> links = finder.getLinks();
-        for(int i = 0; i < links.size(); i++) {
-            String link = links.get(i);
-            for(int j = 0; j < subdirs.size(); j++) {
-                String newName = subdirs.get(j).getName();
+        for (String link : links) {
+            for (File subdir : subdirs) {
+                String newName = subdir.getName();
                 String oldName = newName.replaceAll(newId, oldId);
-                if(link.lastIndexOf(oldName) != -1) {
+                if (link.lastIndexOf(oldName) != -1) {
                     StringBuilder newLink = new StringBuilder(link);
                     int link_start = newLink.indexOf(oldName);
                     newLink.replace(link_start, link_start + oldName.length(), newName);
@@ -577,8 +576,7 @@ public class Report implements ReportModel {
 
     private void notifyStartGenListeners(ReportSettings s, String reportID) {
         if(startGenListeners != null) {
-            for(int i = 0; i < startGenListeners.size(); i ++) {
-                StartGenListener sgl = startGenListeners.get(i);
+            for (StartGenListener sgl : startGenListeners) {
                 sgl.startReportGeneration(s, reportID);
             }
         }

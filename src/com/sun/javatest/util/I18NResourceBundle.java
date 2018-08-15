@@ -86,9 +86,9 @@ public class I18NResourceBundle extends ResourceBundle
         catch (MissingResourceException e) {
             System.err.println("WARNING: missing resource: " + key + " for " + name);
             StringBuffer sb = new StringBuffer(key);
-            for (int i = 0; i < args.length; i++) {
+            for (Object arg : args) {
                 sb.append('\n');
-                sb.append(args[i].toString());
+                sb.append(arg.toString());
             }
             return sb.toString();
         }

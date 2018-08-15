@@ -498,8 +498,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                 JMenuItem[] items =
                     menuManager.getMenuItems(JavaTestMenuManager.CONFIG_PRIMARY);
                 if (items != null)
-                    for (int i = 0; i < items.length; i++)
-                        menu.add(items[i]);
+                    for (JMenuItem item : items) menu.add(item);
             }
         }
 
@@ -515,8 +514,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                     menuManager.getMenuItems(JavaTestMenuManager.CONFIG_OTHER);
                 if (items != null) {
                     menu.addSeparator();
-                    for (int i = 0; i < items.length; i++)
-                        menu.add(items[i]);
+                    for (JMenuItem item : items) menu.add(item);
                 }   // innerest if
             }
         }

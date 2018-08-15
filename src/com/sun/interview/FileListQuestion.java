@@ -391,8 +391,7 @@ public abstract class FileListQuestion extends Question
             return "";
 
         int l = ff.length - 1; // allow for spaces between words
-        for (int i = 0; i < ff.length; i++)
-            l += ff[i].getPath().length();
+        for (File aFf : ff) l += aFf.getPath().length();
 
         StringBuffer sb = new StringBuffer(l);
 

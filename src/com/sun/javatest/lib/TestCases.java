@@ -97,8 +97,7 @@ public class TestCases {
      * @throws TestCases.Fault if any of the test case names are invalid.
      */
     public void select(String[] testCaseNames) throws Fault  {
-        for (int i = 0; i < testCaseNames.length; i++) {
-            String t = testCaseNames[i];
+        for (String t : testCaseNames) {
             selectedCases.put(t, getTestCase(t));
         }
     }
@@ -126,8 +125,7 @@ public class TestCases {
      * @throws TestCases.Fault if any of the test case names are invalid.
      */
     public void exclude(String[] testCaseNames) throws Fault  {
-        for (int i = 0; i < testCaseNames.length; i++) {
-            String t = testCaseNames[i];
+        for (String t : testCaseNames) {
             excludedCases.put(t, getTestCase(t));
         }
     }
@@ -142,8 +140,7 @@ public class TestCases {
         Vector<Method> v = new Vector<>();
         if (selectedCases.isEmpty()) {
             Method[] methods = testClass.getMethods();
-            for (int i = 0; i < methods.length; i++) {
-                Method m = methods[i];
+            for (Method m : methods) {
                 if (excludedCases.get(m.getName()) == null) {
                     Class<?>[] paramTypes = m.getParameterTypes();
                     Class<?> returnType = m.getReturnType();

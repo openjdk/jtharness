@@ -96,18 +96,15 @@ public class ConfigManager
 
     HelpTree.Node getHelp(I18NResourceBundle i18n, String prefix, Object[] childData) {
         Vector<HelpTree.Node> v = new Vector<>();
-        for (int i = 0; i < childData.length; i++) {
-            Object data = childData[i];
+        for (Object data : childData) {
             if (data instanceof HelpTree.Node)
-                v.add((HelpTree.Node)data);
+                v.add((HelpTree.Node) data);
             else if (data instanceof String)
                 v.add(new HelpTree.Node(i18n, prefix + "." + data));
             else if (data instanceof String[]) {
                 String[] names = (String[]) data;
-                for (int j = 0; j < names.length; j++)
-                    v.add(new HelpTree.Node(i18n, prefix + "." + names[j]));
-            }
-            else
+                for (String name : names) v.add(new HelpTree.Node(i18n, prefix + "." + name));
+            } else
                 throw new IllegalArgumentException();
         }
         HelpTree.Node[] childNodes = new HelpTree.Node[v.size()];
@@ -794,21 +791,16 @@ public class ConfigManager
             boolean any = false;
             values = new boolean[Status.NUM_STATES];
             if (words != null) {
-                for (int i = 0; i < words.length; i++) {
-                    String w = words[i];
+                for (String w : words) {
                     if (w.startsWith("pass")) {
                         values[Status.PASSED] = any = true;
-                    }
-                    else if (w.startsWith("fail")) {
+                    } else if (w.startsWith("fail")) {
                         values[Status.FAILED] = any = true;
-                    }
-                    else if (w.startsWith("error")) {
+                    } else if (w.startsWith("error")) {
                         values[Status.ERROR] = any = true;
-                    }
-                    else if (w.startsWith("notrun")) {
+                    } else if (w.startsWith("notrun")) {
                         values[Status.NOT_RUN] = any = true;
-                    }
-                    else
+                    } else
                         throw new Fault(i18n, "cnfg.status.badArg", w);
                 }
             }
@@ -905,8 +897,7 @@ public class ConfigManager
                 }
             }
             else {
-                for (int i = 0; i < path.length; i++) {
-                    Question q = path[i];
+                for (Question q : path) {
                     if (q.getTag().equals(tag)) {
                         setValue(q, value);
                         return;
@@ -961,8 +952,7 @@ public class ConfigManager
         private static String getPathTrace(Question[] path) {
             String lineSep = System.getProperty("line.separator");
             StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < path.length; i++) {
-                Question q = path[i];
+            for (Question q : path) {
                 sb.append(q.getTag());
                 if (!(q instanceof NullQuestion)) {
                     String s = q.getStringValue();
@@ -1556,13 +1546,11 @@ public class ConfigManager
             if (path.exists()) {
                 if (path.isDirectory()) {
                     File[] files = path.listFiles();
-                    for (int i = 0; i < files.length; i++)
-                        remove(files[i]);
+                    for (File file : files) remove(file);
                     // workaround for leftover .nfs* files
                     String[] undeletables = path.list();
                     if (undeletables != null && undeletables.length > 0) {
-                        for (int i = 0; i < undeletables.length; i++) {
-                            String name = undeletables[i];
+                        for (String name : undeletables) {
                             if (name.startsWith(".nfs")) {
                                 File fOld = new File(path, name);
                                 File fNew = new File(path.getParentFile(), name);

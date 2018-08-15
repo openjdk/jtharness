@@ -788,25 +788,23 @@ class NewReportDialog extends ToolDialog
 
         customBoxes = new HashMap<>();
 
-        for (int i = 0; i < customReports.length; i++) {
-            JCheckBox cb = new JCheckBox(customReports[i].getName());
-            cb.setName(customReports[i].getReportId());
+        for (CustomReport customReport : customReports) {
+            JCheckBox cb = new JCheckBox(customReport.getName());
+            cb.setName(customReport.getReportId());
             listModel.addElement(cb);
-            customBoxes.put(cb, customReports[i]);
+            customBoxes.put(cb, customReport);
 
-            ReportConfigPanel[] ops = customReports[i].getOptionPanes();
+            ReportConfigPanel[] ops = customReport.getOptionPanes();
             if (ops == null || ops.length == 0) {
                 // no config panels, use blank
-                p.add(customReports[i].getReportId(),
+                p.add(customReport.getReportId(),
                         uif.createPanel("nrd.blank", false));
-            }
-            else {
+            } else {
                 // tabbed pane for all supplied panels
                 JTabbedPane tp = uif.createTabbedPane("nrd.custom.tabs");
-                for (int j = 0; j < ops.length; j++)
-                    tp.addTab(ops[j].getPanelName(), ops[j]);
+                for (ReportConfigPanel op : ops) tp.addTab(op.getPanelName(), op);
 
-                p.add(customReports[i].getReportId(), tp);
+                p.add(customReport.getReportId(), tp);
             }
             result++;
         }   // for
@@ -853,8 +851,8 @@ class NewReportDialog extends ToolDialog
             String[] names = Report.getHtmlReportFilenames();
             ArrayList<File> possible = new ArrayList<>();
 
-            for (int i = 0; i < names.length; i++) {
-                File rpt = new File(reportDir, names[i]);
+            for (String name : names) {
+                File rpt = new File(reportDir, name);
                 if (rpt.exists() && rpt.canRead())
                     possible.add(rpt);
                 else
@@ -867,8 +865,7 @@ class NewReportDialog extends ToolDialog
                 File newestF = null;
                 long newestTime = 0;
 
-                for (int i = 0; i < possible.size(); i++) {
-                    File file = possible.get(i);
+                for (File file : possible) {
                     if (file.lastModified() > newestTime) {
                         newestF = file;
                         newestTime = file.lastModified();
@@ -906,9 +903,7 @@ class NewReportDialog extends ToolDialog
 
         ArrayList<CustomReport> customReps = new ArrayList<>();
         if (customBoxes != null && customBoxes.size() > 0) {
-            Iterator<JCheckBox> it = customBoxes.keySet().iterator();
-            while (it.hasNext()) {
-                JCheckBox box = it.next();
+            for (JCheckBox box : customBoxes.keySet()) {
                 if (box.isSelected()) {
                     customReps.add(customBoxes.get(box));
                 }
@@ -926,14 +921,11 @@ class NewReportDialog extends ToolDialog
         // config gets disabled if HTML reporting is off
 
         if (!cbHtml.isSelected()) {
-            for (int i = 0; i < htmlGroup.size(); i++)
-                htmlGroup.get(i).setEnabled(false);
+            for (JCheckBox aHtmlGroup : htmlGroup) aHtmlGroup.setEnabled(false);
         }
         else {
-            for (int i = 0; i < htmlGroup.size(); i++)
-                htmlGroup.get(i).setEnabled(true);
-            for (int i = 0; i < configGroup.size(); i++)
-                configGroup.get(i).setEnabled(cbConfig.isSelected());
+            for (JCheckBox aHtmlGroup : htmlGroup) aHtmlGroup.setEnabled(true);
+            for (JCheckBox aConfigGroup : configGroup) aConfigGroup.setEnabled(cbConfig.isSelected());
         }
     }
 
@@ -1103,18 +1095,16 @@ class NewReportDialog extends ToolDialog
                 }
 
                 // validate custom reports
-                Iterator<CustomReport> it = getActiveCustomReports().iterator();
-                while (it.hasNext()) {
-                    CustomReport cr = it.next();
+                for (CustomReport cr : getActiveCustomReports()) {
                     String error = cr.validateOptions();
                     if (error != null) {
-                        for (int i = 0; i < listModel.getSize(); i++ ) {
+                        for (int i = 0; i < listModel.getSize(); i++) {
                             JCheckBox cb = listModel.elementAt(i);
                             if (cb.getName().equals(cr.getReportId())) {
                                 list.setSelectedIndex(i);
                             }
                         }
-                        uif.showError("nrd.optionsErr", new Object[] {error} );
+                        uif.showError("nrd.optionsErr", new Object[]{error});
                         return;
                     }
                 }
@@ -1204,10 +1194,10 @@ class NewReportDialog extends ToolDialog
                         stopper.waitWasHidden = true;
                         worker.interrupt();
                     }
-                    for ( int i = 0; i < cmp.length; i++) {
-                        if("nrd.wait".equals(cmp[i].getName())) {
-                            if (cmp[i] instanceof JTextComponent) {
-                                ((JTextComponent)cmp[i]).setText(cancelling);
+                    for (Component aCmp : cmp) {
+                        if ("nrd.wait".equals(aCmp.getName())) {
+                            if (aCmp instanceof JTextComponent) {
+                                ((JTextComponent) aCmp).setText(cancelling);
                             }
                             break;
                         }
@@ -1325,8 +1315,8 @@ class NewReportDialog extends ToolDialog
         }
 
         private File searchForFile(File dir, String[] names) {
-            for (int i = 0; i < names.length; i++) {
-                File f = new File(reportDir, names[i]);
+            for (String name : names) {
+                File f = new File(reportDir, name);
                 if (f.exists()) {
                     return f;
                 }
@@ -1359,10 +1349,10 @@ class NewReportDialog extends ToolDialog
                                                 new String[] {reportName});
 
             Component[] cmp = waitDialog.getContentPane().getComponents();
-            for ( int i = 0; i < cmp.length; i++) {
-                if("nrd.wait".equals(cmp[i].getName())) {
-                    if (cmp[i] instanceof JTextComponent) {
-                        ((JTextComponent)cmp[i]).setText(status);
+            for (Component aCmp : cmp) {
+                if ("nrd.wait".equals(aCmp.getName())) {
+                    if (aCmp instanceof JTextComponent) {
+                        ((JTextComponent) aCmp).setText(status);
                     }
                     break;
                 }
@@ -1430,8 +1420,8 @@ class NewReportDialog extends ToolDialog
                         rep.getOptionPanes()[i].setEnabled(box.isSelected());
                     }
                 } else if (box == cbHtml) {
-                    for (int i = 0; i < panes.length; i++) {
-                        panes[i].setEnabled(box.isSelected());
+                    for (JComponent pane : panes) {
+                        pane.setEnabled(box.isSelected());
                     }
                 }
             }
@@ -1546,10 +1536,10 @@ class NewReportDialog extends ToolDialog
          */
         private Collection<Component> collectChildren(Container comp, Collection<Component> c) {
             Component [] ch = comp.getComponents();
-            for(int i = 0; i < ch.length; i++) {
-                c.add(ch[i]);
-                if (ch[i] instanceof Container) {
-                    collectChildren((Container) ch[i],  c);
+            for (Component aCh : ch) {
+                c.add(aCh);
+                if (aCh instanceof Container) {
+                    collectChildren((Container) aCh, c);
                 }
             }
             return c;

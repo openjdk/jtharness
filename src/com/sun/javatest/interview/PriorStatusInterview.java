@@ -181,8 +181,8 @@ public class PriorStatusInterview
         @Override
         public boolean isValueValid() {
             // one of the choices must be set
-            for (int i = 0; i < value.length; i++) {
-                if (value[i])
+            for (boolean aValue : value) {
+                if (aValue)
                     return true;
             }
             return false;

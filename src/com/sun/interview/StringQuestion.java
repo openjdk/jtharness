@@ -147,8 +147,8 @@ public abstract class StringQuestion extends Question
      */
     public void setSuggestions(String[] newSuggestions) {
         if (newSuggestions != null) {
-            for (int i = 0; i < newSuggestions.length; i++) {
-                if (newSuggestions[i] == null)
+            for (String newSuggestion : newSuggestions) {
+                if (newSuggestion == null)
                     throw new IllegalArgumentException();
             }
         }

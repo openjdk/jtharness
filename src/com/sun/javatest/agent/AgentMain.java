@@ -151,12 +151,12 @@ public class AgentMain {
             StringBuffer fullCmd = new StringBuffer();
             StringBuffer incrementalCmd = new StringBuffer();
 
-            for (int i = 0; i < args.length; i++) {
-                fullCmd.append(args[i]);
+            for (String arg : args) {
+                fullCmd.append(arg);
                 fullCmd.append(" ");
 
                 incrementalCmd.append("// ");
-                incrementalCmd.append(args[i]);
+                incrementalCmd.append(arg);
                 incrementalCmd.append("\n");
             }   // for
 
@@ -172,16 +172,14 @@ public class AgentMain {
         catch (BadArgs e) {
             System.err.println("Error: Bad arguments");
             String[] msgs = e.getMessages();
-            for (int i = 0; i < msgs.length; i++)
-                System.err.println(msgs[i]);
+            for (String msg : msgs) System.err.println(msg);
             System.err.println();
             usage(System.err);
             rc = 1;
         }
         catch (Fault e) {
             String[] msgs = e.getMessages();
-            for (int i = 0; i < msgs.length; i++)
-                System.err.println(msgs[i]);
+            for (String msg : msgs) System.err.println(msg);
             rc = 2;
         }
         catch (Throwable t) {

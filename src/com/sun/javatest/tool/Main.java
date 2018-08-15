@@ -119,8 +119,8 @@ public class Main
         String javaVersion = System.getProperty("java.version");
         if (javaVersion != null) {
             String[] oldVersions = {"1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6"};
-            for (int i = 0; i < oldVersions.length; i++) {
-                if (javaVersion.startsWith(oldVersions[i])) {
+            for (String oldVersion : oldVersions) {
+                if (javaVersion.startsWith(oldVersion)) {
                     // I18N?
                     System.err.println("Please use Java(TM) Standard Edition, Version 7.0 or better to run the JT Harness(TM) harness.");
                     System.exit(1);

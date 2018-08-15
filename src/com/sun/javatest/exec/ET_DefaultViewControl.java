@@ -141,8 +141,8 @@ public class ET_DefaultViewControl implements ET_ViewControl {
             if (mm != null) {
                 JMenuItem[] items = mm.getMenuItems(JavaTestMenuManager.CONFIG_VIEW);
                 if (items != null) {
-                    for (int i = 0; i < items.length; i++) {
-                        viewConfigMenu.add(items[i]);
+                    for (JMenuItem item : items) {
+                        viewConfigMenu.add(item);
                     }
                 }
             }

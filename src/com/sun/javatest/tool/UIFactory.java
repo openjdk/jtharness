@@ -1561,8 +1561,7 @@ public class UIFactory {
      */
     public JMenu createMenu(String uiKey, Action[] actions) {
         JMenu m = createMenu(uiKey);
-        for (int i = 0; i < actions.length; i++) {
-            Action action = actions[i];
+        for (Action action : actions) {
             if (action == null)
                 m.addSeparator();
             else
@@ -1615,8 +1614,7 @@ public class UIFactory {
      */
     public void initMenu(JMenu m, String uiKey, String[] actions, ActionListener l) {
         initMenu(m, uiKey);
-        for (int i = 0; i < actions.length; i++) {
-            String action = actions[i];
+        for (String action : actions) {
             if (action == null)
                 m.addSeparator();
             else
@@ -1646,8 +1644,7 @@ public class UIFactory {
      */
     public JPopupMenu createPopupMenu(String uiKey, String[] actions, ActionListener l) {
         JPopupMenu m = createPopupMenu(uiKey);
-        for (int i = 0; i < actions.length; i++) {
-            String action = actions[i];
+        for (String action : actions) {
             if (action == null)
                 m.addSeparator();
             else
@@ -1974,8 +1971,7 @@ public class UIFactory {
         JTabbedPane p = new JTabbedPane();
         p.setName(uiKey);
         setAccessibleName(p, uiKey);
-        for (int i = 0; i < children.length; i++) {
-            JComponent child = children[i];
+        for (JComponent child : children) {
             addTab(p, uiKey + "." + child.getName(), child);
         }
         setToolTip(p, uiKey);
@@ -2617,8 +2613,7 @@ public class UIFactory {
         JToolBar tb = new JToolBar();
         tb.setName(uiKey);
         setAccessibleInfo(tb, uiKey);
-        for (int i = 0; i < actions.length; i++) {
-            Action action = actions[i];
+        for (Action action : actions) {
             if (action == null)
                 tb.addSeparator();
             else {
@@ -2646,8 +2641,7 @@ public class UIFactory {
         JToolBar tb = new JToolBar();
         tb.setName(uiKey);
         setAccessibleInfo(tb, uiKey);
-        for (int i = 0; i < buttons.length; i++) {
-            JButton button = buttons[i];
+        for (JButton button : buttons) {
             if (button == null)
                 tb.addSeparator();
             else {
@@ -2666,8 +2660,7 @@ public class UIFactory {
      * @see javax.swing.Action#SHORT_DESCRIPTION
      */
     public void addToolBarActions(JToolBar tb, Action[] actions) {
-        for (int i = 0; i < actions.length; i++) {
-            Action action = actions[i];
+        for (Action action : actions) {
             if (action == null)
                 tb.addSeparator();
             else {

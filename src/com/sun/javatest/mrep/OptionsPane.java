@@ -227,8 +227,8 @@ class OptionsPane extends JPanel {
         GridBagConstraints b = new GridBagConstraints();
         b.anchor = GridBagConstraints.EAST;
         co.insets = new Insets(10,0,0,0);
-        for (int i = 0; i < buttons.length; i++) {
-            buttonsPanel.add(buttons[i]);
+        for (JButton button : buttons) {
+            buttonsPanel.add(button);
 
         }
 
@@ -242,11 +242,11 @@ class OptionsPane extends JPanel {
         int result = 0;
         Tool[] tools = desktop.getTools();
         List<CustomReport> customReportsList = new ArrayList<>();
-        for (int i = 0; i < tools.length; i++) {
-            if (tools[i] instanceof ExecTool) {
+        for (Tool tool1 : tools) {
+            if (tool1 instanceof ExecTool) {
                 // should not be using report types from ExecTool
                 // should have a separate list available for this tool
-                ExecTool tool = (ExecTool) tools[i];
+                ExecTool tool = (ExecTool) tool1;
                 InterviewParameters ip = tool.getInterviewParameters();
                 TestFilter tf = new CompositeFilter(ip.getFilters());
                 ReportSettings rs = new ReportSettings(ip);
@@ -270,24 +270,23 @@ class OptionsPane extends JPanel {
 
         customBoxes = new HashMap<>();
 
-        for (int i = 0; i < customReports.length; i++) {
-            JCheckBox cb = new JCheckBox(customReports[i].getName());
-            cb.setName(customReports[i].getReportId());
+        for (CustomReport customReport : customReports) {
+            JCheckBox cb = new JCheckBox(customReport.getName());
+            cb.setName(customReport.getReportId());
             listModel.addElement(cb);
-            customBoxes.put(cb, customReports[i]);
+            customBoxes.put(cb, customReport);
 
-            ReportConfigPanel[] ops = customReports[i].getOptionPanes();
+            ReportConfigPanel[] ops = customReport.getOptionPanes();
             if (ops == null || ops.length == 0) {
                 // no config panels, use blank
-                p.add(customReports[i].getReportId(), uif.createPanel(
+                p.add(customReport.getReportId(), uif.createPanel(
                         "opts.blank", false));
             } else {
                 // tabbed pane for all supplied panels
                 JTabbedPane tp = uif.createTabbedPane("opts.custom.tabs");
-                for (int j = 0; j < ops.length; j++)
-                    tp.addTab(ops[j].getPanelName(), ops[j]);
+                for (ReportConfigPanel op : ops) tp.addTab(op.getPanelName(), op);
 
-                p.add(customReports[i].getReportId(), tp);
+                p.add(customReport.getReportId(), tp);
             }
             result++;
         } // for
@@ -299,9 +298,7 @@ class OptionsPane extends JPanel {
 
         ArrayList<CustomReport> customReps = new ArrayList<>();
         if (customBoxes != null && customBoxes.size() > 0) {
-            Iterator<JCheckBox> it = customBoxes.keySet().iterator();
-            while (it.hasNext()) {
-                JCheckBox box = it.next();
+            for (JCheckBox box : customBoxes.keySet()) {
                 if (box.isSelected()) {
                     customReps.add(customBoxes.get(box));
                 }
@@ -443,10 +440,8 @@ class OptionsPane extends JPanel {
 
                 } else if (!oldV && newV && enabledComp != null) {
                     // enable
-                    Iterator<Component> chIt = collectChildren(theContainer,
-                            new ArrayList<Component>()).iterator();
-                    while (chIt.hasNext()) {
-                        Component c = chIt.next();
+                    for (Component c : collectChildren(theContainer,
+                            new ArrayList<Component>())) {
                         if (enabledComp.contains(c)) {
                             c.setEnabled(true);
                         }
@@ -460,10 +455,10 @@ class OptionsPane extends JPanel {
          */
         private Collection<Component> collectChildren(Container comp, Collection<Component> c) {
             Component[] ch = comp.getComponents();
-            for (int i = 0; i < ch.length; i++) {
-                c.add(ch[i]);
-                if (ch[i] instanceof Container) {
-                    collectChildren((Container) ch[i], c);
+            for (Component aCh : ch) {
+                c.add(aCh);
+                if (aCh instanceof Container) {
+                    collectChildren((Container) aCh, c);
                 }
             }
             return c;

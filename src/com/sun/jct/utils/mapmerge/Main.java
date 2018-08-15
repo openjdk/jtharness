@@ -137,8 +137,7 @@ public class Main
 
         @Override
         public void execute() {
-            for (Iterator<FileSet> iter = fileSets.iterator(); iter.hasNext(); ) {
-                FileSet fs = iter.next();
+            for (FileSet fs : fileSets) {
                 FileScanner s = fs.getDirectoryScanner(getProject());
                 m.addFiles(s.getBasedir(), s.getIncludedFiles());
             }
@@ -158,8 +157,7 @@ public class Main
         List<File> files = new ArrayList<File>();
         if (inFiles != null)
             files.addAll(Arrays.asList(inFiles));
-        for (int i = 0; i < paths.length; i++)
-            files.add(new File(baseDir, paths[i]));
+        for (String path : paths) files.add(new File(baseDir, path));
         inFiles = files.toArray(new File[files.size()]);
     }
 
@@ -174,8 +172,7 @@ public class Main
 
         map = new TreeMap<>();
 
-        for (int i = 0; i < inFiles.length; i++)
-            read(inFiles[i]);
+        for (File inFile : inFiles) read(inFile);
 
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(outFile)));
         out.println("<?xml version='1.0' encoding='ISO-8859-1' ?>");
@@ -185,15 +182,13 @@ public class Main
         out.println("<map version=\"1.0\">");
 
         int maxLen = 0;
-        for (Iterator<Map.Entry<String, String>> iter = map.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry<String, String> e = iter.next();
+        for (Map.Entry<String, String> e : map.entrySet()) {
             String target = e.getKey();
             String url = e.getValue();
             maxLen = Math.max(maxLen, target.length());
         }
 
-        for (Iterator<Map.Entry<String, String>> iter = map.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry<String, String> e = iter.next();
+        for (Map.Entry<String, String> e : map.entrySet()) {
             String target = e.getKey();
             String url = e.getValue();
             out.print("  <mapID target=\"" + target + "\"  ");

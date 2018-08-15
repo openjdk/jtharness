@@ -65,8 +65,8 @@ public class Deck extends JPanel
      */
     public Deck(String name, Component[] comps) {
         this(name);
-        for (int i = 0; i < comps.length; i++) {
-            add(comps[i]);
+        for (Component comp : comps) {
+            add(comp);
         }
     }
 

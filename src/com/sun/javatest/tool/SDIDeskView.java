@@ -65,8 +65,7 @@ class SDIDeskView extends DeskView {
         this(other.getDesktop());
 
         Tool[] tools = other.getTools();
-        for (int i = 0; i < tools.length; i++)
-            addTool(tools[i]);
+        for (Tool tool : tools) addTool(tool);
 
         doCascade();
         setVisible(other.isVisible());
@@ -74,11 +73,9 @@ class SDIDeskView extends DeskView {
 
     @Override
     public void dispose() {
-        for (int i = 0; i < frames.length; i++)
-            frames[i].setVisible(false);
+        for (JFrame frame1 : frames) frame1.setVisible(false);
 
-        for (int i = 0; i < frames.length; i++)
-            frames[i].dispose();
+        for (JFrame frame : frames) frame.dispose();
 
         super.dispose();
     }
@@ -92,15 +89,13 @@ class SDIDeskView extends DeskView {
     public void setVisible(boolean v) {
         //System.err.println("SDI: setVisible: " + v);
         if (v != visible) {
-            for (int i = 0; i < frames.length; i++) {
-                JFrame f = frames[i];
+            for (JFrame f : frames) {
                 f.setVisible(v);
                 if (v) {
                     // make sure we don't make frames visible in front of dialogs
                     // (you'd think JDK would do this...)
                     Window[] ww = f.getOwnedWindows();
-                    for (int wwi = 0; wwi < ww.length; wwi++)
-                        ww[wwi].toFront();
+                    for (Window aWw : ww) aWw.toFront();
                 }
             }
             visible = v;
@@ -376,8 +371,7 @@ class SDIDeskView extends DeskView {
             f.setLocation(offsetX + i * offset, offsetY + i * offset);
             f.toFront();
             Window[] ww = f.getOwnedWindows();
-            for (int wwi = 0; wwi < ww.length; wwi++)
-                ww[wwi].toFront();
+            for (Window aWw : ww) aWw.toFront();
         }
     }
 
@@ -469,16 +463,14 @@ class SDIDeskView extends DeskView {
             int n = 0;
 
             // add entries for all current tools
-            for (int i = 0; i < tools.length; i++) {
-                Tool tool = tools[i];
+            for (Tool tool : tools) {
                 addMenuItem(m, n++, tool.getTitle(), tool);
             }
 
             // add entries for any dialogs
-            for (int f = 0; f < frames.length; f++) {
-                Window[] ownedWindows = frames[f].getOwnedWindows();
-                for (int i = 0; i < ownedWindows.length; i++) {
-                    Window w = ownedWindows[i];
+            for (JFrame frame : frames) {
+                Window[] ownedWindows = frame.getOwnedWindows();
+                for (Window w : ownedWindows) {
                     if (w instanceof JDialog && w.isVisible())
                         addMenuItem(m, n++, ((JDialog) w).getTitle(), w);
                 }

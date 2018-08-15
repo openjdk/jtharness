@@ -221,10 +221,10 @@ class ConfigSection extends HTMLSection {
                     ((Parameters.MutableExcludeListParameters) exclParams).getExcludeFiles();
 
             if (excludeFiles != null && excludeFiles.length > 0) {
-                for (int i = 0; i < excludeFiles.length; i++) {
+                for (File excludeFile : excludeFiles) {
                     out.startTag(HTMLWriterEx.BR);
                     out.writeLink(HTMLReport.files[HTMLReport.EXCLUDED_HTML],
-                                    excludeFiles[i].getPath());
+                            excludeFile.getPath());
                 }   // for
             }
         }
@@ -305,8 +305,8 @@ class ConfigSection extends HTMLSection {
                 out.startTag(HTMLWriterEx.TR);
                 out.writeTH(i18n.getString("config.envFiles"), HTMLWriterEx.ROW);
                 out.startTag(HTMLWriterEx.TD);
-                for (int i = 0; i < envFiles.length; i++) {
-                    out.writeLink(new File(envFiles[i].getPath()));
+                for (File envFile : envFiles) {
+                    out.writeLink(new File(envFile.getPath()));
                     out.startTag(HTMLWriterEx.BR);
                 }
                 out.endTag(HTMLWriterEx.TD);
@@ -385,21 +385,19 @@ class ConfigSection extends HTMLSection {
 
         Set<String[]> envTable = new TreeSet<>(new StringArrayComparator());
 
-        for (Iterator<TestEnvironment.Element> i = env.elements().iterator(); i.hasNext(); ) {
-            TestEnvironment.Element envElem = i.next();
+        for (TestEnvironment.Element envElem : env.elements()) {
             String[] envTableRow = {envElem.getKey(), envElem.getValue()};
             envTable.add(envTableRow);
         }
 
         out.startTag(HTMLWriterEx.TABLE);
         out.writeAttr(HTMLWriterEx.BORDER, 1);
-        for (Iterator<String[]> i = envTable.iterator(); i.hasNext(); ) {
-            String[] envEntry = i.next();
+        for (String[] envEntry : envTable) {
             out.startTag(HTMLWriterEx.TR);
 
-            for (int j = 0; j < envEntry.length; j++ ) {
+            for (String anEnvEntry : envEntry) {
                 out.startTag(HTMLWriterEx.TD);
-                out.write(envEntry[j]);
+                out.write(anEnvEntry);
                 out.endTag(HTMLWriterEx.TD);
             }
 
@@ -443,8 +441,7 @@ class ConfigSection extends HTMLSection {
             out.endTag(HTMLWriterEx.TH);
             out.endTag(HTMLWriterEx.TR);
 
-            for (Iterator<ExcludeList.Entry> iter = sortedEntries.iterator(); iter.hasNext(); ) {
-                ExcludeList.Entry e = iter.next();
+            for (ExcludeList.Entry e : sortedEntries) {
                 out.startTag(HTMLWriterEx.TR);
                 writeTD(out, e.getRelativeURL());
                 writeTD(out, e.getTestCases());

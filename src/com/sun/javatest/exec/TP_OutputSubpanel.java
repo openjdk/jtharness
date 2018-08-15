@@ -257,8 +257,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
                     out.writeAttr(HTMLWriterEx.BORDER, "0");
                     //out.writeStyleAttr(tableStyle);
                     String[] names = s.getOutputNames();
-                    for (int i = 0; i < names.length; i++) {
-                        String name = names[i];
+                    for (String name : names) {
                         String text = s.getOutput(name);
                         out.startTag(HTMLWriterEx.TR);
                         out.startTag(HTMLWriterEx.TD);
@@ -376,8 +375,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             out.endTag(HTMLWriterEx.TH);
             out.endTag(HTMLWriterEx.TR);
             String[] names = section.getOutputNames();
-            for (int i = 0; i < names.length; i++) {
-                String name = names[i];
+            for (String name : names) {
                 String text = section.getOutput(name);
                 out.startTag(HTMLWriterEx.TR);
                 out.startTag(HTMLWriterEx.TD);
@@ -481,8 +479,8 @@ class TP_OutputSubpanel extends TP_Subpanel {
                     newSelectedEntry = e;
                 tocEntries.addElement(e);
                 String[] names = s.getOutputNames();
-                for (int j = 0; j < names.length; j++) {
-                    e = new TOCEntry(s, names[j]);
+                for (String name : names) {
+                    e = new TOCEntry(s, name);
                     if (e.getID().equals(currentTOCEntry)) {
                         newSelectedEntry = e;
                     }

@@ -127,8 +127,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         String blank = "";
 
         // populate the properties object
-        for (int i = 0; i < keys.length; i++) {
-            value.put(keys[i], blank);
+        for (String key1 : keys) {
+            value.put(key1, blank);
         }
 
         ResourceBundle b = interview.getResourceBundle();
@@ -136,15 +136,13 @@ public abstract class PropertiesQuestion extends CompositeQuestion
             presentationKeys = null;
         else {
             presentationKeys = new HashMap<>();
-            for (int i = 0; i < keys.length; i++) {
-                String c = keys[i];
+            for (String c : keys) {
                 String rn = tag + "." + c;
                 try {
-                    presentationKeys.put(keys[i], c == null ? null : b.getString(rn));
-                }
-                catch (MissingResourceException e) {
+                    presentationKeys.put(c, c == null ? null : b.getString(rn));
+                } catch (MissingResourceException e) {
                     System.err.println("WARNING: missing resource " + rn);
-                    presentationKeys.put(keys[i], c);
+                    presentationKeys.put(c, c);
                 }
             }   // for
         }   // else
@@ -467,9 +465,9 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         if (badVals == null)
             return null;
 
-        for (int i = 0; i < badVals.length; i++)
-            if (badVals[i][0].equals(key))
-                return badVals[i][1];
+        for (String[] badVal : badVals)
+            if (badVal[0].equals(key))
+                return badVal[1];
 
         return null;
     }
@@ -505,8 +503,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         if (props == null || props.length == 0)
             throw new IllegalArgumentException("Argument is null or zero length.");
 
-        for (int i = 0; i < props.length; i++) {
-            updateProperty(props[i][0], props[i][1]);
+        for (String[] prop : props) {
+            updateProperty(prop[0], prop[1]);
         }
     }
 
@@ -594,17 +592,15 @@ public abstract class PropertiesQuestion extends CompositeQuestion
             throw new IllegalArgumentException("No such group: " + group);
 
         // remove key from all groups
-        Iterator<ArrayList<String>> vals = keyGroups.values().iterator();
-        while (vals.hasNext()) {
-            ArrayList<String> al = vals.next();
+        for (ArrayList<String> al : keyGroups.values()) {
             for (int i = 0; i < al.size(); i++)
                 if (al.get(i).equals(key))
                     al.remove(i);
         }
 
         // add to group
-        for (int i = 0; i < l.size(); i++) {
-            if (l.get(i).equals(key))
+        for (String aL : l) {
+            if (aL.equals(key))
                 return;     // already there
         }
         l.add(key);
@@ -614,8 +610,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         if (keys == null || keys.length == 0)
             return;
 
-        for (int i = 0; i < keys.length; i++)
-            setGroup(group, keys[i]);
+        for (String key1 : keys) setGroup(group, key1);
     }
 
     /**
@@ -633,9 +628,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         ArrayList<String> result = new ArrayList<>();
         Set<String> keys = keyGroups.keySet();
         if (keys != null) {
-            Iterator<String> it = keys.iterator();
-            while(it.hasNext()) {
-                String key = it.next();
+            for (String key : keys) {
                 ArrayList<String> al = keyGroups.get(key);
                 if (al == null || al.size() == 0)
                     continue;       // empty group
@@ -702,11 +695,10 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
                 // remove all grouped entries from the copied
                 // question value
-                for (int i = 0; i < gps.length; i++) {
-                    String[][] vals = getGroup(gps[i]);
+                for (String gp : gps) {
+                    String[][] vals = getGroup(gp);
 
-                    for (int j = 0; j < vals.length; j++)
-                        copy.remove(vals[j][0]);
+                    for (String[] val : vals) copy.remove(val[0]);
                 }
 
                 if (copy.size() > 0) {

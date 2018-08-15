@@ -203,9 +203,9 @@ class ReportTool extends Tool {
         }
 
         File outXML = new File(out, xmlreportFileName);
-        for (int i = 0; i < in.length; i++) {
+        for (File anIn : in) {
             String path = outXML.getAbsolutePath();
-            if (in[i].getAbsolutePath().equals(path)) {
+            if (anIn.getAbsolutePath().equals(path)) {
                 uif.showError("tool.outinput", path);
                 return false;
             }
@@ -249,10 +249,10 @@ class ReportTool extends Tool {
                 if (worker != null && worker.isAlive()) {
                     worker.interrupt();
                 }
-                for ( int i = 0; i < cmp.length; i++) {
-                    if("tool.wait".equals(cmp[i].getName())) {
-                        if (cmp[i] instanceof JTextComponent) {
-                            ((JTextComponent)cmp[i]).setText(cancelling);
+                for (Component aCmp : cmp) {
+                    if ("tool.wait".equals(aCmp.getName())) {
+                        if (aCmp instanceof JTextComponent) {
+                            ((JTextComponent) aCmp).setText(cancelling);
                         }
                         break;
                     }
@@ -275,11 +275,11 @@ class ReportTool extends Tool {
                     out.mkdir();
                     File xmlOut = new File(out, xmlreportFileName);
                     if (merger.merge(in,xmlOut, resolver)) {
-                        for (int i = 0; i < customReports.length; i++) {
+                        for (CustomReport customReport : customReports) {
                             if (Thread.currentThread().isInterrupted()) {
-                                return ;
+                                return;
                             }
-                            CustomReport cr = customReports[i];
+                            CustomReport cr = customReport;
                             ReportSettings re = cr.getReportEnviroment();
                             re.setMergingFiles(in);
                             re.setXMLReportFile(xmlOut);
@@ -535,8 +535,8 @@ class ReportTool extends Tool {
                 }
             }
 
-            for (int i = 0; i < filelist.length; i++) {
-                File file = new File(dir, filelist[i]);
+            for (String aFilelist : filelist) {
+                File file = new File(dir, aFilelist);
                 out.startTag(HTMLWriterEx.LI);
                 out.startTag(HTMLWriterEx.OBJECT);
                 out.writeAttr(HTMLWriterEx.CLASSID, "com.sun.javatest.tool.IconLabel");
@@ -661,9 +661,9 @@ class ReportTool extends Tool {
         File target = reportDir;
         long newestTime = 0;
 
-        for (int i = 0; i < names.length; i++) {
-            File f = new File(reportDir, names[i]);
-            if (f.exists()  && f.lastModified() > newestTime) {
+        for (String name : names) {
+            File f = new File(reportDir, name);
+            if (f.exists() && f.lastModified() > newestTime) {
                 target = f;
                 newestTime = f.lastModified();
             }

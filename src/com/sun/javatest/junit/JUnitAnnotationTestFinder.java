@@ -121,8 +121,7 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
         // scan the contents of the directory, checking for
         // subdirectories and other files that should be scanned
         String[] names = dir.list();
-        for (int i = 0; i < names.length; i++) {
-            String name = names[i];
+        for (String name : names) {
             // if the file should be ignored, skip it
             // This is typically for directories like SCCS etc
             if (excludeList.containsKey(name))

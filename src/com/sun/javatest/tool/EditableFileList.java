@@ -88,8 +88,7 @@ public class EditableFileList extends EditableList
         if (items == null)
             return;
 
-        for (int i = 0; i < items.length; i++) {
-            Object o = items[i];
+        for (Object o : items) {
             if (o instanceof File)
                 listModel.addElement(o);
             else if (o instanceof String)

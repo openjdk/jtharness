@@ -518,9 +518,9 @@ class QuestionPanel extends JPanel
             Component[] childs = valuePanel.getComponents();
             for(int i = 0; i < childs.length; i++) {
                 EventListener[] l = childs[i].getListeners(AncestorListener.class);
-                for(int j = 0; j < l.length; j++) {
-                    if(l[i] instanceof AncestorListener) {
-                        ((AncestorListener)l[i]).ancestorRemoved(e);
+                for (EventListener aL : l) {
+                    if (l[i] instanceof AncestorListener) {
+                        ((AncestorListener) l[i]).ancestorRemoved(e);
                     }
                 }
             }

@@ -272,8 +272,7 @@ class DesktopPrefsPane extends PreferencesPane {
         JLabel l = uif.createLabel("dt.prefs.ttDelay", true);
 
         ttDelay = uif.createChoice("dt.prefs.ttDelay", l);
-        for (int i = 0; i < tooltipDelays.length; i++)
-            ttDelay.addItem(tooltipDelays[i]);
+        for (Integer tooltipDelay : tooltipDelays) ttDelay.addItem(tooltipDelay);
 
         ttDelay.setSelectedItem(tooltipDelays[0]);
         ttDelay.setRenderer(new TipDelayRenderer());
@@ -289,8 +288,7 @@ class DesktopPrefsPane extends PreferencesPane {
         l = uif.createLabel("dt.prefs.ttDuration", true);
 
         ttDuration = uif.createChoice("dt.prefs.ttDuration", l);
-        for (int i = 0; i < tooltipDurations.length; i++)
-            ttDuration.addItem(tooltipDurations[i]);
+        for (Integer tooltipDuration : tooltipDurations) ttDuration.addItem(tooltipDuration);
 
         ttDuration.setRenderer(new TipDurationRenderer());
         // nominate a reasonable choice
