@@ -240,8 +240,8 @@ public class TestDescription implements Serializable
     public Set<String> getKeywordTable() {
         String[] keys = StringArray.split(getParameter("keywords"));
         Set<String> s = new TreeSet<>();
-        for (int i = 0; i < keys.length; i++) {
-            String k = keys[i].toLowerCase();
+        for (String key : keys) {
+            String k = key.toLowerCase();
             s.add(k);
         }
         return s;

@@ -755,8 +755,7 @@ public class Harness
         // NOTE: the stats here don't indicate what the results of the test run were
         int[] stats = testIter.getResultStats();
         int iteratorCount = 0;
-        for (int i = 0; i < stats.length; i++)
-            iteratorCount += stats[i];
+        for (int stat : stats) iteratorCount += stat;
 
         if (iteratorCount == 0 && !zeroTestsOK) {
             TestFilter[] filters = params.getFilters();

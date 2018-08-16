@@ -123,9 +123,9 @@ public class DefaultTestRunner extends TestRunner
         }
         finally {
             // ensure all child threads killed
-            for (int i = 0; i < threads.length; i++) {
-                if (threads[i] != null)
-                    Deprecated.invokeThreadStop(threads[i]);
+            for (Thread thread : threads) {
+                if (thread != null)
+                    Deprecated.invokeThreadStop(thread);
             }
         }
 

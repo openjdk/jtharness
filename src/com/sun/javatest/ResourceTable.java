@@ -75,8 +75,7 @@ public class ResourceTable
         long now = start;
 
         try {
-            for (int i = 0; i < resourceNames.length; i++) {
-                String resourceName = resourceNames[i];
+            for (String resourceName : resourceNames) {
                 Object owner = null;
                 while ((owner = table.get(resourceName)) != null) {
                     long remain = start + timeout - now;
@@ -107,10 +106,10 @@ public class ResourceTable
      * @param resourceNames the names of the locks to be released
      */
     public synchronized void release(String[] resourceNames) {
-        for (int i = 0; i < resourceNames.length; i++) {
-            Object owner = table.get(resourceNames[i]);
+        for (String resourceName : resourceNames) {
+            Object owner = table.get(resourceName);
             if (owner == Thread.currentThread())
-                table.remove(resourceNames[i]);
+                table.remove(resourceName);
         }
         notifyAll();
     }

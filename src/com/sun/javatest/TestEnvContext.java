@@ -70,8 +70,7 @@ public class TestEnvContext
         Vector<Map<String, String>> p = new Vector<>();
         try {
             if (files != null) {
-                for (int i = 0; i < files.length; i++) {
-                    File f = files[i];
+                for (File f : files) {
                     add(p, n, load(f), f.getPath());
                 }
             }
@@ -148,8 +147,8 @@ public class TestEnvContext
         if (name.length() == 0)
             return true;
 
-        for (int i = 0; i < envNames.length; i++)
-            if (envNames[i].equals(name))
+        for (String envName : envNames)
+            if (envName.equals(name))
                 return true;
 
         return false;
@@ -267,8 +266,7 @@ public class TestEnvContext
                 System.err.println("Checking " + tableNames[i] + " for environments...");
 
             Map<String, String> table = tables[i];
-            for (Iterator<String> ii = table.keySet().iterator(); ii.hasNext(); ) {
-                String prop = ii.next();
+            for (String prop : table.keySet()) {
                 String name = null;
 
                 if (debug)
@@ -279,33 +277,26 @@ public class TestEnvContext
 
                 if (prop.endsWith(DOT_INHERITS)) {
                     name = prop.substring(ENV_DOT.length(), prop.length() - DOT_INHERITS.length());
-                }
-                else if (prop.endsWith(DOT_MENU)) {
+                } else if (prop.endsWith(DOT_MENU)) {
                     name = prop.substring(ENV_DOT.length(), prop.length() - DOT_MENU.length());
                     String value = table.get(prop);
                     if ("false".equals(value))
                         sortedInsert(menuExcludeVec, name);
-                }
-                else if (prop.endsWith(DOT_DESCRIPTION)) {
+                } else if (prop.endsWith(DOT_DESCRIPTION)) {
                     name = prop.substring(ENV_DOT.length(), prop.length() - DOT_DESCRIPTION.length());
-                }
-                else if (prop.endsWith(DOT_FINDER)) {
+                } else if (prop.endsWith(DOT_FINDER)) {
                     name = prop.substring(ENV_DOT.length(), prop.length() - DOT_FINDER.length());
-                }
-                else if (prop.endsWith(DOT_SCRIPT)) {
+                } else if (prop.endsWith(DOT_SCRIPT)) {
                     name = prop.substring(ENV_DOT.length(), prop.length() - DOT_SCRIPT.length());
-                }
-                else if (prop.endsWith(DOT_TESTSUITE)) {
+                } else if (prop.endsWith(DOT_TESTSUITE)) {
                     name = prop.substring(ENV_DOT.length(), prop.length() - DOT_TESTSUITE.length());
-                }
-                else {
+                } else {
                     int lastDot = prop.lastIndexOf('.');
                     int scriptStartIndex = lastDot - DOT_SCRIPT_DOT.length() + 1;
                     if (scriptStartIndex > 0 &&
-                        prop.regionMatches(scriptStartIndex, DOT_SCRIPT_DOT, 0, DOT_SCRIPT_DOT.length())) {
+                            prop.regionMatches(scriptStartIndex, DOT_SCRIPT_DOT, 0, DOT_SCRIPT_DOT.length())) {
                         name = prop.substring(ENV_DOT.length(), scriptStartIndex);
-                    }
-                    else
+                    } else
                         continue;
                 }
 

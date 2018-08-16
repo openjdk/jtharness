@@ -202,8 +202,7 @@ public class EditLinks
      * @see #edit(File, File)
      */
     public void edit(File[] src, File dest) throws IOException {
-        for (int i = 0; i < src.length; i++)
-            edit(src[i], dest);
+        for (File aSrc : src) edit(aSrc, dest);
     }
 
     /**
@@ -234,8 +233,7 @@ public class EditLinks
             ignores.add(canonicalDest);
             String[] files = src.list();
             if (files != null) {
-                for (int i = 0; i < files.length; i++) {
-                    String file = files[i];
+                for (String file : files) {
                     File srcFile = new File(src, file);
                     File destFile = new File(dest, file);
                     if (ignores.contains(file) || ignores.contains(srcFile.getCanonicalFile())) {
@@ -491,8 +489,7 @@ public class EditLinks
      * edits, the prefix is replaced with the corresponding new value.
      */
     private String edit(String ref) {
-        for (int i = 0; i < edits.length; i++) {
-            String[] entry = edits[i];
+        for (String[] entry : edits) {
             if (ref.startsWith(entry[0])) {
                 String oldHead = entry[0];
                 String newHead = entry[1];

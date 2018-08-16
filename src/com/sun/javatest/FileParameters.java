@@ -317,15 +317,14 @@ public class FileParameters
                 envError = i18n.getString("fp.envNotFound", envName);
                 return;
             }
-            for (Iterator<TestEnvironment.Element> i = env.elements().iterator(); i.hasNext(); ) {
-                TestEnvironment.Element entry = i.next();
+            for (TestEnvironment.Element entry : env.elements()) {
                 if (entry.value.indexOf("VALUE_NOT_DEFINED") >= 0) {
                     String eText =
-                            (entry.definedInEnv == null ? "" : "env." +  entry.definedInEnv + ".") +
-                              entry.key + "=" + entry.value;
+                            (entry.definedInEnv == null ? "" : "env." + entry.definedInEnv + ".") +
+                                    entry.key + "=" + entry.value;
                     cachedEnv = null;
                     envError = i18n.getString("fp.undefinedEntry",
-                                       new Object[] {eText, entry.definedInFile});
+                            new Object[]{eText, entry.definedInFile});
                     return;
                 }
             }

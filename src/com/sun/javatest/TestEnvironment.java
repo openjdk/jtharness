@@ -176,19 +176,18 @@ public class TestEnvironment
         // for this environment, and its inherited environments, scan for
         // properties of the form env.NAME.KEY=value and add KEY=value into the
         // environment's table
-        for (int inheritIndex = 0; inheritIndex < inherits.length; inheritIndex++) {
-            String prefix = "env." + inherits[inheritIndex] + ".";
+        for (String inherit : inherits) {
+            String prefix = "env." + inherit + ".";
             for (int propIndex = propTables.length - 1; propIndex >= 0; propIndex--) {
                 Map<String, String> propTable = propTables[propIndex];
-                for (Iterator<String> i = propTable.keySet().iterator(); i.hasNext(); ) {
-                    String prop = i.next();
+                for (String prop : propTable.keySet()) {
                     if (prop.startsWith(prefix)) {
                         String key = prop.substring(prefix.length());
                         if (!table.containsKey(key)) {
                             Element elem = new Element(key,
                                     propTable.get(prop),
-                                                       inherits[inheritIndex],
-                                                       propTableNames[propIndex]);
+                                    inherit,
+                                    propTableNames[propIndex]);
                             table.put(key, elem);
                         }
                     }
@@ -199,14 +198,13 @@ public class TestEnvironment
         // finally, add in any top-level names (not beginning with env.)
         for (int propIndex = propTables.length - 1; propIndex >= 0; propIndex--) {
             Map<String, String> propTable = propTables[propIndex];
-            for (Iterator<String> i = propTable.keySet().iterator(); i.hasNext(); ) {
-                String key = i.next();
+            for (String key : propTable.keySet()) {
                 if (!key.startsWith("env.")) {
                     if (!table.containsKey(key)) {
                         Element elem = new Element(key,
                                 propTable.get(key),
-                                                   null,
-                                                   propTableNames[propIndex]);
+                                null,
+                                propTableNames[propIndex]);
                         table.put(key, elem);
                     }
                 }
@@ -466,14 +464,13 @@ public class TestEnvironment
 
                         // apply nameArgs, if any
                         if (nameArgs != null) {
-                            for (int argi = 0; argi < nameArgs.length; argi++) {
-                                String arg = nameArgs[argi];
+                            for (String arg : nameArgs) {
                                 if (arg.startsWith("FS=") && arg.length() == 4)
                                     substituteChar(val, File.separatorChar, arg.charAt(3));
                                 else if (arg.startsWith("PS=") && arg.length() == 4)
                                     substituteChar(val, File.pathSeparatorChar, arg.charAt(3));
                                 else if (arg.startsWith("MAP="))
-                                    substituteMap(val, lookup("map."+arg.substring(4), activeKeys));
+                                    substituteMap(val, lookup("map." + arg.substring(4), activeKeys));
                                 else if (arg.equals("MAP"))
                                     substituteMap(val, lookup("map", activeKeys));
                                 else
@@ -559,8 +556,7 @@ public class TestEnvironment
      * VALUE_NOT_DEFINED.
      */
     public boolean hasUndefinedValues() {
-        for (Iterator<Element> i = elements().iterator(); i.hasNext(); ) {
-            Element entry = i.next();
+        for (Element entry : elements()) {
             if (entry.value.indexOf("VALUE_NOT_DEFINED") >= 0)
                 return true;
         }

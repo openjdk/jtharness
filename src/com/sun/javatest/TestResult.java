@@ -222,10 +222,9 @@ public class TestResult {
             synchronized (TestResult.this) {
                 synchronized (this) {
                     checkMutable();
-                    for (int i = 0; i < buffers.length; i++) {
-                        OutputBuffer b = buffers[i];
+                    for (OutputBuffer b : buffers) {
                         if (b instanceof WritableOutputBuffer) {
-                            WritableOutputBuffer wb = (WritableOutputBuffer)b;
+                            WritableOutputBuffer wb = (WritableOutputBuffer) b;
                             wb.getPrintWriter().close();
                         }
                     }
@@ -418,8 +417,8 @@ public class TestResult {
             out.write(JTR_V2_SECTION + getTitle());
             out.write(lineSeparator);
 
-            for (int index = 0; index < buffers.length; index++) {
-                String text = buffers[index].getOutput();
+            for (OutputBuffer buffer : buffers) {
+                String text = buffer.getOutput();
                 int numLines = 0;
                 int numBackslashes = 0;
                 int numNonASCII = 0;
@@ -434,12 +433,10 @@ public class TestResult {
                             numLines++;
                         else if (c != '\t' && c != '\r')
                             numNonASCII++;
-                    }
-                    else if (c < 127) {
+                    } else if (c < 127) {
                         if (c == '\\')
                             numBackslashes++;
-                    }
-                    else
+                    } else
                         numNonASCII++;
                 }
 
@@ -455,7 +452,7 @@ public class TestResult {
                 }
 
                 out.write(JTR_V2_SECTSTREAM);
-                out.write(buffers[index].getName());
+                out.write(buffer.getName());
                 out.write(":");
                 out.write('(');
                 out.write(String.valueOf(numLines));
@@ -463,9 +460,8 @@ public class TestResult {
                 if (needsEscape) {
                     // count one per character, plus an additional one per \ (written as "\ \") and an
                     // additional 5 per nonASCII (written as "\ u x x x x")
-                    out.write(String.valueOf(text.length() + numBackslashes + 5*numNonASCII));
-                }
-                else
+                    out.write(String.valueOf(text.length() + numBackslashes + 5 * numNonASCII));
+                } else
                     out.write(String.valueOf(text.length()));
                 out.write(')');
                 if (needsEscape)
@@ -480,24 +476,25 @@ public class TestResult {
                             out.write(c);
                         else {
                             switch (c) {
-                            case '\n': case '\r': case '\t':
-                                out.write(c);
-                                break;
-                            case '\\':
-                                out.write("\\\\");
-                                break;
-                            default:
-                                out.write("\\u");
-                                out.write(Character.forDigit((c >> 12) & 0xF, 16));
-                                out.write(Character.forDigit((c >>  8) & 0xF, 16));
-                                out.write(Character.forDigit((c >>  4) & 0xF, 16));
-                                out.write(Character.forDigit((c >>  0) & 0xF, 16));
-                                break;
+                                case '\n':
+                                case '\r':
+                                case '\t':
+                                    out.write(c);
+                                    break;
+                                case '\\':
+                                    out.write("\\\\");
+                                    break;
+                                default:
+                                    out.write("\\u");
+                                    out.write(Character.forDigit((c >> 12) & 0xF, 16));
+                                    out.write(Character.forDigit((c >> 8) & 0xF, 16));
+                                    out.write(Character.forDigit((c >> 4) & 0xF, 16));
+                                    out.write(Character.forDigit((c >> 0) & 0xF, 16));
+                                    break;
                             }
                         }
                     }
-                }
-                else
+                } else
                     out.write(text);
 
                 if (needsFinalNewline)
@@ -958,8 +955,7 @@ public class TestResult {
             throw new IllegalStateException(
                         "This TestResult is no longer mutable!");
         }
-        for (Iterator<TestEnvironment.Element> i = environment.elementsUsed().iterator(); i.hasNext(); ) {
-            TestEnvironment.Element elem = i.next();
+        for (TestEnvironment.Element elem : environment.elementsUsed()) {
             // this is stunningly inefficient and should be fixed
             env = PropertyArray.put(env, elem.getKey(), elem.getValue());
         }
@@ -991,9 +987,9 @@ public class TestResult {
             execStatus = interrupted;
 
         // verify integrity of status in all sections
-        for (int i = 0; i < sections.length; i++) {
-            if (sections[i].isMutable()) {
-                sections[i].setStatus(incomplete);
+        for (Section section : sections) {
+            if (section.isMutable()) {
+                section.setStatus(incomplete);
             }
         }
 
@@ -1671,8 +1667,8 @@ public class TestResult {
                 throw new JavaTestError("Cannot write test result - it contains no sections.");
             }
 
-            for (int i = 0; i < sections.length; i++) {
-                sections[i].save(out);
+            for (Section section : sections) {
+                section.save(out);
             }
 
             out.write(lineSeparator);
@@ -1900,11 +1896,11 @@ public class TestResult {
 
         Vector<String> tagV = new Vector<>(sections.length * 2);
 
-        for (int i = 0; i < sections.length; i++) {
-            String[] names = sections[i].getOutputNames();
+        for (Section section : sections) {
+            String[] names = section.getOutputNames();
 
-            for (int j = 0; j < names.length; j++) {
-                tagV.addElement(names[j]);
+            for (String name : names) {
+                tagV.addElement(name);
             }   // inner for
         } // outer for
 
@@ -2001,8 +1997,8 @@ public class TestResult {
 
     private static long computeChecksum(Section[] sections) {
         long cs = sections.length;
-        for (int i = 0; i < sections.length; i++) {
-            cs = cs * 37 + computeChecksum(sections[i]);
+        for (Section section : sections) {
+            cs = cs * 37 + computeChecksum(section);
         }
         return cs;
     }
@@ -2010,17 +2006,17 @@ public class TestResult {
     private static long computeChecksum(Section s) {
         long cs = computeChecksum(s.getTitle());
         String[] names = s.getOutputNames();
-        for (int i = 0; i <names.length; i++) {
-            cs = cs * 37 + computeChecksum(names[i]);
-            cs = cs * 37 + computeChecksum(s.getOutput(names[i]));
+        for (String name : names) {
+            cs = cs * 37 + computeChecksum(name);
+            cs = cs * 37 + computeChecksum(s.getOutput(name));
         }
         return cs;
     }
 
     private static long computeChecksum(String[] strings) {
         long cs = strings.length;
-        for (int i = 0; i < strings.length; i++) {
-            cs = cs * 37 + computeChecksum(strings[i]);
+        for (String string : strings) {
+            cs = cs * 37 + computeChecksum(string);
         }
         return cs;
     }
@@ -2431,8 +2427,7 @@ public class TestResult {
     private synchronized void notifyCreatedSection(Section section) {
         Observer[] observers = observersTable.get(this);
         if (observers != null)
-            for (int i = 0; i < observers.length; i++)
-                observers[i].createdSection(this, section);
+            for (Observer observer : observers) observer.createdSection(this, section);
     }
 
     /**
@@ -2443,8 +2438,7 @@ public class TestResult {
     private synchronized void notifyCompletedSection(Section section) {
         Observer[] observers = observersTable.get(this);
         if (observers != null)
-            for (int i = 0; i < observers.length; i++)
-                observers[i].completedSection(this, section);
+            for (Observer observer : observers) observer.completedSection(this, section);
     }
 
     /**
@@ -2456,8 +2450,7 @@ public class TestResult {
     private synchronized void notifyCreatedOutput(Section section, String outputName) {
         Observer[] observers = observersTable.get(this);
         if (observers != null)
-            for (int i = 0; i < observers.length; i++)
-                observers[i].createdOutput(this, section, outputName);
+            for (Observer observer : observers) observer.createdOutput(this, section, outputName);
     }
 
     /**
@@ -2469,8 +2462,7 @@ public class TestResult {
     private synchronized void notifyCompletedOutput(Section section, String outputName) {
         Observer[] observers = observersTable.get(this);
         if (observers != null)
-            for (int i = 0; i < observers.length; i++)
-                observers[i].completedOutput(this, section, outputName);
+            for (Observer observer : observers) observer.completedOutput(this, section, outputName);
     }
 
     /**
@@ -2483,8 +2475,7 @@ public class TestResult {
     private synchronized void notifyUpdatedOutput(Section section, String outputName, int start, int end, String text) {
         Observer[] observers = observersTable.get(this);
         if (observers != null)
-            for (int i = 0; i < observers.length; i++)
-                observers[i].updatedOutput(this, section, outputName, start, end, text);
+            for (Observer observer : observers) observer.updatedOutput(this, section, outputName, start, end, text);
     }
 
     /**
@@ -2499,8 +2490,7 @@ public class TestResult {
         if (observers != null) {
             // only create string if there are really observers who want to see it
             String text = new String(buf, offset, len);
-            for (int i = 0; i < observers.length; i++)
-                observers[i].updatedOutput(this, section, outputName, start, end, text);
+            for (Observer observer : observers) observer.updatedOutput(this, section, outputName, start, end, text);
         }
     }
 
@@ -2513,8 +2503,7 @@ public class TestResult {
     private synchronized void notifyUpdatedProperty(String key, String value) {
         Observer[] observers = observersTable.get(this);
         if (observers != null)
-            for (int i = 0; i < observers.length; i++)
-                observers[i].updatedProperty(this, key, value);
+            for (Observer observer : observers) observer.updatedProperty(this, key, value);
     }
 
     /**
@@ -2527,8 +2516,7 @@ public class TestResult {
         // remove them from the table
         Observer[] observers = observersTable.remove(this);
         if (observers != null) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].completed(this);
+            for (Observer observer : observers) observer.completed(this);
             observersTable.remove(this);
         }
 

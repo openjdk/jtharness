@@ -99,22 +99,22 @@ public class ParameterFilter extends ObservableTestFilter {
                 }
             }
 
-            for (int i = 0; i < filters.length; i++) {
+            for (TestFilter filter : filters) {
                 boolean result = false;
-                if (tr != null && filters[i] instanceof StatusFilter) {
+                if (tr != null && filter instanceof StatusFilter) {
                     try {
                         // optimization allow code to avoid searching for the TR object
-                        result = filters[i].accepts(tr);
+                        result = filter.accepts(tr);
                     } catch (TestResult.Fault f) {
                         // fallback to old behavior
-                        result = filters[i].accepts(td);
+                        result = filter.accepts(td);
                     }
                 } else {
-                    result = filters[i].accepts(td);
+                    result = filter.accepts(td);
                 }
                 if (!result) {
                     if (o != null) {
-                        o.rejected(td, filters[i]);
+                        o.rejected(td, filter);
                     }
 
                     return false;

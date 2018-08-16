@@ -1323,8 +1323,7 @@ public class TestSuite
         if (gpls == null)
             gpls = new Vector<GeneralPurposeLogger>();
 
-        for (int i = 0; i < gpls.size(); i++)  {
-            GeneralPurposeLogger gpl = gpls.get(i);
+        for (GeneralPurposeLogger gpl : gpls) {
             if (gpl.getName().equals(key) && gpl.getLogFileName().equals(logName))
                 throw new DuplicateLogNameFault(i18n, "ts.logger.duplicatelognamefault", key);
         }
@@ -1353,8 +1352,7 @@ public class TestSuite
 
         String logFile = wd.getLogFileName();
 
-        for (int i = 0; i < gpls.size(); i++) {
-            GeneralPurposeLogger logger = gpls.get(i);
+        for (GeneralPurposeLogger logger : gpls) {
             if (logger.getLogFileName().equals(logFile) && logger.getName().equals(key))
                 return logger;
         }
@@ -1371,12 +1369,11 @@ public class TestSuite
             throw new NullPointerException(i18n.getString("ts.logger.nullwd"));
 
         if (gpls != null)
-            for (int i = 0; i < gpls.size(); i++) {
-                GeneralPurposeLogger gpl = gpls.get(i);
+            for (GeneralPurposeLogger gpl : gpls) {
                 if (gpl.getLogFileName().equals(wd.getLogFileName())) {
                     Handler[] h = gpl.getHandlers();
                     if (h[0] instanceof WorkDirLogHandler) {
-                        ((WorkDirLogHandler)h[0]).eraseLogFile();
+                        ((WorkDirLogHandler) h[0]).eraseLogFile();
                         return;
                     }
                 }
@@ -1460,11 +1457,11 @@ public class TestSuite
         public void log(LogRecord record) {
             Handler targets[] = getHandlers();
             if (targets != null) {
-                for (int i = 0; i < targets.length; i++) {
-                    if (targets[i] instanceof WorkDirLogHandler) {
-                        ((WorkDirLogHandler)targets[i]).publish(record, getName());
+                for (Handler target : targets) {
+                    if (target instanceof WorkDirLogHandler) {
+                        ((WorkDirLogHandler) target).publish(record, getName());
                     } else {
-                        targets[i].publish(record);
+                        target.publish(record);
                     }
                 }
             }

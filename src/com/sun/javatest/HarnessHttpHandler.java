@@ -222,8 +222,7 @@ class HarnessHttpHandler extends JThttpProvider
 
             String[] pa = new String[0];
 
-            for (Iterator<TestEnvironment.Element> i = env.elements().iterator(); i.hasNext(); ) {
-                TestEnvironment.Element elem = i.next();
+            for (TestEnvironment.Element elem : env.elements()) {
                 // this is stunningly inefficient and should be fixed
                 pa = PropertyArray.put(pa, elem.getKey(), elem.getValue());
             }
@@ -487,8 +486,7 @@ class HarnessHttpHandler extends JThttpProvider
                 println(out, i18n.getString("harnessHttp.parameters.emptyJtx"));
             else {
                 out.println("<ul>");
-                for (int i = 0; i < jtx.length; i++)
-                    out.println("<li>" + jtx[i].getPath());
+                for (File aJtx : jtx) out.println("<li>" + aJtx.getPath());
 
                 out.println("</ul>");
             }
@@ -517,9 +515,9 @@ class HarnessHttpHandler extends JThttpProvider
         else {
             out.println("<ul>");
 
-            for (int i = 0; i < tests.length; i++) {
+            for (String test : tests) {
                 out.println("<li>");
-                println(out, tests[i]);
+                println(out, test);
             }
 
             out.println("</ul>");
@@ -545,8 +543,7 @@ class HarnessHttpHandler extends JThttpProvider
         buf.append("</tr>");
         out.println(buf.toString());
 
-        for (Iterator<String> keys = env.keys().iterator(); keys.hasNext(); ) {
-            String key = keys.next();
+        for (String key : env.keys()) {
             out.println("<tr>");
             buf.setLength(0);
             buf.append("<td>");
@@ -554,8 +551,7 @@ class HarnessHttpHandler extends JThttpProvider
             buf.append("<td>");
             try {
                 buf.append(filterTags(StringArray.join(env.lookup(key))));
-            }
-            catch (TestEnvironment.Fault f) {
+            } catch (TestEnvironment.Fault f) {
                 buf.append(i18n.getString("harnessHttp.env.error"));
             }
 

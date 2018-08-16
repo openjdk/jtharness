@@ -229,8 +229,8 @@ public class KnownFailuresList
         throws FileNotFoundException, IOException, Fault
     {
         setStrictModeEnabled(strict);
-        for (int i = 0; i < files.length; i++) {
-            KnownFailuresList kfl = new KnownFailuresList(files[i], strict);
+        for (File file : files) {
+            KnownFailuresList kfl = new KnownFailuresList(file, strict);
             merge(kfl);
         }
     }
@@ -277,14 +277,12 @@ public class KnownFailuresList
             // flatten the enumeration into a vector, then
             // enumerate that
             List<Entry> v = new ArrayList<>(table.size());
-            for (Iterator<Object> iter = table.values().iterator(); iter.hasNext(); ) {
-                Object o = iter.next();
-                if (o instanceof Entry)
-                    v.add((Entry)o);
+            for (Object value : table.values()) {
+                if (value instanceof Entry)
+                    v.add((Entry) value);
                 else {
-                    Entry[] entries = (Entry[])o;
-                    for (int i = 0; i < entries.length; i++)
-                        v.add(entries[i]);
+                    Entry[] entries = (Entry[]) value;
+                    for (Entry entry : entries) v.add(entry);
                 }
             }
             return v.iterator();
@@ -329,9 +327,9 @@ public class KnownFailuresList
                     String[] bugIdStrings = otherEntry.bugIdStrings;
                     String notes = otherEntry.notes;
                     Entry[] curr = (Entry[])o;
-                    for (int i = 0; i < curr.length; i++) {
-                        bugIdStrings = ExcludeList.mergeBugIds(bugIdStrings, curr[i].bugIdStrings);
-                        notes = ExcludeList.mergeSynopsis(notes, curr[i].notes);
+                    for (Entry aCurr : curr) {
+                        bugIdStrings = ExcludeList.mergeBugIds(bugIdStrings, aCurr.bugIdStrings);
+                        notes = ExcludeList.mergeSynopsis(notes, aCurr.notes);
                     }
                     table.put(key, new Entry(otherEntry.relativeURL, null,
                                              bugIdStrings, notes));
@@ -755,8 +753,8 @@ public class KnownFailuresList
             if (tcs == null || tcs.length == 0)
                 return false;
 
-            for (int i = 0; i < tcs.length; i++) {
-                if (tcs[i].equals(s))
+            for (String tc : tcs) {
+                if (tc.equals(s))
                     return true;
             }   // for
 

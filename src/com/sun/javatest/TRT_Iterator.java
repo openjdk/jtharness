@@ -130,13 +130,13 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
             ArrayList<String> names = new ArrayList<>();
 
             // prime the outqueue with the given tests
-            for (int i = 0; i < trs.length; i++) {
+            for (TestResult tr : trs) {
                 try {
-                    if (wouldAccept(trs[i]) == -1) {
-                        outQueue.addLast(trs[i]);
-                        names.add(trs[i].getDescription().getRootRelativeURL());
+                    if (wouldAccept(tr) == -1) {
+                        outQueue.addLast(tr);
+                        names.add(tr.getDescription().getRootRelativeURL());
+                    } else {
                     }
-                    else { }
                 }   // try
                 catch (TestResult.Fault f) {
                 }
@@ -288,12 +288,10 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
             synchronized (rejLock) {
                 Set<TestFilter> keys = filteredTRs.keySet();
                 // each key is a TestFilter
-                Iterator<TestFilter> it = keys.iterator();
-                while (it.hasNext()) {
+                for (TestFilter key : keys) {
                     // could cast this to TestFilter, but why?
-                    TestFilter thisKey = it.next();
-                    ArrayList<TestDescription> al = new ArrayList<>(filteredTRs.get(thisKey));
-                    out.put(thisKey, al);
+                    ArrayList<TestDescription> al = new ArrayList<>(filteredTRs.get(key));
+                    out.put(key, al);
                 }   // outer while
             }   // sync
 
@@ -339,13 +337,11 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
         // can we correctly show the effective urls from here?  what about TCs?
         if (nodes != null) {
-            for (int i = 0; i < nodes.length; i++)
-                urls.add(TestResultTable.getRootRelativePath(nodes[i]));
+            for (TestResultTable.TreeNode node : nodes) urls.add(TestResultTable.getRootRelativePath(node));
         }
 
         if (initialTests != null) {
-            for (int i = 0; i < initialTests.length; i++)
-                urls.add(initialTests[i]);
+            for (String initialTest : initialTests) urls.add(initialTest);
         }
 
         if (urls.size() > 0) {
@@ -377,8 +373,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         synchronized (outQueueLock) {
             // compare to outgoing test result objects
             if (outQueue.size() > 0)
-                for (int i = 0; i < outQueue.size(); i++) {
-                    TestResult tr = outQueue.get(i);
+                for (TestResult tr : outQueue) {
                     if (tr.getTestName().equals(testName)) {
                         return true;
                     }

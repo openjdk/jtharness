@@ -134,8 +134,8 @@ public class CompositeFilter extends TestFilter {
             return true;
 
         try {
-            for (int i = 0; i < filters.length; i++)
-                if (!filters[i].accepts(td))
+            for (TestFilter filter : filters)
+                if (!filter.accepts(td))
                     return false;
 
             // made it; accepted
@@ -152,9 +152,8 @@ public class CompositeFilter extends TestFilter {
         if (filters == null || filters.length == 0)
             return true;
 
-        for (int i = 0; i < filters.length; i++)
-            // this works well since the observer only has a rejected method
-            if (!filters[i].accepts(td, o)) {
+        for (TestFilter filter : filters)
+            if (!filter.accepts(td, o)) {
                 return false;
             }
 

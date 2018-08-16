@@ -500,12 +500,10 @@ public class EditJTI
         Question[] path = interview.getPath();
 
         int indent = 0;
-        for (int i = 0; i < path.length; i++)
-            indent = Math.max(indent, path[i].getTag().length());
+        for (Question aPath : path) indent = Math.max(indent, aPath.getTag().length());
         indent = Math.min(indent, MAX_INDENT);
 
-        for (int i = 0; i < path.length; i++) {
-            Question q = path[i];
+        for (Question q : path) {
             String tag = q.getTag();
             String value = q.getStringValue();
             out.print(tag);
@@ -542,8 +540,8 @@ public class EditJTI
      * @see #edit(String)
      */
     public void edit(String[] cmds) throws Fault {
-        for (int i = 0; i < cmds.length; i++) {
-            edit(cmds[i]);
+        for (String cmd : cmds) {
+            edit(cmd);
         }
     }
 
@@ -651,8 +649,7 @@ public class EditJTI
 
     private void setValue(String tag, String value) throws Fault {
         Question[] path = interview.getPath();
-        for (int i = 0; i < path.length; i++) {
-            Question q = path[i];
+        for (Question q : path) {
             if (q.getTag().equals(tag)) {
                 setValue(q, value);
                 return;

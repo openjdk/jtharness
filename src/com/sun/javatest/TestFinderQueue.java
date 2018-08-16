@@ -192,8 +192,8 @@ public class TestFinderQueue {
         currInitialFile = null;
 
         for (int pass = 0; pass < 2; pass++) {
-            for (int i = 0; i < files.length; i++) {
-                File f = files[i];
+            for (File file : files) {
+                File f = file;
                 String n = f.getName();
                 // in pass 0, only select initial files without #
                 // in pass 1, only select initial files with #
@@ -236,8 +236,7 @@ public class TestFinderQueue {
     public void repeat(TestDescription[] tds) {
         if (tests == null)
             tests = new ArrayDeque<>(); // for now
-        for (int i = 0; i < tds.length; i++) {
-            TestDescription td = tds[i];
+        for (TestDescription td : tds) {
             testDescsFound.offer(td);
             testsFoundCount++;
             notifier.found(td);
@@ -552,13 +551,13 @@ public class TestFinderQueue {
         }
         finally {
             TestDescription[] tds = testFinder.getTests();
-            for (int i = 0; i < tds.length; i++) {
-                foundTestDescription(tds[i]);
+            for (TestDescription td : tds) {
+                foundTestDescription(td);
             }
 
             File[] files = testFinder.getFiles();
-            for (int i = 0; i < files.length; i++) {
-                foundFile(files[i]);
+            for (File file : files) {
+                foundFile(file);
             }
 
             // done limiting tests to this id
@@ -605,15 +604,13 @@ public class TestFinderQueue {
         // found it, then add the test to the list of tests we have found
         if (selectedId == null || selectedId.equals(td.getId())) {
             if (filters != null) {
-                for (int i = 0; i < filters.length; i++) {
-                    TestFilter filter = filters[i];
+                for (TestFilter filter : filters) {
                     try {
                         if (!filter.accepts(td)) {
                             notifier.ignored(td, filter);
                             return;
                         }
-                    }
-                    catch (TestFilter.Fault e) {
+                    } catch (TestFilter.Fault e) {
                         errorCount++;
                         notifier.error(td, e.getMessage());
                         return;
@@ -640,56 +637,47 @@ public class TestFinderQueue {
 
         @Override
         public synchronized void found(File file) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].found(file);
+            for (Observer observer : observers) observer.found(file);
         }
 
         @Override
         public synchronized void reading(File file) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].reading(file);
+            for (Observer observer : observers) observer.reading(file);
         }
 
         @Override
         public synchronized void done(File file) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].done(file);
+            for (Observer observer : observers) observer.done(file);
         }
 
         @Override
         public synchronized void found(TestDescription td) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].found(td);
+            for (Observer observer : observers) observer.found(td);
         }
 
         @Override
         public synchronized void ignored(TestDescription td, TestFilter f) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].ignored(td, f);
+            for (Observer observer : observers) observer.ignored(td, f);
         }
 
         @Override
         public synchronized void done(TestDescription td) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].done(td);
+            for (Observer observer : observers) observer.done(td);
         }
 
         @Override
         public synchronized void flushed() {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].flushed();
+            for (Observer observer : observers) observer.flushed();
         }
 
         @Override
         public synchronized void error(String msg) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].error(msg);
+            for (Observer observer : observers) observer.error(msg);
         }
 
         @Override
         public synchronized void error(TestDescription td, String msg) {
-            for (int i = 0; i < observers.length; i++)
-                observers[i].error(td, msg);
+            for (Observer observer : observers) observer.error(td, msg);
         }
 
         private Observer[] observers = new Observer[0];

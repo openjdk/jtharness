@@ -697,8 +697,8 @@ public class TestResultCache {
         lastSerial = (int) ((now >> 16) + (now & 0xffff));
         raf.writeInt(lastSerial);
 
-        for (Iterator<TestResult> iter = tests.values().iterator(); iter.hasNext(); ) {
-            tr = iter.next();
+        for (TestResult testResult : tests.values()) {
+            tr = testResult;
             writeCacheEntry(tr);
         }
 

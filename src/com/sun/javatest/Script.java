@@ -474,8 +474,8 @@ public abstract class Script
         if (srcs.length == 0)
             return error_noSource;
 
-        for (int i = 0; i < srcs.length; i++) {
-            Status s = compileOne(command, srcs[i]);
+        for (String src : srcs) {
+            Status s = compileOne(command, src);
             if (!s.isPassed())
                 return s;
         }
@@ -721,11 +721,10 @@ public abstract class Script
 
         Vector<String> v = new Vector<>(0, srcs.length);
 
-        for (int i = 0; i < srcs.length; i++) {
-            String src = srcs[i];
+        for (String src : srcs) {
             int x = src.lastIndexOf(File.separatorChar);
-            int y = src.indexOf('.', x+1);
-            String className = src.substring(x+1, y == -1 ? src.length() : y);
+            int y = src.indexOf('.', x + 1);
+            String className = src.substring(x + 1, y == -1 ? src.length() : y);
             String pkgPrefix;  // deliberately unset to have compiler check init in all required cases
 
             // read the source file to see if a package statement exists
@@ -752,13 +751,11 @@ public abstract class Script
                         v.addElement(src);
                         continue;
                     }
-                }
-                else
+                } else
                     // no package statement
                     pkgPrefix = "";
-            }
-            catch (IOException e) {
-                trOut.println(i18n.getString("script.badDateStamp", new Object[] { src, e }));
+            } catch (IOException e) {
+                trOut.println(i18n.getString("script.badDateStamp", new Object[]{src, e}));
                 v.addElement(src);
                 continue;
             }

@@ -109,9 +109,8 @@ public class InitialUrlFilter extends TestFilter {
         String testUrl = td.getRootRelativeURL().toLowerCase();
 
         // other parts of the code should ensure this is not null
-        for (int i = 0; i < initUrls.length; i++) {
-            String urlI = initUrls[i];
-            if (isInitialUrlMatch(testUrl, initUrls[i]))
+        for (String urlI : initUrls) {
+            if (isInitialUrlMatch(testUrl, urlI))
                 return true;
         }   // for
 

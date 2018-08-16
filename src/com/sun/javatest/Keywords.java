@@ -205,8 +205,7 @@ public abstract class Keywords
             return words;
 
         Set<String> s = new HashSet<>();
-        for (Iterator<String> iter = words.iterator(); iter.hasNext(); ) {
-            String word = iter.next();
+        for (String word : words) {
             s.add(word.toLowerCase());
         }
 
@@ -234,19 +233,19 @@ abstract class SetKeywords extends Keywords {
     Set<String> keys;
     String allKwds = ""; // string to be used by toString()
 
-    SetKeywords(String[] kwds, Set<String> validKeywords) throws Keywords.Fault {
-        if (kwds.length == 0) {
+    SetKeywords(String[] keywords, Set<String> validKeywords) throws Keywords.Fault {
+        if (keywords.length == 0) {
             throw new Keywords.Fault(i18n, "kw.noKeywords");
         }
 
         keys = new HashSet<String>();
-        for (int i = 0; i < kwds.length; i++) {
-            String kwd = kwds[i].toLowerCase();
-            if (validKeywords != null && !validKeywords.contains(kwd)) {
-                throw new Keywords.Fault(i18n, "kw.invalidKeyword", kwds[i]);
+        for (String keyword : keywords) {
+            String lowerCaseKeyword = keyword.toLowerCase();
+            if (validKeywords != null && !validKeywords.contains(lowerCaseKeyword)) {
+                throw new Fault(i18n, "kw.invalidKeyword", keyword);
             }
-            keys.add(kwd);
-            allKwds += kwd + " ";
+            keys.add(lowerCaseKeyword);
+            allKwds += lowerCaseKeyword + " ";
         }
         if (allKwds.length() > 0) {
             // remove last " "

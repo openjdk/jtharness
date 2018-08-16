@@ -212,8 +212,8 @@ public class WorkDirectory {
 
             // could even look for key files while doing this loop
             if (content != null && content.length > 0)
-                for (int i = 0; i < content.length; i++)
-                    if (!isUsable(content[i]))
+                for (File aContent : content)
+                    if (!isUsable(aContent))
                         return false;
         } catch (BadDirectoryFault f) {
             return false;
@@ -376,9 +376,9 @@ public class WorkDirectory {
         //System.err.println("WD.delete " + f);
         if (f.isDirectory()) {
             File[] ff = f.listFiles();
-            for (int i = 0; i < ff.length; i++) {
-                if (ff[i].isDirectory() || ff[i].isFile())
-                    delete(ff[i]);
+            for (File aFf : ff) {
+                if (aFf.isDirectory() || aFf.isFile())
+                    delete(aFf);
             }
         }
         f.delete();
@@ -1162,9 +1162,7 @@ public class WorkDirectory {
             return false;
         }
 
-        for (int i = 0; i < files.length; i++) {
-            File f = files[i];
-
+        for (File f : files) {
             String p; // root-relative path for f
             if (pathFromRoot.length() == 0)
                 p = f.getName();

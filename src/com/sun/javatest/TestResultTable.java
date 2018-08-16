@@ -489,13 +489,11 @@ public class TestResultTable {
         if (tr != prev) {
             tr.shareStatus(statusTables);
 
-            for (int i = 0; i < observers.length; i++)
-                observers[i].update(prev, tr);
+            for (Observer observer : observers) observer.update(prev, tr);
         }
         else {
             // tests are the same, we are probably changing the status
-            for (int i = 0; i < observers.length; i++)
-                observers[i].updated(tr);
+            for (Observer observer : observers) observer.updated(tr);
         }
 
         testsInUpdate.add(tr);
@@ -933,26 +931,23 @@ public class TestResultTable {
             }
         }
 
-        for (int i = 0; i < urls.length; i++) {
-            Object[] objs = lookupInitURL(root, urls[i]);
+        for (String url : urls) {
+            Object[] objs = lookupInitURL(root, url);
             if (debug == 1 || debug == 99)
                 Debug.println("TRT.lookupInitURL gave back " + Arrays.toString(objs));
 
             if (objs == null) {   // no match
-            }
-            else if (objs instanceof TreeNode[]) {
+            } else if (objs instanceof TreeNode[]) {
                 // don't add duplicates
                 if (!initNodes.contains(objs[0]))
                     initNodes.add((TreeNode) objs[0]);
-            }
-            else if (objs instanceof TestResult[]) {
+            } else if (objs instanceof TestResult[]) {
                 initTests.addAll(Arrays.asList((TestResult[]) objs));
                 // XXX should uniquify
-            }
-            else {
+            } else {
                 // XXX should this be more friendly?
                 //     or maybe it should be ignored
-                throw new IllegalArgumentException(i18n.getString("trt.invalidIURL", urls[i]));
+                throw new IllegalArgumentException(i18n.getString("trt.invalidIURL", url));
             }
         }   // for
 
@@ -1350,8 +1345,8 @@ public class TestResultTable {
         if (nodes == null)
             return changes;
 
-        for (int i = 0; i < nodes.length; i++) {
-            changes = changes || prune(nodes[i]);
+        for (TreeNode node : nodes) {
+            changes = changes || prune(node);
         }   // for
 
         return changes;
@@ -1374,13 +1369,13 @@ public class TestResultTable {
             return index != -1 ? true : false;
         }
 
-        TreeNode[] nodes = node.getTreeNodes();
+        TreeNode[] childNodes = node.getTreeNodes();
 
-        if (nodes == null)
+        if (childNodes == null)
             return false; // must mean there are tests in this node
 
-        for (int i = 0; i < nodes.length; i++) {
-            prune(nodes[i]);
+        for (TreeNode childNode : childNodes) {
+            prune(childNode);
         }   // for
 
         if (node.getChildCount() == 0) {
@@ -1785,8 +1780,7 @@ public class TestResultTable {
 
         TreeNode[] children = node.getTreeNodes();
         if (children != null)
-            for (int i = 0; i < children.length; i++)
-                result |= recursiveRefresh((TRT_TreeNode)children[i]);
+            for (TreeNode child : children) result |= recursiveRefresh((TRT_TreeNode) child);
 
         return result;
     }
@@ -1796,8 +1790,8 @@ public class TestResultTable {
     void notifyNewBranch(TreeNode[] where, TreeNode what, int index) {
         if (treeObservers == null) return;
 
-        for (int i = 0; i < treeObservers.length; i++) {
-            treeObservers[i].nodeInserted(where, what, index);
+        for (TreeObserver treeObserver : treeObservers) {
+            treeObserver.nodeInserted(where, what, index);
         }
     }
 
@@ -1806,8 +1800,8 @@ public class TestResultTable {
     void notifyNewLeaf(TreeNode[] where, TestResult what, int index) {
         if (treeObservers == null) return;
 
-        for (int i = 0; i < treeObservers.length; i++) {
-            treeObservers[i].nodeInserted(where, what, index);
+        for (TreeObserver treeObserver : treeObservers) {
+            treeObserver.nodeInserted(where, what, index);
         }
     }
 
@@ -1815,8 +1809,8 @@ public class TestResultTable {
                           TestResult old) {
         if (treeObservers == null) return;
 
-        for (int i = 0; i < treeObservers.length; i++) {
-            treeObservers[i].nodeChanged(where, what, index, old);
+        for (TreeObserver treeObserver : treeObservers) {
+            treeObserver.nodeChanged(where, what, index, old);
         }
     }
 
@@ -1825,34 +1819,34 @@ public class TestResultTable {
     void notifyRemoveLeaf(TreeNode[] where, TestResult what, int index) {
         if (treeObservers == null) return;
 
-        for (int i = 0; i < treeObservers.length; i++) {
-            treeObservers[i].nodeRemoved(where, what, index);
+        for (TreeObserver treeObserver : treeObservers) {
+            treeObserver.nodeRemoved(where, what, index);
         }
     }
 
     void notifyRemoveLeaf(TreeNode[] where, TreeNode what, int index) {
         if (treeObservers == null) return;
 
-        for (int i = 0; i < treeObservers.length; i++) {
-            treeObservers[i].nodeRemoved(where, what, index);
+        for (TreeObserver treeObserver : treeObservers) {
+            treeObserver.nodeRemoved(where, what, index);
         }
     }
 
     void notifyStartRefresh(TreeNode origin) {
         if (treeObservers == null) return;
 
-        for (int i = 0; i < treeObservers.length; i++) {
-            if (treeObservers[i] instanceof TreeEventObserver) {
-                ((TreeEventObserver)treeObservers[i]).startRefresh(origin);
+        for (TreeObserver treeObserver : treeObservers) {
+            if (treeObserver instanceof TreeEventObserver) {
+                ((TreeEventObserver) treeObserver).startRefresh(origin);
             }
         }
     }
     void notifyFinishRefresh(TreeNode origin) {
         if (treeObservers == null) return;
 
-        for (int i = 0; i < treeObservers.length; i++) {
-            if (treeObservers[i] instanceof TreeEventObserver) {
-                ((TreeEventObserver)treeObservers[i]).finishRefresh(origin);
+        for (TreeObserver treeObserver : treeObservers) {
+            if (treeObserver instanceof TreeEventObserver) {
+                ((TreeEventObserver) treeObserver).finishRefresh(origin);
             }
         }
     }
@@ -1881,8 +1875,7 @@ public class TestResultTable {
 
         if (debug > 1) {
             Debug.println("Initial files: ");
-            for (int i = 0; i < tests.length; i++)
-                Debug.println("  + " + tests[i].getPath());
+            for (File test : tests) Debug.println("  + " + test.getPath());
         }
 
         String[] files = new String[tests.length];
@@ -2085,9 +2078,9 @@ public class TestResultTable {
         // try to partial match a test
         Vector<TestResult> v = new Vector<>();
         try {
-            for (int i = 0; i < trs.length; i++) {
-                if (trs[i].getDescription().getRootRelativeURL().startsWith(url))
-                    v.addElement(trs[i]);           // match
+            for (TestResult tr : trs) {
+                if (tr.getDescription().getRootRelativeURL().startsWith(url))
+                    v.addElement(tr);           // match
             }   // for
         }
         catch (TestResult.Fault f) {
@@ -2960,8 +2953,8 @@ public class TestResultTable {
         if (arr == null || arr.length == 0)
             return false;
         else {
-            for (int i = 0; i < arr.length; i++)
-                if (arr[i] == o)
+            for (Object arrayElement : arr)
+                if (arrayElement == o)
                     return true;
         }
 
