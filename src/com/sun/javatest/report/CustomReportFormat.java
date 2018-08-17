@@ -120,13 +120,7 @@ public class CustomReportFormat implements ReportFormat {
                 cm = Class.forName(cls, true, testSuite.getClassLoader())
                         .asSubclass(Report.CustomReportManager.class).getDeclaredConstructor().newInstance();
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return NO_REPORTS;
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            return NO_REPORTS;
-        } catch (IllegalAccessException e) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
             return NO_REPORTS;
         }

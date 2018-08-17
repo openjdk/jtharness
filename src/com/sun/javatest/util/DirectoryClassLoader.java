@@ -205,13 +205,7 @@ public class DirectoryClassLoader extends ClassLoader
             cl = defineClass(name, data, 0, data.length);
             classes.put(name, cl);
             return cl;
-        }
-        catch (FileNotFoundException e) {
-            // ClassNotFoundException is obviously the correct
-            // exception to throw in this case
-            throw new ClassNotFoundException(name);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // This one is more iffy; we found a file, but had trouble
             // reading it; still use ClassNotFoundException for now.
             throw new ClassNotFoundException(name);

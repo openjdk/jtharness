@@ -676,10 +676,7 @@ class AgentPanel extends ScrollPane
                 Icon icon = new Icon(url);
                 return icon;
             }
-            catch (RuntimeException e) {
-                return null;
-            }
-            catch (Error e) {
+            catch (RuntimeException | Error e) {
                 return null;
             }
 

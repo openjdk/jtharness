@@ -716,13 +716,9 @@ public class Wizard extends JComponent {
             questionPanel.saveCurrentResponse();
             interview.next();
         }
-        catch (Interview.Fault e) {
+        catch (Interview.Fault | RuntimeException e) {
             // exception normally means no more questions
             // e.printStackTrace();
-            questionPanel.getToolkit().beep();
-        }
-        catch (RuntimeException e) {
-            // typically NumberFormatError
             questionPanel.getToolkit().beep();
         }
     }
@@ -1131,13 +1127,7 @@ public class Wizard extends JComponent {
                     return;
                 e.export(f);
             }
-            catch (IOException ex) {
-                JOptionPane.showMessageDialog(main,
-                                              i18n.getString("wizard.exportError.txt", ex.getMessage()),
-                                              i18n.getString("wizard.exportError.title"),
-                                              JOptionPane.ERROR_MESSAGE);
-            }
-            catch (Interview.Fault ex) {
+            catch (IOException | Interview.Fault ex) {
                 JOptionPane.showMessageDialog(main,
                                               i18n.getString("wizard.exportError.txt", ex.getMessage()),
                                               i18n.getString("wizard.exportError.title"),

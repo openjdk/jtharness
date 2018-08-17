@@ -63,10 +63,6 @@ public class JUnitTestSuite extends TestSuite {
             JUnitTestRunner tr = c.getDeclaredConstructor().newInstance();
             tr.setClassLoader(getClassLoader());
             return tr;
-        } catch (TestSuite.Fault f) {
-            f.printStackTrace();
-            // todo this will probably be ok, should log and error though
-            return new JUnitTestRunner();
         } catch (Exception e) {
             e.printStackTrace();
             return new JUnitTestRunner();

@@ -579,10 +579,7 @@ public class TestSuite
                 return createBinaryTestFinder(finderCmd == null ? null : finderClassName,
                         finderArgs, testsDir, jtdFile);
             }
-            catch (TestFinder.Fault e) {
-                // ignore, try to continue with normal finder
-            }
-            catch (Fault f) {
+            catch (TestFinder.Fault | Fault e) {
                 // ignore, try to continue with normal finder
             }
         }

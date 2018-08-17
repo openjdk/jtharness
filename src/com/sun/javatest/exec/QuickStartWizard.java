@@ -844,10 +844,7 @@ class QuickStartWizard extends ToolDialog
                             } else {
                                 config.load(jtmFile);
                             }
-                        } catch (TestSuite.Fault ex) {
-                            // todo
-                            ex.printStackTrace();
-                        } catch (IOException ex) {
+                        } catch (TestSuite.Fault | IOException ex) {
                             // todo
                             ex.printStackTrace();
                         } catch (Interview.Fault ex) {

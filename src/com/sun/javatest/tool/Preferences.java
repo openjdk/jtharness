@@ -108,10 +108,7 @@ public class Preferences
                 in.close();
                 fileModifiedTime = prefsFile.lastModified();
             }
-        }
-        catch (FileNotFoundException ignore) {
-        }
-        catch (IOException ignore) {
+        } catch (IOException ignore) {
             // ??
         }
     }

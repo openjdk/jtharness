@@ -1171,13 +1171,7 @@ public class ConfigManager
                     return null;
             }
             // catch all possible exceptions from ResourceBundle
-            catch (MissingResourceException m) {
-                return null;
-            }
-            catch (NullPointerException e) {
-                return null;
-            }
-            catch (ClassCastException e) {
+            catch (MissingResourceException | ClassCastException | NullPointerException m) {
                 return null;
             }
         }
@@ -1218,16 +1212,7 @@ public class ConfigManager
                 return cl;
             }
             // catch all possible exceptions from ResourceBundle
-            catch (MissingResourceException m) {
-                return null;
-            }
-            catch (NullPointerException e) {
-                return null;
-            }
-            catch (ClassCastException e) {
-                return null;
-            }
-            catch (IOException e) {
+            catch (MissingResourceException | IOException | ClassCastException | NullPointerException m) {
                 return null;
             }
         }

@@ -475,9 +475,7 @@ public class TemplateSessionControl extends BasicSessionControl {
                 ip.setTemplatePath(tempPath.getPath());
                 try {
                     ip.save();
-                } catch (IOException ex) {
-                    //
-                } catch (Interview.Fault ex) {
+                } catch (IOException | Interview.Fault ex) {
                     //
                 }
             }

@@ -570,15 +570,10 @@ abstract class DeskView {
                         Map<String, String> toolMap = new PrefixMap<>(m, prefix);
                         restoreTool(toolMap, prefix);
                     }
-                    catch (ToolManager.Fault e) {
+                    catch (ToolManager.Fault | Fault e) {
                         uif.showError("dv.restore.cantRestoreTool",
                                       new Object[] {Integer.valueOf(i), e.getMessage() });
-                    }
-                    catch (Fault e) {
-                        uif.showError("dv.restore.cantRestoreTool",
-                                      new Object[] {Integer.valueOf(i), e.getMessage() });
-                    }
-                    catch (Throwable e) {
+                    } catch (Throwable e) {
                         uif.showError("dv.restore.cantRestoreTool",
                                       new Object[] {Integer.valueOf(i), e.toString() });
                         I18NResourceBundle i18n = uif.getI18NResourceBundle();

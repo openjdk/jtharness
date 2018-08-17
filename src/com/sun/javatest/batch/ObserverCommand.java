@@ -123,10 +123,7 @@ class ObserverCommand extends Command
         catch (IllegalAccessException e) {
             throw new Fault(i18n, "observer.cantAccessClass", className);
         }
-        catch (InstantiationException e) {
-            throw new Fault(i18n, "observer.cantCreateClass", className);
-        }
-        catch (InvocationTargetException e) {
+        catch (InstantiationException | InvocationTargetException e) {
             throw new Fault(i18n, "observer.cantCreateClass", className);
         }
     }

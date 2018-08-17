@@ -75,16 +75,7 @@ public class Map {
             else
                 throw fileSystemProblem(t);
         }
-        catch (IllegalAccessException e) {
-            throw fileSystemProblem(e);
-        }
-        catch (InstantiationException e) {
-            throw fileSystemProblem(e);
-        }
-        catch (NoSuchMethodException e) {
-            throw fileSystemProblem(e);
-        }
-        catch (Error e) {
+        catch (IllegalAccessException | Error | NoSuchMethodException | InstantiationException e) {
             throw fileSystemProblem(e);
         }
     }

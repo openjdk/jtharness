@@ -88,9 +88,6 @@ public class InterviewPropagator {
                 templateData = PropertyUtils.load(in);
 
                 fireEvent(EventType.TemplateLoaded, templateData);
-            } catch (FileNotFoundException ex) {
-                notifyError(i18n.getString("tmpltProp.tmpFileError", new String[]{interview.getTemplatePath()}));
-                logException(ex);
             } catch (IOException ex) {
                 notifyError(i18n.getString("tmpltProp.tmpFileError", new String[]{interview.getTemplatePath()}));
                 logException(ex);
@@ -320,9 +317,7 @@ public class InterviewPropagator {
             acceptTemplateDatafromMap(map);
             try {
                 interview.save();
-            } catch (IOException ex) {
-                logException(ex);
-            } catch (Interview.Fault ex) {
+            } catch (IOException | Interview.Fault ex) {
                 logException(ex);
             }
         }
@@ -338,9 +333,7 @@ public class InterviewPropagator {
             acceptTemplateDatafromMap(map, true);
             try {
                 interview.save();
-            } catch (IOException ex) {
-                logException(ex);
-            } catch (Interview.Fault ex) {
+            } catch (IOException | Interview.Fault ex) {
                 logException(ex);
             }
         }
@@ -360,9 +353,7 @@ public class InterviewPropagator {
         interview.setEdited(true);
         try {
             interview.save();
-        } catch (Interview.Fault ex) {
-            logException(ex);
-        } catch (IOException ex) {
+        } catch (Interview.Fault | IOException ex) {
             logException(ex);
         }
     }

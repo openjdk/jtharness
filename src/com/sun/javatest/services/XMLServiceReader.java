@@ -127,12 +127,8 @@ public class XMLServiceReader implements ServiceReader {
             // we don't have an access to UI here (((
             // so just print it
             ts.getNotificationLog(null).severe(ex.getMessage());
-        } catch (SAXException ex) {
+        } catch (SAXException | IOException | ParserConfigurationException ex) {
 // TODO            logExc();
-        } catch (ParserConfigurationException ex) {
-// TODO            logParseExc();
-        } catch (IOException ex) {
-// TODO            logIOExc();
         }
     }
 
@@ -262,11 +258,7 @@ public class XMLServiceReader implements ServiceReader {
                     service.setProperties(servProps);
 
                     result.put(service.getId(), service);
-                } catch (TestSuite.Fault ex) {
-// TODO                    logClassExc();
-                } catch (InstantiationException | NoSuchMethodException | InvocationTargetException ex) {
-// TODO                    logClassExc();
-                } catch (IllegalAccessException ex) {
+                } catch (TestSuite.Fault | IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException ex) {
 // TODO                    logClassExc();
                 }
             }

@@ -138,9 +138,7 @@ class LogViewerTools extends Thread {
             ser.endDocument();
             w.close();
 
-        } catch (IOException ex) {
-            log.log(Level.SEVERE, "LogViewer report", ex);
-        } catch (SAXException ex) {
+        } catch (IOException | SAXException ex) {
             log.log(Level.SEVERE, "LogViewer report", ex);
         } finally {
             waitDialog.setVisible(false);

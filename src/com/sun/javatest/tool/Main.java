@@ -220,12 +220,7 @@ public class Main
             out.flush();
             exit(RC_INTERNAL_ERROR);
         }
-        catch (Error e) {
-            e.printStackTrace(out);
-            out.flush();
-            exit(RC_INTERNAL_ERROR);
-        }
-        catch (RuntimeException e) {
+        catch (Error | RuntimeException e) {
             e.printStackTrace(out);
             out.flush();
             exit(RC_INTERNAL_ERROR);
@@ -419,10 +414,7 @@ public class Main
                 };
                 try {
                     EventQueue.invokeAndWait(task);
-                } catch (InterruptedException e) {
-                    if (tracing)
-                        e.printStackTrace();
-                } catch (java.lang.reflect.InvocationTargetException e) {
+                } catch (InterruptedException | java.lang.reflect.InvocationTargetException e) {
                     if (tracing)
                         e.printStackTrace();
                 }
@@ -473,10 +465,7 @@ public class Main
 
                 try {
                     EventQueue.invokeAndWait(task);
-                } catch (InterruptedException e) {
-                    if (tracing)
-                        e.printStackTrace();
-                } catch (java.lang.reflect.InvocationTargetException e) {
+                } catch (InterruptedException | java.lang.reflect.InvocationTargetException e) {
                     if (tracing)
                         e.printStackTrace();
                 }

@@ -73,15 +73,10 @@ public class SerialPortConnectionFactory implements ConnectionFactory
             //System.err.println("Created connection: " + c.getName());
             return c;
         }
-        catch (InterruptedException e) {
+        catch (InterruptedException | IOException e) {
             System.err.println("Error connection: " + e);
             throw new ConnectionFactory.Fault(e, true);
-        }
-        catch (IOException e) {
-            System.err.println("Error connection: " + e);
-            throw new ConnectionFactory.Fault(e, true);
-        }
-        catch (PortInUseException e) {
+        } catch (PortInUseException e) {
             System.err.println("Error connection: " + e);
             throw new ConnectionFactory.Fault(e, false);
         }

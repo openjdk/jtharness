@@ -1047,8 +1047,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                                                     // setPopupItemsEnabled(true);
                                                 }
                                             });
-                                        } catch (InterruptedException e) {
-                                        } catch (InvocationTargetException e) {
+                                        } catch (InterruptedException | InvocationTargetException e) {
                                         }
                                     } // outer try
                                 } // for

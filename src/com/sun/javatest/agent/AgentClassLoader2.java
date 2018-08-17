@@ -103,12 +103,9 @@ class AgentClassLoader2 extends InstantiationClassLoader {
 System.out.println("FORCE REMOTE " + name);
         try {
             target = findClass(name);
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | NoClassDefFoundError e) {
             // not found remote, search locally
             // this is reverse of normal CL operation
-            target = super.loadClass(name);
-            //target = findSystemClass(name);
-        } catch (NoClassDefFoundError e2) {
             target = super.loadClass(name);
             //target = findSystemClass(name);
         }
@@ -169,10 +166,7 @@ System.out.println("FORCE REMOTE " + name);
                 u = new URL("file", "", -1, name, new AgentURLStreamHandler(bytes));
             }
         }
-        catch (MissingResourceException e) {
-            u = null;
-        }
-        catch (IOException e) {
+        catch (MissingResourceException | IOException e) {
             u = null;
         }
 

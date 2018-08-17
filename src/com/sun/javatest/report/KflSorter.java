@@ -604,9 +604,7 @@ public class KflSorter {
                     }
                     s = reader.readLine();
                 }
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-            } catch (TestResult.ReloadFault e) {
+            } catch (IOException | TestResult.ReloadFault e) {
                 // TODO Auto-generated catch block
             }
         }

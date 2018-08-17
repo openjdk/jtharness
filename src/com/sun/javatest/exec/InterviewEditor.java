@@ -207,9 +207,7 @@ public class InterviewEditor extends ToolDialog {
         try {
             InterviewParameters newConfig = viewConfig.getTestSuite().createInterview();
             copy(newConfig, viewConfig);
-        } catch (TestSuite.Fault e) {
-            uif.showError("ce.show.error", e.getMessage());
-        } catch (Interview.Fault e) {
+        } catch (TestSuite.Fault | Interview.Fault e) {
             uif.showError("ce.show.error", e.getMessage());
         }
         show(FULL_MODE);

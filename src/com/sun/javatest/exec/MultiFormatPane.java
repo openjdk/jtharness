@@ -903,9 +903,7 @@ class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
         try{
             AudioFileFormat fformat = AudioSystem.getAudioFileFormat(url);
             return AudioSystem.isFileTypeSupported(fformat.getType());
-        } catch (UnsupportedAudioFileException unsuppExc) {
-            return false;
-        } catch (IOException ioExc) {
+        } catch (UnsupportedAudioFileException | IOException unsuppExc) {
             return false;
         }
     }
@@ -915,12 +913,7 @@ class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
             MidiFileFormat fformat = MidiSystem.getMidiFileFormat(url);
             Sequence sequence = MidiSystem.getSequence(url);
             return MidiSystem.isFileTypeSupported(fformat.getType());
-        } catch (InvalidMidiDataException invalidDataExc) {
-            return false;
-        } catch (IOException ioExc) {
-            return false;
-        }
-        catch (Exception exc) {
+        } catch (Exception exc) {
             return false;
         }
     }

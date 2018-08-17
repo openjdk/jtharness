@@ -556,8 +556,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                         }
                                     }
                                 });
-                            } catch (InterruptedException e) {
-                            } catch (InvocationTargetException e) {
+                            } catch (InterruptedException | InvocationTargetException e) {
                             }
                         }   // outer try
                     }   // for
@@ -869,9 +868,8 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                     }
                                 }
                             });
-                        } catch (InterruptedException e) {
-                        } catch (java.lang.reflect.InvocationTargetException e) {
-                        }   // catch
+                        } catch (InterruptedException | InvocationTargetException e) {
+                        }    // catch
                     }   // finally
                 }   // run()
             };  // thread

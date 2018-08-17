@@ -391,9 +391,7 @@ class ReportTool extends Tool {
                             waitDialog.setVisible(b);
                         }
                     });
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
+                } catch (InterruptedException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
             }

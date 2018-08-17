@@ -430,11 +430,7 @@ public abstract class InterviewParameters
             }
 
         }
-        catch (IOException e){
-            return null;
-        }
-        catch (KnownFailuresList.Fault f) {
-            // report it?
+        catch (IOException | KnownFailuresList.Fault e){
             return null;
         }
     }
@@ -1085,9 +1081,7 @@ public abstract class InterviewParameters
                 try {
                     wd.getTestSuite().loadInterviewFromTemplate(
                         TemplateUtilities.getTemplateFile(wd), this);
-                } catch (TestSuite.Fault ex) {
-                    ex.printStackTrace();
-                } catch (IOException ex) {
+                } catch (TestSuite.Fault | IOException ex) {
                     ex.printStackTrace();
                 }
             }

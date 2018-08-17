@@ -178,13 +178,9 @@ public class AgentApplet extends Applet implements Agent.Observer
             catch (ClassNotFoundException e) {
                 showStatus("cannot find observer class: " + observerClassName);
             }
-            catch (IllegalAccessException e) {
+            catch (IllegalAccessException | InstantiationException e) {
                 showStatus("problem instantiating observer: " + e);
-            }
-            catch (InstantiationException e) {
-                showStatus("problem instantiating observer: " + e);
-            }
-            catch (NoSuchMethodException e) {
+            } catch (NoSuchMethodException e) {
                 showStatus("cannot find no-arg constructor. " + e);
             }
             catch (InvocationTargetException e) {

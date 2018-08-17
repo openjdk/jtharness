@@ -412,9 +412,7 @@ class ProgressMonitor extends ToolDialog {
                     EventQueue.invokeAndWait(new BranchPanel.TextUpdater(tf,
                                              Integer.toString(value), uif));
                 }
-                catch (InterruptedException e) {
-                }
-                catch (InvocationTargetException e) {
+                catch (InterruptedException | InvocationTargetException e) {
                 }
         }
 

@@ -553,9 +553,7 @@ public class WorkDirChooseTool extends JDialog {
                     else
                         em.setWorkDir(wd, true);
                 }
-            } catch (Interview.Fault e) {
-                uif.showError("exec.wd.errorOpeningWD", e);
-            } catch (TestSuite.Fault e) {
+            } catch (Interview.Fault | TestSuite.Fault e) {
                 uif.showError("exec.wd.errorOpeningWD", e);
             }
         }
@@ -969,14 +967,9 @@ public class WorkDirChooseTool extends JDialog {
                 ce.loadNoUI(templateName);
  */
             }
-        } catch (IOException e) {
-            uif.showError("exec.wd.errorOpeningWD", e);
-        } catch (Interview.Fault e) {
-            uif.showError("exec.wd.errorOpeningWD", e);
-        } catch (TestSuite.Fault e) {
+        } catch (IOException | TestSuite.Fault | Interview.Fault e) {
             uif.showError("exec.wd.errorOpeningWD", e);
         }
-
 
 
         if (showConfigEditorFlag) {

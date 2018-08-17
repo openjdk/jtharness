@@ -52,15 +52,7 @@ public class ExcludeBrowser extends HttpServlet {
         try {
             excludeList = new ExcludeList(file);
         }
-        catch (ExcludeList.Fault e) {
-            String msg =
-                "The file does not appear to be a valid exclude-list file. " +
-                "The following exception was received while trying to open it: " +
-                e.toString();
-            res.sendError(HttpServletResponse.SC_NOT_FOUND, msg);
-            return;
-        }
-        catch (IOException e) {
+        catch (ExcludeList.Fault | IOException e) {
             String msg =
                 "The file does not appear to be a valid exclude-list file. " +
                 "The following exception was received while trying to open it: " +

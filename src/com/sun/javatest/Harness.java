@@ -596,13 +596,9 @@ public class Harness
                 try {
                     ok = runTests(p, ZERO_TESTS_ERROR);
                 }
-                catch (Fault e) {
+                catch (Fault | TestSuite.Fault e) {
                     notifyLocalizedError(e.getMessage());
-                }
-                catch (TestSuite.Fault e) {
-                    notifyLocalizedError(e.getMessage());
-                }
-                catch (InterruptedException e) {
+                } catch (InterruptedException e) {
                     notifyError(i18n, "harness.interrupted");
                 }
                 finally {

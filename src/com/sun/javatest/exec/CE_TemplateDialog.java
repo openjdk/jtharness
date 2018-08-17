@@ -217,11 +217,7 @@ class CE_TemplateDialog extends ToolDialog
                 config.save(data);
                 c.load(data, false);
             }
-            catch (Interview.Fault e) {
-                // ignore, for now; should not happen
-                return false;
-            }
-            catch (TestSuite.Fault e) {
+            catch (Interview.Fault | TestSuite.Fault e) {
                 // ignore, for now; should not happen
                 return false;
             }

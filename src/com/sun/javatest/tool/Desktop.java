@@ -402,10 +402,7 @@ public class Desktop
                     Method m = mgr.getClass().getMethod("startTool", InterviewParameters.class);
 
                     return (Tool) m.invoke(mgr, ip);
-                } catch (NoSuchMethodException e) {
-                    // ignore??
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
+                } catch (NoSuchMethodException | IllegalAccessException e) {
                     // ignore??
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {

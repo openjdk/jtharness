@@ -252,8 +252,7 @@ public class ProductInfo
                 String defaultEnc = new java.io.InputStreamReader(System.in).getEncoding();
                 return new File(URLDecoder.decode(url.getPath(), defaultEnc));
             }
-        } catch (java.io.UnsupportedEncodingException ignore) {
-        } catch (MalformedURLException ignore) {
+        } catch (java.io.UnsupportedEncodingException | MalformedURLException ignore) {
         }
 
         if (verbose && i18n != null) {

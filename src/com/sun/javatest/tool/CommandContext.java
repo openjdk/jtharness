@@ -752,10 +752,7 @@ public class CommandContext
                                 }
                             }
                         }
-                        catch (IOException e) {
-                            // ignore
-                        }
-                        catch (TestSuite.Fault f) {
+                        catch (IOException | TestSuite.Fault e) {
                             // ignore
                         }
                     }   // if

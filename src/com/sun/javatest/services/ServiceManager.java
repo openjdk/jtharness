@@ -321,9 +321,7 @@ public class ServiceManager implements Harness.Observer {
                             boolean isAlive = true;
                             try {
                                 isAlive = services.get(sID).isAlive();
-                            } catch (NotConnectedException ex) {
-                                isAlive = false;
-                            } catch (ServiceError ex) {
+                            } catch (NotConnectedException | ServiceError ex) {
                                 isAlive = false;
                             }
 
