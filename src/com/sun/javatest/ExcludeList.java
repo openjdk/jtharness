@@ -1041,7 +1041,7 @@ public class ExcludeList
             if (testCase == null)
                 return null;
 
-            Vector<String> v = new Vector<String>();
+            Vector<String> v = new Vector<>();
             int start = -1;
             for (int i = 0; i < testCase.length(); i++) {
                 if (testCase.charAt(i) == ',') {

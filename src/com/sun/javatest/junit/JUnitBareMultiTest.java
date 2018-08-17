@@ -134,7 +134,7 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
     }
 
     protected void getListAllJunitTestCases(){
-        tests = new TreeMap<String,Method>();
+        tests = new TreeMap<>();
         try {
             Method[] methods = AccessController.doPrivileged(
                     new PrivilegedAction<Method[]>() {

@@ -166,7 +166,7 @@ public class TreeSelectionPane extends JComponent implements Accessible
 
         private void initChildren() {
             int childCount = model.getChildCount(object);
-            children = new LinkedList<SelectionElement>();
+            children = new LinkedList<>();
             for (int i = 0; i < childCount; i++) {
                 SelectNode newChild = new SelectNode(model, model.getChild(object, i));
                 children.add(newChild);

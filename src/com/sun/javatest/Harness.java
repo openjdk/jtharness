@@ -801,7 +801,7 @@ public class Harness
         if (iter == null) {
             iter = createTreeIterator();
         }
-        return new ReadAheadIterator<TestResult>(iter, readAheadMode, DEFAULT_READ_AHEAD);
+        return new ReadAheadIterator<>(iter, readAheadMode, DEFAULT_READ_AHEAD);
     }
 
     private TreeIterator createTreeIterator() throws Fault {

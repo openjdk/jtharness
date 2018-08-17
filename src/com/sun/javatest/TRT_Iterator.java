@@ -867,7 +867,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
             return null;
         }
 
-        final ArrayList<TestFilter> out = new ArrayList<TestFilter>();
+        final ArrayList<TestFilter> out = new ArrayList<>();
         TestFilter.Observer foo = new TestFilter.Observer() {
             @Override
             public void rejected(TestDescription td, TestFilter f) {

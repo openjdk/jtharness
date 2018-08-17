@@ -49,7 +49,7 @@ public class FileTable extends JTable {
         setRowSelectionAllowed(true);
         setShowGrid(false);
         getColumnModel().getColumn(0).setCellRenderer(new IconRenderer());
-        autoResizeColumns = new ArrayList<Resize>();
+        autoResizeColumns = new ArrayList<>();
 
         setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         getColumnModel().getColumn(0).setMinWidth(130);

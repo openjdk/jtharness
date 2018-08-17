@@ -140,7 +140,7 @@ public class ReportManager
                     if (!argIter.hasNext())
                         throw new Fault(i18n, "rm.writeReport.missingArg");
                     if (types == null) {
-                        types = new ArrayList<String>();
+                        types = new ArrayList<>();
                     }
                     types.add(nextArg(argIter));
                 }

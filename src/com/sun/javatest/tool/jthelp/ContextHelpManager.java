@@ -31,7 +31,7 @@ import java.util.WeakHashMap;
 
 public class ContextHelpManager {
 
-    private static WeakHashMap<Component, String> componentHelpMap = new WeakHashMap<Component, String>();
+    private static WeakHashMap<Component, String> componentHelpMap = new WeakHashMap<>();
 
     public static void setHelpIDString(Component component, String value){
         componentHelpMap.put(component, value);

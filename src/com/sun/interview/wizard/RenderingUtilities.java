@@ -75,7 +75,7 @@ public class RenderingUtilities {
         private PropertiesQuestion q;
 
         public PCE(PropertiesQuestion q) {
-            cbCE =  new PropCellEditor(new JComboBox<Object>(), q);
+            cbCE =  new PropCellEditor(new JComboBox<>(), q);
             tfCE =  new RestrainedCellEditor(new JTextField(), q);
             this.q = q;
         }

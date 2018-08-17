@@ -465,7 +465,7 @@ public class TT_BasicNode extends TT_TreeNode {
         }
     }
 
-    private final ArrayList<TT_TreeNode> children = new ArrayList<TT_TreeNode>();
+    private final ArrayList<TT_TreeNode> children = new ArrayList<>();
     private TRT_TreeNode tn;
     private Comparator<String> comp;
     private final AtomicBoolean isUpdated = new AtomicBoolean(false);

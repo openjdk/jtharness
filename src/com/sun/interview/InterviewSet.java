@@ -148,7 +148,7 @@ public class InterviewSet
         Set<Interview> deps = dependencies.get(child);
 
         if (deps == null && create) {
-            deps = new TreeSet<Interview>(new ChildComparator());
+            deps = new TreeSet<>(new ChildComparator());
             dependencies.put(child, deps);
         }
 

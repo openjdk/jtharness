@@ -1562,7 +1562,7 @@ public class InterviewEditor extends ToolDialog {
     private Map<Class<? extends Question>, QuestionRenderer> customRenderersMap;
     private ActionListener closeListener;
     //private ExecModel model;
-    private final List<Observer> observers = new ArrayList<Observer>();
+    private final List<Observer> observers = new ArrayList<>();
 
     private DetailsBrowser detailsBrowser;
     private static final KeyStroke detailsKey = KeyStroke.getKeyStroke("shift alt D");

@@ -208,7 +208,7 @@ class FilesPane extends JPanel {
         }
 
         boolean error = false;  // block "next" button if any error occurred (should be false to unblock)
-        ArrayList<String> used = new ArrayList<String>();
+        ArrayList<String> used = new ArrayList<>();
         for (JTextField tField : merged) {
             String s = tField.getText().trim();
             tField.setBackground(UIFactory.getDefaultInputColor());

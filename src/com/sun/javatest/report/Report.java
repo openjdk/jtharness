@@ -111,7 +111,7 @@ public class Report implements ReportModel {
         s.setupSortedResults();
         s.setupKfl();
 
-        ArrayList<ReportLink> links = new ArrayList<ReportLink>();
+        ArrayList<ReportLink> links = new ArrayList<>();
 
         try {
             // this is not a static field because service providers are not stateless
@@ -203,7 +203,7 @@ public class Report implements ReportModel {
         // I didn't make it as static calss field because
         // not sure that all service providers are stateless
         ServiceLoader<ReportFormat> reportLoader = ServiceLoader.load(ReportFormat.class);
-        ArrayList<ReportLink> links = new ArrayList<ReportLink>();
+        ArrayList<ReportLink> links = new ArrayList<>();
         for (ReportFormat rf : reportLoader) {
             doCLReport(rf, settings, typesToGen, links);
         }

@@ -121,7 +121,7 @@ public class ServiceManager implements Harness.Observer {
             p.setServiceManager(this);
         }
 
-        activeServices = new TreeSet<String>();
+        activeServices = new TreeSet<>();
 
         writer = new WritingThread();
         writer.start();

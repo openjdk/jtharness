@@ -42,8 +42,8 @@ public class LogModel {
 
     public LogModel(ObservedFile logFile, String fileName) {
         file = fileName;
-        records = new ArrayList<LiteLogRecord>();
-        loggers = new ArrayList<String>();
+        records = new ArrayList<>();
+        loggers = new ArrayList<>();
         messageCache = new MessageCache();
         setObservedFile(logFile);
     }
@@ -439,8 +439,8 @@ public class LogModel {
     private ArrayList<String> loggers;
     private ArrayList<LiteLogRecord> records;
 
-    private ArrayList<LoggerListener> loggerListeners = new ArrayList<LoggerListener>();
-    private ArrayList<NewPageListener> pageListeners = new ArrayList<NewPageListener>();
+    private ArrayList<LoggerListener> loggerListeners = new ArrayList<>();
+    private ArrayList<NewPageListener> pageListeners = new ArrayList<>();
     private MessageCache messageCache = new MessageCache();
     private String file;
     private RandomAccessFile mirrorFile;

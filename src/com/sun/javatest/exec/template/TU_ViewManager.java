@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 class TU_ViewManager implements InterviewPropagator.ViewManager, InterviewPropagator.TestRefresher {
     // config --> TU_Dialog
     private static HashMap<InterviewParameters, TU_dialog> store =
-            new HashMap<InterviewParameters, TU_dialog>();
+            new HashMap<>();
 
     @Override
     public void showView(InterviewPropagator prop, InterviewParameters intTerview) {

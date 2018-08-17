@@ -45,8 +45,8 @@ class EmptyTestTreeModel extends TestTreeModel implements TreeModel, TestResultT
     private FilterSelectionHandler filterHandler;
     private UIFactory uif;
     private Parameters params;
-    private ArrayList<TreeModelListener> treeModelListeners = new ArrayList<TreeModelListener>();
-    private ArrayList<TestResultTable.TreeNodeObserver> rootObservers = new ArrayList<TestResultTable.TreeNodeObserver>();
+    private ArrayList<TreeModelListener> treeModelListeners = new ArrayList<>();
+    private ArrayList<TestResultTable.TreeNodeObserver> rootObservers = new ArrayList<>();
     private TT_NodeCache oldInfo;
     private TreeNode oldNode;
 

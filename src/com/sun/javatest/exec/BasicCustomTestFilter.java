@@ -742,7 +742,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         c.weightx = 2;
         c.weighty = 2;
         c.fill = GridBagConstraints.BOTH;
-        jtxFiles = new DefaultListModel<String>();
+        jtxFiles = new DefaultListModel<>();
         jtxFileList = uif.createList("basicTf.exclude.file", jtxFiles);
         jtxFileList.setEnabled(jtxCheckBox.isSelected());
         uif.setAccessibleInfo(jtxFileList, "basicTf.exclude.file");

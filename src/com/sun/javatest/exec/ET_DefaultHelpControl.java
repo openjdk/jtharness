@@ -86,7 +86,7 @@ public class ET_DefaultHelpControl implements ET_HelpControl {
     @Override
     public List<Action> getToolBarActionList() {
         if (actionList == null) {
-            actionList = new ArrayList<Action>();
+            actionList = new ArrayList<>();
             actionList.add(helpAction);
         }
         return actionList;

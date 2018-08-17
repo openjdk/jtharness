@@ -93,7 +93,7 @@ public class PrefixMap<V> implements Map<String, V>
 
     @Override
     public Set<Map.Entry<String, V>> entrySet() {
-        Map<String, V> m = new HashMap<String, V>();
+        Map<String, V> m = new HashMap<>();
         for (Entry<String, V> e : map.entrySet()) {
             String key = e.getKey();
             if (key.startsWith(prefix))

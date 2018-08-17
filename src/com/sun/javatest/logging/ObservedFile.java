@@ -172,7 +172,7 @@ public class ObservedFile extends File {
 
     }
 
-    private final List<FileListener> list = new ArrayList<FileListener>();
+    private final List<FileListener> list = new ArrayList<>();
     private final static boolean debug = false;
     private String recordInexName;
     private String loggersInexName;

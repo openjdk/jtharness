@@ -303,7 +303,7 @@ public class TestDescription implements Serializable
      * @return a list of associated files for this test description
      */
     public URL[] getSourceURLs() {
-        ArrayList<File> res = new ArrayList<File>();
+        ArrayList<File> res = new ArrayList<>();
 
         // always include the file containing the test description
         res.add(getFile());

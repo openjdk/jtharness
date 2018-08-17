@@ -89,7 +89,7 @@ public class SelectionTree extends JTree {
     private final Action deselectAllAction = createAction("DeselectAll");
     private final Action expandAllAction = createAction("ExpandAll");
     private final Action collapseAllAction = createAction("CollapseAll");
-    private List<SelectionTreeListener> listeners = new ArrayList<SelectionTreeListener>();
+    private List<SelectionTreeListener> listeners = new ArrayList<>();
     private SelectionTreeFilter filter = null;
 
     /**
@@ -328,7 +328,7 @@ public class SelectionTree extends JTree {
      * In case of parameter is false or there is no selected node, set all nodes selected.
      */
     public void selectAll(boolean considerSelection) {
-        List<SelectionTreeNode> selNodes = new ArrayList<SelectionTreeNode>();
+        List<SelectionTreeNode> selNodes = new ArrayList<>();
 
         if (considerSelection) {
             selNodes.addAll(getSelectedNodes());
@@ -359,7 +359,7 @@ public class SelectionTree extends JTree {
      * In case of parameter is false or there is no selected node, set all nodes unselected.
      */
     public void deselectAll(boolean considerSelection) {
-        List<SelectionTreeNode> selNodes = new ArrayList<SelectionTreeNode>();
+        List<SelectionTreeNode> selNodes = new ArrayList<>();
 
         if (considerSelection) {
             selNodes.addAll(getSelectedNodes());
@@ -425,7 +425,7 @@ public class SelectionTree extends JTree {
      */
     public Collection<SelectionTreeNode> getSelectedNodes() {
         TreePath[] paths = getSelectionPaths();
-        List<SelectionTreeNode> result = new ArrayList<SelectionTreeNode>();
+        List<SelectionTreeNode> result = new ArrayList<>();
         if (paths != null) {
             for (TreePath treePath : paths) {
                 if (treePath != null) {
@@ -513,7 +513,7 @@ public class SelectionTree extends JTree {
      */
     @SuppressWarnings("unchecked")
     public Map<SelectionElement, Object> getExpandedElementsHierarchy() {
-        Map<SelectionElement, Object> expanded = new HashMap<SelectionElement, Object>();
+        Map<SelectionElement, Object> expanded = new HashMap<>();
         for (int i = 0; i < getRowCount(); i++) {
             TreePath path = getPathForRow(i);
             Object[] toExpand = path.getPath();
@@ -632,7 +632,7 @@ public class SelectionTree extends JTree {
 
             if (nodeToExpand != null) {
                 expandPath(nodeToExpand.getPath());
-                List<SelectionTreeNode> subLevel = new ArrayList<SelectionTreeNode>();
+                List<SelectionTreeNode> subLevel = new ArrayList<>();
                 Enumeration<SelectionTreeNode> children = nodeToExpand.children();
                 while (children.hasMoreElements()) {
                     subLevel.add(children.nextElement());

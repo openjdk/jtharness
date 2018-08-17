@@ -238,7 +238,7 @@ abstract class SetKeywords extends Keywords {
             throw new Keywords.Fault(i18n, "kw.noKeywords");
         }
 
-        keys = new HashSet<String>();
+        keys = new HashSet<>();
         for (String keyword : keywords) {
             String lowerCaseKeyword = keyword.toLowerCase();
             if (validKeywords != null && !validKeywords.contains(lowerCaseKeyword)) {

@@ -69,7 +69,7 @@ public class ExecTool extends Tool implements ExecModel,
     final ET_RunTestControl runTestsHandler;
     final ET_ReportControl reportHandler;
     final ET_FilterHandler filterHandler;
-    final List<ET_Control> controls = new ArrayList<ET_Control>();
+    final List<ET_Control> controls = new ArrayList<>();
 
     JMenuBar menuBar = null;
     private boolean shouldPauseTree;
@@ -214,7 +214,7 @@ public class ExecTool extends Tool implements ExecModel,
     }
 
     protected JToolBar getToolBar() {
-        ArrayList<Action> v = new ArrayList<Action>();
+        ArrayList<Action> v = new ArrayList<>();
         for (ET_Control c: controls) {
             List<Action> acts = c.getToolBarActionList();
             if (acts != null) {

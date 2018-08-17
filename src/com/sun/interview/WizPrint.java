@@ -993,7 +993,7 @@ public class WizPrint
     private static class SortedVector
     {
         public SortedVector() {
-            v = new Vector<Question>();
+            v = new Vector<>();
         }
 
         public SortedVector(int initialSize) {

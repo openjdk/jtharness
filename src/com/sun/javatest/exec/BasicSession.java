@@ -64,17 +64,17 @@ public class BasicSession implements SessionExt {
     /**
      * List of registered observers
      */
-    protected final List<Observer> observers = new ArrayList<Observer>();
+    protected final List<Observer> observers = new ArrayList<>();
 
     /**
      * List of available filters
      */
-    protected final List<String> filterNames = new ArrayList<String>();
+    protected final List<String> filterNames = new ArrayList<>();
 
     /**
      * List of observable properties
      */
-    protected final List<String> props = new ArrayList<String>();
+    protected final List<String> props = new ArrayList<>();
 
     static final String EL_FILTER = "ExcludeList";
     static final String PRIOR_FILTER = "PriorStatus";
@@ -222,7 +222,7 @@ public class BasicSession implements SessionExt {
         notifyQueue();
     }
 
-    private final ArrayList<Pair> queue  = new ArrayList<Pair>();
+    private final ArrayList<Pair> queue  = new ArrayList<>();
     private boolean isNotifying = false;
     private static class Pair {
         final Observer obs;

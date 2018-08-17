@@ -772,8 +772,8 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             // need to update lastScanDate before the loop to avoid
             // excessive recursion
             lastScanDate = thisScanDate;
-            ArrayList<TreeNode> nodesUsed = new ArrayList<TreeNode>();
-            ArrayList<TestResult> usedTests = new ArrayList<TestResult>();
+            ArrayList<TreeNode> nodesUsed = new ArrayList<>();
+            ArrayList<TestResult> usedTests = new ArrayList<>();
 
             for (int i = 0; i < files.length; i++) {
                 if (table.isBranchFile(files[i])) {
@@ -926,7 +926,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         // check file date
         // scan the file
         // add new ones, compare existing ones
-        ArrayList<TestResult> result = new ArrayList<TestResult>();
+        ArrayList<TestResult> result = new ArrayList<>();
 
         if (debug > 1)
             System.out.println("Updating file " + fileToScan.getPath());
@@ -1087,7 +1087,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             Debug.println("This node's name: " + TestResultTable.getRootRelativePath(this));
             Debug.println("Processing file : " + file.getPath());
         }
-        ArrayList<TestResult> result = new ArrayList<TestResult>();
+        ArrayList<TestResult> result = new ArrayList<>();
 
         TestDescription[] tds = null;
         File[] files = null;

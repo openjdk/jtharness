@@ -73,7 +73,7 @@ public class TestPath {
             }
         }
 
-        services = new TreeSet<String>();
+        services = new TreeSet<>();
     }
 
     /**

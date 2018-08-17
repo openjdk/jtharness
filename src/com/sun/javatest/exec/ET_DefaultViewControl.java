@@ -160,7 +160,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
         if (actions != null) {
             return actions;
         }
-        actions = new LinkedList<Action>();
+        actions = new LinkedList<>();
         propertiesAction = createPropertyAction();
         actions.add(propertiesAction);
         logViewerAction = createLogViewerAction();
@@ -271,7 +271,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     Action showChecklistAction;
     Action showQuestionLogAction;
     List<Action> createConfigActions() {
-        List<Action> acts = new LinkedList<Action>();
+        List<Action> acts = new LinkedList<>();
 
         showEnvironmentAction = new ToolAction(uif, "ch.env") {
             @Override

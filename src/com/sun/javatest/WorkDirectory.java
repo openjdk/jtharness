@@ -947,12 +947,12 @@ public class WorkDirectory {
 
         Map<String,String> map = null;
         if (annotationMap == null)
-            annotationMap = new TreeMap<String, Map<String,String>>();
+            annotationMap = new TreeMap<>();
         else
             map = annotationMap.get(testName);
 
         if (map == null) {
-            map = new HashMap<String,String>();
+            map = new HashMap<>();
             annotationMap.put(testName, map);
         }
         // add/update in the first case, remove in the second case
@@ -1068,7 +1068,7 @@ public class WorkDirectory {
 
             DataInputStream reader = new DataInputStream(new BufferedInputStream(fis));
 
-            annotationMap = new TreeMap<String, Map<String,String>>();
+            annotationMap = new TreeMap<>();
 
             try {
                 while(reader.available() > 0) {
@@ -1079,7 +1079,7 @@ public class WorkDirectory {
 
                         Map<String,String> map = annotationMap.get(s1);
                         if (map == null) {
-                            map = new HashMap<String,String>();
+                            map = new HashMap<>();
                             annotationMap.put(s1, map);
                         }
                         map.put(s2,s3);

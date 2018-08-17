@@ -203,7 +203,7 @@ public class Main {
     public void addFiles(String[] paths) {
         if (paths == null)
             return;
-        List<File> files = new ArrayList<File>();
+        List<File> files = new ArrayList<>();
         if (inFiles != null)
             files.addAll(Arrays.asList(inFiles));
         for (String path1 : paths) files.add(new File(path1));
@@ -804,7 +804,7 @@ public class Main {
 
         private void add(Node child) {
             if (children == null)
-                children = new TreeSet<Node>(indexComparator);
+                children = new TreeSet<>(indexComparator);
             children.add(child);
         }
 

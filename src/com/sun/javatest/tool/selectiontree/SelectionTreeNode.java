@@ -89,7 +89,7 @@ public class SelectionTreeNode implements TreeNode {
     }
 
     private void createChildren(SelectionTreeFilter filter) {
-        List<SelectionTreeNode> children = new ArrayList<SelectionTreeNode>();
+        List<SelectionTreeNode> children = new ArrayList<>();
 
         SelectionTreeNode prevNode = this;
 

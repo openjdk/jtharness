@@ -1321,7 +1321,7 @@ public class TestSuite
         String logName = wd.getLogFileName();
 
         if (gpls == null)
-            gpls = new Vector<GeneralPurposeLogger>();
+            gpls = new Vector<>();
 
         for (GeneralPurposeLogger gpl : gpls) {
             if (gpl.getName().equals(key) && gpl.getLogFileName().equals(logName))

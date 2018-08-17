@@ -542,7 +542,7 @@ public class AgentMain {
     private String serialPort = null;
     private int concurrency = 1;
     private String mapFile = null;
-    private java.util.Map<String, String> mappedArgs = new HashMap<String, String>();
+    private java.util.Map<String, String> mappedArgs = new HashMap<>();
     private String observerClassName;
     private boolean tracing;
 

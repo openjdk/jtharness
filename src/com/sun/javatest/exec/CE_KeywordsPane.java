@@ -99,7 +99,7 @@ class CE_KeywordsPane extends CE_StdPane {
             if (validKeywords == null)
                 validKeywordsSet = null;
             else
-                validKeywordsSet = new HashSet<String>(Arrays.asList(validKeywords));
+                validKeywordsSet = new HashSet<>(Arrays.asList(validKeywords));
 
             String kc = (String) keywordsChoice.getSelectedItem();
             String type;

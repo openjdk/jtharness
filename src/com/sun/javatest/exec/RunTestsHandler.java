@@ -582,7 +582,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     // to remember paths passed via executeImmediate(paths).
     private String[] whatToRun;
 
-    private final ArrayList<Observer> observers = new ArrayList<Observer>();
+    private final ArrayList<Observer> observers = new ArrayList<>();
 
 
     @Override

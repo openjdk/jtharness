@@ -175,8 +175,8 @@ public class FilteredLogModel extends LogModel {
     private FilterWorker worker;
     private ArrayList<LiteLogRecord> shownRecords;
     private LogFilter filter;
-    private ArrayList<NewPageListener> pageListeners = new ArrayList<NewPageListener>();
-    private ArrayList<FilterChangedListener> filterListeners = new ArrayList<FilterChangedListener>();
+    private ArrayList<NewPageListener> pageListeners = new ArrayList<>();
+    private ArrayList<FilterChangedListener> filterListeners = new ArrayList<>();
 
     @Override
     public boolean isStableState() {
@@ -223,7 +223,7 @@ public class FilteredLogModel extends LogModel {
 
         @Override
         public void run() {
-            ArrayList<LiteLogRecord> tmp = new ArrayList<LiteLogRecord>();
+            ArrayList<LiteLogRecord> tmp = new ArrayList<>();
             int firstRecordOnPage = 0;
             int i = 0;
             boolean first = true;
@@ -287,7 +287,7 @@ public class FilteredLogModel extends LogModel {
     public class LogFilter {
 
         public LogFilter(FilteredLogModel model) {
-            theMap = new HashMap<String, Boolean>();
+            theMap = new HashMap<>();
             this.model = model;
         }
 

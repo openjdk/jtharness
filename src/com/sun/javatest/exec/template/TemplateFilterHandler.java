@@ -57,7 +57,7 @@ public class TemplateFilterHandler extends ET_FilterHandler {
     protected List<TestFilter> getUsersFilters() {
         List<TestFilter> lst = super.getUsersFilters();
         if (lst == null) {
-            lst = new ArrayList<TestFilter>(1);
+            lst = new ArrayList<>(1);
         }
         lst.add(tFilter);
         return lst;

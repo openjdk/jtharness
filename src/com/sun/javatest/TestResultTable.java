@@ -914,8 +914,8 @@ public class TestResultTable {
      * @since 3.0
      */
     public TreeIterator getIterator(String[] paths, TestFilter[] filters) {
-        LinkedList<TreeNode> initNodes = new LinkedList<TreeNode>();
-        LinkedList<TestResult> initTests = new LinkedList<TestResult>();
+        LinkedList<TreeNode> initNodes = new LinkedList<>();
+        LinkedList<TestResult> initTests = new LinkedList<>();
 
         String[] urls = sortByName(paths); // sorting in any case to improve performance of distilling
         urls = distillUrls(urls);
@@ -1548,7 +1548,7 @@ public class TestResultTable {
         if (urls == null || urls.length <= 1)
             return urls;
 
-        LinkedList<String> result = new LinkedList<String>();
+        LinkedList<String> result = new LinkedList<>();
         result.add(urls[0]);
 
         // as the array is expected to be sorted, it's known that foo/boo.html is just before foo/boo.html#anything

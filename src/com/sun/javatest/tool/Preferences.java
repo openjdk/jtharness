@@ -99,7 +99,7 @@ public class Preferences
     private Preferences(File file) {
         prefsFile = file;
         isUpToDate = true;
-        props = new TreeMap<String, String>();
+        props = new TreeMap<>();
 
         try {
             if (prefsFile != null) {

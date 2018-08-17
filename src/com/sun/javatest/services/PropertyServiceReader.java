@@ -115,7 +115,7 @@ public class PropertyServiceReader implements ServiceReader {
      */
     Set<String> findIDs(Set<String> keys, String prefix) {
         int len = prefix.length() + 1;
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new HashSet<>();
         for (String key: keys) {
             if (key.startsWith(prefix)) {
                 int i = key.indexOf(".", len);
@@ -139,7 +139,7 @@ public class PropertyServiceReader implements ServiceReader {
      */
     Set<String> findProps(Set<String> keys, String prefix) {
         int len = prefix.length() + 1;
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new HashSet<>();
         for (String key: keys) {
             if (key.startsWith(prefix)) {
                 set.add(key.substring(len));
@@ -150,7 +150,7 @@ public class PropertyServiceReader implements ServiceReader {
 
     @Override
     public Map<String, Service> readServices() {
-        Map<String, Service> result = new TreeMap<String, Service>();
+        Map<String, Service> result = new TreeMap<>();
         if (props == null) {
             return result;
         }

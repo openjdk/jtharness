@@ -208,7 +208,7 @@ public class Main {
     public void addFiles(File baseDir, String[] paths) {
         if (paths == null)
             return;
-        List<File> files = new ArrayList<File>();
+        List<File> files = new ArrayList<>();
         if (inFiles != null)
             files.addAll(Arrays.asList(inFiles));
         for (String path : paths) files.add(new File(baseDir, path));

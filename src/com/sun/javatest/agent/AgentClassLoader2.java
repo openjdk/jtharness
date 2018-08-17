@@ -43,7 +43,7 @@ import java.util.MissingResourceException;
 class AgentClassLoader2 extends InstantiationClassLoader {
 
     private CodeSource cs = null;
-    private final HashMap<CodeSource, ProtectionDomain> pdcache = new HashMap<CodeSource, ProtectionDomain>(11);
+    private final HashMap<CodeSource, ProtectionDomain> pdcache = new HashMap<>(11);
     private static volatile AgentClassLoader2 instance = null;
 
     private AgentClassLoader2(Agent.Task parent, ClassLoader cl) {

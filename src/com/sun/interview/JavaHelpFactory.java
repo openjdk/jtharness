@@ -115,7 +115,7 @@ public class JavaHelpFactory implements HelpSetFactory {
                 }
             else {
                 // reregister child help sets with new help set
-               List<HelpSet> helpSetsToRemove = new ArrayList<HelpSet>();
+               List<HelpSet> helpSetsToRemove = new ArrayList<>();
 
                 // transfer help sets old to new
                 for (HelpSet entry : oldHelpSet.getHelpSets()) {

@@ -125,7 +125,7 @@ public class Main
 
     public static class Ant extends MatchingTask {
         private Main m = new Main();
-        private List<FileSet> fileSets = new ArrayList<FileSet>();
+        private List<FileSet> fileSets = new ArrayList<>();
 
         public void setOutFile(File file) {
             m.outFile = file;
@@ -154,7 +154,7 @@ public class Main
     public void addFiles(File baseDir, String[] paths) {
         if (paths == null)
             return;
-        List<File> files = new ArrayList<File>();
+        List<File> files = new ArrayList<>();
         if (inFiles != null)
             files.addAll(Arrays.asList(inFiles));
         for (String path : paths) files.add(new File(baseDir, path));
