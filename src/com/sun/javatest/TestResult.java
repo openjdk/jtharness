@@ -752,7 +752,7 @@ public class TestResult {
                         String OVERFLOW_MESSAGE =
                             "\n\n...\n"
                             + "Output overflow:\n"
-                            + "JT Harness has limited the test output to the text to that\n"
+                            + "JT Harness has limited the test output to the text\n"
                             + "at the beginning and the end, so that you can see how the\n"
                             + "test began, and how it completed.\n"
                             + "\n"
