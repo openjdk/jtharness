@@ -127,8 +127,8 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     public int getChildCount() {
         scanIfNeeded();
 
-        if (childs == null) return 0;
-        else return childs.length;
+        if (children == null) return 0;
+        else return children.length;
     }
 
     @Override
@@ -150,10 +150,10 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         if (!suppressScan)
             scanIfNeeded();
 
-        if (childs == null || index >= childs.length)
+        if (children == null || index >= children.length)
             return null;
         else
-            return childs[index];
+            return children[index];
     }
 
     /**
@@ -165,10 +165,10 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
         TestResult[] leafs = null;
 
-        if (childs != null && childs.length != 0) {
-            for (int i = 0; i < childs.length; i++) {
-                if (childs[i] instanceof TestResult)
-                    leafs = (TestResult[]) DynamicArray.append(leafs, childs[i]);
+        if (children != null && children.length != 0) {
+            for (Object child : children) {
+                if (child instanceof TestResult)
+                    leafs = (TestResult[]) DynamicArray.append(leafs, child);
             }   // for
         }
 
@@ -183,14 +183,14 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     public TestResultTable.TreeNode[] getTreeNodes() {
         scanIfNeeded();
 
-        if (childs == null)
+        if (children == null)
             return null;
 
         TestResultTable.TreeNode[] leafs = null;
 
-        for (int i = 0; i < childs.length; i++) {
-            if (childs[i] instanceof TestResultTable.TreeNode)
-                leafs = (TestResultTable.TreeNode[]) DynamicArray.append(leafs, childs[i]);
+        for (Object child : children) {
+            if (child instanceof TreeNode)
+                leafs = (TreeNode[]) DynamicArray.append(leafs, child);
         }
 
         return leafs;
@@ -205,13 +205,13 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     public boolean isLeaf(int index) {
         scanIfNeeded();
 
-        if (index < 0 || index >= childs.length)
+        if (index < 0 || index >= children.length)
             return false;
-        else if (childs[index] instanceof TestResult)
+        else if (children[index] instanceof TestResult)
             return true;
-        else if (childs[index] instanceof TRT_TreeNode) {
+        else if (children[index] instanceof TRT_TreeNode) {
             // if there are no nodes or tests below, then...
-            return childs == null || childs.length == 0;
+            return children == null || children.length == 0;
         }
         else        // should never be the case
             return false;
@@ -238,11 +238,11 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
         if (target == null)
             return -2;
-        else if (childs == null)
+        else if (children == null)
             return -1;      // not found
         else {
-            for (int i = 0; i < childs.length; i++)
-                if (childs[i] == target) return i;
+            for (int i = 0; i < children.length; i++)
+                if (children[i] == target) return i;
         }
 
         // not found
@@ -264,11 +264,11 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         //if (file.isDirectory())
         //   throw new JavaTestError(i18n, "trttn.noPaths");
 
-        if (childs == null || childs.length == 0) return null;
+        if (children == null || children.length == 0) return null;
 
-        for (int i = 0; i < childs.length; i++) {
-            if (childs[i] instanceof TestResult) {
-                TestResult tr = (TestResult) childs[i];
+        for (int i = 0; i < children.length; i++) {
+            if (children[i] instanceof TestResult) {
+                TestResult tr = (TestResult) children[i];
 
                 try {
                     String name = tr.getDescription().getRootRelativeURL();
@@ -281,8 +281,8 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
                     Debug.println("   -> trying to match against " + name);
 
                 if ( name.equals(url) ) {
-                    found = (TestResult)childs[i];
-                    i = childs.length;    // exit loop
+                    found = (TestResult) children[i];
+                    i = children.length;    // exit loop
                 }
                 else
                     found = null;
@@ -302,7 +302,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      * a name.
      */
     TRT_TreeNode(TestResultTable table, TestResultTable.TreeNode parent) {
-        childs = null;
+        children = null;
         counter = 0;
         name = null;        // the only node with this value null is the root
         this.table = table;
@@ -417,19 +417,19 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         //if (file.isDirectory())
         //   throw new JavaTestError(i18n, "trttn.noPaths");
 
-        if (childs == null || childs.length == 0) return null;
+        if (children == null || children.length == 0) return null;
 
-        for (int i = 0; i < childs.length; i++) {
-            if (childs[i] instanceof TestResult) {
+        for (int i = 0; i < children.length; i++) {
+            if (children[i] instanceof TestResult) {
                 File trName = new File(
-                    ((TestResult)(childs[i])).getWorkRelativePath());
+                    ((TestResult)(children[i])).getWorkRelativePath());
 
                 if (debug > 1)
                     Debug.println("   -> trying to match against " + trName.getName());
 
                 if ( name.equals(trName.getName()) ) {
-                    found = (TestResult)childs[i];
-                    i = childs.length;    // exit loop
+                    found = (TestResult)children[i];
+                    i = children.length;    // exit loop
                 }
                 else
                     found = null;
@@ -521,10 +521,10 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
         int found = -1;
 
-        if (childs != null && childs.length != 0) {
-            for (int i = 0; i < childs.length; i++) {
-                if (childs[i] instanceof TestResult) {
-                    TestResult tr = (TestResult)childs[i];
+        if (children != null && children.length != 0) {
+            for (int i = 0; i < children.length; i++) {
+                if (children[i] instanceof TestResult) {
+                    TestResult tr = (TestResult) children[i];
 
                     if (tr.getWorkRelativePath().equals(jtrPath)) {
                         found = i;
@@ -577,12 +577,12 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         if (name == null)
             throw new JavaTestError(i18n, "trttn.nullSearch");
 
-        if (childs == null || childs.length == 0)
+        if (children == null || children.length == 0)
             found = -1;
         else {
-            for (int i = 0; i < childs.length; i++) {
-                if (childs[i] instanceof TRT_TreeNode) {
-                    TRT_TreeNode tn = (TRT_TreeNode)childs[i];
+            for (int i = 0; i < children.length; i++) {
+                if (children[i] instanceof TRT_TreeNode) {
+                    TRT_TreeNode tn = (TRT_TreeNode) children[i];
                     if (tn.getName().equals(name)) {
                         found = i;
                         break;
@@ -618,8 +618,8 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             return;
         }
 
-        if (childs == null)
-            childs = new Object[0];
+        if (children == null)
+            children = new Object[0];
         /*
         File thisDir = new File(table.getTestFinder().getRootDir().getAbsolutePath() + File.separator +
                                 TestResultTable.getRootRelativePath(this));
@@ -678,7 +678,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
     // SPECIAL TEST REFRESH/REPLACE METHODS
     synchronized TestResult resetTest(int index, TestResult tr) {
-        if (!(childs[index] == tr))
+        if (!(children[index] == tr))
             return null;
 
         // remove the JTR file
@@ -775,15 +775,14 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             ArrayList<TreeNode> nodesUsed = new ArrayList<>();
             ArrayList<TestResult> usedTests = new ArrayList<>();
 
-            for (int i = 0; i < files.length; i++) {
-                if (table.isBranchFile(files[i])) {
-                    nodesUsed.add(updateDirectory(files[i]));
-                }
-                else {
+            for (File file : files) {
+                if (table.isBranchFile(file)) {
+                    nodesUsed.add(updateDirectory(file));
+                } else {
                     // scan if file is newer than the last time this folder
                     // was scanned (cachedScanDate)
-                    if (table.getLastModifiedTime(files[i]) > cachedScanDate)
-                        usedTests.addAll(updateFile(files[i]));
+                    if (table.getLastModifiedTime(file) > cachedScanDate)
+                        usedTests.addAll(updateFile(file));
                     else {
                     }
                 }
@@ -792,16 +791,15 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             // look for deleted nodes
             TreeNode[] origNodes = getTreeNodes();
             if (origNodes != null && origNodes.length != 0) {
-               for (Iterator<TreeNode> i = nodesUsed.iterator(); i.hasNext(); ) {
-                   TreeNode n = i.next();
-                   for (int j = 0; j < origNodes.length; j++)
-                       if (origNodes[j] == n)
-                           origNodes[j] = null;
-               }        // for
+                for (TreeNode n : nodesUsed) {
+                    for (int j = 0; j < origNodes.length; j++)
+                        if (origNodes[j] == n)
+                            origNodes[j] = null;
+                }        // for
 
-               for (int i = 0; i < origNodes.length; i++)
-                    if (origNodes[i] != null) {
-                        rmChild((TRT_TreeNode) origNodes[i]);
+                for (TreeNode origNode : origNodes)
+                    if (origNode != null) {
+                        rmChild((TRT_TreeNode) origNode);
                     }
             }
             // discard
@@ -811,12 +809,11 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             // look for tests which no longer exist (from finder)
             TestResult[] currTests = getTestResults();
             if (currTests != null && currTests.length != 0) {
-               for (Iterator<TestResult> i = usedTests.iterator(); i.hasNext(); ) {
-                   TestResult t = i.next();
-                   for (int j = 0; j < currTests.length; j++)
-                       if (currTests[j] == t)
-                           currTests[j] = null;
-               }        // for
+                for (TestResult tr : usedTests) {
+                    for (int j = 0; j < currTests.length; j++)
+                        if (currTests[j] == tr)
+                            currTests[j] = null;
+                }        // for
 
                for (int i = 0; i < currTests.length; i++)
                     if (currTests[i] != null) {
@@ -884,13 +881,13 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         TreeNode theNode = null;
 
         if (nodes != null) {
-            for (int i = 0; i < nodes.length; i++) {
-                if (nodes[i].getName().equals(dirName)) {
+            for (TreeNode node : nodes) {
+                if (node.getName().equals(dirName)) {
                     found = true;
-                    theNode = nodes[i];
+                    theNode = node;
                     break;
-                }
-                else { } //continue
+                } else {
+                } //continue
             }   // for
         }
         else    // node nodes, must be a new directory
@@ -943,24 +940,23 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             System.arraycopy(tds_tmp, 0, tds, 0, tds_tmp.length);
         }       // sync
 
-        for (int i = 0; i < tds.length; i++) {
-            TestResult tr = getTestResult(tds[i].getRootRelativeURL());
+        for (TestDescription td : tds) {
+            TestResult tr = getTestResult(td.getRootRelativeURL());
             TestDescription oldTd = null;
             try {
                 // drop thru if tr is null
                 if (tr != null)
                     oldTd = tr.getDescription();
-            }
-            catch (TestResult.Fault f) {
+            } catch (TestResult.Fault f) {
                 // oh well, recover without it
                 // oldTd will be null, and we'll generate a new one
             }   // catch
 
-            if (tr == null || oldTd == null || !tds[i].equals(oldTd)) {
-                TestResult newTr = TestResult.notRun(tds[i]);
+            if (tr == null || oldTd == null || !td.equals(oldTd)) {
+                TestResult newTr = TestResult.notRun(td);
 
                 if (tr == null && oldTd == null) {
-                    TestResult tmpTr = table.getCachedResult(tds[i]);
+                    TestResult tmpTr = table.getCachedResult(td);
                     if (tmpTr != null) {
                         newTr = tmpTr;
                     }
@@ -980,8 +976,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
                 }
 
                 result.add(newTr);
-            }
-            else {
+            } else {
                 result.add(tr);
             }       // replacement not necessary
         }   // for
@@ -1032,9 +1027,9 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             synchronized (finder) {
                 finder.read(fileToScan);
                 TestDescription[] tds = finder.getTests();
-                for (int i = 0; i < tds.length; i++)
-                    if (tds[i].getRootRelativeURL().equals(name)) {
-                        possibleNew = tds[i];   // found
+                for (TestDescription td : tds)
+                    if (td.getRootRelativeURL().equals(name)) {
+                        possibleNew = td;   // found
                         break;
                     }
             }   // sync
@@ -1056,9 +1051,9 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     }
 
     private TestResult replaceTest(TestResult newTr, int index) {
-        TestResult oldTr = (TestResult)childs[index];
+        TestResult oldTr = (TestResult) children[index];
 
-        childs[index] = newTr;
+        children[index] = newTr;
         notifyReplacedResult(oldTr, newTr, index);
         newTr.setParent(this);
         oldTr.setParent(null);
@@ -1145,54 +1140,51 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      */
     private synchronized void insertFinderFiles(TRT_TreeNode node, File[] files) {
 
-        for (int i = 0; i < files.length; i++) {
+        for (File file : files) {
             if (debug > 1) {
                 Debug.print("   => into ");
                 Debug.println(node.getName());
                 Debug.print("   => original file is: ");
-                Debug.println(files[i].getPath());
+                Debug.println(file.getPath());
             }
 
-            String url = makeNodeRelative(files[i]);
+            String url = makeNodeRelative(file);
 
             if (debug > 1)
                 Debug.println("   => stripped file is: " + url);
 
             // strip the trailing slash
-            if (url.charAt(url.length()-1) == '/')
-                url = url.substring(0, url.length()-1);
+            if (url.charAt(url.length() - 1) == '/')
+                url = url.substring(0, url.length() - 1);
 
             // determine if url is node local
             if (url.indexOf('/') == -1) {
                 // could be local file or directory name
                 //     file.html
                 //     directory
-                if (getEnclosingTable().isBranchFile(files[i])) {
+                if (getEnclosingTable().isBranchFile(file)) {
                     // file or dir?
                     if (debug > 1)
                         Debug.println("   => directory, creating node");
 
                     try {
                         TRT_TreeNode newNode = createDirNode(node, url);
-                    }
-                    catch (Fault f) {
+                    } catch (Fault f) {
                         throw new JavaTestError(i18n, "trttn.nameClash", f);
                     }
-                }
-                else {
+                } else {
                     // file, web walk?
                     if (debug > 1)
                         Debug.println("   => file, adding to scan list");
 
-                    addToScanList(this, url, files[i]);
+                    addToScanList(this, url, file);
                 }
-            }
-            else {
+            } else {
                 // could be:
                 //    directory/
                 //    directory/file.html
                 //    infinite subdirs with or w/o file.html at the end
-                recursiveFinderInsert(this, files[i], url);
+                recursiveFinderInsert(this, file, url);
             }
 
             if (debug > 1)
@@ -1336,8 +1328,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         TRT_TreeNode [] children = (TRT_TreeNode[]) node.getTreeNodes();
 
         if (children != null && children.length != 0) {
-            for (int i = 0; i < children.length; i++)
-                scanSubtree(children[i]);
+            for (TRT_TreeNode child : children) scanSubtree(child);
         }
     }
 
@@ -1477,7 +1468,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             Debug.println("   -> local node ref: " + this);
             Debug.println("   -> local node name: " + this.getName());
             Debug.println("   -> local size: " +
-                            (childs == null ? 0 : childs.length));
+                            (children == null ? 0 : children.length));
         }
 
         int oldIndex = getTestIndex(tr, suppressScan);
@@ -1494,10 +1485,10 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
                 try {
                     // XXX should cache result of Class.forName
-                    childs = DynamicArray.append(childs, tr, Class.forName("java.lang.Object"));
+                    children = DynamicArray.append(children, tr, Class.forName("java.lang.Object"));
                     tr.setParent(this);
                     bubbleUpCounterInc();
-                    notifyInsResult(tr, childs.length-1);
+                    notifyInsResult(tr, children.length-1);
                 }       // try
                 catch (ClassNotFoundException e) {
                     throw new JavaTestError(i18n, "trttn.noObject", e);
@@ -1506,8 +1497,8 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         }
         else if (shouldReplaceTest(oldIndex, tr, suppressScan)) {
             // replace a previous result
-            oldTR = (TestResult)childs[oldIndex];
-            childs[oldIndex] = tr;
+            oldTR = (TestResult) children[oldIndex];
+            children[oldIndex] = tr;
             if (debug > 0) {
                 Debug.println("   -> ** replacing existing TR with " + tr);
                 Debug.println("   -> " + tr.getTestName());
@@ -1525,11 +1516,11 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             // does this produce correct semantics?
             if (debug > 1) {
                 Debug.println("   -> ** TRT selectively ignoring insert of " + tr);
-                //Debug.println("   -> " + ((TestResult)(childs[oldIndex])).getTestName());
+                //Debug.println("   -> " + ((TestResult)(children[oldIndex])).getTestName());
                 // a cast exception here indicates a problem, the item at oldIndex
                 // should indeed be a TestResult
-                Debug.println("   -> old status: " + ((TestResult) childs[oldIndex]).getStatus().toString());
-                Debug.println("   -> curr. ref in TRT: " + childs[oldIndex]);
+                Debug.println("   -> old status: " + ((TestResult) children[oldIndex]).getStatus().toString());
+                Debug.println("   -> curr. ref in TRT: " + children[oldIndex]);
                 Debug.println("   -> ignored new ref.: " + tr);
             }
 
@@ -1553,7 +1544,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             scanIfNeeded();
 
         try {
-            childs = DynamicArray.append(childs, tn,
+            children = DynamicArray.append(children, tn,
                                          Class.forName("java.lang.Object"));
         }
         catch (ClassNotFoundException e) {
@@ -1566,13 +1557,13 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      * exists there.
      */
     synchronized int rmChild(TRT_TreeNode tn) {
-        if (childs == null)
+        if (children == null)
             throw new IllegalStateException("Node is empty!");
 
-        for (int i = 0; i < childs.length; i++) {
-            if (childs[i] == tn) {
-                Object[] newarr = DynamicArray.remove(childs, i);
-                childs = newarr == null ? new Object[0] : newarr;
+        for (int i = 0; i < children.length; i++) {
+            if (children[i] == tn) {
+                Object[] newarr = DynamicArray.remove(children, i);
+                children = newarr == null ? new Object[0] : newarr;
                 invalidateChildStats();
                 notifyRemovedBranch(i);
 
@@ -1590,13 +1581,13 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      * exists there.
      */
     synchronized int rmChild(TestResult tr) {
-        if (childs == null)
+        if (children == null)
             throw new IllegalStateException("Node is empty!");
 
-        for (int i = 0; i < childs.length; i++) {
-            if (childs[i] == tr) {
-                Object[] newarr = DynamicArray.remove(childs, i);
-                childs = newarr == null ? new Object[0] : newarr;
+        for (int i = 0; i < children.length; i++) {
+            if (children[i] == tr) {
+                Object[] newarr = DynamicArray.remove(children, i);
+                children = newarr == null ? new Object[0] : newarr;
                 invalidateChildStats();
                 notifyRemovedResult(tr, i);
                 return i;
@@ -1628,11 +1619,11 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     private boolean shouldReplaceTest(int index, TestResult newone,
                                       boolean suppressScan) {
         // check for out of range indexes, types and null
-        if (!(childs[index] instanceof TestResult) || newone == null ||
-            index < 0 || index >= childs.length)
+        if (!(children[index] instanceof TestResult) || newone == null ||
+            index < 0 || index >= children.length)
             return false;
 
-        TestResult orig = (TestResult) childs[index];
+        TestResult orig = (TestResult) children[index];
 
         // check that test names match
         // this actually should never fail
@@ -1710,10 +1701,10 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
         node.childStats = new int[Status.NUM_STATES];
 
-        for (int i= 0; i < node.childs.length; i++) {
-            if (node.childs[i] instanceof TRT_TreeNode) {
+        for (int i = 0; i < node.children.length; i++) {
+            if (node.children[i] instanceof TRT_TreeNode) {
                 // node is another branch
-                TRT_TreeNode child = (TRT_TreeNode) node.childs[i];
+                TRT_TreeNode child = (TRT_TreeNode) node.children[i];
                 int[] stats = child.getChildStatus();
 
                 for (int j = 0; j < stats.length; j++)
@@ -1721,7 +1712,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             }
             else {
                 // node is a test result
-                TestResult tr = (TestResult) node.childs[i];
+                TestResult tr = (TestResult) node.children[i];
                 node.childStats[tr.getStatus().getType()]++;
             }
         }
@@ -1773,54 +1764,50 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
 
         if (observers != null)
-            for (int i = 0; i < observers.length; i ++)
-                observers[i].insertedBranch(this, newNode, index);
+            for (TestResultTable.TreeNodeObserver observer : observers) observer.insertedBranch(this, newNode, index);
     }
 
     private void notifyInsResult(TestResult test, int index) {
         TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
 
         if (observers != null)
-            for (int i = 0; i < observers.length; i ++)
-                observers[i].insertedResult(this, test, index);
+            for (TestResultTable.TreeNodeObserver observer : observers) observer.insertedResult(this, test, index);
     }
 
     private void notifyReplacedResult(TestResult oldTest, TestResult newTest, int index) {
         TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
 
         if (observers != null)
-            for (int i = 0; i < observers.length; i ++)
-                observers[i].replacedResult(this, oldTest, newTest, index);
+            for (TestResultTable.TreeNodeObserver observer : observers)
+                observer.replacedResult(this, oldTest, newTest, index);
     }
 
     private void notifyRemovedBranch(int index) {
         TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
 
         if (observers != null)
-            for (int i = 0; i < observers.length; i ++)
-                observers[i].removedBranch(this, index);
+            for (TestResultTable.TreeNodeObserver observer : observers) observer.removedBranch(this, index);
     }
 
     private void notifyRemovedResult(TestResult test, int index) {
         TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
 
         if (observers != null)
-            for (int i = 0; i < observers.length; i ++)
-                observers[i].removedResult(this, test, index);
+            for (TestResultTable.TreeNodeObserver observer : observers) observer.removedResult(this, test, index);
     }
 
     private void notifyCounterChange() {
         TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
         if (observers != null)
-            for (int i = 0; i < observers.length; i ++) {
-                observers[i].countersInvalidated(this);
+            for (TestResultTable.TreeNodeObserver observer : observers) {
+                observer.countersInvalidated(this);
             }
     }
 
     /**
      * null if the node has not been scanned, zero length if it is actually empty
      */
-    private Object[] childs;            // contains combo of TreeNodes or TestResults
+    private Object[] children;            // contains combo of TreeNodes or TestResults
     private TRT_TreeNode parent;        // should never be null, unless root
     private TestResultTable table;      // what table this node is in
 
