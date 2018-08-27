@@ -914,7 +914,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         }
 
         @Override
-        public void statsUpdated(int[] stats) {
+        public void statsUpdated(int... stats) {
             // ignore
         }
     }

@@ -92,7 +92,7 @@ public class Interview
          * @param o An array of arguments to be formatted with the detail message by
          * {@link java.text.MessageFormat#format}
          */
-        public Fault(ResourceBundle i18n, String s, Object[] o) {
+        public Fault(ResourceBundle i18n, String s, Object... o) {
             super(MessageFormat.format(i18n.getString(s), o));
         }
     }
@@ -913,11 +913,11 @@ public class Interview
         return q;
     }
 
-    private void setCurrentQuestionFromPath(Question[] path) {
+    private void setCurrentQuestionFromPath(Question... path) {
         root.setCurrentQuestionFromPath0(path);
     }
 
-    private void setCurrentQuestionFromPath0(Question[] path) {
+    private void setCurrentQuestionFromPath0(Question... path) {
         for (int i = path.length - 1; i >= 0; i--) {
             if (setCurrentQuestion0(path[i])) {
                 notifyCurrentQuestionChanged(path[i]);
@@ -1211,7 +1211,7 @@ public class Interview
      * @param textArgs an array of arguments to be formatted into the checklist item text
      * @return a Checklist.Item object composed from the appropriate entries in the interview's resource bundle and the specified argument values
      */
-    public Checklist.Item createChecklistItem(String sectionKey, String textKey, Object[] textArgs) {
+    public Checklist.Item createChecklistItem(String sectionKey, String textKey, Object... textArgs) {
         String section = getI18NString(sectionKey);
         String text = getI18NString(textKey, textArgs);
         return new Checklist.Item(section, text);
@@ -2533,7 +2533,7 @@ public class Interview
      * @return the formatted string
      */
     private String getI18NString(String key, Object arg) {
-        return getI18NString(key, new Object[] { arg });
+        return getI18NString(key, arg);
     }
 
     /**
@@ -2545,7 +2545,7 @@ public class Interview
      * {@link java.text.MessageFormat#format}
      * @return the formatted string
      */
-    private String getI18NString(String key, Object[] args) {
+    private String getI18NString(String key, Object... args) {
         try {
             ResourceBundle b = getResourceBundle();
             if (b != null)

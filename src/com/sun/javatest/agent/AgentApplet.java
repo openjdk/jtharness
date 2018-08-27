@@ -316,17 +316,17 @@ public class AgentApplet extends Applet implements Agent.Observer
     }
 
     @Override
-    public synchronized void execTest(Agent sl, Connection c, String tag, String className, String[] args) {
+    public synchronized void execTest(Agent sl, Connection c, String tag, String className, String... args) {
         showStatus("EXEC");
     }
 
     @Override
-    public synchronized void execCommand(Agent sl, Connection c, String tag, String className, String[] args) {
+    public synchronized void execCommand(Agent sl, Connection c, String tag, String className, String... args) {
         showStatus("EXEC");
     }
 
     @Override
-    public synchronized void execMain(Agent sl, Connection c, String tag, String className, String[] args) {
+    public synchronized void execMain(Agent sl, Connection c, String tag, String className, String... args) {
         showStatus("EXEC");
     }
 

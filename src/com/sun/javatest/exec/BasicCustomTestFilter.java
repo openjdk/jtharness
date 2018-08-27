@@ -509,7 +509,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
      * If null or zero length, the list is cleared.
      * @param files The files to add.  Null ok.
      */
-    private void setExcludeFiles(File[] files) {
+    private void setExcludeFiles(File... files) {
         jtxFiles.removeAllElements();
 
         if (files == null || files.length == 0) {

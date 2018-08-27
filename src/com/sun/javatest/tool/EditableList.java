@@ -129,7 +129,7 @@ public class EditableList extends JComponent implements Accessible
      * @param items the array of items to be put in the list.
      * @see #getItems
      */
-    public void setItems(Object[] items) {
+    public void setItems(Object... items) {
         listModel.clear();
         if (items != null) {
             for (Object item : items) listModel.addElement(item);
@@ -327,7 +327,7 @@ public class EditableList extends JComponent implements Accessible
 
     private void showDuplicateError(Object item) {
         String text = uif.getI18NString("list.duplicate.text",
-                                        new Object[] { getDisplayValue(item) });
+                getDisplayValue(item));
 
         String title = uif.getI18NString("list.duplicate.title");
 

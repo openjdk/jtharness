@@ -79,7 +79,7 @@ public abstract class CommandManager {
      * @param s2 An array of strings, such as command names, to be matched
      * @return true if a match is found, and false otherwise
      */
-    protected static boolean isMatch(String s1, String[] s2) {
+    protected static boolean isMatch(String s1, String... s2) {
         for (String aS2 : s2) {
             if (s1.equalsIgnoreCase(aS2))
                 return true;

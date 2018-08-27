@@ -109,7 +109,7 @@ public class LogFile
      *          If the first arg is a <code>Throwable</code>, its stack
      *          trace will be included in the log.
      */
-    public void log(I18NResourceBundle i18n, String key, Object[] args) {
+    public void log(I18NResourceBundle i18n, String key, Object... args) {
         if (args != null && args.length > 0 && args[0] instanceof Throwable)
             log(i18n.getString(key, args), (Throwable)args[0]);
         else
@@ -135,7 +135,7 @@ public class LogFile
                 // oh well
                 if (!logError) {
                     // just report first instance
-                    String msg = local_i18n.getString("log.error", new Object[] { file, e.toString() });
+                    String msg = local_i18n.getString("log.error", file, e.toString());
                     System.err.println(msg);
                     logError = true;
                 }

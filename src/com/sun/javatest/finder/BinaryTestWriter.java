@@ -107,7 +107,7 @@ public class BinaryTestWriter
      *          <td>The output file in which to write the results.
      * </table>
      */
-    public static void main(String[] args) {
+    public static void main(String... args) {
         int result = 0;
 
         try {
@@ -163,7 +163,7 @@ public class BinaryTestWriter
      *                  or write the output file
      * @see #main
      */
-    public int run(String[] args) throws BadArgs, Fault, IOException {
+    public int run(String... args) throws BadArgs, Fault, IOException {
         File testSuite = null;
         String finder = "com.sun.javatest.finder.TagTestFinder";
         String[] finderArgs = { };
@@ -769,7 +769,7 @@ public class BinaryTestWriter
              * Create a node. The individual test descriptions are added to
              * the tree's test table.
              */
-            Node(String name, TestDescription[] tests, Node[] children) {
+            Node(String name, TestDescription[] tests, Node... children) {
                 this.name = name;
                 this.tests = tests;
                 this.children = children;

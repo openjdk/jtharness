@@ -449,9 +449,9 @@ public class Audit
         else {
             Integer b = Integer.valueOf(badDates ? 1 : 0);
             out.println(i18n.getString("adt.earliestResult",
-                                    new Object[] {earliestStart, b}));
+                    earliestStart, b));
             out.println(i18n.getString("adt.latestResult",
-                                    new Object[] {latestStart, b}));
+                    latestStart, b));
             if (badDates)
                 out.println(i18n.getString("adt.badDateStamps"));
         }
@@ -469,11 +469,7 @@ public class Audit
                 out.println(i18n.getString("adt.env.allOK"));
             else {
                 out.println(i18n.getString("adt.env.count",
-                                           new Object[] {
-                                                   Integer.valueOf(u),
-                                                   Integer.valueOf((u > 0 && m > 0) ? 1 : 0),
-                                                   Integer.valueOf(m)
-                                                   } ));
+                        Integer.valueOf(u), Integer.valueOf((u > 0 && m > 0) ? 1 : 0), Integer.valueOf(m)));
             }
         }
     }
@@ -498,7 +494,7 @@ public class Audit
             if (allValuesForKey.size() == 1) {
                 if (showAll)
                     out.println(i18n.getString("adt.envKeyValue",
-                            new Object[]{key, allValuesForKey.elementAt(0)}));
+                            key, allValuesForKey.elementAt(0)));
             } else {
                 out.println(i18n.getString("adt.envKey", key));
                 for (int j = 0; j < allValuesForKey.size(); j++) {
@@ -521,13 +517,7 @@ public class Audit
                 out.println(i18n.getString("adt.cs.allOK"));
             else
                 out.println(i18n.getString("adt.cs.count",
-                                           new Object[] {
-                                                   Integer.valueOf(g),
-                                                   Integer.valueOf((g > 0) && (b + n > 0) ? 1 : 0),
-                                                   Integer.valueOf(b),
-                                                   Integer.valueOf((b > 0) && (n > 0) ? 1 : 0),
-                                                   Integer.valueOf(n)
-                                                   }));
+                        Integer.valueOf(g), Integer.valueOf((g > 0) && (b + n > 0) ? 1 : 0), Integer.valueOf(b), Integer.valueOf((b > 0) && (n > 0) ? 1 : 0), Integer.valueOf(n)));
         }
     }
 
@@ -547,15 +537,7 @@ public class Audit
                 out.println(i18n.getString("adt.status.allOK"));
             else
                 out.println(i18n.getString("adt.status.count",
-                                           new Object[] {
-                                                   Integer.valueOf(p),
-                                                   Integer.valueOf((p > 0) && (f + e + nr > 0) ? 1 : 0),
-                                                   Integer.valueOf(f),
-                                                   Integer.valueOf((f > 0) && (e + nr > 0) ? 1 : 0),
-                                                   Integer.valueOf(e),
-                                                   Integer.valueOf((e > 0) && (nr > 0) ? 1 : 0),
-                                                   Integer.valueOf(nr)
-                                                   }));
+                        Integer.valueOf(p), Integer.valueOf((p > 0) && (f + e + nr > 0) ? 1 : 0), Integer.valueOf(f), Integer.valueOf((f > 0) && (e + nr > 0) ? 1 : 0), Integer.valueOf(e), Integer.valueOf((e > 0) && (nr > 0) ? 1 : 0), Integer.valueOf(nr)));
         }
     }
 
@@ -571,7 +553,7 @@ public class Audit
             return needSep;
         else {
             out.print(i18n.getString(msg,
-                                  new Object[] {Integer.valueOf(needSep ? 1 : 0), Integer.valueOf(count)}));
+                    Integer.valueOf(needSep ? 1 : 0), Integer.valueOf(count)));
             return true;
         }
     }

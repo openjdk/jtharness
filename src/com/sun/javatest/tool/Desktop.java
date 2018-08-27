@@ -1151,7 +1151,7 @@ public class Desktop
      *          trace will be included in the log.
      * @since 3.0.1
      */
-    public void log(I18NResourceBundle i18n, String key, Object[] args) {
+    public void log(I18NResourceBundle i18n, String key, Object... args) {
         ensureLogFileInitialized();
         logFile.log(i18n, key, args);
     }
@@ -1418,7 +1418,7 @@ public class Desktop
 
         try {
             ManagerLoader ml = new ManagerLoader(ToolManager.class, System.err);
-            ml.setManagerConstructorArgs(new Class<?>[] { Desktop.class }, new Object[] { this });
+            ml.setManagerConstructorArgs(new Class<?>[] { Desktop.class }, this);
             Set<?> s = ml.loadManagers(TOOLMGRLIST);
             toolManagers = s.toArray(new ToolManager[s.size()]);
         }
@@ -1447,7 +1447,7 @@ public class Desktop
         }
     }
 
-    private static void appendStrings(StringBuffer sb, String[] msgs) {
+    private static void appendStrings(StringBuffer sb, String... msgs) {
         if (msgs != null) {
             for (String msg : msgs) {
                 sb.append(msg);
@@ -1547,7 +1547,7 @@ public class Desktop
         }
     }
 
-    private static int indexOf(String s, String[] a) {
+    private static int indexOf(String s, String... a) {
         for (int i = 0; i < a.length; i++) {
             if (s == null ? a[i] == null : s.equals(a[i]))
                 return i;

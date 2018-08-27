@@ -144,7 +144,7 @@ public class FileParameters
      * @param args The args used to initialize the FileParameters object.
      * @throws IllegalArgumentException If an unrecognized argument is found.
      */
-    public FileParameters(String[] args) {
+    public FileParameters(String... args) {
         String testSuiteArg = null;
         String workDirArg = null;
         String testsArgs = null;
@@ -228,7 +228,7 @@ public class FileParameters
     }
 
     @Override
-    public void setEnvFiles(File[] files) {
+    public void setEnvFiles(File... files) {
         envFiles = files;
     }
 
@@ -324,14 +324,14 @@ public class FileParameters
                                     entry.key + "=" + entry.value;
                     cachedEnv = null;
                     envError = i18n.getString("fp.undefinedEntry",
-                            new Object[]{eText, entry.definedInFile});
+                            eText, entry.definedInFile);
                     return;
                 }
             }
         }
         catch (TestEnvironment.Fault e) {
             cachedEnv = null;
-            envError = i18n.getString("fp.badEnv", new Object[] {envName, e.getMessage()});
+            envError = i18n.getString("fp.badEnv", envName, e.getMessage());
             return;
         }
         cachedEnv = env;
@@ -446,7 +446,7 @@ public class FileParameters
 
     //---------------------------------------------------------------------
 
-    private void setPriorStatusValues(String op, String[] values) {
+    private void setPriorStatusValues(String op, String... values) {
         if (op == null || !op.equals("allOf"))
             setPriorStatusValues((boolean[]) null);
         else {

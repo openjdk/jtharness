@@ -208,7 +208,7 @@ System.out.println("FORCE REMOTE " + name);
     }
 
     private class AgentURLStreamHandler extends URLStreamHandler {
-        AgentURLStreamHandler(byte[] bytes) {
+        AgentURLStreamHandler(byte... bytes) {
             super();
             this.bytes = bytes;
         }
@@ -227,7 +227,7 @@ System.out.println("FORCE REMOTE " + name);
             super(url);
         }
 
-        AgentURLConnection(URL url, byte[] bytes) {
+        AgentURLConnection(URL url, byte... bytes) {
             super(url);
             this.bytes = bytes;
         }

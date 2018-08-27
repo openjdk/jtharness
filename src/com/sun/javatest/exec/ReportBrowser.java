@@ -60,7 +60,7 @@ class ReportBrowser extends ToolDialog
             setVisible(true);
         }
         catch (IOException e) {
-            uif.showError("rb.load.error", new Object[] { f, e });
+            uif.showError("rb.load.error", f, e);
         }
     }
 

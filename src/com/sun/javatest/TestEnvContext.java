@@ -55,7 +55,7 @@ public class TestEnvContext
             super(i18n.getString(s, o));
         }
 
-        Fault(I18NResourceBundle i18n, String s, Object[] o) {
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
         }
     }
@@ -65,7 +65,7 @@ public class TestEnvContext
      * @param files The environment files to read
      * @throws TestEnvContext.Fault if an error is found while reading the files
      */
-    public TestEnvContext(File[] files) throws Fault {
+    public TestEnvContext(File... files) throws Fault {
         Vector<String> n = new Vector<>();
         Vector<Map<String, String>> p = new Vector<>();
         try {
@@ -91,7 +91,7 @@ public class TestEnvContext
      *  that will be used to identify the source of the properties in any
      *  environments that are created
      */
-    public TestEnvContext(Map<String, String>[] tables, String[] tableNames) {
+    public TestEnvContext(Map<String, String>[] tables, String... tableNames) {
         Vector<String> n = new Vector<>();
         Vector<Map<String, String>> p = new Vector<>();
         for (int i = 0; i < tables.length; i++) {

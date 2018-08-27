@@ -112,7 +112,7 @@ public abstract class IntQuestion extends Question
      * @param newSuggestions The values to be set, or null if none
      * @see #getSuggestions
      */
-    public void setSuggestions(int[] newSuggestions) {
+    public void setSuggestions(int... newSuggestions) {
         suggestions = newSuggestions;
     }
 

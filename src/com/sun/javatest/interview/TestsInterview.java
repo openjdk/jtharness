@@ -101,7 +101,7 @@ public class TestsInterview
     }
 
     @Override
-    public void setTests(String[] tests) {
+    public void setTests(String... tests) {
         if (tests == null) {
             setTestsMode(ALL_TESTS);
         }
@@ -158,7 +158,7 @@ public class TestsInterview
     }
 
     @Override
-    public void setSpecifiedTests(String[] tests) {
+    public void setSpecifiedTests(String... tests) {
         qTreeOrFile.setValue(TREE);
         qTestTree.setValue(tests);
     }
@@ -462,7 +462,7 @@ public class TestsInterview
 
     //----------------------------------------------------------------------------
 
-    private void validateTests(String[] tests) {
+    private void validateTests(String... tests) {
 
         if (equal(tests, cachedTestsValue)) {
             return;
@@ -534,7 +534,7 @@ public class TestsInterview
 
     //----------------------------------------------------------------------------
 
-    private static boolean equal(String[] s1, String[] s2) {
+    private static boolean equal(String[] s1, String... s2) {
         if (s1 == null || s2 == null) {
             return s1 == s2;
         }

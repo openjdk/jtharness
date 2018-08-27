@@ -50,7 +50,7 @@ public class InitialUrlFilter extends TestFilter {
      * zero length arrays are accepted and result in accepts() always returning
      * true.
      */
-    public InitialUrlFilter(File[] initFiles) {
+    public InitialUrlFilter(File... initFiles) {
         this.initFiles = initFiles;
         this.initStrings = null;
         // preprocess
@@ -85,7 +85,7 @@ public class InitialUrlFilter extends TestFilter {
      * or zero length arrays are accepted and result in accepts() always
      * returning true.
      */
-    public InitialUrlFilter(String[] initialUrls) {
+    public InitialUrlFilter(String... initialUrls) {
         initStrings = initialUrls;
         initFiles = null;
         // preprocess, make a copy

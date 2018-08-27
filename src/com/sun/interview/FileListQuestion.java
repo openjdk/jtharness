@@ -66,7 +66,7 @@ public abstract class FileListQuestion extends Question
      *
      * @see #getDefaultValue
      */
-    public void setDefaultValue(File[] v) {
+    public void setDefaultValue(File... v) {
         defaultValue = v;
     }
 
@@ -134,7 +134,7 @@ public abstract class FileListQuestion extends Question
      * @param newValue The value to be set.
      * @see #getValue
      */
-    public void setValue(File[] newValue) {
+    public void setValue(File... newValue) {
         File[] oldValue = value;
         value = newValue;
         if (!equal(value, oldValue)) {
@@ -220,7 +220,7 @@ public abstract class FileListQuestion extends Question
      * @see #setFilters
      * @see #getHintFilters
      */
-    public void setFilters(FileFilter[] fs) {
+    public void setFilters(FileFilter... fs) {
         if (interview.getInterviewSemantics() >= Interview.SEMANTIC_VERSION_50) {
             filters = fs;
         }
@@ -242,7 +242,7 @@ public abstract class FileListQuestion extends Question
      * @see #isValueValid
      * @since 5.0
      */
-    public void setHintFilters(FileFilter[] fs) {
+    public void setHintFilters(FileFilter... fs) {
         hintFilters = fs;
     }
 
@@ -386,7 +386,7 @@ public abstract class FileListQuestion extends Question
      * If the parameter array is null or empty, an empty string is returned.
      * @see #split
      */
-    public static String join(File[] ff) {
+    public static String join(File... ff) {
         if (ff == null || ff.length == 0)
             return "";
 
@@ -421,7 +421,7 @@ public abstract class FileListQuestion extends Question
      * @return true if both arrays are null, or if neither are null and if
      * their contents match, element for element, in order
      */
-    protected static boolean equal(File[] f1, File[] f2) {
+    protected static boolean equal(File[] f1, File... f2) {
         if (f1 == null || f2 == null)
             return f1 == f2;
 

@@ -92,8 +92,7 @@ class CE_ExecutionPane extends CE_StdPane
                 int c = num.intValue();
                 if (c < ConcurrencyParameters.MIN_CONCURRENCY || c > ConcurrencyParameters.MAX_CONCURRENCY) {
                     uif.showError("ce.exec.badRangeConcurrency",
-                                  new Object[] {Integer.valueOf(ConcurrencyParameters.MIN_CONCURRENCY),
-                                          Integer.valueOf(ConcurrencyParameters.MAX_CONCURRENCY)});
+                            Integer.valueOf(ConcurrencyParameters.MIN_CONCURRENCY), Integer.valueOf(ConcurrencyParameters.MAX_CONCURRENCY));
                     return false;
                 }
             }
@@ -120,8 +119,7 @@ class CE_ExecutionPane extends CE_StdPane
                 float t = num.floatValue();
                 if (t < TimeoutFactorParameters.MIN_TIMEOUT_FACTOR || t > TimeoutFactorParameters.MAX_TIMEOUT_FACTOR) {
                     uif.showError("ce.exec.badRangeTimeoutFactor",
-                                  new Object[] { Float.valueOf(TimeoutFactorParameters.MIN_TIMEOUT_FACTOR),
-                                                 Float.valueOf(TimeoutFactorParameters.MAX_TIMEOUT_FACTOR) });
+                            Float.valueOf(TimeoutFactorParameters.MIN_TIMEOUT_FACTOR), Float.valueOf(TimeoutFactorParameters.MAX_TIMEOUT_FACTOR));
                     return false;
                 }
             }

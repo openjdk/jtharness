@@ -78,7 +78,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      *
      * @param filters Which filters to apply to the tests found.  May be null.
      */
-    TRT_Iterator(TestResultTable.TreeNode node, TestFilter[] filters) {
+    TRT_Iterator(TestResultTable.TreeNode node, TestFilter... filters) {
         this();
         this.filters = filters;
         nodes = new TestResultTable.TreeNode[1];
@@ -97,7 +97,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      *        shallow copied.
      * @param filters Which filters to apply to the tests found.  May be null.
      */
-    TRT_Iterator(TestResultTable.TreeNode[] nodes, TestFilter[] filters) {
+    TRT_Iterator(TestResultTable.TreeNode[] nodes, TestFilter... filters) {
         this();
         this.filters = filters;
 
@@ -122,7 +122,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      *              are sent through the filters.  This set of tests is shallow copied.
      * @param filters Which filters to apply to the tests found.  May be null.
      */
-    TRT_Iterator(TestResultTable.TreeNode[] nodes, TestResult[] trs, TestFilter[] filters) {
+    TRT_Iterator(TestResultTable.TreeNode[] nodes, TestResult[] trs, TestFilter... filters) {
         this();
         this.filters = filters;
 
@@ -565,7 +565,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      *
      * @param nodes May be null or zero length.
      */
-    private void init(TestResultTable.TreeNode[] nodes) {
+    private void init(TestResultTable.TreeNode... nodes) {
         if (nodes != null && nodes.length == 0)
             this.nodes = null;
         else

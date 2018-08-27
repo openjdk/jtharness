@@ -47,7 +47,7 @@ public class BadValue extends Exception
      * @param msgs An array of strings giving additional details about the
      *          bad value that was found.
      */
-    public BadValue(String[] msgs) {
+    public BadValue(String... msgs) {
         super(msgs[0]);
         this.msgs = msgs;
     }

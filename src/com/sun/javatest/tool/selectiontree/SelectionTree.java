@@ -760,7 +760,7 @@ public class SelectionTree extends JTree {
         return ((SelectionTreeNode) getModel().getRoot()).getSelectionType() == SelectionType.UNSELECTED;
     }
 
-    public void setSelection(String[] paths) {
+    public void setSelection(String... paths) {
         if (paths == null || paths.length == 0) {
             ((SelectionTreeNode) getModel().getRoot()).changeSelection(SelectionType.SELECTED);
         } else {

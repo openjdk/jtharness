@@ -78,7 +78,7 @@ class FocusMonitor
         return focusMonitor;
     }
 
-    public void setOptions(String[] opts) {
+    public void setOptions(String... opts) {
         for (String opt : opts) {
             if (opt.equals("-open"))
                 setVisible(true);

@@ -117,7 +117,7 @@ public class ExcludeListInterview
     }
 
     @Override
-    public void setExcludeFiles(File[] files) {
+    public void setExcludeFiles(File... files) {
         if (files == null || files.length == 0)
             setExcludeMode(NO_EXCLUDE_LIST);
         else {
@@ -167,7 +167,7 @@ public class ExcludeListInterview
     }
 
     @Override
-    public void setCustomExcludeFiles(File[] files) {
+    public void setCustomExcludeFiles(File... files) {
         qCustomFiles.setValue(files);
     }
 
@@ -600,7 +600,7 @@ public class ExcludeListInterview
 
     //---------------------------------------------------------------------
 
-    private static File[] getAbsoluteFiles(File baseDir, File[] files) {
+    private static File[] getAbsoluteFiles(File baseDir, File... files) {
         if (files == null)
             return null;
 
@@ -629,7 +629,7 @@ public class ExcludeListInterview
         return f1 == null ? f2 == null : f1.equals(f2);
     }
 
-    private static boolean equal(File[] f1, File[] f2) {
+    private static boolean equal(File[] f1, File... f2) {
         if (f1 == null || f2 == null)
             return f1 == f2;
 

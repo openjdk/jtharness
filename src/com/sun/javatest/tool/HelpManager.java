@@ -65,7 +65,7 @@ public class HelpManager extends CommandManager
      * @param commandManagers the command managers for which
      * to give command line help
      */
-    public HelpManager(CommandManager[] commandManagers) {
+    public HelpManager(CommandManager... commandManagers) {
         setCommandManagers(commandManagers);
     }
 
@@ -130,7 +130,7 @@ public class HelpManager extends CommandManager
      * Set the command managers for which to generate command line help.
      * @param commandManagers the command managers for which to generate command line help
      */
-    public void setCommandManagers(CommandManager[] commandManagers) {
+    public void setCommandManagers(CommandManager... commandManagers) {
         this.commandManagers = commandManagers;
     }
 

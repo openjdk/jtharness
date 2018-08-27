@@ -90,7 +90,7 @@ public class APIScript extends Script
 
     //----------private methods-------------------------------------------------
 
-    private Status decodeArgs(String [] args) {
+    private Status decodeArgs(String... args) {
         // decode args
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("-precompileClassDir") && (i+1 < args.length))

@@ -281,7 +281,7 @@ public class HTMLTestFinder extends TestFinder
                     if (c != ';') {
                         if (!Character.isWhitespace((char) c))
                             tag += (char) c;
-                        error(i18n, "html.badEscape", new Object[] {tag, file});
+                        error(i18n, "html.badEscape", tag, file);
                     }
                     if (text != null)
                         text.append(replace);
@@ -299,7 +299,7 @@ public class HTMLTestFinder extends TestFinder
             error(i18n, "html.cantFindFile", file);
         }
         catch (IOException ex) {
-            error(i18n, "html.ioError", new Object[] {file, Integer.valueOf(line), ex});
+            error(i18n, "html.ioError", file, Integer.valueOf(line), ex);
         }
         finally {
             if (input != null) {
@@ -510,7 +510,7 @@ public class HTMLTestFinder extends TestFinder
                 Integer prev = namesInFile.put(value, here);
                 if (prev != null) {
                     error(i18n, "html.multipleName",
-                          new Object[] {value, context, here, prev});
+                            value, context, here, prev);
                 }
             }
         }
@@ -537,7 +537,7 @@ public class HTMLTestFinder extends TestFinder
                 (c != '\n') && (c != '\r') && (c != '>')) ||
                ((quote >= 0) && (c != quote))) {
             if (c == -1 || c == '\n' || c == '\r') {
-                error(i18n, "html.quoteMismatch", new Object[] {currFile, Integer.valueOf(line)});
+                error(i18n, "html.quoteMismatch", currFile, Integer.valueOf(line));
                 break;
             }
             buf.append((char)c);

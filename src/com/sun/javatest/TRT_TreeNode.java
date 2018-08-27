@@ -1138,7 +1138,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     /**
      * Takes the files the Finder returned and creates any needed nodes.
      */
-    private synchronized void insertFinderFiles(TRT_TreeNode node, File[] files) {
+    private synchronized void insertFinderFiles(TRT_TreeNode node, File... files) {
 
         for (File file : files) {
             if (debug > 1) {
@@ -1848,7 +1848,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             super(i18n.getString(s, o));
         }
 
-        Fault(I18NResourceBundle i18n, String s, Object[] o) {
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
         }
     }

@@ -59,7 +59,7 @@ public class ExpandTestFinder extends TagTestFinder
         validEntries = initTable(stdValidEntries);
         validEntries = addTableItem(validEntries, "test", TRUE);
         validKeywords = initTable(stdValidKeywords);
-        validKeywords = initTable(new String[] { });
+        validKeywords = initTable();
         addExtension(".jasm", JavaCommentStream.class);
         addExtension(".jcod", JavaCommentStream.class);
     } // ExpandTestFinder()
@@ -84,7 +84,7 @@ public class ExpandTestFinder extends TagTestFinder
             return super.decodeArg(args, i);
     } // decodeArg()
 
-    private Map<String, String> initTable(String[] entries) {
+    private Map<String, String> initTable(String... entries) {
         Map<String, String> map = new HashMap<>();
         for (String entry : entries) map.put(entry.toLowerCase(), entry);
         return map;
@@ -135,7 +135,7 @@ public class ExpandTestFinder extends TagTestFinder
                     } else {
                         if (v.length != len.intValue()) {
                             error(i18n, "expand.lengthMismatch",
-                                    new Object[]{stem, fqvName.substring(pos + 1)});
+                                    stem, fqvName.substring(pos + 1));
                         }
                     }
                 } catch (TestEnvironment.Fault f) {
@@ -282,7 +282,7 @@ public class ExpandTestFinder extends TagTestFinder
             if (verify) {
                 if (!valid) {
                     error(i18n, "expand.unknownEntry",
-                          new Object[] {name, getCurrentFile()} );
+                            name, getCurrentFile());
                 }
                 if (name.equalsIgnoreCase("keywords")) {
                     String[] keys = StringArray.split(value);
@@ -292,7 +292,7 @@ public class ExpandTestFinder extends TagTestFinder
                             //if (validKeywords.get(key.toLowerCase()) == null) {
                             if ((validKeywords.size() > 0) && (validKeywords.get(key.toLowerCase()) == null)) {
                                 error(i18n, "expand.unknownKeyword",
-                                        new Object[]{key, getCurrentFile()});
+                                        key, getCurrentFile());
                             }
                         }
                     }

@@ -89,7 +89,7 @@ class PropertiesBrowser extends ToolDialog
         setButtons(new JButton[] { helpBtn, closeBtn }, closeBtn);
     }
 
-    private JComponent createTabbedPane(Pane[] panes) {
+    private JComponent createTabbedPane(Pane... panes) {
         final JTabbedPane tabs = new JTabbedPane();
         for (Pane pane : panes) {
             uif.addTab(tabs, pane.getKey(), pane);
@@ -109,7 +109,7 @@ class PropertiesBrowser extends ToolDialog
         return tabs;
     }
 
-    private JComponent createVerticalBoxPane(Pane[] panes) {
+    private JComponent createVerticalBoxPane(Pane... panes) {
         JPanel p = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.insets.bottom = 5;

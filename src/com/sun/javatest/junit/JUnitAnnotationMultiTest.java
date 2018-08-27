@@ -57,7 +57,7 @@ public class JUnitAnnotationMultiTest extends JUnitMultiTest {
      * Common method for running the test, used by all entry points.
      */
     @Override
-    public Status run0(String[] argv) {
+    public Status run0(String... argv) {
         JUnitCore core = new JUnitCore();
         Result junitresult = core.run(testCaseClass);
 
@@ -71,7 +71,7 @@ public class JUnitAnnotationMultiTest extends JUnitMultiTest {
     /**
      * Entry point for direct execution, not used by the harness.
      */
-    public static void main(String args[]) {
+    public static void main(String... args) {
         String executeClass = System.getProperty("javaTestExecuteClass");
         JUnitAnnotationMultiTest multiTest = new JUnitAnnotationMultiTest(ClassLoader.getSystemClassLoader());
         multiTest.setup(executeClass);

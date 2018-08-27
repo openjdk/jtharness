@@ -407,7 +407,7 @@ class ReportTool extends Tool {
     class MostRecentConfilctResolver implements ConflictResolver {
 
         @Override
-        public int resolve(String testUrl, TestResultDescr[] descrs) {
+        public int resolve(String testUrl, TestResultDescr... descrs) {
             int res = 0;
 
             for (int i = 1; i < descrs.length; i++) {
@@ -439,7 +439,7 @@ class ReportTool extends Tool {
         }
 
         @Override
-        public int resolve(String testUrl, TestResultDescr[] descrs) {
+        public int resolve(String testUrl, TestResultDescr... descrs) {
             String[] conflictFiles = new String[descrs.length];
             for (int i = 0; i < descrs.length; i++) {
                 conflictFiles[i] = descrs[i].getFile().getAbsolutePath() + " "
@@ -585,7 +585,7 @@ class ReportTool extends Tool {
                 textArea.read(r, url);
                 r.close();
             } catch (IOException e) {
-                uif.showError("fp.load.error", new Object[] { url, e });
+                uif.showError("fp.load.error", url, e);
             }
 
         } else {
@@ -599,7 +599,7 @@ class ReportTool extends Tool {
                 }
                 textArea.setPage(url);
             } catch (IOException e) {
-                uif.showError("fp.load.error", new Object[] { url, e });
+                uif.showError("fp.load.error", url, e);
             }
         }
 

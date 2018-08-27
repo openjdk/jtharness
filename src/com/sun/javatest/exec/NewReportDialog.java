@@ -1104,7 +1104,7 @@ class NewReportDialog extends ToolDialog
                                 list.setSelectedIndex(i);
                             }
                         }
-                        uif.showError("nrd.optionsErr", new Object[]{error});
+                        uif.showError("nrd.optionsErr", error);
                         return;
                     }
                 }
@@ -1314,7 +1314,7 @@ class NewReportDialog extends ToolDialog
             return result;
         }
 
-        private File searchForFile(File dir, String[] names) {
+        private File searchForFile(File dir, String... names) {
             for (String name : names) {
                 File f = new File(reportDir, name);
                 if (f.exists()) {
@@ -1346,7 +1346,7 @@ class NewReportDialog extends ToolDialog
             }
 
             String status = uif.getI18NString("nrd.wait.report_gen",
-                                                new String[] {reportName});
+                    reportName);
 
             Component[] cmp = waitDialog.getContentPane().getComponents();
             for (Component aCmp : cmp) {

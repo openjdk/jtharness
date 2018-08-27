@@ -61,7 +61,7 @@ public class HelpTree
          * @param description the description for the node
          * @param children the child nodes for the node
          */
-        public Node(String name, String description, Node[] children) {
+        public Node(String name, String description, Node... children) {
             this.name = name;
             this.description = description;
             this.children = children;
@@ -93,7 +93,7 @@ public class HelpTree
          * entries in the resource bundle.
          * @param children the child nodes for this node
          */
-        public Node(I18NResourceBundle i18n, String prefix, Node[] children) {
+        public Node(I18NResourceBundle i18n, String prefix, Node... children) {
             this(i18n, prefix);
             this.children = children;
         }
@@ -112,7 +112,7 @@ public class HelpTree
          * @param entries the array of <i>entry</i> names used to create
          * the child nodes.
          */
-        public Node(I18NResourceBundle i18n, String prefix, String[] entries) {
+        public Node(I18NResourceBundle i18n, String prefix, String... entries) {
             this(i18n, prefix);
             children = new Node[entries.length];
             for (int i = 0; i < children.length; i++)
@@ -192,7 +192,7 @@ public class HelpTree
      * Create a HelpTree object containing a given set of nodes.
      * @param nodes the contents of the HelpTree
      */
-    public HelpTree(Node[] nodes) {
+    public HelpTree(Node... nodes) {
         this.nodes = nodes;
     }
 
@@ -257,7 +257,7 @@ public class HelpTree
      * @param words the words to be searched for
      * @return a Selection containing the matching nodes
      */
-    public Selection find(String[] words) {
+    public Selection find(String... words) {
         Selection s = find(words, ALL);
 
         if (s == null && words.length > 1)
@@ -271,7 +271,7 @@ public class HelpTree
      * @param words the words to be searched for
      * @return a Selection containing the matching nodes
      */
-    public Selection findAll(String[] words) {
+    public Selection findAll(String... words) {
         return find(words, ALL);
     }
 
@@ -281,7 +281,7 @@ public class HelpTree
      * @param words the words to be searched for
      * @return a Selection containing the matching nodes
      */
-    public Selection findAny(String[] words) {
+    public Selection findAny(String... words) {
         return find(words, ANY);
     }
 
@@ -463,7 +463,7 @@ public class HelpTree
         out.setLeftMargin(baseMargin);
     }
 
-    private boolean containsAllOf(String text, String[] words) {
+    private boolean containsAllOf(String text, String... words) {
         for (String word : words) {
             if (!contains(text, word))
                 return false;
@@ -471,7 +471,7 @@ public class HelpTree
         return true;
     }
 
-    private boolean containsAnyOf(String text, String[] words) {
+    private boolean containsAnyOf(String text, String... words) {
         for (String word : words) {
             if (contains(text, word))
                 return true;

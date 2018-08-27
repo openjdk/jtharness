@@ -303,7 +303,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
     }
 
     @Override
-    public void setKnownFailureFiles(final File[] files) {
+    public void setKnownFailureFiles(final File... files) {
         super.setKnownFailureFiles(files);
 
         iKfl.setKflFiles(files);

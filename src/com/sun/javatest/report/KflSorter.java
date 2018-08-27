@@ -132,7 +132,7 @@ public class KflSorter {
      * @param tests
      * @return Number of comparison problems encountered.
      */
-    synchronized int run(TreeSet<?>[] tests) {
+    synchronized int run(TreeSet<?>... tests) {
         Iterator<KnownFailuresList.Entry> it = kfl.getIterator(false);
         int probs = 0;
         int tcprobs = 0;
@@ -520,7 +520,7 @@ public class KflSorter {
     }
 
 
-    private boolean hasTestCases(final KnownFailuresList.Entry[] es) {
+    private boolean hasTestCases(final KnownFailuresList.Entry... es) {
         if (es == null || es.length == 0)
             return false;
 

@@ -285,7 +285,7 @@ public class AgentManager
          * @see #getClassPath
          * @see #setClassPath(String)
          */
-        public void setClassPath(File[] path) {
+        public void setClassPath(File... path) {
             if (path == null) {
                 throw new NullPointerException();
             }

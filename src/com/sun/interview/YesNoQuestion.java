@@ -88,7 +88,7 @@ public abstract class YesNoQuestion extends ChoiceQuestion
      * @throws IllegalArgumentException always.
      */
     @Override
-    protected final void setChoices(String[] choices) {
+    protected final void setChoices(String... choices) {
         throw new IllegalArgumentException("Cannot set choices for YesNoQuestion");
     }
 

@@ -134,7 +134,7 @@ public abstract class TreeQuestion extends Question
      *
      * @see #getDefaultValue
      */
-    public void setDefaultValue(String[] v) {
+    public void setDefaultValue(String... v) {
         defaultValue = v;
     }
 
@@ -175,7 +175,7 @@ public abstract class TreeQuestion extends Question
      * paths to nodes within the tree represented by the tree model
      * @see #getValue
      */
-    public void setValue(String[] newValue) {
+    public void setValue(String... newValue) {
         String[] oldValue;
         if (newValue == null) {
             oldValue = value;
@@ -207,7 +207,7 @@ public abstract class TreeQuestion extends Question
      * be set as the current response to the question
      * @see #getValue
      */
-    public void setValue(Object[] nodes) {
+    public void setValue(Object... nodes) {
         if (nodes == null) {
             setValue((String[]) null);
         return;
@@ -359,7 +359,7 @@ public abstract class TreeQuestion extends Question
         return a;
     }
 
-    public static String join(String[] paths) {
+    public static String join(String... paths) {
         if (paths == null || paths.length == 0)
             return "";
 

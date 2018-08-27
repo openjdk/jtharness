@@ -156,13 +156,7 @@ class SummaryPane extends AuditPane {
             out.writeI18N("smry.cs.allOK");
         else
             out.writeI18N("smry.cs.count",
-                      new Object[] {
-                              Integer.valueOf(g),
-                              Integer.valueOf((g > 0) && (b + n > 0) ? 1 : 0),
-                              Integer.valueOf(b),
-                              Integer.valueOf((b > 0) && (n > 0) ? 1 : 0),
-                              Integer.valueOf(n)
-                              });
+                    Integer.valueOf(g), Integer.valueOf((g > 0) && (b + n > 0) ? 1 : 0), Integer.valueOf(b), Integer.valueOf((b > 0) && (n > 0) ? 1 : 0), Integer.valueOf(n));
 
     }
 
@@ -234,15 +228,7 @@ class SummaryPane extends AuditPane {
             out.writeI18N("smry.status.allOK");
         else {
             out.writeI18N("smry.status.count",
-                      new Object[] {
-                              Integer.valueOf(p),
-                              Integer.valueOf((p > 0) && (f + e + nr > 0) ? 1 : 0),
-                              Integer.valueOf(f),
-                              Integer.valueOf((f > 0) && (e + nr > 0) ? 1 : 0),
-                              Integer.valueOf(e),
-                              Integer.valueOf((e > 0) && (nr > 0) ? 1 : 0),
-                              Integer.valueOf(nr)
-                              });
+                    Integer.valueOf(p), Integer.valueOf((p > 0) && (f + e + nr > 0) ? 1 : 0), Integer.valueOf(f), Integer.valueOf((f > 0) && (e + nr > 0) ? 1 : 0), Integer.valueOf(e), Integer.valueOf((e > 0) && (nr > 0) ? 1 : 0), Integer.valueOf(nr));
         }
     }
 
@@ -269,10 +255,10 @@ class SummaryPane extends AuditPane {
         else {
             Integer b = Integer.valueOf(badStarts ? 1 : 0);
             out.writeI18N("smry.dates.earliest",
-                      new Object[] { earliestStart, b } );
+                    earliestStart, b);
             out.startTag("br");
             out.writeI18N("smry.dates.latest",
-                      new Object[] { latestStart, b } );
+                    latestStart, b);
             if (badStarts) {
                 out.startTag("br");
                 out.writeI18N("smry.dates.badDatesFound");

@@ -753,7 +753,7 @@ public class SelectionTree extends JTree {
         }
     }
 
-    public void setSelection(String[] paths) {
+    public void setSelection(String... paths) {
         if (paths == null || paths.length == 0) {
             ((SelectionTreeNode) getModel().getRoot()).changeSelection(SelectionType.SELECTED);
         } else {

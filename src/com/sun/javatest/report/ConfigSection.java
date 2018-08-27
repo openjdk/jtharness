@@ -212,7 +212,7 @@ class ConfigSection extends HTMLSection {
         ExcludeList excludeList = settings.getInterview().getExcludeList();
         if (excludeList != null) {
             // content cell
-            out.writeI18N("config.entries", new Object[] {Integer.valueOf(excludeList.size())});
+            out.writeI18N("config.entries", Integer.valueOf(excludeList.size()));
 
             Parameters.ExcludeListParameters exclParams = settings.getInterview().getExcludeListParameters();
             File[] excludeFiles = null;
@@ -486,7 +486,7 @@ class ConfigSection extends HTMLSection {
             return x;
 
         }
-        private static int compare(String[] a, String[] b) {
+        private static int compare(String[] a, String... b) {
             int alen = a == null ? 0 : a.length;
             int blen = b == null ? 0 : b.length;
             for (int i = 0; i < Math.min(alen, blen); i++) {

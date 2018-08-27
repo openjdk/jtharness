@@ -150,7 +150,7 @@ public class Map {
      * @param args      An array of strings to be translated according to the data
      *                  the map.
      */
-    public void map(String[] args) {
+    public void map(String... args) {
         if (fromValues == null)
             return; // empty table
 

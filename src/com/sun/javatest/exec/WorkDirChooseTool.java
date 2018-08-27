@@ -1257,7 +1257,7 @@ public class WorkDirChooseTool extends JDialog {
         }
 
         @Override
-        public void runTests(String[] urls) {
+        public void runTests(String... urls) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 

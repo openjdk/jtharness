@@ -229,7 +229,7 @@ public class MultiStatus {
      * @param status an array of Status objects giving the outcomes of the individual test cases.
      * @return overall status of the specified array of Status objects.
      */
-    public static Status overallStatus(String testIDs[], Status status[]) {
+    public static Status overallStatus(String testIDs[], Status... status) {
         return MultiStatus.overallStatus(testIDs, status, null);
     }
 

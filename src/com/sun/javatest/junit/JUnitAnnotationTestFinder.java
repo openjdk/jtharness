@@ -84,7 +84,7 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
      *             delegate the call to the supertype.
      */
     @Override
-    protected void decodeAllArgs(String[] args) throws Fault {
+    protected void decodeAllArgs(String... args) throws Fault {
         super.decodeAllArgs(args);
     }
 

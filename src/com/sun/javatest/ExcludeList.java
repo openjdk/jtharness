@@ -113,7 +113,7 @@ public class ExcludeList
      * @throws ExcludeList.Fault if the data in the files is inconsistent
      * @see #ExcludeList(File)
      */
-    public ExcludeList(File[] files)
+    public ExcludeList(File... files)
         throws FileNotFoundException, IOException, Fault
     {
         this(files, false);
@@ -430,15 +430,15 @@ public class ExcludeList
         }
     }
 
-    static String[] mergeBugIds(String[] a, String[] b) {
+    static String[] mergeBugIds(String[] a, String... b) {
         return merge(a, b);
     }
 
-    static String[] mergePlatforms(String[] a, String[] b) {
+    static String[] mergePlatforms(String[] a, String... b) {
         return merge(a, b);
     }
 
-    static String[] merge(String[] a, String[] b) {
+    static String[] merge(String[] a, String... b) {
         SortedSet<String> s = new TreeSet<>();
         s.addAll(Arrays.asList(a));
         s.addAll(Arrays.asList(b));
@@ -1189,7 +1189,7 @@ public class ExcludeList
             return new String(sb);
         }
 
-        private static boolean equals(int[] i1, int[] i2) {
+        private static boolean equals(int[] i1, int... i2) {
             if (i1 == null || i2 == null)
                 return i1 == null && i2 == null;
 
@@ -1203,7 +1203,7 @@ public class ExcludeList
             return true;
         }
 
-        private static boolean equals(String[] s1, String[] s2) {
+        private static boolean equals(String[] s1, String... s2) {
             if (s1 == null || s2 == null)
                 return s1 == null && s2 == null;
 

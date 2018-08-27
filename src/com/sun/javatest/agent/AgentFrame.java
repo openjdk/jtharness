@@ -75,7 +75,7 @@ public class AgentFrame extends Frame
      * <tr><td> -observer    <em>classname</em> <td> add an observer to the agent that is used
      * </table>
      */
-    public static void main(String[] args) {
+    public static void main(String... args) {
         ModeOptions mode = null;
         String activeHost = null;
         int activePort = -1;
@@ -310,7 +310,7 @@ public class AgentFrame extends Frame
      * Create a AgentFrame.
      * @param modeOptions An array of option panels for different connection modes.
      */
-    public AgentFrame(ModeOptions[] modeOptions) {
+    public AgentFrame(ModeOptions... modeOptions) {
         super(Agent.PRODUCT_NAME);
 
         ExitCount.inc();

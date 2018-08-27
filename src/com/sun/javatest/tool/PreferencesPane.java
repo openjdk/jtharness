@@ -331,7 +331,7 @@ public abstract class PreferencesPane extends JPanel {
             main.add(deck, BorderLayout.CENTER);
         }
 
-        private void addAllPanes(JPanel deck, PreferencesPane[] panes) {
+        private void addAllPanes(JPanel deck, PreferencesPane... panes) {
             for (PreferencesPane pane : panes) {
                 JPanel p = uif.createPanel("prefs.card" + cardNum++, false);
                 p.setLayout(new BorderLayout());
@@ -450,7 +450,7 @@ public abstract class PreferencesPane extends JPanel {
             return children == null || children.length == 0;
         }
 
-        private void setPreferences(PreferencesPane[] panes) {
+        private void setPreferences(PreferencesPane... panes) {
             Map<String, String> m = new Map<String, String>() {
 
                 @Override

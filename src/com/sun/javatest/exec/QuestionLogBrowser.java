@@ -220,7 +220,7 @@ class QuestionLogBrowser extends ToolDialog
             else if (e instanceof FileNotFoundException)
                 uif.showError("qlb.save.cantFindFile", file);
             else
-                uif.showError("qlb.save.error", new Object[] { file, e } );
+                uif.showError("qlb.save.error", file, e);
         }
     }
 

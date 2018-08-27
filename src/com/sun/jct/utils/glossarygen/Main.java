@@ -87,7 +87,7 @@ public class Main {
      * Command line entry point.<br>
      * @param args Command line arguments, per the usage as described.
      */
-    public static void main(String[] args) {
+    public static void main(String... args) {
         try {
             if (args.length == 0)
                 usage(System.err);
@@ -138,7 +138,7 @@ public class Main {
      * @see #main
      * @throws Main.BadArgs if problems are found in the given arguments.
      */
-    public Main(String[] args) throws BadArgs {
+    public Main(String... args) throws BadArgs {
         for (int i = 0; i < args.length; i++) {
             if (args[i].equalsIgnoreCase("-htmlout") && i + 1 < args.length) {
                 htmlOutFile = new File(args[++i]);
@@ -205,7 +205,7 @@ public class Main {
         }
     }
 
-    public void addFiles(File baseDir, String[] paths) {
+    public void addFiles(File baseDir, String... paths) {
         if (paths == null)
             return;
         List<File> files = new ArrayList<>();
@@ -326,7 +326,7 @@ public class Main {
         }
     }
 
-    private void read(File[] files) throws IOException {
+    private void read(File... files) throws IOException {
         for (File file : files) read(file);
     }
 

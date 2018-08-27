@@ -123,7 +123,7 @@ public class TextWriter extends FilterWriter {
      * @param s the array of characters to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
-    public void print(char s[]) throws IOException {
+    public void print(char... s) throws IOException {
         write(s);
     }
 
@@ -240,7 +240,7 @@ public class TextWriter extends FilterWriter {
      * @param c the array of characters to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
-    public void println(char[] c) throws IOException {
+    public void println(char... c) throws IOException {
         synchronized (lock) {
             print(c);
             println();

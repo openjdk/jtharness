@@ -296,7 +296,7 @@ abstract public class ToolDialog
      * @param args items to substitute into the title from the resource bundle
      * @see #getTitle
      */
-    protected void setI18NTitle(String key, Object[] args) {
+    protected void setI18NTitle(String key, Object... args) {
         setLocalizedTitle(uif.getI18NString(key, args));
     }
 

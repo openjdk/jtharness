@@ -145,7 +145,7 @@ class RunTestsCommand extends Command
         }
     }
 
-    private void showResultStats(int[] stats) {
+    private void showResultStats(int... stats) {
         int p = stats[Status.PASSED];
         int f = stats[Status.FAILED];
         int e = stats[Status.ERROR];
@@ -157,15 +157,7 @@ class RunTestsCommand extends Command
             ctx.printMessage(i18n, "runTests.noTests");
         else {
             ctx.printMessage(i18n, "runTests.tests",
-                      new Object[] {
-                              Integer.valueOf(p),
-                              Integer.valueOf((p > 0) && (f + e + nr > 0) ? 1 : 0),
-                              Integer.valueOf(f),
-                              Integer.valueOf((f > 0) && (e + nr > 0) ? 1 : 0),
-                              Integer.valueOf(e),
-                              Integer.valueOf((e > 0) && (nr > 0) ? 1 : 0),
-                              Integer.valueOf(nr)
-                              });
+                    Integer.valueOf(p), Integer.valueOf((p > 0) && (f + e + nr > 0) ? 1 : 0), Integer.valueOf(f), Integer.valueOf((f > 0) && (e + nr > 0) ? 1 : 0), Integer.valueOf(e), Integer.valueOf((e > 0) && (nr > 0) ? 1 : 0), Integer.valueOf(nr));
         }
     }
 
@@ -382,12 +374,7 @@ class RunTestsCommand extends Command
                 harness.getTestsFoundCount() - p - f - e;
 
             out.print(i18n.getString("cmgr.verb.prog",
-                      new Object[] {
-                              Integer.valueOf(p),
-                              Integer.valueOf(f),
-                              Integer.valueOf(e),
-                              Integer.valueOf(nr)
-                      }));
+                    Integer.valueOf(p), Integer.valueOf(f), Integer.valueOf(e), Integer.valueOf(nr)));
             out.print("    ");
 
             progressOnline = true;

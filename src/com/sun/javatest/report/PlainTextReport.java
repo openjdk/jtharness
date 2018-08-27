@@ -62,10 +62,10 @@ public class PlainTextReport implements ReportFormat {
         Iterator<TestResult> iter = null;
         try {
             if (initFiles == null) {
-                iter = resultTable.getIterator(new TestFilter[] {s.filter});
+                iter = resultTable.getIterator(s.filter);
             }
             else {
-                iter = resultTable.getIterator(initFiles,new TestFilter[] {s.filter});
+                iter = resultTable.getIterator(initFiles, s.filter);
             }
         }
         catch (TestResultTable.Fault f) {

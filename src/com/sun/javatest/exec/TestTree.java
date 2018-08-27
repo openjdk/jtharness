@@ -126,7 +126,7 @@ class TestTree extends JTree {
 
     }
 
-    void restoreSelection(String[] selectedUrls) {
+    void restoreSelection(String... selectedUrls) {
         if (selectedUrls == null || selectedUrls.length == 0)
             return;
 
@@ -147,7 +147,7 @@ class TestTree extends JTree {
         }
     }
 
-    private void restoreSelection(TreePath[] selectedPaths) {
+    private void restoreSelection(TreePath... selectedPaths) {
         if (selectedPaths == null || selectedPaths.length == 0)
             return;
 
@@ -217,7 +217,7 @@ class TestTree extends JTree {
      * Attempt to restore paths which were previously recorded.
      * @see #snapshotOpenPaths
      */
-    void restorePaths(TreePath[] paths) {
+    void restorePaths(TreePath... paths) {
         // make sure root still matches
         if (paths == null || paths.length == 0)
             return;

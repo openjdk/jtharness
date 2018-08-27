@@ -71,7 +71,7 @@ public class EditLinks
      * </dl>
      * @param args Command line arguments, per the usage as described.
      */
-    public static void main(String[] args) {
+    public static void main(String... args) {
         try {
             if (args.length == 0)
                 usage(System.err);
@@ -126,7 +126,7 @@ public class EditLinks
      * @see #main
      * @throws EditLinks.BadArgs if problems are found in the given arguments.
      */
-    public EditLinks(String[] args) throws BadArgs {
+    public EditLinks(String... args) throws BadArgs {
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("-e") && i + 2 < args.length) {
                 String oldPrefix = args[++i];
@@ -388,7 +388,7 @@ public class EditLinks
             } else
                 if (buf.length() == 0)
                     throw new IOException(i18n.getString("editLinks.idExpected",
-                                                         new Object[] { currFile, Integer.valueOf(line)}));
+                            currFile, Integer.valueOf(line)));
                 else
                     return buf.toString();
         }
@@ -416,7 +416,7 @@ public class EditLinks
                ((quote >= 0) && (c != quote))) {
             if (c == -1 || c == '\n' || c == '\r') {
                 throw new IOException(i18n.getString("editLinks.mismatchQuotes",
-                                                         new Object[] { currFile, Integer.valueOf(line)}));
+                        currFile, Integer.valueOf(line)));
             }
             buf.append((char)c);
             nextCh();
@@ -465,7 +465,7 @@ public class EditLinks
             String att = scanIdentifier();
             if (att == "")
                 throw new IOException(i18n.getString("editLinks.badHTML",
-                                                         new Object[] { currFile, Integer.valueOf(line)}));
+                        currFile, Integer.valueOf(line)));
             String value = scanValue();
             skipSpace();
         }

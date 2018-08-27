@@ -395,7 +395,7 @@ class BranchPanel
         }
 
         @Override
-        public void showTest(TestResult tr, Object[] path) {
+        public void showTest(TestResult tr, Object... path) {
             tpm.showTest(tr, new TreePath(path));
         }
 
@@ -560,7 +560,7 @@ class BranchPanel
         }
 
         @Override
-        public void statsUpdated(final int[] stats) {
+        public void statsUpdated(final int... stats) {
             // enabled any disabled tabs which have contents
             // disable any enabled tabs which are empty
             if (!EventQueue.isDispatchThread()) {

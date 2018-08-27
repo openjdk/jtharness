@@ -53,7 +53,7 @@ public abstract class ChoiceArrayQuestion extends Question
      * or not (false).
      * @throws NullPointerException if choices is null
      */
-    protected ChoiceArrayQuestion(Interview interview, String tag, String[] choices) {
+    protected ChoiceArrayQuestion(Interview interview, String tag, String... choices) {
         super(interview, tag);
         setChoices(choices, choices);
     }
@@ -67,7 +67,7 @@ public abstract class ChoiceArrayQuestion extends Question
      * @see #getDisplayChoices
      * @throws NullPointerException if choices is null
      */
-    protected void setChoices(String[] choices) {
+    protected void setChoices(String... choices) {
         setChoices(choices, choices);
     }
 
@@ -101,7 +101,7 @@ public abstract class ChoiceArrayQuestion extends Question
      * @see #getChoices
      * @see #getDisplayChoices
      */
-    protected void setChoices(String[] choices, String[] displayChoices) {
+    protected void setChoices(String[] choices, String... displayChoices) {
         if (choices == null)
             throw new NullPointerException();
 
@@ -186,7 +186,7 @@ public abstract class ChoiceArrayQuestion extends Question
      *
      * @see #getDefaultValue
      */
-    public void setDefaultValue(boolean[] v) {
+    public void setDefaultValue(boolean... v) {
         defaultValue = v;
     }
 
@@ -311,7 +311,7 @@ public abstract class ChoiceArrayQuestion extends Question
      * the corresponding choice is selected or not.
      * @see #getValue
      */
-    public void setValue(boolean[] newValue) {
+    public void setValue(boolean... newValue) {
         if (choices == null)
             return;
 

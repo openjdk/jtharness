@@ -34,5 +34,5 @@ interface ConflictResolver {
          * @param descrs array of TestDescr with conflicting version
          * @return number of select version
          */
-        int resolve(String testUrl, TestResultDescr[] descrs);
+        int resolve(String testUrl, TestResultDescr... descrs);
 }

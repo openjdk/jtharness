@@ -75,7 +75,7 @@ public class XMLServiceReader implements ServiceReader {
     }
 
     @Override
-    public void init(TestSuite ts, String[] args) {
+    public void init(TestSuite ts, String... args) {
         this.ts = ts;
         File tsRoot = ts.getRootDir();
         if (args == null || args.length == 0) {

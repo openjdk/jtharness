@@ -73,7 +73,7 @@ public class CommandParser
          * @param args An array of arguments to be formatted with the detail message by
          * {@link java.text.MessageFormat#format}
          */
-        Fault(I18NResourceBundle i18n, String key, Object[] args) {
+        Fault(I18NResourceBundle i18n, String key, Object... args) {
             super(i18n.getString(key, args));
         }
 
@@ -86,7 +86,7 @@ public class CommandParser
      * Create a parser to parse the commands accepted by a set of command managers.
      * @param mgrs the command managers for the commands that can be parsed
      */
-    public CommandParser(CommandManager[] mgrs) {
+    public CommandParser(CommandManager... mgrs) {
         this.mgrs = mgrs;
     }
 
@@ -277,14 +277,14 @@ public class CommandParser
         }
     }
 
-    private static String[] trim(String[] args) {
+    private static String[] trim(String... args) {
         String[] trimArgs = new String[args.length];
         for (int i = 0; i < args.length; i++)
             trimArgs[i] = args[i].trim();
         return trimArgs;
     }
 
-    private static ListIterator<String> getIterator(final String[] args) {
+    private static ListIterator<String> getIterator(final String... args) {
         return new ListIterator<String>() {
                 @Override
                 public void add(String o) {

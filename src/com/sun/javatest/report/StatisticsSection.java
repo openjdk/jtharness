@@ -60,9 +60,8 @@ class StatisticsSection extends HTMLSection {
         Iterator<TestResult> iter =  null;
         try {
             iter = (initFiles == null) ?
-                        resultTable.getIterator(new TestFilter[] {settings.filter}) :
-                        resultTable.getIterator(initFiles, new TestFilter[]
-                                                {settings.filter});
+                        resultTable.getIterator(settings.filter) :
+                        resultTable.getIterator(initFiles, settings.filter);
         }
         catch (TestResultTable.Fault f) {
             throw new JavaTestError(i18n.getString("stats.testResult.err"));

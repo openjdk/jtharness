@@ -122,7 +122,7 @@ public class TagTestFinder extends TestFinder
      * This will typically be for directories like SCCS, Codemgr_wsdata, etc
      * @param names The names of files to be excluded.
      */
-    public void exclude(String[] names) {
+    public void exclude(String... names) {
         for (String name : names) {
             excludeList.put(name, name);
         }
@@ -253,7 +253,7 @@ public class TagTestFinder extends TestFinder
         String extn = name.substring(dot);
         Class<? extends CommentStream> csc = extensionTable.get(extn);
         if (csc == null) {
-            error(i18n, "tag.noParser", new Object[] {file, extn});
+            error(i18n, "tag.noParser", file, extn);
             return;
         }
         CommentStream cs = null;
@@ -261,11 +261,11 @@ public class TagTestFinder extends TestFinder
             cs = csc.getDeclaredConstructor().newInstance();
         }
         catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
-            error(i18n, "tag.cantCreateClass", new Object[] {csc.getName(), extn});
+            error(i18n, "tag.cantCreateClass", csc.getName(), extn);
             return;
         }
         catch (IllegalAccessException e) {
-            error(i18n, "tag.cantAccessClass", new Object[] {csc.getName(), extn});
+            error(i18n, "tag.cantAccessClass", csc.getName(), extn);
             return;
         }
 

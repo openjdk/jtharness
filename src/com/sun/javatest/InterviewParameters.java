@@ -91,7 +91,7 @@ public abstract class InterviewParameters
          * @param o Parameters to use when resolving the string from the bundle.
          * @see java.text.MessageFormat
          */
-        public WorkDirFault(ResourceBundle i18n, String s, Object[] o) {
+        public WorkDirFault(ResourceBundle i18n, String s, Object... o) {
             super(i18n, s, o);
         }
     }
@@ -130,7 +130,7 @@ public abstract class InterviewParameters
          * @param o Parameters to use when resolving the string from the bundle.
          * @see java.text.MessageFormat
          */
-        public TestSuiteFault(ResourceBundle i18n, String s, Object[] o) {
+        public TestSuiteFault(ResourceBundle i18n, String s, Object... o) {
             super(i18n, s, o);
         }
     }
@@ -169,7 +169,7 @@ public abstract class InterviewParameters
          * @param o Parameters to use when resolving the string from the bundle.
          * @see java.text.MessageFormat
          */
-        public JTIFault(ResourceBundle i18n, String s, Object[] o) {
+        public JTIFault(ResourceBundle i18n, String s, Object... o) {
             super(i18n, s, o);
         }
     }
@@ -240,7 +240,7 @@ public abstract class InterviewParameters
      * this InterviewParameters object
      * @throws Interview.Fault if any problems occurred while processing the arguments
      */
-    public void init(String[] args) throws Fault {
+    public void init(String... args) throws Fault {
         if (args != null && args.length > 0)
             throw new Fault(i18n, "ip.unknownArgs");
     }
@@ -441,7 +441,7 @@ public abstract class InterviewParameters
      * @param files The known failures list files.  The array should contain
      *     one or more elements.
      */
-    public void setKnownFailureFiles(File[] files) {
+    public void setKnownFailureFiles(File... files) {
         kflFiles = files;
     }
 
@@ -657,12 +657,7 @@ public abstract class InterviewParameters
         else {
             String v = lastQuestion.getStringValue();
             return i18n.getString("ip.noAnswer",
-                                  new Object[] { lastQuestion.getSummary(),
-                                                 lastQuestion.getText(),
-                                                 lastQuestion.getTag(),
-                                          Integer.valueOf(v == null ? 0 : 1),
-                                                 trim(v),
-                                  } );
+                    lastQuestion.getSummary(), lastQuestion.getText(), lastQuestion.getTag(), Integer.valueOf(v == null ? 0 : 1), trim(v));
         }
     }
 
@@ -795,7 +790,7 @@ public abstract class InterviewParameters
 
     }
 
-    private static boolean equal(boolean[] b1, boolean[] b2) {
+    private static boolean equal(boolean[] b1, boolean... b2) {
         if (b1 == null || b2 == null)
             return b1 == b2;
 
@@ -810,7 +805,7 @@ public abstract class InterviewParameters
         return true;
     }
 
-    private static boolean equal(Vector<TestFilter> v, TestFilter[] f) {
+    private static boolean equal(Vector<TestFilter> v, TestFilter... f) {
         if (f == null || v.size() != f.length)
             return false;
         for (int i = 0; i < v.size(); i++) {

@@ -64,7 +64,7 @@ public abstract class StringListQuestion extends Question
      * @see #getDefaultValue
      * @see #clear
      */
-    public void setDefaultValue(String[] v) {
+    public void setDefaultValue(String... v) {
         defaultValue = v;
     }
 
@@ -154,7 +154,7 @@ public abstract class StringListQuestion extends Question
      *
      * @see #getValue
      */
-    public void setValue(String[] newValue) {
+    public void setValue(String... newValue) {
         if (newValue != null) {
             for (String aNewValue : newValue) {
                 if (aNewValue == null || (aNewValue.indexOf("\n") != -1))
@@ -203,7 +203,7 @@ public abstract class StringListQuestion extends Question
      * and are element-wise equal.
      * @see #equal(String, String)
      */
-    protected static boolean equal(String[] s1, String[] s2) {
+    protected static boolean equal(String[] s1, String... s2) {
         if (s1 == null || s2 == null)
             return s1 == s2;
 

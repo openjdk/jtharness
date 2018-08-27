@@ -241,7 +241,7 @@ class EmptyTestTreeModel extends TestTreeModel implements TreeModel, TestResultT
     }
 
     @Override
-    void invalidateNodeInfo(TestResultTable.TreeNode[] path) {
+    void invalidateNodeInfo(TreeNode... path) {
 
     }
 

@@ -103,7 +103,7 @@ public class Agent implements Runnable {
          * @param className     The name of the class to be run
          * @param args          Arguments for the class to be run.
          */
-        void execTest(Agent agent, Connection c, String tag, String className, String[] args);
+        void execTest(Agent agent, Connection c, String tag, String className, String... args);
 
         /**
          * Called when am agent is about to execute a request to execute a Command object.
@@ -113,7 +113,7 @@ public class Agent implements Runnable {
          * @param className     The name of the class to be run
          * @param args          Arguments for the class to be run.
          */
-        void execCommand(Agent agent, Connection c, String tag, String className, String[] args);
+        void execCommand(Agent agent, Connection c, String tag, String className, String... args);
 
         /**
          * Called when the agent is about to execute a request to execute a main program.
@@ -123,7 +123,7 @@ public class Agent implements Runnable {
          * @param className     The name of the class to be run
          * @param args          Arguments for the class to be run.
          */
-        void execMain(Agent agent, Connection c, String tag, String className, String[] args);
+        void execMain(Agent agent, Connection c, String tag, String className, String... args);
 
         /**
          * Called when the agent has successfully completed a request to execute a class.
@@ -476,15 +476,15 @@ public class Agent implements Runnable {
             for (Observer observer : observers) observer.errorOpeningConnection(Agent.this, e);
         }
 
-        public synchronized void execTest(Connection cconnection, String tag, String className, String[] args) {
+        public synchronized void execTest(Connection cconnection, String tag, String className, String... args) {
             for (Observer observer : observers) observer.execTest(Agent.this, cconnection, tag, className, args);
         }
 
-        public synchronized void execCommand(Connection cconnection, String tag, String className, String[] args) {
+        public synchronized void execCommand(Connection cconnection, String tag, String className, String... args) {
             for (Observer observer : observers) observer.execCommand(Agent.this, cconnection, tag, className, args);
         }
 
-        public synchronized void execMain(Connection connection, String tag, String className, String[] args) {
+        public synchronized void execMain(Connection connection, String tag, String className, String... args) {
             for (Observer observer : observers) observer.execMain(Agent.this, connection, tag, className, args);
         }
 

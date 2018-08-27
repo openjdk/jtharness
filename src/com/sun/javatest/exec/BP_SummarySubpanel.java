@@ -514,7 +514,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
          * @param fs Filters used to correctly generate stats.
          * @param fields Components to be updated with stats.
          */
-        CounterThread(TestResultTable.TreeNode tn, JTextField[] fields) {
+        CounterThread(TestResultTable.TreeNode tn, JTextField... fields) {
             super("BP_SP.CounterThread");
             node = tn;
             tfs = fields;
@@ -760,7 +760,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
 
         }
 
-        private void notifyUpdate(final int[] basic, final int[] values) {
+        private void notifyUpdate(final int[] basic, final int... values) {
             EventQueue.invokeLater(
                     new BranchPanel.TextUpdater(BranchPanel.TextUpdater.UPDATE,
                     tfs,

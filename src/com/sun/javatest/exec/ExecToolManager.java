@@ -534,10 +534,10 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
     }
 
     void showError(String key, Object arg) {
-        showError(key, new Object[] { arg });
+        showError(key, arg);
     }
 
-    void showError(String key, Object[] args) {
+    void showError(String key, Object... args) {
         getUIF().showError(key, args);
     }
 

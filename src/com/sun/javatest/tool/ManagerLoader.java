@@ -56,7 +56,7 @@ class ManagerLoader
         this.managerClass = managerClass;
     }
 
-    void setManagerConstructorArgs(Class<?>[] argTypes, Object[] args) {
+    void setManagerConstructorArgs(Class<?>[] argTypes, Object... args) {
         constrArgTypes = argTypes;
         constrArgs = args;
     }
@@ -105,23 +105,23 @@ class ManagerLoader
                             mgrs.add(mgr);
                         } else {
                             if (log != null) {
-                                writeI18N("ml.cantFindClass", new Object[]{line, entry});
+                                writeI18N("ml.cantFindClass", line, entry);
                             }
                         }
                     }
                     catch (IllegalAccessException ex) {
                         if (log != null) {
-                            writeI18N("ml.cantAccessClass", new Object[] { line, entry } );
+                            writeI18N("ml.cantAccessClass", line, entry);
                         }
                     }
                     catch (InstantiationException ex) {
                         if (log != null) {
-                            writeI18N("ml.cantCreateClass", new Object[] { line, entry } );
+                            writeI18N("ml.cantCreateClass", line, entry);
                         }
                     }
                     catch (NoSuchMethodException ex) {
                         if (log != null) {
-                            writeI18N("ml.cantFindConstr", new Object[] { line, entry } );
+                            writeI18N("ml.cantFindConstr", line, entry);
                         }
                     }
                 }   // while
@@ -129,7 +129,7 @@ class ManagerLoader
             }
             catch (IOException ex) {
                 if (log != null)
-                    writeI18N("ml.cantRead", new Object[] { entry, ex });
+                    writeI18N("ml.cantRead", entry, ex);
             }
         }
         return mgrs;
@@ -162,8 +162,7 @@ class ManagerLoader
                 return mgr;
             } else {
                 if (log != null) {
-                    writeI18N("ml.notSubtype", new Object[]{className,
-                            managerClass.getName(), specfile});
+                    writeI18N("ml.notSubtype", className, managerClass.getName(), specfile);
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -236,7 +235,7 @@ class ManagerLoader
         }   // catch
     }
 
-    private void writeI18N(String key, Object[] args) {
+    private void writeI18N(String key, Object... args) {
         log.println(i18n.getString(key, args));
     }
 

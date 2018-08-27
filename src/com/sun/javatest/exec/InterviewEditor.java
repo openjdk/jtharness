@@ -327,9 +327,9 @@ public class InterviewEditor extends ToolDialog {
         } catch (FileNotFoundException e) {
             uif.showError("ce.load.cantFindFile", file);
         } catch (IOException e) {
-            uif.showError("ce.load.error", new Object[] { file, e } );
+            uif.showError("ce.load.error", file, e);
         } catch (Interview.Fault e) {
-            uif.showError("ce.load.error", new Object[] { file, e.getMessage() } );
+            uif.showError("ce.load.error", file, e.getMessage());
         }
     }
 
@@ -380,10 +380,10 @@ public class InterviewEditor extends ToolDialog {
             else if (e instanceof FileNotFoundException)
                 uif.showError("ce.save.cantFindFile", file);
             else
-                uif.showError("ce.save.error", new Object[] { file, e } );
+                uif.showError("ce.save.error", file, e);
         }
         catch (Interview.Fault e) {
-            uif.showError("ce.save.error", new Object[] { file, e.getMessage() } );
+            uif.showError("ce.save.error", file, e.getMessage());
         }
 
         return false;
@@ -1021,8 +1021,7 @@ public class InterviewEditor extends ToolDialog {
     protected void updateTitle() {
         File f = viewConfig.getFile();
         setI18NTitle("ce.title",
-                    new Object[] {Integer.valueOf(currView == fullView ? 0 : 1),
-                            Integer.valueOf(f == null ? 0 : 1), f });
+                Integer.valueOf(currView == fullView ? 0 : 1), Integer.valueOf(f == null ? 0 : 1), f);
     }
 
     private boolean isInfoVisible() {

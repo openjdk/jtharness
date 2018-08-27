@@ -90,7 +90,7 @@ public interface ExecModel
      * Empty string value in the array indicates that the whole test suite
      * should be run.
      */
-    void runTests(String[] urls);
+    void runTests(String... urls);
 
     void showMessage(ResourceBundle msgs, String key);
 

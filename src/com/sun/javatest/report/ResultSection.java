@@ -43,7 +43,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  */
 class ResultSection extends HTMLSection {
     ResultSection(HTMLReport parent, ReportSettings settings, File dir, I18NResourceBundle i18n,
-            TreeSet<TestResult>[] sortedResults) {
+                  TreeSet<TestResult>... sortedResults) {
         super(i18n.getString("result.title"), settings, dir, parent);
         this.i18n = i18n;
 

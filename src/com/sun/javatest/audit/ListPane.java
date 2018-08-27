@@ -52,7 +52,7 @@ abstract class ListPane extends AuditPane {
         setBody(sp);
     }
 
-    void setData(Object[] data) {
+    void setData(Object... data) {
         if (data == null || data.length == 0)
             show(uif.getI18NString("list.noEntries"));
         else {
@@ -72,7 +72,7 @@ abstract class ListPane extends AuditPane {
             return data == null ? 0 : data.length;
         }
 
-        void setData(Object[] data) {
+        void setData(Object... data) {
             this.data = data;
             fireContentsChanged(this, 0, data.length - 1);
         }

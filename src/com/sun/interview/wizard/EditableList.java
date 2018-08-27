@@ -60,7 +60,7 @@ public class EditableList extends JPanel
      * for this item.
      * @param items An array of strings to display as initial values in the list.
      */
-    public EditableList(String uiKey, Object[] items) {
+    public EditableList(String uiKey, Object... items) {
         setLayout(new BorderLayout());
         setName(uiKey);
         setFocusable(false);

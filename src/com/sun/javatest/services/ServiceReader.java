@@ -48,7 +48,7 @@ public interface ServiceReader {
      * except first arg, which is reader's implementation class. The key of this
      * record in {@code testsuite.jtt} file is "serviceReader"
      */
-    public void init(TestSuite ts, String[] args);
+    public void init(TestSuite ts, String... args);
     /**
      * Creates {@link com.sun.javatest.services.Service} instances and map from
      * service's IDs to services. During process of reading,

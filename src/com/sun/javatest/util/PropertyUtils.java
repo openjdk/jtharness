@@ -255,7 +255,7 @@ public class PropertyUtils {
 
 
 
-    private static String loadConvert (char[] in/*, int off, int len, char[] convtBuf*/) {
+    private static String loadConvert (char... in/*, int off, int len, char[] convtBuf*/) {
 //        if (convtBuf.length < len) {
 //            int newLen = len * 2;
 //            if (newLen < 0) {
@@ -446,7 +446,7 @@ public class PropertyUtils {
      * Converts encoded &#92;uxxxx to unicode chars
      * and changes special saved chars to their original forms
      */
-    private static String loadConvert (char[] in, int off, int len, char[] convtBuf) {
+    private static String loadConvert (char[] in, int off, int len, char... convtBuf) {
         if (convtBuf.length < len) {
             int newLen = len * 2;
             if (newLen < 0) {

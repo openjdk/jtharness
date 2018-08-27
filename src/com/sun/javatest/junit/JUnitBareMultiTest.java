@@ -57,7 +57,7 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
      * <code>setTestCaseClass()</code> should have been invoked before calling this.
      */
     @Override
-    public Status run0(String[] argv) {
+    public Status run0(String... argv) {
         MultiStatus ms = new MultiStatus(log);
 
         getListAllJunitTestCases();
@@ -82,7 +82,7 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
      * Entry point for direct execution, not used by the harness.
      * Note that the provided class name should be a subclass of TestCase.
      */
-    public static void main(String args[]) {
+    public static void main(String... args) {
         String executeClass = System.getProperty("javaTestExecuteClass");
         JUnitMultiTest multiTest = new JUnitBareMultiTest(ClassLoader.getSystemClassLoader());
         multiTest.setup(executeClass);

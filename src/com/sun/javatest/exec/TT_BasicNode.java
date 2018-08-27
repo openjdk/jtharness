@@ -372,7 +372,7 @@ public class TT_BasicNode extends TT_TreeNode {
         addTests(tests);
     }
 
-    int[] addNodes(TestResultTable.TreeNode[] nodes) {
+    int[] addNodes(TestResultTable.TreeNode... nodes) {
         if (nodes == null || nodes.length == 0) {
             return null;
         }
@@ -407,7 +407,7 @@ public class TT_BasicNode extends TT_TreeNode {
         return newPositions;
     }
 
-    private void addTests(TestResult[] tests) {
+    private void addTests(TestResult... tests) {
         if (tests == null || tests.length == 0) {
             return;
         }

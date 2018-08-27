@@ -91,7 +91,7 @@ public class ReportSettings {
     /**
      * Creates a new ReportEnviroment instance refers to the given file.
      */
-    public ReportSettings(File xmlReportFile, File[] in) {
+    public ReportSettings(File xmlReportFile, File... in) {
         this.xmlReportFile = xmlReportFile;
         this.mif = in;
     }
@@ -427,7 +427,7 @@ public class ReportSettings {
         xmlReportFile = f;
     }
 
-    public void setMergingFiles(File[] files) {
+    public void setMergingFiles(File... files) {
         mif = files;
     }
 

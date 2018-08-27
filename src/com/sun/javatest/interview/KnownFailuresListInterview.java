@@ -76,7 +76,7 @@ public class KnownFailuresListInterview
         cachedExcludeList_files = null;
     }
 
-    public void setKflFiles(File[] files) {
+    public void setKflFiles(File... files) {
         if (files == null || files.length == 0) {
             qNeedKfl.setValue(YesNoQuestion.NO);
             setCustomKflFiles(null);
@@ -96,7 +96,7 @@ public class KnownFailuresListInterview
             null : qCustomFiles.getValue();
     }
 
-    protected void setCustomKflFiles(File[] files) {
+    protected void setCustomKflFiles(File... files) {
         qCustomFiles.setValue(files);
         updatePath(qCustomFiles);
     }
@@ -287,7 +287,7 @@ public class KnownFailuresListInterview
 
     //---------------------------------------------------------------------
 
-    private static File[] getAbsoluteFiles(File baseDir, File[] files) {
+    private static File[] getAbsoluteFiles(File baseDir, File... files) {
         if (files == null)
             return null;
 
@@ -316,7 +316,7 @@ public class KnownFailuresListInterview
         return f1 == null ? f2 == null : f1.equals(f2);
     }
 
-    private static boolean equal(File[] f1, File[] f2) {
+    private static boolean equal(File[] f1, File... f2) {
         if (f1 == null || f2 == null)
             return f1 == f2;
 

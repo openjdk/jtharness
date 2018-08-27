@@ -503,7 +503,7 @@ public class ExecTool extends Tool implements ExecModel,
 
 
     @Override
-    public void runTests(String[] urls) {
+    public void runTests(String... urls) {
         if (urls == null || urls.length == 0)
             // error dialog?
             return;
@@ -603,7 +603,7 @@ public class ExecTool extends Tool implements ExecModel,
                 setI18NTitle("exec.title.wd.txt", workDirPath);
             else {
                 setShortTitle(testSuiteName);
-                setI18NTitle("exec.title.tsName_wd.txt", new Object[]{testSuiteName, workDirPath});
+                setI18NTitle("exec.title.tsName_wd.txt", testSuiteName, workDirPath);
             }
         }
 

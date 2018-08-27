@@ -542,7 +542,7 @@ public class UIFactory {
      * {@link java.text.MessageFormat#format}
      * @return the formatted string
      */
-    public String getI18NString(String key, Object[] args) {
+    public String getI18NString(String key, Object... args) {
         return i18n.getString(key, args);
     }
 
@@ -1162,7 +1162,7 @@ public class UIFactory {
      * @return the choice item that was created
      * @see #createLiteralChoice
      */
-    public JComboBox<String> createChoice(final String uiKey, final String[] choiceKeys) {
+    public JComboBox<String> createChoice(final String uiKey, final String... choiceKeys) {
         return createChoice(uiKey, choiceKeys, false);
     }
 
@@ -1321,7 +1321,7 @@ public class UIFactory {
      * @return the choice item that was created
      * @see #createChoice
      */
-    public <E> JComboBox<E> createLiteralChoice(String uiKey, E[] choices) {
+    public <E> JComboBox<E> createLiteralChoice(String uiKey, E... choices) {
         JComboBox<E> choice = new JComboBox<>(choices);
         choice.setName(uiKey);
         setToolTip(choice, uiKey);
@@ -1559,7 +1559,7 @@ public class UIFactory {
      * @return the menu that was created
      * @see #createMenuItem(Action)
      */
-    public JMenu createMenu(String uiKey, Action[] actions) {
+    public JMenu createMenu(String uiKey, Action... actions) {
         JMenu m = createMenu(uiKey);
         for (Action action : actions) {
             if (action == null)
@@ -1967,7 +1967,7 @@ public class UIFactory {
      * @see #setAccessibleName(Component,String)
      * @see #setToolTip(JComponent,String)
      */
-    public JTabbedPane createTabbedPane(String uiKey, JComponent[] children) {
+    public JTabbedPane createTabbedPane(String uiKey, JComponent... children) {
         JTabbedPane p = new JTabbedPane();
         p.setName(uiKey);
         setAccessibleName(p, uiKey);
@@ -2185,7 +2185,7 @@ public class UIFactory {
      * {@link java.text.MessageFormat#format}
      * @return the message area that was created
      */
-    public JTextArea createMessageArea(String uiKey, Object[] args) {
+    public JTextArea createMessageArea(String uiKey, Object... args) {
         return createLocalizedMessageArea(uiKey, getI18NString(uiKey + ".txt", args), true);
     }
 
@@ -2609,7 +2609,7 @@ public class UIFactory {
      * @return the tool bar that was created
      * @see javax.swing.Action#SHORT_DESCRIPTION
      */
-    public JToolBar createToolBar(String uiKey, Action[] actions) {
+    public JToolBar createToolBar(String uiKey, Action... actions) {
         JToolBar tb = new JToolBar();
         tb.setName(uiKey);
         setAccessibleInfo(tb, uiKey);
@@ -2637,7 +2637,7 @@ public class UIFactory {
      *  use null in the array to indicate if and where a separator is required
      * @return the tool bar that was created
      */
-    public JToolBar createToolBar(String uiKey, JButton[] buttons) {
+    public JToolBar createToolBar(String uiKey, JButton... buttons) {
         JToolBar tb = new JToolBar();
         tb.setName(uiKey);
         setAccessibleInfo(tb, uiKey);
@@ -2659,7 +2659,7 @@ public class UIFactory {
      *        use null in the array to indicate if and where a separator is required
      * @see javax.swing.Action#SHORT_DESCRIPTION
      */
-    public void addToolBarActions(JToolBar tb, Action[] actions) {
+    public void addToolBarActions(JToolBar tb, Action... actions) {
         for (Action action : actions) {
             if (action == null)
                 tb.addSeparator();
@@ -2727,7 +2727,7 @@ public class UIFactory {
      * {@link java.text.MessageFormat#format}
      * The method will block until the dialog is dismissed by the user.
      */
-    public void showError(String uiKey, Object[] args) {
+    public void showError(String uiKey, Object... args) {
         String msg = getI18NString(uiKey + ".err", args);
         String title = local_i18n.getString("uif.error", ProductInfo.getName());
         JButton okBtn = createOptionButton("uif.ok");
@@ -2765,7 +2765,7 @@ public class UIFactory {
      * to be added to scrollable pane
      * The method will block until the dialog is dismissed by the user.
      */
-    public void showError(String uiKey, Object[] args, Object[] trace) {
+    public void showError(String uiKey, Object[] args, Object... trace) {
         String title = local_i18n.getString("uif.error", ProductInfo.getName());
         JButton okBtn = createOptionButton("uif.ok");
         StringBuffer traceString = new StringBuffer(getI18NString(uiKey + ".err", args));
@@ -2897,7 +2897,7 @@ public class UIFactory {
      * @see JOptionPane#OK_OPTION
      * @see JOptionPane#CANCEL_OPTION
      */
-    public int showOKCancelDialog(String uiKey, Object[] args) {
+    public int showOKCancelDialog(String uiKey, Object... args) {
         return showLocalizedOKCancelDialog(uiKey, getI18NString(uiKey + ".txt", args));
     }
 
@@ -2993,7 +2993,7 @@ public class UIFactory {
      * @see JOptionPane#YES_OPTION
      * @see JOptionPane#NO_OPTION
      */
-    public int showYesNoDialog(String uiKey, Object[] args) {
+    public int showYesNoDialog(String uiKey, Object... args) {
         return showLocalizedYesNoDialog(uiKey, getI18NString(uiKey + ".txt", args));
     }
 
@@ -3096,7 +3096,7 @@ public class UIFactory {
      * @see JOptionPane#NO_OPTION
      * @see JOptionPane#CANCEL_OPTION
      */
-    public int showYesNoCancelDialog(String uiKey, Object[] args) {
+    public int showYesNoCancelDialog(String uiKey, Object... args) {
         return showLocalizedYesNoCancelDialog(uiKey, getI18NString(uiKey + ".txt", args));
     }
 
@@ -3126,7 +3126,7 @@ public class UIFactory {
      * @param uiKey the base name of the resource to be used
      * @param args any arguments to be used to create the message
      */
-    public void showInformationDialog(String uiKey, Object[] args) {
+    public void showInformationDialog(String uiKey, Object... args) {
         showLocalizedInformationDialog(uiKey,
             getI18NString(uiKey + ".title"),
             getI18NString(uiKey + ".txt", args), parent);
@@ -3617,7 +3617,7 @@ public class UIFactory {
         }
 
         @Override
-        public String getI18NString(String key, Object[] args) {
+        public String getI18NString(String key, Object... args) {
             if (hasKey(i18n_alt,key)) {
                 return i18n_alt.getString(key, args);
             } else {

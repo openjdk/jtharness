@@ -106,7 +106,7 @@ public class TestSuite
          * @param o An array of arguments to be formatted with the detail message by
          * {@link java.text.MessageFormat#format}
          */
-        public Fault(I18NResourceBundle i18n, String s, Object[] o) {
+        public Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
         }
     }
@@ -389,7 +389,7 @@ public class TestSuite
      * @throws TestSuite.Fault if there are any problems initializing the
      * test suite from the specified arguments.
      */
-    protected void init(String[] args) throws Fault {
+    protected void init(String... args) throws Fault {
         if (args.length > 0)
             throw new Fault(i18n, "ts.badArgs", args[0]);
         // should be a decodeArgs loop
@@ -1057,7 +1057,7 @@ public class TestSuite
      * @throws TestSuite.Fault if any errors arise while trying to instantiate
      * the class.
      */
-    protected static <T> T newInstance(Class<? extends T> c, Class<?>[] argTypes, Object[] args)
+    protected static <T> T newInstance(Class<? extends T> c, Class<?>[] argTypes, Object... args)
         throws Fault
     {
         try {
@@ -1081,7 +1081,7 @@ public class TestSuite
         catch (NoSuchMethodException e) {
             // don't recurse past the use of a single arg constructor
             if (argTypes.length > 1 && Boolean.getBoolean(FIND_LEGACY_CONSTRUCTOR)) {
-                return newInstance(c, new Class<?>[] {File.class}, new Object[] {args[0]});
+                return newInstance(c, new Class<?>[] {File.class}, args[0]);
             }
 
             throw new Fault(i18n, "ts.cantFindConstructor",

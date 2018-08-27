@@ -172,7 +172,7 @@ public class Help {
          * @param o An array of arguments to be formatted with the detail message by
          * {@link java.text.MessageFormat#format}
          */
-        public Fault(ResourceBundle i18n, String s, Object[] o) {
+        public Fault(ResourceBundle i18n, String s, Object... o) {
             super(MessageFormat.format(i18n.getString(s), o));
         }
     }

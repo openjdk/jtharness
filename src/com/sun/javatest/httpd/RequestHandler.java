@@ -125,7 +125,7 @@ class RequestHandler implements Runnable {
         }
     }
 
-    protected void doGet(String[] args) {
+    protected void doGet(String... args) {
         if (debug) System.out.println("RH-Get processing URL: \"" + args[1] + "\"");
 
         httpURL url = new httpURL(args[1]);
@@ -142,13 +142,13 @@ class RequestHandler implements Runnable {
         }
     }
 
-    protected void doPost(String[] args) {
+    protected void doPost(String... args) {
     }
 
     /**
      * Produce and error message.  404?
      */
-    protected void notFound(String[] args) {
+    protected void notFound(String... args) {
     }
 
     private void error(PrintWriter out, String code, String msg) {

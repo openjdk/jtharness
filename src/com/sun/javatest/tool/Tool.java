@@ -136,7 +136,7 @@ public abstract class Tool extends JPanel
      * @see com.sun.javatest.util.I18NResourceBundle
      * @see #getTitle
      */
-    protected void setI18NTitle(String key, Object[] args) {
+    protected void setI18NTitle(String key, Object... args) {
         setLocalizedTitle(uif.getI18NString(key, args));
     }
 

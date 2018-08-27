@@ -234,7 +234,7 @@ class ChecklistBrowser extends ToolDialog
             else if (e instanceof FileNotFoundException)
                 uif.showError("cb.save.cantFindFile", file);
             else
-                uif.showError("cb.save.error", new Object[] { file, e } );
+                uif.showError("cb.save.error", file, e);
         }
     }
 

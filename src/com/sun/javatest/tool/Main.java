@@ -83,7 +83,7 @@ public class Main
          * @param args An array of arguments to be formatted with the detail message by
          * {@link java.text.MessageFormat#format}
          */
-        public Fault(I18NResourceBundle i18n, String key, Object[] args) {
+        public Fault(I18NResourceBundle i18n, String key, Object... args) {
             super(i18n.getString(key, args));
         }
     }
@@ -93,7 +93,7 @@ public class Main
      * Run JT Harness with command-line args.
      * @param args Arguments, per the command-line spec
      */
-    public static void main(String[] args) {
+    public static void main(String... args) {
         tracing = Boolean.getBoolean("javatest.trace.startup");
 
         if (tracing)
@@ -131,7 +131,7 @@ public class Main
         main0(args);
     }
 
-    private static void main0(String[] args) {
+    private static void main0(String... args) {
         Debug.setProperties(System.getProperties());
 
         PrintWriter out = new PrintWriter(System.err) {

@@ -75,7 +75,7 @@ public class JavaCompileCommand extends Command
      * @param args command line arguments for this command.
      * @see #run
      */
-    public static void main(String[] args) {
+    public static void main(String... args) {
         PrintWriter out = new PrintWriter(System.out);
         PrintWriter err = new PrintWriter(System.err);
         Status s;
@@ -202,12 +202,12 @@ public class JavaCompileCommand extends Command
 
             Object[] compileMethodArgs;
             Method compileMethod = getMethod(compilerClass, "compile", // JDK1.4+
-                                             new Class<?>[] { String[].class, PrintWriter.class });
+                    String[].class, PrintWriter.class);
             if (compileMethod != null)
                 compileMethodArgs = new Object[] { args, ref };
             else {
                 compileMethod = getMethod(compilerClass, "compile",   // JDK1.1-3
-                                          new Class<?>[] { String[].class });
+                        String[].class);
                 if (compileMethod != null)
                     compileMethodArgs = new Object[] { args };
                 else
@@ -220,7 +220,7 @@ public class JavaCompileCommand extends Command
             else {
                 Object[] constrArgs;
                 Constructor<?> constr = getConstructor(compilerClass, // JDK1.1-2
-                                                    new Class<?>[] { OutputStream.class, String.class });
+                        OutputStream.class, String.class);
                 if (constr != null)
                     constrArgs = new Object[] { new WriterStream(ref), compilerName };
                 else {
@@ -275,7 +275,7 @@ public class JavaCompileCommand extends Command
         }
     }
 
-    private Constructor<?> getConstructor(Class<?> c, Class<?>[] argTypes) {
+    private Constructor<?> getConstructor(Class<?> c, Class<?>... argTypes) {
         try {
             return c.getConstructor(argTypes);
         }
@@ -289,7 +289,7 @@ public class JavaCompileCommand extends Command
         }
     }
 
-    private Method getMethod(Class<?> c, String name, Class<?>[] argTypes) {
+    private Method getMethod(Class<?> c, String name, Class<?>... argTypes) {
         try {
             return c.getMethod(name, argTypes);
         }

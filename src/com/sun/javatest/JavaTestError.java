@@ -101,7 +101,7 @@ public class JavaTestError extends Error
      * @param key The key to access the resource bundle.
      * @param args Items to be substituted into the internationalized string.
      */
-    public JavaTestError(I18NResourceBundle i18n, String key, Object[] args) {
+    public JavaTestError(I18NResourceBundle i18n, String key, Object... args) {
         super(i18n.getString(key, args));
     }
 
@@ -130,7 +130,7 @@ public class JavaTestError extends Error
      * @param original The problem which ultimately caused this error.
      */
     public JavaTestError(I18NResourceBundle i18n, String key, Object arg, Throwable original) {
-        super(i18n.getString(key, new Object[] {arg, original}));
+        super(i18n.getString(key, arg, original));
         this.original = original;
     }
 

@@ -837,7 +837,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
                     return uif.getI18NString("test.out.sectionTitle", section.getTitle());
                 else
                     return uif.getI18NString("test.out.streamTitle",
-                                             new Object[] { section.getTitle(), outputName });
+                            section.getTitle(), outputName);
             }
         }
 

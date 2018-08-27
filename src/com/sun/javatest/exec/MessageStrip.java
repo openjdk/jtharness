@@ -272,7 +272,7 @@ class MessageStrip extends JSplitPane
         uif.setAccessibleName(magButt, "strip.magnify");
 
         JToolBar tb = uif.createToolBar("strip.tb",
-                            new JButton[] {magButt});
+                magButt);
         tb.setFloatable(false);
         tb.setBorderPainted(true);
 

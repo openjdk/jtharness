@@ -343,7 +343,7 @@ public class XMLReportMaker {
         eE(Scheme.ROW);
     }
 
-    void makeChoices(String[] ch, String[] dispCh) throws SAXException {
+    void makeChoices(String[] ch, String... dispCh) throws SAXException {
         if (ch != null) {
             for (int i = 0; i < ch.length; i++) {
                 makeChoice(ch[i], i < dispCh.length ? dispCh[i] : null);
@@ -351,7 +351,7 @@ public class XMLReportMaker {
         }
     }
 
-    void makeChoices(String[] ch, String[] dispCh, boolean[] values) throws SAXException {
+    void makeChoices(String[] ch, String[] dispCh, boolean... values) throws SAXException {
         if (ch != null) {
             for (int i = 0; i < ch.length; i++) {
                 makeChoice(ch[i], i < dispCh.length ? dispCh[i] : null, i < values.length ? values[i] : false);
@@ -446,7 +446,7 @@ public class XMLReportMaker {
         eE(Scheme.IT);
     }
 
-    void makeItems(String[] vals) throws SAXException {
+    void makeItems(String... vals) throws SAXException {
         if (vals != null) {
             for (String val : vals) {
                 if (val != null) {
@@ -456,7 +456,7 @@ public class XMLReportMaker {
         }
     }
 
-    void makeItems(File[] files) throws SAXException {
+    void makeItems(File... files) throws SAXException {
         if (files != null) {
             for (File file : files) {
                 makeItem(file.getPath());

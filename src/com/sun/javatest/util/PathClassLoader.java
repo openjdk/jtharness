@@ -79,7 +79,7 @@ public class PathClassLoader extends ClassLoader
      * @param path an array of files, identifying a sequence of locations in which
      *   to look for classes to be loaded
      */
-    public PathClassLoader(File[] path) {
+    public PathClassLoader(File... path) {
         this.path = path;
     }
 

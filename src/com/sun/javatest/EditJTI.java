@@ -82,7 +82,7 @@ public class EditJTI
          * @param o An array of arguments to be formatted with the detail message by
          * {@link java.text.MessageFormat#format}
          */
-        BadArgs(ResourceBundle i18n, String s, Object[] o) {
+        BadArgs(ResourceBundle i18n, String s, Object... o) {
             super(MessageFormat.format(i18n.getString(s), o));
         }
     }
@@ -100,7 +100,7 @@ public class EditJTI
             super(i18n.getString(s, o));
         }
 
-        Fault(I18NResourceBundle i18n, String s, Object[] o) {
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
         }
     }
@@ -111,7 +111,7 @@ public class EditJTI
      * and so does not return if called directly.
      * @param args Comamnd line arguments.
      */
-    public static void main(String[] args) {
+    public static void main(String... args) {
         try {
             EditJTI e = new EditJTI();
             boolean ok = e.run(args);
@@ -173,7 +173,7 @@ public class EditJTI
      * @throws EditJTI.BadArgs if there is an error analysing the args
      * @throws EditJTI.Fault if there is an error executing the args
      */
-    public boolean run(String[] args) throws BadArgs, Fault {
+    public boolean run(String... args) throws BadArgs, Fault {
         PrintWriter out = new PrintWriter(System.out);
         try {
             return run(args, out);
@@ -539,7 +539,7 @@ public class EditJTI
      * @throws EditJTI.Fault if there is a problem while applying the edit commands.
      * @see #edit(String)
      */
-    public void edit(String[] cmds) throws Fault {
+    public void edit(String... cmds) throws Fault {
         for (String cmd : cmds) {
             edit(cmd);
         }
@@ -664,7 +664,7 @@ public class EditJTI
             q.setValue(value);
             if (verbose)
                 out.println(i18n.getString("editJTI.update",
-                    new Object[] { q.getTag(), oldValue, q.getStringValue() }));
+                        q.getTag(), oldValue, q.getStringValue()));
         }
         catch (Interview.Fault e) {
             throw new Fault(i18n, "editJTI.cantSetValue", new Object[] { q.getTag(), e.getMessage() } );

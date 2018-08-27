@@ -42,7 +42,7 @@ interface ET_RunTestControl extends ET_Control {
     void setTreePanelModel(TreePanelModel tpm);
     void setConfig(Session config);
     Harness getHarness();
-    public void executeImmediate(String[] paths);
+    public void executeImmediate(String... paths);
 
     void addObserver(Observer obs);
     void removeObserver(Observer obs);

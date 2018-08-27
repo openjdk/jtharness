@@ -79,7 +79,7 @@ public class ErrorDialogHandler extends StreamHandler {
         super.flush();
     }
 
-    private void showError(String text, String[] args, String[] trace) {
+    private void showError(String text, String[] args, String... trace) {
         String title = i18n.getString("logger.dialog.error");
         ActionListener al = new ActionListener() {
                 @Override

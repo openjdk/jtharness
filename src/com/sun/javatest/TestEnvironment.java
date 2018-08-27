@@ -70,7 +70,7 @@ public class TestEnvironment
             super(i18n.getString(s, o));
         }
 
-        Fault(I18NResourceBundle i18n, String s, Object[] o) {
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
         }
     }
@@ -133,7 +133,7 @@ public class TestEnvironment
      */
     public TestEnvironment(String name, Map<String, String> propTable, String propTableName)
                 throws Fault {
-        this(name, new Map[] {propTable}, new String[] {propTableName});
+        this(name, new Map[] {propTable}, propTableName);
     }
 
     /**
@@ -149,7 +149,7 @@ public class TestEnvironment
      * @throws TestEnvironment.Fault if there is an error in the given tables
      *
      */
-    public TestEnvironment(String name, Map[] propTables, String[] propTableNames)
+    public TestEnvironment(String name, Map[] propTables, String... propTableNames)
         throws Fault
     {
         this.name = name;
@@ -270,7 +270,7 @@ public class TestEnvironment
      * @param name      The name of the property to be written
      * @param value     The value of the property to be written
      */
-    public void put(String name, String[] value) {
+    public void put(String name, String... value) {
         // used to save values without subjecting them to any $ or # processing
         // Note further that the main props table is considered IMMUTABLE,
         // because it is shared amongst the clones.
@@ -568,7 +568,7 @@ public class TestEnvironment
             v[i] = v[i].replace(from, to);
     }
 
-    private void substituteMap(String[] v, String[] map) {
+    private void substituteMap(String[] v, String... map) {
         if (map == null)
             return;
 
@@ -589,7 +589,7 @@ public class TestEnvironment
         }
     }
 
-    private String convertToName(String[] v) {
+    private String convertToName(String... v) {
         String s = "";
         for (int i = 0; i < v.length; i++) {
             if (i > 0)

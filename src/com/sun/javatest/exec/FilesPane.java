@@ -82,10 +82,10 @@ class FilesPane extends JPanel implements Printable {
 
     void setFile(URL file) {
         if (file != null)
-            setFiles(new URL[] { file });
+            setFiles(file);
     }
 
-    void setFiles(URL[] files) {
+    void setFiles(URL... files) {
         mediaPane.clear();
         navPane.setURLs(files);
         mediaPane.loadPage(files[0]);

@@ -105,7 +105,7 @@ public class FileListQuestionRenderer
         return panel;
     }
 
-    protected FileList createFileList(String uiKey, File[] files) {
+    protected FileList createFileList(String uiKey, File... files) {
         return new FileList(uiKey, files);
     }
 

@@ -86,7 +86,7 @@ public class NavigationPane extends JPanel {
         return homeURL;
     }
 
-    public void setURLs(URL[] urls) {
+    public void setURLs(URL... urls) {
         if(model != null) {
             model.removeAllElements();
 

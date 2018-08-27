@@ -102,7 +102,7 @@ class BrowserPane extends JPanel {
 
     void setFile(URL file) {
         if (file != null)
-            setFiles(new URL[] { file });
+            setFiles(file);
     }
 
     boolean isEmpty() {
@@ -119,7 +119,7 @@ class BrowserPane extends JPanel {
         textHomePage = text;
     }
 
-    void setFiles(URL[] files) {
+    void setFiles(URL... files) {
         clear();
 
         for (int i = 0; i < files.length; i++) {
@@ -317,7 +317,7 @@ class BrowserPane extends JPanel {
                 br.close();
             }
             catch (IOException e) {
-                uif.showError("fp.load.error", new Object[] { url, e });
+                uif.showError("fp.load.error", url, e);
             }
 
         }
@@ -333,7 +333,7 @@ class BrowserPane extends JPanel {
                 textArea.setPage(url);
             }
             catch (IOException e) {
-                uif.showError("fp.load.error", new Object[] { url, e });
+                uif.showError("fp.load.error", url, e);
             }
         }
 

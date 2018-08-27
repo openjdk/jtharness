@@ -82,7 +82,7 @@ public class WizEdit
          * @param o An array of arguments to be formatted with the detail message by
          * {@link java.text.MessageFormat#format}
          */
-        BadArgs(ResourceBundle i18n, String s, Object[] o) {
+        BadArgs(ResourceBundle i18n, String s, Object... o) {
             super(MessageFormat.format(i18n.getString(s), o));
         }
     }
@@ -120,7 +120,7 @@ public class WizEdit
          * @param o An array of arguments to be formatted with the detail message by
          * {@link java.text.MessageFormat#format}
          */
-        Fault(ResourceBundle i18n, String s, Object[] o) {
+        Fault(ResourceBundle i18n, String s, Object... o) {
             super(MessageFormat.format(i18n.getString(s), o));
         }
     }
@@ -129,7 +129,7 @@ public class WizEdit
      * Simple command-line front-end to the facilities of the API.
      * @param args Command line arguments.
      */
-    public static void main(String[] args) {
+    public static void main(String... args) {
         try {
             Vector<String> v = new Vector<>();
             File interviewFile = null;
@@ -251,7 +251,7 @@ public class WizEdit
      * @throws WizEdit.Fault if there is a problem while applying the edits.
      * @see #edit(String)
      */
-    public void edit(String[] cmds) throws Fault {
+    public void edit(String... cmds) throws Fault {
         for (String cmd : cmds) edit(cmd);
     }
 

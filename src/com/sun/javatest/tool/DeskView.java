@@ -102,7 +102,7 @@ abstract class DeskView {
          * @param o An array of arguments to be formatted with the detail message by
          * {@link java.text.MessageFormat#format}
          */
-        Fault(I18NResourceBundle i18n, String s, Object[] o) {
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
         }
     }
@@ -572,13 +572,13 @@ abstract class DeskView {
                     }
                     catch (ToolManager.Fault | Fault e) {
                         uif.showError("dv.restore.cantRestoreTool",
-                                      new Object[] {Integer.valueOf(i), e.getMessage() });
+                                Integer.valueOf(i), e.getMessage());
                     } catch (Throwable e) {
                         uif.showError("dv.restore.cantRestoreTool",
-                                      new Object[] {Integer.valueOf(i), e.toString() });
+                                Integer.valueOf(i), e.toString());
                         I18NResourceBundle i18n = uif.getI18NResourceBundle();
                         desktop.log(i18n, "dv.restore.cantRestoreTool",
-                                    new Object[] { e, Integer.valueOf(i)});
+                                e, Integer.valueOf(i));
                     }
                 }
             }
@@ -791,7 +791,7 @@ abstract class DeskView {
                 if (!h.file.exists())
                     continue;
                 String s = uif.getI18NString("dt.file.historyX.mit",
-                        new Object[]{Integer.valueOf(n), h.file.getPath()});
+                        Integer.valueOf(n), h.file.getPath());
                 JMenuItem mi = new JMenuItem(s);
                 mi.setActionCommand(HISTORY);
                 mi.addActionListener(this);
@@ -852,7 +852,7 @@ abstract class DeskView {
                 }
                 catch (FileOpener.Fault ex) {
                     uif.showError("dt.file.cannotOpen",
-                                  new Object[] { h.file, ex.getMessage() });
+                            h.file, ex.getMessage());
                 }
             }
             else if (cmd.equals(EXIT)) {

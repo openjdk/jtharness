@@ -93,7 +93,7 @@ public class EnvironmentInterview
      * @see #getEnvFiles
      */
     @Override
-    public void setEnvFiles(File[] files) {
+    public void setEnvFiles(File... files) {
         qEnvFiles.setValue(files);
     }
 
@@ -345,7 +345,7 @@ public class EnvironmentInterview
 
     //---------------------------------------------------------------------
 
-    private static File[] getAbsoluteFiles(File baseDir, File[] files) {
+    private static File[] getAbsoluteFiles(File baseDir, File... files) {
         if (files == null)
             return null;
 
@@ -374,7 +374,7 @@ public class EnvironmentInterview
         return f1 == null ? f2 == null : f1.equals(f2);
     }
 
-    private static boolean equal(File[] f1, File[] f2) {
+    private static boolean equal(File[] f1, File... f2) {
         if (f1 == null || f2 == null)
             return f1 == f2;
 

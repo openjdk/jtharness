@@ -58,7 +58,7 @@ import java.util.Set;
 
 public class InterviewPropagator {
 
-    InterviewPropagator(InterviewParameters par, String[] igProps, String[] igPrefs) {
+    InterviewPropagator(InterviewParameters par, String[] igProps, String... igPrefs) {
         interview = par;
         ignorableProps = igProps;
         ignorablePrefs = igPrefs;
@@ -89,7 +89,7 @@ public class InterviewPropagator {
 
                 fireEvent(EventType.TemplateLoaded, templateData);
             } catch (IOException ex) {
-                notifyError(i18n.getString("tmpltProp.tmpFileError", new String[]{interview.getTemplatePath()}));
+                notifyError(i18n.getString("tmpltProp.tmpFileError", interview.getTemplatePath()));
                 logException(ex);
             }
 
@@ -661,7 +661,7 @@ public class InterviewPropagator {
             return;
         }
 
-        private String[] convertPQ(Object[] data) {
+        private String[] convertPQ(Object... data) {
 
             try {
 

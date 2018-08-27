@@ -81,7 +81,7 @@ public class PriorStatusInterview
     }
 
     @Override
-    public void setPriorStatusValues(boolean[] b) {
+    public void setPriorStatusValues(boolean... b) {
         if (b == null)
             setPriorStatusMode(NO_PRIOR_STATUS);
         else {
@@ -121,7 +121,7 @@ public class PriorStatusInterview
      * @see #getMatchPriorStatusValues
      */
     @Override
-    public void setMatchPriorStatusValues(boolean[] b) {
+    public void setMatchPriorStatusValues(boolean... b) {
         if (b.length != Status.NUM_STATES)
             throw new IllegalArgumentException();
 
@@ -209,7 +209,7 @@ public class PriorStatusInterview
         //   cachedStatusFilter is OK
     }
 
-    private static boolean equal(boolean[] b1, boolean[] b2) {
+    private static boolean equal(boolean[] b1, boolean... b2) {
         if (b1 == null || b2 == null)
             return b1 == b2;
         if (b1.length != b2.length)

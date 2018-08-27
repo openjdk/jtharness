@@ -64,7 +64,7 @@ public abstract class JUnitTestFinder extends TestFinder {
      *             delegate the call to the supertype.
      */
     @Override
-    protected void decodeAllArgs(String[] args) throws Fault {
+    protected void decodeAllArgs(String... args) throws Fault {
         // supports selection of two modes -
         // 1 - scan for .java files, use to locate .class file
         // 2 - just scan for .class files
@@ -108,7 +108,7 @@ public abstract class JUnitTestFinder extends TestFinder {
      * This will typically be for directories like SCCS, Codemgr_wsdata, etc
      * @param names The names of files to be excluded.
      */
-    public void exclude(String[] names) {
+    public void exclude(String... names) {
         for (String name : names) {
             excludeList.put(name, name);
         }

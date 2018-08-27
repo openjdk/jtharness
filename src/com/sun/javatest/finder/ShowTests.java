@@ -98,7 +98,7 @@ public class ShowTests
      *          will be displayed as well.
      * </table>
      */
-    public static void main(String[] args) {
+    public static void main(String... args) {
         try {
             if (args.length == 0)
                 usage(System.out);
@@ -155,7 +155,7 @@ public class ShowTests
      *                  if a problem is found while trying to read a file
      * @see #main
      */
-    public void run(String[] args) throws BadArgs, Fault, IOException {
+    public void run(String... args) throws BadArgs, Fault, IOException {
         File testSuite = null;
         String finder = null;
         String[] finderArgs = null;

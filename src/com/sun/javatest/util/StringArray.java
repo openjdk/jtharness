@@ -79,7 +79,7 @@ public class StringArray
      *         The return value is a zero length string if the input value
      *         was null or zero length.
      */
-    public static String join(String[] ss) {
+    public static String join(String... ss) {
         return join(ss, " ");
     }
 

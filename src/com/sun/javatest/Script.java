@@ -53,7 +53,7 @@ public abstract class Script
      * Initialize any custom args for the script.
      * @param args custom args for the script
      */
-    public void initArgs(String[] args) {
+    public void initArgs(String... args) {
         scriptArgs = args;
     }
 
@@ -77,7 +77,7 @@ public abstract class Script
      * @param excludedTestCases a list of test cases within the test that
      * should not be run
      */
-    public void initExcludedTestCases(String[] excludedTestCases) {
+    public void initExcludedTestCases(String... excludedTestCases) {
         this.excludedTestCases = excludedTestCases;
     }
 
@@ -124,7 +124,7 @@ public abstract class Script
      * @param s The delegate to be initialized
      * @param scriptArgs the arguments to be passed to the delegate object
      */
-    protected void initDelegate(Script s, String[] scriptArgs) {
+    protected void initDelegate(Script s, String... scriptArgs) {
         s.scriptArgs = scriptArgs;
         // copy rest of values across from self
         s.td = td;
@@ -455,7 +455,7 @@ public abstract class Script
      * @return          The status of the compilation: passed or failed.
      * @see #compileTogether
      */
-    protected Status compileIndividually(String[] srcs) {
+    protected Status compileIndividually(String... srcs) {
         return compileIndividually(DEFAULT_COMPILE_COMMAND, srcs);
     }
 
@@ -470,7 +470,7 @@ public abstract class Script
      * @return          The status of the compilation: passed or failed.
      * @see #compileTogether
      */
-    protected Status compileIndividually(String command, String[] srcs) {
+    protected Status compileIndividually(String command, String... srcs) {
         if (srcs.length == 0)
             return error_noSource;
 
@@ -490,7 +490,7 @@ public abstract class Script
      * @return          The status of the compilation: passed or failed.
      * @see #compileTogether
      */
-    protected Status compileIndividually(File[] srcs) {
+    protected Status compileIndividually(File... srcs) {
         return compileIndividually(DEFAULT_COMPILE_COMMAND, filesToStrings(srcs));
     }
 
@@ -505,7 +505,7 @@ public abstract class Script
      * @return          The status of the compilation: passed or failed.
      * @see #compileTogether
      */
-    protected Status compileIndividually(String command, File[] srcs) {
+    protected Status compileIndividually(String command, File... srcs) {
         return compileIndividually(command, filesToStrings(srcs));
     }
 
@@ -569,7 +569,7 @@ public abstract class Script
      * @return          The status of the compilation: passed or failed.
      * @see #invokeCommand
      */
-    protected Status compileTogether(String[] srcs) {
+    protected Status compileTogether(String... srcs) {
         return compileTogether(DEFAULT_COMPILE_COMMAND, srcs);
     }
 
@@ -639,7 +639,7 @@ public abstract class Script
      * @return          The status of the compilation: passed or failed.
      * @see #invokeCommand
      */
-    protected Status compileTogether(File[] srcs) {
+    protected Status compileTogether(File... srcs) {
         return compileTogether(DEFAULT_COMPILE_COMMAND, filesToStrings(srcs));
     }
 
@@ -657,7 +657,7 @@ public abstract class Script
      * @return          The status of the compilation: passed or failed.
      * @see #invokeCommand
      */
-    protected Status compileTogether(String command, File[] srcs) {
+    protected Status compileTogether(String command, File... srcs) {
         return compileTogether(command, filesToStrings(srcs));
     }
 
@@ -755,7 +755,7 @@ public abstract class Script
                     // no package statement
                     pkgPrefix = "";
             } catch (IOException e) {
-                trOut.println(i18n.getString("script.badDateStamp", new Object[]{src, e}));
+                trOut.println(i18n.getString("script.badDateStamp", src, e));
                 v.addElement(src);
                 continue;
             }
@@ -853,7 +853,7 @@ public abstract class Script
         }
         catch (TestEnvironment.Fault e) {
             trOut.println(i18n.getString("script.testEnvFault",
-                                         new Object[] { executeArgs, e.toString() }));
+                    executeArgs, e.toString()));
             return error_badExecuteArgs;
         }
     }
@@ -869,7 +869,7 @@ public abstract class Script
      * @return                  The status of the execution
      * @see #execute(java.lang.String, java.lang.String, java.lang.String[])
      */
-    protected Status execute(String executeClass, String[] executeArgs) {
+    protected Status execute(String executeClass, String... executeArgs) {
         return execute(DEFAULT_EXECUTE_COMMAND, executeClass, executeArgs);
     }
 
@@ -885,7 +885,7 @@ public abstract class Script
      * @return                  The status of the execution
      * @see #invokeCommand
      */
-    protected Status execute(String command, String executeClass, String[] executeArgs) {
+    protected Status execute(String command, String executeClass, String... executeArgs) {
         if (executeClass == null || executeClass.length() == 0)
             return error_noExecuteClass;
         env.put("testExecuteClass", executeClass);
@@ -904,7 +904,7 @@ public abstract class Script
      * @return          The status of the compilation: passed or failed.
      * @see #invokeCommand
      */
-    protected Status rmiCompile(String[] classes) {
+    protected Status rmiCompile(String... classes) {
         return rmiCompile(DEFAULT_RMIC_COMMAND, classes);
     }
 
@@ -920,7 +920,7 @@ public abstract class Script
      * @return          The status of the compilation: passed or failed.
      * @see #invokeCommand
      */
-    protected Status rmiCompile(String command, String[] classes) {
+    protected Status rmiCompile(String command, String... classes) {
         try {
             String[] classDir = env.lookup("testClassDir");
             if (classDir == null || classDir.length != 1)
@@ -982,7 +982,7 @@ public abstract class Script
 
             if (command.length == 0)
                 return Status.error(i18n.getString("script.noCommand",
-                                                   new Object[] { env.getName(), key }));
+                        env.getName(), key));
 
             String className = command[0];
             String[] args = new String[command.length - 1];
@@ -991,7 +991,7 @@ public abstract class Script
             section = testResult.createSection(key);
 
             section.getMessageWriter().println(i18n.getString("script.command",
-                                                              new Object[] {className, StringArray.join(args) }));
+                    className, StringArray.join(args)));
 
             try (PrintWriter out1 = section.createOutput(cmdOut1Name);
                  PrintWriter out2 = section.createOutput(cmdOut2Name)) {
@@ -1004,7 +1004,7 @@ public abstract class Script
         }
         catch (TestEnvironment.Fault e) {
             return Status.error(i18n.getString("script.badCommand",
-                                               new Object[] { env.getName(), key }));
+                    env.getName(), key));
         }
     }
 
@@ -1044,38 +1044,38 @@ public abstract class Script
         }
         catch (ClassCastException e) {
             return Status.error(i18n.getString("script.cantRunClass",
-                                               new Object[] { className, Command.class.getName() }));
+                    className, Command.class.getName()));
         }
         catch (ClassNotFoundException ex) {
             return Status.error(i18n.getString("script.cantFindClass",
-                                               new Object[] { className, env.getName() }));
+                    className, env.getName()));
         }
         catch (IllegalAccessException ex) {
             return Status.error(i18n.getString("script.cantAccessClass",
-                                               new Object[] { className, env.getName() }));
+                    className, env.getName()));
         }
         catch (IllegalArgumentException ex) {
             return Status.error(i18n.getString("script.badClassName",
-                                               new Object[] { className, env.getName() }));
+                    className, env.getName()));
         }
         catch (InstantiationException ex) {
             return Status.error(i18n.getString("script.cantCreateClass",
-                                               new Object[] { className, env.getName() }));
+                    className, env.getName()));
         }
         catch (ThreadDeath e) {
             throw (ThreadDeath) e.fillInStackTrace();
         }
         catch (Exception e) {
             e.printStackTrace(out1);
-            return Status.error(i18n.getString("script.unexpLoadExc", new Object[] { className, e }));
+            return Status.error(i18n.getString("script.unexpLoadExc", className, e));
         }
         catch (Error e) {
             e.printStackTrace(out1);
-            return Status.error(i18n.getString("script.unexpLoadErr", new Object[] { className, e }));
+            return Status.error(i18n.getString("script.unexpLoadErr", className, e));
         }
         catch (Throwable e) {
             e.printStackTrace(out1);
-            return Status.error(i18n.getString("script.unexpLoadThr", new Object[] { className, e }));
+            return Status.error(i18n.getString("script.unexpLoadThr", className, e));
         }
 
         try {
@@ -1088,19 +1088,19 @@ public abstract class Script
         catch (Exception e) {
             e.printStackTrace(out1);
             // error reduced to failed in following line for benefit of negative tests
-            return Status.failed(i18n.getString("script.unexpExecExc", new Object[] { className, e }));
+            return Status.failed(i18n.getString("script.unexpExecExc", className, e));
         }
         catch (Error e) {
             e.printStackTrace(out1);
             // error reduced to failed in following line for benefit of negative tests
-            return Status.failed(i18n.getString("script.unexpExecErr", new Object[] { className, e }));
+            return Status.failed(i18n.getString("script.unexpExecErr", className, e));
         }
         catch (Throwable e) {
             e.printStackTrace(out1);
             // error *NOT* reduced to failed in following line for benefit of
             // negative tests: test should never throw something which is not
             // an Exception or Error
-            return Status.error(i18n.getString("script.unexpExecThr", new Object[] { className, e }));
+            return Status.error(i18n.getString("script.unexpExecThr", className, e));
         }
 
     }
@@ -1117,7 +1117,7 @@ public abstract class Script
      * and a comma-separated list of test cases that should not be executed by
      * the test
      */
-    protected String[] exclude(String[] args, String[] testCases) {
+    protected String[] exclude(String[] args, String... testCases) {
         if (testCases == null)
             return args;
         StringBuffer sb = new StringBuffer();
@@ -1140,7 +1140,7 @@ public abstract class Script
      * @param files     The filenames to be converted
      * @return          The corresponding strings
      */
-    protected static String[] filesToStrings(File[] files) {
+    protected static String[] filesToStrings(File... files) {
         String[] strings = new String[files.length];
         for (int i = 0; i < files.length; i++)
             strings[i] = files[i].getPath();
@@ -1426,10 +1426,10 @@ public abstract class Script
                 trOut.println(i18n.getString("script.notResponding", Integer.valueOf(count)));
                 if (count%1000 == 0)
                     System.err.println(i18n.getString("script.timedOut",
-                                                      new Object[] { td.getRootRelativeURL(), Integer.valueOf(count)}));
+                            td.getRootRelativeURL(), Integer.valueOf(count)));
             }
             if (debugAlarm)
-                System.err.println(i18n.getString("script.alarm.interrupt", new Object[] { this, threadToInterrupt }));
+                System.err.println(i18n.getString("script.alarm.interrupt", this, threadToInterrupt));
             threadToInterrupt.interrupt();
             count++;
             entry = alarmTimer.requestDelayedCallback(this, 100); // keep requesting interrupts until cancelled

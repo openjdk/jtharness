@@ -300,7 +300,7 @@ public interface Parameters
          * the specified tests.
          * @see #getTests
          */
-        void setTests(String[] tests);
+        void setTests(String... tests);
 
         /**
          * Get the current mode for how the tests are specified.
@@ -346,7 +346,7 @@ public interface Parameters
          * @see #getSpecifiedTests
          * @see #getTests
          */
-        void setSpecifiedTests(String[] tests);
+        void setSpecifiedTests(String... tests);
 
         /**
          * A constant used to indicate that all tests in the test
@@ -403,7 +403,7 @@ public interface Parameters
          * and the custom exclude files will be set to this value
          * @see #getExcludeFiles
          */
-        void setExcludeFiles(File[] files);
+        void setExcludeFiles(File... files);
 
         /**
          * Get the current exclude list mode.
@@ -466,7 +466,7 @@ public interface Parameters
          * @param files the files used to define a custom exclude list
          * @see #getCustomExcludeFiles
          */
-        void setCustomExcludeFiles(File[] files);
+        void setCustomExcludeFiles(File... files);
 
         /**
          * Check if the automatic check for newer exclude lists
@@ -714,7 +714,7 @@ public interface Parameters
          * and the matching values will be set to this array.
          * @see #getPriorStatusValues
          */
-        void setPriorStatusValues(boolean[] b);
+        void setPriorStatusValues(boolean... b);
 
         /**
          * Get the current mode determining whether tests are selected or not
@@ -781,7 +781,7 @@ public interface Parameters
          * the prior execution status of tests to be selected to be executed.
          * @see #getMatchPriorStatusValues
          */
-        void setMatchPriorStatusValues(boolean[] values);
+        void setMatchPriorStatusValues(boolean... values);
     }
 
     //----------------------------------------------------------------------------
@@ -830,7 +830,7 @@ public interface Parameters
          * @see #getEnvFiles
          * @see #getAbsoluteEnvFiles
          */
-        void setEnvFiles(File[] files);
+        void setEnvFiles(File... files);
 
         /**
          * Get the set of files which define the environment used to run

@@ -209,7 +209,7 @@ public class KnownFailuresList
      * @throws KnownFailuresList.Fault if the data in the files is inconsistent
      * @see #KnownFailuresList(File)
      */
-    public KnownFailuresList(File[] files)
+    public KnownFailuresList(File... files)
         throws FileNotFoundException, IOException, Fault
     {
         this(files, false);
@@ -893,7 +893,7 @@ public class KnownFailuresList
             return new String(sb);
         }
 
-        private static boolean equals(int[] i1, int[] i2) {
+        private static boolean equals(int[] i1, int... i2) {
             if (i1 == null || i2 == null)
                 return i1 == null && i2 == null;
 
@@ -907,7 +907,7 @@ public class KnownFailuresList
             return true;
         }
 
-        private static boolean equals(String[] s1, String[] s2) {
+        private static boolean equals(String[] s1, String... s2) {
             if (s1 == null || s2 == null)
                 return s1 == null && s2 == null;
 

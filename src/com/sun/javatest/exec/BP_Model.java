@@ -48,7 +48,7 @@ interface BP_Model {
      * @param path Path to the target test, where the first element is the
      *        root of the appropriate TRT, and the last element is the test.
      */
-    public void showTest(TestResult tr, Object[] path);
+    public void showTest(TestResult tr, Object... path);
 
     /**
      * Do whatever may be needed to enable/disable the given component in the overall

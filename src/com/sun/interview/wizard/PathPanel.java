@@ -784,7 +784,7 @@ class PathPanel extends JPanel
             //System.err.println("PP.update: sel:" + currIndex + " " + currQuestion);
         }
 
-        private Object[] getEntries(Question[] path) {
+        private Object[] getEntries(Question... path) {
             if (path.length == 0)  // transient startup condition
                 return path;
 

@@ -63,7 +63,7 @@ public class AgentMain {
          * Create a BadArgs object.
          * @param msgs Detailed message about an error that has been found.
          */
-        public BadArgs(String[] msgs) {
+        public BadArgs(String... msgs) {
             super(msgs[0]);
             this.msgs = msgs;
         }
@@ -96,7 +96,7 @@ public class AgentMain {
          * Create a Fault object.
          * @param msgs A detail message about a fault that has been found.
          */
-        public Fault(String[] msgs) {
+        public Fault(String... msgs) {
             super(msgs[0]);
             this.msgs = msgs;
         }
@@ -130,7 +130,7 @@ public class AgentMain {
      * <tr><td> -observer    <em>classname</em> <td> add an observer to the agent that is used
      * </table>
      */
-    public static void main(String[] args) {
+    public static void main(String... args) {
         AgentMain m = new AgentMain();
         m.runAndExit(args);
     }
@@ -141,7 +141,7 @@ public class AgentMain {
      * This is for use by subtypes with their own main(String[]) entry point.
      * @param args the command line arguments for the run
      */
-    protected void runAndExit(String[] args) {
+    protected void runAndExit(String... args) {
         // install our own permissive security manager, to prevent anyone else
         // installing a less permissive one; moan if it can't be installed.
         JavaTestSecurityManager.install();
@@ -213,7 +213,7 @@ public class AgentMain {
      * @see #validateArgs
      * @see #createAgent
      */
-    public void run(String[] args) throws BadArgs, Fault {
+    public void run(String... args) throws BadArgs, Fault {
         decodeAllArgs(args);
 
         if (helpRequested) {
@@ -236,7 +236,7 @@ public class AgentMain {
      * @throws AgentMain.Fault if the args can be decoded successfully but
      * if there is a problem in their interpretation (e.g invalid port number)
      */
-    protected void decodeAllArgs(String[] args) throws BadArgs, Fault {
+    protected void decodeAllArgs(String... args) throws BadArgs, Fault {
         int i = 0;
         while (i < args.length) {
             int used = decodeArg(args, i);
@@ -603,15 +603,15 @@ public class AgentMain {
         }
 
         @Override
-        public void execTest(Agent agent, Connection c, String tag, String className, String[] args) {
+        public void execTest(Agent agent, Connection c, String tag, String className, String... args) {
         }
 
         @Override
-        public void execCommand(Agent agent, Connection c, String tag, String className, String[] args) {
+        public void execCommand(Agent agent, Connection c, String tag, String className, String... args) {
         }
 
         @Override
-        public void execMain(Agent agent, Connection c, String tag, String className, String[] args) {
+        public void execMain(Agent agent, Connection c, String tag, String className, String... args) {
         }
 
         @Override

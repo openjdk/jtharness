@@ -217,7 +217,7 @@ public abstract class BasicParameters
     }
 
     @Override
-    public void setTests(String[] tests) {
+    public void setTests(String... tests) {
         if (tests == null)
             testsMode = MutableTestsParameters.ALL_TESTS;
         else {
@@ -246,7 +246,7 @@ public abstract class BasicParameters
     }
 
     @Override
-    public void setSpecifiedTests(String[] tests) {
+    public void setSpecifiedTests(String... tests) {
         if (tests == null)
             throw new NullPointerException();
 
@@ -299,7 +299,7 @@ public abstract class BasicParameters
     }
 
     @Override
-    public void setExcludeFiles(File[] files) {
+    public void setExcludeFiles(File... files) {
         if (files == null || files.length == 0)
             setExcludeMode(NO_EXCLUDE_LIST);
         else {
@@ -336,7 +336,7 @@ public abstract class BasicParameters
     }
 
     @Override
-    public void setCustomExcludeFiles(File[] files) {
+    public void setCustomExcludeFiles(File... files) {
         customExcludeFiles = files;
     }
 
@@ -563,7 +563,7 @@ public abstract class BasicParameters
     }
 
     @Override
-    public void setPriorStatusValues(boolean[] values) {
+    public void setPriorStatusValues(boolean... values) {
         if (values == null)
             priorStatusMode = NO_PRIOR_STATUS;
         else {
@@ -608,7 +608,7 @@ public abstract class BasicParameters
     }
 
     @Override
-    public void setMatchPriorStatusValues(boolean[] v) {
+    public void setMatchPriorStatusValues(boolean... v) {
         if (v == null)
             throw new NullPointerException();
 
@@ -787,7 +787,7 @@ public abstract class BasicParameters
      * @return the given files with any relative files having been evaluated
      * relative to the given base directory, or null if files was null.
      */
-    protected static File[] getAbsoluteFiles(File baseDir, File[] files) {
+    protected static File[] getAbsoluteFiles(File baseDir, File... files) {
         if (files == null)
             return null;
 
@@ -816,7 +816,7 @@ public abstract class BasicParameters
      * @return true and only if both arguments are null, or if both are not null
      * and are element-wise equal.
      */
-    protected static boolean equal(boolean[] b1, boolean[] b2) {
+    protected static boolean equal(boolean[] b1, boolean... b2) {
         if (b1 == null || b2 == null)
             return b1 == b2;
 
@@ -838,7 +838,7 @@ public abstract class BasicParameters
      * @return true and only if both arguments are null, or if both are not null
      * and are element-wise equal.
      */
-    protected static boolean equal(File[] f1, File[] f2) {
+    protected static boolean equal(File[] f1, File... f2) {
         if (f1 == null || f2 == null)
             return f1 == f2;
 
@@ -853,7 +853,7 @@ public abstract class BasicParameters
         return true;
     }
 
-    private static boolean equal(Vector<TestFilter> v, TestFilter[] f) {
+    private static boolean equal(Vector<TestFilter> v, TestFilter... f) {
         if (f == null || v.size() != f.length)
             return false;
         for (int i = 0; i < v.size(); i++) {

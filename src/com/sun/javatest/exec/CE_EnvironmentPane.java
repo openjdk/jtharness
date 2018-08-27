@@ -267,7 +267,7 @@ class CE_EnvironmentPane extends CE_StdPane
             return new File(canonFilePath);
         }
         catch (IOException e) {
-            uif.showError("ce.env.makeTSRelIOError", new Object[] {file, e});
+            uif.showError("ce.env.makeTSRelIOError", file, e);
             return null;
         }
     }

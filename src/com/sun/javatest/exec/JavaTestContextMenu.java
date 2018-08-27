@@ -125,7 +125,7 @@ public abstract class JavaTestContextMenu
      * @param trs The tests which the user is acting upon.  Null if none.
      * @see com.sun.javatest.TestDescription#getRootRelativeURL
      */
-    public void updateState(String[] folders, TestResult[] trs) { }
+    public void updateState(String[] folders, TestResult... trs) { }
 
     public static final int TESTS_AND_FOLDERS = 0;
     public static final int TESTS_ONLY = 1;

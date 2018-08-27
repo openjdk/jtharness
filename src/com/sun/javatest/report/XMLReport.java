@@ -149,9 +149,9 @@ public class XMLReport  implements ReportFormat {
 
         try {
             if (initFiles == null) {
-                iter = resultTable.getIterator(new TestFilter[] {sett.getTestFilter()});
+                iter = resultTable.getIterator(sett.getTestFilter());
             } else {
-                iter = resultTable.getIterator(initFiles, new TestFilter[] {sett.getTestFilter()});
+                iter = resultTable.getIterator(initFiles, sett.getTestFilter());
             }
             for (; iter.hasNext(); ) {
                 TestResult tr = iter.next();
@@ -448,7 +448,7 @@ public class XMLReport  implements ReportFormat {
         maker.eChoiceQuestion();
     }
 
-    private void writeTable(XMLReportMaker maker, String[][] table) throws SAXException {
+    private void writeTable(XMLReportMaker maker, String[]... table) throws SAXException {
         if (table != null ) {
             for (String[] aTable : table) {
                 maker.makeRow(aTable[0], aTable[1]);

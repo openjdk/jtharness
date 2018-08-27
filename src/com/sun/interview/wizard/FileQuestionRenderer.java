@@ -123,7 +123,7 @@ public class FileQuestionRenderer
     /**
      * Create a chooser with the associated filters.
      */
-    static JFileChooser createChooser(String title, FileFilter[] filters) {
+    static JFileChooser createChooser(String title, FileFilter... filters) {
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle(title);
 
@@ -171,7 +171,7 @@ public class FileQuestionRenderer
      * Internal routine to help determine if we'll be selecting a dir or file.
      * @return True if a dir (folder) will be the result.
      */
-    private boolean isSelectingDir(FileFilter[] filters) {
+    private boolean isSelectingDir(FileFilter... filters) {
         if (filters == null || filters.length == 0) {
             return false;
         }

@@ -65,7 +65,7 @@ public abstract class FileQuestion extends Question
      * are null
      * @see #getSuggestions
      */
-    public void setSuggestions(File[] newSuggestions) {
+    public void setSuggestions(File... newSuggestions) {
         if (newSuggestions != null) {
             for (File newSuggestion : newSuggestions) {
                 if (newSuggestion == null)
@@ -206,7 +206,7 @@ public abstract class FileQuestion extends Question
      * @see #getFilters
      * @see #setFilter
      */
-    public void setFilters(FileFilter[] filters) {
+    public void setFilters(FileFilter... filters) {
         this.filters = filters;
     }
 

@@ -97,7 +97,7 @@ public class CompositeFilter extends TestFilter {
      *        Must never be null.
      * @see #CompositeFilter(TestFilter[],I18NResourceBundle,String)
      */
-    public CompositeFilter(TestFilter[] filters) {
+    public CompositeFilter(TestFilter... filters) {
         if (filters == null)
             throw new NullPointerException();
         this.filters = filters;
@@ -228,7 +228,7 @@ public class CompositeFilter extends TestFilter {
      * @param array2 Second set of filters; may not be null.
      * @return true of the two arrays of filters are equivalent.
      */
-    public static boolean equals(TestFilter[] array1, TestFilter[] array2) {
+    public static boolean equals(TestFilter[] array1, TestFilter... array2) {
         List<TestFilter> list1 = Arrays.asList(array1);
         List<TestFilter> list2 = Arrays.asList(array2);
 

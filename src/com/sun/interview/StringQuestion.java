@@ -145,7 +145,7 @@ public abstract class StringQuestion extends Question
      *
      * @see #getSuggestions
      */
-    public void setSuggestions(String[] newSuggestions) {
+    public void setSuggestions(String... newSuggestions) {
         if (newSuggestions != null) {
             for (String newSuggestion : newSuggestions) {
                 if (newSuggestion == null)

@@ -59,7 +59,7 @@ public class InterviewSet
     {
         CycleFault(Interview dependent, Interview dependency) {
             super(i18n, "iset.cycle",
-                  new Object[] { dependent.getTag(), dependency.getTag() } );
+                    dependent.getTag(), dependency.getTag());
         }
     }
 

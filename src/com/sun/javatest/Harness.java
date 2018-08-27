@@ -60,7 +60,7 @@ public class Harness
             super(i18n.getString(s, o));
         }
 
-        Fault(I18NResourceBundle i18n, String s, Object[] o) {
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
         }
     }
@@ -757,11 +757,7 @@ public class Harness
             TestFilter[] filters = params.getFilters();
             // no tests are in the error, pass, fail categories -> none selected
             notifyError(i18n, "harness.noTests",
-                    new Object[] {
-                        formatFilterList(listFilterNames(filters)),
-                        testIter.getRejectCount(),
-                        formatFilterStats(params.getTests(), testIter)
-                    });
+                    formatFilterList(listFilterNames(filters)), testIter.getRejectCount(), formatFilterStats(params.getTests(), testIter));
             ok = false;
         }
         else {
@@ -830,7 +826,7 @@ public class Harness
         return iter;
     }
 
-    private static ArrayList<String> listFilterNames(final TestFilter[] filters) {
+    private static ArrayList<String> listFilterNames(final TestFilter... filters) {
         ArrayList<String> result = new ArrayList<>();
 
         if (filters == null || filters.length == 0)
@@ -917,7 +913,7 @@ public class Harness
         notifyLocalizedError(i18n.getString(key, arg));
     }
 
-    private void notifyError(I18NResourceBundle i18n, String key, Object[] args) {
+    private void notifyError(I18NResourceBundle i18n, String key, Object... args) {
         notifyLocalizedError(i18n.getString(key, args));
     }
 

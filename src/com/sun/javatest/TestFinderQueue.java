@@ -158,7 +158,7 @@ public class TestFinderQueue {
      * the queue.
      * @param filters the filters to be used.
      */
-    public void setFilters(TestFilter[] filters) {
+    public void setFilters(TestFilter... filters) {
         this.filters = filters;
     }
 
@@ -167,7 +167,7 @@ public class TestFinderQueue {
      * Additional files may be read as a result of reading these and subsequent files.
      * @param initTests the initial set of files to be read by the test finder
      */
-    public synchronized void setTests(String[] initTests) {
+    public synchronized void setTests(String... initTests) {
         File testSuiteRoot = testFinder.getRoot();
 
         // make canonical copy of tests
@@ -233,7 +233,7 @@ public class TestFinderQueue {
      * @param tds the test descriptions to be "found again".
      * @deprecated retained for historical purposes
      */
-    public void repeat(TestDescription[] tds) {
+    public void repeat(TestDescription... tds) {
         if (tests == null)
             tests = new ArrayDeque<>(); // for now
         for (TestDescription td : tds) {

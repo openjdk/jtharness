@@ -63,7 +63,7 @@ public class PieChart extends JComponent /* implements Accessible*/ {
      * @throws NullPointerException if either argument is null
      * @see #setValue
      */
-    public PieChart(int[] dist, Color[] colors) {
+    public PieChart(int[] dist, Color... colors) {
         this();
         setValue(dist, colors);
     }
@@ -81,7 +81,7 @@ public class PieChart extends JComponent /* implements Accessible*/ {
      *         does not equal the second.
      * @throws NullPointerException if either argument is null
      */
-    public void setValue(int[] dist, Color[] c) {
+    public void setValue(int[] dist, Color... c) {
         if (dist.length != c.length)
             throw new IllegalArgumentException();
 

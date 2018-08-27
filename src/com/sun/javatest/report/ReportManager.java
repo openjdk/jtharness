@@ -255,7 +255,7 @@ public class ReportManager
             }
             catch (IOException e) {
                 ctx.printMessage(i18n, "rm.writeReport.error",
-                                 new Object[] { path, e } );
+                        path, e);
             }
         }
 
@@ -266,7 +266,7 @@ public class ReportManager
     }
 
     // copied from exec.ParameterFilter to avoid cross-package dependency
-    private static File[] stringsToFiles(String[] tests) {
+    private static File[] stringsToFiles(String... tests) {
         if (tests == null)
             return null;
 

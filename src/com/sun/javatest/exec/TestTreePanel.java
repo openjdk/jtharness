@@ -293,7 +293,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
     }
 
-    private TreePath[] getTreePaths(String[] paths) {
+    private TreePath[] getTreePaths(String... paths) {
         if (paths != null) {
             ArrayList<TreePath> translatedPaths = new ArrayList<>(paths.length);
 
@@ -419,7 +419,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
     }
 
-    private void clearNodes(final TreePath[] what) {
+    private void clearNodes(final TreePath... what) {
         final WorkDirectory wd = execModel.getWorkDirectory();
 
         if (wd == null) {
@@ -594,7 +594,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     }
 
     // XXX need to find a shared place for these two methods to live
-    static String createNodeListString(String[] items) {
+    static String createNodeListString(String... items) {
         StringBuffer sb = new StringBuffer();
 
         for (int i = 0; i < items.length; i++) {
@@ -609,7 +609,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         return sb.toString();
     }
 
-    static String[] createNodeList(Object[] items) {
+    static String[] createNodeList(Object... items) {
         String[] result = new String[items.length];
 
         for (int i = 0; i < items.length; i++) {
@@ -655,7 +655,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
     }
 
-    private void runNodes(TreePath[] what) {
+    private void runNodes(TreePath... what) {
         if (harness.isRunning()) {
             JOptionPane.showMessageDialog(parent,
                     uif.getI18NString("treep.cantRunRunning.msg"),
@@ -683,7 +683,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         EventQueue.invokeLater(restorer);
     }
 
-    private void refreshNodes(TreePath[] what) {
+    private void refreshNodes(TreePath... what) {
        // dialog to confirm wipe of results with refresh?
 
         if (harness.isRunning()) {
@@ -816,10 +816,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                     if (wd != null) {
                                         I18NResourceBundle i18n = uif.getI18NResourceBundle();
                                         wd.log(i18n, "treep.refFail",
-                                                new String[]{
-                                                        finalTarget,
-                                                        f.getMessage()
-                                                });
+                                                finalTarget, f.getMessage());
                                     }
                                 }       // catch
                             }   // for
@@ -840,10 +837,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                     if (wd != null) {
                                         I18NResourceBundle i18n = uif.getI18NResourceBundle();
                                         wd.log(i18n, "treep.refFail",
-                                                new String[]{
-                                                    finalTargets[i],
-                                                    f.getMessage()
-                                                });
+                                                finalTargets[i], f.getMessage());
                                     }
                                 }       // catch
                                 }   // for
@@ -911,7 +905,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
     }
 
-    private void restoreOpenTreePaths(final String[] urls) {
+    private void restoreOpenTreePaths(final String... urls) {
         //treeModel = (TestTreeModel)(tree.getModel());
         //treeModel.notifyFullStructure();
         //tree.restorePaths(treeModel.urlsToPaths(openUrls));
@@ -1552,7 +1546,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         tree.repaint();
     }
 
-    private void selectNodes(String[] paths) {
+    private void selectNodes(String... paths) {
     }
 
     /**
@@ -1560,7 +1554,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
      * This method is invoked repeatably as the user adds more nodes to
      * the selection.
      */
-    private void selectNodes(TreePath[] paths) {
+    private void selectNodes(TreePath... paths) {
         if (!isPopulated()) {
             if (debug) {
                 Debug.println("TTP - no data, cannot display selections. No action.");

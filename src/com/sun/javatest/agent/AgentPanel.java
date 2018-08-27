@@ -239,7 +239,7 @@ class AgentPanel extends ScrollPane
     //
     // The following are private methods for the GUI
 
-    private void initGUI(ModeOptions[] modeOptions) {
+    private void initGUI(ModeOptions... modeOptions) {
         agentObs = new AgentObserver();
         deck = new Deck();
         initMainPanel(modeOptions);
@@ -251,7 +251,7 @@ class AgentPanel extends ScrollPane
         add(deck);
     }
 
-    Component initMainPanel(ModeOptions[] modeOptions) {
+    Component initMainPanel(ModeOptions... modeOptions) {
         mainPanel = new Panel(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
@@ -297,7 +297,7 @@ class AgentPanel extends ScrollPane
         deck.show(helpPanel);
     }
 
-    private void error(String[] msgs) {
+    private void error(String... msgs) {
         for (String msg : msgs) System.out.println(msg);
         errorPanel.show(msgs);
         deck.show(errorPanel);
@@ -416,7 +416,7 @@ class AgentPanel extends ScrollPane
         }
 
         @Override
-        public void execTest(Agent sl, Connection c, String tag, String className, String[] args) {
+        public void execTest(Agent sl, Connection c, String tag, String className, String... args) {
             synchronized (AgentPanel.this) {
                 if (sl != currAgent)
                     return;
@@ -433,7 +433,7 @@ class AgentPanel extends ScrollPane
         }
 
         @Override
-        public void execCommand(Agent sl, Connection c, String tag, String className, String[] args) {
+        public void execCommand(Agent sl, Connection c, String tag, String className, String... args) {
             synchronized (AgentPanel.this) {
                 if (sl != currAgent)
                     return;
@@ -450,7 +450,7 @@ class AgentPanel extends ScrollPane
         }
 
         @Override
-        public void execMain(Agent sl, Connection c, String tag, String className, String[] args) {
+        public void execMain(Agent sl, Connection c, String tag, String className, String... args) {
             synchronized (AgentPanel.this) {
                 if (sl != currAgent)
                     return;
@@ -566,7 +566,7 @@ class AgentPanel extends ScrollPane
          *
          * @param msgs  The lines of the message to display
          */
-        public synchronized void show(String[] msgs) {
+        public synchronized void show(String... msgs) {
             removeAll();
 
             setLayout(new GridBagLayout());
@@ -777,7 +777,7 @@ class AgentPanel extends ScrollPane
     //-------------------------------------------------------------------
 
     private class ParamPanel extends Panel  implements ItemListener {
-        ParamPanel(ModeOptions[] modeOptions) {
+        ParamPanel(ModeOptions... modeOptions) {
             setLayout(new GridBagLayout());
 
             GridBagConstraints lc = new GridBagConstraints();

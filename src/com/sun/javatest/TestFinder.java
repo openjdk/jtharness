@@ -79,7 +79,7 @@ public abstract class TestFinder
          * @param args An array of arguments to be formatted with the detail message by
          * {@link java.text.MessageFormat#format}
          */
-        public Fault(I18NResourceBundle i18n, String msgKey, Object[] args) {
+        public Fault(I18NResourceBundle i18n, String msgKey, Object... args) {
             super(i18n.getString(msgKey, args));
         }
     }
@@ -160,7 +160,7 @@ public abstract class TestFinder
      * while decoding one of the arguments, or if decodeArg does
      * not recognize an argument.
      */
-    protected void decodeAllArgs(String[] args) throws Fault {
+    protected void decodeAllArgs(String... args) throws Fault {
         for (int i = 0; i < args.length; ) {
             int j  = decodeArg(args, i);
             if (j == 0) {
@@ -339,7 +339,7 @@ public abstract class TestFinder
      * @param args The arguments to be formatted in the message found in the
      * resource bundle
      */
-    protected void error(I18NResourceBundle i18n, String key, Object[] args) {
+    protected void error(I18NResourceBundle i18n, String key, Object... args) {
         localizedError(i18n.getString(key, args));
     }
 
@@ -534,12 +534,7 @@ public abstract class TestFinder
                 i++;
 
             error(i18n, "finder.nonUniqueId",
-                  new Object[] { file,
-                          id.equals("") ? "(unset)" : id,
-                          Integer.valueOf(line),
-                                     prevLine,
-                                     newId }
-                  );
+                    file, id.equals("") ? "(unset)" : id, Integer.valueOf(line), prevLine, newId);
 
             id = newId;
             entries.put("id", id);

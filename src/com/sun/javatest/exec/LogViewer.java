@@ -843,7 +843,7 @@ class LogViewer extends ToolDialog {
                         btnPrev.setEnabled(thePane.page > 1);
                         btnNext.setEnabled(thePane.page < model.pagesRead() && model.pagesRead() > 1);
                         String pop = uif.getI18NString("logviewer.pageofpage",
-                                new Object[] {thePane.page, model.pagesRead()});
+                                thePane.page, model.pagesRead());
                         lblPageCounter.setText(pop);
                         naviPanel.setVisible(btnFirst.isEnabled() ||
                                 btnFirst.isEnabled() ||

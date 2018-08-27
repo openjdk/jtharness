@@ -63,7 +63,7 @@ public class Deck extends JPanel
      * @param name the name for the panel
      * @param comps the components to be added into the panel
      */
-    public Deck(String name, Component[] comps) {
+    public Deck(String name, Component... comps) {
         this(name);
         for (Component comp : comps) {
             add(comp);

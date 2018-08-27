@@ -538,7 +538,7 @@ public class TestResultCache {
                     catch (TestResult.ReloadFault e) {
                         // delete this jtr and continue
                         // should we inform TRT? perhaps via observer
-                         workDir.log(i18n, "trc.badjtr", new Object[] {f, e.getLocalizedMessage()});
+                         workDir.log(i18n, "trc.badjtr", f, e.getLocalizedMessage());
                         f.delete();
                     }
                 }
@@ -562,7 +562,7 @@ public class TestResultCache {
         }
         catch (TestResult.ReloadFault e) {
             // bad .jtr, delete it
-            workDir.log(i18n, "trc.badjtr", new Object[] {jtr, e.getLocalizedMessage()});
+            workDir.log(i18n, "trc.badjtr", jtr, e.getLocalizedMessage());
             jtr.delete();
             // this notRun status will persist in cache until cache rebuilt
             String name = tr.getTestName();

@@ -124,7 +124,7 @@ class XMLReportWriter {
         ser.startElement("", "", Scheme.REPORT, atts);
     }
 
-    public void write(File[] file, Map<?, ?>[] map) throws SAXException,
+    public void write(File[] file, Map<?, ?>... map) throws SAXException,
             ParserConfigurationException, IOException {
         try {
             ser.startDocument();

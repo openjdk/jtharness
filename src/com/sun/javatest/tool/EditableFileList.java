@@ -83,7 +83,7 @@ public class EditableFileList extends EditableList
      * @see #getItems
      */
     @Override
-    public void setItems(Object[] items) {
+    public void setItems(Object... items) {
         listModel.clear();
         if (items == null)
             return;
@@ -114,7 +114,7 @@ public class EditableFileList extends EditableList
      * @param files the files to be put in the list
      * @see #getFiles
      */
-    public void setFiles(File[] files) {
+    public void setFiles(File... files) {
         setItems(files);
     }
 

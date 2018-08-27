@@ -46,7 +46,7 @@ class AgentRemoteClassData {
     private AgentRemoteClassData() {
     }
 
-    AgentRemoteClassData(String className, String codeSource, byte[] byteData) {
+    AgentRemoteClassData(String className, String codeSource, byte... byteData) {
         this.className = className;
         this.codeSource = codeSource;
         this.byteData = byteData;

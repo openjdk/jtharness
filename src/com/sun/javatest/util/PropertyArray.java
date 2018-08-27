@@ -113,7 +113,7 @@ public class PropertyArray {
      * identify the names of properties, odd-numbered entries give the value
      * for the preceding property name.
      */
-    public PropertyArray(String[] data) {
+    public PropertyArray(String... data) {
         locked = true;
         dataA = new String[data.length];
 
@@ -275,7 +275,7 @@ public class PropertyArray {
      * @param data an array of sequential name value properties
      * @return a Map object containing data from the array
      */
-    public static Map<String, String> getProperties(String[] data) {
+    public static Map<String, String> getProperties(String... data) {
         Map<String, String> props = new HashMap<>();
 
         if (data != null && data.length > 0) {
@@ -373,7 +373,7 @@ public class PropertyArray {
      * @param props an array of sequential name value properties
      * @return an enumeration of the properties in the array
      */
-    public static Enumeration<String> enumerate(final String[] props) {
+    public static Enumeration<String> enumerate(final String... props) {
         return new Enumeration<String>() {
             int pos = 0;
 
@@ -554,7 +554,7 @@ public class PropertyArray {
         return old;
     }
 
-    private static Vector<String> copyOutOf(String[] data) {
+    private static Vector<String> copyOutOf(String... data) {
         Vector<String> vec = null;
 
         if (data == null) {
@@ -571,7 +571,7 @@ public class PropertyArray {
         return vec;
     }
 
-    private static String[] shallowCopy(String[] arrIn) {
+    private static String[] shallowCopy(String... arrIn) {
         if (arrIn == null) {
             return null;
         }

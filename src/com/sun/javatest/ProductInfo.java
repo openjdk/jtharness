@@ -265,7 +265,7 @@ public class ProductInfo
         }
 
         throw new IllegalStateException(i18n.getString("pi.jcd.noInstallDir",
-                          new Object[] { VERBOSE_CLASSDIR_PROPNAME, CLASSDIR_PROPNAME }));
+                VERBOSE_CLASSDIR_PROPNAME, CLASSDIR_PROPNAME));
     }
 
     private static String getProperty(String name) {

@@ -59,7 +59,7 @@ class MultiSelectPanel
     }
 
     // XXX use TreePath[] as parameter?
-    void setNodes(Object[] nodes) {
+    void setNodes(Object... nodes) {
         this.nodes =nodes;
         updatePanel(nodes);
     }
@@ -140,7 +140,7 @@ class MultiSelectPanel
         ContextHelpManager.setHelpIDString(this, "browse.multiselectionTab.csh");
     }
 
-    protected void updatePanel(Object[] nodes) {
+    protected void updatePanel(Object... nodes) {
         if (isVisible())
             updateGUI();
         else

@@ -42,7 +42,7 @@ public class FileList extends EditableList
      * for this item.
      * @param files An array of files to display as initial values in the list.
      */
-    public FileList(String uiKey, File[] files) {
+    public FileList(String uiKey, File... files) {
         super(uiKey, files);
 
         chooser = new JFileChooser();

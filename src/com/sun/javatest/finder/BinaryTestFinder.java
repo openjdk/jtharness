@@ -233,7 +233,7 @@ public class BinaryTestFinder extends TestFinder
             }
         }
         catch (IOException e) {
-            error(i18n, "bin.internalIOError", new Object[] {file.getPath(), e});
+            error(i18n, "bin.internalIOError", file.getPath(), e);
         }
     }
 
@@ -334,17 +334,17 @@ public class BinaryTestFinder extends TestFinder
             zipFileRead = false;
         }
         catch (Fault e) {
-            error(i18n, "bin.fault", new Object[] {jtdFile.getPath(), e});
+            error(i18n, "bin.fault", jtdFile.getPath(), e);
         }
         catch (IOException e) {
-            error(i18n, "bin.ioError", new Object[] {jtdFile.getPath(), e});
+            error(i18n, "bin.ioError", jtdFile.getPath(), e);
         }
         finally {
             try {
                 zipFile.close();
             }
             catch (IOException e) {
-                error(i18n, "bin.ioError", new Object[] {jtdFile.getPath(), e});
+                error(i18n, "bin.ioError", jtdFile.getPath(), e);
             }
             stringsEntry = null;
             testsEntry = null;

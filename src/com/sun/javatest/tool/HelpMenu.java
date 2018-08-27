@@ -273,7 +273,7 @@ class HelpMenu extends JMenu
             }
             catch (Help.Fault e) {
                 String msg = uif.getI18NString("hm.cantLoadDocs",
-                                               new Object[] { ts.getName(), e.getMessage() });
+                        ts.getName(), e.getMessage());
                 System.err.println(msg);
             }
             if (docs == null)
@@ -364,27 +364,14 @@ class HelpMenu extends JMenu
                 }
 
                 String aboutJavaTest =
-                    uif.getI18NString("hm.aboutJavaTest", new Object[] {
-                        ProductInfo.getName(),
-                        ProductInfo.getVersion(),
-                        ProductInfo.getMilestone(),
-                        ProductInfo.getBuildNumber(),
-                        Harness.getClassDir().getPath(),
-                        ProductInfo.getBuildJavaVersion(),
-                        date
-                });
+                    uif.getI18NString("hm.aboutJavaTest", ProductInfo.getName(), ProductInfo.getVersion(), ProductInfo.getMilestone(), ProductInfo.getBuildNumber(), Harness.getClassDir().getPath(), ProductInfo.getBuildJavaVersion(), date);
                 showAbout(src.getText(), aboutJavaTest, "hm.aboutJavaTest",
                             "hm.aboutJavaTest.text");
             }
             else if (cmd.equals(ABOUT_JAVA)) {
                 JMenuItem src = (JMenuItem) e.getSource();
                 String aboutJava =
-                    uif.getI18NString("hm.aboutJava", new Object[] {
-                        System.getProperty("java.version"),
-                        System.getProperty("java.vendor"),
-                        System.getProperty("java.home"),
-                        System.getProperty("java.vendor.url")
-                });
+                    uif.getI18NString("hm.aboutJava", System.getProperty("java.version"), System.getProperty("java.vendor"), System.getProperty("java.home"), System.getProperty("java.vendor.url"));
                 showAbout(src.getText(), aboutJava, "hm.aboutJava", "hm.aboutJava.text");
             }
             else if (cmd.equals(HELP)) {

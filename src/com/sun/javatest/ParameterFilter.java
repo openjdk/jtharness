@@ -233,7 +233,7 @@ public class ParameterFilter extends ObservableTestFilter {
         return iurlFilter;
     }
 
-    private static File[] stringsToFiles(String[] tests) {
+    private static File[] stringsToFiles(String... tests) {
         if (tests == null)
             return null;
 

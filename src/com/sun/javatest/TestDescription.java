@@ -101,7 +101,7 @@ public class TestDescription implements Serializable
     /**
      * Internal constructor used by load()
      */
-    private TestDescription(String root, String file, String[] params) {
+    private TestDescription(String root, String file, String... params) {
         rootDir = root;
         // skip over the root part of the filename.
         char sep = file.charAt(root.length());
@@ -552,7 +552,7 @@ public class TestDescription implements Serializable
     /**
      * Recover TestDescription from saved dictionary
      */
-    static TestDescription load(String[] params) {
+    static TestDescription load(String... params) {
         //File r = new File((String)d.get("testsuite"));
         //if (!r.isDirectory())
         //    r = new File(r.getParent());

@@ -100,7 +100,7 @@ public final class DynamicArray {
      * the first array, containing the elements of the first array, followed
      * by the elements of the second array.
      */
-    public static <T> T[] join(T[] array1, T[] array2) {
+    public static <T> T[] join(T[] array1, T... array2) {
         if (array1 == null)
             return array2;
 
@@ -261,7 +261,7 @@ public final class DynamicArray {
      * @param arr The array to examine.
      * @return The class of objects that the given array can hold.
      */
-    protected static Class<?> getArrayClass(Object[] arr) {
+    protected static Class<?> getArrayClass(Object... arr) {
         if(arr != null) {
             return arr.getClass().getComponentType();
         } else {

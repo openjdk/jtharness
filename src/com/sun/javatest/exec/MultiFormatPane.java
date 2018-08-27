@@ -637,7 +637,7 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
                     r.close();
                 }
                 catch (IOException e) {
-                    uif.showError("mfp.load.error", new Object[] { url, e });
+                    uif.showError("mfp.load.error", url, e);
                 }
             } else {
                 setPage(url);
@@ -646,7 +646,7 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
             showTextArea();
         }
         catch (IOException e) {
-            uif.showError("mfp.load.error", new Object[] { url, e });
+            uif.showError("mfp.load.error", url, e);
         }
     }
 

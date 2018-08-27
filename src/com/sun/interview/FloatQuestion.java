@@ -152,7 +152,7 @@ public abstract class FloatQuestion extends Question
      * @param newSuggestions The values to be set, or null if none
      * @see #getSuggestions
      */
-    public void setSuggestions(float[] newSuggestions) {
+    public void setSuggestions(float... newSuggestions) {
         suggestions = newSuggestions;
     }
 

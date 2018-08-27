@@ -452,7 +452,7 @@ public class HTMLWriter
      * @param args arguments to be formatted into the localized message
      * @throws IOException if there is a problem closing the underlying stream
      */
-    public void write(I18NResourceBundle i18n, String key, Object[] args) throws IOException {
+    public void write(I18NResourceBundle i18n, String key, Object... args) throws IOException {
         write(i18n.getString(key, args));
     }
 
@@ -481,7 +481,7 @@ public class HTMLWriter
      * @param args arguments to be formatted into the localized message
      * @throws IOException if there is a problem closing the underlying stream
      */
-    public void writeI18N(String key, Object[] args) throws IOException {
+    public void writeI18N(String key, Object... args) throws IOException {
         write(i18n.getString(key, args));
     }
 

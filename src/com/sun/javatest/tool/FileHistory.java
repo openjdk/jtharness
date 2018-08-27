@@ -227,7 +227,7 @@ public class FileHistory
             }
             catch (IOException e) {
                 WorkDirectory workDir = workDirRef.get();
-                workDir.log(i18n, "fh.cantRead", new Object[] { name, e } );
+                workDir.log(i18n, "fh.cantRead", name, e);
             }
 
             historyFileLastModified = historyFile.lastModified();
@@ -249,7 +249,7 @@ public class FileHistory
         }
         catch (IOException e) {
             WorkDirectory workDir = workDirRef.get();
-            workDir.log(i18n, "fh.cantWrite", new Object[] { name, e } );
+            workDir.log(i18n, "fh.cantWrite", name, e);
         }
 
         historyFileLastModified = historyFile.lastModified();

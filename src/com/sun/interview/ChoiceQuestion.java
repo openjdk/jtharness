@@ -52,7 +52,7 @@ public abstract class ChoiceQuestion extends Question
      * @param tag A unique tag to identify this specific question.
      * @param choices The set of legal values for responses to this question.
      */
-    protected ChoiceQuestion(Interview interview, String tag, String[] choices) {
+    protected ChoiceQuestion(Interview interview, String tag, String... choices) {
         super(interview, tag);
         setChoices(choices, choices); // will call clear
     }
@@ -68,7 +68,7 @@ public abstract class ChoiceQuestion extends Question
      * @see #setChoices(String[], String[])
      * @throws NullPointerException if choices is null.
      */
-    protected void setChoices(String[] choices) {
+    protected void setChoices(String... choices) {
         setChoices(choices, choices);
     }
 
@@ -116,7 +116,7 @@ public abstract class ChoiceQuestion extends Question
      * @see #setChoices(String[])
      * @see #setChoices(String[], boolean)
      */
-    protected void setChoices(String[] choices, String[] displayChoices) {
+    protected void setChoices(String[] choices, String... displayChoices) {
         if (choices == null)
             throw new NullPointerException();
 
@@ -166,7 +166,7 @@ public abstract class ChoiceQuestion extends Question
      *     an option.
      * @see Interview#getResourceBundle
      */
-    protected void setI18NChoices(String[] choices) {
+    protected void setI18NChoices(String... choices) {
         setChoices(choices, true);
     }
 

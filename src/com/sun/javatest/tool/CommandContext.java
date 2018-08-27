@@ -92,7 +92,7 @@ public class CommandContext
          * @param o An array of arguments to be formatted with the detail message by
          * {@link java.text.MessageFormat#format}
          */
-        Fault(I18NResourceBundle i18n, String s, Object[] o) {
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
         }
 
@@ -256,7 +256,7 @@ public class CommandContext
      * Add test run statistics into the cumulative counts.
      * @param stats an array of test counts, indexed by the standard Status.XXX values.
      */
-    public void addTestStats(int[] stats) {
+    public void addTestStats(int... stats) {
         if (stats.length != Status.NUM_STATES)
             throw new IllegalArgumentException();
 
@@ -991,7 +991,7 @@ public class CommandContext
      * @param args an array of arguments to be formatted into the localized message
      * @see #setLogWriter
      */
-    public void printMessage(I18NResourceBundle i18n, String key, Object[] args) {
+    public void printMessage(I18NResourceBundle i18n, String key, Object... args) {
         out.println(i18n.getString(key, args));
     }
 
@@ -1023,7 +1023,7 @@ public class CommandContext
      * @param args an array of arguments to be formatted into the localized message
      * @see #setLogWriter
      */
-    public void printErrorMessage(I18NResourceBundle i18n, String key, Object[] args) {
+    public void printErrorMessage(I18NResourceBundle i18n, String key, Object... args) {
         out.println(i18n.getString(key, args));
     }
 

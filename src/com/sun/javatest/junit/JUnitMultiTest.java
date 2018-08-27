@@ -57,7 +57,7 @@ public abstract class JUnitMultiTest extends MultiTest {
      * Common method for running the test, used by all entry points.
      * <code>setTestCaseClass()</code> should have been invoked before calling this.
      */
-    public abstract Status run0(String[] argv);
+    public abstract Status run0(String... argv);
 
     protected static String exceptionToString(Throwable t) {
         StringWriter stringWriter = new StringWriter();

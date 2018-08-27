@@ -472,7 +472,7 @@ class QuickStartWizard extends ToolDialog
             button.setEnabled(b);
         }
 
-        void setSuggestions(String[] suggestions) {
+        void setSuggestions(String... suggestions) {
             if (suggestions == null || suggestions.length == 0)
                 setPathComponent(field);
             else {
@@ -1020,7 +1020,7 @@ class QuickStartWizard extends ToolDialog
                 }
                 catch (TestSuite.Fault e) {
                     uif.showError("qsw.ts.cantOpen",
-                                  new Object[] { file, e.getMessage() });
+                            file, e.getMessage());
                     return null;
                 }
 
@@ -1127,7 +1127,7 @@ class QuickStartWizard extends ToolDialog
                 }
                 catch (WorkDirectory.Fault e) {
                     uif.showError("qsw.nwd.cantCreate",
-                                  new Object[] { file, e.getMessage() });
+                            file, e.getMessage());
                     return null;
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1155,7 +1155,7 @@ class QuickStartWizard extends ToolDialog
             chooser.setMode(WorkDirChooser.OPEN_FOR_ANY_TESTSUITE);
 
             if (userDirIsWorkDirectory)
-                workDirPanel.setSuggestions(new String[] { userDir.getPath() });
+                workDirPanel.setSuggestions(userDir.getPath());
         }
 
         @Override
@@ -1200,7 +1200,7 @@ class QuickStartWizard extends ToolDialog
                 }
                 catch (WorkDirectory.Fault e) {
                     uif.showError("qsw.owd.cantOpen",
-                                  new Object[] { file, e.getMessage() });
+                            file, e.getMessage());
                     return null;
                 }
 
@@ -1224,12 +1224,12 @@ class QuickStartWizard extends ToolDialog
                     }
                     catch (IOException e) {
                         uif.showError("qsw.owd.cantLoadDefaultConfig",
-                                      new Object[] { latestConfigFile, e });
+                                latestConfigFile, e);
                         return null;
                     }
                     catch (InterviewParameters.Fault e) {
                         uif.showError("qsw.owd.cantLoadDefaultConfig",
-                                      new Object[] { latestConfigFile, e.getMessage() });
+                                latestConfigFile, e.getMessage());
                         return null;
                     }
                 }

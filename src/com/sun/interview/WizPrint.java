@@ -71,7 +71,7 @@ public class WizPrint
          * @param o An array of arguments to be formatted with the detail message by
          * {@link java.text.MessageFormat#format}
          */
-        public BadArgs(ResourceBundle i18n, String s, Object[] o) {
+        public BadArgs(ResourceBundle i18n, String s, Object... o) {
             super(MessageFormat.format(i18n.getString(s), o));
         }
     }
@@ -108,7 +108,7 @@ public class WizPrint
          * @param o An array of arguments to be formatted with the detail message by
          * {@link java.text.MessageFormat#format}
          */
-        public Fault(ResourceBundle i18n, String s, Object[] o) {
+        public Fault(ResourceBundle i18n, String s, Object... o) {
             super(MessageFormat.format(i18n.getString(s), o));
         }
     }
@@ -143,7 +143,7 @@ public class WizPrint
      * @param args Command line arguments.
      * @see #usage
      */
-    public static void main(String[] args) {
+    public static void main(String... args) {
         try {
             boolean path = false;
             String interviewClassName = null;
@@ -262,7 +262,7 @@ public class WizPrint
      * @param interview The parent interview which contains the questions.
      * @param questions The selected set of questions to be printed.
      */
-    public WizPrint(Interview interview, Question[] questions) {
+    public WizPrint(Interview interview, Question... questions) {
         this.interview = interview;
         this.questions = questions;
     }
@@ -557,7 +557,7 @@ public class WizPrint
      * @param values An array of boolean values.
      * @param choices An array of matching names, one per boolean.
      */
-    private void writeResponse(boolean[] values, String[] choices, String[] displayChoices) throws IOException {
+    private void writeResponse(boolean[] values, String[] choices, String... displayChoices) throws IOException {
         startTag(P);
         startTag(I);
         writeI18N("wp.response");
@@ -599,7 +599,7 @@ public class WizPrint
      * Write a response list
      * @param responses The text of the response.
      */
-    private void writeResponse(String[] responses) throws IOException {
+    private void writeResponse(String... responses) throws IOException {
         startTag(P);
         startTag(I);
         writeI18N("wp.response");
@@ -662,7 +662,7 @@ public class WizPrint
             }   // for
     }
 
-    private void writePQTable(String[] headers, String[][] values)
+    private void writePQTable(String[] headers, String[]... values)
             throws IOException {
         if (values == null || values.length == 0)
             return;
@@ -743,11 +743,7 @@ public class WizPrint
             float lwb = fq.getLowerBound();
             float upb = fq.getUpperBound();
             writeResponseType(formatI18N("wp.type.float",
-                                     new Object[] {
-                                         Integer.valueOf(lwb == Float.MIN_VALUE ? 0 : 1),
-                                         Float.valueOf(lwb),
-                                         Integer.valueOf(upb == Float.MAX_VALUE ? 0 : 1),
-                                         Float.valueOf(upb) }));
+                    Integer.valueOf(lwb == Float.MIN_VALUE ? 0 : 1), Float.valueOf(lwb), Integer.valueOf(upb == Float.MAX_VALUE ? 0 : 1), Float.valueOf(upb)));
                                      }
         else if (q instanceof InetAddressQuestion) {
             writeResponseType(i18n.getString("wp.type.inetAddress"));
@@ -757,11 +753,7 @@ public class WizPrint
             int lwb = iq.getLowerBound();
             int upb = iq.getUpperBound();
             writeResponseType(formatI18N("wp.type.int",
-                                     new Object[] {
-                                         Integer.valueOf(lwb == Integer.MIN_VALUE ? 0 : 1),
-                                         Integer.valueOf(lwb),
-                                         Integer.valueOf(upb == Integer.MAX_VALUE ? 0 : 1),
-                                         Integer.valueOf(upb)}));
+                    Integer.valueOf(lwb == Integer.MIN_VALUE ? 0 : 1), Integer.valueOf(lwb), Integer.valueOf(upb == Integer.MAX_VALUE ? 0 : 1), Integer.valueOf(upb)));
                                      }
         else if (q instanceof NullQuestion) {
             // no response
@@ -814,7 +806,7 @@ public class WizPrint
     /**
      * Convert a set of files to their string paths
      */
-    private String[] filesToStrings(File[] f) {
+    private String[] filesToStrings(File... f) {
         if (f == null)
             return null;
         String[] s = new String[f.length];
@@ -933,7 +925,7 @@ public class WizPrint
         return MessageFormat.format(i18n.getString(key), arg);
     }
 
-    private static String formatI18N(String key, Object[] args) {
+    private static String formatI18N(String key, Object... args) {
         return MessageFormat.format(i18n.getString(key), args);
     }
 
@@ -1021,7 +1013,7 @@ public class WizPrint
             v.insertElementAt(o, i);
         }
 
-        public void copyInto(Question[] target) {
+        public void copyInto(Question... target) {
             v.copyInto(target);
         }
 

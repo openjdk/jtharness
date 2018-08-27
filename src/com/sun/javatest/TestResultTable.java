@@ -245,7 +245,7 @@ public class TestResultTable {
             super(i18n.getString(s, o));
         }
 
-        Fault(I18NResourceBundle i18n, String s, Object[] o) {
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
         }
     }
@@ -714,7 +714,7 @@ public class TestResultTable {
      *         those filtered out by the filters.
      * @since 3.0
      */
-    public TreeIterator getIterator(TestFilter[] filters) {
+    public TreeIterator getIterator(TestFilter... filters) {
         if (root == null)
             return NullEnum.getInstance();
         else
@@ -731,7 +731,7 @@ public class TestResultTable {
      * @since 3.0
      * @see #getIterator()
      */
-    public Enumeration<TestResult> elements(TestFilter[] filters) {
+    public Enumeration<TestResult> elements(TestFilter... filters) {
         return getIterator(filters);
     }
 
@@ -810,7 +810,7 @@ public class TestResultTable {
      *         removing any tests which the filters reject.
      * @since 3.0
      */
-    public static TreeIterator getIterator(TreeNode node, TestFilter[] filters) {
+    public static TreeIterator getIterator(TreeNode node, TestFilter... filters) {
         if (node == null)
             return NullEnum.getInstance();
         else
@@ -827,7 +827,7 @@ public class TestResultTable {
      * @see #getIterator()
      * @since 3.0
      */
-    public static Enumeration<TestResult> elements(TreeNode node, TestFilter[] filters) {
+    public static Enumeration<TestResult> elements(TreeNode node, TestFilter... filters) {
         return getIterator(node, filters);
     }
 
@@ -848,7 +848,7 @@ public class TestResultTable {
      * @see #getIterator()
      * @since 3.0
      */
-    public Enumeration<TestResult> elements(String url, TestFilter[] filters) {
+    public Enumeration<TestResult> elements(String url, TestFilter... filters) {
         if (url == null)
             return NullEnum.getInstance();
         else {
@@ -876,7 +876,7 @@ public class TestResultTable {
      * @since 3.0
      * @see #validatePath
      */
-    public TreeIterator getIterator(File[] tests, TestFilter[] filters) throws Fault {
+    public TreeIterator getIterator(File[] tests, TestFilter... filters) throws Fault {
         String[] urls = preProcessInitFiles(tests);
 
         if (urls != null && urls.length > 0)
@@ -896,7 +896,7 @@ public class TestResultTable {
      * @see #getIterator()
      * @since 3.0
      */
-    public Enumeration<TestResult> elements(File[] tests, TestFilter[] filters) throws Fault {
+    public Enumeration<TestResult> elements(File[] tests, TestFilter... filters) throws Fault {
         return getIterator(tests, filters);
     }
 
@@ -913,7 +913,7 @@ public class TestResultTable {
      *         URLs but not removed by the filters.
      * @since 3.0
      */
-    public TreeIterator getIterator(String[] paths, TestFilter[] filters) {
+    public TreeIterator getIterator(String[] paths, TestFilter... filters) {
         LinkedList<TreeNode> initNodes = new LinkedList<>();
         LinkedList<TestResult> initTests = new LinkedList<>();
 
@@ -980,7 +980,7 @@ public class TestResultTable {
      * @see #getIterator()
      * @since 3.0
      */
-    public Enumeration<TestResult> elements(String[] urls, TestFilter[] filters) {
+    public Enumeration<TestResult> elements(String[] urls, TestFilter... filters) {
         return getIterator(urls, filters);
     }
 
@@ -1488,7 +1488,7 @@ public class TestResultTable {
      * Sort test and folder URLs by their ordering the tree, which is ultimately
      * determined by the <code>TestFinder</code>.
      */
-    private String[] sortByName(String[] in) {
+    private String[] sortByName(String... in) {
         if (in == null || in.length <= 1)
             return in;
 
@@ -1514,7 +1514,7 @@ public class TestResultTable {
         return result;
     }
 
-    private int compareStringArrays(Comparator<String> c, String[] s1, String[] s2) {
+    private int compareStringArrays(Comparator<String> c, String[] s1, String... s2) {
         // loop until names become unequal
         for (int i = 0; i < s1.length; i++) {
             if (i >= s2.length)
@@ -1539,7 +1539,7 @@ public class TestResultTable {
      *
      * @param urls A sorted list of test urls
      */
-    public static String[] distillUrls(String[] urls) {
+    public static String[] distillUrls(String... urls) {
         // this method should guarantee that no one test would be runned twice.
         // testcases (in brackets are paths that should be thrown out):
         // 1) root, [root/a/b/c]; root/a, root/b, [root/b/c]; root/a.html, root/a.htmls; root/a.html, [root/a.html#boo]; root, [root/a], [root/b]
@@ -1594,7 +1594,7 @@ public class TestResultTable {
      * @param missingIn sorted and distilled array
      * @return a new array which contains all elements from missingIn ordered as in removeFrom
      */
-    private String[] removeMissing(String[] removeFrom, String missingIn[]) {
+    private String[] removeMissing(String[] removeFrom, String... missingIn) {
         String[] result = new String[missingIn.length];
         int i = 0;
         outer:
@@ -1648,7 +1648,7 @@ public class TestResultTable {
      *         previous entry existed.
      */
     synchronized TestResult insert(TRT_TreeNode node, String path, TestResult tr,
-                                   TRT_TreeNode[] rec) {
+                                   TRT_TreeNode... rec) {
         return insert(node, path, tr, rec, false);
     }
 
@@ -1866,7 +1866,7 @@ public class TestResultTable {
      * @see #validatePath
      * @see java.io.File#getPath()
      */
-    private String[] preProcessInitFiles(File[] tests) throws Fault {
+    private String[] preProcessInitFiles(File... tests) throws Fault {
         if (tests == null || tests.length == 0) {
             if (debug > 1)
                 Debug.println("Initial files set empty.");
@@ -2598,7 +2598,7 @@ public class TestResultTable {
             int minutes = seconds/60;
             seconds = seconds - 60*minutes;
             writeI18N("trt.waitingForLock",
-                      new Object[] { workDir.getRoot(), Integer.valueOf(minutes), Integer.valueOf(seconds)});
+                    workDir.getRoot(), Integer.valueOf(minutes), Integer.valueOf(seconds));
         }
 
         @Override
@@ -2662,7 +2662,7 @@ public class TestResultTable {
             System.err.println(i18n.getString(key, arg));
         }
 
-        private void writeI18N(String key, Object[] args) {
+        private void writeI18N(String key, Object... args) {
             System.err.println(i18n.getString(key, args));
         }
 
@@ -2804,7 +2804,7 @@ public class TestResultTable {
          *             This is really duplicated information, but will remove the
          *             need to search for a node at each level.
          */
-        PathRecord(TreeNode[] path, int[] inds) {
+        PathRecord(TreeNode[] path, int... inds) {
             nodes = path;
             this.inds = inds;
         }

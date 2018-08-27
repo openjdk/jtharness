@@ -79,7 +79,7 @@ public class I18NResourceBundle extends ResourceBundle
      * {@link java.text.MessageFormat#format}
      * @return the formatted string
      */
-    public String getString(String key, Object[] args) {
+    public String getString(String key, Object... args) {
         try {
             return MessageFormat.format(getString(key), args);
         }

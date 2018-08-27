@@ -180,7 +180,7 @@ public class MultiTest implements Test
      *
      * @deprecated Use <code>decodeArg(String)</code> and <code>init()</code> instead.
      */
-    protected Status init(String[] args) {
+    protected Status init(String... args) {
         try {
             decodeAllArgs(args);
             init();
@@ -220,7 +220,7 @@ public class MultiTest implements Test
      *
      * @see #decodeArg
      */
-    protected final void decodeAllArgs(String args[]) throws SetupException {
+    protected final void decodeAllArgs(String... args) throws SetupException {
         int i = 0;
         while (i < args.length) {
             int elementsConsumed = decodeArg(args, i);

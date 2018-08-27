@@ -105,7 +105,7 @@ public class ResourceTable
      * same thread that acquired them.
      * @param resourceNames the names of the locks to be released
      */
-    public synchronized void release(String[] resourceNames) {
+    public synchronized void release(String... resourceNames) {
         for (String resourceName : resourceNames) {
             Object owner = table.get(resourceName);
             if (owner == Thread.currentThread())

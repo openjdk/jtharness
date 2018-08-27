@@ -70,7 +70,7 @@ public class ChameleonTestFinder extends TestFinder {
      * This will typically be for directories like SCCS, Codemgr_wsdata, etc
      * @param names The names of files to be excluded
      */
-    public void exclude(String[] names) {
+    public void exclude(String... names) {
         for (String name : names) {
             excludeList.put(name, name);
         }
@@ -332,7 +332,7 @@ public class ChameleonTestFinder extends TestFinder {
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ChameleonTestFinder.class);
 
     private class Entry {
-        Entry(String pattern, String finderClassName, String[] finderArgs) {
+        Entry(String pattern, String finderClassName, String... finderArgs) {
             int star = pattern.indexOf('*');
             if (star == -1) {
                 prefix = pattern;

@@ -242,7 +242,7 @@ public class HTMLReport implements ReportFormat {
         return new BufferedWriter(osw);
     }
 
-    public void setResults(TreeSet<TestResult>[] results) {
+    public void setResults(TreeSet<TestResult>... results) {
         this.results = results;
     }
 
@@ -371,7 +371,7 @@ public class HTMLReport implements ReportFormat {
      * Duplicates output onto n writers.
      */
     static class DuplexWriter extends Writer {
-        public DuplexWriter(Writer[] writers) {
+        public DuplexWriter(Writer... writers) {
             if (writers == null)
                 return;
 

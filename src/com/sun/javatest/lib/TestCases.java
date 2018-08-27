@@ -96,7 +96,7 @@ public class TestCases {
      * no arguments and returns a {@link com.sun.javatest.Status status}.
      * @throws TestCases.Fault if any of the test case names are invalid.
      */
-    public void select(String[] testCaseNames) throws Fault  {
+    public void select(String... testCaseNames) throws Fault  {
         for (String t : testCaseNames) {
             selectedCases.put(t, getTestCase(t));
         }
@@ -124,7 +124,7 @@ public class TestCases {
      * no arguments and returns a {@link com.sun.javatest.Status status}.
      * @throws TestCases.Fault if any of the test case names are invalid.
      */
-    public void exclude(String[] testCaseNames) throws Fault  {
+    public void exclude(String... testCaseNames) throws Fault  {
         for (String t : testCaseNames) {
             excludedCases.put(t, getTestCase(t));
         }

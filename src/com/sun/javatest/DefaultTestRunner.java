@@ -183,10 +183,10 @@ public class DefaultTestRunner extends TestRunner
         catch (Throwable e) {
             String url = td.getRootRelativeURL();
             workDir.log(i18n, "dtr.unexpectedThrowable",
-                        new Object[] { url, e, classifyThrowable(e) });
+                    url, e, classifyThrowable(e));
             result = createErrorResult(td,
                                        i18n.getString("dtr.unexpectedThrowable",
-                                                      new Object[] { url, e, classifyThrowable(e) }),
+                                               url, e, classifyThrowable(e)),
                                        e);
         }
         finally {
@@ -206,7 +206,7 @@ public class DefaultTestRunner extends TestRunner
                 }
                 catch (Throwable e) {
                     String url = td.getRootRelativeURL();
-                    workDir.log(i18n, "dtr.unexpectedThrowable", new Object[] { url, e, classifyThrowable(e) });
+                    workDir.log(i18n, "dtr.unexpectedThrowable", url, e, classifyThrowable(e));
                 }
             }
         }
@@ -235,7 +235,7 @@ public class DefaultTestRunner extends TestRunner
         }
         catch (Exception e) {
             workDir.log(i18n, "dtr.unexpectedThrowable",
-                new Object[] {td.getRootRelativeURL(), e, EXCEPTION });
+                    td.getRootRelativeURL(), e, EXCEPTION);
         }
         return tr;
     }

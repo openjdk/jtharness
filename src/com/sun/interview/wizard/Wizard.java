@@ -111,7 +111,7 @@ public class Wizard extends JComponent {
      * @param args Only one argument is accepted: the name of a class which is
      * a subtype of {@link Interview}.
      */
-    public static void main(String[] args) {
+    public static void main(String... args) {
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
@@ -140,7 +140,7 @@ public class Wizard extends JComponent {
      * @param i The interview to be presented.
      * @param e An array of exporters to which the interview can be exported.
      */
-    public Wizard(Interview i, Exporter[] e) {
+    public Wizard(Interview i, Exporter... e) {
         interview = i;
         exporters = e;
     }
@@ -542,7 +542,7 @@ public class Wizard extends JComponent {
             || (defaultFile != null && currFile.equals(defaultFile)))
             t = title;
         else
-            t = i18n.getString("wizard.titleAndFile", new Object[] {title, currFile.getPath()});
+            t = i18n.getString("wizard.titleAndFile", title, currFile.getPath());
         if (w instanceof JFrame)
             ((JFrame) w).setTitle(t);
         else
@@ -1017,7 +1017,7 @@ public class Wizard extends JComponent {
             this.extns = new String[] {extn};
         }
 
-        ExtensionFileFilter(String[] extns) {
+        ExtensionFileFilter(String... extns) {
             this.extns = extns;
         }
 
@@ -1056,7 +1056,7 @@ public class Wizard extends JComponent {
     }
 
     private class ExportMenu extends JMenu implements ActionListener, PopupMenuListener {
-        ExportMenu(Exporter[] exporters) {
+        ExportMenu(Exporter... exporters) {
             super(i18n.getString("wizard.export.menu"));
             setName("export");
             setMnemonic(i18n.getString("wizard.export.mne").charAt(0));

@@ -94,7 +94,7 @@ public class ConfigManager
         return getHelp(i18n, "cnfg", childData);
     }
 
-    HelpTree.Node getHelp(I18NResourceBundle i18n, String prefix, Object[] childData) {
+    HelpTree.Node getHelp(I18NResourceBundle i18n, String prefix, Object... childData) {
         Vector<HelpTree.Node> v = new Vector<>();
         for (Object data : childData) {
             if (data instanceof HelpTree.Node)
@@ -949,7 +949,7 @@ public class ConfigManager
             }
         }
 
-        private static String getPathTrace(Question[] path) {
+        private static String getPathTrace(Question... path) {
             String lineSep = System.getProperty("line.separator");
             StringBuffer sb = new StringBuffer();
             for (Question q : path) {

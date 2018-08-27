@@ -509,7 +509,7 @@ public class AgentMonitorTool extends Tool
             @Override
             public String toString() {
                 return uif.getI18NString("tool.entry",
-                                         new Object[] {connection.getName(), tag});
+                        connection.getName(), tag);
             }
 
             Connection connection;

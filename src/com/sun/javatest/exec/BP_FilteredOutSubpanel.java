@@ -702,7 +702,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
         }
 
         @Override
-        public void statsUpdated(int[] stats) {
+        public void statsUpdated(int... stats) {
             // ignore
         }
     }

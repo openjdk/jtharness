@@ -59,14 +59,14 @@ class ProgressMeter extends JComponent implements Accessible {
         values = new int[colors.length];
     }
 
-    ProgressMeter(Color[] colors, MonitorState m, String[] actions) {
+    ProgressMeter(Color[] colors, MonitorState m, String... actions) {
         this(colors);
         this.actions = actions;
         this.state = m;
         values = new int[colors.length];
     }
 
-    ProgressMeter(Color[] colors) {
+    ProgressMeter(Color... colors) {
         this.colors = colors;
         values = new int[colors.length];
         //setBorder(BorderFactory.createEmptyBorder(10,5,10,5));
@@ -187,7 +187,7 @@ class ProgressMeter extends JComponent implements Accessible {
     }
 
 
-    public synchronized void set(int[] v) {
+    public synchronized void set(int... v) {
         int total = 0;
         for (int aV : v) total += aV;
         set(v, total);

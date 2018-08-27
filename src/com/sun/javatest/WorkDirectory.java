@@ -69,7 +69,7 @@ public class WorkDirectory {
             super(i18n.getString(s, o));
         }
 
-        Fault(I18NResourceBundle i18n, String s, Object[] o) {
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
         }
     }
@@ -80,11 +80,11 @@ public class WorkDirectory {
      */
     public static class TemplateMissingFault extends Fault {
         TemplateMissingFault(I18NResourceBundle i18n, String key, File f, String template) {
-            super(i18n, key, new Object[] {f.getPath(), template});
+            super(i18n, key, f.getPath(), template);
         }
 
         TemplateMissingFault(I18NResourceBundle i18n, String key, File f, String template, Throwable t) {
-            super(i18n, key, new Object[] {f.getPath(), template, t.toString()});
+            super(i18n, key, f.getPath(), template, t.toString());
         }
     }
 
@@ -98,7 +98,7 @@ public class WorkDirectory {
         }
 
         BadDirectoryFault(I18NResourceBundle i18n, String key, File f, Throwable t) {
-            super(i18n, key, new Object[] {f.getPath(), t.toString()});
+            super(i18n, key, f.getPath(), t.toString());
         }
     }
 
@@ -136,7 +136,7 @@ public class WorkDirectory {
      */
     public static class TestSuiteFault extends Fault {
         TestSuiteFault(I18NResourceBundle i18n, String key, File f, Object o) {
-            super(i18n, key, new Object[] {f.getPath(), o});
+            super(i18n, key, f.getPath(), o);
         }
     }
 
@@ -146,7 +146,7 @@ public class WorkDirectory {
      */
     public static class InitializationFault extends Fault {
         InitializationFault(I18NResourceBundle i18n, String key, File f, Object o) {
-            super(i18n, key, new Object[] {f.getPath(), o});
+            super(i18n, key, f.getPath(), o);
         }
     }
 
@@ -155,7 +155,7 @@ public class WorkDirectory {
      */
     public static class PurgeFault extends Fault {
         PurgeFault(I18NResourceBundle i18n, String key, File f, Object o) {
-            super(i18n, key, new Object[] {f.getPath(), o});
+            super(i18n, key, f.getPath(), o);
         }
     }
 
@@ -914,7 +914,7 @@ public class WorkDirectory {
      *          trace will be included in the log.
      * @since 3.0.1
      */
-    public void log(I18NResourceBundle i18n, String key, Object[] args) {
+    public void log(I18NResourceBundle i18n, String key, Object... args) {
         ensureLogFileInitialized();
         logFile.log(i18n, key, args);
     }

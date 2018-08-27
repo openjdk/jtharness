@@ -143,7 +143,7 @@ public abstract class InetAddressQuestion extends Question
      *
      * @see #getSuggestions
      */
-    public void setSuggestions(InetAddress[] newSuggestions) {
+    public void setSuggestions(InetAddress... newSuggestions) {
         if (newSuggestions != null) {
             // allow the first entry to be null
             for (int i = 1; i < newSuggestions.length; i++) {

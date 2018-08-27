@@ -154,7 +154,7 @@ public class HttpdServer implements Runnable {
     }   // init()
 
     // ---- FOR DEBUGGING ----
-    public static void main(String[] args) {
+    public static void main(String... args) {
         System.out.println("Starting JT Harness httpd in debug mode.");
 
         JThttpProvider prov = new JThttpProvider() {

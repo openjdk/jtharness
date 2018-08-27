@@ -213,7 +213,7 @@ public class TreeSelectionPane extends JComponent implements Accessible
      * @see #getSelection
      * @see #clear
      */
-    public void setSelection(String[] paths) {
+    public void setSelection(String... paths) {
         tree.setSelection(paths);
     }
 

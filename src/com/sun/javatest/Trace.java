@@ -52,7 +52,7 @@ class Trace implements Harness.Observer
 
             TestFinder tf = params.getWorkDirectory().getTestResultTable().getTestFinder();
             String tfName = tf == null ? "null" : tf.getClass().getName();
-            println(i18n, "trace.starting", new Object[] { tsName, tfName });
+            println(i18n, "trace.starting", tsName, tfName);
         }
     }
 
@@ -77,7 +77,7 @@ class Trace implements Harness.Observer
             try {
                 TestDescription td = tr.getDescription();
                 println(i18n, "trace.testFinished",
-                        new Object[] {td.getRootRelativeURL(), tr.getStatus()});
+                        td.getRootRelativeURL(), tr.getStatus());
             }
             catch (TestResult.Fault e) {
                 e.printStackTrace();
@@ -157,7 +157,7 @@ class Trace implements Harness.Observer
         printLocalizedLn(i18n.getString(key, arg));
     }
 
-    private void println(I18NResourceBundle i18n, String key, Object[] args) {
+    private void println(I18NResourceBundle i18n, String key, Object... args) {
         printLocalizedLn(i18n.getString(key, args));
     }
 

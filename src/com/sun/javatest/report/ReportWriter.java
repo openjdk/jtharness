@@ -64,15 +64,13 @@ class ReportWriter extends HTMLWriterEx
         startTag(HTMLWriterEx.HEAD);
         writeContentMeta(cs);
         startTag(HTMLWriterEx.TITLE);
-        writeI18N("reportWriter.product.name", new Object[] {
-            ProductInfo.getName(), title } );
+        writeI18N("reportWriter.product.name", ProductInfo.getName(), title);
         endTag(HTMLWriterEx.TITLE);
         writeStyle();
         endTag(HTMLWriterEx.HEAD);
         startTag(HTMLWriterEx.BODY);
         startTag(HTMLWriterEx.H1);
-        writeI18N("reportWriter.product.name", new Object[] {
-            ProductInfo.getName(), title });
+        writeI18N("reportWriter.product.name", ProductInfo.getName(), title);
         endTag(HTMLWriterEx.H1);
     }
 
@@ -101,8 +99,7 @@ class ReportWriter extends HTMLWriterEx
         startTag(HTMLWriterEx.SMALL);
         writeI18N("reportWriter.generatedOn", now);
         startTag(HTMLWriterEx.BR);
-        writeI18N("reportWriter.productInfo", new Object[] {
-            name,  version,  build_date, build_version } );
+        writeI18N("reportWriter.productInfo", name, version, build_date, build_version);
         endTag(HTMLWriterEx.SMALL);
         endTag(HTMLWriterEx.BODY);
         endTag(HTMLWriterEx.HTML);
@@ -147,10 +144,10 @@ class ReportWriter extends HTMLWriterEx
     void writeStyleSheetProperty(String key, String value, boolean separator) throws IOException {
         if (separator)
             writeI18N("reportWriter.keyValue.separator",
-                      new Object[] { key, value } );
+                    key, value);
         else
             writeI18N("reportWriter.keyValue",
-                      new Object[] { key, value } );
+                    key, value);
         newLine();
     }
 

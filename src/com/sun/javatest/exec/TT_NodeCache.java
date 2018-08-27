@@ -824,7 +824,7 @@ class TT_NodeCache implements Runnable {
         public abstract void testRemoved(int messageType,
                 TestResultTable.TreeNode[] path, TestResult what, int index);
 
-        public abstract void statsUpdated(int[] stats);
+        public abstract void statsUpdated(int... stats);
         protected boolean[] interestList;
         public static final int EVENT_LIST_SIZE = 7;
         public static final int MSGS_ALL = 0;

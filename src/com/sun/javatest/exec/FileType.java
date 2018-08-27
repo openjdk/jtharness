@@ -39,7 +39,7 @@ class FileType extends FileFilter
         this(new String[] { extn });
     }
 
-    public FileType(String[] extns) {
+    public FileType(String... extns) {
         this.extns = extns;
     }
 

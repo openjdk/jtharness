@@ -216,7 +216,7 @@ public class KeywordScript extends Script
         throw new Error("Method not applicable.");
     }
 
-    private static void printStrArr(PrintWriter pw, String[] data) {
+    private static void printStrArr(PrintWriter pw, String... data) {
         if(data == null) return;
 
         for (String aData : data) {

@@ -91,7 +91,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * @param keys Internal name of the keys
      * @throws NullPointerException if choices is null
      */
-    protected PropertiesQuestion(Interview interview, String tag, String[] keys) {
+    protected PropertiesQuestion(Interview interview, String tag, String... keys) {
         super(interview, tag);
 
         String blank = "";
@@ -499,7 +499,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * @throws IllegalArgumentException If a property in <code>props</code> does not
      *     exist.
      */
-    public void updateProperties(String[][] props) {
+    public void updateProperties(String[]... props) {
         if (props == null || props.length == 0)
             throw new IllegalArgumentException("Argument is null or zero length.");
 
@@ -606,7 +606,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         l.add(key);
     }
 
-    public void setGroup(String group, String[] keys) {
+    public void setGroup(String group, String... keys) {
         if (keys == null || keys.length == 0)
             return;
 
@@ -819,7 +819,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * @param values Array of table row data
      * @return a key
      */
-    public String getConstraintKeyFromRow(Object[] values) {
+    public String getConstraintKeyFromRow(Object... values) {
         if (values != null && values.length > 0 )
             return getKeyPropertyName(values[0].toString());
         else
@@ -990,7 +990,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * @param suggestions Predefined values for the user to choose from.
          * @see #setCustomValuesAllowed(boolean)
          */
-        public IntConstraints(int[] suggestions) {
+        public IntConstraints(int... suggestions) {
             this();
             setSuggestions(suggestions);
         }
@@ -1001,7 +1001,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * @param suggestions Predefined values for the user to choose from.
          * @see #setBounds
          */
-        public IntConstraints(int min, int max, int[] suggestions) {
+        public IntConstraints(int min, int max, int... suggestions) {
             this();
             setBounds(min, max);
             setSuggestions(suggestions);
@@ -1063,7 +1063,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * Supply some possible values that the user may want to
          * select from.
          */
-        public void setSuggestions(int[] sugs) {
+        public void setSuggestions(int... sugs) {
             suggestions = new int[sugs.length];
             System.arraycopy(sugs, 0, suggestions, 0, sugs.length);
         }
@@ -1145,7 +1145,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * @param suggestions Values to suggest to the user.  Array should be
          *    of length greater than zero.
          */
-        public FloatConstraints(float[] suggestions) {
+        public FloatConstraints(float... suggestions) {
             this();
             setSuggestions(suggestions);
         }
@@ -1158,7 +1158,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          *    of length greater than zero.
          * @see #getSuggestions()
          */
-        public FloatConstraints(float min, float max, float[] suggestions) {
+        public FloatConstraints(float min, float max, float... suggestions) {
             this();
             setBounds(min, max);
             setSuggestions(suggestions);
@@ -1225,7 +1225,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          *     Should be an array of length greater than zero.
          * @see #getSuggestions()
          */
-        public void setSuggestions(float[] sugs) {
+        public void setSuggestions(float... sugs) {
             suggestions = new float[sugs.length];
             System.arraycopy(sugs, 0, suggestions, 0, sugs.length);
         }
@@ -1321,7 +1321,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
             super();
         }
 
-        public StringConstraints(String[] suggestions) {
+        public StringConstraints(String... suggestions) {
             this();
             setSuggestions(suggestions);
         }
@@ -1357,7 +1357,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * @see #isCustomValuesAllowed
          * @see #getSuggestions
          */
-        public void setSuggestions(String[] sugs) {
+        public void setSuggestions(String... sugs) {
             suggestions = new String[sugs.length];
             System.arraycopy(sugs, 0, suggestions, 0, sugs.length);
         }
@@ -1561,7 +1561,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * @see #getFilters
          * @see #setFilter
          */
-        public void setFilters(FileFilter[] filters) {
+        public void setFilters(FileFilter... filters) {
             this.filters = filters;
         }
 
@@ -1612,7 +1612,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * select from.  The <code>getPath()</code> string will be used for
          * presentation and persistent storage of the value.
          */
-        public void setSuggestions(File[] sugs) {
+        public void setSuggestions(File... sugs) {
             // validate sugs
             suggestions = new File[sugs.length];
             System.arraycopy(sugs, 0, suggestions, 0, sugs.length);

@@ -59,7 +59,7 @@ public class ProcessCommand extends Command
      * @param args command line arguments for this command.
      * @see #run
      */
-    public static void main(String[] args) {
+    public static void main(String... args) {
         PrintWriter log = new PrintWriter(new OutputStreamWriter(System.err));
         PrintWriter ref = new PrintWriter(new OutputStreamWriter(System.out));
         Status s;

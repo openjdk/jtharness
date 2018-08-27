@@ -225,7 +225,7 @@ class CE_TestsPane extends CE_StdPane
             return;
         }
         catch (IOException e) {
-            uif.showError("ce.tests.cantReadFile", new Object[] { file, e.toString() });
+            uif.showError("ce.tests.cantReadFile", file, e.toString());
             return;
         }
         finally {
@@ -254,7 +254,7 @@ class CE_TestsPane extends CE_StdPane
                 }
                 boolean more = badPaths.size() > MAX_BAD_PATHS;
                 uif.showError("ce.tests.badPaths",
-                              new Object[] { sb.toString(), Integer.valueOf(more ? 1 : 0)});
+                        sb.toString(), Integer.valueOf(more ? 1 : 0));
             }
         }
 

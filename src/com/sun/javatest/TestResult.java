@@ -68,7 +68,7 @@ public class TestResult {
             super(i18n.getString(key, arg));
         }
 
-        Fault(I18NResourceBundle i18n, String key, Object[] args) {
+        Fault(I18NResourceBundle i18n, String key, Object... args) {
             super(i18n.getString(key, args));
         }
     }
@@ -85,7 +85,7 @@ public class TestResult {
             super(i18n, key, arg);
         }
 
-        ResultFileNotFoundFault(I18NResourceBundle i18n, String key, Object[] args) {
+        ResultFileNotFoundFault(I18NResourceBundle i18n, String key, Object... args) {
             super(i18n, key, args);
         }
     }
@@ -107,7 +107,7 @@ public class TestResult {
             super(i18n, key, arg);
         }
 
-        ReloadFault(I18NResourceBundle i18n, String key, Object[] args) {
+        ReloadFault(I18NResourceBundle i18n, String key, Object... args) {
             super(i18n, key, args);
         }
     }
@@ -1873,7 +1873,7 @@ public class TestResult {
         this.endTime = endTime;
     }
 
-    void shareStatus(Map<String, Status>[] tables) {
+    void shareStatus(Map<String, Status>... tables) {
         execStatus = shareStatus(tables, execStatus);
     }
 
@@ -1995,7 +1995,7 @@ public class TestResult {
         return cs;
     }
 
-    private static long computeChecksum(Section[] sections) {
+    private static long computeChecksum(Section... sections) {
         long cs = sections.length;
         for (Section section : sections) {
             cs = cs * 37 + computeChecksum(section);
@@ -2013,7 +2013,7 @@ public class TestResult {
         return cs;
     }
 
-    private static long computeChecksum(String[] strings) {
+    private static long computeChecksum(String... strings) {
         long cs = strings.length;
         for (String string : strings) {
             cs = cs * 37 + computeChecksum(string);
@@ -2335,7 +2335,7 @@ public class TestResult {
         return StringArray.split(s).length;
     }
 
-    void uniquifyStrings(String[] data) {
+    void uniquifyStrings(String... data) {
         for (int i = 0; i < data.length; i++)
             // don't do this for large strings
             if (data[i] != null && data[i].length() < 30)

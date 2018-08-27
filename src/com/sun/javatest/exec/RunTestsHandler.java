@@ -256,7 +256,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
      *        the strings must be root relative locations in the testsuite.
      */
     @Override
-    public void executeImmediate(String[] paths) {
+    public void executeImmediate(String... paths) {
 
         if (!interviewReady()) {
             model.configure();
@@ -270,7 +270,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     /**
      * Starts test run if configuration is ready.
      */
-    private void executeImmediateIfReady(String[] paths) {
+    private void executeImmediateIfReady(String... paths) {
         if (!interviewReady()) {
             startAction.setEnabled(!model.isConfiguring());
             return;
@@ -285,11 +285,11 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         int option = 0;
         if (paths[0].equals(""))
             option = uif.showYesNoDialog("rh.confirmQuickAll",
-                        new Object[] {params.getEnv().getName()});
+                    params.getEnv().getName());
         else {
             JPanel p = uif.createPanel("rh.confirmPanel", false);
             JTextArea msg = uif.createMessageArea("rh.confirmQuick",
-                        new Object[] {params.getEnv().getName()});
+                    params.getEnv().getName());
             p.setLayout(new BorderLayout());
             p.add(msg, BorderLayout.NORTH);
             DefaultListModel<String> model = new DefaultListModel<>();
@@ -381,7 +381,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
      * @see com.sun.javatest.exec.ExecTool#TESTS2RUN_PREF
      * @since 4.2.1
      */
-    static String[] reprocessTests2Run(final String[] requested, final String[] iTests) {
+    static String[] reprocessTests2Run(final String[] requested, final String... iTests) {
         ArrayList<String> result = new ArrayList<>();
     outer:
     for (String curr : requested) {

@@ -234,7 +234,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 return;
             }*/
             TestResultTable.TreeNode tn = (TestResultTable.TreeNode)what;
-            int[] newPositions = transPath[transPath.length-1].addNodes(new TestResultTable.TreeNode[] {tn});
+            int[] newPositions = transPath[transPath.length-1].addNodes(tn);
 
             if (debug > 0) {
                 Debug.println("TTM - Node " + what + " inserting, path len=" + path.length);
@@ -638,7 +638,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         for (int i = 1; i < path.length; i++) {
             TT_TreeNode mnode = location.findByName(path[i].getName());
             if (create && mnode == null) {
-                location.addNodes(new TestResultTable.TreeNode[] {path[i]});
+                location.addNodes(path[i]);
                 mnode = location.findByName(path[i].getName());
             }
             else if (!(mnode instanceof TT_BasicNode)) {
@@ -651,7 +651,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         return transPath;
     }
 
-    String[] pathsToStrings(TreePath[] paths) {
+    String[] pathsToStrings(TreePath... paths) {
         if (paths == null || paths.length == 0 ||
             !(getRoot() instanceof TT_BasicNode))
             return null;
@@ -665,7 +665,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         return result;
     }
 
-    TreePath[] urlsToPaths(String[] urls) {
+    TreePath[] urlsToPaths(String... urls) {
         ArrayList<TreePath> result = new ArrayList<>();
 
         for (String url : urls) {
@@ -974,7 +974,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
      * @param path Nodes to invalidate in the cache, must not be null.
      *             May be length zero.
      */
-    void invalidateNodeInfo(TestResultTable.TreeNode[] path) {
+    void invalidateNodeInfo(TestResultTable.TreeNode... path) {
         // do this as a batch
         // we can reverse the sync and for if stalls are noticeable
         synchronized (htLock) {
@@ -1040,7 +1040,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
      * @deprecated The cache will be smart enough to not need this.
      */
      void invalidateNodeInfo(TestResultTable.TreeNode node) {
-        invalidateNodeInfo(new TestResultTable.TreeNode[]{node});
+        invalidateNodeInfo(node);
     }
 
     /**
