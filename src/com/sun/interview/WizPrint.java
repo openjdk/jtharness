@@ -181,7 +181,7 @@ public class WizPrint
                     throw new Fault(i18n, "wp.cantFindFile", interviewFile);
                 }
                 catch (IOException e) {
-                    throw new Fault(i18n, "wp.cantReadFile", new Object[] { interviewFile, e });
+                    throw new Fault(i18n, "wp.cantReadFile", interviewFile, e);
                 }
             }
 
@@ -231,7 +231,7 @@ public class WizPrint
                 wp.write(out);
             }
             catch (IOException e) {
-                throw new Fault(i18n, "wp.cantWriteFile", new Object[] { outFileName, e });
+                throw new Fault(i18n, "wp.cantWriteFile", outFileName, e);
             }
         }
         catch (BadArgs e) {

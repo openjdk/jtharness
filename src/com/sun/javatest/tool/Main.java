@@ -270,7 +270,7 @@ public class Main
                 helpManager.setCommandManagers(commandManagers);
             }
             catch (IOException e) {
-                throw new Fault(i18n, "main.cantAccessResource", new Object[] { CMDMGRLIST, e });
+                throw new Fault(i18n, "main.cantAccessResource", CMDMGRLIST, e);
             }
         }
 

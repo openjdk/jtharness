@@ -201,7 +201,7 @@ public class TestSuite
         }
         catch (IOException e) {
             throw new Fault(i18n, "ts.cantCanonicalize",
-                            new Object[] {root.getPath(), e.toString()});
+                    root.getPath(), e.toString());
         }
 
         File canonRootDir;
@@ -290,7 +290,7 @@ public class TestSuite
             }
             catch (MalformedURLException e) {
                 throw new Fault(i18n, "ts.badClassPath",
-                                new Object[] {root, e.getMessage()});
+                        root, e.getMessage());
             }
         }
 
@@ -310,11 +310,11 @@ public class TestSuite
             }
             catch (ClassCastException e) {
                 throw new Fault(i18n, "ts.notASubtype",
-                                new Object[] {className, "testsuite", TestSuite.class.getName()});
+                        className, "testsuite", TestSuite.class.getName());
             }
             catch (UnsupportedClassVersionError uce){
                 throw new Fault(i18n, "ts.compiledRecentVersion",
-                        new Object[] {System.getProperty("java.version"), root.getPath()});
+                        System.getProperty("java.version"), root.getPath());
             }
 
             String[] args = new String[tsClassAndArgs.length - 1];
@@ -595,11 +595,11 @@ public class TestSuite
         }
         catch (ClassCastException e) {
             throw new Fault(i18n, "ts.notASubtype",
-                            new Object[] {finderClassName, "finder", TestFinder.class.getName()});
+                    finderClassName, "finder", TestFinder.class.getName());
         }
         catch (TestFinder.Fault e) {
             throw new Fault(i18n, "ts.errorInitFinder",
-                            new Object[] {finderClassName, e.getMessage()});
+                    finderClassName, e.getMessage());
         }
     }
 
@@ -639,11 +639,11 @@ public class TestSuite
         }
         catch (ClassCastException e) {
             throw new Fault(i18n, "ts.notASubtype",
-                            new Object[] {finderClassName, "finder", TestFinder.class.getName()});
+                    finderClassName, "finder", TestFinder.class.getName());
         }
         catch (TestFinder.Fault e) {
             throw new Fault(i18n, "ts.errorInitFinder",
-                            new Object[] {finderClassName, e.getMessage()});
+                    finderClassName, e.getMessage());
         }
 
     }
@@ -696,7 +696,7 @@ public class TestSuite
                 scriptClass = loadClass(script[0]);
                 if (!Script.class.isAssignableFrom(scriptClass)) {
                     throw new Fault(i18n, "ts.notASubtype",
-                                    new Object[] {script[0], "script", Script.class.getName()});
+                            script[0], "script", Script.class.getName());
                 }
                 scriptArgs = new String[script.length - 1];
                 System.arraycopy(script, 1, scriptArgs, 0, scriptArgs.length);
@@ -777,12 +777,12 @@ public class TestSuite
         }
         catch (ClassCastException e) {
             throw new Fault(i18n, "ts.notASubtype",
-                            new Object[] {className, "interview", InterviewParameters.class.getName()});
+                    className, "interview", InterviewParameters.class.getName());
         }
         catch (InterviewParameters.Fault e) {
             //e.printStackTrace();
             throw new Fault(i18n, "ts.errorInitInterview",
-                            new Object[] {className, e.getMessage()});
+                    className, e.getMessage());
         }
 
     }
@@ -1019,7 +1019,7 @@ public class TestSuite
         }
         catch (TestEnvironment.Fault e) {
             throw new Fault(i18n, "ts.cantFindNameInEnv",
-                            new Object[] {name, e.getMessage()});
+                    name, e.getMessage());
         }
     }
 
@@ -1037,11 +1037,11 @@ public class TestSuite
         }
         catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             throw new Fault(i18n, "ts.cantInstantiate",
-                            new Object[] { c.getName(), e });
+                    c.getName(), e);
         }
         catch (IllegalAccessException e) {
             throw new Fault(i18n, "ts.illegalAccess",
-                            new Object[] { c.getName(), e });
+                    c.getName(), e);
         }
     }
 
@@ -1065,18 +1065,18 @@ public class TestSuite
         }
         catch (IllegalAccessException e) {
             throw new Fault(i18n, "ts.illegalAccess",
-                            new Object[] { c.getName(), e });
+                    c.getName(), e);
         }
         catch (InstantiationException e) {
             throw new Fault(i18n, "ts.cantInstantiate",
-                            new Object[] { c.getName(), e });
+                    c.getName(), e);
         }
         catch (InvocationTargetException e) {
             Throwable te = e.getTargetException();
             if (te instanceof Fault)
                 throw (Fault) te;
             else
-                throw new Fault(i18n, "ts.cantInit", new Object[] { c.getName(), te });
+                throw new Fault(i18n, "ts.cantInit", c.getName(), te);
         }
         catch (NoSuchMethodException e) {
             // don't recurse past the use of a single arg constructor
@@ -1085,7 +1085,7 @@ public class TestSuite
             }
 
             throw new Fault(i18n, "ts.cantFindConstructor",
-                            new Object[] { c.getName(), e });
+                    c.getName(), e);
         }
     }
 
@@ -1116,7 +1116,7 @@ public class TestSuite
         }
         catch (ClassNotFoundException e) {
             throw new Fault(i18n, "ts.classNotFound",
-                            new Object[] { className, e });
+                    className, e);
         }
         catch (IllegalArgumentException e) {
             throw new Fault(i18n, "ts.badClassName",

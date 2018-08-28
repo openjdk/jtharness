@@ -151,7 +151,7 @@ public class ExpandTestFinder extends TagTestFinder
             File f = new File(testSuiteRoot, TESTSUITE_HTML);
             if (!(f.exists() && !f.isDirectory() && f.canRead())) {
                 throw new Fault(i18n, "expand.badRootDir",
-                                new Object[] {TESTSUITE_HTML, testSuiteRoot.getPath()});
+                        TESTSUITE_HTML, testSuiteRoot.getPath());
             }
         }
         else {

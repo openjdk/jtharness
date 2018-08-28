@@ -224,7 +224,7 @@ public class JavaCompileCommand extends Command
                 if (constr != null)
                     constrArgs = new Object[] { new WriterStream(ref), compilerName };
                 else {
-                    constr = getConstructor(compilerClass, new Class<?>[0]); // JDK1.3
+                    constr = getConstructor(compilerClass); // JDK1.3
                     if (constr != null)
                         constrArgs = new Object[0];
                     else

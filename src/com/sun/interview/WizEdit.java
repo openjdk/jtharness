@@ -307,7 +307,7 @@ public class WizEdit
                 }
             } catch (Interview.Fault e) {
                 throw new Fault(i18n, "edit.cantSetValue",
-                        new Object[]{q.getSummary(), e.getMessage()});
+                        q.getSummary(), e.getMessage());
             }
         }
 

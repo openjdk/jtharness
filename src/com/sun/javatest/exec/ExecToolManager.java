@@ -704,7 +704,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
                 TestSuite ts = TestSuite.open(f);
                 addNewExecTool(ts, null, null, "tmgr.errorOpenTestSuite");
             } catch (TestSuite.Fault e) {
-                throw new Fault(i18n, "mgr.errorOpeningTestSuite", new Object[] { f, e });
+                throw new Fault(i18n, "mgr.errorOpeningTestSuite", f, e);
             }
         }
     };
@@ -723,7 +723,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
                 WorkDirectory wd = WorkDirectory.open(f);
                 addNewExecTool(wd.getTestSuite(), wd, null, "tmgr.errorOpenWorkDir");
             } catch (WorkDirectory.Fault e) {
-                throw new Fault(i18n, "mgr.errorOpeningWorkDirectory", new Object[] { f, e.getMessage() });
+                throw new Fault(i18n, "mgr.errorOpeningWorkDirectory", f, e.getMessage());
             }
 
             Preferences prefs = Preferences.access();

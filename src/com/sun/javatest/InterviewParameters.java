@@ -998,7 +998,7 @@ public abstract class InterviewParameters
         }
         catch (RuntimeException e) {
             // can get IllegalArgumentException if the file is corrupt
-            throw new JTIFault(i18n, "ip.errorReadingFile", new Object[] { file, e });
+            throw new JTIFault(i18n, "ip.errorReadingFile", file, e);
         }
 
         // if the test suite has not been given, set it from the .jti data
@@ -1012,11 +1012,11 @@ public abstract class InterviewParameters
             }
             catch (FileNotFoundException e) {
                 throw new TestSuiteFault(i18n, "ip.cantFindTestSuiteInFile",
-                                new Object[] { s, file });
+                        s, file);
             }
             catch (TestSuite.Fault e) {
                 throw new Fault(i18n, "ip.cantOpenTestSuiteInFile",
-                                new Object[] { s, file, e.getMessage() } );
+                        s, file, e.getMessage());
             }
         }
 
@@ -1030,11 +1030,11 @@ public abstract class InterviewParameters
                 }
                 catch (FileNotFoundException e) {
                     throw new WorkDirFault(i18n, "ip.cantFindWorkDirInFile",
-                                    new Object[] { s, file } );
+                            s, file);
                 }
                 catch (WorkDirectory.Fault e) {
                     throw new Fault(i18n, "ip.cantOpenWorkDirInFile",
-                                    new Object[] { s, file, e.getMessage() } );
+                            s, file, e.getMessage());
                 }
             }
         }
@@ -1047,7 +1047,7 @@ public abstract class InterviewParameters
         }
         catch (TestSuite.Fault e) {
             throw new Fault(i18n, "ip.cantCreateInterviewForTestSuite",
-                            new Object[] { testSuite.getPath(), e.getMessage() } );
+                    testSuite.getPath(), e.getMessage());
         }
 
         // set the work dir in the parameters object
@@ -1060,7 +1060,7 @@ public abstract class InterviewParameters
         }
         catch (InterviewParameters.Fault e) {
             throw new Fault(i18n, "ip.cantLoadInterview",
-                            new Object[] { file, e.getMessage() });
+                    file, e.getMessage());
         }
 
         return parameters;
@@ -1144,10 +1144,10 @@ public abstract class InterviewParameters
                 testSuite = TestSuite.open(testSuitePath);
             }
             catch (FileNotFoundException e) {
-                throw new Fault(i18n, "ip.cantFindTestSuite", new Object[] { testSuitePath, e });
+                throw new Fault(i18n, "ip.cantFindTestSuite", testSuitePath, e);
             }
             catch (TestSuite.Fault e) {
-                throw new Fault(i18n, "ip.cantOpenTestSuite", new Object[] { testSuitePath, e.getMessage() });
+                throw new Fault(i18n, "ip.cantOpenTestSuite", testSuitePath, e.getMessage());
             }
         }
         else
@@ -1167,10 +1167,10 @@ public abstract class InterviewParameters
                     workDir = WorkDirectory.open(workDirPath, testSuite);
             }
             catch (FileNotFoundException e) {
-                throw new Fault(i18n, "ip.cantFindWorkDir", new Object[] { workDirPath, e });
+                throw new Fault(i18n, "ip.cantFindWorkDir", workDirPath, e);
             }
             catch (WorkDirectory.Fault e) {
-                throw new Fault(i18n, "ip.cantOpenWorkDir", new Object[] { workDirPath, e.getMessage() });
+                throw new Fault(i18n, "ip.cantOpenWorkDir", workDirPath, e.getMessage());
             }
         }
         else
@@ -1187,7 +1187,7 @@ public abstract class InterviewParameters
                     config = testSuite.createInterview();
                 }
                 catch (TestSuite.Fault e) {
-                    throw new Fault(i18n, "ip.cantCreateInterviewForTestSuite", new Object[] { testSuitePath, e });
+                    throw new Fault(i18n, "ip.cantCreateInterviewForTestSuite", testSuitePath, e);
                 }
 
                 if (workDir != null) {
@@ -1226,7 +1226,7 @@ public abstract class InterviewParameters
                 throw new Fault(i18n, "ip.cantFindConfigFile", configFilePath);
             }
             catch (IOException e) {
-                throw new Fault(i18n, "ip.cantOpenConfigFile", new Object[] { configFilePath, e });
+                throw new Fault(i18n, "ip.cantOpenConfigFile", configFilePath, e);
             }
         }
 

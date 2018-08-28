@@ -237,10 +237,9 @@ public class ConfigManager
                 if (value < Parameters.ConcurrencyParameters.MIN_CONCURRENCY
                     || value > Parameters.ConcurrencyParameters.MAX_CONCURRENCY) {
                     throw new Fault(i18n, "cnfg.conc.badRange",
-                                    new Object[] {
-                                        arg,
-                                            Integer.valueOf(Parameters.ConcurrencyParameters.MIN_CONCURRENCY),
-                                            Integer.valueOf(Parameters.ConcurrencyParameters.MAX_CONCURRENCY)});
+                            arg,
+                            Integer.valueOf(Parameters.ConcurrencyParameters.MIN_CONCURRENCY),
+                            Integer.valueOf(Parameters.ConcurrencyParameters.MAX_CONCURRENCY));
                 }
             }
             else
@@ -365,10 +364,10 @@ public class ConfigManager
                 if (!path.canWrite())
                     throw new Fault(i18n, "cnfg.writeConfig.cantWrite", path.getPath());
                 else
-                    throw new Fault(i18n, "cnfg.writeConfig.writeErr", new Object[] { path, e } );
+                    throw new Fault(i18n, "cnfg.writeConfig.writeErr", path, e);
             }
             catch (Interview.Fault e) {
-                throw new Fault(i18n, "cnfg.writeConfig.badConfig", new Object[] { path, e.getMessage() } );
+                throw new Fault(i18n, "cnfg.writeConfig.badConfig", path, e.getMessage());
             }   // catch
         }
 
@@ -705,7 +704,7 @@ public class ConfigManager
                 FileParameters params = new FileParameters(path);
                 if (!params.isValid()) {
                     throw new Fault(i18n, "cnfg.params.badParameterFile",
-                                    new Object[] { path, params.getErrorMessage() } );
+                            path, params.getErrorMessage());
                 }
                 setParameters(ctx, params);
             }
@@ -714,7 +713,7 @@ public class ConfigManager
             }
             catch (IOException e) {
                 throw new Fault(i18n, "cnfg.params.cantReadFile",
-                                new Object[] { path, e } );
+                        path, e);
             }
         }
 
@@ -910,7 +909,7 @@ public class ConfigManager
                 // to generate the trace if required -- i.e. the Fault
                 // equivalent of e.printStackTrace()
                 throw new Fault(i18n, "cnfg.set.tagNotFound",
-                                new Object[] { tag, getPathTrace(path) });
+                        tag, getPathTrace(path));
             }
         }
 
@@ -945,7 +944,7 @@ public class ConfigManager
             }
             catch (InterviewParameters.Fault e) {
                 throw new Fault(i18n, "cnfg.set.cantSetValue",
-                                new Object[] { q.getTag(), value, e.getMessage() });
+                        q.getTag(), value, e.getMessage());
             }
         }
 
@@ -982,7 +981,7 @@ public class ConfigManager
             }
             catch (IOException e) {
                 throw new Fault(i18n, "cnfg.set.cantReadFile",
-                                new Object[] { file, e.getMessage() });
+                        file, e.getMessage());
             }
         }
 
@@ -1056,7 +1055,7 @@ public class ConfigManager
             }
             catch (IOException e) {
                 throw new Fault(i18n, "cnfg.set.cantReadFile",
-                                new Object[] { file, e.getMessage() });
+                        file, e.getMessage());
             }
         }
 
@@ -1362,10 +1361,9 @@ public class ConfigManager
                 if (value < Parameters.TimeoutFactorParameters.MIN_TIMEOUT_FACTOR
                     || value > Parameters.TimeoutFactorParameters.MAX_TIMEOUT_FACTOR) {
                     throw new Fault(i18n, "cnfg.tf.badRange",
-                                    new Object[] {
-                                        arg,
-                                        Float.valueOf(Parameters.TimeoutFactorParameters.MIN_TIMEOUT_FACTOR),
-                                        Float.valueOf(Parameters.TimeoutFactorParameters.MAX_TIMEOUT_FACTOR) });
+                            arg,
+                            Float.valueOf(Parameters.TimeoutFactorParameters.MIN_TIMEOUT_FACTOR),
+                            Float.valueOf(Parameters.TimeoutFactorParameters.MAX_TIMEOUT_FACTOR));
                 }
             }
             else

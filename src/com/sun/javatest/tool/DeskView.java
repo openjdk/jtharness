@@ -623,7 +623,7 @@ abstract class DeskView {
         ToolManager mgr = desktop.getToolManager(mgrClassName);
         if (mgr == null)
             throw new Fault(i18n, "dv.restore.noMgr",
-                            new Object[] { name, mgrClassName } );
+                    name, mgrClassName);
 
         Tool t = mgr.restoreTool(m);
 

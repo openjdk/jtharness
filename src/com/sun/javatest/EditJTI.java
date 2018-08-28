@@ -306,7 +306,7 @@ public class EditJTI
                 }
                 catch (TestSuite.Fault e) {
                     throw new Fault(i18n, "editJTI.cantOpenTestSuite",
-                                    new Object[] { testSuitePath, e });
+                            testSuitePath, e);
                 }
                 load(inFile, ts);
             }
@@ -321,14 +321,14 @@ public class EditJTI
         }
         catch (Interview.Fault e) {
             throw new Fault(i18n, "editJTI.cantOpenFile",
-                            new Object[] { inFile.getPath(), e.getMessage() });
+                    inFile.getPath(), e.getMessage());
         }
         catch (FileNotFoundException e) {
             throw new Fault(i18n, "editJTI.cantFindFile", inFile.getPath());
         }
         catch (IOException e) {
             throw new Fault(i18n, "editJTI.cantOpenFile",
-                            new Object[] { inFile.getPath(), e });
+                    inFile.getPath(), e);
         }
         catch (IllegalStateException e) {
             // only occurs if keywords are being used in the config, and the
@@ -361,7 +361,7 @@ public class EditJTI
         }
         catch (IOException e) {
             throw new Fault(i18n, "editJTI.cantWriteLog",
-                            new Object[] { logFile.getPath(), e });
+                    logFile.getPath(), e);
         }
 
 
@@ -386,14 +386,13 @@ public class EditJTI
         }
         catch (Interview.Fault e) {
             throw new Fault(i18n, "editJTI.cantOpenFile",
-                            new Object[] {
-                                    outFile == null || outFile.getPath() == null ?
-                                     "??": outFile.getPath(), e });
+                    outFile == null || outFile.getPath() == null ?
+                     "??": outFile.getPath(), e);
         }
         catch (IOException e) {
             File f = outFile == null ? interview.getFile() : outFile;
             throw new Fault(i18n, "editJTI.cantSaveFile",
-                            new Object[] { f.getPath(), e });
+                    f.getPath(), e);
         }
 
         return interview.isFinishable();
@@ -430,7 +429,7 @@ public class EditJTI
         }
         catch (TestSuite.Fault e) {
             throw new Fault(i18n, "editJTI.cantCreateInterviewForTestSuite",
-                            new Object[] { ts.getPath(), e.getMessage() });
+                    ts.getPath(), e.getMessage());
         }
         interview.load(inFile);
         interview.setEdited(false);
@@ -465,15 +464,15 @@ public class EditJTI
         }
         catch (ClassNotFoundException e) {
             throw new Fault(i18n, "editJTI.cantFindClass",
-                            new Object[] { interviewClassName, inFile });
+                    interviewClassName, inFile);
         }
         catch (NoSuchMethodException | InstantiationException | InvocationTargetException e) {
             throw new Fault(i18n, "editJTI.cantInstantiateClass",
-                            new Object[] { interviewClassName, inFile });
+                    interviewClassName, inFile);
         }
         catch (IllegalAccessException e) {
             throw new Fault(i18n, "editJTI.cantAccessClass",
-                            new Object[] { interviewClassName, inFile });
+                    interviewClassName, inFile);
         }
         finally {
             try { if (in != null) in.close(); } catch (IOException e) {}
@@ -593,7 +592,7 @@ public class EditJTI
             in = new BufferedInputStream(new FileInputStream(file));
         }
         catch (FileNotFoundException e) {
-            throw new Fault(i18n, "editJTI.cantFindImport", new Object[] { file, e });
+            throw new Fault(i18n, "editJTI.cantFindImport", file, e);
         }
 
         Properties p;
@@ -604,7 +603,7 @@ public class EditJTI
         }
         catch (IOException e) {
             throw new Fault(i18n, "editJTI.cantReadImport",
-                            new Object[] { file, e });
+                    file, e);
         }
         finally {
             try { if (in != null) in.close(); } catch (IOException e) {}
@@ -667,7 +666,7 @@ public class EditJTI
                         q.getTag(), oldValue, q.getStringValue()));
         }
         catch (Interview.Fault e) {
-            throw new Fault(i18n, "editJTI.cantSetValue", new Object[] { q.getTag(), e.getMessage() } );
+            throw new Fault(i18n, "editJTI.cantSetValue", q.getTag(), e.getMessage());
         }
     }
 

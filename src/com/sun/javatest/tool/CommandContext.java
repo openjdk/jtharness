@@ -442,7 +442,7 @@ public class CommandContext
         else {
             if (wd.getTestSuite() != config.getTestSuite())
                 throw new Fault(i18n, "cc.wdTestSuiteMismatch",
-                                        new Object[] { wd.getRoot(), config.getTestSuite().getRoot() });
+                        wd.getRoot(), config.getTestSuite().getRoot());
 
             WorkDirectory cwd = config.getWorkDirectory();
             if (cwd != null && cwd != wd)
@@ -512,7 +512,7 @@ public class CommandContext
             if (configFilePath == null)
                 throw new Fault(i18n, "cc.confAlreadySetDefault", path);
             else
-                throw new Fault(i18n, "cc.confAlreadySet", new Object[] { path, configFilePath });
+                throw new Fault(i18n, "cc.confAlreadySet", path, configFilePath);
         }
 
         configFilePath = path;
@@ -621,7 +621,7 @@ public class CommandContext
                     }
                     catch (RuntimeException e) {
                         // can get IllegalArgumentException if the file is corrupt
-                        throw new Fault(i18n, "cc.cantReadConfig", new Object[] { configFilePath, e });
+                        throw new Fault(i18n, "cc.cantReadConfig", configFilePath, e);
                     }
                 }
                 catch (FileNotFoundException e) {
@@ -629,7 +629,7 @@ public class CommandContext
                 }
                 catch (IOException e) {
                     throw new Fault(i18n, "cc.cantReadConfig",
-                                            new Object[] { configFilePath, e });
+                            configFilePath, e);
                 }
 
                 String tsp = configData.get("TESTSUITE");
@@ -650,16 +650,16 @@ public class CommandContext
             }
             catch (FileNotFoundException e) {
                 throw new Fault(i18n, "cc.cantFindTS",
-                                        new Object[] { tsPath,
-                                                Integer.valueOf(testSuitePath != null ? 0 : 1),
-                                                       configFilePath });
+                        tsPath,
+                        Integer.valueOf(testSuitePath != null ? 0 : 1),
+                        configFilePath);
             }
             catch (TestSuite.Fault e) {
                 throw new Fault(i18n, "cc.cantOpenTS",
-                                        new Object[] { tsPath,
-                                                Integer.valueOf(testSuitePath != null ? 0 : 1),
-                                                       configFilePath,
-                                                       e.getMessage() });
+                        tsPath,
+                        Integer.valueOf(testSuitePath != null ? 0 : 1),
+                        configFilePath,
+                        e.getMessage());
             }
 
             // create the work directory
@@ -679,7 +679,7 @@ public class CommandContext
                 }
                 catch (TestSuite.Fault e) {
                     throw new Fault(i18n, "cc.cantCreateConfig",
-                                            new Object[] { testSuitePath, e.getMessage() });
+                            testSuitePath, e.getMessage());
                 }
 
                 // load config data if we have it
@@ -689,7 +689,7 @@ public class CommandContext
                 }
                 catch (InterviewParameters.Fault e) {
                     throw new Fault(i18n, "cc.cantOpenConfig",
-                                            new Object[] { configFilePath, e.getMessage() });
+                            configFilePath, e.getMessage());
                 }
 
                 config.setWorkDirectory(wd);
@@ -700,11 +700,11 @@ public class CommandContext
                 }
                 catch (IOException e) {
                     throw new Fault(i18n, "cc.cantReadConfig",
-                                            new Object[] { configFilePath, e });
+                            configFilePath, e);
                 }
                 catch (InterviewParameters.Fault e) {
                     throw new Fault(i18n, "cc.cantOpenConfig",
-                                            new Object[] { configFilePath, e.getMessage() });
+                            configFilePath, e.getMessage());
                 }
             }
 

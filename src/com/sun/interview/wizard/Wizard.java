@@ -988,7 +988,7 @@ public class Wizard extends JComponent {
 
     private final FileFilter jtiFilter = new ExtensionFileFilter(".jti");
     private final FileFilter htmlFilter =
-        new ExtensionFileFilter(new String[] {".htm", ".html"});
+        new ExtensionFileFilter(".htm", ".html");
 
     private static final KeyStroke enterKey = KeyStroke.getKeyStroke("ENTER");
 

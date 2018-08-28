@@ -200,7 +200,7 @@ public class TestEnvContext
             throw new Fault(i18n, "tec.cantFindFile", f);
         }
         catch (IOException e) {
-            throw new Fault(i18n, "tec.ioError", new Object[] {f, e});
+            throw new Fault(i18n, "tec.ioError", f, e);
         }
         /*
         catch (ClassNotFoundException e) {

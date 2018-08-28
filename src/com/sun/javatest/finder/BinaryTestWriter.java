@@ -357,7 +357,7 @@ public class BinaryTestWriter
 
             while (!f.equals(rootDir)) {
                 f = f.getParentFile();
-                n = testTree.new Node(f.getName(), noTests, new TestTree.Node[]{n});
+                n = testTree.new Node(f.getName(), noTests, n);
             }
 
             r = r == null ? n : r.merge(n);

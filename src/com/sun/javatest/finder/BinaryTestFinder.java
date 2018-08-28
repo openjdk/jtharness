@@ -290,15 +290,14 @@ public class BinaryTestFinder extends TestFinder
             throw new Fault(i18n, "bin.cantFindFile", jtdFile.getPath());
         }
         catch (IOException e) {
-            throw new Fault(i18n, "bin.ioError", new Object[] {jtdFile.getPath(), e});
+            throw new Fault(i18n, "bin.ioError", jtdFile.getPath(), e);
         } finally {
             if (closeIfSuccess || !zipFileRead) {
                 if (zipFile != null) {
                     try {
                         zipFile.close();
                     } catch (IOException e) {
-                        throw new Fault(i18n, "bin.ioError", new Object[] {
-                                jtdFile.getPath(), e });
+                        throw new Fault(i18n, "bin.ioError", jtdFile.getPath(), e);
                     }
                 }
                 stringsEntry = null;

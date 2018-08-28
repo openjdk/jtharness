@@ -334,7 +334,7 @@ public class TestEnvironment
                 activeKeys = new Vector<>();
             else if (activeKeys.contains(key))
                 throw new Fault(i18n, "env.recursive",
-                                new Object[] {key, elem.getDefinedInFile()});
+                        key, elem.getDefinedInFile());
 
             activeKeys.addElement(key);
             try {
@@ -342,7 +342,7 @@ public class TestEnvironment
             }
             catch (Fault e) {
                 throw new Fault(i18n, "env.badName",
-                                new Object[] {key, elem.getDefinedInFile(), e.getMessage()});
+                        key, elem.getDefinedInFile(), e.getMessage());
             }
             finally {
                 activeKeys.removeElement(key);

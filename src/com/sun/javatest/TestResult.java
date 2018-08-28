@@ -644,8 +644,7 @@ public class TestResult {
 
                             // sanity check, may be truncated file
                             if (n < 0) {
-                                throw new ReloadFault(i18n, "rslt.badRuntimeErr", new Object[]
-                                    {resultsFile, Integer.toString(n)});
+                                throw new ReloadFault(i18n, "rslt.badRuntimeErr", resultsFile, Integer.toString(n));
                             }
 
                             buff.append(data, 0, n);

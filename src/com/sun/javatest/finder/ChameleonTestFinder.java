@@ -167,7 +167,7 @@ public class ChameleonTestFinder extends TestFinder {
                 String[] words = StringArray.split(line);
                 if (words.length < 2) {
                     throw new Fault(i18n, "cham.missingData",
-                                    new Object[] {Integer.valueOf(lineNum), line});
+                            Integer.valueOf(lineNum), line);
                 }
 
                 String pattern = words[0];
@@ -183,7 +183,7 @@ public class ChameleonTestFinder extends TestFinder {
         }
         catch (IOException e) {
             throw new Fault(i18n, "cham.ioError",
-                            new Object[] {file, e});
+                    file, e);
         }
 
         entryFile = file;
@@ -289,11 +289,11 @@ public class ChameleonTestFinder extends TestFinder {
         }
         catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             throw new Fault(i18n, "cham.cantCreateClass",
-                            new Object[] {c.getName(), e});
+                    c.getName(), e);
         }
         catch (IllegalAccessException e) {
             throw new Fault(i18n, "cham.cantAccessClass",
-                            new Object[] {c.getName(), e});
+                    c.getName(), e);
         }
     }
 
@@ -306,7 +306,7 @@ public class ChameleonTestFinder extends TestFinder {
         }
         catch (ClassNotFoundException e) {
             throw new Fault(i18n, "cham.cantFindClass",
-                            new Object[] {className, e});
+                    className, e);
         }
         catch (IllegalArgumentException e) {
             throw new Fault(i18n, "cham.badClassName", className);

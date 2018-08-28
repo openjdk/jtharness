@@ -189,7 +189,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
                 AgentManager mgr = AgentManager.access();
                 ActiveAgentPool pool = mgr.getActiveAgentPool();
 
-                throw new Fault(i18n, "cmgr.listenOn.err", new Object[] {pool.getPort(), e});
+                throw new Fault(i18n, "cmgr.listenOn.err", pool.getPort(), e);
             }
         }
 

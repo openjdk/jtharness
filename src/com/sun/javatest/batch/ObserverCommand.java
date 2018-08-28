@@ -168,7 +168,7 @@ class ObserverCommand extends Command
                 v.add(new File(s).toURL());
         }
         catch (MalformedURLException e) {
-            throw new Fault(i18n, "observer.badClassPath", new Object[] { s, e });
+            throw new Fault(i18n, "observer.badClassPath", s, e);
         }
     }
 

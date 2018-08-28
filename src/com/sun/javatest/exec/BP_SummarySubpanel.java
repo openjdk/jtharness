@@ -321,7 +321,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
         pan.add(statsPanel, gl);
         statsPanel.setMinimumSize(new Dimension(150, 100));
         pie = new PieChart(new int[]{100},
-                new Color[]{I18NUtils.getStatusColor(I18NUtils.FILTERED_OUT)});
+                I18NUtils.getStatusColor(I18NUtils.FILTERED_OUT));
         //pie.setOpaque(false);
         gl.fill = GridBagConstraints.BOTH;
         gl.weightx = 2.0;

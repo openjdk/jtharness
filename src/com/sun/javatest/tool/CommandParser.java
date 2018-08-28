@@ -121,7 +121,7 @@ public class CommandParser
                     args[i] = URLDecoder.decode(args[i], "UTF-8");
                 }
                 catch (Throwable e) {
-                    throw new Fault(i18n, "cmdp.cantDecode", new Object[] { args[i], e.toString() });
+                    throw new Fault(i18n, "cmdp.cantDecode", args[i], e.toString());
                 }
             }
         }
@@ -217,7 +217,7 @@ public class CommandParser
             throw new Fault(i18n, "cmdp.cantFindFile", file);
         }
         catch (IOException e) {
-            throw new Fault(i18n, "cmdp.cantOpenFile", new Object[] { file, e });
+            throw new Fault(i18n, "cmdp.cantOpenFile", file, e);
         }
 
         try {
@@ -225,9 +225,9 @@ public class CommandParser
         }
         catch (Fault | LineParser.Fault e) {
             throw new Fault(i18n, "cmdp.errorInFile",
-                            new Object[] { file,
-                                    Integer.valueOf(p.getLineNumber()),
-                                           e.getMessage() });
+                    file,
+                    Integer.valueOf(p.getLineNumber()),
+                    e.getMessage());
         }
     }
 
