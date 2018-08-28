@@ -98,19 +98,19 @@ class ObserverCommand extends Command
             Harness.Observer o = null;
             if (classArgs == null || classArgs.length == 0) {
                 o = tryConstructor(oc,
-                                   new Class<?>[] { }
-                );
+                                   new Class<?>[] { },
+                                   new Object[] { });
             }
             else if (classArgs.length == 1) {
                 o = tryConstructor(oc,
                                    new Class<?>[] { String.class },
-                        classArgs[0]);
+                                   new Object[] { classArgs[0] });
             }
 
             if (o == null)
                 o = tryConstructor(oc,
                                    new Class<?>[] { String[].class },
-                        classArgs);
+                                   new Object[] { classArgs });
 
             if (o == null)
                 throw new Fault(i18n, "observer.cantFindConstructor", className);
@@ -128,7 +128,7 @@ class ObserverCommand extends Command
         }
     }
 
-    private Harness.Observer tryConstructor(Class<?> obsClass, Class<?>[] argTypes, Object... args)
+    private Harness.Observer tryConstructor(Class<?> obsClass, Class<?>[] argTypes, Object[] args)
         throws IllegalAccessException, InstantiationException, InvocationTargetException
     {
         try {
@@ -154,7 +154,7 @@ class ObserverCommand extends Command
         setClassPath(path);
     }
 
-    private void setClassPath(URL... path) {
+    private void setClassPath(URL[] path) {
         classLoader = new URLClassLoader(path);
     }
 
