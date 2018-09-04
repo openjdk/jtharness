@@ -207,7 +207,7 @@ class OptionsPane extends JPanel {
         backBtn = uif.createButton("opts.back", chTabListener);
         helpBtn = uif.createHelpButton("opts.help",
                         "mergeReports.window.csh");
-        JButton[] buttons = new JButton[] { okBtn, cancelBtn, helpBtn };
+        JButton[] buttons = { okBtn, cancelBtn, helpBtn };
 
         JPanel buttonsPanel = uif.createPanel("opts.but");
         GridBagConstraints co = new GridBagConstraints();

@@ -68,10 +68,8 @@ public abstract class YesNoQuestion extends ChoiceQuestion
         if (defaultValue != null && !defaultValue.equals(YES) && !defaultValue.equals(NO))
             throw new IllegalArgumentException();
 
-        String[] choices = new String[] { null, YES, NO };
-        String[] displayChoices = new String[] { null,
-                                                 i18n.getString("yn.yes"),
-                                                 i18n.getString("yn.no") };
+        String[] choices        = { null, YES, NO };
+        String[] displayChoices = { null, i18n.getString("yn.yes"), i18n.getString("yn.no") };
 
         setChoices(choices, displayChoices);
 

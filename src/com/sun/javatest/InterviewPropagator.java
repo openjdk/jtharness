@@ -235,7 +235,7 @@ public class InterviewPropagator {
                     pq.setValue(sw.toString());
                     interview.setEdited(true);
                     updated = true;
-                    String[] data = new String[]{sw.toString(), swOld.toString(), swOld.toString(),
+                    String[] data = {sw.toString(), swOld.toString(), swOld.toString(),
                             getQuestionText(questionKey, allQuestionMap)};
                     pm.partialUpdateMap.put(questionKey, data);
                 }
@@ -680,7 +680,7 @@ public class InterviewPropagator {
 
                 for (Object o : conf.keySet()) {
                     String key = (String) o;
-                    String[] props = new String[]{newT.getProperty(key), oldT.getProperty(key), conf.getProperty(key)};
+                    String[] props = {newT.getProperty(key), oldT.getProperty(key), conf.getProperty(key)};
 
                     for (int i = 0; i < props.length; i++) {
                         if (props[i] == null) props[i] = "";

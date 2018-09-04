@@ -634,8 +634,7 @@ public class WizPrint
      */
     private void writeResponse(PropertiesQuestion pq) throws IOException {
         String[] groups = pq.getGroups();
-        String[] headers = new String[] {pq.getKeyHeaderName(),
-                                         pq.getValueHeaderName()};
+        String[] headers = {pq.getKeyHeaderName(), pq.getValueHeaderName()};
         String[][] nullGroup = pq.getGroup(null);
         if (nullGroup != null && nullGroup.length != 0)
             writePQTable(headers, nullGroup);

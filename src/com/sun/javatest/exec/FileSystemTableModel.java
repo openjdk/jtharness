@@ -186,7 +186,7 @@ public class FileSystemTableModel extends AbstractTableModel  {
 
         // refresh
         try {
-            String[] data = new String[] {"", ""};
+            String[] data = {"", ""};
             /*
             String path = TemplateUtilities.getTemplateFromWd(file);
             if (path != null) {

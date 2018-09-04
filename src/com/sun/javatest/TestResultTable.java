@@ -778,7 +778,7 @@ public class TestResultTable {
         if (node == null)
             return NullEnum.getInstance();
         else {
-            TestFilter[] filters = new TestFilter[] {filter};
+            TestFilter[] filters = {filter};
             return new TRT_Iterator(node, filters);
         }
     }

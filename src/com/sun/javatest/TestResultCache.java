@@ -506,7 +506,7 @@ public class TestResultCache {
 
         if (log != null) {
             Integer loadTime = Integer.valueOf((int) (time / 1000));
-            Object[] params = new Object[]{loadTime};
+            Object[] params = {loadTime};
             String output = i18n.getString("trc.log.rtime", params);
             log.info(output);
             if (DEBUG_BASIC) Debug.println(output);
@@ -619,7 +619,7 @@ public class TestResultCache {
 
             if (log != null) {
                 Integer loadTime = Integer.valueOf((int) (time / 1000));
-                Object[] params = new Object[]{loadTime};
+                Object[] params = {loadTime};
                 String output = i18n.getString("trc.log.ptime", params);
                 log.info(output);
                 if (DEBUG_BASIC) Debug.println(output);

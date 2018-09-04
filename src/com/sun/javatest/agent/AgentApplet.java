@@ -148,7 +148,7 @@ public class AgentApplet extends Applet implements Agent.Observer
             }
         }
 
-        ModeOptions[] modeOptions = new ModeOptions[] {amo, pmo, smo};
+        ModeOptions[] modeOptions = {amo, pmo, smo};
 
         AgentPanel.MapReader mapReader = new AgentPanel.MapReader() {
             @Override

@@ -324,7 +324,7 @@ public class WorkDirChooser extends JFileChooser
         }
         // refresh
         try {
-            String[] data = new String[] {"", ""};
+            String[] data = {"", ""};
             String path = TemplateUtilities.getTemplateFromWd(file);
             if (path != null) {
                 TemplateUtilities.ConfigInfo ci = TemplateUtilities.getConfigInfo(new File(path));

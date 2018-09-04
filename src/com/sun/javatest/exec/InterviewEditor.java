@@ -930,8 +930,7 @@ public class InterviewEditor extends ToolDialog {
     }
 
     protected JMenu createFileMenu() {
-        String[] fileMenuItems = new String[] { SAVE, SAVE_AS, REVERT, null,
-            NEW, LOAD, null, CLOSE };
+        String[] fileMenuItems = { SAVE, SAVE_AS, REVERT, null, NEW, LOAD, null, CLOSE };
         JMenu fileMenu = uif.createMenu("ce.file", fileMenuItems, listener);
 
         FileHistory h = FileHistory.getFileHistory(viewConfig.getWorkDirectory(), getHistoryFileName());

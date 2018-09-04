@@ -1739,11 +1739,11 @@ public abstract class InterviewParameters
     }
 
     //----------------------------------------------------------------------------
-    private final String [] ignorableProps = new String [] {
-        INTERVIEW,
-        LOCALE, TESTSUITE, WORKDIR, MARKERS,
-        IS_TEMPLATE, TEMPLATE_PATH, QUESTION};
-    private final String [] ignorablePrefs = new String [] { MARKERS_PREF, EXTERNAL_PREF, TEMPLATE_PREF};
+    private final String [] ignorableProps = {
+                                                INTERVIEW,
+                                                LOCALE, TESTSUITE, WORKDIR, MARKERS,
+                                                IS_TEMPLATE, TEMPLATE_PATH, QUESTION};
+    private final String [] ignorablePrefs = {MARKERS_PREF, EXTERNAL_PREF, TEMPLATE_PREF};
 
     private BackupPolicy backupPolicy;
     private boolean markersEnabled;

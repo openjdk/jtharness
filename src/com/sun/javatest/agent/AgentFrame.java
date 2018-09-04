@@ -203,7 +203,7 @@ public class AgentFrame extends Frame
         }
 
 
-        ModeOptions[] modeOptions = new ModeOptions[] {amo, pmo, smo};
+        ModeOptions[] modeOptions = {amo, pmo, smo};
 
         final AgentFrame sf = new AgentFrame(modeOptions);
 
