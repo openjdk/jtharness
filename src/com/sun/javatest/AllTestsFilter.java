@@ -48,7 +48,7 @@ public class AllTestsFilter extends TestFilter {
     }
 
     @Override
-    public boolean accepts(TestDescription td) throws Fault {
+    public boolean accepts(TestDescription td) {
         return true;
     }
 

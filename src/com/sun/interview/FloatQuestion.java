@@ -249,7 +249,7 @@ public abstract class FloatQuestion extends Question
      * @see #getValue()
      * @see #setValue(String, Locale)
      */
-    public void setValue(String s, Locale l) throws Interview.Fault {
+    public void setValue(String s, Locale l) {
         //String s1 = s;
         float f;
 
@@ -365,12 +365,7 @@ public abstract class FloatQuestion extends Question
         else {
             //get locate to parse string with
             Locale l = Interview.readLocale(data);
-            try {
-                setValue(o, l);
-            }
-            catch (Interview.Fault e) {
-                throw new Error(e);
-            }
+            setValue(o, l);
         }
     }
 

@@ -543,18 +543,15 @@ public class WorkDirChooseTool extends JDialog {
 
             setDefaultDirectory(wd.getRoot().getParentFile(), true);
 
-            try {
-                if (mode == WorkDirChooser.OPEN_FOR_ANY_TESTSUITE) {
+
+            if (mode == WorkDirChooser.OPEN_FOR_ANY_TESTSUITE) {
+                em.getExecToolManager().showWorkDirectory(wd);
+            } else  if (mode == WorkDirChooser.OPEN_FOR_GIVEN_TESTSUITE ||
+                    mode == WorkDirChooser.NEW) {
+                if (em.getTestSuite() == null)
                     em.getExecToolManager().showWorkDirectory(wd);
-                } else  if (mode == WorkDirChooser.OPEN_FOR_GIVEN_TESTSUITE ||
-                        mode == WorkDirChooser.NEW) {
-                    if (em.getTestSuite() == null)
-                        em.getExecToolManager().showWorkDirectory(wd);
-                    else
-                        em.setWorkDir(wd, true);
-                }
-            } catch (Interview.Fault | TestSuite.Fault e) {
-                uif.showError("exec.wd.errorOpeningWD", e);
+                else
+                    em.setWorkDir(wd, true);
             }
         }
 
@@ -967,7 +964,7 @@ public class WorkDirChooseTool extends JDialog {
                 ce.loadNoUI(templateName);
  */
             }
-        } catch (IOException | TestSuite.Fault | Interview.Fault e) {
+        } catch (IOException e) {
             uif.showError("exec.wd.errorOpeningWD", e);
         }
 
@@ -1277,7 +1274,7 @@ public class WorkDirChooseTool extends JDialog {
         }
 
         @Override
-        public void setWorkDir(WorkDirectory wd, boolean addToFileHistory) throws Interview.Fault, TestSuite.Fault {
+        public void setWorkDir(WorkDirectory wd, boolean addToFileHistory) {
             this.wd = wd;
         }
 

@@ -458,9 +458,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
      * @deprecated
      */
     @Deprecated
-    public ExecTool showTestSuite(TestSuite ts)
-        throws InterviewParameters.Fault, TestSuite.Fault
-    {
+    public ExecTool showTestSuite(TestSuite ts) {
         return  addNewExecTool(ts, null, null, "tmgr.errorOpenTestSuite");
 
 /*
@@ -519,9 +517,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
      * @deprecated
      */
     @Deprecated
-    public ExecTool showWorkDirectory(WorkDirectory wd)
-        throws InterviewParameters.Fault, TestSuite.Fault
-    {
+    public ExecTool showWorkDirectory(WorkDirectory wd) {
         return addNewExecTool(wd.getTestSuite(), wd, null, "tmgr.errorOpenWorkDir");
     }
 

@@ -106,7 +106,7 @@ public class XMLServiceReader implements ServiceReader {
             parser.setErrorHandler(new ErrorHandler() {
 
                 @Override
-                public void warning(SAXParseException exception) throws SAXException {
+                public void warning(SAXParseException exception) {
 
                 }
 

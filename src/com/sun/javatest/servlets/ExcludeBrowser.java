@@ -39,7 +39,7 @@ import com.sun.javatest.util.StringArray;
 public class ExcludeBrowser extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res)
-                throws ServletException, IOException {
+                throws IOException {
         String uri = req.getRequestURI();
         File file = new File(req.getRealPath(uri));
 

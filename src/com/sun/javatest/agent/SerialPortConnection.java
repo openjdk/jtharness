@@ -160,7 +160,7 @@ public class SerialPortConnection implements Connection
     }
 
     @Override
-    public synchronized void close() throws IOException {
+    public synchronized void close() {
         if (!closed) {
             try {
                 //System.err.println("setting DTR to false");
@@ -205,7 +205,7 @@ public class SerialPortConnection implements Connection
         }
     }
 
-    private static SerialPort open(CommPortIdentifier cpi, String app, int timeout) throws IOException, PortInUseException {
+    private static SerialPort open(CommPortIdentifier cpi, String app, int timeout) throws PortInUseException {
         if (cpi.getPortType() != CommPortIdentifier.PORT_SERIAL)
             throw new IllegalArgumentException("not a serial port: " + cpi.getName());
         return (SerialPort)cpi.open(app, timeout);
@@ -219,14 +219,9 @@ public class SerialPortConnection implements Connection
             Thread t = new Thread() {
                 @Override
                 public void run() {
-                    try {
-                        // WARNING: The following line may cause ThreadDeath if
-                        // this method is called called from an event routine.
-                        close();
-                    }
-                    catch (IOException e) {
-                        //System.err.println("error closing port: " + e);
-                    }
+                    // WARNING: The following line may cause ThreadDeath if
+                    // this method is called called from an event routine.
+                    close();
                 }
             };
             t.start();

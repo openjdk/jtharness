@@ -1121,18 +1121,11 @@ public class Wizard extends JComponent {
             int action = exportChooser.showSaveDialog(main);
             if (action != JFileChooser.APPROVE_OPTION)
                 return;
-            try {
-                File f = ensureExtn(exportChooser.getSelectedFile(), extns[0]);
-                if (f.exists() && !okToOverwrite(f))
-                    return;
-                e.export(f);
-            }
-            catch (IOException | Interview.Fault ex) {
-                JOptionPane.showMessageDialog(main,
-                                              i18n.getString("wizard.exportError.txt", ex.getMessage()),
-                                              i18n.getString("wizard.exportError.title"),
-                                              JOptionPane.ERROR_MESSAGE);
-            }
+            File f = ensureExtn(exportChooser.getSelectedFile(), extns[0]);
+            if (f.exists() && !okToOverwrite(f))
+                return;
+            e.export(f);
+
         }
     }
 

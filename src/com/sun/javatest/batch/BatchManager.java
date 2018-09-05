@@ -104,7 +104,7 @@ public class BatchManager
         }
 
         @Override
-        public void run(CommandContext ctx) throws Fault {
+        public void run(CommandContext ctx) {
             ctx.setAutoRunCommand(new AutoRunCommand());
             ctx.setCloseDesktopWhenDoneEnabled(true);
         }

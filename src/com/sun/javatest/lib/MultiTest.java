@@ -204,7 +204,7 @@ public class MultiTest implements Test
      * or if it is determined the test should not execute for
      * some reason.
      */
-    protected void init() throws SetupException { }
+    protected void init() { }
 
     /**
      * Parses the arguments passed to the test.

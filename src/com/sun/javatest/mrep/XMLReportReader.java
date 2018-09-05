@@ -88,7 +88,7 @@ class XMLReportReader {
         reader.setErrorHandler(new ErrorHandler() {
 
             @Override
-            public void warning(SAXParseException exception) throws SAXException {
+            public void warning(SAXParseException exception) {
 
             }
 

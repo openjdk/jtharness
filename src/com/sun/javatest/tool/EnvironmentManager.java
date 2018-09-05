@@ -71,9 +71,7 @@ public class EnvironmentManager extends CommandManager
     }
 
     @Override
-    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
-        throws Command.Fault
-    {
+    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx) {
         if (cmd.equalsIgnoreCase("EsysProps")) {
             ctx.addCommand(new ESysPropsCommand());
             return true;
@@ -102,7 +100,7 @@ public class EnvironmentManager extends CommandManager
         }
 
         @Override
-        public void run(CommandContext ctx) throws Fault {
+        public void run(CommandContext ctx) {
             Map<String, String> m = new HashMap<>(1);  // would be nice to have a singleton map
             m.put(name, value);
             TestEnvironment.addDefaultPropTable(i18n.getString("env.def.cmdLine"), m);

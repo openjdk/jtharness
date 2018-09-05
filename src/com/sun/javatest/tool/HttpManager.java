@@ -58,9 +58,7 @@ public class HttpManager extends CommandManager
     //----------------------------------------------------------------------------
 
     @Override
-    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
-        throws Command.Fault
-    {
+    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx) {
         if (isMatch(cmd, HttpCommand.getName())) {
             if (!httpFlag) {
                 ctx.addCommand(new HttpCommand());

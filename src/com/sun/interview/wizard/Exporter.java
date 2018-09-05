@@ -70,5 +70,5 @@ public interface Exporter
      * @throws Interview.Fault if there is a problem exporting the data
      *           from the interview.
      */
-    void export(File f) throws IOException, Interview.Fault;
+    void export(File f);
 }

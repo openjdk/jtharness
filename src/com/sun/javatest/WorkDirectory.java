@@ -285,7 +285,7 @@ public class WorkDirectory {
     }
 
     private static WorkDirectory createOrConvert(File dir, TestSuite ts, boolean checkEmpty)
-    throws BadDirectoryFault, WorkDirectoryExistsFault, InitializationFault {
+    throws BadDirectoryFault, WorkDirectoryExistsFault {
         File canonDir;
         File jtData;
         ArrayList<File> undoList = new ArrayList<>();
@@ -540,7 +540,6 @@ public class WorkDirectory {
             NotWorkDirectoryFault,
             MismatchFault,
             TestSuiteFault,
-            InitializationFault,
             TemplateMissingFault {
 
          validateWD(dir);
@@ -624,7 +623,6 @@ public class WorkDirectory {
             BadDirectoryFault,
             NotWorkDirectoryFault,
             MismatchFault,
-            InitializationFault,
             TemplateMissingFault {
 
          validateWD(dir);
@@ -1151,7 +1149,7 @@ public class WorkDirectory {
      *         may not contain any useful information due to deficiencies in
      *         java.io.File.delete()..
      */
-    private boolean recursivePurge(File dir, String pathFromRoot) throws PurgeFault {
+    private boolean recursivePurge(File dir, String pathFromRoot) {
         boolean result = true;
         File[] files = dir.listFiles();
 

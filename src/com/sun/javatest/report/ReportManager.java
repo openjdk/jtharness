@@ -113,7 +113,7 @@ public class ReportManager
         }
 
         @Override
-        public void run(CommandContext ctx) throws Fault {
+        public void run(CommandContext ctx) {
             ctx.setAutoRunReportDir(path);
         }
 

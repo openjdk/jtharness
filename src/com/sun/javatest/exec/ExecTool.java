@@ -545,7 +545,7 @@ public class ExecTool extends Tool implements ExecModel,
     }
 
     @Override
-    public void setWorkDir(WorkDirectory wd, boolean addToFileHistory) throws Fault, TestSuite.Fault {
+    public void setWorkDir(WorkDirectory wd, boolean addToFileHistory) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

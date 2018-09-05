@@ -120,8 +120,7 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
     }
 
     @Override
-    protected Status invokeTestCase(Method m)
-    throws IllegalAccessException, InvocationTargetException {
+    protected Status invokeTestCase(Method m) {
         try {
             testCaseClass.setName(m.getName());
             testCaseClass.runBare();

@@ -312,11 +312,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
                     //     public
                     //( (com.sun.javatest.TRT_TreeNode)(trt.getRoot()) ).refreshIfNeeded();
                     trt.refreshIfNeeded(trt.getRoot());
-                }
-                catch (TestResultTable.Fault f) {
-                    // ignore?  log?
-                }
-                finally {
+                } finally {
                     trt.getLock().unlock();
                     parentTool.unpauseTreeCacheWork();
                 }   // finally

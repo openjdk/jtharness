@@ -104,7 +104,7 @@ public abstract class CustomReport {
      * @throws com.sun.javatest.report.CustomReport.ReportException - if the report creation was unsuccessful.
      *         Harness can show Exception's text
      */
-    public abstract File createReport(File rootDir) throws ReportException;
+    public abstract File createReport(File rootDir);
 
     /**
      * Write a report without the context of a GUI.  All information needed
@@ -135,7 +135,7 @@ public abstract class CustomReport {
      */
     public abstract File createReport(String args, File rootDir,
                              InterviewParameters ip, TestFilter filter)
-        throws ReportException;
+    ;
 
 
     /**

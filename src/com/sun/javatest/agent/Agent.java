@@ -607,7 +607,7 @@ public class Agent implements Runnable {
             connection = c;
         }
 
-        public void handleRequest() throws ConnectionFactory.Fault {
+        public void handleRequest() {
 
             try {
                 notifier.openedConnection(connection);
@@ -932,7 +932,7 @@ public class Agent implements Runnable {
 
         private Status executeMain(Class<?> c, String[] args,
                 PrintWriter testLog, PrintWriter testRef)
-                throws IOException, ClassNotFoundException, IllegalAccessException {
+                throws IllegalAccessException {
             notifier.execMain(connection, tag, c.getName(), args);
 
             PrintStream out = Deprecated.createPrintStream(new WriterStream(testRef));

@@ -1321,7 +1321,7 @@ public class TestResultTable {
      * @throws TestResultTable.Fault if the node indicated cannot be located for
      *         refreshing.
      */
-    public synchronized boolean refreshIfNeeded(TreeNode node) throws Fault {
+    public synchronized boolean refreshIfNeeded(TreeNode node) {
         if (node.getEnclosingTable() != this)
             throw new IllegalStateException("refresh requested for node not owned by this table");
 
@@ -1357,7 +1357,7 @@ public class TestResultTable {
      * @param node The node to perform the prune operation upon.
      * @return True if some nodes were pruned, false otherwise.
      */
-    synchronized public boolean prune(TreeNode node) throws Fault {
+    synchronized public boolean prune(TreeNode node) {
         TRT_TreeNode parent = (TRT_TreeNode) node.getParent();
 
         if (node.getChildCount() == 0) {

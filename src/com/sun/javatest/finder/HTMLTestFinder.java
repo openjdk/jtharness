@@ -383,7 +383,7 @@ public class HTMLTestFinder extends TestFinder
         }
     }
 
-    private void endTableData() throws IOException {
+    private void endTableData() {
         if (params != null && tableRow != null && text != null) {
             while (text.length() > 0 && text.charAt(text.length() - 1) == ' ')
                 text.setLength(text.length() -1);
@@ -439,7 +439,7 @@ public class HTMLTestFinder extends TestFinder
         }
     }
 
-    private void endDefList() throws IOException {
+    private void endDefList() {
         if (params != null) {
             if (defTerm != null && text != null) {
                 while (text.length() > 0 && text.charAt(text.length() - 1) == ' ')

@@ -214,7 +214,7 @@ System.out.println("FORCE REMOTE " + name);
         }
 
         @Override
-        protected URLConnection openConnection(URL url) throws IOException {
+        protected URLConnection openConnection(URL url) {
             return new AgentURLConnection(url, bytes);
         }
 
@@ -233,7 +233,7 @@ System.out.println("FORCE REMOTE " + name);
         }
 
         @Override
-        public void connect() throws IOException {
+        public void connect() {
             // could check Agent.Task parent for connection status
             // generally, ignore this call per the spec
             if (bytes != null) {

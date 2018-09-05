@@ -362,7 +362,7 @@ public class TestSuite
      * typically using a class path defined in the test suite properties file.
      * @throws TestSuite.Fault if a problem occurs while creating this test suite.
      */
-    public TestSuite(File root, Map<String, String> tsInfo, ClassLoader cl) throws Fault {
+    public TestSuite(File root, Map<String, String> tsInfo, ClassLoader cl) {
         this.root = root;
         this.tsInfo = tsInfo;
         this.loader = cl;
@@ -473,7 +473,7 @@ public class TestSuite
      * @throws TestSuite.Fault if an error occurred while doing test suite-specific
      * initialization that should cause the test run to be aborted.
      */
-    public void starting(Harness harness) throws Fault {
+    public void starting(Harness harness) {
         if (getServiceManager() != null) {
             serviceManager.setHarness(harness);
         }
@@ -579,7 +579,7 @@ public class TestSuite
                 return createBinaryTestFinder(finderCmd == null ? null : finderClassName,
                         finderArgs, testsDir, jtdFile);
             }
-            catch (TestFinder.Fault | Fault e) {
+            catch (Fault e) {
                 // ignore, try to continue with normal finder
             }
         }
@@ -620,7 +620,7 @@ public class TestSuite
      * @see com.sun.javatest.finder.BinaryTestFinder
      */
     protected TestFinder createBinaryTestFinder(String finderClassName,
-            String finderArgs[], File testsDir, File jtdFile) throws Fault, TestFinder.Fault {
+            String finderArgs[], File testsDir, File jtdFile) throws Fault {
         try {
             TestFinder tf = null;
 
@@ -792,9 +792,7 @@ public class TestSuite
      * @return A configuration interview to collect the configuration data for a test run.
      * @throws TestSuite.Fault if a problem occurs while creating the interview
      */
-    public InterviewParameters loadInterviewFromTemplate(Map<String, String> templateInfo, InterviewParameters newInterview)
-        throws Fault
-    {
+    public InterviewParameters loadInterviewFromTemplate(Map<String, String> templateInfo, InterviewParameters newInterview) {
         newInterview.storeTemplateProperties(templateInfo);
         newInterview.propagateTemplateForAll();
         return newInterview;

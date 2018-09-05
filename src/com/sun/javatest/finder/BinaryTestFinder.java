@@ -332,9 +332,6 @@ public class BinaryTestFinder extends TestFinder
             testTree = TestTree.read(zipFile, treeEntry);
             zipFileRead = false;
         }
-        catch (Fault e) {
-            error(i18n, "bin.fault", jtdFile.getPath(), e);
-        }
         catch (IOException e) {
             error(i18n, "bin.ioError", jtdFile.getPath(), e);
         }
@@ -394,7 +391,7 @@ public class BinaryTestFinder extends TestFinder
         /**
          * Read a string table from a entry called "strings" in a zip file.
          */
-        static StringTable read(ZipFile zf, ZipEntry ze) throws IOException, Fault {
+        static StringTable read(ZipFile zf, ZipEntry ze) throws IOException {
             DataInputStream in = new DataInputStream(new BufferedInputStream(zf.getInputStream(ze)));
             return new StringTable(in);
         }
@@ -443,7 +440,7 @@ public class BinaryTestFinder extends TestFinder
          * The data of the entry is read and stored, but only analyzed
          * as required.
          */
-        static TestTable read(ZipFile zf, ZipEntry ze, StringTable stringTable) throws IOException, Fault {
+        static TestTable read(ZipFile zf, ZipEntry ze, StringTable stringTable) throws IOException {
             byte[] bytes = new byte[(int) ze.getSize()];
             InputStream in = zf.getInputStream(ze);
             for (int total = 0; total < bytes.length; ) {
@@ -497,7 +494,7 @@ public class BinaryTestFinder extends TestFinder
         /**
          * Read a test tree from an entry called "tree" in a zip file.
          */
-        static TestTree read(ZipFile zf, ZipEntry ze) throws IOException, Fault {
+        static TestTree read(ZipFile zf, ZipEntry ze) throws IOException {
             DataInputStream in = new DataInputStream(new BufferedInputStream(zf.getInputStream(ze)));
             Node root = new Node(in);
             return new TestTree(root);

@@ -266,7 +266,7 @@ class SummaryPane extends AuditPane {
         }
     }
 
-    private void writeEnvDetails() throws IOException {
+    private void writeEnvDetails() {
     }
 
     private JEditorPane htmlPane;

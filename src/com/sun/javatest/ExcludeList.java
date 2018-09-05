@@ -835,7 +835,7 @@ public class ExcludeList
             return word.toString();
         }
 
-        private void skipComment() throws IOException, Fault {
+        private void skipComment() throws IOException {
             ch = in.read();
             // first # has already been read
             if (ch == '#') {

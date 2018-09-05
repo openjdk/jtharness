@@ -1008,7 +1008,6 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                         tree.restoreSelection(selectedPaths);
 
                                     }
-                                } catch (TestResultTable.Fault f) {
                                 } finally {
                                     trt.getLock().unlock();
 

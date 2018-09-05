@@ -48,7 +48,7 @@ public class XMLReportMaker {
 
     private TransformerHandler ser;
 
-    XMLReportMaker(Writer w) throws IOException {
+    XMLReportMaker(Writer w) {
 
         Properties outputProps = new Properties();
         outputProps.put("indent", "yes");
@@ -68,7 +68,7 @@ public class XMLReportMaker {
         ser.startDocument();
     }
 
-    void eDocument() throws SAXException, IOException {
+    void eDocument() throws SAXException {
         ser.endDocument();
     }
 
@@ -477,7 +477,7 @@ public class XMLReportMaker {
         ser.endElement("","",name);
     }
 
-    public static void writeCDATA(LexicalHandler lh, ContentHandler ser, String cdata) throws IOException, SAXException {
+    public static void writeCDATA(LexicalHandler lh, ContentHandler ser, String cdata) throws SAXException {
 
         cdata = convertProhibitedChars(cdata);
 

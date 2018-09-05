@@ -672,7 +672,7 @@ public class ServiceManager implements Harness.Observer {
         }
 
         @Override
-        public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx) throws Command.Fault {
+        public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx) {
             if (isMatch(cmd, ServiceStartCommand.getName())) {
                 if (!argIter.hasNext()) {
                     return false;
@@ -701,7 +701,7 @@ public class ServiceManager implements Harness.Observer {
             }
 
             @Override
-            public void run(CommandContext ctx) throws Command.Fault {}
+            public void run(CommandContext ctx) {}
         }
 
 

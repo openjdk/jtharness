@@ -99,7 +99,7 @@ public interface ExecModel
     void print(Printable p);
 
     void setWorkDir(WorkDirectory wd, boolean addToFileHistory)
-        throws Interview.Fault, TestSuite.Fault;
+            ;
 
     ExecToolManager getExecToolManager();
 }

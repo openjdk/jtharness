@@ -147,8 +147,7 @@ public class LastRunFilter extends ObservableTestFilter {
     }
 
     @Override
-    public boolean accepts(TestDescription td, TestFilter.Observer o)
-                    throws Fault {
+    public boolean accepts(TestDescription td, TestFilter.Observer o) {
 
         if (workdir == null)
             return true;

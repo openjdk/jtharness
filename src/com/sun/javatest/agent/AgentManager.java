@@ -239,7 +239,7 @@ public class AgentManager
          * Create a connection to a agent retrieved from the agent pool.
          * @param c     The connection with which to communicate to the agent.
          */
-        Task(Connection c) throws IOException {
+        Task(Connection c) {
             connection = c;
             in = new DataInputStream(new BufferedInputStream(c.getInputStream()));
             out = new DataOutputStream(new BufferedOutputStream(c.getOutputStream()));

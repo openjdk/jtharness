@@ -81,7 +81,7 @@ public class AuditCommandManager extends CommandManager
             return "audit";
         }
 
-        AuditCommand(ListIterator<String> argIter) throws Fault {
+        AuditCommand(ListIterator<String> argIter) {
             super(getName());
 
             while (argIter.hasNext()) {

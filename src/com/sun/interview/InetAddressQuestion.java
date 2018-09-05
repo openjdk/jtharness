@@ -255,7 +255,7 @@ public abstract class InetAddressQuestion extends Question
      * @see #getValue
      */
     @Override
-    public void setValue(String newValue) throws Interview.Fault {
+    public void setValue(String newValue) {
         InetAddress v = parse(newValue);
 
         newStringValue = newValue;

@@ -109,7 +109,7 @@ public class Main
      * @see #main
      * @throws Main.BadArgs if problems are found in the given arguments.
      */
-    public Main(String... args) throws BadArgs {
+    public Main(String... args) {
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("-o") && i + 1 < args.length) {
                 outFile = new File(args[++i]);

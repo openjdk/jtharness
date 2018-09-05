@@ -79,12 +79,12 @@ public interface HelpSetFactory {
         private static final Object EMPTY = new Object();
 
         @Override
-        public Object createHelpSetObject(String name, Class<?> c) throws Fault {
+        public Object createHelpSetObject(String name, Class<?> c) {
             return EMPTY;
         }
 
         @Override
-        public Object createHelpSetObject(String name, File file) throws Fault {
+        public Object createHelpSetObject(String name, File file) {
             return EMPTY;
         }
 

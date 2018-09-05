@@ -109,7 +109,7 @@ public class DesktopManager extends CommandManager
         }
 
         @Override
-        public void run(CommandContext ctx) throws Fault {
+        public void run(CommandContext ctx) {
         }
     }
 
@@ -143,7 +143,7 @@ public class DesktopManager extends CommandManager
         }
 
         @Override
-        public void run(CommandContext ctx) throws Fault {
+        public void run(CommandContext ctx) {
         }
     }
 }

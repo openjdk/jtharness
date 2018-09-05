@@ -255,7 +255,7 @@ public class AgentMain {
      * @throws AgentMain.Fault if the args can be decoded successfully but
      * if there is a problem in their interpretation (e.g invalid port number)
      */
-    protected int decodeArg(String[] args, int index) throws BadArgs, Fault {
+    protected int decodeArg(String[] args, int index) throws BadArgs {
         int i = index;
         try {
             if (args[i].equalsIgnoreCase("-active")) {
@@ -335,7 +335,7 @@ public class AgentMain {
      * @throws AgentMain.Fault if there is some other problem with the args, such
      * as a bad host name or a port not being available for use
      */
-    protected void validateArgs() throws BadArgs, Fault {
+    protected void validateArgs() throws BadArgs {
         if (modeCheck == 0)
             throw new BadArgs("No connection options given");
 

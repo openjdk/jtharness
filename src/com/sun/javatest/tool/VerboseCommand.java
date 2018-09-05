@@ -121,7 +121,7 @@ public class VerboseCommand extends Command
     }
 
     @Override
-    public void run(CommandContext ctx) throws Fault {
+    public void run(CommandContext ctx) {
         for (Map.Entry<String, Boolean> e : optionValues.entrySet()) {
             String name = e.getKey();
             boolean value = e.getValue().booleanValue();

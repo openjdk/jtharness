@@ -598,10 +598,7 @@ public class Harness
                 }
                 catch (Fault | TestSuite.Fault e) {
                     notifyLocalizedError(e.getMessage());
-                } catch (InterruptedException e) {
-                    notifyError(i18n, "harness.interrupted");
-                }
-                finally {
+                } finally {
                     synchronized (Harness.this) {
                         worker = null;
                         Harness.this.notifyAll();
@@ -627,7 +624,7 @@ public class Harness
     // The caller should notify finishedTestRun when it is OK to run start again
     // (i.e. when worker has been reset to null.
     private boolean runTests(Parameters p, boolean zeroTestsOK)
-        throws Fault, TestSuite.Fault, InterruptedException {
+        throws Fault, TestSuite.Fault {
 
         boolean ok = true; // default return/finished notification value
         stopping = false;

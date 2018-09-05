@@ -224,7 +224,7 @@ public abstract class IntQuestion extends Question
      * @see #getValue
      * @see #setValue(String)
      */
-    public void setValue(String s, Locale l) throws Interview.Fault {
+    public void setValue(String s, Locale l) {
         //String s1 = s;
         int i;
 
@@ -340,14 +340,7 @@ public abstract class IntQuestion extends Question
         } else {
             //get locate to parse string with
             Locale l = Interview.readLocale(data);
-            try {
-                setValue(o, l);
-            }
-            catch (Interview.Fault e) {
-                throw new RuntimeException("Interview.Fault thrown " +
-                        "when tried to set value '" + o + " using locale '" + l +
-                        "' for question with tag '" + tag + "'", e);
-            }
+            setValue(o, l);
         }
     }
 

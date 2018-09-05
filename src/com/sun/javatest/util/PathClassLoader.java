@@ -136,8 +136,7 @@ public class PathClassLoader extends ClassLoader
         throw new ClassNotFoundException(name);
     }
 
-    private Class<?> locateClassInDir(String name, File dir)
-        throws ClassNotFoundException {
+    private Class<?> locateClassInDir(String name, File dir) {
         //System.err.println("locateClassInDir: " + name + " " + dir);
         String cname = name.replace('.', '/') + ".class";
         try {
@@ -150,8 +149,7 @@ public class PathClassLoader extends ClassLoader
         }
     }
 
-    private Class<?> locateClassInJar(String name, File jarFile)
-        throws ClassNotFoundException {
+    private Class<?> locateClassInJar(String name, File jarFile) {
         //System.err.println("locateClassInJar: " + name + " " + jarFile);
         String cname = name.replace('.', '/') + ".class";
         try {

@@ -178,15 +178,7 @@ public class Main
             }
 
             out.flush();
-        }
-        catch (Command.Fault e) {
-            // occurs when executing default commands at end of command line
-            out.println(CommandContext.TRACE_PREFIX + e.getCommand().toString());
-            out.println(e.getMessage());
-            out.flush();
-            exit(RC_USER_ERROR);
-        }
-        catch (CommandContext.Fault e) {
+        } catch (CommandContext.Fault e) {
             // occurs when executing commands on command line or in command file
             Throwable t = e.getCause();
             if (t instanceof Command.Fault) {
@@ -254,7 +246,7 @@ public class Main
      * @throws CommandParser.Fault if there is a problem parsing the args
      */
     public final void run(String[] args, final CommandContext ctx)
-        throws Fault, Command.Fault, CommandContext.Fault, CommandParser.Fault
+        throws Fault, CommandContext.Fault, CommandParser.Fault
     {
         if (commandManagers == null) {
             desktopManager = new DesktopManager();
