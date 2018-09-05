@@ -473,7 +473,7 @@ public class TestSuite
      * @throws TestSuite.Fault if an error occurred while doing test suite-specific
      * initialization that should cause the test run to be aborted.
      */
-    public void starting(Harness harness) {
+    public void starting(Harness harness) throws Fault {
         if (getServiceManager() != null) {
             serviceManager.setHarness(harness);
         }
