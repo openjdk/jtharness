@@ -104,10 +104,10 @@ public class XMLReportMaker {
 
     void sEnvironment(String name, String descr) throws SAXException {
         AttributesImpl atts = new AttributesImpl();
-        if (name != null && ! "".equals(name.trim())) {
+        if (name != null && name.trim() != null && !name.trim().isEmpty()) {
             atts.addAttribute("", "", Scheme.ENV_NAME, "String", name);
         }
-        if (descr != null && ! "".equals(descr.trim())) {
+        if (descr != null && descr.trim() != null && !descr.trim().isEmpty()) {
             atts.addAttribute("", "", Scheme.ENV_DESCR, "String", descr);
         }
         sE(Scheme.ENV, atts);

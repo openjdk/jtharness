@@ -283,7 +283,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         Object[] items = {params.getEnv().getName(),
                 TestTreePanel.createNodeListString(TestTreePanel.createNodeList(paths))};
         int option = 0;
-        if (paths[0].equals(""))
+        if (paths[0].isEmpty())
             option = uif.showYesNoDialog("rh.confirmQuickAll",
                     params.getEnv().getName());
         else {
@@ -329,7 +329,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             Parameters.TestsParameters tps = localParams.getTestsParameters();
             Parameters.MutableTestsParameters mtps = (Parameters.MutableTestsParameters)tps;
 
-            if (paths == null || paths.length == 0 || paths[0].equals("")) {
+            if (paths == null || paths.length == 0 || paths[0].isEmpty()) {
                 mtps.setTestsMode(Parameters.MutableTestsParameters.ALL_TESTS);
             }
             else {
@@ -339,7 +339,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             }
         }
         else {
-            if (paths == null || paths.length == 0 || paths[0].equals("")) {
+            if (paths == null || paths.length == 0 || paths[0].isEmpty()) {
                 // execute whatever is selected in configuration
             }
             else {

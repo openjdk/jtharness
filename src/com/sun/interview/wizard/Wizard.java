@@ -398,7 +398,7 @@ public class Wizard extends JComponent {
     private void initGUI() {
 
         title = interview.getTitle();
-        if (title == null || title.equals(""))
+        if (title == null || title.isEmpty())
             title = i18n.getString("wizard.defaultTitle");
 
         //main = new JPanel(new BorderLayout());

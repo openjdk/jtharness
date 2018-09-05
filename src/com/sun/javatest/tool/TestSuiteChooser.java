@@ -197,7 +197,7 @@ public class TestSuiteChooser extends JFileChooser
         // This means we can't put a test suite in the root of
         // the file system, but that is a lesser inconvenience
         // than floppy dialogs!
-        return f.getName().equals("");
+        return f.getName().isEmpty();
     }
 
     private static File normalize(File dir) {

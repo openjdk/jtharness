@@ -1309,7 +1309,7 @@ public class TestSuite
 
     public Logger createLog(WorkDirectory wd, String b, String key) throws DuplicateLogNameFault {
 
-        if (key == null || "".equals(key)) {
+        if (key == null || key.isEmpty()) {
             throw new IllegalArgumentException("Log name can not be empty");
         }
 

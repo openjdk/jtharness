@@ -237,7 +237,7 @@ public class WorkDirChooser extends JFileChooser
 
     private static File normalize(File dir) {
         // check this and all parent directories, in case any one is a work directory
-        for (File d = dir; d != null && !d.getName().equals(""); d = d.getParentFile()) {
+        for (File d = dir; d != null && !d.getName().isEmpty(); d = d.getParentFile()) {
             if (WorkDirectory.isWorkDirectory(d)) {
                 // found a parent directory that is a test suite,
                 // so normalize to this directory's parent
@@ -279,7 +279,7 @@ public class WorkDirChooser extends JFileChooser
         }
 
         String[] info = getInfo(f);
-        if (info != null && info[1] != null && !"".equals(info[1])) {
+        if (info != null && info[1] != null && !info[1].isEmpty()) {
             return baseName + " (" + info[1] + ")";
         }
         return super.getName(f);

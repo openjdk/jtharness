@@ -618,7 +618,7 @@ class LogViewer extends ToolDialog {
                             doc.insertString(pos, header, getStyle(level));
                             doc.insertString(doc.getEndPosition().getOffset()-1, "\n", getStyle(level));
 
-                            if (!"".equals(substr)) {
+                            if (substr != null && !substr.isEmpty()) {
                                 String up = header.toUpperCase();
                                 int s = 0; int ss;
                                 while ((ss = up.indexOf(substr, s)) >= 0) {
@@ -630,7 +630,7 @@ class LogViewer extends ToolDialog {
                             doc.insertString(pos, msg, styleMsg);
                             doc.insertString(doc.getEndPosition().getOffset()-1, "\n", getStyle(level));
 
-                            if (!"".equals(substr)) {
+                            if (substr != null && !substr.isEmpty()) {
                                 String up = msg.toUpperCase();
                                 int s = 0; int ss;
                                 while ((ss = up.indexOf(substr, s)) >= 0) {
@@ -1328,7 +1328,7 @@ class LogViewer extends ToolDialog {
                 processLabel.setText("");
             } else {
                 String oldText = processLabel.getText();
-                if ("".equals(oldText) || working1.equals(oldText)) {
+                if (oldText != null && oldText.isEmpty() || working1.equals(oldText)) {
                     processLabel.setText(working2);
                 } else {
                     processLabel.setText(working1);

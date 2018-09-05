@@ -214,7 +214,7 @@ class StatisticsSection extends HTMLSection {
             for (int c = 0; c < aTable.length; c++) {
                 out.startTag(HTMLWriterEx.TD);
                 out.writeAttr(HTMLWriterEx.STYLE, c == 0 ? HTMLWriterEx.TEXT_LEFT : HTMLWriterEx.TEXT_RIGHT);
-                if (aTable[c] == null || aTable[c].equals(""))
+                if (aTable[c] == null || aTable[c].isEmpty())
                     out.writeEntity("&nbsp;");
                 else
                     out.write(aTable[c]);

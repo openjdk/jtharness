@@ -237,7 +237,7 @@ public class ReportDirChooser extends JFileChooser
         // This means we can't put a work directory in the root of
         // the file system, but that is a lesser inconvenience
         // than floppy dialogs!
-        return f.getName().equals("");
+        return f.getName().isEmpty();
     }
 
     private FileInfoCache cache = new FileInfoCache();

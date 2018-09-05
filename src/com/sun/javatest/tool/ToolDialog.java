@@ -891,7 +891,7 @@ abstract public class ToolDialog
 
         // ---
         private void save() {
-           if (! "".equals(windowKey) && restorePolicy != RESTORE_NOTHING) {
+           if (windowKey != null && !windowKey.isEmpty() && restorePolicy != RESTORE_NOTHING) {
                 Container d = ToolDialog.this.dialog;
                 Rectangle r = d.getBounds();
                 prefs.setPreference(windowKey + POS_X, Integer.toString(r.x));
@@ -902,7 +902,7 @@ abstract public class ToolDialog
         }
 
         private void restore() {
-            if (! "".equals(windowKey) && restorePolicy != RESTORE_NOTHING) {
+            if (windowKey != null && !windowKey.isEmpty() && restorePolicy != RESTORE_NOTHING) {
                 Container c = ToolDialog.this.dialog;
                 Rectangle r = c.getBounds();
                 int x = Integer.parseInt(prefs.getPreference(windowKey + POS_X, Integer.toString(r.x)));

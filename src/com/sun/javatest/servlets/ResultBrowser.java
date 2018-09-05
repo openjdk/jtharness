@@ -203,7 +203,7 @@ public class ResultBrowser extends HttpServlet {
                         if (!sect.equals("messages"))
                             out.println("<h4>Output: " + sect + "</h4>");
                         String output = s.getOutput(sect);
-                        if (output.equals(""))
+                        if (output.isEmpty())
                             out.println("<em>(No output.)</em>");
                         out.println("<pre>" + output + "</pre>");
                     }

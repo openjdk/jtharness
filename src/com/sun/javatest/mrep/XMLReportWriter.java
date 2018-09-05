@@ -252,7 +252,7 @@ class CopyHandler extends DefaultHandler {
         if (this.needWrite == false || this.skipByConflict == true)
             return;
         // copy only text is really present
-        if (String.copyValueOf(arg0, arg1, arg2).trim().equals(""))
+        if (String.copyValueOf(arg0, arg1, arg2).trim().isEmpty())
             return;
         lh.startCDATA();
         ser.characters(arg0, arg1, arg2);

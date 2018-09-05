@@ -292,7 +292,7 @@ public class FilteredLogModel extends LogModel {
         }
 
         public boolean isAllEnabled() {
-            if (!"".equals(substring)) {
+            if (substring != null && !substring.isEmpty()) {
                 return false;
             }
             synchronized(theMap) {
@@ -357,7 +357,7 @@ public class FilteredLogModel extends LogModel {
             if (!b) {
                 return false;
             }
-            if (!"".equals(substring)) {
+            if (substring != null && !substring.isEmpty()) {
                 String header = rec.getHeader(logName).toUpperCase();
                 if (header.indexOf(substring) >= 0) {
                     return true;

@@ -1086,7 +1086,7 @@ class NewReportDialog extends ToolDialog
                 }
 
                 // check for empty input
-                if (cbBak.isSelected() && numBak.getText().equals("")) {
+                if (cbBak.isSelected() && numBak.getText().isEmpty()) {
                     uif.showError("nrd.emptyBak");
                     // select the last tab (assumes this has the backup settings)
                     tabs.setSelectedIndex(tabs.getTabCount()-1);

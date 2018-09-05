@@ -555,7 +555,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                     }
                 } else if (show.equals(TestResult.EXEC_STATUS)) {
                     String tmpStr = tst.getStatus().getReason();
-                    return tmpStr == null || tmpStr.equals("") ?
+                    return tmpStr == null || tmpStr.isEmpty() ?
                         uif.getI18NString("br.list.notAvailable.txt") : tmpStr;
                 }
                 return tst.getProperty(show) == null ? uif.getI18NString("br.list.notAvailable.txt")

@@ -574,12 +574,12 @@ public class WorkDirChooseTool extends JDialog {
         @Override
         public void actionPerformed(ActionEvent ae) {
             File dir = null;
-            if ((dirField.getText() == null) || dirField.getText().equals("")) {
+            if ((dirField.getText() == null) || dirField.getText().isEmpty()) {
                 uif.showError("wdc.dirnotselected");
                 return;
             }
 
-            if ((tField.getText() == null) || tField.getText().equals("")) {
+            if ((tField.getText() == null) || tField.getText().isEmpty()) {
                 uif.showError("wdc.namenotdefined");
                 return;
             }
@@ -1032,7 +1032,7 @@ public class WorkDirChooseTool extends JDialog {
 
     private void updateCreateBtn() {
         if (mode == WorkDirChooser.NEW) {
-            if ("".equals(tField.getText().trim())) {
+            if (tField.getText().trim() != null && tField.getText().trim().isEmpty()) {
                 createBtn.setEnabled(false);
             } else {
                 createBtn.setEnabled(noTemplateCB.isSelected() || selectedTemplate != null );

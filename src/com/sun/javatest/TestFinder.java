@@ -533,7 +533,7 @@ public abstract class TestFinder
                 i++;
 
             error(i18n, "finder.nonUniqueId",
-                    file, id.equals("") ? "(unset)" : id, Integer.valueOf(line), prevLine, newId);
+                    file, id.isEmpty() ? "(unset)" : id, Integer.valueOf(line), prevLine, newId);
 
             id = newId;
             entries.put("id", id);

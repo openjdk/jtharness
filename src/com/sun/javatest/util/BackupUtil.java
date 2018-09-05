@@ -265,7 +265,7 @@ public class BackupUtil {
             if(!file.isDirectory())
                 return false;
 
-            if(suffix.equals("")) {
+            if(suffix.isEmpty()) {
                 if(!file.getName().endsWith("~"))
                     return true;
                 else

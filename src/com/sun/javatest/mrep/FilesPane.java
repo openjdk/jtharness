@@ -167,7 +167,7 @@ class FilesPane extends JPanel {
             }
         }
 
-        if ("".equals(getResultDir())) {
+        if (getResultDir() != null && getResultDir().isEmpty()) {
             uif.showError("files.nooutfile");
             return false;
         }
@@ -175,7 +175,7 @@ class FilesPane extends JPanel {
         List<String> mergedList = new ArrayList<>();
         for (int i = 0; i < merged.length; i++) {
             merged[i] = merged[i].trim();
-            if ( !"".equals(merged[i])) {
+            if (merged[i] != null && !merged[i].isEmpty()) {
                 if (mergedList.contains(merged[i])) {
                     uif.showError("files.duplicateinputfiles", merged[i]);
                     return false;
@@ -201,7 +201,7 @@ class FilesPane extends JPanel {
     private boolean isNextEnabled() {
         boolean resDirEnabled = true;   // block "next" button when result directory is not provided (should be true to unblock)
         resultField.setBackground(UIFactory.getDefaultInputColor());
-        if ("".equals(getResultDir()) && "".equals(resultField.getText().trim())) {
+        if (getResultDir() != null && getResultDir().isEmpty() && resultField.getText().trim() != null && resultField.getText().trim().isEmpty()) {
             if(!resultField.hasFocus())
                 resultField.setBackground(UIFactory.getInvalidInputColor());
             resDirEnabled = false;
@@ -212,7 +212,7 @@ class FilesPane extends JPanel {
         for (JTextField tField : merged) {
             String s = tField.getText().trim();
             tField.setBackground(UIFactory.getDefaultInputColor());
-            if (!"".equals(s)) {        // do nothing, if value is empty
+            if (s != null && !s.isEmpty()) {        // do nothing, if value is empty
                 if (!used.contains(s)) { // check, if such value was already used
                     used.add(s);
                     if (!isXMLReport(new File(s))) {    // check file is xml report
@@ -334,7 +334,7 @@ class FilesPane extends JPanel {
             });
         }
 
-        if (!field.getText().trim().equals("")) {
+        if (!field.getText().trim().isEmpty()) {
             File entered = new File(field.getText());
             if (entered.exists()) {
                 xmlFileChooser.setCurrentDirectory(entered);
@@ -440,14 +440,14 @@ class FilesPane extends JPanel {
         int l=0;
         for (JTextField aMerged1 : merged) {
             String s = aMerged1.getText().trim();
-            if (!"".equals(s)) l++;
+            if (s != null && !s.isEmpty()) l++;
         }
 
         String[] result = new String[l];
         l = 0;
         for (JTextField aMerged : merged) {
             String s = aMerged.getText().trim();
-            if (!"".equals(s)) {
+            if (s != null && !s.isEmpty()) {
                 result[l++] = s;
             }
         }
