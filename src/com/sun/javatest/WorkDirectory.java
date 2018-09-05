@@ -576,7 +576,8 @@ public class WorkDirectory {
                 String tsID = ts.getID();
                 if (!(wdID == null ? "" : wdID).equals(tsID == null ? "" : tsID))
                     throw new MismatchFault(i18n, "wd.mismatchID", canonDir);
-
+            }  catch (FileNotFoundException e) {
+                throw new BadDirectoryFault(i18n, "wd.noTestSuiteFile", canonDir, e);
             } catch (IOException e) {
                 throw new BadDirectoryFault(i18n, "wd.badTestSuiteFile", canonDir, e);
             } catch (TestSuite.Fault e) {
@@ -1178,15 +1179,15 @@ public class WorkDirectory {
         return result;
     }
 
-    private static Map<String, String> loadTestSuiteInfo(File jtData) throws IOException {
+    private static Map<String, String> loadTestSuiteInfo(File jtData) throws FileNotFoundException, IOException {
         return loadInfo(jtData, TESTSUITE);
     }
 
-    private static Map<String, String> loadWdInfo(File jtData) throws IOException {
+    private static Map<String, String> loadWdInfo(File jtData) throws FileNotFoundException, IOException {
         return loadInfo(jtData, WD_INFO);
     }
 
-    private static Map<String, String> loadInfo(File jtData, String name) throws IOException {
+    private static Map<String, String> loadInfo(File jtData, String name) throws FileNotFoundException, IOException {
         try (InputStream in = new BufferedInputStream(new FileInputStream(new File(jtData, name)))) {
             return PropertyUtils.load(in);
         }
