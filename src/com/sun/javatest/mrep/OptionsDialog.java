@@ -138,7 +138,7 @@ class OptionsDialog extends ToolDialog
         //body.setPreferredSize(new Dimension(6 * dpi, 3 * dpi));
         for (int i = 0; i < panes.length; i++) {
             //uif.addTab(tabs, "tool.tabs." + panes[i].getName(), panes[i]);
-            tabs.add(panes[i], "" + i);
+            tabs.add(panes[i], String.valueOf(i));
         }
 
         body.add(tabs);

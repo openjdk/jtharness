@@ -480,7 +480,7 @@ public class LogModel {
                 out.append(logName);
             }
             out.append(", ");
-            out.append(LoggerFactory.getLocalizedLevelName(Level.parse("" + severety))).append(": ");
+            out.append(LoggerFactory.getLocalizedLevelName(Level.parse(String.valueOf(severety)))).append(": ");
             out.append(getTimeString());
             if (pos > 0) {
                 out.append("; ");

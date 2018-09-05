@@ -97,7 +97,7 @@ class ExcludeListBrowser extends ToolDialog
     if (model.getRowCount() == 0) {
             setI18NTitle("elb.title0");
     } else {
-            setI18NTitle("elb.title1", "" + model.getRowCount());
+            setI18NTitle("elb.title1", String.valueOf(model.getRowCount()));
     }
 
     }

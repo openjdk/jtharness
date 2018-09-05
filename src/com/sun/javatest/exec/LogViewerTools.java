@@ -149,9 +149,9 @@ class LogViewerTools extends Thread {
         String msg = model.getRecordMessage(llr);
         AttributesImpl atts = new AttributesImpl();
         atts.addAttribute("", "", "Logger", "String", model.getLogname(llr.loggerID));
-        atts.addAttribute("", "", "Level", "String", "" +llr.severety);
+        atts.addAttribute("", "", "Level", "String", String.valueOf(llr.severety));
         atts.addAttribute("", "", "LevelName", "String",
-                LoggerFactory.getLocalizedLevelName(Level.parse("" + llr.severety)));
+                LoggerFactory.getLocalizedLevelName(Level.parse(String.valueOf(llr.severety))));
         atts.addAttribute("", "", "Time", "String", dateToISO8601(llr.time));
         ser.startElement("","","logrecord", atts);
         XMLReportMaker.writeCDATA(ser, ser, msg);

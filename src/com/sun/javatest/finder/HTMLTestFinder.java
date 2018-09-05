@@ -263,7 +263,7 @@ public class HTMLTestFinder extends TestFinder
                             n = (n * 10) + (c - '0');
                             nextCh();
                         }
-                        replace = "" + (char)n;
+                        replace = String.valueOf((char) n);
                     }
                     else {
                         tag = scanIdentifier();
