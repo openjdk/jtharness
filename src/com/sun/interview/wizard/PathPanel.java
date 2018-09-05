@@ -202,7 +202,7 @@ class PathPanel extends JPanel
                     if(selected instanceof Question)
                         return new StringSelection(((Question)selected).getSummary());
                     else if(selected instanceof List) {
-                        StringBuffer temp = new StringBuffer();
+                        StringBuilder temp = new StringBuilder();
                         for(Question q: (List<Question>)selected) {
                             temp.append(q.getSummary());
                             temp.append("\n");

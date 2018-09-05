@@ -349,7 +349,7 @@ public class Main {
     }
 
     private static String getTarget(String key) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("glossary.");
         boolean needUpper = false;
         for (int i = 0; i < key.length(); i++) {
@@ -815,7 +815,7 @@ class Entry {
      * Read an identifier, and lowercase it
      */
     private String scanIdentifier() throws IOException {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         while (true) {
             if ((c >= 'a') && (c <= 'z')) {
                 buf.append((char)c);
@@ -853,7 +853,7 @@ class Entry {
             nextCh();
             skipSpace();
         }
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         while (((quote < 0) && (c != ' ') && (c != '\t') &&
                 (c != '\n') && (c != '\r') && (c != '>')) ||
                ((quote >= 0) && (c != quote))) {
@@ -875,7 +875,7 @@ class Entry {
     private void skipComment() throws IOException {
         // a comment sequence is "<!--" ... "-->"
         // at the time this is called, "<!--" has been read;
-        StringBuffer text = new StringBuffer("<!--");
+        StringBuilder text = new StringBuilder("<!--");
         int numHyphens = 0;
         while (c != -1 && (numHyphens < 2 || c != '>')) {
             if (c == '-')
@@ -963,7 +963,7 @@ class Entry {
         for (int i = 0; i < s.length(); i++) {
             switch (s.charAt(i)) {
             case '<': case '>': case '&':
-                StringBuffer sb = new StringBuffer(s.length()*2);
+                StringBuilder sb = new StringBuilder(s.length()*2);
                 for (int j = 0; j < s.length(); j++) {
                     char c = s.charAt(j);
                     switch (c) {

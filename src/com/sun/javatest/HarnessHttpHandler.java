@@ -533,7 +533,7 @@ class HarnessHttpHandler extends JThttpProvider
 
         out.println("<Table Border>");
 
-        StringBuffer buf = new StringBuffer(50);
+        StringBuilder buf = new StringBuilder(50);
 
         // write the table header
         buf.append("<tr><th>");

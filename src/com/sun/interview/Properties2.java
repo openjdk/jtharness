@@ -109,7 +109,7 @@ public class Properties2 extends Hashtable<String, Object> {
             }
 
             // Read the key
-            StringBuffer key = new StringBuffer();
+            StringBuilder key = new StringBuilder();
             while ((ch >= 0) && (ch != '=') && (ch != ':') &&
                    (ch != ' ') && (ch != '\t') && (ch != '\n') && (ch != '\r')) {
                 key.append((char)ch);
@@ -126,7 +126,7 @@ public class Properties2 extends Hashtable<String, Object> {
             }
 
             // Read the value
-            StringBuffer val = new StringBuffer();
+            StringBuilder val = new StringBuilder();
             while ((ch >= 0) && (ch != '\n') && (ch != '\r')) {
                 int next = 0;
                 if (ch == '\\') {

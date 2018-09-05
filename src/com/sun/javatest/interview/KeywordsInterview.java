@@ -242,7 +242,7 @@ public class KeywordsInterview
                 return null;
 
             String[] keys = StringArray.split(list);
-            StringBuffer sb = new StringBuffer(list.length());
+            StringBuilder sb = new StringBuilder(list.length());
             for (int i = 0; i < keys.length; i++) {
                 if (i > 0)
                     sb.append(op);

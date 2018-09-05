@@ -614,7 +614,7 @@ public class TestResult {
                         throw new ReloadFault(i18n, "rslt.badHeaderVersion", e);
                     }
 
-                    StringBuffer buff = new StringBuffer(chars);
+                    StringBuilder buff = new StringBuilder(chars);
 
                     if (needsEscape) {
                         for (int i = 0; i < chars; i++) {
@@ -1275,7 +1275,7 @@ public class TestResult {
      *         given URL is null.
      */
     public static String getWorkRelativePath(String baseURL, String testId) {
-        StringBuffer sb = new StringBuffer(baseURL);
+        StringBuilder sb = new StringBuilder(baseURL);
 
         // strip off extension
     stripExtn:
@@ -2178,14 +2178,14 @@ public class TestResult {
     private Section processOldSection(String line1, BufferedReader in)
         throws ReloadFault, IOException
     {
-        StringBuffer sb = new StringBuffer();         // message stream
+        StringBuilder sb = new StringBuilder();         // message stream
         Section section = null;
         String line = line1;
         while (!(line == null)) {
             if (line.startsWith("----------")) {
                 String streamName = null;
                 String sectionName = null;
-                StringBuffer buff = new StringBuffer();
+                StringBuilder buff = new StringBuilder();
                 int lines = 0;
                 int chars = 0;
                 try {

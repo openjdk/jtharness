@@ -616,7 +616,7 @@ public class ExcludeList
     }
 
     private String bugIdsToString(Entry e) {
-        StringBuffer sb = new StringBuffer(e.bugIdStrings.length*10);
+        StringBuilder sb = new StringBuilder(e.bugIdStrings.length*10);
         sb.append(e.bugIdStrings[0]);
         for (int i = 1; i < e.bugIdStrings.length; i++) {
             sb.append(',');
@@ -626,7 +626,7 @@ public class ExcludeList
     }
 
     private String platformsToString(Entry e) {
-        StringBuffer sb = new StringBuffer(e.platforms.length*10);
+        StringBuilder sb = new StringBuilder(e.platforms.length*10);
         sb.append(e.platforms[0]);
         for (int i = 1; i < e.platforms.length; i++) {
             sb.append(',');
@@ -765,7 +765,7 @@ public class ExcludeList
             // numbers with no embedded white-space
             skipWhite();
             TreeSet<String> s = new TreeSet<>();
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for ( ; !isEndOfLine(ch) && !isWhitespace(ch); ch = in.read()) {
                 if (ch == ',') {
                     if (sb.length() > 0) {
@@ -819,7 +819,7 @@ public class ExcludeList
         private String readRest() throws IOException {
             // skip white space, then read up to the end of the line
             skipWhite();
-            StringBuffer word = new StringBuffer(80);
+            StringBuilder word = new StringBuilder(80);
             for ( ; !isEndOfLine(ch); ch = in.read())
                 word.append((char)ch);
             // skip over terminating character
@@ -829,7 +829,7 @@ public class ExcludeList
 
         private String readWord() throws IOException {
             // read characters up to the next white space
-            StringBuffer word = new StringBuffer(32);
+            StringBuilder word = new StringBuilder(32);
             for ( ; !isEndOfLine(ch) && !isWhitespace(ch); ch = in.read())
                 word.append((char)ch);
             return word.toString();

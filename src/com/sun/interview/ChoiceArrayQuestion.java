@@ -236,7 +236,7 @@ public abstract class ChoiceArrayQuestion extends Question
         if (value.length != choices.length)
             throw new IllegalStateException();
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         if (value != null) {
             for (int i = 0; i < value.length; i++) {
                 if (value[i]) {

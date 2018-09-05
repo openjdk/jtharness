@@ -2768,7 +2768,7 @@ public class UIFactory {
     public void showError(String uiKey, Object[] args, Object... trace) {
         String title = local_i18n.getString("uif.error", ProductInfo.getName());
         JButton okBtn = createOptionButton("uif.ok");
-        StringBuffer traceString = new StringBuffer(getI18NString(uiKey + ".err", args));
+        StringBuilder traceString = new StringBuilder(getI18NString(uiKey + ".err", args));
         traceString.append(":\n");
         for (int i = 0; i < trace.length; i++) {
             traceString.append(trace[i]);

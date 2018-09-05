@@ -92,7 +92,7 @@ public class ActiveAgentPool
         @Override
         public String getName() {
             if (name == null) {
-                StringBuffer sb = new StringBuffer(32);
+                StringBuilder sb = new StringBuilder(32);
                 sb.append(socket.getInetAddress().getHostName());
                 sb.append(",port=");
                 sb.append(socket.getPort());

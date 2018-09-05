@@ -1040,7 +1040,7 @@ public class Wizard extends JComponent {
         @Override
         public String getDescription() {
             if (description == null) {
-                StringBuffer sb = new StringBuffer("wizard.extn");
+                StringBuilder sb = new StringBuilder("wizard.extn");
                 if (extns.length == 0)
                     sb.append(".allFiles");
                 else {

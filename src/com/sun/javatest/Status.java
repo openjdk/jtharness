@@ -352,7 +352,7 @@ public class Status
             return msg;
         }
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         boolean needWhite = false;
         for (int i = 0; i < msg.length(); i++) {
             char ch = msg.charAt(i);
@@ -432,7 +432,7 @@ public class Status
         if (isAscii) {
             return str; // no need to decode;
         }
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append(ENC_PREFFIX);
         for (int i = 0; i < str.length(); i++) {
             sb.append(encodeChar(str.charAt(i)));
@@ -464,7 +464,7 @@ public class Status
         String encoded = str.substring(ind + ENC_PREFFIX.length(),
                 str.length() - ENC_SUFFFIX.length());
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append(str.substring(0, ind));
 
         // emulate StringTokenizer(encoded, ENC_SEPARATOR) to find tokens

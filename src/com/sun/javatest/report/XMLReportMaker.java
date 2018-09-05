@@ -499,7 +499,7 @@ public class XMLReportMaker {
     }
 
     public static String convertProhibitedChars(String cdata) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         char [] data = cdata.toCharArray();
         for (char aData : data) {
             if (prohibited(aData)) {

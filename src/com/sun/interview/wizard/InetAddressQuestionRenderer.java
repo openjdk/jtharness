@@ -187,7 +187,7 @@ public class InetAddressQuestionRenderer
     protected class ValueSaver implements Runnable {
         @Override
         public void run() {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 4; i++) {
                 String s = fields[i].getText();
                 if (s == null || s.length() == 0)

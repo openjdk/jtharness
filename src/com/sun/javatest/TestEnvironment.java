@@ -376,7 +376,7 @@ public class TestEnvironment
 
     private String[] resolve(String s, Vector<String> activeKeys) throws Fault {
         Vector<String> v = new Vector<>();
-        StringBuffer current = new StringBuffer(64);
+        StringBuilder current = new StringBuilder(64);
         char term = 0;
 
   loop:

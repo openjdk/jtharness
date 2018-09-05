@@ -950,7 +950,7 @@ public class ConfigManager
 
         private static String getPathTrace(Question... path) {
             String lineSep = System.getProperty("line.separator");
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (Question q : path) {
                 sb.append(q.getTag());
                 if (!(q instanceof NullQuestion)) {

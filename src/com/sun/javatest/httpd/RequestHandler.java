@@ -61,7 +61,7 @@ class RequestHandler implements Runnable {
 
         try {
             if (debug) {
-                StringBuffer buf = new StringBuffer();
+                StringBuilder buf = new StringBuilder();
                 buf.append("Handling request from ");
                 buf.append(soc.getInetAddress().getHostName());
                 buf.append(" (");

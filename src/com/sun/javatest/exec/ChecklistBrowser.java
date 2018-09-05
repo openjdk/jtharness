@@ -162,7 +162,7 @@ class ChecklistBrowser extends ToolDialog
         for (int i = 0; i < s.length(); i++) {
             switch (s.charAt(i)) {
             case '<': case '>': case '&':
-                StringBuffer sb = new StringBuffer(s.length()*2);
+                StringBuilder sb = new StringBuilder(s.length()*2);
                 for (int j = 0; j < s.length(); j++) {
                     char c = s.charAt(j);
                     switch (c) {

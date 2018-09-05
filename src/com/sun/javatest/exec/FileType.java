@@ -46,7 +46,7 @@ class FileType extends FileFilter
     @Override
     public String getDescription() {
         if (desc == null) {
-            StringBuffer sb = new StringBuffer("filetype");
+            StringBuilder sb = new StringBuilder("filetype");
             if (extns == null)
                 sb.append(".allFiles");
             else {

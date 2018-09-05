@@ -48,7 +48,7 @@ class TestSuiteErrorsDialog extends ToolDialog
     public void show(TestSuite ts) {
         testSuite = ts;
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("<html><body style=\"font-family: SansSerif; font-size: 12pt\">");
 
         if (testSuite == null)
@@ -106,7 +106,7 @@ class TestSuiteErrorsDialog extends ToolDialog
         for (int i = 0; i < s.length(); i++) {
             switch (s.charAt(i)) {
             case '<': case '>': case '&':
-                StringBuffer sb = new StringBuffer(s.length()*2);
+                StringBuilder sb = new StringBuilder(s.length()*2);
                 for (int j = 0; j < s.length(); j++) {
                     char c = s.charAt(j);
                     switch (c) {

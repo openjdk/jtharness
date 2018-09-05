@@ -703,7 +703,7 @@ public class WizPrint
     private void writeResponseType(Question q) throws IOException {
         if (q instanceof ChoiceArrayQuestion) {
             ChoiceArrayQuestion cq = (ChoiceArrayQuestion)q;
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append(i18n.getString("wp.type.chooseAny"));
             String[] choices = cq.getChoices();
             for (int i = 0; i < choices.length; i++) {
@@ -715,7 +715,7 @@ public class WizPrint
         }
         else if (q instanceof ChoiceQuestion) {
             ChoiceQuestion cq = (ChoiceQuestion)q;
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append(i18n.getString("wp.type.chooseOne"));
             String[] choices = cq.getChoices();
             for (int i = 0; i < choices.length; i++) {

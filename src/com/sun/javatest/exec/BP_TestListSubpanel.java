@@ -546,7 +546,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                     if (s.length == 0)
                         return uif.getI18NString("br.list.noKeywords.txt");
                     else {
-                        StringBuffer sb = new StringBuffer();
+                        StringBuilder sb = new StringBuilder();
                         for (String value : s) {
                             sb.append(value);
                             sb.append(" ");

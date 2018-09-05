@@ -1267,7 +1267,7 @@ class QuickStartWizard extends ToolDialog
             // set configCheck if config incomplete
             Integer haveConfig = Integer.valueOf(configData == null ? 0 : 1);
 
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             if (config.isFinishable()) {
                 // "Your configuration is complete, but you can change it by using
                 // the Configuration Editor."

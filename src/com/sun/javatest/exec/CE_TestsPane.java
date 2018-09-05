@@ -246,7 +246,7 @@ class CE_TestsPane extends CE_StdPane
             if (badPaths.size() == 1)
                 uif.showError("ce.tests.badPath", badPaths.get(0));
             else {
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < Math.min(badPaths.size(), MAX_BAD_PATHS); i++) {
                     if (sb.length() > 0)
                         sb.append('\n');

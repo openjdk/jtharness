@@ -140,7 +140,7 @@ public class LastRunInfo {
         if (list == null) {
             return "";
         }
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (String s : list) {
             sb.append(s);
             sb.append(SEP);

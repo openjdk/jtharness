@@ -251,7 +251,7 @@ public class ShowFile
             URL base = ((HTMLDocument) d).getBase();
             URL p = new URL(base, path);
             BufferedReader r = new BufferedReader(new InputStreamReader(p.openStream()));
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             char[] buf = new char[1024];
             int n;
             while ((n = r.read(buf, 0, buf.length)) != -1)

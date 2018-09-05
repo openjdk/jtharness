@@ -1120,7 +1120,7 @@ public abstract class Script
     protected String[] exclude(String[] args, String... testCases) {
         if (testCases == null)
             return args;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < testCases.length; i++) {
             if (i > 0)
                 sb.append(",");

@@ -233,7 +233,7 @@ public class SimpleInterviewParameters
         char fs = File.separatorChar;
         char ps = File.pathSeparatorChar;
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("com.sun.javatest.lib.ExecStdTestOtherJVMCmd ");
         File jvm = qJVM.getValue();
         sb.append(jvm == null ? "unknown_jvm" : jvm.getPath());

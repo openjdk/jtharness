@@ -233,7 +233,7 @@ public class ListQuestionRenderer
             // if there are special characters write the string character at a time;
             // otherwise, write it out as is
             if (specialChars) {
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < text.length(); i++) {
                     char c = text.charAt(i);
                     switch (c) {

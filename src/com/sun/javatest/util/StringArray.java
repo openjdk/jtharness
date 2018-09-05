@@ -104,7 +104,7 @@ public class StringArray
         int l = (ss.length - 1) * sep.length();
         for (String s : ss) l += s == null ? 0 : s.length();
 
-        StringBuffer sb = new StringBuffer(l);
+        StringBuilder sb = new StringBuilder(l);
         sb.append(ss[0]);
         for (int i = 1; i < ss.length; i++) {
             sb.append(sep);

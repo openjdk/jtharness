@@ -238,7 +238,7 @@ class CE_EnvironmentPane extends CE_StdPane
                 return new File(canonFilePath.substring(canonTSDPath.length() + 1));
             }
 
-            StringBuffer prefix = new StringBuffer();
+            StringBuilder prefix = new StringBuilder();
             int spIndex;
             String cp = canonTSDPath;
             while ((spIndex = cp.lastIndexOf(File.separatorChar)) != -1) {

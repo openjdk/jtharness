@@ -211,7 +211,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
     @Override
     public String getStringValue() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         if (value != null) {
             String sep = System.getProperty("line.separator");
 

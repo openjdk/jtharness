@@ -62,7 +62,7 @@ abstract class HTMLSection {
         if (reportDirPath.startsWith(workPath)) {
             // since reportFile is in reportDir, reset path to be relative
             File d = reportDir;
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             try {
                 while (d != null && !d.getCanonicalPath().equals(workDirRoot.getCanonicalPath())) {
                     sb.append("../");

@@ -188,7 +188,7 @@ public class LogModel {
                         // 5) Msg
                         long read = 0;
                         long start = r.getFilePointer();
-                        StringBuffer msg = new StringBuffer();
+                        StringBuilder msg = new StringBuilder();
 
                         // Do not optimize this loop, do not use readLine() !
                         while (read <= length) {
@@ -305,7 +305,7 @@ public class LogModel {
             return messageCache.get(rec);
         }
 
-        StringBuffer msg = new StringBuffer();
+        StringBuilder msg = new StringBuilder();
         try {
             ensureMirrorFileOpened();
             if (rec == null ||  mirrorFile == null) {
@@ -472,7 +472,7 @@ public class LogModel {
         }
 
         public String getHeader(String logName) {
-            StringBuffer out = new StringBuffer();
+            StringBuilder out = new StringBuilder();
             int pos = logName.indexOf("#");
             if (pos >= 0) {
                 out.append(logName.substring(pos+1));

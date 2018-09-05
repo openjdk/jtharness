@@ -187,7 +187,7 @@ public class httpURL {
         if (path == null || path.length == 0)
             return "";
 
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         if (leadingSlash) result.append("/");
 
@@ -256,7 +256,7 @@ public class httpURL {
     }
 
     private String readSegment(String data, int position, int dataLen) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         int i = position;
 
         // loop until you hit end of string, a & or a =

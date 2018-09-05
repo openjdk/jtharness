@@ -336,7 +336,7 @@ public class Main {
      * Read an identifier, and lowercase it
      */
     private String scanIdentifier() throws IOException {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         while (true) {
             if ((c >= 'a') && (c <= 'z')) {
                 buf.append((char)c);
@@ -374,7 +374,7 @@ public class Main {
             nextCh();
             skipSpace();
         }
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         while (((quote < 0) && (c != ' ') && (c != '\t') &&
                 (c != '\n') && (c != '\r') && (c != '>')) ||
                ((quote >= 0) && (c != quote))) {
@@ -396,7 +396,7 @@ public class Main {
     private void scanComment() throws IOException {
         // a comment sequence is "<!--" ... "-->"
         // at the time this is called, "<!--" has been read;
-        StringBuffer text = new StringBuffer("<!--");
+        StringBuilder text = new StringBuilder("<!--");
         int numHyphens = 0;
         while (c != -1 && (numHyphens < 2 || c != '>')) {
             if (c == '-')
@@ -455,7 +455,7 @@ public class Main {
         for (int i = 0; i < s.length(); i++) {
             switch (s.charAt(i)) {
             case '<': case '>': case '&':
-                StringBuffer sb = new StringBuffer(s.length()*2);
+                StringBuilder sb = new StringBuilder(s.length()*2);
                 for (int j = 0; j < s.length(); j++) {
                     char c = s.charAt(j);
                     switch (c) {
@@ -669,7 +669,7 @@ public class Main {
         else
             key = file + "#" + ref;
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("index.");
         boolean needUpper = false;
         for (int i = 0; i < key.length(); i++) {
@@ -698,7 +698,7 @@ public class Main {
         // if there are special characters rewrite the string with escaped characters
         // otherwise, return it as is
         if (specialChars) {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < text.length(); i++) {
                 char c = text.charAt(i);
                 switch (c) {

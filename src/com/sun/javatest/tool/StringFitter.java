@@ -392,7 +392,7 @@ public class StringFitter {
         int begI = 0, endI = parts.length - 1;
         // beg, end - size of result string at beginning, ending
         int beg = fm.stringWidth(parts[begI]) + splitWidth, end = fm.stringWidth(parts[endI]) + splitWidth;
-        StringBuffer begS = new StringBuffer(parts[begI]).append(splitString), endS = new StringBuffer(splitString).append(parts[endI]);
+        StringBuilder begS = new StringBuilder(parts[begI]).append(splitString), endS = new StringBuilder(splitString).append(parts[endI]);
         while(beg + end <= width) {
             while(beg <= end && beg + end <= width) {
                 begI++;

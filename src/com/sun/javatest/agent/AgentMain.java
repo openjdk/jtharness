@@ -148,8 +148,8 @@ public class AgentMain {
 
         if (Boolean.getBoolean("javatest.trace.printargs") &&
             args != null && args.length > 0) {
-            StringBuffer fullCmd = new StringBuffer();
-            StringBuffer incrementalCmd = new StringBuffer();
+            StringBuilder fullCmd = new StringBuilder();
+            StringBuilder incrementalCmd = new StringBuilder();
 
             for (String arg : args) {
                 fullCmd.append(arg);

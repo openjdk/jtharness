@@ -595,7 +595,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
     // XXX need to find a shared place for these two methods to live
     static String createNodeListString(String... items) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < items.length; i++) {
             sb.append("      ");

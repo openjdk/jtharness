@@ -162,7 +162,7 @@ public class Debug {
         if (!masterSwitch)
             return false;
 
-        StringBuffer buf = new StringBuffer(getName(c));
+        StringBuilder buf = new StringBuilder(getName(c));
         if (suffix != null && suffix.length() != 0) {
             buf.append(Debug.SEPARATOR);
             buf.append(suffix);
@@ -230,7 +230,7 @@ public class Debug {
         if (!masterSwitch || c == null)
             return 0;
 
-        StringBuffer buf = new StringBuffer(getName(c));
+        StringBuilder buf = new StringBuilder(getName(c));
         if (suffix != null && suffix.length() != 0) {
             buf.append(Debug.SEPARATOR);
             buf.append(suffix);

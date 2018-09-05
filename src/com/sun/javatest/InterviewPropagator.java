@@ -716,7 +716,7 @@ public class InterviewPropagator {
         private String getCSS() {
             BufferedReader r = null;
             try {
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
 
                 InputStream is = ResourceLoader.getResourceAsStream(PROP_STYLESHEET, getClass());
                 if (is == null) {

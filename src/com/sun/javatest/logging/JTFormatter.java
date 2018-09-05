@@ -41,8 +41,8 @@ class JTFormatter extends Formatter {
 
     @Override
     public String format(LogRecord record) {
-        StringBuffer sb = new StringBuffer();
-        StringBuffer msgBuf = new StringBuffer(record.getMessage());
+        StringBuilder sb = new StringBuilder();
+        StringBuilder msgBuf = new StringBuilder(record.getMessage());
 
         if (record.getThrown() != null) {
             // Report on the state of the throwable.

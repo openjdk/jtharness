@@ -172,8 +172,8 @@ public class PropertyUtils {
 
 //               key=value
 //               start by reading the key; stop at newline (unless escaped in value)
-                StringBuffer key = new StringBuffer();
-                StringBuffer val = new StringBuffer();
+                StringBuilder key = new StringBuilder();
+                StringBuilder val = new StringBuilder();
 
                 boolean hasSep = false;
                 boolean precedingBackslash = false;
@@ -325,7 +325,7 @@ public class PropertyUtils {
         if (bufLen < 0) {
             bufLen = Integer.MAX_VALUE;
         }
-        StringBuffer outBuffer = new StringBuffer(bufLen);
+        StringBuilder outBuffer = new StringBuilder(bufLen);
 
         for(int x=0; x<len; x++) {
             char aChar = theString.charAt(x);

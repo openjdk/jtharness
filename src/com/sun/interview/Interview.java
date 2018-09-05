@@ -1415,7 +1415,7 @@ public class Interview
             Set<Question> markersForName = e.getValue();
             if (name != null)
                 data.put(MARKERS_PREF + i + ".name", name);
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (Question q : markersForName) {
                 if (sb.length() > 0)
                     sb.append('\n');
@@ -2555,7 +2555,7 @@ public class Interview
             System.err.println("WARNING: missing resource: " + key);
         }
 
-        StringBuffer sb = new StringBuffer(key);
+        StringBuilder sb = new StringBuilder(key);
         for (Object arg : args) {
             sb.append('\n');
             sb.append(Arrays.toString(args));

@@ -184,7 +184,7 @@ class ConfigSection extends HTMLSection {
                             i18n.getString("config.status.error"),
                             i18n.getString("config.status.notRun") };
 
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
 
             for (int i = 0; i < b.length; i++) {
                 if (b[i]) {

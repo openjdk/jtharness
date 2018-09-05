@@ -103,7 +103,7 @@ public class SocketConnection implements Connection {
     @Override
     public String getName() {
         if (name == null) {
-            StringBuffer sb = new StringBuffer(32);
+            StringBuilder sb = new StringBuilder(32);
             sb.append(getHostName(socket.getInetAddress()));
             sb.append(",port=");
             sb.append(socket.getPort());

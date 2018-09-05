@@ -212,7 +212,7 @@ class ExcludeListBrowser extends ToolDialog
 
     private String getBugIds(ExcludeList.Entry e) {
         String[] bugIds = e.getBugIdStrings();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < bugIds.length; i++) {
             if (i > 0)
                 sb.append(", ");
@@ -223,7 +223,7 @@ class ExcludeListBrowser extends ToolDialog
 
     private String getKeywords(ExcludeList.Entry e) {
         String[] keywords = e.getPlatforms();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < keywords.length; i++) {
             if (i > 0)
                 sb.append(", ");

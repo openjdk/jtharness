@@ -127,7 +127,7 @@ public class TT_TestNode extends TT_TreeNode {
         {
             return null;
         }
-        StringBuffer sb = new StringBuffer(getShortName());
+        StringBuilder sb = new StringBuilder(getShortName());
         TT_BasicNode spot = parent;
         while (spot != null && !spot.isRoot()) {
             sb.insert(0, "/");

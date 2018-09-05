@@ -458,7 +458,7 @@ public class HTMLTestFinder extends TestFinder
     // general lexical support
 
     private String scanIdentifier() throws IOException {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         while (true) {
             if ((c >= 'a') && (c <= 'z')) {
                 buf.append((char)c);
@@ -532,7 +532,7 @@ public class HTMLTestFinder extends TestFinder
             nextCh();
             skipSpace();
         }
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         while (((quote < 0) && (c != ' ') && (c != '\t') &&
                 (c != '\n') && (c != '\r') && (c != '>')) ||
                ((quote >= 0) && (c != quote))) {

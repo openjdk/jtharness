@@ -230,7 +230,7 @@ public class ResultBrowser extends HttpServlet {
         if (s.indexOf('<') == -1 && s.indexOf('>') == -1 && (!newlines || (s.indexOf('\n') == -1)))
             return s;
         else {
-            StringBuffer sb = new StringBuffer(s.length() * 2);
+            StringBuilder sb = new StringBuilder(s.length() * 2);
             for (int i = 0; i < s.length(); i++) {
                 char c;
                 switch (c = s.charAt(i)) {

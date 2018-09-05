@@ -396,7 +396,7 @@ class FocusMonitor
             return null;
 
         Set<AWTKeyStroke> s = c.getFocusTraversalKeys(mode);
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (AWTKeyStroke value : s) {
             if (sb.length() > 0)
                 sb.append(", ");

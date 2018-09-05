@@ -118,7 +118,7 @@ public class ReportSettings {
 
         // html state files
         // encoded as a comma sep. list
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < stateFiles.length; i++) {
             sb.append(Boolean.toString(stateFiles[i]));
             if (i + 1 < stateFiles.length) {

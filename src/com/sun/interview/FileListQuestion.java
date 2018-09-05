@@ -393,7 +393,7 @@ public abstract class FileListQuestion extends Question
         int l = ff.length - 1; // allow for spaces between words
         for (File aFf : ff) l += aFf.getPath().length();
 
-        StringBuffer sb = new StringBuffer(l);
+        StringBuilder sb = new StringBuilder(l);
 
         String ff0p = ff[0].getPath();
         sb.append(ff0p);

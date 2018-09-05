@@ -55,7 +55,7 @@ public class ErrorDialogHandler extends StreamHandler {
 
     @Override
     public synchronized void publish(LogRecord record) {
-        StringBuffer args = new StringBuffer(record.getMessage());
+        StringBuilder args = new StringBuilder(record.getMessage());
 
         argsToArr[0] = args.toString();
 
@@ -102,7 +102,7 @@ public class ErrorDialogHandler extends StreamHandler {
 
 
         // setup output string
-        StringBuffer traceString = new StringBuffer();
+        StringBuilder traceString = new StringBuilder();
         for (String arg : args) {
             traceString.append(arg);
             traceString.append("\n");

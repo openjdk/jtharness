@@ -122,7 +122,7 @@ public abstract class StringListQuestion extends Question
         if (value == null)
             return null;
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (String aValue : value) {
             if (sb.length() > 0)
                 sb.append('\n');
