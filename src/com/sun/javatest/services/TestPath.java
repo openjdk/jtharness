@@ -26,7 +26,6 @@
  */
 package com.sun.javatest.services;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;

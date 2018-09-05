@@ -27,7 +27,6 @@
 package com.sun.javatest.tool;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 

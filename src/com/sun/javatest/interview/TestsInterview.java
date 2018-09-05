@@ -43,7 +43,6 @@ import com.sun.javatest.Parameters;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.WorkDirectory;
-import java.util.ArrayList;
 
 /**
  * This interview collects the "initial files" parameter. It is normally used as

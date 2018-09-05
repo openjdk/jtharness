@@ -34,7 +34,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.Hashtable;
 
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;

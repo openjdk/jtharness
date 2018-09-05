@@ -29,7 +29,6 @@ package com.sun.javatest.logging;
 import javax.accessibility.AccessibleContext;
 
 import java.awt.Component;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
 import java.awt.Toolkit;

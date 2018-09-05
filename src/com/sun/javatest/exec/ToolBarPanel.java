@@ -31,7 +31,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.Insets;
 import java.util.ArrayList;
 import javax.swing.JComponent;

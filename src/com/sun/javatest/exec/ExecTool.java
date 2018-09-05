@@ -27,7 +27,6 @@
 
 package com.sun.javatest.exec;
 
-import com.sun.interview.Interview.Fault;
 import com.sun.javatest.Harness;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.TestResultTable;
@@ -35,7 +34,6 @@ import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.tool.Tool;
-import com.sun.javatest.tool.ToolManager;
 import com.sun.javatest.tool.UIFactory;
 import java.awt.BorderLayout;
 import java.awt.print.PageFormat;
@@ -44,7 +42,6 @@ import java.awt.print.PrinterJob;
 import java.awt.print.Printable;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;

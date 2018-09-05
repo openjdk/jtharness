@@ -34,7 +34,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
-import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.swing.BorderFactory;

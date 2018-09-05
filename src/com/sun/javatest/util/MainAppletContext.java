@@ -29,7 +29,6 @@ package com.sun.javatest.util;
 import java.applet.AppletContext;
 import java.applet.Applet;
 import java.util.Hashtable;
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
 

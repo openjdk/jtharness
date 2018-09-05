@@ -28,7 +28,6 @@ package com.sun.javatest.report;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import com.sun.javatest.Status;

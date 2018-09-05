@@ -41,7 +41,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.sun.javatest.report.ReportManager;
-import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.tool.PreferencesPane;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.jthelp.HelpBroker;

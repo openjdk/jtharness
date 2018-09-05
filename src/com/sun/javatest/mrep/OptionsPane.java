@@ -68,7 +68,6 @@ import com.sun.javatest.exec.ContextManager;
 import com.sun.javatest.exec.ExecTool;
 import com.sun.javatest.report.CustomReport;
 import com.sun.javatest.report.CustomReport.ReportConfigPanel;
-import com.sun.javatest.report.Report;
 import com.sun.javatest.report.ReportSettings;
 import com.sun.javatest.tool.Desktop;
 import com.sun.javatest.tool.Tool;

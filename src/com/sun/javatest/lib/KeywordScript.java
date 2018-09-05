@@ -27,7 +27,6 @@
 package com.sun.javatest.lib;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 import java.io.IOException;

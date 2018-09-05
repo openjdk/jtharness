@@ -31,7 +31,6 @@ import com.sun.javatest.TestFinder;
 import com.sun.javatest.finder.CommentStream;
 import com.sun.javatest.finder.JavaCommentStream;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -32,7 +32,6 @@ import com.sun.javatest.tool.jthelp.HelpSet;
 
 import java.net.URL;
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 

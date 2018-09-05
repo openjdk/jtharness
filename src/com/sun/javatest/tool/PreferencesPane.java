@@ -38,7 +38,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 import javax.swing.BorderFactory;

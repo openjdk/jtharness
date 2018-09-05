@@ -28,11 +28,9 @@ package com.sun.javatest;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.Collator;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.sun.javatest.finder.TestFinderDecorator;
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.DynamicArray;

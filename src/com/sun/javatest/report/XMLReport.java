@@ -43,7 +43,6 @@ import com.sun.javatest.TemplateUtilities;
 import com.sun.javatest.TemplateUtilities.ConfigInfo;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestEnvironment;
-import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResult.Section;
 import com.sun.javatest.TestResultTable;

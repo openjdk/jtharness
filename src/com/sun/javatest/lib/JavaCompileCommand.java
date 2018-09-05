@@ -31,7 +31,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.InvocationTargetException;
+
 import com.sun.javatest.Command;
 import com.sun.javatest.Status;
 import com.sun.javatest.util.PathClassLoader;

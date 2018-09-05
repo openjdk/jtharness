@@ -29,7 +29,6 @@ package com.sun.javatest.batch;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.ListIterator;
 
 import com.sun.javatest.Harness;

@@ -71,7 +71,6 @@ import com.sun.javatest.tool.jthelp.HelpSet;
 import com.sun.javatest.tool.jthelp.JTHelpBroker;
 import com.sun.javatest.util.*;
 import com.sun.javatest.report.HTMLWriterEx;
-import com.sun.javatest.util.PropertyUtils;
 
 import java.awt.print.Printable;
 import java.awt.print.PrinterJob;

@@ -28,7 +28,6 @@ package com.sun.javatest;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 import java.util.Map;
 
 import com.sun.javatest.util.I18NResourceBundle;

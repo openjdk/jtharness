@@ -30,7 +30,6 @@ import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.InterviewPropagator;
 
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * This class provides a way to extend default behavior of template propagation process

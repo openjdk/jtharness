@@ -41,8 +41,6 @@ import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import com.sun.javatest.util.DynamicArray;
-
 public class ResourceLoader {
 
     public static Enumeration<URL> getResources(String name, Class<?> ownClass) throws IOException  {

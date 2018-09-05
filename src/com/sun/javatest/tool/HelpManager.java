@@ -26,10 +26,6 @@
  */
 package com.sun.javatest.tool;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Window;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;

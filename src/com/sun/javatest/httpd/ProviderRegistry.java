@@ -26,10 +26,8 @@
  */
 package com.sun.javatest.httpd;
 
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.io.PrintWriter;
-import java.util.Iterator;
 import java.util.Map;
 
 import com.sun.javatest.util.DynamicArray;

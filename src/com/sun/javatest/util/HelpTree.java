@@ -29,7 +29,6 @@ package com.sun.javatest.util;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 

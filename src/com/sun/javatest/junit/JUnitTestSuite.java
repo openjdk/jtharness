@@ -29,7 +29,6 @@ package com.sun.javatest.junit;
 import com.sun.javatest.TestRunner;
 import com.sun.javatest.TestSuite;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.net.URLClassLoader;
 import java.net.URL;

@@ -26,7 +26,6 @@
  */
 package com.sun.javatest.services;
 
-import java.io.IOException;
 import java.io.Writer;
 import java.util.logging.Level;
 import java.util.logging.Logger;

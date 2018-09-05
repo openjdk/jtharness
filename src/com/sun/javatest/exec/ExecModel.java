@@ -26,7 +26,6 @@
  */
 package com.sun.javatest.exec;
 
-import com.sun.interview.Interview;
 import java.util.ResourceBundle;
 
 import com.sun.javatest.InterviewParameters;

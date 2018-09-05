@@ -79,7 +79,6 @@ import javax.swing.table.TableModel;
 import java.util.ResourceBundle;
 import javax.swing.JFileChooser;
 
-import com.sun.interview.Interview;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.TemplateUtilities;

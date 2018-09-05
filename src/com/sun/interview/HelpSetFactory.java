@@ -26,7 +26,6 @@
  */
 package com.sun.interview;
 
-import com.sun.interview.Interview.Fault;
 import java.io.File;
 
 /**

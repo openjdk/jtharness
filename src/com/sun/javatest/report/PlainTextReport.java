@@ -27,7 +27,6 @@
 package com.sun.javatest.report;
 
 import com.sun.javatest.JavaTestError;
-import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.util.I18NResourceBundle;
