@@ -60,8 +60,7 @@ public class TestDescription implements Serializable
      * filename and does not begin with the root filename.
      *
      */
-    public TestDescription(File root, File file, Map<?, ?> params)
-                throws IllegalArgumentException {
+    public TestDescription(File root, File file, Map<?, ?> params) {
 
         synchronized (this.getClass()) {
             if (root.equals(cachedRoot))

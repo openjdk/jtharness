@@ -275,7 +275,7 @@ public class UIFactory {
             return temp;
         }
 
-        public static Color decodeRGBA(String color) throws NumberFormatException {
+        public static Color decodeRGBA(String color) {
             try {
                 if (color.startsWith("0x") && color.length() == 10) {
                     Long colorCode = Long.decode(color);

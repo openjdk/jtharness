@@ -431,7 +431,7 @@ public class Harness
      * @throws IllegalStateException If the harness is not running, care should
      *         be taken to handle this in case the run terminates.
      */
-    public synchronized boolean isBatchRun() throws IllegalStateException {
+    public synchronized boolean isBatchRun() {
         if (!isRunning())
             throw new IllegalStateException();
 

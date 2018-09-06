@@ -253,8 +253,7 @@ public class ProviderRegistry {
      *      a name conflict.
      */
     protected final boolean insertHandler(String[] url, String descrip,
-                                          JThttpProvider obj, boolean hidden)
-                            throws IllegalArgumentException {
+                                          JThttpProvider obj, boolean hidden) {
         // XXX may need this check, needs thought because of recursion
         //if (url == null) return;
 

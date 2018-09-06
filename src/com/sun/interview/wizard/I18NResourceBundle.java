@@ -148,7 +148,7 @@ class I18NResourceBundle extends ResourceBundle
      * and the result will be the original key.
      */
     @Override
-    protected Object handleGetObject(String key) throws MissingResourceException {
+    protected Object handleGetObject(String key) {
         if (logging)
             System.out.println("i18n: " + key);
         try {

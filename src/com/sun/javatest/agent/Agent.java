@@ -504,7 +504,7 @@ public class Agent implements Runnable {
     }
 
     private synchronized void setSystemStreams(Object owner, PrintStream out, PrintStream err)
-    throws InterruptedException, SecurityException {
+    throws InterruptedException {
         if (owner == null)
             throw new NullPointerException();
 
@@ -518,7 +518,7 @@ public class Agent implements Runnable {
         System.setErr(err);
     }
 
-    private synchronized void resetSystemStreams(Object owner) throws SecurityException {
+    private synchronized void resetSystemStreams(Object owner) {
         if (owner == null)
             throw new NullPointerException();
 
@@ -1064,7 +1064,7 @@ public class Agent implements Runnable {
         /**
          * Get a resource
          */
-        synchronized byte[] getResourceData(String resourceName) throws MissingResourceException, IOException {
+        synchronized byte[] getResourceData(String resourceName) throws IOException {
             if (tracing)
                 traceOut.println("REMOTE LOAD " + resourceName);
 

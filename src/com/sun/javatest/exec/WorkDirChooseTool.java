@@ -822,7 +822,7 @@ public class WorkDirChooseTool extends JDialog {
     }
 
 
-    private void makeBrowsTemplateButton() throws HeadlessException {
+    private void makeBrowsTemplateButton() {
 
         browseTmplBtn = uif.createButton("wdc.template.browse", new ActionListener() {
             @Override

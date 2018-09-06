@@ -305,7 +305,7 @@ public class Status
      * whitespace.
      * @throws IllegalArgumentException if the specified type is invalid.
      */
-    public Status(int type, String reason) throws IllegalArgumentException {
+    public Status(int type, String reason) {
         if (type < 0 || type >= NUM_STATES) {
             throw new IllegalArgumentException(String.valueOf(type));
         }

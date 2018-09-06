@@ -112,7 +112,7 @@ public class I18NResourceBundle extends ResourceBundle
         }
     }
 
-    private Object getObj(String key) throws MissingResourceException {
+    private Object getObj(String key) {
         try {
             if (delegate == null) {
                 delegate = AccessController.doPrivileged(
@@ -155,7 +155,7 @@ public class I18NResourceBundle extends ResourceBundle
      * and the result will be the original key.
      */
     @Override
-    protected Object handleGetObject(String key) throws MissingResourceException {
+    protected Object handleGetObject(String key) {
         try {
             if (logging) {
                 System.out.println("i18n: " + key);

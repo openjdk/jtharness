@@ -113,7 +113,7 @@ abstract public class ToolDialog
     }
 
 
-   protected void setTool(Tool t) throws IllegalStateException {
+   protected void setTool(Tool t) {
 
        if (t == null || tool != null) {
             throw new IllegalStateException();

@@ -484,7 +484,7 @@ class QuestionPanel extends JPanel
         currentQuestion = q;
     }
 
-    private void showErrorQuestion(ErrorQuestion q) throws HeadlessException {
+    private void showErrorQuestion(ErrorQuestion q) {
 
         JEditorPane ePane = new JEditorPane(q.getTextMimeType(), q.getText());
         ePane.setEditable(false);

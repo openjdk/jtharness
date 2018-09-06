@@ -274,9 +274,7 @@ public class Interview
      * cannot be found.
      * @see #getResourceBundle
      */
-    protected void setResourceBundle(String name)
-        throws MissingResourceException
-    {
+    protected void setResourceBundle(String name) {
         // name is not null
         if (!name.equals(bundleName)) {
             Class<?> c = getClass();
@@ -315,8 +313,7 @@ public class Interview
      * cannot be found.
      * @see #getResourceBundle
      */
-    protected void setResourceBundle(final String name, File file)
-            throws MissingResourceException {
+    protected void setResourceBundle(final String name, File file) {
         if (bundleName != null && bundleName.equals(name)) {
             return;
         }
@@ -2748,7 +2745,7 @@ public class Interview
             questions[numQuestions++] = q;
         }
 
-        Question questionAt(int index) throws ArrayIndexOutOfBoundsException {
+        Question questionAt(int index) {
             if (index < 0 || index >= numQuestions)
                 throw new ArrayIndexOutOfBoundsException();
             return questions[index];

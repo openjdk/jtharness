@@ -576,8 +576,7 @@ public class TestResultCache {
     // Read the cache
 
     private Map<String, TestResult> readCache()
-        throws IOException, IllegalArgumentException
-    {
+        throws IOException {
         final long start = System.currentTimeMillis();
 
         if (DEBUG_WORK)
@@ -645,8 +644,7 @@ public class TestResultCache {
     }
 
     private Map<String, TestResult> readCacheEntries()
-        throws IOException, IllegalArgumentException
-    {
+        throws IOException {
         Map<String, TestResult> tests = new TreeMap<>();
         while (raf.getFilePointer() < raf.length()) {
             String name = raf.readUTF();

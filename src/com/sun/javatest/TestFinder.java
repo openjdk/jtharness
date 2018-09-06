@@ -200,7 +200,7 @@ public abstract class TestFinder
      * problem with the specified file.
      * @see #getRoot
      */
-    protected void setRoot(File testSuiteRoot) throws IllegalStateException, Fault {
+    protected void setRoot(File testSuiteRoot) throws Fault {
         if (root != null)
             throw new IllegalStateException("root already set");
 

@@ -58,8 +58,7 @@ import javax.swing.plaf.basic.ComboPopup;
 
 public class NavigationPane extends JPanel {
 
-    public NavigationPane(UIFactory uif, MultiFormatPane mediaPane)
-                                               throws IllegalArgumentException {
+    public NavigationPane(UIFactory uif, MultiFormatPane mediaPane) {
 
         if(mediaPane == null) {
             throw new IllegalArgumentException("Corresponding media pane should exist");

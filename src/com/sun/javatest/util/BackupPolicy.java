@@ -59,7 +59,7 @@ public abstract class BackupPolicy
      * @see #getNumBackupsToKeep
      * @see #isBackupRequired
      */
-    public void backup(File file) throws IOException, SecurityException {
+    public void backup(File file) throws IOException {
         if (!isBackupRequired(file))
             return;
 
@@ -142,7 +142,7 @@ public abstract class BackupPolicy
      * @see #backup(File)
      * @since 3.0.1
      */
-    public void backupAndRename(File source, File target) throws IOException, SecurityException {
+    public void backupAndRename(File source, File target) throws IOException {
         if (!source.exists())
             return;
 
@@ -175,7 +175,7 @@ public abstract class BackupPolicy
      * @throws SecurityException if the operation could not be completed because
      * of a security constraint
      */
-    public Writer backupAndOpenWriter(File file) throws IOException, SecurityException {
+    public Writer backupAndOpenWriter(File file) throws IOException {
         backup(file);
         return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
     }
@@ -190,7 +190,7 @@ public abstract class BackupPolicy
      * @throws SecurityException if the operation could not be completed because
      * of a security constraint
      */
-    public Writer backupAndOpenWriter(File file, String charsetName) throws IOException, SecurityException {
+    public Writer backupAndOpenWriter(File file, String charsetName) throws IOException {
         backup(file);
         return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), charsetName));
     }
@@ -205,7 +205,7 @@ public abstract class BackupPolicy
      * @throws SecurityException if the operation could not be completed because
      * of a security constraint
      */
-    public OutputStream backupAndOpenStream(File file) throws IOException, SecurityException {
+    public OutputStream backupAndOpenStream(File file) throws IOException {
         backup(file);
         return new BufferedOutputStream(new FileOutputStream(file));
     }

@@ -140,7 +140,7 @@ public class Report implements ReportModel {
      * @throws RuntimeException
      * @throws IOException
      */
-    private boolean doReport(ReportFormat rf, ReportSettings s, ArrayList<ReportLink> links) throws RuntimeException, IOException {
+    private boolean doReport(ReportFormat rf, ReportSettings s, ArrayList<ReportLink> links) throws IOException {
         if (rf.acceptSettings(s)) {
             try {
                 links.add(writeReport(s, rf));
