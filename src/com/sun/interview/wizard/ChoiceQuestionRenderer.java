@@ -38,6 +38,7 @@ import com.sun.interview.Question;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Toolkit;
+import java.util.Objects;
 import javax.swing.AbstractCellEditor;
 import javax.swing.ButtonGroup;
 import javax.swing.CellEditor;
@@ -85,7 +86,7 @@ public class ChoiceQuestionRenderer
         for(int i = 0; i < rb.length; i++) {
 
             rb[i] = new JRadioButton(displayChoices[i + starts_from],
-                    values[i + starts_from] == v);
+                    Objects.equals(values[i + starts_from], v));
             rb[i].setActionCommand(values[i + starts_from]);
 
             rb[i].setName("chc.btn." + values[i + starts_from]);

@@ -39,6 +39,8 @@ import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.WorkDirectory;
 
+import java.util.Objects;
+
 /**
  * This interview collects the "prior status" test filter parameters.
  * It is normally used as one of a series of sub-interviews that collect
@@ -74,7 +76,7 @@ public class PriorStatusInterview
      */
     @Override
     public boolean[] getPriorStatusValues() {
-        if (qNeedStatus.getValue() == YesNoQuestion.YES)
+        if (Objects.equals(qNeedStatus.getValue(), YesNoQuestion.YES))
             return getMatchPriorStatusValues();
         else
             return null;
@@ -92,7 +94,7 @@ public class PriorStatusInterview
 
     @Override
     public int getPriorStatusMode() {
-        return qNeedStatus.getValue() == YesNoQuestion.YES ? MATCH_PRIOR_STATUS : NO_PRIOR_STATUS;
+        return Objects.equals(qNeedStatus.getValue(), YesNoQuestion.YES) ? MATCH_PRIOR_STATUS : NO_PRIOR_STATUS;
     }
 
     @Override
@@ -153,7 +155,7 @@ public class PriorStatusInterview
         protected Question getNext() {
             if (value == null)
                 return null;
-            else if (value == YES)
+            else if (Objects.equals(value, YES))
                 return qStatus;
             else
                 return qEnd;

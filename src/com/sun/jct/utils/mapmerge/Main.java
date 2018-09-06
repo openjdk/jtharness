@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.FileScanner;
@@ -386,7 +387,7 @@ public class Main
             }
 
             String att = scanIdentifier();
-            if (att == "")
+            if (Objects.equals(att, ""))
                 throw new IOException("error parsing HTML input (" + currFile + ":" + line + ")");
             String value = scanValue();
             skipSpace();

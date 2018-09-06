@@ -655,7 +655,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             // should be seeded to skip the root, which handled above?
             for (int i = 0; i < filesToScan.length; i++) {
 
-                if (filesToScan[i] == this.name) {
+                if (Objects.equals(filesToScan[i], this.name)) {
                     processFile(thisDir);
                 }
                 else {
@@ -1209,7 +1209,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
         String newPath = TestResultTable.behead(url);
 
-        if (url == newPath) {
+        if (Objects.equals(url, newPath)) {
             // last file or dir in the fullFile path
             // Ex:
             //   index.html

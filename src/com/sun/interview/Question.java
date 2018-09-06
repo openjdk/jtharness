@@ -30,6 +30,7 @@ import java.net.URL;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Questions are the primary constituent elements of {@link Interview interviews}.
@@ -464,11 +465,7 @@ public abstract class Question
 
         Question oq = (Question) other;
 
-        return equal(tag, oq.tag) && equal(getStringValue(), oq.getStringValue());
-    }
-
-    private static boolean equal(String s1, String s2) {
-        return s1 == null || s2 == null ? s1 == s2 : s1.equals(s2);
+        return Objects.equals(tag, oq.tag) && Objects.equals(getStringValue(), oq.getStringValue());
     }
 
     @Override

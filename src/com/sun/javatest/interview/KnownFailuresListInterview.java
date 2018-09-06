@@ -29,6 +29,8 @@ package com.sun.javatest.interview;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
+
 import com.sun.interview.ErrorQuestion;
 import com.sun.interview.ExtensionFileFilter;
 import com.sun.interview.FileFilter;
@@ -152,7 +154,7 @@ public class KnownFailuresListInterview
         protected Question getNext() {
             if (value == null)
                 return null;
-            else if (value == YES)
+            else if (Objects.equals(value, YES))
                 return qCustomFiles;
             else
                 return qEnd;

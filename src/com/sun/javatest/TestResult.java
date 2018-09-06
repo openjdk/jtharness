@@ -400,7 +400,7 @@ public class TestResult {
             }
 
             // if not in the message section, line should have the section result
-            if (title != MSG_SECTION_NAME) {
+            if (!Objects.equals(title, MSG_SECTION_NAME)) {
                 if (line != null) {
                     if (line.startsWith(JTR_V2_SECTRESULT))
                         result = Status.parse(line.substring(JTR_V2_SECTRESULT.length()));
@@ -502,7 +502,7 @@ public class TestResult {
             }
 
             // the default message section does not need a result line
-            if (getTitle() != MSG_SECTION_NAME) {
+            if (!Objects.equals(getTitle(), MSG_SECTION_NAME)) {
                 out.write(JTR_V2_SECTRESULT + result.toString());
                 out.write(lineSeparator);
             }

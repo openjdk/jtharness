@@ -76,6 +76,7 @@ import com.sun.javatest.util.StringArray;
 import com.sun.javatest.tool.TestTreeSelectionPane;
 import com.sun.javatest.tool.UIFactory;
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
  * This filter allows the user to configure the filter using
@@ -861,9 +862,9 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
 
     // Utility methods
     private static String kwModeToType(String mode) {
-        if (mode == ALL_OF) {
+        if (Objects.equals(mode, ALL_OF)) {
             return "all of";
-        } else if (mode == ANY_OF) {
+        } else if (Objects.equals(mode, ANY_OF)) {
             return "any of";
         } else {
             return EXPR;
@@ -1034,13 +1035,13 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
             if (keywordsEnabled != incoming.keywordsEnabled) {
                 return false;
             } else {
-                if (keyChoice != incoming.keyChoice) {
+                if (!Objects.equals(keyChoice, incoming.keyChoice)) {
                     return false;
                 }
 
                 // destination of structure is to handle null values
                 if (keyString == null) {
-                    if (keyString != incoming.keyString) {
+                    if (!Objects.equals(keyString, incoming.keyString)) {
                         return false;
                     } else {
                     }

@@ -34,6 +34,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.Vector;
 import com.sun.javatest.util.StringArray;
 import java.io.PrintStream;
@@ -164,7 +165,7 @@ public class Map {
                     arg = arg.substring(0, index) + t + arg.substring(index + f.length());
                 }
             }
-            if (tracing && arg != args[i]) {
+            if (tracing && !Objects.equals(arg, args[i])) {
                 traceOut.println("MAPARG-from: " + args[i]);
                 traceOut.println("MAPARG-to:   " + arg);
             }

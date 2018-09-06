@@ -31,6 +31,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Vector;
 
 import com.sun.javatest.TestFinder;
@@ -576,7 +577,7 @@ public class HTMLTestFinder extends TestFinder
         skipSpace();
         while (c != '>') {
             String att = scanIdentifier();
-            if (att == "")
+            if (Objects.equals(att, ""))
                 throw new IOException("error parsing HTML input");
             String value = scanValue();
             skipSpace();

@@ -31,6 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Vector;
 import com.sun.interview.ChoiceQuestion;
 import com.sun.interview.ErrorQuestion;
@@ -90,17 +91,17 @@ public class ExcludeListInterview
 
     @Override
     public File[] getExcludeFiles() {
-        if (qNeedExcludeLists.getValue() == YesNoQuestion.YES) {
+        if (Objects.equals(qNeedExcludeLists.getValue(), YesNoQuestion.YES)) {
             TestSuite ts = parent.getTestSuite();
             String t = qExcludeListType.getValue();
-            if (t == INITIAL) {
+            if (Objects.equals(t, INITIAL)) {
                 File f = ts == null ? null : ts.getInitialExcludeList();
                 if (f == null)
                     return null;
                 else
                     return new File[] { f };
             }
-            else if (t == LATEST) {
+            else if (Objects.equals(t, LATEST)) {
                 URL u = ts == null ? null : ts.getLatestExcludeList();
                 if (u == null)
                     return null;
@@ -128,11 +129,11 @@ public class ExcludeListInterview
 
     @Override
     public int getExcludeMode() {
-        if (qNeedExcludeLists.getValue() == YesNoQuestion.YES) {
+        if (Objects.equals(qNeedExcludeLists.getValue(), YesNoQuestion.YES)) {
             String t = qExcludeListType.getValue();
-            if (t == INITIAL)
+            if (Objects.equals(t, INITIAL))
                 return INITIAL_EXCLUDE_LIST;
-            else if (t == LATEST)
+            else if (Objects.equals(t, LATEST))
                 return LATEST_EXCLUDE_LIST;
             else
                 return CUSTOM_EXCLUDE_LIST;
@@ -173,7 +174,7 @@ public class ExcludeListInterview
 
     @Override
     public boolean isLatestExcludeAutoCheckEnabled() {
-        return qLatestAutoCheck.getValue() == YesNoQuestion.YES;
+        return Objects.equals(qLatestAutoCheck.getValue(), YesNoQuestion.YES);
     }
 
     @Override
@@ -183,7 +184,7 @@ public class ExcludeListInterview
 
     @Override
     public int getLatestExcludeAutoCheckMode() {
-        return qLatestAutoCheckMode.getValue() == EVERY_X_DAYS
+        return Objects.equals(qLatestAutoCheckMode.getValue(), EVERY_X_DAYS)
                 ? CHECK_EVERY_X_DAYS : CHECK_EVERY_RUN;
     }
 
@@ -298,7 +299,7 @@ public class ExcludeListInterview
         protected Question getNext() {
             if (value == null)
                 return null;
-            else if (value == YES)
+            else if (Objects.equals(value, YES))
                 return qExcludeListType;
             else
                 return qEnd;
@@ -429,7 +430,7 @@ public class ExcludeListInterview
         protected Question getNext() {
             if (value == null)
                 return null;
-            else if (value == YES)
+            else if (Objects.equals(value, YES))
                 return qLatestAutoCheckMode;
             else
                 return checkExcludeList();

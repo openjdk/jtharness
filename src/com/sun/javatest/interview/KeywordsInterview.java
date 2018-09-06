@@ -29,6 +29,7 @@ package com.sun.javatest.interview;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import com.sun.interview.FinalQuestion;
@@ -83,7 +84,7 @@ public class KeywordsInterview
      */
     @Override
     public Keywords getKeywords() {
-        if (qNeedKeywords.getValue() == YesNoQuestion.YES) {
+        if (Objects.equals(qNeedKeywords.getValue(), YesNoQuestion.YES)) {
             updateCachedKeywordsData();
             return cachedKeywords;
         }
@@ -103,7 +104,7 @@ public class KeywordsInterview
 
     @Override
     public int getKeywordsMode() {
-        return qNeedKeywords.getValue() == YesNoQuestion.YES
+        return Objects.equals(qNeedKeywords.getValue(), YesNoQuestion.YES)
                 ? MATCH_KEYWORDS : NO_KEYWORDS;
     }
 
@@ -133,7 +134,7 @@ public class KeywordsInterview
      * @return a test filter based on the keyword expression in the interview.
      */
     public TestFilter getKeywordFilter() {
-        if (qNeedKeywords.getValue() == YesNoQuestion.YES) {
+        if (Objects.equals(qNeedKeywords.getValue(), YesNoQuestion.YES)) {
             updateCachedKeywordsData();
             return cachedKeywordsFilter;
         }
@@ -150,7 +151,7 @@ public class KeywordsInterview
         protected Question getNext() {
             if (value == null)
                 return null;
-            else if (value == YES)
+            else if (Objects.equals(value, YES))
                 return qKeywords;
             else
                 return qEnd;

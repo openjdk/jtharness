@@ -37,6 +37,7 @@ import com.sun.javatest.tool.FileHistory;
 import com.sun.javatest.util.I18NResourceBundle;
 import java.io.File;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Extension of the BasicConfig with template specific features.
@@ -151,7 +152,7 @@ public class TemplateSession extends BasicSession {
 
         String oldPath = templ.getTemplatePath();
         String newPath = ip.getTemplatePath();
-        if (oldPath != newPath && oldPath != null && !oldPath.equals(newPath)) {
+        if (!Objects.equals(oldPath, newPath) && oldPath != null && !oldPath.equals(newPath)) {
             try {
                 File templateFile = new File(newPath);
                 templ.load(templateFile);

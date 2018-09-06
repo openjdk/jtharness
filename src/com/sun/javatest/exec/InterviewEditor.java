@@ -41,6 +41,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.swing.BorderFactory;
@@ -715,7 +716,7 @@ public class InterviewEditor extends ToolDialog {
 
         Question mq = mainConfig.getCurrentQuestion();
         Question vq = viewConfig.getCurrentQuestion();
-        return !equal(mq.getTag(), vq.getTag());
+        return !Objects.equals(mq.getTag(), vq.getTag());
     }
 
 
@@ -804,7 +805,7 @@ public class InterviewEditor extends ToolDialog {
 
             String aProp = a.retrieveProperty(key);
             String bProp = b.retrieveProperty(key);
-            if (!equal(aProp, bProp)) {
+            if (!Objects.equals(aProp, bProp)) {
                 return false;
             }
         }
@@ -846,10 +847,6 @@ public class InterviewEditor extends ToolDialog {
         for (Observer obs: observers) {
             obs.changedVisibility(isVisible, this);
         }
-    }
-
-    private static boolean equal(String a, String b) {
-        return a == null || b == null ? a == b : a.equals(b);
     }
 
     @Override

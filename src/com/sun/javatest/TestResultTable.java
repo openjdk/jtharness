@@ -1599,7 +1599,7 @@ public class TestResultTable {
         for (String path: removeFrom) {
             for (String url: missingIn) {
                 // if a path is in distilled array - save it and continue with next
-                if (path == url) {
+                if (Objects.equals(path, url)) {
                     result[i++] = path;
                     continue outer;
                 }
@@ -1668,7 +1668,7 @@ public class TestResultTable {
 
         String newPath = behead(path);
 
-        if (path == newPath) {
+        if (Objects.equals(path, newPath)) {
             // this should be the test name, make it a leaf
 
             // last parameter allows the TR to be dropped if it does not exist
@@ -1955,7 +1955,7 @@ public class TestResultTable {
         String dir = TestResultTable.getDirName(path);
         TestResult tr = null;
 
-        if (dir == path) {
+        if (Objects.equals(dir, path)) {
             if (debug == 2 || debug == 99)
                 Debug.println("    -> Looking for TR in this node.");
 

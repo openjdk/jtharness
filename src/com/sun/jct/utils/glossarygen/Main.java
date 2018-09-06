@@ -43,6 +43,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
@@ -927,7 +928,7 @@ class Entry {
         skipSpace();
         while (c != '>') {
             String att = scanIdentifier();
-            if (att == "")
+            if (Objects.equals(att, ""))
                 throw new IOException("error parsing HTML input (" + file + ":" + line + ")");
             String value = scanValue();
             skipSpace();

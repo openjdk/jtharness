@@ -83,11 +83,11 @@ public class TestsInterview
      */
     @Override
     public String[] getTests() {
-        if (qNeedTests.getValue() == YesNoQuestion.YES) {
-            if (qTreeOrFile.getValue() == TREE) {
+        if (Objects.equals(qNeedTests.getValue(), YesNoQuestion.YES)) {
+            if (Objects.equals(qTreeOrFile.getValue(), TREE)) {
                 return qTestTree.getValue();
             }
-            else if(qTreeOrFile.getValue() == FILE) {
+            else if(Objects.equals(qTreeOrFile.getValue(), FILE)) {
                 return getTests(qTestFile.getValue());
             }
             else {
@@ -112,7 +112,7 @@ public class TestsInterview
 
     @Override
     public int getTestsMode() {
-        return qNeedTests.getValue() == YesNoQuestion.YES ? SPECIFIED_TESTS : ALL_TESTS;
+        return Objects.equals(qNeedTests.getValue(), YesNoQuestion.YES) ? SPECIFIED_TESTS : ALL_TESTS;
     }
 
     @Override
@@ -137,10 +137,10 @@ public class TestsInterview
         //String[] v = qTests.getValue();
 
         String[] v;
-        if (qTreeOrFile.getValue() == TREE) {
+        if (Objects.equals(qTreeOrFile.getValue(), TREE)) {
             v = qTestTree.getValue();
         }
-        else if (qTreeOrFile.getValue() == FILE) {
+        else if (Objects.equals(qTreeOrFile.getValue(), FILE)) {
             v = getTests(qTestFile.getValue());
         }
         else {
@@ -172,7 +172,7 @@ public class TestsInterview
             if (value == null) {
                 return null;
             }
-            else if (value == YES) {
+            else if (Objects.equals(value, YES)) {
                 return qTreeOrFile;
             }
             else {
@@ -220,7 +220,7 @@ public class TestsInterview
 
         @Override
         protected Question getNext() {
-            if (value == TREE) {
+            if (Objects.equals(value, TREE)) {
                 return qTestTree;
             }
             else {
@@ -543,7 +543,7 @@ public class TestsInterview
         }
 
         for (int i = 0; i < s1.length; i++) {
-            if (s1[i] != s2[i]) {
+            if (!Objects.equals(s1[i], s2[i])) {
                 return false;
             }
         }

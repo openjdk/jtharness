@@ -41,6 +41,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -434,7 +435,7 @@ public class Main {
         skipSpace();
         while (c != '>') {
             String att = scanIdentifier();
-            if (att == "")
+            if (Objects.equals(att, ""))
                 throw new IOException("error parsing HTML input (" + currFile + ":" + line + ")");
             String value = scanValue();
             skipSpace();

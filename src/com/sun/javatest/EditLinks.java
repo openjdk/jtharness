@@ -29,6 +29,7 @@ package com.sun.javatest;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import com.sun.javatest.util.I18NResourceBundle;
@@ -463,7 +464,7 @@ public class EditLinks
         skipSpace();
         while (c != '>') {
             String att = scanIdentifier();
-            if (att == "")
+            if (Objects.equals(att, ""))
                 throw new IOException(i18n.getString("editLinks.badHTML",
                         currFile, Integer.valueOf(line)));
             String value = scanValue();

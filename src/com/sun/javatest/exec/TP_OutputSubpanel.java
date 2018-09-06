@@ -33,6 +33,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Objects;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -539,7 +540,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
 
         // are we actually looking at the section being updated?
         entry = (TOCEntry) toc.getSelectedValue();
-        if (entry.getSection() == section && outputName == entry.getOutputName()) {
+        if (entry.getSection() == section && Objects.equals(outputName, entry.getOutputName())) {
             addText(section, outputName, text);
         }
     }
