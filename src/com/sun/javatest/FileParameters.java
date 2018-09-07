@@ -317,7 +317,7 @@ public class FileParameters
                 return;
             }
             for (TestEnvironment.Element entry : env.elements()) {
-                if (entry.value.indexOf("VALUE_NOT_DEFINED") >= 0) {
+                if (entry.value.contains("VALUE_NOT_DEFINED")) {
                     String eText =
                             (entry.definedInEnv == null ? "" : "env." + entry.definedInEnv + ".") +
                                     entry.key + "=" + entry.value;
@@ -461,10 +461,10 @@ public class FileParameters
             setPriorStatusValues((boolean[]) null);
         else {
             boolean[] b = new boolean[Status.NUM_STATES];
-            b[Status.PASSED]  = values.indexOf("pass") != -1;
-            b[Status.FAILED]  = values.indexOf("fail") != -1;
-            b[Status.ERROR]   = values.indexOf("erro") != -1;
-            b[Status.NOT_RUN] = values.indexOf("notr") != -1;
+            b[Status.PASSED]  = values.contains("pass");
+            b[Status.FAILED]  = values.contains("fail");
+            b[Status.ERROR]   = values.contains("erro");
+            b[Status.NOT_RUN] = values.contains("notr");
             setPriorStatusValues(b);
         }
     }

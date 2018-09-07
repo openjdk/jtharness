@@ -97,7 +97,7 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
             Class<? extends TestCase> tc = getClassLoader().loadClass(executeClass).asSubclass(TestCase.class);
             String name = tc.getName();
             String constructor = tc.getConstructors()[0].toGenericString();
-            test = constructor.indexOf("java.lang.String") > -1
+            test = constructor.contains("java.lang.String")
                     ? (TestCase)tc.getConstructors()[0].newInstance(name)
                     : tc.getDeclaredConstructor().newInstance();
             setTestCaseClass(test);

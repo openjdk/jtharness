@@ -263,7 +263,7 @@ public class MultiFormatPane extends JPanel implements Printable {
         String ext = filename.substring(filename.lastIndexOf('.') + 1);
         ext = ext.toLowerCase();
 
-        return (SUPPORTED_MEDIA_RESOURCE_EXTENSIONS.indexOf(ext) != -1) &&
+        return (SUPPORTED_MEDIA_RESOURCE_EXTENSIONS.contains(ext)) &&
                 !isMediaResourceSupported(url);
     }
 
@@ -618,7 +618,7 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
             }
 
             boolean loadManually = false;
-            if (mimeType.indexOf("plain") != -1) {
+            if (mimeType.contains("plain")) {
                 loadManually = true;
             }
 
@@ -672,9 +672,9 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
     }
 
     private EditorKit getKitByMIME(String mime) {
-        if(mime.indexOf("rtf") != -1)
+        if(mime.contains("rtf"))
             return rtfKit;
-        else if(mime.indexOf("html") != -1)
+        else if(mime.contains("html"))
             return htmlKit;
         else {
             return defaultKit;

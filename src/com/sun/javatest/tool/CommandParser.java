@@ -174,7 +174,7 @@ public class CommandParser
             throw new Fault(i18n, "cmdp.badOpt", arg);
         }
 
-        if (arg.indexOf(" ") >= 0) {
+        if (arg.contains(" ")) {
             // inline commands in a string
             // incidentally, means we don't support filenames with spaces in
             //OLD: read(arg, ctx);

@@ -157,7 +157,7 @@ public abstract class StringListQuestion extends Question
     public void setValue(String... newValue) {
         if (newValue != null) {
             for (String aNewValue : newValue) {
-                if (aNewValue == null || (aNewValue.indexOf("\n") != -1))
+                if (aNewValue == null || (aNewValue.contains("\n")))
                     throw new IllegalArgumentException();
             }
         }

@@ -273,7 +273,7 @@ public class EnvironmentInterview
                         for (Iterator<TestEnvironment.Element> i = cachedEnv.elements().iterator();
                              i.hasNext() && cachedEnvError == null; ) {
                             TestEnvironment.Element entry = i.next();
-                            if (entry.getValue().indexOf("VALUE_NOT_DEFINED") >= 0) {
+                            if (entry.getValue().contains("VALUE_NOT_DEFINED")) {
                                 cachedEnv = null;
                                 String eText =
                                         (entry.getDefinedInEnv() == null ? "" : "env." +  entry.getDefinedInEnv() + ".") +

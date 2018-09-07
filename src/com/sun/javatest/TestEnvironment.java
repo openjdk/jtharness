@@ -556,7 +556,7 @@ public class TestEnvironment
      */
     public boolean hasUndefinedValues() {
         for (Element entry : elements()) {
-            if (entry.value.indexOf("VALUE_NOT_DEFINED") >= 0)
+            if (entry.value.contains("VALUE_NOT_DEFINED"))
                 return true;
         }
         return false;

@@ -450,9 +450,9 @@ public class ExcludeList
             return b;
         else if (b == null || b.trim().length() == 0)
             return a;
-        else if (a.indexOf(b) != -1)
+        else if (a.contains(b))
             return a;
-        else if (b.indexOf(a) != -1)
+        else if (b.contains(a))
             return b;
         else
             return a + "; " + b;

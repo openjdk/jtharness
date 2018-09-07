@@ -410,7 +410,7 @@ class FilesPane extends JPanel {
         if (line == null || target == null)
             return false;
 
-        return line.indexOf(target) >= 0 ? true : false;
+        return line.contains(target) ? true : false;
     }
 
     private class XMLReportView extends FileView {

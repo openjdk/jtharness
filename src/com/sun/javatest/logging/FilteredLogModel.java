@@ -359,11 +359,11 @@ public class FilteredLogModel extends LogModel {
             }
             if (substring != null && !substring.isEmpty()) {
                 String header = rec.getHeader(logName).toUpperCase();
-                if (header.indexOf(substring) >= 0) {
+                if (header.contains(substring)) {
                     return true;
                 }
                 String message = model.getRecordMessage(rec).toUpperCase();
-                return message.indexOf(substring) >= 0;
+                return message.contains(substring);
             }
             return true;
         }

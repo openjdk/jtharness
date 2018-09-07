@@ -197,7 +197,7 @@ public class TestFinderQueue {
                 String n = f.getName();
                 // in pass 0, only select initial files without #
                 // in pass 1, only select initial files with #
-                if ((n.indexOf("#") != -1) == (pass == 0))
+                if ((n.contains("#")) == (pass == 0))
                     continue;
 
                 // ensure all absolute, or if relative, make them relative

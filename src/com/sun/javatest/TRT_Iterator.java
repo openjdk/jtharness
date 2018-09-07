@@ -423,7 +423,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                             int currIndex = frame.getCurrentIndex();
 
                             // special case where test is at top of testsuite
-                            if (testName.indexOf("/") == -1)
+                            if (!testName.contains("/"))
                                 pos = currIndex;
 
                             // possible outcomes:
@@ -495,7 +495,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                 String dir = TestResultTable.getDirName(partial);
                 partial = TestResultTable.behead(partial);
 
-                if (partial.indexOf("/") == -1) {
+                if (!partial.contains("/")) {
                     switch (checkTestPosition(currFrame, testName)) {
                     case -1:
                     case 0 :
