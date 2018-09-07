@@ -214,9 +214,6 @@ class EmptyTestTreeModel extends TestTreeModel implements TreeModel, TestResultT
         return filterHandler.getActiveFilter();
     }
 
-    void setActiveNode(TestResultTable.TreeNode node) {
-    }
-
     @Override
     void pauseWork() {
     }

@@ -691,7 +691,6 @@ class QuestionPanel extends JPanel
             showQuestion(q);
         }
 
-        public void finished() { }
 
     }
 

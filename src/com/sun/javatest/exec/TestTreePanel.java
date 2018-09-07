@@ -1545,9 +1545,6 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         tree.repaint();
     }
 
-    private void selectNodes(String... paths) {
-    }
-
     /**
      * Called when multiple nodes in the tree have been selected.
      * This method is invoked repeatably as the user adds more nodes to

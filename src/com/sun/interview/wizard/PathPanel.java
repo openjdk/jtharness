@@ -689,8 +689,6 @@ class PathPanel extends JPanel
             list.ensureIndexIsVisible(currIndex);
         }
 
-        public void finished() {
-        }
 
         void update() {
             update(currPath, currQuestion);

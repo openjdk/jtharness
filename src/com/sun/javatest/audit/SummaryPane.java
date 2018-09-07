@@ -266,8 +266,6 @@ class SummaryPane extends AuditPane {
         }
     }
 
-    private void writeEnvDetails() {
-    }
 
     private JEditorPane htmlPane;
     private Audit currAudit;

@@ -312,8 +312,6 @@ class EnvironmentBrowser extends ToolDialog
             }
         }
 
-        private void update() {
-        }
 
         @Override
         public synchronized int getRowCount() {
