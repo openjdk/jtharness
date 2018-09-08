@@ -447,11 +447,10 @@ public class IconFactory
         if (state < 0 || state >= NUM_STATES)
             throw new IllegalArgumentException(Integer.toString(state));
 
-        int index = state;
-        Icon testSectionIcon = testSectionIcons[index];
+        Icon testSectionIcon = testSectionIcons[state];
         if (testSectionIcon == null) {
             testSectionIcon = new TestSectionIcon(state);
-            testSectionIcons[index] = testSectionIcon;
+            testSectionIcons[state] = testSectionIcon;
         }
         return testSectionIcon;
     }

@@ -212,8 +212,7 @@ class MDIDeskView extends DeskView {
         if (f == null)
             return null;
 
-        Tool t = (Tool) f.getClientProperty(this);
-        return t;
+        return (Tool) f.getClientProperty(this);
     }
 
     @Override

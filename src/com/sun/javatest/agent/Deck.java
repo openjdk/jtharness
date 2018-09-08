@@ -61,10 +61,8 @@ class Deck extends Panel
      */
     @Override
     public Dimension preferredSize() {
-        Component comp = getCurrentCard();
-        Dimension d = comp.getPreferredSize();
 
-        return d;
+        return getCurrentCard().getPreferredSize();
     }
 
     @Override

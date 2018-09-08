@@ -79,9 +79,8 @@ class InfoPanel extends JComponent
     @Override
     public Dimension getPreferredSize() {
         Toolkit tk = Toolkit.getDefaultToolkit();
-        Dimension d = new Dimension(PREFERRED_WIDTH*tk.getScreenResolution(),
+        return new Dimension(PREFERRED_WIDTH*tk.getScreenResolution(),
                                     PREFERRED_HEIGHT*tk.getScreenResolution());
-        return d;
     }
 
     private Interview interview;

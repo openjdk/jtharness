@@ -86,9 +86,7 @@ class HelpMenu extends JMenu
         Set<TestSuite> loadedTestSuites = new TreeSet<>(new Comparator<TestSuite>() {
             @Override
                 public int compare(TestSuite o1, TestSuite o2) {
-                    TestSuite ts1 = o1;
-                    TestSuite ts2 = o2;
-                    return ts1.getName().compareTo(ts2.getName());
+                return o1.getName().compareTo(o2.getName());
                 }
             });
         Tool selTool = desktop.getSelectedTool();

@@ -540,8 +540,7 @@ public class Harness
         if (isRunning() == false || numTestsDone == 0)
             return 0L;
 
-        long estRemain = getElapsedTime() * (getTestsFoundCount() - numTestsDone) / numTestsDone;
-        return estRemain;
+        return getElapsedTime() * (getTestsFoundCount() - numTestsDone) / numTestsDone;
     }
 
     /**

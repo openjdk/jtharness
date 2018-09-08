@@ -1008,7 +1008,7 @@ public class UIFactory {
         I18NResourceBundle save_i18n = i18n;
         try {
             i18n = local_i18n;
-            JButton b = createButton(uiKey, new ActionListener() {
+            return createButton(uiKey, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         Component c = (Component) e.getSource();
@@ -1017,7 +1017,6 @@ public class UIFactory {
                         op.setVisible(false);
                     }
                 });
-            return b;
         }
         finally {
             i18n = save_i18n;

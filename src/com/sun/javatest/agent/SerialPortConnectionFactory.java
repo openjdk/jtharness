@@ -69,9 +69,8 @@ public class SerialPortConnectionFactory implements ConnectionFactory
     @Override
     public synchronized Connection nextConnection() throws ConnectionFactory.Fault {
         try {
-            Connection c = new SerialPortConnection(portId, app, timeout);
             //System.err.println("Created connection: " + c.getName());
-            return c;
+            return new SerialPortConnection(portId, app, timeout);
         }
         catch (InterruptedException | IOException e) {
             System.err.println("Error connection: " + e);

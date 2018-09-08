@@ -725,8 +725,7 @@ class TT_NodeCache implements Runnable {
      * Determine the index of a particular test in a vector.
      */
     private int searchList(TestResult target, Vector<?> list) {
-        int possible = list.indexOf(target);
-        return possible;
+        return list.indexOf(target);
     }
 
     private void cleanup() {

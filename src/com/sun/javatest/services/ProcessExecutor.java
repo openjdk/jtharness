@@ -133,10 +133,9 @@ public class ProcessExecutor implements ServiceExecutor {
             proc.waitFor();
         } catch (InterruptedException ex) {}
 
-        Message rsps = new Message(MessageType.STOPPED, "Process stopped successfully.\n" +
+        //        proc = null;
+        return new Message(MessageType.STOPPED, "Process stopped successfully.\n" +
                 "Exit value: " + proc.exitValue());
-//        proc = null;
-        return rsps;
     }
 
     @Override

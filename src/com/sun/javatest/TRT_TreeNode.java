@@ -501,9 +501,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             throw new JavaTestError(i18n, "trttn.nullSearch");
 
         // we match on the JTR path, which should be equivalent to the test URL
-        int location = getResultIndex(TestResult.getWorkRelativePath(url),
-                                      false);
-        return location;
+        return getResultIndex(TestResult.getWorkRelativePath(url), false);
     }
 
     /**
@@ -556,9 +554,8 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             throw new JavaTestError(i18n, "trttn.nullSearch");
 
         // we match on the JTR path, which should be equivalent to the test URL
-        int location = getResultIndex(target.getWorkRelativePath(),
+        return getResultIndex(target.getWorkRelativePath(),
                                       suppressScan);
-        return location;
     }
 
     /**

@@ -108,10 +108,9 @@ class XMLReportWriter {
     static Date ISO8601toDate(String dateStr) throws ParseException {
         DateFormat dfISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         // format in (almost) ISO8601 format
-        Date date = dfISO8601.parse(dateStr.substring(0, 22)
-                + dateStr.substring(23));
         // remap the timezone from 0000 to 00:00 (starts at char 22)
-        return date;
+        return dfISO8601.parse(dateStr.substring(0, 22)
+                + dateStr.substring(23));
     }
 
     private void sReport() throws SAXException {

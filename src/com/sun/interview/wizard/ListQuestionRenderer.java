@@ -213,8 +213,7 @@ public class ListQuestionRenderer
         }
 
         private ListQuestion.Body[] getBodies() {
-            ListQuestion.Body[] bodies = (ListQuestion.Body[]) getItems(ListQuestion.Body.class);
-            return bodies;
+            return (ListQuestion.Body[]) getItems(ListQuestion.Body.class);
         }
 
         private String escape(String text) {

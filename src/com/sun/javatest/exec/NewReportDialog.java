@@ -1552,23 +1552,22 @@ class NewReportDialog extends ToolDialog
         @Override
         public Component getListCellRendererComponent(
                     JList<? extends JComponent> list,
-                    JComponent value,
+                    JComponent component,
                     int index,
                     boolean isSelected,
                     boolean cellHasFocus) {
-            // assert: value is a JCheckBox
-            JComponent comp = value;
+            // assert: component is a JCheckBox
             if (isSelected) {
-                comp.setOpaque(true);
-                comp.setBackground(list.getSelectionBackground());
-                comp.setForeground(list.getSelectionForeground());
+                component.setOpaque(true);
+                component.setBackground(list.getSelectionBackground());
+                component.setForeground(list.getSelectionForeground());
             }
             else {
-                comp.setOpaque(false);
-                comp.setForeground(list.getForeground());
+                component.setOpaque(false);
+                component.setForeground(list.getForeground());
             }
 
-            return comp;
+            return component;
          }
     }
 

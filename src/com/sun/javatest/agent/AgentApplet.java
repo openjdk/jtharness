@@ -264,7 +264,7 @@ public class AgentApplet extends Applet implements Agent.Observer
      */
     @Override
     public String[][] getParameterInfo() {
-        String[][] pinfo = {
+        return new String[][]{
             {"mode",       "\"active\" or \"passive\"",
                                         "the mode for the agent"},
             {"activeHost",  "hostname", "the host for active connections"},
@@ -275,7 +275,6 @@ public class AgentApplet extends Applet implements Agent.Observer
             {"history",     "int",      "the size of the execution history"},
             {"trace",       "boolean",  "trace the execution of the agent"}
         };
-        return pinfo;
     }
 
     private int getIntParameter(String name, int dflt) {

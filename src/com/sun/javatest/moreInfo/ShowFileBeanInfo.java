@@ -43,7 +43,7 @@ public class ShowFileBeanInfo extends SimpleBeanInfo
     @Override
     public PropertyDescriptor[] getPropertyDescriptors() {
         try {
-            PropertyDescriptor[] pds = {
+            return new PropertyDescriptor[]{
                 new PropertyDescriptor("path",       ShowFile.class),
                 new PropertyDescriptor("startLine",  ShowFile.class),
                 new PropertyDescriptor("text",       ShowFile.class),
@@ -51,7 +51,6 @@ public class ShowFileBeanInfo extends SimpleBeanInfo
                 new PropertyDescriptor("textColor",  ShowFile.class),
                 new PropertyDescriptor("title",      ShowFile.class)
             };
-            return pds;
         }
         catch (Exception e) {
             e.printStackTrace();

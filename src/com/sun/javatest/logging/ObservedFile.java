@@ -71,9 +71,7 @@ public class ObservedFile extends File {
         getRecordInexFile().renameTo(toRecInd);
         getLoggersInexFile().renameTo(toLogInd);
 
-        boolean retval = !exists() && !getRecordInexFile().exists() && !getLoggersInexFile().exists();
-
-        return retval;
+        return !exists() && !getRecordInexFile().exists() && !getLoggersInexFile().exists();
     }
 
     private String getRecordInexName() {

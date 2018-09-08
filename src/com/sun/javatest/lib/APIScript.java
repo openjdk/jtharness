@@ -83,9 +83,8 @@ public class APIScript extends Script
         // execute
         String executeClass  = td.getParameter("executeClass");
         String executeArgs   = td.getParameter("executeArgs");
-        Status executeStatus = execute(TEST_EXECUTE, executeClass, executeArgs);
 
-        return executeStatus;
+        return execute(TEST_EXECUTE, executeClass, executeArgs);
     } // run()
 
     //----------private methods-------------------------------------------------

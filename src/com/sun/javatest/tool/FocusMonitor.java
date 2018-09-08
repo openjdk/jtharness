@@ -387,8 +387,7 @@ class FocusMonitor
         if (window == null)
             return null;
 
-        Component toFocus = window.getFocusTraversalPolicy().getDefaultComponent(window);
-        return toFocus;
+        return window.getFocusTraversalPolicy().getDefaultComponent(window);
     }
 
     private static String getKeysString(Component c, int mode) {

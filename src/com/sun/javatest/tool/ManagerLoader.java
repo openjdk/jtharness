@@ -223,8 +223,7 @@ class ManagerLoader
 
         // create CL
         try {
-            URLClassLoader cl = new URLClassLoader(urls);
-            return cl;
+            return new URLClassLoader(urls);
         } catch (SecurityException e) {
             if (log != null) {
                 log.println("Unable to create custom class loader to load tool managers:");

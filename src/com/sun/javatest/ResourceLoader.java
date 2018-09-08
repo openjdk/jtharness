@@ -59,14 +59,13 @@ public class ResourceLoader {
             if (url != null) {
                 return url.openStream();
             } else {
-                InputStream is = AccessController.doPrivileged(
+                return AccessController.doPrivileged(
                         new PrivilegedAction<InputStream>() {
                             @Override
                             public InputStream run() {
                                 return ownClass.getResourceAsStream(name);
                             }
                         });
-                return is;
             }
         } catch (IOException e) {
             return null;
@@ -209,14 +208,13 @@ public class ResourceLoader {
     }
 
     private static ResourceBundle getSBundle(final String name, final Locale locale, final ClassLoader cl) {
-        ResourceBundle bundle = AccessController.doPrivileged(
+        return AccessController.doPrivileged(
                 new PrivilegedAction<ResourceBundle>() {
                     @Override
                     public ResourceBundle run() {
                         return ResourceBundle.getBundle(name, locale, cl);
                     }
                 });
-        return bundle;
     }
 
     private static ClassLoader altClassLoader;

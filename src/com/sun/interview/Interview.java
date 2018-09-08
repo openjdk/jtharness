@@ -831,8 +831,7 @@ public class Interview
     public boolean isFinishable() {
         ensurePathInitialized();
 
-        Interview i = root;
-        return i.path.lastQuestion() instanceof FinalQuestion;
+        return root.path.lastQuestion() instanceof FinalQuestion;
     }
 
     /**

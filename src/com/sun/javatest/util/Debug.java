@@ -140,9 +140,8 @@ public class Debug {
 
         String key = getName(c);
         String setting = getSetting(key);
-        boolean state = convertToBool(setting);
 
-        return state;
+        return convertToBool(setting);
     }
 
     /**
@@ -170,9 +169,8 @@ public class Debug {
 
         String key = buf.toString();
         String setting = getSetting(key);
-        boolean state = convertToBool(setting);
 
-        return state;
+        return convertToBool(setting);
     }
 
     /**
@@ -187,9 +185,8 @@ public class Debug {
             return false;
 
         String setting = getSetting(s);
-        boolean state = convertToBool(setting);
 
-        return state;
+        return convertToBool(setting);
     }
 
     /**
@@ -208,9 +205,8 @@ public class Debug {
 
         String key = getName(c);
         String setting = getSetting(key);
-        int state = convertToInt(setting);
 
-        return state;
+        return convertToInt(setting);
     }
 
     /**
@@ -238,9 +234,8 @@ public class Debug {
 
         String key = buf.toString();
         String setting = getSetting(key);
-        int state = convertToInt(setting);
 
-        return state;
+        return convertToInt(setting);
     }
 
     /**
@@ -398,8 +393,7 @@ public class Debug {
             return 1;
         else {
             try {
-                int num = Integer.parseInt(setting);
-                return num;
+                return Integer.parseInt(setting);
             }
             catch (NumberFormatException e) {
                 // not "true", not an integer

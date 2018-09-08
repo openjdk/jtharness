@@ -79,8 +79,7 @@ public class JavaHelpFactory implements HelpSetFactory {
                 throw new HelpNotFoundFault(i18n, "interview.cantFindHelp",
                         file.getPath());
             }
-            HelpSet helpset = new HelpSet(cl, url);
-            return helpset;
+            return new HelpSet(cl, url);
         } catch (MalformedURLException e) {
             throw new HelpNotFoundFault(i18n, "interview.cantFindHelp", file.getPath());
         }

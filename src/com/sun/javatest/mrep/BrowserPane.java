@@ -222,7 +222,7 @@ class BrowserPane extends JPanel {
             // would be nice if Swing did this for us
             @Override
             protected ComboPopup createPopup() {
-                BasicComboPopup popup = new BasicComboPopup(selectBox) {
+                return new BasicComboPopup(selectBox) {
                     @Override
                     protected JScrollPane createScroller() {
                         return new JScrollPane(list,
@@ -230,7 +230,6 @@ class BrowserPane extends JPanel {
                             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
                     }
                 };
-                return popup;
             }
             }   // class
             );

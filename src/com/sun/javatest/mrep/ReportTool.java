@@ -279,11 +279,10 @@ class ReportTool extends Tool {
                             if (Thread.currentThread().isInterrupted()) {
                                 return;
                             }
-                            CustomReport cr = customReport;
-                            ReportSettings re = cr.getReportEnviroment();
+                            ReportSettings re = customReport.getReportEnviroment();
                             re.setMergingFiles(in);
                             re.setXMLReportFile(xmlOut);
-                            cr.createReport(new File(out, cr.getReportId()));
+                            customReport.createReport(new File(out, customReport.getReportId()));
                         }
 
                         waitDialogController.finish();

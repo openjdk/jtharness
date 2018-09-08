@@ -1205,10 +1205,9 @@ public class ConfigManager
                 if (!f.isAbsolute()) {
                     f = new File(path.getPath(), cp);
                 }
-                URLClassLoader cl = new URLClassLoader(new URL[] {f.toURL()},
-                                            this.getClass().getClassLoader());
 
-                return cl;
+                return new URLClassLoader(new URL[] {f.toURL()},
+                                            this.getClass().getClassLoader());
             }
             // catch all possible exceptions from ResourceBundle
             catch (MissingResourceException | IOException | ClassCastException | NullPointerException m) {

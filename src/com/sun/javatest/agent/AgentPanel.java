@@ -673,8 +673,7 @@ class AgentPanel extends ScrollPane
                 URL url = getClass().getResource(name);
                 if (url == null)
                     return null;
-                Icon icon = new Icon(url);
-                return icon;
+                return new Icon(url);
             }
             catch (RuntimeException | Error e) {
                 return null;

@@ -523,11 +523,9 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     }
 
     private JComponent[] createTabPanels() {
-        JComponent[] items = {createTestsPanel(), createKeywordPanel(),
+        return new JComponent[] {createTestsPanel(), createKeywordPanel(),
             createStatusPanel(), createExcludePanel(),
             createSpecialPanel()};
-
-        return items;
     }
 
     // KEYWORD PANEL

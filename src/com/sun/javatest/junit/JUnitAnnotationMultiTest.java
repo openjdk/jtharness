@@ -85,8 +85,7 @@ public class JUnitAnnotationMultiTest extends JUnitMultiTest {
     protected void setup(String executeClass) {
 
         try {
-            Class<?> junitTestCaseClass = getClassLoader().loadClass(executeClass);
-            testCaseClass = junitTestCaseClass;
+            testCaseClass = getClassLoader().loadClass(executeClass);
 
 
         } catch (ClassNotFoundException e){

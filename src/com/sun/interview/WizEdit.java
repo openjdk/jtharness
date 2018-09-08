@@ -294,8 +294,7 @@ public class WizEdit
                 //      + replaceText
                 //      + answer.substring(pos+searchText.length());
                 if (answer.equalsIgnoreCase(searchText)) {
-                    String newAnswer = replaceText;
-                    q.setValue(newAnswer);
+                    q.setValue(replaceText);
 
                     if (verbose) {
                         Map<String, String> h = new Hashtable<>();

@@ -563,8 +563,7 @@ public class AgentManager
                         } catch (IOException e) {
                             //codeSource will not be set
                         }
-                        AgentRemoteClassData classData = new AgentRemoteClassData(name, codeSource, data);
-                        return classData;
+                        return new AgentRemoteClassData(name, codeSource, data);
                     }
                 }
             }

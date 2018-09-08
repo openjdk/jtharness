@@ -157,9 +157,8 @@ public class JavaTestToolBar extends JToolBar {
      **/
     void load(Map<String, Object> map) {
         for (String okey : map.keySet()) {
-            String key = okey;
             String tbKey = USER_TOOLBAR_PREF + getId();
-            if (key.contains(tbKey)) {
+            if (okey.contains(tbKey)) {
                 state.put(okey, map.get(okey));
             }
         }

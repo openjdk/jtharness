@@ -117,8 +117,7 @@ public class AntService extends Service {
         }
         params.setCommand(command);
 
-        Message start = new Message(MessageType.START, params);
-        return start;
+        return new Message(MessageType.START, params);
     }
 
     /**

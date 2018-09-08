@@ -438,10 +438,9 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
      * @return -1 for none.
      */
     private int getPreferenceCount(Preferences p) {
-        int numFilters = Integer.parseInt(
-                            p.getPreference(FILTER_PREFIX + ".count", "0"));
 
-        return numFilters;
+        return Integer.parseInt(
+                            p.getPreference(FILTER_PREFIX + ".count", "0"));
     }
 
     private FilterConfig fConfig;

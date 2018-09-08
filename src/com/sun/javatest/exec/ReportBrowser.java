@@ -150,8 +150,7 @@ class ReportBrowser extends ToolDialog
             };
 
         Action[] actions = { newReport, openReport, null, printSetup, print, null, close };
-        JMenu fileMenu = uif.createMenu("rb.file", actions );
-        return fileMenu;
+        return uif.createMenu("rb.file", actions );
     }
 
     private JMenu createHelpMenu() {

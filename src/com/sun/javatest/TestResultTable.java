@@ -2009,8 +2009,7 @@ public class TestResultTable {
         // if url is exec/index.html#ExecSucc
         // that should match a test with exactly that name
         String jtrPath = TestResult.getWorkRelativePath(url);
-        TestResult tr = findTest(where, jtrPath, jtrPath);
-        return tr;      // may be null
+        return findTest(where, jtrPath, jtrPath);      // may be null
     }
 
     /**

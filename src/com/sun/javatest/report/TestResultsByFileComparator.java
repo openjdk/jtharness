@@ -48,8 +48,7 @@ class TestResultsByFileComparator implements Comparator<TestResult> {
             int rf = compare(da.getFile().getPath(), db.getFile().getPath());
             if (rf != 0)
                 return rf;
-            int rr = compare(da.getId(), db.getId());
-            return rr;
+            return compare(da.getId(), db.getId());
         }
         catch (TestResult.Fault e) {
             // bad files go at the end ?

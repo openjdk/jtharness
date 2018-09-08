@@ -152,8 +152,7 @@ class SDIDeskView extends DeskView {
             public void windowActivated(WindowEvent e) {
                 JFrame f = (JFrame) e.getSource();
                 if (f.getContentPane() instanceof Tool) {
-                    Tool t = (Tool) f.getContentPane();
-                    selectedTool = t;
+                    selectedTool = (Tool) f.getContentPane();
                 }
             }
 

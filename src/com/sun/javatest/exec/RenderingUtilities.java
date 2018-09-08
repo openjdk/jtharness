@@ -142,11 +142,10 @@ class RenderingUtilities {
 
         @Override
         public Component getListCellRendererComponent(JList<? extends TestFilter> list,
-                                                      TestFilter value, int index, boolean isSelected, boolean cellHasFocus) {
+                                                      TestFilter filter, int index, boolean isSelected, boolean cellHasFocus) {
 
             String name = null;
 
-            TestFilter filter = value;
             name = filter.getName();
 
             //setToolTipText(filter.getDescription());
