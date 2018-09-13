@@ -152,11 +152,11 @@ public class AgentApplet extends Applet implements Agent.Observer
 
         AgentPanel.MapReader mapReader = new AgentPanel.MapReader() {
             @Override
-            public Map read(String name) throws IOException {
+            public ConfigValuesMap read(String name) throws IOException {
                 if (name == null || name.length() == 0)
                     return null;
                 else {
-                    Map m = Map.readURL(new URL(getDocumentBase(), name));
+                    ConfigValuesMap m = ConfigValuesMap.readURL(new URL(getDocumentBase(), name));
                     m.setTracing(tracing, System.out);
                     return m;
                 }

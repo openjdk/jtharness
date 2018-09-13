@@ -195,7 +195,7 @@ public class Agent implements Runnable {
      * map substitution facility.
      * @param map       The translation map to be used.
      */
-    public synchronized void setMap(Map map) {
+    public synchronized void setMap(ConfigValuesMap map) {
         this.map = map;
         if (tracing) {
             if (map == null)
@@ -558,7 +558,7 @@ public class Agent implements Runnable {
 
     public static final int MILLIS_PER_SECOND = 1000;
 
-    private Map map;
+    private ConfigValuesMap map;
     private Timer timer;
 
     /* For autonumbering agent tasks. */

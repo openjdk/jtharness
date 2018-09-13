@@ -61,7 +61,7 @@ import java.io.PrintStream;
 class AgentPanel extends ScrollPane
 {
     public interface MapReader {
-        public abstract Map read(String name) throws IOException;
+        public abstract ConfigValuesMap read(String name) throws IOException;
     }
 
     /**
@@ -873,7 +873,7 @@ class AgentPanel extends ScrollPane
         public Agent createAgent() throws BadValue, ConnectionFactory.Fault, IOException {
             // should consider catching IllegalArgumentException in here
             // and IllegalState?
-            Map map = mapReader.read(mapFileField.getText());
+            ConfigValuesMap map = mapReader.read(mapFileField.getText());
             int concurrency = getInt("concurrency", concurrencyField);
             if (!Agent.isValidConcurrency(concurrency)) {
                 throw new BadValue("Bad value for `concurrency field': " + concurrency);

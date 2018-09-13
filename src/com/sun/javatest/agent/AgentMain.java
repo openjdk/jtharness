@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.sun.javatest.JavaTestSecurityManager;
 import com.sun.javatest.Status;
@@ -480,14 +481,14 @@ public class AgentMain {
         // problematic, because INetAddress fails the verifier.
         if (mapFile != null) {
             try {
-                agent.setMap(Map.readFileOrURL(mapFile));
+                agent.setMap(ConfigValuesMap.readFileOrURL(mapFile));
             }
             catch (IOException e) {
                 String[] msgs = {"Problem reading map file", e.toString()};
                 throw new Fault(msgs);
             }
         } else if (mappedArgs.size() > 0) {
-            agent.setMap(new Map(mappedArgs));
+            agent.setMap(new ConfigValuesMap(mappedArgs));
         }
 
         Integer delay = Integer.getInteger("agent.retry.delay");
@@ -542,7 +543,7 @@ public class AgentMain {
     private String serialPort = null;
     private int concurrency = 1;
     private String mapFile = null;
-    private java.util.Map<String, String> mappedArgs = new HashMap<>();
+    private Map<String, String> mappedArgs = new HashMap<>();
     private String observerClassName;
     private boolean tracing;
 

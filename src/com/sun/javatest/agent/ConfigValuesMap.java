@@ -34,6 +34,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
 import com.sun.javatest.util.StringArray;
@@ -48,7 +49,7 @@ import java.io.PrintStream;
  * This facility has been largely superceded by the map substitution mechanism
  * provided by environment files.
  */
-public class Map {
+public class ConfigValuesMap {
     /**
      * Read a map from a specified file.  This code is deliberately
      * written to tolerate Java platforms without a file system ...
@@ -59,11 +60,11 @@ public class Map {
      * @return The map read from the given file
      * @throws IOException if any errors occurred reading the file
      */
-    public static Map readFile(String name) throws IOException {
+    public static ConfigValuesMap readFile(String name) throws IOException {
         try {
             Class<? extends Reader> clazz = Class.forName("java.io.FileReader").asSubclass(Reader.class);
             Reader r = clazz.getConstructor(String.class).newInstance(name);
-            return new Map(r);
+            return new ConfigValuesMap(r);
         }
         catch (ClassNotFoundException e) {
             throw new IOException("file system not accessible (" + e + ")");
@@ -86,8 +87,8 @@ public class Map {
      * @return The map read from the given URL
      * @throws IOException if any errors occurred reading the URL
      */
-    public static Map readURL(URL u) throws IOException {
-        return new Map(new InputStreamReader(u.openStream(), StandardCharsets.UTF_8.name()));
+    public static ConfigValuesMap readURL(URL u) throws IOException {
+        return new ConfigValuesMap(new InputStreamReader(u.openStream(), StandardCharsets.UTF_8.name()));
     }
 
 
@@ -100,7 +101,7 @@ public class Map {
      * @return The map read from the given location
      * @throws IOException if any errors occurred reading the map
      */
-    public static Map readFileOrURL(String name) throws IOException {
+    public static ConfigValuesMap readFileOrURL(String name) throws IOException {
         if (name.length() > 5 && name.substring(0, 5).equalsIgnoreCase("http:"))
             return readURL(new URL(name));
         else
@@ -118,7 +119,7 @@ public class Map {
      *                  after it has been completely read
      * @throws IOException if problems occur while reading the map data.
      */
-    public Map(Reader r) throws IOException {
+    public ConfigValuesMap(Reader r) throws IOException {
         BufferedReader in =
                 r instanceof BufferedReader ? (BufferedReader)r : new BufferedReader(r)
 ;
@@ -178,11 +179,11 @@ public class Map {
      *
      * @param map the java.util.Map instance to take key-value pairs from
      */
-    public Map(java.util.Map<String, String> map) {
+    public ConfigValuesMap(Map<String, String> map) {
         fromValues = new String[map.size()];
         toValues = new String[map.size()];
         int index = 0;
-        for (java.util.Map.Entry<String, String> entry : map.entrySet()) {
+        for (Map.Entry<String, String> entry : map.entrySet()) {
             fromValues[index] = entry.getKey();
             toValues[index] = entry.getValue();
             index++;

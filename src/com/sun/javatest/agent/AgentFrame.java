@@ -333,14 +333,14 @@ public class AgentFrame extends Frame
 
         panel = new AgentPanel(modeOptions, new AgentPanel.MapReader() {
             @Override
-            public Map read(String name) throws IOException {
+            public ConfigValuesMap read(String name) throws IOException {
                 // Experiments indicate that the following code works OK
                 // on versions of PersonalJava that do not support local file systems.
                 // Just specify the map file as an http: URL.
                 if (name == null || name.length() == 0)
                     return null;
                 else
-                    return Map.readFileOrURL(name);
+                    return ConfigValuesMap.readFileOrURL(name);
             }
         });
 
