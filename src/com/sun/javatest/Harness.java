@@ -845,7 +845,7 @@ public class Harness
         return result;
     }
 
-    private static String formatFilterList(final ArrayList<String> names) {
+    private static String formatFilterList(final List<String> names) {
         if (names == null || names.size() == 0)
             return "";
 

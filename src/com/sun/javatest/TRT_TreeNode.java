@@ -769,8 +769,8 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             // need to update lastScanDate before the loop to avoid
             // excessive recursion
             lastScanDate = thisScanDate;
-            ArrayList<TreeNode> nodesUsed = new ArrayList<>();
-            ArrayList<TestResult> usedTests = new ArrayList<>();
+            List<TreeNode> nodesUsed = new ArrayList<>();
+            List<TestResult> usedTests = new ArrayList<>();
 
             for (File file : files) {
                 if (table.isBranchFile(file)) {

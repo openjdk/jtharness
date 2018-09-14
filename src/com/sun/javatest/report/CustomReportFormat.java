@@ -133,7 +133,7 @@ public class CustomReportFormat implements ReportFormat {
 
 
     private CustomReport theCustomReport;
-    private ArrayList<ReportFormat> subreports = new ArrayList<>();
+    private List<ReportFormat> subreports = new ArrayList<>();
     private static final List<CustomReport> NO_REPORTS = Collections.emptyList();
 
 

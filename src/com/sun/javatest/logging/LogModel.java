@@ -34,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -439,8 +440,8 @@ public class LogModel {
     private ArrayList<String> loggers;
     private ArrayList<LiteLogRecord> records;
 
-    private ArrayList<LoggerListener> loggerListeners = new ArrayList<>();
-    private ArrayList<NewPageListener> pageListeners = new ArrayList<>();
+    private List<LoggerListener> loggerListeners = new ArrayList<>();
+    private List<NewPageListener> pageListeners = new ArrayList<>();
     private MessageCache messageCache = new MessageCache();
     private String file;
     private RandomAccessFile mirrorFile;

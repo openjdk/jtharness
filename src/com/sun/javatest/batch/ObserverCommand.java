@@ -33,6 +33,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 
@@ -53,7 +55,7 @@ class ObserverCommand extends Command
         return new HelpTree.Node(i18n, "cmgr.help.observer", opts);
     }
 
-    ObserverCommand(ListIterator<String> argIter) throws Fault {
+    ObserverCommand(Iterator<String> argIter) throws Fault {
         super(getName());
 
         Vector<String> v = null;
@@ -162,7 +164,7 @@ class ObserverCommand extends Command
         return classLoader == null ? Class.forName(name) : classLoader.loadClass(name);
     }
 
-    private void addClassPathEntry(String s, Vector<URL> v) throws Fault {
+    private void addClassPathEntry(String s, List<URL> v) throws Fault {
         try {
             if (s.length() > 0)
                 v.add(new File(s).toURL());

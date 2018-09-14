@@ -34,6 +34,7 @@ import com.sun.javatest.TestResultTable;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.I18NResourceBundle;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Base class for the individual displays of the BranchPanel.
@@ -109,7 +110,7 @@ abstract class BP_BranchSubpanel extends JPanel {
         }
 
         TT_BasicNode spot = root;
-        ArrayList<TT_TreeNode> list = new ArrayList<>(path.length + 1);
+        List<TT_TreeNode> list = new ArrayList<>(path.length + 1);
         list.add(root);
         for (int i = 1; i < path.length; i++) {
             try {

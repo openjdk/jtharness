@@ -624,7 +624,7 @@ public class TestResultTable {
         if (target == null)
             return null;
 
-        ArrayList<TreeNode> path = new ArrayList<>();
+        List<TreeNode> path = new ArrayList<>();
         TreeNode loc = target.getParent();
         while (loc != null) {
             path.add(0, loc);
@@ -660,7 +660,7 @@ public class TestResultTable {
         if (target == null)
             return null;
 
-        ArrayList<TreeNode> path = new ArrayList<>();
+        List<TreeNode> path = new ArrayList<>();
         TreeNode loc = target;
         while (loc != null) {
             path.add(0, loc);

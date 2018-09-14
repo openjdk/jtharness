@@ -229,7 +229,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                 InterviewParameters ip = (InterviewParameters)p;
                 InterviewParameters clone = ip.getWorkDirectory().getTestSuite().createInterview();
                 clone.setWorkDirectory(ip.getWorkDirectory());
-                HashMap<String, String> data = new HashMap<>();
+                Map<String, String> data = new HashMap<>();
                 ip.save(data);
                 clone.load(data, false);
                 return clone;

@@ -28,6 +28,7 @@ package com.sun.interview;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -342,7 +343,7 @@ public abstract class FileListQuestion extends Question
 
         char sep = s.indexOf('\n') == -1 ? ' ' : '\n';
 
-        ArrayList<File> v = new ArrayList<>();
+        List<File> v = new ArrayList<>();
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == sep) {

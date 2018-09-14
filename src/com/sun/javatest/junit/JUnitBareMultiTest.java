@@ -33,6 +33,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -161,5 +162,5 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
     protected SortedMap <String, Method> tests;
 
     protected String testCases[] = null;
-    protected Vector<String> excludeTestCases = new Vector<>();
+    protected List<String> excludeTestCases = new Vector<>();
 }

@@ -32,6 +32,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.tree.TreeModel;
@@ -514,7 +515,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         if (path == null || path.length() == 0 || root == null) {
             return null;
         }
-        ArrayList<TT_TreeNode> al = new ArrayList<>();
+        List<TT_TreeNode> al = new ArrayList<>();
         al.add(root);
         TT_BasicNode spot = root;
 
@@ -665,7 +666,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     }
 
     TreePath[] urlsToPaths(String... urls) {
-        ArrayList<TreePath> result = new ArrayList<>();
+        List<TreePath> result = new ArrayList<>();
 
         for (String url : urls) {
             TreePath thisOne = urlToPath(url);

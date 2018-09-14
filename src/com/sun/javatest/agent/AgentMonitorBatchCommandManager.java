@@ -27,6 +27,7 @@
 package com.sun.javatest.agent;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.ListIterator;
 
 import com.sun.javatest.tool.Command;
@@ -90,7 +91,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
             return "agentPoolPort";
         }
 
-        AgentPoolPortCommand(ListIterator<String> argIter) throws Fault {
+        AgentPoolPortCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -121,7 +122,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
             return "agentPoolTimeout";
         }
 
-        AgentPoolTimeoutCommand(ListIterator<String> argIter) throws Fault {
+        AgentPoolTimeoutCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())

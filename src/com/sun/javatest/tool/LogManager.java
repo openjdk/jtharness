@@ -28,6 +28,7 @@ package com.sun.javatest.tool;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
 import java.util.ListIterator;
 
 import com.sun.javatest.util.HelpTree;
@@ -81,7 +82,7 @@ public class LogManager extends CommandManager
             return "log";
         }
 
-        LogCommand(ListIterator<String> argIter) throws Fault {
+        LogCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())

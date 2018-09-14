@@ -28,6 +28,7 @@ package com.sun.javatest.logging;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 
 
@@ -175,8 +176,8 @@ public class FilteredLogModel extends LogModel {
     private FilterWorker worker;
     private ArrayList<LiteLogRecord> shownRecords;
     private LogFilter filter;
-    private ArrayList<NewPageListener> pageListeners = new ArrayList<>();
-    private ArrayList<FilterChangedListener> filterListeners = new ArrayList<>();
+    private List<NewPageListener> pageListeners = new ArrayList<>();
+    private List<FilterChangedListener> filterListeners = new ArrayList<>();
 
     @Override
     public boolean isStableState() {

@@ -46,8 +46,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.List;
 import java.util.Random;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
@@ -1126,7 +1128,7 @@ class LogViewer extends ToolDialog {
             children.add(ch);
         }
 
-        private ArrayList<JCheckBox> children = new ArrayList<>();
+        private List<JCheckBox> children = new ArrayList<>();
     }
 
 
@@ -1389,7 +1391,7 @@ class LogViewer extends ToolDialog {
     private static final String AUTOSCROLL_PREF = "logviewer.autoScroll";
     private static final String WORDWRAP_PREF = "logviewer.wordWrap";
     private int windowCounter = 0;
-    private static HashSet<Integer> windowList = new HashSet<>();
+    private static Set<Integer> windowList = new HashSet<>();
     private String working1;
     private String working2;
 

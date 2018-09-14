@@ -33,6 +33,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
@@ -88,7 +89,7 @@ class ToolBarPanel extends JPanel {
             synchronized (target.getTreeLock()) {
                 int realW = target.getSize().width;
                 int commponentsPerRow = 0;
-                ArrayList<Integer> hs = new ArrayList<>();
+                List<Integer> hs = new ArrayList<>();
                 if (realW == 0) {
                     return super.preferredLayoutSize(target);
                 }

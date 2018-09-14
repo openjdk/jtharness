@@ -35,6 +35,7 @@ import javax.swing.tree.TreePath;
 import javax.swing.event.TreeModelListener;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Empty tree model for showing fake test tree used
@@ -45,8 +46,8 @@ class EmptyTestTreeModel extends TestTreeModel implements TreeModel, TestResultT
     private FilterSelectionHandler filterHandler;
     private UIFactory uif;
     private Parameters params;
-    private ArrayList<TreeModelListener> treeModelListeners = new ArrayList<>();
-    private ArrayList<TestResultTable.TreeNodeObserver> rootObservers = new ArrayList<>();
+    private List<TreeModelListener> treeModelListeners = new ArrayList<>();
+    private List<TestResultTable.TreeNodeObserver> rootObservers = new ArrayList<>();
     private TT_NodeCache oldInfo;
     private TreeNode oldNode;
 

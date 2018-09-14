@@ -618,7 +618,7 @@ public class SelectionTree extends JTree {
     }
 
     @SuppressWarnings("unchecked")
-    private void expandHierarchyMap(List<SelectionTreeNode> curLevelNodes, Map<SelectionElement, Object> expanded) {
+    private void expandHierarchyMap(Iterable<SelectionTreeNode> curLevelNodes, Map<SelectionElement, Object> expanded) {
         for (Map.Entry<SelectionElement, Object> entry : expanded.entrySet()) {
             SelectionElement nodeObject = entry.getKey();
             SelectionTreeNode nodeToExpand = null;

@@ -32,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -336,7 +337,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
 
 //----------member variables------------------------------------------------
 
-    protected ArrayList<String> requiredSuperclass = new ArrayList<>();
+    protected List<String> requiredSuperclass = new ArrayList<>();
     protected String initialTag = "test";
     protected final MethodFinderVisitor mfv = new MethodFinderVisitor();
     protected static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(JUnitSuperTestFinder.class);

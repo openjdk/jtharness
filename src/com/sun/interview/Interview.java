@@ -999,7 +999,7 @@ public class Interview
      * @see #iteratePathToCurrent
      */
     public Iterator<Question> iteratePath(boolean flattenNestedInterviews) {
-        Vector<Question> v = new Vector<>();
+        List<Question> v = new Vector<>();
         iteratePath0(v, flattenNestedInterviews, true, true);
         return v.iterator();
     }
@@ -1016,7 +1016,7 @@ public class Interview
      * @see #iteratePath
      */
     public Iterator<Question> iteratePathToCurrent(boolean flattenNestedInterviews) {
-        Vector<Question> v = new Vector<>();
+        List<Question> v = new Vector<>();
         iteratePath0(v, flattenNestedInterviews, false, true);
         return v.iterator();
     }
@@ -1749,7 +1749,7 @@ public class Interview
             export0(data, hiddenPath, true);
     }
 
-    private void export0(Map<String, String> data, ArrayList<Question> paths, boolean processHidden) {
+    private void export0(Map<String, String> data, Iterable<Question> paths, boolean processHidden) {
         for (Question path : paths) {
             try {
                 if (path instanceof InterviewQuestion) {

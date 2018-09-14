@@ -37,6 +37,7 @@ import java.net.URLClassLoader;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
@@ -221,7 +222,7 @@ public class ConfigManager
             return "concurrency";
         }
 
-        ConcurrencyCommand(ListIterator<String> argIter) throws Fault {
+        ConcurrencyCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -270,7 +271,7 @@ public class ConfigManager
             return "config";
         }
 
-        ConfigCommand(ListIterator<String> argIter) throws Fault {
+        ConfigCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -336,7 +337,7 @@ public class ConfigManager
             return "writeConfig";
         }
 
-        WriteConfigCommand(ListIterator<String> argIter) throws Fault {
+        WriteConfigCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -382,7 +383,7 @@ public class ConfigManager
             return "env";
         }
 
-        EnvCommand(ListIterator<String> argIter) throws Fault {
+        EnvCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -417,7 +418,7 @@ public class ConfigManager
         EnvFilesCommand(ListIterator<String> argIter) throws Fault {
             super(getNames()[0]);
 
-            Vector<File> v = new Vector<>();
+            List<File> v = new Vector<>();
 
             while (argIter.hasNext()) {
                 String arg = nextArg(argIter);
@@ -463,7 +464,7 @@ public class ConfigManager
             super(getName());
 
             // in time, we should support -none, -default, -latest etc
-            Vector<File> v = new Vector<>();
+            List<File> v = new Vector<>();
 
             while (argIter.hasNext()) {
                 String arg = nextArg(argIter);
@@ -509,7 +510,7 @@ public class ConfigManager
             super(getName());
 
             // in time, we should support -none, -default, -latest etc
-            Vector<File> v = new Vector<>();
+            List<File> v = new Vector<>();
 
             while (argIter.hasNext()) {
                 String arg = nextArg(argIter);
@@ -557,7 +558,7 @@ public class ConfigManager
             cmdForFile = getCommandForFile(file);
         }
 
-        OpenCommand(ListIterator<String> argIter) throws Fault {
+        OpenCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -613,7 +614,7 @@ public class ConfigManager
             return "keywords";
         }
 
-        KeywordsCommand(ListIterator<String> argIter) throws Fault {
+        KeywordsCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             // could support -all -any
@@ -744,7 +745,7 @@ public class ConfigManager
             return new HelpTree.Node(i18n, "cnfg.params", opts);
         }
 
-        ParamsCommand(ListIterator<String> argIter) throws Fault {
+        ParamsCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             Vector<String> v = new Vector<>();
@@ -779,7 +780,7 @@ public class ConfigManager
             return "priorStatus";
         }
 
-        PriorStatusCommand(ListIterator<String> argIter) throws Fault {
+        PriorStatusCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -860,7 +861,7 @@ public class ConfigManager
             return "set";
         }
 
-        SetCommand(ListIterator<String> argIter) throws Fault {
+        SetCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -1001,7 +1002,7 @@ public class ConfigManager
             return "setX";
         }
 
-        SetXCommand(ListIterator<String> argIter) throws Fault {
+        SetXCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -1075,7 +1076,7 @@ public class ConfigManager
         TestsCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
-            Vector<String> v = new Vector<>();
+            List<String> v = new Vector<>();
 
             while (argIter.hasNext()) {
                 // could possibly support @file or similar syntax here for a list of tests
@@ -1119,7 +1120,7 @@ public class ConfigManager
             return new String[] { "testsuite", "ts" };
         }
 
-        TestSuiteCommand(ListIterator<String> argIter) throws Fault {
+        TestSuiteCommand(Iterator<String> argIter) throws Fault {
             super(getNames()[0]);
 
             while (argIter.hasNext()) {
@@ -1344,7 +1345,7 @@ public class ConfigManager
             return "timeoutfactor";
         }
 
-        TimeoutFactorCommand(ListIterator<String> argIter) throws Fault {
+        TimeoutFactorCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
             if (!argIter.hasNext())
@@ -1392,7 +1393,7 @@ public class ConfigManager
             return new String[] { "workdirectory", "workdir", "wd" };
         }
 
-        WorkDirectoryCommand(ListIterator<String> argIter) throws Fault {
+        WorkDirectoryCommand(Iterator<String> argIter) throws Fault {
             super(getNames()[0]);
 
             while (argIter.hasNext()) {

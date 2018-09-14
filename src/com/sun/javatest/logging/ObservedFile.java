@@ -134,7 +134,7 @@ public class ObservedFile extends File {
         }
     }
 
-    synchronized void readLoggers(ArrayList<String> loggers) {
+    synchronized void readLoggers(List<String> loggers) {
         String line = "";
         try {
             RandomAccessFile logs = new RandomAccessFile(getLoggersInexFile(), "r");
@@ -148,7 +148,7 @@ public class ObservedFile extends File {
         }
     }
 
-    synchronized void readRecords(ArrayList<LogModel.LiteLogRecord> records) {
+    synchronized void readRecords(List<LogModel.LiteLogRecord> records) {
         try {
             RandomAccessFile recs = new RandomAccessFile(getRecordInexFile(), "r");
             while (recs.getFilePointer() < recs.length()) {

@@ -381,7 +381,7 @@ public class ServiceManager implements Harness.Observer {
                 (tr = iter.next()) != null ) {
             try {
                 td = tr.getDescription();
-                HashSet<TestPath> toRemove = new HashSet<>();
+                Set<TestPath> toRemove = new HashSet<>();
                 for (TestPath p : copy) {
                     if (p.matches(td)) {
                         for (String sId : p.getServices()) {

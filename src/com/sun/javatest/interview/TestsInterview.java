@@ -484,7 +484,7 @@ public class TestsInterview
             return;
         }
         else {
-            ArrayList<String> v = new ArrayList<>();
+            List<String> v = new ArrayList<>();
             StringBuilder sb = new StringBuilder();
             for (String test : tests) {
                 // ignore duplicates, and look for otherwise bad tests

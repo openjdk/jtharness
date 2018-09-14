@@ -27,6 +27,7 @@
 package com.sun.javatest.exec;
 
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
 import com.sun.javatest.Status;
@@ -724,7 +725,7 @@ class TT_NodeCache implements Runnable {
     /**
      * Determine the index of a particular test in a vector.
      */
-    private int searchList(TestResult target, Vector<?> list) {
+    private int searchList(TestResult target, List<?> list) {
         return list.indexOf(target);
     }
 

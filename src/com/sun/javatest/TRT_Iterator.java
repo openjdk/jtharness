@@ -127,7 +127,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         this.filters = filters;
 
         if (trs != null && trs.length != 0) {
-            ArrayList<String> names = new ArrayList<>();
+            List<String> names = new ArrayList<>();
 
             // prime the outqueue with the given tests
             for (TestResult tr : trs) {
@@ -892,7 +892,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         return out;
     }
 
-    private static String generateFilteredStatus(ArrayList<TestFilter> fs) {
+    private static String generateFilteredStatus(List<TestFilter> fs) {
         StringBuilder sb = new StringBuilder();
 
         if (fs == null || fs.size() == 0) {

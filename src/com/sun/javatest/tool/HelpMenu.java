@@ -201,7 +201,7 @@ class HelpMenu extends JMenu
         v.add(s.substring(start));
 
         //JTextField[] tfs = new JTextField[v.size()];
-        ArrayList<JComponent> tfs = new ArrayList<>();
+        List<JComponent> tfs = new ArrayList<>();
         for (String aV : v) {
             JTextField tf = new JTextField(aV);
             tf.setBorder(null);
@@ -282,7 +282,7 @@ class HelpMenu extends JMenu
             return null;
         }
 
-        ArrayList<JMenuItem> v = new ArrayList<>();
+        List<JMenuItem> v = new ArrayList<>();
         for (int i = 0; i < docs.length; i++) {
             final HelpSet doc = docs[i];
 

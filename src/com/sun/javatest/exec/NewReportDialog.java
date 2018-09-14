@@ -62,6 +62,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.AbstractAction;
@@ -848,7 +849,7 @@ class NewReportDialog extends ToolDialog
         }
         else {
             String[] names = Report.getHtmlReportFilenames();
-            ArrayList<File> possible = new ArrayList<>();
+            List<File> possible = new ArrayList<>();
 
             for (String name : names) {
                 File rpt = new File(reportDir, name);
@@ -1613,9 +1614,9 @@ class NewReportDialog extends ToolDialog
     private JCheckBox cbBak;
     private JTextField numBak;
 
-    private ArrayList<JCheckBox> htmlGroup = new ArrayList<>();
-    private ArrayList<JCheckBox> configGroup = new ArrayList<>();
-    private ArrayList<JCheckBox> kflGroup = new ArrayList<>();
+    private List<JCheckBox> htmlGroup = new ArrayList<>();
+    private List<JCheckBox> configGroup = new ArrayList<>();
+    private List<JCheckBox> kflGroup = new ArrayList<>();
 
     private File reportDir;
     private JButton browseBtn;

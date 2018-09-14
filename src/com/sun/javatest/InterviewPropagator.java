@@ -560,7 +560,7 @@ public class InterviewPropagator {
         }
 
         void makeUpdatesReport(PrintStream sw) {
-            LinkedHashMap<String, String[]> allUpdate = new LinkedHashMap<>(updateMap);
+            Map<String, String[]> allUpdate = new LinkedHashMap<>(updateMap);
             allUpdate.putAll(partialUpdateMap);
             makeReport(sw, allUpdate, true);
         }

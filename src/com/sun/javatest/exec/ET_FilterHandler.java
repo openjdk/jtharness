@@ -269,7 +269,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
         ConstrainedPreferenceMap cpm = new ConstrainedPreferenceMap(prefs);
         // using meta_ prefix for info not written by the filter itself
-        PrefixMap<String> pm = new PrefixMap<>(cpm, FILTER_PREFIX + prefIndex);
+        Map<String, String> pm = new PrefixMap<>(cpm, FILTER_PREFIX + prefIndex);
 
         // it's really a special case to have a pref. entry which does not
         // have a tsId associated

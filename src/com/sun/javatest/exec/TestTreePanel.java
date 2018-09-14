@@ -295,7 +295,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
     private TreePath[] getTreePaths(String... paths) {
         if (paths != null) {
-            ArrayList<TreePath> translatedPaths = new ArrayList<>(paths.length);
+            List<TreePath> translatedPaths = new ArrayList<>(paths.length);
 
             for (String path : paths) {
                 // the paths need to be reconditioned because the JTree will not
