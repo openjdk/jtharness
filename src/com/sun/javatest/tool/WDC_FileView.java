@@ -26,8 +26,6 @@
  */
 package com.sun.javatest.tool;
 
-import com.sun.javatest.tool.IconFactory;
-import com.sun.javatest.tool.SelectedWorkDirApprover;
 import java.io.File;
 import javax.swing.Icon;
 import javax.swing.filechooser.FileView;

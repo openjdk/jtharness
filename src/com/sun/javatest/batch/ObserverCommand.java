@@ -27,7 +27,6 @@
 package com.sun.javatest.batch;
 
 import java.io.File;
-import java.lang.NoSuchMethodException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
@@ -35,7 +34,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Vector;
 
 import com.sun.javatest.Harness;

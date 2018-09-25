@@ -42,7 +42,6 @@ import com.sun.interview.Question;
 import com.sun.interview.StringQuestion;
 import com.sun.javatest.Parameters.EnvParameters;
 import com.sun.javatest.TestEnvironment;
-import com.sun.javatest.interview.DefaultInterviewParameters;
 
 /**
  * A simple interview that can be used for simple test suites.

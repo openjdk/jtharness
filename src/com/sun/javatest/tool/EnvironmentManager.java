@@ -29,7 +29,6 @@ package com.sun.javatest.tool;
 import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.Map;
-import java.lang.SecurityManager;
 
 import com.sun.javatest.JavaTestSecurityManager;
 import com.sun.javatest.TestEnvironment;

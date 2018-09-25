@@ -31,7 +31,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
-import com.sun.javatest.lib.TestCases;
+
 import com.sun.javatest.Status;
 import com.sun.javatest.Test;
 

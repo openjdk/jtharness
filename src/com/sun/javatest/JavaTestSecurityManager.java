@@ -29,7 +29,6 @@ package com.sun.javatest;
 import java.io.FileDescriptor;
 import java.net.InetAddress;
 
-import java.lang.RuntimePermission;
 import java.security.Permission;
 import java.util.PropertyPermission;
 
