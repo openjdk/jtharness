@@ -1014,7 +1014,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                 // XXX remove later...
                 try {
                     if (currentResult.getDescription() != d)
-                        throw new JavaTestError("TRT_Iterator observered TR.TD does not match filtered one.");
+                        throw new JavaTestError("TRT_Iterator observed TR.TD does not match filtered one.");
                 }
                 catch (TestResult.Fault f) {
                     throw new JavaTestError("TRT_Iterator cannot determine TR source info.", f);
