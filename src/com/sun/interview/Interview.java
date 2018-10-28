@@ -2610,7 +2610,7 @@ public class Interview
     }
 
     // can change this to "assert(b)" in JDK 1.5
-    private static final void ASSERT(boolean b) {
+    private static void ASSERT(boolean b) {
         if (!b)
             throw new IllegalStateException();
     }

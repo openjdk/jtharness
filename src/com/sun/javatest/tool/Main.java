@@ -496,7 +496,7 @@ public class Main
      * JavaTestSecurityManager, if it is installed.
      * @param exitCode an exit code to be passed to System.exit
      */
-    private static final void exit(int exitCode) {
+    private static void exit(int exitCode) {
         // If our security manager is installed, it won't allow a call of
         // System.exit unless we ask it nicely, pretty please, thank you.
         SecurityManager sc = System.getSecurityManager();

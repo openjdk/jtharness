@@ -447,7 +447,7 @@ public class Agent implements Runnable {
         }
     }
 
-    private static final int min(int a, int b) {
+    private static int min(int a, int b) {
         return a < b ? a : b;
     }
 

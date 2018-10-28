@@ -551,7 +551,7 @@ public class AgentMain {
     private static final int PASSIVE = 2;
     private static final int SERIAL = 3;
 
-    private static final int max(int a, int b) {
+    private static int max(int a, int b) {
         return a > b ? a : b;
     }
 

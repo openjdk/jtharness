@@ -371,7 +371,7 @@ public class Status
         return sb.toString();
     }
 
-    private static final boolean isPrintable(char c) {
+    private static boolean isPrintable(char c) {
         return 32 <= c && c < 127;
     }
 
@@ -480,11 +480,11 @@ public class Status
         return sb.toString();
     }
 
-    private static final String encodeChar(char c) {
+    private static String encodeChar(char c) {
         return Integer.toString((int)c, 16);
     }
 
-    private static final char decodeChar(String s) {
+    private static char decodeChar(String s) {
         return (char)Integer.parseInt(s, 16);
     }
 

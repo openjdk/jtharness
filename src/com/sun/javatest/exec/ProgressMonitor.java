@@ -404,7 +404,7 @@ class ProgressMonitor extends ToolDialog {
             setCount(notRunTf,state.getTestsRemainingCount());
         }
 
-        private final void setCount(JTextField tf, int value) {
+        private void setCount(JTextField tf, int value) {
             if (EventQueue.isDispatchThread())
                 tf.setText(Integer.toString(value));
             else

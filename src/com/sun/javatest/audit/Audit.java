@@ -629,7 +629,7 @@ public class Audit
         return true;
     }
 
-    private final static boolean keywordMatch(String a, String b) {
+    private static boolean keywordMatch(String a, String b) {
         // eek, not very efficient!
         String[] aa = StringArray.split(a);
         Arrays.sort(aa);
