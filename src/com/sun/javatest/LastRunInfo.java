@@ -159,7 +159,7 @@ public class LastRunInfo {
      */
     private static List<String> split(String joined) {
         List<String> list = new ArrayList<>();
-        if (joined == null || joined.trim().length() == 0) {
+        if (joined == null || joined.trim().isEmpty()) {
             return list;
         }
         // emulate StringTokenizer(joined, SEP) to find tokens

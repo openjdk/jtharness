@@ -162,7 +162,7 @@ public class Debug {
             return false;
 
         StringBuilder buf = new StringBuilder(getName(c));
-        if (suffix != null && suffix.length() != 0) {
+        if (suffix != null && !suffix.isEmpty()) {
             buf.append(Debug.SEPARATOR);
             buf.append(suffix);
         }
@@ -227,7 +227,7 @@ public class Debug {
             return 0;
 
         StringBuilder buf = new StringBuilder(getName(c));
-        if (suffix != null && suffix.length() != 0) {
+        if (suffix != null && !suffix.isEmpty()) {
             buf.append(Debug.SEPARATOR);
             buf.append(suffix);
         }

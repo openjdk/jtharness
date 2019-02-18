@@ -74,7 +74,7 @@ public class SimpleInterviewParameters
         export(envProps);
         try {
             String name = qName.getValue();
-            if (name == null || name.length() == 0)
+            if (name == null || name.isEmpty())
                 name = "unknown";
             return new TestEnvironment(name, envProps, "configuration interview");
         }
@@ -141,7 +141,7 @@ public class SimpleInterviewParameters
     private StringQuestion qName = new StringQuestion(this, "name") {
             @Override
             public Question getNext() {
-                if (value == null || value.length() == 0)
+                if (value == null || value.isEmpty())
                     return null;
                 else
                     return qDesc;
@@ -155,7 +155,7 @@ public class SimpleInterviewParameters
     private Question qDesc = new StringQuestion(this, "desc") {
             @Override
             public Question getNext() {
-                if (value == null || value.length() == 0)
+                if (value == null || value.isEmpty())
                     return null;
                 else
                     return qCmdType;
@@ -183,7 +183,7 @@ public class SimpleInterviewParameters
 
             @Override
             public Question getNext() {
-                if (value == null || value.length() == 0)
+                if (value == null || value.isEmpty())
                     return null;
                 else if (value.equals(OTHER_VM))
                     return qJVM;
@@ -212,7 +212,7 @@ public class SimpleInterviewParameters
     private FileQuestion qJVM = new FileQuestion(this, "jvm") {
             @Override
             public Question getNext() {
-                if (value == null || value.getPath().length() == 0)
+                if (value == null || value.getPath().isEmpty())
                     return null;
                 else if (! (value.exists() && value.isFile() && value.canRead()))
                     return qBadJVM;

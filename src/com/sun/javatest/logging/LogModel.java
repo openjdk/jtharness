@@ -142,7 +142,7 @@ public class LogModel {
                     fireNewLoggerFound(logger);
                 }
 
-                if (records.size() > 0 ) {
+                if (!records.isEmpty()) {
                     recordCount = records.size();
                     LogModel.LiteLogRecord llr = records.get(recordCount-1);
                     r.seek(llr.endOff);

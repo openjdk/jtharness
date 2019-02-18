@@ -254,7 +254,7 @@ public class XMLWriter
      * @throws IOException if there is a problem closing the underlying stream
      */
     public void write(String text) throws IOException {
-        if (text.length() == 0)
+        if (text.isEmpty())
             return;
 
         if (state == IN_TAG) {

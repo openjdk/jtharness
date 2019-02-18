@@ -217,7 +217,7 @@ public class BinaryTestFinder extends TestFinder
             TestTree.Node[] children = node.children;
             if (children != null) {
                 for (TestTree.Node child : children) {
-                    File f = relPath.length() == 0 ? new File(child.name) :
+                    File f = relPath.isEmpty() ? new File(child.name) :
                             new File(relPath, child.name);
                     foundFile(f);
                 }
@@ -511,7 +511,7 @@ public class BinaryTestFinder extends TestFinder
          * Get the node for a path within the tree.
          */
         Node getNode(String path) {
-            return path.length() == 0 ? root : root.getNode(path);
+            return path.isEmpty() ? root : root.getNode(path);
         }
 
         private Node root;

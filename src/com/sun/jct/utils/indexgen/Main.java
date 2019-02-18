@@ -475,7 +475,7 @@ public class Main {
     private void addToIndex(String[] path, File file, String ref) {
         Node node = root.getChild(path);
         String href = file.getPath();
-        if (ref != null && ref.length() > 0)
+        if (ref != null && !ref.isEmpty())
             href = href + "#" + ref;
         node.setInfo(href);
     }

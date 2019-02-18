@@ -317,7 +317,7 @@ class ConfigSection extends HTMLSection {
         TestEnvironment env = settings.getInterview().getEnv();
         String envName = env != null ? env.getName() : null;
 
-        if (envName != null && envName.length() > 0) {
+        if (envName != null && !envName.isEmpty()) {
             out.startTag(HTMLWriterEx.TR);
             out.writeTH(i18n.getString("config.env"), HTMLWriterEx.ROW);
             out.startTag(HTMLWriterEx.TD);
@@ -469,7 +469,7 @@ class ConfigSection extends HTMLSection {
 
     private void writeTD(ReportWriter out, String text) throws IOException {
         out.startTag(HTMLWriterEx.TD);
-        if (text == null || text.length() ==0)
+        if (text == null || text.isEmpty())
             out.writeEntity("&nbsp;");
         else
             out.write(text);

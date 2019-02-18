@@ -507,7 +507,7 @@ public class EditJTI
             String value = q.getStringValue();
             out.print(tag);
             int l = tag.length();
-            if (l > MAX_INDENT && value != null && value.length() > 0) {
+            if (l > MAX_INDENT && value != null && !value.isEmpty()) {
                 out.println();
                 l = 0;
             }
@@ -557,7 +557,7 @@ public class EditJTI
      * @see #edit(String[])
      */
     public void edit(String cmd) throws Fault {
-        if (cmd == null || cmd.length() == 0)
+        if (cmd == null || cmd.isEmpty())
             return;
 
         int eqIndex = cmd.indexOf('=');
@@ -579,7 +579,7 @@ public class EditJTI
                 throw new Fault(i18n, "editJTI.badCmd", cmd);
             String searchText = cmd.substring(left + 1, center);
             String replaceText = cmd.substring(center + 1, right);
-            if (searchText.length() == 0)
+            if (searchText.isEmpty())
                 throw new Fault(i18n, "editJTI.badCmd", cmd);
             setMatchingValues(searchText, replaceText);
         }

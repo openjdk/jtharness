@@ -327,7 +327,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     public void restoreTreeState(Map<String, String> m) {
         if (m != null) {
             String tmp = m.get(OPEN_PATHS_PREF);
-            if (tree != null && tmp != null && tmp.length() > 0) {
+            if (tree != null && tmp != null && !tmp.isEmpty()) {
                 tree.restorePaths(StringArray.split(tmp), true);
             }
         }
@@ -376,7 +376,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             }   // for
         }
 
-        if (urls == null || urls.size() == 0) {
+        if (urls == null || urls.isEmpty()) {
             return null;
         } else {
             String[] result = new String[urls.size()];
@@ -1364,12 +1364,12 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             }   // for
 
             TestResult[] t = null;
-            if (tests.size() > 0) {
+            if (!tests.isEmpty()) {
                 t = tests.toArray(new TestResult[tests.size()]);
             }
 
             String[] f = null;
-            if (folders.size() > 0) {
+            if (!folders.isEmpty()) {
                 f = folders.toArray(new String[folders.size()]);
                 // currently enable/disabled state is only determined by the menu's
                 // ability to deal with multi selection

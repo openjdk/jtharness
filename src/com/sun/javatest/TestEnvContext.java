@@ -143,7 +143,7 @@ public class TestEnvContext
      */
     public boolean isValidEnv(String name) {
         // empty name is always valid (null is not)
-        if (name.length() == 0)
+        if (name.isEmpty())
             return true;
 
         for (String envName : envNames)

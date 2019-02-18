@@ -224,7 +224,7 @@ class OptionsDialog extends ToolDialog
         String tsID = null;
         try {
             String tsp = (String) tsField.getSelectedItem();
-            if (tsp != null && tsp.length() > 0) {
+            if (tsp != null && !tsp.isEmpty()) {
                 TestSuite ts = TestSuite.open(new File(tsp));
                 tsID = ts.getID();
             }
@@ -312,7 +312,7 @@ class OptionsDialog extends ToolDialog
                 // set to be added later
                 s.remove(item);
             }
-            else if (item.length() > 0 && !item.equals(field.getSelectedItem()))
+            else if (!item.isEmpty() && !item.equals(field.getSelectedItem()))
                 // this item is not required, remove it
                 field.removeItemAt(i);
         }

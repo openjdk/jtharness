@@ -194,7 +194,7 @@ public class KeywordsInterview
             default:
                 mode = EXPR;
                 modeValue = v;
-                super.setValue(v == null || v.length() == 0 ? null : v);
+                super.setValue(v == null || v.isEmpty() ? null : v);
             }
         }
 
@@ -239,7 +239,7 @@ public class KeywordsInterview
         }
 
         private String termsToExpr(String list, String op) {
-            if (list == null || list.length() == 0)
+            if (list == null || list.isEmpty())
                 return null;
 
             String[] keys = StringArray.split(list);
@@ -260,7 +260,7 @@ public class KeywordsInterview
     private KeywordsQuestion qKeywords = new KeywordsQuestion(this, "keywords") {
         @Override
         protected Question getNext() {
-            if (value == null || value.length() == 0)
+            if (value == null || value.isEmpty())
                 return null;
             else {
                 return qEnd;

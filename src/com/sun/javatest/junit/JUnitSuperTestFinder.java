@@ -95,7 +95,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
         }   // for
 
         // the default if the user does not give one
-        if (requiredSuperclass.size() == 0)
+        if (requiredSuperclass.isEmpty())
             requiredSuperclass.add("junit.framework.TestCase");
     }
 
@@ -205,7 +205,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
                 if (tdValues.get("executeClass") == null)
                     return;     // not interested in this class
 
-                if (testMethods.size() != 0) {
+                if (!testMethods.isEmpty()) {
                     StringBuilder tms = new StringBuilder();
                     for (String n: testMethods) {
                         tms.append(n);

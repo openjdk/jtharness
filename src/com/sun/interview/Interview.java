@@ -1265,7 +1265,7 @@ public class Interview
 
         markersForName.remove(q);
 
-        if (markersForName.size() == 0)
+        if (markersForName.isEmpty())
             allMarkers.remove(name);
     }
 
@@ -1394,7 +1394,7 @@ public class Interview
     }
 
     private void loadMarker(String name, String tag) {
-        if (tag.length() > 0) {
+        if (!tag.isEmpty()) {
             Question q = lookup(tag);
             if (q != null)
                 addMarker(q, name);
@@ -1558,14 +1558,14 @@ public class Interview
             data.put(QUESTION, getCurrentQuestion().getTag());
             writeLocale(data);
 
-            if (extraValues != null && extraValues.size() > 0) {
+            if (extraValues != null && !extraValues.isEmpty()) {
                 Set<String> keys = getPropertyKeys();
                 for (String key : keys) {
                     data.put(EXTERNAL_PREF + key, extraValues.get(key));
                 }   // while
             }
 
-            if (templateValues != null && templateValues.size() > 0) {
+            if (templateValues != null && !templateValues.isEmpty()) {
                 Set<String> keys = templateValues.keySet();
                 for (String key : keys) {
                     data.put(TEMPLATE_PREF + key, retrieveTemplateProperty(key));
@@ -1627,7 +1627,7 @@ public class Interview
                  */
                 String s = ((String) o).trim();
                 String language = "", country = "", variant = "";
-                if (s.length() != 0) {
+                if (!s.isEmpty()) {
                     try {
                         // decode language
                         int i = s.indexOf('_');
@@ -2164,7 +2164,7 @@ public class Interview
         if (getParent() != null)
             return parent.getPropertyKeys();
         else {
-            if (extraValues == null || extraValues.size() == 0)
+            if (extraValues == null || extraValues.isEmpty())
                 return null;
 
             return extraValues.keySet();

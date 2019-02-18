@@ -380,14 +380,14 @@ class TP_OutputSubpanel extends TP_Subpanel {
                 String text = section.getOutput(name);
                 out.startTag(HTMLWriterEx.TR);
                 out.startTag(HTMLWriterEx.TD);
-                if (text.length() == 0)
+                if (text.isEmpty())
                     out.write(name);
                 else
                     out.writeLink("#" + name, name/*, linkStyle*/);
                 out.endTag(HTMLWriterEx.TD);
                 out.startTag(HTMLWriterEx.TD);
                 out.writeStyleAttr("margin-left:10");
-                if (text.length() == 0)
+                if (text.isEmpty())
                     out.writeI18N("test.out.empty.txt");
                 else
                     out.write(String.valueOf(text.length()));
@@ -586,7 +586,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
     }
 
     private void showText(String s) {
-        if (s.length() == 0) {
+        if (s.isEmpty()) {
             textArea.setText(uif.getI18NString("test.out.empty.txt"));
             textArea.setEnabled(false);
         }
@@ -607,7 +607,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
 
     private void addText(TestResult.Section section,
             String outputName, String s) {
-        if (s == null || s.length() == 0)
+        if (s == null || s.isEmpty())
             return;
 
         if (!textArea.isEnabled()) {

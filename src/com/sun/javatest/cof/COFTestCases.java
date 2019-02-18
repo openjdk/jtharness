@@ -124,7 +124,7 @@ public class COFTestCases extends COFItem{
          * @see com.sun.javatest.cof.COFItem#write(com.sun.javatest.util.XMLWriter)
          */
         void write(XMLWriter out) throws IOException {
-                if (getTestcase().size() != 0) {
+                if (!getTestcase().isEmpty()) {
                         out.newLine();
                         super.write(out);
                 }

@@ -79,7 +79,7 @@ class ManagerLoader
                 String line;
                 while ((line = in.readLine()) != null) {
                     line = line.trim();
-                    if (line.length() == 0) {
+                    if (line.isEmpty()) {
                         continue;
                     } else if (line.startsWith("#")) {
                         line = line.substring(1).trim();

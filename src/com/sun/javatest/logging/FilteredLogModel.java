@@ -243,7 +243,7 @@ public class FilteredLogModel extends LogModel {
                     LiteLogRecord rec = FilteredLogModel.this.getUnfilteredRecords().get(i);
                     if (filter.isApplicable(rec)) {
                         tmp.add(rec);
-                        if (tmp.size() % getPageSize() == 0 && tmp.size()!=0) {
+                        if (tmp.size() % getPageSize() == 0 && !tmp.isEmpty()) {
                             if (shownRecords != tmp) {
                                 shownRecords = tmp;
                                 fireFilterChanged();

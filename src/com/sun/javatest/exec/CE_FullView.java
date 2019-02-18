@@ -248,7 +248,7 @@ class CE_FullView extends CE_View
         @Override
         public void pathUpdated() {
             String msg = config.isFinishable() ? completeMsg : incompleteMsg;
-            if (msg == null || msg.length() == 0) {
+            if (msg == null || msg.isEmpty()) {
                 msgField.setEnabled(false);
                 msgField.setText("");
             }

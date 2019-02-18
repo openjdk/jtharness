@@ -219,7 +219,7 @@ public class FileHistory
                 String line;
                 while ((line = br.readLine()) != null) {
                     String p = line.trim();
-                    if (p.length() == 0 || p.startsWith("#"))
+                    if (p.isEmpty() || p.startsWith("#"))
                         continue;
                     entries.add(new File(p));
                 }

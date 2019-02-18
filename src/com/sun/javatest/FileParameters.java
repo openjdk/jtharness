@@ -457,7 +457,7 @@ public class FileParameters
     }
 
     private void setPriorStatusValues(String values) {
-        if (values == null || values.length() == 0)
+        if (values == null || values.isEmpty())
             setPriorStatusValues((boolean[]) null);
         else {
             boolean[] b = new boolean[Status.NUM_STATES];

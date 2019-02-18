@@ -159,7 +159,7 @@ public class TestEnvironment
 
         // First, figure out the inheritance chain
         Vector<String> v = new Vector<>();
-        for (String n = name, inherit = null; n != null && n.length() > 0; n = inherit, inherit = null) {
+        for (String n = name, inherit = null; n != null && !n.isEmpty(); n = inherit, inherit = null) {
             if (v.contains(n))
                 throw new Fault(i18n, "env.loop", name);
 

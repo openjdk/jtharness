@@ -172,22 +172,22 @@ public class Audit
             envCounts[allValuesForKey.size() == 1 ? 0 : 1]++;
         }
 
-        if (badChecksumTestsV.size() > 0) {
+        if (!badChecksumTestsV.isEmpty()) {
             badChecksumTests = new TestResult[badChecksumTestsV.size()];
             badChecksumTestsV.copyInto(badChecksumTests);
         }
 
-        if (badTestDescriptionsV.size() > 0) {
+        if (!badTestDescriptionsV.isEmpty()) {
             badTestDescriptions = new TestResult[badTestDescriptionsV.size()];
             badTestDescriptionsV.copyInto(badTestDescriptions);
         }
 
-        if (badTestCaseTestsV.size() > 0) {
+        if (!badTestCaseTestsV.isEmpty()) {
             badTestCaseTests = new TestResult[badTestCaseTestsV.size()];
             badTestCaseTestsV.copyInto(badTestCaseTests);
         }
 
-        if (badTestsV.size() > 0) {
+        if (!badTestsV.isEmpty()) {
             badTests = new TestDescription[badTestsV.size()];
             badTestsV.copyInto(badTests);
         }

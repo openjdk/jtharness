@@ -78,7 +78,7 @@ class EnvironmentBrowser extends ToolDialog
     private void setEnv(TestEnvironment env) {
         this.env = env;
 
-        if (env == null || env.getName().trim().length() == 0)
+        if (env == null || env.getName().trim().isEmpty())
             setI18NTitle("env.title.unset");
         else
             setI18NTitle("env.title.name", env.getName());

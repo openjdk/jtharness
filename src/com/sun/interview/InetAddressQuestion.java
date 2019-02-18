@@ -263,7 +263,7 @@ public abstract class InetAddressQuestion extends Question
     }
 
     private InetAddress parse(String s) {
-        if (s == null || s.length() == 0)
+        if (s == null || s.isEmpty())
             return null;
 
         // scan the string to see if it looks reasonable:

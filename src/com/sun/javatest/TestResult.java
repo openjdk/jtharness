@@ -472,7 +472,7 @@ public class TestResult {
                 // Note this must match the check when reading the text back in,
                 // when we also check for just '\n' and not line.separator, because
                 // line.separator now, and line.separator then, might be different.
-                if (text.length() != 0 && !text.endsWith("\n")) {
+                if (!text.isEmpty() && !text.endsWith("\n")) {
                     needsFinalNewline = true;
                     numLines++;
                 }
@@ -2125,7 +2125,7 @@ public class TestResult {
         // grab property info
         StringBuffer buff = new StringBuffer();
         String line = in.readLine();
-        while (!(line == null) && !(line.length() == 0)) {
+        while (!(line == null) && !(line.isEmpty())) {
             buff.append(line);
             buff.append(lineSeparator);
             line = in.readLine();
@@ -2353,7 +2353,7 @@ public class TestResult {
      *     input was null.
      */
     int parseSectionCount(String s) {
-        if (s == null || s.length() == 0) {
+        if (s == null || s.isEmpty()) {
             return 0;
         }
 

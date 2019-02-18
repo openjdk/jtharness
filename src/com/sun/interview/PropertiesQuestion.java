@@ -235,7 +235,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      */
     @Override
     public void setValue(String newValue) {
-        if (value == null || value.size() == 0)
+        if (value == null || value.isEmpty())
             return;
 
         // parse newValue and inject into properties object
@@ -435,7 +435,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         }
 
         // repack data for return
-        if (badKeys.size() > 0) {
+        if (!badKeys.isEmpty()) {
             String[][] ret = new String[badKeys.size()][2];
             for (int i = 0; i < badKeys.size(); i++) {
                 ret[i][0] = badKeys.get(i);
@@ -630,14 +630,14 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         if (keys != null) {
             for (String key : keys) {
                 ArrayList<String> al = keyGroups.get(key);
-                if (al == null || al.size() == 0)
+                if (al == null || al.isEmpty())
                     continue;       // empty group
 
                 result.add(key);
             }   // while
         }
 
-        if (result.size() == 0)
+        if (result.isEmpty())
             return null;
         else {
             String[] ret = new String[result.size()];
@@ -655,7 +655,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * @see #setGroup
      */
     public String[][] getGroup(String group) {
-        if (value == null || value.size() == 0)
+        if (value == null || value.isEmpty())
             return null;
 
         if (group == null)
@@ -663,7 +663,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         ArrayList<String> al = keyGroups.get(group);
 
-        if (al == null || al.size() == 0)
+        if (al == null || al.isEmpty())
             return null;
         else {
             Iterator<String> it = al.iterator();
@@ -684,7 +684,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * @see #setGroup
      */
     public String[][] getUngrouped() {
-        if (value == null || value.size() == 0)
+        if (value == null || value.isEmpty())
             return null;
 
         if (keyGroups != null) {
@@ -701,7 +701,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
                     for (String[] val : vals) copy.remove(val[0]);
                 }
 
-                if (copy.size() > 0) {
+                if (!copy.isEmpty()) {
                     Set<String> en = copy.stringPropertyNames();
                     String[][] ret = new String[copy.size()][2];
                     int i = 0;
@@ -961,7 +961,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * @see #getInvalidKeys
          */
         public String isValid(String v) {
-            if (v == null || v.length() == 0)
+            if (v == null || v.isEmpty())
                 return "Value is not set";
             else
                 return null;
@@ -1499,7 +1499,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         @Override
         public String isValid(String v) {
-            if (v == null || v.length() == 0)
+            if (v == null || v.isEmpty())
                 return "Value is not set";
 
             if (baseRelativeOnly && baseDir != null && !v.startsWith(baseDir.getPath()))

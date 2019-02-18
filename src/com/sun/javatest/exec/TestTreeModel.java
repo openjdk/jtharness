@@ -512,7 +512,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     }
 
     TreePath resolveUrl(String path) {
-        if (path == null || path.length() == 0 || root == null) {
+        if (path == null || path.isEmpty() || root == null) {
             return null;
         }
         List<TT_TreeNode> al = new ArrayList<>();
@@ -1329,14 +1329,14 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         private TT_NodeCache selectByQueuing() {
             TT_NodeCache selection = null;
 
-            if (suspendedQueue.size() > 0) {
+            if (!suspendedQueue.isEmpty()) {
                 selection = suspendedQueue.removeLast();
-            } else if (cacheQueue.size() > 0) {
+            } else if (!cacheQueue.isEmpty()) {
                 selection = cacheQueue.removeLast();
             }
             if (selection != null &&
                     selection.getNode().isRoot() && // trying to avoid root
-                    (cacheQueue.size() > 0 || suspendedQueue.size() > 0)) {
+                    (!cacheQueue.isEmpty() || !suspendedQueue.isEmpty())) {
                 cacheQueue.addFirst(selection);
                 return selectByQueuing();
             }
@@ -1357,8 +1357,8 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             boolean notDone = true;
             int count = 0;
 
-            if (cacheQueue.size() == 0) {
-                if (suspendedQueue.size() == 0) {
+            if (cacheQueue.isEmpty()) {
+                if (suspendedQueue.isEmpty()) {
                     notDone = false;
                 } else {
                     theList = suspendedQueue;
@@ -1389,7 +1389,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 if (count >= theList.size()) {
                     if (theList == suspendedQueue) {
                         notDone = false;
-                    } else if (suspendedQueue.size() != 0) {
+                    } else if (!suspendedQueue.isEmpty()) {
                         theList = suspendedQueue;
                         count = 0;
                     } else {

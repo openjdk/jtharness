@@ -219,7 +219,7 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
 
     @Override
     public void save(Map<String, String> parentMap) {
-        if (lastState != null && lastState.size() > 0)  {
+        if (lastState != null && !lastState.isEmpty())  {
            Map<String, String> pm = new PrefixMap<>(parentMap, REPORT_PREFIX);
            pm.putAll(lastState);
         }

@@ -279,7 +279,7 @@ public class HelpManager extends CommandManager
             HelpSet helpSet = new HelpSet(theLoader, u);
             //CustomHelpBroker b = new CustomHelpBroker(helpSet);
             HelpBroker b = new JTHelpBroker();
-            if (onlineHelpQuery != null && onlineHelpQuery.length() > 0) {
+            if (onlineHelpQuery != null && !onlineHelpQuery.isEmpty()) {
                 b.displayCurrentID(onlineHelpQuery);
             }
             else {

@@ -364,7 +364,7 @@ public class ActiveAgentPool
 
         synchronized Entry next() {
             Entry e = null;
-            if (v.size() > 0) {
+            if (!v.isEmpty()) {
                 e = v.elementAt(0);
                 v.removeElementAt(0);
                 notifyRemovedFromPool(e);
@@ -375,7 +375,7 @@ public class ActiveAgentPool
         synchronized Entry next(int timeout) throws InterruptedException {
             long end = System.currentTimeMillis() + timeout;
             for (long t = timeout; t > 0;  t = end - System.currentTimeMillis()) {
-                if (v.size() == 0)
+                if (v.isEmpty())
                     wait(t);
 
                 Entry e = next();

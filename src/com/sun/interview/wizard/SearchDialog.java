@@ -181,7 +181,7 @@ class SearchDialog extends JDialog
     }
 
     public void find() {
-        if (textField.getText().length() == 0)
+        if (textField.getText().isEmpty())
             setVisible(true);
         else {
             // just get this once for the query

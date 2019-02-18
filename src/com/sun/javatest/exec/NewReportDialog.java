@@ -150,7 +150,7 @@ class NewReportDialog extends ToolDialog
 
         dirField.setText(rd);
 
-        if (filter != null && filter.length() > 0)
+        if (filter != null && !filter.isEmpty())
            filterHandler.setFilter(filter);
 
         updateHtmlCheckboxStates();
@@ -162,10 +162,10 @@ class NewReportDialog extends ToolDialog
         String filter = filterHandler.getActiveFilter().getName();
         Map<String, String> lastState = new HashMap<>();
 
-        if (rd != null && rd.length() > 0)
+        if (rd != null && !rd.isEmpty())
            lastState.put(REPORT_DIR, rd);
 
-        if (filter != null && filter.length() > 0)
+        if (filter != null && !filter.isEmpty())
            lastState.put(FILTER, filter);
 
         return lastState;
@@ -859,7 +859,7 @@ class NewReportDialog extends ToolDialog
                     rpt = null;
             }
 
-            if (possible.size() > 0) {
+            if (!possible.isEmpty()) {
                 // show the most recently dated file
                 File rpt = null;
                 File newestF = null;
@@ -902,7 +902,7 @@ class NewReportDialog extends ToolDialog
     private ArrayList<CustomReport> getActiveCustomReports() {
 
         ArrayList<CustomReport> customReps = new ArrayList<>();
-        if (customBoxes != null && customBoxes.size() > 0) {
+        if (customBoxes != null && !customBoxes.isEmpty()) {
             for (JCheckBox box : customBoxes.keySet()) {
                 if (box.isSelected()) {
                     customReps.add(customBoxes.get(box));
@@ -1081,7 +1081,7 @@ class NewReportDialog extends ToolDialog
                 String s = dirField.getText();
 
                 // check null input
-                if (s == null || s.length() == 0) {
+                if (s == null || s.isEmpty()) {
                     uif.showError("nrd.emptyInput");
                     return;
                 }

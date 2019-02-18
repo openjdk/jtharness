@@ -256,7 +256,7 @@ public abstract class FloatQuestion extends Question
         if (s != null)
             s = s.trim();
 
-        if (s == null || s.length() == 0 || s.equals("NaN"))
+        if (s == null || s.isEmpty() || s.equals("NaN"))
             f = Float.NaN;
         else {
             NumberFormat fmt = NumberFormat.getNumberInstance(l); //in given locale

@@ -56,7 +56,7 @@ class ActiveModeOptions extends ModeOptions {
     @Override
     ConnectionFactory createConnectionFactory(int concurrency) throws BadValue {
         String host = hostField.getText();
-        if (host == null || host.length() == 0)
+        if (host == null || host.isEmpty())
             throw new BadValue("no host name set");
 
         int port = getInt("port", portField);

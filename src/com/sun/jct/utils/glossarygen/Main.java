@@ -407,7 +407,7 @@ class Entry {
         if (keyword == null)
             return true;
 
-        if (keywords == null || keywords.size() == 0)
+        if (keywords == null || keywords.isEmpty())
             return true;
 
         return keywords.contains(keyword);
@@ -710,7 +710,7 @@ class Entry {
                 if (link.endsWith(".html"))
                     link = link.substring(0, link.length() - 5);
                 String ref = t.getRef();
-                if (ref != null && ref.length() > 0)
+                if (ref != null && !ref.isEmpty())
                     link = link + "!" + ref;
                 out.write('"');
                 out.write('#' + link);

@@ -545,14 +545,14 @@ public class InterviewPropagator {
          * Does the data contain conflicts?
          */
         public boolean hasConflicts() {
-            return conflictMap.size() > 0;
+            return !conflictMap.isEmpty();
         }
 
         /**
          * Does the data contain auto updates?
          */
         public boolean hasUpdates() {
-            return updateMap.size() > 0 || partialUpdateMap.size() > 0;
+            return !updateMap.isEmpty() || !partialUpdateMap.isEmpty();
         }
 
         void makeConflictsReport(PrintStream sw) {

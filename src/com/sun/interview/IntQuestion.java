@@ -231,7 +231,7 @@ public abstract class IntQuestion extends Question
         if (s != null)
             s = s.trim();
 
-        if (s == null || s.length() == 0)
+        if (s == null || s.isEmpty())
             i = Integer.MIN_VALUE;
         else {
             NumberFormat fmt = NumberFormat.getIntegerInstance(l); //in given locale

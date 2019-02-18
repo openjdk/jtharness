@@ -159,7 +159,7 @@ class CE_KeywordsPane extends CE_StdPane {
         } else if (keywordsParameters != null) {
             setEnabled(true);
             String expr = keywordsParameters.getKeywords().toString();
-            selectCheck.setSelected(expr.length() == 0);
+            selectCheck.setSelected(expr.isEmpty());
             selectCheck.setEnabled(false);
 
             keywordsChoice.setSelectedItem(EXPR);
@@ -473,7 +473,7 @@ class CE_KeywordsPane extends CE_StdPane {
 
         // insert text into the keywords field
         void insert(String s) {
-            if (s.length() == 0)
+            if (s.isEmpty())
                 return;
 
             String t = keywordsField.getText();

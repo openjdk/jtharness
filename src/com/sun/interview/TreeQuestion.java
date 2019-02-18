@@ -351,7 +351,7 @@ public abstract class TreeQuestion extends Question
         if (start != -1)
             v.addElement(s.substring(start));
 
-        if (v.size() == 0)
+        if (v.isEmpty())
             return empty;
 
         String[] a = new String[v.size()];

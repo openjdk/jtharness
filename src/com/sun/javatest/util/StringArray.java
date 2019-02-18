@@ -61,7 +61,7 @@ public class StringArray
         }
         if (start != -1)
             v.addElement(s.substring(start));
-        if (v.size() == 0)
+        if (v.isEmpty())
             return empty;
         String[] a = new String[v.size()];
         v.copyInto(a);
@@ -126,7 +126,7 @@ public class StringArray
      *         null if the input string is null or zero length.
      */
     public static String[] splitList(String list, String delim) {
-        if (list == null || list.length() == 0)
+        if (list == null || list.isEmpty())
             return null;
 
         Vector<String> v = new Vector<>();
@@ -146,7 +146,7 @@ public class StringArray
         if (pos < list.length())
             v.addElement(list.substring(pos));
 
-        if (v.size() == 0)
+        if (v.isEmpty())
             return new String[0];
 
         String[] a = new String[v.size()];

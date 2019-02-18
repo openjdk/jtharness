@@ -356,7 +356,7 @@ public abstract class FileListQuestion extends Question
         }
         if (start != -1)
             v.add(new File(s.substring(start)));
-        if (v.size() == 0)
+        if (v.isEmpty())
             return empty;
         File[] a = new File[v.size()];
         v.toArray(a);

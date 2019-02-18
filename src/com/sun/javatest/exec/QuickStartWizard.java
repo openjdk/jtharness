@@ -243,7 +243,7 @@ class QuickStartWizard extends ToolDialog
         head.setText(p.getHead());
         main.add(p, BorderLayout.CENTER);
         showError(null);
-        backBtn.setEnabled(history.size() > 0);
+        backBtn.setEnabled(!history.isEmpty());
         p.updateNextButton();
         doneBtn.setEnabled(p == endPane);
         currPane = p;
@@ -443,7 +443,7 @@ class QuickStartWizard extends ToolDialog
                         }
                         else {
                             // set chooser to value in field?
-                            if (path != null && path.length() > 0)
+                            if (path != null && !path.isEmpty())
                                 chooser.setSelectedFile(new File(path));
 
                             int rc = chooser.showDialog(body, chooser.getApproveButtonText());
@@ -499,7 +499,7 @@ class QuickStartWizard extends ToolDialog
          */
         File getFile() {
             String path = getPath();
-            return path == null || path.length() == 0 ? null : new File(path);
+            return path == null || path.isEmpty() ? null : new File(path);
         }
 
         String getPath() {
@@ -885,7 +885,7 @@ class QuickStartWizard extends ToolDialog
         private File chkConfigFile(FilePanel panel, Properties data ) {
             String path = panel.getPath();
             File file = null;
-            if (path.length() == 0) {
+            if (path.isEmpty()) {
                 showError("qsw.cfg.noFile");
                 return null;
             }
@@ -976,7 +976,7 @@ class QuickStartWizard extends ToolDialog
             if (installParentDirIsTestSuite)
                 s.add(installParentDir.getPath());
 
-            if (s.size() > 0)
+            if (!s.isEmpty())
                 testSuitePanel.setSuggestions( s.toArray(new String[s.size()]));
         }
 
@@ -1097,7 +1097,7 @@ class QuickStartWizard extends ToolDialog
         @Override
         void updateNextButton() {
             String path = workDirPanel.getPath();
-            nextBtn.setEnabled(path != null && path.length() > 0);
+            nextBtn.setEnabled(path != null && !path.isEmpty());
         }
 
         @Override

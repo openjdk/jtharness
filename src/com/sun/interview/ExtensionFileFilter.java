@@ -110,7 +110,7 @@ public class ExtensionFileFilter implements FileFilter
      *          extension added on.
      */
     public String ensureExtension(String path) {
-        if (path == null || path.length() == 0)
+        if (path == null || path.isEmpty())
             return path;
 
         for (String extn : extns)

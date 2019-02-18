@@ -1356,7 +1356,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             if (debug > 1)
                 Debug.println("  -> removing rrp: " + rrp);
 
-            distToDel += (rrp == null || rrp.length() == 0) ? 0 : rrp.length() + 1;
+            distToDel += (rrp == null || rrp.isEmpty()) ? 0 : rrp.length() + 1;
 
             String platformPath = file.getPath().substring(distToDel);
 
@@ -1373,7 +1373,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             if (debug > 1)
                 Debug.println("  -> check for RRP against: " + rrp);
 
-            if (rrp != null && rrp.length() != 0 && thisFilePath.startsWith(rrp)) {
+            if (rrp != null && !rrp.isEmpty() && thisFilePath.startsWith(rrp)) {
                 // strip length of fullPath
                 if (debug > 1)
                     Debug.println("  -> URL is root relative, stripping");

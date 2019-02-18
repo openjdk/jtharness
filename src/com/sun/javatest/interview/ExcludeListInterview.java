@@ -366,7 +366,7 @@ public class ExcludeListInterview
             // the following will implicitly call ensureInitialized()
             if (isHidden())
                 return qCustomFiles;
-            else if (value == null || value.length() == 0)
+            else if (value == null || value.isEmpty())
                 return null;
             else if (value.equals(INITIAL))
                 return checkExcludeList();

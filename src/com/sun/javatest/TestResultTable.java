@@ -949,15 +949,15 @@ public class TestResultTable {
             }
         }   // for
 
-        if ((initNodes == null || initNodes.size() == 0) &&
-            (initTests == null || initTests.size() == 0)) {
+        if ((initNodes == null || initNodes.isEmpty()) &&
+            (initTests == null || initTests.isEmpty())) {
             if (debug == 1 || debug == 99)
                 Debug.println("None of the initial URLs could be looked up.");
 
             return NullEnum.getInstance();
         }
 
-        if (initTests.size() > 0) {
+        if (!initTests.isEmpty()) {
             if (debug == 1 || debug == 99)
                 Debug.println("Using combo TreeIterator, " + initTests.size() +
                             " tests, " + initNodes.size() + " nodes.");
@@ -1121,7 +1121,7 @@ public class TestResultTable {
             throw new IllegalArgumentException(i18n.getString("trt.pathNull"));
 
         // special case, should only happen on first call of this method
-        if (path.length() == 0)
+        if (path.isEmpty())
             return node;
 
         String dir = getDirName(path);
@@ -1913,7 +1913,7 @@ public class TestResultTable {
                     throw new Fault(i18n, "trt.badInitFile", thisInitPath);
                 }
 
-                distToDel += (rrp == null || rrp.length() == 0) ? 0 : rrp.length() + 1;
+                distToDel += (rrp == null || rrp.isEmpty()) ? 0 : rrp.length() + 1;
 
                 // strip length of testsuite root
                 String platformPath = thisInitPath.substring(distToDel);
@@ -2085,7 +2085,7 @@ public class TestResultTable {
             throw new JavaTestError(i18n, "trt.trNoTd", f);
         }
 
-        if (v.size() > 0) {
+        if (!v.isEmpty()) {
             trs = new TestResult[v.size()];
             v.copyInto(trs);
         }

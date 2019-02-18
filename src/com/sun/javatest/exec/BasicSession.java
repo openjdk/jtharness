@@ -237,12 +237,12 @@ public class BasicSession implements SessionExt {
             return; // already working...
         }
         isNotifying = true;
-        boolean cont = queue.size() > 0;
+        boolean cont = !queue.isEmpty();
         while (cont) {
            Pair pair = queue.remove(0);
            pair.obs.updated(pair.evn); // this call may cause a new
                                        // pair to be add to the queue
-           cont = queue.size() > 0;
+           cont = !queue.isEmpty();
         }
         isNotifying = false;
     }

@@ -737,7 +737,7 @@ public abstract class BasicParameters
         if (testSuiteFilter != null)
         v.addElement(testSuiteFilter);
 
-        if (v.size() == 0)
+        if (v.isEmpty())
             return null;
         else if (equal(v, cachedTestFilters))
             return cachedTestFilters;

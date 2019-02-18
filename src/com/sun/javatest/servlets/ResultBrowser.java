@@ -168,7 +168,7 @@ public class ResultBrowser extends HttpServlet {
         out.println("<h2><a name=env>Test Environment</a></h2>");
         try {
             Map<String, String> env = tr.getEnvironment();
-            if (env.size() == 0) {
+            if (env.isEmpty()) {
                 out.println("<tr><td>No environment details found");
             }
             else {

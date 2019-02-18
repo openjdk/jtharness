@@ -116,7 +116,7 @@ class MDIDeskView extends DeskView {
 
     @Override
     public boolean isEmpty() {
-        return internalFrames.size() == 0;
+        return internalFrames.isEmpty();
     }
 
     @Override

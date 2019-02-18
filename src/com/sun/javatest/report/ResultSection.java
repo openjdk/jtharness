@@ -200,7 +200,7 @@ class ResultSection extends HTMLSection {
         ReportWriter out = openAuxFile(fileCodes[i], headings[i], i18n);
         try {
             TreeSet<TestResult> list = lists[i];
-            if (list.size() > 0) {
+            if (!list.isEmpty()) {
                 boolean inList = false;
 
                 for (TestResult e : list) {
@@ -245,7 +245,7 @@ class ResultSection extends HTMLSection {
         out.write(i18n.getString("result.groupByStatus"));
         try {
             TreeSet<TestResult> list = lists[i];
-            if (list.size() > 0) {
+            if (!list.isEmpty()) {
                 boolean inList = false;
                 String currentHead = null;
                 for (TestResult e : list) {
@@ -266,7 +266,7 @@ class ResultSection extends HTMLSection {
                             out.newLine();
                         }
                         out.startTag(HTMLWriterEx.H4);
-                        out.write(currentHead.length() == 0 ? i18n.getString("result.noReason") : currentHead);
+                        out.write(currentHead.isEmpty() ? i18n.getString("result.noReason") : currentHead);
                         out.endTag(HTMLWriterEx.H4);
                         out.newLine();
                     }

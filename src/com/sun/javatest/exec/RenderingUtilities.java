@@ -149,7 +149,7 @@ class RenderingUtilities {
             name = filter.getName();
 
             //setToolTipText(filter.getDescription());
-            if (name != null && name.length() > 0)
+            if (name != null && !name.isEmpty())
                 setText(name);
             else
                 setText(i18n.getString("rendUtil.noFilterName"));

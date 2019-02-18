@@ -524,7 +524,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
     }
 
     private static boolean isValidIdentifier(String name) {
-        if (name == null || name.length() == 0) {
+        if (name == null || name.isEmpty()) {
             return false;
         }
 
@@ -550,7 +550,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
         qDescription = new StringQuestion(this, "description") {
             @Override
                 public boolean isValueValid() {
-                    return value != null && value.length() > 0;
+                    return value != null && !value.isEmpty();
                 }
 
             @Override

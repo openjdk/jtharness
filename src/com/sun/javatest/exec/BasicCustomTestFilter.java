@@ -817,7 +817,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         // a root selection
         if (shot.initialUrls != null &&
                 shot.initialUrls.length == 1 &&
-                shot.initialUrls[0].length() == 0) {
+                shot.initialUrls[0].isEmpty()) {
             shot.initialUrls = null;
         }
 

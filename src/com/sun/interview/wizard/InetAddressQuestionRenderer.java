@@ -190,7 +190,7 @@ public class InetAddressQuestionRenderer
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 4; i++) {
                 String s = fields[i].getText();
-                if (s == null || s.length() == 0)
+                if (s == null || s.isEmpty())
                     sb.append("0");
                 else
                     sb.append(s);
@@ -337,7 +337,7 @@ public class InetAddressQuestionRenderer
             String cmd = e.getActionCommand();
             if (cmd.equals(LOOKUP)) {
                 String name = nameField.getText();
-                if (name == null || name.length() == 0)
+                if (name == null || name.isEmpty())
                     errorField.setText(i18n.getString("inet.lookup.noName.err"));
                 else {
                     InetAddress[] addrs;

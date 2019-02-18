@@ -505,7 +505,7 @@ public class ServiceManager implements Harness.Observer {
         public void run() {
             while (true) {
                 synchronized (this) {
-                    if (sOuts.size() == 0 && sErrs.size() == 0) {
+                    if (sOuts.isEmpty() && sErrs.isEmpty()) {
                         try {
                             wait();
                         } catch (InterruptedException ex) {}
@@ -603,7 +603,7 @@ public class ServiceManager implements Harness.Observer {
             while (true) {
 
                 synchronized (sync) {
-                    if (active.size() == 0) {
+                    if (active.isEmpty()) {
                         try {
                             sync.wait();
                         } catch (InterruptedException ex) {}

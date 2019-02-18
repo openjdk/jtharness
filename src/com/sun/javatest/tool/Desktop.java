@@ -648,7 +648,7 @@ public class Desktop
                 v.addAll(Arrays.asList(alerts));
         }
 
-        if (v.size() == 0)
+        if (v.isEmpty())
             return true;
         else {
             String[] allAlerts = new String[v.size()];
@@ -975,7 +975,7 @@ public class Desktop
                         FileOpener fo = allOpeners.get(ft);
                         if (fo != null) {
                             String path = p.get("fileHistory." + i + ".path");
-                            if (path != null && path.length() > 0)
+                            if (path != null && !path.isEmpty())
                                 fileHistory.add(new FileHistoryEntry(fo, new File(path)));
                         }
                     }
@@ -1081,7 +1081,7 @@ public class Desktop
             }
         }   // for i
 
-        if (al.size() > 0) {
+        if (!al.isEmpty()) {
             PreferencesPane[] panes = new PreferencesPane[al.size()];
             al.toArray(panes);
             return panes;

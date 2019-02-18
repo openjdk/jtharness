@@ -173,7 +173,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
 
     @Override
     public synchronized boolean hasNext() {
-        return queue.size() > 0
+        return !queue.isEmpty()
                 || (worker == null ? source.hasNext() : sourceHasNext);
     }
 

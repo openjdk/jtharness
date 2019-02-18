@@ -62,7 +62,7 @@ public class TestPath {
         if (pathPattern != null) {
             p = Pattern.compile(pathPattern);
         }
-        if (tdMatcherClassName != null && tdMatcherClassName.length() != 0 ) {
+        if (tdMatcherClassName != null && !tdMatcherClassName.isEmpty()) {
             try {
 
                 Class<? extends TDMatcher> tdMatcherClass = ts.loadClass(tdMatcherClassName);

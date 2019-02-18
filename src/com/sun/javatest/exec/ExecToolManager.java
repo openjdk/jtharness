@@ -442,7 +442,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         return InterviewParameters.open(tsp, wdp, cfp);
     }
     private static boolean isEmpty(String s) {
-        return s == null || s.length() == 0;
+        return s == null || s.isEmpty();
     }
 
     //-------------------------------------------------------------------------

@@ -198,7 +198,7 @@ public class PathClassLoader extends ClassLoader
     }
 
     private void add(String s, Vector<File> v) {
-        if (s.length() != 0)
+        if (!s.isEmpty())
             v.addElement(new File(s));
     }
 

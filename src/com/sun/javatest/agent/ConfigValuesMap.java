@@ -129,7 +129,7 @@ public class ConfigValuesMap {
         String line;
         while ((line = in.readLine()) != null) {
             line = line.trim();
-            if (line.length() > 0  &&  !line.startsWith("#")) {
+            if (!line.isEmpty() &&  !line.startsWith("#")) {
                 String[] row = StringArray.split(line);
                 if (row.length < 2)
                     throw new IOException("format error in map file, line is: " + line);

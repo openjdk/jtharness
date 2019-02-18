@@ -163,7 +163,7 @@ class PropertiesBrowser extends ToolDialog
         }
 
         void setField(JTextField f, String v) {
-            if (v == null || v.length() == 0) {
+            if (v == null || v.isEmpty()) {
                 // set f to italic font?
                 f.setText(unset);
             }

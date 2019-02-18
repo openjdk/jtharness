@@ -120,11 +120,11 @@ public class KeywordScript extends Script
 
         // check we have a unique script selected
         String name = env.getName();
-        String envName = name.length() == 0 ?
+        String envName = name.isEmpty() ?
                           "The anonymous environment" :
                           "Environment `" + env.getName() + "'";
-        if (matches.size() == 0) {
-            if (choices.size() == 0) {
+        if (matches.isEmpty()) {
+            if (choices.isEmpty()) {
                 String s = envName + " has no `script' entries";
                 trOut.println(s);
                 setStatus(Status.error(s));

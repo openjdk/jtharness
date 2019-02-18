@@ -265,14 +265,14 @@ public class COFTest extends COFItem {
 
         List  <COFTestCase> jtrCases = testcases.getTestcase();
         List  <String> mtlTestCases = mtl.getTestCases(tr.getTestName());
-        if (mtlTestCases != null && mtlTestCases.size() > 0) {
+        if (mtlTestCases != null && !mtlTestCases.isEmpty()) {
             // for (COFTestCase jtrCase : jtrCases) {
             Iterator it = jtrCases.iterator();
             while (it.hasNext()) {
                 COFTestCase jtrCase = (COFTestCase) it.next();
                 mtlTestCases.remove(jtrCase.name);
             }
-            if (mtlTestCases.size() > 0) {
+            if (!mtlTestCases.isEmpty()) {
                 //for (String testCaseName : mtlTestCases) {
                 it = mtlTestCases.iterator();
                 while(it.hasNext()) {
@@ -519,7 +519,7 @@ public class COFTest extends COFItem {
     private static Date parseDate(TestResult tr, String key) {
         try {
             String s = tr.getProperty(key);
-            if (s != null && s.length() > 0) {
+            if (s != null && !s.isEmpty()) {
                 return parseDate(s);
             }
         } catch (TestResult.Fault e) {

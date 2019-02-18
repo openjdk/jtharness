@@ -189,7 +189,7 @@ public class TT_BasicNode extends TT_TreeNode {
         updateNode();
 
         synchronized (children) {
-            if (children.size() == 0) {
+            if (children.isEmpty()) {
                 return null;
             }
             for (TT_TreeNode node : children) {
@@ -206,7 +206,7 @@ public class TT_BasicNode extends TT_TreeNode {
         updateNode();
 
         synchronized (children) {
-            if (children.size() == 0) {
+            if (children.isEmpty()) {
                 return null;
             }
         }
@@ -295,7 +295,7 @@ public class TT_BasicNode extends TT_TreeNode {
 //
         synchronized (children) {
             int result = -1;
-            if (children.size() == 0) {
+            if (children.isEmpty()) {
                 children.add(tn);
                 result = 0;
             } else if (sortComparator == null) {
@@ -389,7 +389,7 @@ public class TT_BasicNode extends TT_TreeNode {
                     continue;                // add it
                 }
                 TT_BasicNode newNode = new TT_BasicNode(this, tnode, comp);
-                if (children.size() == 0) {
+                if (children.isEmpty()) {
                     children.add(newNode);
                     newPositions[i] = 0;
                 }
@@ -415,7 +415,7 @@ public class TT_BasicNode extends TT_TreeNode {
             TT_TestNode tn = new TT_TestNode(this, test);
 
             synchronized (children) {
-                if (children.size() == 0 || comp == null) {
+                if (children.isEmpty() || comp == null) {
                     children.add(tn);
                 } else {
                     int result = recursiveIns(0, children.size() - 1, tn,
@@ -446,7 +446,7 @@ public class TT_BasicNode extends TT_TreeNode {
     private int insertNewBranch(TT_BasicNode tn) {
         // need to sort
         synchronized (children) {
-            if (children.size() == 0) {
+            if (children.isEmpty()) {
                 children.add(tn);
                 return 0;
             }

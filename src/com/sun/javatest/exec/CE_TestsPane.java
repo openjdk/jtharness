@@ -206,7 +206,7 @@ class CE_TestsPane extends CE_StdPane
             String line;
             while ((line = in.readLine()) != null) {
                 line = line.trim();
-                if (line.length() == 0 || line.startsWith("#"))
+                if (line.isEmpty() || line.startsWith("#"))
                     continue;
                 int sp = line.indexOf(' ');
                 String path = sp == -1 ? line : line.substring(0, sp);
@@ -242,7 +242,7 @@ class CE_TestsPane extends CE_StdPane
 
         final int MAX_BAD_PATHS = 10;
 
-        if (badPaths.size() > 0) {
+        if (!badPaths.isEmpty()) {
             if (badPaths.size() == 1)
                 uif.showError("ce.tests.badPath", badPaths.get(0));
             else {

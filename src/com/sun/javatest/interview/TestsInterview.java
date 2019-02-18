@@ -250,12 +250,12 @@ public class TestsInterview
     protected FileQuestion qTestFile = new FileQuestion(this, "testFile") {
         @Override
         public boolean isValueValid() {
-            return value != null && value.getPath().length() > 0;
+            return value != null && !value.getPath().isEmpty();
         }
 
         @Override
         protected Question getNext() {
-            if (value == null || value.getPath().length() == 0) {
+            if (value == null || value.getPath().isEmpty()) {
                 return null;
             }
 
@@ -282,7 +282,7 @@ public class TestsInterview
             String line;
             while ((line = in.readLine()) != null) {
                 line = line.trim();
-                if (line.length() == 0 || line.startsWith("#")) {
+                if (line.isEmpty() || line.startsWith("#")) {
                     continue;
                 }
                 int sp = line.indexOf(' ');

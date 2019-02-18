@@ -349,7 +349,7 @@ class AuditTool extends Tool
     }
 
     private static boolean isEmpty(String s) {
-        return s == null || s.length() == 0;
+        return s == null || s.isEmpty();
     }
 
 

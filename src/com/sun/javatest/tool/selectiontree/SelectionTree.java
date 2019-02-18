@@ -780,7 +780,7 @@ public class SelectionTree extends JTree {
             throw new NullPointerException();
         }
 
-        if (path.length() == 0) {
+        if (path.isEmpty()) {
             return node;
         }
 

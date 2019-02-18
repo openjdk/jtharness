@@ -84,7 +84,7 @@ public class VerboseCommand extends Command
 
         String workstr = cmd.substring(chop + CMD.length());
 
-        if (workstr.length() == 0) {
+        if (workstr.isEmpty()) {
             optionValues.put(DEFAULT, Boolean.TRUE);
         }
         else if (workstr.charAt(0) == ':') {

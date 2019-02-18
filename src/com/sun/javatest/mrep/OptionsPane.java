@@ -296,7 +296,7 @@ class OptionsPane extends JPanel {
     private ArrayList<CustomReport> getActiveCustomReports() {
 
         ArrayList<CustomReport> customReps = new ArrayList<>();
-        if (customBoxes != null && customBoxes.size() > 0) {
+        if (customBoxes != null && !customBoxes.isEmpty()) {
             for (JCheckBox box : customBoxes.keySet()) {
                 if (box.isSelected()) {
                     customReps.add(customBoxes.get(box));

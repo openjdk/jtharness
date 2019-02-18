@@ -256,7 +256,7 @@ public class EnvironmentInterview
         String envName = getEnvName();
         if (cachedEnv_envTable != envTable || !equal(cachedEnv_envName, envName)) {
             try {
-                if (envTable == null || envName == null || envName.length() == 0) {
+                if (envTable == null || envName == null || envName.isEmpty()) {
                     cachedEnv = null;
                     cachedEnvError = null;
                 }

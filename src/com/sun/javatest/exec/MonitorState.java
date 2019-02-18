@@ -202,7 +202,7 @@ class MonitorState {
     TestResult[] getRunningTests() {
         TestResult[] trs = new TestResult[0];
         synchronized (vLock) {
-            if (runningTests != null && runningTests.size() > 0)
+            if (runningTests != null && !runningTests.isEmpty())
                 trs = runningTests.toArray(trs);
         }
 

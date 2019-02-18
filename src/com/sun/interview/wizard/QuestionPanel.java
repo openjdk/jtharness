@@ -538,7 +538,7 @@ class QuestionPanel extends JPanel
     }
 
     private void showValueMessage(String msg, Color c) {
-        if (msg == null || msg.length() == 0) {
+        if (msg == null || msg.isEmpty()) {
             valueMessageField.setText("");
             valueMessageField.setEnabled(false);
         }

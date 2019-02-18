@@ -217,7 +217,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                         mod.addTest(newData[newData.length-1].elementAt(j), true);
                     }   // for
 
-                    if (newData[newData.length-1].size() > 0 && !stopping) {
+                    if (!newData[newData.length - 1].isEmpty() && !stopping) {
                         // final item with a notify
                         mod.addTest(newData[newData.length-1].lastElement(), false);
                     }
@@ -489,7 +489,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             // list model object during execution of this block
             synchronized (BP_FilteredOutSubpanel.this) {
                 synchronized (vLock) {
-                    if (inQueue.size() == 0 && rmQueue.size() == 0) {
+                    if (inQueue.isEmpty() && rmQueue.isEmpty()) {
                         if (debug)
                             Debug.println("BP_TT.TTM - goLive() nothing to do, returning");
                         return;
@@ -499,7 +499,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                     //preprocessAddQueue();
 
                     // now add the new items
-                    if (inQueue.size() != 0) {
+                    if (!inQueue.isEmpty()) {
                         synchronized (liveData) {
                             firstNew = liveData.size();
                             if (inQueue.size() < BATCH_SIZE) {
@@ -548,7 +548,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                     */
 
                     // this clears the "please wait" message if needed
-                    if (table.getSelectedRow() == -1 && inQueue.size() == 0)
+                    if (table.getSelectedRow() == -1 && inQueue.isEmpty())
                         showMessage("");
                 }   // sync
             }
@@ -562,10 +562,10 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
          * vLock should be locked when you call this method
          */
         private void processRemoveQueue() {
-            if (rmQueue.size() == 0)
+            if (rmQueue.isEmpty())
                 return;
 
-            while (rmQueue.size() > 0) {
+            while (!rmQueue.isEmpty()) {
                 TestResult target = rmQueue.remove(0);
                 int targetIndex = liveData.indexOf(target);
                 if (targetIndex != -1) {

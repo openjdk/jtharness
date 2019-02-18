@@ -502,7 +502,7 @@ class CE_ExcludeListPane extends CE_StdPane
         boolean isOKToClose() {
             if (autoCheck.isSelected() && daysButton.isSelected()) {
                 String dt = daysField.getText();
-                if (dt == null || dt.length() ==0) {
+                if (dt == null || dt.isEmpty()) {
                     uif.showError("ce.excl.latest.noDays");
                     return false;
                 }
@@ -564,7 +564,7 @@ class CE_ExcludeListPane extends CE_StdPane
 
             try {
                 String ds = daysField.getText();
-                if (ds.length() > 0) {
+                if (!ds.isEmpty()) {
                     int days = Integer.parseInt(ds);
                     mutableExcludeListParameters.setLatestExcludeAutoCheckInterval(days);
                 }

@@ -438,7 +438,7 @@ public class TestSuite
      */
     public File getTestsDir() {
         String t = tsInfo == null ? null : tsInfo.get("tests");
-        if (t == null || t.length() == 0) {
+        if (t == null || t.isEmpty()) {
             File rootDir = getRootDir();
             File testsDir = new File(rootDir, "tests");
             if (testsDir.isDirectory()) {

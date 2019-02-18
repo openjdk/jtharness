@@ -70,9 +70,9 @@ public class ServiceProperties {
      * @return true, if there exist any individual properties.
      */
     public boolean isEmpty() {
-        return (constProps == null || constProps.size() == 0) &&
-                (varProps == null || varProps.size() == 0) &&
-                (varMap == null || varMap.size() == 0);
+        return (constProps == null || constProps.isEmpty()) &&
+                (varProps == null || varProps.isEmpty()) &&
+                (varMap == null || varMap.isEmpty());
     }
 
     /**
@@ -90,7 +90,7 @@ public class ServiceProperties {
 
         ParametrizeValue val = new ParametrizeValue();
 
-        while (value.length() > 0) {
+        while (!value.isEmpty()) {
             Term t = new Term();
             int len = nextTerm(value, t);
             value = value.substring(len);
@@ -172,7 +172,7 @@ public class ServiceProperties {
         }
 
         Map<String, ParametrizeValue> copyVars = copyVarProps();
-        while (justResolved.size() > 0) {
+        while (!justResolved.isEmpty()) {
             justResolved = resolveVars(copyVars, justResolved);
             result.putAll(justResolved);
         }

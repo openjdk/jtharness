@@ -345,7 +345,7 @@ public class AgentMain {
 
         switch (mode) {
         case ACTIVE:
-            if (activeHost == null || activeHost.length() == 0)
+            if (activeHost == null || activeHost.isEmpty())
                 throw new BadArgs("No active host specified");
             if (activePort <= 0)
                 throw new BadArgs("No active port specified");
@@ -487,7 +487,7 @@ public class AgentMain {
                 String[] msgs = {"Problem reading map file", e.toString()};
                 throw new Fault(msgs);
             }
-        } else if (mappedArgs.size() > 0) {
+        } else if (!mappedArgs.isEmpty()) {
             agent.setMap(new ConfigValuesMap(mappedArgs));
         }
 

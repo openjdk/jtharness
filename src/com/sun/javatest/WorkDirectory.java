@@ -1014,7 +1014,7 @@ public class WorkDirectory {
 
         boolean result = true;
 
-        File f = path.length() == 0 ? root : getFile(path);
+        File f = path.isEmpty() ? root : getFile(path);
 
         if (!f.exists())
             return false;
@@ -1089,7 +1089,7 @@ public class WorkDirectory {
                 try { if (reader != null) reader.close(); } catch (IOException e) {}
             }
 
-            if (annotationMap.size() == 0)
+            if (annotationMap.isEmpty())
                 annotationMap = null;
 
         }
@@ -1099,7 +1099,7 @@ public class WorkDirectory {
         // must write even if the map is now empty
         // remove file if map empty
         File aFile = getSystemFile(TEST_ANNOTATION_FILE);
-        if (annotationMap == null || annotationMap.size() == 0) {
+        if (annotationMap == null || annotationMap.isEmpty()) {
             // should check aFile.canRead(), canWrite()
             // map may have been emptied since last write, so we can
             // delete the entire file now
@@ -1160,7 +1160,7 @@ public class WorkDirectory {
 
         for (File f : files) {
             String p; // root-relative path for f
-            if (pathFromRoot.length() == 0)
+            if (pathFromRoot.isEmpty())
                 p = f.getName();
             else
                 p = pathFromRoot + "/" + f.getName();
@@ -1204,7 +1204,7 @@ public class WorkDirectory {
         if (testCount > 0)
             p.put(TESTSUITE_TESTCOUNT, Integer.toString(testCount));
 
-        if (testSuiteID != null && testSuiteID.length() > 0)
+        if (testSuiteID != null && !testSuiteID.isEmpty())
             p.put(TESTSUITE_ID, testSuiteID);
 
         saveInfo(p, TESTSUITE, "JT Harness Work Directory: Test Suite Info");

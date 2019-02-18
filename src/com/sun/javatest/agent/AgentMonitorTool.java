@@ -123,14 +123,14 @@ public class AgentMonitorTool extends Tool
         String l = m.get("listening");
         try {
             String p = m.get("port");
-            if (p != null && p.length() != 0)
+            if (p != null && !p.isEmpty())
                 agentPoolSubpanel.setPort(Integer.parseInt(p));
 
             String t = m.get("timeout");
-            if (t != null && t.length() != 0)
+            if (t != null && !t.isEmpty())
                 agentPoolSubpanel.setTimeout(Integer.parseInt(t));
 
-            if (l != null && l.length() != 0)
+            if (l != null && !l.isEmpty())
                 agentPoolSubpanel.setListening(l.equals("true"));
         }
         catch (NumberFormatException ignore) {

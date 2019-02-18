@@ -156,7 +156,7 @@ public class Timer
      */
     private synchronized Entry getNextEntry() throws InterruptedException {
         while (acceptingRequests) {
-            if (entries.size() == 0) {
+            if (entries.isEmpty()) {
                 // nothing on list; wait until new requests come in
                 wait();
             } else {

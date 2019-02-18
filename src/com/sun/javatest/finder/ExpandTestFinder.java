@@ -289,7 +289,7 @@ public class ExpandTestFinder extends TagTestFinder
                         for (String key : keys) {
                             // minor modification here to allow no keywords
                             //if (validKeywords.get(key.toLowerCase()) == null) {
-                            if ((validKeywords.size() > 0) && (validKeywords.get(key.toLowerCase()) == null)) {
+                            if ((!validKeywords.isEmpty()) && (validKeywords.get(key.toLowerCase()) == null)) {
                                 error(i18n, "expand.unknownKeyword",
                                         key, getCurrentFile());
                             }

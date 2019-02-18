@@ -430,7 +430,7 @@ public class ConfigManager
                     v.add(new File(arg));
             }
 
-            if (v.size() == 0)
+            if (v.isEmpty())
                 throw new Fault(i18n, "cnfg.envFiles.noFiles");
 
             files = new File[v.size()];
@@ -476,7 +476,7 @@ public class ConfigManager
                     v.add(new File(arg));
             }
 
-            if (v.size() == 0)
+            if (v.isEmpty())
                 throw new Fault(i18n, "cnfg.excl.noFiles");
 
             files = new File[v.size()];
@@ -522,7 +522,7 @@ public class ConfigManager
                     v.add(new File(arg));
             }
 
-            if (v.size() == 0)
+            if (v.isEmpty())
                 throw new Fault(i18n, "cnfg.kfl.noFiles");
 
             files = new File[v.size()];
@@ -842,7 +842,7 @@ public class ConfigManager
             }
             if (start != -1)
             v.addElement(s.substring(start));
-            if (v.size() == 0)
+            if (v.isEmpty())
             return null;
             String[] a = new String[v.size()];
             v.copyInto(a);
@@ -1089,7 +1089,7 @@ public class ConfigManager
                     v.add(arg);
             }
 
-            if (v.size() == 0)
+            if (v.isEmpty())
                 throw new Fault(i18n, "cnfg.tests.noTests");
 
             tests = new String[v.size()];

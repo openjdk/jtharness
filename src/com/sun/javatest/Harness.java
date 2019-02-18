@@ -846,7 +846,7 @@ public class Harness
     }
 
     private static String formatFilterList(final List<String> names) {
-        if (names == null || names.size() == 0)
+        if (names == null || names.isEmpty())
             return "";
 
         StringBuilder sb = new StringBuilder();

@@ -221,7 +221,7 @@ public class httpURL {
     private void parseURLKeys() {
         String data = file.substring(firstQ + 1, fileLen);
 
-        if (data.length() == 0) return;
+        if (data.isEmpty()) return;
 
         String key = null;
         int pos = 0;

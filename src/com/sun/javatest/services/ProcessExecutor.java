@@ -94,7 +94,7 @@ public class ProcessExecutor implements ServiceExecutor {
         ProcessBuilder pb = new ProcessBuilder(command);
 
         Map<String, String> env = getEnv(startMsg);
-        if (env != null && env.size() > 0) {
+        if (env != null && !env.isEmpty()) {
             Map<String, String> currEnv = pb.environment();
             currEnv.clear();
             currEnv.putAll(env);

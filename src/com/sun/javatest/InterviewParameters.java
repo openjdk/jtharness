@@ -776,7 +776,7 @@ public abstract class InterviewParameters
             v.addElement(testSuiteFilter);
         }
 
-        if (v.size() == 0) {
+        if (v.isEmpty()) {
             return null;
         }
         else if (equal(v, cachedTestFilters)) {
@@ -1105,11 +1105,11 @@ public abstract class InterviewParameters
     public static InterviewParameters open(String testSuitePath, String workDirPath, String configFilePath)
         throws InterviewParameters.Fault
     {
-        File ts = testSuitePath != null && testSuitePath.length() > 0
+        File ts = testSuitePath != null && !testSuitePath.isEmpty()
                        ? new File(testSuitePath) : null;
-        File wd = workDirPath != null && workDirPath.length() > 0
+        File wd = workDirPath != null && !workDirPath.isEmpty()
                        ? new File(workDirPath) : null;
-        File cf = configFilePath != null && configFilePath.length() > 0
+        File cf = configFilePath != null && !configFilePath.isEmpty()
                        ? new File(configFilePath) : null;
         return open(ts, wd, cf);
     }

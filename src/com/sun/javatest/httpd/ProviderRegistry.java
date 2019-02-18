@@ -199,7 +199,7 @@ public class ProviderRegistry {
     }
 
     public boolean isEmpty() {
-        return url2prov.size() == 0;
+        return url2prov.isEmpty();
     }
 
 // ---------- Protected or better -----------
@@ -354,7 +354,7 @@ public class ProviderRegistry {
     final String[] disassembleURL(String url) {
         String[] result = new String[0];
 
-        if (url == null || url.length() == 0) return result;
+        if (url == null || url.isEmpty()) return result;
 
         // ignore the leading slash
         int urlLen = url.length();      // just an optimization

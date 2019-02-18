@@ -166,7 +166,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
         if (model.getRowCount() == 0)
             return;
 
-        if (tables.size() == 0) {
+        if (tables.isEmpty()) {
             Component box = Box.createVerticalStrut(20);
             box.setFocusable(false);
             panel.add(box);

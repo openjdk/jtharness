@@ -148,14 +148,14 @@ public class LineParser
                 case '\n':
                     // end current word, return if curr line not empty
                     endWord_nextCh();
-                    if (currLine.size() > 0)
+                    if (!currLine.isEmpty())
                         return endLine();
                     break;
 
                 case ';':
                     // end current word, return if curr line not empty
                     endWord_nextCh();
-                    if (currLine.size() > 0)
+                    if (!currLine.isEmpty())
                         return endLine();
                     break;
 
@@ -165,7 +165,7 @@ public class LineParser
                     endWord_nextCh();
                     while (ch != -1 && ch != '\r' && ch != '\n')
                         nextCh();
-                    if (currLine.size() > 0)
+                    if (!currLine.isEmpty())
                         return endLine();
                     break;
 
@@ -203,7 +203,7 @@ public class LineParser
                 currWord = null;
             }
 
-            return currLine.size() > 0 ? endLine() : null;
+            return !currLine.isEmpty() ? endLine() : null;
         }
         catch (IOException e) {
             throw new Fault(i18n, "lineParser.ioError",

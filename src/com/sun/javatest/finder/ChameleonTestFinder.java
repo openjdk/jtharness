@@ -161,7 +161,7 @@ public class ChameleonTestFinder extends TestFinder {
             while ((line = in.readLine()) != null) {
                 line = line.trim();
                 lineNum++;
-                if (line.startsWith("#")  ||  line.length() == 0)
+                if (line.startsWith("#")  || line.isEmpty())
                     continue;
 
                 String[] words = StringArray.split(line);

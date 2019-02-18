@@ -90,7 +90,7 @@ public class FileQuestionRenderer
             public void actionPerformed(ActionEvent e) {
                 // default chooser to point at specified entry
                 String s = p.getValue();
-                if (s != null && s.length() > 0) {
+                if (s != null && !s.isEmpty()) {
                     File f = new File(s);
                     File baseDir = q.getBaseDirectory();
                     if (!f.isAbsolute() && baseDir != null)

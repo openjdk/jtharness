@@ -50,7 +50,7 @@ public abstract class Question
      * @param baseTag A name to uniquely identify this question within its interview.
      */
     protected Question(Interview interview, String baseTag) {
-        if (baseTag == null || baseTag.length() == 0)
+        if (baseTag == null || baseTag.isEmpty())
             throw new IllegalArgumentException("No tag specified");
 
         this.interview = interview;

@@ -45,7 +45,7 @@ public class ActiveConnectionFactory implements ConnectionFactory
         if (host == null)
             throw new NullPointerException();
 
-        if (host.length() == 0) {
+        if (host.isEmpty()) {
             throw new IllegalArgumentException("Cannot start active agent connection - empty value for hostname.");
         }
         else if (port < 0) {

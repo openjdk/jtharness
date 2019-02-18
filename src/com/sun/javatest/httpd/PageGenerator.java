@@ -140,7 +140,7 @@ public class PageGenerator {
         buf.append("</tr>");
         out.println(buf.toString());
 
-        if (dict == null || dict.size() == 0) {
+        if (dict == null || dict.isEmpty()) {
             // no values to write, fill the space
             buf.setLength(0);
             buf.append("<tr><td colspan=2>");

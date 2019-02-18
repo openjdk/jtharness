@@ -164,7 +164,7 @@ class ObserverCommand extends Command
 
     private void addClassPathEntry(String s, List<URL> v) throws Fault {
         try {
-            if (s.length() > 0)
+            if (!s.isEmpty())
                 v.add(new File(s).toURL());
         }
         catch (MalformedURLException e) {

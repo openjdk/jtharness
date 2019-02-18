@@ -418,7 +418,7 @@ class FocusMonitor
             appendPath(sb, p);
         sb.append('/');
         String name = c.getName();
-        if (name == null || name.length() == 0) {
+        if (name == null || name.isEmpty()) {
             if (p == null)  // special case, root component, no name
                 sb.append("(Root component)" );
             else
@@ -508,14 +508,14 @@ class FocusMonitor
         }
 
         void setText(String s, String err) {
-            if (s == null || s.length() == 0)
+            if (s == null || s.isEmpty())
                 setText(err, false);
             else
                 setText(s, true);
         }
 
         void setText(String s, String err, Color okColor, Color notOKColor) {
-            if (s == null || s.length() == 0)
+            if (s == null || s.isEmpty())
                 setText(err, false, okColor, notOKColor);
             else
                 setText(s, true, okColor, notOKColor);
@@ -631,7 +631,7 @@ class FocusMonitor
 
             if (c != null && c instanceof JComponent) {
                 String ttText = ((JComponent)c).getToolTipText();
-                boolean ttEmpty = ttText == null || ttText.length() == 0;
+                boolean ttEmpty = ttText == null || ttText.isEmpty();
                 boolean toolTipOK = !ttEmpty
                     || c instanceof JTree
                     || c instanceof JEditorPane

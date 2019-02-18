@@ -446,9 +446,9 @@ public class ExcludeList
     }
 
     static String mergeSynopsis(String a, String b) {
-        if (a == null || a.trim().length() == 0)
+        if (a == null || a.trim().isEmpty())
             return b;
-        else if (b == null || b.trim().length() == 0)
+        else if (b == null || b.trim().isEmpty())
             return a;
         else if (a.contains(b))
             return a;
@@ -780,7 +780,7 @@ public class ExcludeList
             if (sb.length() > 0)
                 s.add(sb.toString());
 
-            if (s.size() == 0)
+            if (s.isEmpty())
                 s.add("0");  // backwards compatibility
 
             return s.toArray(new String[s.size()]);
@@ -1055,7 +1055,7 @@ public class ExcludeList
             if (start != -1)
                 v.addElement(testCase.substring(start));
 
-            if (v.size() == 0)
+            if (v.isEmpty())
                 return null;
 
             String[] a = new String[v.size()];

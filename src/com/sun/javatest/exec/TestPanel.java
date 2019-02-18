@@ -172,7 +172,7 @@ class TestPanel extends JPanel
             boolean hasEnv;
             try {
                 Map<String, String> map = currTest.getEnvironment();
-                hasEnv = map != null && map.size() > 0;
+                hasEnv = map != null && !map.isEmpty();
             }
             catch (TestResult.Fault f) {
                 hasEnv = false;

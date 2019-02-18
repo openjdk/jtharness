@@ -402,7 +402,7 @@ public abstract class ListQuestion extends Question
     protected void load(Map<String, String> data) {
         bodies.setSize(0);
         String c = data.get(tag + ".count");
-        if (c != null && c.length() > 0) {
+        if (c != null && !c.isEmpty()) {
             try {
                 int n = Integer.parseInt(c);
                 for (int i = 0; i < n; i++)
@@ -415,7 +415,7 @@ public abstract class ListQuestion extends Question
         }
 
         String v = data.get(tag + ".curr");
-        if (v == null || v.length() == 0)
+        if (v == null || v.isEmpty())
             value = 0;
         else {
             try {

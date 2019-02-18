@@ -62,7 +62,7 @@ class CE_ExecutionPane extends CE_StdPane
         // check concurrency is OK...
 
         String cs = concurrencyField.getText();
-        if (cs == null || cs.length() == 0) {
+        if (cs == null || cs.isEmpty()) {
             uif.showError("ce.exec.noConcurrency");
             return false;
         }
@@ -105,7 +105,7 @@ class CE_ExecutionPane extends CE_StdPane
         // check timeout factor is OK...
 
         String ts = timeoutFactorField.getText();
-        if (ts == null || ts.length() == 0) {
+        if (ts == null || ts.isEmpty()) {
             uif.showError("ce.exec.noTimeoutFactor");
             return false;
         }

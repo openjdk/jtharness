@@ -372,7 +372,7 @@ public class Agent implements Runnable {
             traceOut.println("WAITING FOR TASKS TO EXIT");
 
         // wait for tasks to go away
-        while (tasks.size() > 0) {
+        while (!tasks.isEmpty()) {
             wait();
         }
 

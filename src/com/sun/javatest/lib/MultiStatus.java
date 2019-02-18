@@ -114,7 +114,7 @@ public class MultiStatus {
                 break;
             }
 
-            if (t != Status.PASSED && firstTestCase.length() == 0)
+            if (t != Status.PASSED && firstTestCase.isEmpty())
                 firstTestCase = testID;
         }
     }

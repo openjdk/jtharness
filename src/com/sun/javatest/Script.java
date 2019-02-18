@@ -227,7 +227,7 @@ public abstract class Script
             testResult.putProperty(TestResult.TEST, td.getRootRelativeURL());
             StringBuilder sb = new StringBuilder(this.getClass().getName());
             String args = StringArray.join(scriptArgs);
-            if (args != null && args.length() > 0) {
+            if (args != null && !args.isEmpty()) {
                 sb.append(" ");
                 sb.append(args);
             }
@@ -772,7 +772,7 @@ public abstract class Script
                 v.addElement(src);
         }
 
-        if (v.size() > 0) {
+        if (!v.isEmpty()) {
             String[] necessarySrcs = new String[v.size()];
             v.copyInto(necessarySrcs);
 
@@ -886,7 +886,7 @@ public abstract class Script
      * @see #invokeCommand
      */
     protected Status execute(String command, String executeClass, String... executeArgs) {
-        if (executeClass == null || executeClass.length() == 0)
+        if (executeClass == null || executeClass.isEmpty())
             return error_noExecuteClass;
         env.put("testExecuteClass", executeClass);
         env.put("testExecuteArgs", executeArgs);

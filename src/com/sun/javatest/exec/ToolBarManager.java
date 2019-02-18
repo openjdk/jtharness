@@ -166,7 +166,7 @@ public class ToolBarManager {
 
         panel = p;
 
-        if (store.size() > 0) {
+        if (!store.isEmpty()) {
             JavaTestToolBar[] tbs = getToolBars();
             for (JavaTestToolBar tb : tbs) {
                 panel.add(tb);

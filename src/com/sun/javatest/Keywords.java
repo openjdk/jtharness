@@ -247,7 +247,7 @@ abstract class SetKeywords extends Keywords {
             keys.add(lowerCaseKeyword);
             allKwds += lowerCaseKeyword + " ";
         }
-        if (allKwds.length() > 0) {
+        if (!allKwds.isEmpty()) {
             // remove last " "
             allKwds = allKwds.substring(0, allKwds.length() - 1);
         }
@@ -334,7 +334,7 @@ class ExprParser {
     }
 
     ExprKeywords parse() throws Keywords.Fault {
-        if (text == null || text.trim().length() == 0)
+        if (text == null || text.trim().isEmpty())
             throw new Keywords.Fault(i18n, "kw.noExpr");
 
         ExprKeywords e = parseExpr();

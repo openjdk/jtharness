@@ -572,7 +572,7 @@ public abstract class TestFinder
         int target = 0;
 
         // binary insert
-        if (tests.size() == 0) {
+        if (tests.isEmpty()) {
             target = 0;
         }
         else if (comp == null) {
@@ -644,7 +644,7 @@ public abstract class TestFinder
         int target = 0;
 
         // binary insert
-        if (files.size() == 0) {
+        if (files.isEmpty()) {
             target = 0;
         }
         else if (comp == null) {

@@ -235,7 +235,7 @@ public class TestSuiteChooser extends JFileChooser
         public String getName(File f) {
             // Take care to get names of file system roots correct
             String name = f.getName();
-            return name.length() == 0 ? f.getPath() : name;
+            return name.isEmpty() ? f.getPath() : name;
         }
 
         @Override

@@ -290,7 +290,7 @@ class KflSection extends HTMLSection {
         ReportWriter out = new ReportWriter(openWriter(file), i18n.getString(prefix + ".title"), i18n);
         out.write(i18n.getString(prefix + ".notes"));
 
-        if (tests == null || tests.size() == 0) {
+        if (tests == null || tests.isEmpty()) {
             out.write(i18n.getString("kfl.noItemsInSet"));
             out.newLine();
             out.close();
@@ -388,7 +388,7 @@ class KflSection extends HTMLSection {
                     hs.add(bugs[j]);
                 }
 
-                if (urlPrefix != null && urlPrefix.length() > 0) {
+                if (urlPrefix != null && !urlPrefix.isEmpty()) {
                     writer.writeLink(urlPrefix + bugs[j], bugs[j]);
                     writer.newLine();
                 } else {

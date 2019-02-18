@@ -241,7 +241,7 @@ public class TestResultCache {
                 doWork();
 
                 synchronized (this) {
-                    if (flushRequested && testsToWrite.size() == 0)
+                    if (flushRequested && testsToWrite.isEmpty())
                         flushRequested = false;
 
                     long timeLastWork = System.currentTimeMillis();
@@ -394,7 +394,7 @@ public class TestResultCache {
 
         long now = System.currentTimeMillis();
 
-        if (now - timeLastWork >= MIN_TEST_WRITE_INTERVAL && testsToWrite.size() > 0) {
+        if (now - timeLastWork >= MIN_TEST_WRITE_INTERVAL && !testsToWrite.isEmpty()) {
             if (DEBUG_CHECK_WORK)
                 Debug.println("TRC.haveWork (" + testsToWrite.size() + " tests)");
             return true;
@@ -431,7 +431,7 @@ public class TestResultCache {
         // once set true, it stays true and never goes false again, which
         // reduces the need for synchronized access
         shutdownRequested = true;
-        if (testsToWrite.size() > 0)
+        if (!testsToWrite.isEmpty())
             flushRequested = true;
         notifyAll();
 

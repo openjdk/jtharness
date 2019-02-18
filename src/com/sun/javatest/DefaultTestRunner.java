@@ -111,7 +111,7 @@ public class DefaultTestRunner extends TestRunner
             // before we nuke them
             long now = System.currentTimeMillis();
             try {
-                while (activeThreads.size() > 0 && (System.currentTimeMillis() - now < 2000)) {
+                while (!activeThreads.isEmpty() && (System.currentTimeMillis() - now < 2000)) {
                     wait(100);
                 }
             }

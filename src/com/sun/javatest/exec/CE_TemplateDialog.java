@@ -164,7 +164,7 @@ class CE_TemplateDialog extends ToolDialog
         String fileFieldText = fileField.getText();
         File f = null;
 
-        if (fileFieldText.length() > 0) {
+        if (!fileFieldText.isEmpty()) {
             f = new File(fileFieldText);
             if (f.isDirectory())
                 fileChooser.setCurrentDirectory(f);
@@ -180,7 +180,7 @@ class CE_TemplateDialog extends ToolDialog
 
     private boolean doSave() {
         String fileFieldText = fileField.getText();
-        if (fileFieldText.length() == 0)
+        if (fileFieldText.isEmpty())
             return false;
 
         File file = new File(fileFieldText);
@@ -313,7 +313,7 @@ class CE_TemplateDialog extends ToolDialog
             String path = fileField.getText();
             boolean ok;
 
-            if (path.length() == 0)
+            if (path.isEmpty())
                 ok = false;
             else {
                 File f = new File(path);

@@ -344,7 +344,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
             for (String initialTest : initialTests) urls.add(initialTest);
         }
 
-        if (urls.size() > 0) {
+        if (!urls.isEmpty()) {
             list = new String[urls.size()];
             urls.toArray(list);
         }
@@ -372,7 +372,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
         synchronized (outQueueLock) {
             // compare to outgoing test result objects
-            if (outQueue.size() > 0)
+            if (!outQueue.isEmpty())
                 for (TestResult tr : outQueue) {
                     if (tr.getTestName().equals(testName)) {
                         return true;
@@ -405,7 +405,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                         // if we are at node lang/foo, the test name
                         // lang/foo/bar/baz.html becomes bar/baz.html and
                         // we continue...
-                        if (nodePath.length() != 0)     // root nodePath is ""
+                        if (!nodePath.isEmpty())     // root nodePath is ""
                             partial = testName.substring(nodePath.length()+1);
 
                         // traverse the stack
@@ -575,7 +575,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
         if (hasNodes)
             findNext();
-        else if (outQueue.size() == 0)
+        else if (outQueue.isEmpty())
             finished = true;
         // else outQueue.length != 0, so we continue
     }
@@ -594,7 +594,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
             // process.  If this is null, our work is done.
             if (currFrame == null) {
                 synchronized (outQueueLock) {
-                    if (outQueue.size() == 0)
+                    if (outQueue.isEmpty())
                         finished = true;
                 }   // sync
                 return;
@@ -895,7 +895,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     private static String generateFilteredStatus(List<TestFilter> fs) {
         StringBuilder sb = new StringBuilder();
 
-        if (fs == null || fs.size() == 0) {
+        if (fs == null || fs.isEmpty()) {
             sb.append("Rejected by test filters.");
         }
         else {

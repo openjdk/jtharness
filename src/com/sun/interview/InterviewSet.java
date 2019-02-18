@@ -137,7 +137,7 @@ public class InterviewSet
         if (deps != null)
             deps.remove(dependency);
 
-        if (deps.size() == 0)
+        if (deps.isEmpty())
             dependencies.remove(child);
 
         sortedCalls = null;

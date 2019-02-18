@@ -265,7 +265,7 @@ public class WizEdit
      * @see #edit(String[])
      */
     public void edit(String cmd) throws Fault {
-        if (cmd == null || cmd.length() == 0)
+        if (cmd == null || cmd.isEmpty())
             throw new Fault(i18n, "edit.nullCmd");
         char delim = cmd.charAt(0);
         int left = 0;
@@ -275,7 +275,7 @@ public class WizEdit
         int right = cmd.indexOf(delim, center+1);
         String searchText = cmd.substring(left+1, center);
         String replaceText = cmd.substring(center+1, right);
-        if (searchText.length() == 0)
+        if (searchText.isEmpty())
             throw new Fault(i18n, "edit.badCmd", cmd);
 
         Map<String, String> answers = new Hashtable<>();

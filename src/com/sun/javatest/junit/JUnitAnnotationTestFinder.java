@@ -198,7 +198,7 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
 
                 // methods are necessary for this to be a test
                 // could expand this to allow other junit annotations
-                if (testMethods.size() != 0) {
+                if (!testMethods.isEmpty()) {
                     StringBuilder tms = new StringBuilder();
                     for (String n: testMethods) {
                         tms.append(n);

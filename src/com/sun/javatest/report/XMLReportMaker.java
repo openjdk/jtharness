@@ -406,7 +406,7 @@ public class XMLReportMaker {
         AttributesImpl atts = new AttributesImpl();
         atts.addAttribute("", "", Scheme.OU_TIT, "String", title);
         sE(Scheme.OU, atts);
-        if (content != null && content.length() > 0) {
+        if (content != null && !content.isEmpty()) {
             writeCDATA(ser, ser, content);
         }
     }

@@ -307,7 +307,7 @@ public class BackupUtil {
      * false otherwise
      */
     public static boolean checkForInteger(String s) {
-        if(s.length() == 0) {
+        if(s.isEmpty()) {
             return false;
         }
         for (int i = 0; i < s.length(); i++) {
