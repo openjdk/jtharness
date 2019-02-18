@@ -36,21 +36,21 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import com.sun.javatest.util.DynamicArray;
+
 import java.io.InterruptedIOException;
 
 /**
  * A holding area in which to keep incoming requests from active agents
  * until they are required.
  */
-public class ActiveAgentPool
-{
+public class ActiveAgentPool {
     /**
      * An exception which is thrown when no agent is available for use.
      */
-    public static class NoAgentException extends Exception
-    {
+    public static class NoAgentException extends Exception {
         /**
          * Create an exception to indicate that no agent is available for use.
+         *
          * @param msg A string giving additional details.
          */
         public NoAgentException(String msg) {
@@ -64,6 +64,7 @@ public class ActiveAgentPool
     public static interface Observer {
         /**
          * Called when a connection to an agent is added to the active agent pool.
+         *
          * @param c The connection that has been added to the pool.
          */
         void addedToPool(Connection c);
@@ -71,6 +72,7 @@ public class ActiveAgentPool
         /**
          * Called when a connection to an agent is removed from the active agent pool,
          * because it is about to be used to handle a task.
+         *
          * @param c The connection that has been removed from the pool.
          */
         void removedFromPool(Connection c);
@@ -123,12 +125,12 @@ public class ActiveAgentPool
                     int n = read(b);
                     if (n == -1) {
                         return -1;
-                    }
-                    else {
+                    } else {
                         n = 0xFF & b[0];
                         return n;
                     }
                 }
+
                 @Override
                 public int read(byte[] buffer, int offset, int count) throws IOException {
                     if (count == 0) // we ought to check
@@ -150,8 +152,7 @@ public class ActiveAgentPool
                         if (data == null) {
                             return new InterruptableReader().read(buffer, offset, count);
                         }
-                    }
-                    catch (InterruptedException ie) {
+                    } catch (InterruptedException ie) {
                         InterruptedIOException iio =
                                 new InterruptedIOException("Test execution timeout");
                         iio.fillInStackTrace();
@@ -159,24 +160,23 @@ public class ActiveAgentPool
                     }
                     try {
                         if (data instanceof Integer) {
-                            int i = ((Integer)data).intValue();
+                            int i = ((Integer) data).intValue();
                             if (i == -1)
                                 return -1;
                             else {
-                                buffer[offset] = (byte)i;
+                                buffer[offset] = (byte) i;
                                 return 1;
                             }
-                        }
-                        else {
-                            IOException e = (IOException)data;
+                        } else {
+                            IOException e = (IOException) data;
                             e.fillInStackTrace();
                             throw e;
                         }
-                    }
-                    finally {
+                    } finally {
                         data = null;
                     }
                 }
+
                 @Override
                 public void close() throws IOException {
                     socketInput.close();
@@ -215,6 +215,7 @@ public class ActiveAgentPool
                     return n;
                 }
             }
+
             private void readInThread(byte[] buffer, int offset, int count) {
                 final byte[] b = buffer;
                 final int o = offset;
@@ -225,12 +226,10 @@ public class ActiveAgentPool
                     public void run() {
                         try {
                             n = socketInput.read(b, o, c);
-                        }
-                        catch (IOException io) {
+                        } catch (IOException io) {
                             ioe = io;
-                        }
-                        finally {
-                            synchronized(Entry.this) {
+                        } finally {
+                            synchronized (Entry.this) {
                                 reading = false;
                                 Entry.this.notifyAll();
                             }
@@ -295,11 +294,9 @@ public class ActiveAgentPool
             // longer doing a read.
             try {
                 data = Integer.valueOf(socketInput.read());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 data = e;
-            }
-            finally {
+            } finally {
                 synchronized (this) {
                     boolean ok = entries.remove(this);
                     if (ok)
@@ -357,8 +354,7 @@ public class ActiveAgentPool
                 v.removeElement(e);
                 notifyRemovedFromPool(e);
                 return true;
-            }
-            else
+            } else
                 return false;
         }
 
@@ -374,7 +370,7 @@ public class ActiveAgentPool
 
         synchronized Entry next(int timeout) throws InterruptedException {
             long end = System.currentTimeMillis() + timeout;
-            for (long t = timeout; t > 0;  t = end - System.currentTimeMillis()) {
+            for (long t = timeout; t > 0; t = end - System.currentTimeMillis()) {
                 if (v.isEmpty())
                     wait(t);
 
@@ -415,12 +411,13 @@ public class ActiveAgentPool
      * willingness to work on behalf of a harness by contacting the harness
      * on a nominated port.  When a agent contacts the harness, it is put in
      * a pool to be used when agent clients request an unspecified agent.
-     * @param port      The port on which to listen for agents.
-     * @param timeout   The maximum time to wait for a agent to contact the
-     *                  harness when one is needed. The timeout should be
-     *                  in milliseconds.
+     *
+     * @param port    The port on which to listen for agents.
+     * @param timeout The maximum time to wait for a agent to contact the
+     *                harness when one is needed. The timeout should be
+     *                in milliseconds.
      * @throws IOException if there a problems with any sockets
-     *                  while performing this operation.
+     *                     while performing this operation.
      */
     public synchronized void listen(int port, int timeout) throws IOException {
         setListening(false);
@@ -431,11 +428,12 @@ public class ActiveAgentPool
 
     /**
      * Get the port currently being used to listen for requests from active agents.
+     *
      * @return The port being used, or Agent.defaultActivePort if no agent pool
      * has been started.
      * @see #setPort
      */
-    public synchronized int getPort()  {
+    public synchronized int getPort() {
         return port == 0 && serverSocket != null ?
                 serverSocket.getLocalPort() : port;
     }
@@ -443,6 +441,7 @@ public class ActiveAgentPool
 
     /**
      * Set the port currently to be used to listen for requests from active agents.
+     *
      * @param port the port to be used
      * @see #getPort
      */
@@ -452,17 +451,19 @@ public class ActiveAgentPool
 
     /**
      * Get the timeout being used when waiting for requests from active agents.
+     *
      * @return The timeout being used, in milliseconds, or 0 if no agent pool
      * has been started.
      * @see #setTimeout
      */
-    public synchronized int getTimeout()  {
+    public synchronized int getTimeout() {
         return timeout;
     }
 
 
     /**
      * Set the timeout to be used when waiting for requests from active agents.
+     *
      * @param timeout Ehe timeout, in milliseconds, to be used.
      * @see #getTimeout
      */
@@ -472,6 +473,7 @@ public class ActiveAgentPool
 
     /**
      * Check whether the pool is currently listening for incoming requests.
+     *
      * @return true if the pool is currently listening
      * @see #setListening
      */
@@ -483,10 +485,11 @@ public class ActiveAgentPool
      * Set whether or not the pool should be listening for incoming requests,
      * on the appropriate port.
      * If the pool is already in the appropriate state, this method has no effect.
+     *
      * @param listen Set to true to ensure the pool is listening for incoming requests,
-     *                  and false otherwise.
+     *               and false otherwise.
      * @throws IOException if any problems occur while opening or closing the
-     *                  socket on which the pool is listening for requests.
+     *                     socket on which the pool is listening for requests.
      * @see #isListening
      */
     public synchronized void setListening(boolean listen) throws IOException {
@@ -513,8 +516,7 @@ public class ActiveAgentPool
             worker.start();
             // could synchronize (wait()) with run() here
             // if it should be really necessary
-        }
-        else {
+        } else {
             if (serverSocket != null)
                 serverSocket.close();
             serverSocket = null;
@@ -571,8 +573,7 @@ public class ActiveAgentPool
 
                     if (errors > 0)
                         errors--; // let #errors decay with each successful open
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     synchronized (this) {
                         if (ss != serverSocket)
                             return;
@@ -592,8 +593,7 @@ public class ActiveAgentPool
                 if (serverSocket == ss)
                     serverSocket = null;
             }
-        }
-        finally {
+        } finally {
             closeNoExceptions(ss);
         }
 
@@ -608,6 +608,7 @@ public class ActiveAgentPool
 
     /**
      * Add an observer to monitor events.
+     *
      * @param o The observer to be added.
      */
     public void addObserver(Observer o) {
@@ -617,6 +618,7 @@ public class ActiveAgentPool
 
     /**
      * Remove an observer that had been previously registered to monitor events.
+     *
      * @param o The observer to be removed..
      */
     public void deleteObserver(Observer o) {
@@ -626,24 +628,21 @@ public class ActiveAgentPool
     private void closeNoExceptions(Entry e) {
         try {
             e.close();
-        }
-        catch (IOException ignore) {
+        } catch (IOException ignore) {
         }
     }
 
     private void closeNoExceptions(Socket s) {
         try {
             s.close();
-        }
-        catch (IOException ignore) {
+        } catch (IOException ignore) {
         }
     }
 
     private void closeNoExceptions(ServerSocket ss) {
         try {
             ss.close();
-        }
-        catch (IOException ignore) {
+        } catch (IOException ignore) {
         }
     }
 
@@ -651,7 +650,7 @@ public class ActiveAgentPool
     private int counter;
     private Entries entries = new Entries();
     private ServerSocket serverSocket;
-    private int timeout = 3*60*1000;  // 3 minutes
+    private int timeout = 3 * 60 * 1000;  // 3 minutes
     private int port = Agent.defaultActivePort;
     private final int MAX_ERRORS = 10;
     private static int entryWatcherCount;

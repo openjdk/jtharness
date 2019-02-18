@@ -43,25 +43,25 @@ import static com.sun.javatest.agent.Agent.MILLIS_PER_SECOND;
  * AgentApplet or AgentFrame.
  *
  * @see Agent
- *
  **/
 public class AgentMain {
 
     /**
      * This exception is used to report bad command line arguments.
      */
-    public static class BadArgs extends Exception
-    {
+    public static class BadArgs extends Exception {
         /**
          * Create a BadArgs exception.
+         *
          * @param msg A detail message about an error that has been found.
          */
         public BadArgs(String msg) {
-            this(new String[] { msg });
+            this(new String[]{msg});
         }
 
         /**
          * Create a BadArgs object.
+         *
          * @param msgs Detailed message about an error that has been found.
          */
         public BadArgs(String... msgs) {
@@ -71,6 +71,7 @@ public class AgentMain {
 
         /**
          * Get the detail messages.
+         *
          * @return the messages given when this exception was created.
          */
         public String[] getMessages() {
@@ -83,18 +84,19 @@ public class AgentMain {
     /**
      * This exception is used to report problems that occur while running.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         /**
          * Create a Fault exception.
+         *
          * @param msg A detail message about a fault that has occurred.
          */
         public Fault(String msg) {
-            this(new String[] {  msg });
+            this(new String[]{msg});
         }
 
         /**
          * Create a Fault object.
+         *
          * @param msgs A detail message about a fault that has been found.
          */
         public Fault(String... msgs) {
@@ -104,6 +106,7 @@ public class AgentMain {
 
         /**
          * Get the detail messages.
+         *
          * @return the messages given when this exception was created.
          */
         public String[] getMessages() {
@@ -116,20 +119,20 @@ public class AgentMain {
     /**
      * Create and start an Agent, based on the supplied command line arguments.
      *
-     * @param args      The command line arguments
-     * <table>
-     * <tr><td> -help                           <td> print a short summary of the command usage
-     * <tr><td> -usage                          <td> print a short summary of the command usage
-     * <tr><td> -active                         <td> set mode to be active
-     * <tr><td> -activeHost  <em>hostname</em>  <td> set the host for active connections (implies -active)
-     * <tr><td> -activePort  <em>port</em>      <td> set the port for active connections (implies -active)
-     * <tr><td> -passive                        <td> set mode to be passive
-     * <tr><td> -passivePort <em>port</em>      <td> set the port for passive connections (implies -passive)
-     * <tr><td> -concurrency <em>number</em>    <td> set the maximum number of simultaneous connections
-     * <tr><td> -map         <em>file</em>      <td> map file for translating arguments of incoming requests
-     * <tr><td> -trace                          <td> trace the execution of the agent
-     * <tr><td> -observer    <em>classname</em> <td> add an observer to the agent that is used
-     * </table>
+     * @param args The command line arguments
+     *             <table>
+     *             <tr><td> -help                           <td> print a short summary of the command usage
+     *             <tr><td> -usage                          <td> print a short summary of the command usage
+     *             <tr><td> -active                         <td> set mode to be active
+     *             <tr><td> -activeHost  <em>hostname</em>  <td> set the host for active connections (implies -active)
+     *             <tr><td> -activePort  <em>port</em>      <td> set the port for active connections (implies -active)
+     *             <tr><td> -passive                        <td> set mode to be passive
+     *             <tr><td> -passivePort <em>port</em>      <td> set the port for passive connections (implies -passive)
+     *             <tr><td> -concurrency <em>number</em>    <td> set the maximum number of simultaneous connections
+     *             <tr><td> -map         <em>file</em>      <td> map file for translating arguments of incoming requests
+     *             <tr><td> -trace                          <td> trace the execution of the agent
+     *             <tr><td> -observer    <em>classname</em> <td> add an observer to the agent that is used
+     *             </table>
      */
     public static void main(String... args) {
         AgentMain m = new AgentMain();
@@ -140,6 +143,7 @@ public class AgentMain {
     /**
      * Create and start an Agent, based on the supplied command line arguments.
      * This is for use by subtypes with their own main(String[]) entry point.
+     *
      * @param args the command line arguments for the run
      */
     protected void runAndExit(String... args) {
@@ -148,7 +152,7 @@ public class AgentMain {
         JavaTestSecurityManager.install();
 
         if (Boolean.getBoolean("javatest.trace.printargs") &&
-            args != null && args.length > 0) {
+                args != null && args.length > 0) {
             StringBuilder fullCmd = new StringBuilder();
             StringBuilder incrementalCmd = new StringBuilder();
 
@@ -169,21 +173,18 @@ public class AgentMain {
         try {
             run(args);
             rc = 0;
-        }
-        catch (BadArgs e) {
+        } catch (BadArgs e) {
             System.err.println("Error: Bad arguments");
             String[] msgs = e.getMessages();
             for (String msg : msgs) System.err.println(msg);
             System.err.println();
             usage(System.err);
             rc = 1;
-        }
-        catch (Fault e) {
+        } catch (Fault e) {
             String[] msgs = e.getMessages();
             for (String msg : msgs) System.err.println(msg);
             rc = 2;
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             t.printStackTrace();
             rc = 3;
         }
@@ -206,9 +207,10 @@ public class AgentMain {
      * <li>An agent is created with createAgent
      * <li>The agent is run.
      * </ul>
-     * @param args      An array of strings, typically provided via the command line
-     * @throws AgentMain.BadArgs  if a problem is found in the arguments provided
-     * @throws AgentMain.Fault  if a fault is found while running
+     *
+     * @param args An array of strings, typically provided via the command line
+     * @throws AgentMain.BadArgs if a problem is found in the arguments provided
+     * @throws AgentMain.Fault   if a fault is found while running
      * @see #main
      * @see #decodeAllArgs
      * @see #validateArgs
@@ -232,16 +234,17 @@ public class AgentMain {
     /**
      * Decode an array of command line options, by calling decodeArg for
      * successive options in the array.
+     *
      * @param args the array of command line options
      * @throws AgentMain.BadArgs if a problem is found decoding the args
-     * @throws AgentMain.Fault if the args can be decoded successfully but
-     * if there is a problem in their interpretation (e.g invalid port number)
+     * @throws AgentMain.Fault   if the args can be decoded successfully but
+     *                           if there is a problem in their interpretation (e.g invalid port number)
      */
     protected void decodeAllArgs(String... args) throws BadArgs, Fault {
         int i = 0;
         while (i < args.length) {
             int used = decodeArg(args, i);
-            if (used == 0 )
+            if (used == 0)
                 throw new BadArgs("Unrecognised option: " + args[i]);
             i += used;
         }
@@ -249,12 +252,13 @@ public class AgentMain {
 
     /**
      * Decode the next command line option in an array of options.
+     *
      * @param args  the array of command line options
      * @param index the position of the next option to be decoded
      * @return the number of elements consumed from the array
      * @throws AgentMain.BadArgs if a problem is found decoding the args
-     * @throws AgentMain.Fault if the args can be decoded successfully but
-     * if there is a problem in their interpretation (e.g invalid port number)
+     * @throws AgentMain.Fault   if the args can be decoded successfully but
+     *                           if there is a problem in their interpretation (e.g invalid port number)
      */
     protected int decodeArg(String[] args, int index) throws BadArgs {
         int i = index;
@@ -263,78 +267,66 @@ public class AgentMain {
                 mode = ACTIVE;
                 modeCheck |= 1 << mode;
                 return 1;
-            }
-            else if (args[i].equalsIgnoreCase("-passive")) {
+            } else if (args[i].equalsIgnoreCase("-passive")) {
                 mode = PASSIVE;
                 modeCheck |= 1 << mode;
                 return 1;
-            }
-            else if (args[i].equalsIgnoreCase("-activeHost")) {
+            } else if (args[i].equalsIgnoreCase("-activeHost")) {
                 mode = ACTIVE;
                 modeCheck |= 1 << mode;
                 activeHost = args[++i];
                 return 2;
-            }
-            else if (args[i].equalsIgnoreCase("-activePort")) {
+            } else if (args[i].equalsIgnoreCase("-activePort")) {
                 mode = ACTIVE;
                 modeCheck |= 1 << mode;
                 activePort = Integer.parseInt(args[++i]);
                 return 2;
-            }
-            else if (args[i].equalsIgnoreCase("-passivePort")) {
+            } else if (args[i].equalsIgnoreCase("-passivePort")) {
                 mode = PASSIVE;
                 modeCheck |= 1 << mode;
                 passivePort = Integer.parseInt(args[++i]);
                 return 2;
-            }
-            else if (args[i].equalsIgnoreCase("-serialPort")) {
+            } else if (args[i].equalsIgnoreCase("-serialPort")) {
                 mode = SERIAL;
                 modeCheck |= 1 << mode;
                 serialPort = args[++i];
                 return 2;
-            }
-            else if (args[i].equalsIgnoreCase("-concurrency")) {
+            } else if (args[i].equalsIgnoreCase("-concurrency")) {
                 concurrency = Integer.parseInt(args[++i]);
                 return 2;
-            }
-            else if (args[i].equalsIgnoreCase("-map")) {
+            } else if (args[i].equalsIgnoreCase("-map")) {
                 mapFile = args[++i];
                 return 2;
             } else if (args[i].equalsIgnoreCase("-mapArg")) {
                 mappedArgs.put(args[++i], args[++i]);
                 return 3;
-            }
-            else if (args[i].equalsIgnoreCase("-trace")) {
+            } else if (args[i].equalsIgnoreCase("-trace")) {
                 tracing = true;
                 return 1;
-            }
-            else if ("-observer".equalsIgnoreCase(args[i]) && i < args.length - 1) {
+            } else if ("-observer".equalsIgnoreCase(args[i]) && i < args.length - 1) {
                 if (observerClassName != null)
                     throw new BadArgs("duplicate use of -observer");
                 observerClassName = args[++i];
                 return 2;
-            }
-            else if (args[i].equalsIgnoreCase("-help") || args[i].equalsIgnoreCase("-usage") ) {
+            } else if (args[i].equalsIgnoreCase("-help") || args[i].equalsIgnoreCase("-usage")) {
                 helpRequested = true;
                 return args.length - index; // consume remaining args
-            }
-            else
+            } else
                 return 0;   // unrecognized
-        }
-        catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             throw new BadArgs("Missing argument for " + args[args.length - 1]);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new BadArgs("Number expected: " + args[i]);
         }
     }
 
     /**
      * Validate the values decoded by decodeAllArgs.
+     *
      * @throws AgentMain.BadArgs if a problem is found validating the args that
-     * is likely caused by a misunderstanding of the command line options or syntax
-     * @throws AgentMain.Fault if there is some other problem with the args, such
-     * as a bad host name or a port not being available for use
+     *                           is likely caused by a misunderstanding of the command line options or syntax
+     * @throws AgentMain.Fault   if there is some other problem with the args, such
+     *                           as a bad host name or a port not being available for use
      */
     protected void validateArgs() throws BadArgs {
         if (modeCheck == 0)
@@ -344,16 +336,16 @@ public class AgentMain {
             throw new BadArgs("Conflicting options for connection to JT Harness harness");
 
         switch (mode) {
-        case ACTIVE:
-            if (activeHost == null || activeHost.isEmpty())
-                throw new BadArgs("No active host specified");
-            if (activePort <= 0)
-                throw new BadArgs("No active port specified");
-            break;
+            case ACTIVE:
+                if (activeHost == null || activeHost.isEmpty())
+                    throw new BadArgs("No active host specified");
+                if (activePort <= 0)
+                    throw new BadArgs("No active port specified");
+                break;
 
-        case SERIAL:
-            if (serialPort == null)
-                throw new BadArgs("No serial port specified");
+            case SERIAL:
+                if (serialPort == null)
+                    throw new BadArgs("No serial port specified");
         }
 
         if (!Agent.isValidConcurrency(concurrency)) {
@@ -364,6 +356,7 @@ public class AgentMain {
     /**
      * Create a connection factory based on the values decoded by decodeAllArgs
      * Normally called from createAgent.
+     *
      * @return a connection factory based on the values decoded by decodeAllArgs
      * @throws AgentMain.Fault if there is a problem createing the factory
      */
@@ -372,75 +365,70 @@ public class AgentMain {
         String pkg = s.substring(0, s.lastIndexOf('.'));
 
         switch (mode) {
-        case ACTIVE:
-            try {
-                Class<? extends ConnectionFactory> clazz =
-                        Class.forName(pkg + ".ActiveConnectionFactory").asSubclass(ConnectionFactory.class);
-                return clazz.getConstructor(String.class, int.class).newInstance(activeHost, activePort);
-            }
-            catch (Throwable e) {
-                Throwable t = unwrapInvocationTargetException(e);
-                String[] msgs = {
-                    "Error occurred while trying to start an active agent",
-                    t.toString(),
-                    "Are the java.net classes available?"
-                };
-                throw new Fault(msgs);
-            }
-
-        case PASSIVE:
-            try {
-                Class<? extends ConnectionFactory> clazz =
-                        Class.forName(pkg + ".PassiveConnectionFactory").asSubclass(ConnectionFactory.class);
-                return clazz.getConstructor(int.class, int.class).newInstance(passivePort, concurrency + 1);
-            }
-            catch (Throwable e) {
-                Throwable t = unwrapInvocationTargetException(e);
-                if (t instanceof IOException)
-                    throw new Fault("Cannot create socket on port " + passivePort);
-                else {
+            case ACTIVE:
+                try {
+                    Class<? extends ConnectionFactory> clazz =
+                            Class.forName(pkg + ".ActiveConnectionFactory").asSubclass(ConnectionFactory.class);
+                    return clazz.getConstructor(String.class, int.class).newInstance(activeHost, activePort);
+                } catch (Throwable e) {
+                    Throwable t = unwrapInvocationTargetException(e);
                     String[] msgs = {
-                        "Error occurred while trying to start a passive agent",
-                        t.toString(),
-                        "Are the java.net classes available?"
+                            "Error occurred while trying to start an active agent",
+                            t.toString(),
+                            "Are the java.net classes available?"
                     };
                     throw new Fault(msgs);
                 }
-            }
 
-        case SERIAL:
-            try {
-                Class<? extends ConnectionFactory> clazz =
-                        Class.forName(pkg + ".SerialPortConnectionFactory").asSubclass(ConnectionFactory.class);
-                return clazz.getConstructor(String.class, String.class, int.class)
-                        .newInstance(serialPort, Agent.PRODUCT_NAME, Integer.valueOf(10 * MILLIS_PER_SECOND));
-            }
-            catch (InvocationTargetException e) {
-                Throwable t = e.getTargetException();
-                if (t instanceof IllegalArgumentException ||
-                    t.getClass().getName().equals("gnu.io.NoSuchPortException")) {
-                    throw new Fault(serialPort + " is not a valid port");
+            case PASSIVE:
+                try {
+                    Class<? extends ConnectionFactory> clazz =
+                            Class.forName(pkg + ".PassiveConnectionFactory").asSubclass(ConnectionFactory.class);
+                    return clazz.getConstructor(int.class, int.class).newInstance(passivePort, concurrency + 1);
+                } catch (Throwable e) {
+                    Throwable t = unwrapInvocationTargetException(e);
+                    if (t instanceof IOException)
+                        throw new Fault("Cannot create socket on port " + passivePort);
+                    else {
+                        String[] msgs = {
+                                "Error occurred while trying to start a passive agent",
+                                t.toString(),
+                                "Are the java.net classes available?"
+                        };
+                        throw new Fault(msgs);
+                    }
                 }
-                else {
+
+            case SERIAL:
+                try {
+                    Class<? extends ConnectionFactory> clazz =
+                            Class.forName(pkg + ".SerialPortConnectionFactory").asSubclass(ConnectionFactory.class);
+                    return clazz.getConstructor(String.class, String.class, int.class)
+                            .newInstance(serialPort, Agent.PRODUCT_NAME, Integer.valueOf(10 * MILLIS_PER_SECOND));
+                } catch (InvocationTargetException e) {
+                    Throwable t = e.getTargetException();
+                    if (t instanceof IllegalArgumentException ||
+                            t.getClass().getName().equals("gnu.io.NoSuchPortException")) {
+                        throw new Fault(serialPort + " is not a valid port");
+                    } else {
+                        String[] msgs = {
+                                "Error occurred while trying to access the communication ports",
+                                t.toString(),
+                                "Is the gnu.io extension installed?"
+                        };
+                        throw new Fault(msgs);
+                    }
+                } catch (Throwable e) {
                     String[] msgs = {
-                        "Error occurred while trying to access the communication ports",
-                        t.toString(),
-                        "Is the gnu.io extension installed?"
+                            "Error occurred while trying to access the communication ports",
+                            e.toString(),
+                            "Is the gnu.io extension installed?"
                     };
                     throw new Fault(msgs);
                 }
-            }
-            catch (Throwable e) {
-                String[] msgs = {
-                    "Error occurred while trying to access the communication ports",
-                    e.toString(),
-                    "Is the gnu.io extension installed?"
-                };
-                throw new Fault(msgs);
-            }
 
-        default:
-            throw new Error("unexpected mode");
+            default:
+                throw new Error("unexpected mode");
         }
     }
 
@@ -448,6 +436,7 @@ public class AgentMain {
      * Create an agent based on the command line options previously decoded.
      * createConnectionFactory() is used to create the connection factory required
      * by the agent.
+     *
      * @return an agent based on the values decoded by decodeAllArgs
      * @throws AgentMain.Fault if there is a problem createing the agent
      */
@@ -462,15 +451,12 @@ public class AgentMain {
                         Class.forName(observerClassName).asSubclass(Agent.Observer.class);
                 Agent.Observer observer = observerClass.getDeclaredConstructor().newInstance();
                 agent.addObserver(observer);
-            }
-            catch (ClassCastException e) {
+            } catch (ClassCastException e) {
                 throw new Fault("observer is not of type " +
                         Agent.Observer.class.getName() + ": " + observerClassName);
-            }
-            catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 throw new Fault("cannot find observer class: " + observerClassName);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 throw new Fault("problem instantiating observer: " + e);
             }
         }
@@ -482,8 +468,7 @@ public class AgentMain {
         if (mapFile != null) {
             try {
                 agent.setMap(ConfigValuesMap.readFileOrURL(mapFile));
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 String[] msgs = {"Problem reading map file", e.toString()};
                 throw new Fault(msgs);
             }
@@ -500,6 +485,7 @@ public class AgentMain {
 
     /**
      * Display the set of options recognized by main(String[] args).
+     *
      * @param out a stream to which to write the information
      */
     public void usage(PrintStream out) {
@@ -523,6 +509,7 @@ public class AgentMain {
 
     /**
      * Unwrap an InvocationTargetException.
+     *
      * @param t the exception to be unwrapped
      * @return the argument's target exception if the argument is an
      * InvocationTargetException; otherwise the argument itself is returned.
@@ -559,15 +546,13 @@ public class AgentMain {
         ErrorObserver() {
             try {
                 connectExceptionClass = Class.forName("java.net.ConnectException", true, ClassLoader.getSystemClassLoader());
-            }
-            catch (Throwable t) {
+            } catch (Throwable t) {
                 // ignore
             }
 
             try {
                 unknownHostExceptionClass = Class.forName("java.net.UnknownHostException", true, ClassLoader.getSystemClassLoader());
-            }
-            catch (Throwable t) {
+            } catch (Throwable t) {
                 // ignore
             }
         }
@@ -584,8 +569,7 @@ public class AgentMain {
                     System.err.println("host not responding: " + e.getMessage());
                     lastNotRespondMsgTime = now;
                 }
-            }
-            else if (unknownHostExceptionClass != null && unknownHostExceptionClass.isInstance(e))
+            } else if (unknownHostExceptionClass != null && unknownHostExceptionClass.isInstance(e))
                 System.err.println("unknown host: " + e.getMessage());
             else
                 System.err.println("error connecting to host: " + e);
@@ -593,7 +577,7 @@ public class AgentMain {
 
         private long lastNotRespondMsgTime = 0;
         private int lastNotRespondMsgInterval =
-            max(Integer.getInteger("notResponding.message.interval", 60).intValue(), 10) * MILLIS_PER_SECOND;
+                max(Integer.getInteger("notResponding.message.interval", 60).intValue(), 10) * MILLIS_PER_SECOND;
 
         @Override
         public void finished(Agent agent) {

@@ -35,15 +35,15 @@ import javax.comm.PortInUseException;
  * A factory for creating connections to be used by agents communicating
  * via a serial port.
  */
-public class SerialPortConnectionFactory implements ConnectionFactory
-{
+public class SerialPortConnectionFactory implements ConnectionFactory {
     /**
      * Create a factory for creating connections to be used by agents
      * communicating via a serial port.
-     * @param name      The name of the serial port to be used when creating connections
-     * @param app       The name of the application requesting the use of the port.
-     * @param timeout   The time to wait for the port to become available when creating
-     *                  a connection.
+     *
+     * @param name    The name of the serial port to be used when creating connections
+     * @param app     The name of the application requesting the use of the port.
+     * @param timeout The time to wait for the port to become available when creating
+     *                a connection.
      * @throws NoSuchPortException if an invalid port name is specified.
      */
     public SerialPortConnectionFactory(String name, String app, int timeout) throws NoSuchPortException {
@@ -53,10 +53,11 @@ public class SerialPortConnectionFactory implements ConnectionFactory
     /**
      * Create a factory for creating connections to be used by agents
      * communicating via a serial port.
-     * @param portId    An identifier for the serial port to use.
-     * @param app       The name of the application requesting the use of the port.
-     * @param timeout   The time to wait for the port to become available when creating
-     *                  a connection.
+     *
+     * @param portId  An identifier for the serial port to use.
+     * @param app     The name of the application requesting the use of the port.
+     * @param timeout The time to wait for the port to become available when creating
+     *                a connection.
      */
     public SerialPortConnectionFactory(CommPortIdentifier portId, String app, int timeout) {
         if (portId.getPortType() != CommPortIdentifier.PORT_SERIAL)
@@ -71,8 +72,7 @@ public class SerialPortConnectionFactory implements ConnectionFactory
         try {
             //System.err.println("Created connection: " + c.getName());
             return new SerialPortConnection(portId, app, timeout);
-        }
-        catch (InterruptedException | IOException e) {
+        } catch (InterruptedException | IOException e) {
             System.err.println("Error connection: " + e);
             throw new ConnectionFactory.Fault(e, true);
         } catch (PortInUseException e) {

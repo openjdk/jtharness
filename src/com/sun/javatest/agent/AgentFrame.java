@@ -51,29 +51,27 @@ import com.sun.javatest.util.MainFrame;
  * @see Agent
  * @see AgentMain
  * @see AgentApplet
- *
  **/
 
-public class AgentFrame extends Frame
-{
+public class AgentFrame extends Frame {
     /**
      * Create and start a AgentFrame, based on the supplied command line arguments.
      *
-     * @param args      The command line arguments
-     * <table>
-     * <tr><td> -help                           <td> print a short summary of the command usage
-     * <tr><td> -usage                          <td> print a short summary of the command usage
-     * <tr><td> -active                         <td> set mode to be active
-     * <tr><td> -activeHost  <em>hostname</em>  <td> set the host for active connections (implies -active)
-     * <tr><td> -activePort  <em>port</em>      <td> set the port for active connections (implies -active)
-     * <tr><td> -passive                        <td> set mode to be passive
-     * <tr><td> -passivePort <em>port</em>      <td> set the port for passive connections (implies -passive)
-     * <tr><td> -map         <em>file</em>      <td> map file for translating arguments of incoming requests
-     * <tr><td> -concurrency <em>number</em>    <td> set the maximum number of simultaneous connections
-     * <tr><td> -history     <em>number</em>    <td> set the size of the execution history
-     * <tr><td> -trace                          <td> trace the execution of the agent
-     * <tr><td> -observer    <em>classname</em> <td> add an observer to the agent that is used
-     * </table>
+     * @param args The command line arguments
+     *             <table>
+     *             <tr><td> -help                           <td> print a short summary of the command usage
+     *             <tr><td> -usage                          <td> print a short summary of the command usage
+     *             <tr><td> -active                         <td> set mode to be active
+     *             <tr><td> -activeHost  <em>hostname</em>  <td> set the host for active connections (implies -active)
+     *             <tr><td> -activePort  <em>port</em>      <td> set the port for active connections (implies -active)
+     *             <tr><td> -passive                        <td> set mode to be passive
+     *             <tr><td> -passivePort <em>port</em>      <td> set the port for passive connections (implies -passive)
+     *             <tr><td> -map         <em>file</em>      <td> map file for translating arguments of incoming requests
+     *             <tr><td> -concurrency <em>number</em>    <td> set the maximum number of simultaneous connections
+     *             <tr><td> -history     <em>number</em>    <td> set the size of the execution history
+     *             <tr><td> -trace                          <td> trace the execution of the agent
+     *             <tr><td> -observer    <em>classname</em> <td> add an observer to the agent that is used
+     *             </table>
      */
     public static void main(String... args) {
         ModeOptions mode = null;
@@ -105,69 +103,52 @@ public class AgentFrame extends Frame
             try {
                 if (args[i].equalsIgnoreCase("-active")) {
                     mode = amo;
-                }
-                else if (args[i].equalsIgnoreCase("-passive")) {
+                } else if (args[i].equalsIgnoreCase("-passive")) {
                     mode = pmo;
-                }
-                else if (args[i].equalsIgnoreCase("-activeHost")) {
+                } else if (args[i].equalsIgnoreCase("-activeHost")) {
                     mode = amo;
                     activeHost = args[++i];
-                }
-                else if (args[i].equalsIgnoreCase("-activePort")) {
+                } else if (args[i].equalsIgnoreCase("-activePort")) {
                     mode = amo;
                     activePort = Integer.parseInt(args[++i]);
-                }
-                else if (args[i].equalsIgnoreCase("-passivePort")) {
+                } else if (args[i].equalsIgnoreCase("-passivePort")) {
                     mode = pmo;
                     passivePort = Integer.parseInt(args[++i]);
-                }
-                else if (args[i].equalsIgnoreCase("-serialPort")) {
+                } else if (args[i].equalsIgnoreCase("-serialPort")) {
                     mode = smo;
                     serialPort = args[++i];
-                }
-                else if (args[i].equalsIgnoreCase("-concurrency")) {
+                } else if (args[i].equalsIgnoreCase("-concurrency")) {
                     concurrency = Integer.parseInt(args[++i]);
-                }
-                else if (args[i].equalsIgnoreCase("-map")) {
+                } else if (args[i].equalsIgnoreCase("-map")) {
                     mapFile = args[++i];
-                }
-                else if (args[i].equalsIgnoreCase("-history")) {
+                } else if (args[i].equalsIgnoreCase("-history")) {
                     history = Integer.parseInt(args[++i]);
-                }
-                else if (args[i].equalsIgnoreCase("-start")) {
+                } else if (args[i].equalsIgnoreCase("-start")) {
                     start = true;
-                }
-                else if (args[i].equalsIgnoreCase("-trace")) {
+                } else if (args[i].equalsIgnoreCase("-trace")) {
                     tracing = true;
-                }
-                else if ("-observer".equalsIgnoreCase(args[i]) && i < args.length - 1) {
+                } else if ("-observer".equalsIgnoreCase(args[i]) && i < args.length - 1) {
                     if (observerClassName != null) {
                         System.err.println("duplicate use of -observer");
                         usage(System.err, 1);
                     }
                     observerClassName = args[++i];
-                }
-                else if (args[i].equalsIgnoreCase("-useSharedFrame")) {
+                } else if (args[i].equalsIgnoreCase("-useSharedFrame")) {
                     System.err.println("Note: -useSharedFrame is now the default");
                     System.err.println("Use -noSharedFrame to disable this feature.");
                     useSharedFrame = true;
-                }
-                else if (args[i].equalsIgnoreCase("-noSharedFrame")) {
+                } else if (args[i].equalsIgnoreCase("-noSharedFrame")) {
                     useSharedFrame = false;
-                }
-                else if (args[i].equalsIgnoreCase("-help") || args[i].equalsIgnoreCase("-usage") ) {
+                } else if (args[i].equalsIgnoreCase("-help") || args[i].equalsIgnoreCase("-usage")) {
                     usage(System.err, 0);
-                }
-                else {
+                } else {
                     System.err.println("Unrecognised option: " + args[i]);
                     usage(System.err, 1);
                 }
-            }
-            catch (ArrayIndexOutOfBoundsException e) {
+            } catch (ArrayIndexOutOfBoundsException e) {
                 System.err.println("Missing argument for " + args[args.length - 1]);
                 usage(System.err, 1);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.err.println("Number expected: " + args[i]);
                 usage(System.err, 1);
             }
@@ -187,14 +168,12 @@ public class AgentFrame extends Frame
             if (smo == null) {
                 System.err.println("Could not initialize serial ports");
                 System.exit(1);
-            }
-            else {
+            } else {
                 try {
                     Method setPortMethod = smo.getClass().getMethod("setPort", String.class);
                     setPortMethod.invoke(smo, serialPort);
-                }
-                catch (SecurityException | NoSuchMethodException |
-                        IllegalArgumentException| InvocationTargetException |
+                } catch (SecurityException | NoSuchMethodException |
+                        IllegalArgumentException | InvocationTargetException |
                         IllegalAccessException e) {
                     System.err.println("Could not set serial port:");
                     e.printStackTrace();
@@ -213,17 +192,14 @@ public class AgentFrame extends Frame
                         Class.forName(observerClassName).asSubclass(Agent.Observer.class);
                 Agent.Observer observer = observerClass.getDeclaredConstructor().newInstance();
                 sf.panel.addObserver(observer);
-            }
-            catch (ClassCastException e) {
+            } catch (ClassCastException e) {
                 System.err.println("observer is not of type " +
                         Agent.Observer.class.getName() + ": " + observerClassName);
                 System.exit(1);
-            }
-            catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 System.err.println("cannot find observer class: " + observerClassName);
                 System.exit(1);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.err.println("problem instantiating observer: " + e);
                 System.exit(1);
             }
@@ -261,17 +237,15 @@ public class AgentFrame extends Frame
         try {
             Method invokeLater = EventQueue.class.getMethod("invokeLater", Runnable.class);
             invokeLater.invoke(null, new Runnable() {
-                    @Override
-                    public void run() {
-                        sf.showCentered();
-                    }
-                });
-        }
-        catch (NoSuchMethodException e) {
+                @Override
+                public void run() {
+                    sf.showCentered();
+                }
+            });
+        } catch (NoSuchMethodException e) {
             // must be JDK 1.1
             sf.showCentered();
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             t.printStackTrace();
         }
 
@@ -280,9 +254,9 @@ public class AgentFrame extends Frame
     /**
      * Display the set of options recognized by main(), and exit.
      *
-     * @param out       The output stream to which to write the
-     *                  command line help.
-     * @param exitCode  The exit code to be passed to System.exit.
+     * @param out      The output stream to which to write the
+     *                 command line help.
+     * @param exitCode The exit code to be passed to System.exit.
      */
     public static void usage(PrintStream out, int exitCode) {
         String className = AgentFrame.class.getName();
@@ -308,6 +282,7 @@ public class AgentFrame extends Frame
 
     /**
      * Create a AgentFrame.
+     *
      * @param modeOptions An array of option panels for different connection modes.
      */
     public AgentFrame(ModeOptions... modeOptions) {
@@ -355,7 +330,7 @@ public class AgentFrame extends Frame
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension size = getSize();
-        setLocation(screenSize.width/2 - size.width/2, screenSize.height/2 - size.height/2);
+        setLocation(screenSize.width / 2 - size.width / 2, screenSize.height / 2 - size.height / 2);
         show();
     }
 

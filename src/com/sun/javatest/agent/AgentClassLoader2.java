@@ -100,7 +100,7 @@ class AgentClassLoader2 extends InstantiationClassLoader {
 
     public Class<?> loadClassLocal(String name) throws ClassNotFoundException {
         Class<?> target = null;
-System.out.println("FORCE REMOTE " + name);
+        System.out.println("FORCE REMOTE " + name);
         try {
             target = findClass(name);
         } catch (ClassNotFoundException | NoClassDefFoundError e) {
@@ -160,13 +160,11 @@ System.out.println("FORCE REMOTE " + name);
 
             if (bytes == null) {
                 u = null;
-            }
-            else {
+            } else {
                 // if byes[] is zero length, we expect the code to still work
                 u = new URL("file", "", -1, name, new AgentURLStreamHandler(bytes));
             }
-        }
-        catch (MissingResourceException | IOException e) {
+        } catch (MissingResourceException | IOException e) {
             u = null;
         }
 
@@ -204,7 +202,7 @@ System.out.println("FORCE REMOTE " + name);
                 }
             }
         }
-        throw new InstantiationStateException("Only one instance of the "+getClass().getName()+" class could exist");
+        throw new InstantiationStateException("Only one instance of the " + getClass().getName() + " class could exist");
     }
 
     private class AgentURLStreamHandler extends URLStreamHandler {
@@ -238,8 +236,7 @@ System.out.println("FORCE REMOTE " + name);
             // generally, ignore this call per the spec
             if (bytes != null) {
                 connected = true;
-            }
-            else {
+            } else {
                 connected = false;
             }
         }
@@ -290,8 +287,7 @@ System.out.println("FORCE REMOTE " + name);
 
             try {
                 type = guessContentTypeFromStream(getInputStream());
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 // it's really IOException which is possible
                 type = null;
             }

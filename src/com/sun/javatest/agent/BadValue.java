@@ -29,12 +29,12 @@ package com.sun.javatest.agent;
 /**
  * This exception is used to report bad user-specifed data.
  */
-public class BadValue extends Exception
-{
+public class BadValue extends Exception {
     /**
      * Create a BadValue exception.
+     *
      * @param msg A string giving additional details about the
-     *          bad value that was found.
+     *            bad value that was found.
      */
     public BadValue(String msg) {
         super(msg);
@@ -44,8 +44,9 @@ public class BadValue extends Exception
 
     /**
      * Create a BadValue exception.
+     *
      * @param msgs An array of strings giving additional details about the
-     *          bad value that was found.
+     *             bad value that was found.
      */
     public BadValue(String... msgs) {
         super(msgs[0]);
@@ -54,8 +55,9 @@ public class BadValue extends Exception
 
     /**
      * Get the messages giving details about the problem.
+     *
      * @return an array of strings giving additional details about the
-     *          bad value that was found
+     * bad value that was found
      */
     public String[] getMessages() {
         return msgs;

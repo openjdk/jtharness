@@ -39,28 +39,28 @@ import com.sun.javatest.Status;
  * A command that delegates a subcommand to a JT Harness agent that is accessible
  * via a serial port.
  */
-public class SerialPortAgentCommand extends Command
-{
+public class SerialPortAgentCommand extends Command {
     /**
      * Delegate a subcommand to an agent that is accessible via a serial port.
+     *
      * @param args An array of strings, identifying the subcommand and where
-     *          to run it. The array should be of the form:<br>
-     *          <em>options</em>... <em>port</em> <em>subcommand-class</em> <em>subcommand-args</em>...
-     * <table><tr><th colspan=2>Options</th></tr>
-     * <tr><td>-cp <em>path</em><br>-classpath <em>path</em>
-     *          <td>Specify a path from which the subcommand should be loaded,
-     *          via the connection to the JT Harness harness.
-     *          If not specified, any necessary classes will be loaded
-     *          from the agent's classpath.
-     * <tr><td>-m<br>-mapArgs
-     *          <td>Use the map facility on the JT Harness Agent to localize
-     *          any configuration values.
-     * <tr><td>-t <em>tag</em><br>-tag <em>tag</em>
-     *          <td>Specify a tag with with to identify this command in
-     *          any tracing output or GUI display.
-     * </table>
-     * @param err A stream to which to write any diagnostic error messages.
-     * @param out An additional stream to which to write any additional output.
+     *             to run it. The array should be of the form:<br>
+     *             <em>options</em>... <em>port</em> <em>subcommand-class</em> <em>subcommand-args</em>...
+     *             <table><tr><th colspan=2>Options</th></tr>
+     *             <tr><td>-cp <em>path</em><br>-classpath <em>path</em>
+     *             <td>Specify a path from which the subcommand should be loaded,
+     *             via the connection to the JT Harness harness.
+     *             If not specified, any necessary classes will be loaded
+     *             from the agent's classpath.
+     *             <tr><td>-m<br>-mapArgs
+     *             <td>Use the map facility on the JT Harness Agent to localize
+     *             any configuration values.
+     *             <tr><td>-t <em>tag</em><br>-tag <em>tag</em>
+     *             <td>Specify a tag with with to identify this command in
+     *             any tracing output or GUI display.
+     *             </table>
+     * @param err  A stream to which to write any diagnostic error messages.
+     * @param out  An additional stream to which to write any additional output.
      * @return a Status object indicating the outcome of the command that was executed
      */
     @Override
@@ -72,16 +72,13 @@ public class SerialPortAgentCommand extends Command
         // analyze options
         int i = 0;
         for (; i < args.length && args[i].startsWith("-"); i++) {
-            if ((args[i].equals("-cp") || args[i].equals("-classpath")) && i+1 < args.length) {
+            if ((args[i].equals("-cp") || args[i].equals("-classpath")) && i + 1 < args.length) {
                 classPath = args[++i];
-            }
-            else if (args[i].equals("-m") || args[i].equals("-mapArgs")) {
+            } else if (args[i].equals("-m") || args[i].equals("-mapArgs")) {
                 localizeArgs = true;
-            }
-            else if ((args[i].equals("-t") || args[i].equals("-tag")) && i+1 < args.length) {
+            } else if ((args[i].equals("-t") || args[i].equals("-tag")) && i + 1 < args.length) {
                 tag = args[++i];
-            }
-            else
+            } else
                 return Status.error("Unrecognized option: " + args[i]);
         }
 
@@ -112,22 +109,17 @@ public class SerialPortAgentCommand extends Command
                 out.println("Executing command via " + t.getConnection().getName());
 
                 return t.executeCommand(tag, cmdClass, cmdArgs, localizeArgs, err, out);
-            }
-            finally {
+            } finally {
                 // ensure the port is released whatever the outcome
                 t.getConnection().close();
             }
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             return Status.error("Interrupted while waiting for port: " + serialPortName);
-        }
-        catch (NoSuchPortException e) {
+        } catch (NoSuchPortException e) {
             return Status.error("No such port: " + serialPortName);
-        }
-        catch (PortInUseException e) {
+        } catch (PortInUseException e) {
             return Status.error("port in use: " + serialPortName);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             return Status.error("Error accessing agent: " + e);
         }
     }

@@ -50,8 +50,7 @@ class SerialPortModeOptions extends ModeOptions {
         try {
             Class<? extends Proxy> c = Class.forName(Proxy.class.getName() + "Impl").asSubclass(Proxy.class);
             proxy = c.getDeclaredConstructor().newInstance();
-        }
-        catch (Throwable ignore) {
+        } catch (Throwable ignore) {
             // leave proxy unset if we can't load the class, and cope with it later
         }
 
@@ -100,6 +99,7 @@ class SerialPortModeOptions extends ModeOptions {
 
 interface Proxy {
     String[] getPortNames();
+
     ConnectionFactory createConnectionFactory(String port) throws BadValue;
 }
 
@@ -123,9 +123,8 @@ class ProxyImpl implements Proxy {
             String[] a = new String[v.size()];
             v.copyInto(a);
             return a;
-        }
-        catch (Throwable t) {
-            return new String[] { };
+        } catch (Throwable t) {
+            return new String[]{};
         }
     }
 
@@ -134,11 +133,9 @@ class ProxyImpl implements Proxy {
     public ConnectionFactory createConnectionFactory(String port) throws BadValue {
         try {
             return new SerialPortConnectionFactory(port, Agent.PRODUCT_NAME, 10 * MILLIS_PER_SECOND);
-        }
-        catch (NoSuchPortException e) {
+        } catch (NoSuchPortException e) {
             throw new BadValue("invalid port: " + port);
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             throw new BadValue("problem accessing serial ports");
         }
     }

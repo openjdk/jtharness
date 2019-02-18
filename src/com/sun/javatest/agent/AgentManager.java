@@ -54,13 +54,13 @@ import com.sun.javatest.util.DynamicArray;
  * connections to agents, for managing a pool of available active agents,
  * and for registering observers for interesting events.
  **/
-public class AgentManager
-{
+public class AgentManager {
 
     //--------------------------------------------------------------------------
 
     /**
      * Access the one single instance of the AgentManager.
+     *
      * @return The one AgentManager.
      */
     public static AgentManager access() {
@@ -81,13 +81,14 @@ public class AgentManager
     public static interface Observer {
         /**
          * Called when a task starts a request.
-         * @param connection    The connection used to communicate with the agent.
-         * @param tag           A tag used to identify the request.
-         * @param request       The type of the request.
-         * @param executable    The class to be executed.
-         * @param args          Arguments to be passed to the class to be executed.
-         * @param localizeArgs  Whether or not to localize the args remotely, using the
-         *                      agent's map facility.
+         *
+         * @param connection   The connection used to communicate with the agent.
+         * @param tag          A tag used to identify the request.
+         * @param request      The type of the request.
+         * @param executable   The class to be executed.
+         * @param args         Arguments to be passed to the class to be executed.
+         * @param localizeArgs Whether or not to localize the args remotely, using the
+         *                     agent's map facility.
          */
         void started(Connection connection,
                      String tag, String request, String executable, String[] args,
@@ -95,15 +96,17 @@ public class AgentManager
 
         /**
          * Called when a task completes a request.
-         * @param connection    The connection used to communicate with the agent.
-         * @param status        The outcome of the request.
+         *
+         * @param connection The connection used to communicate with the agent.
+         * @param status     The outcome of the request.
          */
         void finished(Connection connection, Status status);
     }
 
     /**
      * Add an observer to monitor events.
-     * @param o         The observer to be added.
+     *
+     * @param o The observer to be added.
      * @see #removeObserver
      */
     public synchronized void addObserver(Observer o) {
@@ -112,7 +115,8 @@ public class AgentManager
 
     /**
      * Remove an observer that had been previously registered to monitor events.
-     * @param o         The observer to be removed.
+     *
+     * @param o The observer to be removed.
      */
     public synchronized void removeObserver(Observer o) {
         observers = DynamicArray.remove(observers, o);
@@ -140,6 +144,7 @@ public class AgentManager
      * Get the active agent pool, which is a holding area for
      * agents that have registered themselves as available for use
      * by the test harness.
+     *
      * @return the active agent pool
      */
     public ActiveAgentPool getActiveAgentPool() {
@@ -152,6 +157,7 @@ public class AgentManager
 
     /**
      * Create a task that will connect with an agent via a given connection.
+     *
      * @param c The connection to use to communicate with the agent.
      * @return a task object that can be used to initiate work on an agent
      * @throws IOException if a problem occurs establishing the connection
@@ -163,13 +169,14 @@ public class AgentManager
     /**
      * Create a task that will connect to the next available active agent
      * that is available in a central pool.
+     *
      * @return a task object that can be used to initiate work on an agent
      * @throws ActiveAgentPool.NoAgentException if the pool has not been
-     *                  initialized, or if there is still no agent after
-     *                  a timeout period specified when the pool was initialized.
-     * @throws InterruptedException if this thread is interrupted while waiting
-     *                  for an agent to become available in the active agent pool.
-     * @throws IOException if a problem occurs establishing the connection
+     *                                          initialized, or if there is still no agent after
+     *                                          a timeout period specified when the pool was initialized.
+     * @throws InterruptedException             if this thread is interrupted while waiting
+     *                                          for an agent to become available in the active agent pool.
+     * @throws IOException                      if a problem occurs establishing the connection
      */
     public Task connectToActiveAgent() throws ActiveAgentPool.NoAgentException, InterruptedException, IOException {
         return connect(pool.nextAgent());
@@ -178,9 +185,10 @@ public class AgentManager
     /**
      * Create a task that will connect to a passive agent running on a
      * nominated host, and which is listening on the default port.
-     * @param host      The host on which the agent should be running.
+     *
+     * @param host The host on which the agent should be running.
      * @return a task object that can be used to initiate work on an agent
-     * @throws IOException is there is a problem connecting to the agent
+     * @throws IOException          is there is a problem connecting to the agent
      * @throws NullPointerException if host is null
      */
     public Task connectToPassiveAgent(String host) throws IOException {
@@ -195,10 +203,11 @@ public class AgentManager
     /**
      * Create a connection to a passive agent running on a nominated host,
      * and which is listening on a specified port.
-     * @param host      The host on which the agent should be running.
-     * @param port      The port on which the agent should be listening.
+     *
+     * @param host The host on which the agent should be running.
+     * @param port The port on which the agent should be listening.
      * @return a task object that can be used to initiate work on an agent
-     * @throws IOException is there is a problem connecting to the agent
+     * @throws IOException          is there is a problem connecting to the agent
      * @throws NullPointerException if host is null
      */
     public Task connectToPassiveAgent(String host, int port) throws IOException {
@@ -210,16 +219,14 @@ public class AgentManager
             try {
 //              return connect(new SocketConnection(host, port));
                 return connect(new InterruptableSocketConnection(host, port));
-            }
-            catch (ConnectException e) {
+            } catch (ConnectException e) {
                 if (i == PASSIVE_AGENT_RETRY_LIMIT) {
                     throw e;
                 }
 
                 try {
                     Thread.currentThread().sleep(5000);
-                }
-                catch (InterruptedException ignore) {
+                } catch (InterruptedException ignore) {
                 }
             }
         }
@@ -237,7 +244,8 @@ public class AgentManager
 
         /**
          * Create a connection to a agent retrieved from the agent pool.
-         * @param c     The connection with which to communicate to the agent.
+         *
+         * @param c The connection with which to communicate to the agent.
          */
         Task(Connection c) {
             connection = c;
@@ -247,6 +255,7 @@ public class AgentManager
 
         /**
          * Get the connection being used for this task.
+         *
          * @return the connection to the remote agent.
          */
         public Connection getConnection() {
@@ -256,7 +265,8 @@ public class AgentManager
         /**
          * Get the classpath to be used when loading classes on behalf of the
          * remote agent.
-         * @return      An array of files and directories in which to look for classes to
+         *
+         * @return An array of files and directories in which to look for classes to
          * be given to the remote agent.
          * @see #setClassPath(String)
          * @see #setClassPath(File[])
@@ -268,8 +278,9 @@ public class AgentManager
         /**
          * Set the classpath to be used for incoming requests for classes
          * from the remote agent.
-         * @param path  The classpath to be set, using the <em>local</em>
-         *              file and path separator characters.
+         *
+         * @param path The classpath to be set, using the <em>local</em>
+         *             file and path separator characters.
          * @see #getClassPath
          * @see #setClassPath(File[])
          */
@@ -281,7 +292,8 @@ public class AgentManager
         /**
          * Set the classpath to be used for incoming requests for classes
          * from the remote agent.
-         * @param path  An array of files, representing the path to be used.
+         *
+         * @param path An array of files, representing the path to be used.
          * @see #getClassPath
          * @see #setClassPath(String)
          */
@@ -311,6 +323,7 @@ public class AgentManager
 
         /**
          * Set the timeout after command thread will be interrupted on the agent
+         *
          * @param timeout value in seconds
          */
         public void setAgentCommandTimeout(int timeout) {
@@ -319,24 +332,24 @@ public class AgentManager
 
         /**
          * Request the agent for this client to execute a standard Test class.
-         * @param tag   A string to identify the request in debug and trace output.
-         * @param className The name of the class to execute. The class must be an
-         *                      implementation of com.sun.javatest.Test, and must be
-         *                      accessible by the agent: just the <em>name</em> of the class
-         *                      is sent to the agent, not the classfile.
-         * @param args  The arguments to be passed to the <code>run</code> method
-         *                      of an instance of <code>classname</code> that will be executed
-         *                      by the agent.
-         * @param localizeArgs
-         *                      Whether or not to instruct the agent to localize the args
-         *                      to be passed to the test class. For example, this may be
-         *                      necessary if the test has arguments that involve filenames
-         *                      that differ from system to system.
-         * @param log   A stream to which to write any data written to the log
-         *                      stream when the test class is run.
-         * @param ref   A stream to which to write any data written to the ref
-         *                      stream when the test class is run.
-         * @return              The status returned when the test class is run by the agent.
+         *
+         * @param tag          A string to identify the request in debug and trace output.
+         * @param className    The name of the class to execute. The class must be an
+         *                     implementation of com.sun.javatest.Test, and must be
+         *                     accessible by the agent: just the <em>name</em> of the class
+         *                     is sent to the agent, not the classfile.
+         * @param args         The arguments to be passed to the <code>run</code> method
+         *                     of an instance of <code>classname</code> that will be executed
+         *                     by the agent.
+         * @param localizeArgs Whether or not to instruct the agent to localize the args
+         *                     to be passed to the test class. For example, this may be
+         *                     necessary if the test has arguments that involve filenames
+         *                     that differ from system to system.
+         * @param log          A stream to which to write any data written to the log
+         *                     stream when the test class is run.
+         * @param ref          A stream to which to write any data written to the ref
+         *                     stream when the test class is run.
+         * @return The status returned when the test class is run by the agent.
          * @see com.sun.javatest.Test
          */
         public Status executeTest(String tag, String className, String[] args,
@@ -347,24 +360,24 @@ public class AgentManager
 
         /**
          * Request the agent for this client to execute a standard Command class.
-         * @param tag   A string to identify the request in debug and trace output.
-         * @param className The name of the class to execute. The class must be an
-         *                      implementation of com.sun.javatest.Command, and must be
-         *                      accessible by the agent: just the <em>name</em> of the class
-         *                      is sent to the agent, not the classfile.
-         * @param args  The arguments to be passed to the <code>run</code> method
-         *                      of an instance of <code>classname</code> that will be executed
-         *                      by the agent.
-         * @param localizeArgs
-         *                      Whether or not to instruct the agent to localize the args
-         *                      to be passed to the test class. For example, this may be
-         *                      necessary if the test has arguments that involve filenames
-         *                      that differ from system to system.
-         * @param log   A stream to which to write any data written to the log
-         *                      stream when the command class is run.
-         * @param ref   A stream to which to write any data written to the ref
-         *                      stream when the command class is run.
-         * @return              The status returned when the command class is run by the agent.
+         *
+         * @param tag          A string to identify the request in debug and trace output.
+         * @param className    The name of the class to execute. The class must be an
+         *                     implementation of com.sun.javatest.Command, and must be
+         *                     accessible by the agent: just the <em>name</em> of the class
+         *                     is sent to the agent, not the classfile.
+         * @param args         The arguments to be passed to the <code>run</code> method
+         *                     of an instance of <code>classname</code> that will be executed
+         *                     by the agent.
+         * @param localizeArgs Whether or not to instruct the agent to localize the args
+         *                     to be passed to the test class. For example, this may be
+         *                     necessary if the test has arguments that involve filenames
+         *                     that differ from system to system.
+         * @param log          A stream to which to write any data written to the log
+         *                     stream when the command class is run.
+         * @param ref          A stream to which to write any data written to the ref
+         *                     stream when the command class is run.
+         * @return The status returned when the command class is run by the agent.
          * @see com.sun.javatest.Command
          */
         public Status executeCommand(String tag, String className, String[] args,
@@ -376,31 +389,31 @@ public class AgentManager
         /**
          * Request the agent for this client to execute the standard "main" method
          * for a class.
-         * @param tag   A string to identify the request in debug and trace output.
-         * @param className The name of the class to execute. The class must be an
-         *                      implementation of com.sun.javatest.Command, and must be
-         *                      accessible by the agent: just the <em>name</em> of the class
-         *                      is sent to the agent, not the classfile.
-         * @param args  The arguments to be passed to the <code>run</code> method
-         *                      of an instance of <code>classname</code> that will be executed
-         *                      by the agent.
-         * @param localizeArgs
-         *                      Whether or not to instruct the agent to localize the args
-         *                      to be passed to the test class. For example, this may be
-         *                      necessary if the test has arguments that involve filenames
-         *                      that differ from system to system.
-         * @param log   A stream to which to write any data written to the log
-         *                      stream when the command class is run.
-         * @param ref   A stream to which to write any data written to the ref
-         *                      stream when the command class is run.
-         * @return              Status.passed if the method terminated normally;
-         *                      Status.failed if the method threw an exception;
-         *                      Status.error if some other problem arose.
+         *
+         * @param tag          A string to identify the request in debug and trace output.
+         * @param className    The name of the class to execute. The class must be an
+         *                     implementation of com.sun.javatest.Command, and must be
+         *                     accessible by the agent: just the <em>name</em> of the class
+         *                     is sent to the agent, not the classfile.
+         * @param args         The arguments to be passed to the <code>run</code> method
+         *                     of an instance of <code>classname</code> that will be executed
+         *                     by the agent.
+         * @param localizeArgs Whether or not to instruct the agent to localize the args
+         *                     to be passed to the test class. For example, this may be
+         *                     necessary if the test has arguments that involve filenames
+         *                     that differ from system to system.
+         * @param log          A stream to which to write any data written to the log
+         *                     stream when the command class is run.
+         * @param ref          A stream to which to write any data written to the ref
+         *                     stream when the command class is run.
+         * @return Status.passed if the method terminated normally;
+         * Status.failed if the method threw an exception;
+         * Status.error if some other problem arose.
          * @see com.sun.javatest.Command
          */
         public Status executeMain(String tag, String className, String[] args,
-                                     boolean localizeArgs,
-                                     PrintWriter log, PrintWriter ref) {
+                                  boolean localizeArgs,
+                                  PrintWriter log, PrintWriter ref) {
             return run(tag, "executeMain", className, args, localizeArgs, log, ref);
         }
 
@@ -432,99 +445,95 @@ public class AgentManager
                 out.flush();
 
                 result = readResults(log, ref);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 try {
                     if (out != null)
                         out.close();
                     if (in != null)
                         in.close();
-                }
-                catch (IOException ignore) {
+                } catch (IOException ignore) {
                 }
                 if (e instanceof InterruptedIOException)
                     result = Status.error("Communication with agent interrupted! (timed out?)." +
                             "\n InterruptedException: " + e);
                 else
                     result = Status.error("Problem communicating with agent: " + e);
-            }
-            finally {
+            } finally {
                 notifyFinished(connection, result);
             }
             return result;
         }
 
         private Status readResults(PrintWriter log, PrintWriter ref)
-            throws IOException
-        {
+                throws IOException {
             Status status = null;
 
             while (status == null) {
                 int code = in.read();
                 switch (code) {
-                case -1: // unexpected EOF
-                    status = Status.error("premature EOF from agent");
-                    break;
-
-                case Agent.CLASS:
-                    String className = in.readUTF();
-                    //System.err.println("received request for " + className);
-                    AgentRemoteClassData classData = locateClass(className);
-                    classData.write(out);
-                    out.flush();
-                    break;
-
-                case Agent.DATA:
-                    String resourceName = in.readUTF();
-                    //System.err.println("received request for " + resourceName);
-                    byte[] resourceData = locateData(resourceName);
-                    if (resourceData == null)
-                        //System.err.println("resource not found: " + className);
-                        out.writeInt(-1);
-                    else {
-                        out.writeInt(resourceData.length);
-                        out.write(resourceData, 0, resourceData.length);
-                    }
-                    out.flush();
-                    //System.err.println("done request for " + resourceName);
-                    break;
-
-                case Agent.STATUS:
-                    int type = in.read();
-                    String reason = in.readUTF();
-                    switch (type) {
-                    case Status.PASSED:
-                        status = Status.passed(reason);
+                    case -1: // unexpected EOF
+                        status = Status.error("premature EOF from agent");
                         break;
-                    case Status.FAILED:
-                        status = Status.failed(reason);
+
+                    case Agent.CLASS:
+                        String className = in.readUTF();
+                        //System.err.println("received request for " + className);
+                        AgentRemoteClassData classData = locateClass(className);
+                        classData.write(out);
+                        out.flush();
                         break;
-                    case Status.ERROR:
-                        status = Status.error(reason);
+
+                    case Agent.DATA:
+                        String resourceName = in.readUTF();
+                        //System.err.println("received request for " + resourceName);
+                        byte[] resourceData = locateData(resourceName);
+                        if (resourceData == null)
+                            //System.err.println("resource not found: " + className);
+                            out.writeInt(-1);
+                        else {
+                            out.writeInt(resourceData.length);
+                            out.write(resourceData, 0, resourceData.length);
+                        }
+                        out.flush();
+                        //System.err.println("done request for " + resourceName);
                         break;
-                    default:
-                        status = Status.failed("Bad status from test: type=" + type + " reason=" + reason);
+
+                    case Agent.STATUS:
+                        int type = in.read();
+                        String reason = in.readUTF();
+                        switch (type) {
+                            case Status.PASSED:
+                                status = Status.passed(reason);
+                                break;
+                            case Status.FAILED:
+                                status = Status.failed(reason);
+                                break;
+                            case Status.ERROR:
+                                status = Status.error(reason);
+                                break;
+                            default:
+                                status = Status.failed("Bad status from test: type=" + type + " reason=" + reason);
+                                break;
+                        }
                         break;
-                    }
-                    break;
 
-                case Agent.LOG:
-                    log.write(in.readUTF());
-                    break;
+                    case Agent.LOG:
+                        log.write(in.readUTF());
+                        break;
 
-                case Agent.LOG_FLUSH:
-                    log.write(in.readUTF());
-                    log.flush();
-                    break;
+                    case Agent.LOG_FLUSH:
+                        log.write(in.readUTF());
+                        log.flush();
+                        break;
 
-                case Agent.REF:
-                    ref.write(in.readUTF());
-                    break;
+                    case Agent.REF:
+                        ref.write(in.readUTF());
+                        break;
 
-                case Agent.REF_FLUSH:
-                    ref.write(in.readUTF());
-                    ref.flush();
-                    break;
+                    case Agent.REF_FLUSH:
+                        ref.write(in.readUTF());
+                        ref.flush();
+                        break;
                 }
             }
 
@@ -593,8 +602,7 @@ public class AgentManager
             try {
                 File file = new File(dir, name);
                 return read(new FileInputStream(file), (int) file.length());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 //System.err.println("readFromDir: " + e);
                 return null;
             }
@@ -612,8 +620,7 @@ public class AgentManager
                 if (ze == null)
                     return null;
                 return read(z.getInputStream(ze), (int) ze.getSize());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 //System.err.println("readFromJar: " + e);
                 return null;
             }
@@ -632,8 +639,7 @@ public class AgentManager
                 }
                 //System.err.println("read complete: " + data.length);
                 return data;
-            }
-            finally {
+            } finally {
                 in.close();
             }
         }

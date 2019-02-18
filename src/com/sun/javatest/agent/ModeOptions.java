@@ -41,13 +41,12 @@ abstract class ModeOptions extends Panel {
     }
 
     abstract ConnectionFactory createConnectionFactory(int concurrency)
-        throws BadValue, ConnectionFactory.Fault;
+            throws BadValue, ConnectionFactory.Fault;
 
     protected static int getInt(String label, TextField field) throws BadValue {
         try {
             return Integer.parseInt(field.getText(), 10);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new BadValue("bad value in `" + label + "' field");
         }
     }

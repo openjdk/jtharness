@@ -38,34 +38,38 @@ import java.io.OutputStream;
  * <p>
  * Connections are created by a {@link ConnectionFactory}.
  */
-public interface Connection
-{
+public interface Connection {
     /**
      * Get a name for this connection.
-     * @return          A short presentation string identifying this connection.
+     *
+     * @return A short presentation string identifying this connection.
      */
     String getName();
 
     /**
      * Get the input stream of the connection.
+     *
      * @return an input stream
      */
     InputStream getInputStream();
 
     /**
      * Get the output stream of the connection.
+     *
      * @return an output stream
      */
     OutputStream getOutputStream();
 
     /**
      * Close the connection, including both the input stream and the output stream.
+     *
      * @throws IOException if there is an error closing the connection.
      */
     void close() throws IOException;
 
     /**
      * Check if the connection has been closed.
+     *
      * @return true if the connection has been closed.
      */
     boolean isClosed();
@@ -74,10 +78,11 @@ public interface Connection
      * Wait until the connection has been closed from the other end,
      * perhaps in response to an in-band close request written to the
      * output stream.
-     * @param timeout   A maximum time to wait for the close. The timeout
-     *                  should be specified in milliseconds.
+     *
+     * @param timeout A maximum time to wait for the close. The timeout
+     *                should be specified in milliseconds.
      * @throws InterruptedException if the thread is interrupted while waiting
-     *                  for the connection to be closed.
+     *                              for the connection to be closed.
      */
     void waitUntilClosed(int timeout) throws InterruptedException;
 }

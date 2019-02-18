@@ -52,14 +52,14 @@ import java.util.Vector;
 
 import com.sun.javatest.ProductInfo;
 import com.sun.javatest.Status;
+
 import java.io.PrintStream;
 
 /**
  * A component to monitor the status of a Agent. This is normally displayed
  * in either an {@link AgentFrame} or an {@link AgentApplet}.
  */
-class AgentPanel extends ScrollPane
-{
+class AgentPanel extends ScrollPane {
     public interface MapReader {
         public abstract ConfigValuesMap read(String name) throws IOException;
     }
@@ -77,7 +77,7 @@ class AgentPanel extends ScrollPane
     /**
      * Set the mode of the agent.
      *
-     * @param mode      "active" or "passive"
+     * @param mode "active" or "passive"
      * @see Agent
      */
     public synchronized void setMode(String mode) {
@@ -91,7 +91,7 @@ class AgentPanel extends ScrollPane
      * Set the maximum number of requests that will be serviced at any
      * one time.
      *
-     * @param conc      the maximum number of requests
+     * @param conc the maximum number of requests
      * @see Agent
      */
     public void setConcurrency(int conc) {
@@ -104,7 +104,7 @@ class AgentPanel extends ScrollPane
     /**
      * Set the map file used to translate the arguments of incoming requests.
      *
-     * @param mapFile   the map file
+     * @param mapFile the map file
      * @see Agent#setMap
      */
     public void setMapFile(String mapFile) {
@@ -117,8 +117,8 @@ class AgentPanel extends ScrollPane
     /**
      * Set the retry delay for active agents.
      *
-     * @param delay     the interval (in seconds) to wait after
-     *                  a connection has been refused
+     * @param delay the interval (in seconds) to wait after
+     *              a connection has been refused
      * @see Agent
      */
     public void setRetryDelay(int delay) {
@@ -131,14 +131,14 @@ class AgentPanel extends ScrollPane
     /**
      * Enable or disable tracing output from the agent.
      * Must be called before #start().
+     *
      * @param state True to enable tracing output.
      */
     public void setTracing(boolean state, PrintStream out) {
         tracing = state;
         if (!state) {
             traceOut = null;
-        }
-        else {
+        } else {
             traceOut = out;
         }
     }
@@ -146,7 +146,7 @@ class AgentPanel extends ScrollPane
     /**
      * Set the number of requests remembered in the history.
      *
-     * @param limit     the maximum number of requests to be remembered
+     * @param limit the maximum number of requests to be remembered
      * @see Agent
      */
     public void setHistoryLimit(int limit) {
@@ -158,6 +158,7 @@ class AgentPanel extends ScrollPane
 
     /**
      * Add a user observer to the agent when it is created.
+     *
      * @param userObs an observer to monitor the agent
      */
     public void addObserver(Agent.Observer userObs) {
@@ -185,19 +186,15 @@ class AgentPanel extends ScrollPane
             paramPanel.setEnabled(false);
             buttonPanel.setStartEnabled(false);
             buttonPanel.setStopEnabled(true);
-        }
-        catch (BadValue e) {
+        } catch (BadValue e) {
             error(e.getMessages());
-        }
-        catch (SecurityException e) {
+        } catch (SecurityException e) {
             String[] msgs = {"Security Exception", e.getMessage()};
             error(msgs);
-        }
-        catch (ConnectionFactory.Fault e) {
+        } catch (ConnectionFactory.Fault e) {
             String[] msgs = {"Cannot create connection", e.getMessage()};
             error(msgs);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             String[] msgs = {"Problem reading map file", e.getMessage()};
             error(msgs);
         }
@@ -216,7 +213,6 @@ class AgentPanel extends ScrollPane
         // the panel will be set idle when the agent reports (via the AgentObserver)
         // that it is finished
     }
-
 
 
     //-------------------------------------------------------------------
@@ -278,7 +274,7 @@ class AgentPanel extends ScrollPane
         mainPanel.add(mainFolder, c);
 
         buttonPanel = new ButtonPanel();
-        c.weighty= 0;
+        c.weighty = 0;
         c.insets.bottom = 20;
         mainPanel.add(buttonPanel, c);
 
@@ -310,8 +306,7 @@ class AgentPanel extends ScrollPane
     private static int getInt(String label, TextField field) throws BadValue {
         try {
             return Integer.parseInt(field.getText(), 10);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new BadValue("Bad value in `" + label + "' field");
         }
     }
@@ -338,18 +333,15 @@ class AgentPanel extends ScrollPane
     private Agent currAgent;
 
     private static final String[] statusCodes =
-        {"PASS", "FAIL", "CHCK", "ERR ", "!RUN"};
-
-
-
-    //-------------------------------------------------------------------
-
+            {"PASS", "FAIL", "CHCK", "ERR ", "!RUN"};
 
 
     //-------------------------------------------------------------------
 
-    private static class TaskState
-    {
+
+    //-------------------------------------------------------------------
+
+    private static class TaskState {
         TaskState(Connection c) {
             connection = c;
         }
@@ -361,7 +353,7 @@ class AgentPanel extends ScrollPane
         String[] args;
         Status status;
 
-        static final int TEST = 0, COMMAND = 1, MAIN=2;
+        static final int TEST = 0, COMMAND = 1, MAIN = 2;
     }
 
 
@@ -536,11 +528,9 @@ class AgentPanel extends ScrollPane
             Object src = e.getSource();
             if (src == startButton) {
                 start();
-            }
-            else if (src == stopButton) {
+            } else if (src == stopButton) {
                 stop();
-            }
-            else if (src == helpButton) {
+            } else if (src == helpButton) {
                 showHelp();
             }
         }
@@ -564,7 +554,7 @@ class AgentPanel extends ScrollPane
         /**
          * Display a multi-line message in the error panel.
          *
-         * @param msgs  The lines of the message to display
+         * @param msgs The lines of the message to display
          */
         public synchronized void show(String... msgs) {
             removeAll();
@@ -645,11 +635,11 @@ class AgentPanel extends ScrollPane
             infoPanel.add(copyLabel2, c);
 
             String helpText =
-                "  For full information on using the\n" +
-                "  JT Harness Agent, please refer to the\n" +
-                "     JT Harness User's Guide\n" +
-                "  and to the documentation for the\n" +
-                "  test suite you are using.\n";
+                    "  For full information on using the\n" +
+                            "  JT Harness Agent, please refer to the\n" +
+                            "     JT Harness User's Guide\n" +
+                            "  and to the documentation for the\n" +
+                            "  test suite you are using.\n";
 
             TextArea helpArea = new TextArea(helpText, 5, 35, TextArea.SCROLLBARS_NONE);
             helpArea.setEditable(false);
@@ -668,14 +658,13 @@ class AgentPanel extends ScrollPane
             add(infoPanel, lrc);
         }
 
-        private Icon createIcon(String name)  {
+        private Icon createIcon(String name) {
             try {
                 URL url = getClass().getResource(name);
                 if (url == null)
                     return null;
                 return new Icon(url);
-            }
-            catch (RuntimeException | Error e) {
+            } catch (RuntimeException | Error e) {
                 return null;
             }
 
@@ -754,12 +743,12 @@ class AgentPanel extends ScrollPane
             Object src = e.getItemSelectable();
             if (src == this) {
                 switch (e.getStateChange()) {
-                case ItemEvent.SELECTED:
-                    showTask(getSelectedTask());
-                    break;
-                case Event.LIST_DESELECT:
-                    showTask(null);
-                    break;
+                    case ItemEvent.SELECTED:
+                        showTask(getSelectedTask());
+                        break;
+                    case Event.LIST_DESELECT:
+                        showTask(null);
+                        break;
                 }
             }
         }
@@ -775,7 +764,7 @@ class AgentPanel extends ScrollPane
 
     //-------------------------------------------------------------------
 
-    private class ParamPanel extends Panel  implements ItemListener {
+    private class ParamPanel extends Panel implements ItemListener {
         ParamPanel(ModeOptions... modeOptions) {
             setLayout(new GridBagLayout());
 
@@ -891,8 +880,7 @@ class AgentPanel extends ScrollPane
                 agent.setMap(map);
 
                 return agent;
-            }
-            catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 throw new BadValue(e.getLocalizedMessage());
             }
         }
@@ -905,7 +893,7 @@ class AgentPanel extends ScrollPane
         public void itemStateChanged(ItemEvent e) {
             Object src = e.getItemSelectable();
             if (src == modeChoice) {
-                String modeName = ((Choice)src).getSelectedItem();
+                String modeName = ((Choice) src).getSelectedItem();
                 for (int i = 0; i < modeDeck.getComponentCount(); i++) {
                     ModeOptions m = (ModeOptions) modeDeck.getComponent(i);
                     if (modeName.equals(m.getModeName())) {

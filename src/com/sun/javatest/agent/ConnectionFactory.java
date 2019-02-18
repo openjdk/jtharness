@@ -31,8 +31,7 @@ package com.sun.javatest.agent;
  * between the main JT Harness test harness and the JT Harness Agent. A fresh
  * new connection is created for each test that is executed by the agent.
  */
-public interface ConnectionFactory
-{
+public interface ConnectionFactory {
     /**
      * This exception is used to forward exception that might occur when
      * using the connection factory.
@@ -40,6 +39,7 @@ public interface ConnectionFactory
     public static class Fault extends Exception {
         /**
          * Create a Fault.
+         *
          * @param e     An exception to be forwarded by this fault.
          * @param fatal Indicates whether the exception is fatal or not.
          *              For example, an exception caused by a temporary lack of resources
@@ -54,6 +54,7 @@ public interface ConnectionFactory
 
         /**
          * Get the exception being forward by this Fault.
+         *
          * @return The exception being forwarded.
          */
         public Exception getException() {
@@ -63,6 +64,7 @@ public interface ConnectionFactory
         /**
          * Check whether this Fault is fatal or not.  If it is, there is little
          * point retrying the operation that threw the Fault.
+         *
          * @return true if this Fault is fatal.
          */
         public boolean isFatal() {
@@ -75,6 +77,7 @@ public interface ConnectionFactory
 
     /**
      * Create a new connection.
+     *
      * @return A new connection.
      * @throws ConnectionFactory.Fault if there is a problem creating the connection
      */
@@ -82,6 +85,7 @@ public interface ConnectionFactory
 
     /**
      * Close the connection factory, releasing any resources it may be using.
+     *
      * @throws ConnectionFactory.Fault if a problem occurs while closing the factory.
      */
     void close() throws Fault;

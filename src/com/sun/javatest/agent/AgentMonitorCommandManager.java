@@ -37,14 +37,12 @@ import com.sun.javatest.util.I18NResourceBundle;
 /**
  * The ToolManager for {@link AgentMonitorTool agent monitor} window.
  */
-public class AgentMonitorCommandManager extends AgentMonitorBatchCommandManager
-{
+public class AgentMonitorCommandManager extends AgentMonitorBatchCommandManager {
 
 
     @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
-        throws Command.Fault
-    {
+            throws Command.Fault {
 
         if (super.parseCommand(cmd, argIter, ctx)) {
             return true;
@@ -57,6 +55,7 @@ public class AgentMonitorCommandManager extends AgentMonitorBatchCommandManager
 
         return false;
     }
+
     @Override
     String[] getCommands() {
         String[] cmds = super.getCommands();

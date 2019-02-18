@@ -37,7 +37,9 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
+
 import com.sun.javatest.util.StringArray;
+
 import java.io.PrintStream;
 
 /**
@@ -56,6 +58,7 @@ public class ConfigValuesMap {
      * as in some versions of Personal Java. Any problems caused by
      * the file system not being present are returned as IOExceptions
      * with a suitable detail message.
+     *
      * @param name The name of the file to read
      * @return The map read from the given file
      * @throws IOException if any errors occurred reading the file
@@ -65,24 +68,22 @@ public class ConfigValuesMap {
             Class<? extends Reader> clazz = Class.forName("java.io.FileReader").asSubclass(Reader.class);
             Reader r = clazz.getConstructor(String.class).newInstance(name);
             return new ConfigValuesMap(r);
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             throw new IOException("file system not accessible (" + e + ")");
-        }
-        catch (InvocationTargetException e) {
+        } catch (InvocationTargetException e) {
             Throwable t = e.getTargetException();
             if (t instanceof IOException)
-                throw (IOException)t;
+                throw (IOException) t;
             else
                 throw fileSystemProblem(t);
-        }
-        catch (IllegalAccessException | Error | NoSuchMethodException | InstantiationException e) {
+        } catch (IllegalAccessException | Error | NoSuchMethodException | InstantiationException e) {
             throw fileSystemProblem(e);
         }
     }
 
     /**
      * Read a map from a URL.
+     *
      * @param u The URL to read
      * @return The map read from the given URL
      * @throws IOException if any errors occurred reading the URL
@@ -97,6 +98,7 @@ public class ConfigValuesMap {
      * or from a URL if it does.  The method is simply a wrapper that delegates
      * to either {@link #readFile} or {@link #readURL} depending on the
      * argument.
+     *
      * @param name The name of the file or URL to read
      * @return The map read from the given location
      * @throws IOException if any errors occurred reading the map
@@ -115,21 +117,21 @@ public class ConfigValuesMap {
     /**
      * Create a map by reading it from a given stream.
      * The '\u0020' sequence could be used to specify space symbol in the values.
-     * @param r         The reader from which to read the map data. The reader is closed
-     *                  after it has been completely read
+     *
+     * @param r The reader from which to read the map data. The reader is closed
+     *          after it has been completely read
      * @throws IOException if problems occur while reading the map data.
      */
     public ConfigValuesMap(Reader r) throws IOException {
         BufferedReader in =
-                r instanceof BufferedReader ? (BufferedReader)r : new BufferedReader(r)
-;
+                r instanceof BufferedReader ? (BufferedReader) r : new BufferedReader(r);
         // data arrives in rows, but we want it in columns
         Vector<String> from = new Vector<>();
         Vector<String> to = new Vector<>();
         String line;
         while ((line = in.readLine()) != null) {
             line = line.trim();
-            if (!line.isEmpty() &&  !line.startsWith("#")) {
+            if (!line.isEmpty() && !line.startsWith("#")) {
                 String[] row = StringArray.split(line);
                 if (row.length < 2)
                     throw new IOException("format error in map file, line is: " + line);
@@ -148,8 +150,9 @@ public class ConfigValuesMap {
     /**
      * Translate the strings according to values in the map.
      * The strings are updated in place.
-     * @param args      An array of strings to be translated according to the data
-     *                  the map.
+     *
+     * @param args An array of strings to be translated according to the data
+     *             the map.
      */
     public void map(String... args) {
         if (fromValues == null)
@@ -192,12 +195,13 @@ public class ConfigValuesMap {
 
     /**
      * Enumerate the entries of the map.
+     *
      * @return an enumeration of the translation entries within the map
      */
     public Enumeration<String[]> enumerate() {
         Vector<String[]> v = new Vector<>(fromValues.length);
         for (int i = 0; i < fromValues.length; i++) {
-            v.addElement(new String[] {fromValues[i], toValues[i]});
+            v.addElement(new String[]{fromValues[i], toValues[i]});
         }
         return v.elements();
     }
@@ -206,8 +210,7 @@ public class ConfigValuesMap {
         tracing = state;
         if (state) {
             traceOut = out;
-        }
-        else {
+        } else {
             traceOut = null;
         }
     }

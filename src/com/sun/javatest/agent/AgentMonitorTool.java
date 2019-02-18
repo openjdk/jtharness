@@ -57,8 +57,7 @@ import static com.sun.javatest.agent.Agent.MILLIS_PER_SECOND;
  * The "Agent Monitor" tool, which allows a user to monitor and control
  * the agents used to help run tests.
  */
-public class AgentMonitorTool extends Tool
-{
+public class AgentMonitorTool extends Tool {
     /*OLD
     static AgentMonitorTool access() {
         if (theOne == null)
@@ -115,6 +114,7 @@ public class AgentMonitorTool extends Tool
 
     /**
      * Restore an AgentMonitorTool from its saved state.
+     *
      * @param m The map containing the saved data
      * @return An AgentMonitorTool restored from the data in the map.
      */
@@ -132,8 +132,7 @@ public class AgentMonitorTool extends Tool
 
             if (l != null && !l.isEmpty())
                 agentPoolSubpanel.setListening(l.equals("true"));
-        }
-        catch (NumberFormatException ignore) {
+        } catch (NumberFormatException ignore) {
         }
     }
 
@@ -146,8 +145,7 @@ public class AgentMonitorTool extends Tool
     //----------nested classes-------------------------------------------------------
 
     private class AgentPoolSubpanel extends JPanel
-        implements ItemListener, ActiveAgentPool.Observer
-    {
+            implements ItemListener, ActiveAgentPool.Observer {
         AgentPoolSubpanel() {
             setName("tool.pool");
             setBorder(uif.createTitledBorder("tool.pool"));
@@ -175,7 +173,7 @@ public class AgentMonitorTool extends Tool
             timeoutField = uif.createInputField("tool.pool.timeout", 6);
             // agentMgr API is in msec; field is in seconds
             int t = activeAgentPool.getTimeout(); // round to nearest second
-            timeoutField.setText(String.valueOf((t + 500)/1000));
+            timeoutField.setText(String.valueOf((t + 500) / 1000));
             fc.anchor = GridBagConstraints.WEST;
             fc.gridwidth = GridBagConstraints.REMAINDER;
             fc.weightx = 1;
@@ -231,31 +229,26 @@ public class AgentMonitorTool extends Tool
                             if (port < 0) {
                                 throw new NumberFormatException();
                             }
-                        }
-                        catch (NumberFormatException ex) {
+                        } catch (NumberFormatException ex) {
                             uif.showError("tool.badPort");
                             return;
                         }
 
                         try {
                             activeAgentPool.setListening(true);
-                        }
-                        catch (IOException ex) {
+                        } catch (IOException ex) {
                             uif.showError("tool.listenOn", ex);
                             return;
                         }
-                    }
-                    else {
+                    } else {
                         try {
                             activeAgentPool.setListening(false);
-                        }
-                        catch (IOException ex) {
+                        } catch (IOException ex) {
                             uif.showError("tool.listenOff", ex);
                             return;
                         }
                     }
-                }
-                finally {
+                } finally {
                     boolean b = activeAgentPool.isListening();
                     if (b != listeningCheck.isSelected())
                         listeningCheck.setSelected(b);
@@ -277,8 +270,7 @@ public class AgentMonitorTool extends Tool
                 };      // end anon. class
 
                 EventQueue.invokeLater(cmd);
-            }
-            else {
+            } else {
                 listData.addElement(c.getName());
             }
         }
@@ -295,8 +287,7 @@ public class AgentMonitorTool extends Tool
                 };      // end anon. class
 
                 EventQueue.invokeLater(cmd);
-            }
-            else {
+            } else {
                 listData.removeElement(c.getName());
             }
         }
@@ -312,8 +303,7 @@ public class AgentMonitorTool extends Tool
         int getPort() {
             try {
                 return Integer.parseInt(portField.getText());
-            }
-            catch (NumberFormatException ex) {
+            } catch (NumberFormatException ex) {
                 return Integer.MIN_VALUE;
             }
         }
@@ -325,8 +315,7 @@ public class AgentMonitorTool extends Tool
         int getTimeout() {
             try {
                 return Integer.parseInt(timeoutField.getText());
-            }
-            catch (NumberFormatException ex) {
+            } catch (NumberFormatException ex) {
                 return Integer.MIN_VALUE;
             }
         }
@@ -353,8 +342,7 @@ public class AgentMonitorTool extends Tool
     }
 
     private class CurrentAgentsSubpanel extends JPanel
-        implements ListSelectionListener, AgentManager.Observer
-    {
+            implements ListSelectionListener, AgentManager.Observer {
         CurrentAgentsSubpanel() {
             setName("tool.curr");
             setBorder(uif.createTitledBorder("tool.curr"));
@@ -441,8 +429,7 @@ public class AgentMonitorTool extends Tool
                 argsField.setText("");
                 localizeArgsCheck.setSelected(false);
                 selectedEntry = null;
-            }
-            else {
+            } else {
                 addressField.setText(e.connection.getName());
                 tagField.setText(e.tag);
                 requestField.setText(e.request);
@@ -466,8 +453,7 @@ public class AgentMonitorTool extends Tool
                 };      // end anon. class
 
                 EventQueue.invokeLater(cmd);
-            }
-            else
+            } else
                 listData.addElement(new Entry(c, tag, request, executable, args, localizeArgs));
         }
 
@@ -482,8 +468,7 @@ public class AgentMonitorTool extends Tool
                 };      // end anon. class
 
                 EventQueue.invokeLater(cmd);
-            }
-            else {
+            } else {
                 for (int i = 0; i < listData.size(); i++) {
                     Entry e = listData.elementAt(i);
                     if (e.connection == c) {
@@ -496,7 +481,7 @@ public class AgentMonitorTool extends Tool
 
         private class Entry {
             Entry(Connection connection,
-                     String tag, String request, String executable, String[] args,
+                  String tag, String request, String executable, String[] args,
                   boolean localizeArgs) {
                 this.connection = connection;
                 this.tag = tag;

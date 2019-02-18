@@ -34,8 +34,7 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 import java.awt.Panel;
 
-class Deck extends Panel
-{
+class Deck extends Panel {
     public Deck() {
         super(new CardLayout());
     }

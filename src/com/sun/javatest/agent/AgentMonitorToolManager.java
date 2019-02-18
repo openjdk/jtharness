@@ -39,10 +39,10 @@ import com.sun.javatest.tool.ToolManager;
 /**
  * The ToolManager for {@link AgentMonitorTool agent monitor} window.
  */
-public class AgentMonitorToolManager extends ToolManager
-{
+public class AgentMonitorToolManager extends ToolManager {
     /**
      * Create an agent tool manager.
+     *
      * @param desktop the desktop for which this manager will manage agent monitor tools
      */
     public AgentMonitorToolManager(Desktop desktop) {
@@ -59,7 +59,7 @@ public class AgentMonitorToolManager extends ToolManager
                 startTool();
             }
         };
-        return new Action[] { a };
+        return new Action[]{a};
     }
 
     //----------------------------------------------------------------------------
@@ -90,24 +90,27 @@ public class AgentMonitorToolManager extends ToolManager
 
     /**
      * Access the singleton tool managed by this tool manager.
+     *
      * @return the one agent monitor tool managed by this tool manager
      */
     public AgentMonitorTool getTool() {
         if (tool == null) {
             tool = new AgentMonitorTool(this);
             tool.addObserver(new Tool.Observer() {
-                    @Override
-                    public void shortTitleChanged(Tool t, String newValue) { }
+                @Override
+                public void shortTitleChanged(Tool t, String newValue) {
+                }
 
-                    @Override
-                    public void titleChanged(Tool t, String newValue) { }
+                @Override
+                public void titleChanged(Tool t, String newValue) {
+                }
 
-                    @Override
-                    public void toolDisposed(Tool t) {
-                        if (t == tool)
-                            tool = null;
-                    }
-                });
+                @Override
+                public void toolDisposed(Tool t) {
+                    if (t == tool)
+                        tool = null;
+                }
+            });
         }
 
         return tool;

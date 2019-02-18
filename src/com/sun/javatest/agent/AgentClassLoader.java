@@ -48,14 +48,12 @@ class AgentClassLoader extends ClassLoader {
                     // if this class has a class loader, defer to that,
                     // (and assume it will call findSystemClass if necessary)
                     c = cl.loadClass(className);
-                }
-                else {
+                } else {
                     // this class must be loaded via system class loader,
                     // so go use that one
                     c = findSystemClass(className);
                 }
-            }
-            catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 AgentRemoteClassData data = parent.getClassData(className);
                 c = defineClass(className, data.getByteData(), 0, data.getByteData().length);
             }
@@ -78,8 +76,7 @@ class AgentClassLoader extends ClassLoader {
                 // if not found here, try remote load from Agent Manager
                 byte[] data = parent.getResourceData(resourceName);
                 in = new ByteArrayInputStream(data);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 // ignore
             }
         }

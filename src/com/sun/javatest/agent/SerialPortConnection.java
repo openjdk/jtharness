@@ -42,19 +42,19 @@ import javax.comm.UnsupportedCommOperationException;
 /**
  * A connection via a serial port.
  */
-public class SerialPortConnection implements Connection
-{
+public class SerialPortConnection implements Connection {
     /**
      * Create a connection via a serial port.
-     * @param name      The name of the serial port to use.
-     * @param app       The name of the application using the port.
-     * @param timeout   The time, in milliseconds, to wait for the port
-     *                  to be available.
-     * @throws IOException if a problem occurs accessing the serial port.
-     * @throws NoSuchPortException if a bad port name was specified.
-     * @throws PortInUseException if the specified port was not available.
+     *
+     * @param name    The name of the serial port to use.
+     * @param app     The name of the application using the port.
+     * @param timeout The time, in milliseconds, to wait for the port
+     *                to be available.
+     * @throws IOException          if a problem occurs accessing the serial port.
+     * @throws NoSuchPortException  if a bad port name was specified.
+     * @throws PortInUseException   if the specified port was not available.
      * @throws InterruptedException if the thread was interrupted while waiting
-     *                  for the port to become available.
+     *                              for the port to become available.
      */
     public SerialPortConnection(String name, String app, int timeout) throws IOException, NoSuchPortException, PortInUseException, InterruptedException {
         this(open(CommPortIdentifier.getPortIdentifier(name), app, timeout));
@@ -62,14 +62,15 @@ public class SerialPortConnection implements Connection
 
     /**
      * Create a connection via a serial port.
-     * @param portId    An identifier for the serial port to use.
-     * @param app       The name of the application using the port.
-     * @param timeout   The time, in milliseconds, to wait for the port
-     *                  to be available.
-     * @throws IOException if a problem occurs accessing the serial port.
-     * @throws PortInUseException if the specified port was not available.
+     *
+     * @param portId  An identifier for the serial port to use.
+     * @param app     The name of the application using the port.
+     * @param timeout The time, in milliseconds, to wait for the port
+     *                to be available.
+     * @throws IOException          if a problem occurs accessing the serial port.
+     * @throws PortInUseException   if the specified port was not available.
      * @throws InterruptedException if the thread was interrupted while waiting
-     *                  for the port to become available.
+     *                              for the port to become available.
      */
     public SerialPortConnection(CommPortIdentifier portId, String app, int timeout) throws IOException, PortInUseException, InterruptedException {
         this(open(portId, app, timeout));
@@ -84,12 +85,11 @@ public class SerialPortConnection implements Connection
 
         try {
             port.setSerialPortParams(baudRate,
-                                     SerialPort.DATABITS_8,
-                                     SerialPort.STOPBITS_1,
-                                     SerialPort.PARITY_NONE);
+                    SerialPort.DATABITS_8,
+                    SerialPort.STOPBITS_1,
+                    SerialPort.PARITY_NONE);
             port.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
-        }
-        catch (UnsupportedCommOperationException e) {
+        } catch (UnsupportedCommOperationException e) {
             throw new IOException(e.toString());
         }
 
@@ -117,17 +117,16 @@ public class SerialPortConnection implements Connection
                 public void serialEvent(SerialPortEvent ev) {
                     int t = ev.getEventType();
                     switch (ev.getEventType()) {
-                    case SerialPortEvent.CD:
-                    case SerialPortEvent.DSR:
-                        // WARNING: The following line may cause ThreadDeath if
-                        // it determines the port should be closed.
-                        updateReadyStatus();
-                        break;
+                        case SerialPortEvent.CD:
+                        case SerialPortEvent.DSR:
+                            // WARNING: The following line may cause ThreadDeath if
+                            // it determines the port should be closed.
+                            updateReadyStatus();
+                            break;
                     }
                 }
             });
-        }
-        catch (TooManyListenersException e) {
+        } catch (TooManyListenersException e) {
             // should not happen, because ports are always opened inside this class
         }
         port.notifyOnCarrierDetect(true);
@@ -181,8 +180,7 @@ public class SerialPortConnection implements Connection
                 // WARNING: The following line may cause ThreadDeath if
                 // this method is called called from an event routine.
                 port.close();
-            }
-            finally {
+            } finally {
                 closed = true;
                 //System.err.println("closed");
                 notifyAll();
@@ -208,7 +206,7 @@ public class SerialPortConnection implements Connection
     private static SerialPort open(CommPortIdentifier cpi, String app, int timeout) throws PortInUseException {
         if (cpi.getPortType() != CommPortIdentifier.PORT_SERIAL)
             throw new IllegalArgumentException("not a serial port: " + cpi.getName());
-        return (SerialPort)cpi.open(app, timeout);
+        return (SerialPort) cpi.open(app, timeout);
     }
 
     private synchronized void updateReadyStatus() {
@@ -239,21 +237,31 @@ public class SerialPortConnection implements Connection
 
     private String parityToString(int parity) {
         switch (parity) {
-        case SerialPort.PARITY_NONE: return "none";
-        case SerialPort.PARITY_ODD:  return "odd";
-        case SerialPort.PARITY_EVEN: return "even";
-        case SerialPort.PARITY_MARK: return "mark";
-        case SerialPort.PARITY_SPACE: return "space";
-        default: return "?" + parity + "?";
+            case SerialPort.PARITY_NONE:
+                return "none";
+            case SerialPort.PARITY_ODD:
+                return "odd";
+            case SerialPort.PARITY_EVEN:
+                return "even";
+            case SerialPort.PARITY_MARK:
+                return "mark";
+            case SerialPort.PARITY_SPACE:
+                return "space";
+            default:
+                return "?" + parity + "?";
         }
     }
 
     private String flowControlToString(int flowControl) {
         switch (flowControl) {
-        case SerialPort.FLOWCONTROL_NONE: return "none";
-        case SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT: return "h/w";
-        case SerialPort.FLOWCONTROL_XONXOFF_IN | SerialPort.FLOWCONTROL_XONXOFF_OUT: return "s/w";
-        default: return "?" + flowControl + "?";
+            case SerialPort.FLOWCONTROL_NONE:
+                return "none";
+            case SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT:
+                return "h/w";
+            case SerialPort.FLOWCONTROL_XONXOFF_IN | SerialPort.FLOWCONTROL_XONXOFF_OUT:
+                return "s/w";
+            default:
+                return "?" + flowControl + "?";
         }
     }
 
@@ -264,5 +272,5 @@ public class SerialPortConnection implements Connection
     private boolean closed;
 
     private static final int baudRate =
-        Integer.getInteger("javatest.serialPort.baudRate", 38400).intValue();
+            Integer.getInteger("javatest.serialPort.baudRate", 38400).intValue();
 }

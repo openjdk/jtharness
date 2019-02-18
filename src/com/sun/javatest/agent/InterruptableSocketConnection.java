@@ -36,6 +36,7 @@ public class InterruptableSocketConnection extends SocketConnection {
     public InterruptableSocketConnection(Socket socket) throws IOException {
         super(socket);
     }
+
     public InterruptableSocketConnection(String host, int port) throws IOException {
         super(host, port);
     }
@@ -53,12 +54,12 @@ public class InterruptableSocketConnection extends SocketConnection {
             int n = read(b);
             if (n == -1) {
                 return -1;
-            }
-            else {
+            } else {
                 n = 0xFF & b[0];
                 return n;
             }
         }
+
         @Override
         public int read(byte[] buffer, int offset, int count) throws IOException {
             if (count == 0)
@@ -66,15 +67,15 @@ public class InterruptableSocketConnection extends SocketConnection {
 
             try {
                 return new InterruptableReader().read(buffer, offset, count);
-            }
-            catch (InterruptedException ie) {
+            } catch (InterruptedException ie) {
                 InterruptedIOException iio =
                         new InterruptedIOException
-                        ("Interrupted while waiting for agent response");
+                                ("Interrupted while waiting for agent response");
                 iio.fillInStackTrace();
                 throw iio;
             }
         }
+
         @Override
         public void close() throws IOException {
             socketInput.close();
@@ -108,6 +109,7 @@ public class InterruptableSocketConnection extends SocketConnection {
                     return n;
                 }
             }
+
             private void readInThread(byte[] buffer, int offset, int count) {
                 final byte[] b = buffer;
                 final int o = offset;
@@ -118,12 +120,10 @@ public class InterruptableSocketConnection extends SocketConnection {
                     public void run() {
                         try {
                             n = socketInput.read(b, o, c);
-                        }
-                        catch (IOException io) {
+                        } catch (IOException io) {
                             ioe = io;
-                        }
-                        finally {
-                            synchronized(InterruptableInputStream.this) {
+                        } finally {
+                            synchronized (InterruptableInputStream.this) {
                                 reading = false;
                                 InterruptableInputStream.this.notifyAll();
                             }

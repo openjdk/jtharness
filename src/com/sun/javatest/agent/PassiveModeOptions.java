@@ -59,8 +59,7 @@ class PassiveModeOptions extends ModeOptions {
                 throw new BadValue("concurrency may not be negative");
 
             return new PassiveConnectionFactory(port, concurrency);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new ConnectionFactory.Fault(e, true);
         }
     }

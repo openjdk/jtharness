@@ -42,8 +42,7 @@ import static com.sun.javatest.agent.Agent.MILLIS_PER_SECOND;
 /**
  * The ToolManager for {@link AgentMonitorTool agent monitor} window.
  */
-public class AgentMonitorBatchCommandManager extends CommandManager
-{
+public class AgentMonitorBatchCommandManager extends CommandManager {
 
     @Override
     public HelpTree.Node getHelp() {
@@ -51,10 +50,10 @@ public class AgentMonitorBatchCommandManager extends CommandManager
     }
 
     String[] getCommands() {
-        return  new String[] {
-            AgentPoolPortCommand.getName(),
-            AgentPoolTimeoutCommand.getName(),
-            StartAgentPoolCommand.getName(),
+        return new String[]{
+                AgentPoolPortCommand.getName(),
+                AgentPoolTimeoutCommand.getName(),
+                StartAgentPoolCommand.getName(),
         };
     }
 
@@ -62,8 +61,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
 
     @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
-        throws Command.Fault
-    {
+            throws Command.Fault {
         if (cmd.equalsIgnoreCase(AgentPoolPortCommand.getName())) {
             ctx.addCommand(new AgentPoolPortCommand(argIter));
             return true;
@@ -99,8 +97,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
 
             try {
                 port = Integer.parseInt(nextArg(argIter));
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 throw new Command.Fault(i18n, "cmgr.badNumber.err");
             }
         }
@@ -130,8 +127,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
 
             try {
                 timeout = Integer.parseInt(nextArg(argIter));
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 throw new Command.Fault(i18n, "cmgr.badNumber.err");
             }
         }
@@ -161,12 +157,10 @@ public class AgentMonitorBatchCommandManager extends CommandManager
                 if (arg.equalsIgnoreCase("-" + AgentPoolPortCommand.getName())) {
                     portSubcommand = new AgentPoolPortCommand(argIter);
                     addArgs(portSubcommand);
-                }
-                else if (arg.equalsIgnoreCase("-" + AgentPoolTimeoutCommand.getName())) {
+                } else if (arg.equalsIgnoreCase("-" + AgentPoolTimeoutCommand.getName())) {
                     timeoutSubcommand = new AgentPoolTimeoutCommand(argIter);
                     addArgs(timeoutSubcommand);
-                }
-                else {
+                } else {
                     putbackArg(argIter);
                     break;
                 }
@@ -185,8 +179,7 @@ public class AgentMonitorBatchCommandManager extends CommandManager
                 AgentManager mgr = AgentManager.access();
                 ActiveAgentPool pool = mgr.getActiveAgentPool();
                 pool.setListening(true);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 AgentManager mgr = AgentManager.access();
                 ActiveAgentPool pool = mgr.getActiveAgentPool();
 

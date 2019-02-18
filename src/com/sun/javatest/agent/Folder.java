@@ -50,10 +50,8 @@ import java.util.Vector;
  * to allow a user-selected component to be displayed.
  */
 
-class Folder extends Panel implements ItemSelectable
-{
-    private class Entry
-    {
+class Folder extends Panel implements ItemSelectable {
+    private class Entry {
         Entry(Component comp, String name, Color color, boolean visibleTab) {
             this.comp = comp;
             this.name = name;
@@ -67,19 +65,18 @@ class Folder extends Panel implements ItemSelectable
         boolean visibleTab;
     }
 
-    private class Layout extends CardLayout
-    {
+    private class Layout extends CardLayout {
         @Override
         public Dimension minimumLayoutSize(Container parent) {
             Dimension size = super.minimumLayoutSize(parent);
-            int width = Math.max(size.width, ((Folder)parent).getMinimumWidth());
+            int width = Math.max(size.width, ((Folder) parent).getMinimumWidth());
             return new Dimension(width, size.height);
         }
 
         @Override
         public Dimension preferredLayoutSize(Container parent) {
             Dimension size = super.preferredLayoutSize(parent);
-            int width = Math.max(size.width, ((Folder)parent).getMinimumWidth());
+            int width = Math.max(size.width, ((Folder) parent).getMinimumWidth());
             return new Dimension(width, size.height);
         }
     }
@@ -231,12 +228,12 @@ class Folder extends Panel implements ItemSelectable
             g.setColor(selected.color != null ? selected.color : getBackground());
         }
         g.fillRoundRect(hgap, tabHeight + vgap,
-            dims.width - 2*hgap - 1, dims.height - tabHeight - 2*vgap - 1,
-            border, border);
+                dims.width - 2 * hgap - 1, dims.height - tabHeight - 2 * vgap - 1,
+                border, border);
         g.setColor(getForeground());
         g.drawRoundRect(hgap, tabHeight + vgap,
-              dims.width - 2*hgap - 1, dims.height - tabHeight - 2*vgap - 1,
-              border, border);
+                dims.width - 2 * hgap - 1, dims.height - tabHeight - 2 * vgap - 1,
+                border, border);
         int x = border + hgap;
         int baseLine = tabHeight + vgap;
         for (int i = 0; i < entries.size(); i++) {
@@ -257,7 +254,7 @@ class Folder extends Panel implements ItemSelectable
             g.drawLine(tab.xpoints[1], tab.ypoints[1], tab.xpoints[2], tab.ypoints[2]);
             g.drawLine(tab.xpoints[2], tab.ypoints[2], tab.xpoints[3], tab.ypoints[3]);
             if (e.visibleTab || e.comp.isVisible())
-                g.drawString(e.name, x + slant, baseLine - tabpad/2 - fm.getDescent());
+                g.drawString(e.name, x + slant, baseLine - tabpad / 2 - fm.getDescent());
             if (e.comp.isVisible()) {
                 g.setColor(e.color != null ? e.color : getBackground());
                 g.drawLine(tab.xpoints[0], tab.ypoints[0], tab.xpoints[3], tab.ypoints[3]);
@@ -284,15 +281,15 @@ class Folder extends Panel implements ItemSelectable
         if (ce == null)
             return null;
         else
-            return new Object[] { ce.comp };
+            return new Object[]{ce.comp};
     }
 
     int getMinimumWidth() {
         FontMetrics fm = getFontMetrics(getFont());
         int w = border + 2 * hgap + tabSpace;
         for (int i = 0; i < entries.size(); i++) {
-          Entry e = entries.elementAt(i);
-          w += slant + (fm == null ? 0 : fm.stringWidth(e.name)) + slant + tabSpace;
+            Entry e = entries.elementAt(i);
+            w += slant + (fm == null ? 0 : fm.stringWidth(e.name)) + slant + tabSpace;
         }
         return w;
     }
@@ -301,16 +298,16 @@ class Folder extends Panel implements ItemSelectable
         Entry prevEntry = getCurrentEntry();
         Component prevComp = prevEntry == null ? null : prevEntry.comp;
 
-        ((CardLayout)getLayout()).show(this, e.name);
+        ((CardLayout) getLayout()).show(this, e.name);
         repaint(); // needed to repaint the tab area
 
         if (itemListener != null) {
             ItemEvent ev1 =
-                new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED,
-                              prevComp, ItemEvent.DESELECTED);
+                    new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED,
+                            prevComp, ItemEvent.DESELECTED);
             ItemEvent ev2 =
-                new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED,
-                              e.comp, ItemEvent.SELECTED);
+                    new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED,
+                            e.comp, ItemEvent.SELECTED);
             itemListener.itemStateChanged(ev1);
             itemListener.itemStateChanged(ev2);
         }
@@ -332,7 +329,7 @@ class Folder extends Panel implements ItemSelectable
 
     void mousePressed(int mouseX, int mouseY) {
         FontMetrics fm = getFontMetrics(getFont());
-        if (vgap < mouseY  &&  mouseY < border + fm.getHeight() + vgap) {
+        if (vgap < mouseY && mouseY < border + fm.getHeight() + vgap) {
             int x = border + hgap;
             for (int i = 0; i < entries.size(); i++) {
                 Entry e = entries.elementAt(i);

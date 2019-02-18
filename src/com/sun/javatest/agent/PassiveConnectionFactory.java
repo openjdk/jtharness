@@ -32,22 +32,21 @@ import java.net.ServerSocket;
 /**
  * A factory for creating connections to be used by agents running in "passive" mode.
  */
-public class PassiveConnectionFactory implements ConnectionFactory
-{
+public class PassiveConnectionFactory implements ConnectionFactory {
     /**
      * Create a factory for creating connections to be used by agents running
      * in "passive" mode.
-     * @param port The port on which connections will listen.
-     *          Specify 0 for a dynamically allocated port.
+     *
+     * @param port    The port on which connections will listen.
+     *                Specify 0 for a dynamically allocated port.
      * @param backlog The number of buffered incoming connection requests
-     *          to be accepted.
+     *                to be accepted.
      * @throws IOException if problems occur while setting up the factory
      */
     public PassiveConnectionFactory(int port, int backlog) throws IOException {
         if (port < 0) {
             throw new IllegalArgumentException("Cannot start passive agent connection - port number must be non-negative.");
-        }
-        else if(backlog < 0) {
+        } else if (backlog < 0) {
             throw new IllegalArgumentException("Cannot start passive agent connection - backlog value must be zero or greater.");
         }
 
@@ -57,8 +56,9 @@ public class PassiveConnectionFactory implements ConnectionFactory
     /**
      * Create a factory for creating connections to be used by agents running
      * in "passive" mode.
+     *
      * @param serverSocket The server socket used to accept incoming
-     *          connection requests.
+     *                     connection requests.
      */
     public PassiveConnectionFactory(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
@@ -66,6 +66,7 @@ public class PassiveConnectionFactory implements ConnectionFactory
 
     /**
      * Get the port on which incoming connection requests will be accepted.
+     *
      * @return The port on which incoming connection requests will be accepted.
      */
     public int getPort() {
@@ -77,8 +78,7 @@ public class PassiveConnectionFactory implements ConnectionFactory
         try {
 //          return new SocketConnection(serverSocket.accept());
             return new InterruptableSocketConnection(serverSocket.accept());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new ConnectionFactory.Fault(e, false);
         }
     }
@@ -87,8 +87,7 @@ public class PassiveConnectionFactory implements ConnectionFactory
     public void close() throws ConnectionFactory.Fault {
         try {
             serverSocket.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new ConnectionFactory.Fault(e, true);
         }
     }

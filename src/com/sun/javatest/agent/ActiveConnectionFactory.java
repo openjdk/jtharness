@@ -33,11 +33,11 @@ import java.net.UnknownHostException;
 /**
  * A factory for creating connections to be used by agents running in "active" mode.
  */
-public class ActiveConnectionFactory implements ConnectionFactory
-{
+public class ActiveConnectionFactory implements ConnectionFactory {
     /**
      * Create a factory for creating connections to be used by agents running
      * in "active" mode.
+     *
      * @param host The host to which the connections should connect.
      * @param port The port on the host to which the connections should connect.
      */
@@ -47,8 +47,7 @@ public class ActiveConnectionFactory implements ConnectionFactory
 
         if (host.isEmpty()) {
             throw new IllegalArgumentException("Cannot start active agent connection - empty value for hostname.");
-        }
-        else if (port < 0) {
+        } else if (port < 0) {
             throw new IllegalArgumentException("Cannot start active agent connection - port number must be non-negative.");
         }
 
@@ -58,6 +57,7 @@ public class ActiveConnectionFactory implements ConnectionFactory
 
     /**
      * Get the host to which connections returned by this factory will connect.
+     *
      * @return the host to which connections will be made
      */
     public String getHost() {
@@ -66,6 +66,7 @@ public class ActiveConnectionFactory implements ConnectionFactory
 
     /**
      * Get the port to which connections returned by this factory will connect.
+     *
      * @return the port to which connections will be made
      */
     public int getPort() {
@@ -76,11 +77,9 @@ public class ActiveConnectionFactory implements ConnectionFactory
     public Connection nextConnection() throws ConnectionFactory.Fault {
         try {
             return new SocketConnection(new Socket(host, port));
-        }
-        catch (UnknownHostException e) {
+        } catch (UnknownHostException e) {
             throw new ConnectionFactory.Fault(e, true);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new ConnectionFactory.Fault(e, false);
         }
     }

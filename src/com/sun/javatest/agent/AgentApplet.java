@@ -51,14 +51,12 @@ import com.sun.javatest.util.MainFrame;
  * @see Agent
  * @see AgentMain
  * @see AgentFrame
- *
  **/
-public class AgentApplet extends Applet implements Agent.Observer
-{
+public class AgentApplet extends Applet implements Agent.Observer {
 
     /**
      * Initialize the applet, based on the applet parameters.
-     *
+     * <p>
      * The following applet parameters are recognized
      * <table>
      * <tr><td>mode        <em>mode</em>        <td> set mode to be "active" or "passive"
@@ -103,7 +101,7 @@ public class AgentApplet extends Applet implements Agent.Observer
                 String line1 = "Error: Applet parameter \"appletName\" must be defined";
                 String line2 = "and match the applet's \"name\" attribute.";
                 showStatus("Error starting Applet: Applet parameter \"appletName\" must be defined.");
-                Panel p = new Panel(new GridLayout(0,1));
+                Panel p = new Panel(new GridLayout(0, 1));
                 Label label1 = new Label(line1);
                 Label label2 = new Label(line2);
                 p.add(label1);
@@ -111,8 +109,7 @@ public class AgentApplet extends Applet implements Agent.Observer
                 add(p);
                 return;
             }
-        }
-        else
+        } else
             appletName = null;
 
         setLayout(new GridBagLayout());
@@ -135,13 +132,12 @@ public class AgentApplet extends Applet implements Agent.Observer
         } catch (Exception e) {
             System.err.println("There is no support for serial port");
         }
-        if (serialPort != null){
+        if (serialPort != null) {
             try {
                 Method setPortMethod = smo.getClass().getMethod("setPort", String.class);
                 setPortMethod.invoke(smo, serialPort);
-            }
-            catch (SecurityException | NoSuchMethodException |
-                    IllegalArgumentException| InvocationTargetException |
+            } catch (SecurityException | NoSuchMethodException |
+                    IllegalArgumentException | InvocationTargetException |
                     IllegalAccessException e) {
                 System.err.println("Could not set serial port:");
                 e.printStackTrace();
@@ -170,20 +166,16 @@ public class AgentApplet extends Applet implements Agent.Observer
                         Class.forName(observerClassName).asSubclass(Agent.Observer.class);
                 Agent.Observer observer = observerClass.getDeclaredConstructor().newInstance();
                 ap.addObserver(observer);
-            }
-            catch (ClassCastException e) {
+            } catch (ClassCastException e) {
                 showStatus("observer is not of type " +
                         Agent.Observer.class.getName() + ": " + observerClassName);
-            }
-            catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 showStatus("cannot find observer class: " + observerClassName);
-            }
-            catch (IllegalAccessException | InstantiationException e) {
+            } catch (IllegalAccessException | InstantiationException e) {
                 showStatus("problem instantiating observer: " + e);
             } catch (NoSuchMethodException e) {
                 showStatus("cannot find no-arg constructor. " + e);
-            }
-            catch (InvocationTargetException e) {
+            } catch (InvocationTargetException e) {
                 showStatus("exception thrown by no-arg constructor. " + e);
             }
         }
@@ -212,9 +204,8 @@ public class AgentApplet extends Applet implements Agent.Observer
                 while (x != null && !(x instanceof Frame))
                     x = x.getParent();
                 if (x != null)
-                    MainFrame.setFrame((Frame)x);
-            }
-            catch (SecurityException e) {
+                    MainFrame.setFrame((Frame) x);
+            } catch (SecurityException e) {
                 System.err.println("Security Exception occurred while attempting to access shared frame; " + e);
             }
         }
@@ -265,15 +256,15 @@ public class AgentApplet extends Applet implements Agent.Observer
     @Override
     public String[][] getParameterInfo() {
         return new String[][]{
-            {"mode",       "\"active\" or \"passive\"",
-                                        "the mode for the agent"},
-            {"activeHost",  "hostname", "the host for active connections"},
-            {"activePort",  "port",     "the port for active connections"},
-            {"passivePort", "port",     "the port for passive connections"},
-            {"map",         "url",      "map file for translating arguments of incoming requests"},
-            {"concurrency", "number",   "the maximum number of simultaneous connections"},
-            {"history",     "int",      "the size of the execution history"},
-            {"trace",       "boolean",  "trace the execution of the agent"}
+                {"mode", "\"active\" or \"passive\"",
+                        "the mode for the agent"},
+                {"activeHost", "hostname", "the host for active connections"},
+                {"activePort", "port", "the port for active connections"},
+                {"passivePort", "port", "the port for passive connections"},
+                {"map", "url", "map file for translating arguments of incoming requests"},
+                {"concurrency", "number", "the maximum number of simultaneous connections"},
+                {"history", "int", "the size of the execution history"},
+                {"trace", "boolean", "trace the execution of the agent"}
         };
     }
 
@@ -282,8 +273,7 @@ public class AgentApplet extends Applet implements Agent.Observer
             String s = getParameter(name);
             if (s != null)
                 return Integer.parseInt(s);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             // ignore
         }
         return dflt;

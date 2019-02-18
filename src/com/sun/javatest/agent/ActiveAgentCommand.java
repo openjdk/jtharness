@@ -28,36 +28,37 @@ package com.sun.javatest.agent;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import com.sun.javatest.Command;
 import com.sun.javatest.Status;
 
 /**
  * A command that delegates a subcommand to a JT Harness agent running in "active" mode.
  */
-public class ActiveAgentCommand extends Command
-{
+public class ActiveAgentCommand extends Command {
     /**
      * Delegate a subcommand to an agent running in active mode.
      * The active agent to be used is obtained from the active agent pool,
      * maintained by the {@link AgentManager}.
+     *
      * @param args An array of strings, identifying the subcommand and where
-     *          to run it. The array should be of the form:<br>
-     *          <em>options</em>... <em>subcommand-class</em> <em>subcommand-args</em>...
-     * <table><tr><th colspan=2>Options</th></tr>
-     * <tr><td>-cp <em>path</em><br>-classpath <em>path</em>
-     *          <td>Specify a path from which the subcommand should be loaded,
-     *          via the connection to the JT Harness harness.
-     *          If not specified, any necessary classes will be loaded
-     *          from the agent's classpath.
-     * <tr><td>-m<br>-mapArgs
-     *          <td>Use the map facility on the JT Harness Agent to localize
-     *          any configuration values.
-     * <tr><td>-t <em>tag</em><br>-tag <em>tag</em>
-     *          <td>Specify a tag with with to identify this command in
-     *          any tracing output or GUI display.
-     * </table>
-     * @param err A stream to which to write any diagnostic error messages.
-     * @param out An additional stream to which to write any additional output.
+     *             to run it. The array should be of the form:<br>
+     *             <em>options</em>... <em>subcommand-class</em> <em>subcommand-args</em>...
+     *             <table><tr><th colspan=2>Options</th></tr>
+     *             <tr><td>-cp <em>path</em><br>-classpath <em>path</em>
+     *             <td>Specify a path from which the subcommand should be loaded,
+     *             via the connection to the JT Harness harness.
+     *             If not specified, any necessary classes will be loaded
+     *             from the agent's classpath.
+     *             <tr><td>-m<br>-mapArgs
+     *             <td>Use the map facility on the JT Harness Agent to localize
+     *             any configuration values.
+     *             <tr><td>-t <em>tag</em><br>-tag <em>tag</em>
+     *             <td>Specify a tag with with to identify this command in
+     *             any tracing output or GUI display.
+     *             </table>
+     * @param err  A stream to which to write any diagnostic error messages.
+     * @param out  An additional stream to which to write any additional output.
      * @return a Status object indicating the outcome of the command that was executed
      */
     @Override
@@ -71,27 +72,22 @@ public class ActiveAgentCommand extends Command
         // analyze options
         int i = 0;
         for (; i < args.length && args[i].startsWith("-"); i++) {
-            if ((args[i].equals("-cp") || args[i].equals("-classpath")) && i+1 < args.length) {
+            if ((args[i].equals("-cp") || args[i].equals("-classpath")) && i + 1 < args.length) {
                 classPath = args[++i];
-            }
-            else if (args[i].equals("-m") || args[i].equals("-mapArgs")) {
+            } else if (args[i].equals("-m") || args[i].equals("-mapArgs")) {
                 localizeArgs = true;
-            }
-            else if ((args[i].equals("-t") || args[i].equals("-tag")) && i+1 < args.length) {
+            } else if ((args[i].equals("-t") || args[i].equals("-tag")) && i + 1 < args.length) {
                 tag = args[++i];
             } else if (args[i].equalsIgnoreCase("-sharedClassLoader") ||
-                       args[i].equalsIgnoreCase("-sharedCl")) {
+                    args[i].equalsIgnoreCase("-sharedCl")) {
                 sharedCl = true;
-            }
-            else if ((args[i].equals("-ct") || args[i].equals("-commandTimeout")) && i+1 < args.length) {
+            } else if ((args[i].equals("-ct") || args[i].equals("-commandTimeout")) && i + 1 < args.length) {
                 try {
                     timeout = Integer.parseInt(args[++i]);
-                }
-                catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     return Status.error("bad commandTimeout number: " + args[i]);
                 }
-            }
-            else {
+            } else {
                 return Status.error("Unrecognized option: " + args[i]);
             }
         }
@@ -125,14 +121,11 @@ public class ActiveAgentCommand extends Command
             out.println("Executing command via " + t.getConnection().getName());
 
             return t.executeCommand(tag, cmdClass, cmdArgs, localizeArgs, err, out);
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             return Status.error("Interrupted while waiting for agent");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             return Status.error("Error accessing agent: " + e);
-        }
-        catch (ActiveAgentPool.NoAgentException e) {
+        } catch (ActiveAgentPool.NoAgentException e) {
             return Status.error("No agents available for use: " + e.getMessage());
         }
     }

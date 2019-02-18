@@ -27,6 +27,7 @@
 package com.sun.javatest.agent;
 
 import com.sun.javatest.JavaTestSecurityManager;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;
@@ -36,6 +37,7 @@ import java.net.Socket;
 import java.util.Hashtable;
 
 import com.sun.javatest.util.Timer;
+
 import java.net.ServerSocket;
 
 /**
@@ -45,8 +47,9 @@ public class SocketConnection implements Connection {
 
     /**
      * Create a connection via a TCP/IP socket.
+     *
      * @param socket The socket to use for the connection.
-     * @throws IOException if an error occurs getting the streams for the connection.
+     * @throws IOException          if an error occurs getting the streams for the connection.
      * @throws NullPointerException if socket is null
      */
     public SocketConnection(Socket socket) throws IOException {
@@ -60,6 +63,7 @@ public class SocketConnection implements Connection {
 
     /**
      * Create a connection via a TCP/IP socket.
+     *
      * @param host The host to which to try to connect to try and get a socket.
      * @param port The port on the host to which to connect to try and get a socket.
      * @throws IOException if an error occurs opening the socket.
@@ -216,7 +220,7 @@ public class SocketConnection implements Connection {
      * Creates a ServerSocket instance in the environment where reading
      * of system properties is allowed.
      *
-     * @param port - port to bind
+     * @param port    - port to bind
      * @param backlog - backlog
      * @return new created ServerSocket
      * @throws java.io.IOException - if ServerSocket is not created
@@ -244,6 +248,7 @@ public class SocketConnection implements Connection {
             }
         }
     }
+
     private final Socket socket;
     protected final InputStream socketInput;
     private final OutputStream socketOutput;
