@@ -38,8 +38,7 @@ import com.sun.interview.StringQuestion;
 import com.sun.interview.Question;
 
 public class StringQuestionRenderer
-    implements QuestionRenderer
-{
+        implements QuestionRenderer {
     @Override
     public JComponent getQuestionRendererComponent(final Question q, ActionListener listener) {
         StringQuestion sq = (StringQuestion) q;
@@ -88,22 +87,22 @@ public class StringQuestionRenderer
     protected JPanel createTypeInPanel(final StringQuestion q, ActionListener listener) {
 
         return new TypeInPanel("str",
-                               q,
-                               q.getNominalMaxLength(),
-                               q.getSuggestions(),
-                               null,
-                               listener);
+                q,
+                q.getNominalMaxLength(),
+                q.getSuggestions(),
+                null,
+                listener);
     }
 
     protected Runnable createValueSaver(final StringQuestion q,
-            final JTextArea textArea) {
+                                        final JTextArea textArea) {
 
         return new Runnable() {
-                @Override
-                public void run() {
-                    q.setValue(textArea.getText());
-                }
-            };
+            @Override
+            public void run() {
+                q.setValue(textArea.getText());
+            }
+        };
     }
 
     private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();

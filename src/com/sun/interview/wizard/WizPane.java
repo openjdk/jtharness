@@ -53,10 +53,10 @@ import com.sun.javatest.tool.jthelp.HelpBroker;
  * questions on the current path, the main question panel, an optional
  * panel to display question-specific help, and an optional button area.
  */
-public class WizPane extends JPanel
-{
+public class WizPane extends JPanel {
     /**
      * Create a WizPane object for a specified interview.
+     *
      * @param i The interview for which this object is to be used.
      */
     public WizPane(Interview i) {
@@ -65,9 +65,10 @@ public class WizPane extends JPanel
 
     /**
      * Create a WizPane object for a specified interview.
-     * @param i The interview for which this object is to be used.
+     *
+     * @param i          The interview for which this object is to be used.
      * @param enableInfo WHether or not this pane should include
-     * an embedded help pane to display a question's "more info".
+     *                   an embedded help pane to display a question's "more info".
      */
     public WizPane(Interview i, boolean enableInfo) {
         interview = i;
@@ -78,6 +79,7 @@ public class WizPane extends JPanel
     /**
      * Set the help broker in which context sensitive help and default menu help
      * is displayed. If not set, a default help broker will be created.
+     *
      * @param helpBroker The help broker to use for context sensitive and menu help.
      */
     public void setHelpBroker(HelpBroker helpBroker) {
@@ -87,6 +89,7 @@ public class WizPane extends JPanel
     /**
      * Set the prefix string for the help IDs for context sensitive help and default menu help.
      * If not set, the default is "wizard.".
+     *
      * @param helpPrefix A prefix to be used for all context sentive help and menu entries.
      */
     public void setHelpPrefix(String helpPrefix) {
@@ -96,6 +99,7 @@ public class WizPane extends JPanel
     /**
      * Get thecurrent button panel, if it has been set, or null if no
      * button panel has been set.
+     *
      * @return the button panel if one has been set, or null otherwise
      * @see #setButtonPanel
      */
@@ -106,8 +110,9 @@ public class WizPane extends JPanel
     /**
      * Set a button panel to be displayed underneath the index and question
      * panes.  By default, no such panel is provided or displayed.
+     *
      * @param buttonPanel the panel to be displayed under the index
-     * and question panel
+     *                    and question panel
      * @see #getButtonPanel
      */
     public void setButtonPanel(JPanel buttonPanel) {
@@ -118,6 +123,7 @@ public class WizPane extends JPanel
     /**
      * Determine if the interview in this WizPane has been edited or not.
      * Any pending edits in the question panel are applied first.
+     *
      * @return true if this interview is marked as having been edited
      */
     public boolean isEdited() {
@@ -128,6 +134,7 @@ public class WizPane extends JPanel
     /**
      * Determine if this interview has question-specific help available,
      * and hence whether this panel can display such help.
+     *
      * @return true if this panel have question-specific help to display,
      * and false otherwise
      */
@@ -137,6 +144,7 @@ public class WizPane extends JPanel
 
     /**
      * Determine if question-specific help is visible within this panel.
+     *
      * @return true if question-specific help is visible within
      * this panel, and false otherwise
      * @see #setInfoVisible
@@ -147,8 +155,9 @@ public class WizPane extends JPanel
 
     /**
      * Specify whether question-specific help should be visible within this panel.
+     *
      * @param b true if question-specific help should be visible within this panel,
-     * and false otherwise
+     *          and false otherwise
      * @see #isInfoVisible
      */
     public void setInfoVisible(boolean b) {
@@ -180,8 +189,7 @@ public class WizPane extends JPanel
             sp.setDividerLocation(bodySize.width - 1);
             main = sp;
             infoPanel.setCurrentID(interview.getCurrentQuestion());
-        }
-        else {
+        } else {
             // set main to body; add a border to stand in for the padding
             // that JSplitPane would otherwise give
             body.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -203,6 +211,7 @@ public class WizPane extends JPanel
 
     /**
      * Check whether the question's tag is visible.
+     *
      * @return true if the question's tag is visible, and false otherwise
      */
     public boolean isTagVisible() {
@@ -211,6 +220,7 @@ public class WizPane extends JPanel
 
     /**
      * Specify whether or not the question's tag should be made visible.
+     *
      * @param v true if the question's tag should be made visible, and false otherwise
      */
     public void setTagVisible(boolean v) {
@@ -219,6 +229,7 @@ public class WizPane extends JPanel
 
     /**
      * Check whether or not markers should be enabled.
+     *
      * @return whether or not markers should be enabled
      * @see #setMarkersEnabled
      */
@@ -228,6 +239,7 @@ public class WizPane extends JPanel
 
     /**
      * Specify whether or not markers should be enabled.
+     *
      * @param on whether or not markers should be enabled
      * @see #getMarkersEnabled
      */
@@ -238,6 +250,7 @@ public class WizPane extends JPanel
     /**
      * Check whether or not the history list should be filtered to
      * just show questions which have been markered.
+     *
      * @return whether or not the  history list should be filtered to
      * just show questions which have been markered
      * @see #setMarkersFilterEnabled
@@ -249,8 +262,9 @@ public class WizPane extends JPanel
     /**
      * Specify whether or not the history list should be filtered to
      * just show questions which have been markered.
+     *
      * @param on whether or not the  history list should be filtered to
-     * just show questions which have been markered
+     *           just show questions which have been markered
      * @see #getMarkersFilterEnabled
      */
     public void setMarkersFilterEnabled(boolean on) {
@@ -260,6 +274,7 @@ public class WizPane extends JPanel
     /**
      * Get a menu of operations to go on a menu bar containing operations
      * for manipulating markers.
+     *
      * @return a menu of marker operations
      */
     public JMenu getMarkerMenu() {
@@ -276,6 +291,7 @@ public class WizPane extends JPanel
     /**
      * Step back to the previous question in the interview, after
      * saving any pending edits to the current question.
+     *
      * @see Interview#prev
      * @see #prevVisible
      * @see #next
@@ -284,8 +300,7 @@ public class WizPane extends JPanel
         questionPanel.saveCurrentResponse();
         try {
             interview.prev();
-        }
-        catch (Interview.Fault e) {
+        } catch (Interview.Fault e) {
             // exception normally means no more questions
             // e.printStackTrace();
         }
@@ -294,6 +309,7 @@ public class WizPane extends JPanel
     /**
      * Step forward to the previous visible question in the interview path, after
      * saving any pending edits to the current question.
+     *
      * @see #prev
      * @see #nextVisible
      */
@@ -305,6 +321,7 @@ public class WizPane extends JPanel
     /**
      * Step forward to the next question in the interview, after
      * saving any pending edits to the current question.
+     *
      * @see Interview#next
      * @see #nextVisible
      * @see #prev
@@ -313,8 +330,7 @@ public class WizPane extends JPanel
         questionPanel.saveCurrentResponse();
         try {
             interview.next();
-        }
-        catch (Interview.Fault e) {
+        } catch (Interview.Fault e) {
             // exception normally means no more questions,
             // which should only be  because the value of the current
             // question is invalid
@@ -327,6 +343,7 @@ public class WizPane extends JPanel
     /**
      * Step forward to the next visible question in the interview path, after
      * saving any pending edits to the current question.
+     *
      * @see #prevVisible
      * @see #next
      */
@@ -339,6 +356,7 @@ public class WizPane extends JPanel
     /**
      * Step forward to the last question in the interview, after
      * saving any pending edits to the current question.
+     *
      * @see #next
      * @see Interview#last
      */
@@ -346,8 +364,7 @@ public class WizPane extends JPanel
         questionPanel.saveCurrentResponse();
         try {
             interview.last();
-        }
-        catch (Interview.Fault e) {
+        } catch (Interview.Fault e) {
             // exception normally means no more questions,
             // which should only be  because the value of the current
             // question is invalid
@@ -360,6 +377,7 @@ public class WizPane extends JPanel
     /**
      * Step forward to the last question in the interview, after
      * saving any pending edits to the current question.
+     *
      * @see Interview#last
      * @see #last
      */
@@ -369,10 +387,9 @@ public class WizPane extends JPanel
         Question lq = pathPanel.getLastVisible();
 
         if (lq == cq) {
-            if ( !(lq instanceof FinalQuestion))
+            if (!(lq instanceof FinalQuestion))
                 questionPanel.showValueInvalidMessage();
-        }
-        else
+        } else
             setCurrentQuestion(lq);
 
     }
@@ -383,8 +400,7 @@ public class WizPane extends JPanel
         else {
             try {
                 interview.setCurrentQuestion(q);
-            }
-            catch (Interview.Fault ignore) {
+            } catch (Interview.Fault ignore) {
                 // should only happen if the question is not on the path,
                 // in which case PathPanel gave us bad info
                 throw new IllegalStateException();
@@ -429,19 +445,19 @@ public class WizPane extends JPanel
         questionPanel = new QuestionPanel(interview);
         questionPanel.setBorder(BorderFactory.createLoweredBevelBorder());
         questionPanel.setNextAction(new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (getMarkersFilterEnabled())
-                        nextVisible();
-                    else
-                        next();
-                }
-            });
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (getMarkersFilterEnabled())
+                    nextVisible();
+                else
+                    next();
+            }
+        });
 
         pathPanel = new PathPanel(questionPanel, interview);
         JScrollPane psp = new JScrollPane(pathPanel,
-                                          JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                                          JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         psp.setName(pathPanel.getName() + ".sp");
         psp.setFocusable(false);
 
@@ -451,8 +467,8 @@ public class WizPane extends JPanel
         //body.add(psp, BorderLayout.WEST);
 
         JScrollPane qsp = new JScrollPane(questionPanel,
-                                          JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                                          JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         qsp.setName(questionPanel.getName() + ".sp");
         qsp.setFocusable(false);
@@ -469,7 +485,7 @@ public class WizPane extends JPanel
                                            JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         */
         body.registerKeyboardAction(listener, FIND_NEXT, KeyStroke.getKeyStroke("F3"),
-                                           JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         if (infoEnabled && interview.getHelpSet() != null)
             infoPanel = new InfoPanel(interview);
@@ -480,8 +496,7 @@ public class WizPane extends JPanel
         if (infoPanel == null) {
             body.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
             main = body;
-        }
-        else {
+        } else {
             body.setBorder(null);
             main = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, body, infoPanel);
             setInfo(main, "wizPane.split");
@@ -513,11 +528,13 @@ public class WizPane extends JPanel
                  }
                  detailsBrowser.setVisible(true);
              }
-             else */ if (cmd.equals(FIND_NEXT)) {
+             else */
+            if (cmd.equals(FIND_NEXT)) {
                 findNext();
             }
         }
     }
+
     private Listener listener = new Listener();
 
 

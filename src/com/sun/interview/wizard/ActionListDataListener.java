@@ -32,8 +32,7 @@ import java.awt.event.ActionListener;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-class ActionListDataListener implements ListDataListener
-{
+class ActionListDataListener implements ListDataListener {
     ActionListDataListener(Component src, ActionListener listener, String cmd) {
         this.src = src;
         this.listener = listener;

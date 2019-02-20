@@ -33,13 +33,13 @@ import java.util.ResourceBundle;
 /**
  * A {@link Question question} to which the response is one of a number of choices.
  */
-public abstract class ChoiceArrayQuestion extends Question
-{
+public abstract class ChoiceArrayQuestion extends Question {
     /**
      * Create a question with a nominated tag.
      * If this constructor is used, the choices must be supplied separately.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     * @param tag       A unique tag to identify this specific question.
      */
     protected ChoiceArrayQuestion(Interview interview, String tag) {
         super(interview, tag);
@@ -47,10 +47,11 @@ public abstract class ChoiceArrayQuestion extends Question
 
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
-     * @param choices The names of the choices, which can each be selected (true)
-     * or not (false).
+     * @param tag       A unique tag to identify this specific question.
+     * @param choices   The names of the choices, which can each be selected (true)
+     *                  or not (false).
      * @throws NullPointerException if choices is null
      */
     protected ChoiceArrayQuestion(Interview interview, String tag, String... choices) {
@@ -62,10 +63,11 @@ public abstract class ChoiceArrayQuestion extends Question
      * Set the names of the choices for this question.
      * The choices will also be used as the display choices.
      * The current value will be set to all false;
+     *
      * @param choices The set of names for the choices for this question.
+     * @throws NullPointerException if choices is null
      * @see #getChoices
      * @see #getDisplayChoices
-     * @throws NullPointerException if choices is null
      */
     protected void setChoices(String... choices) {
         setChoices(choices, choices);
@@ -74,14 +76,15 @@ public abstract class ChoiceArrayQuestion extends Question
     /**
      * Set the names of the choices for this question.
      * The current value will be set to all false;
-     * @param choices The set of names of the choices for this question.
+     *
+     * @param choices  The set of names of the choices for this question.
      * @param localize if false, the choices will be used directly
-     * as the display choices; otherwise the choices will be used
-     * to construct keys to get localized values from the interview's
-     * resource bundle.
+     *                 as the display choices; otherwise the choices will be used
+     *                 to construct keys to get localized values from the interview's
+     *                 resource bundle.
+     * @throws NullPointerException if choices is null
      * @see #getChoices
      * @see #getDisplayChoices
-     * @throws NullPointerException if choices is null
      */
     protected void setChoices(String[] choices, boolean localize) {
         setChoices(choices, localize ? null : choices);
@@ -89,15 +92,16 @@ public abstract class ChoiceArrayQuestion extends Question
 
     /**
      * Set the names of the choices for this question.
-     * @param choices The set of names of the choices for this question.
+     *
+     * @param choices        The set of names of the choices for this question.
      * @param displayChoices An array of strings to be presented to
-     * the user that identify the choices for this question.
-     * The value can also be null, to indicate that the display choices
-     * should be determined automatically by obtaining localized values
-     * for the entries in the choices array.
-     * @throws NullPointerException if choices is null.
+     *                       the user that identify the choices for this question.
+     *                       The value can also be null, to indicate that the display choices
+     *                       should be determined automatically by obtaining localized values
+     *                       for the entries in the choices array.
+     * @throws NullPointerException     if choices is null.
      * @throws IllegalArgumentException if displayChoices is not null
-     * and is a different length than choices.
+     *                                  and is a different length than choices.
      * @see #getChoices
      * @see #getDisplayChoices
      */
@@ -130,6 +134,7 @@ public abstract class ChoiceArrayQuestion extends Question
 
     /**
      * Get the set of legal responses for this question.
+     *
      * @return The set of possible responses for this question.
      * @see #setChoices
      */
@@ -141,6 +146,7 @@ public abstract class ChoiceArrayQuestion extends Question
      * Get the display values for the set of choices for this question.
      * The display values will typically be different from the standard values
      * if they have been localized.
+     *
      * @return The display values for the set of possible responses for this question.
      * @see #setChoices
      * @see #getDisplayChoices
@@ -157,8 +163,7 @@ public abstract class ChoiceArrayQuestion extends Question
                     String rn = key + "." + c;
                     try {
                         displayChoices[i] = c == null ? null : b.getString(rn);
-                    }
-                    catch (MissingResourceException e) {
+                    } catch (MissingResourceException e) {
                         System.err.println("WARNING: missing resource " + rn);
                         displayChoices[i] = c;
                     }
@@ -171,8 +176,8 @@ public abstract class ChoiceArrayQuestion extends Question
 
     /**
      * Get the default response for this question.
-     * @return the default response for this question.
      *
+     * @return the default response for this question.
      * @see #setDefaultValue
      */
     public boolean[] getDefaultValue() {
@@ -182,8 +187,8 @@ public abstract class ChoiceArrayQuestion extends Question
     /**
      * Set the default response for this question,
      * used by the clear method.
-     * @param v the default response for this question.
      *
+     * @param v the default response for this question.
      * @see #getDefaultValue
      */
     public void setDefaultValue(boolean... v) {
@@ -192,10 +197,11 @@ public abstract class ChoiceArrayQuestion extends Question
 
     /**
      * Get the current (default or latest) response to this question.
+     *
      * @return The current value.
-     * @see #setValue
      * @throws IllegalStateException if no choices have been set, defining
-     *   the set of responses to this question
+     *                               the set of responses to this question
+     * @see #setValue
      * @see #setChoices
      */
     public boolean[] getValue() {
@@ -216,14 +222,14 @@ public abstract class ChoiceArrayQuestion extends Question
     /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
+     *
      * @return the current value of this question
      * @throws Interview.NotOnPathFault if this question is not on the
-     * current path
+     *                                  current path
      * @see #getValue
      */
     public boolean[] getValueOnPath()
-        throws Interview.NotOnPathFault
-    {
+            throws Interview.NotOnPathFault {
         interview.verifyPathContains(this);
         return getValue();
     }
@@ -253,10 +259,11 @@ public abstract class ChoiceArrayQuestion extends Question
 
     /**
      * Set the current value.
+     *
      * @param newValue The value to be set. The value is broken into words,
-     * and each word must identify one of the set of choices for this question.
-     * The set of choices so identified will be set to true.
-     * Invalid choices are ignored.
+     *                 and each word must identify one of the set of choices for this question.
+     *                 The set of choices so identified will be set to true.
+     *                 Invalid choices are ignored.
      * @see #getValue
      */
     @Override
@@ -272,9 +279,8 @@ public abstract class ChoiceArrayQuestion extends Question
                 if (start != -1)
                     set(bb, newValue.substring(start, i));
                 start = -1;
-            } else
-                if (start == -1)
-                    start = i;
+            } else if (start == -1)
+                start = i;
         }
         if (start != -1)
             set(bb, newValue.substring(start));
@@ -302,13 +308,14 @@ public abstract class ChoiceArrayQuestion extends Question
     }
 
     private static boolean white(char c) {
-        return c == ' '  ||  c == '\t'  ||  c == '\n';
+        return c == ' ' || c == '\t' || c == '\n';
     }
 
     /**
      * Set the current value.
+     *
      * @param newValue The new value: one boolean per choice, indicating whether
-     * the corresponding choice is selected or not.
+     *                 the corresponding choice is selected or not.
      * @see #getValue
      */
     public void setValue(boolean... newValue) {
@@ -323,8 +330,7 @@ public abstract class ChoiceArrayQuestion extends Question
                     changed = value[i] != false;
                 value[i] = false;
             }
-        }
-        else {
+        } else {
             for (int i = 0; i < Math.min(newValue.length, value.length); i++) {
                 if (!changed)
                     changed = value[i] != newValue[i];
@@ -351,6 +357,7 @@ public abstract class ChoiceArrayQuestion extends Question
     /**
      * Save the value for this question in a dictionary, using
      * the tag as the key.
+     *
      * @param data The map in which to save the value for this question.
      */
     @Override

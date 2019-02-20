@@ -44,18 +44,17 @@ import java.util.TreeSet;
  * Child interviews are added into an interview set by specifying this interview
  * as their parent.
  * The interview is invoked by using {@link #callInterview} in the usual way.
+ *
  * @see Interview#Interview(Interview, String)
  */
 public class InterviewSet
-    extends Interview
-{
+        extends Interview {
     /**
      * This exception will be thrown when an attempt to made to specify a dependency
      * that would create a dependency cycle. In other words, A cannot be a dependent
      * of B if B is already a dependent of A (either directly or indirectly.)
      */
-    public static class CycleFault extends Fault
-    {
+    public static class CycleFault extends Fault {
         CycleFault(Interview dependent, Interview dependency) {
             super(i18n, "iset.cycle",
                     dependent.getTag(), dependency.getTag());
@@ -64,10 +63,11 @@ public class InterviewSet
 
     /**
      * Create an interview set.
-     * @param parent the parent interview for this interview
+     *
+     * @param parent  the parent interview for this interview
      * @param baseTag A name that will be used to qualify the tags of any
-     * sub-interviews in this interview, to help ensure uniqueness of those
-     * tags.
+     *                sub-interviews in this interview, to help ensure uniqueness of those
+     *                tags.
      */
     protected InterviewSet(Interview parent, String baseTag) {
         super(parent, baseTag);
@@ -93,16 +93,16 @@ public class InterviewSet
      * Specify a dependency for a child interview.
      * When the interview is executed, all dependencies for each child interview
      * will be invoked before that child.
-     * @param child the interview which depends on (and will be executed after)
-     * the dependency
+     *
+     * @param child      the interview which depends on (and will be executed after)
+     *                   the dependency
      * @param dependency the interview on which the child interview depends,
-     * and which will be executed before the child interview
+     *                   and which will be executed before the child interview
      * @throws InterviewSet.CycleFault if a dependency cycle would be created
      * @see #removeDependency
      */
     protected void addDependency(Interview child, Interview dependency)
-        throws CycleFault
-    {
+            throws CycleFault {
         if (child == null)
             throw new NullPointerException();
 
@@ -122,7 +122,8 @@ public class InterviewSet
     /**
      * Remove any dependency between two interviews, and hence any ordering
      * constraint between these two interviews.
-     * @param child the interview which depends on the dependency
+     *
+     * @param child      the interview which depends on the dependency
      * @param dependency the interview on which the child interview depends
      */
     protected void removeDependency(Interview child, Interview dependency) {
@@ -209,28 +210,28 @@ public class InterviewSet
     }
 
     private NullQuestion sorter = new NullQuestion(this) {
-            @Override
-            public boolean isEnabled() {
-                return false; // always hide this question
+        @Override
+        public boolean isEnabled() {
+            return false; // always hide this question
+        }
+
+        @Override
+        public Question getNext() {
+            if (sortedCalls == null) {
+                Interview[] cc = sortChildren();
+
+                // have to build the list from the end, backwards,
+                // because of the way InterviewQuestion works
+                Question q = qEnd;
+                for (int i = cc.length - 1; i >= 0; i--)
+                    q = callInterview(cc[i], q);
+
+                sortedCalls = q;
             }
 
-            @Override
-            public Question getNext() {
-                if (sortedCalls == null) {
-                    Interview[] cc = sortChildren();
-
-                    // have to build the list from the end, backwards,
-                    // because of the way InterviewQuestion works
-                    Question q = qEnd;
-                    for (int i = cc.length - 1; i >= 0; i--)
-                        q = callInterview(cc[i], q);
-
-                    sortedCalls = q;
-                }
-
-                return sortedCalls;
-            }
-        };
+            return sortedCalls;
+        }
+    };
 
     private FinalQuestion qEnd = new FinalQuestion(this);
 
@@ -238,8 +239,7 @@ public class InterviewSet
     private Map<Interview, Set<Interview>> dependencies = new HashMap<>();
     private Question sortedCalls;
 
-    private class ChildComparator implements Comparator<Interview>
-    {
+    private class ChildComparator implements Comparator<Interview> {
         @Override
         public int compare(Interview o1, Interview o2) {
             if (!children.contains(o1) || !children.contains(o2))

@@ -34,12 +34,12 @@ import javax.swing.filechooser.FileFilter;
 /**
  * A component that displays an editable list of files.
  */
-public class FileList extends EditableList
-{
+public class FileList extends EditableList {
     /**
      * Create a FileList.
+     *
      * @param uiKey A string used as the base of a key to look up resource values
-     * for this item.
+     *              for this item.
      * @param files An array of files to display as initial values in the list.
      */
     public FileList(String uiKey, File... files) {
@@ -52,8 +52,9 @@ public class FileList extends EditableList
     /**
      * Set the base directory for the file list.
      * Files will be returned relative to this directory if possible.
+     *
      * @param dir The directory to set as the base directory. If null,
-     *          the user's current directory will be used.
+     *            the user's current directory will be used.
      */
     public void setBaseDirectory(File dir) {
         baseDir = dir;
@@ -64,6 +65,7 @@ public class FileList extends EditableList
 
     /**
      * Add a filter to the set of file filters used when adding a new file to the list.
+     *
      * @param filter A file filter to add to the list of choosable file filters.
      */
     public void addFilter(FileFilter filter) {
@@ -76,6 +78,7 @@ public class FileList extends EditableList
 
     /**
      * Set the file selection mode to be used when adding files.
+     *
      * @param mode The mode to be used.
      * @see JFileChooser#FILES_ONLY
      * @see JFileChooser#DIRECTORIES_ONLY
@@ -87,6 +90,7 @@ public class FileList extends EditableList
 
     /**
      * Get the set of files in the list.
+     *
      * @return the set of files currently in the list
      */
     public File[] getFiles() {

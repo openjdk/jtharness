@@ -61,7 +61,7 @@ public interface HelpSetFactory {
      * Updates a HelpSet instance associated with the given interview.
      *
      * @param interview - interview object to reset HelpSet
-     * @param object - an instance of javax.help.HelpSet
+     * @param object    - an instance of javax.help.HelpSet
      */
     public Object updateHelpSetObject(Interview interview, Object object);
 

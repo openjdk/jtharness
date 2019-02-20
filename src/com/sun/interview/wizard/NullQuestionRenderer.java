@@ -28,11 +28,11 @@ package com.sun.interview.wizard;
 
 import java.awt.event.ActionListener;
 import javax.swing.JComponent;
+
 import com.sun.interview.Question;
 
 class NullQuestionRenderer
-    implements QuestionRenderer
-{
+        implements QuestionRenderer {
     @Override
     public JComponent getQuestionRendererComponent(Question q, ActionListener listener) {
         return null;

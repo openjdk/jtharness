@@ -31,12 +31,12 @@ import java.util.Map;
 /**
  * A {@link Question question} to which the response is a string.
  */
-public abstract class StringQuestion extends Question
-{
+public abstract class StringQuestion extends Question {
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     * @param tag       A unique tag to identify this specific question.
      */
     protected StringQuestion(Interview interview, String tag) {
         super(interview, tag);
@@ -46,8 +46,8 @@ public abstract class StringQuestion extends Question
 
     /**
      * Get the default response for this question.
-     * @return the default response for this question.
      *
+     * @return the default response for this question.
      * @see #setDefaultValue
      */
     public String getDefaultValue() {
@@ -57,8 +57,8 @@ public abstract class StringQuestion extends Question
     /**
      * Set the default response for this question,
      * used by the clear method.
-     * @param v the default response for this question.
      *
+     * @param v the default response for this question.
      * @see #getDefaultValue
      */
     public void setDefaultValue(String v) {
@@ -68,8 +68,8 @@ public abstract class StringQuestion extends Question
 
     /**
      * Get the current (default or latest) response to this question.
-     * @return The current value.
      *
+     * @return The current value.
      * @see #setValue
      */
     public String getValue() {
@@ -79,14 +79,14 @@ public abstract class StringQuestion extends Question
     /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
+     *
      * @return the current value of this question
      * @throws Interview.NotOnPathFault if this question is not on the
-     * current path
+     *                                  current path
      * @see #getValue
      */
     public String getValueOnPath()
-        throws Interview.NotOnPathFault
-    {
+            throws Interview.NotOnPathFault {
         interview.verifyPathContains(this);
         return getValue();
     }
@@ -108,8 +108,8 @@ public abstract class StringQuestion extends Question
 
     /**
      * Get the nominal maximum length for the string.
-     * @return the nominal maximum length for the string.
      *
+     * @return the nominal maximum length for the string.
      * @see #setNominalMaxLength
      */
     public int getNominalMaxLength() {
@@ -118,8 +118,8 @@ public abstract class StringQuestion extends Question
 
     /**
      * Set the expected maximum length for the string.
-     * @param nominalMaxLength  the nominal maximum length for the string.
      *
+     * @param nominalMaxLength the nominal maximum length for the string.
      * @see #getNominalMaxLength
      */
     public void setNominalMaxLength(int nominalMaxLength) {
@@ -129,8 +129,8 @@ public abstract class StringQuestion extends Question
 
     /**
      * Get the suggested responses to this question, or null if none.
-     * @return The suggestions.
      *
+     * @return The suggestions.
      * @see #setSuggestions
      */
     public String[] getSuggestions() {
@@ -139,10 +139,10 @@ public abstract class StringQuestion extends Question
 
     /**
      * Set the set of suggested responses.
+     *
      * @param newSuggestions The values to be set, or null if none
      * @throws IllegalArgumentException if any of the values in the array
-     * are null
-     *
+     *                                  are null
      * @see #getSuggestions
      */
     public void setSuggestions(String... newSuggestions) {
@@ -158,8 +158,8 @@ public abstract class StringQuestion extends Question
 
     /**
      * Set the current value.
-     * @param newValue The value to be set.
      *
+     * @param newValue The value to be set.
      * @see #getValue
      */
     @Override
@@ -185,6 +185,7 @@ public abstract class StringQuestion extends Question
     /**
      * Save the value for this question in a dictionary, using
      * the tag as the key.
+     *
      * @param data The map in which to save the value for this question.
      */
     @Override
@@ -195,6 +196,7 @@ public abstract class StringQuestion extends Question
 
     /**
      * Compare two strings for equality.
+     *
      * @param s1 the first string to be compared, or null
      * @param s2 the other string to be compared, or null
      * @return true if both parameters are null, or if both are non-null

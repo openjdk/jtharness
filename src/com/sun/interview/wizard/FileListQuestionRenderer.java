@@ -32,14 +32,15 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import com.sun.interview.FileFilter;
 import com.sun.interview.FileListQuestion;
 import com.sun.interview.Question;
+
 import java.io.File;
 
 public class FileListQuestionRenderer
-    implements QuestionRenderer
-{
+        implements QuestionRenderer {
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         final FileListQuestion q = (FileListQuestion) qq;
@@ -57,16 +58,15 @@ public class FileListQuestionRenderer
         final FileList list = createFileList("flst", q.getValue());
         list.setDuplicatesAllowed(q.isDuplicatesAllowed());
         list.addListDataListener(new ActionListDataListener(panel,
-                                                            listener,
-                                                            QuestionRenderer.EDITED));
+                listener,
+                QuestionRenderer.EDITED));
         list.setBaseDirectory(q.getBaseDirectory());
         label.setLabelFor(list);
 
         FileFilter[] filters = q.getHintFilters();
         if (filters == null || filters.length == 0) {
             list.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        }
-        else {
+        } else {
             int mode = -1;
             for (FileFilter filter : filters) {
                 list.addFilter(SwingFileFilter.wrap(filter));

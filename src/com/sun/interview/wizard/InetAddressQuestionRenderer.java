@@ -55,12 +55,12 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
 import com.sun.interview.InetAddressQuestion;
 import com.sun.interview.Question;
 
 public class InetAddressQuestionRenderer
-    implements QuestionRenderer
-{
+        implements QuestionRenderer {
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         q = (InetAddressQuestion) qq;
@@ -69,8 +69,8 @@ public class InetAddressQuestionRenderer
         InetAddress[] suggestions = q.getSuggestions();
 
         if (type == InetAddressQuestion.IPv4
-            && style == InetAddressQuestion.IPv4
-            && suggestions == null)
+                && style == InetAddressQuestion.IPv4
+                && suggestions == null)
             return createIPv4Panel(q, listener);
         else
             return createIPv6Panel(q, listener);
@@ -91,7 +91,7 @@ public class InetAddressQuestionRenderer
             String lblKey = i == 0 ? "inet.ip" : "inet.dot";
             JLabel label = new JLabel(i18n.getString(lblKey + ".lbl"));
             label.setDisplayedMnemonic(i == 0 ? i18n.getString(lblKey + ".mne").charAt(0)
-                                       : '0' + i);
+                    : '0' + i);
             label.setToolTipText(i18n.getString(lblKey + ".tip"));
             panel.add(label, c);
 
@@ -114,7 +114,7 @@ public class InetAddressQuestionRenderer
             panel.add(field, c);
 
             if (i > 0)
-                fields[i-1].putClientProperty("next", field);
+                fields[i - 1].putClientProperty("next", field);
 
             fields[i] = field;
         }
@@ -146,8 +146,7 @@ public class InetAddressQuestionRenderer
                     next.getCaret().moveDot(next.getText().length());
                     return;
                 }
-            }
-            else if (Character.isDigit(cmd.charAt(0))) {
+            } else if (Character.isDigit(cmd.charAt(0))) {
                 // got a digit
                 int savedDot = src.getCaret().getDot();
                 int savedMark = src.getCaret().getMark();
@@ -168,15 +167,13 @@ public class InetAddressQuestionRenderer
                         next.getCaret().moveDot(next.getText().length());
                     }
                     return;
-                }
-                else {
+                } else {
                     // reset text
                     src.setText(savedText);
                     src.getCaret().setDot(savedMark);
                     src.getCaret().moveDot(savedDot);
                 }
-            }
-            else if (cmd.charAt(0) == '\n')
+            } else if (cmd.charAt(0) == '\n')
                 // ignore spurious newlines; don't know why we are getting them
                 // (they occur when doing enter in previous question)
                 return;
@@ -200,8 +197,7 @@ public class InetAddressQuestionRenderer
             try {
                 InetAddress a = InetAddress.getByName(sb.toString());
                 q.setValue(a);
-            }
-            catch (UnknownHostException e) {
+            } catch (UnknownHostException e) {
                 // ignore ... should not happen
             }
         }
@@ -230,11 +226,11 @@ public class InetAddressQuestionRenderer
         int width = type == InetAddressQuestion.IPv4 ? 16 : 0;
 
         final TypeInPanel p = new TypeInPanel("inet",
-                                              q,
-                                              width,
-                                              ss,
-                                              lookupBtn,
-                                              listener);
+                q,
+                width,
+                ss,
+                lookupBtn,
+                listener);
 
         lookupPane = new LookupPane(type);
 
@@ -245,7 +241,7 @@ public class InetAddressQuestionRenderer
                 d.setVisible(true);
                 p.setValue((String) lookupPane.getValue());
             }
-            });
+        });
 
         return p;
     }
@@ -263,8 +259,7 @@ public class InetAddressQuestionRenderer
     protected static final Color INVALID_VALUE_COLOR = i18n.getErrorColor();
 
     protected class LookupPane extends JOptionPane
-        implements ActionListener, DocumentListener, ListSelectionListener
-    {
+            implements ActionListener, DocumentListener, ListSelectionListener {
         public LookupPane(int type) {
             super(new JPanel(new GridBagLayout()));
             setMessageType(JOptionPane.QUESTION_MESSAGE);
@@ -290,7 +285,7 @@ public class InetAddressQuestionRenderer
             String r = i18n.getString("inet.lookup.icon");
             URL url = getClass().getResource(r);
             JButton lookupBtn = url == null ? new JButton(r)
-                : new JButton(new ImageIcon(url));
+                    : new JButton(new ImageIcon(url));
             lookupBtn.setActionCommand(LOOKUP);
             lookupBtn.addActionListener(this);
             c.weightx = 0;
@@ -327,7 +322,7 @@ public class InetAddressQuestionRenderer
             cancelBtn.setActionCommand(OK);
             cancelBtn.addActionListener(this);
 
-            setOptions(new Object[] { okBtn, cancelBtn });
+            setOptions(new Object[]{okBtn, cancelBtn});
         }
 
         //----- for ActionListener -------------------
@@ -343,8 +338,7 @@ public class InetAddressQuestionRenderer
                     InetAddress[] addrs;
                     try {
                         addrs = InetAddress.getAllByName(name);
-                    }
-                    catch (UnknownHostException ex) {
+                    } catch (UnknownHostException ex) {
                         addrs = null;
                     }
 
@@ -358,12 +352,10 @@ public class InetAddressQuestionRenderer
                         list.setSelectedIndex(0);
                     }
                 }
-            }
-            else if (cmd.equals(OK)) {
+            } else if (cmd.equals(OK)) {
                 setValue(list.getSelectedValue());
                 SwingUtilities.getRoot(this).setVisible(false);
-            }
-            else if (cmd.equals(CANCEL)) {
+            } else if (cmd.equals(CANCEL)) {
                 setValue(null);
                 SwingUtilities.getRoot(this).setVisible(false);
             }

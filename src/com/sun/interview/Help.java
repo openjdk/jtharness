@@ -54,12 +54,13 @@ public class Help {
         if (i == null) {
             return null;
         }
-        return (HelpSet)i.getHelpSet();
+        return (HelpSet) i.getHelpSet();
     }
 
     /**
      * Get the JavaHelp HelpID identifying the "more info" help for this
      * question, or null if none.
+     *
      * @return the JavaHelp HelpID identifying the "more info" help for this
      * question, or null if none.
      */
@@ -69,7 +70,7 @@ public class Help {
         }
         Object id = q.getHelpID();
         if (id != null && id instanceof HelpID) {
-            return (HelpID)id;
+            return (HelpID) id;
         }
 
         HelpID helpID = getID(q.getInterview(), q.getKey());
@@ -81,7 +82,8 @@ public class Help {
 
     /**
      * Creates HelpID for given interview and question key
-     * @param i interview
+     *
+     * @param i   interview
      * @param key question key
      * @return HelpID to be used for the question.
      */
@@ -111,17 +113,18 @@ public class Help {
      * Get helpsets containing any related documents for this test suite.
      * By default, the resource names for the help sets are obtained from
      * getAdditionalDocNames().
+     *
      * @param ts The test suite to look for the docs within.
      * @return an array of help sets containing docs associated with this
      * testsuite. The array will be empty if there are no such docs.
      * @throws Help.Fault if there are problems opening any of the
-     * helpsets.
+     *                    helpsets.
      */
     public static HelpSet[] getAdditionalDocs(TestSuite ts) throws Help.Fault {
         HelpSet[] additionalDocs = null;
         String[] names = ts.getAdditionalDocNames();
         if (names == null)
-           additionalDocs = new HelpSet[0];
+            additionalDocs = new HelpSet[0];
         else {
             HelpSet[] docs = new HelpSet[names.length];
             ClassLoader loader = ts.getClassLoader();
@@ -142,12 +145,12 @@ public class Help {
     /**
      * An exception used to report errors while using a TestSUite object.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         public Fault(ResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -155,10 +158,11 @@ public class Help {
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(ResourceBundle i18n, String s, Object o) {
             super(MessageFormat.format(i18n.getString(s), o));
@@ -166,10 +170,11 @@ public class Help {
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(ResourceBundle i18n, String s, Object... o) {
             super(MessageFormat.format(i18n.getString(s), o));

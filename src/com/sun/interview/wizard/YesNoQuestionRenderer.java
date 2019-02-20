@@ -28,6 +28,7 @@ package com.sun.interview.wizard;
 
 import com.sun.interview.Question;
 import com.sun.interview.YesNoQuestion;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -39,11 +40,11 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 
-public class YesNoQuestionRenderer implements QuestionRenderer{
+public class YesNoQuestionRenderer implements QuestionRenderer {
 
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
-        final YesNoQuestion q = (YesNoQuestion)qq;
+        final YesNoQuestion q = (YesNoQuestion) qq;
         final ActionListener editedListener = listener;
 
         String[] displayChoices = q.getDisplayChoices();
@@ -112,7 +113,7 @@ public class YesNoQuestionRenderer implements QuestionRenderer{
     }
 
     protected ActionListener createActionListener(final YesNoQuestion q,
-            final ActionListener editedListener) {
+                                                  final ActionListener editedListener) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -124,8 +125,8 @@ public class YesNoQuestionRenderer implements QuestionRenderer{
 
     protected void fireEditedEvent(Object src, ActionListener l) {
         ActionEvent e = new ActionEvent(src,
-                                        ActionEvent.ACTION_PERFORMED,
-                                        EDITED);
+                ActionEvent.ACTION_PERFORMED,
+                EDITED);
         l.actionPerformed(e);
     }
 

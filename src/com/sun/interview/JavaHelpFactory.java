@@ -55,7 +55,7 @@ public class JavaHelpFactory implements HelpSetFactory {
         String pref = "";
         if (name.startsWith("/")) {
             hsn = name.substring(1); // strip off leading /
-            pref = hsn.substring(0, hsn.lastIndexOf("/")+1);
+            pref = hsn.substring(0, hsn.lastIndexOf("/") + 1);
         } else {
             String cn = c.getName();
             String pn = cn.substring(0, cn.lastIndexOf('.'));
@@ -100,8 +100,8 @@ public class JavaHelpFactory implements HelpSetFactory {
 
     @Override
     public Object updateHelpSetObject(Interview interview, Object object) {
-        HelpSet newHelpSet = (HelpSet)object;
-        HelpSet oldHelpSet = (HelpSet)interview.getHelpSet();
+        HelpSet newHelpSet = (HelpSet) object;
+        HelpSet oldHelpSet = (HelpSet) interview.getHelpSet();
         if (interview.getParent() == null) {
             if (oldHelpSet == null) {
                 // no previously registered helpset
@@ -111,10 +111,9 @@ public class JavaHelpFactory implements HelpSetFactory {
                     if (ihs != null)
                         newHelpSet.add(ihs);
                 }
-                }
-            else {
+            } else {
                 // reregister child help sets with new help set
-               List<HelpSet> helpSetsToRemove = new ArrayList<>();
+                List<HelpSet> helpSetsToRemove = new ArrayList<>();
 
                 // transfer help sets old to new
                 for (HelpSet entry : oldHelpSet.getHelpSets()) {
@@ -128,12 +127,11 @@ public class JavaHelpFactory implements HelpSetFactory {
                     oldHelpSet.remove(helpToRemove);
                 }  // for
             }
-        }
-        else {
+        } else {
             Interview i = interview;
             while (i.getParent() != null)
                 i = i.getParent();
-            HelpSet rootHelpSet = (HelpSet)i.getHelpSet();
+            HelpSet rootHelpSet = (HelpSet) i.getHelpSet();
             if (rootHelpSet != null) {
                 // remove old help set, if any, from root help set
                 // ALERT: WHAT IF THE OLD HELPSET WAS REQUIRED BY DIFFERENT

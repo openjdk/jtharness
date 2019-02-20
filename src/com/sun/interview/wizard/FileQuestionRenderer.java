@@ -40,8 +40,7 @@ import com.sun.interview.FileQuestion;
 import com.sun.interview.Question;
 
 public class FileQuestionRenderer
-    implements QuestionRenderer
-{
+        implements QuestionRenderer {
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         final FileQuestion q = (FileQuestion) qq;
@@ -52,8 +51,7 @@ public class FileQuestionRenderer
             if (dir == null)
                 dir = new File(System.getProperty("user.dir"));
             chooser.setCurrentDirectory(dir);
-        }
-        else {
+        } else {
             chooser.setSelectedFile(f);
         }
 
@@ -79,11 +77,11 @@ public class FileQuestionRenderer
         }
 
         final TypeInPanel p = new TypeInPanel(fileType,
-                                              q,
-                                              0,
-                                              strSuggs,
-                                              browseBtn,
-                                              listener);
+                q,
+                0,
+                strSuggs,
+                browseBtn,
+                listener);
 
         browseBtn.addActionListener(new ActionListener() {
             @Override
@@ -130,8 +128,7 @@ public class FileQuestionRenderer
         if (filters == null || filters.length == 0) {
             chooser.setAcceptAllFileFilterUsed(true);
             chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        }
-        else {
+        } else {
             int mode = -1;
             // removed to implement
             // add API to disable the all files filter perhaps?
@@ -169,6 +166,7 @@ public class FileQuestionRenderer
 
     /**
      * Internal routine to help determine if we'll be selecting a dir or file.
+     *
      * @return True if a dir (folder) will be the result.
      */
     private boolean isSelectingDir(FileFilter... filters) {
@@ -177,7 +175,7 @@ public class FileQuestionRenderer
         }
 
         boolean allDirType = true;
-        for (FileFilter f: filters) {
+        for (FileFilter f : filters) {
             allDirType = allDirType && (f instanceof DirectoryFileFilter);
         }
 

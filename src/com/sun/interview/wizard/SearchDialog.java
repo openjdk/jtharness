@@ -51,12 +51,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+
 import com.sun.interview.Interview;
 import com.sun.interview.Question;
 import com.sun.javatest.tool.jthelp.HelpBroker;
 
-class SearchDialog extends JDialog
-{
+class SearchDialog extends JDialog {
     static SearchDialog create(Component parent, Interview i,
                                HelpBroker helpBroker, String helpPrefix) {
         Dialog d = (Dialog) SwingUtilities.getAncestorOfClass(Dialog.class, parent);
@@ -144,7 +144,7 @@ class SearchDialog extends JDialog
         p.add(p2, c);
 
         p.registerKeyboardAction(listener, CLOSE, escapeKey,
-                                 JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         p.setBorder(BorderFactory.createEmptyBorder(/*top*/12, /*left*/12, /*bottom*/0, /*right*/11));
 
         contentPane.add(p, BorderLayout.CENTER);
@@ -192,13 +192,12 @@ class SearchDialog extends JDialog
             for (int i = 0; i < path.length; i++) {
                 if (path[i] == curr) {
                     for (int j = 0; j < path.length; j++) {
-                        Question q = path[(i + 1 + j)%path.length];
+                        Question q = path[(i + 1 + j) % path.length];
                         String answer = answers.get(q.getTag());
                         if (matches(q, answer, caseChk.isSelected(), wordChk.isSelected())) {
                             try {
                                 interview.setCurrentQuestion(q);
-                            }
-                            catch (Interview.Fault e) {
+                            } catch (Interview.Fault e) {
                             }
                             return;
                         }
@@ -221,8 +220,8 @@ class SearchDialog extends JDialog
             return answer != null && match(text, answer, considerCase, word);
         else
             return match(text, q.getSummary(), considerCase, word) ||
-                     match(text, q.getText(), considerCase, word) ||
-                     (answer != null && match(text, answer, considerCase, word));
+                    match(text, q.getText(), considerCase, word) ||
+                    (answer != null && match(text, answer, considerCase, word));
     }
 
     private static boolean match(String s1, String s2, boolean considerCase, boolean word) {
@@ -231,8 +230,8 @@ class SearchDialog extends JDialog
         for (int i = 0; i <= s2len - s1len; i++) {
             if (s1.regionMatches(!considerCase, 0, s2, i, s1len)) {
                 if (word)
-                    return (i == 0 || isBoundaryCh(s2.charAt(i-1)))
-                             && (i+s1len == s2.length() || isBoundaryCh(s2.charAt(i+s1len)));
+                    return (i == 0 || isBoundaryCh(s2.charAt(i - 1)))
+                            && (i + s1len == s2.length() || isBoundaryCh(s2.charAt(i + s1len)));
                 else
                     return true;
             }
@@ -242,7 +241,7 @@ class SearchDialog extends JDialog
 
     private static boolean isBoundaryCh(char c) {
         return !(Character.isUnicodeIdentifierStart(c)
-                 || Character.isUnicodeIdentifierPart(c));
+                || Character.isUnicodeIdentifierPart(c));
     }
 
     private JButton createButton(String uiKey, String actionCommand, ActionListener l) {

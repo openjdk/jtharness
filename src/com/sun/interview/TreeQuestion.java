@@ -34,8 +34,7 @@ import java.util.Vector;
  * A {@link Question question} to which the response is a set of selected
  * nodes within a tree. The nodes are identified by their paths.
  */
-public abstract class TreeQuestion extends Question
-{
+public abstract class TreeQuestion extends Question {
     /**
      * An interface that provides the model for the tree whose nodes
      * are selected by a TreeQuestion.
@@ -43,12 +42,14 @@ public abstract class TreeQuestion extends Question
     public static interface Model {
         /**
          * Get the root node of the tree.
+         *
          * @return the root node of the tree.
          */
         Object getRoot();
 
         /**
          * Get the number of children of a specified node.
+         *
          * @param node the node for which to get the number of children
          * @return the number of children of the specified node
          */
@@ -56,10 +57,11 @@ public abstract class TreeQuestion extends Question
 
         /**
          * Get a child of a specified node, or null if no such child exists.
-         * @param node the node for which to get the child
+         *
+         * @param node  the node for which to get the child
          * @param index the index of the child; this should be a
-         * number greater than or equal to zero and less than the number
-         * of children of the node.
+         *              number greater than or equal to zero and less than the number
+         *              of children of the node.
          * @return the specified child, or null if index does not identify a
          * valid child.
          * @see #getChildCount
@@ -69,6 +71,7 @@ public abstract class TreeQuestion extends Question
         /**
          * Get the name of a specified node. The name will be used to
          * construct paths. At a minimum, it should not contain '/'.
+         *
          * @param node the node whose name is required
          * @return the name of the specified node
          */
@@ -76,6 +79,7 @@ public abstract class TreeQuestion extends Question
 
         /**
          * Get the full path from the root node of a specified node.
+         *
          * @param node the node whose path is required
          * @return the path of the specified node from the root node,
          * as composed from the names of this node and its ancestors,
@@ -89,6 +93,7 @@ public abstract class TreeQuestion extends Question
          * and is not necessarily the same as having zero children.
          * (A leaf node implies zero children, but zero children does
          * not imply a node is a leaf.)
+         *
          * @param node the node to check for being a leaf
          * @return true if the specified node is a leaf node, and
          * false otherwise.
@@ -98,9 +103,10 @@ public abstract class TreeQuestion extends Question
 
     /**
      * Create a tree question with a nominated tag and tree model.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
-     * @param model The tree model to which the question's path values relate.
+     * @param tag       A unique tag to identify this specific question.
+     * @param model     The tree model to which the question's path values relate.
      */
     protected TreeQuestion(Interview interview, String tag, Model model) {
         super(interview, tag);
@@ -111,6 +117,7 @@ public abstract class TreeQuestion extends Question
 
     /**
      * Get the tree model to which the question's path values relate.
+     *
      * @return the tree model to which the question's path values relate
      */
     public Model getModel() {
@@ -119,8 +126,8 @@ public abstract class TreeQuestion extends Question
 
     /**
      * Get the default response for this question.
-     * @return the default response for this question.
      *
+     * @return the default response for this question.
      * @see #setDefaultValue
      */
     public String[] getDefaultValue() {
@@ -130,8 +137,8 @@ public abstract class TreeQuestion extends Question
     /**
      * Set the default response for this question,
      * used by the clear method.
-     * @param v the default response for this question.
      *
+     * @param v the default response for this question.
      * @see #getDefaultValue
      */
     public void setDefaultValue(String... v) {
@@ -142,6 +149,7 @@ public abstract class TreeQuestion extends Question
      * Get the current (default or latest) response to this question.
      * The strings should each represent valid paths to nodes within the
      * tree represented by the tree model.
+     *
      * @return the current value for this question
      * @see #setValue
      */
@@ -152,14 +160,14 @@ public abstract class TreeQuestion extends Question
     /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
+     *
      * @return the current value of this question
      * @throws Interview.NotOnPathFault if this question is not on the
-     * current path
+     *                                  current path
      * @see #getValue
      */
     public String[] getValueOnPath()
-        throws Interview.NotOnPathFault
-    {
+            throws Interview.NotOnPathFault {
         interview.verifyPathContains(this);
         return getValue();
     }
@@ -171,8 +179,9 @@ public abstract class TreeQuestion extends Question
 
     /**
      * Set the current response to this question.
+     *
      * @param newValue a set of strings (or null if none), representing
-     * paths to nodes within the tree represented by the tree model
+     *                 paths to nodes within the tree represented by the tree model
      * @see #getValue
      */
     public void setValue(String... newValue) {
@@ -180,8 +189,7 @@ public abstract class TreeQuestion extends Question
         if (newValue == null) {
             oldValue = value;
             value = null;
-        }
-        else {
+        } else {
             // could arguably validate paths here and throw Fault if invalid
             oldValue = value;
             /* leave this for clients to do, if they want
@@ -202,16 +210,17 @@ public abstract class TreeQuestion extends Question
      * Set the current response to this question. The response is
      * set to the paths of a set of specified nodes within the tree
      * represented by the tree model.
+     *
      * @param nodes a set of nodes (or null if none) within
-     * the tree represented by the tree model, whose paths will
-     * be set as the current response to the question
+     *              the tree represented by the tree model, whose paths will
+     *              be set as the current response to the question
      * @see #getValue
      */
     public void setValue(Object... nodes) {
         if (nodes == null) {
             setValue((String[]) null);
-        return;
-    }
+            return;
+        }
 
         String[] paths = new String[nodes.length];
         for (int i = 0; i < nodes.length; i++)
@@ -314,6 +323,7 @@ public abstract class TreeQuestion extends Question
     /**
      * Load the value for this question from a dictionary, using
      * the tag as the key.
+     *
      * @param data The map from which to load the value for this question.
      */
     @Override
@@ -325,6 +335,7 @@ public abstract class TreeQuestion extends Question
     /**
      * Save the value for this question in a dictionary, using
      * the tag as the key.
+     *
      * @param data The map in which to save the value for this question.
      */
     @Override
@@ -343,9 +354,8 @@ public abstract class TreeQuestion extends Question
                 if (start != -1)
                     v.addElement(s.substring(start, i));
                 start = -1;
-            } else
-                if (start == -1)
-                    start = i;
+            } else if (start == -1)
+                start = i;
         }
 
         if (start != -1)
@@ -377,10 +387,10 @@ public abstract class TreeQuestion extends Question
     }
 
     public static boolean white(char c) {
-        return c == ' '  ||  c == '\t'  ||  c == '\n';
+        return c == ' ' || c == '\t' || c == '\n';
     }
 
-    private static String[] empty = { };
+    private static String[] empty = {};
 
     private Model model;
 

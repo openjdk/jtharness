@@ -30,15 +30,14 @@ import java.io.File;
 
 import com.sun.interview.FileFilter;
 
-class SwingFileFilter extends javax.swing.filechooser.FileFilter
-{
+class SwingFileFilter extends javax.swing.filechooser.FileFilter {
     static javax.swing.filechooser.FileFilter wrap(FileFilter f) {
         return new SwingFileFilter(f);
     }
 
     static FileFilter unwrap(javax.swing.filechooser.FileFilter f) {
         if (f != null && f instanceof SwingFileFilter)
-            return ((SwingFileFilter)f).filter;
+            return ((SwingFileFilter) f).filter;
         else
             return null;
     }

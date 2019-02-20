@@ -55,19 +55,18 @@ import java.util.Vector;
  * presented to the user via some tool such as an assistant or wizard.
  * Interviews may be stand-alone, or designed to be part of other interviews.
  */
-public class Interview
-{
+public class Interview {
     //----- inner classes ----------------------------------------
 
     /**
      * This exception is to report problems that occur while updating an interview.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         public Fault(ResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -75,10 +74,11 @@ public class Interview
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(ResourceBundle i18n, String s, Object o) {
             super(MessageFormat.format(i18n.getString(s), o));
@@ -86,10 +86,11 @@ public class Interview
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(ResourceBundle i18n, String s, Object... o) {
             super(MessageFormat.format(i18n.getString(s), o));
@@ -100,8 +101,7 @@ public class Interview
      * This exception is thrown when a question is expected to be on
      * the current path, and is not.
      */
-    public static class NotOnPathFault extends Fault
-    {
+    public static class NotOnPathFault extends Fault {
         NotOnPathFault(Question q) {
             super(i18n, "interview.questionNotOnPath", q.getTag());
         }
@@ -109,6 +109,7 @@ public class Interview
 
     /**
      * Not for use, provided for backwards binary compatibility.
+     *
      * @deprecated No longer used in this API, direct JavaHelp usage was removed.
      */
     @Deprecated
@@ -121,6 +122,7 @@ public class Interview
 
     /**
      * Not for use, provided for backwards binary compatibility.
+     *
      * @deprecated No longer used in this API, direct JavaHelp usage was removed.
      */
     @Deprecated
@@ -138,6 +140,7 @@ public class Interview
     public static interface Observer {
         /**
          * Invoked when the current question in the interview has been changed.
+         *
          * @param q the new current question
          */
         void currentQuestionChanged(Question q);
@@ -155,9 +158,10 @@ public class Interview
 
     /**
      * Create a top-level interview.
+     *
      * @param tag A tag that will be used to qualify the tags of any
-     * questions in this interview, to help ensure uniqueness of those
-     * tags.
+     *            questions in this interview, to help ensure uniqueness of those
+     *            tags.
      */
     protected Interview(String tag) {
         this(null, tag);
@@ -165,11 +169,12 @@ public class Interview
 
     /**
      * Create an interview to be used as part of another interview.
-     * @param parent The parent interview of which this is a part.
+     *
+     * @param parent  The parent interview of which this is a part.
      * @param baseTag A name that will be used to qualify the tags of any
-     * questions in this interview, to help ensure uniqueness of those
-     * tags. It will be combined with the parent's tag if that has been
-     * specified.
+     *                questions in this interview, to help ensure uniqueness of those
+     *                tags. It will be combined with the parent's tag if that has been
+     *                specified.
      */
     protected Interview(Interview parent, String baseTag) {
         this.parent = parent;
@@ -188,6 +193,7 @@ public class Interview
 
     /**
      * Get the parent interview for which this is a child.
+     *
      * @return the parent interview, or null if no parent has been specified.
      */
     public Interview getParent() {
@@ -196,6 +202,7 @@ public class Interview
 
     /**
      * Get a tag used to qualify the tags of questions in this interview.
+     *
      * @return the title
      */
     public String getTag() {
@@ -204,6 +211,7 @@ public class Interview
 
     /**
      * Set a descriptive title to be used to annotate this interview.
+     *
      * @param title A short descriptive title.
      * @see #getTitle
      */
@@ -216,6 +224,7 @@ public class Interview
      * If not specified, the system will try and locate the title in the
      * interview's resource bundle, using the resource name <code>title</code>.
      * of the interview.
+     *
      * @return the title
      * @see #setTitle
      */
@@ -235,6 +244,7 @@ public class Interview
 
     /**
      * Set a default image to be used for the questions of an interview.
+     *
      * @param u A URL for the image
      * @see Question#setImage
      * @see Question#getImage
@@ -248,6 +258,7 @@ public class Interview
      * Get a default image to be used for the questions of an interview.
      * If no default has been set for this interview, the parent's
      * default image (if any) is used instead.
+     *
      * @return a URL for the default image to be used
      * @see #setDefaultImage
      */
@@ -268,10 +279,11 @@ public class Interview
      * The default is the interview tag name if this is a root
      * interview. If this is a child interview, there is no default
      * resource bundle.
+     *
      * @param name The name of the resource bundle used to look
-     * up internationalized strings.
+     *             up internationalized strings.
      * @throws MissingResourceException if the resource bundle
-     * cannot be found.
+     *                                  cannot be found.
      * @see #getResourceBundle
      */
     protected void setResourceBundle(String name) {
@@ -298,6 +310,7 @@ public class Interview
             bundleName = name;
         }
     }
+
     /**
      * Set the base name of the resource bundle used to look up
      * internationalized strings, such as the title and text of each
@@ -306,11 +319,12 @@ public class Interview
      * The default is the interview tag name if this is a root
      * interview. If this is a child interview, there is no default
      * resource bundle.
+     *
      * @param name The name of the resource bundle used to look
-     * up internationalized strings.
+     *             up internationalized strings.
      * @param file The directory to find name.
      * @throws MissingResourceException if the resource bundle
-     * cannot be found.
+     *                                  cannot be found.
      * @see #getResourceBundle
      */
     protected void setResourceBundle(final String name, File file) {
@@ -339,6 +353,7 @@ public class Interview
      * If the bundle has not been set explicitly, it defaults to the
      * parent's resource bundle; the root interview has a default resource
      * bundle based on the interview tag name.
+     *
      * @return the resource bundle for this interview.
      * @see #setResourceBundle
      */
@@ -358,10 +373,11 @@ public class Interview
      * package in which the actual interview class is defined.
      * If help sets are specified for child interviews, they will
      * automatically be added into the help set for the root interview.
+     *
      * @param name The name of the help set containing the "more info"
-     * for each question.
+     *             for each question.
      * @throws Interview.HelpNotFoundFault if the help set could not be located
-     * @throws Interview.BadHelpFault if some problem occurred while opening the help set
+     * @throws Interview.BadHelpFault      if some problem occurred while opening the help set
      * @see #getHelpSet
      * @see #setHelpSet(Object)
      */
@@ -374,8 +390,9 @@ public class Interview
      * Set the help set used to locate the "more info" for each question.
      * If help sets are specified for child interviews, they will
      * automatically be added into the help set for the root interview.
+     *
      * @param hs The help set containing the "more info" for each question
-     * in this interview.
+     *           in this interview.
      * @see #getHelpSet
      * @see #setHelpSet(String)
      */
@@ -390,11 +407,12 @@ public class Interview
      * which is located in directory file.
      * If help sets are specified for child interviews, they will
      * automatically be added into the help set for the root interview.
+     *
      * @param name The name of the help set containing the "more info"
-     * for each question.
+     *             for each question.
      * @param file The directory to find help set.
      * @throws Interview.HelpNotFoundFault if the help set could not be located
-     * @throws Interview.BadHelpFault if some problem occurred while opening the help set
+     * @throws Interview.BadHelpFault      if some problem occurred while opening the help set
      * @see #getHelpSet
      * @see #setHelpSet(Object)
      * @see #setHelpSet(String)
@@ -405,14 +423,14 @@ public class Interview
 
 
     /**
-         * Get the help set used to locate the "more info" for each question. If the
-         * help set has not been set explicitly, it defaults to the parent's help
-         * set.
-         *
-         * @return the help set used to locate "more info" for questions in this
-         *         interview.
-         * @see #setHelpSet
-         */
+     * Get the help set used to locate the "more info" for each question. If the
+     * help set has not been set explicitly, it defaults to the parent's help
+     * set.
+     *
+     * @return the help set used to locate "more info" for questions in this
+     * interview.
+     * @see #setHelpSet
+     */
     public Object getHelpSet() {
         if (helpSet == null && parent != null)
             return parent.getHelpSet();
@@ -423,6 +441,7 @@ public class Interview
     /**
      * Initializes the help factory - generally only called once per instance of the
      * system.
+     *
      * @return Create the help factory for the interview system.
      */
     private static HelpSetFactory createHelpFactory() {
@@ -441,6 +460,7 @@ public class Interview
 
     /**
      * Mark this interview as having been edited or not.
+     *
      * @param edited whether or not this interview is marked as edited
      */
     public void setEdited(boolean edited) {
@@ -453,6 +473,7 @@ public class Interview
 
     /**
      * Determine if this interview as having been edited or not.
+     *
      * @return true if this interview is marked as having been edited
      */
     public boolean isEdited() {
@@ -464,6 +485,7 @@ public class Interview
 
     /**
      * Get the first question of the interview.
+     *
      * @return the first question of the interview
      * @see #setFirstQuestion
      */
@@ -476,9 +498,10 @@ public class Interview
      * than once, but only while the interview is being constructed.
      * Once any method has been called that refers to the interview
      * path, the initial question may not be changed.
+     *
      * @param q The initial question
      * @throws IllegalStateException if it is too late to change the
-     * initial question.
+     *                               initial question.
      * @see #getFirstQuestion
      */
     protected void setFirstQuestion(Question q) {
@@ -505,6 +528,7 @@ public class Interview
     /**
      * Get a sub-interview with a given tag name. All descendents are
      * searched (i.e. all children, all their children, etc.)
+     *
      * @param tag The tag of the interview to be found.
      * @return the sub-interview with the specified name.
      * @throws Interview.Fault if no interview is found with the given name.
@@ -552,6 +576,7 @@ public class Interview
 
     /**
      * Determine if a question is the first question of the interview.
+     *
      * @param q the question to check
      * @return true if this is the first question.
      */
@@ -561,6 +586,7 @@ public class Interview
 
     /**
      * Determine if a question is the last question of the interview.
+     *
      * @param q the question to check
      * @return true if this is the last question.
      */
@@ -570,6 +596,7 @@ public class Interview
 
     /**
      * Determine if a question has a non-null successor.
+     *
      * @param q the question to check
      * @return true if this question has a non-null successor.
      */
@@ -581,6 +608,7 @@ public class Interview
     /**
      * Determine if a question has a successor which is neither null
      * nor an ErrorQuestion.
+     *
      * @param q the question to check
      * @return true if this question has a successor which is neither null
      * nor an ErrorQuestion
@@ -644,8 +672,7 @@ public class Interview
             // try and select the specified question
             try {
                 setCurrentQuestion(q);
-            }
-            catch (Fault e) {
+            } catch (Fault e) {
                 notifyCurrentQuestionChanged(firstQuestion);
             }
         }
@@ -655,6 +682,7 @@ public class Interview
      * Advance to the next question in the interview.
      * Questions that have been {@link Question#isEnabled disabled} will
      * be skipped over.
+     *
      * @throws Interview.Fault if there are no more questions
      */
     public void next() throws Fault {
@@ -683,12 +711,10 @@ public class Interview
                 InterviewQuestion iq = (InterviewQuestion) q;
                 i = iq.getTargetInterview();
                 i.currIndex = 0;
-            }
-            else if (q instanceof FinalQuestion && i.caller != null) {
+            } else if (q instanceof FinalQuestion && i.caller != null) {
                 i = i.caller.getInterview();
                 i.currIndex++;
-            }
-            else
+            } else
                 break;
         }
 
@@ -700,6 +726,7 @@ public class Interview
      * Back up to the previous question in the interview.
      * Questions that have been {@link Question#isEnabled disabled} will
      * be skipped over.
+     *
      * @throws Interview.Fault if there is no previous question.
      */
     public void prev() throws Fault {
@@ -722,21 +749,17 @@ public class Interview
                 if (i.caller == null) {
                     i.currIndex = 0;
                     throw new Fault(i18n, "interview.noMoreQuestions");
-                }
-                else {
+                } else {
                     i = i.caller.getInterview();
                     i.currIndex--;
                 }
-            }
-            else if (i.path.questionAt(i.currIndex) instanceof InterviewQuestion) {
+            } else if (i.path.questionAt(i.currIndex) instanceof InterviewQuestion) {
                 InterviewQuestion iq = (InterviewQuestion) i.path.questionAt(i.currIndex);
                 i = iq.getTargetInterview();
                 i.currIndex = i.path.size() - 1;
-            }
-            else if (i.path.questionAt(i.currIndex) instanceof FinalQuestion) {
+            } else if (i.path.questionAt(i.currIndex) instanceof FinalQuestion) {
                 i.currIndex--;
-            }
-            else
+            } else
                 break;
         }
 
@@ -748,6 +771,7 @@ public class Interview
      * Advance to the last question in the interview.
      * Questions that have been {@link Question#isEnabled disabled} will
      * be skipped over.
+     *
      * @throws Interview.Fault if there are no more questions
      */
     public void last() throws Fault {
@@ -779,16 +803,14 @@ public class Interview
             if (q instanceof InterviewQuestion) {
                 i = ((InterviewQuestion) q).getTargetInterview();
                 index = 0;
-            }
-            else if (q instanceof FinalQuestion && i.caller != null) {
+            } else if (q instanceof FinalQuestion && i.caller != null) {
                 Interview callInterview = i.caller.getInterview();
                 int callIndex = callInterview.path.indexOf(i);
                 if (callIndex == -1)
                     throw new IllegalStateException();
                 i = callInterview;
                 index = callIndex + 1;
-            }
-            else {
+            } else {
                 // update candidate and move on
                 lq = q;
                 index++;
@@ -796,10 +818,9 @@ public class Interview
         }
 
         if (lq == cq) {
-            if ( !(lq instanceof FinalQuestion))
+            if (!(lq instanceof FinalQuestion))
                 throw new Fault(i18n, "interview.noMoreQuestions");
-        }
-        else
+        } else
             setCurrentQuestion(lq);
     }
 
@@ -810,6 +831,7 @@ public class Interview
      * This indirectly implies it must be the last question on
      * the current path, and must only be preceded by
      * {@link NullQuestion information-only} questions.
+     *
      * @return true if the first answerable question is unanswered.
      */
     public boolean isStarted() {
@@ -826,6 +848,7 @@ public class Interview
      * Check if the interview has been completed. An interview is
      * considered to have been completed if the final question
      * on the current path is of type {@link FinalQuestion}.
+     *
      * @return true if the interview has been completed.
      */
     public boolean isFinishable() {
@@ -839,9 +862,10 @@ public class Interview
      * considered to have been completed if none of the questions from
      * this subinterview on the current path return null as the result
      * of getNext().
-     *<em>Note:</em>compare this to isFinishable() which checks that the
+     * <em>Note:</em>compare this to isFinishable() which checks that the
      * entire interview (of which this subinterview may be a part) is
      * complete.
+     *
      * @return true is this subinterview has been completed.
      */
     protected boolean isInterviewFinishable() {
@@ -853,8 +877,9 @@ public class Interview
      * Jump to a specific question in the interview. The question
      * must be on the current path, but can be either before or
      * after the current position at the time this is called.
+     *
      * @param q The question which is to become the current
-     * question in the interview.
+     *          question in the interview.
      * @throws Interview.Fault if the question given is not on the current path.
      * @see #getCurrentQuestion
      */
@@ -880,8 +905,7 @@ public class Interview
             if (qq.equals(q)) {
                 currIndex = i;
                 return true;
-            }
-            else if (qq instanceof InterviewQuestion) {
+            } else if (qq instanceof InterviewQuestion) {
                 if (((InterviewQuestion) qq).getTargetInterview().setCurrentQuestion0(q)) {
                     currIndex = i;
                     return true;
@@ -893,6 +917,7 @@ public class Interview
 
     /**
      * Get the current question in the interview.
+     *
      * @return The current question.
      * @see #setCurrentQuestion
      */
@@ -936,6 +961,7 @@ public class Interview
      * Any such references to nested interviews are automatically
      * expanded by this method, leaving just the complete set of basic
      * questions on the path.
+     *
      * @return an array containing the list of questions on the current path.
      * @see #setFirstQuestion
      * @see Question#getNext
@@ -952,6 +978,7 @@ public class Interview
     /**
      * Get the set of questions on the current path up to and
      * including the current question.
+     *
      * @return an array containing the list of questions on the
      * current path up to and including the current question
      * @see #getPath
@@ -969,9 +996,10 @@ public class Interview
      * hidden.  Hidden, disabled and final questions are included upon demand.
      * The list of questions is flattend to only include questions, no
      * representation of the interview structure is given.
+     *
      * @param includeFinals Should FinalQuestions be included.
      * @return The current active path of questions, based on the requested
-     *    options.  Returns null if no path information is available.
+     * options.  Returns null if no path information is available.
      */
     public Question[] getRawPath(boolean includeFinals) {
         if (rawPath == null)
@@ -992,9 +1020,10 @@ public class Interview
      * nested interview, before continuing within the original interview.
      * Such nested interviews may optionally be expanded by this method,
      * depending on the arguments.
+     *
      * @param flattenNestedInterviews If true, any nested interviews will
-     * be expanded in place and returned via the iterator; otherwise, the
-     * the nested interview will be returned instead.
+     *                                be expanded in place and returned via the iterator; otherwise, the
+     *                                the nested interview will be returned instead.
      * @return an Iterator for the questions on the current path
      * @see #iteratePathToCurrent
      */
@@ -1008,9 +1037,10 @@ public class Interview
     /**
      * Get an iterator for the set of questions on the current path
      * up to and including the current question.
+     *
      * @param flattenNestedInterviews If true, any nested interviews will
-     * be expanded in place and returned via the iterator; otherwise, the
-     * the nested interview will be returned instead.
+     *                                be expanded in place and returned via the iterator; otherwise, the
+     *                                the nested interview will be returned instead.
      * @return an Iterator for the questions on the current path
      * up to and including the current question
      * @see #iteratePath
@@ -1033,8 +1063,7 @@ public class Interview
                     ((InterviewQuestion) q).getTargetInterview().iteratePath0(l, true, all, false);
                 else
                     l.add(q);
-            }
-            else if (!addFinal && q instanceof FinalQuestion)
+            } else if (!addFinal && q instanceof FinalQuestion)
                 return;
             else
                 l.add(q);
@@ -1045,19 +1074,20 @@ public class Interview
     /**
      * Verify that the current path contains a specified question,
      * and throw an exception if it does not.
+     *
      * @param q the question to be checked
      * @throws Interview.NotOnPathFault if the current path does not contain
-     * the specified question.
+     *                                  the specified question.
      */
     public void verifyPathContains(Question q)
-        throws NotOnPathFault
-    {
+            throws NotOnPathFault {
         if (!pathContains(q))
             throw new NotOnPathFault(q);
     }
 
     /**
      * Check if the path contains a specific question.
+     *
      * @param q The question for which to check.
      * @return true if the question is found on the current path.
      */
@@ -1067,11 +1097,12 @@ public class Interview
 
     /**
      * Check if the path contains questions from a specific interview.
+     *
      * @param i The interview for which to check.
      * @return true if the interview is found on the current path.
      */
     public boolean pathContains(Interview i) {
-        return  root.pathContains0(i);
+        return root.pathContains0(i);
     }
 
     private boolean pathContains0(Object o) {
@@ -1099,6 +1130,7 @@ public class Interview
     /**
      * Get the complete set of questions in this interview and
      * recursively, in all child interviews.
+     *
      * @return a set of all questions in this and every child interview.
      */
     public Set<Question> getQuestions() {
@@ -1119,6 +1151,7 @@ public class Interview
     /**
      * Get all questions in this interview and
      * recursively, in all child interviews.
+     *
      * @return a map containing all questions in this and every child interview.
      */
     public Map<String, Question> getAllQuestions() {
@@ -1139,6 +1172,7 @@ public class Interview
     /**
      * Check whether any questions on the current path have any
      * associated checklist items.
+     *
      * @return true if no questions have any corresponding checklist
      * items, and false otherwise.
      */
@@ -1155,6 +1189,7 @@ public class Interview
     /**
      * Create a checklist composed of all checklist items
      * for questions on the current path.
+     *
      * @return a checklist composed of all checklist items
      * for questions on the current path.
      * @see #getPath
@@ -1174,8 +1209,9 @@ public class Interview
 
     /**
      * Create a checklist item based on entries in the interview's resource bundle.
+     *
      * @param sectionKey A key to identify the section name within the interview's resource bundle
-     * @param textKey A key to identify the checklist item text within the interview's resource bundle
+     * @param textKey    A key to identify the checklist item text within the interview's resource bundle
      * @return a Checklist.Item object composed from the appropriate entries in the interview's resource bundle
      */
     public Checklist.Item createChecklistItem(String sectionKey, String textKey) {
@@ -1187,9 +1223,10 @@ public class Interview
 
     /**
      * Create a checklist item based on entries in the interview's resource bundle.
+     *
      * @param sectionKey A key to identify the section name within the interview's resource bundle
-     * @param textKey A key to identify the checklist item text within the interview's resource bundle
-     * @param textArg a single argument to be formatted into the checklist item text
+     * @param textKey    A key to identify the checklist item text within the interview's resource bundle
+     * @param textArg    a single argument to be formatted into the checklist item text
      * @return a Checklist.Item object composed from the appropriate entries in the interview's resource bundle and the specified argument value
      */
     public Checklist.Item createChecklistItem(String sectionKey, String textKey, Object textArg) {
@@ -1201,9 +1238,10 @@ public class Interview
 
     /**
      * Create a checklist item based on entries in the interview's resource bundle.
+     *
      * @param sectionKey A key to identify the section name within the interview's resource bundle
-     * @param textKey A key to identify the checklist item text within the interview's resource bundle
-     * @param textArgs an array of arguments to be formatted into the checklist item text
+     * @param textKey    A key to identify the checklist item text within the interview's resource bundle
+     * @param textArgs   an array of arguments to be formatted into the checklist item text
      * @return a Checklist.Item object composed from the appropriate entries in the interview's resource bundle and the specified argument values
      */
     public Checklist.Item createChecklistItem(String sectionKey, String textKey, Object... textArgs) {
@@ -1216,7 +1254,8 @@ public class Interview
 
     /**
      * Add a named marker for a question.
-     * @param q The question for which to add the marker
+     *
+     * @param q    The question for which to add the marker
      * @param name The name of the marker to be added.
      * @throws NullPointerException if the question is null.
      */
@@ -1243,7 +1282,8 @@ public class Interview
 
     /**
      * Remove a named marker for a question.
-     * @param q The question for which to remove the marker
+     *
+     * @param q    The question for which to remove the marker
      * @param name The name of the marker to be removeded.
      * @throws NullPointerException if the question is null.
      */
@@ -1271,7 +1311,8 @@ public class Interview
 
     /**
      * Check if a question has a named marker.
-     * @param q The question for which to check for the marker
+     *
+     * @param q    The question for which to check for the marker
      * @param name The name of the marker to be removed.
      * @throws NullPointerException if the question is null.
      */
@@ -1294,6 +1335,7 @@ public class Interview
 
     /**
      * Remove all the markers with a specified name.
+     *
      * @param name The name of the markers to be removed
      */
     public void removeMarkers(String name) {
@@ -1321,6 +1363,7 @@ public class Interview
 
     /**
      * Clear the response to marked questions.
+     *
      * @param name The name of the markers for the questions to be cleared.
      */
     public void clearMarkedResponses(String name) {
@@ -1357,8 +1400,7 @@ public class Interview
         if (s != null) {
             try {
                 count = Integer.parseInt(s);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 // ignore
             }
         }
@@ -1382,10 +1424,8 @@ public class Interview
                     loadMarker(name, tag);
                     start = -1;
                 }
-            }
-            else
-                if (start == -1)
-                    start = i;
+            } else if (start == -1)
+                start = i;
         }
         if (start != -1) {
             String tag = tags.substring(start).trim();
@@ -1432,9 +1472,10 @@ public class Interview
      * Return a special type of question used to indicate that
      * a sub-interview interview should be called before proceeding
      * to the next question in this interview.
+     *
      * @param i The nested interview to be called next
      * @param q The next question to be asked when the nested
-     * interview has completes with a {@link FinalQuestion final question}.
+     *          interview has completes with a {@link FinalQuestion final question}.
      * @return a pseudo-question that will call a nested interview before
      * continuing with the specified follow-on question.
      */
@@ -1471,6 +1512,7 @@ public class Interview
      * child interviews, and each question should {@link Question#load load}
      * its state, according to its tag.
      * The data must normally contain a valid checksum, generated during {@link #save}.
+     *
      * @param data The archive map from which the state should be loaded.
      * @throws Interview.Fault if the checksum is found to be incorrect.
      */
@@ -1484,7 +1526,8 @@ public class Interview
      * child interviews, and each question should {@link Question#load load}
      * its state, according to its tag.
      * The data must normally contain a valid checksum, generated during {@link #save}.
-     * @param data The archive map from which the state should be loaded.
+     *
+     * @param data          The archive map from which the state should be loaded.
      * @param checkChecksum If true, the checksum in the data will be checked.
      * @throws Interview.Fault if the checksum is found to be incorrect.
      */
@@ -1533,12 +1576,13 @@ public class Interview
      * so that they can be checked for validity when reloaded.
      * This method verifies that a set of responses are acceptable
      * for loading.
-     * @param data The set of responses to be checked.
+     *
+     * @param data        The set of responses to be checked.
      * @param okIfOmitted A boolean determining the response if
-     * there is no checksum available in the data
+     *                    there is no checksum available in the data
      * @return Always true.
      * @deprecated As of version 4.4.1, checksums are no longer
-     *    calculated or checked.  True is always returned.
+     * calculated or checked.  True is always returned.
      */
     public static boolean isChecksumValid(Map<String, String> data, boolean okIfOmitted) {
         return true;
@@ -1549,6 +1593,7 @@ public class Interview
      * will be passed to each question in this interview and in any
      * child interviews, and each question should {@link Question#save save}
      * its state, according to its tag.
+     *
      * @param data The archive in which the values should be saved.
      */
     public void save(Map<String, String> data) {
@@ -1576,8 +1621,7 @@ public class Interview
         for (Question q : allQuestions.values()) {
             try {
                 q.save(data);
-            }
-            catch (RuntimeException ex) {
+            } catch (RuntimeException ex) {
                 System.err.println("warning: " + ex.toString());
                 System.err.println("while saving value for question " + q.getTag() + " in interview " + getTag());
             }
@@ -1597,6 +1641,7 @@ public class Interview
      * <br>
      * This information is used later to properly restore locale-sensitive values,
      * like numerics.
+     *
      * @param data target map to write data to
      * @see #LOCALE
      * @see #readLocale(Map)
@@ -1609,6 +1654,7 @@ public class Interview
      * Reads information about locale from the given map. <br>
      * Implementation looks for the string keyed by {@link #LOCALE} and then
      * tries to decode it to valid locale object.
+     *
      * @param data map with interview values
      * @return locale, decoded from value taken from map; or default (current) locale
      * @see #LOCALE
@@ -1724,6 +1770,7 @@ public class Interview
      * It may be convenient to ignore runtime exceptions during export, if exceptions
      * may be thrown when the interview is incomplete.  It may be preferred not
      * to ignore any exceptions, if no exceptions are expected.
+     *
      * @param data The map in which the values will be placed.
      * @see #getPath
      * @see #setExportIgnoreExceptionPolicy
@@ -1783,9 +1830,10 @@ public class Interview
     /**
      * Get a value representing the policy regarding how to treat
      * exceptions that may arise during export.
-     * @see #setExportIgnoreExceptionPolicy
+     *
      * @return a value representing the policy regarding how to treat
      * exceptions that may arise during export.
+     * @see #setExportIgnoreExceptionPolicy
      * @see #export
      * @see #EXPORT_IGNORE_ALL_EXCEPTIONS
      * @see #EXPORT_IGNORE_RUNTIME_EXCEPTIONS
@@ -1799,6 +1847,7 @@ public class Interview
     /**
      * Set the policy regarding how to treat exceptions that may arise during export.
      * The default value is to ignore runtime exceptions.
+     *
      * @param policy a value representing the policy regarding how to treat exceptions that may arise during export
      * @see #getExportIgnoreExceptionPolicy
      * @see #export
@@ -1815,6 +1864,7 @@ public class Interview
     /**
      * A value indicating that export should ignore all exceptions that arise
      * while calling each question's export method.
+     *
      * @see #setExportIgnoreExceptionPolicy
      * @see #export
      */
@@ -1823,6 +1873,7 @@ public class Interview
     /**
      * A value indicating that export should ignore runtime exceptions that arise
      * while calling each question's export method.
+     *
      * @see #setExportIgnoreExceptionPolicy
      * @see #export
      */
@@ -1831,6 +1882,7 @@ public class Interview
     /**
      * A value indicating that export should not ignore any exceptions that arise
      * while calling each question's export method.
+     *
      * @see #setExportIgnoreExceptionPolicy
      * @see #export
      */
@@ -1843,6 +1895,7 @@ public class Interview
 
     /**
      * Add an observer to monitor updates to the interview.
+     *
      * @param o an observer to be notified as changes occur
      */
     synchronized public void addObserver(Observer o) {
@@ -1859,6 +1912,7 @@ public class Interview
 
     /**
      * Remove an observer previously registered to monitor updates to the interview.
+     *
      * @param o the observer to be removed from the list taht are notified
      */
     synchronized public void removeObserver(Observer o) {
@@ -1870,7 +1924,7 @@ public class Interview
         for (int i = 0; i < observers.length; i++) {
             if (observers[i] == o) {
                 Observer[] newObs =
-                    new Observer[observers.length - 1];
+                        new Observer[observers.length - 1];
                 System.arraycopy(observers, 0, newObs, 0, i);
                 System.arraycopy(observers, i + 1, newObs, i, observers.length - i - 1);
                 observers = newObs;
@@ -1914,6 +1968,7 @@ public class Interview
      * nested interviews and questions to be updated as well.
      * This method is primarily intended to be used when renaming
      * dynamically allocated loop bodies in ListQuestion.
+     *
      * @param newBaseTag the new value for the base tag.
      */
     protected void setBaseTag(String newBaseTag) {
@@ -1995,10 +2050,10 @@ public class Interview
      * and <code>setEdited()</code>.</dd>
      * <dt>FileListQuestion</dt>
      * <dd>During construction, <code>clear()</code> will be called before the
-     *    default value is set, in older implementations it was not called.</dd>
+     * default value is set, in older implementations it was not called.</dd>
      * <dt>FileQuestion</dt>
      * <dd>During construction, <code>clear()</code> will be called before the
-     *    default value is set, in older implementations it was not called.</dd>
+     * default value is set, in older implementations it was not called.</dd>
      * </dl>
      * </p>
      *
@@ -2025,8 +2080,8 @@ public class Interview
      * @see #SEMANTIC_VERSION_43
      * @see #SEMANTIC_VERSION_50
      * @see #SEMANTIC_MAX_VERSION
-     * @since 3.2
      * @see #getInterviewSemantics
+     * @since 3.2
      */
     public void setInterviewSemantics(int value) {
         if (value <= SEMANTIC_MAX_VERSION)
@@ -2038,6 +2093,7 @@ public class Interview
      * behavior.  This is important because new behavior in future versions
      * can cause unanticipated code flow, resulting in incorrect behavior of
      * existing code.
+     *
      * @return The semantics that the interview is currently using.
      * @see #setInterviewSemantics
      * @since 3.2
@@ -2052,9 +2108,10 @@ public class Interview
      * Store an "external" value into the configuration.  This is a value
      * not associated with any interview question and in a separate namespace
      * than all the question keys.
-     * @param key The name of the key to store.
+     *
+     * @param key   The name of the key to store.
      * @param value The value associated with the given key.  Null to remove
-     *      the property from the current set of properties for this interview.
+     *              the property from the current set of properties for this interview.
      * @return The old value of this property, null if not previously set.
      * @see #retrieveProperty
      */
@@ -2079,7 +2136,8 @@ public class Interview
 
     /**
      * Store a template value into the configuration.
-     * @param key The name of the key to store.
+     *
+     * @param key   The name of the key to store.
      * @param value The value associated with the given key.
      * @return The old value of this property, null if not previously set.
      */
@@ -2094,6 +2152,7 @@ public class Interview
 
     /**
      * Clear a previous template properties and store the new into the configuration.
+     *
      * @param props The properties to store.
      */
     public void storeTemplateProperties(Map<String, String> props) {
@@ -2110,9 +2169,10 @@ public class Interview
     /**
      * Retrieve a property from the collection of "external" values being
      * stored in the configuration.
+     *
      * @param key The key which identifies the property to retrieve.
      * @return The value associated with the given key, or null if it is not
-     *         found.
+     * found.
      * @see #storeProperty
      */
     public String retrieveProperty(String key) {
@@ -2128,9 +2188,10 @@ public class Interview
 
     /**
      * Retrieve a template property.
+     *
      * @param key The key which identifies the property to retrieve.
      * @return The value associated with the given key, or null if it is not
-     *         found.
+     * found.
      */
     public String retrieveTemplateProperty(String key) {
         if (getParent() != null)
@@ -2151,12 +2212,12 @@ public class Interview
     }
 
 
-
     /**
      * Retrieve set of keys for the "external" values being stored in the
      * configuration.
+     *
      * @return The set of keys currently available.  Null if there are none.
-     *         All values in the Set are Strings.
+     * All values in the Set are Strings.
      * @see #storeProperty
      * @see #retrieveProperty
      */
@@ -2173,11 +2234,12 @@ public class Interview
 
     /**
      * Get a (shallow) copy of the current "external" values.
+     *
+     * @return The copy of the properties, null if there are none.
      * @see #storeProperty
      * @see #retrieveProperty
-     * @return The copy of the properties, null if there are none.
      */
-    public Map<String,String> getExternalProperties() {
+    public Map<String, String> getExternalProperties() {
         if (extraValues != null)
             return new HashMap<>(extraValues);
         else
@@ -2232,15 +2294,15 @@ public class Interview
     public void propagateTemplateForAll() {
         ensureTemValuesInitialized();
         for (Question q : getAllQuestions().values()) {
-                q.load(templateValues);
+            q.load(templateValues);
         }
     }
 
     //----- internal utilities ----------------------------------------
 
     private void ensureTemValuesInitialized() {
-        if (templateValues  == null) {
-            templateValues  = new HashMap<>();
+        if (templateValues == null) {
+            templateValues = new HashMap<>();
         }
     }
 
@@ -2273,6 +2335,7 @@ public class Interview
 
     /**
      * Determine if this is the root interview.
+     *
      * @return True if this is the root interview.
      */
     public boolean isRoot() {
@@ -2306,10 +2369,11 @@ public class Interview
     /**
      * Update the current path, typically because a response to
      * a question has changed.
+     *
      * @param q The question that was changed.
      */
     public void updatePath(Question q) {
-       root.updatePath0(q);
+        root.updatePath0(q);
     }
 
     private void updatePath0(Question q) {
@@ -2347,7 +2411,7 @@ public class Interview
         notifyPathUpdated();
     }
 
-    private void verifyPredictPath(){
+    private void verifyPredictPath() {
         for (Interview i : getInterviews()) {
             if (i.path != null && i.currIndex >= i.path.size()) {
                 i.currIndex = i.path.size() - 1;
@@ -2385,7 +2449,7 @@ public class Interview
             for (int pi = 0; pi < iPath.size(); pi++) {
                 Question qq = iPath.questionAt(pi);
                 if (qq == o
-                    || (qq instanceof InterviewQuestion
+                        || (qq instanceof InterviewQuestion
                         && ((InterviewQuestion) qq).getTargetInterview() == o)) {
                     oIndex = pi;
                     break;
@@ -2404,7 +2468,7 @@ public class Interview
         }
     }
 
-     private void predictPath(Question q) {
+    private void predictPath(Question q) {
         // start filling out path
         Interview i = q.getInterview();
         i.ensurePathInitialized();
@@ -2419,14 +2483,12 @@ public class Interview
                 i.root.rawPath.addQuestion(q);
                 if (i.caller == null) {
                     break;
-                }
-                else {
+                } else {
                     q = i.caller.getNext();
                     i = i.caller.getInterview();
                 }
-            }
-            else if (q instanceof InterviewQuestion) {
-                InterviewQuestion iq = (InterviewQuestion)q;
+            } else if (q instanceof InterviewQuestion) {
+                InterviewQuestion iq = (InterviewQuestion) q;
                 Interview i2 = iq.getTargetInterview();
                 if (pathContains(i2))
                     break;
@@ -2437,14 +2499,12 @@ public class Interview
                     i.path.addQuestion(iq);
                     i.root.rawPath.addQuestion(iq);
                     q = i2.path.lastQuestion() instanceof FinalQuestion ? iq.getNext() : null;
-                }
-                else {
+                } else {
                     i2.caller = iq;
                     if (i2.path == null) {
                         i2.path = new Path();
                         i2.hiddenPath = new ArrayList<>();
-                    }
-                    else {
+                    } else {
                         i2.path.clear();
                         i2.hiddenPath.clear();
                     }
@@ -2454,8 +2514,7 @@ public class Interview
                     i = i2;
                     q = i2.firstQuestion;
                 }
-            }
-            else {
+            } else {
                 if (q.isEnabled())
                     i.path.addQuestion(q);
                 else if (q.isHidden() && !root.hiddenPath.contains(q))
@@ -2481,8 +2540,7 @@ public class Interview
                 Interview b = lq.getBody(index);
                 if (b.path == null) {
                     b.path = new Path();
-                }
-                else {
+                } else {
                     b.path.clear();
                 }
 
@@ -2508,23 +2566,25 @@ public class Interview
      * Get an entry from the resource bundle.
      * If the resource cannot be found, a message is printed to the console
      * and the result will be a string containing the method parameters.
+     *
      * @param key the name of the entry to be returned
-     * {@link java.text.MessageFormat#format}
+     *            {@link java.text.MessageFormat#format}
      * @return the formatted string
      */
     private String getI18NString(String key) {
         return getI18NString(key, empty);
     }
 
-    private static final Object[] empty = { };
+    private static final Object[] empty = {};
 
     /**
      * Get an entry from the resource bundle.
      * If the resource cannot be found, a message is printed to the console
      * and the result will be a string containing the method parameters.
+     *
      * @param key the name of the entry to be returned
      * @param arg an argument to be formatted into the result using
-     * {@link java.text.MessageFormat#format}
+     *            {@link java.text.MessageFormat#format}
      * @return the formatted string
      */
     private String getI18NString(String key, Object arg) {
@@ -2535,9 +2595,10 @@ public class Interview
      * Get an entry from the resource bundle.
      * If the resource cannot be found, a message is printed to the console
      * and the result will be a string containing the method parameters.
-     * @param key the name of the entry to be returned
+     *
+     * @param key  the name of the entry to be returned
      * @param args an array of arguments to be formatted into the result using
-     * {@link java.text.MessageFormat#format}
+     *             {@link java.text.MessageFormat#format}
      * @return the formatted string
      */
     private String getI18NString(String key, Object... args) {
@@ -2545,8 +2606,7 @@ public class Interview
             ResourceBundle b = getResourceBundle();
             if (b != null)
                 return MessageFormat.format(b.getString(key), args);
-        }
-        catch (MissingResourceException e) {
+        } catch (MissingResourceException e) {
             // should msgs like this be i18n and optional?
             System.err.println("WARNING: missing resource: " + key);
         }
@@ -2564,6 +2624,7 @@ public class Interview
      * The parent and other ancestors bundles will be checked first before
      * this interview's bundle, allowing the root interview a chance to override
      * the default value provided by this interview.
+     *
      * @param key the name of the entry to be returned
      * @return the value of the resource, or null if not found
      */
@@ -2577,10 +2638,11 @@ public class Interview
      * this interview's bundle, allowing the root interview a chance to override
      * the default value provided by this interview. Otherwise, the parent bundles
      * will only be checked if this bundle does not provide a value.
-     * @param key the name of the entry to be returned
+     *
+     * @param key                 the name of the entry to be returned
      * @param checkAncestorsFirst whether to recursively call this method on the
-     * parent (if any) before checking this bundle, or only afterwards, if this
-     * bundle does not provide a value
+     *                            parent (if any) before checking this bundle, or only afterwards, if this
+     *                            bundle does not provide a value
      * @return the value of the resource, or null if not found
      */
     protected String getResourceString(String key, boolean checkAncestorsFirst) {
@@ -2594,8 +2656,7 @@ public class Interview
                     if (b != null)
                         s = b.getString(key);
                 }
-            }
-            else {
+            } else {
                 ResourceBundle b = getResourceBundle();
                 if (b != null)
                     s = b.getString(key);
@@ -2603,8 +2664,7 @@ public class Interview
                     s = parent.getResourceString(key, checkAncestorsFirst);
             }
             return s;
-        }
-        catch (MissingResourceException e) {
+        } catch (MissingResourceException e) {
             return null;
         }
     }
@@ -2684,39 +2744,36 @@ public class Interview
      * 3.2 release.  This does not control every single possible change in
      * behavior, but does control certain behaviors which may cause problems with
      * interview code written against an earlier version of the harness.
+     *
      * @see #setInterviewSemantics
      */
     public static final int SEMANTIC_PRE_32 = 0;
 
     /**
-     *
      * Where necessary, the harness interview should behave as it did for the
      * 3.2 release.  This does not control every single possible change in
      * behavior, but does control certain behaviors which may cause problems with
      * interview code written against an earlier version of the harness.
+     *
      * @see #setInterviewSemantics
      */
     public static final int SEMANTIC_VERSION_32 = 1;
 
     /**
-     *
      * Where necessary, the harness interview should behave as it did for the
      * 4.3 release.  This does not control every single possible change in
      * behavior, but does control certain behaviors which may cause problems with
      * interview code written against an earlier version of the harness.
-     *
      *
      * @see #setInterviewSemantics
      */
     public static final int SEMANTIC_VERSION_43 = 2;
 
     /**
-     *
      * Where necessary, the harness interview should behave as it did for the
      * 4.3 release.  This does not control every single possible change in
      * behavior, but does control certain behaviors which may cause problems with
      * interview code written against an earlier version of the harness.
-     *
      *
      * @see #setInterviewSemantics
      */
@@ -2727,6 +2784,7 @@ public class Interview
      * will probably inline this during compilation, so you will be locked at
      * the version which you compile against.  This is probably a useful
      * behavior in this case.
+     *
      * @see #setInterviewSemantics
      */
     public static final int SEMANTIC_MAX_VERSION = 3;
@@ -2768,7 +2826,7 @@ public class Interview
             for (int index = 0; index < numQuestions; index++) {
                 Question q = questions[index];
                 if (q instanceof InterviewQuestion
-                    && ((InterviewQuestion) q).getTargetInterview() == interview)
+                        && ((InterviewQuestion) q).getTargetInterview() == interview)
                     return index;
             }
             return -1;
@@ -2798,8 +2856,7 @@ public class Interview
                 }
                 for (int i = newSize; i < numQuestions; i++)
                     questions[i] = null;
-            }
-            else if (newSize > 0)
+            } else if (newSize > 0)
                 questions = new Question[newSize];
 
             numQuestions = newSize;

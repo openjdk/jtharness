@@ -34,6 +34,7 @@ import java.io.File;
 public interface FileFilter {
     /**
      * Check if a file is accepted by this filter.
+     *
      * @param f The file to be tested.
      * @return true if the file is accepted by this filter
      */
@@ -41,12 +42,14 @@ public interface FileFilter {
 
     /**
      * Check if (all) directories are accepted by this filter.
+     *
      * @return true if directories are accepted by this filter
      */
     boolean acceptsDirectories();
 
     /**
      * Get a short description for this filter.
+     *
      * @return a short description of this filter
      */
     String getDescription();

@@ -92,7 +92,7 @@ import com.sun.javatest.util.PropertyUtils;
  * <p>An alternative technique is to provide a small default main method
  * inside each interview, which creates an instance of the interview
  * and starts up a tool such as this one to run the interview.
- *<pre>
+ * <pre>
  *    import javasoft.sqe.wizard.Interview;
  *    import javasoft.sqe.wizard.swing.Wizard;
  *
@@ -103,13 +103,14 @@ import com.sun.javatest.util.PropertyUtils;
  *          w.showInFrame(true);
  *        }
  *    }
- *</pre>
+ * </pre>
  */
 public class Wizard extends JComponent {
     /**
      * A minimal main program to invoke the wizard on a specified interview.
+     *
      * @param args Only one argument is accepted: the name of a class which is
-     * a subtype of {@link Interview}.
+     *             a subtype of {@link Interview}.
      */
     public static void main(String... args) {
         try {
@@ -120,8 +121,7 @@ public class Wizard extends JComponent {
             Interview i = ic.getDeclaredConstructor().newInstance();
             Wizard w = new Wizard(i);
             w.showInFrame(true);
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             System.exit(1);
         }
@@ -129,6 +129,7 @@ public class Wizard extends JComponent {
 
     /**
      * Create a wizard to present an interview.
+     *
      * @param i The interview to be presented.
      */
     public Wizard(Interview i) {
@@ -137,6 +138,7 @@ public class Wizard extends JComponent {
 
     /**
      * Create a wizard to present an interview.
+     *
      * @param i The interview to be presented.
      * @param e An array of exporters to which the interview can be exported.
      */
@@ -148,8 +150,9 @@ public class Wizard extends JComponent {
     /**
      * Open a file and load it into the interview for this wizard.
      * This does not affect the name of the current file.
+     *
      * @param f The file to be loaded.
-     * @throws IOException if any problems occur while reading the file.
+     * @throws IOException     if any problems occur while reading the file.
      * @throws Interview.Fault if the checksum is missing or incorrect in the file
      * @see Interview#load
      * @see #setFile
@@ -170,6 +173,7 @@ public class Wizard extends JComponent {
 
     /**
      * Save the current responses to the interview's questions in a file..
+     *
      * @param f The file in which to save the responses.
      * @throws IOException if any problems occur while reading the file.
      * @see Interview#save
@@ -187,6 +191,7 @@ public class Wizard extends JComponent {
 
     /**
      * Get the name of the current file associated with this interview.
+     *
      * @return the file for the interview
      * @see #setFile
      */
@@ -197,6 +202,7 @@ public class Wizard extends JComponent {
     /**
      * Set the name of the current file associated with this interview.
      * The file may be used as a default in open/save operations.
+     *
      * @param f The file to be associated with this interview.
      * @see #getFile
      * @see #setDefaultFile
@@ -213,6 +219,7 @@ public class Wizard extends JComponent {
      * if the user performs a File>New operation. In addition, if the
      * default file is set, and the current file matches the default file,
      * it will not be shown in the title bar.
+     *
      * @param f The default file to be associated with this interview.
      */
     public void setDefaultFile(File f) {
@@ -224,6 +231,7 @@ public class Wizard extends JComponent {
     /**
      * Set the help broker in which context sensitive help and default menu help
      * is displayed. If not set, a default help broker will be created.
+     *
      * @param helpBroker The help broker to use for context sensitive and menu help.
      */
     public void setHelpBroker(HelpBroker helpBroker) {
@@ -233,8 +241,8 @@ public class Wizard extends JComponent {
     /**
      * Set the help set to be used for context sensitive help and the default menu help.
      * If not set, the interview's help set will be used.
-     * @param helpSet The help set to use for context sensitive and menu help.
      *
+     * @param helpSet The help set to use for context sensitive and menu help.
      */
     public void setHelpSet(HelpSet helpSet) {
         helpHelpSet = helpSet;
@@ -243,6 +251,7 @@ public class Wizard extends JComponent {
     /**
      * Set the prefix string for the help IDs for context sensitive help and default menu help.
      * If not set, the default is "wizard.".
+     *
      * @param helpPrefix A prefix to be used for all context sentive help and menu entries.
      */
     public void setHelpSetPrefix(String helpPrefix) {
@@ -252,6 +261,7 @@ public class Wizard extends JComponent {
     /**
      * Set the help menu to be used on the wizard. If not set, the default is a menu
      * containing a single "Help" entry.
+     *
      * @param helpMenu The help menu to be used.
      */
     public void setHelpMenu(JMenu helpMenu) {
@@ -261,6 +271,7 @@ public class Wizard extends JComponent {
 
     /**
      * Show the wizard in a frame centered on the screen.
+     *
      * @param exitOnClose Set to true if the JVM should be exited when the frame is closed.
      */
     public void showInFrame(final boolean exitOnClose) {
@@ -307,7 +318,7 @@ public class Wizard extends JComponent {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension size = f.getSize();
-        f.setLocation(screenSize.width/2 - size.width/2, screenSize.height/2 - size.height/2);
+        f.setLocation(screenSize.width / 2 - size.width / 2, screenSize.height / 2 - size.height / 2);
         f.show();
 
         window = f;
@@ -320,7 +331,8 @@ public class Wizard extends JComponent {
 
     /**
      * Show the wizard in a dialog.
-     * @param parent The parent frame for this dialog.
+     *
+     * @param parent     The parent frame for this dialog.
      * @param okListener A listener to e notified when the dialog is dismissed.
      */
     public void showInDialog(final Frame parent, final ActionListener okListener) {
@@ -366,7 +378,7 @@ public class Wizard extends JComponent {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension size = d.getSize();
-        d.setLocation(screenSize.width/2 - size.width/2, screenSize.height/2 - size.height/2);
+        d.setLocation(screenSize.width / 2 - size.width / 2, screenSize.height / 2 - size.height / 2);
         d.show();
 
         window = d;
@@ -374,6 +386,7 @@ public class Wizard extends JComponent {
 
     /**
      * Check if this object is being displayed on the screen.
+     *
      * @return true if the wizard is currently being displayed,
      * and false otherwise.
      */
@@ -440,7 +453,7 @@ public class Wizard extends JComponent {
         body.add(buttonPanel, BorderLayout.SOUTH);
 
         body.registerKeyboardAction(performer, "performFindNext", KeyStroke.getKeyStroke("F3"),
-                                           JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         if (helpHelpPrefix == null)
             helpHelpPrefix = "wizard.";
@@ -466,8 +479,7 @@ public class Wizard extends JComponent {
         if (w instanceof JFrame) {
             fileMenu.addSeparator();
             fileMenu.add(createMenuItem("file", "exit", "performExit", performer));
-        }
-        else {
+        } else {
             fileMenu.addSeparator();
             fileMenu.add(createMenuItem("file", "close", "performCancel", performer));
         }
@@ -491,7 +503,7 @@ public class Wizard extends JComponent {
         JMenu searchMenu = createMenu("search", searchMenuData, performer);
         menuBar.add(searchMenu);
 
-        if  (helpHelpBroker != null) {
+        if (helpHelpBroker != null) {
             if (helpMenu == null)
                 helpMenu = createMenu("help", helpMenuData, performer);
             menuBar.add(helpMenu);
@@ -517,8 +529,7 @@ public class Wizard extends JComponent {
             sp.setDividerLocation(bodySize.width + 2);
             main.add(sp);
             infoPanel.setCurrentID(interview.getCurrentQuestion());
-        }
-        else {
+        } else {
             // body
             main.add(body);
         }
@@ -539,7 +550,7 @@ public class Wizard extends JComponent {
     private void updateTitle(Window w) {
         String t;
         if (currFile == null
-            || (defaultFile != null && currFile.equals(defaultFile)))
+                || (defaultFile != null && currFile.equals(defaultFile)))
             t = title;
         else
             t = i18n.getString("wizard.titleAndFile", title, currFile.getPath());
@@ -551,22 +562,20 @@ public class Wizard extends JComponent {
 
     /**
      * Invoke a performXXX method via reflection
+     *
      * @param s The name of the method to be invoked.
      */
     private void perform(String s) {
         try {
             Method m = Wizard.class.getDeclaredMethod(s);
             m.invoke(Wizard.this);
-        }
-        catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex) {
             System.err.println(s);
             ex.printStackTrace();
-        }
-        catch (InvocationTargetException ex) {
+        } catch (InvocationTargetException ex) {
             System.err.println(s);
             ex.getTargetException().printStackTrace();
-        }
-        catch (NoSuchMethodException ex) {
+        } catch (NoSuchMethodException ex) {
             System.err.println(s);
         }
     }
@@ -578,12 +587,10 @@ public class Wizard extends JComponent {
         try {
             questionPanel.saveCurrentResponse();
             interview.prev();
-        }
-        catch (Interview.Fault e) {
+        } catch (Interview.Fault e) {
             // exception normally means no more questions
             // e.printStackTrace();
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             // typically NumberFormatError
             // SEE ALSO QuestionPanel.showInetAddressQuestion
             // which wants to throw Interview.Fault from
@@ -627,8 +634,7 @@ public class Wizard extends JComponent {
                 File f = new File(currFile.getName().substring(0, dot) + ".html");
                 chooser.setSelectedFile(f);
             }
-        }
-        else {
+        } else {
             chooser.setCurrentDirectory(getUserDir());
         }
         chooser.setFileFilter(htmlFilter);
@@ -645,18 +651,16 @@ public class Wizard extends JComponent {
             WizPrint w = new WizPrint(interview, interview.getPath());
             w.setShowResponses(true);
             w.write(out);
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(main,
-                                          i18n.getString("wizard.fileNotFound.txt", e.getMessage()),
-                                          i18n.getString("wizard.fileNotFound.title"),
-                                          JOptionPane.ERROR_MESSAGE);
-        }
-        catch (IOException e) {
+                    i18n.getString("wizard.fileNotFound.txt", e.getMessage()),
+                    i18n.getString("wizard.fileNotFound.title"),
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(main,
-                                          i18n.getString("wizard.badFile.txt", e.getMessage()),
-                                          i18n.getString("wizard.badFile.title"),
-                                          JOptionPane.ERROR_MESSAGE);
+                    i18n.getString("wizard.badFile.txt", e.getMessage()),
+                    i18n.getString("wizard.badFile.title"),
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -715,8 +719,7 @@ public class Wizard extends JComponent {
         try {
             questionPanel.saveCurrentResponse();
             interview.next();
-        }
-        catch (Interview.Fault | RuntimeException e) {
+        } catch (Interview.Fault | RuntimeException e) {
             // exception normally means no more questions
             // e.printStackTrace();
             questionPanel.getToolkit().beep();
@@ -731,10 +734,9 @@ public class Wizard extends JComponent {
             questionPanel.saveCurrentResponse();
             window.dispose();
             okListener.actionPerformed(new ActionEvent(this,
-                                                       ActionEvent.ACTION_PERFORMED,
-                                                       OK));
-        }
-        catch (RuntimeException e) {
+                    ActionEvent.ACTION_PERFORMED,
+                    OK));
+        } catch (RuntimeException e) {
             // typically NumberFormatError
             questionPanel.getToolkit().beep();
         }
@@ -754,8 +756,7 @@ public class Wizard extends JComponent {
             // setCurrentDirectory required
             chooser.setCurrentDirectory(new File(currFile.getParent()));
             chooser.setSelectedFile(new File(currFile.getName()));
-        }
-        else {
+        } else {
             chooser.setCurrentDirectory(getUserDir());
         }
         chooser.setFileFilter(jtiFilter);
@@ -766,24 +767,21 @@ public class Wizard extends JComponent {
         try {
             open(f);
             setFile(f);
-        }
-        catch (Interview.Fault e) {
+        } catch (Interview.Fault e) {
             JOptionPane.showMessageDialog(main,
-                                          i18n.getString("wizard.badInterview.txt", e.getMessage()),
-                                          i18n.getString("wizard.badInterview.title"),
-                                          JOptionPane.ERROR_MESSAGE);
-        }
-        catch (FileNotFoundException e) {
+                    i18n.getString("wizard.badInterview.txt", e.getMessage()),
+                    i18n.getString("wizard.badInterview.title"),
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(main,
-                                          i18n.getString("wizard.fileNotFound.txt", e.getMessage()),
-                                          i18n.getString("wizard.fileNotFound.title"),
-                                          JOptionPane.ERROR_MESSAGE);
-        }
-        catch (IOException e) {
+                    i18n.getString("wizard.fileNotFound.txt", e.getMessage()),
+                    i18n.getString("wizard.fileNotFound.title"),
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(main,
-                                          i18n.getString("wizard.badFile.txt", e.getMessage()),
-                                          i18n.getString("wizard.badFile.title"),
-                                          JOptionPane.ERROR_MESSAGE);
+                    i18n.getString("wizard.badFile.txt", e.getMessage()),
+                    i18n.getString("wizard.badFile.title"),
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -809,8 +807,7 @@ public class Wizard extends JComponent {
             // setCurrentDirectory required
             chooser.setCurrentDirectory(new File(currFile.getParent()));
             chooser.setSelectedFile(new File(currFile.getName()));
-        }
-        else {
+        } else {
             chooser.setCurrentDirectory(getUserDir());
         }
         chooser.setFileFilter(jtiFilter);
@@ -830,18 +827,16 @@ public class Wizard extends JComponent {
         try {
             save(f);
             setFile(f);
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(main,
-                                          i18n.getString("wizard.fileNotFound.txt", e.getMessage()),
-                                          i18n.getString("wizard.fileNotFound.title"),
-                                          JOptionPane.ERROR_MESSAGE);
-        }
-        catch (IOException e) {
+                    i18n.getString("wizard.fileNotFound.txt", e.getMessage()),
+                    i18n.getString("wizard.fileNotFound.title"),
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(main,
-                                          i18n.getString("wizard.badFile.txt", e.getMessage()),
-                                          i18n.getString("wizard.badFile.title"),
-                                          JOptionPane.ERROR_MESSAGE);
+                    i18n.getString("wizard.badFile.txt", e.getMessage()),
+                    i18n.getString("wizard.badFile.title"),
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -869,14 +864,15 @@ public class Wizard extends JComponent {
 
     /**
      * Create a menu according to an array of data
+     *
      * @title the title for the menu
      * @menuData the data for the menu; one element per menu item; an element can be
      * one of
      * <dl>
      * <dt> null
-     *   <dd> a separator
+     * <dd> a separator
      * <dt> an array of two strings
-     *   <dd> a menu item, whose name is the first string, and whose action is the second
+     * <dd> a menu item, whose name is the first string, and whose action is the second
      * </dl>
      */
     private JMenu createMenu(String uiKey, String[][] menuData, ActionListener l) {
@@ -930,19 +926,19 @@ public class Wizard extends JComponent {
 
     private boolean okToContinue() {
         int response =
-            JOptionPane.showConfirmDialog(main,
-                                         i18n.getString("wizard.unsavedAnswers.txt"),
-                                         i18n.getString("wizard.unsavedAnswers.title"),
-                                         JOptionPane.YES_NO_OPTION);
+                JOptionPane.showConfirmDialog(main,
+                        i18n.getString("wizard.unsavedAnswers.txt"),
+                        i18n.getString("wizard.unsavedAnswers.title"),
+                        JOptionPane.YES_NO_OPTION);
         return response == JOptionPane.YES_OPTION;
     }
 
     private boolean okToOverwrite(File f) {
         int response =
-            JOptionPane.showConfirmDialog(main,
-                                         i18n.getString("wizard.overwrite.txt", f),
-                                         i18n.getString("wizard.overwrite.title"),
-                                         JOptionPane.YES_NO_OPTION);
+                JOptionPane.showConfirmDialog(main,
+                        i18n.getString("wizard.overwrite.txt", f),
+                        i18n.getString("wizard.overwrite.title"),
+                        JOptionPane.YES_NO_OPTION);
         return response == JOptionPane.YES_OPTION;
     }
 
@@ -988,33 +984,33 @@ public class Wizard extends JComponent {
 
     private final FileFilter jtiFilter = new ExtensionFileFilter(".jti");
     private final FileFilter htmlFilter =
-        new ExtensionFileFilter(".htm", ".html");
+            new ExtensionFileFilter(".htm", ".html");
 
     private static final KeyStroke enterKey = KeyStroke.getKeyStroke("ENTER");
 
     private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 
     private static final String[][] fileMenuData = {
-        {"new", "performNew"},
-        {"open", "performOpen"},
-        {"save", "performSave"},
-        {"saveAs", "performSaveAs"},
-        null,
-        {"exportLog", "performExportLog"}
+            {"new", "performNew"},
+            {"open", "performOpen"},
+            {"save", "performSave"},
+            {"saveAs", "performSaveAs"},
+            null,
+            {"exportLog", "performExportLog"}
     };
 
     private static final String[][] helpMenuData = {
-        {"help", "performHelp", "F1"}
+            {"help", "performHelp", "F1"}
     };
 
     private static final String[][] searchMenuData = {
-        {"find", "performFind", "control F"},
-        {"findNext", "performFindNext", "F3"},
+            {"find", "performFind", "control F"},
+            {"findNext", "performFindNext", "F3"},
     };
 
     private class ExtensionFileFilter extends FileFilter {
         ExtensionFileFilter(String extn) {
-            this.extns = new String[] {extn};
+            this.extns = new String[]{extn};
         }
 
         ExtensionFileFilter(String... extns) {
@@ -1110,8 +1106,7 @@ public class Wizard extends JComponent {
                     File f = new File(currFile.getName().substring(0, dot) + extns[0]);
                     exportChooser.setSelectedFile(f);
                 }
-            }
-            else {
+            } else {
                 exportChooser.setCurrentDirectory(getUserDir());
             }
             exportChooser.setApproveButtonText(i18n.getString("wizard.exportChooser.export"));
@@ -1129,8 +1124,7 @@ public class Wizard extends JComponent {
         }
     }
 
-    private class Listener implements AncestorListener, Interview.Observer
-    {
+    private class Listener implements AncestorListener, Interview.Observer {
         // ---------- from AncestorListener -----------
 
         @Override
@@ -1141,7 +1135,8 @@ public class Wizard extends JComponent {
         }
 
         @Override
-        public void ancestorMoved(AncestorEvent e) { }
+        public void ancestorMoved(AncestorEvent e) {
+        }
 
         @Override
         public void ancestorRemoved(AncestorEvent e) {

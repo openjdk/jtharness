@@ -28,14 +28,14 @@ package com.sun.interview;
 
 import java.util.Map;
 
-class InterviewQuestion extends Question
-{
+class InterviewQuestion extends Question {
     /**
      * An internal class used to indicate that a nested interview should
      * be executed.
-     * @param interview The interview for this question.
+     *
+     * @param interview       The interview for this question.
      * @param targetInterview The subinterview to be invoked
-     * @param next The next question to be invoked when the subinterview is completed
+     * @param next            The next question to be invoked when the subinterview is completed
      * @throws NullPointerException if either argument is null
      */
     InterviewQuestion(Interview interview, Interview targetInterview, Question next) {
@@ -53,6 +53,7 @@ class InterviewQuestion extends Question
 
     /**
      * Get the nested interview to be called.
+     *
      * @return the nested interview
      */
     Interview getTargetInterview() {
@@ -62,6 +63,7 @@ class InterviewQuestion extends Question
     /**
      * Get the next question in the series. This is the question
      * that follows the nested interview.
+     *
      * @return The question that follows the interview
      */
     @Override
@@ -113,6 +115,7 @@ class InterviewQuestion extends Question
      * Load the state, if any, for this question from a dictionary.
      * Since this question is just used to wrap an interview,
      * there is no value, and so no action is performed.
+     *
      * @param data The map from which to load the state for this question.
      */
     @Override
@@ -124,6 +127,7 @@ class InterviewQuestion extends Question
      * Save the state, if any, for this question to a dictionary.
      * Since this question is just used to wrap an interview,
      * there is no value, and so no action is performed.
+     *
      * @param data The map from which to load the state for this question.
      */
     @Override

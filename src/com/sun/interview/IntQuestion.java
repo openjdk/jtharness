@@ -35,12 +35,12 @@ import java.util.ResourceBundle;
 /**
  * A {@link Question question} to which the response is an integer.
  */
-public abstract class IntQuestion extends Question
-{
+public abstract class IntQuestion extends Question {
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     * @param tag       A unique tag to identify this specific question.
      */
     protected IntQuestion(Interview interview, String tag) {
         super(interview, tag);
@@ -50,12 +50,13 @@ public abstract class IntQuestion extends Question
 
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
-     * @param min The inclusive lower bound for responses to this question
-     * @param max The inclusive upper bound for responses to this question
+     * @param tag       A unique tag to identify this specific question.
+     * @param min       The inclusive lower bound for responses to this question
+     * @param max       The inclusive upper bound for responses to this question
      * @throws IllegalArgumentException if <code>min</code> is greater than
-     * or equal to <code>max</code>.
+     *                                  or equal to <code>max</code>.
      */
     protected IntQuestion(Interview interview, String tag, int min, int max) {
         super(interview, tag);
@@ -68,10 +69,11 @@ public abstract class IntQuestion extends Question
      * Set the bounds for the response to this question.
      * If the current value is valid and not within bounds, it will
      * be adjusted to the nearest bound.
+     *
      * @param min The inclusive lower bound for responses to this question
      * @param max The inclusive upper bound for responses to this question
      * @throws IllegalArgumentException if <code>min</code> is greater than
-     * or equal to <code>max</code>.
+     *                                  or equal to <code>max</code>.
      */
     protected void setBounds(int min, int max) {
         if (min >= max)
@@ -83,6 +85,7 @@ public abstract class IntQuestion extends Question
 
     /**
      * Get the inclusive lower bound for responses to this question.
+     *
      * @return the lower bound
      */
     public int getLowerBound() {
@@ -91,6 +94,7 @@ public abstract class IntQuestion extends Question
 
     /**
      * Get the inclusive upper bound for responses to this question.
+     *
      * @return the upper bound
      */
     public int getUpperBound() {
@@ -99,8 +103,8 @@ public abstract class IntQuestion extends Question
 
     /**
      * Get the suggested responses to this question, or null if none.
-     * @return The suggestions.
      *
+     * @return The suggestions.
      * @see #setSuggestions
      */
     public int[] getSuggestions() {
@@ -109,6 +113,7 @@ public abstract class IntQuestion extends Question
 
     /**
      * Set the set of suggested responses.
+     *
      * @param newSuggestions The values to be set, or null if none
      * @see #getSuggestions
      */
@@ -118,8 +123,8 @@ public abstract class IntQuestion extends Question
 
     /**
      * Get the default response for this question.
-     * @return the default response for this question.
      *
+     * @return the default response for this question.
      * @see #setDefaultValue
      */
     public int getDefaultValue() {
@@ -129,8 +134,8 @@ public abstract class IntQuestion extends Question
     /**
      * Set the default response for this question,
      * used by the clear method.
-     * @param v the default response for this question.
      *
+     * @param v the default response for this question.
      * @see #getDefaultValue
      */
     public void setDefaultValue(int v) {
@@ -140,6 +145,7 @@ public abstract class IntQuestion extends Question
     /**
      * Check if the value is set. Unset values are represented by the
      * special value <code>Integer.MIN_VALUE</code>.
+     *
      * @return true if a value has been set for this question and is within the
      * specified bounds
      * @see #clear
@@ -156,6 +162,7 @@ public abstract class IntQuestion extends Question
     /**
      * Get the current (default or latest) response to this question.
      * If the value is unset, the result will be <code>Integer.MIN_VALUE</code>.
+     *
      * @return The current value.
      * @see #isValid
      * @see #setValue
@@ -167,14 +174,14 @@ public abstract class IntQuestion extends Question
     /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
+     *
      * @return the current value of this question
      * @throws Interview.NotOnPathFault if this question is not on the
-     * current path
+     *                                  current path
      * @see #getValue
      */
     public int getValueOnPath()
-        throws Interview.NotOnPathFault
-    {
+            throws Interview.NotOnPathFault {
         interview.verifyPathContains(this);
         return getValue();
     }
@@ -196,12 +203,13 @@ public abstract class IntQuestion extends Question
     /**
      * Set the response to this question to the value represented by
      * a string-valued argument. Argument is decoded against current locale.
+     *
      * @param s A string containing the numeric value to be set.
-     * The number should be in the range of valid values defined for
-     * this question; if it is not, the value will be retained,
-     * but isValueValid() will return false.
+     *          The number should be in the range of valid values defined for
+     *          this question; if it is not, the value will be retained,
+     *          but isValueValid() will return false.
      * @throws Interview.Fault This exception is just retained for backwards
-     * compatibility; it should never actually be thrown.
+     *                         compatibility; it should never actually be thrown.
      * @see #getValue
      * @see #setValue(String, Locale)
      */
@@ -213,14 +221,15 @@ public abstract class IntQuestion extends Question
     /**
      * Set the response to this question to the value represented by
      * a string-valued argument, given in certain locale.
+     *
      * @param s A string containing the numeric value to be set.
-     * The number should be in the range of valid values defined for
-     * this question; if it is not, the value will be retained,
-     * but isValueValid() will return false.
+     *          The number should be in the range of valid values defined for
+     *          this question; if it is not, the value will be retained,
+     *          but isValueValid() will return false.
      * @param l A locale that should be used to decode numeric value
-     * from given string parameter
+     *          from given string parameter
      * @throws Interview.Fault This exception is just retained for backwards
-     * compatibility; it should never actually be thrown.
+     *                         compatibility; it should never actually be thrown.
      * @see #getValue
      * @see #setValue(String)
      */
@@ -238,9 +247,9 @@ public abstract class IntQuestion extends Question
             ParsePosition pos = new ParsePosition(0);
             Number num = fmt.parse(s, pos);
             if (pos.getIndex() != s.length()) {
-               fmt = NumberFormat.getIntegerInstance(Locale.getDefault()); //aternative
-               pos = new ParsePosition(0);
-               num = fmt.parse(s, pos);
+                fmt = NumberFormat.getIntegerInstance(Locale.getDefault()); //aternative
+                pos = new ParsePosition(0);
+                num = fmt.parse(s, pos);
             }
 
             if (num != null && (pos.getIndex() == s.length())) {
@@ -264,8 +273,9 @@ public abstract class IntQuestion extends Question
 
     /**
      * Set the current value.
+     *
      * @param newValue The value to be set. It should be in the range
-     * of valid values defined for this question.
+     *                 of valid values defined for this question.
      * @see #getValue
      */
     public void setValue(int newValue) {
@@ -292,7 +302,8 @@ public abstract class IntQuestion extends Question
     /**
      * Set hints for the rendering system for the values that might
      * be labelled.
-     * @param start The lowest value to be labelled
+     *
+     * @param start     The lowest value to be labelled
      * @param increment The increment for successive labels
      */
     protected void setLabelHints(int start, int increment) {
@@ -303,6 +314,7 @@ public abstract class IntQuestion extends Question
     /**
      * Get a hint for the rendering system for the lowest value
      * that might be labelled.
+     *
      * @return The lowest value that might be labelled.
      */
     public int getLabelStartHint() {
@@ -312,6 +324,7 @@ public abstract class IntQuestion extends Question
     /**
      * Get a hint for the rendering system for the increment between
      * labels.
+     *
      * @return The increment between values that might be labelled.
      */
     public int getLabelIncrementHint() {
@@ -330,6 +343,7 @@ public abstract class IntQuestion extends Question
     /**
      * Load the value for this question from a dictionary, using
      * the tag as the key.
+     *
      * @param data The map from which to load the value for this question.
      */
     @Override
@@ -347,6 +361,7 @@ public abstract class IntQuestion extends Question
     /**
      * Save the value for this question in a dictionary, using
      * the tag as the key.
+     *
      * @param data The map in which to save the value for this question.
      */
     @Override
@@ -403,7 +418,7 @@ public abstract class IntQuestion extends Question
     private int labelIncrement;
 
     /**
-     *  The string representation for a value that has not been set
+     * The string representation for a value that has not been set
      */
     private static final String UNSET = "unset";
 

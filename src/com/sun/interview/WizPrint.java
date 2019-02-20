@@ -37,17 +37,16 @@ import java.util.*;
  * An API (with a basic front-end application) for generating HTML printouts
  * of an {@link Interview interview}.
  */
-public class WizPrint
-{
+public class WizPrint {
     /**
      * This exception is to report problems that occur with command line arguments.
      */
-    public static class BadArgs extends Exception
-    {
+    public static class BadArgs extends Exception {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         public BadArgs(ResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -55,10 +54,11 @@ public class WizPrint
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public BadArgs(ResourceBundle i18n, String s, Object o) {
             super(MessageFormat.format(i18n.getString(s), o));
@@ -66,10 +66,11 @@ public class WizPrint
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public BadArgs(ResourceBundle i18n, String s, Object... o) {
             super(MessageFormat.format(i18n.getString(s), o));
@@ -79,12 +80,12 @@ public class WizPrint
     /**
      * This exception is to report problems that occur while updating an interview.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         public Fault(ResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -92,10 +93,11 @@ public class WizPrint
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(ResourceBundle i18n, String s, Object o) {
             super(MessageFormat.format(i18n.getString(s), o));
@@ -103,10 +105,11 @@ public class WizPrint
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(ResourceBundle i18n, String s, Object... o) {
             super(MessageFormat.format(i18n.getString(s), o));
@@ -128,8 +131,7 @@ public class WizPrint
             if (c == '\n') {
                 System.err.println();
                 newline = true;
-            }
-            else {
+            } else {
                 System.err.print(c);
                 newline = false;
             }
@@ -140,6 +142,7 @@ public class WizPrint
 
     /**
      * Simple command-line front-end to the facilities of the API.
+     *
      * @param args Command line arguments.
      * @see #usage
      */
@@ -164,8 +167,7 @@ public class WizPrint
                         interviewFile = new File(args[i]);
                     else
                         interviewClassName = args[i];
-                }
-                else
+                } else
                     throw new BadArgs(i18n, "wp.badArg", args[i]);
             }
 
@@ -176,11 +178,9 @@ public class WizPrint
                     InputStream in = new BufferedInputStream(new FileInputStream(interviewFile));
                     interviewData = PropertyUtils.load(in);
                     interviewClassName = interviewData.get("INTERVIEW");
-                }
-                catch (FileNotFoundException e) {
+                } catch (FileNotFoundException e) {
                     throw new Fault(i18n, "wp.cantFindFile", interviewFile);
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     throw new Fault(i18n, "wp.cantReadFile", interviewFile, e);
                 }
             }
@@ -211,8 +211,7 @@ public class WizPrint
 
             if (path) {
                 questions = interview.getPath();
-            }
-            else {
+            } else {
                 // enumerate questions, sort on tag
                 SortedVector v = new SortedVector();
                 for (Question q : interview.getQuestions()) {
@@ -229,21 +228,17 @@ public class WizPrint
                 wp.setShowResponses(path);
                 wp.setShowResponseTypes(!path);
                 wp.write(out);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new Fault(i18n, "wp.cantWriteFile", outFileName, e);
             }
-        }
-        catch (BadArgs e) {
+        } catch (BadArgs e) {
             System.err.println(formatI18N("wp.error", e.getMessage()));
             usage();
             System.exit(1);
-        }
-        catch (Fault e) {
+        } catch (Fault e) {
             System.err.println(e.getMessage());
             System.exit(2);
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             System.exit(3);
         }
@@ -251,6 +246,7 @@ public class WizPrint
 
     /**
      * Create an object for printing the current set of questions from an interview.
+     *
      * @param interview The parent interview which contains the questions.
      */
     public WizPrint(Interview interview) {
@@ -259,6 +255,7 @@ public class WizPrint
 
     /**
      * Create an object for printing a set of questions from an interview.
+     *
      * @param interview The parent interview which contains the questions.
      * @param questions The selected set of questions to be printed.
      */
@@ -270,6 +267,7 @@ public class WizPrint
     /**
      * Determine whether or not responses should be shown when the
      * interview is "printed" to HTML.
+     *
      * @return true if responses should be shown
      * @see #setShowResponses
      */
@@ -280,6 +278,7 @@ public class WizPrint
     /**
      * Specify whether or not responses should be shown when the
      * interview is "printed" to HTML.
+     *
      * @param showResponses should be true if responses should be shown
      * @see #getShowResponses
      */
@@ -290,6 +289,7 @@ public class WizPrint
     /**
      * Determine whether or not the types of responses should be shown
      * when the interview is "printed" to HTML.
+     *
      * @return true if the types of responses should be shown
      * @see #setShowResponseTypes
      */
@@ -300,6 +300,7 @@ public class WizPrint
     /**
      * Specify whether or not the types of responses should be shown
      * when the interview is "printed" to HTML.
+     *
      * @param showResponseTypes should be true if the types of responses should be shown
      * @see #getShowResponseTypes
      */
@@ -310,6 +311,7 @@ public class WizPrint
     /**
      * Determine whether or not question tags should be shown
      * when the interview is "printed" to HTML.
+     *
      * @return true if the questions' tags should be shown
      * @see #setShowTags
      */
@@ -320,6 +322,7 @@ public class WizPrint
     /**
      * Specify whether or not question tags should be shown
      * when the interview is "printed" to HTML.
+     *
      * @param showTags should be true if the questions' tags should be shown
      * @see #getShowTags
      */
@@ -330,8 +333,9 @@ public class WizPrint
     /**
      * Write the selected questions to the given stream, as a complete
      * HTML document.  The stream is closed after the writing is complete.
+     *
      * @param o the Writer to which to write the specified information
-     * about an interview
+     *          about an interview
      * @throws IOException if there are problems writing to the given Writer
      */
     public void write(Writer o) throws IOException {
@@ -353,8 +357,7 @@ public class WizPrint
             endTag(BODY);
             endTag(HTML);
             newLine();
-        }
-        finally {
+        } finally {
             out.flush();
             out.close();
         }
@@ -424,8 +427,7 @@ public class WizPrint
                 writeText(q.getText());
                 endTag(FONT);
                 endTag(P);
-            }
-            else {
+            } else {
                 startTag(P);
                 writeText(q.getText());
                 endTag(P);
@@ -440,78 +442,66 @@ public class WizPrint
 
     /**
      * Write the response to a question.
+     *
      * @param q The question whose response is to be printed.
      */
     private void writeResponse(Question q) throws IOException {
         if (q instanceof ChoiceArrayQuestion) {
-            ChoiceArrayQuestion caq = (ChoiceArrayQuestion)q;
+            ChoiceArrayQuestion caq = (ChoiceArrayQuestion) q;
             writeResponse(caq.getValue(), caq.getChoices(), caq.getDisplayChoices());
-        }
-        else if (q instanceof ChoiceQuestion) {
-            ChoiceQuestion cq = (ChoiceQuestion)q;
+        } else if (q instanceof ChoiceQuestion) {
+            ChoiceQuestion cq = (ChoiceQuestion) q;
             if (cq.getChoices() == cq.getDisplayChoices())
                 writeResponse(cq.getValue());
             else
                 writeResponse(cq.getValue(), cq.getDisplayValue());
-        }
-        else if (q instanceof ErrorQuestion) {
+        } else if (q instanceof ErrorQuestion) {
             // no response
-        }
-        else if (q instanceof FileListQuestion) {
-            FileListQuestion fq = (FileListQuestion)q;
+        } else if (q instanceof FileListQuestion) {
+            FileListQuestion fq = (FileListQuestion) q;
             File[] f = fq.getValue();
             writeResponse(filesToStrings(f));
-        }
-        else if (q instanceof FileQuestion) {
-            FileQuestion fq = (FileQuestion)q;
+        } else if (q instanceof FileQuestion) {
+            FileQuestion fq = (FileQuestion) q;
             File f = fq.getValue();
             writeResponse(f == null ? null : f.getPath());
-        }
-        else if (q instanceof FinalQuestion) {
+        } else if (q instanceof FinalQuestion) {
             // no response
-        }
-        else if (q instanceof FloatQuestion) {
-            FloatQuestion fq = (FloatQuestion)q;
+        } else if (q instanceof FloatQuestion) {
+            FloatQuestion fq = (FloatQuestion) q;
             writeResponse(fq.getStringValue());
-        }
-        else if (q instanceof InetAddressQuestion) {
-            InetAddressQuestion iq = (InetAddressQuestion)q;
+        } else if (q instanceof InetAddressQuestion) {
+            InetAddressQuestion iq = (InetAddressQuestion) q;
             writeResponse(iq.getStringValue());
-        }
-        else if (q instanceof IntQuestion) {
-            IntQuestion iq = (IntQuestion)q;
+        } else if (q instanceof IntQuestion) {
+            IntQuestion iq = (IntQuestion) q;
             writeResponse(iq.getStringValue());
-        }
-        else if (q instanceof NullQuestion) {
+        } else if (q instanceof NullQuestion) {
             // no response
-        }
-        else if (q instanceof PropertiesQuestion) {
-            PropertiesQuestion pq = (PropertiesQuestion)q;
+        } else if (q instanceof PropertiesQuestion) {
+            PropertiesQuestion pq = (PropertiesQuestion) q;
             writeResponse(pq);
-        }
-        else if (q instanceof StringQuestion) {
-            StringQuestion sq = (StringQuestion)q;
+        } else if (q instanceof StringQuestion) {
+            StringQuestion sq = (StringQuestion) q;
             writeResponse(sq.getValue());
-        }
-        else if (q instanceof StringListQuestion) {
-            StringListQuestion sq = (StringListQuestion)q;
+        } else if (q instanceof StringListQuestion) {
+            StringListQuestion sq = (StringListQuestion) q;
             writeResponse(sq.getValue());
-        }
-        else if (q instanceof TreeQuestion) {
-            TreeQuestion tq = (TreeQuestion)q;
+        } else if (q instanceof TreeQuestion) {
+            TreeQuestion tq = (TreeQuestion) q;
             String[] nodes = tq.getValue();
             if (nodes == null || nodes.length == 0)
                 writeResponse(i18n.getString("wp.all"));
             else
                 writeResponse(nodes);
-        }
-        else {
+        } else {
             writeResponse(q.getStringValue());
         }
     }
 
     /**
      * Write a response.
+     *
      * @param s The text of the response.
      */
     private void writeResponse(String s) throws IOException {
@@ -530,7 +520,8 @@ public class WizPrint
 
     /**
      * Write a response.
-     * @param response The text of the response.
+     *
+     * @param response    The text of the response.
      * @param displayText The display text of the response.
      */
     private void writeResponse(String response, String displayText) throws IOException {
@@ -554,7 +545,8 @@ public class WizPrint
 
     /**
      * Write a response based on a set of named boolean values
-     * @param values An array of boolean values.
+     *
+     * @param values  An array of boolean values.
      * @param choices An array of matching names, one per boolean.
      */
     private void writeResponse(boolean[] values, String[] choices, String... displayChoices) throws IOException {
@@ -597,6 +589,7 @@ public class WizPrint
 
     /**
      * Write a response list
+     *
      * @param responses The text of the response.
      */
     private void writeResponse(String... responses) throws IOException {
@@ -641,8 +634,7 @@ public class WizPrint
         else if (groups == null || groups.length == 0) {
             // no properties for this question it seems
             writeI18N("wp.noResponse");
-        }
-        else {
+        } else {
             // fall through
         }
 
@@ -669,9 +661,9 @@ public class WizPrint
         startTag(TABLE);
         writeAttr("border", "2");
         writeAttr("title",
-                  i18n.getString("wp.table.title"));
+                i18n.getString("wp.table.title"));
         writeAttr("summary",
-                  i18n.getString("wp.table.summ"));
+                i18n.getString("wp.table.summ"));
         startTag(TR);
 
         // headers
@@ -698,11 +690,12 @@ public class WizPrint
 
     /**
      * Write the response to a question.
+     *
      * @param q The question whose response is to be printed.
      */
     private void writeResponseType(Question q) throws IOException {
         if (q instanceof ChoiceArrayQuestion) {
-            ChoiceArrayQuestion cq = (ChoiceArrayQuestion)q;
+            ChoiceArrayQuestion cq = (ChoiceArrayQuestion) q;
             StringBuilder sb = new StringBuilder();
             sb.append(i18n.getString("wp.type.chooseAny"));
             String[] choices = cq.getChoices();
@@ -712,9 +705,8 @@ public class WizPrint
                 sb.append(choices[i] == null ? i18n.getString("wp.unset") : choices[i]);
             }
             writeResponseType(sb.toString());
-        }
-        else if (q instanceof ChoiceQuestion) {
-            ChoiceQuestion cq = (ChoiceQuestion)q;
+        } else if (q instanceof ChoiceQuestion) {
+            ChoiceQuestion cq = (ChoiceQuestion) q;
             StringBuilder sb = new StringBuilder();
             sb.append(i18n.getString("wp.type.chooseOne"));
             String[] choices = cq.getChoices();
@@ -724,49 +716,37 @@ public class WizPrint
                 sb.append(choices[i] == null ? i18n.getString("wp.unset") : choices[i]);
             }
             writeResponseType(sb.toString());
-        }
-        else if (q instanceof ErrorQuestion) {
+        } else if (q instanceof ErrorQuestion) {
             // no response
-        }
-        else if (q instanceof FileQuestion) {
+        } else if (q instanceof FileQuestion) {
             writeResponseType(i18n.getString("wp.type.file"));
-        }
-        else if (q instanceof FileListQuestion) {
+        } else if (q instanceof FileListQuestion) {
             writeResponseType(i18n.getString("wp.type.fileList"));
-        }
-        else if (q instanceof FinalQuestion) {
+        } else if (q instanceof FinalQuestion) {
             // no response
-        }
-        else if (q instanceof FloatQuestion) {
-            FloatQuestion fq = (FloatQuestion)q;
+        } else if (q instanceof FloatQuestion) {
+            FloatQuestion fq = (FloatQuestion) q;
             float lwb = fq.getLowerBound();
             float upb = fq.getUpperBound();
             writeResponseType(formatI18N("wp.type.float",
                     Integer.valueOf(lwb == Float.MIN_VALUE ? 0 : 1), Float.valueOf(lwb), Integer.valueOf(upb == Float.MAX_VALUE ? 0 : 1), Float.valueOf(upb)));
-                                     }
-        else if (q instanceof InetAddressQuestion) {
+        } else if (q instanceof InetAddressQuestion) {
             writeResponseType(i18n.getString("wp.type.inetAddress"));
-        }
-        else if (q instanceof IntQuestion) {
-            IntQuestion iq = (IntQuestion)q;
+        } else if (q instanceof IntQuestion) {
+            IntQuestion iq = (IntQuestion) q;
             int lwb = iq.getLowerBound();
             int upb = iq.getUpperBound();
             writeResponseType(formatI18N("wp.type.int",
                     Integer.valueOf(lwb == Integer.MIN_VALUE ? 0 : 1), Integer.valueOf(lwb), Integer.valueOf(upb == Integer.MAX_VALUE ? 0 : 1), Integer.valueOf(upb)));
-                                     }
-        else if (q instanceof NullQuestion) {
+        } else if (q instanceof NullQuestion) {
             // no response
-        }
-        else if (q instanceof StringQuestion) {
+        } else if (q instanceof StringQuestion) {
             writeResponseType(i18n.getString("wp.type.string"));
-        }
-        else if (q instanceof StringListQuestion) {
+        } else if (q instanceof StringListQuestion) {
             writeResponseType(i18n.getString("wp.type.stringList"));
-        }
-        else if (q instanceof TreeQuestion) {
+        } else if (q instanceof TreeQuestion) {
             writeResponseType(i18n.getString("wp.type.tree"));
-        }
-        else {
+        } else {
             startTag(P);
             writeTag(I, "unknown type of question; cannot determine response type");
             endTag(P);
@@ -775,6 +755,7 @@ public class WizPrint
 
     /**
      * Write a response.
+     *
      * @param s The text of the response.
      */
     private void writeResponseType(String s) throws IOException {
@@ -828,6 +809,7 @@ public class WizPrint
 
     /**
      * Write an opening tag.
+     *
      * @param t The tag to be written
      */
     private void startTag(String t) throws IOException {
@@ -841,6 +823,7 @@ public class WizPrint
 
     /**
      * Write an closing tag.
+     *
      * @param t The tag to be written
      */
     private void endTag(String t) throws IOException {
@@ -873,6 +856,7 @@ public class WizPrint
 
     /**
      * Write a string between opening and closing tags.
+     *
      * @param t The enclosing tag
      * @param s The enclosed text
      */
@@ -896,25 +880,24 @@ public class WizPrint
             out.write("<i>");
             out.write(i18n.getString("wp.null"));
             out.write("</i>");
-        }
-        else {
+        } else {
             for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
                 switch (c) {
-                case '\n':
-                    out.write("<br>");
-                    break;
-                case '<':
-                out.write("&lt;");
-                break;
-                case '>':
-                    out.write("&gt;");
-                    break;
-                case '&':
-                    out.write("&amp;");
-                    break;
-                default:
-                    out.write(c);
+                    case '\n':
+                        out.write("<br>");
+                        break;
+                    case '<':
+                        out.write("&lt;");
+                        break;
+                    case '>':
+                        out.write("&gt;");
+                        break;
+                    case '&':
+                        out.write("&amp;");
+                        break;
+                    default:
+                        out.write(c);
                 }
             }
         }
@@ -930,7 +913,7 @@ public class WizPrint
 
     private void setWriter(Writer o) {
         if (out instanceof BufferedWriter)
-            out = (BufferedWriter)o;
+            out = (BufferedWriter) o;
         else
             out = new BufferedWriter(o);
     }
@@ -979,10 +962,9 @@ public class WizPrint
     private static final String TR = "tr";
     private static final String UL = "ul";
     private static final String WIDTH = "width";
-    private static final String STYLE="style";
+    private static final String STYLE = "style";
 
-    private static class SortedVector
-    {
+    private static class SortedVector {
         public SortedVector() {
             v = new Vector<>();
         }

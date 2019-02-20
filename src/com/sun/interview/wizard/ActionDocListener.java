@@ -32,8 +32,7 @@ import java.awt.event.ActionListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-class ActionDocListener implements DocumentListener
-{
+class ActionDocListener implements DocumentListener {
     ActionDocListener(Component src, ActionListener listener, String cmd) {
         this.src = src;
         this.listener = listener;

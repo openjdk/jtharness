@@ -75,8 +75,8 @@ public class RenderingUtilities {
         private PropertiesQuestion q;
 
         public PCE(PropertiesQuestion q) {
-            cbCE =  new PropCellEditor(new JComboBox<>(), q);
-            tfCE =  new RestrainedCellEditor(new JTextField(), q);
+            cbCE = new PropCellEditor(new JComboBox<>(), q);
+            tfCE = new RestrainedCellEditor(new JTextField(), q);
             this.q = q;
         }
 
@@ -92,15 +92,15 @@ public class RenderingUtilities {
             }
 
             if (vc.isUnsetAllowed()) {
-               return true;
+                return true;
             }
 
             if (vc instanceof IntConstraints) {
                 IntConstraints ic = (IntConstraints) vc;
                 if (ic.getSuggestions() == null ||
-                    ic.getSuggestions().length == 0 ||
-                    ic.getUpperBound() == ic.getLowerBound() ||
-                    ic.getSuggestions().length == 1 && ! ic.isCustomValuesAllowed()) {
+                        ic.getSuggestions().length == 0 ||
+                        ic.getUpperBound() == ic.getLowerBound() ||
+                        ic.getSuggestions().length == 1 && !ic.isCustomValuesAllowed()) {
                     return false;
                 }
             }
@@ -108,9 +108,9 @@ public class RenderingUtilities {
             if (vc instanceof FloatConstraints) {
                 FloatConstraints fc = (FloatConstraints) vc;
                 if (fc.getSuggestions() == null ||
-                    fc.getSuggestions().length == 0 ||
-                    fc.getUpperBound() == fc.getLowerBound() ||
-                    fc.getSuggestions().length == 1 && ! fc.isCustomValuesAllowed()) {
+                        fc.getSuggestions().length == 0 ||
+                        fc.getUpperBound() == fc.getLowerBound() ||
+                        fc.getSuggestions().length == 1 && !fc.isCustomValuesAllowed()) {
                     return false;
                 }
             }
@@ -118,8 +118,8 @@ public class RenderingUtilities {
             if (vc instanceof StringConstraints) {
                 StringConstraints sc = (StringConstraints) vc;
                 if (sc.getSuggestions() == null ||
-                    sc.getSuggestions().length == 0 ||
-                    sc.getSuggestions().length == 1 && ! sc.isCustomValuesAllowed()) {
+                        sc.getSuggestions().length == 0 ||
+                        sc.getSuggestions().length == 1 && !sc.isCustomValuesAllowed()) {
                     return false;
                 }
             }
@@ -129,12 +129,12 @@ public class RenderingUtilities {
 
         private void assignDelegate(JTable table, int row, int column) {
             int columns = table.getColumnCount();
-            Object [] values = new Object[columns];
+            Object[] values = new Object[columns];
             for (int i = 0; i < columns; i++) {
                 values[i] = table.getValueAt(row, i);
             }
             String key = q.getConstraintKeyFromRow(values);
-            delegate = gotChoice(q.getConstraints(key))?
+            delegate = gotChoice(q.getConstraints(key)) ?
                     cbCE :
                     tfCE;
         }
@@ -183,10 +183,10 @@ public class RenderingUtilities {
 
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value,
-                boolean isSelected, int row, int column) {
+                                                     boolean isSelected, int row, int column) {
 
             int columns = table.getColumnCount();
-            Object [] values = new Object[columns];
+            Object[] values = new Object[columns];
             for (int i = 0; i < columns; i++) {
                 values[i] = table.getValueAt(row, i);
             }
@@ -194,22 +194,22 @@ public class RenderingUtilities {
 
             ValueConstraints vc = q.getConstraints(key);
 
-            JTextField tf = (JTextField)getComponent();
+            JTextField tf = (JTextField) getComponent();
             tf.setText(value.toString());
             tf.setFocusable(false);
 
             if (vc instanceof IntConstraints) {
-                IntConstraints ic = (IntConstraints)vc;
+                IntConstraints ic = (IntConstraints) vc;
                 tf.setEditable(ic.isCustomValuesAllowed());
             }
 
-            if (vc instanceof StringConstraints){
-                StringConstraints sc = (StringConstraints)vc;
+            if (vc instanceof StringConstraints) {
+                StringConstraints sc = (StringConstraints) vc;
                 tf.setEditable(sc.isCustomValuesAllowed());
             }
 
             if (vc instanceof FloatConstraints) {
-                FloatConstraints fc = (FloatConstraints)vc;
+                FloatConstraints fc = (FloatConstraints) vc;
                 tf.setEditable(fc.isCustomValuesAllowed());
             }
 
@@ -218,7 +218,6 @@ public class RenderingUtilities {
 
         private PropertiesQuestion q;
     }
-
 
 
     /**
@@ -246,12 +245,11 @@ public class RenderingUtilities {
 
         @Override
         public Object getCellEditorValue() {
-            if (rules != null){
-                if (rules instanceof BooleanConstraints){
-                    if (((BooleanConstraints)rules).isYesNo()) {
+            if (rules != null) {
+                if (rules instanceof BooleanConstraints) {
+                    if (((BooleanConstraints) rules).isYesNo()) {
                         return yesNoBox.getValue();
-                    }
-                    else {
+                    } else {
                         return jCheckBox.isSelected() ? BooleanConstraints.TRUE : BooleanConstraints.FALSE;
                     }
                 }
@@ -259,12 +257,12 @@ public class RenderingUtilities {
             return super.getCellEditorValue();
         }
 
-    @Override
+        @Override
         public Component getTableCellEditorComponent(final JTable table, Object value,
-                 boolean isSelected, final int row, final int column) {
+                                                     boolean isSelected, final int row, final int column) {
 
             int columns = table.getColumnCount();
-            Object [] values = new Object[columns];
+            Object[] values = new Object[columns];
             for (int i = 0; i < columns; i++) {
                 values[i] = table.getValueAt(row, i);
             }
@@ -272,10 +270,10 @@ public class RenderingUtilities {
 
             rules = question.getConstraints(key);
 
-            if (rules instanceof BooleanConstraints){
+            if (rules instanceof BooleanConstraints) {
 
                 if (((BooleanConstraints) rules).isYesNo()) {
-                    if (yesNoBox == null){
+                    if (yesNoBox == null) {
                         yesNoBox = new YesNoBox();
                     }
                     yesNoBox.selectYes(BooleanConstraints.YES.equals(value));
@@ -290,7 +288,7 @@ public class RenderingUtilities {
 
             }
 
-            final JComboBox<Object> cb = (JComboBox<Object>)getComponent();
+            final JComboBox<Object> cb = (JComboBox<Object>) getComponent();
             cb.setEditable(true);
             cb.removeAllItems();
             cb.addItem(value);
@@ -301,15 +299,13 @@ public class RenderingUtilities {
             String valid = question.isValueValid(key);
             if (valid != null) {
                 cb.setToolTipText(valid);
-            }
-            else
+            } else
                 cb.setBackground(Color.WHITE);
 
             if (!(rules instanceof FilenameConstraints)) {
                 return cb;
-            }
-            else {      // file chooser
-                final FilenameConstraints fc = (FilenameConstraints)rules;
+            } else {      // file chooser
+                final FilenameConstraints fc = (FilenameConstraints) rules;
                 JPanel p = new JPanel();
                 p.setName("filename field");
                 p.setFocusable(false);
@@ -326,7 +322,7 @@ public class RenderingUtilities {
                 // configure the button
                 final JButton browseBtn = new JButton("...");
                 final JFileChooser chooser = FileQuestionRenderer.createChooser(
-                                                key, fc.getFilters());
+                        key, fc.getFilters());
                 // setup chooser
                 File f = new File((String) cb.getSelectedItem());
                 if (!f.exists()) {
@@ -334,8 +330,7 @@ public class RenderingUtilities {
                     if (dir == null)
                         dir = new File(System.getProperty("user.dir"));
                     chooser.setCurrentDirectory(dir);
-                }
-                else {
+                } else {
                     chooser.setSelectedFile(f);
                 }
 
@@ -389,7 +384,7 @@ public class RenderingUtilities {
             if (rules instanceof IntConstraints) {
                 // attach input filter
                 // add suggestions
-                IntConstraints intRules = (IntConstraints)rules;
+                IntConstraints intRules = (IntConstraints) rules;
                 cb.setEditable(intRules.isCustomValuesAllowed());
 
                 int[] sugs = intRules.getSuggestions();
@@ -399,11 +394,10 @@ public class RenderingUtilities {
                         if (!Integer.toString(sug).equals(cb.getItemAt(0)))
                             cb.addItem(Integer.toString(sug));
                     }
-            }
-            else if (rules instanceof FloatConstraints) {
+            } else if (rules instanceof FloatConstraints) {
                 // attach input filter
                 // add suggestions
-                FloatConstraints fltRules = (FloatConstraints)rules;
+                FloatConstraints fltRules = (FloatConstraints) rules;
                 float[] sugs = fltRules.getSuggestions();
                 cb.setEditable(fltRules.isCustomValuesAllowed());
 
@@ -413,9 +407,8 @@ public class RenderingUtilities {
                         if (!Float.toString(sug).equals(cb.getItemAt(0)))
                             cb.addItem(Float.toString(sug));
                     }
-            }
-            else if (rules instanceof StringConstraints) {
-                StringConstraints strRules = (StringConstraints)rules;
+            } else if (rules instanceof StringConstraints) {
+                StringConstraints strRules = (StringConstraints) rules;
                 cb.setEditable(strRules.isCustomValuesAllowed());
 
                 String[] sugs = strRules.getSuggestions();
@@ -426,14 +419,12 @@ public class RenderingUtilities {
                             if (!sug.equals(cb.getItemAt(0)))
                                 cb.addItem(sug);
                         }   // for
-                    }
-                    else
+                    } else
                         configureSet(cb, sugs, true, strRules.isUnsetAllowed());
+                } else {
                 }
-                else {}
-            }
-            else if (rules instanceof FilenameConstraints) {
-                FilenameConstraints strRules = (FilenameConstraints)rules;
+            } else if (rules instanceof FilenameConstraints) {
+                FilenameConstraints strRules = (FilenameConstraints) rules;
                 cb.setEditable(true);
 
                 File[] sugs = strRules.getSuggestions();
@@ -443,10 +434,9 @@ public class RenderingUtilities {
                         if (!sug.getPath().equalsIgnoreCase((String) cb.getItemAt(0)))
                             cb.addItem(sug.getPath());
                     }   // for
+                } else {
                 }
-                else {}
-            }
-            else {      // generic constraints
+            } else {      // generic constraints
                 ValueConstraints vRules = rules;
             }
         }
@@ -458,7 +448,7 @@ public class RenderingUtilities {
          * combo box is the one at index zero.
          */
         private void configureSet(JComboBox<Object> cb, String[] possible,
-                                boolean ignoreCase, boolean isUnsetAllowed) {
+                                  boolean ignoreCase, boolean isUnsetAllowed) {
             // wishlist: i18n
             //           values which are independent of locale
             String curr = (String) cb.getItemAt(0);
@@ -509,37 +499,34 @@ public class RenderingUtilities {
         public Component getTableCellRendererComponent(JTable table, Object value,
                                                        boolean isSelected, boolean hasFocus, int row, int column) {
 
-            if (column == 1){
-                String keyName = q.getKeyPropertyName((String)table.getValueAt(row, 0));
+            if (column == 1) {
+                String keyName = q.getKeyPropertyName((String) table.getValueAt(row, 0));
                 PropertiesQuestion.ValueConstraints constraints = q.getConstraints(keyName);
-                if (constraints instanceof BooleanConstraints){
+                if (constraints instanceof BooleanConstraints) {
                     if (((BooleanConstraints) constraints).isYesNo()) {
                         yesNoBox = new YesNoBox();
                         yesNoBox.selectYes(BooleanConstraints.YES.equals(value));
                         return yesNoBox;
 
-                    }
-                    else{
+                    } else {
                         jCheckBox = new JCheckBox();
                         jCheckBox.setSelected(BooleanConstraints.TRUE.equals(value));
                         return jCheckBox;
                     }
-                }
-                else{
+                } else {
                     jComboBox = new JComboBox<>();
                     jComboBox.addItem(value);
                     jComboBox.setEditable(true);
-                    if ( q.isValueValid(q.getKeyPropertyName((String)table.getValueAt(row, 0))) != null ) {
+                    if (q.isValueValid(q.getKeyPropertyName((String) table.getValueAt(row, 0))) != null) {
                         jComboBox.setBorder(new LineBorder(Color.RED, 2));
                     }
                     return jComboBox;
                 }
-            }
-            else {
+            } else {
                 Component c = super.getTableCellRendererComponent(table, value, isSelected,
                         hasFocus, row, column);
                 c.setBackground(UIFactory.Colors.WINDOW_BACKGROUND.getValue());
-                ((DefaultTableCellRenderer)c).setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+                ((DefaultTableCellRenderer) c).setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
                 return c;
             }
             // XXX needs i18n and 508
@@ -555,13 +542,13 @@ public class RenderingUtilities {
         JComboBox<Object> jComboBox;
     }   // non-editing cell
 
-    static class YesNoBox extends JPanel{
+    static class YesNoBox extends JPanel {
 
         private JRadioButton yesButton;
         private JRadioButton noButton;
         private ButtonGroup bgroup;
 
-        public YesNoBox(){
+        public YesNoBox() {
             super();
             setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
@@ -572,18 +559,18 @@ public class RenderingUtilities {
             bgroup.add(noButton);
 
             add(yesButton);
-            add(Box.createRigidArea(new Dimension(5,0)));
+            add(Box.createRigidArea(new Dimension(5, 0)));
             add(noButton);
         }
 
-        public String getValue(){
-            if (yesButton.isSelected()){
+        public String getValue() {
+            if (yesButton.isSelected()) {
                 return BooleanConstraints.YES;
             }
             return BooleanConstraints.NO;
         }
 
-        public void selectYes(boolean value){
+        public void selectYes(boolean value) {
             yesButton.setSelected(value);
             noButton.setSelected(!value);
         }

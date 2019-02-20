@@ -31,10 +31,10 @@ import java.io.File;
 /**
  * A filter which accepts all files and directories.
  */
-public class FilesAndDirectoriesFileFilter implements FileFilter
-{
+public class FilesAndDirectoriesFileFilter implements FileFilter {
     /**
      * Create a filter which accepts all files and directories.
+     *
      * @param description A short string describing the filter.
      */
     public FilesAndDirectoriesFileFilter(String description) {
@@ -53,6 +53,7 @@ public class FilesAndDirectoriesFileFilter implements FileFilter
 
     /**
      * Get a short description for this filter.
+     *
      * @return a short description of this filter
      */
     @Override

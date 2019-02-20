@@ -47,19 +47,19 @@ import com.sun.interview.Interview.Fault;
  * question is a Properties object.  The key in the properties object is always
  * the internal name, not the internationalized name.  If internationalized
  * key names are supplied, they are used only for presentation.
- *
+ * <p>
  * The presentation info is store here instead of in a renderer class because
  * multiple clients need to render this question.
  *
  * @since 4.0
  */
-public abstract class PropertiesQuestion extends CompositeQuestion
-{
+public abstract class PropertiesQuestion extends CompositeQuestion {
     /**
      * Create a question with a nominated tag.
      * If this constructor is used, the choices must be supplied separately.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     * @param tag       A unique tag to identify this specific question.
      */
     protected PropertiesQuestion(Interview interview, String tag) {
         super(interview, tag);
@@ -70,9 +70,10 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     /**
      * Create a question with a nominated tag.  Not recommended since this is
      * not internationalized.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
-     * @param props The literal keys and values.  A shallow copy of this is used.
+     * @param tag       A unique tag to identify this specific question.
+     * @param props     The literal keys and values.  A shallow copy of this is used.
      * @throws NullPointerException if choices is null
      */
     protected PropertiesQuestion(Interview interview, String tag, Properties props) {
@@ -86,9 +87,10 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * Create a question with a nominated tag.  The keys must be registered in the
      * resource bundle for this question for internationalization purposes.  They
      * will be looked up by this questions tag, plus each of the key values.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
-     * @param keys Internal name of the keys
+     * @param tag       A unique tag to identify this specific question.
+     * @param keys      Internal name of the keys
      * @throws NullPointerException if choices is null
      */
     protected PropertiesQuestion(Interview interview, String tag, String... keys) {
@@ -101,12 +103,13 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
     /**
      * The current value will be set to all false;
+     *
      * @param props The set of names for the choices for this question.
-     * @see #getValue
      * @throws NullPointerException if choices is null
+     * @see #getValue
      */
     protected void setProperties(Properties props) {
-        value = (Properties)props.clone();
+        value = (Properties) props.clone();
         // clobber display values?
     }
 
@@ -114,13 +117,14 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * Set the keys to be shown in the properties table.  Previous properties
      * are removed, and the new values are all the empty string.
      * The current value will be set to an empty string.
-     * @param keys The set of names of the choices for this question.
+     *
+     * @param keys     The set of names of the choices for this question.
      * @param localize if false, the choices will be used directly
-     * as the display choices; otherwise the choices will be used
-     * to construct keys to get localized values from the interview's
-     * resource bundle.
-     * @see #getKeys
+     *                 as the display choices; otherwise the choices will be used
+     *                 to construct keys to get localized values from the interview's
+     *                 resource bundle.
      * @throws NullPointerException if choices is null
+     * @see #getKeys
      */
     protected void setKeys(String[] keys, boolean localize) {
         value = new Properties();
@@ -151,6 +155,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     /**
      * Get the set of keys currently used this question.  Includes all hidden and
      * read-only values as well.
+     *
      * @return The set of keys (internal non-i18n value)
      * @see #setKeys
      */
@@ -163,8 +168,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
     /**
      * Get the default response for this question.
-     * @return the default response for this question.
      *
+     * @return the default response for this question.
      * @see #setDefaultValue
      */
     public Properties getDefaultValue() {
@@ -174,8 +179,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     /**
      * Set the default response for this question,
      * used by the clear method.
-     * @param props the default response for this question.
      *
+     * @param props the default response for this question.
      * @see #getDefaultValue
      */
     public void setDefaultValue(Properties props) {
@@ -184,10 +189,11 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
     /**
      * Get the current (default or latest) response to this question.
+     *
      * @return The current value - a cloned copy.
-     * @see #setValue
      * @throws IllegalStateException if no choices have been set, defining
-     *   the set of responses to this question
+     *                               the set of responses to this question
+     * @see #setValue
      */
     public Properties getValue() {
         if (value == null)
@@ -199,9 +205,10 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
+     *
      * @return the current value of this question
      * @throws Interview.NotOnPathFault if this question is not on the
-     * current path
+     *                                  current path
      * @see #getValue
      */
     public Properties getValueOnPath() throws Interview.NotOnPathFault {
@@ -229,8 +236,9 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
     /**
      * Set the current value.
+     *
      * @param newValue Value represented as a single string.  May not be null.  May be
-     *    an empty string.
+     *                 an empty string.
      * @see #getValue
      */
     @Override
@@ -250,12 +258,13 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * The property must exist before it can be set, else a
      * Fault is thrown to prevent unauthorized additions of
      * properties to the question value.
+     *
      * @param key the key of the property to set, must not be null
-     * @param v the new value for the property, must not be null
-     * @throws Interview.Fault if the key does not already exist
-     *         in the question's value.
+     * @param v   the new value for the property, must not be null
+     * @throws Interview.Fault      if the key does not already exist
+     *                              in the question's value.
      * @throws NullPointerException if either parameter is null
-     * @throws Interview.Fault if the specified key does not exist in the question
+     * @throws Interview.Fault      if the specified key does not exist in the question
      */
     @Override
     public void setValue(String key, String v) throws Interview.Fault {
@@ -298,6 +307,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     /**
      * Load the value for this question from a dictionary, using
      * the tag as the key.
+     *
      * @param data The map from which to load the value for this question.
      */
     @Override
@@ -323,9 +333,9 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         Properties p = new Properties();
 
         Enumeration<?> e = p2.propertyNames();
-        while(e.hasMoreElements()) {
+        while (e.hasMoreElements()) {
             Object next = e.nextElement();
-            p.put( next, p2.get(next) );
+            p.put(next, p2.get(next));
         }   // while
 
         return p;
@@ -334,6 +344,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     /**
      * Save the value for this question in a dictionary, using
      * the tag as the key.
+     *
      * @param data The map in which to save the value for this question.
      */
     @Override
@@ -410,8 +421,9 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * override this method, it is highly recommended that you allow this to
      * take place, then add in any additional checking to the results provided
      * by this base implementation.
+     *
      * @return Invalid key in index zero, <em>localized</em> explanation
-     *         in index one.  Null means there are no invalid keys.
+     * in index one.  Null means there are no invalid keys.
      */
     public String[][] getInvalidKeys() {
         Enumeration<?> names = value.propertyNames();
@@ -424,8 +436,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
             if (rules == null) {
                 continue;   // no checks, next key
-            }
-            else {
+            } else {
                 String reason = rules.isValid(value.getProperty(curr));
                 if (reason != null) {
                     badKeys.add(curr);
@@ -443,17 +454,17 @@ public abstract class PropertiesQuestion extends CompositeQuestion
             }   // for
 
             return ret;
-        }
-        else
+        } else
             return null;
     }
 
     /**
      * Convenience method for finding out the status of a particular value.
      * This method is final because subclasses should implement getInvalidKeys().
+     *
      * @param key The key to query.  Must not be null.
      * @return The explanation for the value being invalid.  Null if the value
-     *         is reported as valid.
+     * is reported as valid.
      * @see #getInvalidKeys
      */
     public final String isValueValid(String key) {
@@ -473,6 +484,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     }
 
     // ------------- UPDATE METHODS -------------
+
     /**
      * Private because we need to maintain internal consistency, especially with
      * the i18n info.
@@ -480,9 +492,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     public void setValue(Properties props) {
         if (props == null) {
             value = null;
-        }
-        else {
-            value = (Properties)props.clone();
+        } else {
+            value = (Properties) props.clone();
         }
         // what to do about read-only and other tagging values?  flush?
         // remove the extra ones?
@@ -495,9 +506,10 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
     /**
      * Update the given properties.  New properties cannot be added this way.
+     *
      * @param props Properties to update, keys in first index, values in the second.
      * @throws IllegalArgumentException If a property in <code>props</code> does not
-     *     exist.
+     *                                  exist.
      */
     public void updateProperties(String[]... props) {
         if (props == null || props.length == 0)
@@ -510,6 +522,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
     /**
      * Update the given property.  New properties cannot be added this way.
+     *
      * @param key Property to update.
      * @param val Value for the property.
      * @throws IllegalArgumentException If the property does not exist.
@@ -525,16 +538,15 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         if (rule instanceof PropertiesQuestion.FloatConstraints) {
             try {
                 float propertyValue = Float.parseFloat(strVal);
-                float res = ((PropertiesQuestion.FloatConstraints)rule).getResolution();
-                if(!Float.isNaN(res)) {
-                    res = Math.round(1/res);
+                float res = ((PropertiesQuestion.FloatConstraints) rule).getResolution();
+                if (!Float.isNaN(res)) {
+                    res = Math.round(1 / res);
                     float k = propertyValue * res;
-                    if (Math.abs(k - (int)k) >= 0.5)
+                    if (Math.abs(k - (int) k) >= 0.5)
                         k += 1.0f;
-                    strVal = Float.toString((int)k / res);
+                    strVal = Float.toString((int) k / res);
                 }
-            }
-            catch(NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 // do nothing
             }
         }
@@ -550,6 +562,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
     /**
      * Create a new group.
+     *
      * @throws IllegalStateException If the group requested already exists.
      */
     public void createGroup(String name) {
@@ -568,13 +581,14 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * Set the presentation group to which the key(s) should belong.
      * If the key is in another group, it will be removed from that one.
      * The
+     *
      * @param group internal name for the group.  Internationalized version
-     *     must be available in the resource bundle as tag+group.
-     * @param key Which keys to add to the group.
+     *              must be available in the resource bundle as tag+group.
+     * @param key   Which keys to add to the group.
      * @throws IllegalArgumentException If an attempt is made to add to a group which
-     *         does not exist.
-     * @throws IllegalStateException If an attempt is made to group a key which is not
-     *         present.
+     *                                  does not exist.
+     * @throws IllegalStateException    If an attempt is made to group a key which is not
+     *                                  present.
      * @see #createGroup
      */
     public void setGroup(String group, String key) {
@@ -617,9 +631,10 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * Get the names of the groups being used by the current set of values.
      * Groups which are empty are not listed; groups may become empty if client
      * code attempts to put a key in more than one group.
+     *
      * @return Group names, null if no grouping is in use.
-     * @see #setGroup(String,String)
-     * @see #setGroup(String,String[])
+     * @see #setGroup(String, String)
+     * @see #setGroup(String, String[])
      */
     public String[] getGroups() {
         if (keyGroups == null)
@@ -648,9 +663,10 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
     /**
      * Get the keys which are registered with the given group.
+     *
      * @param group Group name to query.  Null returns the groupless keys.
      * @return Null if the group is empty or does not exist, else the keys and
-     *         values in this array.
+     * values in this array.
      * @see #getGroups
      * @see #setGroup
      */
@@ -668,7 +684,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         else {
             Iterator<String> it = al.iterator();
             String[][] data = new String[al.size()][2];
-            for(int i = 0; it.hasNext(); i++) {
+            for (int i = 0; it.hasNext(); i++) {
                 data[i][0] = it.next();
                 data[i][1] = (String) value.get(data[i][0]);
             }   // for
@@ -679,7 +695,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
     /**
      * @return The keys and values which are not allocated to any group.
-     *         Null if there are no ungrouped values.
+     * Null if there are no ungrouped values.
      * @see #getGroup
      * @see #setGroup
      */
@@ -712,8 +728,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
                     }   // while
 
                     return ret;
-                }
-                else
+                } else
                     return null;
             }
         }
@@ -739,9 +754,10 @@ public abstract class PropertiesQuestion extends CompositeQuestion
      * The resource necessary is the question tag, with the group name and ".group"
      * appended.  That is <code>jck.qTable.basic.group</code> and
      * <code>jck.qTable.advanced.group</code>.
+     *
      * @param group The internal group name, as is used in the rest of this API.
      * @return The localized group name, the generated bundle key if that
-     *       cannot be found.
+     * cannot be found.
      */
     public String getGroupDisplayName(String group) {
         ResourceBundle b = interview.getResourceBundle();
@@ -749,8 +765,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         try {
             return b.getString(rn);
-        }
-        catch (MissingResourceException e) {
+        } catch (MissingResourceException e) {
             System.err.println("WARNING: missing resource " + rn);
             return rn;
         }
@@ -759,6 +774,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     /**
      * Get the header string for the column in the table that contains the
      * key names.  A short name is recommended for onscreen space considerations.
+     *
      * @return A string describing the key column in the table.
      */
     public String getKeyHeaderName() {
@@ -769,6 +785,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     /**
      * Get the header string for the column in the table that contains the
      * value names.  A short name is recommended for onscreen space considerations.
+     *
      * @return A string describing the value column in the table.
      */
     public String getValueHeaderName() {
@@ -781,8 +798,9 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
     /**
      * Apply constraints to a value.
+     *
      * @throws IllegalArgumentException If the key supplied does not
-     *        exist in the current data.
+     *                                  exist in the current data.
      * @see PropertiesQuestion.ValueConstraints
      * @see PropertiesQuestion.IntConstraints
      * @see PropertiesQuestion.FloatConstraints
@@ -799,12 +817,10 @@ public abstract class PropertiesQuestion extends CompositeQuestion
             if (value.getProperty(key) == null || value.getProperty(key).isEmpty()) {
                 if (defaultValue.getProperty(key) != null && !defaultValue.getProperty(key).isEmpty()) {
                     value.put(key, defaultValue.getProperty(key));
-                }
-                else{
-                    if (((BooleanConstraints) c).isYesNo()){
+                } else {
+                    if (((BooleanConstraints) c).isYesNo()) {
                         value.put(key, BooleanConstraints.NO);
-                    }
-                    else{
+                    } else {
                         value.put(key, BooleanConstraints.FALSE);
                     }
                 }
@@ -816,11 +832,12 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     /**
      * Calculates constraint key for table row.
      * By default constraint key is a value of first column
+     *
      * @param values Array of table row data
      * @return a key
      */
     public String getConstraintKeyFromRow(Object... values) {
-        if (values != null && values.length > 0 )
+        if (values != null && values.length > 0)
             return getKeyPropertyName(values[0].toString());
         else
             return "";
@@ -828,13 +845,14 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
     /**
      * Get the property name for displayed key value in the table
+     *
      * @param key value of the key in the table
      * @return key or the property name for the key
      */
-    public String getKeyPropertyName(String key){
-        if (presentationKeys != null){
-            for (Object keyProperty : presentationKeys.keySet()){
-                if (key.equals(presentationKeys.get(keyProperty))){
+    public String getKeyPropertyName(String key) {
+        if (presentationKeys != null) {
+            for (Object keyProperty : presentationKeys.keySet()) {
+                if (key.equals(presentationKeys.get(keyProperty))) {
                     return (String) keyProperty;
                 }
             }
@@ -846,14 +864,14 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     /**
      * Returns the localized key values to display
      */
-    public Map<String, String> getPresentationKeys(){
+    public Map<String, String> getPresentationKeys() {
         return presentationKeys;
     }
 
     /**
      * @param key The key for the value to get constraints for.
      * @return Constraints object for the specified key, null if there are no
-     *      known constraints.
+     * known constraints.
      */
     public ValueConstraints getConstraints(String key) {
         if (constraints == null)
@@ -896,7 +914,9 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     //private HashSet hiddenKeys;
 
     public static class ValueConstraints {
-        public ValueConstraints() { this(false, true); }
+        public ValueConstraints() {
+            this(false, true);
+        }
 
         public ValueConstraints(boolean readonly, boolean visible) {
             this.readonly = readonly;
@@ -906,48 +926,66 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         /**
          * Determine whether this value should be readable only, by the
          * interview user.  The default state is false.
+         *
          * @param state True if readonly, false otherwise.
          */
-        public void setReadOnly(boolean state) { readonly = state; }
+        public void setReadOnly(boolean state) {
+            readonly = state;
+        }
 
         /**
          * Make value outwardly visible or invisible.  This does not
          * mean it is not accessible, just that it is not shown when
          * possible in the user interfaces.  The default state is true.
+         *
          * @param state True if the property at constrained by this object
-         *    should be visible.
+         *              should be visible.
          */
-        public void setVisible(boolean state) { visible = state; }
+        public void setVisible(boolean state) {
+            visible = state;
+        }
 
         /**
          * Determine if this value is a read-only value.  The default is false.
+         *
          * @return True if read-only, false otherwise.
          */
-        public boolean isReadOnly() { return readonly; }
+        public boolean isReadOnly() {
+            return readonly;
+        }
 
         /**
          * Is this property (and value) visible?  True by default.
+         *
          * @return True if it should be visible, false otherwise.
          */
-        public boolean isVisible() { return visible; }
+        public boolean isVisible() {
+            return visible;
+        }
 
         /**
          * May the answer be set to an unanswered state.  If false, the
          * question will always be answered.  If true, the question may
          * be set to an affirmative, negative or unset response.  An unset
          * response is considered an incomplete answer by default.
+         *
          * @param state True if the user is allowed to make this value unset.
          * @see #isUnsetAllowed
          */
-        public void setUnsetAllowed(boolean state) { allowUnset = state; }
+        public void setUnsetAllowed(boolean state) {
+            allowUnset = state;
+        }
 
         /**
          * Is an unset response allowed.  The default is true, unless indicated
          * otherwise by a subclass.
+         *
          * @return True if the unsetting the answer is allowed.
          * @see #setUnsetAllowed
          */
-        public boolean isUnsetAllowed() { return allowUnset; }
+        public boolean isUnsetAllowed() {
+            return allowUnset;
+        }
 
         /**
          * Is the given value valid for this field?  Since this constraint
@@ -955,9 +993,10 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * value is non-empty.  You may override this method to do custom
          * checking, or you may do your checking in getInvalidKeys() which
          * by default defers to the associated constraint object (if any).
+         *
          * @param v The value to check.
          * @return Null if the valid is valid, a localized reason string
-         *         otherwise.
+         * otherwise.
          * @see #getInvalidKeys
          */
         public String isValid(String v) {
@@ -973,10 +1012,13 @@ public abstract class PropertiesQuestion extends CompositeQuestion
     }
 
     public static class IntConstraints extends ValueConstraints {
-        public IntConstraints() { super(); }
+        public IntConstraints() {
+            super();
+        }
 
         /**
          * Construct with defined upper and lower value boundaries.
+         *
          * @param min Minimum valid response value (inclusive).
          * @param max Maximum valid response value (inclusive).
          */
@@ -987,6 +1029,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Construct with suggested values for the user.
+         *
          * @param suggestions Predefined values for the user to choose from.
          * @see #setCustomValuesAllowed(boolean)
          */
@@ -996,8 +1039,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         }
 
         /**
-         * @param min Minimum valid response value (inclusive).
-         * @param max Maximum valid response value (inclusive).
+         * @param min         Minimum valid response value (inclusive).
+         * @param max         Maximum valid response value (inclusive).
          * @param suggestions Predefined values for the user to choose from.
          * @see #setBounds
          */
@@ -1012,6 +1055,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * valid.  The range in inclusive.  The defaults are the
          * MIN and MAX values for the integer type, except the minimum
          * value itself, which is reserved.
+         *
          * @see #getLowerBound
          * @see #getUpperBound
          */
@@ -1023,27 +1067,36 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         /**
          * Get the lower bound which specifies the minimum possible value to be
          * considered a valid response from the user.
+         *
          * @return Minimum boundary (inclusive).
          */
-        public int getLowerBound() { return min; }
+        public int getLowerBound() {
+            return min;
+        }
 
         /**
          * Get the upper bound which specifies the maximum possible value to be
          * considered a valid response from the user.
+         *
          * @return Maximum boundary (inclusive).
          */
-        public int getUpperBound() { return max; }
+        public int getUpperBound() {
+            return max;
+        }
 
         /**
          * Get the suggested values.  Not a copy, do not alter the array.
          */
-        public int[] getSuggestions() { return suggestions; }
+        public int[] getSuggestions() {
+            return suggestions;
+        }
 
         /**
          * Are user specified values allowed?  If not, there must be
          * suggestions present.
+         *
          * @throws IllegalStateException If no suggestions have been
-         *      provided.
+         *                               provided.
          * @see #setSuggestions
          */
         public void setCustomValuesAllowed(boolean state) {
@@ -1052,6 +1105,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Are custom user values allowed?
+         *
          * @see #setCustomValuesAllowed
          * @see #setSuggestions
          */
@@ -1072,25 +1126,26 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * Is the given value valid for this field?  The basic check for
          * validity is to see if the given string can be parsed as an
          * integer value in the current locale.
+         *
          * @param v The value to check.
          * @return Null if the valid is valid, a localized reason string
-         *         otherwise.
+         * otherwise.
          */
         @Override
         public String isValid(String v) {
             try {
                 int number = Integer.parseInt(v);
                 return isValid(number);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 return "Not an integer.";   // XXX i18n
             }
         }
 
         /**
          * Is the given value valid for this field?
+         *
          * @return Null if the valid is valid, a localized reason string
-         *         otherwise.
+         * otherwise.
          */
         public String isValid(int v) {
             if (v < min || v > max)
@@ -1142,8 +1197,9 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Construct with suggestions for the user.
+         *
          * @param suggestions Values to suggest to the user.  Array should be
-         *    of length greater than zero.
+         *                    of length greater than zero.
          */
         public FloatConstraints(float... suggestions) {
             this();
@@ -1152,10 +1208,11 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Construct with both min, max and suggested values.
-         * @param min Minimum valid response value.
-         * @param max Maximum valid response value
+         *
+         * @param min         Minimum valid response value.
+         * @param max         Maximum valid response value
          * @param suggestions Values to suggest to the user.  Array should be
-         *    of length greater than zero.
+         *                    of length greater than zero.
          * @see #getSuggestions()
          */
         public FloatConstraints(float min, float max, float... suggestions) {
@@ -1168,6 +1225,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * Set the max/min possible value that should be considered
          * valid.  The range in inclusive.  The defaults are the
          * MIN and MAX values for the float datatype.
+         *
          * @param min Minimum valid response value.
          * @param max Maximum valid response value.
          */
@@ -1179,30 +1237,40 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         /**
          * Get the lower bound which specifies the minimum possible value to be
          * considered a valid response from the user.
+         *
          * @return Minimum boundary (inclusive).
          */
-        public float getLowerBound() { return min; }
+        public float getLowerBound() {
+            return min;
+        }
 
         /**
          * Get the upper bound which specifies the maximum possible value to be
          * considered a valid response from the user.
+         *
          * @return Maximum boundary (inclusive).
          */
-        public float getUpperBound() { return max; }
+        public float getUpperBound() {
+            return max;
+        }
 
         /**
          * Get the suggested values.  Not a copy, do not alter the array.
+         *
          * @return Suggested response values currently set for this question.
-         *    Null if none have been set.
+         * Null if none have been set.
          * @see #setSuggestions
          */
-        public float[] getSuggestions() { return suggestions; }
+        public float[] getSuggestions() {
+            return suggestions;
+        }
 
         /**
          * Are user specified values allowed?  If not, there must be
          * suggestions present.
+         *
          * @throws IllegalStateException If no suggestions have been
-         *      provided.
+         *                               provided.
          * @see #setSuggestions
          */
         public void setCustomValuesAllowed(boolean state) {
@@ -1211,6 +1279,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Are custom user values allowed?
+         *
          * @see #setCustomValuesAllowed
          * @see #setSuggestions
          */
@@ -1221,8 +1290,9 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         /**
          * Supply some possible values that the user may want to
          * select from.
+         *
          * @param sugs Suggested values to present the user for this question.
-         *     Should be an array of length greater than zero.
+         *             Should be an array of length greater than zero.
          * @see #getSuggestions()
          */
         public void setSuggestions(float... sugs) {
@@ -1233,6 +1303,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         /**
          * Set the resolution for responses to this question. Responses
          * may be rounded to the nearest multiple of the resolution.
+         *
          * @param resolution the resolution for responses to this question
          * @see #getResolution
          * @see #setValue
@@ -1244,6 +1315,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         /**
          * Get the resolution for responses to this question. Responses
          * may be rounded to the nearest multiple of the resolution.
+         *
          * @return the resolution for responses to this question
          * @see #setResolution
          * @see #setValue
@@ -1256,25 +1328,26 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * Is the given value valid for this field?  The basic check for
          * validity is to see if the given string can be parsed as an
          * floating point value in the current locale.
+         *
          * @param v The value to check.
          * @return Null if the valid is valid, a localized reason string
-         *         otherwise.
+         * otherwise.
          */
         @Override
         public String isValid(String v) {
             try {
                 float number = Float.parseFloat(v);
                 return isValid(number);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 return "Not an floating point number.";   // XXX i18n
             }
         }
 
         /**
          * Is the given value valid for this field?
+         *
          * @return Null if the valid is valid, a localized reason string
-         *         otherwise.
+         * otherwise.
          */
         public String isValid(float v) {
             if (v < min || v > max)
@@ -1286,6 +1359,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Current value set for the suggested response values.
+         *
          * @see #setSuggestions(float[])
          * @see #getSuggestions()
          */
@@ -1328,6 +1402,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Construct with max string length restriction.
+         *
          * @param maxLen Maximum length string for the response.
          */
         public StringConstraints(int maxLen) {
@@ -1335,13 +1410,14 @@ public abstract class PropertiesQuestion extends CompositeQuestion
             setNominalMaxLength(maxLen);
         }
 
-       /**
-        * Construct with max string length restriction and suggested
-        * responses.
-        * @param maxLen Maximum length string for the response.
-        * @param suggestions The suggested responses to present the user with.
-        *    Should be an array of greater than zero length.
-        */
+        /**
+         * Construct with max string length restriction and suggested
+         * responses.
+         *
+         * @param maxLen      Maximum length string for the response.
+         * @param suggestions The suggested responses to present the user with.
+         *                    Should be an array of greater than zero length.
+         */
         public StringConstraints(String[] suggestions, int maxLen) {
             this();
             setSuggestions(suggestions);
@@ -1351,9 +1427,10 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         /**
          * Supply some possible values that the user may want to
          * select from.
+         *
          * @param sugs The suggested responses to present the user with.
-         *    Should be an array of greater than zero length.  Can be null if
-         *    you wish to remove the setting completely.
+         *             Should be an array of greater than zero length.  Can be null if
+         *             you wish to remove the setting completely.
          * @see #isCustomValuesAllowed
          * @see #getSuggestions
          */
@@ -1364,8 +1441,9 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Determine what the current value suggestions are.
+         *
          * @return Null if there are no suggested values, otherwise an array of
-         *    length greater than zero.
+         * length greater than zero.
          */
         public String[] getSuggestions() {
             return suggestions;
@@ -1374,8 +1452,9 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         /**
          * Are user specified values allowed?  If not, there must be
          * suggestions present.
+         *
          * @throws IllegalStateException If no suggestions have been
-         *      provided.
+         *                               provided.
          * @see #setSuggestions
          */
         public void setCustomValuesAllowed(boolean state) {
@@ -1388,6 +1467,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * choose only from the suggested values.  An assumption is that if
          * this value is false, then there are available suggestions for this
          * value.
+         *
          * @see #setCustomValuesAllowed
          * @see #setSuggestions
          */
@@ -1397,6 +1477,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Get the nominal maximum length for the string.
+         *
          * @return the nominal maximum length for the string.
          * @see #setNominalMaxLength
          */
@@ -1406,7 +1487,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Set the expected maximum length for the string.
-         * @param nominalMaxLength  the nominal maximum length for the string.
+         *
+         * @param nominalMaxLength the nominal maximum length for the string.
          * @see #getNominalMaxLength
          */
         public void setNominalMaxLength(int nominalMaxLength) {
@@ -1415,6 +1497,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Current value set for the suggested response values.
+         *
          * @see #setSuggestions(String[])
          * @see #getSuggestions()
          */
@@ -1443,7 +1526,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * @param isYesNo Should this question be presented as a Yes/No question
-         *  rather than a True/False.
+         *                rather than a True/False.
          * @see #setUseYesNo
          */
         public BooleanConstraints(boolean isYesNo) {
@@ -1452,8 +1535,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         }
 
         /**
-         * @param isYesNo Should this question be presented as a Yes/No question
-         *  rather than a True/False.
+         * @param isYesNo      Should this question be presented as a Yes/No question
+         *                     rather than a True/False.
          * @param unsetAllowed Can the question be set to have no value.
          * @see #setUnsetAllowed
          * @see #setUseYesNo
@@ -1467,8 +1550,9 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         /**
          * Indicate whether this should be a Yes/No question or
          * True/False.
+         *
          * @param state True if this should be rendered as a Yes/No question,
-         *    false if it should be a boolean true/false.
+         *              false if it should be a boolean true/false.
          * @see #isYesNo
          */
         public void setUseYesNo(boolean state) {
@@ -1477,8 +1561,9 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Is this a yes/no field, instead of the default true/false?
+         *
          * @return True if this is a Yes/No question, false if it is a
-         *   True/False question.
+         * True/False question.
          * @see #setUseYesNo
          */
         public boolean isYesNo() {
@@ -1517,11 +1602,11 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         }
 
         /**
-         * @param baseDir Base directory where selection should begin from.
+         * @param baseDir      Base directory where selection should begin from.
          * @param relativeOnly Force the result of this value to be relative
-         *    to the base location.  This is limited on some filesystem types
-         *    of course, where relative paths from one place to another are not
-         *    always possible.
+         *                     to the base location.  This is limited on some filesystem types
+         *                     of course, where relative paths from one place to another are not
+         *                     always possible.
          */
         public FilenameConstraints(File baseDir, boolean relativeOnly) {
             this();
@@ -1532,6 +1617,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         /**
          * Get the filters used to select valid files for a response
          * to this question.
+         *
          * @return An array of filters
          * @see #setFilter
          * @see #setFilters
@@ -1543,21 +1629,23 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         /**
          * Set a filter used to select valid files for a response
          * to this question.  Use this method, or setFilters(), not both.
+         *
          * @param filter a filter used to select valid files for a response
-         * to this question
+         *               to this question
          * @see #getFilters
          * @see #setFilters
          */
         public void setFilter(FileFilter filter) {
-            filters = new FileFilter[] { filter };
+            filters = new FileFilter[]{filter};
         }
 
         /**
          * Set the filters used to select valid files for a response
          * to this question.  The first element in the array is selected by
          * default.  Use this method, or setFilter(), not both.
+         *
          * @param filters An array of filters used to select valid files for a response
-         * to this question
+         *                to this question
          * @see #getFilters
          * @see #setFilter
          */
@@ -1567,6 +1655,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Get the default directory for files for a response to this question.
+         *
          * @return the default directory in which files should be found/placed
          * @see #setBaseDirectory
          * @see #isBaseRelativeOnly
@@ -1577,6 +1666,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Set the default directory for files for a response to this question.
+         *
          * @param dir the default directory in which files should be found/placed
          * @see #getBaseDirectory
          */
@@ -1588,6 +1678,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
          * Determine whether all valid responses to this question should be
          * relative to the base directory (in or under it).  False by
          * default.
+         *
          * @return true if all valid responses to this question should be
          * relative to the base directory
          * @see #setBaseRelativeOnly
@@ -1599,8 +1690,9 @@ public abstract class PropertiesQuestion extends CompositeQuestion
         /**
          * Specify whether all valid responses to this question should be
          * relative to the base directory (i.e. in or under it.)
+         *
          * @param b this parameter should be true if all valid responses
-         * to this question should be relative to the base directory
+         *          to this question should be relative to the base directory
          * @see #setBaseRelativeOnly
          */
         public void setBaseRelativeOnly(boolean b) {
@@ -1628,6 +1720,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion
 
         /**
          * Current value set for the suggested response values.
+         *
          * @see #setSuggestions(File[])
          * @see #getSuggestions()
          */

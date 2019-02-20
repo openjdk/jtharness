@@ -35,16 +35,17 @@ import com.sun.interview.Interview;
  * This interface defines the ability to export the answers
  * contained in a configuration to a custom file format.
  */
-public interface Exporter
-{
+public interface Exporter {
     /**
      * Get the name of this exporter, as might be presented to a user.
+     *
      * @return the name of this exporter
      */
     String getName();
 
     /**
      * Get the set of file extensions supported by this exporter.
+     *
      * @return an array of file extensions supported by this exporter
      */
     String[] getFileExtensions();
@@ -52,6 +53,7 @@ public interface Exporter
     /**
      * Get a description of the set of file extensions supported by
      * this exporter.
+     *
      * @return a string containing a short description
      */
     String getFileDescription();
@@ -59,16 +61,18 @@ public interface Exporter
     /**
      * Check whether this exporter is currently "usable"-- for example,
      * an incomplete interview may not be exportable.
+     *
      * @return true if the exporter is ready for {@link #export} to be called.
      */
     boolean isExportable();
 
     /**
      * Export the data to the given file.
+     *
      * @param f The file to which to write the data
-     * @throws IOException if there is a problem while writing the file
+     * @throws IOException     if there is a problem while writing the file
      * @throws Interview.Fault if there is a problem exporting the data
-     *           from the interview.
+     *                         from the interview.
      */
     void export(File f);
 }

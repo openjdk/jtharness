@@ -38,7 +38,7 @@ public interface SelectionTreeListener extends EventListener {
     /**
      * Invokes when selection type is changed.
      *
-     * @param node {@link SelectionTreeNode} with selection type changed
+     * @param node    {@link SelectionTreeNode} with selection type changed
      * @param oldType old selection type
      * @param newType new selection type
      */

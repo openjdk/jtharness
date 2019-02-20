@@ -42,8 +42,7 @@ import com.sun.javatest.tool.jthelp.HelpSet;
 import com.sun.javatest.tool.jthelp.HelpID;
 import com.sun.javatest.tool.jthelp.JHelpContentViewer;
 
-class InfoPanel extends JComponent
-{
+class InfoPanel extends JComponent {
     public InfoPanel(Interview interview) {
         this.interview = interview;
         infoHelpSet = Help.getHelpSet(interview);
@@ -79,8 +78,8 @@ class InfoPanel extends JComponent
     @Override
     public Dimension getPreferredSize() {
         Toolkit tk = Toolkit.getDefaultToolkit();
-        return new Dimension(PREFERRED_WIDTH*tk.getScreenResolution(),
-                                    PREFERRED_HEIGHT*tk.getScreenResolution());
+        return new Dimension(PREFERRED_WIDTH * tk.getScreenResolution(),
+                PREFERRED_HEIGHT * tk.getScreenResolution());
     }
 
     private Interview interview;
@@ -93,8 +92,7 @@ class InfoPanel extends JComponent
     private static final int PREFERRED_WIDTH = 4; // inches
     private static final int PREFERRED_HEIGHT = 3; // inches
 
-    private class Listener implements AncestorListener, Interview.Observer
-    {
+    private class Listener implements AncestorListener, Interview.Observer {
         // ---------- from AncestorListener -----------
 
         @Override
@@ -104,7 +102,8 @@ class InfoPanel extends JComponent
         }
 
         @Override
-        public void ancestorMoved(AncestorEvent e) { }
+        public void ancestorMoved(AncestorEvent e) {
+        }
 
         @Override
         public void ancestorRemoved(AncestorEvent e) {
@@ -114,7 +113,8 @@ class InfoPanel extends JComponent
         //----- from Interview.Observer -----------
 
         @Override
-        public void pathUpdated() { }
+        public void pathUpdated() {
+        }
 
         @Override
         public void currentQuestionChanged(Question q) {

@@ -32,12 +32,12 @@ import java.text.NumberFormat;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+
 import com.sun.interview.FloatQuestion;
 import com.sun.interview.Question;
 
 public class FloatQuestionRenderer
-    implements QuestionRenderer
-{
+        implements QuestionRenderer {
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         FloatQuestion q = (FloatQuestion) qq;
@@ -87,21 +87,21 @@ public class FloatQuestionRenderer
             resetBtn.setToolTipText(i18n.getString("flt.reset.tip"));
         }
 
-        final TypeInPanel p =  new TypeInPanel("flt.field",
-                                               q,
-                                               w,
-                                               strSuggs,
-                                               resetBtn,
-                                               listener);
+        final TypeInPanel p = new TypeInPanel("flt.field",
+                q,
+                w,
+                strSuggs,
+                resetBtn,
+                listener);
 
         if (resetBtn != null) {
             resetBtn.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        NumberFormat fmt = NumberFormat.getNumberInstance();  // will be locale-specific
-                        p.setValue(fmt.format(Double.valueOf(defVal)));
-                    }
-                });
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    NumberFormat fmt = NumberFormat.getNumberInstance();  // will be locale-specific
+                    p.setValue(fmt.format(Double.valueOf(defVal)));
+                }
+            });
         }
 
         return p;

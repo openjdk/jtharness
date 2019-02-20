@@ -36,13 +36,13 @@ import java.util.ResourceBundle;
  * A {@link Question question} to which the response is an IP address.
  * Both IPv4 and IPv6 addresses are supported.
  */
-public abstract class InetAddressQuestion extends Question
-{
+public abstract class InetAddressQuestion extends Question {
 
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     * @param tag       A unique tag to identify this specific question.
      */
     protected InetAddressQuestion(Interview interview, String tag) {
         super(interview, tag);
@@ -52,10 +52,11 @@ public abstract class InetAddressQuestion extends Question
 
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
-     * @param type A value to (IPv4 or IPv6) to indicate the type of
-     * address used by the question.
+     * @param tag       A unique tag to identify this specific question.
+     * @param type      A value to (IPv4 or IPv6) to indicate the type of
+     *                  address used by the question.
      */
     protected InetAddressQuestion(Interview interview, String tag, int type) {
         super(interview, tag);
@@ -77,6 +78,7 @@ public abstract class InetAddressQuestion extends Question
 
     /**
      * Get the type of addresses (IPv4 or IPv6) that will be accepted by this question.
+     *
      * @return the type of address that will be accepted by this question
      * @see #setType
      */
@@ -86,6 +88,7 @@ public abstract class InetAddressQuestion extends Question
 
     /**
      * Set the type of addresses (IPv4 or IPv6) that should be accepted by this question.
+     *
      * @param type the type of address that should be accepted by this question
      * @see #getType
      */
@@ -103,6 +106,7 @@ public abstract class InetAddressQuestion extends Question
      * In IPv4 style, the data entry is four dotted decimal fields.
      * In IPv6 style, the data entry is a single type in field, with
      * an associated lookup button.
+     *
      * @return the presentation style for this question
      * @see #setStyle
      */
@@ -115,6 +119,7 @@ public abstract class InetAddressQuestion extends Question
      * In IPv4 style, the data entry is four dotted decimal fields.
      * In IPv6 style, the data entry is a single type in field, with
      * an associated lookup button.
+     *
      * @param style the presentation style for this question
      * @see #getStyle
      */
@@ -127,8 +132,8 @@ public abstract class InetAddressQuestion extends Question
 
     /**
      * Get the suggested responses to this question, or null if none.
-     * @return The suggestions.
      *
+     * @return The suggestions.
      * @see #setSuggestions
      */
     public InetAddress[] getSuggestions() {
@@ -137,10 +142,10 @@ public abstract class InetAddressQuestion extends Question
 
     /**
      * Set the set of suggested responses.
+     *
      * @param newSuggestions The values to be set, or null if none
      * @throws IllegalArgumentException if any except the first of the values
-     * in the array are null
-     *
+     *                                  in the array are null
      * @see #getSuggestions
      */
     public void setSuggestions(InetAddress... newSuggestions) {
@@ -157,8 +162,8 @@ public abstract class InetAddressQuestion extends Question
 
     /**
      * Get the default response for this question.
-     * @return the default response for this question.
      *
+     * @return the default response for this question.
      * @see #setDefaultValue
      */
     public InetAddress getDefaultValue() {
@@ -168,8 +173,8 @@ public abstract class InetAddressQuestion extends Question
     /**
      * Set the default response for this question,
      * used by the clear method.
-     * @param v the default response for this question.
      *
+     * @param v the default response for this question.
      * @see #getDefaultValue
      */
     public void setDefaultValue(InetAddress v) {
@@ -182,6 +187,7 @@ public abstract class InetAddressQuestion extends Question
      * If the question type is set to IPv4, a valid response will be
      * an Inet4Address; otherwise, if the question type is set to IPv6,
      * a valid response will be an Inet4Address or an Inet6Address
+     *
      * @return The current value.
      * @see #setValue
      */
@@ -192,14 +198,14 @@ public abstract class InetAddressQuestion extends Question
     /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
+     *
      * @return the current value of this question
      * @throws Interview.NotOnPathFault if this question is not on the
-     * current path
+     *                                  current path
      * @see #getValue
      */
     public InetAddress getValueOnPath()
-        throws Interview.NotOnPathFault
-    {
+            throws Interview.NotOnPathFault {
         interview.verifyPathContains(this);
         return getValue();
     }
@@ -219,6 +225,7 @@ public abstract class InetAddressQuestion extends Question
      * it must be an Inet4Address if the question type is set to IPv4,
      * or either an Inet4Address or an Inet6Address if the question type
      * is set to IPv6.
+     *
      * @param newValue The value to be set.
      * @see #getValue
      */
@@ -229,8 +236,8 @@ public abstract class InetAddressQuestion extends Question
         newStringValue = null;
 
         valid = value == null ? false
-                 : type == IPv4 ? (value instanceof Inet4Address)
-                 : true;
+                : type == IPv4 ? (value instanceof Inet4Address)
+                : true;
 
         if (!equal(value, oldValue)) {
             interview.updatePath(this);
@@ -250,6 +257,7 @@ public abstract class InetAddressQuestion extends Question
 
     /**
      * Set the current value.
+     *
      * @param newValue The value to be set.
      * @throws Interview.Fault (retained for compatibility; should not be thrown)
      * @see #getValue
@@ -282,36 +290,54 @@ public abstract class InetAddressQuestion extends Question
         for (int i = 0; i < slen; i++) {
             char c = s.charAt(i);
             switch (c) {
-            case '0': case '1': case '2': case '3': case '4':
-            case '5': case '6': case '7': case '8': case '9':
-                // always valid
-                seenDigit = true;
-                break;
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    // always valid
+                    seenDigit = true;
+                    break;
 
-            case '.':
-                // always valid
-                seenDot = true;
-                break;
+                case '.':
+                    // always valid
+                    seenDot = true;
+                    break;
 
-            case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
-            case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
-                // invalid for IPv4, valid for IPv6
-                if (type == IPv4)
+                case 'a':
+                case 'b':
+                case 'c':
+                case 'd':
+                case 'e':
+                case 'f':
+                case 'A':
+                case 'B':
+                case 'C':
+                case 'D':
+                case 'E':
+                case 'F':
+                    // invalid for IPv4, valid for IPv6
+                    if (type == IPv4)
+                        return null;
+
+                    seenAlpha = true;
+                    break;
+
+                case ':':
+                    // invalid for IPv4; at least 1 required for IPv6
+                    if (type == IPv4)
+                        return null;
+
+                    seenColon = true;
+                    break;
+
+                default:
                     return null;
-
-                seenAlpha = true;
-                break;
-
-            case ':':
-                // invalid for IPv4; at least 1 required for IPv6
-                if (type == IPv4)
-                    return null;
-
-                seenColon = true;
-                break;
-
-            default:
-                return null;
             }
         }
 
@@ -320,12 +346,10 @@ public abstract class InetAddressQuestion extends Question
 
         try {
             return InetAddress.getByName(s);
-        }
-        catch (UnknownHostException e) {
+        } catch (UnknownHostException e) {
             return null;
         }
     }
-
 
 
     /**
@@ -341,6 +365,7 @@ public abstract class InetAddressQuestion extends Question
     /**
      * Save the value for this question in a dictionary, using
      * the tag as the key.
+     *
      * @param data The map in which to save the value for this question.
      */
     @Override
@@ -352,11 +377,11 @@ public abstract class InetAddressQuestion extends Question
 
     /**
      * Compare two network address objects for equality.
+     *
      * @param i1 The first address to be compared, or null.
      * @param i2 The other address to be compared, or null.
      * @return true if both arguments are null, or if both represent the
      * same network address.
-     *
      */
     protected static boolean equal(InetAddress i1, InetAddress i2) {
         return i1 == null ? i2 == null : i1.equals(i2);

@@ -41,6 +41,7 @@ import javax.swing.table.TableColumn;
 
 import com.sun.interview.ChoiceArrayQuestion;
 import com.sun.interview.Question;
+
 import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -50,12 +51,11 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 public class ChoiceArrayQuestionRenderer
-        implements QuestionRenderer
-{
+        implements QuestionRenderer {
 
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
-        q = (ChoiceArrayQuestion)qq;
+        q = (ChoiceArrayQuestion) qq;
         displayChoices = q.getDisplayChoices();
         values = q.getValue();
         editedListener = listener;
@@ -116,16 +116,17 @@ public class ChoiceArrayQuestionRenderer
 
         TableModel model = table.getModel();
 
-        for(int i = 0; i < model.getRowCount(); i++) {
+        for (int i = 0; i < model.getRowCount(); i++) {
             TableCellRenderer r = table.getCellRenderer(i, colIndex);
             Component c = r.getTableCellRendererComponent(table,
-                model.getValueAt(i, colIndex),
-                false, false, i, colIndex);
+                    model.getValueAt(i, colIndex),
+                    false, false, i, colIndex);
             width = Math.max(width, c.getPreferredSize().width);
         }
 
         return width;
     }
+
     protected int getRowHeight() {
         return 22;
     }
@@ -179,27 +180,29 @@ public class ChoiceArrayQuestionRenderer
         public TestKeyListener(AbstractTableModel tm) {
             this.tm = tm;
         }
+
         @Override
         public void keyPressed(KeyEvent e) {
-           if((e.getModifiersEx() & e.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == e.VK_A) {
-               boolean allSelected = true;
-               for(int i = 0; i < tm.getRowCount(); i++) {
-                   if(tm.getValueAt(i, 0).equals(new Boolean(false))) {
-                       allSelected = false;
-                       break;
-                   }
+            if ((e.getModifiersEx() & e.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == e.VK_A) {
+                boolean allSelected = true;
+                for (int i = 0; i < tm.getRowCount(); i++) {
+                    if (tm.getValueAt(i, 0).equals(new Boolean(false))) {
+                        allSelected = false;
+                        break;
+                    }
 
-               }
-               for(int i = 0; i < tm.getRowCount(); i++) {
-                   tm.setValueAt(new Boolean(!allSelected), i, 0);
-                   TableModelEvent ev = new TableModelEvent(tm, i, i,
-                                        TableModelEvent.ALL_COLUMNS,
-                                        TableModelEvent.UPDATE);
-                   tm.fireTableChanged(ev);
-               }
-           }
+                }
+                for (int i = 0; i < tm.getRowCount(); i++) {
+                    tm.setValueAt(new Boolean(!allSelected), i, 0);
+                    TableModelEvent ev = new TableModelEvent(tm, i, i,
+                            TableModelEvent.ALL_COLUMNS,
+                            TableModelEvent.UPDATE);
+                    tm.fireTableChanged(ev);
+                }
+            }
 
         }
+
         protected AbstractTableModel tm;
     }
 
@@ -211,8 +214,8 @@ public class ChoiceArrayQuestionRenderer
 
     protected void fireEditedEvent(Object src, ActionListener l) {
         ActionEvent e = new ActionEvent(src,
-                                        ActionEvent.ACTION_PERFORMED,
-                                        EDITED);
+                ActionEvent.ACTION_PERFORMED,
+                EDITED);
         l.actionPerformed(e);
     }
 

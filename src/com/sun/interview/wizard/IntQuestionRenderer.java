@@ -36,19 +36,19 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+
 import com.sun.interview.IntQuestion;
 import com.sun.interview.Question;
 
 public class IntQuestionRenderer
-    implements QuestionRenderer
-{
+        implements QuestionRenderer {
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         IntQuestion q = (IntQuestion) qq;
 
         lwb = q.getLowerBound();
         upb = q.getUpperBound();
-        range = (long)upb - (long)lwb;
+        range = (long) upb - (long) lwb;
         suggs = q.getSuggestions();
 
         if (range > 10 || suggs != null)
@@ -90,21 +90,21 @@ public class IntQuestionRenderer
             resetBtn.setToolTipText(i18n.getString("int.reset.tip"));
         }
 
-        final TypeInPanel p =  new TypeInPanel("int.field",
-                                               q,
-                                               w,
-                                               strSuggs,
-                                               resetBtn,
-                                               listener);
+        final TypeInPanel p = new TypeInPanel("int.field",
+                q,
+                w,
+                strSuggs,
+                resetBtn,
+                listener);
 
         if (resetBtn != null) {
             resetBtn.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        NumberFormat fmt = NumberFormat.getNumberInstance();  // will be locale-specific
-                        p.setValue(fmt.format(Integer.valueOf(defVal)));
-                    }
-                });
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    NumberFormat fmt = NumberFormat.getNumberInstance();  // will be locale-specific
+                    p.setValue(fmt.format(Integer.valueOf(defVal)));
+                }
+            });
         }
 
         return p;
@@ -127,7 +127,7 @@ public class IntQuestionRenderer
         int value = q.isValid() ? q.getValue() : lwb;
         final JSlider slider = new JSlider(lwb, upb, value);
         slider.setName("int.sldr");
-        slider.setMajorTickSpacing((upb - lwb)/2);
+        slider.setMajorTickSpacing((upb - lwb) / 2);
         slider.setMinorTickSpacing(1);
         slider.setSnapToTicks(true);
         slider.setPaintTicks(true);
@@ -144,11 +144,11 @@ public class IntQuestionRenderer
         panel.add(slider, c);
 
         Runnable valueSaver = new Runnable() {
-                @Override
-                public void run() {
-                    q.setValue(slider.getValue());
-                }
-            };
+            @Override
+            public void run() {
+                q.setValue(slider.getValue());
+            }
+        };
 
         panel.putClientProperty(VALUE_SAVER, valueSaver);
 

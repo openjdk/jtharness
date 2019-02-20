@@ -31,24 +31,25 @@ import java.io.File;
 /**
  * A filter which accepts files based on their extension.
  */
-public class ExtensionFileFilter implements FileFilter
-{
+public class ExtensionFileFilter implements FileFilter {
 
     /**
      * Create a filter which accepts files based on their extension.
-     * @param extn The required extension for files that are to be
-     *          accepted by this filter.
+     *
+     * @param extn        The required extension for files that are to be
+     *                    accepted by this filter.
      * @param description A short string describing the filter.
      */
     public ExtensionFileFilter(String extn, String description) {
-        this.extns = new String[] {extn};
+        this.extns = new String[]{extn};
         this.description = description;
     }
 
     /**
      * Create a filter which accepts files based on their extension.
-     * @param extns Any array of permissible extensions for
-     *          files that are to be accepted by this filter.
+     *
+     * @param extns       Any array of permissible extensions for
+     *                    files that are to be accepted by this filter.
      * @param description A short string describing the filter.
      */
     public ExtensionFileFilter(String[] extns, String description) {
@@ -59,8 +60,9 @@ public class ExtensionFileFilter implements FileFilter
     /**
      * Specify whether or not this filter should perform case-sensitive matching for
      * extensions.
+     *
      * @param b true if this filter should perform case-sensitive matching for
-     * extensions, and false otherwise
+     *          extensions, and false otherwise
      * @see #isCaseSensitive
      */
     public void setCaseSensitive(boolean b) {
@@ -70,6 +72,7 @@ public class ExtensionFileFilter implements FileFilter
     /**
      * Check whether or not this filter should perform case-sensitive matching for
      * extensions.
+     *
      * @return true if this filter should perform case-sensitive matching for
      * extensions, and false otherwise
      * @see #setCaseSensitive
@@ -93,6 +96,7 @@ public class ExtensionFileFilter implements FileFilter
 
     /**
      * Get a short description for this filter.
+     *
      * @return a short description of this filter
      */
     @Override
@@ -103,11 +107,12 @@ public class ExtensionFileFilter implements FileFilter
     /**
      * Ensure that a pathname ends with one of the extensions accepted
      * by this filter.  If it does not, one is appended
+     *
      * @param path The path to be checked.
      * @return the original path if it already ended with a valid extension,
-     *          or if it was null or empty;
-     *          otherwise, a copy of the path is returned, with a valid
-     *          extension added on.
+     * or if it was null or empty;
+     * otherwise, a copy of the path is returned, with a valid
+     * extension added on.
      */
     public String ensureExtension(String path) {
         if (path == null || path.isEmpty())
@@ -124,11 +129,12 @@ public class ExtensionFileFilter implements FileFilter
     /**
      * Ensure that a filename ends with one of the extensions accepted
      * by this filter.  If it does not, one is appended
+     *
      * @param file The file to be checked.
      * @return the original file if it already ended with a valid extension,
-     *          or if it was null or empty;
-     *          otherwise, a new file is returned, whose path is a copy
-     *          of the original, with a valid extension added on.
+     * or if it was null or empty;
+     * otherwise, a new file is returned, whose path is a copy
+     * of the original, with a valid extension added on.
      */
     public File ensureExtension(File file) {
         if (file == null)

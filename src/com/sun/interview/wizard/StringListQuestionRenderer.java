@@ -31,12 +31,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import com.sun.interview.StringListQuestion;
 import com.sun.interview.Question;
 
 public class StringListQuestionRenderer
-    implements QuestionRenderer
-{
+        implements QuestionRenderer {
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         final StringListQuestion q = (StringListQuestion) qq;
@@ -54,8 +54,8 @@ public class StringListQuestionRenderer
         final EditableList list = new EditableList("slst", q.getValue());
         list.setDuplicatesAllowed(q.isDuplicatesAllowed());
         list.addListDataListener(new ActionListDataListener(panel,
-                                                            listener,
-                                                            QuestionRenderer.EDITED));
+                listener,
+                QuestionRenderer.EDITED));
         label.setLabelFor(list);
 
         panel.add(list, BorderLayout.CENTER);

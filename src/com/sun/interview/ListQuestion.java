@@ -50,8 +50,7 @@ import java.util.Vector;
  * Internally, each ListQuestion has a sibling that is created automatically,
  * and together, these two questions bracket the set of loop bodies.
  */
-public abstract class ListQuestion extends Question
-{
+public abstract class ListQuestion extends Question {
     /**
      * A special subtype of Interview to use for the questions in the body of
      * a loop. The body has an index, which identifies its position within
@@ -61,15 +60,16 @@ public abstract class ListQuestion extends Question
     public static abstract class Body extends Interview {
         /**
          * Create an instance of a loop body.
+         *
          * @param question The loop question for which this is a body instance.
-         * @param index The position of this body within the set of all the bodies.
-         * The value is normally just a hint (albeit a possibly string one).
-         * The index will be updated if necessary when the body is actually
-         * set as one of the bodies of the loop.
+         * @param index    The position of this body within the set of all the bodies.
+         *                 The value is normally just a hint (albeit a possibly string one).
+         *                 The index will be updated if necessary when the body is actually
+         *                 set as one of the bodies of the loop.
          */
         protected Body(ListQuestion question, int index) {
             super(question.getInterview(),
-                  question.getBaseTag() + "." + index);
+                    question.getBaseTag() + "." + index);
             this.question = question;
             this.index = index;
         }
@@ -79,6 +79,7 @@ public abstract class ListQuestion extends Question
          * or null if there is insufficient information so far to make a
          * determination. The string will be used to identify the loop body
          * to the user.
+         *
          * @return a string to uniquely identify this instance of the loop body,
          * or null if there is insufficient information so far to make a
          * determination.
@@ -88,6 +89,7 @@ public abstract class ListQuestion extends Question
         /**
          * Get the position of this loop body within the set of all the loop
          * bodies for the question.
+         *
          * @return the position of this loop body within the set of all the loop
          * bodies for the question
          */
@@ -101,8 +103,9 @@ public abstract class ListQuestion extends Question
          * does not actually affect the loop bodies.
          * See {@link ListQuestion#setBodies} for details on updating the
          * bodies of the loop.
+         *
          * @param newIndex the new position of this loop body within the
-         * set of all the loop bodies for the question
+         *                 set of all the loop bodies for the question
          */
         void setIndex(int newIndex) {
             if (newIndex != index) {
@@ -119,6 +122,7 @@ public abstract class ListQuestion extends Question
          * default summary. The default summary will be unique and persist
          * for the life of this body or until getSummary() returns a non-null
          * value.
+         *
          * @return a default summary to be used to identify this instance of the
          * the loop body, to be used when getSummary() returns null.
          */
@@ -129,8 +133,8 @@ public abstract class ListQuestion extends Question
                 for (int i = 0; i < bodies.size(); i++) {
                     Body b = bodies.elementAt(i);
                     if (b.defaultSummary != null
-                        && b.getSummary() != null
-                        && !b.defaultSummary.equals(b.getSummary())) {
+                            && b.getSummary() != null
+                            && !b.defaultSummary.equals(b.getSummary())) {
                         b.defaultSummary = null;
                     }
                 }
@@ -163,6 +167,7 @@ public abstract class ListQuestion extends Question
          * Check if this body has been completed. It is considered to have
          * been completed if none of the questions in this body
          * on the current path return null as the result of getNext().
+         *
          * @return true is this body has been completed.
          */
         public boolean isBodyFinishable() {
@@ -176,8 +181,9 @@ public abstract class ListQuestion extends Question
 
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     * @param tag       A unique tag to identify this specific question.
      */
     protected ListQuestion(Interview interview, String tag) {
         super(interview, tag);
@@ -185,8 +191,7 @@ public abstract class ListQuestion extends Question
         if (this instanceof EndQuestion) {
             end = (EndQuestion) this;
             bodies = null;
-        }
-        else {
+        } else {
             end = new EndQuestion(interview, tag, this);
             bodies = new Vector<>();
         }
@@ -198,9 +203,10 @@ public abstract class ListQuestion extends Question
      * for the body of the loop.
      * The body does not become one of the set of bodies for the loop
      * until the set is updated with {@link #setBodies}.
+     *
      * @param index the position that this body will have within
-     * the set of bodies for the loop. This value should be passed
-     * through to the Body constructor.
+     *              the set of bodies for the loop. This value should be passed
+     *              through to the Body constructor.
      * @return a new instance of a body for this loop question
      */
     public abstract Body createBody(int index);
@@ -209,6 +215,7 @@ public abstract class ListQuestion extends Question
      * Check if this is the question that appears at the beginning or
      * at the end of the loop. When a ListQuestion is created, a sibling
      * is automatically created that will appear at the end of the loop.
+     *
      * @return false if this is the main question, that appears at the
      * head of the loop, or true if this is the question that is
      * automatically created to appear at the end of the lop.
@@ -222,6 +229,7 @@ public abstract class ListQuestion extends Question
      * When a ListQuestion is created, a sibling is automatically created
      * that will appear at the end of the loop. From either of these questions,
      * you can use this method to get at the other one.
+     *
      * @return the sibling question that appears at the other end of the loop
      */
     public ListQuestion getOther() {
@@ -230,6 +238,7 @@ public abstract class ListQuestion extends Question
 
     /**
      * Get the currently selected loop body, or null, as selected by by setValue.
+     *
      * @return the currently selected loop body, or null, if none.
      */
     public Body getSelectedBody() {
@@ -242,6 +251,7 @@ public abstract class ListQuestion extends Question
     /**
      * Get the index of the currently selected loop body, or an out of range
      * value (typically less than zero) if none is selected.
+     *
      * @return the index of the currently selected loop body, or an out of range
      * value (typically less than zero) if none is selected
      * @see #setValue
@@ -253,14 +263,14 @@ public abstract class ListQuestion extends Question
     /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
+     *
      * @return the current value of this question
      * @throws Interview.NotOnPathFault if this question is not on the
-     * current path
+     *                                  current path
      * @see #getValue
      */
     public int getValueOnPath()
-        throws Interview.NotOnPathFault
-    {
+            throws Interview.NotOnPathFault {
         interview.verifyPathContains(this);
         return getValue();
     }
@@ -278,6 +288,7 @@ public abstract class ListQuestion extends Question
     /**
      * Set the index of the loop body to be selected.
      * If the value is out of range, no loop body will be selected.
+     *
      * @param newValue the index of the loop body to be selected
      * @see #getValue
      */
@@ -297,9 +308,10 @@ public abstract class ListQuestion extends Question
     /**
      * Set the index of the loop body to be selected.
      * If the value is out of range, no loop body will be selected.
+     *
      * @param s a string containing the index of the loop body
-     * to be selected. If the string does not contain a valid
-     * integer, the value will be set to -1.
+     *          to be selected. If the string does not contain a valid
+     *          integer, the value will be set to -1.
      * @see #getValue
      */
     @Override
@@ -309,8 +321,7 @@ public abstract class ListQuestion extends Question
                 setValue(Integer.parseInt(s));
                 return;
             }
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             // ignore
         }
         setValue(-1);
@@ -319,6 +330,7 @@ public abstract class ListQuestion extends Question
     /**
      * Check if the question currently has a valid response.
      * For a ListQuestion, this is normally true.
+     *
      * @return true if the question currently has a valid response,
      * and false otherwise.
      **/
@@ -330,6 +342,7 @@ public abstract class ListQuestion extends Question
     /**
      * Check if the question always has a valid response.
      * For a ListQuestion, this is normally false.
+     *
      * @return true if the question always has a valid response,
      * and false otherwise.
      **/
@@ -357,6 +370,7 @@ public abstract class ListQuestion extends Question
      * get the summary text from the standard resource bundle.
      * The tag for the end question is the same as the tag for the
      * main question, with ".end" appended.
+     *
      * @return the summary text for the end question
      * @see #getSummary
      * @see #getOther
@@ -373,6 +387,7 @@ public abstract class ListQuestion extends Question
      * get the question text from the standard resource bundle.
      * The tag for the end question is the same as the tag for the
      * main question, with ".end" appended.
+     *
      * @return the question text for the end question
      * @see #getEndTextArgs
      * @see #getText
@@ -389,6 +404,7 @@ public abstract class ListQuestion extends Question
      * that will appear at the end of the loop.
      * Override this method to override the default behavior to
      * return null.
+     *
      * @return the formatting arguments for the question text for the end question
      * @see #getEndText
      * @see #getTextArgs
@@ -409,8 +425,7 @@ public abstract class ListQuestion extends Question
                     bodies.add(createBody(i));
                 // once the bodies are created as children of this question's
                 // interview, they'll be reloaded by the interviews load method
-            }
-            catch (NumberFormatException ignore) {
+            } catch (NumberFormatException ignore) {
             }
         }
 
@@ -420,8 +435,7 @@ public abstract class ListQuestion extends Question
         else {
             try {
                 value = Integer.parseInt(v);
-            }
-            catch (NumberFormatException ignore) {
+            } catch (NumberFormatException ignore) {
                 value = 0;
             }
         }
@@ -435,6 +449,7 @@ public abstract class ListQuestion extends Question
 
     /**
      * Get the set of bodies currently allocated within the loop.
+     *
      * @return the set of bodies currently allocated within the loop
      * @see #setBodies
      */
@@ -446,6 +461,7 @@ public abstract class ListQuestion extends Question
 
     /**
      * Get the number of bodies (iterations) currently allocated within the loop.
+     *
      * @return the number of bodies currently allocated within the loop
      */
     public int getBodyCount() {
@@ -454,11 +470,12 @@ public abstract class ListQuestion extends Question
 
     /**
      * Get a specified body from the loop.
+     *
      * @param index the position of the desired body within the set of bodies
-     * currently allocated within the loop.
+     *              currently allocated within the loop.
      * @return the specified body
      * @throws ArrayIndexOutOfBoundsException if index does not identify a
-     * valid body
+     *                                        valid body
      */
     public Body getBody(int index) {
         return bodies.elementAt(index);
@@ -470,10 +487,11 @@ public abstract class ListQuestion extends Question
      * The bodies will normally come from a combination of
      * the bodies returned from getBodies() or new ones
      * created by createBody().
+     *
      * @param newBodies the set of bodies to be taken as the
-     * new set of loop bodies
-     * @param newValue the index of the body which should be
-     * the selected body.
+     *                  new set of loop bodies
+     * @param newValue  the index of the body which should be
+     *                  the selected body.
      * @see #getBodies
      */
     public void setBodies(Body[] newBodies, int newValue) {
@@ -501,7 +519,7 @@ public abstract class ListQuestion extends Question
         int newIncompleteCount = getIncompleteBodyCount();
 
         if (newSelectedBody != oldSelectedBody
-            || ((oldIncompleteCount == 0) != (newIncompleteCount == 0))) {
+                || ((oldIncompleteCount == 0) != (newIncompleteCount == 0))) {
             interview.updatePath(this);
         }
 
@@ -511,6 +529,7 @@ public abstract class ListQuestion extends Question
     /**
      * Get the number of bodies for this loop that are currently incomplete,
      * as determined by {@link  Body#isBodyFinishable}.
+     *
      * @return the number of bodies for this loop that are currently incomplete.
      */
     public int getIncompleteBodyCount() {

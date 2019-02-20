@@ -28,21 +28,22 @@ package com.sun.interview.wizard;
 
 import java.awt.event.ActionListener;
 import javax.swing.JComponent;
+
 import com.sun.interview.Question;
 
 /**
  * An interface that is used to access a component to be used to display
  * the response field for a question in an interview.
  */
-public interface QuestionRenderer
-{
+public interface QuestionRenderer {
     /**
      * Return a component that can be used to display a suitable response field
      * for a question.
-     * @param q the question whose response field should appear in the component
+     *
+     * @param q        the question whose response field should appear in the component
      * @param listener a listener that should be invoked if the component supports
-     * an action like "Enter" to commit the response; should also be invoked with
-     * an "edited" action when the value is changed.
+     *                 an action like "Enter" to commit the response; should also be invoked with
+     *                 an "edited" action when the value is changed.
      * @return a component that can be used to display a suitable response field
      */
     JComponent getQuestionRendererComponent(Question q, ActionListener listener);
@@ -50,6 +51,7 @@ public interface QuestionRenderer
     /**
      * Get a string to display when the response to a question is invalid.
      * (i.e. isValid() is false or getNext() is null).
+     *
      * @param q the question which has an invalid response
      * @return a string to display when the response to a question is invalid.
      */
@@ -61,7 +63,7 @@ public interface QuestionRenderer
      * be a Runnable, which will be invoked when any data in the component
      * needs to be saved back into the question.
      */
-    public static final String VALUE_SAVER =  "valueSaver";
+    public static final String VALUE_SAVER = "valueSaver";
 
     /**
      * The action command for notifying that a question's response has been edited.

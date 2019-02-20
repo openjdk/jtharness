@@ -39,8 +39,7 @@ import com.sun.interview.wizard.selectiontree.selection.SelectionElement;
 import com.sun.interview.wizard.selectiontree.selection.SelectionType;
 
 public class TreeQuestionRenderer
-    implements QuestionRenderer
-{
+        implements QuestionRenderer {
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         final TreeQuestion tq = (TreeQuestion) qq;
@@ -56,11 +55,11 @@ public class TreeQuestionRenderer
         tree.setSelection(tq.getValue());
 
         Runnable valueSaver = new Runnable() {
-                @Override
-                public void run() {
-                    tq.setValue(tree.getSelection());
-                }
-            };
+            @Override
+            public void run() {
+                tq.setValue(tree.getSelection());
+            }
+        };
 
         sp.putClientProperty(VALUE_SAVER, valueSaver);
 
@@ -92,7 +91,7 @@ public class TreeQuestionRenderer
         @Override
         public void setSelectionType(SelectionType selectionType) {
             if (!type.equals(selectionType)) {
-                    type = selectionType;
+                type = selectionType;
             }
         }
 

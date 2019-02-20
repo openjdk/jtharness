@@ -32,8 +32,7 @@ import java.util.ResourceBundle;
 /**
  * A {@link Question question} to which the response is yes or no.
  */
-public abstract class YesNoQuestion extends ChoiceQuestion
-{
+public abstract class YesNoQuestion extends ChoiceQuestion {
     /**
      * A value for an affirmative response.
      */
@@ -47,8 +46,9 @@ public abstract class YesNoQuestion extends ChoiceQuestion
     /**
      * Create a question with a nominated tag.
      * If this constructor is used, the choices must be supplied separately.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     * @param tag       A unique tag to identify this specific question.
      */
     protected YesNoQuestion(Interview interview, String tag) {
         this(interview, tag, null);
@@ -57,10 +57,11 @@ public abstract class YesNoQuestion extends ChoiceQuestion
     /**
      * Create a question with a nominated tag.
      * If this constructor is used, the choices must be supplied separately.
-     * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     *
+     * @param interview    The interview containing this question.
+     * @param tag          A unique tag to identify this specific question.
      * @param defaultValue A default value for the question; this must be one of
-     * <em>null</em>, YES, or NO.
+     *                     <em>null</em>, YES, or NO.
      */
     protected YesNoQuestion(Interview interview, String tag, String defaultValue) {
         super(interview, tag);
@@ -68,12 +69,12 @@ public abstract class YesNoQuestion extends ChoiceQuestion
         if (defaultValue != null && !defaultValue.equals(YES) && !defaultValue.equals(NO))
             throw new IllegalArgumentException();
 
-        String[] choices        = { null, YES, NO };
-        String[] displayChoices = { null, i18n.getString("yn.yes"), i18n.getString("yn.no") };
+        String[] choices = {null, YES, NO};
+        String[] displayChoices = {null, i18n.getString("yn.yes"), i18n.getString("yn.no")};
 
         setChoices(choices, displayChoices);
 
-        if ( !Objects.equals(defaultValue, getDefaultValue()) ) {
+        if (!Objects.equals(defaultValue, getDefaultValue())) {
             setDefaultValue(defaultValue);
             setValue(defaultValue);
         }
@@ -82,6 +83,7 @@ public abstract class YesNoQuestion extends ChoiceQuestion
     /**
      * Set the set of legal responses for this question. This is
      * not permitted, since the choices are fixed as YES and NO.
+     *
      * @param choices The set possible responses for this question.
      * @throws IllegalArgumentException always.
      */

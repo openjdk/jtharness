@@ -42,10 +42,9 @@ import javax.swing.JPanel;
 import com.sun.interview.Interview;
 import com.sun.interview.Question;
 
-public class TypeInPanel extends JPanel
-{
+public class TypeInPanel extends JPanel {
     public TypeInPanel(String uiKey, final Question q, int fieldWidth,
-            String[] suggestions, JButton btn, ActionListener listener) {
+                       String[] suggestions, JButton btn, ActionListener listener) {
         setLayout(new GridBagLayout());
         setName(uiKey);
         setFocusable(false);
@@ -79,8 +78,7 @@ public class TypeInPanel extends JPanel
                 field.setColumns(fieldWidth);
 
             add(field, c);
-        }
-        else {
+        } else {
             choice = new JComboBox<>();
             choice.setName(uiKey + ".chc");
             choice.setEditable(true);
@@ -88,7 +86,7 @@ public class TypeInPanel extends JPanel
             //choice.addActionListener(listener);
             label.setLabelFor(choice);
 
-            Component editComp =  choice.getEditor().getEditorComponent();
+            Component editComp = choice.getEditor().getEditorComponent();
             editComp.setFont(editComp.getFont().deriveFont(Font.PLAIN));
             if (editComp instanceof Accessible) {
                 if (editComp.getName() == null)
@@ -103,8 +101,7 @@ public class TypeInPanel extends JPanel
             if (fieldWidth <= 0) {
                 c.fill = GridBagConstraints.HORIZONTAL;
                 c.weightx = 1;
-            }
-            else {
+            } else {
                 c.anchor = GridBagConstraints.WEST;
                 c.weightx = 0;
             }
@@ -119,16 +116,15 @@ public class TypeInPanel extends JPanel
         }
 
         Runnable valueSaver = new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        q.setValue(getValue());
-                    }
-                    catch (Interview.Fault e) {
-                        throw new Error(e);
-                    }
+            @Override
+            public void run() {
+                try {
+                    q.setValue(getValue());
+                } catch (Interview.Fault e) {
+                    throw new Error(e);
                 }
-            };
+            }
+        };
 
         putClientProperty(QuestionRenderer.VALUE_SAVER, valueSaver);
     }
@@ -136,7 +132,7 @@ public class TypeInPanel extends JPanel
     protected String getValue() {
         if (field != null)
             return field.getText();
-        else  {
+        else {
             if (choice.isEditable()) {
                 return choice.getEditor().getItem().toString();
             } else {

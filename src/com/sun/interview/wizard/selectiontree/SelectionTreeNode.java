@@ -54,8 +54,8 @@ public class SelectionTreeNode implements TreeNode {
      * Answers new selection-tree node.<P>
      * This constructor must be always overridden in subclasses.
      *
-     * @param tree owner {@link SelectionTree}
-     * @param filter {@link SelectionTreeFilter} to filter children
+     * @param tree    owner {@link SelectionTree}
+     * @param filter  {@link SelectionTreeFilter} to filter children
      * @param element selection element represented by the node
      */
     public SelectionTreeNode(SelectionTree tree, SelectionTreeFilter filter, SelectionElement element, SelectionTreeNode previousNode) {
@@ -66,10 +66,10 @@ public class SelectionTreeNode implements TreeNode {
      * Answers new selection-tree node.<P>
      * This constructor must be always overridden in subclasses.
      *
-     * @param tree owner {@link SelectionTree}
+     * @param tree    owner {@link SelectionTree}
      * @param element selection element represented by the node
-     * @param filter {@link SelectionTreeFilter} to filter children
-     * @param parent parent node
+     * @param filter  {@link SelectionTreeFilter} to filter children
+     * @param parent  parent node
      */
     public SelectionTreeNode(SelectionTree tree, SelectionElement element, SelectionTreeFilter filter, SelectionTreeNode parent, SelectionTreeNode previousNode) {
         super();

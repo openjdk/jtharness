@@ -33,10 +33,10 @@ import java.util.ResourceBundle;
  * A "null" question with no response. In effect, this
  * posts the text, which must simply be acknowledged.
  */
-public abstract class NullQuestion extends Question
-{
+public abstract class NullQuestion extends Question {
     /**
      * Create a null question.
+     *
      * @param interview The interview containing this question.
      */
     protected NullQuestion(Interview interview) {
@@ -45,8 +45,9 @@ public abstract class NullQuestion extends Question
 
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     * @param tag       A unique tag to identify this specific question.
      */
     protected NullQuestion(Interview interview, String tag) {
         super(interview, tag);
@@ -54,9 +55,10 @@ public abstract class NullQuestion extends Question
 
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
-     * @param level The "level" of this question.
+     * @param tag       A unique tag to identify this specific question.
+     * @param level     The "level" of this question.
      */
     protected NullQuestion(Interview interview, String tag, int level) {
         super(interview, tag);
@@ -68,7 +70,7 @@ public abstract class NullQuestion extends Question
      * This is roughly equivalent to heading levels in HTML, where heading 1
      * is the largest, for a document title or chapter.  As the number grows,
      * the heading is semantically finer grained.
-     *
+     * <p>
      * For compatibility purposes a question has heading level zero by
      * default, this is the JT Harness 3.x style of rendering.  Level 1
      * is the strongest heading level in JT Harness 4.x and later.  A
@@ -78,11 +80,11 @@ public abstract class NullQuestion extends Question
      *
      * @param val One of the level constants defined in this class.
      * @throws IllegalArgumentException If the parameter is out of range.
-     * @since 4.0
      * @see #LEVEL_NONE
      * @see #LEVEL_1
      * @see #LEVEL_2
      * @see #LEVEL_3
+     * @since 4.0
      */
     public void setLevel(int val) {
         if (val < LEVEL_NONE || val > MAX_LEVEL)
@@ -93,6 +95,7 @@ public abstract class NullQuestion extends Question
 
     /**
      * Get the current heading level.
+     *
      * @return The heading level, as defined by one of this class' constants.
      */
     public int getLevel() {
@@ -111,6 +114,7 @@ public abstract class NullQuestion extends Question
     /**
      * A NullQuestion does not have a value, and so this method always
      * returns null.
+     *
      * @return null
      */
     @Override
@@ -122,6 +126,7 @@ public abstract class NullQuestion extends Question
      * Set the response to this question to the value represented by
      * a string-valued argument. For this question, no value is
      * appropriate and an exception is always thrown.
+     *
      * @throws UnsupportedOperationException always
      */
     @Override
@@ -132,6 +137,7 @@ public abstract class NullQuestion extends Question
     /**
      * A NullQuestion does not have a value, and so this method always
      * returns true.
+     *
      * @return true
      */
     @Override
@@ -143,6 +149,7 @@ public abstract class NullQuestion extends Question
     /**
      * A NullQuestion does not have a value, and so this method always
      * returns true.
+     *
      * @return true
      */
     @Override
@@ -153,6 +160,7 @@ public abstract class NullQuestion extends Question
     /**
      * Load the value for this question from a dictionary, using
      * the tag as the key.
+     *
      * @param data ignored
      */
     @Override
@@ -162,6 +170,7 @@ public abstract class NullQuestion extends Question
     /**
      * Save the value for this question in a dictionary, using
      * the tag as the key. Since there is no value, this method is a no-op.
+     *
      * @param data ignored
      */
     @Override

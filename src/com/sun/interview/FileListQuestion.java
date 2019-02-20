@@ -34,12 +34,12 @@ import java.util.Map;
 /**
  * A {@link Question question} to which the response is one or more filenames.
  */
-public abstract class FileListQuestion extends Question
-{
+public abstract class FileListQuestion extends Question {
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     * @param tag       A unique tag to identify this specific question.
      */
     protected FileListQuestion(Interview interview, String tag) {
         super(interview, tag);
@@ -52,8 +52,8 @@ public abstract class FileListQuestion extends Question
 
     /**
      * Get the default response for this question.
-     * @return the default response for this question.
      *
+     * @return the default response for this question.
      * @see #setDefaultValue
      */
     public File[] getDefaultValue() {
@@ -63,8 +63,8 @@ public abstract class FileListQuestion extends Question
     /**
      * Set the default response for this question,
      * used by the clear method.
-     * @param v the default response for this question.
      *
+     * @param v the default response for this question.
      * @see #getDefaultValue
      */
     public void setDefaultValue(File... v) {
@@ -74,6 +74,7 @@ public abstract class FileListQuestion extends Question
     /**
      * Specify whether or not duplicates should be allowed in the list.
      * By default, duplicates are allowed.
+     *
      * @param b true if duplicates should be allowed, and false otherwise
      * @see #isDuplicatesAllowed
      */
@@ -83,6 +84,7 @@ public abstract class FileListQuestion extends Question
 
     /**
      * Check whether or not duplicates should be allowed in the list.
+     *
      * @return true if duplicates should be allowed, and false otherwise
      * @see #setDuplicatesAllowed
      */
@@ -92,6 +94,7 @@ public abstract class FileListQuestion extends Question
 
     /**
      * Get the current (default or latest) response to this question.
+     *
      * @return The current value.
      * @see #setValue
      */
@@ -102,14 +105,14 @@ public abstract class FileListQuestion extends Question
     /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
+     *
      * @return the current value of this question
      * @throws Interview.NotOnPathFault if this question is not on the
-     * current path
+     *                                  current path
      * @see #getValue
      */
     public File[] getValueOnPath()
-        throws Interview.NotOnPathFault
-    {
+            throws Interview.NotOnPathFault {
         interview.verifyPathContains(this);
         return getValue();
     }
@@ -122,6 +125,7 @@ public abstract class FileListQuestion extends Question
     /**
      * Set the response to this question to the value represented by
      * a string-valued argument.
+     *
      * @param paths The new value for the question, can be null to set no value.
      * @see #getValue
      */
@@ -132,6 +136,7 @@ public abstract class FileListQuestion extends Question
 
     /**
      * Set the current value.
+     *
      * @param newValue The value to be set.
      * @see #getValue
      */
@@ -150,8 +155,9 @@ public abstract class FileListQuestion extends Question
      * are set to an pre-50 version, in which case true is always returned.
      * Using semantics greater than 50 is highly recommended and recommended if
      * an old interview is being modernized.
+     *
      * @return False if any values are rejected by filters, true otherwise.
-     *        True if there are no values or no filters.
+     * True if there are no values or no filters.
      * @see com.sun.interview.Interview#getInterviewSemantics
      * @see com.sun.interview.Interview#SEMANTIC_VERSION_50
      */
@@ -163,16 +169,16 @@ public abstract class FileListQuestion extends Question
         }
 
         if (value == null || value.length == 0 ||
-            filters == null || filters.length == 0) {
+                filters == null || filters.length == 0) {
             return true;
         }
 
-        for (File f: value) {
+        for (File f : value) {
             if (f == null) {
                 continue;
             }
 
-            for (FileFilter fs: filters) {
+            for (FileFilter fs : filters) {
                 if (fs != null && !fs.accept(f)) {
                     return false;
                 }
@@ -190,6 +196,7 @@ public abstract class FileListQuestion extends Question
     /**
      * Get the filters used to select valid files for a response
      * to this question.
+     *
      * @return An array of filters
      * @see #setFilter
      * @see #setFilters
@@ -201,13 +208,14 @@ public abstract class FileListQuestion extends Question
     /**
      * Set a filter used to select valid files for a response
      * to this question.
+     *
      * @param filter a filter used to select valid files for a response
-     * to this question
+     *               to this question
      * @see #getFilters
      * @see #setFilters
      */
     public void setFilter(FileFilter filter) {
-        filters = new FileFilter[] { filter };
+        filters = new FileFilter[]{filter};
     }
 
     /**
@@ -215,8 +223,9 @@ public abstract class FileListQuestion extends Question
      * to this question.  For pre-50 behavior, both the filters and the hint
      * filter values are treated the same, and neither is used for validation
      * (e.g. <code>isValid()</code>.
+     *
      * @param fs An array of filters used to select valid files for a response
-     * to this question
+     *           to this question
      * @see #getFilters
      * @see #setFilters
      * @see #getHintFilters
@@ -224,8 +233,7 @@ public abstract class FileListQuestion extends Question
     public void setFilters(FileFilter... fs) {
         if (interview.getInterviewSemantics() >= Interview.SEMANTIC_VERSION_50) {
             filters = fs;
-        }
-        else {
+        } else {
             // old behavior, the fitlers act as hint filters, not validation
             // filters
             filters = hintFilters = fs;
@@ -238,6 +246,7 @@ public abstract class FileListQuestion extends Question
      * interface.  This should not be confused with setFilters(), which in
      * version 5.0 or later of the harness, are used to do validity checks on
      * the actual value (e.g.. in <code>isValid()</code>.
+     *
      * @param fs Filters which might be offered to the user.
      * @see #setFilters
      * @see #isValueValid
@@ -250,6 +259,7 @@ public abstract class FileListQuestion extends Question
     /**
      * A set of filters to help users locate the right file/dir.
      * These filters are not used for validating the question value.
+     *
      * @see #setHintFilters(com.sun.interview.FileFilter[])
      * @see #getFilters
      * @since 5.0
@@ -264,6 +274,7 @@ public abstract class FileListQuestion extends Question
 
     /**
      * Get the default directory for files for a response to this question.
+     *
      * @return the default directory in which files should be found/placed
      * @see #setBaseDirectory
      * @see #isBaseRelativeOnly
@@ -274,6 +285,7 @@ public abstract class FileListQuestion extends Question
 
     /**
      * Set the default directory for files for a response to this question.
+     *
      * @param dir the default directory in which files should be found/placed
      * @see #getBaseDirectory
      */
@@ -284,6 +296,7 @@ public abstract class FileListQuestion extends Question
     /**
      * Determine whether all valid responses to this question should be
      * relative to the base directory (i.e. in or under it.)
+     *
      * @return true if all valid responses to this question should be
      * relative to the base directory
      * @see #setBaseRelativeOnly
@@ -295,8 +308,9 @@ public abstract class FileListQuestion extends Question
     /**
      * Specify whether all valid responses to this question should be
      * relative to the base directory (i.e. in or under it.)
+     *
      * @param b this parameter should be true if all valid responses
-     * to this question should be relative to the base directory
+     *          to this question should be relative to the base directory
      * @see #setBaseRelativeOnly
      */
     public void setBaseRelativeOnly(boolean b) {
@@ -315,15 +329,16 @@ public abstract class FileListQuestion extends Question
     /**
      * Load the value for this question from a dictionary, using
      * the tag as the key.
+     *
      * @param data The map from which to load the value for this question.
      */
     @Override
     protected void load(Map<String, String> data) {
         Object o = data.get(tag);
         if (o instanceof File[])
-            setValue((File[])o);
+            setValue((File[]) o);
         else if (o instanceof String)
-            setValue(split((String)o));
+            setValue(split((String) o));
     }
 
     /**
@@ -333,6 +348,7 @@ public abstract class FileListQuestion extends Question
      * The preferred separator is a newline character;
      * if there are no newline characters in the string, then
      * (for backward compatibility) space is accepted instead.
+     *
      * @param s The string to be broken apart
      * @return An array of files determined from the parameter string.
      * @see #join
@@ -350,9 +366,8 @@ public abstract class FileListQuestion extends Question
                 if (start != -1)
                     v.add(new File(s.substring(start, i)));
                 start = -1;
-            } else
-                if (start == -1)
-                    start = i;
+            } else if (start == -1)
+                start = i;
         }
         if (start != -1)
             v.add(new File(s.substring(start)));
@@ -363,11 +378,12 @@ public abstract class FileListQuestion extends Question
         return a;
     }
 
-    private static final File[] empty = { };
+    private static final File[] empty = {};
 
     /**
      * Save the value for this question in a dictionary, using
      * the tag as the key.
+     *
      * @param data The map in which to save the value for this question.
      */
     @Override
@@ -378,6 +394,7 @@ public abstract class FileListQuestion extends Question
 
     /**
      * Convert a list of filenames to a newline separated string.
+     *
      * @param ff an array of filenames
      * @return a string containing the filenames separated by newline
      * characters.
@@ -403,8 +420,7 @@ public abstract class FileListQuestion extends Question
             // if there is just one file, and if it contains space characters,
             // then force a newline character for subsequent split to recognize
             sb.append('\n');
-        }
-        else {
+        } else {
             // if there is more than one file, separate them with newlines
             for (int i = 1; i < ff.length; i++) {
                 sb.append('\n');
@@ -417,6 +433,7 @@ public abstract class FileListQuestion extends Question
 
     /**
      * Determine if two arrays of filenames are equal.
+     *
      * @param f1 the first array to be compared
      * @param f2 the other array to be compared
      * @return true if both arrays are null, or if neither are null and if

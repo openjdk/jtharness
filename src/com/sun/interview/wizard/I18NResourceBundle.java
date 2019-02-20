@@ -37,8 +37,7 @@ import java.util.MissingResourceException;
  * A class that lazily opens a package-specific resource bundle
  * containing localization data for a class.
  */
-class I18NResourceBundle extends ResourceBundle
-{
+class I18NResourceBundle extends ResourceBundle {
     static I18NResourceBundle getDefaultBundle() {
         if (defaultBundle == null)
             defaultBundle = getBundleForClass(I18NResourceBundle.class);
@@ -52,6 +51,7 @@ class I18NResourceBundle extends ResourceBundle
      * Get a package-specific resource bundle for a class containing localization data.
      * The bundle is named i18n.properties in the same
      * package as the given class.
+     *
      * @param c the class for which to obtain the resource bundle
      * @return the appropriate resource bundle for the class
      */
@@ -67,9 +67,10 @@ class I18NResourceBundle extends ResourceBundle
      * Get an entry from the resource bundle.
      * If the resource cannot be found, a message is printed to the console
      * and the result will be a string containing the method parameters.
+     *
      * @param key the name of the entry to be returned
      * @param arg an argument to be formatted into the result using
-     * {@link java.text.MessageFormat#format}
+     *            {@link java.text.MessageFormat#format}
      * @return the formatted string
      */
     public String getString(String key, Object arg) {
@@ -80,16 +81,16 @@ class I18NResourceBundle extends ResourceBundle
      * Get an entry from the resource bundle.
      * If the resource cannot be found, a message is printed to the console
      * and the result will be a string containing the method parameters.
-     * @param key the name of the entry to be returned
+     *
+     * @param key  the name of the entry to be returned
      * @param args an array of arguments to be formatted into the result using
-     * {@link java.text.MessageFormat#format}
+     *             {@link java.text.MessageFormat#format}
      * @return the formatted string
      */
     public String getString(String key, Object... args) {
         try {
             return MessageFormat.format(getString(key), args);
-        }
-        catch (MissingResourceException e) {
+        } catch (MissingResourceException e) {
             showError(key, name);
             return key;
         }
@@ -99,11 +100,12 @@ class I18NResourceBundle extends ResourceBundle
      * Get a color defined in the resource bundle.
      * If the resource cannot be found, a message is printed to the console
      * and the result will be a specified default.
-     * @param key The base key for the resource. The actual key is this
-     * value with ".clr" appended.
+     *
+     * @param key  The base key for the resource. The actual key is this
+     *             value with ".clr" appended.
      * @param dflt an integer value used to construct the default result
-     * if the specified resource cannot be found. The value is normally
-     * most conveniently specified in hex, in the standard 0xRRGGBB format.
+     *             if the specified resource cannot be found. The value is normally
+     *             most conveniently specified in hex, in the standard 0xRRGGBB format.
      * @return the color defined in the resource bundle, or a default
      * if the resource cannot be found
      */
@@ -112,8 +114,7 @@ class I18NResourceBundle extends ResourceBundle
         try {
             if (value != null)
                 return Color.decode(value);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // ignore
         }
         return new Color(dflt);
@@ -122,6 +123,7 @@ class I18NResourceBundle extends ResourceBundle
     /**
      * Get a color suitable for displaying short error messages.
      * The color is defined by the i18n.error.clr resource.
+     *
      * @return a color suitable for displaying short error messages
      */
     public Color getErrorColor() {
@@ -132,6 +134,7 @@ class I18NResourceBundle extends ResourceBundle
     /**
      * Create a resource bundle for the given name.
      * The actual resource bundle will not be loaded until it is needed.
+     *
      * @arg name The name of the actual resource bundle to use.
      */
     private I18NResourceBundle(String name, boolean logging, ClassLoader cl) {
@@ -155,8 +158,7 @@ class I18NResourceBundle extends ResourceBundle
             if (delegate == null)
                 delegate = ResourceBundle.getBundle(name, Locale.getDefault(), classLoader);
             return delegate.getObject(key);
-        }
-        catch (MissingResourceException e) {
+        } catch (MissingResourceException e) {
             showError(key, name);
             return key;
         }

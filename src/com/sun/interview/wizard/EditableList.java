@@ -52,12 +52,12 @@ import javax.swing.event.ListSelectionListener;
 /**
  * A component that displays an editable list of values.
  */
-public class EditableList extends JPanel
-{
+public class EditableList extends JPanel {
     /**
      * Create an EditableList.
+     *
      * @param uiKey A string used as the base of a key to look up resource values
-     * for this item.
+     *              for this item.
      * @param items An array of strings to display as initial values in the list.
      */
     public EditableList(String uiKey, Object... items) {
@@ -89,7 +89,7 @@ public class EditableList extends JPanel
         bar.setName(uiKey + "bar");
         bar.setFocusable(false);
         bar.setFloatable(false);
-        bar.add(addBtn  = createButton("elst.add"));
+        bar.add(addBtn = createButton("elst.add"));
         bar.add(removeBtn = createButton("elst.remove"));
         bar.add(upBtn = createButton("elst.up"));
         bar.add(downBtn = createButton("elst.down"));
@@ -108,6 +108,7 @@ public class EditableList extends JPanel
 
     /**
      * Get the set of items in the list.
+     *
      * @return the set of items currently in the list
      */
     public Object[] getItems() {
@@ -116,6 +117,7 @@ public class EditableList extends JPanel
 
     /**
      * Get the items currently in the list, in an array of a specific type.
+     *
      * @param c the component type of the array to be returned
      * @return an array containing the items currently in the list
      */
@@ -147,6 +149,7 @@ public class EditableList extends JPanel
 
     /**
      * Specify whether or not duplicates should be allowed in the list.
+     *
      * @param b true if duplicates should be allowed, and false otherwise
      * @see #isDuplicatesAllowed
      */
@@ -156,6 +159,7 @@ public class EditableList extends JPanel
 
     /**
      * Check whether or not duplicates should be allowed in the list.
+     *
      * @return true if duplicates should be allowed, and false otherwise
      * @see #setDuplicatesAllowed
      */
@@ -173,6 +177,7 @@ public class EditableList extends JPanel
      * the user to type in a new string. Subtypes may override this method
      * to provide other ways of specifying items to be added, such as a
      * file chooser.
+     *
      * @return an object to be added to the list, or null if no object
      * to be added.
      */
@@ -186,6 +191,7 @@ public class EditableList extends JPanel
      * the user to type in a new string. Subtypes may override this method
      * to provide other ways of specifying items to be added, such as a
      * file chooser.
+     *
      * @param the item to be replaced in the list
      * @return an object to replace the old item the list, or null if no
      * replacement should occur.
@@ -272,39 +278,36 @@ public class EditableList extends JPanel
         String title = i18n.getString("elst.duplicate.title");
 
         JOptionPane.showMessageDialog(this,
-                                      text,
-                                      title,
-                                      JOptionPane.INFORMATION_MESSAGE);
+                text,
+                title,
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     protected class Renderer
-        extends DefaultListCellRenderer {
+            extends DefaultListCellRenderer {
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             return super.getListCellRendererComponent(list,
-                                                      getDisplayValue(value),
-                                                      index,
-                                                      isSelected,
-                                                      cellHasFocus);
+                    getDisplayValue(value),
+                    index,
+                    isSelected,
+                    cellHasFocus);
         }
     }
 
     protected class Listener
-        implements ActionListener, ListSelectionListener, MouseListener {
+            implements ActionListener, ListSelectionListener, MouseListener {
         // ActionListener, for add, remove, up, down buttons
         @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
             if (src == addBtn) {
                 insertItem();
-            }
-            else if (src == removeBtn) {
+            } else if (src == removeBtn) {
                 removeSelectedItem();
-            }
-            else if (src == upBtn) {
+            } else if (src == upBtn) {
                 moveSelectedItemUp();
-            }
-            else if (src == downBtn) {
+            } else if (src == downBtn) {
                 moveSelectedItemDown();
             }
             itemsChanged();
@@ -323,19 +326,26 @@ public class EditableList extends JPanel
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 int index = list.locationToIndex(e.getPoint());
-                if(index != -1)
+                if (index != -1)
                     editItem(index);
             }
         }
 
         @Override
-        public void mouseEntered(MouseEvent e) { }
+        public void mouseEntered(MouseEvent e) {
+        }
+
         @Override
-        public void mouseExited(MouseEvent e) { }
+        public void mouseExited(MouseEvent e) {
+        }
+
         @Override
-        public void mousePressed(MouseEvent e) { }
+        public void mousePressed(MouseEvent e) {
+        }
+
         @Override
-        public void mouseReleased(MouseEvent e) { }
+        public void mouseReleased(MouseEvent e) {
+        }
     }
 
     protected void updateButtons() {
@@ -343,8 +353,7 @@ public class EditableList extends JPanel
             removeBtn.setEnabled(false);
             upBtn.setEnabled(false);
             downBtn.setEnabled(false);
-        }
-        else {
+        } else {
             removeBtn.setEnabled(true);
             int i = list.getSelectedIndex();
             upBtn.setEnabled(i > 0);

@@ -29,14 +29,15 @@ package com.sun.interview;
 /**
  * A specialized base class for questions which have more than one value to be
  * manipulated by the user.
+ *
  * @since 4.0
  */
-public abstract class CompositeQuestion extends Question
-{
+public abstract class CompositeQuestion extends Question {
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param baseTag A name to uniquely identify this question within its interview.
+     * @param baseTag   A name to uniquely identify this question within its interview.
      */
     protected CompositeQuestion(Interview interview, String baseTag) {
         super(interview, baseTag);
@@ -44,6 +45,7 @@ public abstract class CompositeQuestion extends Question
 
     /**
      * Create a question with no identifying tag.
+     *
      * @param interview The interview containing this question.
      */
     protected CompositeQuestion(Interview interview) {
@@ -54,8 +56,9 @@ public abstract class CompositeQuestion extends Question
      * Set the response to this question to the value represented by
      * a string-valued argument. Subtypes of Question will typically
      * have type-specific methods to set the value as well.
+     *
      * @param s A string containing a value value appropriate for the
-     * particular type of question whose value is being set.
+     *          particular type of question whose value is being set.
      * @throws Interview.Fault (retained for compatibility; should not be thrown)
      * @see #getStringValue
      */

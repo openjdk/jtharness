@@ -34,6 +34,7 @@ import java.io.File;
 public class AllFilesFileFilter implements FileFilter {
     /**
      * Create a filter which accepts all (non-directory) files.
+     *
      * @param description A short string describing the filter.
      */
     public AllFilesFileFilter(String description) {
@@ -52,6 +53,7 @@ public class AllFilesFileFilter implements FileFilter {
 
     /**
      * Get a short description for this filter.
+     *
      * @return a short description of this filter
      */
     @Override

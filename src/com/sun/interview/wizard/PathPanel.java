@@ -83,8 +83,7 @@ import com.sun.interview.NullQuestion;
 import com.sun.interview.Question;
 
 class PathPanel extends JPanel
-    implements Scrollable
-{
+        implements Scrollable {
     public PathPanel(QuestionPanel questionPanel, Interview interview) {
         this.questionPanel = questionPanel;  //uugh; but needed for autosaving answers before changing questions
         this.interview = interview;
@@ -195,20 +194,21 @@ class PathPanel extends JPanel
             public int getSourceActions(JComponent c) {
                 return COPY;
             }
+
             @Override
             public Transferable createTransferable(JComponent c) {
                 Object selected = list.getSelectedValue();
-                if(selected != null) {
-                    if(selected instanceof Question)
-                        return new StringSelection(((Question)selected).getSummary());
-                    else if(selected instanceof List) {
+                if (selected != null) {
+                    if (selected instanceof Question)
+                        return new StringSelection(((Question) selected).getSummary());
+                    else if (selected instanceof List) {
                         StringBuilder temp = new StringBuilder();
-                        for(Question q: (List<Question>)selected) {
+                        for (Question q : (List<Question>) selected) {
                             temp.append(q.getSummary());
                             temp.append("\n");
                         }
                         return new StringSelection(temp.toString());
-                    } else if(selected instanceof String) {
+                    } else if (selected instanceof String) {
                         return new StringSelection(selected.toString());
                     }
                 }
@@ -229,8 +229,7 @@ class PathPanel extends JPanel
             String tip = i18n.getString(uiKey + ".tip");
             jc.setToolTipText(tip);
             ac.setAccessibleDescription(tip);
-        }
-        else
+        } else
             ac.setAccessibleDescription(i18n.getString(uiKey + ".desc"));
     }
 
@@ -250,12 +249,11 @@ class PathPanel extends JPanel
     private static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
 
     private class PathList
-                extends AbstractListModel<Object>
-                implements ActionListener, AncestorListener,
-                           ListCellRenderer<Object>, ListSelectionListener,
-                           MouseListener,
-                           Interview.Observer
-    {
+            extends AbstractListModel<Object>
+            implements ActionListener, AncestorListener,
+            ListCellRenderer<Object>, ListSelectionListener,
+            MouseListener,
+            Interview.Observer {
         //----- navigation support for WizPane -----------------------
 
         Question getNextVisible() {
@@ -417,7 +415,7 @@ class PathPanel extends JPanel
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
             if (o instanceof Question) {
-                Question q = (Question)o;
+                Question q = (Question) o;
                 Font f;
                 String s;
                 Color c;
@@ -426,41 +424,39 @@ class PathPanel extends JPanel
                     f = list.getFont().deriveFont(Font.BOLD);
                     s = "   " + q.getSummary();
                     c = INVALID_VALUE_COLOR;
-                }
-                else if (q instanceof NullQuestion) {
-                    int level = ((NullQuestion)q).getLevel();
+                } else if (q instanceof NullQuestion) {
+                    int level = ((NullQuestion) q).getLevel();
 
                     switch (level) {
-                    case NullQuestion.LEVEL_NONE:
-                        f = list.getFont();
-                        s = " " + q.getSummary();
-                        c = list.getForeground();
-                        bg = null;
-                        break;
-                    case NullQuestion.LEVEL_1:
-                        f = list.getFont().deriveFont(Font.BOLD,
-                                        list.getFont().getSize() +3);
-                        s = q.getSummary();
-                        c = new Color(0x63,0x82,0xBF);
-                        bg = new Color(0xDD,0xDD,0xDD);
-                        break;
-                    case NullQuestion.LEVEL_2:
-                        f = list.getFont().deriveFont(Font.BOLD);
-                        s = q.getSummary();
-                        c = new Color(0x63,0x82,0xBF);
-                        break;
-                    case NullQuestion.LEVEL_3:
-                        f = list.getFont().deriveFont(Font.PLAIN);
-                        s = "  " + q.getSummary();
-                        c = list.getForeground();
-                        break;
-                    default:        // LEVEL_LEGACY handled here
-                        f = list.getFont().deriveFont(Font.BOLD);
-                        s = " " + q.getSummary();
-                        c = list.getForeground();
+                        case NullQuestion.LEVEL_NONE:
+                            f = list.getFont();
+                            s = " " + q.getSummary();
+                            c = list.getForeground();
+                            bg = null;
+                            break;
+                        case NullQuestion.LEVEL_1:
+                            f = list.getFont().deriveFont(Font.BOLD,
+                                    list.getFont().getSize() + 3);
+                            s = q.getSummary();
+                            c = new Color(0x63, 0x82, 0xBF);
+                            bg = new Color(0xDD, 0xDD, 0xDD);
+                            break;
+                        case NullQuestion.LEVEL_2:
+                            f = list.getFont().deriveFont(Font.BOLD);
+                            s = q.getSummary();
+                            c = new Color(0x63, 0x82, 0xBF);
+                            break;
+                        case NullQuestion.LEVEL_3:
+                            f = list.getFont().deriveFont(Font.PLAIN);
+                            s = "  " + q.getSummary();
+                            c = list.getForeground();
+                            break;
+                        default:        // LEVEL_LEGACY handled here
+                            f = list.getFont().deriveFont(Font.BOLD);
+                            s = " " + q.getSummary();
+                            c = list.getForeground();
                     }   // switch
-                }
-                else {
+                } else {
                     f = list.getFont().deriveFont(Font.PLAIN);
                     s = "   " + q.getSummary();
                     c = list.getForeground();
@@ -477,29 +473,25 @@ class PathPanel extends JPanel
                     sample.setIcon(q.hasMarker(markerName) ? markerIcon : noMarkerIcon);
                 else
                     sample.setIcon(null);
-            }
-            else if (o instanceof List) {
+            } else if (o instanceof List) {
                 sample.setText(null);
                 sample.setFont(list.getFont());
                 sample.setForeground(list.getForeground());
                 sample.setIcon(ellipsisIcon);
-            }
-            else if (o instanceof String) {
+            } else if (o instanceof String) {
                 // prototype value or more...
                 sample.setText(" " + o);
                 sample.setFont(list.getFont().deriveFont(Font.ITALIC));
                 sample.setForeground(list.getForeground());
                 sample.setIcon(markersEnabled ? noMarkerIcon : null);
-            }
-            else
+            } else
                 throw new IllegalArgumentException();
 
             // rest of method based on javax.swing.DefaultListCellRenderer
             if (isSelected) {
                 sample.setBackground(list.getSelectionBackground());
                 //sample.setForeground(list.getSelectionForeground());
-            }
-            else {
+            } else {
                 //sample.setBackground(list.getBackground());
                 //sample.setForeground(list.getForeground());
             }
@@ -519,7 +511,7 @@ class PathPanel extends JPanel
             JList<?> list = (JList<?>) e.getSource();
             Object o = list.getSelectedValue();
             if (o != null && o instanceof Question) {
-                Question q = (Question)o;
+                Question q = (Question) o;
                 if (q == interview.getCurrentQuestion())
                     return;
 
@@ -529,8 +521,7 @@ class PathPanel extends JPanel
                 try {
                     //System.err.println("PP.actionPerformed setCurrentQuestion");
                     interview.setCurrentQuestion(q);
-                }
-                catch (Interview.Fault ex) {
+                } catch (Interview.Fault ex) {
                     // ignore, should never happen; FLW
                 }
             }
@@ -557,12 +548,10 @@ class PathPanel extends JPanel
 
                 try {
                     interview.setCurrentQuestion(q);
-                }
-                catch (Interview.Fault ex) {
+                } catch (Interview.Fault ex) {
                     // ignore, should never happen; FLW
                 }
-            }
-            else if (o instanceof List) {
+            } else if (o instanceof List) {
                 List<?> l = (List<?>) o;
                 if (l.contains(interview.getCurrentQuestion()))
                     return;
@@ -572,13 +561,11 @@ class PathPanel extends JPanel
                 try {
                     Question q = (Question) l.get(0);
                     interview.setCurrentQuestion(q);
-                }
-                catch (Interview.Fault ex) {
+                } catch (Interview.Fault ex) {
                     // ignore, should never happen; FLW
                 }
 
-            }
-            else {
+            } else {
                 // if the user tries to select the More string,
                 // reject the request by resetting to the currIndex
                 list.setSelectedIndex(currIndex);
@@ -594,7 +581,8 @@ class PathPanel extends JPanel
         }
 
         @Override
-        public void ancestorMoved(AncestorEvent e) { }
+        public void ancestorMoved(AncestorEvent e) {
+        }
 
         @Override
         public void ancestorRemoved(AncestorEvent e) {
@@ -604,10 +592,12 @@ class PathPanel extends JPanel
         //----- from MouseListener -----------
 
         @Override
-        public void mouseEntered(MouseEvent e) { }
+        public void mouseEntered(MouseEvent e) {
+        }
 
         @Override
-        public void mouseExited(MouseEvent e) { }
+        public void mouseExited(MouseEvent e) {
+        }
 
         @Override
         public void mousePressed(MouseEvent e) {
@@ -645,23 +635,23 @@ class PathPanel extends JPanel
             Object entry = currEntries[index];
 
             switch (e.getClickCount()) {
-            case 1:
-                if (p.x < markerIcon.getIconWidth()) {
-                    if (entry instanceof Question) {
-                        Question q = (Question) entry;
-                        setQuestionMarked(q, !q.hasMarker(markerName));
+                case 1:
+                    if (p.x < markerIcon.getIconWidth()) {
+                        if (entry instanceof Question) {
+                            Question q = (Question) entry;
+                            setQuestionMarked(q, !q.hasMarker(markerName));
+                        }
                     }
-                }
-                break;
+                    break;
 
-            case 2:
-                if (markersFilterEnabled) {
-                    if (entry instanceof List)
-                        openEntry(index);
-                    else
-                        closeEntry(index);
-                }
-                break;
+                case 2:
+                    if (markersFilterEnabled) {
+                        if (entry instanceof List)
+                            openEntry(index);
+                        else
+                            closeEntry(index);
+                    }
+                    break;
             }
         }
 
@@ -722,7 +712,7 @@ class PathPanel extends JPanel
             if (markersEnabled) {
                 for (int i = 0; i < newEntries.length; i++) {
                     newMarks[i] = newEntries[i] instanceof Question
-                                   && ((Question) newEntries[i]).hasMarker(markerName);
+                            && ((Question) newEntries[i]).hasMarker(markerName);
                 }
             }
 
@@ -742,11 +732,10 @@ class PathPanel extends JPanel
                     Object newObj = newEntries[firstDiff];
                     boolean newMark = newMarks[firstDiff];
                     if (oldObj instanceof Question ? oldObj == newObj && oldMark == newMark
-                        : oldObj instanceof List ? newObj instanceof List
-                        : false ) {
+                            : oldObj instanceof List ? newObj instanceof List
+                            : false) {
                         firstDiff++;
-                    }
-                    else
+                    } else
                         break;
                 }
             }
@@ -754,16 +743,16 @@ class PathPanel extends JPanel
             if (firstDiff != oldEntries.length || firstDiff != newEntries.length) {
                 if (firstDiff != shorterEntriesLength) {
                     //System.err.println("PP.update: change[" + firstDiff + "," + (shorterEntriesLength-1) + "/" + oldEntries.length + "," + newEntries.length + "]" + interview);
-                    fireContentsChanged(this, firstDiff, shorterEntriesLength-1);
+                    fireContentsChanged(this, firstDiff, shorterEntriesLength - 1);
                 }
 
                 if (shorterEntriesLength != oldEntries.length) {
                     //System.err.println("PP.update: remove[" + shorterEntriesLength + "," + (oldEntries.length-1) + "/" + oldEntries.length + "," + newEntries.length + "]" + interview);
-                    fireIntervalRemoved(this, shorterEntriesLength, oldEntries.length-1);
+                    fireIntervalRemoved(this, shorterEntriesLength, oldEntries.length - 1);
                 }
                 if (shorterEntriesLength != newEntries.length) {
                     //System.err.println("PP.update: add[" + shorterEntriesLength + "," + (newEntries.length-1) + "/" + oldEntries.length + "," + newEntries.length + "]" + interview);
-                    fireIntervalAdded(this, shorterEntriesLength, newEntries.length-1);
+                    fireIntervalAdded(this, shorterEntriesLength, newEntries.length - 1);
                 }
             }
 
@@ -771,7 +760,7 @@ class PathPanel extends JPanel
             for (int i = 0; i < currEntries.length; i++) {
                 Object o = currEntries[i];
                 if (o == currQuestion
-                    || (o instanceof List && ((List<?>) o).contains(currQuestion))) {
+                        || (o instanceof List && ((List<?>) o).contains(currQuestion))) {
                     currIndex = i;
                     break;
                 }
@@ -789,7 +778,7 @@ class PathPanel extends JPanel
             Question last = path[path.length - 1];
             boolean needMore = !(last instanceof ErrorQuestion || last instanceof FinalQuestion);
             // quick check to see if we can simply use the path as is
-            if ( (!markersEnabled || !markersFilterEnabled) && !needMore)
+            if ((!markersEnabled || !markersFilterEnabled) && !needMore)
                 return path;
 
             Vector<Object> v = new Vector<>();
@@ -798,24 +787,20 @@ class PathPanel extends JPanel
                 Question q = path[i];
                 if (!markersEnabled || !markersFilterEnabled) {
                     v.add(q);
-                }
-                else if (q.hasMarker(markerName)
-                         || i == 0
-                         || (i == path.length - 1 && q instanceof FinalQuestion)) {
+                } else if (q.hasMarker(markerName)
+                        || i == 0
+                        || (i == path.length - 1 && q instanceof FinalQuestion)) {
                     lastMarker = q;
                     v.add(q);
-                }
-                else if (autoOpenSet.contains(lastMarker)) {
+                } else if (autoOpenSet.contains(lastMarker)) {
                     v.add(q);
-                }
-                else {
+                } else {
                     List<Question> l;
                     Object o = v.lastElement();
                     if (o == null || o instanceof Question) {
                         l = new Vector<>();
                         v.add(l);
-                    }
-                    else
+                    } else
                         l = (List<Question>) o;
                     l.add(q);
                 }
@@ -835,7 +820,6 @@ class PathPanel extends JPanel
             v.copyInto(a);
             return a;
         }
-
 
 
         // currPath and currQuestion give info as obtained from the interview
@@ -875,8 +859,7 @@ class PathPanel extends JPanel
     }
 
     private class Menu
-        implements ActionListener, ChangeListener, MenuListener, PopupMenuListener
-    {
+            implements ActionListener, ChangeListener, MenuListener, PopupMenuListener {
 
         static final int JMENU = 0, JPOPUPMENU = 1;
 
@@ -924,8 +907,7 @@ class PathPanel extends JPanel
                 m.add(removeAllItem);
                 m.addMenuListener(this);
                 comp = m;
-            }
-            else {
+            } else {
                 JPopupMenu m = new JPopupMenu();
                 m.add(markItem);
                 m.add(unmarkItem);
@@ -997,8 +979,7 @@ class PathPanel extends JPanel
 
                 removeAllItem.setVisible(true);
                 removeAllItem.setEnabled(markersEnabled);
-            }
-            else {
+            } else {
                 // rules for a popup menu:
                 // hide inappropriate items, but always enabled
                 // note popup menu only active if markersEnabled
@@ -1026,25 +1007,20 @@ class PathPanel extends JPanel
             String cmd = e.getActionCommand();
             if (cmd.equals(MARK)) {
                 pathList.markCurrentQuestion();
-            }
-            else if (cmd.equals(UNMARK)) {
+            } else if (cmd.equals(UNMARK)) {
                 pathList.unmarkCurrentQuestion();
-            }
-            else if (cmd.equals(CLEAR)) {
+            } else if (cmd.equals(CLEAR)) {
                 Question q = interview.getCurrentQuestion();
                 q.clear();
                 // have to redisplay question explicitly,
                 // because there is no notification that the
                 // value of the current question has been changed.
                 questionPanel.showQuestion(q);
-            }
-            else if (cmd.equals(OPEN_GROUP)) {
+            } else if (cmd.equals(OPEN_GROUP)) {
                 pathList.openCurrentEntry();
-            }
-            else if (cmd.equals(CLOSE_GROUP)) {
+            } else if (cmd.equals(CLOSE_GROUP)) {
                 pathList.closeCurrentEntry();
-            }
-            else if (cmd.equals(CLEAR_MARKED)) {
+            } else if (cmd.equals(CLEAR_MARKED)) {
                 Question q = interview.getCurrentQuestion();
                 interview.clearMarkedResponses(markerName);
                 // If the previously current question is still current,
@@ -1052,8 +1028,7 @@ class PathPanel extends JPanel
                 // the updated value
                 if (q == interview.getCurrentQuestion())
                     questionPanel.showQuestion(q);
-            }
-            else if (cmd.equals(REMOVE_MARKERS)) {
+            } else if (cmd.equals(REMOVE_MARKERS)) {
                 // show a confirm dialog?
                 interview.removeMarkers(markerName);
                 if (getMarkersFilterEnabled() == true)
@@ -1072,8 +1047,7 @@ class PathPanel extends JPanel
                 questionPanel.saveCurrentResponse();
                 boolean on = enableItem.isSelected();
                 setMarkersEnabled(on);
-            }
-            else if (src == filterItem) {
+            } else if (src == filterItem) {
                 questionPanel.saveCurrentResponse();
                 boolean on = filterItem.isSelected();
                 setMarkersFilterEnabled(on);
@@ -1136,8 +1110,7 @@ class PathPanel extends JPanel
 
     //-----------------------------------------------------------------------
 
-    private static class MarkerIcon implements Icon
-    {
+    private static class MarkerIcon implements Icon {
         MarkerIcon(boolean on) {
             this.on = on;
         }
@@ -1157,7 +1130,7 @@ class PathPanel extends JPanel
             if (on) {
                 if (image == null) {
                     image = new BufferedImage(getIconWidth(), getIconHeight(),
-                                              BufferedImage.TYPE_INT_ARGB);
+                            BufferedImage.TYPE_INT_ARGB);
                     paintMe(image);
                 }
                 g.drawImage(image, x, y, null);
@@ -1174,21 +1147,21 @@ class PathPanel extends JPanel
             int y1 = x1;
 
             int[] xx = {
-                x0 + iconIndent,
-                x1,
-                x1,
-                x1 - iconIndent,
-                x0,
-                x0 + iconIndent,
+                    x0 + iconIndent,
+                    x1,
+                    x1,
+                    x1 - iconIndent,
+                    x0,
+                    x0 + iconIndent,
             };
 
             int[] yy = {
-                y0,
-                y1 - iconIndent,
-                y1,
-                y1,
-                y0 + iconIndent,
-                y0 + iconIndent
+                    y0,
+                    y1 - iconIndent,
+                    y1,
+                    y1,
+                    y0 + iconIndent,
+                    y0 + iconIndent
             };
 
             g.setColor(new Color(102, 102, 153));//g.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
@@ -1204,8 +1177,7 @@ class PathPanel extends JPanel
 
     //-----------------------------------------------------------------------
 
-    private static class EllipsisIcon implements Icon
-    {
+    private static class EllipsisIcon implements Icon {
         @Override
         public int getIconWidth() {
             return iconWidth;
@@ -1220,7 +1192,7 @@ class PathPanel extends JPanel
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (image == null) {
                 image = new BufferedImage(getIconWidth(), getIconHeight(),
-                                          BufferedImage.TYPE_INT_ARGB);
+                        BufferedImage.TYPE_INT_ARGB);
                 paintMe(image);
             }
             g.drawImage(image, x, y, null);

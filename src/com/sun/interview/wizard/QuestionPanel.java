@@ -80,6 +80,7 @@ import com.sun.interview.StringQuestion;
 import com.sun.interview.StringListQuestion;
 import com.sun.interview.TreeQuestion;
 import com.sun.interview.YesNoQuestion;
+
 import java.util.EventListener;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -90,8 +91,7 @@ import javax.swing.JScrollPane;
  * embodied in an {@link Interview interview}.
  */
 class QuestionPanel extends JPanel
-    implements Scrollable
-{
+        implements Scrollable {
 
     /**
      * Create a panel in which to display the questions of the interview.
@@ -131,25 +131,25 @@ class QuestionPanel extends JPanel
 
     @Override
     public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        switch(orientation) {
-        case SwingConstants.VERTICAL:
-            return visibleRect.height / 10;
-        case SwingConstants.HORIZONTAL:
-            return visibleRect.width / 10;
-        default:
-            throw new IllegalArgumentException("Invalid orientation: " + orientation);
+        switch (orientation) {
+            case SwingConstants.VERTICAL:
+                return visibleRect.height / 10;
+            case SwingConstants.HORIZONTAL:
+                return visibleRect.width / 10;
+            default:
+                throw new IllegalArgumentException("Invalid orientation: " + orientation);
         }
     }
 
     @Override
     public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-        switch(orientation) {
-        case SwingConstants.VERTICAL:
-            return visibleRect.height;
-        case SwingConstants.HORIZONTAL:
-            return visibleRect.width;
-        default:
-            throw new IllegalArgumentException("Invalid orientation: " + orientation);
+        switch (orientation) {
+            case SwingConstants.VERTICAL:
+                return visibleRect.height;
+            case SwingConstants.HORIZONTAL:
+                return visibleRect.width;
+            default:
+                throw new IllegalArgumentException("Invalid orientation: " + orientation);
         }
     }
 
@@ -159,8 +159,8 @@ class QuestionPanel extends JPanel
         // getPreferredSize() gives default values. In this case, and if horizontal scroll exists,
         // viewport height becomes less than getPreferredSize().height, but may be enough for components
         // without any scrolling
-        if(getParent() instanceof JViewport)
-                return getParent().getHeight() > getPreferredSize().height;
+        if (getParent() instanceof JViewport)
+            return getParent().getHeight() > getPreferredSize().height;
         else
             return false;
     }
@@ -194,7 +194,7 @@ class QuestionPanel extends JPanel
 //        else {
 ////            this.setPreferredSize(this.getSize());
 //            setHorScrollStatus(false);
-            return true;
+        return true;
 //        }
     }
 
@@ -344,7 +344,7 @@ class QuestionPanel extends JPanel
 
         propsPanel = new JPanel(new BorderLayout());
         propsPanel.setBorder(BorderFactory.createEtchedBorder());
-                // replace by titled border "properties" if we get more than one...
+        // replace by titled border "properties" if we get more than one...
         propsPanel.setName("qu.props.pnl");
         propsPanel.setFocusable(false);
         JLabel tagLabel = new JLabel(i18n.getString("qu.tag.lbl"));
@@ -366,25 +366,25 @@ class QuestionPanel extends JPanel
         ActionMap actionMap = getActionMap();
 
         actionMap.put("hideProps", new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    propsPanel.setVisible(false);
-                }
-            });
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                propsPanel.setVisible(false);
+            }
+        });
 
         actionMap.put("showProps", new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    propsPanel.setVisible(true);
-                }
-            });
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                propsPanel.setVisible(true);
+            }
+        });
 
         actionMap.put("toggleProps", new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    propsPanel.setVisible(!propsPanel.isVisible());
-                }
-            });
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                propsPanel.setVisible(!propsPanel.isVisible());
+            }
+        });
 
         InputMap inputMap = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         inputMap.put(KeyStroke.getKeyStroke("ctrl T"), "toggleProps");
@@ -399,8 +399,7 @@ class QuestionPanel extends JPanel
             String tip = i18n.getString(uiKey + ".tip");
             jc.setToolTipText(tip);
             ac.setAccessibleDescription(tip);
-        }
-        else
+        } else
             ac.setAccessibleDescription(i18n.getString(uiKey + ".desc"));
     }
 
@@ -416,8 +415,7 @@ class QuestionPanel extends JPanel
             try {
                 // no current response to save :-)
                 interview.prev();
-            }
-            catch (Interview.Fault ignore) {
+            } catch (Interview.Fault ignore) {
             }
             return;
         }
@@ -442,8 +440,7 @@ class QuestionPanel extends JPanel
         if (r == null) {
             //System.err.println("no renderer for " + q.getTag() + " [" + q.getClass().getName() + "]");
             valueSaver = null;
-        }
-        else {
+        } else {
             JComponent rc = r.getQuestionRendererComponent(q, valueAction);
             if (rc == null) {
                 valueSaver = null;
@@ -451,8 +448,7 @@ class QuestionPanel extends JPanel
                     // no response area, so put focus back on question text
                     textArea.requestFocus();
                 }
-            }
-            else {
+            } else {
                 if (rc.getName() == null)
                     rc.setName(r.getClass().getName());
 
@@ -490,8 +486,8 @@ class QuestionPanel extends JPanel
 
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final Dimension minS = new Dimension(350, 100);
-        final Dimension maxS = new Dimension(Math.min(2*(screen.width/3), 800), Math.min(2*(screen.height/3), 600));
-        Dimension p =  ePane.getPreferredSize();
+        final Dimension maxS = new Dimension(Math.min(2 * (screen.width / 3), 800), Math.min(2 * (screen.height / 3), 600));
+        Dimension p = ePane.getPreferredSize();
 
         p.setSize(Math.max(p.width, minS.width), Math.max(p.height, minS.height));
         p.setSize(Math.min(p.width, maxS.width), Math.min(p.height, maxS.height));
@@ -511,11 +507,11 @@ class QuestionPanel extends JPanel
      * This made to allow components handle feature closing
      */
     public void prepareClosing() {
-        if(currentRenderer instanceof PropertiesQuestionRenderer) {
+        if (currentRenderer instanceof PropertiesQuestionRenderer) {
             AncestorEvent e = new AncestorEvent(this, AncestorEvent.ANCESTOR_REMOVED,
-                                    valuePanel, valuePanel.getParent());
+                    valuePanel, valuePanel.getParent());
             Component[] childs = valuePanel.getComponents();
-            for(int i = 0; i < childs.length; i++) {
+            for (int i = 0; i < childs.length; i++) {
                 EventListener[] l = childs[i].getListeners(AncestorListener.class);
                 for (EventListener aL : l) {
                     if (l[i] instanceof AncestorListener) {
@@ -528,8 +524,8 @@ class QuestionPanel extends JPanel
 
     public void showValueInvalidMessage() {
         String msg = currentRenderer == null
-                      ? null
-                      : currentRenderer.getInvalidValueMessage(currentQuestion);
+                ? null
+                : currentRenderer.getInvalidValueMessage(currentQuestion);
         showValueMessage(msg == null ? INVALID_VALUE : msg, INVALID_VALUE_COLOR);
     }
 
@@ -541,8 +537,7 @@ class QuestionPanel extends JPanel
         if (msg == null || msg.isEmpty()) {
             valueMessageField.setText("");
             valueMessageField.setEnabled(false);
-        }
-        else {
+        } else {
             valueMessageField.setForeground(c);
             valueMessageField.setText(msg);
             valueMessageField.setEnabled(true);
@@ -577,7 +572,7 @@ class QuestionPanel extends JPanel
         for (int i = 0; i < p.getComponentCount(); i++) {
             Component c = p.getComponent(i);
             if ((c instanceof JComponent && c.hasFocus())
-                || (c instanceof JPanel && anyChildHasFocus((JPanel)c)))
+                    || (c instanceof JPanel && anyChildHasFocus((JPanel) c)))
                 return true;
         }
         return false;
@@ -604,32 +599,30 @@ class QuestionPanel extends JPanel
 
     private KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
     private Action valueAction = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String cmd = e.getActionCommand();
-                if (cmd.equals(QuestionRenderer.EDITED))
-                    showValueMessage(null);
-                else {
-                    if (nextAction != null) {
-                        nextAction.actionPerformed(e);
-                    }
-                    else {
-                        // default old behavior
-                        try {
-                            saveCurrentResponse();
-                            interview.next();
-                        }
-                        catch (Interview.Fault ex) {
-                            // exception normally means no more questions,
-                            // which should only be  because the value of the current
-                            // question is invalid
-                            // e.printStackTrace();
-                            // QuestionPanel.this.getToolkit().beep();
-                            showValueInvalidMessage();
-                        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String cmd = e.getActionCommand();
+            if (cmd.equals(QuestionRenderer.EDITED))
+                showValueMessage(null);
+            else {
+                if (nextAction != null) {
+                    nextAction.actionPerformed(e);
+                } else {
+                    // default old behavior
+                    try {
+                        saveCurrentResponse();
+                        interview.next();
+                    } catch (Interview.Fault ex) {
+                        // exception normally means no more questions,
+                        // which should only be  because the value of the current
+                        // question is invalid
+                        // e.printStackTrace();
+                        // QuestionPanel.this.getToolkit().beep();
+                        showValueInvalidMessage();
                     }
                 }
             }
+        }
 
     };
 
@@ -658,8 +651,7 @@ class QuestionPanel extends JPanel
 
 
     private class Listener
-        implements AncestorListener, Interview.Observer
-    {
+            implements AncestorListener, Interview.Observer {
 
         // ---------- AncestorListener
 
@@ -670,7 +662,8 @@ class QuestionPanel extends JPanel
         }
 
         @Override
-        public void ancestorMoved(AncestorEvent e) { }
+        public void ancestorMoved(AncestorEvent e) {
+        }
 
         @Override
         public void ancestorRemoved(AncestorEvent e) {

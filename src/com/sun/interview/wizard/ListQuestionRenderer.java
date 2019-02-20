@@ -35,13 +35,13 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import com.sun.interview.Interview;
 import com.sun.interview.ListQuestion;
 import com.sun.interview.Question;
 
 public class ListQuestionRenderer
-    implements QuestionRenderer
-{
+        implements QuestionRenderer {
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         ListQuestion q = (ListQuestion) qq;
@@ -89,8 +89,7 @@ public class ListQuestionRenderer
                 */
                 try {
                     getRootInterview(q).setCurrentQuestion(listStart);
-                }
-                catch (Interview.Fault ignore) {
+                } catch (Interview.Fault ignore) {
                 }
             }
         };
@@ -158,12 +157,11 @@ public class ListQuestionRenderer
                     return s;
                 else
                     return "<html><b><font color=\"" + INVALID_VALUE_COLOR + "\">*</font></b> "
-                        + escape(s)
-                        + " <font color=\"" + INVALID_VALUE_COLOR + "\">"
-                        + escape(INVALID_VALUE)
-                        + "</font></html>";
-            }
-            else
+                            + escape(s)
+                            + " <font color=\"" + INVALID_VALUE_COLOR + "\">"
+                            + escape(INVALID_VALUE)
+                            + "</font></html>";
+            } else
                 return item;
         }
 
@@ -183,8 +181,7 @@ public class ListQuestionRenderer
             question.setValue(getSelectedIndex());
             try {
                 getRootInterview(question).next();
-            }
-            catch (Interview.Fault ignore) {
+            } catch (Interview.Fault ignore) {
             }
             return null;
         }
@@ -195,8 +192,7 @@ public class ListQuestionRenderer
             itemsChanged(); // pre-empt EditableList call, since we want to do auto-next
             try {
                 getRootInterview(question).next();
-            }
-            catch (Interview.Fault ignore) {
+            } catch (Interview.Fault ignore) {
             }
         }
 
@@ -224,8 +220,10 @@ public class ListQuestionRenderer
             boolean specialChars = false;
             for (int i = 0; i < text.length() && !specialChars; i++) {
                 switch (text.charAt(i)) {
-                case '<': case '>': case '&':
-                    specialChars = true;
+                    case '<':
+                    case '>':
+                    case '&':
+                        specialChars = true;
                 }
             }
 
@@ -236,15 +234,21 @@ public class ListQuestionRenderer
                 for (int i = 0; i < text.length(); i++) {
                     char c = text.charAt(i);
                     switch (c) {
-                    case '<': sb.append("&lt;"); break;
-                    case '>': sb.append("&gt;"); break;
-                    case '&': sb.append("&amp;"); break;
-                    default: sb.append(c);
+                        case '<':
+                            sb.append("&lt;");
+                            break;
+                        case '>':
+                            sb.append("&gt;");
+                            break;
+                        case '&':
+                            sb.append("&amp;");
+                            break;
+                        default:
+                            sb.append(c);
                     }
                 }
                 return sb.toString();
-            }
-            else
+            } else
                 return text;
         }
 

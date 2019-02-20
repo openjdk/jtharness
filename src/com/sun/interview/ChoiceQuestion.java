@@ -33,13 +33,13 @@ import java.util.ResourceBundle;
 /**
  * A {@link Question question} to which the response is one of a number of choices.
  */
-public abstract class ChoiceQuestion extends Question
-{
+public abstract class ChoiceQuestion extends Question {
     /**
      * Create a question with a nominated tag.
      * If this constructor is used, the choices must be supplied separately.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     * @param tag       A unique tag to identify this specific question.
      */
     protected ChoiceQuestion(Interview interview, String tag) {
         super(interview, tag);
@@ -48,9 +48,10 @@ public abstract class ChoiceQuestion extends Question
 
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
-     * @param choices The set of legal values for responses to this question.
+     * @param tag       A unique tag to identify this specific question.
+     * @param choices   The set of legal values for responses to this question.
      */
     protected ChoiceQuestion(Interview interview, String tag, String... choices) {
         super(interview, tag);
@@ -62,11 +63,12 @@ public abstract class ChoiceQuestion extends Question
      * value is one of the choices (string equality), it will be set
      * identically equal to that choice; otherwise, the current value
      * will be set to the first choice.
+     *
      * @param choices The set of possible responses for this question.
+     * @throws NullPointerException if choices is null.
      * @see #getChoices
      * @see #setChoices(String[], boolean)
      * @see #setChoices(String[], String[])
-     * @throws NullPointerException if choices is null.
      */
     protected void setChoices(String... choices) {
         setChoices(choices, choices);
@@ -77,21 +79,22 @@ public abstract class ChoiceQuestion extends Question
      * value is one of the choices (string equality), it will be set
      * identically equal to that choice; otherwise, the current value
      * will be set to the first choice.
-     * @param choices An array of strings identifying the set of
-     * legal responses for this question. Depending on the value of
-     * the 'localize' argument, the strings will be used literally, or
-     * will be used to construct keys to look up resources in the
-     * containing interview's resource bundle, in order to get the
-     * display strings. In both cases, the current value will always
-     * be one of the values in the choices array.
+     *
+     * @param choices  An array of strings identifying the set of
+     *                 legal responses for this question. Depending on the value of
+     *                 the 'localize' argument, the strings will be used literally, or
+     *                 will be used to construct keys to look up resources in the
+     *                 containing interview's resource bundle, in order to get the
+     *                 display strings. In both cases, the current value will always
+     *                 be one of the values in the choices array.
      * @param localize if false, the choices will be used directly
-     * as the display choices; otherwise the choices will be used
-     * to construct keys to get localized values from the interview's
-     * resource bundle.
+     *                 as the display choices; otherwise the choices will be used
+     *                 to construct keys to get localized values from the interview's
+     *                 resource bundle.
+     * @throws NullPointerException if choices is null.
      * @see #getChoices
      * @see #setChoices(String[])
      * @see #setChoices(String[], String[])
-     * @throws NullPointerException if choices is null.
      */
     protected void setChoices(String[] choices, boolean localize) {
         setChoices(choices, localize ? null : choices);
@@ -102,16 +105,17 @@ public abstract class ChoiceQuestion extends Question
      * value is one of the choices (string equality), it will be set
      * identically equal to that choice; otherwise, the current value
      * will be set to the first choice.
-     * @param choices An array of strings identifying the set of
-     * legal responses for this question.
+     *
+     * @param choices        An array of strings identifying the set of
+     *                       legal responses for this question.
      * @param displayChoices An array of strings to be presented to
-     * the user that identify the legal responses to this question.
-     * The value can also be null, to indicate that the display choices
-     * should be determined automatically by obtaining localized values
-     * for the entries in the choices array.
-     * @throws NullPointerException if choices is null.
+     *                       the user that identify the legal responses to this question.
+     *                       The value can also be null, to indicate that the display choices
+     *                       should be determined automatically by obtaining localized values
+     *                       for the entries in the choices array.
+     * @throws NullPointerException     if choices is null.
      * @throws IllegalArgumentException if displayChoices is not null
-     * and is a different length than choices.
+     *                                  and is a different length than choices.
      * @see #getChoices
      * @see #setChoices(String[])
      * @see #setChoices(String[], boolean)
@@ -154,17 +158,18 @@ public abstract class ChoiceQuestion extends Question
     /**
      * Set the set of legal responses for this question, using the
      * standard resource bundle for localization.
+     *
      * @param choices The set of possible responses for this question.
-     *   Each entry in the argument array is localized by looking up
-     *   <em>question-key</em>.<em>choices[i]</em> in the standard
-     *   resource bundle used by the parent interview. If an appropriate
-     *   entry is not found, the array value (<em>choices[i]</em>) is
-     *   used instead.
+     *                Each entry in the argument array is localized by looking up
+     *                <em>question-key</em>.<em>choices[i]</em> in the standard
+     *                resource bundle used by the parent interview. If an appropriate
+     *                entry is not found, the array value (<em>choices[i]</em>) is
+     *                used instead.
      * @see #getChoices
      * @see #setChoices
-     * @deprecated Use the other setChoices() methods, which support i18n as
-     *     an option.
      * @see Interview#getResourceBundle
+     * @deprecated Use the other setChoices() methods, which support i18n as
+     * an option.
      */
     protected void setI18NChoices(String... choices) {
         setChoices(choices, true);
@@ -173,6 +178,7 @@ public abstract class ChoiceQuestion extends Question
 
     /**
      * Get the set of legal responses for this question.
+     *
      * @return The set of possible responses for this question.
      * @see #setChoices
      * @see #getDisplayChoices
@@ -186,6 +192,7 @@ public abstract class ChoiceQuestion extends Question
      * Get the display values for the set of legal responses for this question.
      * The display values will typically be different from the standard values
      * if they have been localized.
+     *
      * @return The display values for the set of possible responses for this question.
      * @see #setChoices
      * @see #getDisplayChoices
@@ -201,8 +208,7 @@ public abstract class ChoiceQuestion extends Question
                     String c = choices[i];
                     try {
                         displayChoices[i] = c == null ? null : b.getString(key + "." + c);
-                    }
-                    catch (MissingResourceException e) {
+                    } catch (MissingResourceException e) {
                         displayChoices[i] = c;
                     }
                 }
@@ -215,8 +221,8 @@ public abstract class ChoiceQuestion extends Question
     /**
      * Get the default response for this question. It defaults to the
      * first choice in the array of choices set with setChoices.
-     * @return the default response for this question.
      *
+     * @return the default response for this question.
      * @see #setDefaultValue
      */
     public String getDefaultValue() {
@@ -226,8 +232,8 @@ public abstract class ChoiceQuestion extends Question
     /**
      * Set the default response for this question,
      * used by the clear method.
-     * @param v the default response for this question.
      *
+     * @param v the default response for this question.
      * @see #getDefaultValue
      */
     public void setDefaultValue(String v) {
@@ -237,6 +243,7 @@ public abstract class ChoiceQuestion extends Question
     /**
      * Get the internal value for the current (default or latest)
      * response to this question.
+     *
      * @return The current value.
      * @see #setValue
      * @see #getDisplayChoices
@@ -249,6 +256,7 @@ public abstract class ChoiceQuestion extends Question
     /**
      * Get the display string for the current (default or latest)
      * response to this question.
+     *
      * @return The display string for the current value.
      * @see #setValue
      * @see #getDisplayChoices
@@ -268,14 +276,14 @@ public abstract class ChoiceQuestion extends Question
     /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
+     *
      * @return the current value of this question
      * @throws Interview.NotOnPathFault if this question is not on the
-     * current path
+     *                                  current path
      * @see #getValue
      */
     public String getValueOnPath()
-        throws Interview.NotOnPathFault
-    {
+            throws Interview.NotOnPathFault {
         interview.verifyPathContains(this);
         return getValue();
     }
@@ -288,8 +296,9 @@ public abstract class ChoiceQuestion extends Question
 
     /**
      * Set the current value.
+     *
      * @param newValue The value to be set. It must be one of the valid
-     * choices for this question, as distinct from the display choices.
+     *                 choices for this question, as distinct from the display choices.
      * @see #getValue
      */
     @Override
@@ -303,8 +312,7 @@ public abstract class ChoiceQuestion extends Question
                 interview.updatePath(this);
                 interview.setEdited(true);
             }
-        }
-        else {
+        } else {
             // try and canonicalize newValue to one of the specified choices
             for (String choice : choices) {
                 if (newValue.equals(choice)) {
@@ -349,6 +357,7 @@ public abstract class ChoiceQuestion extends Question
     /**
      * Save the value for this question in a dictionary, using
      * the tag as the key.
+     *
      * @param data The map in which to save the value for this question.
      */
     @Override

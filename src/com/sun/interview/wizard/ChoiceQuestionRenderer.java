@@ -35,6 +35,7 @@ import java.awt.Dimension;
 
 import com.sun.interview.ChoiceQuestion;
 import com.sun.interview.Question;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Toolkit;
@@ -52,12 +53,11 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 public class ChoiceQuestionRenderer
-        implements QuestionRenderer
-{
+        implements QuestionRenderer {
 
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
-        q = (ChoiceQuestion)qq;
+        q = (ChoiceQuestion) qq;
         displayChoices = q.getDisplayChoices();
         values = q.getChoices();
         starts_from = values[0] == null ? 1 : 0;
@@ -83,7 +83,7 @@ public class ChoiceQuestionRenderer
         ButtonGroup bg = new ButtonGroup();
 
         String v = q.getValue();
-        for(int i = 0; i < rb.length; i++) {
+        for (int i = 0; i < rb.length; i++) {
 
             rb[i] = new JRadioButton(displayChoices[i + starts_from],
                     Objects.equals(values[i + starts_from], v));
@@ -104,13 +104,13 @@ public class ChoiceQuestionRenderer
             bg.add(rb[i]);
 
             rb[i].addActionListener(new ActionListener() {
-               @Override
-               public void actionPerformed(ActionEvent e) {
-                   CellEditor editor = tbl.getCellEditor();
-                   if (editor != null) {
-                       editor.stopCellEditing();
-                   }
-               }
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    CellEditor editor = tbl.getCellEditor();
+                    if (editor != null) {
+                        editor.stopCellEditing();
+                    }
+                }
             });
         }
 
@@ -158,11 +158,11 @@ public class ChoiceQuestionRenderer
         TableModel model = table.getModel();
         int rowCount = model.getRowCount();
 
-        for(int i = 0; i < rowCount; i++) {
+        for (int i = 0; i < rowCount; i++) {
             TableCellRenderer r = table.getCellRenderer(i, colIndex);
             Component c = r.getTableCellRendererComponent(table,
-                model.getValueAt(i, colIndex),
-                false, false, i, colIndex);
+                    model.getValueAt(i, colIndex),
+                    false, false, i, colIndex);
             width = Math.max(width, c.getPreferredSize().width);
         }
 
@@ -177,8 +177,8 @@ public class ChoiceQuestionRenderer
 
     protected void fireEditedEvent(Object src, ActionListener l) {
         ActionEvent e = new ActionEvent(src,
-                                        ActionEvent.ACTION_PERFORMED,
-                                        EDITED);
+                ActionEvent.ACTION_PERFORMED,
+                EDITED);
         l.actionPerformed(e);
     }
 
@@ -248,6 +248,7 @@ public class ChoiceQuestionRenderer
         public Object getCellEditorValue() {
             return null;
         }
+
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value,
                                                      boolean isSelected, int row, int column) {

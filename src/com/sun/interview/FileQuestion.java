@@ -32,12 +32,12 @@ import java.util.Map;
 /**
  * A {@link Question question} to which the response is a filename.
  */
-public abstract class FileQuestion extends Question
-{
+public abstract class FileQuestion extends Question {
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     * @param tag       A unique tag to identify this specific question.
      */
     protected FileQuestion(Interview interview, String tag) {
         super(interview, tag);
@@ -50,8 +50,8 @@ public abstract class FileQuestion extends Question
 
     /**
      * Get the suggested responses to this question, or null if none.
-     * @return The suggestions.
      *
+     * @return The suggestions.
      * @see #setSuggestions
      */
     public File[] getSuggestions() {
@@ -60,9 +60,10 @@ public abstract class FileQuestion extends Question
 
     /**
      * Set the set of suggested responses.
+     *
      * @param newSuggestions The values to be set, or null if none
      * @throws IllegalArgumentException if any of the values in the array
-     * are null
+     *                                  are null
      * @see #getSuggestions
      */
     public void setSuggestions(File... newSuggestions) {
@@ -78,8 +79,8 @@ public abstract class FileQuestion extends Question
 
     /**
      * Get the default response for this question.
-     * @return the default response for this question.
      *
+     * @return the default response for this question.
      * @see #setDefaultValue
      */
     public File getDefaultValue() {
@@ -89,8 +90,8 @@ public abstract class FileQuestion extends Question
     /**
      * Set the default response for this question,
      * used by the clear method.
-     * @param v the default response for this question.
      *
+     * @param v the default response for this question.
      * @see #getDefaultValue
      */
     public void setDefaultValue(File v) {
@@ -99,6 +100,7 @@ public abstract class FileQuestion extends Question
 
     /**
      * Get the current (default or latest) response to this question.
+     *
      * @return The current value.
      * @see #setValue
      */
@@ -109,14 +111,14 @@ public abstract class FileQuestion extends Question
     /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
+     *
      * @return the current value of this question
      * @throws Interview.NotOnPathFault if this question is not on the
-     * current path
+     *                                  current path
      * @see #getValue
      */
     public File getValueOnPath()
-        throws Interview.NotOnPathFault
-    {
+            throws Interview.NotOnPathFault {
         interview.verifyPathContains(this);
         return getValue();
     }
@@ -129,6 +131,7 @@ public abstract class FileQuestion extends Question
     /**
      * Set the response to this question to the value represented by
      * a string-valued argument.
+     *
      * @see #getValue
      */
     @Override
@@ -138,6 +141,7 @@ public abstract class FileQuestion extends Question
 
     /**
      * Set the current value.
+     *
      * @param newValue The value to be set.
      * @see #getValue
      */
@@ -156,7 +160,7 @@ public abstract class FileQuestion extends Question
             return true;
         }
         if (baseRelativeOnly && baseDir != null
-            && !value.getPath().startsWith(baseDir.getPath())) {
+                && !value.getPath().startsWith(baseDir.getPath())) {
             return false;
         }
 
@@ -178,6 +182,7 @@ public abstract class FileQuestion extends Question
     /**
      * Get the filters used to select valid files for a response
      * to this question.
+     *
      * @return An array of filters
      * @see #setFilter
      * @see #setFilters
@@ -189,20 +194,22 @@ public abstract class FileQuestion extends Question
     /**
      * Set a filter used to select valid files for a response
      * to this question.
+     *
      * @param filter a filter used to select valid files for a response
-     * to this question
+     *               to this question
      * @see #getFilters
      * @see #setFilters
      */
     public void setFilter(FileFilter filter) {
-        filters = new FileFilter[] { filter };
+        filters = new FileFilter[]{filter};
     }
 
     /**
      * Set the filters used to select valid files for a response
      * to this question.
+     *
      * @param filters An array of filters used to select valid files for a response
-     * to this question
+     *                to this question
      * @see #getFilters
      * @see #setFilter
      */
@@ -212,6 +219,7 @@ public abstract class FileQuestion extends Question
 
     /**
      * Get the default directory for files for a response to this question.
+     *
      * @return the default directory in which files should be found/placed
      * @see #setBaseDirectory
      * @see #isBaseRelativeOnly
@@ -222,6 +230,7 @@ public abstract class FileQuestion extends Question
 
     /**
      * Set the default directory for files for a response to this question.
+     *
      * @param dir the default directory in which files should be found/placed
      * @see #getBaseDirectory
      */
@@ -233,6 +242,7 @@ public abstract class FileQuestion extends Question
      * Determine whether all valid responses to this question should be
      * relative to the base directory (i.e. in or under it.)  False by
      * default.
+     *
      * @return true if all valid responses to this question should be
      * relative to the base directory
      * @see #setBaseRelativeOnly
@@ -244,8 +254,9 @@ public abstract class FileQuestion extends Question
     /**
      * Specify whether all valid responses to this question should be
      * relative to the base directory (in or under it).
+     *
      * @param b this parameter should be true if all valid responses
-     * to this question should be relative to the base directory
+     *          to this question should be relative to the base directory
      * @see #setBaseRelativeOnly
      */
     public void setBaseRelativeOnly(boolean b) {
@@ -264,20 +275,22 @@ public abstract class FileQuestion extends Question
     /**
      * Load the value for this question from a dictionary, using
      * the tag as the key.
+     *
      * @param data The map from which to load the value for this question.
      */
     @Override
     protected void load(Map<String, String> data) {
         Object o = data.get(tag);
         if (o instanceof File)
-            setValue((File)o);
+            setValue((File) o);
         else if (o instanceof String)
-            setValue(new File((String)o));
+            setValue(new File((String) o));
     }
 
     /**
      * Save the value for this question in a dictionary, using
      * the tag as the key.
+     *
      * @param data The map in which to save the value for this question.
      */
     @Override
@@ -289,6 +302,7 @@ public abstract class FileQuestion extends Question
 
     /**
      * Determine if two filenames are equal.
+     *
      * @param f1 the first filename to be compared
      * @param f2 the other filename to be compared
      * @return true if both filenames are null, or if both

@@ -31,12 +31,12 @@ package com.sun.interview;
  * posts the text, which must simply be acknowledged.
  * ErrorQuestions have no successor.
  */
-public class ErrorQuestion extends NullQuestion
-{
+public class ErrorQuestion extends NullQuestion {
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     * @param tag       A unique tag to identify this specific question.
      */
     public ErrorQuestion(Interview interview, String tag) {
         super(interview, tag);

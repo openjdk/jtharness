@@ -30,11 +30,11 @@ package com.sun.interview;
  * A special type of question used to indicate the last of
  * the questions of an interview.
  */
-public class FinalQuestion extends NullQuestion
-{
+public class FinalQuestion extends NullQuestion {
     /**
      * Create an anonymous question that can be used to mark the end
      * of a series of questions.
+     *
      * @param interview The interview containing this question.
      */
     public FinalQuestion(Interview interview) {
@@ -44,8 +44,9 @@ public class FinalQuestion extends NullQuestion
     /**
      * Create a question that can be used to mark the end
      * of a series of questions.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     * @param tag       A unique tag to identify this specific question.
      */
     public FinalQuestion(Interview interview, String tag) {
         super(interview, tag);
@@ -55,6 +56,7 @@ public class FinalQuestion extends NullQuestion
      * Get the next question in the series. Since this question
      * is used to mark the end of a series, there is no next question
      * and the result is always null.
+     *
      * @return null
      */
     @Override

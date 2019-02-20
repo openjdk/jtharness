@@ -62,7 +62,7 @@ import javax.swing.table.TableCellEditor;
 public class PropertiesQuestionRenderer implements QuestionRenderer {
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
-        question = (PropertiesQuestion)qq;
+        question = (PropertiesQuestion) qq;
 
         tables = new HashMap<>();
 
@@ -91,18 +91,18 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
         }
 
         valueSaver = new Runnable() {
-                @Override
-                public void run() {
-                    Set<String> keys = tables.keySet();
-                    for (String key : keys) {
-                        JTable table = tables.get(key);
-                        CellEditor editor = table.getCellEditor();
-                        if (editor != null) {
-                            editor.stopCellEditing();
-                        }
+            @Override
+            public void run() {
+                Set<String> keys = tables.keySet();
+                for (String key : keys) {
+                    JTable table = tables.get(key);
+                    CellEditor editor = table.getCellEditor();
+                    if (editor != null) {
+                        editor.stopCellEditing();
                     }
                 }
-            };
+            }
+        };
 
         panel.putClientProperty(VALUE_SAVER, valueSaver);
 
@@ -114,10 +114,12 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
             public void ancestorAdded(AncestorEvent e) {
 
             }
+
             @Override
             public void ancestorMoved(AncestorEvent e) {
 
             }
+
             @Override
             public void ancestorRemoved(AncestorEvent e) {
                 if (valueSaver != null) {
@@ -157,6 +159,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
     }
 
     // TABLE BUILDING
+
     /**
      * @param headers Just an optimization right now.
      */
@@ -192,7 +195,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
         */
 
         if (renderer == null ||
-            renderer.getQuestion() != question) {
+                renderer.getQuestion() != question) {
             renderer = new RenderingUtilities.PropCellRenderer(question);
         }
 
@@ -229,8 +232,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
     protected TableCellEditor getCellEditor(int column) {
         if (column == 1) {
             return new RenderingUtilities.PCE(question);
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -240,8 +242,8 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
     }
 
     protected String[] getTableHeaders() {
-        return new String[] {question.getKeyHeaderName(),
-                            question.getValueHeaderName()};
+        return new String[]{question.getKeyHeaderName(),
+                question.getValueHeaderName()};
     }
 
     protected TableModel createTableModel(String group, ActionListener l) {
@@ -256,16 +258,16 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
     private void fireEditedEvent(Object src, ActionListener l) {
         ActionEvent e = new ActionEvent(src,
-                                        ActionEvent.ACTION_PERFORMED,
-                                        EDITED);
+                ActionEvent.ACTION_PERFORMED,
+                EDITED);
         l.actionPerformed(e);
     }
 
     protected class PropJTable extends JTable {
         protected PropJTable(TableModel model) {
             super(model);
-            setIntercellSpacing(new Dimension(4,4));
-            setRowHeight((int)(getRowHeight() * 1.5));
+            setIntercellSpacing(new Dimension(4, 4));
+            setRowHeight((int) (getRowHeight() * 1.5));
             setFocusable(false);
         }
 
@@ -274,8 +276,8 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
             if (column == 0)
                 return false;
 
-            if ( column == 1 &&
-                    question.isReadOnlyValue(question.getKeyPropertyName((String)getValueAt(row, 0))) )
+            if (column == 1 &&
+                    question.isReadOnlyValue(question.getKeyPropertyName((String) getValueAt(row, 0))))
                 return false;
 
             return true;
@@ -284,7 +286,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
     protected class PropTableModel extends DefaultTableModel {
         protected PropTableModel(String[] headers, String group, PropertiesQuestion q,
-                       ActionListener listener) {
+                                 ActionListener listener) {
             super();
             this.q = q;
             editedListener = listener;
@@ -309,7 +311,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
                 // remove items from d
                 if (rm != null) {
-                    String[][] d2 = new String[d.length-rm.size()][2];
+                    String[][] d2 = new String[d.length - rm.size()][2];
                     int pos = 0;
                     for (String[] aD : d) {
                         if (rm.contains(aD[0]))
@@ -325,8 +327,8 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
                     d = d2;
                 }
 
-                for (int i = 0; i < d.length; i++){
-                    if (q.getPresentationKeys() != null && q.getPresentationKeys().get(d[i][0]) != null){
+                for (int i = 0; i < d.length; i++) {
+                    if (q.getPresentationKeys() != null && q.getPresentationKeys().get(d[i][0]) != null) {
                         d[i][0] = q.getPresentationKeys().get(d[i][0]);
                     }
                 }
@@ -356,7 +358,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
             if (col == 1) {
                 String key = q.getKeyPropertyName((String) getValueAt(row, 0));
 
-                q.updateProperty(key, (String)o);
+                q.updateProperty(key, (String) o);
                 fireEditedEvent(this, editedListener);
                 fireTableCellUpdated(row, 0);
                 fireTableCellUpdated(row, 1);

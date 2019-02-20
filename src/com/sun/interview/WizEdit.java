@@ -46,18 +46,17 @@ import java.util.*;
  * An API (with a basic front-end application) for batch editing an
  * interview.
  */
-public class WizEdit
-{
+public class WizEdit {
     /**
      * This exception is used to indicate a problem with the command line arguments.
      */
 
-    public static class BadArgs extends Exception
-    {
+    public static class BadArgs extends Exception {
         /**
          * Create a BadArgs exception.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         BadArgs(ResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -65,10 +64,11 @@ public class WizEdit
 
         /**
          * Create a BadArgs exception.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         BadArgs(ResourceBundle i18n, String s, Object o) {
             super(MessageFormat.format(i18n.getString(s), o));
@@ -77,10 +77,11 @@ public class WizEdit
 
         /**
          * Create a BadArgs exception.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         BadArgs(ResourceBundle i18n, String s, Object... o) {
             super(MessageFormat.format(i18n.getString(s), o));
@@ -91,12 +92,12 @@ public class WizEdit
      * This exception is to report problems that occur while editing
      * the responses to questions in an interview.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         Fault(ResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -104,10 +105,11 @@ public class WizEdit
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         Fault(ResourceBundle i18n, String s, Object o) {
             super(MessageFormat.format(i18n.getString(s), o));
@@ -115,10 +117,11 @@ public class WizEdit
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         Fault(ResourceBundle i18n, String s, Object... o) {
             super(MessageFormat.format(i18n.getString(s), o));
@@ -127,6 +130,7 @@ public class WizEdit
 
     /**
      * Simple command-line front-end to the facilities of the API.
+     *
      * @param args Command line arguments.
      */
     public static void main(String... args) {
@@ -162,11 +166,9 @@ public class WizEdit
                 Class<? extends Interview> ic = Class.forName(interviewClassName).asSubclass(Interview.class);
                 interview = ic.getDeclaredConstructor().newInstance();
                 interview.load(stringProps, false);
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 throw new Fault(i18n, "edit.cantFindFile", interviewFile);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new Fault(i18n, "edit.cantReadFile", e);
             }
 
@@ -181,33 +183,26 @@ public class WizEdit
                 Properties p = new Properties();
                 interview.save(PropertyUtils.convertToStringProps(p));
                 p.store(out, "Interview: " + interview.getTitle());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new Fault(i18n, "edit.cantWriteFile", e);
             }
-        }
-        catch (BadArgs e) {
+        } catch (BadArgs e) {
             System.err.println("Error: " + e.getMessage());
             //usage();
             System.exit(1);
-        }
-        catch (Interview.Fault e) {
+        } catch (Interview.Fault e) {
             System.err.println("Problem reading file: " + e);
             System.exit(2);
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             System.err.println("Problem reading file: the interview could not be loaded because some classes that are required by the interview were not found on your classpath. The specific exception that occurred was: " + e);
             System.exit(2);
-        }
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             System.err.println("Problem reading file: the interview could not be loaded because some classes that are required by the interview caused access violations. The specific exception that occurred was: " + e);
             System.exit(2);
-        }
-        catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             System.err.println("Problem reading file: the interview could not be loaded because some classes that are required by the interview could not be instantiated. The specific exception that occurred was: " + e);
             System.exit(2);
-        }
-        catch (Fault e) {
+        } catch (Fault e) {
             System.err.println(e.getMessage());
             System.exit(2);
         }
@@ -215,6 +210,7 @@ public class WizEdit
 
     /**
      * Create an editor for the questions in an interview.
+     *
      * @param interview The interview containing the responses to be edited.
      */
     public WizEdit(Interview interview) {
@@ -223,6 +219,7 @@ public class WizEdit
 
     /**
      * Set whether or not the edit should be done verbosely.
+     *
      * @param verbose Set to true for verbose mode, and false otherwise.
      * @see #setVerbose(boolean, PrintStream)
      */
@@ -233,8 +230,9 @@ public class WizEdit
     /**
      * Set whether or not the edit should be done verbosely,
      * and set the stream to which tracing information should be output.
+     *
      * @param verbose Set to true for verbose mode, and false otherwise.
-     * @param out The stream to which verbose output should be directed.
+     * @param out     The stream to which verbose output should be directed.
      */
     public void setVerbose(boolean verbose, PrintStream out) {
         this.verbose = verbose;
@@ -247,6 +245,7 @@ public class WizEdit
      * the set of questions in the current interview path may change:
      * specifically, the set of questions after the one that is edited
      * may change.
+     *
      * @param cmds A set of editing commands to apply to the responses.
      * @throws WizEdit.Fault if there is a problem while applying the edits.
      * @see #edit(String)
@@ -260,6 +259,7 @@ public class WizEdit
      * After the edit is applied, the set of questions in the
      * current interview path may change: specifically, the set
      * of questions after the one that is edited may change.
+     *
      * @param cmd An edit command to apply to the responses.
      * @throws WizEdit.Fault if there is a problem while applying the edit.
      * @see #edit(String[])
@@ -269,12 +269,12 @@ public class WizEdit
             throw new Fault(i18n, "edit.nullCmd");
         char delim = cmd.charAt(0);
         int left = 0;
-        int center = cmd.indexOf(delim, left+1);
+        int center = cmd.indexOf(delim, left + 1);
         if (center == -1)
             throw new Fault(i18n, "edit.badCmd", cmd);
-        int right = cmd.indexOf(delim, center+1);
-        String searchText = cmd.substring(left+1, center);
-        String replaceText = cmd.substring(center+1, right);
+        int right = cmd.indexOf(delim, center + 1);
+        String searchText = cmd.substring(left + 1, center);
+        String replaceText = cmd.substring(center + 1, right);
         if (searchText.isEmpty())
             throw new Fault(i18n, "edit.badCmd", cmd);
 
@@ -328,7 +328,7 @@ public class WizEdit
 
     private static boolean isBoundaryCh(char c) {
         return !(Character.isUnicodeIdentifierStart(c)
-                 || Character.isUnicodeIdentifierPart(c));
+                || Character.isUnicodeIdentifierPart(c));
     }
 
     private Interview interview;

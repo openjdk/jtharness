@@ -38,18 +38,18 @@ import java.util.Vector;
  * alphabetically; within a section, messages are stored
  * in the order they are added.
  */
-public class Checklist
-{
+public class Checklist {
     /**
      * An Item contains a message to appear in a checklist.
      */
     public static class Item {
         /**
          * Create an item to appear in a checklist.
+         *
          * @param sectionName the name of the section
-         * in which the message should appear
-         * @param text the text of the message to appear
-         * in the checklist
+         *                    in which the message should appear
+         * @param text        the text of the message to appear
+         *                    in the checklist
          */
         public Item(String sectionName, String text) {
             this.sectionName = sectionName;
@@ -71,6 +71,7 @@ public class Checklist
     /**
      * Get the names of the sections for which entries have been
      * added to the checklist.
+     *
      * @return an array containing the names of the sections for
      * which entries have been added to the checklist
      */
@@ -84,8 +85,9 @@ public class Checklist
 
     /**
      * Get the messages in a specific section of this checklist.
+     *
      * @param sectionName the name of the section for which
-     * the iterator should return messages
+     *                    the iterator should return messages
      * @return an array containing the messages in a specific section
      * of this checklist, or null if no messages have been
      * added for the given section
@@ -101,6 +103,7 @@ public class Checklist
 
     /**
      * Add a new item to this checklist.
+     *
      * @param item The Item to be added
      */
     public void add(Item item) {
@@ -114,6 +117,7 @@ public class Checklist
 
     /**
      * Determine whether or not any items have been added to the checklist.
+     *
      * @return true if the checklist has no entries, and false otherwise.
      */
     public boolean isEmpty() {

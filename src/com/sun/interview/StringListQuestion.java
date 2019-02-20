@@ -32,12 +32,12 @@ import java.util.Vector;
 /**
  * A {@link Question question} to which the response is an array of strings.
  */
-public abstract class StringListQuestion extends Question
-{
+public abstract class StringListQuestion extends Question {
     /**
      * Create a question with a nominated tag.
+     *
      * @param interview The interview containing this question.
-     * @param tag A unique tag to identify this specific question.
+     * @param tag       A unique tag to identify this specific question.
      */
     protected StringListQuestion(Interview interview, String tag) {
         super(interview, tag);
@@ -47,8 +47,8 @@ public abstract class StringListQuestion extends Question
 
     /**
      * Get the default response for this question.
-     * @return the default response for this question.
      *
+     * @return the default response for this question.
      * @see #setDefaultValue
      * @see #clear
      */
@@ -59,8 +59,8 @@ public abstract class StringListQuestion extends Question
     /**
      * Set the default response for this question,
      * used by the clear method.
-     * @param v the default response for this question.
      *
+     * @param v the default response for this question.
      * @see #getDefaultValue
      * @see #clear
      */
@@ -71,6 +71,7 @@ public abstract class StringListQuestion extends Question
     /**
      * Specify whether or not duplicates should be allowed in the list.
      * By default, duplicates are allowed.
+     *
      * @param b true if duplicates should be allowed, and false otherwise
      * @see #isDuplicatesAllowed
      */
@@ -80,6 +81,7 @@ public abstract class StringListQuestion extends Question
 
     /**
      * Check whether or not duplicates should be allowed in the list.
+     *
      * @return true if duplicates should be allowed, and false otherwise
      * @see #setDuplicatesAllowed
      */
@@ -89,8 +91,8 @@ public abstract class StringListQuestion extends Question
 
     /**
      * Get the current (default or latest) response to this question.
-     * @return The current value.
      *
+     * @return The current value.
      * @see #setValue
      */
     public String[] getValue() {
@@ -100,20 +102,21 @@ public abstract class StringListQuestion extends Question
     /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
+     *
      * @return the current value of this question
      * @throws Interview.NotOnPathFault if this question is not on the
-     * current path
+     *                                  current path
      * @see #getValue
      */
     public String[] getValueOnPath()
-        throws Interview.NotOnPathFault
-    {
+            throws Interview.NotOnPathFault {
         interview.verifyPathContains(this);
         return getValue();
     }
 
     /**
      * Get the response to this question as a string.
+     *
      * @return a string representing the current response to this question, or null.
      * @see #setValue(String)
      */
@@ -150,8 +153,8 @@ public abstract class StringListQuestion extends Question
 
     /**
      * Set the current value.
-     * @param newValue The value to be set.
      *
+     * @param newValue The value to be set.
      * @see #getValue
      */
     public void setValue(String... newValue) {
@@ -187,6 +190,7 @@ public abstract class StringListQuestion extends Question
     /**
      * Save the value for this question in a dictionary, using
      * the tag as the key.
+     *
      * @param data The map in which to save the value for this question.
      */
     @Override
@@ -197,6 +201,7 @@ public abstract class StringListQuestion extends Question
 
     /**
      * Compare two string arrays for equality.
+     *
      * @param s1 the first array to be compared, or null
      * @param s2 the other array to be compared, or null
      * @return true if both parameters are null, or if both are non-null
@@ -221,6 +226,7 @@ public abstract class StringListQuestion extends Question
 
     /**
      * Compare two strings for equality.
+     *
      * @param s1 the first string to be compared, or null
      * @param s2 the other string to be compared, or null
      * @return true if both parameters are null, or if both are non-null
@@ -232,6 +238,7 @@ public abstract class StringListQuestion extends Question
 
     /**
      * Split a string into a set of newline-separated strings.
+     *
      * @param s The string to be split, or null
      * @return an array of strings containing the newline-separated substrings of
      * the argument.
@@ -249,9 +256,8 @@ public abstract class StringListQuestion extends Question
                 if (start != -1)
                     v.addElement(s.substring(start, i));
                 start = -1;
-            } else
-                if (start == -1)
-                    start = i;
+            } else if (start == -1)
+                start = i;
         }
         if (start != -1)
             v.addElement(s.substring(start));
@@ -262,7 +268,7 @@ public abstract class StringListQuestion extends Question
         return a;
     }
 
-    private static final String[] empty = { };
+    private static final String[] empty = {};
 
     /**
      * The current response for this question.
