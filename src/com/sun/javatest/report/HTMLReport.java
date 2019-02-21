@@ -29,6 +29,7 @@ package com.sun.javatest.report;
 import com.sun.javatest.Status;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -81,11 +82,11 @@ public class HTMLReport implements ReportFormat {
         }
 
         if (s.isStateFileEnabled(Status.PASSED) ||
-            s.isStateFileEnabled(Status.ERROR) ||
-            s.isStateFileEnabled(Status.NOT_RUN) ||
-            s.isStateFileEnabled(Status.FAILED)) {
+                s.isStateFileEnabled(Status.ERROR) ||
+                s.isStateFileEnabled(Status.NOT_RUN) ||
+                s.isStateFileEnabled(Status.FAILED)) {
             if (rs == null) {
-                    rs = new ResultSection(this, s, dir, i18n, getResults());
+                rs = new ResultSection(this, s, dir, i18n, getResults());
             }
             auxSecs.add(rs);
         }
@@ -93,9 +94,9 @@ public class HTMLReport implements ReportFormat {
         // optional section
         KflSection kfl;
         if (s.isKflEnabled()) {
-           kfl = new KflSection(this, s, dir, i18n, kflSorter);
-           mainSecs.add(kfl);
-           auxSecs.add(kfl);
+            kfl = new KflSection(this, s, dir, i18n, kflSorter);
+            mainSecs.add(kfl);
+            auxSecs.add(kfl);
         }
 
         // optional section
@@ -114,16 +115,13 @@ public class HTMLReport implements ReportFormat {
         Writer writer = null;
         if (s.reportHtml && s.indexHtml) {
             writer = new DuplexWriter(
-                        openWriter(reportDir, REPORT_HTML),
-                        openWriter(reportDir, INDEX_HTML));
-        }
-        else if (s.reportHtml) {
+                    openWriter(reportDir, REPORT_HTML),
+                    openWriter(reportDir, INDEX_HTML));
+        } else if (s.reportHtml) {
             writer = openWriter(reportDir, REPORT_HTML);
-        }
-        else if (s.indexHtml) {
+        } else if (s.indexHtml) {
             writer = openWriter(reportDir, INDEX_HTML);
-        }
-        else {
+        } else {
             // no main report output specified in settings
         }
 
@@ -132,7 +130,7 @@ public class HTMLReport implements ReportFormat {
         ReportWriter.initializeDirectory(reportDir);
         if (writer != null) {
             ReportWriter out = new ReportWriter(writer,
-                            i18n.getString("report.title"), i18n, reportCharset);
+                    i18n.getString("report.title"), i18n, reportCharset);
 
             // test suite name
             String testSuiteName = s.getInterview().getTestSuite().getName();
@@ -215,14 +213,16 @@ public class HTMLReport implements ReportFormat {
      * Gets the standard report file name used in JT Harness.
      * Note that this returns the file names which are used for the main
      * report only, not the aux. HTML files.
+     *
      * @return The report name.
      */
     public static String[] getReportFilenames() {
-        return new String[] {REPORT_NAME, NEW_REPORT_NAME};
+        return new String[]{REPORT_NAME, NEW_REPORT_NAME};
     }
 
     /**
      * Gets the file name based one the input code.
+     *
      * @param code The code name for the file.
      * @return The file name.
      */
@@ -285,6 +285,7 @@ public class HTMLReport implements ReportFormat {
      * The charset to request for the report output.
      * Defaulted to UTF-8, if this is not available at runtime, code will use
      * the default charset provided by the runtime.
+     *
      * @see java.nio.charset.Charset#defaultCharset
      */
     protected Charset reportCharset;
@@ -308,62 +309,62 @@ public class HTMLReport implements ReportFormat {
 
     // html anchors to be used in the output
     static final String[] anchors = {
-       "selection",
-       "execution",
-       "kfl",
-       "locations",
-       "keywordSummary"
+            "selection",
+            "execution",
+            "kfl",
+            "locations",
+            "keywordSummary"
     };
 
     // The following must be kept in sync with the preceding list
     static final int
-        SELECT_ANCHOR  = 0,
-        EXEC_ANCHOR    = 1,
-        KFL_ANCHOR     = 2,
-        LOC_ANCHOR     = 3,
-        KEYWORD_ANCHOR = 4;
+            SELECT_ANCHOR = 0,
+            EXEC_ANCHOR = 1,
+            KFL_ANCHOR = 2,
+            LOC_ANCHOR = 3,
+            KEYWORD_ANCHOR = 4;
 
     static final String SECOND_FAILED_REPORT = "failed_gr.html";
     static final String SECOND_PASSED_REPORT = "passed_gr.html";
     static final String SECOND_ERROR_REPORT = "error_gr.html";
 
     static final String[] files = {
-        REPORT_NAME,
-        NEW_REPORT_NAME,
-        "config.html",
-        "env.html",
-        "excluded.html",
-        "passed.html",
-        "failed.html",
-        "error.html",
-        "notRun.html",
-        KflSection.FAIL2PASS,
-        KflSection.FAIL2ERROR,
-        KflSection.FAIL2MISSING,
-        KflSection.NEWFAILURES,
-        SECOND_PASSED_REPORT,
-        SECOND_FAILED_REPORT,
-        SECOND_ERROR_REPORT
+            REPORT_NAME,
+            NEW_REPORT_NAME,
+            "config.html",
+            "env.html",
+            "excluded.html",
+            "passed.html",
+            "failed.html",
+            "error.html",
+            "notRun.html",
+            KflSection.FAIL2PASS,
+            KflSection.FAIL2ERROR,
+            KflSection.FAIL2MISSING,
+            KflSection.NEWFAILURES,
+            SECOND_PASSED_REPORT,
+            SECOND_FAILED_REPORT,
+            SECOND_ERROR_REPORT
     };
 
     // The following must be kept in sync with the preceding list
     static final int
-        REPORT_HTML = 0,
-        INDEX_HTML = 1,
-        CONFIG_HTML = 2,
-        ENV_HTML = 3,
-        EXCLUDED_HTML = 4,
-        PASSED_HTML = 5,
-        FAILED_HTML = 6,
-        ERROR_HTML = 7,
-        NOTRUN_HTML = 8,
-        KFL_F2P = 9,
-        KFL_F2E = 10,
-        KFL_F2M = 11,
-        KFL_NEW = 12,
-        PASSED_HTML_2 = 13,
-        FAILED_HTML_2 = 14,
-        ERROR_HTML_2 = 15;
+            REPORT_HTML = 0,
+            INDEX_HTML = 1,
+            CONFIG_HTML = 2,
+            ENV_HTML = 3,
+            EXCLUDED_HTML = 4,
+            PASSED_HTML = 5,
+            FAILED_HTML = 6,
+            ERROR_HTML = 7,
+            NOTRUN_HTML = 8,
+            KFL_F2P = 9,
+            KFL_F2E = 10,
+            KFL_F2M = 11,
+            KFL_NEW = 12,
+            PASSED_HTML_2 = 13,
+            FAILED_HTML_2 = 14,
+            ERROR_HTML_2 = 15;
 
     // -------------------- Inner Class --------------------------------------
 

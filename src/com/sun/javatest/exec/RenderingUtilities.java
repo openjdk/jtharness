@@ -54,7 +54,7 @@ class RenderingUtilities {
     }
 
     private static I18NResourceBundle i18n =
-        I18NResourceBundle.getBundleForClass(RenderingUtilities.class);
+            I18NResourceBundle.getBundleForClass(RenderingUtilities.class);
     private static TestCellRenderer tlRend;
     private static FilterCellRenderer flRend;
 
@@ -64,10 +64,10 @@ class RenderingUtilities {
      * Render a list of tests (TestResult objects).
      */
     static class TestCellRenderer extends JLabel implements ListCellRenderer<Object> {
-         public TestCellRenderer(I18NResourceBundle i18n) {
-             setOpaque(false);
-             this.i18n = i18n;
-         }
+        public TestCellRenderer(I18NResourceBundle i18n) {
+            setOpaque(false);
+            this.i18n = i18n;
+        }
 
         @Override
         public Component getListCellRendererComponent(JList<?> list,
@@ -76,28 +76,25 @@ class RenderingUtilities {
                 return this;
 
             if (value instanceof TestResult) {
-                TestResult tr = (TestResult)value;
+                TestResult tr = (TestResult) value;
                 setText(tr.getTestName());
                 setToolTipText(I18NUtils.getStatusMessage(tr.getStatus()));
                 setBasicAttribs(isSelected, list);
-            }
-            else if (value instanceof TestResultTable.TreeNode) {
-                TestResultTable.TreeNode tn = (TestResultTable.TreeNode)value;
+            } else if (value instanceof TestResultTable.TreeNode) {
+                TestResultTable.TreeNode tn = (TestResultTable.TreeNode) value;
                 if (tn.getName() != null)
                     setText(TestResultTable.getRootRelativePath(tn));
                 else
                     setText(i18n.getString("rendUtil.rootName"));
                 //setToolTipText(I18NUtils.getStatusMessage(tr.getStatus()));
                 setBasicAttribs(isSelected, list);
-            }
-            else {          // this code really should never run
+            } else {          // this code really should never run
                 setText(value.toString());
                 if (isSelected) {
                     setOpaque(true);
                     setBackground(list.getSelectionBackground());
                     setForeground(list.getSelectionForeground());
-                }
-                else {
+                } else {
                     setForeground(list.getForeground());
                     setOpaque(false);
                 }
@@ -118,8 +115,7 @@ class RenderingUtilities {
                 setOpaque(true);
                 setBackground(list.getSelectionBackground());
                 setForeground(list.getSelectionForeground());
-            }
-            else {
+            } else {
                 setForeground(list.getForeground());
                 setOpaque(false);
             }
@@ -127,17 +123,18 @@ class RenderingUtilities {
 
         private I18NResourceBundle i18n;
         // border to pad left and right
-        private Border spacerBorder = BorderFactory.createEmptyBorder(0,3,0,3);
+        private Border spacerBorder = BorderFactory.createEmptyBorder(0, 3, 0, 3);
     }
 
     /**
      * Render a list of test filters with their descriptive name.
+     *
      * @see com.sun.javatest.TestFilter#getName()
      */
     static class FilterCellRenderer extends JLabel implements ListCellRenderer<TestFilter> {
         public FilterCellRenderer(I18NResourceBundle i18n) {
             setOpaque(false);
-             this.i18n = i18n;
+            this.i18n = i18n;
         }
 
         @Override
@@ -165,8 +162,7 @@ class RenderingUtilities {
                 setOpaque(true);
                 setForeground(list.getSelectionForeground());
                 setBackground(list.getSelectionBackground());
-            }
-            else {
+            } else {
                 //setForeground(MetalLookAndFeel.getPrimaryControlDarkShadow());
                 setForeground(list.getForeground());
                 setOpaque(false);

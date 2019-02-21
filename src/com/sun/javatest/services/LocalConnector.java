@@ -31,7 +31,6 @@ import java.io.InputStream;
 /**
  * Implementation of {@link com.sun.javatest.services.Connector} interface, which
  * redirects requests to local ServiceExecutor instance.
- *
  */
 public class LocalConnector implements Connector {
 
@@ -43,8 +42,8 @@ public class LocalConnector implements Connector {
      * method.
      *
      * @param executor executor, achieved from
-     * {@link com.sun.javatest.services.Service#getDefaultServiceExecutor()}
-     * method.
+     *                 {@link com.sun.javatest.services.Service#getDefaultServiceExecutor()}
+     *                 method.
      */
     public LocalConnector(ServiceExecutor executor) {
         this.executor = executor;
@@ -52,6 +51,7 @@ public class LocalConnector implements Connector {
 
     /**
      * Method to replace default executor.
+     *
      * @param executor ServiceExecutor to connect with
      */
     public void setExecutor(ServiceExecutor executor) {

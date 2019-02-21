@@ -35,6 +35,7 @@ import com.sun.javatest.exec.BasicSession;
 import com.sun.javatest.exec.InterviewEditor;
 import com.sun.javatest.tool.FileHistory;
 import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.File;
 import java.util.Map;
 import java.util.Objects;
@@ -56,6 +57,7 @@ public class TemplateSession extends BasicSession {
     /**
      * Creates a TemplateSession instance for the passed testSuite object.
      * Initializes template instance.
+     *
      * @param ts
      * @throws com.sun.javatest.exec.Config.Fault
      */
@@ -85,7 +87,7 @@ public class TemplateSession extends BasicSession {
                 return null;
             }
             File f = templ.getFile();
-            return f == null ?  null : f.getPath();
+            return f == null ? null : f.getPath();
         } else {
             return super.getValue(name);
         }
@@ -141,7 +143,7 @@ public class TemplateSession extends BasicSession {
     @Override
     public void update(Update u) throws Fault {
         if (u instanceof U_NewTemplate) {
-            updateTemplate(((U_NewTemplate)u).templ);
+            updateTemplate(((U_NewTemplate) u).templ);
         } else {
             super.update(u);
         }
@@ -163,8 +165,7 @@ public class TemplateSession extends BasicSession {
             } catch (Exception ex) {
                 throw new Fault(ex);
             }
-        }
-        else {
+        } else {
             super.updateNewConfig(ip);
         }
     }
@@ -181,6 +182,7 @@ public class TemplateSession extends BasicSession {
     /**
      * Loads template for the newly set workdir, notifies observers
      * with U_NewTemplate.
+     *
      * @param wd - work dir that just set
      * @throws com.sun.javatest.exec.Config.Fault
      */
@@ -202,8 +204,8 @@ public class TemplateSession extends BasicSession {
     }
 
     /**
-     * @deprecated use getInterviewParameters()
      * @return getInterviewParameters()
+     * @deprecated use getInterviewParameters()
      */
     @Deprecated
     public InterviewParameters getConfig() {
@@ -213,6 +215,7 @@ public class TemplateSession extends BasicSession {
     /**
      * Provides an access to the templ. We had to add this method to
      * preserve previous functionality...
+     *
      * @return
      */
     public InterviewParameters getTemplate() {
@@ -254,6 +257,7 @@ public class TemplateSession extends BasicSession {
          * InterviewParameters object filled with new values.
          */
         public final InterviewParameters templ;
+
         public E_NewTemplate(InterviewParameters templ) {
             this.templ = templ;
         }
@@ -267,6 +271,7 @@ public class TemplateSession extends BasicSession {
          * InterviewParameters object filled with new values.
          */
         public final InterviewParameters templ;
+
         public U_NewTemplate(InterviewParameters templ) {
             this.templ = templ;
         }

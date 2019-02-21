@@ -29,6 +29,7 @@ package com.sun.javatest.exec.template;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.InterviewPropagator;
 import com.sun.javatest.WorkDirectory;
+
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,7 +43,7 @@ class TU_ViewManager implements InterviewPropagator.ViewManager, InterviewPropag
     @Override
     public void showView(InterviewPropagator prop, InterviewParameters intTerview) {
         TU_dialog tud = store.get(intTerview);
-        if (tud != null)  {
+        if (tud != null) {
             tud.show(prop);
         }
     }
@@ -50,7 +51,7 @@ class TU_ViewManager implements InterviewPropagator.ViewManager, InterviewPropag
     @Override
     public void notifyError(String message, InterviewParameters ip) {
         TU_dialog tud = store.get(ip);
-        if (tud != null)  {
+        if (tud != null) {
             WorkDirectory wd = tud.sesssion.getParameters().getWorkDirectory();
             if (wd != null) {
                 Logger logger = TU_dialog.makeNotificationLogger(wd);
@@ -64,7 +65,7 @@ class TU_ViewManager implements InterviewPropagator.ViewManager, InterviewPropag
     @Override
     public void logException(Throwable th, InterviewParameters ip) {
         TU_dialog tud = store.get(ip);
-        if (tud != null)  {
+        if (tud != null) {
             WorkDirectory wd = tud.sesssion.getParameters().getWorkDirectory();
             if (wd != null) {
                 Logger logger = TU_dialog.makeLogger(wd);
@@ -78,6 +79,7 @@ class TU_ViewManager implements InterviewPropagator.ViewManager, InterviewPropag
     /**
      * Registers InterviewParameters instance and TU_dialog instance
      * associated with it
+     *
      * @param ip
      * @param tud
      */
@@ -98,7 +100,7 @@ class TU_ViewManager implements InterviewPropagator.ViewManager, InterviewPropag
     @Override
     public void refreshTestTree(InterviewParameters ip) {
         TU_dialog tud = store.get(ip);
-        if (tud != null)  {
+        if (tud != null) {
             tud.context.refreshTests();
         }
 

@@ -33,6 +33,7 @@ import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.I18NResourceBundle;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ import java.util.List;
 abstract class BP_BranchSubpanel extends JPanel {
 
     BP_BranchSubpanel(String name, UIFactory uif, BP_Model model, TestTreeModel ttm,
-            String uiKey) {
+                      String uiKey) {
         setName(name);
         setBackground(Color.white);
         uif.setAccessibleInfo(this, uiKey);
@@ -132,10 +133,11 @@ abstract class BP_BranchSubpanel extends JPanel {
 
         Object[] fp = new Object[list.size() + 1];
         list.toArray(fp);
-        fp[fp.length-1] = tn;       // test node is the last in the path
+        fp[fp.length - 1] = tn;       // test node is the last in the path
 
         model.showTest(tr, fp);
     }
+
     protected TT_BasicNode subpanelNode;
     protected UIFactory uif;
     protected String lastMsg;

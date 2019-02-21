@@ -158,7 +158,7 @@ class ProgressMonitor extends ToolDialog {
         */
         JButton helpBtn = uif.createHelpButton("pm.help", "browse.testMonitor.csh");
         JButton closeBtn = uif.createCloseButton("pm.close");
-        setButtons(new JButton[] { helpBtn, closeBtn }, closeBtn);
+        setButtons(new JButton[]{helpBtn, closeBtn}, closeBtn);
 
         // other stuff
         state.addObserver(listener);
@@ -287,8 +287,7 @@ class ProgressMonitor extends ToolDialog {
         }
     }
 
-    private class ProgressSubpanel extends StatusSubpanel
-    {
+    private class ProgressSubpanel extends StatusSubpanel {
         ProgressSubpanel() {
             setBorder(uif.createTitledBorder("pm.prog"));
             setLayout(new GridBagLayout());
@@ -401,7 +400,7 @@ class ProgressMonitor extends ToolDialog {
             setCount(passTf, stats[Status.PASSED]);
             setCount(failTf, stats[Status.FAILED]);
             setCount(errorTf, stats[Status.ERROR]);
-            setCount(notRunTf,state.getTestsRemainingCount());
+            setCount(notRunTf, state.getTestsRemainingCount());
         }
 
         private void setCount(JTextField tf, int value) {
@@ -410,9 +409,8 @@ class ProgressMonitor extends ToolDialog {
             else
                 try {
                     EventQueue.invokeAndWait(new BranchPanel.TextUpdater(tf,
-                                             Integer.toString(value), uif));
-                }
-                catch (InterruptedException | InvocationTargetException e) {
+                            Integer.toString(value), uif));
+                } catch (InterruptedException | InvocationTargetException e) {
                 }
         }
 
@@ -486,21 +484,21 @@ class ProgressMonitor extends ToolDialog {
             list.setBorder(BorderFactory.createEtchedBorder());
             list.setCellRenderer(RenderingUtilities.createTestListRenderer());
             list.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        int index = list.locationToIndex(e.getPoint());
-                        if (index < 0)
-                            return;
-                        Object target = list.getModel().getElementAt(index);
-                        if (target instanceof TestResult && tpm != null) {
-                            tpm.showTest(((TestResult)target).getTestName());
-                        }
-                    }
-                }
+                                      @Override
+                                      public void mouseClicked(MouseEvent e) {
+                                          int index = list.locationToIndex(e.getPoint());
+                                          if (index < 0)
+                                              return;
+                                          Object target = list.getModel().getElementAt(index);
+                                          if (target instanceof TestResult && tpm != null) {
+                                              tpm.showTest(((TestResult) target).getTestName());
+                                          }
+                                      }
+                                  }
             );
             runningCard =
-                uif.createScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                    uif.createScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             addCard(runningCard);
         }
 
@@ -628,8 +626,8 @@ class ProgressMonitor extends ToolDialog {
 
         @Override
         void update() {
-            int freeMem = (int)(runtime.freeMemory() / 1024);
-            int totalMem = (int)(runtime.totalMemory() / 1024);
+            int freeMem = (int) (runtime.freeMemory() / 1024);
+            int totalMem = (int) (runtime.totalMemory() / 1024);
             int usedMem = totalMem - freeMem;
             usedField.setText(usedMem + "K");
             totalField.setText(totalMem + "K");

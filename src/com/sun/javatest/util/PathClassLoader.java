@@ -40,14 +40,14 @@ import java.util.zip.ZipFile;
  * A class loader for loading classes from a path of directories,
  * zip files and jar files.
  */
-public class PathClassLoader extends ClassLoader
-{
+public class PathClassLoader extends ClassLoader {
     /**
      * Create a PathClassLoader, specifying a path.
+     *
      * @param pathString a string containing a sequence of
-     *   file paths separated by the platform-specific file
-     *   separator, identifying a sequence of locations in which
-     *   to look for classes to be loaded
+     *                   file paths separated by the platform-specific file
+     *                   separator, identifying a sequence of locations in which
+     *                   to look for classes to be loaded
      * @see File#pathSeparator
      */
     public PathClassLoader(String pathString) {
@@ -57,12 +57,13 @@ public class PathClassLoader extends ClassLoader
     /**
      * Create a PathClassLoader, specifying a path and a
      * base directory for any relative files on the path.
-     * @param baseDir the base directory for any relative
-     * files on the path
+     *
+     * @param baseDir    the base directory for any relative
+     *                   files on the path
      * @param pathString a string containing a sequence of
-     *   file paths separated by the platform-specific file
-     *   separator, identifying a sequence of locations in which
-     *   to look for classes to be loaded
+     *                   file paths separated by the platform-specific file
+     *                   separator, identifying a sequence of locations in which
+     *                   to look for classes to be loaded
      * @see File#pathSeparator
      */
     public PathClassLoader(File baseDir, String pathString) {
@@ -76,8 +77,9 @@ public class PathClassLoader extends ClassLoader
 
     /**
      * Create a PathCloader, specifying an array of files for the path.
+     *
      * @param path an array of files, identifying a sequence of locations in which
-     *   to look for classes to be loaded
+     *             to look for classes to be loaded
      */
     public PathClassLoader(File... path) {
         this.path = path;
@@ -87,35 +89,34 @@ public class PathClassLoader extends ClassLoader
      * Attempt to load a class if it is not already loaded, and optionally
      * resolve any imports it might have.
      *
-     * @param name The fully-qualified name of the class to load.
+     * @param name    The fully-qualified name of the class to load.
      * @param resolve True if imports should be resolved, false otherwise.
      * @return the class that was loaded
      * @throws ClassNotFoundException if the class was not found.
      */
     @Override
     protected Class<?> loadClass(String name, boolean resolve)
-        throws ClassNotFoundException {
+            throws ClassNotFoundException {
 
-            Class<?> cl = classes.get(name);
+        Class<?> cl = classes.get(name);
 
-            if (cl == null) {
-                try {
-                    cl = findSystemClass(name);
-                }
-                catch (ClassNotFoundException e) {
-                    cl = locateClass(name);
-                }
+        if (cl == null) {
+            try {
+                cl = findSystemClass(name);
+            } catch (ClassNotFoundException e) {
+                cl = locateClass(name);
             }
+        }
 
-            if (resolve)
-                resolveClass(cl);
+        if (resolve)
+            resolveClass(cl);
 
-            return cl;
+        return cl;
     }
 
 
     private synchronized Class<?> locateClass(String name)
-        throws ClassNotFoundException {
+            throws ClassNotFoundException {
         //System.err.println("locateClass: " + name);
         Class<?> c = classes.get(name);
         if (c != null)
@@ -142,8 +143,7 @@ public class PathClassLoader extends ClassLoader
         try {
             File file = new File(dir, cname);
             return readClass(name, new FileInputStream(file), (int) file.length());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             //System.err.println("locateClassInDir: " + e);
             return null;
         }
@@ -162,8 +162,7 @@ public class PathClassLoader extends ClassLoader
             if (ze == null)
                 return null;
             return readClass(name, z.getInputStream(ze), (int) ze.getSize());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             //System.err.println("locateClassInJar: " + e);
             return null;
         }
@@ -175,8 +174,7 @@ public class PathClassLoader extends ClassLoader
             for (int total = 0; total < size; ) {
                 total += in.read(data, total, size - total);
             }
-        }
-        finally {
+        } finally {
             in.close();
         }
         return defineClass(name, data, 0, data.length);

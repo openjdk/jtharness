@@ -41,6 +41,7 @@ public abstract class CommandManager {
     /**
      * Get an object embodying the command line help for the commands managed
      * by this CommandManager.
+     *
      * @return an object embodying the command line help for the commands managed
      * by this CommandManager
      */
@@ -48,21 +49,23 @@ public abstract class CommandManager {
 
     /**
      * Parse a command (and any arguments it might take).
-     * @param cmd the command to be parsed
+     *
+     * @param cmd     the command to be parsed
      * @param argIter an iterator from which to get any arguments that
-     * might be required by the option
-     * @param ctx a context object to use while parsing the command
+     *                might be required by the option
+     * @param ctx     a context object to use while parsing the command
      * @return true if the command is recognized and successfully parsed,
      * or false if the command is not recognized by this command manager
      * @throws Command.Fault if the command is recognized by this command manager
-     * but could not be successfully parsed or otherwise handled.
+     *                       but could not be successfully parsed or otherwise handled.
      */
     public abstract boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
-        throws Command.Fault;
+            throws Command.Fault;
 
     /**
      * A convenience routine for subtypes to use to see if one string matches another.
      * The two strings match if they are equal, ignoring case.
+     *
      * @param s1 A string, such as the command name, to be matched
      * @param s2 Another string, such as a command name, to be matched
      * @return true if the strings match, and false otherwise
@@ -75,6 +78,7 @@ public abstract class CommandManager {
      * A convenience routine for subtypes to use to see if a string
      * matches one of a set of strings.
      * Two strings match if they are equal, ignoring case.
+     *
      * @param s1 A string, such as the command name, to be matched
      * @param s2 An array of strings, such as command names, to be matched
      * @return true if a match is found, and false otherwise
@@ -92,7 +96,8 @@ public abstract class CommandManager {
      * matches a prefix string.
      * A match occurs if the argument string begins with the prefix string,
      * ignoring case.
-     * @param arg A string, such as the command name, to be matched
+     *
+     * @param arg    A string, such as the command name, to be matched
      * @param prefix The prefix to be matched
      * @return true if a match is found, and false otherwise
      */

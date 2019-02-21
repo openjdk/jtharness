@@ -39,186 +39,192 @@ import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.XMLWriter;
 
 public class Main {
+    /**
+     * Thrown when a bad command line argument is encountered.
+     */
+    public static class BadArgs extends Exception {
         /**
-         * Thrown when a bad command line argument is encountered.
+         * Serialization support
          */
-        public static class BadArgs extends Exception {
-                /**
-                 * Serialization support
-                 */
-                private static final long serialVersionUID = 4638654313770205243L;
+        private static final long serialVersionUID = 4638654313770205243L;
 
-                /**
-                 * Create a BadArgs exception.
-                 * @param i18n A resource bundle in which to find the detail message.
-                 * @param key The key for the detail message.
-                 */
-                BadArgs(I18NResourceBundle i18n, String key) {
-                        super(i18n.getString(key));
-                }
-
-                /**
-                 * Create a BadArgs exception.
-                 * @param i18n A resource bundle in which to find the detail message.
-                 * @param key The key for the detail message.
-                 * @param arg An argument to be formatted with the detail message by
-                 * {@link java.text.MessageFormat#format}
-                 */
-                BadArgs(I18NResourceBundle i18n, String key, Object arg) {
-                        super(i18n.getString(key, arg));
-                }
-
-                /**
-                 * Create a BadArgs exception.
-                 * @param i18n A resource bundle in which to find the detail message.
-                 * @param key The key for the detail message.
-                 * @param args An array of arguments to be formatted with the detail message by
-                 * {@link java.text.MessageFormat#format}
-                 */
-                BadArgs(I18NResourceBundle i18n, String key, Object[] args) {
-                        super(i18n.getString(key, args));
-                }
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param key  The key for the detail message.
+         */
+        BadArgs(I18NResourceBundle i18n, String key) {
+            super(i18n.getString(key));
         }
 
         /**
-         * This exception is used to report problems that occur while the program is running.
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param key  The key for the detail message.
+         * @param arg  An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
-        public static class Fault extends Exception {
-                /**
-                 * Serialization support
-                 */
-                private static final long serialVersionUID = -4066018402688615825L;
+        BadArgs(I18NResourceBundle i18n, String key, Object arg) {
+            super(i18n.getString(key, arg));
+        }
 
-                /**
-                 * Create a Fault.
-                 * @param i18n A resource bundle in which to find the detail message.
-                 * @param s The key for the detail message.
-                 */
-                Fault(I18NResourceBundle i18n, String s) {
-                        super(i18n.getString(s));
-                }
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param key  The key for the detail message.
+         * @param args An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        BadArgs(I18NResourceBundle i18n, String key, Object[] args) {
+            super(i18n.getString(key, args));
+        }
+    }
 
-                /**
-                 * Create a Fault.
-                 * @param i18n A resource bundle in which to find the detail message.
-                 * @param s The key for the detail message.
-                 * @param o An argument to be formatted with the detail message by
-                 * {@link java.text.MessageFormat#format}
-                 */
-                Fault(I18NResourceBundle i18n, String s, Object o) {
-                        super(i18n.getString(s, o));
-                }
+    /**
+     * This exception is used to report problems that occur while the program is running.
+     */
+    public static class Fault extends Exception {
+        /**
+         * Serialization support
+         */
+        private static final long serialVersionUID = -4066018402688615825L;
 
-                /**
-                 * Create a Fault.
-                 * @param i18n A resource bundle in which to find the detail message.
-                 * @param s The key for the detail message.
-                 * @param o An array of arguments to be formatted with the detail message by
-                 * {@link java.text.MessageFormat#format}
-                 */
-                Fault(I18NResourceBundle i18n, String s, Object[] o) {
-                        super(i18n.getString(s, o));
-                }
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(I18NResourceBundle i18n, String s, Object[] o) {
+            super(i18n.getString(s, o));
+        }
 
         Fault(Exception t) {
             super(t.getMessage(), t);
         }
+    }
+
+    private static final String COF_SCHEMA = "COF2_0_2.xsd";
+
+    private static I18NResourceBundle i18n = I18NResourceBundle
+            .getBundleForClass(Main.class);
+
+    private static File suiteCopy;
+
+    private static void exit(int exitCode) {
+        System.exit(exitCode);
+        throw new Error();
+    }
+
+    public static void main(String[] args) {
+
+        PrintWriter out = new PrintWriter(System.err);
+
+        try {
+            Main m = new Main();
+            m.run(args, out);
+            out.flush();
+            exit(0);
+        } catch (BadArgs e) {
+            out.println(e.getMessage());
+            //showCommandLineHelp(out);
+            out.flush();
+            exit(1);
+        } catch (Fault e) {
+            out.println(e.getMessage());
+            out.flush();
+            exit(2);
         }
+    }
 
-        private static final String COF_SCHEMA = "COF2_0_2.xsd";
-
-        private static I18NResourceBundle i18n = I18NResourceBundle
-                        .getBundleForClass(Main.class);
-
-        private static File suiteCopy;
-
-        private static void exit(int exitCode) {
-                System.exit(exitCode);
-                throw new Error();
+    private static TestSuite openTestSuite(File path) throws Fault {
+        try {
+            return TestSuite.open(path);
+        } catch (FileNotFoundException e) {
+            // should not happen, because of prior dir.exists() check
+            throw new Fault(i18n, "main.cantFindTestSuite", path);
+        } catch (TestSuite.Fault f) {
+            throw new Fault(i18n, "main.cantOpenTestSuite", new Object[]{
+                    path, f});
         }
+    }
 
-        public static void main(String[] args) {
-
-                PrintWriter out = new PrintWriter(System.err);
-
-                try {
-                        Main m = new Main();
-                        m.run(args, out);
-                        out.flush();
-                        exit(0);
-                } catch (BadArgs e) {
-                        out.println(e.getMessage());
-                        //showCommandLineHelp(out);
-                        out.flush();
-                        exit(1);
-                } catch (Fault e) {
-                        out.println(e.getMessage());
-                        out.flush();
-                        exit(2);
-                }
+    private static WorkDirectory openWorkDirectory(File wdPath, File tsPath)
+            throws Fault {
+        try {
+            WorkDirectory wd;
+            if (tsPath == null)
+                wd = WorkDirectory.open(wdPath);
+            else {
+                // with non default suite WorkDirectory.open overwrites
+                // original suite.
+                // so copy before open
+                File original = new File(wdPath.getPath() + "/jtData/testsuite");
+                suiteCopy = File.createTempFile("cof", ".tmp");
+                copyFile(original, suiteCopy);
+                wd = WorkDirectory.open(wdPath, openTestSuite(tsPath));
+            }
+            return wd;
+        } catch (FileNotFoundException e) {
+            // should not happen, because of prior dir.exists() check
+            throw new Fault(i18n, "main.cantFindWorkDir", wdPath);
+        } catch (WorkDirectory.Fault f) {
+            throw new Fault(i18n, "main.cantOpenWorkDir", new Object[]{
+                    wdPath, f});
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+    }
 
-        private static TestSuite openTestSuite(File path) throws Fault {
-                try {
-                        return TestSuite.open(path);
-                } catch (FileNotFoundException e) {
-                        // should not happen, because of prior dir.exists() check
-                        throw new Fault(i18n, "main.cantFindTestSuite", path);
-                } catch (TestSuite.Fault f) {
-                        throw new Fault(i18n, "main.cantOpenTestSuite", new Object[] {
-                                        path, f });
-                }
-        }
+    private static void showCommandLineHelp(PrintWriter out) {
+        String progName = System.getProperty("program", "java " + Main.class
+                .getName());
 
-        private static WorkDirectory openWorkDirectory(File wdPath, File tsPath)
-                        throws Fault {
-                try {
-                        WorkDirectory wd;
-                        if (tsPath == null)
-                                wd = WorkDirectory.open(wdPath);
-                        else {
-                                // with non default suite WorkDirectory.open overwrites
-                                // original suite.
-                                // so copy before open
-                                File original = new File(wdPath.getPath()+"/jtData/testsuite");
-                                suiteCopy = File.createTempFile("cof",".tmp");
-                                copyFile(original, suiteCopy);
-                                wd = WorkDirectory.open(wdPath, openTestSuite(tsPath));
-                        }
-                        return wd;
-                } catch (FileNotFoundException e) {
-                        // should not happen, because of prior dir.exists() check
-                        throw new Fault(i18n, "main.cantFindWorkDir", wdPath);
-                } catch (WorkDirectory.Fault f) {
-                        throw new Fault(i18n, "main.cantOpenWorkDir", new Object[] {
-                                        wdPath, f });
-                } catch (IOException e) {
-                        throw new RuntimeException(e);
-                }
-        }
-
-        private static void showCommandLineHelp(PrintWriter out) {
-                String progName = System.getProperty("program", "java " + Main.class
-                                .getName());
-
-                out.println(i18n.getString("main.cmdLine.proto", progName));
-                out.println();
-                out.println(i18n.getString("main.cmdLine.optHead"));
-                out.println(i18n.getString("main.cmdLine.file"));
-                out.println(i18n.getString("main.cmdLine.help"));
-                out.println(i18n.getString("main.cmdLine.out"));
-                out.println(i18n.getString("main.cmdLine.ts"));
-                out.println(i18n.getString("main.cmdLine.xsd"));
-                out.println(i18n.getString("main.cmdLine.no-testcases"));
-                out.println(i18n.getString("main.cmdLine.mtl"));
-                out.println(i18n.getString("main.cmdLine.filter"));
-                out.println(i18n.getString("main.cmdLine.data"));
-                out.println();
-                out.println(i18n.getString("main.cmdLine.filesHead"));
-                out.println(i18n.getString("main.cmdLine.dir"));
-                out.println();
-                out.println(i18n.getString("main.copyright.txt"));
-        }
+        out.println(i18n.getString("main.cmdLine.proto", progName));
+        out.println();
+        out.println(i18n.getString("main.cmdLine.optHead"));
+        out.println(i18n.getString("main.cmdLine.file"));
+        out.println(i18n.getString("main.cmdLine.help"));
+        out.println(i18n.getString("main.cmdLine.out"));
+        out.println(i18n.getString("main.cmdLine.ts"));
+        out.println(i18n.getString("main.cmdLine.xsd"));
+        out.println(i18n.getString("main.cmdLine.no-testcases"));
+        out.println(i18n.getString("main.cmdLine.mtl"));
+        out.println(i18n.getString("main.cmdLine.filter"));
+        out.println(i18n.getString("main.cmdLine.data"));
+        out.println();
+        out.println(i18n.getString("main.cmdLine.filesHead"));
+        out.println(i18n.getString("main.cmdLine.dir"));
+        out.println();
+        out.println(i18n.getString("main.copyright.txt"));
+    }
 
 
     public static void setGenerateTestCases(boolean enable) {
@@ -230,73 +236,73 @@ public class Main {
     }
 
     void run(String[] args, PrintWriter log) throws BadArgs, Fault {
-                boolean helpFlag = false;
-                xsdFlag = false;
+        boolean helpFlag = false;
+        xsdFlag = false;
         String jtiPath = null;
-                File outputFile = null;
-                File mtlFile = null;
+        File outputFile = null;
+        File mtlFile = null;
 
-                String filterClass = null;
+        String filterClass = null;
 
-                if (args.length == 0)
-                        helpFlag = true;
-                else {
-                        for (int i = 0; i < args.length; i++) {
-                                if (args[i].equals("-o") && (i + 1 < args.length)) {
-                                        outputFile = new File(args[++i]);
-                                } else if (args[i].equalsIgnoreCase("-jti")  && (i + 1 < args.length)) {
+        if (args.length == 0)
+            helpFlag = true;
+        else {
+            for (int i = 0; i < args.length; i++) {
+                if (args[i].equals("-o") && (i + 1 < args.length)) {
+                    outputFile = new File(args[++i]);
+                } else if (args[i].equalsIgnoreCase("-jti") && (i + 1 < args.length)) {
                     jtiPath = args[++i];
                     if (tsPath != null) {
                         tsPath = null;
                         log.println("main.tswithjti");
                     }
-                                } else if (args[i].equals("-f") && (i + 1 < args.length)) {
-                                        data.add(new File(args[++i]));
-                                } else if (args[i].equalsIgnoreCase("-help") || args[i]
-                                                .equalsIgnoreCase("-usage")
-                                                || args[i].equalsIgnoreCase("/?")) {
-                                        helpFlag = true;
-                                } else if (args[i].equalsIgnoreCase("-no-testcases")) {
-                                        COFTest.noTestCases = true;
-                                        COFTest.xmlElements.remove("testcases");
-                                } else if (args[i].equalsIgnoreCase("-xsd")) {
-                                        xsdFlag = true;
-                                } else if (args[i].equalsIgnoreCase("-mtl") && (i + 1 < args.length)) {
-                                        mtlFile = new File(args[++i]);
-                                } else if (args[i].equalsIgnoreCase("-ts") && (i + 1 < args.length)) {
+                } else if (args[i].equals("-f") && (i + 1 < args.length)) {
+                    data.add(new File(args[++i]));
+                } else if (args[i].equalsIgnoreCase("-help") || args[i]
+                        .equalsIgnoreCase("-usage")
+                        || args[i].equalsIgnoreCase("/?")) {
+                    helpFlag = true;
+                } else if (args[i].equalsIgnoreCase("-no-testcases")) {
+                    COFTest.noTestCases = true;
+                    COFTest.xmlElements.remove("testcases");
+                } else if (args[i].equalsIgnoreCase("-xsd")) {
+                    xsdFlag = true;
+                } else if (args[i].equalsIgnoreCase("-mtl") && (i + 1 < args.length)) {
+                    mtlFile = new File(args[++i]);
+                } else if (args[i].equalsIgnoreCase("-ts") && (i + 1 < args.length)) {
                     if (jtiPath != null) {
                         tsPath = new File(args[++i]);
                     } else {
                         i++;
                     }
-                                } else if (args[i].equalsIgnoreCase("-filter") && (i + 1 < args.length)) {
-                                        filterClass = args[++i];
-                                } else if (args[i].startsWith("-")) {
-                                        throw new BadArgs(i18n, "main.badOpt", args[i]);
-                                } else if (args[i].indexOf("=") != -1) {
-                                        data.add(args[i]);
-                                } else if (i == args.length - 1) {
-                                        // currently, only accept one directory;
-                                        // we could accept more and turn them into
-                                        // separate testsuites in the report, but
-                                        // would have trouble identifying environments
-                                        // for them
+                } else if (args[i].equalsIgnoreCase("-filter") && (i + 1 < args.length)) {
+                    filterClass = args[++i];
+                } else if (args[i].startsWith("-")) {
+                    throw new BadArgs(i18n, "main.badOpt", args[i]);
+                } else if (args[i].indexOf("=") != -1) {
+                    data.add(args[i]);
+                } else if (i == args.length - 1) {
+                    // currently, only accept one directory;
+                    // we could accept more and turn them into
+                    // separate testsuites in the report, but
+                    // would have trouble identifying environments
+                    // for them
                     if (jtiPath == null) {
                         dir = new File(args[i]);
                     }
                 } else
-                                        throw new BadArgs(i18n, "main.badArg", args[i]);
-                        }
-                }
+                    throw new BadArgs(i18n, "main.badArg", args[i]);
+            }
+        }
 
-                if (helpFlag) {
-                        showCommandLineHelp(log);
-                        if (dir == null && outputFile == null)
-                                return;
-                }
+        if (helpFlag) {
+            showCommandLineHelp(log);
+            if (dir == null && outputFile == null)
+                return;
+        }
 
-                if (outputFile == null)
-                        throw new BadArgs(i18n, "main.noOutputFile");
+        if (outputFile == null)
+            throw new BadArgs(i18n, "main.noOutputFile");
 
         if (jtiPath == null) {
             if (dir == null)
@@ -306,29 +312,29 @@ public class Main {
                 throw new BadArgs(i18n, "main.cantFindResults");
         }
 
-                COFData cofData;
-                try {
-                        cofData = new COFData(data);
-                         if (mtlFile != null) {
-                            cofData.setMtl(new MTL(mtlFile));
-                        }
-                } catch (IllegalArgumentException e) {
-                        throw new Fault(i18n, "main.badOpt", e.toString());
-                } catch (IOException e) {
-                        throw new Fault(i18n, "main.cantReadFile", e);
-                }
+        COFData cofData;
+        try {
+            cofData = new COFData(data);
+            if (mtlFile != null) {
+                cofData.setMtl(new MTL(mtlFile));
+            }
+        } catch (IllegalArgumentException e) {
+            throw new Fault(i18n, "main.badOpt", e.toString());
+        } catch (IOException e) {
+            throw new Fault(i18n, "main.cantReadFile", e);
+        }
 
-                if (filterClass != null) {
-                    try {
-                        cofData.setCustomFilter(filterClass);
-                    } catch (Exception ex) {
-                        // InstantiationException
-                        // ClassNotFoundException
-                        // IllegalAccessException
-                        // - just print an error and use default
-                        ex.printStackTrace();
-                    }
-                }
+        if (filterClass != null) {
+            try {
+                cofData.setCustomFilter(filterClass);
+            } catch (Exception ex) {
+                // InstantiationException
+                // ClassNotFoundException
+                // IllegalAccessException
+                // - just print an error and use default
+                ex.printStackTrace();
+            }
+        }
 
         if (jtiPath != null) {
             File jtiFile = new File(jtiPath);
@@ -362,7 +368,7 @@ public class Main {
             out.close();
         } catch (IOException e) {
             throw new Fault(i18n, "main.cantWriteFile", new Object[]{
-                        outputFile, e});
+                    outputFile, e});
         }
 
         if (xsdFlag) {
@@ -381,7 +387,7 @@ public class Main {
                 out.close();
             } catch (IOException e) {
                 throw new Fault(i18n, "main.cantWriteFile", new Object[]{
-                            xsdFile, e});
+                        xsdFile, e});
             }
         }
         if (suiteCopy != null) {
@@ -391,8 +397,8 @@ public class Main {
         }
     }
 
-        public Report fillReport(COFData cofData) throws Fault {
-                COFTestSuite cof_ts;
+    public Report fillReport(COFData cofData) throws Fault {
+        COFTestSuite cof_ts;
 
         if (ip != null) {
             WorkDirectory wd = ip.getWorkDirectory();
@@ -409,41 +415,41 @@ public class Main {
 
         COFEnvironment[] cof_envs = cof_ts.getCOFEnvironments(cofData); // returns at least one default Environment
 
-                Report r = new Report(cof_envs, cof_ts);
-                r.setHarness(cofData.get("report.harness"));
+        Report r = new Report(cof_envs, cof_ts);
+        r.setHarness(cofData.get("report.harness"));
 
-                COFSWEntities entities = new COFSWEntities();
-                COFSWEntity entity = new COFSWEntity();
-                entity.setId(cofData.get("swentity.id", "sw:0"));
-                entity.setName(cofData.get("swentity.name", "JDK"));
-                entity.setType(cofData.get("swentity.type", "java"));
-                entity.setVersion(cofData.get("swentity.version"));
-                entity.setDescription(cofData.get("swentity.description"));
-                entities.getSwentity().add(entity);
-                r.setSwentities(entities);
+        COFSWEntities entities = new COFSWEntities();
+        COFSWEntity entity = new COFSWEntity();
+        entity.setId(cofData.get("swentity.id", "sw:0"));
+        entity.setName(cofData.get("swentity.name", "JDK"));
+        entity.setType(cofData.get("swentity.type", "java"));
+        entity.setVersion(cofData.get("swentity.version"));
+        entity.setDescription(cofData.get("swentity.description"));
+        entities.getSwentity().add(entity);
+        r.setSwentities(entities);
 
-                COFApplications apps= new COFApplications();
-                COFApplication app = new COFApplication();
-                app.setEnvironmentid(cof_envs[0].getId());
-                app.setSwentityid(entity.getId());
-                apps.getApplication().add(app);
-                r.setApplications(apps);
-                return r;
+        COFApplications apps = new COFApplications();
+        COFApplication app = new COFApplication();
+        app.setEnvironmentid(cof_envs[0].getId());
+        app.setSwentityid(entity.getId());
+        apps.getApplication().add(app);
+        r.setApplications(apps);
+        return r;
+    }
+
+    public static void copyFile(File in, File out) {
+        try {
+            FileChannel sourceChannel = new FileInputStream(in).getChannel();
+            FileChannel destinationChannel = new FileOutputStream(out).getChannel();
+            sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
+            sourceChannel.close();
+            destinationChannel.close();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getLocalizedMessage());
+        } catch (IOException e) {
+            System.out.println(e.getLocalizedMessage());
         }
-
-        public static void copyFile(File in, File out) {
-                try {
-                        FileChannel sourceChannel = new FileInputStream(in).getChannel();
-                        FileChannel destinationChannel = new FileOutputStream(out).getChannel();
-                        sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
-                        sourceChannel.close();
-                        destinationChannel.close();
-                } catch (FileNotFoundException e) {
-                        System.out.println(e.getLocalizedMessage());
-                } catch (IOException e) {
-                        System.out.println(e.getLocalizedMessage());
-                }
-        }
+    }
 
     public void setXsdFlag(boolean xsd) {
         this.xsdFlag = xsd;
@@ -457,9 +463,9 @@ public class Main {
         this.ip = ip;
     }
 
-        File dir = null;
-        File tsPath = null;
-        Vector<Object> data = new Vector<>();
+    File dir = null;
+    File tsPath = null;
+    Vector<Object> data = new Vector<>();
     InterviewParameters ip = null;
     private boolean xsdFlag = false;
 

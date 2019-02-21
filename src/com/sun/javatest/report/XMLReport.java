@@ -48,6 +48,7 @@ import com.sun.javatest.TestResult.Section;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -63,13 +64,14 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import org.xml.sax.SAXException;
 
 
 /**
  * XML report (dump).
  */
-public class XMLReport  implements ReportFormat {
+public class XMLReport implements ReportFormat {
 
     @Override
     public ReportLink write(ReportSettings sett, File dir) throws IOException {
@@ -85,7 +87,7 @@ public class XMLReport  implements ReportFormat {
         sett.xmlReportFile = repFile;
 
         return new ReportLink(i18n.getString("index.xmltype.txt"),
-                getBaseDirName(), i18n.getString("index.desc.xml"),repFile);
+                getBaseDirName(), i18n.getString("index.desc.xml"), repFile);
 
     }
 
@@ -124,7 +126,7 @@ public class XMLReport  implements ReportFormat {
         if (sett.getInterview() != null) {
             jti = sett.getInterview().getFile();
         }
-        maker.sWorkdirectory( jti == null ? null : jti.getPath());
+        maker.sWorkdirectory(jti == null ? null : jti.getPath());
 
         writeTemplateInfo(maker, sett);
         writeInterview(maker, sett);
@@ -171,7 +173,7 @@ public class XMLReport  implements ReportFormat {
             writeResultProps(maker, testResult);
             writeSections(maker, testResult);
             writeAnnotations(maker, testResult);
-        } catch (TestResult.Fault  e) {
+        } catch (TestResult.Fault e) {
             System.err.println(i18n.getString("report.writing.err"));
             e.printStackTrace();
         } finally {
@@ -182,12 +184,12 @@ public class XMLReport  implements ReportFormat {
     private void writeSections(final XMLReportMaker maker, final TestResult testResult) throws SAXException, IOException, TestResult.Fault {
 
         maker.sSections();
-        for (int i = 0; i < testResult.getSectionCount() ; i++) {
+        for (int i = 0; i < testResult.getSectionCount(); i++) {
             String st = testResult.getSectionTitles()[i];
             Section sec = testResult.getSection(i);
             Status stat = sec.getStatus();
             maker.sSection(st, stat);
-            for (int j=0; j < sec.getOutputCount(); j++) {
+            for (int j = 0; j < sec.getOutputCount(); j++) {
                 String oName = sec.getOutputNames()[j];
                 maker.sOutput(oName, sec.getOutput(oName));
                 maker.eOutput();
@@ -218,7 +220,7 @@ public class XMLReport  implements ReportFormat {
         Iterator<String> keysIt;
         try {
             Map<String, String> m = testResult.getEnvironment();
-            keysIt =  m.keySet().iterator();
+            keysIt = m.keySet().iterator();
             maker.sTestEnvironment();
             while (keysIt.hasNext()) {
                 String key = keysIt.next();
@@ -249,8 +251,8 @@ public class XMLReport  implements ReportFormat {
             }
         }
 
-        String [] kws = td.getKeywords();
-        if (kws != null && kws.length > 0 ) {
+        String[] kws = td.getKeywords();
+        if (kws != null && kws.length > 0) {
             maker.sKeyWords();
             maker.makeItems(kws);
             maker.eKeyWords();
@@ -273,10 +275,10 @@ public class XMLReport  implements ReportFormat {
         else
             return;
 
-        Map<String,String> map = wd.getTestAnnotations(testResult);
+        Map<String, String> map = wd.getTestAnnotations(testResult);
         if (map != null) {
             maker.sTAnnotationData();
-            for (String key: map.keySet()) {
+            for (String key : map.keySet()) {
                 maker.makeProperty(key, map.get(key));
             }   // for
             maker.eTAnnotationData();
@@ -289,7 +291,7 @@ public class XMLReport  implements ReportFormat {
 
         if (sett.getInterview().getEnv() != null) {
             name = sett.getInterview().getEnv().getName();
-            descr= sett.getInterview().getEnv().getDescription();
+            descr = sett.getInterview().getEnv().getDescription();
         }
 
         maker.sEnvironment(name, descr);
@@ -356,7 +358,7 @@ public class XMLReport  implements ReportFormat {
 
     private void writeTestsToRun(final XMLReportMaker maker, final ReportSettings sett) throws SAXException {
         maker.sTests();
-        String [] tests = sett.getInterview().getTests();
+        String[] tests = sett.getInterview().getTests();
         if (tests != null && tests.length > 0) {
             for (String test : tests) {
                 maker.makeItem(test);
@@ -383,7 +385,7 @@ public class XMLReport  implements ReportFormat {
     private void writeInterview(final XMLReportMaker maker, final ReportSettings sett) throws SAXException {
 
         maker.sInterview();
-        Question [] questions = sett.getInterview().getPath();
+        Question[] questions = sett.getInterview().getPath();
         for (Question q : questions) {
             maker.sQuestion(q.getStringValue(), q.getText(), q.getSummary());
             if (q instanceof TreeQuestion || q instanceof StringListQuestion || q instanceof FileListQuestion) {
@@ -403,7 +405,7 @@ public class XMLReport  implements ReportFormat {
         if (q instanceof TreeQuestion) {
             TreeQuestion tq = (TreeQuestion) q;
             maker.makeItems(tq.getValue());
-        } else if (q instanceof StringListQuestion ) {
+        } else if (q instanceof StringListQuestion) {
             StringListQuestion slq = (StringListQuestion) q;
             maker.makeItems(slq.getValue());
         } else if (q instanceof FileListQuestion) {
@@ -416,7 +418,7 @@ public class XMLReport  implements ReportFormat {
     private void writePropertiesQuestion(XMLReportMaker maker, Question q) throws SAXException {
         maker.sPropertiesQuestion();
         PropertiesQuestion pq = (PropertiesQuestion) q;
-        String [] grs = pq.getGroups();
+        String[] grs = pq.getGroups();
         String h1 = pq.getKeyHeaderName();
         String h2 = pq.getValueHeaderName();
         if (grs != null) {
@@ -434,10 +436,10 @@ public class XMLReport  implements ReportFormat {
 
     private void writeChoiceQuestion(XMLReportMaker maker, Question q) throws SAXException {
         maker.sChoiceQuestion();
-        if (q instanceof ChoiceQuestion ) {
+        if (q instanceof ChoiceQuestion) {
             ChoiceQuestion cq = (ChoiceQuestion) q;
             maker.makeChoices(cq.getChoices(), cq.getDisplayChoices());
-        } else if (q instanceof YesNoQuestion ) {
+        } else if (q instanceof YesNoQuestion) {
             YesNoQuestion ynq = (YesNoQuestion) q;
             maker.makeChoices(ynq.getChoices(), ynq.getDisplayChoices());
         } else if (q instanceof ChoiceArrayQuestion) {
@@ -448,7 +450,7 @@ public class XMLReport  implements ReportFormat {
     }
 
     private void writeTable(XMLReportMaker maker, String[]... table) throws SAXException {
-        if (table != null ) {
+        if (table != null) {
             for (String[] aTable : table) {
                 maker.makeRow(aTable[0], aTable[1]);
             }
@@ -462,6 +464,7 @@ public class XMLReport  implements ReportFormat {
 
         /**
          * Convert date to string in ISO-8601 or xs:dateTime format
+         *
          * @param date Date
          * @return ISO-8601 String
          */
@@ -475,9 +478,10 @@ public class XMLReport  implements ReportFormat {
 
         /**
          * Convert string from JTR format to java.util.Date
-         * @throws java.text.ParseException
+         *
          * @param dateStr String
          * @return Date
+         * @throws java.text.ParseException
          */
         static Date jtrToDate(String dateStr) throws ParseException {
             return TestResult.parseDate(dateStr);

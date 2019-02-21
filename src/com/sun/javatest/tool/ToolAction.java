@@ -41,14 +41,14 @@ import com.sun.javatest.util.I18NResourceBundle;
 /**
  * Standard template for creation of an Action to be used in a Tool.
  */
-public abstract class ToolAction implements Action
-{
+public abstract class ToolAction implements Action {
     /**
      * Construct an action with a specific mnemonic.  This is the
      * non-internationalized version and not recommended.  See
      * <code>Action</code> for details on the parameters.
-     * @param name Name of this action
-     * @param desc Description of this action
+     *
+     * @param name     Name of this action
+     * @param desc     Description of this action
      * @param mnemonic Mnemonic associated with this action
      * @see javax.swing.Action
      */
@@ -61,10 +61,11 @@ public abstract class ToolAction implements Action
 
     /**
      * Construct an internationalized action.
+     *
      * @param uif Factory to use for getting strings.
      * @param key Key for retrieving internationalized strings from the
-     *        bundle.
-     * @see #ToolAction(I18NResourceBundle,String)
+     *            bundle.
+     * @see #ToolAction(I18NResourceBundle, String)
      */
     public ToolAction(UIFactory uif, String key) {
         this(uif.getI18NResourceBundle(), key);
@@ -72,13 +73,14 @@ public abstract class ToolAction implements Action
 
     /**
      * Construct an internationalized action.
-     * @param uif Factory to use for getting strings.
-     * @param key Key for retrieving internationalized strings from the
-     *        bundle.
+     *
+     * @param uif      Factory to use for getting strings.
+     * @param key      Key for retrieving internationalized strings from the
+     *                 bundle.
      * @param needIcon True if an icon resource should be associated with
-     *        this action.  Will be retrieved through the uif.  And
-     *        put into the <code>SMALL_ICON</code> property.
-     * @see #ToolAction(I18NResourceBundle,String)
+     *                 this action.  Will be retrieved through the uif.  And
+     *                 put into the <code>SMALL_ICON</code> property.
+     * @see #ToolAction(I18NResourceBundle, String)
      * @see javax.swing.Action#SMALL_ICON
      */
     public ToolAction(UIFactory uif, String key, boolean needIcon) {
@@ -95,18 +97,20 @@ public abstract class ToolAction implements Action
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the action
      * <tr><td><i>uiKey</i>.mne  <td>mnemonic for this action
      * </table>
+     *
      * @param i18n Resource bundle to use when getting action properties
-     * @param key Key for retrieving internationalized strings from the
-     *        bundle.
+     * @param key  Key for retrieving internationalized strings from the
+     *             bundle.
      */
     public ToolAction(I18NResourceBundle i18n, String key) {
-        this( i18n.getString(key + ".act"),
-              i18n.getString(key + ".tip"),
-              getMnemonic(i18n, key + ".mne") );
+        this(i18n.getString(key + ".act"),
+                i18n.getString(key + ".tip"),
+                getMnemonic(i18n, key + ".mne"));
     }
 
     /**
      * Gets one of this object's properties using the associated key.
+     *
      * @param key the key of the property to be returned
      * @return the value of the property with the given key
      * @see #putValue
@@ -132,8 +136,9 @@ public abstract class ToolAction implements Action
      * Sets one of this object's properties using the associated key.
      * If the value has changed, a <code>PropertyChangeEvent</code> is sent
      * to listeners.
+     *
      * @param key    the key of the property to be stored
-     * @param newVal  the new value for the property
+     * @param newVal the new value for the property
      */
     @Override
     public void putValue(String key, Object newVal) {
@@ -144,26 +149,22 @@ public abstract class ToolAction implements Action
                 return;
             oldVal = name;
             name = (String) newVal;
-        }
-        else if (key.equals(SHORT_DESCRIPTION)) {
+        } else if (key.equals(SHORT_DESCRIPTION)) {
             if (equal(newVal, desc))
                 return;
             oldVal = desc;
             desc = (String) newVal;
-        }
-        else if (key.equals(MNEMONIC_KEY)) {
+        } else if (key.equals(MNEMONIC_KEY)) {
             if (equal(newVal, mnemonic))
                 return;
             oldVal = mnemonic;
             mnemonic = (Integer) newVal;
-        }
-        else if (key.equals(SMALL_ICON)) {
+        } else if (key.equals(SMALL_ICON)) {
             if (equal(newVal, icon))
                 return;
             oldVal = icon;
             icon = (Icon) newVal;
-        }
-        else {
+        } else {
             if (misc == null)
                 misc = new HashMap<>();
             oldVal = misc.get(key);
@@ -203,7 +204,7 @@ public abstract class ToolAction implements Action
         int size = l.length;
         for (int i = size - 1; i >= 0; i--) {
             if (l[i].get() == listener)
-                System.arraycopy(l, i+1, l, i, --size - i);
+                System.arraycopy(l, i + 1, l, i, --size - i);
         }
 
         if (size < l.length) {

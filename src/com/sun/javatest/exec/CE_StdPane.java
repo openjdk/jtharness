@@ -34,8 +34,7 @@ import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
 
-abstract class CE_StdPane extends JPanel
-{
+abstract class CE_StdPane extends JPanel {
     protected CE_StdPane(UIFactory uif, InterviewParameters config, String name) {
         this.uif = uif;
         this.config = config;
@@ -72,7 +71,9 @@ abstract class CE_StdPane extends JPanel
 
 
     abstract boolean isOKToClose();
+
     abstract void load();
+
     abstract void save();
 
     protected ToolDialog toolDialog;

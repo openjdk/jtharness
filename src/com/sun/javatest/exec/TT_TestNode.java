@@ -32,7 +32,6 @@ import java.util.Enumeration;
 import javax.swing.tree.TreeNode;
 
 /**
- *
  * @author work
  */
 public class TT_TestNode extends TT_TreeNode {
@@ -41,6 +40,7 @@ public class TT_TestNode extends TT_TreeNode {
         this.tr = tr;
         this.parent = parent;
     }
+
     // ------- interface methods --------
     @Override
     public Enumeration<?> children() {
@@ -102,8 +102,9 @@ public class TT_TestNode extends TT_TreeNode {
     /**
      * String for use whenever you need a basic name for this node.  You can
      * assume that this name is unique within any node.
+     *
      * @return Short name for this node, containing no forward slashes or
-     *    spaces.
+     * spaces.
      */
     @Override
     String getShortName() {
@@ -118,8 +119,9 @@ public class TT_TestNode extends TT_TreeNode {
 
     /**
      * Get the long internal representation of this location.
+     *
      * @return Null if the node is the root, else a forward slash separated
-     *      path.
+     * path.
      */
     @Override
     String getLongPath() {
@@ -136,6 +138,7 @@ public class TT_TestNode extends TT_TreeNode {
         }
         return sb.toString();
     }
+
     private TestResult tr;
     private String shortN;      // stored, expensive to recalculate
 }

@@ -41,8 +41,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  * Base class for the individual displays of the TestPanel.
  */
 
-abstract class TP_Subpanel extends JPanel
-{
+abstract class TP_Subpanel extends JPanel {
     TP_Subpanel(UIFactory uif, String name) {
         this.uif = uif;
         setName(name);
@@ -63,8 +62,7 @@ abstract class TP_Subpanel extends JPanel
 
         try {
             subpanelDesc = currTest.getDescription();
-        }
-        catch (TestResult.Fault e) {
+        } catch (TestResult.Fault e) {
             I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(getClass());
             throw new JavaTestError(i18n, "test.noDesc", e);
         }

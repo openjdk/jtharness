@@ -44,23 +44,24 @@ import java.util.Locale;
  * temporarily give access to a shared GUI frame, such as the
  * one top-level Frame.
  */
-public class MainFrame
-{
+public class MainFrame {
     /**
      * Set a context that can be subsequently accessed via @link(#acquireFrame)
      * and @link(#releaseFrame).
+     *
      * @param c The container to be registered
      * @throws ClassCastException if the container being registered is not a frame
      * @see #getContext
      * @deprecated replaced by @link(#setFrame)
      */
     public static synchronized void setContext(Container c) {
-        setFrame((Frame)c);
+        setFrame((Frame) c);
     }
 
     /**
      * Set a frame that can be subsequently accessed via @link(#acquireFrame)
      * and @link(#releaseFrame).
+     *
      * @param f The container to be registered
      */
     public static synchronized void setFrame(Frame f) {
@@ -68,11 +69,11 @@ public class MainFrame
     }
 
 
-
     /**
      * Try to acquire exclusive access to a shared context previously registered
      * with @link(#setFrame). If the frame is currently in use by someone
      * else, the call will wait until the other owner is releases it.
+     *
      * @return The container previously registered with setFrame. It will
      * be returned in as clean a state as possible, with no children, and
      * a new instance of @link(FlowLayout). null is returned if the call is
@@ -83,8 +84,7 @@ public class MainFrame
     public static Container getContext() {
         try {
             return acquireFrame();
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             return null;
         }
     }
@@ -93,12 +93,13 @@ public class MainFrame
      * Try to acquire exclusive access to a shared context previously registered
      * with @link(#setContext). If the context is currently in use by someone
      * else, the call will wait until the other owner is releases it.
+     *
      * @return The container previously registered with setContext. It will
      * be returned in as clean a state as possible, with no children, and
      * a new instance of @link(FlowLayout).
      * If no frame has been registered, one has been created.
      * @throws InterruptedException if the thread is interrupted while waiting
-     * for the context to become available.
+     *                              for the context to become available.
      * @see #releaseFrame
      */
     public static synchronized Frame acquireFrame() throws InterruptedException {
@@ -164,25 +165,26 @@ public class MainFrame
      * Release access to the previously acquired context. The context is reset
      * to its state before  @link(#acquireContext) was called, and made available
      * to subsequent callers of @link(#acquireContext).
+     *
      * @param c The result of previously calling @link(#acquireContext).
      * @throws IllegalStateException if the argument is not the result of
-     * calling @link(#acquireFrame), or if it has already been released.
-     * @throws ClassCastException if the container is not a frame.
+     *                               calling @link(#acquireFrame), or if it has already been released.
+     * @throws ClassCastException    if the container is not a frame.
      * @deprecated replaced by releaseFrame.
      */
     public static void restoreContext(Container c) {
-        releaseFrame((Frame)c);
+        releaseFrame((Frame) c);
     }
-
 
 
     /**
      * Release access to the previously acquired frame. The frame is reset
      * to its state before  @link(#acquireFrame) was called, and made available
      * to subsequent callers of @link(#acquireFrame).
+     *
      * @param f The result of previously calling @link(#acquireFrame).
      * @throws IllegalStateException if the argument is not the result of
-     * calling @link(#acquireFrame), or if it has already been released.
+     *                               calling @link(#acquireFrame), or if it has already been released.
      * @see #acquireFrame
      */
     public static synchronized void releaseFrame(Frame f) {

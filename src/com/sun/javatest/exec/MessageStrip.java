@@ -67,8 +67,7 @@ import com.sun.javatest.tool.jthelp.ContextHelpManager;
  */
 
 class MessageStrip extends JSplitPane
-    implements Harness.Observer, ComponentListener
-{
+        implements Harness.Observer, ComponentListener {
     MessageStrip(UIFactory uif, Monitor[] monitors, MonitorState state,
                  ActionListener zoomListener) {
         this.uif = uif;
@@ -203,7 +202,7 @@ class MessageStrip extends JSplitPane
         JPopupMenu menu = uif.createPopupMenu("strip.menu");
         for (int i = 0; i < monitors.length; i++) {
             JMenuItem mi = uif.createLiteralMenuItem(
-                monitors[i].getSmallMonitorName(), actionListener);
+                    monitors[i].getSmallMonitorName(), actionListener);
             mi.setActionCommand(Integer.toString(i));
             menu.add(mi);
         }   // for
@@ -219,22 +218,21 @@ class MessageStrip extends JSplitPane
         uif.setAccessibleName(selector, "strip.sel");
         selector.addActionListener(actionListener);
         selector.setRenderer(new BasicComboBoxRenderer() {
-                @Override
-                public Component getListCellRendererComponent(JList list, Object value,
-                                                              int index, boolean isSelected, boolean cellHasFocus) {
-                    Component c = super.getListCellRendererComponent(list, value,
-                                                index, isSelected, cellHasFocus);
-                    try {
-                        JLabel lab = (JLabel)c;
-                        if (value instanceof Monitor)
-                            lab.setText(((Monitor)value).getSmallMonitorName());
-                    }
-                    catch (ClassCastException e) {
-                    }
-
-                    return c;
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value,
+                                                          int index, boolean isSelected, boolean cellHasFocus) {
+                Component c = super.getListCellRendererComponent(list, value,
+                        index, isSelected, cellHasFocus);
+                try {
+                    JLabel lab = (JLabel) c;
+                    if (value instanceof Monitor)
+                        lab.setText(((Monitor) value).getSmallMonitorName());
+                } catch (ClassCastException e) {
                 }
-            });
+
+                return c;
+            }
+        });
         ContextHelpManager.setHelpIDString(selector, "run.testProgress");
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -334,15 +332,21 @@ class MessageStrip extends JSplitPane
 
     // ---------- ComponentListener ----------
     @Override
-    public void componentHidden(ComponentEvent e) { }
+    public void componentHidden(ComponentEvent e) {
+    }
+
     @Override
-    public void componentMoved(ComponentEvent e) { }
+    public void componentMoved(ComponentEvent e) {
+    }
+
     @Override
     public void componentResized(ComponentEvent e) {
         setDividerLocation(0.70d);
     }
+
     @Override
-    public void componentShown(ComponentEvent e) { }
+    public void componentShown(ComponentEvent e) {
+    }
 
     private JTextField leftField;
     private JPanel rightPanel;
@@ -373,12 +377,10 @@ class MessageStrip extends JSplitPane
 
             if (source == magButt) {
                 zoomListener.actionPerformed(e);
-            }
-            else if (source == selector) {
+            } else if (source == selector) {
                 Object item = selector.getSelectedItem();
-                setMonitor(getMonitorIndex((Monitor)item));
-            }
-            else if (source instanceof JMenuItem) {
+                setMonitor(getMonitorIndex((Monitor) item));
+            } else if (source instanceof JMenuItem) {
                 try {
                     int index = Integer.parseInt(e.getActionCommand());
 

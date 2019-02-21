@@ -33,11 +33,11 @@ public class ContextHelpManager {
 
     private static WeakHashMap<Component, String> componentHelpMap = new WeakHashMap<>();
 
-    public static void setHelpIDString(Component component, String value){
+    public static void setHelpIDString(Component component, String value) {
         componentHelpMap.put(component, value);
     }
 
-    public static String getHelpIDString(Component component){
+    public static String getHelpIDString(Component component) {
         return componentHelpMap.get(component);
     }
 

@@ -67,21 +67,21 @@ import com.sun.javatest.util.DynamicArray;
  * which the user will select one (the "active" one).
  */
 public class FilterConfig {
-     /**
-      * Observe changes to the state of the view.  The changes to the view state
-      * will generally be the result of user actions.
-      */
+    /**
+     * Observe changes to the state of the view.  The changes to the view state
+     * will generally be the result of user actions.
+     */
     public interface Observer {
-       /**
-        * The state of the given filter has changed.
-        */
+        /**
+         * The state of the given filter has changed.
+         */
         public void filterUpdated(TestFilter f);
 
         public void filterAdded(TestFilter f);
 
-       /**
-        * Removing the active filter will result in an exception.
-        */
+        /**
+         * Removing the active filter will result in an exception.
+         */
         public void filterRemoved(TestFilter f);
     }
 
@@ -106,11 +106,11 @@ public class FilterConfig {
 
         // register as change observer if possible
         if (f instanceof ObservableTestFilter) {
-            ((ObservableTestFilter)f).addObserver(listener);
+            ((ObservableTestFilter) f).addObserver(listener);
         }
 
         if (f instanceof ConfigurableTestFilter && fep != null) {
-            fep.addConfigurableFilter((ConfigurableTestFilter)f);
+            fep.addConfigurableFilter((ConfigurableTestFilter) f);
         }
 
         // tell people about the addition
@@ -126,7 +126,7 @@ public class FilterConfig {
      * You cannot remove the active filter.
      *
      * @param f Should not be null.  Should also be a filter which was previously
-     *        added to this object.
+     *          added to this object.
      * @throws FilterInUseFault Thrown if you try to remove the active filter.
      */
     synchronized void remove(TestFilter f) {
@@ -137,10 +137,10 @@ public class FilterConfig {
         filters = DynamicArray.remove(filters, f);
 
         if (f instanceof ObservableTestFilter)
-            ((ObservableTestFilter)f).removeObserver(listener);
+            ((ObservableTestFilter) f).removeObserver(listener);
 
         if (f instanceof ConfigurableTestFilter && fep != null) {
-            fep.removeConfigurableFilter((ConfigurableTestFilter)f);
+            fep.removeConfigurableFilter((ConfigurableTestFilter) f);
         }
 
         // tell people about the removal
@@ -245,6 +245,7 @@ public class FilterConfig {
 
     /**
      * Show the filter editor, with the given filter selected.
+     *
      * @param f the filter to show the user initially
      */
     synchronized void showEditorDialog(TestFilter f) {
@@ -264,9 +265,8 @@ public class FilterConfig {
     }
 
     private class Listener
-        extends ComponentAdapter
-        implements ObservableTestFilter.Observer
-    {
+            extends ComponentAdapter
+            implements ObservableTestFilter.Observer {
         @Override
         public void filterUpdated(ObservableTestFilter otf) {
             notifyUpdated(otf);
@@ -296,9 +296,8 @@ public class FilterConfig {
     private static boolean debug = Debug.getBoolean(FilterConfig.class);
 
     private class FilterEditorPanel
-        extends ToolDialog
-        implements ListSelectionListener, ActionListener
-    {
+            extends ToolDialog
+            implements ListSelectionListener, ActionListener {
         FilterEditorPanel(Component parent, UIFactory uif) {
             super(parent, uif, "fconfig");
         }
@@ -314,8 +313,7 @@ public class FilterConfig {
                 if (mode == EDITABLE) {
                     //Debug.println("FC - in edit mode, attempting to save.");
                     result = doApply();
-                }
-                else {
+                } else {
                     //Debug.println("FC - not in edit mode, not attempting to save.");
                 }
 
@@ -325,15 +323,12 @@ public class FilterConfig {
                 else {
                     // save failed...
                 }
-            }
-            else if (source == applyBut) {
+            } else if (source == applyBut) {
                 result = doApply();
-            }
-            else if (source == resetBut) {
+            } else if (source == resetBut) {
                 if (mode == EDITABLE)
                     doReset();
-            }
-            else if (source == cancelBut) {
+            } else if (source == cancelBut) {
                 if (mode == EDITABLE)
                     doReset();
 
@@ -371,8 +366,7 @@ public class FilterConfig {
                 int ind = listModel.indexOf(f);
                 if (ind >= 0)
                     selectIndex(ind);
-            }
-            else {
+            } else {
                 // necessary for correct initialization, since the ToolDialog
                 // does lazy initialization
                 // initGUI() will process this later
@@ -389,8 +383,7 @@ public class FilterConfig {
             if (newSelected < 0) {
                 selectIndex(0);
                 lastSelected = 0;
-            }
-            else if (newSelected != lastSelected) {
+            } else if (newSelected != lastSelected) {
                 selectIndex(newSelected);
                 lastSelected = newSelected;
             }
@@ -416,13 +409,12 @@ public class FilterConfig {
                     mode = EDITABLE;
                 }
 
-                ConfigurableTestFilter ctf = (ConfigurableTestFilter)selectedFilter;
+                ConfigurableTestFilter ctf = (ConfigurableTestFilter) selectedFilter;
                 namingName.setText(ctf.getName());
 
                 String cardKey = configPanelHash.get(ctf);
                 configCards.show(configPanel, cardKey);
-            }
-            else if (selectedFilter instanceof TestFilter) {
+            } else if (selectedFilter instanceof TestFilter) {
                 if (mode == -1 || mode == EDITABLE) {
                     nameCards.show(namePanel, NAMING_EMPTY);
                     configCards.show(configPanel, CONFIG_EMPTY);
@@ -432,8 +424,7 @@ public class FilterConfig {
                     resetBut.setEnabled(false);
                     mode = UNEDITABLE;
                 }
-            }
-            else {
+            } else {
                 // hummm
             }
 
@@ -698,7 +689,7 @@ public class FilterConfig {
             for (int i = 0; i < listModel.getSize(); i++) {
                 if (listModel.getElementAt(i) instanceof ConfigurableTestFilter) {
                     ConfigurableTestFilter ctf =
-                        (ConfigurableTestFilter)listModel.getElementAt(i);
+                            (ConfigurableTestFilter) listModel.getElementAt(i);
                     addConfigurableFilter(ctf);
                 }
             }   // for
@@ -712,8 +703,8 @@ public class FilterConfig {
             cancelBut = uif.createCancelButton("fconfig.edit.cancel", this);
             doneBut = uif.createButton("fconfig.edit.done", this);
             helpBut = uif.createHelpButton("fconfig.edit.help", "execFilters.dialog.csh");
-            setButtons(new JButton[] { applyBut, resetBut, cancelBut, doneBut, helpBut },
-                       doneBut);
+            setButtons(new JButton[]{applyBut, resetBut, cancelBut, doneBut, helpBut},
+                    doneBut);
         }
 
         private void addConfigurableFilter(ConfigurableTestFilter ctf) {
@@ -739,8 +730,7 @@ public class FilterConfig {
 
             if (f instanceof ConfigurableTestFilter) {
                 infoName.setText(((ConfigurableTestFilter) f).getBaseName());
-            }
-            else
+            } else
                 infoName.setText(f.getName());
 
             infoDesc.setText(f.getDescription());
@@ -753,21 +743,21 @@ public class FilterConfig {
 
         /**
          * Attempt the apply operation.
+         *
          * @return Non-null if the apply was successful, null otherwise.  If non-null
-         *         the value is a localized error message for the user.
+         * the value is a localized error message for the user.
          */
         private String doApply() {
             if (mode == UNEDITABLE)
                 throw new IllegalStateException("filter is uneditable, cannot apply changes");
 
-            ConfigurableTestFilter ctf = (ConfigurableTestFilter)selectedFilter;
+            ConfigurableTestFilter ctf = (ConfigurableTestFilter) selectedFilter;
 
             // should check to see if it's changed
             String newName = namingName.getText();
             if (validateName(newName) != -1) {
                 return uif.getI18NString("fconfig.edit.badName", newName);
-            }
-            else if (newName != null)
+            } else if (newName != null)
                 ctf.setInstanceName(newName);
 
             String status = ctf.commitEditorSettings();
@@ -782,9 +772,9 @@ public class FilterConfig {
             // reset all known configurable filters
             for (int i = 0; i < listModel.getSize(); i++) {
                 if (listModel.elementAt(i) instanceof
-                    ConfigurableTestFilter) {
+                        ConfigurableTestFilter) {
                     ConfigurableTestFilter ctf =
-                        (ConfigurableTestFilter)listModel.elementAt(i);
+                            (ConfigurableTestFilter) listModel.elementAt(i);
                     ctf.resetEditorSettings();
                 }
             }   // for
@@ -797,11 +787,11 @@ public class FilterConfig {
             for (int i = 0; i < text.length(); i++) {
                 char c = text.charAt(i);
                 if (Character.isLetterOrDigit(c) ||
-                    c == '-' ||
-                    c == '_' ||
-                    c == '.' ||
-                    c == ' ' ||
-                    c == ',')
+                        c == '-' ||
+                        c == '_' ||
+                        c == '.' ||
+                        c == ' ' ||
+                        c == ',')
                     continue;
                 else
                     return i;

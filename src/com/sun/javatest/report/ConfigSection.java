@@ -58,7 +58,7 @@ class ConfigSection extends HTMLSection {
             out.startTag(HTMLWriterEx.UL);
             out.startTag(HTMLWriterEx.LI);
             out.writeLink(HTMLReport.files[HTMLReport.CONFIG_HTML],
-                          i18n.getString("config.confInterview"));
+                    i18n.getString("config.confInterview"));
             out.endTag(HTMLWriterEx.LI);
             out.endTag(HTMLWriterEx.UL);
         }
@@ -67,19 +67,19 @@ class ConfigSection extends HTMLSection {
             out.startTag(HTMLWriterEx.UL);
             out.startTag(HTMLWriterEx.LI);
             out.writeLink("#" + HTMLReport.anchors[HTMLReport.SELECT_ANCHOR],
-                          i18n.getString("config.selectValue"));
+                    i18n.getString("config.selectValue"));
             out.endTag(HTMLWriterEx.LI);
 
             if (settings.isEnvEnabled()) {
                 out.startTag(HTMLWriterEx.LI);
                 out.writeLink("#" + HTMLReport.anchors[HTMLReport.EXEC_ANCHOR],
-                              i18n.getString("config.execValue"));
+                        i18n.getString("config.execValue"));
                 out.endTag(HTMLWriterEx.LI);
             }
 
             out.startTag(HTMLWriterEx.LI);
             out.writeLink("#" + HTMLReport.anchors[HTMLReport.LOC_ANCHOR],
-                          i18n.getString("config.locValue"));
+                    i18n.getString("config.locValue"));
             out.endTag(HTMLWriterEx.LI);
             out.endTag(HTMLWriterEx.UL);
         }
@@ -139,7 +139,7 @@ class ConfigSection extends HTMLSection {
     private void writeStdValSummary(ReportWriter out) throws IOException {
         out.startTag(HTMLWriterEx.H3);
         out.writeLinkDestination(HTMLReport.anchors[HTMLReport.SELECT_ANCHOR],
-                      i18n.getString("config.selectValue"));
+                i18n.getString("config.selectValue"));
         out.endTag(HTMLWriterEx.H3);
 
         out.startTag(HTMLWriterEx.TABLE);
@@ -167,8 +167,7 @@ class ConfigSection extends HTMLSection {
                 else
                     out.write(tests[i]);
             }
-        }
-        else {
+        } else {
             out.write(i18n.getString("config.tests.all"));
         }
         out.endTag(HTMLWriterEx.TD);
@@ -179,10 +178,10 @@ class ConfigSection extends HTMLSection {
 
         boolean[] b = settings.getInterview().getPriorStatusValues();
         if (b != null) {
-            String[] ss = { i18n.getString("config.status.passed"),
-                            i18n.getString("config.status.failed"),
-                            i18n.getString("config.status.error"),
-                            i18n.getString("config.status.notRun") };
+            String[] ss = {i18n.getString("config.status.passed"),
+                    i18n.getString("config.status.failed"),
+                    i18n.getString("config.status.error"),
+                    i18n.getString("config.status.notRun")};
 
             StringBuilder sb = new StringBuilder();
 
@@ -192,11 +191,10 @@ class ConfigSection extends HTMLSection {
                         sb.append(" or "); // XXX needs i18n
                     sb.append(ss[i]);
                 }
-             }  // for
+            }  // for
 
             out.writeTD(sb.toString());
-        }
-        else
+        } else
             out.writeTD(i18n.getString("config.previous.none"));
 
         out.endTag(HTMLWriterEx.TR);
@@ -218,7 +216,7 @@ class ConfigSection extends HTMLSection {
             File[] excludeFiles = null;
             if (exclParams instanceof Parameters.MutableExcludeListParameters)
                 excludeFiles =
-                    ((Parameters.MutableExcludeListParameters) exclParams).getExcludeFiles();
+                        ((Parameters.MutableExcludeListParameters) exclParams).getExcludeFiles();
 
             if (excludeFiles != null && excludeFiles.length > 0) {
                 for (File excludeFile : excludeFiles) {
@@ -227,8 +225,7 @@ class ConfigSection extends HTMLSection {
                             excludeFile.getPath());
                 }   // for
             }
-        }
-        else
+        } else
             out.write(i18n.getString("config.jtx.nofiles"));
 
         out.endTag(HTMLWriterEx.TD);
@@ -258,8 +255,7 @@ class ConfigSection extends HTMLSection {
         Keywords keywords = settings.getInterview().getKeywords();
         if (keywords != null) {
             out.writeTD(settings.getInterview().getKeywords().toString());
-        }
-        else {
+        } else {
             out.writeTD(i18n.getString("config.keywords.none"));
         }
         out.endTag(HTMLWriterEx.TR);
@@ -270,7 +266,7 @@ class ConfigSection extends HTMLSection {
     private void writeExecutionSummary(ReportWriter out) throws IOException {
         out.startTag(HTMLWriterEx.H3);
         out.writeLinkDestination(HTMLReport.anchors[HTMLReport.EXEC_ANCHOR],
-                      i18n.getString("config.execValue"));
+                i18n.getString("config.execValue"));
         out.endTag(HTMLWriterEx.H3);
 
         out.startTag(HTMLWriterEx.TABLE);
@@ -286,12 +282,12 @@ class ConfigSection extends HTMLSection {
             String name = settings.getInterview().getName();
             if (name == null)
                 out.writeLink(HTMLReport.files[HTMLReport.CONFIG_HTML],
-                              i18n.getString("config.confInterview"));
+                        i18n.getString("config.confInterview"));
             else
                 out.writeLink(HTMLReport.files[HTMLReport.CONFIG_HTML], name);
 
             if (!settings.getInterview().isValid())
-               out.writeWarning(i18n.getString("config.intIncomplete"));
+                out.writeWarning(i18n.getString("config.intIncomplete"));
             out.endTag(HTMLWriterEx.TD);
             out.endTag(HTMLWriterEx.TR);
         }
@@ -299,7 +295,7 @@ class ConfigSection extends HTMLSection {
         // env
         Parameters.EnvParameters envParams = settings.getInterview().getEnvParameters();
         if (envParams != null &&
-            envParams instanceof Parameters.LegacyEnvParameters) {
+                envParams instanceof Parameters.LegacyEnvParameters) {
             envFiles = ((Parameters.LegacyEnvParameters) envParams).getEnvFiles();
             if (envFiles != null) {
                 out.startTag(HTMLWriterEx.TR);
@@ -333,7 +329,7 @@ class ConfigSection extends HTMLSection {
         WorkDirectory workDir = settings.getInterview().getWorkDirectory();
         out.startTag(HTMLWriterEx.H3);
         out.writeLinkDestination(HTMLReport.anchors[HTMLReport.LOC_ANCHOR],
-                      i18n.getString("config.locValue"));
+                i18n.getString("config.locValue"));
         out.endTag(HTMLWriterEx.H3);
 
         out.startTag(HTMLWriterEx.TABLE);
@@ -367,7 +363,7 @@ class ConfigSection extends HTMLSection {
         String envName = (env != null) ? env.getName() : null;
 
         ReportWriter out = openAuxFile(HTMLReport.ENV_HTML,
-                    i18n.getString("config.env.title", envName), i18n);
+                i18n.getString("config.env.title", envName), i18n);
 
         if (env == null) {
             out.write(i18n.getString("config.noEnv"));
@@ -409,17 +405,16 @@ class ConfigSection extends HTMLSection {
 
     private void writeExcludeList() throws IOException {
         ReportWriter out = openAuxFile(HTMLReport.EXCLUDED_HTML,
-                            i18n.getString("config.excludedTests"), i18n);
+                i18n.getString("config.excludedTests"), i18n);
 
         ExcludeList excludeList = settings.getInterview().getExcludeList();
 
-        if (excludeList == null || excludeList.size() == 0){
+        if (excludeList == null || excludeList.size() == 0) {
             out.writeI18N("config.excl.none");
-        }
-        else {
+        } else {
             SortedSet<ExcludeList.Entry> sortedEntries = new TreeSet<>(new ExcludeListEntryComparator());
             for (Iterator<?> iter = excludeList.getIterator(false); iter.hasNext(); )
-                sortedEntries.add((ExcludeList.Entry)iter.next());
+                sortedEntries.add((ExcludeList.Entry) iter.next());
 
             out.startTag(HTMLWriterEx.TABLE);
             out.writeAttr(HTMLWriterEx.BORDER, 1);
@@ -476,8 +471,7 @@ class ConfigSection extends HTMLSection {
         out.endTag(HTMLWriterEx.TD);
     }
 
-    private static class ExcludeListEntryComparator implements Comparator<ExcludeList.Entry>
-    {
+    private static class ExcludeListEntryComparator implements Comparator<ExcludeList.Entry> {
         @Override
         public int compare(ExcludeList.Entry e1, ExcludeList.Entry e2) {
             int x = compare(e1.getRelativeURL(), e2.getRelativeURL());
@@ -486,6 +480,7 @@ class ConfigSection extends HTMLSection {
             return x;
 
         }
+
         private static int compare(String[] a, String... b) {
             int alen = a == null ? 0 : a.length;
             int blen = b == null ? 0 : b.length;
@@ -495,7 +490,7 @@ class ConfigSection extends HTMLSection {
                     return c;
             }
             return alen < blen ? -1 : alen == blen ? 0 : +1;
-    }
+        }
 
         private static int compare(String a, String b) {
             return a == null && b == null ? 0

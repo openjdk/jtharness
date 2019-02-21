@@ -30,5 +30,6 @@ import java.awt.Component;
 
 public interface HelpBroker {
     void displayCurrentID(String helpID);
+
     void enableHelpKey(final Component component, String helpID);
 }

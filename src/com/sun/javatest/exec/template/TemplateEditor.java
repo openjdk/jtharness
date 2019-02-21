@@ -33,6 +33,7 @@ import com.sun.javatest.exec.ContextManager;
 import com.sun.javatest.exec.InterviewEditor;
 import com.sun.javatest.exec.WorkDirChooseTool;
 import com.sun.javatest.tool.UIFactory;
+
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JComponent;
@@ -53,7 +54,7 @@ public class TemplateEditor extends InterviewEditor {
      * parent does.
      */
     public TemplateEditor(JComponent parent, UIFactory uif,
-            InterviewParameters ip, ContextManager cm) {
+                          InterviewParameters ip, ContextManager cm) {
         super(parent, uif, ip, cm);
         super.viewConfig.setTemplate(true);
         super.templateMode = true;
@@ -120,7 +121,7 @@ public class TemplateEditor extends InterviewEditor {
     }
 
     /**
-     * @return  mode that will be used by WorkDirChooseTool to select file.
+     * @return mode that will be used by WorkDirChooseTool to select file.
      */
     @Override
     public int getFileChooserMode() {

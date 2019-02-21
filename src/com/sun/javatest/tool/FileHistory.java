@@ -47,13 +47,13 @@ import com.sun.javatest.util.I18NResourceBundle;
  * The format of the file is one file per line, with most recently
  * added entries appearing first.  Lines beginning with <code>#</code> are ignored.
  */
-public class FileHistory
-{
+public class FileHistory {
     /**
      * Get a shared FileHistory object for a specified file and work directory.
-     * @param wd The work directory in which the history file is maintained.
+     *
+     * @param wd   The work directory in which the history file is maintained.
      * @param name The name of the file within the work direectory's jtData/
-     * subdirectory.
+     *             subdirectory.
      * @return the specified FileHistory object
      */
     public static FileHistory getFileHistory(WorkDirectory wd, String name) {
@@ -80,9 +80,10 @@ public class FileHistory
 
     /**
      * Get a shared FileHistory object for a specified file and path to work directory.
+     *
      * @param wdFile The path th work directory in which the history file is maintained.
-     * @param name The name of the file within the work direectory's jtData/
-     * subdirectory.
+     * @param name   The name of the file within the work direectory's jtData/
+     *               subdirectory.
      * @return the specified FileHistory object
      */
     public static FileHistory getFileHistory(File wdFile, String name) {
@@ -111,6 +112,7 @@ public class FileHistory
     /**
      * Add a new file to the history.
      * The file in the work directory for this history will be updated.
+     *
      * @param file the file to be added to the history
      */
     public void add(File file) {
@@ -128,8 +130,9 @@ public class FileHistory
      * files that exist on this system are returned. Thus the history
      * can accommodate files for different systems, which will likely not
      * exist on all systems on which the history is used.
+     *
      * @param count the number of most recent, existing files
-     * to be returned.
+     *              to be returned.
      * @return an array of the most recent, existing entries
      */
     public File[] getRecentEntries(int count) {
@@ -154,6 +157,7 @@ public class FileHistory
     /**
      * Get the latest valid entry from a file history object. An entry
      * is valid if it identifies a file that exists on the current system.
+     *
      * @return the latest valid entry from afile history object, or null
      * if none found.
      */
@@ -224,8 +228,7 @@ public class FileHistory
                     entries.add(new File(p));
                 }
                 br.close();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 WorkDirectory workDir = workDirRef.get();
                 workDir.log(i18n, "fh.cantRead", name, e);
             }
@@ -246,8 +249,7 @@ public class FileHistory
                 bw.newLine();
             }
             bw.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             WorkDirectory workDir = workDirRef.get();
             workDir.log(i18n, "fh.cantWrite", name, e);
         }
@@ -269,12 +271,13 @@ public class FileHistory
          * entries will be added to the end of the menu when it is
          * selected. Any previous values added by this listener
          * will automatically be removed.
+         *
          * @param l An ActionListener that will be notified when
-         * any of the dynamic menu entries are invoked. When this
-         * action listener is notified, the action command will be
-         * the path of the file. The corresponding File object will
-         * be registered on the source as a client property named
-         * FILE.
+         *          any of the dynamic menu entries are invoked. When this
+         *          action listener is notified, the action command will be
+         *          the path of the file. The corresponding File object will
+         *          be registered on the source as a client property named
+         *          FILE.
          */
         public Listener(ActionListener l) {
             this(null, -1, l);
@@ -285,14 +288,15 @@ public class FileHistory
          * latest entries from a FileHistory onto a menu.
          * Any previous values added by this listener will automatically
          * be removed.
+         *
          * @param o The position in the menu at which to insert the
-         * dynamic entries.
+         *          dynamic entries.
          * @param l An ActionListener that will be notified when
-         * any of the dynamic menu entries are invoked. When this
-         * action listener is notified, the action command will be
-         * the path of the file. The corresponding File object will
-         * be registered on the source as a client property named
-         * FILE.
+         *          any of the dynamic menu entries are invoked. When this
+         *          action listener is notified, the action command will be
+         *          the path of the file. The corresponding File object will
+         *          be registered on the source as a client property named
+         *          FILE.
          */
         public Listener(int o, ActionListener l) {
             this(null, o, l);
@@ -303,16 +307,17 @@ public class FileHistory
          * latest entries from a FileHistory onto a menu.
          * Any previous values added by this listener will automatically
          * be removed.
+         *
          * @param h The FileHistory from which to determine the
-         * entries to be added.
+         *          entries to be added.
          * @param o The position in the menu at which to insert the
-         * dynamic entries.
+         *          dynamic entries.
          * @param l An ActionListener that will be notified when
-         * any of the dynamic menu entries are invoked. When this
-         * action listener is notified, the action command will be
-         * the path of the file. The corresponding File object will
-         * be registered on the source as a client property named
-         * FILE.
+         *          any of the dynamic menu entries are invoked. When this
+         *          action listener is notified, the action command will be
+         *          the path of the file. The corresponding File object will
+         *          be registered on the source as a client property named
+         *          FILE.
          */
         public Listener(FileHistory h, int o, ActionListener l) {
             history = h;
@@ -323,6 +328,7 @@ public class FileHistory
         /**
          * Get the FileHistory object from which to obtain the dynamic menu
          * entries.
+         *
          * @return the FileHistory object from which to obtain the dynamic menu
          * entries
          * @see #setFileHistory
@@ -334,8 +340,9 @@ public class FileHistory
         /**
          * Specify the FileHistory object from which to obtain the dynamic menu
          * entries.
+         *
          * @param h the FileHistory object from which to obtain the dynamic menu
-         * entries
+         *          entries
          * @see #getFileHistory
          */
         public void setFileHistory(FileHistory h) {
@@ -355,8 +362,7 @@ public class FileHistory
                     menu.add(noEntries);
                 else
                     menu.insert(noEntries, offset);
-            }
-            else {
+            } else {
                 for (int i = 0; i < entries.length; i++) {
                     JMenuItem mi = new JMenuItem(i + " " + entries[i].getPath());
                     mi.setActionCommand(entries[i].getPath());
@@ -386,7 +392,7 @@ public class FileHistory
             // Clear out any old menu items previously added by this
             // menu listener; remove them from bottom up because
             // removing an item affects index of subsequent items
-            for (int i = menu.getItemCount() -1; i >= 0; i--) {
+            for (int i = menu.getItemCount() - 1; i >= 0; i--) {
                 JMenuItem mi = menu.getItem(i);
                 if (mi != null && mi.getClientProperty(FILE_HISTORY) == this)
                     menu.remove(mi);
@@ -407,6 +413,7 @@ public class FileHistory
     /**
      * The name of the client property used to access the File that identifies
      * which dynamically added menu entry has been selected.
+     *
      * @see Listener
      */
     public static final String FILE = "file";

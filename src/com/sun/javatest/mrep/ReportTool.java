@@ -65,6 +65,7 @@ import com.sun.javatest.tool.Tool;
 import com.sun.javatest.tool.ToolManager;
 import com.sun.javatest.report.HTMLWriterEx;
 import com.sun.javatest.util.I18NResourceBundle;
+
 import java.awt.Component;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.JButton;
@@ -103,7 +104,7 @@ class ReportTool extends Tool {
     protected void save(Map<String, String> m) {
     }
 
-    private void initGUI(){
+    private void initGUI() {
         int dpi = uif.getDotsPerInch();
         setPreferredSize(new Dimension(6 * dpi, 4 * dpi));
         setLayout(new BorderLayout());
@@ -113,8 +114,8 @@ class ReportTool extends Tool {
 
         menuBar = uif.createMenuBar("tool");
         String[] reportMenuEntries = {
-            NEW,
-            OPEN
+                NEW,
+                OPEN
         };
 
         JMenu reportMenu = uif.createMenu("tool.report", reportMenuEntries, new Listener());
@@ -197,7 +198,7 @@ class ReportTool extends Tool {
         customReports = optionsDialog.getCustomReports();
         isXmlReport = optionsDialog.isXmlReport();
 
-        if (!isXmlReport && (customReports == null || customReports.length ==0)) {
+        if (!isXmlReport && (customReports == null || customReports.length == 0)) {
             uif.showError("tool.no_report_types");
             return false;
         }
@@ -240,7 +241,7 @@ class ReportTool extends Tool {
         waitDialog.pack();
         waitDialogController = new WaitDialogController(waitDialog);
         final String cancelling = uif.getI18NString("tool.cancelling");
-        cancelBtn.addActionListener( new ActionListener() {
+        cancelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JButton butt = (JButton) e.getSource();
@@ -274,7 +275,7 @@ class ReportTool extends Tool {
                     }
                     out.mkdir();
                     File xmlOut = new File(out, xmlreportFileName);
-                    if (merger.merge(in,xmlOut, resolver)) {
+                    if (merger.merge(in, xmlOut, resolver)) {
                         for (CustomReport customReport : customReports) {
                             if (Thread.currentThread().isInterrupted()) {
                                 return;
@@ -335,11 +336,11 @@ class ReportTool extends Tool {
             waitDialogController.finish();
         // switch back to GUI thread
         EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    uif.showError(uiKey, msg);
-                }
-            }
+                                   @Override
+                                   public void run() {
+                                       uif.showError(uiKey, msg);
+                                   }
+                               }
         );
     }
 
@@ -366,14 +367,14 @@ class ReportTool extends Tool {
 
         synchronized void hide() {
             wasHidden = true;
-            if (wasShown && ! wasFinished) {
+            if (wasShown && !wasFinished) {
                 setVisible(false);
             }
         }
 
         synchronized void restore() {
             wasHidden = false;
-            if (wasShown && ! wasFinished) {
+            if (wasShown && !wasFinished) {
                 setVisible(true);
             }
         }
@@ -382,7 +383,7 @@ class ReportTool extends Tool {
             // should we care about EventDispatchThread here? Yes I guess.
             if (EventQueue.isDispatchThread()) {
                 waitDialog.setVisible(b);
-            }  else {
+            } else {
                 try {
                     SwingUtilities.invokeAndWait(new Runnable() {
                         @Override
@@ -442,7 +443,7 @@ class ReportTool extends Tool {
             String[] conflictFiles = new String[descrs.length];
             for (int i = 0; i < descrs.length; i++) {
                 conflictFiles[i] = descrs[i].getFile().getAbsolutePath() + " "
-                        + descrs[i].getStatus() ;
+                        + descrs[i].getStatus();
             }
 
             if (preffered != null) {
@@ -454,7 +455,7 @@ class ReportTool extends Tool {
 
             conflictResolutionDialog =
                     new ConflictResolutionDialog(
-                    null, testUrl, conflictFiles, false, uif);
+                            null, testUrl, conflictFiles, false, uif);
 
             wdc.hide();
             conflictResolutionDialog.setVisible(true);
@@ -576,8 +577,8 @@ class ReportTool extends Tool {
             textArea.setContentType("text/html");
             textArea.setText(list);
         } else if (protocol.equals("file")
-        && !url.getFile().endsWith(".htm")
-        && !url.getFile().endsWith(".html")) {
+                && !url.getFile().endsWith(".htm")
+                && !url.getFile().endsWith(".html")) {
             textArea.setContentType("text/plain");
             try {
                 Reader r = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
@@ -644,7 +645,7 @@ class ReportTool extends Tool {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(setOptions())
+            if (setOptions())
                 optionsDialog.cleanUp();
             updateGUI();
         }
@@ -720,7 +721,7 @@ class ReportTool extends Tool {
             if (et == HyperlinkEvent.EventType.ACTIVATED) {
                 if (e instanceof HTMLFrameHyperlinkEvent) {
                     HTMLDocument doc = (HTMLDocument)
-                    ((JEditorPane) e.getSource()).getDocument();
+                            ((JEditorPane) e.getSource()).getDocument();
                     doc.processHTMLFrameHyperlinkEvent((HTMLFrameHyperlinkEvent) e);
                 } else
                     loadPage(e.getURL());

@@ -56,8 +56,7 @@ import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.WorkDirChooser;
 
-class OptionsDialog extends ToolDialog
-{
+class OptionsDialog extends ToolDialog {
     OptionsDialog(Tool tool, ActionListener okListener, UIFactory uif) {
         super(tool, uif, "opts");
         this.tool = tool;
@@ -117,8 +116,8 @@ class OptionsDialog extends ToolDialog
         bc.fill = GridBagConstraints.VERTICAL;
 
         Border smallBorder = BorderFactory.createCompoundBorder(
-            BorderFactory.createEtchedBorder(),
-            BorderFactory.createEmptyBorder(0,3,0,3));
+                BorderFactory.createEtchedBorder(),
+                BorderFactory.createEmptyBorder(0, 3, 0, 3));
 
         // test suite
         JLabel tsLabel = uif.createLabel("opts.ts", true);
@@ -168,7 +167,7 @@ class OptionsDialog extends ToolDialog
         JButton okBtn = uif.createButton("opts.ok", okListener, OK);
         JButton cancelBtn = uif.createCancelButton("opts.cancel");
         JButton helpBtn = uif.createHelpButton("opts.help", "audit.options.csh");
-        setButtons(new JButton[] { okBtn, cancelBtn, helpBtn }, okBtn);
+        setButtons(new JButton[]{okBtn, cancelBtn, helpBtn}, okBtn);
 
         setComponentListener(listener);
     }
@@ -228,8 +227,7 @@ class OptionsDialog extends ToolDialog
                 TestSuite ts = TestSuite.open(new File(tsp));
                 tsID = ts.getID();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // ignore
         }
 
@@ -260,16 +258,16 @@ class OptionsDialog extends ToolDialog
             if (userDir != null)
                 configFileChooser.setCurrentDirectory(new File(userDir));
             configFileChooser.addChoosableFileFilter(new FileFilter() {
-                    @Override
-                    public boolean accept(File f) {
-                        return f.isDirectory() || f.getPath().endsWith(".jti");
-                    }
+                @Override
+                public boolean accept(File f) {
+                    return f.isDirectory() || f.getPath().endsWith(".jti");
+                }
 
-                    @Override
-                    public String getDescription() {
-                        return uif.getI18NString("opts.jtiFiles");
-                    }
-                });
+                @Override
+                public String getDescription() {
+                    return uif.getI18NString("opts.jtiFiles");
+                }
+            });
         }
 
         int action = configFileChooser.showOpenDialog(tool);
@@ -296,8 +294,7 @@ class OptionsDialog extends ToolDialog
             FileHistory history = FileHistory.getFileHistory(wd, "configHistory.jtl");
             File[] entries = history.getRecentEntries(10);
             for (File entry : entries) s.add(entry.getPath());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // ignore
         }
         setItems(cfField, s);
@@ -305,14 +302,13 @@ class OptionsDialog extends ToolDialog
 
     private void setItems(JComboBox<String> field, SortedSet<String> s) {
         // first, remove unwanted entries from field
-        for (int i = field.getItemCount() - 1; i >= 0; i-- ) {
-            String item =  field.getItemAt(i);
+        for (int i = field.getItemCount() - 1; i >= 0; i--) {
+            String item = field.getItemAt(i);
             if (s.contains(item)) {
                 // this item is required, so remove it from the
                 // set to be added later
                 s.remove(item);
-            }
-            else if (!item.isEmpty() && !item.equals(field.getSelectedItem()))
+            } else if (!item.isEmpty() && !item.equals(field.getSelectedItem()))
                 // this item is not required, remove it
                 field.removeItemAt(i);
         }
@@ -342,9 +338,8 @@ class OptionsDialog extends ToolDialog
     static final String OK = "OK";
 
     private class Listener
-        extends ComponentAdapter
-        implements ActionListener
-    {
+            extends ComponentAdapter
+            implements ActionListener {
         // ComponentListener
         @Override
         public void componentShown(ComponentEvent e) {

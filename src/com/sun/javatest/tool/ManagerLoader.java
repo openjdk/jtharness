@@ -44,8 +44,7 @@ import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
 
-class ManagerLoader
-{
+class ManagerLoader {
     ManagerLoader(Class<?> managerClass, PrintStream log) {
         setManagerClass(managerClass);
         setLog(log);
@@ -65,8 +64,7 @@ class ManagerLoader
     }
 
     Set<Object> loadManagers(String resourceName)
-        throws IOException
-    {
+            throws IOException {
 
         Enumeration<URL> e = ResourceLoader.getResources(resourceName, getClass());
         Set<Object> mgrs = new HashSet<>();
@@ -107,26 +105,22 @@ class ManagerLoader
                                 writeI18N("ml.cantFindClass", line, entry);
                             }
                         }
-                    }
-                    catch (IllegalAccessException ex) {
+                    } catch (IllegalAccessException ex) {
                         if (log != null) {
                             writeI18N("ml.cantAccessClass", line, entry);
                         }
-                    }
-                    catch (InstantiationException ex) {
+                    } catch (InstantiationException ex) {
                         if (log != null) {
                             writeI18N("ml.cantCreateClass", line, entry);
                         }
-                    }
-                    catch (NoSuchMethodException ex) {
+                    } catch (NoSuchMethodException ex) {
                         if (log != null) {
                             writeI18N("ml.cantFindConstr", line, entry);
                         }
                     }
                 }   // while
                 in.close();
-            }
-            catch (IOException ex) {
+            } catch (IOException ex) {
                 if (log != null)
                     writeI18N("ml.cantRead", entry, ex);
             }
@@ -138,18 +132,19 @@ class ManagerLoader
      * Throws the declared exceptions because it seems that the class was found
      * but couldn't be used.  Not being able to find the class is not a problem,
      * this is handled in the code in other ways.
-     * @param cl Class loader to use.
+     *
+     * @param cl        Class loader to use.
      * @param className Class to load.
-     * @param specfile File which specified the classname to be loaded - used
-     *     for error message purposes.
+     * @param specfile  File which specified the classname to be loaded - used
+     *                  for error message purposes.
      * @return An instance of the requested class, null if not found.  Or if the
-     *     object created is not a manager subclass.
+     * object created is not a manager subclass.
      * @throws InstantiationException
      * @throws NoSuchMethodException
      * @throws IllegalAccessException
      */
     private Object newInstance(ClassLoader cl, String className, URL specfile)
-        throws InstantiationException, NoSuchMethodException, IllegalAccessException {
+            throws InstantiationException, NoSuchMethodException, IllegalAccessException {
         if (cl == null) {
             return null;
         }
@@ -171,8 +166,7 @@ class ManagerLoader
     }
 
     private Object newInstance(Class<?> c)
-        throws IllegalAccessException, InstantiationException, NoSuchMethodException
-    {
+            throws IllegalAccessException, InstantiationException, NoSuchMethodException {
         if (constrArgTypes == null || constrArgTypes.length == 0) {
             return c.newInstance();
         }
@@ -180,16 +174,13 @@ class ManagerLoader
         try {
             Constructor<?> constr = c.getConstructor(constrArgTypes);
             return constr.newInstance(constrArgs);
-        }
-        catch (InvocationTargetException e) {
+        } catch (InvocationTargetException e) {
             Throwable t = e.getTargetException();
             if (t instanceof RuntimeException) {
                 throw (RuntimeException) t;
-            }
-            else if (t instanceof Error) {
+            } else if (t instanceof Error) {
                 throw (Error) t;
-            }
-            else {
+            } else {
                 throw new Error(e);
             }
         }

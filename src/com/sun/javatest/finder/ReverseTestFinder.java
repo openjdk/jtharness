@@ -27,6 +27,7 @@
 package com.sun.javatest.finder;
 
 import java.io.File;
+
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestEnvironment;
 import com.sun.javatest.TestFinder;
@@ -37,8 +38,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  * results in the reverse order. This is primarily for debugging
  * and testing purposes.
  */
-public class ReverseTestFinder extends TestFinder
-{
+public class ReverseTestFinder extends TestFinder {
 
     /**
      * Default constructor
@@ -61,32 +61,32 @@ public class ReverseTestFinder extends TestFinder
 
     /**
      * Initialize the test finder.
-     * @param args The first entry in the array should be the name
-     *          of the test finder to be used to actually read the tests;
-     *          subsequent entries in the array will be passed through to
-     *          the init method for that class.
+     *
+     * @param args          The first entry in the array should be the name
+     *                      of the test finder to be used to actually read the tests;
+     *                      subsequent entries in the array will be passed through to
+     *                      the init method for that class.
      * @param testSuiteRoot The root file of the test suite to be read.
-     * @param env An environment for the test finder to use if required.
-     *          The ReverseTestFinder does not use this value directly;
-     *          it just passes it on to the test finder to which it
-     *          delegates the reading.
+     * @param env           An environment for the test finder to use if required.
+     *                      The ReverseTestFinder does not use this value directly;
+     *                      it just passes it on to the test finder to which it
+     *                      delegates the reading.
      * @throws TestFinder.Fault if any problems occur during initialization.
      */
     @Override
     public synchronized void init(String[] args, File testSuiteRoot,
                                   TestEnvironment env) throws Fault {
-         String delegateClassName = args[0];
-         try {
-             Class<? extends TestFinder> delegateClass =
-                     Class.forName(delegateClassName, true, ClassLoader.getSystemClassLoader())
-                             .asSubclass(TestFinder.class);
-             delegate = delegateClass.getDeclaredConstructor().newInstance();
-             args = shift(args, 1);
-             delegate.init(args, testSuiteRoot, env);
-         }
-         catch (Throwable t) {
-             throw new Fault(i18n, "reverse.cantInitDelegate", t);
-         }
+        String delegateClassName = args[0];
+        try {
+            Class<? extends TestFinder> delegateClass =
+                    Class.forName(delegateClassName, true, ClassLoader.getSystemClassLoader())
+                            .asSubclass(TestFinder.class);
+            delegate = delegateClass.getDeclaredConstructor().newInstance();
+            args = shift(args, 1);
+            delegate.init(args, testSuiteRoot, env);
+        } catch (Throwable t) {
+            throw new Fault(i18n, "reverse.cantInitDelegate", t);
+        }
     }
 
     @Override
@@ -109,7 +109,7 @@ public class ReverseTestFinder extends TestFinder
         TestDescription[] tds = delegate.getTests();
         if (tds != null) {
             int n = tds.length;
-            for (int i = 0; i < n/2; i++) {
+            for (int i = 0; i < n / 2; i++) {
                 TestDescription temp = tds[i];
                 tds[i] = tds[n - 1 - i];
                 tds[n - 1 - i] = temp;
@@ -123,7 +123,7 @@ public class ReverseTestFinder extends TestFinder
         File[] fs = delegate.getFiles();
         if (fs != null) {
             int n = fs.length;
-            for (int i = 0; i < n/2; i++) {
+            for (int i = 0; i < n / 2; i++) {
                 File temp = fs[i];
                 fs[i] = fs[n - 1 - i];
                 fs[n - 1 - i] = temp;

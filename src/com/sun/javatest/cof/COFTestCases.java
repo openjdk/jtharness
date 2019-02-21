@@ -54,42 +54,40 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
  */
 /*@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TestCases", propOrder = {
     "testcase"
 })*/
-public class COFTestCases extends COFItem{
+public class COFTestCases extends COFItem {
 
-        static LinkedHashMap<String, String> xmlAttributes;
+    static LinkedHashMap<String, String> xmlAttributes;
 
-        static LinkedHashMap<String, String> xmlElements;
+    static LinkedHashMap<String, String> xmlElements;
 
-        static String xmlTagName;
+    static String xmlTagName;
 
-        static {
-                xmlTagName = "testcases";
-                xmlElements = new LinkedHashMap<>();
-                xmlElements.put("testcase", "testcase");
-        }
+    static {
+        xmlTagName = "testcases";
+        xmlElements = new LinkedHashMap<>();
+        xmlElements.put("testcase", "testcase");
+    }
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
     protected List<COFTestCase> testcase;
 
-        LinkedHashMap<String, String> getItemAttributes() {
-                return xmlAttributes;
-        }
+    LinkedHashMap<String, String> getItemAttributes() {
+        return xmlAttributes;
+    }
 
-        LinkedHashMap<String, String> getItemElements() {
-                return xmlElements;
-        }
+    LinkedHashMap<String, String> getItemElements() {
+        return xmlElements;
+    }
 
 
-        String getItemTagName() {
-                return xmlTagName;
-        }
+    String getItemTagName() {
+        return xmlTagName;
+    }
 
     /**
      * Gets the value of the testcase property.
@@ -110,8 +108,6 @@ public class COFTestCases extends COFItem{
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link COFTestCase }
-     *
-     *
      */
     public List<COFTestCase> getTestcase() {
         if (testcase == null) {
@@ -120,14 +116,14 @@ public class COFTestCases extends COFItem{
         return this.testcase;
     }
 
-        /* (non-Javadoc)
-         * @see com.sun.javatest.cof.COFItem#write(com.sun.javatest.util.XMLWriter)
-         */
-        void write(XMLWriter out) throws IOException {
-                if (!getTestcase().isEmpty()) {
-                        out.newLine();
-                        super.write(out);
-                }
+    /* (non-Javadoc)
+     * @see com.sun.javatest.cof.COFItem#write(com.sun.javatest.util.XMLWriter)
+     */
+    void write(XMLWriter out) throws IOException {
+        if (!getTestcase().isEmpty()) {
+            out.newLine();
+            super.write(out);
         }
+    }
 
 }

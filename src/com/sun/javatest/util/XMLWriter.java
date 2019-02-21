@@ -36,10 +36,10 @@ import java.util.Date;
 /**
  * A class to facilitate writing XML via a stream.
  */
-public class XMLWriter
-{
+public class XMLWriter {
     /**
      * Create an XMLWriter object, using a default header.
+     *
      * @param out a Writer to which to write the generated XML
      * @throws IOException if there is a problem writing to the underlying stream
      */
@@ -49,7 +49,8 @@ public class XMLWriter
 
     /**
      * Create an XMLWriter object, using a specified doctype header.
-     * @param out a Writer to which to write the generated XML
+     *
+     * @param out     a Writer to which to write the generated XML
      * @param docType a string containing a doctype header for the XML to be generated
      * @throws IOException if there is a problem writing to the underlying stream
      */
@@ -64,7 +65,8 @@ public class XMLWriter
 
     /**
      * Create an XMLWriter object, using a specified bundle for l0calizing messages.
-     * @param out a Writer to which to write the generated XML
+     *
+     * @param out  a Writer to which to write the generated XML
      * @param i18n a resource bundle to use to localize messages
      * @throws IOException if there is a problem writing to the underlying stream
      */
@@ -77,9 +79,10 @@ public class XMLWriter
     /**
      * Create an XMLWriter object, using a specified doctype header and
      * using a specified bundle for localizing messages.
-     * @param out a Writer to which to write the generated XML
+     *
+     * @param out     a Writer to which to write the generated XML
      * @param docType a string containing a doctype header for the XML to be generated
-     * @param i18n a resource bundle to use to localize messages
+     * @param i18n    a resource bundle to use to localize messages
      * @throws IOException if there is a problem writing to the underlying stream
      */
     public XMLWriter(Writer out, String docType, I18NResourceBundle i18n) throws IOException {
@@ -89,6 +92,7 @@ public class XMLWriter
 
     /**
      * Set the resource bundle to be used for localizing messages.
+     *
      * @param i18n the resource bundle to be used for localizing messages
      */
     public void setI18NResourceBundle(I18NResourceBundle i18n) {
@@ -97,6 +101,7 @@ public class XMLWriter
 
     /**
      * Flush the stream, and the underlying output stream.
+     *
      * @throws IOException if there is a problem writing to the underlying stream
      */
     public void flush() throws IOException {
@@ -105,6 +110,7 @@ public class XMLWriter
 
     /**
      * Close the stream, and the underlying output stream.
+     *
      * @throws IOException if there is a problem closing the underlying stream
      */
     public void close() throws IOException {
@@ -113,6 +119,7 @@ public class XMLWriter
 
     /**
      * Write a newline to the underlying output stream.
+     *
      * @throws IOException if there is a problem closing the underlying stream
      */
     public void newLine() throws IOException {
@@ -128,6 +135,7 @@ public class XMLWriter
      * be closed first. Once a tag has been opened, attributes for the
      * tag may be written out, followed by body content before finally
      * ending the tag.
+     *
      * @param tag the tag to be started
      * @throws IOException if there is a problem closing the underlying stream
      * @see #writeAttr
@@ -149,6 +157,7 @@ public class XMLWriter
      * Finish an XML tag. It is expected that a call to endTag will match
      * a corresponding earlier call to startTag, but there is no formal check
      * for this.
+     *
      * @param tag the tag to be closed.
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -156,8 +165,7 @@ public class XMLWriter
         if (state == IN_TAG) {
             out.write("/>");
             state = IN_BODY;
-        }
-        else {
+        } else {
             out.write("</");
             out.write(tag);
             out.write(">");
@@ -170,12 +178,13 @@ public class XMLWriter
      * All tag attributes must be written before any body text is written.
      * The value will be quoted if necessary when writing it to the underlying
      * stream. No check is made that the attribute is valid for the current tag.
-     * @param name the name of the attribute to be written
+     *
+     * @param name  the name of the attribute to be written
      * @param value the value of the attribute to be written
      * @throws IllegalStateException if the stream is not in a state to
-     * write attributes -- e.g. if this call does not follow startTag or other
-     * calls of writteAttr
-     * @throws IOException if there is a problem closing the underlying stream
+     *                               write attributes -- e.g. if this call does not follow startTag or other
+     *                               calls of writteAttr
+     * @throws IOException           if there is a problem closing the underlying stream
      */
     public void writeAttr(String name, String value) throws IOException {
         if (state != IN_TAG)
@@ -192,6 +201,7 @@ public class XMLWriter
     /**
      * Write a line of text, followed by a newline.
      * The text will be escaped as necessary.
+     *
      * @param text the text to be written.
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -202,6 +212,7 @@ public class XMLWriter
 
     /**
      * Write a formatted date.
+     *
      * @param millis date represented in milliseconds
      * @throws IOException if a exception occurs during writing
      * @see java.util.Date
@@ -212,7 +223,8 @@ public class XMLWriter
 
     /**
      * Write a formatted date surrounded by a markup tag.
-     * @param tag tag to open and close before and after the date is inserted
+     *
+     * @param tag    tag to open and close before and after the date is inserted
      * @param millis date represented in milliseconds
      * @throws IOException if a exception occurs during writing
      * @see java.util.Date
@@ -223,6 +235,7 @@ public class XMLWriter
 
     /**
      * Write a formatted date.
+     *
      * @param date the date to print
      * @throws IOException if a exception occurs during writing
      */
@@ -234,7 +247,8 @@ public class XMLWriter
 
     /**
      * Write a formatted date surrounded by a markup tag.
-     * @param tag tag to open and close before and after the date is inserted
+     *
+     * @param tag  tag to open and close before and after the date is inserted
      * @param date the date to print
      * @throws IOException if a exception occurs during writing
      * @see java.util.Date
@@ -250,6 +264,7 @@ public class XMLWriter
      * If this call follows a call of startTag, the open tag will be
      * closed -- meaning that no more attributes can be written until another
      * tag is started.
+     *
      * @param text the text to be written
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -266,8 +281,10 @@ public class XMLWriter
         boolean specialChars = false;
         for (int i = 0; i < text.length() && !specialChars; i++) {
             switch (text.charAt(i)) {
-            case '<': case '>': case '&':
-                specialChars = true;
+                case '<':
+                case '>':
+                case '&':
+                    specialChars = true;
             }
         }
 
@@ -277,21 +294,28 @@ public class XMLWriter
             for (int i = 0; i < text.length(); i++) {
                 char c = text.charAt(i);
                 switch (c) {
-                case '<': out.write("&lt;"); break;
-                case '>': out.write("&gt;"); break;
-                case '&': out.write("&amp;"); break;
-                default: out.write(c);
+                    case '<':
+                        out.write("&lt;");
+                        break;
+                    case '>':
+                        out.write("&gt;");
+                        break;
+                    case '&':
+                        out.write("&amp;");
+                        break;
+                    default:
+                        out.write(c);
                 }
             }
-        }
-        else
+        } else
             out.write(text);
     }
 
     /**
      * Write a localized message, using a specified resource bundle.
+     *
      * @param i18n the resource bundle used to localize the message
-     * @param key the key for the message to be localized
+     * @param key  the key for the message to be localized
      * @throws IOException if there is a problem closing the underlying stream
      */
     public void write(I18NResourceBundle i18n, String key) throws IOException {
@@ -300,9 +324,10 @@ public class XMLWriter
 
     /**
      * Write a localized message, using a specified resource bundle.
+     *
      * @param i18n the resource bundle used to localize the message
-     * @param key the key for the message to be localized
-     * @param arg an argument to be formatted into the localized message
+     * @param key  the key for the message to be localized
+     * @param arg  an argument to be formatted into the localized message
      * @throws IOException if there is a problem closing the underlying stream
      */
     public void write(I18NResourceBundle i18n, String key, Object arg) throws IOException {
@@ -311,8 +336,9 @@ public class XMLWriter
 
     /**
      * Write a localized message, using a specified resource bundle.
+     *
      * @param i18n the resource bundle used to localize the message
-     * @param key the key for the message to be localized
+     * @param key  the key for the message to be localized
      * @param args arguments to be formatted into the localized message
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -322,6 +348,7 @@ public class XMLWriter
 
     /**
      * Write a localized message, using the default resource bundle.
+     *
      * @param key the key for the message to be localized
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -331,6 +358,7 @@ public class XMLWriter
 
     /**
      * Write a localized message, using the default resource bundle.
+     *
      * @param key the key for the message to be localized
      * @param arg an argument to be formatted into the localized message
      * @throws IOException if there is a problem closing the underlying stream
@@ -341,7 +369,8 @@ public class XMLWriter
 
     /**
      * Write a localized message, using the default resource bundle.
-     * @param key the key for the message to be localized
+     *
+     * @param key  the key for the message to be localized
      * @param args arguments to be formatted into the localized message
      * @throws IOException if there is a problem closing the underlying stream
      */

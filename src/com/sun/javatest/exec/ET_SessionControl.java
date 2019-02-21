@@ -36,6 +36,7 @@ public interface ET_SessionControl extends ET_Control {
 
     /**
      * Returns the config object under control
+     *
      * @return The session associated with this instance.
      */
     public Session getSession();

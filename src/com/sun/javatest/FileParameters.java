@@ -38,14 +38,14 @@ import com.sun.javatest.util.StringArray;
  * An implementation of Parameters, using data read from a .jtp file.
  */
 public class FileParameters
-    extends
+        extends
         BasicParameters
-    implements
-        Parameters.LegacyEnvParameters
-{
+        implements
+        Parameters.LegacyEnvParameters {
     /**
      * Determine if the specified file is a parameter file,
      * as determined by whether its extension is .jtp or not.
+     *
      * @param file the file to be checked
      * @return true if the specified file is a parameter file,
      * and false otherwise
@@ -62,13 +62,13 @@ public class FileParameters
 
     /**
      * Create a FileParameters object, based on data read from a parameter file.
+     *
      * @param file the file to be read to initialize this object
      * @throws FileNotFoundException if the file does not exist
-     * @throws IOException if there is a problem reading the file
+     * @throws IOException           if there is a problem reading the file
      */
     public FileParameters(File file)
-        throws FileNotFoundException, IOException
-    {
+            throws FileNotFoundException, IOException {
         Map<String, String> p;
         try (Reader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
             p = PropertyUtils.load(in);
@@ -107,10 +107,10 @@ public class FileParameters
      * <dd>Specify the status values used to select tests at runtime.
      * <i>status-list</i> should be a comma-separated list of words from
      * the following list:
-     *    <code>passed</code>,
-     *    <code>failed</code>,
-     *    <code>error</code>,
-     *    <code>notRun</code>
+     * <code>passed</code>,
+     * <code>failed</code>,
+     * <code>error</code>,
+     * <code>notRun</code>
      * <dt><code>-exclude</code> <i>exclude-list-file</i>
      * <dd>Specify an exclude-list file containing a list of tests to
      * be excluded from the test run.
@@ -140,6 +140,7 @@ public class FileParameters
      * relative to the user's current directory, unless the location specified
      * is an absolute path.  The exclude list and environment files are located
      * relative to the test suite location, unless they are absolute paths.
+     *
      * @param args The args used to initialize the FileParameters object.
      * @throws IllegalArgumentException If an unrecognized argument is found.
      */
@@ -168,14 +169,12 @@ public class FileParameters
                     exclFilesArgs = args[++i];
                 else
                     exclFilesArgs += " " + args[++i];
-            }
-            else if ("-envFile".equalsIgnoreCase(args[i])) {
+            } else if ("-envFile".equalsIgnoreCase(args[i])) {
                 if (envFilesArgs == null)
                     envFilesArgs = args[++i];
                 else
                     envFilesArgs += " " + args[++i];
-            }
-            else if ("-env".equalsIgnoreCase(args[i]))
+            } else if ("-env".equalsIgnoreCase(args[i]))
                 envNameArg = args[++i];
             else if ("-concurrency".equalsIgnoreCase(args[i]))
                 concurrencyArg = args[++i];
@@ -237,7 +236,7 @@ public class FileParameters
 
         // legacy behavior requires that paths be relative to the testSuite
         // location specified in the JTE or on the cmd line
-        for (int i = 0; i < ff.length; i++)  {
+        for (int i = 0; i < ff.length; i++) {
             ff[i] = new File(makeLegacyTsRelative(f[i]));
         }
         setEnvFiles(ff);
@@ -255,6 +254,7 @@ public class FileParameters
 
     /**
      * Get an object containing the environments read from the environment files.
+     *
      * @return an object containing all the environments read from the environment files.
      * @see #setEnvFiles
      * @see #setEnvName
@@ -274,8 +274,8 @@ public class FileParameters
         TestSuite ts = getTestSuite();
         File base = ts == null ? null : ts.getRootDir();
         if (cachedAbsEnvFiles == null ||
-            cachedAbsEnvFiles_base != base ||
-            cachedAbsEnvFiles_envFiles != envFiles) {
+                cachedAbsEnvFiles_base != base ||
+                cachedAbsEnvFiles_envFiles != envFiles) {
             cachedAbsEnvFiles = getAbsoluteFiles(base, envFiles);
         }
     }
@@ -284,13 +284,12 @@ public class FileParameters
         updateAbsoluteEnvFiles();
         File[] absEnvFiles = cachedAbsEnvFiles;
         if (cachedEnvTable == null
-           || !equal(absEnvFiles, cachedEnvTable_absEnvFiles)) {
+                || !equal(absEnvFiles, cachedEnvTable_absEnvFiles)) {
             try {
                 cachedEnvTable = new TestEnvContext(absEnvFiles);
                 cachedEnvTable_absEnvFiles = absEnvFiles;
                 envTableError = null;
-            }
-            catch (TestEnvContext.Fault e) {
+            } catch (TestEnvContext.Fault e) {
                 cachedEnvTable = null;
                 envTableError = e.getMessage();
             }
@@ -327,8 +326,7 @@ public class FileParameters
                     return;
                 }
             }
-        }
-        catch (TestEnvironment.Fault e) {
+        } catch (TestEnvironment.Fault e) {
             cachedEnv = null;
             envError = i18n.getString("fp.badEnv", envName, e.getMessage());
             return;
@@ -388,14 +386,12 @@ public class FileParameters
         // configurations get reasonable results
         if (p == null || TestSuite.isTestSuite(p)) {
             setTestSuite(p);
-        }
-        else {
+        } else {
             File parent = p.getParentFile();
             // fallback check, check parent of specified location
             if (parent != null && TestSuite.isTestSuite(parent)) {
                 setTestSuite(parent);
-            }
-            else {
+            } else {
                 // must do this to ensure proper errors occur
                 setTestSuite(p);
             }
@@ -422,7 +418,7 @@ public class FileParameters
 
         // legacy behavior requires that paths be relative to the testSuite
         // location specified in the JTE or on the cmd line
-        for (int i = 0; i < ff.length; i++)  {
+        for (int i = 0; i < ff.length; i++) {
             ff[i] = new File(makeLegacyTsRelative(f[i]));
         }
         setExcludeFiles(ff);
@@ -431,7 +427,7 @@ public class FileParameters
     //---------------------------------------------------------------------
 
     private void setKeywords(String op, String value) {
-        if (op == null || op.equals("ignore") )
+        if (op == null || op.equals("ignore"))
             setKeywordsMode(NO_KEYWORDS);
         else if (op.equals("expr"))
             setKeywords(EXPR, value);
@@ -461,9 +457,9 @@ public class FileParameters
             setPriorStatusValues((boolean[]) null);
         else {
             boolean[] b = new boolean[Status.NUM_STATES];
-            b[Status.PASSED]  = values.contains("pass");
-            b[Status.FAILED]  = values.contains("fail");
-            b[Status.ERROR]   = values.contains("erro");
+            b[Status.PASSED] = values.contains("pass");
+            b[Status.FAILED] = values.contains("fail");
+            b[Status.ERROR] = values.contains("erro");
             b[Status.NOT_RUN] = values.contains("notr");
             setPriorStatusValues(b);
         }
@@ -477,8 +473,7 @@ public class FileParameters
         else {
             try {
                 setConcurrency(Integer.parseInt(conc));
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 concurrencyError = i18n.getString("fp.badConcurrency", conc);
             }
         }
@@ -492,8 +487,7 @@ public class FileParameters
         else {
             try {
                 setTimeoutFactor(Float.parseFloat(tf));
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 timeoutFactorError = i18n.getString("fp.badTimeoutFactor", tf);
             }
         }
@@ -503,6 +497,7 @@ public class FileParameters
 
     /**
      * Get the report directory given in the parameters.
+     *
      * @return the report directory
      * @see #setReportDir
      */
@@ -512,6 +507,7 @@ public class FileParameters
 
     /**
      * Set the report directory.
+     *
      * @param dir the report directory
      * @see #getReportDir
      */
@@ -571,5 +567,5 @@ public class FileParameters
     private static final String PARAMFILE_EXTN = ".jtp";
 
     private static final I18NResourceBundle i18n =
-        I18NResourceBundle.getBundleForClass(FileParameters.class);
+            I18NResourceBundle.getBundleForClass(FileParameters.class);
 }

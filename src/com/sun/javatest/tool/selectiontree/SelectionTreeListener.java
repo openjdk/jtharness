@@ -27,10 +27,12 @@
 package com.sun.javatest.tool.selectiontree;
 
 import com.sun.javatest.tool.selectiontree.selection.SelectionType;
+
 import java.util.EventListener;
 
 /**
  * <code>SelectionTreeListener</code> interface used to listen changing of selection type in the {@link SelectionTree}.
+ *
  * @since 4.4
  */
 public interface SelectionTreeListener extends EventListener {
@@ -38,7 +40,7 @@ public interface SelectionTreeListener extends EventListener {
     /**
      * Invokes when selection type is changed.
      *
-     * @param node {@link SelectionTreeNode} with selection type changed
+     * @param node    {@link SelectionTreeNode} with selection type changed
      * @param oldType old selection type
      * @param newType new selection type
      */

@@ -54,8 +54,7 @@ import com.sun.javatest.Test;
  * @see com.sun.javatest.Test
  * @see com.sun.javatest.lib.TestCases
  */
-public class MultiTest implements Test
-{
+public class MultiTest implements Test {
     /**
      * This exception is thrown when a problem occurs initializing the test.
      * It may also be used to indicate that the test is not applicable in the
@@ -79,7 +78,7 @@ public class MultiTest implements Test
          *
          * @param msg a detail string, explaining why the test is "not applicable".
          * @return an exception object that indicates the test should not be run
-         *   because it is not applicable.
+         * because it is not applicable.
          */
         public static SetupException notApplicable(String msg) {
             SetupException e = new SetupException("Test not applicable: " + msg);
@@ -89,9 +88,9 @@ public class MultiTest implements Test
 
         /**
          * Determines whether this SetupException signals failure or not.
+         *
          * @return true if and only if the test is not applicable and should be
          * deemed to have "passed, by default".
-         *
          */
         public boolean isPassed() {
             return passed;
@@ -100,6 +99,7 @@ public class MultiTest implements Test
 
         /**
          * Indicate whether this exception was the result of calling {@link #notApplicable}.
+         *
          * @serial
          */
         private boolean passed = false;
@@ -111,14 +111,13 @@ public class MultiTest implements Test
      * and invoked via reflection. The set of test cases can be specified with
      * -select case1,case2,case3... and/or restricted with -exclude case1,case2,case3...
      *
-     * @see #decodeAllArgs
-     * @see #init
-     *
      * @param args Execute arguments passed in from either the
      *             command line or the execution harness.
-     * @param log Output stream for general messages from the tests.
-     * @param ref Output stream for reference output from the tests.
+     * @param log  Output stream for general messages from the tests.
+     * @param ref  Output stream for reference output from the tests.
      * @return Overall status of running all of the test cases.
+     * @see #decodeAllArgs
+     * @see #init
      */
     @Override
     public Status run(String[] args, PrintWriter log, PrintWriter ref) {
@@ -128,7 +127,7 @@ public class MultiTest implements Test
 
         Status initStatus = init(args);
         if (testNotApplicable
-            || (initStatus != null && initStatus.getType( ) != Status.PASSED)) {
+                || (initStatus != null && initStatus.getType() != Status.PASSED)) {
             return initStatus;
         }
 
@@ -137,27 +136,25 @@ public class MultiTest implements Test
 
     /**
      * Run the test cases contained in this object
-     *
+     * <p>
      * This method is a convenience wrapper around the primary run method
      * which takes PrintWriters: this variant takes PrintStreams and wraps
      * them into PrintWriters.
      *
-     * @see #decodeAllArgs
-     * @see #init
-     *
      * @param argv Execute arguments passed in from either the
      *             command line or the execution harness.
-     * @param log Output stream for general messages from the tests.
-     * @param ref Output stream for reference output from the tests.
+     * @param log  Output stream for general messages from the tests.
+     * @param ref  Output stream for reference output from the tests.
      * @return Overall status of running all of the test cases.
+     * @see #decodeAllArgs
+     * @see #init
      */
     public final Status run(String[] argv, PrintStream log, PrintStream ref) {
         PrintWriter pwLog = new PrintWriter(new OutputStreamWriter(log));
         PrintWriter pwRef = new PrintWriter(new OutputStreamWriter(ref));
         try {
             return run(argv, pwLog, pwRef);
-        }
-        finally {
+        } finally {
             pwLog.flush();
             pwRef.flush();
         }
@@ -165,7 +162,6 @@ public class MultiTest implements Test
 
 
     /**
-     *
      * Initialize the test from the given arguments. The arguments will
      * be passed to <code>decodeAllArgs</code>, and then <code>init()</code>
      * will be called.
@@ -173,11 +169,9 @@ public class MultiTest implements Test
      * @param args The arguments for the test, passed to <code>decodeArgs</code>.
      * @return null if initialization is successful, or a status indicating why
      * initialization was not successful.
-     *
      * @see #decodeAllArgs
      * @see #decodeArg
      * @see #init()
-     *
      * @deprecated Use <code>decodeArg(String)</code> and <code>init()</code> instead.
      */
     protected Status init(String... args) {
@@ -185,8 +179,7 @@ public class MultiTest implements Test
             decodeAllArgs(args);
             init();
             return null;
-        }
-        catch (SetupException e) {
+        } catch (SetupException e) {
             testNotApplicable = true;
             return e.isPassed()
                     ? Status.passed(e.getMessage())
@@ -200,31 +193,30 @@ public class MultiTest implements Test
      * nothing; it may be overridden to provide additional behavior.
      *
      * @throws MultiTest.SetupException if processing should not continue.
-     * This may be due to some inconsistency in the arguments,
-     * or if it is determined the test should not execute for
-     * some reason.
+     *                                  This may be due to some inconsistency in the arguments,
+     *                                  or if it is determined the test should not execute for
+     *                                  some reason.
      */
-    protected void init() { }
+    protected void init() {
+    }
 
     /**
      * Parses the arguments passed to the test.
-     *
+     * <p>
      * This method embodies the main loop for all of the test's arguments.
      * It calls <code>decodeArg</code> for successive arguments in the
      * argument array.
      *
      * @param args arguments passed to the test.
-     *
      * @throws MultiTest.SetupException raised when an invalid parameter is passed,
-     * or another error occurred.
-     *
+     *                                  or another error occurred.
      * @see #decodeArg
      */
     protected final void decodeAllArgs(String... args) throws SetupException {
         int i = 0;
         while (i < args.length) {
             int elementsConsumed = decodeArg(args, i);
-            if (elementsConsumed == 0 ) {
+            if (elementsConsumed == 0) {
                 // The argument was not recognized.
                 throw new SetupException("Could not recognize argument: " + args[i]);
             }
@@ -239,20 +231,18 @@ public class MultiTest implements Test
      * <code>super.decodeArg(args, index)</code> to give supertypes a change
      * to decode the argument as well.
      *
-     * @param args The array containing all the arguments
+     * @param args  The array containing all the arguments
      * @param index The position of the next argument to be decoded.
      * @return the number of elements in the array were "consumed" by this call.
-     *
      * @throws MultiTest.SetupException is there is a problem decoding the
-     *   argument.
+     *                                  argument.
      */
     protected int decodeArg(String[] args, int index) throws SetupException {
         try {
             if (args[index].equals("-select") && index + 1 < args.length) {
                 testCases.select(args[index + 1]);
                 return 2;
-            }
-            else if (args[index].equals("-exclude") && index + 1 < args.length) {
+            } else if (args[index].equals("-exclude") && index + 1 < args.length) {
                 testCases.exclude(args[index + 1]);
                 return 2;
             }
@@ -261,39 +251,36 @@ public class MultiTest implements Test
                 if (index + 1 < args.length && args[index + 1].equals("ALL")) {
                     // ignore -TestCaseID ALL, since it is the default
                     return 2;
-                }
-                else {
+                } else {
                     int i;
                     for (i = index + 1; i < args.length && !args[i].startsWith("-"); i++)
                         testCases.select(args[i]);
                     return i - index;
                 }
 
-            }
-            else if (args[index].equals("-autoFlush")) {
+            } else if (args[index].equals("-autoFlush")) {
                 ref = new PrintWriter(ref, true);
                 log = new PrintWriter(ref, true);
                 return 1;
-            }
-            else
+            } else
                 return 0;
-        }
-        catch (TestCases.Fault e) {
+        } catch (TestCases.Fault e) {
             throw new SetupException(e.getMessage());
         }
     }
 
     /**
      * Default way to invoke a specified test case.
+     *
      * @param m The method to be invoked.
      * @return The result of invoking the specified test case.
-     * @throws IllegalAccessException if there was a problem accessing the specified method
+     * @throws IllegalAccessException    if there was a problem accessing the specified method
      * @throws InvocationTargetException if the specified method threw an exception when
-     * it was invoked.
+     *                                   it was invoked.
      */
     protected Status invokeTestCase(Method m)
-                throws IllegalAccessException, InvocationTargetException {
-        Object[] testArgs = { };
+            throws IllegalAccessException, InvocationTargetException {
+        Object[] testArgs = {};
         return (Status) m.invoke(this, testArgs);
     }
 

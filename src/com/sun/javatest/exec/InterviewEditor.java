@@ -27,6 +27,7 @@
 package com.sun.javatest.exec;
 
 import com.sun.interview.Help;
+
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Container;
@@ -79,12 +80,13 @@ import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.jthelp.HelpID;
 import com.sun.javatest.tool.jthelp.JHelpContentViewer;
 import com.sun.javatest.util.Debug;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Dialog to edit InterviewParameters object.
- *
+ * <p>
  * InterviewEditor keeps reference to the main InterviewParameters object,
  * but never change it.
  * <br>
@@ -92,12 +94,11 @@ import java.util.List;
  * with the view object.
  * <br>
  * When view object is loaded or saved, all registered observers are notified.
- *
  */
 public class InterviewEditor extends ToolDialog {
 
     public InterviewEditor(JComponent parent, UIFactory uif,
-            InterviewParameters ip) {
+                           InterviewParameters ip) {
 
         super(parent, uif, "ce", ToolDialog.MODAL_DOCUMENT);
         WorkDirectory wd = ip.getWorkDirectory();
@@ -115,14 +116,16 @@ public class InterviewEditor extends ToolDialog {
             // ignore, for now; should not happen
         }
     }
+
     public InterviewEditor(JComponent parent, UIFactory uif,
-            InterviewParameters ip, ContextManager cm) {
+                           InterviewParameters ip, ContextManager cm) {
         this(parent, uif, ip);
         setContextManager(cm);
     }
 
     /**
      * Sets contextManager to the passed value.
+     *
      * @param cm - ContextManager to use
      */
     void setContextManager(ContextManager cm) {
@@ -176,6 +179,7 @@ public class InterviewEditor extends ToolDialog {
 
     /**
      * Adds passed file to the history.
+     *
      * @param f - file to be added.
      */
     void addToHistory(File f) {
@@ -221,6 +225,7 @@ public class InterviewEditor extends ToolDialog {
             newConfig();
         }
     }
+
     /**
      * Show dialog.
      */
@@ -230,7 +235,7 @@ public class InterviewEditor extends ToolDialog {
     }
 
     /**
-     * @return  mode that will be used by WorkDirChooseTool to select file.
+     * @return mode that will be used by WorkDirChooseTool to select file.
      */
     public int getFileChooserMode() {
         return WorkDirChooseTool.LOAD_CONFIG;
@@ -249,8 +254,9 @@ public class InterviewEditor extends ToolDialog {
      * Show choose file dialog and then load new file.
      * The dialog depends on fileChooserMode setting. It can be either
      * simple JFileChooser or "advanced" home made file chooser.
+     *
      * @param ask if true, dialog asking whether to save changes will appear
-     *        in case of unsaved changes.
+     *            in case of unsaved changes.
      */
     protected void loadConfig0(boolean ask) {
         TestSuite ts = viewConfig.getTestSuite();
@@ -260,7 +266,7 @@ public class InterviewEditor extends ToolDialog {
         } catch (Exception ignore) {
             // stub never throws exceptions
         }
-        WorkDirChooseTool fc =  WorkDirChooseTool.getTool((JComponent)parent,
+        WorkDirChooseTool fc = WorkDirChooseTool.getTool((JComponent) parent,
                 uif, em, getFileChooserMode(), ts, true);
         WorkDirChooseTool.ChosenFileHandler cfh =
                 new WorkDirChooseTool.ChosenFileHandler();
@@ -285,7 +291,6 @@ public class InterviewEditor extends ToolDialog {
     }
 
     /**
-     *
      * @param f
      */
     public void loadAndEdit(File f) {
@@ -299,6 +304,7 @@ public class InterviewEditor extends ToolDialog {
 
     /**
      * Shows file chooser dialog.
+     *
      * @return chosen file or null.
      */
     private File chooseConfigFile() {
@@ -306,11 +312,12 @@ public class InterviewEditor extends ToolDialog {
         FileChooser fileChooser = getFileChooser();
         if (mainConfigFile != null)
             fileChooser.setCurrentDirectory(mainConfigFile.getParentFile());
-        return  loadConfigFile(getContextManager(), parent, uif, fileChooser);
+        return loadConfigFile(getContextManager(), parent, uif, fileChooser);
     }
 
     /**
      * Updates viewConfig, notifies observers of the change.
+     *
      * @param file File to load.
      */
     public void loadConfigFromFile(File file) {
@@ -373,16 +380,14 @@ public class InterviewEditor extends ToolDialog {
             notifyObservers();
 
             return true;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             if (!file.canWrite())
                 uif.showError("ce.save.cantWriteFile", file);
             else if (e instanceof FileNotFoundException)
                 uif.showError("ce.save.cantFindFile", file);
             else
                 uif.showError("ce.save.error", file, e);
-        }
-        catch (Interview.Fault e) {
+        } catch (Interview.Fault e) {
             uif.showError("ce.save.error", file, e.getMessage());
         }
 
@@ -412,6 +417,7 @@ public class InterviewEditor extends ToolDialog {
     /**
      * In viewConfig differs from mainConfig asks user whether save changes
      * or not. Save changes in case of positive answer.
+     *
      * @param que
      * @return false iff user said "cancel".
      */
@@ -422,9 +428,12 @@ public class InterviewEditor extends ToolDialog {
             switch (rc) {
                 case JOptionPane.YES_OPTION: {
                     save();
-                    return true;}
-                case JOptionPane.NO_OPTION: return true;
-                default: return false;
+                    return true;
+                }
+                case JOptionPane.NO_OPTION:
+                    return true;
+                default:
+                    return false;
             }
         } else {
             return true;
@@ -646,7 +655,7 @@ public class InterviewEditor extends ToolDialog {
             return;
         }
 
-        if(fullView.isVisible()) {
+        if (fullView.isVisible()) {
             fullView.prepareClosing();
         }
         doClose();
@@ -663,25 +672,25 @@ public class InterviewEditor extends ToolDialog {
         if (checkIfEdited && isEdited()) {
             int rc = uif.showYesNoCancelDialog("ce.close.warn");
             switch (rc) {
-            case JOptionPane.YES_OPTION:
-                if (save0()) {
+                case JOptionPane.YES_OPTION:
+                    if (save0()) {
+                        break;
+                    } else {
+                        if (afterCloseCommand != null) {
+                            afterCloseCommand.run();
+                            afterCloseCommand = null;
+                        }
+                        return;
+                    }
+
+                case JOptionPane.NO_OPTION:
                     break;
-                } else {
+                default:
                     if (afterCloseCommand != null) {
                         afterCloseCommand.run();
                         afterCloseCommand = null;
                     }
                     return;
-                }
-
-            case JOptionPane.NO_OPTION:
-                break;
-            default:
-                if (afterCloseCommand != null) {
-                    afterCloseCommand.run();
-                    afterCloseCommand = null;
-                }
-                return;
             }
         }
 
@@ -690,8 +699,8 @@ public class InterviewEditor extends ToolDialog {
         // closeListener may have been set by show(ActionListener)
         if (closeListener != null) {
             ActionEvent e = new ActionEvent(this,
-                                            ActionEvent.ACTION_PERFORMED,
-                                            CLOSE);
+                    ActionEvent.ACTION_PERFORMED,
+                    CLOSE);
             closeListener.actionPerformed(e);
             closeListener = null;
         }
@@ -746,7 +755,7 @@ public class InterviewEditor extends ToolDialog {
         }
         // do ez checks first
         if (a.getMarkersEnabled() != b.getMarkersEnabled()
-            || a.getMarkersFilterEnabled() != b.getMarkersFilterEnabled()) {
+                || a.getMarkersFilterEnabled() != b.getMarkersFilterEnabled()) {
             return false;
         }
 
@@ -816,6 +825,7 @@ public class InterviewEditor extends ToolDialog {
 
     /**
      * Registers new observer
+     *
      * @param o - observer to be added to the list
      */
     public void addObserver(Observer o) {
@@ -823,8 +833,10 @@ public class InterviewEditor extends ToolDialog {
             observers.add(o);
         }
     }
+
     /**
      * Removes observer from the list
+     *
      * @param o - observer to be removed from the list
      */
     public void removeObserver(Observer o) {
@@ -832,19 +844,21 @@ public class InterviewEditor extends ToolDialog {
             observers.remove(o);
         }
     }
+
     /**
      * Notifies registered observers of the change happened to viewConfig
      */
     protected void notifyObservers() {
-        for (Observer obs: observers) {
+        for (Observer obs : observers) {
             obs.changed(viewConfig);
         }
     }
+
     /**
      * Notifies registered observers of setVisible() method has been called.
      */
     protected void notifyObserversOfVisibility(boolean isVisible) {
-        for (Observer obs: observers) {
+        for (Observer obs : observers) {
             obs.changedVisibility(isVisible, this);
         }
     }
@@ -870,7 +884,7 @@ public class InterviewEditor extends ToolDialog {
             infoPanel = new JHelpContentViewer(Help.getHelpSet(viewConfig));
             infoPanel.setName("info");
             int dpi = uif.getDotsPerInch();
-            infoPanel.setPreferredSize(new Dimension(4*dpi, 3*dpi));
+            infoPanel.setPreferredSize(new Dimension(4 * dpi, 3 * dpi));
             infoPanel.putClientProperty(HelpLink.HELPBROKER_FOR_HELPLINK, uif.getHelpBroker());
         }
 
@@ -891,8 +905,7 @@ public class InterviewEditor extends ToolDialog {
         if (infoPanel == null) {
             viewInfoCheckBox.setEnabled(false);
             viewInfoCheckBox.setSelected(false);
-        }
-        else {
+        } else {
             Preferences p = Preferences.access();
             boolean prefMoreInfo = p.getPreference(MORE_INFO_PREF, "true").equals("true");
             viewInfoCheckBox.setEnabled(true);
@@ -905,8 +918,7 @@ public class InterviewEditor extends ToolDialog {
             JSplitPane sp = uif.createSplitPane(JSplitPane.HORIZONTAL_SPLIT, views, infoPanel);
             sp.setDividerLocation(views.getPreferredSize().width + sp.getDividerSize());
             body = sp;
-        }
-        else {
+        } else {
             views.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
             body = views;
         }
@@ -915,10 +927,10 @@ public class InterviewEditor extends ToolDialog {
         // if the more info is opened/closed.
         // Instead, register it on views and infoPanel
         views.registerKeyboardAction(listener, DETAILS, detailsKey,
-                                           JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         if (infoPanel != null)
             infoPanel.registerKeyboardAction(listener, DETAILS, detailsKey,
-                                               JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+                    JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         setBody(body);
 
@@ -926,7 +938,7 @@ public class InterviewEditor extends ToolDialog {
     }
 
     protected JMenu createFileMenu() {
-        String[] fileMenuItems = { SAVE, SAVE_AS, REVERT, null, NEW, LOAD, null, CLOSE };
+        String[] fileMenuItems = {SAVE, SAVE_AS, REVERT, null, NEW, LOAD, null, CLOSE};
         JMenu fileMenu = uif.createMenu("ce.file", fileMenuItems, listener);
 
         FileHistory h = FileHistory.getFileHistory(viewConfig.getWorkDirectory(), getHistoryFileName());
@@ -1000,9 +1012,9 @@ public class InterviewEditor extends ToolDialog {
         helpMenu.add(mainItem);
 
 /**
-        // template editor help
-        mainItem = uif.createHelpMenuItem("ce.help.maint", "confEdit.templateDialog.csh");
-        helpMenu.add(mainItem);
+ // template editor help
+ mainItem = uif.createHelpMenuItem("ce.help.maint", "confEdit.templateDialog.csh");
+ helpMenu.add(mainItem);
  */
         JMenuItem fullItem = uif.createHelpMenuItem("ce.help.full", "confEdit.fullView.csh");
         helpMenu.add(fullItem);
@@ -1050,8 +1062,7 @@ public class InterviewEditor extends ToolDialog {
             sp.setDividerLocation(viewsSize.width + sp.getDividerSize());
             body = sp;
             showInfoForQuestion(viewConfig.getCurrentQuestion());
-        }
-        else {
+        } else {
             // set body to views; add a border to stand in for the padding
             // that JSplitPane would otherwise give
             views.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -1113,8 +1124,7 @@ public class InterviewEditor extends ToolDialog {
             show(stdView);
         else if (cmd.equals(CLOSE)) {
             close();
-        }
-        else if (cmd.equals(DONE)) {
+        } else if (cmd.equals(DONE)) {
             if (currView != null && !currView.isOKToClose())
                 return;
 
@@ -1145,46 +1155,41 @@ public class InterviewEditor extends ToolDialog {
             }
 
             close(false);
-        }
-        else if (cmd.equals(REFRESH)) {
+        } else if (cmd.equals(REFRESH)) {
             if (currView != null)
                 currView.refresh();
-        }
-        else if (cmd.equals(DETAILS)) {
+        } else if (cmd.equals(DETAILS)) {
             if (detailsBrowser == null) {
                 detailsBrowser = new DetailsBrowser(body, viewConfig, infoPanel);
                 detailsBrowser.setQuestionInfoEnabled(currView == fullView);
             }
 
             detailsBrowser.setVisible(true);
-        }
-        else
+        } else
             throw new IllegalArgumentException(cmd);
     }
 
-    private boolean canInterruptTemplateCreation () {
+    private boolean canInterruptTemplateCreation() {
         /** fa
-        ContextManager cm = getContextManager();
-        String wdTmpl = TemplateUtilities.getTemplatePath(model.getWorkDirectory());
-        if (mainConfig.isTemplate() &&
-                !cm.getFeatureManager().isEnabled(FeatureManager.WD_WITHOUT_TEMPLATE) &&
-                wdTmpl == null) {
-            return false;
-        }
+         ContextManager cm = getContextManager();
+         String wdTmpl = TemplateUtilities.getTemplatePath(model.getWorkDirectory());
+         if (mainConfig.isTemplate() &&
+         !cm.getFeatureManager().isEnabled(FeatureManager.WD_WITHOUT_TEMPLATE) &&
+         wdTmpl == null) {
+         return false;
+         }
          */
         return true;
     }
 
     public static void copy(InterviewParameters from, InterviewParameters to)
-        throws Interview.Fault
-    {
+            throws Interview.Fault {
         copy(from, to, true); // copy filename as well, by default
     }
 
     private static void copy(InterviewParameters from, InterviewParameters to,
-                      boolean copyFile)
-        throws Interview.Fault
-    {
+                             boolean copyFile)
+            throws Interview.Fault {
         //System.err.println("CE.copy from " + (from==mainConfig?"main":from==viewConfig?"view":from.toString()) + " to " + (to==mainConfig?"main":to==viewConfig?"view":to.toString()));
         Map<String, String> data = new HashMap<>();
         from.save(data);
@@ -1194,30 +1199,31 @@ public class InterviewEditor extends ToolDialog {
         if (copyFile)
             to.setFile(from.getFile());
         if (debug) {
-            Debug.println("InterviewEditor: equal(b,a) " + equal(to,from));
+            Debug.println("InterviewEditor: equal(b,a) " + equal(to, from));
         }
 
     }
 
     /**
-    * Checks default settings relate to config file load fron the default location
-    * @param cm <code>ContextManager</code> object defining current harness' context. The following methods
-    *           affect this method functionality:
-    * <ul>
-    * <li><code>getDefaultConfigLoadPath()</code>
-    * <li><code>getAllowConfigLoadOutsideDefault()</code>
-    * </ul>
-    * @throws <code>IllegalArgumentException</code> if the following configuration errors found:
-    * <ul>
-    * <li> <code>getDefaultConfigLoadPath()</code> returns <code>null</code> when <code>getAllowConfigLoadOutsideDefault()</code> returns <code>false</code>
-    * <li> <code>getDefaultConfigLoadPath()</code> returns not absolute path
-    * <li> <code>getDefaultConfigLoadPath()</code> returns a file (not a directory)
-    * </ul>
-    * @see ContextManager#setDefaultConfigLoadPath(java.io.File)
-    * @see ContextManager#setAllowConfigLoadOutsideDefault(boolean state)
-    * @see ContextManager#getDefaultConfigLoadPath()
-    * @see ContextManager#getAllowConfigLoadOutsideDefault()
-    */
+     * Checks default settings relate to config file load fron the default location
+     *
+     * @param cm <code>ContextManager</code> object defining current harness' context. The following methods
+     *           affect this method functionality:
+     *           <ul>
+     *           <li><code>getDefaultConfigLoadPath()</code>
+     *           <li><code>getAllowConfigLoadOutsideDefault()</code>
+     *           </ul>
+     * @throws <code>IllegalArgumentException</code> if the following configuration errors found:
+     *                                               <ul>
+     *                                               <li> <code>getDefaultConfigLoadPath()</code> returns <code>null</code> when <code>getAllowConfigLoadOutsideDefault()</code> returns <code>false</code>
+     *                                               <li> <code>getDefaultConfigLoadPath()</code> returns not absolute path
+     *                                               <li> <code>getDefaultConfigLoadPath()</code> returns a file (not a directory)
+     *                                               </ul>
+     * @see ContextManager#setDefaultConfigLoadPath(java.io.File)
+     * @see ContextManager#setAllowConfigLoadOutsideDefault(boolean state)
+     * @see ContextManager#getDefaultConfigLoadPath()
+     * @see ContextManager#getAllowConfigLoadOutsideDefault()
+     */
 
     public static File checkLoadConfigFileDefaults(ContextManager cm) {
         if (cm == null)
@@ -1228,20 +1234,20 @@ public class InterviewEditor extends ToolDialog {
 
         if (defaultConfigLoadPath == null && !allowConfigLoadOutsideDefault)
             throw new IllegalArgumentException("Default directory not specified for " +
-                "load operation when allowConfigLoadOutsideDefault is false");
+                    "load operation when allowConfigLoadOutsideDefault is false");
 
         if (defaultConfigLoadPath != null) {
             if (!defaultConfigLoadPath.isAbsolute())
                 throw new IllegalArgumentException("Relative paths not " +
-                    "currently supported. The following setting is incorrect: " +
-                    "\"" + defaultConfigLoadPath.getPath() + "\" selected for " +
-                    "load operation");
+                        "currently supported. The following setting is incorrect: " +
+                        "\"" + defaultConfigLoadPath.getPath() + "\" selected for " +
+                        "load operation");
 
             if (defaultConfigLoadPath.isFile())
                 throw new IllegalArgumentException("Filename selected unexpectedly " +
-                    "as a default directory: " +
-                    "\"" + defaultConfigLoadPath.getPath() + "\" for " +
-                    "load operation");
+                        "as a default directory: " +
+                        "\"" + defaultConfigLoadPath.getPath() + "\" for " +
+                        "load operation");
         }
 
         return defaultConfigLoadPath;
@@ -1254,24 +1260,25 @@ public class InterviewEditor extends ToolDialog {
     }
 
     /**
-    * Provides capabilities for configuration file loading. Method takes into
-    * account context settings relating to default locations for configuration
-    * files loading and behaves according to them.
-    * @param cm <code>ContextManager</code> object defining current harness' context. The following methods
-    *           affect this method functionality:
-    * <li><code>getDefaultConfigLoadPath()</code>
-    * <li><code>getAllowConfigLoadOutsideDefault()</code>
-    * </ul>
-    * @param parent A parent frame to be used for <code>fileChooser</code>/warning dialogs
-    * @param uif The UIFactory used to for configuration file loading operation
-    * @param fileChooser The <code>FileChooser</code> used for configuration file loading
-    * @return The configuration file selected by user if this file loading is allowed by
-    *         harness' contest settings
-    * @see ContextManager#setDefaultConfigLoadPath(java.io.File)
-    * @see ContextManager#setAllowConfigLoadOutsideDefault(boolean state)
-    * @see ContextManager#getDefaultConfigLoadPath()
-    * @see ContextManager#getAllowConfigLoadOutsideDefault()
-    */
+     * Provides capabilities for configuration file loading. Method takes into
+     * account context settings relating to default locations for configuration
+     * files loading and behaves according to them.
+     *
+     * @param cm          <code>ContextManager</code> object defining current harness' context. The following methods
+     *                    affect this method functionality:
+     *                    <li><code>getDefaultConfigLoadPath()</code>
+     *                    <li><code>getAllowConfigLoadOutsideDefault()</code>
+     *                    </ul>
+     * @param parent      A parent frame to be used for <code>fileChooser</code>/warning dialogs
+     * @param uif         The UIFactory used to for configuration file loading operation
+     * @param fileChooser The <code>FileChooser</code> used for configuration file loading
+     * @return The configuration file selected by user if this file loading is allowed by
+     * harness' contest settings
+     * @see ContextManager#setDefaultConfigLoadPath(java.io.File)
+     * @see ContextManager#setAllowConfigLoadOutsideDefault(boolean state)
+     * @see ContextManager#getDefaultConfigLoadPath()
+     * @see ContextManager#getAllowConfigLoadOutsideDefault()
+     */
 
     static File loadConfigFile(ContextManager cm, Component parent, UIFactory uif, FileChooser fileChooser) {
 
@@ -1314,7 +1321,7 @@ public class InterviewEditor extends ToolDialog {
 
                 try {
                     isMatch = f.getCanonicalPath().indexOf(defaultConfigLoadPath.getCanonicalPath()) == 0;
-                } catch ( IOException ioe) {
+                } catch (IOException ioe) {
                     ioe.printStackTrace(System.err);
                     return null;
                 }
@@ -1344,34 +1351,35 @@ public class InterviewEditor extends ToolDialog {
     }
 
     /**
-    * Provides as the user with a dialog to chooser where to save a config. Method takes into account
-    * context settings relating to default locations for configuration files saving and behaves
-    * according to them.
-    * @param cm <code>ContextManager</code> object defining current harness' context. The following methods
-    *           affect this method functionality:
-    * <ul>
-    * <li><code>getDefaultConfigSavePath()</code>
-    * <li><code>getAllowConfigSaveOutsideDefault()</code>
-    * </ul>
-    * @param parent A parent frame to be used for <code>fileChooser</code>/warning dialogs
-    * @param uif The UIFactory used to for configuration file saving operation
-    * @param fileChooser The <code>FileChooser</code> used for configuration file saving
-    * @return The configuration file selected by user if this file saving is allowed by
-    *         harness' contest settings
-    * @throws <code>IllegalArgumentException</code> if the following configuration errors found:
-    * <ul>
-    * <li> <code>getDefaultConfigSavePath()</code> returns <code>null</code> when <code>getAllowConfigSaveOutsideDefault()</code> returns <code>false</code>
-    * <li> <code>getDefaultConfigSavePath()</code> returns not absolute path
-    * <li> <code>getDefaultConfigSavePath()</code> returns a file (not a directory)
-    * </ul>
-    * @see ContextManager#setDefaultConfigSavePath(java.io.File)
-    * @see ContextManager#setAllowConfigSaveOutsideDefault(boolean state)
-    * @see ContextManager#getDefaultConfigSavePath()
-    * @see ContextManager#getAllowConfigSaveOutsideDefault()
-    */
+     * Provides as the user with a dialog to chooser where to save a config. Method takes into account
+     * context settings relating to default locations for configuration files saving and behaves
+     * according to them.
+     *
+     * @param cm          <code>ContextManager</code> object defining current harness' context. The following methods
+     *                    affect this method functionality:
+     *                    <ul>
+     *                    <li><code>getDefaultConfigSavePath()</code>
+     *                    <li><code>getAllowConfigSaveOutsideDefault()</code>
+     *                    </ul>
+     * @param parent      A parent frame to be used for <code>fileChooser</code>/warning dialogs
+     * @param uif         The UIFactory used to for configuration file saving operation
+     * @param fileChooser The <code>FileChooser</code> used for configuration file saving
+     * @return The configuration file selected by user if this file saving is allowed by
+     * harness' contest settings
+     * @throws <code>IllegalArgumentException</code> if the following configuration errors found:
+     *                                               <ul>
+     *                                               <li> <code>getDefaultConfigSavePath()</code> returns <code>null</code> when <code>getAllowConfigSaveOutsideDefault()</code> returns <code>false</code>
+     *                                               <li> <code>getDefaultConfigSavePath()</code> returns not absolute path
+     *                                               <li> <code>getDefaultConfigSavePath()</code> returns a file (not a directory)
+     *                                               </ul>
+     * @see ContextManager#setDefaultConfigSavePath(java.io.File)
+     * @see ContextManager#setAllowConfigSaveOutsideDefault(boolean state)
+     * @see ContextManager#getDefaultConfigSavePath()
+     * @see ContextManager#getAllowConfigSaveOutsideDefault()
+     */
 
     static File saveConfigFile(ContextManager cm, Component parent, UIFactory uif, FileChooser fileChooser, File dir,
-            boolean isTemplate) {
+                               boolean isTemplate) {
         if (cm == null)
             return null;
 
@@ -1391,20 +1399,20 @@ public class InterviewEditor extends ToolDialog {
 
         if (defaultSavePath == null && !allowSaveOutsideDefault)
             throw new IllegalArgumentException("Default directory not specified for " +
-                "save operation when allowConfigSaveOutsideDefault is false");
+                    "save operation when allowConfigSaveOutsideDefault is false");
 
         if (defaultSavePath != null) {
             if (!defaultSavePath.isAbsolute())
                 throw new IllegalArgumentException("Relative paths not " +
-                    "currently supported. The following setting is incorrect: " +
-                    "\"" + defaultSavePath.getPath() + "\" selected for " +
-                    "save operation");
+                        "currently supported. The following setting is incorrect: " +
+                        "\"" + defaultSavePath.getPath() + "\" selected for " +
+                        "save operation");
 
             if (defaultSavePath.isFile())
                 throw new IllegalArgumentException("Filename selected unexpectedly " +
-                    "as a default directory: " +
-                    "\"" + defaultSavePath.getPath() + "\" for " +
-                    "save operation");
+                        "as a default directory: " +
+                        "\"" + defaultSavePath.getPath() + "\" for " +
+                        "save operation");
 
             if (!allowSaveOutsideDefault) {
                 if (!defaultSavePath.canWrite()) {
@@ -1416,9 +1424,8 @@ public class InterviewEditor extends ToolDialog {
                 fileChooser.enableDirectories(true);
 
             fileChooser.setCurrentDirectory(defaultSavePath);
-        } else
-            if (dir != null)
-                fileChooser.setCurrentDirectory(dir);
+        } else if (dir != null)
+            fileChooser.setCurrentDirectory(dir);
 
         File file = null;
         boolean isMatch = true;
@@ -1441,7 +1448,7 @@ public class InterviewEditor extends ToolDialog {
 
                 try {
                     isMatch = defaultSavePath.getCanonicalPath().equals(f.getCanonicalPath());
-                } catch ( IOException ioe) {
+                } catch (IOException ioe) {
                     ioe.printStackTrace(System.err);
                     return null;
                 }
@@ -1468,13 +1475,13 @@ public class InterviewEditor extends ToolDialog {
                     continue;  // choose another file
                 } else if (!parentFile.exists()) {
                     rc = uif.showYesNoDialog("ce.save.createParentDir",
-                                             parentFile);
+                            parentFile);
                     if (rc == JOptionPane.YES_OPTION) {
                         if (!parentFile.mkdirs()) {
-                             uif.showError("ce.save.cantCreateParentDir",
-                                           parentFile);
-                             file = null;
-                             continue;  // choose another file
+                            uif.showError("ce.save.cantCreateParentDir",
+                                    parentFile);
+                            file = null;
+                            continue;  // choose another file
                         }
                     } else {
                         file = null;
@@ -1517,6 +1524,7 @@ public class InterviewEditor extends ToolDialog {
 
     /**
      * Will be eliminated in the next release.
+     *
      * @deprecated
      */
     @Deprecated
@@ -1530,7 +1538,6 @@ public class InterviewEditor extends ToolDialog {
 
     private boolean runPending;
     private static boolean debug = Debug.getBoolean(InterviewEditor.class);
-
 
 
     private JMenu recentConfigMenu;
@@ -1575,7 +1582,7 @@ public class InterviewEditor extends ToolDialog {
     private static final String DONE = "done";
     private static final String REFRESH = "refresh";
     private static final String DETAILS = "details";
-            static final String CLOSE = "close";
+    static final String CLOSE = "close";
 
     static final String MORE_INFO_PREF = "exec.config.moreInfo";
     static final String VIEW_PREF = "exec.config.view";
@@ -1589,8 +1596,7 @@ public class InterviewEditor extends ToolDialog {
     }
 
     private class Listener
-        implements ActionListener, ChangeListener, MenuListener
-    {
+            implements ActionListener, ChangeListener, MenuListener {
         // ---------- from ActionListener -----------
 
         @Override
@@ -1644,14 +1650,16 @@ public class InterviewEditor extends ToolDialog {
     public interface Observer {
         /**
          * Invoked when value of interview parameters has been changed
+         *
          * @param p object with updated value (viewConfig)
          */
         public void changed(InterviewParameters p);
 
         /**
          * Invoked when setVisible() method is invoked on InterviewEditor object
+         *
          * @param isVisible argument passed to setVisible() method
-         * @param source editor that changed the state
+         * @param source    editor that changed the state
          */
         public void changedVisibility(boolean isVisible, InterviewEditor source);
     }

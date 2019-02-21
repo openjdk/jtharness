@@ -27,6 +27,7 @@
 package com.sun.javatest.exec;
 
 import com.sun.javatest.exec.Session.Event;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -56,6 +57,7 @@ import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -78,6 +80,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     public void runTests() {
         start();
     }
+
     @Override
     public void setConfig(Session config) {
         this.config = config;
@@ -111,7 +114,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             mm = cm.getMenuManager();
             if (mm != null) {
                 JMenuItem[] items =
-                    mm.getMenuItems(JavaTestMenuManager.RUN_PRIMARY);
+                        mm.getMenuItems(JavaTestMenuManager.RUN_PRIMARY);
                 if (items != null)
                     for (JMenuItem item : items) menu.add(item);
             }
@@ -123,7 +126,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         // custom menu items, at the end
         if (mm != null) {
             JMenuItem[] items =
-                mm.getMenuItems(JavaTestMenuManager.RUN_OTHER);
+                    mm.getMenuItems(JavaTestMenuManager.RUN_OTHER);
             if (items != null) {
                 menu.addSeparator();
                 for (JMenuItem item : items) menu.add(item);
@@ -134,9 +137,9 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     }
 
     Action[] getToolBarActions() {
-        return new Action[] {
-            startAction,
-            stopAction
+        return new Action[]{
+                startAction,
+                stopAction
         };
     }
 
@@ -152,11 +155,11 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             monitors[1] = new RunProgressMonitor(mState, uif);
 
             ActionListener zoom = new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        setProgressMonitorVisible(!isProgressMonitorVisible());
-                    }
-                };
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setProgressMonitorVisible(!isProgressMonitorVisible());
+                }
+            };
             messageStrip = new MessageStrip(uif, monitors, mState, zoom);
             messageStrip.setRunningMonitor(monitors[1]);
             messageStrip.setIdleMonitor(monitors[0]);
@@ -180,6 +183,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     @Override
     public void save(Map<String, String> m) {
     }
+
     @Override
     public void restore(Map<String, String> m) {
     }
@@ -252,8 +256,9 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     /**
      * Handles special reconfiguration required for quick-pick test execution.
      * If not ready, suggests configuring first.
+     *
      * @param tests Null or zero length indicates all tests.  Otherwise,
-     *        the strings must be root relative locations in the testsuite.
+     *              the strings must be root relative locations in the testsuite.
      */
     @Override
     public void executeImmediate(String... paths) {
@@ -298,8 +303,8 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
 
             JList<?> list = uif.createList("rh.confirmList", model);
             p.add(uif.createScrollPane(list,
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 
             option = uif.showCustomYesNoDialog("rh.confirmQuick", p);
         }
@@ -311,7 +316,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
 
         // copy interview
         if (localParams != null && (localParams instanceof InterviewParameters)) {
-            ((InterviewParameters)localParams).dispose();
+            ((InterviewParameters) localParams).dispose();
         }
 
         try {
@@ -327,24 +332,21 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             // alter tests in interview
             // (should verify that TestsParameters is mutable)
             Parameters.TestsParameters tps = localParams.getTestsParameters();
-            Parameters.MutableTestsParameters mtps = (Parameters.MutableTestsParameters)tps;
+            Parameters.MutableTestsParameters mtps = (Parameters.MutableTestsParameters) tps;
 
             if (paths == null || paths.length == 0 || paths[0].isEmpty()) {
                 mtps.setTestsMode(Parameters.MutableTestsParameters.ALL_TESTS);
-            }
-            else {
+            } else {
                 mtps.setTestsMode(Parameters.MutableTestsParameters.SPECIFIED_TESTS);
                 // validate them?
                 mtps.setTests(paths);
             }
-        }
-        else {
+        } else {
             if (paths == null || paths.length == 0 || paths[0].isEmpty()) {
                 // execute whatever is selected in configuration
-            }
-            else {
+            } else {
                 Parameters.TestsParameters tps = localParams.getTestsParameters();
-                Parameters.MutableTestsParameters mtps = (Parameters.MutableTestsParameters)tps;
+                Parameters.MutableTestsParameters mtps = (Parameters.MutableTestsParameters) tps;
                 if (mtps.getTestsMode() == Parameters.MutableTestsParameters.ALL_TESTS)
                     mtps.setTests(paths);
                 else {
@@ -355,8 +357,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
 
                     if (origTests == null || origTests.length == 0) {
                         mtps.setTests(paths);
-                    }
-                    else {
+                    } else {
                         String[] combined = reprocessTests2Run(paths, origTests);
                         if (combined == null || combined.length == 0) {
                             uif.showInformationDialog("rh.nointersection", paths);
@@ -375,43 +376,44 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     /**
      * Merge the session tests to run against the tests selected to run in the
      * configuration.
+     *
      * @param requested paths requested by the user to run from the tree. May not be null.
-     * @param iTests paths of tests to run specified in the interview. May not be null.
+     * @param iTests    paths of tests to run specified in the interview. May not be null.
      * @return Resulting set of test paths that should be run.
      * @see com.sun.javatest.exec.ExecTool#TESTS2RUN_PREF
      * @since 4.2.1
      */
     static String[] reprocessTests2Run(final String[] requested, final String... iTests) {
         ArrayList<String> result = new ArrayList<>();
-    outer:
-    for (String curr : requested) {
-        for (String iTest : iTests) {
-            int slash = curr.lastIndexOf('/');
-            int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
+        outer:
+        for (String curr : requested) {
+            for (String iTest : iTests) {
+                int slash = curr.lastIndexOf('/');
+                int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
 
-            if (curr.startsWith(iTest) &&
-                    (curr.length() == iTest.length() || curr.charAt(iTest.length()) == '#' ||
-                            curr.charAt(iTest.length()) == '/')) {
-                result.add(curr);
-                continue outer;
-            }
-        }   // for j
-    }   // for i
+                if (curr.startsWith(iTest) &&
+                        (curr.length() == iTest.length() || curr.charAt(iTest.length()) == '#' ||
+                                curr.charAt(iTest.length()) == '/')) {
+                    result.add(curr);
+                    continue outer;
+                }
+            }   // for j
+        }   // for i
 
-     outer2:
-     for (String curr : iTests) {
-         for (String aRequested : requested) {
-             int slash = curr.lastIndexOf('/');
-             int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
+        outer2:
+        for (String curr : iTests) {
+            for (String aRequested : requested) {
+                int slash = curr.lastIndexOf('/');
+                int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
 
-             if (curr.startsWith(aRequested) &&
-                     (curr.length() == aRequested.length() || curr.charAt(aRequested.length()) == '#' ||
-                             curr.charAt(aRequested.length()) == '/')) {
-                 result.add(curr);
-                 // don't terminate search as in above case
-             }
-         }   // for j
-     }   // for i
+                if (curr.startsWith(aRequested) &&
+                        (curr.length() == aRequested.length() || curr.charAt(aRequested.length()) == '#' ||
+                                curr.charAt(aRequested.length()) == '/')) {
+                    result.add(curr);
+                    // don't terminate search as in above case
+                }
+            }   // for j
+        }   // for i
 
         return result.toArray(new String[result.size()]);
     }
@@ -458,8 +460,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             harness.start(ips);
 //            sessionControl.afterExecution();
             notifyFinished(ips);
-        }
-        catch (Harness.Fault e) {
+        } catch (Harness.Fault e) {
             uif.showError("rh", e.toString());
         }
     }
@@ -481,6 +482,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             public int getNumBackupsToKeep(File file) {
                 return numBackupsToKeep;
             }
+
             @Override
             public boolean isBackupRequired(File file) {
                 if (ignoreExtns != null) {
@@ -491,6 +493,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
                 }
                 return true;
             }
+
             private int numBackupsToKeep = Integer.getInteger("javatest.backup.count", 5).intValue();
             private String[] ignoreExtns = StringArray.split(System.getProperty("javatest.backup.ignore", ".jtr"));
         };
@@ -520,18 +523,18 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
 
     private void initActions() {
         showProgressAction = new ToolAction(uif, "rh.progress") {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    setProgressMonitorVisible(true);
-                }
-            };
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setProgressMonitorVisible(true);
+            }
+        };
 
         startAction = new ToolAction(uif, "rh.start", true) {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    start();
-                }
-            };
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                start();
+            }
+        };
 
         stopAction = new ToolAction(uif, "rh.stop", true) {
             {
@@ -600,12 +603,13 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     }
 
     public void notifyStarted(Parameters p) {
-        for (Observer obs: observers) {
+        for (Observer obs : observers) {
             obs.startTests(p);
         }
     }
+
     public void notifyFinished(Parameters p) {
-        for (Observer obs: observers) {
+        for (Observer obs : observers) {
             obs.finishTests(p);
         }
     }
@@ -672,7 +676,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             });
 
             if (localParams != null && (localParams instanceof InterviewParameters)) {
-                ((InterviewParameters)localParams).dispose();
+                ((InterviewParameters) localParams).dispose();
                 localParams = null;
             }
         }

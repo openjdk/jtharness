@@ -32,32 +32,32 @@ import com.sun.javatest.TestSuite;
  * A basic implementation of InterviewParameters that uses standard
  * interviews for all the various interview sections, except the environment
  * section, which remains to be implemented by subtypes.
+ *
  * @deprecated Use BasicInterviewParameters
  */
-public abstract class DefaultInterviewParameters extends BasicInterviewParameters
-{
+public abstract class DefaultInterviewParameters extends BasicInterviewParameters {
     /**
      * Create a BasicInterviewParameters object.
      * The test suite for which this interview applies should be set
      * with setTestSuite.
+     *
      * @param tag the tag used to qualify questions in this interview
      * @throws Interview.Fault if there is a problem creating this object
      */
     protected DefaultInterviewParameters(String tag)
-        throws Fault
-    {
+            throws Fault {
         super(tag);
     }
 
     /**
      * Create a BasicInterviewParameters object.
+     *
      * @param tag the tag used to qualify questions in this interview
-     * @param ts The test suite to which this interview applies.
+     * @param ts  The test suite to which this interview applies.
      * @throws Interview.Fault if there is a problem creating this object
      */
     protected DefaultInterviewParameters(String tag, TestSuite ts)
-        throws Fault
-    {
+            throws Fault {
         super(tag, ts);
     }
 }

@@ -32,17 +32,17 @@ import java.util.Vector;
  * A class to convert to and from a single string with space separated
  * substrings.
  */
-public class StringArray
-{
+public class StringArray {
     /**
      * Convert a single whitespace separated string into it's component
      * substrings.  The substrings can be separated by one or more instances of
      * a space (' '), tab ('\t') or newline ('\n').
+     *
      * @param s The string to break apart.  A null string will not
      *          cause an error.
      * @return Provides the substrings of the given parameter.  If the
-     *         provided string was null or all whitespace, an
-     *         empty array (length==0) is returned.
+     * provided string was null or all whitespace, an
+     * empty array (length==0) is returned.
      */
     public static String[] split(String s) {
         if (s == null)
@@ -55,9 +55,8 @@ public class StringArray
                 if (start != -1)
                     v.addElement(s.substring(start, i));
                 start = -1;
-            } else
-                if (start == -1)
-                    start = i;
+            } else if (start == -1)
+                start = i;
         }
         if (start != -1)
             v.addElement(s.substring(start));
@@ -73,11 +72,12 @@ public class StringArray
      * The strings are appended to the resulting string in ascending index
      * order, left to right.  A single space character is used to delimit the
      * values in the resulting string.
+     *
      * @param ss The strings which should be concatenated together.  A zero
      *           length or null value will not cause an error.
      * @return The string which is made up of all the strings provided.
-     *         The return value is a zero length string if the input value
-     *         was null or zero length.
+     * The return value is a zero length string if the input value
+     * was null or zero length.
      */
     public static String join(String... ss) {
         return join(ss, " ");
@@ -89,13 +89,14 @@ public class StringArray
      * The strings are appended to the resulting string in
      * ascending index order, left to right.  A specified separator is used to
      * delimit the values in the resulting string.
-     * @param ss The strings which should be concatenated together.  A zero
-     *           length or null value will not cause an error.
+     *
+     * @param ss  The strings which should be concatenated together.  A zero
+     *            length or null value will not cause an error.
      * @param sep The separator to place between the elements of the string
-     *          array in the concatenated result
+     *            array in the concatenated result
      * @return The string which is made up of all the strings provided.
-     *         The return value is a zero length string if the input value
-     *         was null or zero length.
+     * The return value is a zero length string if the input value
+     * was null or zero length.
      */
     public static String join(String[] ss, String sep) {
         if (ss == null || ss.length == 0)
@@ -117,13 +118,14 @@ public class StringArray
     /**
      * Split up a comma separated list of values.
      * Whitespace after each delimiter is removed.
-     * @param list The string to parse for items.  Null or zero
-     *             length strings ok.
+     *
+     * @param list  The string to parse for items.  Null or zero
+     *              length strings ok.
      * @param delim The string which separates items in the list.
      *              Must be non-null and have a length greater than
      *              zero.
      * @return The extracted items from the list.  Will only be
-     *         null if the input string is null or zero length.
+     * null if the input string is null or zero length.
      */
     public static String[] splitList(String list, String delim) {
         if (list == null || list.isEmpty())
@@ -138,8 +140,7 @@ public class StringArray
                 v.addElement(list.substring(pos, nextD));
                 pos = nextD + delim.length();
                 pos = skipWhite(list, pos);
-            }
-            else
+            } else
                 break;
         }
 
@@ -158,6 +159,7 @@ public class StringArray
      * Does the string array contain the target string?
      * Since the list is assumed to have no particular structure, the performance of this
      * search is O(n).
+     *
      * @param list The list of strings to search, null is ok.
      * @return True if it does, false otherwise.  Will the false if the list was null.
      */
@@ -176,6 +178,7 @@ public class StringArray
     /**
      * Does the list contain the target string?
      * This method is string parsing intensive, use with caution.
+     *
      * @return True if it does, false otherwise.
      */
     public static boolean contains(String list, String target) {
@@ -195,8 +198,8 @@ public class StringArray
     }
 
     private static boolean white(char c) {
-        return c == ' '  ||  c == '\t'  ||  c == '\n';
+        return c == ' ' || c == '\t' || c == '\n';
     }
 
-    private static final String[] empty = { };
+    private static final String[] empty = {};
 }

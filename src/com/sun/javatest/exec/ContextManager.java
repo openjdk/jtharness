@@ -28,6 +28,7 @@ package com.sun.javatest.exec;
 
 import com.sun.interview.Interview.Fault;
 import com.sun.javatest.exec.Session.Event;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -54,7 +55,7 @@ import com.sun.javatest.exec.template.TemplateSession;
  * needs to be customized if the test suite wishes to override default behaviors.
  * All methods will have an implementation, allowing for easy subclassing to
  * make only what change the test suite architect wishes.
- *
+ * <p>
  * The test manager (exec tool) will create an instance of the test suite's context
  * manager near the beginning of initialization.  Throughout the lifecycle of
  * that tool instance, the context manager instance will be reused when
@@ -66,7 +67,7 @@ import com.sun.javatest.exec.template.TemplateSession;
  * The implementation of that manager can learn of changes in workdir association
  * by monitoring the <code>setWorkDirectory()</code> method (be sure to call the
  * superclass implementation if overriding.
- *
+ * <p>
  * When the exec tool is itself disposed, the <code>dispose()</code> method of
  * the associated context manager object will be invoked.  If the exec tool were
  * to diassociate a context manager object from itself (not usually done),
@@ -79,8 +80,9 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get the custom menu manager for this Test Manager instance.
+     *
      * @return The custom menu manager.  If null, it can be assumed that there
-     *         are no custom menus.
+     * are no custom menus.
      */
     public JavaTestMenuManager getMenuManager() {
         return null;
@@ -109,8 +111,9 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * disable, hide, text changes) with the menu items should occur inside the
      * JavaTestContextMenu instances, not be adding and removing them from the
      * array returned by this method.
+     *
      * @return The menus to be added.  Null if there are no custom menus (the
-     *         default).
+     * default).
      * @see JavaTestContextMenu
      */
     public JavaTestContextMenu[] getContextMenus() {
@@ -119,6 +122,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get custom report types.
+     *
      * @return Null if no custom types are requested.
      */
     @Override
@@ -130,8 +134,9 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * Get the context custom test result viewers to be added in the GUI.  This
      * method is only called when the GUI is initialized, so the value should
      * not change after its first invocation.
+     *
      * @return The menus to be added.  Null if there are no custom viewers (the
-     *         default).
+     * default).
      * @see CustomTestResultViewer
      */
     public CustomTestResultViewer[] getCustomResultViewers() {
@@ -141,6 +146,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get the active test suite.
+     *
      * @return The current test suite.
      */
     public TestSuite getTestSuite() {
@@ -150,6 +156,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get the active work directory.
+     *
      * @return The current work directory, null if it has not been set.
      */
     public WorkDirectory getWorkDirectory() {
@@ -157,6 +164,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     }
 
     // INTERVIEW ACCESS
+
     /**
      * Get the permanent instance of the interview object used as a holder
      * for both the configuration and the template. This instance is filled
@@ -168,6 +176,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * Note that there is currently no API support for
      * "locking" the interview, which means that multiple parts of the system
      * could work against each other.
+     *
      * @return The active interview instance.
      */
     public InterviewParameters getInterview() {
@@ -177,6 +186,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get the active template.
+     *
      * @return null, if there is no interview or template in context yet;
      * current interview in case it actually represents template; new
      * instance of InterviewParameters, representing template, in case there
@@ -285,8 +295,6 @@ public class ContextManager implements InterviewParameters.TemplateManager,
         EventQueue.invokeLater(cmd);
     }
     */
-
-
     private void refreshTestsImpl() {
         synchronized (this) {
             pendingRefresh = false;
@@ -316,7 +324,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
                     trt.getLock().unlock();
                     parentTool.unpauseTreeCacheWork();
                 }   // finally
-                parentTool.restoreTreeState(pathMap);
+            parentTool.restoreTreeState(pathMap);
         }
     }
 
@@ -324,6 +332,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * Write the active interview to disk if possible.
      * For this to work, getInterview() must be non-null.  This also implies that
      * there is a test suite and work directory selected already.
+     *
      * @throws IllegalStateException if there is no interview available.
      */
     public void syncInterview() {
@@ -333,6 +342,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get feature manager from this ContextManager instance.
+     *
      * @return current feature manager
      */
     public FeatureManager getFeatureManager() {
@@ -341,6 +351,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Set given feature manager for this ContextManager instance.
+     *
      * @param featureManager new feature manager
      */
     public void setFeatureManager(FeatureManager featureManager) {
@@ -353,6 +364,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * This method is invoked each time before saving template.
      * The template will be saved only if this method returns true.
      * The default implementation always returns true.
+     *
      * @param file template file
      * @return true if this operation is allowed, false otherwise
      */
@@ -362,10 +374,12 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     }
 
     // WORK DIRECTORY OPTIONS
+
     /**
      * Default path presented to user when they are prompted to create
      * a work directory.  This method does not imply any requirement that
      * the user actually load/save the workdir in the given location.
+     *
      * @param dir The initial directory where workdirs should be loaded/saved
      *            to.
      * @throws NullPointerException if the parameter given is null.
@@ -379,20 +393,23 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get the default path for work directory.
+     *
      * @return The initial directory to load and create work directories.
-     * @see  #setDefaultWorkDirPath(File)
+     * @see #setDefaultWorkDirPath(File)
      */
     public File getDefaultWorkDirPath() {
         return this.wdPath;
     }
 
     // TEMPLATE OPTIONS
+
     /**
      * Set the default path from which template files are loaded.
      * Does not imply a requirement that the template be loaded from that
      * location.
+     *
      * @param dir The initial directory where template files should be
-     *        loaded from.
+     *            loaded from.
      * @throws NullPointerException if the parameter given is null.
      * @see #getDefaultTemplateLoadPath
      * @see #setAllowTemplateLoadOutsideDefault
@@ -405,8 +422,9 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get the default path from which template files are loaded.
+     *
      * @return The initial directory where template files should be
-     *         loaded from.  Null if not set.
+     * loaded from.  Null if not set.
      * @see #setDefaultTemplateLoadPath
      * @see #setAllowTemplateLoadOutsideDefault
      */
@@ -418,6 +436,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * Set the default path to which template files are saved.
      * Does not imply a requirement that the template must be saved to that
      * location.
+     *
      * @param dir The initial directory where template should be saved
      *            to.
      * @throws NullPointerException if the parameter given is null.
@@ -432,8 +451,9 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get the default path to which template files are saved.
+     *
      * @return The initial directory where template files should be
-     *         saved to.  Null if not set.
+     * saved to.  Null if not set.
      * @see #setDefaultTemplateSavePath(File)
      * @see #setAllowTemplateSaveOutsideDefault(boolean)
      */
@@ -443,6 +463,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Set ability to load templates outside default directory.
+     *
      * @param state new state
      * @see #getAllowTemplateLoadOutsideDefault()
      */
@@ -452,6 +473,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get ability to load templates outside default directory
+     *
      * @return true if the loading outside default directory is allowed or false otherwise
      * @see #setAllowTemplateLoadOutsideDefault(boolean)
      */
@@ -461,6 +483,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Set ability to save templates outside default directory.
+     *
      * @param state new state
      * @see #getAllowTemplateSaveOutsideDefault()
      */
@@ -470,6 +493,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get ability to save templates outside default directory
+     *
      * @return true if the saving outside default directory is allowed or false otherwise
      * @see #setAllowTemplateSaveOutsideDefault(boolean)
      */
@@ -478,12 +502,14 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     }
 
     // CONFIGURATION FILE OPTIONS
+
     /**
      * Set the default path from which configuration files are loaded.
      * Does not imply a requirement that the config be loaded from that
      * location.
+     *
      * @param dir The initial directory where configuration files should be
-     *        loaded from.
+     *            loaded from.
      * @throws NullPointerException if the parameter given is null.
      * @see #getDefaultConfigLoadPath
      * @see #setAllowConfigLoadOutsideDefault
@@ -496,8 +522,9 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get the default path from which configuration files are loaded.
+     *
      * @return The initial directory where configuration files should be
-     *         loaded from.  Null if not set.
+     * loaded from.  Null if not set.
      * @see #setDefaultConfigLoadPath
      * @see #setAllowConfigLoadOutsideDefault
      */
@@ -509,6 +536,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * Set the default path to which configuration files are saved.
      * Does not imply a requirement that the config must be saved to that
      * location.
+     *
      * @param dir The initial directory where workdirs should be saved
      *            to.
      * @throws NullPointerException if the parameter given is null.
@@ -526,8 +554,9 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get the default path from which configuration files are loaded.
+     *
      * @return The initial directory where configuration files should be
-     *         loaded from.  Null if not set.
+     * loaded from.  Null if not set.
      * @see #setDefaultConfigSavePath(File)
      * @see #setAllowConfigSaveOutsideDefault(boolean)
      */
@@ -537,6 +566,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Set ability to load config outside default directory.
+     *
      * @param state new state
      * @see #getAllowConfigLoadOutsideDefault()
      */
@@ -546,6 +576,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get ability to load config outside default directory
+     *
      * @return true if the loading outside default directory is allowed or false otherwise
      * @see #setAllowConfigLoadOutsideDefault(boolean)
      */
@@ -555,6 +586,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Set ability to save config outside default directory.
+     *
      * @param state new state
      * @see #getAllowConfigSaveOutsideDefault()
      */
@@ -564,6 +596,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     /**
      * Get ability to load config outside default directory
+     *
      * @return true if the saving outside default directory is allowed or false otherwise
      * @see #setAllowConfigLoadOutsideDefault(boolean)
      */
@@ -572,14 +605,13 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     }
 
 
-
     public void loadConfiguration(File file) {
         parentTool.loadInterview(file);
     }
 
     /**
-     * @deprecated use #setWorkDirectory(WorkDirectory) instead
      * @see #setWorkDirectory(WorkDirectory)
+     * @deprecated use #setWorkDirectory(WorkDirectory) instead
      */
     protected void setWorkDir(WorkDirectory w) {
         setWorkDirectory(w);
@@ -604,6 +636,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * Register custom config editor's question renderer for specified question class.
      * It is better to register custom renderer BEFORE Configuration Editor is constructed,
      * for example in ContextManager's constructor.
+     *
      * @param question Question's class
      * @param renderer Custom question renderer fot this question
      */
@@ -617,26 +650,28 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 
     public ET_ControlFactory getExecToolControlFactory(ExecTool et, UIFactory uif) {
         if (Boolean.parseBoolean(System.getProperty(TEMPLATE_ON_PROPERTY))) {
-            return new ET_TemplateControlFactory(et, uif, testSuite, this, et, et) ;
+            return new ET_TemplateControlFactory(et, uif, testSuite, this, et, et);
         } else {
-            return new ET_DefaultControlFactory(et, uif, testSuite, this, et, et) ;
+            return new ET_DefaultControlFactory(et, uif, testSuite, this, et, et);
         }
     }
 
     /**
      * Invoked when session has been changed.
+     *
      * @param ev
      */
     @Override
     public void updated(Event ev) {
         if (ev instanceof BasicSession.E_NewWD) {
-            updatedWorkDirectory(((BasicSession.E_NewWD)ev).wd);
+            updatedWorkDirectory(((BasicSession.E_NewWD) ev).wd);
         } else if (ev instanceof BasicSession.E_NewConfig) {
-            updatedCurrentConfig(((BasicSession.E_NewConfig)ev).ip);
+            updatedCurrentConfig(((BasicSession.E_NewConfig) ev).ip);
         } else if (ev instanceof TemplateSession.E_NewTemplate) {
-            updatedCurrentTemplate(((TemplateSession.E_NewTemplate)ev).templ);
+            updatedCurrentTemplate(((TemplateSession.E_NewTemplate) ev).templ);
         }
     }
+
     /**
      * BasicSession.OrderedObserver interface method. Returns
      * Integer.MAX_VALUE - 100 to be notified after controls, but before
@@ -651,6 +686,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * Invoked when the value of the work directory has been modified.
      * This implementation just invokes setWorkDirectory().
      * Subclasses might implement alternative reaction on configuration change.
+     *
      * @param wd
      */
     protected void updatedWorkDirectory(WorkDirectory wd) {
@@ -678,7 +714,6 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     }
 
 
-
     /**
      * Special class for creating dialogs which should be attached to the
      * context of this test manager.  It is important to use this class
@@ -689,11 +724,11 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     public abstract static class TestManagerDialog extends ToolDialog {
         /**
          * @param context The context object associated with this dialog,
-         *        this parameter is required so that the proper parenting
-         *        can be calculated.
-         * @param uif The interface factory associated with this dialog.
-         * @param key Resource key to be used when retrieving items from the
-         *        uif.
+         *                this parameter is required so that the proper parenting
+         *                can be calculated.
+         * @param uif     The interface factory associated with this dialog.
+         * @param key     Resource key to be used when retrieving items from the
+         *                uif.
          */
         public TestManagerDialog(ContextManager context, UIFactory uif,
                                  String key) {
@@ -708,11 +743,12 @@ public class ContextManager implements InterviewParameters.TemplateManager,
 //        interview.dispose();
         interview = i;
     }
+
     void setCurrentConfig(SessionExt conf) {
         setWorkDirectory(conf.getWorkDirectory());
         currentConfig = conf.getInterviewParameters();
         if (conf instanceof TemplateSession) {
-            currentTemplate = ((TemplateSession)conf).getTemplate();
+            currentTemplate = ((TemplateSession) conf).getTemplate();
         }
     }
 

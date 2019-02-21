@@ -36,7 +36,7 @@ import java.util.Set;
  * This class provides a means whereby tools can temporarily give access
  * to a shared AppletContext and applet instance(s) which will be
  * used in AppletContext tests.
- *
+ * <p>
  * With hindsight, this code should probably be in com.sun.javatest.agent
  * but the tests expect the class to be here in com.sun.javatest.util.
  */
@@ -52,6 +52,7 @@ public class MainAppletContext {
 
     /**
      * Set the AppletContext in use, so that it might be shared.
+     *
      * @param ctx the AppletContext to be shared.
      * @see #getAppletContext
      */
@@ -61,6 +62,7 @@ public class MainAppletContext {
 
     /**
      * Get the current AppletContext.
+     *
      * @return the current AppletContext, or null if it has been set.
      * @see #setAppletContext
      */
@@ -70,7 +72,8 @@ public class MainAppletContext {
 
     /**
      * Register an applet in a table of applets.
-     * @param name the name with which to register the applet
+     *
+     * @param name   the name with which to register the applet
      * @param applet the applet to be registered
      * @see #getApplet
      * @see #getAppletNames
@@ -81,6 +84,7 @@ public class MainAppletContext {
 
     /**
      * Get the applet that has been registered with a given name.
+     *
      * @param name the name of the applet to return
      * @return the applet that has been registered with the given name
      */
@@ -90,6 +94,7 @@ public class MainAppletContext {
 
     /**
      * Get an enumeration of all the names that have been used to register applets.
+     *
      * @return an enumeration of all the names that have been used to register applets
      */
     public static synchronized Set<String> getAppletNames() {
@@ -98,6 +103,7 @@ public class MainAppletContext {
 
     /**
      * Set the applet to be identified as the JT Harness Agent applet.
+     *
      * @param applet the Javatest Agent applet
      * @see #getAgentApplet
      */
@@ -107,6 +113,7 @@ public class MainAppletContext {
 
     /**
      * Get the applet that has been identified as the JT Harness Agent applet.
+     *
      * @return the Javatest Agent applet
      * @see #setAgentApplet
      */
@@ -116,8 +123,9 @@ public class MainAppletContext {
 
     /**
      * Set a flag to indicate that the agent applet has been started.
+     *
      * @param value a boolean value indicating whether the agent applet has been
-     * started or not.
+     *              started or not.
      */
     public static synchronized void setStarted(boolean value) {
         started = value;
@@ -125,6 +133,7 @@ public class MainAppletContext {
 
     /**
      * Check the flag that indicates whether the agent applet has been started.
+     *
      * @return a boolean value indicating whether the agent applet has been
      * started or not.
      */

@@ -33,6 +33,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Vector;
+
 import com.sun.javatest.Status;
 import com.sun.javatest.Test;
 
@@ -61,9 +62,10 @@ public class TestCases {
 
     /**
      * Create an object to handle the test cases of the given test.
-     * @param t The test containing the test cases.
+     *
+     * @param t   The test containing the test cases.
      * @param log An optional stream to which to write log messages.
-     *   Use null if messages are not desired.
+     *            Use null if messages are not desired.
      */
     public TestCases(Test t, PrintWriter log) {
         test = t;
@@ -76,9 +78,10 @@ public class TestCases {
      * are cumulative; if no selections are made, the default is all
      * test cases are selected. Excluded tests will be excluded from the
      * selection; the order of select and exclude calls does not matter.
+     *
      * @param testCaseNames a comma-separated list of test cases names.
-     * Each name must identify a method in the test object, that takes
-     * no arguments and returns a {@link com.sun.javatest.Status status}.
+     *                      Each name must identify a method in the test object, that takes
+     *                      no arguments and returns a {@link com.sun.javatest.Status status}.
      * @throws TestCases.Fault if any of the test case names are invalid.
      */
     public void select(String testCaseNames) throws Fault {
@@ -91,12 +94,13 @@ public class TestCases {
      * are cumulative; if no selections are made, the default is all
      * test cases are selected. Excluded tests will be excluded from the
      * selection; the order of select and exclude calls does not matter.
+     *
      * @param testCaseNames an array of test cases names.
-     * Each name must identify a method in the test object, that takes
-     * no arguments and returns a {@link com.sun.javatest.Status status}.
+     *                      Each name must identify a method in the test object, that takes
+     *                      no arguments and returns a {@link com.sun.javatest.Status status}.
      * @throws TestCases.Fault if any of the test case names are invalid.
      */
-    public void select(String... testCaseNames) throws Fault  {
+    public void select(String... testCaseNames) throws Fault {
         for (String t : testCaseNames) {
             selectedCases.put(t, getTestCase(t));
         }
@@ -106,12 +110,13 @@ public class TestCases {
     /**
      * Explicitly exclude a set of test cases by name. Subsequent calls
      * are cumulative; by default, no test cases are excluded.
+     *
      * @param testCaseNames a comma-separated list of test cases names.
-     * Each name must identify a method in the test object, that takes
-     * no arguments and returns a {@link com.sun.javatest.Status status}.
+     *                      Each name must identify a method in the test object, that takes
+     *                      no arguments and returns a {@link com.sun.javatest.Status status}.
      * @throws TestCases.Fault if any of the test case names are invalid.
      */
-    public void exclude(String testCaseNames) throws Fault  {
+    public void exclude(String testCaseNames) throws Fault {
         exclude(split(testCaseNames));
     }
 
@@ -119,12 +124,13 @@ public class TestCases {
     /**
      * Explicitly exclude a set of test cases by name. Subsequent calls
      * are cumulative; by default, no test cases are excluded.
+     *
      * @param testCaseNames an array of test cases names.
-     * Each name must identify a method in the test object, that takes
-     * no arguments and returns a {@link com.sun.javatest.Status status}.
+     *                      Each name must identify a method in the test object, that takes
+     *                      no arguments and returns a {@link com.sun.javatest.Status status}.
      * @throws TestCases.Fault if any of the test case names are invalid.
      */
-    public void exclude(String... testCaseNames) throws Fault  {
+    public void exclude(String... testCaseNames) throws Fault {
         for (String t : testCaseNames) {
             excludedCases.put(t, getTestCase(t));
         }
@@ -134,6 +140,7 @@ public class TestCases {
     /**
      * Return an enumeration of the selected test cases, based on the
      * select and exclude calls that have been made, if any.
+     *
      * @return An enumeration of the test cases.
      */
     public Enumeration<Method> enumerate() {
@@ -148,12 +155,11 @@ public class TestCases {
                         v.addElement(m);
                 }
             }
-        }
-        else {
+        } else {
             for (Method m : selectedCases.values()) {
                 if (excludedCases.get(m.getName()) == null)
                     v.addElement(m);
-                }
+            }
         }
         return v.elements();
     }
@@ -167,6 +173,7 @@ public class TestCases {
      * that method will be called to invoke the test cases; otherwise, the test
      * cases will be invoked directly.
      * It is an error if no test cases are selected, (or if they have all been excluded.)
+     *
      * @return the combined result of executing all the test cases.
      */
     public Status invokeTestCases() {
@@ -176,8 +183,7 @@ public class TestCases {
             invoker = testClass.getMethod("invokeTestCase", Method.class);
             if (!Status.class.isAssignableFrom(invoker.getReturnType()))
                 invoker = null;
-        }
-        catch (NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             invoker = null;
         }
 
@@ -187,23 +193,19 @@ public class TestCases {
             Status s;
             try {
                 if (invoker != null)
-                    s = (Status)invoker.invoke(test, new Object[] {m});
+                    s = (Status) invoker.invoke(test, new Object[]{m});
                 else
-                    s = (Status)m.invoke(test, noArgs);
-            }
-            catch (IllegalAccessException ex) {
+                    s = (Status) m.invoke(test, noArgs);
+            } catch (IllegalAccessException ex) {
                 s = Status.failed("Could not access test case: " + m.getName());
-            }
-            catch (InvocationTargetException ex) {
+            } catch (InvocationTargetException ex) {
                 printStackTrace(ex.getTargetException());
                 s = Status.failed("Exception from test case: " +
-                                       ex.getTargetException().toString());
-            }
-            catch (ThreadDeath t) {
+                        ex.getTargetException().toString());
+            } catch (ThreadDeath t) {
                 printStackTrace(t);
                 throw t;
-            }
-            catch (Throwable t) {
+            } catch (Throwable t) {
                 printStackTrace(t);
                 s = Status.failed("Unexpected Throwable: " + t);
             }
@@ -218,6 +220,7 @@ public class TestCases {
 
     /**
      * Print a stack trace for an exception to the log.
+     *
      * @param t The Throwable for which to print the trace
      */
     protected void printStackTrace(Throwable t) {
@@ -227,8 +230,9 @@ public class TestCases {
 
     /**
      * Look up a test case in the test object.
+     *
      * @param name the name of the test case; it must identify a method
-     *          Status name()
+     *             Status name()
      * @return the selected method
      * @throws Fault if the name does not identify an appropriate method.
      */
@@ -236,13 +240,11 @@ public class TestCases {
         try {
             Method m = testClass.getMethod(name, noArgTypes);
             if (!Status.class.isAssignableFrom(m.getReturnType()))
-                throw new Fault("Method for test case '" + name + "' has wrong return type" );
+                throw new Fault("Method for test case '" + name + "' has wrong return type");
             return m;
-        }
-        catch (NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             throw new Fault("Could not find test case: " + name);
-        }
-        catch (SecurityException e) {
+        } catch (SecurityException e) {
             throw new Fault(e.toString());
         }
     }
@@ -267,6 +269,6 @@ public class TestCases {
     private Map<String, Method> excludedCases = new Hashtable<>();
     private PrintWriter log;
 
-    private static final Object[] noArgs = { };
-    private static final Class<?>[] noArgTypes = { };
+    private static final Object[] noArgs = {};
+    private static final Class<?>[] noArgTypes = {};
 }

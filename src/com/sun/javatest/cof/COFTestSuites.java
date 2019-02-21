@@ -50,41 +50,39 @@ import com.sun.javatest.util.XMLWriter;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
  */
 /*@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TestSuites", propOrder = {
     "testsuite"
 })*/
-public class COFTestSuites extends COFItem{
+public class COFTestSuites extends COFItem {
 
-static LinkedHashMap<String, String> xmlAttributes;
+    static LinkedHashMap<String, String> xmlAttributes;
 
-        static LinkedHashMap<String, String> xmlElements;
+    static LinkedHashMap<String, String> xmlElements;
 
-        static String xmlTagName;
+    static String xmlTagName;
 
-        static {
+    static {
         xmlElements = new LinkedHashMap<>();
         xmlElements.put("testsuite", "testsuite");
         xmlTagName = "testsuites";
     }
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
     protected List<COFTestSuite> testsuite;
 
-        LinkedHashMap<String, String> getItemAttributes() {
-                return xmlAttributes;
-        }
+    LinkedHashMap<String, String> getItemAttributes() {
+        return xmlAttributes;
+    }
 
-        LinkedHashMap<String, String> getItemElements() {
-                return xmlElements;
-        }
+    LinkedHashMap<String, String> getItemElements() {
+        return xmlElements;
+    }
 
     String getItemTagName() {
-                return xmlTagName;
-        }
+        return xmlTagName;
+    }
 
     /**
      * Gets the value of the testsuite property.
@@ -105,8 +103,6 @@ static LinkedHashMap<String, String> xmlAttributes;
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link COFTestSuite }
-     *
-     *
      */
     public List<COFTestSuite> getTestsuite() {
         if (testsuite == null) {
@@ -115,12 +111,12 @@ static LinkedHashMap<String, String> xmlAttributes;
         return this.testsuite;
     }
 
-        /* (non-Javadoc)
-         * @see com.sun.javatest.cof.COFItem#write(com.sun.javatest.util.XMLWriter)
-         */
-        void write(XMLWriter out) throws IOException {
-                out.newLine();
-                super.write(out);
-                out.newLine();
-        }
+    /* (non-Javadoc)
+     * @see com.sun.javatest.cof.COFItem#write(com.sun.javatest.util.XMLWriter)
+     */
+    void write(XMLWriter out) throws IOException {
+        out.newLine();
+        super.write(out);
+        out.newLine();
+    }
 }

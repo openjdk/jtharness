@@ -43,12 +43,12 @@ import org.xml.sax.SAXException;
 class Merger {
 
     /**
-     * @param in array of files with XML reports
-     * @param out file to put results
+     * @param in               array of files with XML reports
+     * @param out              file to put results
      * @param conflictResolver ConflictResolver to resolve conflicts during merge
      */
     public boolean merge(File[] in, File out, ConflictResolver conflictResolver) throws SAXException,
-            ParserConfigurationException, IOException{
+            ParserConfigurationException, IOException {
         // Maps with statistics
         Map<?, ?>[] inputs = new Map<?, ?>[in.length];
         // read statistics
@@ -68,7 +68,7 @@ class Merger {
             Iterator<?> it = inputs[i].keySet().iterator();
             Map<Object, Object> newMap = new HashMap<>();
             while (it.hasNext()) {
-                Object o =  it.next();
+                Object o = it.next();
                 // this is workdir ID
                 if (o instanceof Integer) {
                     Integer id = (Integer) o;
@@ -83,7 +83,7 @@ class Merger {
                         conflicts.add(url);
                     }
                     all.add(url);
-                    TestResultDescr td = (TestResultDescr)inputs[i].get(o);
+                    TestResultDescr td = (TestResultDescr) inputs[i].get(o);
                     td.setID(td.getID() + allCnt);
                     newMap.put(url, td);
                 }

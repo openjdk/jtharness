@@ -42,7 +42,7 @@ import com.sun.javatest.util.I18NResourceBundle;
 public class WorkDirLogHandler extends StreamHandler {
 
     private void open(File fname) throws IOException {
-        bout =  new BufferedOutputStream(new FileOutputStream(fname.toString()));
+        bout = new BufferedOutputStream(new FileOutputStream(fname.toString()));
         setOutputStream(bout);
         first = true;
     }
@@ -76,7 +76,7 @@ public class WorkDirLogHandler extends StreamHandler {
             frm.setLogname(logName);
             super.publish(record);
             frm.setLogname(null);
-            if (bout != null ) {
+            if (bout != null) {
                 flush();
             }
             if (first) {
@@ -100,7 +100,7 @@ public class WorkDirLogHandler extends StreamHandler {
         synchronized (WorkDirLogHandler.class) {
             if (bout != null) {
                 try {
-                    byte [] bytes = getFormatter().getTail(this).getBytes();
+                    byte[] bytes = getFormatter().getTail(this).getBytes();
                     bout.write(bytes, 0, bytes.length);
                     bout.flush();
                     bout.close();
@@ -121,7 +121,7 @@ public class WorkDirLogHandler extends StreamHandler {
                 throw new IOException(i18n.getString("workdirloghandler.canterasefile") + of.getAbsolutePath());
             }
 
-            ((JTFormatter)getFormatter()).setErasing();
+            ((JTFormatter) getFormatter()).setErasing();
             of.fireFileEvent(new FileEvent(of, FileEvent.START_ERASING));
             close();
             RandomAccessFile raf = new RandomAccessFile(of, "rw");

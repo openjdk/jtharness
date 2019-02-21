@@ -49,8 +49,8 @@ import java.util.TreeMap;
  * testpath.<TP-ID>.path=...
  * testpath.<TP-ID>.ids=[space separated list of service IDs]
  * </pre>
- *
- *
+ * <p>
+ * <p>
  * Example of such property files:
  * <pre>
  * service.rmi.class=com.my.service.RMIService
@@ -79,7 +79,7 @@ public class PropertyServiceReader implements ServiceReader {
     private TestSuite ts;
 
     public static final String PROPERTY_PREFIX = "property";
-    public static final String SERVICE_PREFIX  = "service";
+    public static final String SERVICE_PREFIX = "service";
     public static final String TESTPATH_PREFIX = "testpath";
 
     public static final String SERVICES_PROPERTIES =
@@ -109,14 +109,14 @@ public class PropertyServiceReader implements ServiceReader {
      * For example:
      * findIDs("a", {a.1.x, a.1.y, a.hey.x, b.3.z, a.hey.z}) will return ("1", "hey").
      *
-     * @param keys - set of property names
+     * @param keys   - set of property names
      * @param prefix - prefix to look for
      * @return HashSet<String>
      */
     Set<String> findIDs(Set<String> keys, String prefix) {
         int len = prefix.length() + 1;
         Set<String> set = new HashSet<>();
-        for (String key: keys) {
+        for (String key : keys) {
             if (key.startsWith(prefix)) {
                 int i = key.indexOf(".", len);
                 if (i > 0) {
@@ -133,14 +133,14 @@ public class PropertyServiceReader implements ServiceReader {
      * For example:
      * findProps("a", {a.1.x, a.1.y, a.hey.x, b.3.z}) will return (1.x, 1.y, hey.x).
      *
-     * @param keys - set of property names
+     * @param keys   - set of property names
      * @param prefix - prefix to look for
      * @return HashSet<String>
      */
     Set<String> findProps(Set<String> keys, String prefix) {
         int len = prefix.length() + 1;
         Set<String> set = new HashSet<>();
-        for (String key: keys) {
+        for (String key : keys) {
             if (key.startsWith(prefix)) {
                 set.add(key.substring(len));
             }
@@ -160,13 +160,13 @@ public class PropertyServiceReader implements ServiceReader {
         Set<String> allKeys = props.stringPropertyNames();
 
         Set<String> propertyNames = findProps(allKeys, PROPERTY_PREFIX);
-        for (String propName: propertyNames) {
+        for (String propName : propertyNames) {
             String propValue = props.getProperty(PROPERTY_PREFIX + "." + propName);
             common.addProperty(propName, propValue);
         }
 
         Set<String> serviceIDs = findIDs(allKeys, SERVICE_PREFIX);
-        for (String serviceID: serviceIDs) {
+        for (String serviceID : serviceIDs) {
             String serviceClass = props.getProperty(SERVICE_PREFIX + "." + serviceID + ".class");
             String serviceDescr = props.getProperty(SERVICE_PREFIX + "." + serviceID + ".description");
             if (serviceClass == null) {
@@ -185,7 +185,7 @@ public class PropertyServiceReader implements ServiceReader {
                 ServiceProperties servProps = new ServiceProperties(common);
                 String argPrefix = SERVICE_PREFIX + "." + serviceID + ".arg";
                 Set<String> serviceArgsNames = findProps(allKeys, argPrefix);
-                for (String argName: serviceArgsNames) {
+                for (String argName : serviceArgsNames) {
                     String argValue = props.getProperty(argPrefix + "." + argName);
                     servProps.addProperty(argName, argValue);
                 }
@@ -211,13 +211,13 @@ public class PropertyServiceReader implements ServiceReader {
 
         Set<String> allKeys = props.stringPropertyNames();
         Set<String> testpathIDs = findIDs(allKeys, TESTPATH_PREFIX);
-        for (String tpID: testpathIDs) {
+        for (String tpID : testpathIDs) {
             String path = props.getProperty(TESTPATH_PREFIX + "." + tpID + ".path");
             String matcher = props.getProperty(TESTPATH_PREFIX + "." + tpID + ".matcher");
             String ids = props.getProperty(TESTPATH_PREFIX + "." + tpID + ".ids");
             TestPath tPath = new TestPath(ts, path, matcher);
             String[] refIDs = ids.split(" ");
-            for (String refID: refIDs) {
+            for (String refID : refIDs) {
                 tPath.addService(refID);
             }
             result.add(tPath);

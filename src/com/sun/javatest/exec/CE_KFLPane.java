@@ -146,6 +146,7 @@ class CE_KFLPane extends CE_StdPane {
         customBtn.addChangeListener(listener);
         toolBar.add(customBtn);
     }
+
     private File[] kflFiles;
     private JToolBar toolBar;
     private ButtonGroup btnGrp;
@@ -239,6 +240,7 @@ class CE_KFLPane extends CE_StdPane {
                 config.setKnownFailureFiles(null);
             }
         }
+
         private EditableFileList filesField;
         private JLabel filesLabel;
     }

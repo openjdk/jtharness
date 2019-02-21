@@ -27,6 +27,7 @@
 package com.sun.javatest.exec;
 
 import com.sun.javatest.tool.Preferences;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -46,12 +47,13 @@ public class JavaTestToolBar extends JToolBar {
     /**
      * Creates using specified ResourceBundle a new tool bar with
      * the specified menu controlled state.
-     * @param bundle a resource bundle used to obtain the resources for the toolbar.
-     * @param resourceID String ID should be unique within the instance of the test suite.
-     * The ID is never visible to the user. The ID should be a short,
-     * alphanumeric (Latin) string. It is automatically used to retrieve the toolbar
-     * name and description from the resource bundle.
-     * Can't be null and empty string.
+     *
+     * @param bundle         a resource bundle used to obtain the resources for the toolbar.
+     * @param resourceID     String ID should be unique within the instance of the test suite.
+     *                       The ID is never visible to the user. The ID should be a short,
+     *                       alphanumeric (Latin) string. It is automatically used to retrieve the toolbar
+     *                       name and description from the resource bundle.
+     *                       Can't be null and empty string.
      * @param menuControlled - true to make View/Toolbars/menu for the toolbar.
      **/
     public JavaTestToolBar(ResourceBundle bundle, String resourceID, boolean menuControlled) {
@@ -64,12 +66,13 @@ public class JavaTestToolBar extends JToolBar {
 
     /**
      * Creates using specified ResourceBundle a new menu controlled tool bar.
-     * @param bundle a resource bundle used to obtain the resources for the toolbar.
+     *
+     * @param bundle     a resource bundle used to obtain the resources for the toolbar.
      * @param resourceID String ID should be unique within the instance of the test suite.
-     * The ID is never visible to the user. The ID should be a short,
-     * alphanumeric (Latin) string. It is automatically used to retrieve the toolbar
-     * name and description from the resource bundle.
-     * Can't be null and empty string.
+     *                   The ID is never visible to the user. The ID should be a short,
+     *                   alphanumeric (Latin) string. It is automatically used to retrieve the toolbar
+     *                   name and description from the resource bundle.
+     *                   Can't be null and empty string.
      **/
     public JavaTestToolBar(ResourceBundle bundle, String resourceID) {
         this(bundle, resourceID, true);
@@ -77,6 +80,7 @@ public class JavaTestToolBar extends JToolBar {
 
     /**
      * Get the identification string for this toolbar.
+     *
      * @return the string ID for the tool bar.
      **/
     public String getId() {
@@ -89,10 +93,11 @@ public class JavaTestToolBar extends JToolBar {
      * May be multiple sentences if desired. This is automatically retrieved from
      * the supplied resource bundle by combining it with the toolbar ID (getId()),
      * e.g. it will try to retrieve getId().tb.desc from the resource bundle.
+     *
      * @return the long description for the tool bar.
      **/
-    public String getDescription()  {
-        return theBundle.getString(getId() + ".tb.desc" );
+    public String getDescription() {
+        return theBundle.getString(getId() + ".tb.desc");
     }
 
     /**
@@ -101,15 +106,17 @@ public class JavaTestToolBar extends JToolBar {
      * This is automatically retrieved from the supplied resource bundle by
      * combining it with the toolbar ID (getId()), e.g. it will try to retrieve
      * getId().tb.name from the resource bundle.
+     *
      * @return the short for the tool bar.
      **/
     @Override
     public String getName() {
-        return theBundle.getString(getId() + ".tb.name" );
+        return theBundle.getString(getId() + ".tb.name");
     }
 
     /**
      * Determines whether this tool bar should be controlled from view menu.
+     *
      * @return true if this tool bar is menu controlled.
      **/
     public boolean isMenuControlled() {
@@ -188,8 +195,8 @@ public class JavaTestToolBar extends JToolBar {
         }
 
         @Override
-        public Insets getBorderInsets(Component c)       {
-            return new Insets(2, 2, 2, lIn );
+        public Insets getBorderInsets(Component c) {
+            return new Insets(2, 2, 2, lIn);
         }
 
         @Override
@@ -201,29 +208,29 @@ public class JavaTestToolBar extends JToolBar {
 
         @Override
         protected void paintRaisedBevel(Component c, Graphics g, int x, int y,
-                                        int width, int height)  {
+                                        int width, int height) {
             int gap = 4;
-            int hlen=12;
+            int hlen = 12;
 
             if (c instanceof JComponent) {
                 JComponent jc = (JComponent) c;
-                Boolean paint = (Boolean)jc.getClientProperty(ToolBarPanel.PB_PROP_NAME);
+                Boolean paint = (Boolean) jc.getClientProperty(ToolBarPanel.PB_PROP_NAME);
                 if (paint != null && paint.booleanValue()) {
                     Color oldColor = g.getColor();
                     int h = height;
                     int w = width;
 
-                    if (h > hlen*2) {
-                        int mid = y + (h/2);
+                    if (h > hlen * 2) {
+                        int mid = y + (h / 2);
                         y = mid - hlen;
-                        h = hlen*2;
+                        h = hlen * 2;
                     }
 
                     g.setColor(getShadowInnerColor(c));
-                    g.drawLine(x, y+gap, x, y+h-gap-1);
+                    g.drawLine(x, y + gap, x, y + h - gap - 1);
 
                     g.setColor(getHighlightInnerColor(c));
-                    g.drawLine(x+1, y+gap, x+1, y+h-gap-1);
+                    g.drawLine(x + 1, y + gap, x + 1, y + h - gap - 1);
                 }
             }
         }

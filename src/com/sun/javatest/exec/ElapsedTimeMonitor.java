@@ -157,14 +157,13 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
             myThread = new Thread() {
                 @Override
                 public void run() {
-                    while(myThread == currentThread()) {
+                    while (myThread == currentThread()) {
                         try {
                             synchronized (myThread) {
                                 myThread.wait(1000);
                                 update();
                             }
-                        }
-                        catch(InterruptedException e) {
+                        } catch (InterruptedException e) {
                         }
                     }   // while
 
@@ -185,7 +184,7 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
         private void update() {
             if (!EventQueue.isDispatchThread())
                 EventQueue.invokeLater(new BranchPanel.TextUpdater(this,
-                                       millisToString(state.getElapsedTime()), uif));
+                        millisToString(state.getElapsedTime()), uif));
             else
                 setText(millisToString(state.getElapsedTime()));
         }
@@ -205,9 +204,9 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
         if (i18n == null)
             i18n = I18NResourceBundle.getBundleForClass(ElapsedTimeMonitor.class);
 
-        int seconds = (int)((millis / 1000) % 60);
-        int minutes = (int)((millis / 60000) % 60);
-        int hours = (int)(millis / 3600000);
+        int seconds = (int) ((millis / 1000) % 60);
+        int minutes = (int) ((millis / 60000) % 60);
+        int hours = (int) (millis / 3600000);
 
         String h, m, s;
 

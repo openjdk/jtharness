@@ -42,12 +42,13 @@ public class TemplateUtilities {
 
     /**
      * Get the path to the template associated with the work dir.
+     *
      * @param wd The work directory to query.
      * @return Null if no associated template could be found.  A
-     *         file which refers to the template file associated with
-     *         the work directories.  May or may not be possible to
-     *         actually open this file, the caller is responsible for
-     *         determining that.
+     * file which refers to the template file associated with
+     * the work directories.  May or may not be possible to
+     * actually open this file, the caller is responsible for
+     * determining that.
      */
     public static File getTemplateFile(WorkDirectory wd) {
         String s = getTemplatePath(wd);
@@ -59,9 +60,10 @@ public class TemplateUtilities {
 
     /**
      * Get the path to the template associated with the work dir.
+     *
      * @param wd The work directory to query.
      * @return Null if no associated template could be found.  An
-     *         abstract path otherwise.
+     * abstract path otherwise.
      */
     public static String getTemplatePath(WorkDirectory wd) {
         if (wd == null) {
@@ -73,13 +75,11 @@ public class TemplateUtilities {
 
         try (FileInputStream in = new FileInputStream(dataFile)) {
             p.load(in);
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             // should log the error
             // e.printStackTrace()
             return null;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // should log the error
         }
 
@@ -92,16 +92,17 @@ public class TemplateUtilities {
     /**
      * Associate a template file with a work directory.  None of the
      * parameters may be null.
-     * @param wd Work dir to operate on.
-     * @param t Template file to associate the work directory with.
+     *
+     * @param wd         Work dir to operate on.
+     * @param t          Template file to associate the work directory with.
      * @param changeable Can the workdir be later associated with a
-     *        different template?  Not currently used.
+     *                   different template?  Not currently used.
      * @throws IOException If the complete path to the template file
-     *         cannot be resolve, or if there is an error writing to
-     *         the work dir.
+     *                     cannot be resolve, or if there is an error writing to
+     *                     the work dir.
      */
     public static void setTemplateFile(WorkDirectory wd, File t,
-                        boolean changeable) throws IOException {
+                                       boolean changeable) throws IOException {
         if (t == null) {
             return;
         }
@@ -112,8 +113,7 @@ public class TemplateUtilities {
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(dataFile);
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             // should log the error
             // e.printStackTrace()
             return;
@@ -121,8 +121,7 @@ public class TemplateUtilities {
 
         try {
             p.save(out, "template information file - do not modify");
-        }
-        finally {
+        } finally {
             out.close();
         }
     }
@@ -130,14 +129,15 @@ public class TemplateUtilities {
     /**
      * Using a lightweight method,, find out if and which template is associated
      * with a work dir.
+     *
      * @return Null if no template is associated.  Will also be null if the given
-     *         dir is not a workdir - this is something that should be checked
-     *         first.
+     * dir is not a workdir - this is something that should be checked
+     * first.
      * @throws IOException If there are problems getting the template information,
-     *         which usually means there is a problem reading the workdir.
+     *                     which usually means there is a problem reading the workdir.
      */
     public static String getTemplateFromWd(File dir) throws IOException {
-        File f = new File(dir, WorkDirectory.JTDATA + File.separator +TEMPLATE_FILE);
+        File f = new File(dir, WorkDirectory.JTDATA + File.separator + TEMPLATE_FILE);
 
         // workdir may not have template associated
         if (!f.exists())
@@ -147,7 +147,7 @@ public class TemplateUtilities {
         InputStream in = new FileInputStream(f);
         p.load(in);
         in.close();
-        return  p.getProperty(TEMPL_FILE_PROP);
+        return p.getProperty(TEMPL_FILE_PROP);
 
     }
 
@@ -186,10 +186,21 @@ public class TemplateUtilities {
             templateUrl = p.getProperty(InterviewParameters.TEMPLATE_PATH);
         }
 
-        public String getName() { return name; }
-        public String getDescription() { return description; }
-        public boolean isTemplate() { return isTemplate; }
-        public String getTemplatePath() { return templateUrl; }
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public boolean isTemplate() {
+            return isTemplate;
+        }
+
+        public String getTemplatePath() {
+            return templateUrl;
+        }
 
         String name;
         String description;

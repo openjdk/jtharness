@@ -48,18 +48,17 @@ import com.sun.javatest.util.I18NResourceBundle;
 /**
  * The main program class for JT Harness.
  */
-public class Main
-{
+public class Main {
 
     /**
      * Thrown when a bad command line argument is encountered.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         /**
          * Create a BadArgs exception.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param key The key for the detail message.
+         * @param key  The key for the detail message.
          */
         public Fault(I18NResourceBundle i18n, String key) {
             super(i18n.getString(key));
@@ -67,10 +66,11 @@ public class Main
 
         /**
          * Create a BadArgs exception.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param key The key for the detail message.
-         * @param arg An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param key  The key for the detail message.
+         * @param arg  An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(I18NResourceBundle i18n, String key, Object arg) {
             super(i18n.getString(key, arg));
@@ -78,10 +78,11 @@ public class Main
 
         /**
          * Create a BadArgs exception.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param key The key for the detail message.
+         * @param key  The key for the detail message.
          * @param args An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(I18NResourceBundle i18n, String key, Object... args) {
             super(i18n.getString(key, args));
@@ -91,6 +92,7 @@ public class Main
 
     /**
      * Run JT Harness with command-line args.
+     *
      * @param args Arguments, per the command-line spec
      */
     public static void main(String... args) {
@@ -135,11 +137,11 @@ public class Main
         Debug.setProperties(System.getProperties());
 
         PrintWriter out = new PrintWriter(System.err) {
-                @Override
-                public void close() {
-                    flush();
-                }
-            };
+            @Override
+            public void close() {
+                flush();
+            }
+        };
 
         if (tracing)
             traceOut = out;
@@ -158,14 +160,14 @@ public class Main
 
             int[] stats = ctx.getTestStats();
             int rc = stats[Status.ERROR] > 0 ? RC_BATCH_TESTS_ERROR
-                      : stats[Status.FAILED] > 0 ? RC_BATCH_TESTS_FAILED
-                      : RC_OK;
+                    : stats[Status.FAILED] > 0 ? RC_BATCH_TESTS_FAILED
+                    : RC_OK;
 
             ExitCount.dec(true, rc);
 
             // all initialization is done; this thread has nothing left to do, so...
             boolean preload =
-                System.getProperty("javatest.preload.classes", "true").equals("true");
+                    System.getProperty("javatest.preload.classes", "true").equals("true");
 
             if (preload) {
                 if (tracing)
@@ -184,7 +186,7 @@ public class Main
             if (t instanceof Command.Fault) {
                 CommandContext ctx = e.getContext();
                 boolean verboseCommands =
-                    ctx.getVerboseOptionValue(CommandContext.VERBOSE_COMMANDS);
+                        ctx.getVerboseOptionValue(CommandContext.VERBOSE_COMMANDS);
                 if (!verboseCommands) {
                     Command.Fault ce = (Command.Fault) t;
                     Command c = ce.getCommand();
@@ -194,8 +196,7 @@ public class Main
             out.println(e.getMessage());
             out.flush();
             exit(RC_USER_ERROR);
-        }
-        catch (CommandParser.Fault e) {
+        } catch (CommandParser.Fault e) {
             // occurs when parsing commands on command line or in command file
             Throwable t = e.getCause();
             if (t instanceof Command.Fault) {
@@ -206,13 +207,11 @@ public class Main
             out.println(e.getMessage());
             out.flush();
             exit(RC_USER_ERROR);
-        }
-        catch (Fault e) {
+        } catch (Fault e) {
             out.println(e.getMessage());
             out.flush();
             exit(RC_INTERNAL_ERROR);
-        }
-        catch (Error | RuntimeException e) {
+        } catch (Error | RuntimeException e) {
             e.printStackTrace(out);
             out.flush();
             exit(RC_INTERNAL_ERROR);
@@ -221,33 +220,33 @@ public class Main
 
     /**
      * The main routine to run JT Harness.
+     *
      * @param args Arguments for JT Harness, per the command-line spec.
      * @param out  A stream to which to write standard messages, such as
-     *   command-line help, version info etc. Some error messages will
-     *   still be sent to System.err.
-     * @throws Main.Fault if there is a problem initializing the harness
-     * @throws Command.Fault if there is a problem with a command's arguments
+     *             command-line help, version info etc. Some error messages will
+     *             still be sent to System.err.
+     * @throws Main.Fault           if there is a problem initializing the harness
+     * @throws Command.Fault        if there is a problem with a command's arguments
      * @throws CommandContext.Fault if there is a problem executing a command
-     * @throws CommandParser.Fault if there is a problem parsing the args
+     * @throws CommandParser.Fault  if there is a problem parsing the args
      */
     public final void run(String[] args, PrintWriter out)
-        throws Fault, Command.Fault, CommandContext.Fault, CommandParser.Fault
-    {
+            throws Fault, Command.Fault, CommandContext.Fault, CommandParser.Fault {
         run(args, new CommandContext(out));
     }
 
     /**
      * A routine to run JT Harness.
+     *
      * @param args Arguments for JT Harness, per the command-line spec.
-     * @param ctx A context to use to execute the commands in the args
-     * @throws Main.Fault if there is a problem initializing the harness
-     * @throws Command.Fault if there is a problem with a command's arguments
+     * @param ctx  A context to use to execute the commands in the args
+     * @throws Main.Fault           if there is a problem initializing the harness
+     * @throws Command.Fault        if there is a problem with a command's arguments
      * @throws CommandContext.Fault if there is a problem executing a command
-     * @throws CommandParser.Fault if there is a problem parsing the args
+     * @throws CommandParser.Fault  if there is a problem parsing the args
      */
     public final void run(String[] args, final CommandContext ctx)
-        throws Fault, CommandContext.Fault, CommandParser.Fault
-    {
+            throws Fault, CommandContext.Fault, CommandParser.Fault {
         if (commandManagers == null) {
             desktopManager = new DesktopManager();
             helpManager = new HelpManager();
@@ -260,8 +259,7 @@ public class Main
                 mgrs.add(serviceManager);
                 commandManagers = mgrs.toArray(new CommandManager[mgrs.size()]);
                 helpManager.setCommandManagers(commandManagers);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new Fault(i18n, "main.cantAccessResource", CMDMGRLIST, e);
             }
         }
@@ -377,8 +375,7 @@ public class Main
             desktop.setVisible(true);
             ctx.setDesktop(desktop);
             // set context log to display in a log tool
-        }
-        else
+        } else
             desktop = null;
 
         // execute the commands on the command line
@@ -396,7 +393,7 @@ public class Main
 
         if (desktop != null) {
             if (ctx.isCloseDesktopWhenDoneEnabled()
-                && desktop.isOKToAutoExit()) {
+                    && desktop.isOKToAutoExit()) {
                 Runnable task = new Runnable() {
                     @Override
                     public void run() {
@@ -410,8 +407,7 @@ public class Main
                     if (tracing)
                         e.printStackTrace();
                 }
-            }
-            else {
+            } else {
                 InterviewParameters ip_tmp = null;
                 if (desktop.isEmpty() && ctx.hasConfig()) {
                     try {
@@ -437,13 +433,11 @@ public class Main
                                 if (data != null) {
                                     tool.restore(data);
                                 }
-                            }
-                            else if (desktop.isFirstTime()) {
+                            } else if (desktop.isFirstTime()) {
                                 if (tracing)
                                     trace("show default");
                                 desktop.addDefaultTool();
-                            }
-                            else {
+                            } else {
                                 if (tracing)
                                     trace("restore desktop");
                                 desktop.restore();
@@ -476,9 +470,12 @@ public class Main
         //System.err.println("\n\n\n>>>>> preloading classes\n\n\n");
         new javax.swing.text.html.HTMLEditorKit().createDefaultDocument();
         com.sun.interview.Interview i = new com.sun.interview.Interview("dummy") {
-                com.sun.interview.Question qEnd = new com.sun.interview.FinalQuestion(this);
-                { setFirstQuestion(qEnd); }
-            };
+            com.sun.interview.Question qEnd = new com.sun.interview.FinalQuestion(this);
+
+            {
+                setFirstQuestion(qEnd);
+            }
+        };
         new com.sun.interview.wizard.WizPane(i);
         //System.err.println("\n\n\n>>>>> preloading classes done\n\n\n");
     }
@@ -486,7 +483,7 @@ public class Main
     private static void trace(String msg) {
         long now = System.currentTimeMillis();
         traceOut.println(MessageFormat.format("{0,number,[##0.0]} {1}",
-                Float.valueOf((now - traceStartTime)/1000f), msg));
+                Float.valueOf((now - traceStartTime) / 1000f), msg));
         traceOut.flush();
     }
 
@@ -494,6 +491,7 @@ public class Main
     /**
      * Call System.exit, taking care to get permission from the
      * JavaTestSecurityManager, if it is installed.
+     *
      * @param exitCode an exit code to be passed to System.exit
      */
     private static void exit(int exitCode) {

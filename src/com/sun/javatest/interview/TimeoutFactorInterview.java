@@ -39,17 +39,16 @@ import com.sun.javatest.Parameters;
  * a test run.
  */
 public class TimeoutFactorInterview
-    extends Interview
-    implements Parameters.MutableTimeoutFactorParameters
-{
+        extends Interview
+        implements Parameters.MutableTimeoutFactorParameters {
     /**
      * Create an interview.
+     *
      * @param parent The parent interview of which this is a child.
      * @throws Interview.Fault if there is a problem while creating the interview.
      */
     public TimeoutFactorInterview(InterviewParameters parent)
-        throws Interview.Fault
-    {
+            throws Interview.Fault {
         super(parent, "timeout");
         this.parent = parent;
         setResourceBundle("i18n");
@@ -59,6 +58,7 @@ public class TimeoutFactorInterview
 
     /**
      * Get the value for the timeout factor from the interview.
+     *
      * @return a value representing the desired timeout factor for a test run.
      * @see #setTimeoutFactor
      */
@@ -69,6 +69,7 @@ public class TimeoutFactorInterview
 
     /**
      * Set the value of the timeout factor in the interview.
+     *
      * @param t The desired value for the timeout factor.
      * @see #getTimeoutFactor
      */
@@ -84,7 +85,7 @@ public class TimeoutFactorInterview
     private FloatQuestion qTimeout = new FloatQuestion(this, "timeout") {
         {
             setBounds(Parameters.TimeoutFactorParameters.MIN_TIMEOUT_FACTOR,
-                      Parameters.TimeoutFactorParameters.MAX_TIMEOUT_FACTOR);
+                    Parameters.TimeoutFactorParameters.MAX_TIMEOUT_FACTOR);
             setResolution(0.1f);
         }
 

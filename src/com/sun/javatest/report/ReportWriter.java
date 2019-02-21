@@ -35,8 +35,7 @@ import java.util.Date;
 import com.sun.javatest.ProductInfo;
 import com.sun.javatest.util.I18NResourceBundle;
 
-class ReportWriter extends HTMLWriterEx
-{
+class ReportWriter extends HTMLWriterEx {
     ReportWriter(Writer out) throws IOException {
         super(out);
     }
@@ -48,15 +47,16 @@ class ReportWriter extends HTMLWriterEx
 
     /**
      * Creates a new ReportWriter.
-     * @param out       the output stream
+     *
+     * @param out the output stream
      */
     ReportWriter(Writer out, String title, I18NResourceBundle i18n)
-        throws IOException {
+            throws IOException {
         this(out, title, i18n, Charset.defaultCharset());
     }
 
     ReportWriter(Writer out, String title, I18NResourceBundle i18n, Charset cs)
-        throws IOException {
+            throws IOException {
         super(out, "<!DOCTYPE HTML>", i18n);
         this.i18n = i18n;
 
@@ -172,6 +172,7 @@ class ReportWriter extends HTMLWriterEx
 
     /**
      * Write a warning, writing the warning text in red.
+     *
      * @param text the warning text to be written
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -191,5 +192,5 @@ class ReportWriter extends HTMLWriterEx
     private static final String SANSSERIF = "SansSerif";
     private static final String WHITE = "white";
     private static final String _12PT = "12pt";
-    private static final String CSS_FILENAME="report.css";
+    private static final String CSS_FILENAME = "report.css";
 }

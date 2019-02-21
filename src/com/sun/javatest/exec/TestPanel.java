@@ -36,7 +36,9 @@ import java.awt.event.ComponentListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
+
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
+
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -53,6 +55,7 @@ import com.sun.javatest.TestResult;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.tool.I18NUtils;
 import com.sun.javatest.tool.UIFactory;
+
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -61,8 +64,7 @@ import java.util.Vector;
  * of displays. controlled by its own toolbar (button-bar.)
  */
 
-class TestPanel extends JPanel
-{
+class TestPanel extends JPanel {
     TestPanel(UIFactory uif, Harness harness, ContextManager contextManager) {
         this.uif = uif;
         this.harness = harness;
@@ -88,9 +90,9 @@ class TestPanel extends JPanel
     }
 
     void setTest(TestResult tr) {
-        for (int i=stdPanels.length ; i < panels.length; i++) {
-              TP_CustomSubpanel sp = (TP_CustomSubpanel) panels[i];
-              sp.onCangedTestResult(tr, sp == currPanel);
+        for (int i = stdPanels.length; i < panels.length; i++) {
+            TP_CustomSubpanel sp = (TP_CustomSubpanel) panels[i];
+            sp.onCangedTestResult(tr, sp == currPanel);
         }
         updatePanel(tr, currPanel);
     }
@@ -118,14 +120,14 @@ class TestPanel extends JPanel
         else {
             if (!updatePending && !needToUpdateGUIWhenShown) {
                 EventQueue.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            synchronized (TestPanel.this) {
-                                updateGUIWhenVisible();
-                                updatePending = false;
-                            }
+                    @Override
+                    public void run() {
+                        synchronized (TestPanel.this) {
+                            updateGUIWhenVisible();
+                            updatePending = false;
                         }
-                    });
+                    }
+                });
                 updatePending = true;
             }
         }
@@ -151,13 +153,11 @@ class TestPanel extends JPanel
                 tabs.setEnabledAt(i, false);
 
             statusField.setEnabled(false);
-        }
-        else {
+        } else {
             try {
                 if (currDesc == null)
                     currDesc = currTest.getDescription();
-            }
-            catch (TestResult.Fault e) {
+            } catch (TestResult.Fault e) {
                 JavaTestError.unexpectedException(e);
                 // ignore exception if can't find description ??
             }
@@ -173,8 +173,7 @@ class TestPanel extends JPanel
             try {
                 Map<String, String> map = currTest.getEnvironment();
                 hasEnv = map != null && !map.isEmpty();
-            }
-            catch (TestResult.Fault f) {
+            } catch (TestResult.Fault f) {
                 hasEnv = false;
             }
             tabs.setEnabledAt(tabs.indexOfComponent(envPanel), hasEnv);
@@ -205,7 +204,7 @@ class TestPanel extends JPanel
                     docPanel.updateSubpanel(currTest);
                 }
                 tabs.setEnabledAt(tabs.indexOfComponent(docPanel),
-                    docPanel.getDocuments() != null);
+                        docPanel.getDocuments() != null);
 
             }
 
@@ -225,15 +224,16 @@ class TestPanel extends JPanel
     /**
      * Updates custom panels except currPanel. Invoked when invoked when the
      * status of the current test result has changed.
-     * @param tr  - test result
+     *
+     * @param tr        - test result
      * @param currPanel - the panel to not update
      */
     private void updateCustomPanels(TestResult tr, TP_Subpanel currPanel) {
-        for (int i = stdPanels.length ; i < panels.length; i++) {
-              TP_CustomSubpanel sp = (TP_CustomSubpanel) panels[i];
-              if (sp != currPanel) {
-                  sp.updateSubpanel(tr);
-              }
+        for (int i = stdPanels.length; i < panels.length; i++) {
+            TP_CustomSubpanel sp = (TP_CustomSubpanel) panels[i];
+            if (sp != currPanel) {
+                sp.updateSubpanel(tr);
+            }
         }
     }
 
@@ -265,20 +265,20 @@ class TestPanel extends JPanel
         tabs = uif.createTabbedPane("test", stdPanels);
 
         panels = stdPanels;
-        if (contextManager != null ) {
+        if (contextManager != null) {
             CustomTestResultViewer[] cv = contextManager.getCustomResultViewers();
             if (cv != null) {
                 customViewTable = new HashMap<>();
                 panels = new TP_Subpanel[stdPanels.length + cv.length];
                 System.arraycopy(stdPanels, 0, panels, 0, stdPanels.length);
-                for (int i=0; i < cv.length; i++) {
+                for (int i = 0; i < cv.length; i++) {
                     panels[stdPanels.length + i] = new TP_CustomSubpanel(uif, cv[i]);
                     customViewTable.put(cv[i], panels[stdPanels.length + i]);
                     if (cv[i].isViewerVisible()) {
                         tabs.addTab(cv[i].getDescription(), null, cv[i], cv[i].getDescription());
                     }
                 }
-                for (int i=0; i < cv.length; i++) {
+                for (int i = 0; i < cv.length; i++) {
                     cv[i].addPropertyChangeListener(CustomTestResultViewer.visibleProperetyName,
                             new ViewerStateListener(cv, i, stdPanels.length));
                 }
@@ -294,7 +294,8 @@ class TestPanel extends JPanel
                 Component c = tabs.getSelectedComponent();
                 if (c instanceof TP_Subpanel) {
                     updatePanel(currTest, (TP_Subpanel) c);
-                }  if (c instanceof CustomTestResultViewer) {
+                }
+                if (c instanceof CustomTestResultViewer) {
                     updatePanel(currTest, customViewTable.get(c));
                 }
             }
@@ -319,6 +320,7 @@ class TestPanel extends JPanel
             @Override
             public void componentMoved(ComponentEvent e) {
             }
+
             @Override
             public void componentShown(ComponentEvent e) {
                 if (needToUpdateGUIWhenShown) {
@@ -328,6 +330,7 @@ class TestPanel extends JPanel
                 //System.err.println("TP: showing");
                 harness.addObserver(observer);
             }
+
             @Override
             public void componentHidden(ComponentEvent e) {
                 //System.err.println("TP: hidden");
@@ -337,12 +340,13 @@ class TestPanel extends JPanel
         addComponentListener(cl);
     }
 
-    class ViewerStateListener implements  PropertyChangeListener{
+    class ViewerStateListener implements PropertyChangeListener {
         ViewerStateListener(CustomTestResultViewer[] cv, int pos, int offset) {
             this.cv = cv;
             this.pos = pos;
             this.offset = offset;
         }
+
         private CustomTestResultViewer[] cv;
         private int pos, offset;
 
@@ -352,7 +356,7 @@ class TestPanel extends JPanel
             if (state.booleanValue()) {
                 int j = offset;
                 for (int i = 0; i < pos; i++) {
-                    if (tabs.indexOfComponent(cv[i]) >=0){
+                    if (tabs.indexOfComponent(cv[i]) >= 0) {
                         j++;
                     }
                 }
@@ -400,14 +404,14 @@ class TestPanel extends JPanel
     private final Observer observer = new Observer();
 
     private class Observer implements Harness.Observer, TestResult.Observer {
-            // ---------- Harness.Observer ----------
+        // ---------- Harness.Observer ----------
         @Override
         public void startingTestRun(Parameters params) {
         }
 
         @Override
         public void startingTest(TestResult tr) {
-        //System.err.println("TP$Observer.starting: " + tr);
+            //System.err.println("TP$Observer.starting: " + tr);
             try {
                 if (tr.getDescription() == currDesc) {
                     //System.out.println("RunnerObserver.UPDATING CURRENT TEST");
@@ -415,8 +419,7 @@ class TestPanel extends JPanel
                     updatePanel(tr, currPanel);
                     updateCustomPanels(tr, currPanel);
                 }
-            }
-                catch (TestResult.Fault e) {
+            } catch (TestResult.Fault e) {
             }
         }
 
@@ -453,26 +456,32 @@ class TestPanel extends JPanel
         }
 
         @Override
-        public void createdSection(TestResult tr, TestResult.Section section) { }
+        public void createdSection(TestResult tr, TestResult.Section section) {
+        }
 
         @Override
-        public void completedSection(TestResult tr, TestResult.Section section) { }
+        public void completedSection(TestResult tr, TestResult.Section section) {
+        }
 
         @Override
         public void createdOutput(TestResult tr, TestResult.Section section,
-                                  String outputName) { }
+                                  String outputName) {
+        }
 
         @Override
         public void completedOutput(TestResult tr, TestResult.Section section,
-                                    String outputName) { }
+                                    String outputName) {
+        }
 
         @Override
         public void updatedOutput(TestResult tr, TestResult.Section section,
                                   String outputName,
-                                  int start, int end, String text) { }
+                                  int start, int end, String text) {
+        }
 
         @Override
-        public void updatedProperty(TestResult tr, String name, String value) { }
+        public void updatedProperty(TestResult tr, String name, String value) {
+        }
     }
 
 }

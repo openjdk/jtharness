@@ -33,6 +33,7 @@ import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
+
 import com.sun.javatest.util.I18NResourceBundle;
 
 /**
@@ -41,17 +42,16 @@ import com.sun.javatest.util.I18NResourceBundle;
  *
  * @see Tool
  */
-public abstract class ToolManager
-{
+public abstract class ToolManager {
     /**
      * This exception is used to report problems while using a tool manager.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         public Fault(I18NResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -59,10 +59,11 @@ public abstract class ToolManager
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(I18NResourceBundle i18n, String s, Object o) {
             super(i18n.getString(s, o));
@@ -70,10 +71,11 @@ public abstract class ToolManager
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
@@ -84,6 +86,7 @@ public abstract class ToolManager
 
     /**
      * Create a tool manager to manage tools on a desktop.
+     *
      * @param desktop the desktop for which this manager should manage tools
      */
     protected ToolManager(Desktop desktop) {
@@ -93,6 +96,7 @@ public abstract class ToolManager
 
     /**
      * Get the desktop for which this manager is managing tools.
+     *
      * @return the desktop for which this manager should manage tools
      */
     public Desktop getDesktop() {
@@ -101,6 +105,7 @@ public abstract class ToolManager
 
     /**
      * Get details about any user preferences supported by this tool manager.
+     *
      * @return an object to handle preferences supported by this tool manager,
      * or null if no preferences are supported.
      */
@@ -110,6 +115,7 @@ public abstract class ToolManager
 
     /**
      * Get handlers for any files that can be opened by this tool manager.
+     *
      * @return a set of handlers for files that can be opened by this tool manager,
      * or null if none available.
      */
@@ -120,6 +126,7 @@ public abstract class ToolManager
     /**
      * Get actions for any items to appear in the main section of the desktop
      * File menu.
+     *
      * @return an array of Actions to appear on the File menu, or null if none
      * are required.
      */
@@ -131,6 +138,7 @@ public abstract class ToolManager
      * Get primary file menu opereations for this tool.  These are placed after
      * the actions.  They will be shown in the order given in the array.  There
      * are none provided by default (null).
+     *
      * @return Array of menu items to be shown for this tool.  Nill if none.
      * @see #getFileMenuActions
      */
@@ -144,6 +152,7 @@ public abstract class ToolManager
      * preferences, close and exit.
      * They will be shown in the order given in the array.  There
      * are none provided by default (null).
+     *
      * @return Array of menu items to be shown for this tool.  Nill if none.
      * @see #getFileMenuActions
      */
@@ -165,6 +174,7 @@ public abstract class ToolManager
 
     /**
      * Get actions for any items to appear in the desktop Tasks menu.
+     *
      * @return an array of Actions to appear on the Tasks menu, or null
      * if none are required.
      * @deprecated There is no tasks menu anymore.
@@ -175,6 +185,7 @@ public abstract class ToolManager
 
     /**
      * Get actions to open any windows for this tool.
+     *
      * @return an array of Actions that open windows for this tool, or null
      * if none are required.
      * @deprecated
@@ -187,12 +198,14 @@ public abstract class ToolManager
 
     /**
      * Start a default instance of a tool.
+     *
      * @return the tool that was started
      */
     public abstract Tool startTool();
 
     /**
      * Restore a tool from previously saved information.
+     *
      * @param m a map containing the previously saved information
      * @return the tool that was started
      * @throws ToolManager.Fault if there is a problem restoring the tool
@@ -204,9 +217,10 @@ public abstract class ToolManager
     /**
      * Create an icon from a resource specified in the standard resource bundle
      * for this tool manager.
+     *
      * @param key the base name for the resource specifying the image file for the
-     *   icon. The actual name of the resource is formed as follows:
-     *   <i>key</i> "<code>.icon</code>"
+     *            icon. The actual name of the resource is formed as follows:
+     *            <i>key</i> "<code>.icon</code>"
      * @return an icon containing the specified image
      */
     protected Icon createIcon(String key) {
@@ -228,5 +242,5 @@ public abstract class ToolManager
     private final Desktop desktop;
 
     private static final I18NResourceBundle localI18N =
-        I18NResourceBundle.getBundleForClass(ToolManager.class);
+            I18NResourceBundle.getBundleForClass(ToolManager.class);
 }

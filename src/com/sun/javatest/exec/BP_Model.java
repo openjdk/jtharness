@@ -27,6 +27,7 @@
 package com.sun.javatest.exec;
 
 import java.awt.Component;
+
 import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestResult;
 
@@ -44,9 +45,9 @@ interface BP_Model {
     public void showMessage(String msg);
 
     /**
-     * @param tr The test that should be made active in the GUI.
+     * @param tr   The test that should be made active in the GUI.
      * @param path Path to the target test, where the first element is the
-     *        root of the appropriate TRT, and the last element is the test.
+     *             root of the appropriate TRT, and the last element is the test.
      */
     public void showTest(TestResult tr, Object... path);
 
@@ -54,7 +55,7 @@ interface BP_Model {
      * Do whatever may be needed to enable/disable the given component in the overall
      * view of things.  Disabling a tab for example.
      *
-     * @param c The component to affect.
+     * @param c     The component to affect.
      * @param state True to enable, false to disable.
      */
     public void setEnabled(Component c, boolean state);
@@ -62,10 +63,10 @@ interface BP_Model {
     /**
      * Is the given component enabled or not?
      *
-     * @param c The component to query about.
+     * @param c     The component to query about.
      * @param state True to enable, false to disable.
      * @return True if the given component is enabled, false otherwise, including the
-     *         case where the given component can't be found.
+     * case where the given component can't be found.
      * @see #setEnabled
      */
     public boolean isEnabled(Component c);

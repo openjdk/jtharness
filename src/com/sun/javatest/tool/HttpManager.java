@@ -45,12 +45,11 @@ import com.sun.javatest.util.I18NResourceBundle;
  * <li><code>-startHttp</code>: start an HTTP server
  * </ul>
  */
-public class HttpManager extends CommandManager
-{
+public class HttpManager extends CommandManager {
     @Override
     public HelpTree.Node getHelp() {
         String[] cmds = {
-            HttpCommand.getName()
+                HttpCommand.getName()
         };
         return new HelpTree.Node(i18n, "http", cmds);
     }

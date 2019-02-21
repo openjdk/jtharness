@@ -67,11 +67,11 @@ class TP_FilesSubpanel extends TP_Subpanel {
                 updateFiles();
             else
                 SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateFiles();
-                        }
-                    });
+                    @Override
+                    public void run() {
+                        updateFiles();
+                    }
+                });
         }
     }
 

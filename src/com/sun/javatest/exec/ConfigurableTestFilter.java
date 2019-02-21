@@ -59,8 +59,9 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
 
     /**
      * Utility constructor for subclasses.
+     *
      * @param name The name to give this filter instance.  Must never be null.
-     * @param e The ExecTool that owns this instance of the filter.  Should never be null.
+     * @param e    The ExecTool that owns this instance of the filter.  Should never be null.
      * @throws IllegalArgumentException If the either parameter is null.
      */
     protected ConfigurableTestFilter(String name, ExecModel e) {
@@ -75,10 +76,11 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
 
     /**
      * Utility constructor for subclasses.
+     *
      * @param map The map containing previous filter settings.
-     * @param e The ExecTool that owns this instance of the filter.
+     * @param e   The ExecTool that owns this instance of the filter.
      * @throws IllegalStateException If the instance name is not present in the map or
-     *         the exec model argument is null.
+     *                               the exec model argument is null.
      */
     protected ConfigurableTestFilter(Map<String, String> map, ExecModel e) {
         if (e == null)
@@ -108,6 +110,7 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
      * Get the basic (static) name for this filter.
      * This is different than <tt>getName()</tt> which returns a
      * customizable name.
+     *
      * @return The basic name for this filter.  Will never be null.
      */
     abstract String getBaseName();
@@ -130,9 +133,10 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
     /**
      * Load the state of this filter from a map.
      * This default implementation just loads the instance name.
+     *
      * @param map The map of strings to load from.
      * @return True if loading was successful and the filter is usable,
-     *         false if the operation failed.
+     * false if the operation failed.
      * @throws IllegalStateException If the instance name is not present in the map.
      */
     boolean load(Map<String, String> map) {
@@ -148,6 +152,7 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
      * Save the state of this filter to a map.
      * This default implementation just saves the instance name.  You may use
      * any key strings except those starting with the string "meta".
+     *
      * @param map The map to save to.
      * @return True if saving was successful, false if the operation failed.
      */
@@ -162,9 +167,10 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
      * use to manipulate the settings of a concrete configurable
      * filter instance.
      * <p>NOTE: This method will always be called on the event
-     *   dispatch thread.
+     * dispatch thread.
+     *
      * @return A component that the user can use to reconfigure the
-     *         filter.
+     * filter.
      * @see #commitEditorSettings
      * @see #resetEditorSettings
      */
@@ -179,10 +185,11 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
      * around the editor will force the user to cancel or correct
      * the settings in the GUI.
      * <p>NOTE: This method will always be called on the event
-     *   dispatch thread.
+     * dispatch thread.
+     *
      * @return null if committing was successful, an internationalized
-     *         string helpful to the
-     *         user is returned if the current settings are unacceptable.
+     * string helpful to the
+     * user is returned if the current settings are unacceptable.
      * @see com.sun.javatest.ObservableTestFilter#notifyUpdated
      */
     abstract String commitEditorSettings();
@@ -193,7 +200,7 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
      * user explicitly asks to restore the settings, or the user cancels
      * the editing operation.  No filter observer traffic is generated.
      * <p>NOTE: This method will always be called on the event
-     *   dispatch thread.
+     * dispatch thread.
      */
     abstract void resetEditorSettings();
 

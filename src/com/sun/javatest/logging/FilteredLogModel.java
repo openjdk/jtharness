@@ -49,8 +49,6 @@ public class FilteredLogModel extends LogModel {
     }
 
 
-
-
     private void setFilter(LogFilter filter) {
         this.filter = filter;
         if (noFilter()) {
@@ -92,7 +90,7 @@ public class FilteredLogModel extends LogModel {
             // all filters disabled !
             shownRecords = getUnfilteredRecords();
             int pg = pagesRead();
-            int from = (pagesRead() - 1) * getPageSize() ;
+            int from = (pagesRead() - 1) * getPageSize();
             int to = pagesRead() * getPageSize() - 1;
             fireNewPage(from, to, pg);
         }
@@ -146,7 +144,7 @@ public class FilteredLogModel extends LogModel {
     }
 
     private void fireNewPage(int from, int to) {
-        int pageNum = (to-1) / getPageSize() + 1;
+        int pageNum = (to - 1) / getPageSize() + 1;
         fireNewPage(from, to, pageNum);
     }
 
@@ -205,9 +203,9 @@ public class FilteredLogModel extends LogModel {
         @Override
         public void fileModified(FileEvent e) {
             synchronized (FilteredLogModel.this) {
-                if (e.getType().equals(FileEvent.START_ERASING)){
+                if (e.getType().equals(FileEvent.START_ERASING)) {
                     resetModel();
-                } else if (e.getType().equals(FileEvent.ERASED)){
+                } else if (e.getType().equals(FileEvent.ERASED)) {
                     onFilterChanged();
                 }
             }
@@ -296,7 +294,7 @@ public class FilteredLogModel extends LogModel {
             if (substring != null && !substring.isEmpty()) {
                 return false;
             }
-            synchronized(theMap) {
+            synchronized (theMap) {
                 for (Boolean aBoolean : theMap.values()) {
                     if (!aBoolean) {
                         return false;
@@ -312,7 +310,7 @@ public class FilteredLogModel extends LogModel {
             if (debugFilter) {
                 System.out.println("enableLogger " + key + " " + enable);
             }
-            synchronized(theMap) {
+            synchronized (theMap) {
                 theMap.put(key, Boolean.valueOf(enable));
             }
             onFilterChanged();
@@ -338,17 +336,17 @@ public class FilteredLogModel extends LogModel {
             if (noFilter()) {
                 return true;
             }
-            String logName =  model.getLogname(rec.loggerID);
+            String logName = model.getLogname(rec.loggerID);
             int pos = logName.indexOf("#");
             String shortName;
             if (pos >= 0) {
-                shortName = logName.substring(pos+1);
+                shortName = logName.substring(pos + 1);
             } else {
                 shortName = logName;
             }
             String key = getKeyAndCheck(shortName, rec.severety);
             Boolean b;
-            synchronized(theMap) {
+            synchronized (theMap) {
                 b = theMap.get(key);
             }
             if (debugFilter) System.out.println("? " + key + " " + b);
@@ -370,7 +368,7 @@ public class FilteredLogModel extends LogModel {
         }
 
         public void dipose() {
-            synchronized(theMap) {
+            synchronized (theMap) {
                 theMap.clear();
             }
         }
@@ -388,7 +386,7 @@ public class FilteredLogModel extends LogModel {
             }
 
             String key = logName + "$$$" + upLevel;
-            synchronized(theMap) {
+            synchronized (theMap) {
                 if (!theMap.containsKey(key)) {
                     theMap.put(key, Boolean.TRUE);
                 }

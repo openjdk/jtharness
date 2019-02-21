@@ -65,10 +65,10 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
+
 import com.sun.javatest.tool.jthelp.JHelpContentViewer;
 
-class FocusMonitor
-{
+class FocusMonitor {
     public static FocusMonitor access() {
         if (focusMonitor == null)
             focusMonitor = new FocusMonitor();
@@ -101,12 +101,12 @@ class FocusMonitor
 
     public void monitor(Component c) {
         if (c == null
-            || (frame != null && (frame == c || frame.isAncestorOf(c))))
+                || (frame != null && (frame == c || frame.isAncestorOf(c))))
             return;
 
         if (activateKey != null || reportKey != null) {
             Window w = (Window) (c instanceof Window ? c
-                                 : SwingUtilities.getAncestorOfClass(Window.class, c));
+                    : SwingUtilities.getAncestorOfClass(Window.class, c));
             if (w == null)
                 return;
 
@@ -121,11 +121,11 @@ class FocusMonitor
             if (root == null)
                 return;
 
-            InputMap inputMap =  root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+            InputMap inputMap = root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
             inputMap.put(activateKey, "focusMonitor.activate");
             inputMap.put(reportKey, "focusMonitor.report");
 
-            ActionMap actionMap =  root.getActionMap();
+            ActionMap actionMap = root.getActionMap();
             actionMap.put("focusMonitor.activate", activateAction);
             actionMap.put("focusMonitor.report", reportAction);
         }
@@ -136,21 +136,19 @@ class FocusMonitor
             Writer out;
             if (reportFile == null) {
                 out = new OutputStreamWriter(System.out) {
-                        @Override
-                        public void close() throws IOException {
-                            flush();  // don't close System.out
-                        }
-                    };
-            }
-            else
+                    @Override
+                    public void close() throws IOException {
+                        flush();  // don't close System.out
+                    }
+                };
+            } else
                 out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(reportFile, true), StandardCharsets.UTF_8));
 
             out.write("---------------------------------------");
             out.write(NEWLINE);
             report(out);
             out.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.println(e);
         }
     }
@@ -163,20 +161,19 @@ class FocusMonitor
             focusMonitor.monitor(fm.getFocusOwner());
             frame.setVisible(true);
             focusMonitor.update();
-        }
-        else if (frame != null)
+        } else if (frame != null)
             frame.setVisible(false);
     }
 
     private FocusMonitor() {
         KeyboardFocusManager fm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         fm.addPropertyChangeListener(new PropertyChangeListener() {
-                @Override
-                public void propertyChange(PropertyChangeEvent e) {
-                    if (e.getPropertyName().equals("focusOwner"))
-                        update();
-                }
-            });
+            @Override
+            public void propertyChange(PropertyChangeEvent e) {
+                if (e.getPropertyName().equals("focusOwner"))
+                    update();
+            }
+        });
     }
 
     private void deactivate() {
@@ -196,8 +193,7 @@ class FocusMonitor
             prevFocusPanel.setEnabled(false);
             currFocusPanel.setEnabled(false);
             nextFocusPanel.setEnabled(false);
-        }
-        else {
+        } else {
             if (highlighting) {
                 setHighlight(currentComponent, false);
                 setHighlight(c, true);
@@ -215,7 +211,7 @@ class FocusMonitor
 
             String title = "Focus Monitor";
             if (w instanceof Frame)
-                title += " - " + ((Frame)w).getTitle();
+                title += " - " + ((Frame) w).getTitle();
             frame.setTitle(title);
         }
     }
@@ -239,8 +235,7 @@ class FocusMonitor
             if (c instanceof JComponent)
                 ((JComponent) c).setOpaque(true);
             c.setBackground(HILITE_COLOR);
-        }
-        else {
+        } else {
             if (c instanceof JComponent)
                 ((JComponent) c).setOpaque(savedOpaque);
             c.setBackground(savedBackground);
@@ -261,21 +256,25 @@ class FocusMonitor
         JMenu viewMenu = new JMenu("View");
         final JCheckBoxMenuItem showBackgroundMenuItem = new JCheckBoxMenuItem("background");
         viewMenu.addMenuListener(new MenuListener() {
-                @Override
-                public void menuSelected(MenuEvent e) {
-                    showBackgroundMenuItem.setSelected(highlighting);
-                }
-                @Override
-                public void menuDeselected(MenuEvent e) { }
-                @Override
-                public void menuCanceled(MenuEvent e) { }
-            });
+            @Override
+            public void menuSelected(MenuEvent e) {
+                showBackgroundMenuItem.setSelected(highlighting);
+            }
+
+            @Override
+            public void menuDeselected(MenuEvent e) {
+            }
+
+            @Override
+            public void menuCanceled(MenuEvent e) {
+            }
+        });
         showBackgroundMenuItem.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent e) {
-                    setHighlightEnabled(showBackgroundMenuItem.isSelected());
-                }
-            });
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                setHighlightEnabled(showBackgroundMenuItem.isSelected());
+            }
+        });
         viewMenu.add(showBackgroundMenuItem);
         menuBar.add(viewMenu);
 
@@ -303,11 +302,11 @@ class FocusMonitor
         f.setContentPane(main);
         f.pack();
         f.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e) {
-                    deactivate();
-                }
-            });
+            @Override
+            public void windowClosed(WindowEvent e) {
+                deactivate();
+            }
+        });
 
         frame = f;
     }
@@ -319,10 +318,9 @@ class FocusMonitor
         Container rootAncestor = c.getFocusCycleRootAncestor();
         Component comp = c;
         while (rootAncestor != null &&
-               !(rootAncestor.isShowing() &&
-                 rootAncestor.isFocusable() &&
-                 rootAncestor.isEnabled()))
-        {
+                !(rootAncestor.isShowing() &&
+                        rootAncestor.isFocusable() &&
+                        rootAncestor.isEnabled())) {
             comp = rootAncestor;
             rootAncestor = comp.getFocusCycleRootAncestor();
         }
@@ -345,10 +343,9 @@ class FocusMonitor
         Container rootAncestor = c.getFocusCycleRootAncestor();
         Component comp = c;
         while (rootAncestor != null &&
-               !(rootAncestor.isShowing() &&
-                 rootAncestor.isFocusable() &&
-                 rootAncestor.isEnabled()))
-        {
+                !(rootAncestor.isShowing() &&
+                        rootAncestor.isFocusable() &&
+                        rootAncestor.isEnabled())) {
             comp = rootAncestor;
             rootAncestor = comp.getFocusCycleRootAncestor();
         }
@@ -371,8 +368,8 @@ class FocusMonitor
         Container rootAncestor;
         for (rootAncestor = c.getFocusCycleRootAncestor();
              rootAncestor != null && !(rootAncestor.isShowing() &&
-                                       rootAncestor.isFocusable() &&
-                                       rootAncestor.isEnabled());
+                     rootAncestor.isFocusable() &&
+                     rootAncestor.isEnabled());
              rootAncestor = rootAncestor.getFocusCycleRootAncestor()) {
         }
 
@@ -380,7 +377,7 @@ class FocusMonitor
             return rootAncestor;
 
         Container window =
-            (c instanceof Container) ? (Container)c : c.getParent();
+                (c instanceof Container) ? (Container) c : c.getParent();
         while (window != null && !(window instanceof Window)) {
             window = window.getParent();
         }
@@ -420,7 +417,7 @@ class FocusMonitor
         String name = c.getName();
         if (name == null || name.isEmpty()) {
             if (p == null)  // special case, root component, no name
-                sb.append("(Root component)" );
+                sb.append("(Root component)");
             else
                 for (int i = 0; i < p.getComponentCount(); i++) {
                     if (p.getComponent(i) == c) {
@@ -428,24 +425,23 @@ class FocusMonitor
                         break;
                     }
                 }   // for
-        }
-        else
+        } else
             sb.append(name);
     }
 
     private Action activateAction = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(true);
-            }
-        };
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            setVisible(true);
+        }
+    };
 
     private Action reportAction = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                report();
-            }
-        };
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            report();
+        }
+    };
 
 
     private KeyStroke activateKey;
@@ -550,8 +546,7 @@ class FocusMonitor
                 type.setEnabled(false);
                 name.setEnabled(false);
                 path.setEnabled(false);
-            }
-            else {
+            } else {
                 setEnabled(true);
                 type.setText(c.getClass().getName());
                 name.setText(c.getName(), "no name", STD_COLOR, WARN_COLOR);
@@ -560,7 +555,7 @@ class FocusMonitor
         }
 
         void write(Writer out) throws IOException {
-            for (int i = 0; i <entries.size(); i++) {
+            for (int i = 0; i < entries.size(); i++) {
                 Entry e = entries.elementAt(i);
                 e.write(out);
             }
@@ -569,7 +564,7 @@ class FocusMonitor
         @Override
         public void setEnabled(boolean enabled) {
             super.setEnabled(enabled);
-            for (int i = 0; i <entries.size(); i++) {
+            for (int i = 0; i < entries.size(); i++) {
                 Entry e = entries.elementAt(i);
                 e.setParentEnabled(enabled);
             }
@@ -620,8 +615,7 @@ class FocusMonitor
             if (ac == null) {
                 accName.setText(null, "not accessible");
                 accDesc.setText(null, "not accessible");
-            }
-            else {
+            } else {
                 boolean sb = c instanceof JScrollBar;
                 String an = ac.getAccessibleName();
                 accName.setText(an != null ? an : "no accessible name", an != null || sb);
@@ -630,19 +624,18 @@ class FocusMonitor
             }
 
             if (c != null && c instanceof JComponent) {
-                String ttText = ((JComponent)c).getToolTipText();
+                String ttText = ((JComponent) c).getToolTipText();
                 boolean ttEmpty = ttText == null || ttText.isEmpty();
                 boolean toolTipOK = !ttEmpty
-                    || c instanceof JTree
-                    || c instanceof JEditorPane
-                    || c instanceof JHelpContentViewer
-                    || c instanceof JList
-                    || c instanceof JRootPane
-                    || c instanceof JScrollBar
-                    || (c instanceof JTextComponent && !((JTextComponent) c).isEditable());
+                        || c instanceof JTree
+                        || c instanceof JEditorPane
+                        || c instanceof JHelpContentViewer
+                        || c instanceof JList
+                        || c instanceof JRootPane
+                        || c instanceof JScrollBar
+                        || (c instanceof JTextComponent && !((JTextComponent) c).isEditable());
                 toolTip.setText(ttEmpty ? "no tooltip" : ttText, toolTipOK);
-            }
-            else
+            } else
                 toolTip.setEnabled(false);
 
             // what the text content might be
@@ -655,12 +648,10 @@ class FocusMonitor
                 Document d = tc.getDocument();
                 try {
                     text.setText(d.getText(0, Math.min(80, d.getLength())));
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     text.setText(null, e.toString());
                 }
-            }
-            else
+            } else
                 text.setEnabled(false);
 
             // what it might be a label for
@@ -674,18 +665,16 @@ class FocusMonitor
                 JLabel l = (JLabel) c;
                 int mne = l.getDisplayedMnemonic();
                 boolean mnemonicOK = mne != 0
-                                      || l.getLabelFor() == null;
-                mnemonic.setText(mne == 0 ? "no mnemonic" : String.valueOf((char)mne), mnemonicOK);
-            }
-            else if (c instanceof JButton) {
+                        || l.getLabelFor() == null;
+                mnemonic.setText(mne == 0 ? "no mnemonic" : String.valueOf((char) mne), mnemonicOK);
+            } else if (c instanceof JButton) {
                 JButton b = (JButton) c;
                 int mne = b.getMnemonic();
                 String cmd = b.getActionCommand();
                 boolean mnemonicOK = mne != 0
-                                     || (cmd != null && cmd.equals(UIFactory.CANCEL));
-                mnemonic.setText(mne == 0 ? "no mnemonic" : String.valueOf((char)mne), mnemonicOK);
-            }
-            else
+                        || (cmd != null && cmd.equals(UIFactory.CANCEL));
+                mnemonic.setText(mne == 0 ? "no mnemonic" : String.valueOf((char) mne), mnemonicOK);
+            } else
                 mnemonic.setEnabled(false);
 
             // what the traversal keys are

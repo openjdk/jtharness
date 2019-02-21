@@ -64,6 +64,7 @@ import com.sun.javatest.Parameters.KeywordsParameters;
 import com.sun.javatest.Parameters.MutableKeywordsParameters;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
+
 import java.awt.Container;
 import java.awt.Dialog;
 import java.awt.Frame;
@@ -181,7 +182,7 @@ class CE_KeywordsPane extends CE_StdPane {
     void save() {
         if (mutableKeywordsParameters != null) {
             int km = selectCheck.isSelected()
-            ? MutableKeywordsParameters.MATCH_KEYWORDS
+                    ? MutableKeywordsParameters.MATCH_KEYWORDS
                     : MutableKeywordsParameters.NO_KEYWORDS;
             mutableKeywordsParameters.setKeywordsMode(km);
 
@@ -261,7 +262,7 @@ class CE_KeywordsPane extends CE_StdPane {
 
         addBody(p);
 
-        String[] opItems = { AND, OR, NOT, PARENS };
+        String[] opItems = {AND, OR, NOT, PARENS};
         opPopup = uif.createPopupMenu("ce.keywords.op", opItems, listener);
 
         keywords = config.getTestSuite().getKeywords();
@@ -291,22 +292,22 @@ class CE_KeywordsPane extends CE_StdPane {
         private JList<String> lst;
         private JButton ok, cancel;
 
-        KeywordChooser(Dialog parent, String [] keywords, Listener listener ) {
+        KeywordChooser(Dialog parent, String[] keywords, Listener listener) {
             super(parent);
             initUI(keywords, listener);
         }
 
-        KeywordChooser(Frame parent, String [] keywords, Listener listener ) {
+        KeywordChooser(Frame parent, String[] keywords, Listener listener) {
             super(parent);
             initUI(keywords, listener);
         }
 
-        KeywordChooser(String [] keywords, Listener listener ) {
+        KeywordChooser(String[] keywords, Listener listener) {
             super();
             initUI(keywords, listener);
         }
 
-        private void initUI(String [] keywords, final Listener listener ) {
+        private void initUI(String[] keywords, final Listener listener) {
             GridBagConstraints gbc;
 
             sp = new JScrollPane();
@@ -335,10 +336,10 @@ class CE_KeywordsPane extends CE_StdPane {
                     setVisible(false);
                     dispose();
                 }
-            }) ;
+            });
 
             JPanel btnP = new JPanel();
-            btnP.setLayout(new GridLayout(1,2,5,0));
+            btnP.setLayout(new GridLayout(1, 2, 5, 0));
             btnP.add(cancel);
             btnP.add(ok);
 
@@ -413,7 +414,7 @@ class CE_KeywordsPane extends CE_StdPane {
 
     private static final String ALL_OF = "allOf";
     private static final String ANY_OF = "anyOf";
-    private static final String EXPR   = "expr";
+    private static final String EXPR = "expr";
     private static final String IGNORE = "ignore";
 
     private static final String AND = "and";
@@ -439,19 +440,16 @@ class CE_KeywordsPane extends CE_StdPane {
                     KeywordChooser kc;
                     Container parent = toolDialog.getDialogParent();
                     if (parent instanceof Dialog) {
-                        kc = new KeywordChooser((Dialog)parent, keywords, listener);
-                    }
-                    else if (parent instanceof Frame) {
-                        kc = new KeywordChooser((Frame)parent, keywords, listener);
-                    }
-                    else {
+                        kc = new KeywordChooser((Dialog) parent, keywords, listener);
+                    } else if (parent instanceof Frame) {
+                        kc = new KeywordChooser((Frame) parent, keywords, listener);
+                    } else {
                         kc = new KeywordChooser(keywords, listener);
                     }
                     kc.setLocationRelativeToXY(keywordBtn, CE_KeywordsPane.this);
                     kc.setVisible(true);
                 }
-            }
-            else if (src == opBtn)
+            } else if (src == opBtn)
                 show(opBtn, opPopup);
             else if (cmd.equals(AND))
                 insert("&");
@@ -483,12 +481,12 @@ class CE_KeywordsPane extends CE_StdPane {
             int p2 = Math.max(caret.getDot(), caret.getMark());
 
             boolean needSpaceBefore = Character.isLetterOrDigit(s.charAt(0))
-            && (p1 > 0) && Character.isLetterOrDigit(t.charAt(p1 - 1));
+                    && (p1 > 0) && Character.isLetterOrDigit(t.charAt(p1 - 1));
             if (needSpaceBefore)
                 s = " " + s;
 
             boolean needSpaceAfter = Character.isLetterOrDigit(s.charAt(s.length() - 1))
-            && (p2 < t.length()) && Character.isLetterOrDigit(t.charAt(p2));
+                    && (p2 < t.length()) && Character.isLetterOrDigit(t.charAt(p2));
             if (needSpaceAfter)
                 s = s + " ";
 
@@ -514,27 +512,31 @@ class CE_KeywordsPane extends CE_StdPane {
 
         @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
-            JComponent component = (JComponent)c;
+            JComponent component = (JComponent) c;
             int iconWidth = getIconWidth();
 
-            g.translate( x, y );
-            g.setColor( component.isEnabled() ?
-                UIFactory.Colors.CONTROL_INFO.getValue() :
-                UIFactory.Colors.CONTROL_SHADOW.getValue() );
-            g.drawLine( 0, 0, iconWidth - 1, 0 );
-            g.drawLine( 1, 1, 1 + (iconWidth - 3), 1 );
-            g.drawLine( 2, 2, 2 + (iconWidth - 5), 2 );
-            g.drawLine( 3, 3, 3 + (iconWidth - 7), 3 );
-            g.drawLine( 4, 4, 4 + (iconWidth - 9), 4 );
+            g.translate(x, y);
+            g.setColor(component.isEnabled() ?
+                    UIFactory.Colors.CONTROL_INFO.getValue() :
+                    UIFactory.Colors.CONTROL_SHADOW.getValue());
+            g.drawLine(0, 0, iconWidth - 1, 0);
+            g.drawLine(1, 1, 1 + (iconWidth - 3), 1);
+            g.drawLine(2, 2, 2 + (iconWidth - 5), 2);
+            g.drawLine(3, 3, 3 + (iconWidth - 7), 3);
+            g.drawLine(4, 4, 4 + (iconWidth - 9), 4);
 
-            g.translate( -x, -y );
+            g.translate(-x, -y);
         }
 
         @Override
-        public int getIconWidth() { return 10; }
+        public int getIconWidth() {
+            return 10;
+        }
 
         @Override
-        public int getIconHeight()  { return 5; }
+        public int getIconHeight() {
+            return 5;
+        }
 
     }
 }

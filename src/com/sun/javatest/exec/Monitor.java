@@ -28,6 +28,7 @@ package com.sun.javatest.exec;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
+
 import com.sun.javatest.tool.UIFactory;
 
 /**
@@ -47,11 +48,15 @@ abstract class Monitor {
     }
 
     public abstract String getSmallMonitorName();
+
     public abstract Icon getSmallMonitorIcon();
+
     public abstract JComponent getSmallMonitor();
 
     public abstract String getLargeMonitorName();
+
     public abstract Icon getLargeMonitorIcon();
+
     public abstract JComponent getLargeMonitor();
 
     protected MonitorState state;

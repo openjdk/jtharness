@@ -33,6 +33,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
+
 import com.sun.interview.ChoiceQuestion;
 import com.sun.interview.ErrorQuestion;
 import com.sun.interview.ExtensionFileFilter;
@@ -56,17 +57,16 @@ import com.sun.javatest.WorkDirectory;
  * the parameter information for a test run.
  */
 public class ExcludeListInterview
-    extends Interview
-    implements Parameters.MutableExcludeListParameters
-{
+        extends Interview
+        implements Parameters.MutableExcludeListParameters {
     /**
      * Create an interview.
+     *
      * @param parent The parent interview of which this is a child.
      * @throws Interview.Fault if there is a problem while creating the interview.
      */
     public ExcludeListInterview(InterviewParameters parent)
-        throws Interview.Fault
-    {
+            throws Interview.Fault {
         super(parent, "excludeList");
         this.parent = parent;
         setResourceBundle("i18n");
@@ -99,21 +99,18 @@ public class ExcludeListInterview
                 if (f == null)
                     return null;
                 else
-                    return new File[] { f };
-            }
-            else if (Objects.equals(t, LATEST)) {
+                    return new File[]{f};
+            } else if (Objects.equals(t, LATEST)) {
                 URL u = ts == null ? null : ts.getLatestExcludeList();
                 if (u == null)
                     return null;
                 else {
                     WorkDirectory wd = parent.getWorkDirectory();
-                    return new File[] { wd.getSystemFile("latest.jtx") };
+                    return new File[]{wd.getSystemFile("latest.jtx")};
                 }
-            }
-            else
+            } else
                 return qCustomFiles.getValue();
-        }
-        else
+        } else
             return null;
     }
 
@@ -137,8 +134,7 @@ public class ExcludeListInterview
                 return LATEST_EXCLUDE_LIST;
             else
                 return CUSTOM_EXCLUDE_LIST;
-        }
-        else
+        } else
             return NO_EXCLUDE_LIST;
     }
 
@@ -149,15 +145,15 @@ public class ExcludeListInterview
         else {
             qNeedExcludeLists.setValue(YesNoQuestion.YES);
             switch (mode) {
-            case INITIAL_EXCLUDE_LIST:
-                qExcludeListType.setValue(INITIAL);
-                break;
-            case LATEST_EXCLUDE_LIST:
-                qExcludeListType.setValue(LATEST);
-                break;
-            default:
-                qExcludeListType.setValue(CUSTOM);
-                break;
+                case INITIAL_EXCLUDE_LIST:
+                    qExcludeListType.setValue(INITIAL);
+                    break;
+                case LATEST_EXCLUDE_LIST:
+                    qExcludeListType.setValue(LATEST);
+                    break;
+                default:
+                    qExcludeListType.setValue(CUSTOM);
+                    break;
             }
         }
     }
@@ -208,6 +204,7 @@ public class ExcludeListInterview
 
     /**
      * Get the exclude list generated from the exclude list files in the interview.
+     *
      * @return the exclude list generated from the exclude list files in the interview
      * @see #getExcludeFiles
      */
@@ -220,8 +217,9 @@ public class ExcludeListInterview
 
     /**
      * Get a test filter generated from the exclude list files in the interview.
+     *
      * @return a test filter generated from the exclude list files in the interview
-     *     or null, if no filter is required
+     * or null, if no filter is required
      * @see #getExcludeFiles
      */
     public TestFilter getExcludeFilter() {
@@ -250,8 +248,7 @@ public class ExcludeListInterview
         if (hasLatestJTX) {
             WorkDirectory wd = parent.getWorkDirectory();
             hasValidLatestJTX = wd != null && wd.getSystemFile("latest.jtx").exists();
-        }
-        else
+        } else
             hasValidLatestJTX = false;
 
         //System.err.println("ELI latestJTX=" + ljtx);
@@ -325,7 +322,7 @@ public class ExcludeListInterview
             // Difficulty here is that these depend on the test suite, which
             // will not have been set yet. So, set these full set of choices
             // for now, and refine the choices when the test suite gets set.
-            setChoices(new String[] { null, INITIAL, LATEST, CUSTOM }, true);
+            setChoices(new String[]{null, INITIAL, LATEST, CUSTOM}, true);
             clear();
         }
 
@@ -446,7 +443,7 @@ public class ExcludeListInterview
 
     private ChoiceQuestion qLatestAutoCheckMode = new ChoiceQuestion(this, "latestAutoCheckMode") {
         {
-            setChoices(new String[] { EVERY_X_DAYS, EVERY_RUN }, true);
+            setChoices(new String[]{EVERY_X_DAYS, EVERY_RUN}, true);
         }
 
         @Override
@@ -479,7 +476,6 @@ public class ExcludeListInterview
             return checkExcludeList();
         }
     };
-
 
 
     //----------------------------------------------------------------------------
@@ -521,14 +517,11 @@ public class ExcludeListInterview
                     setCachedExcludeList(new ExcludeList());
                 else
                     setCachedExcludeList(new ExcludeList(files));
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 setCachedExcludeListError(qExcludeListFileNotFound, e.getMessage());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 setCachedExcludeListError(qExcludeListIOError, e.toString());
-            }
-            catch (ExcludeList.Fault e) {
+            } catch (ExcludeList.Fault e) {
                 setCachedExcludeListError(qExcludeListError, e.getMessage());
             }
 
@@ -548,7 +541,7 @@ public class ExcludeListInterview
         cachedExcludeList = new ExcludeList();
         cachedExcludeListFilter = null;
         cachedExcludeListError = q;
-        cachedExcludeListErrorArgs = new String[] { arg };
+        cachedExcludeListErrorArgs = new String[]{arg};
     }
 
 

@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -46,14 +47,15 @@ import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.DefaultHandler;
 import com.sun.javatest.report.XMLReportMaker;
+
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
+
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
-
 
 
 class XMLReportWriter {
@@ -63,13 +65,13 @@ class XMLReportWriter {
 
     private Writer fw;
 
-    public XMLReportWriter(File file) throws IOException{
+    public XMLReportWriter(File file) throws IOException {
         Properties outputProps = new Properties();
         outputProps.put("indent", "yes");
 
         outputProps.put("encoding", XML_CHARSET);
 
-        SAXTransformerFactory stf = (SAXTransformerFactory )TransformerFactory.newInstance();
+        SAXTransformerFactory stf = (SAXTransformerFactory) TransformerFactory.newInstance();
         stf.setAttribute("indent-number", 4);
         try {
             ser = stf.newTransformerHandler();
@@ -79,15 +81,14 @@ class XMLReportWriter {
 
         ser.getTransformer().setOutputProperties(outputProps);
 
-        fw = new BufferedWriter( new OutputStreamWriter( new FileOutputStream(file), XMLReportMaker.XML_CHARSET));
+        fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), XMLReportMaker.XML_CHARSET));
         ser.setResult(new StreamResult(fw));
     }
 
     /**
      * Convert date to string in ISO-8601 or xs:dateTime format
      *
-     * @param date
-     *            Date
+     * @param date Date
      * @return ISO-8601 String
      */
     static String dateToISO8601(Date date) {
@@ -101,8 +102,7 @@ class XMLReportWriter {
     /**
      * Convert string in ISO-8601 or xs:dateTime format to date
      *
-     * @param dateStr
-     *            ISO-8601 String
+     * @param dateStr ISO-8601 String
      * @return corresponding date
      */
     static Date ISO8601toDate(String dateStr) throws ParseException {

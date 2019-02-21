@@ -39,13 +39,11 @@ import com.sun.javatest.util.DynamicArray;
 /**
  * A table representing the collection of environments found in a set of environment files.
  */
-public class TestEnvContext
-{
+public class TestEnvContext {
     /**
      * This exception is to report problems using {@link TestEnvContext} objects.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         Fault(I18NResourceBundle i18n, String s) {
             super(i18n.getString(s));
         }
@@ -61,6 +59,7 @@ public class TestEnvContext
 
     /**
      * Create a context from a set of environment (.jte) files.
+     *
      * @param files The environment files to read
      * @throws TestEnvContext.Fault if an error is found while reading the files
      */
@@ -73,8 +72,7 @@ public class TestEnvContext
                     add(p, n, load(f), f.getPath());
                 }
             }
-        }
-        finally {
+        } finally {
             propTables = new Map[p.size()];
             p.copyInto(propTables);
             propTableNames = new String[n.size()];
@@ -85,10 +83,11 @@ public class TestEnvContext
 
     /**
      * Create a context from a specified set of named tables.
-     * @param tables An array of tables giving the properties to be read
+     *
+     * @param tables     An array of tables giving the properties to be read
      * @param tableNames An array of names, one for each table in the tables array,
-     *  that will be used to identify the source of the properties in any
-     *  environments that are created
+     *                   that will be used to identify the source of the properties in any
+     *                   environments that are created
      */
     public TestEnvContext(Map<String, String>[] tables, String... tableNames) {
         Vector<String> n = new Vector<>();
@@ -105,9 +104,10 @@ public class TestEnvContext
 
     /**
      * Create a context from a named table.
-     * @param table A table giving the properties to be read
+     *
+     * @param table     A table giving the properties to be read
      * @param tableName The name that will be used to identify the source
-     *   of the properties in any environments that are created.
+     *                  of the properties in any environments that are created.
      */
     public TestEnvContext(Map<String, String> table, String tableName) {
         Vector<String> n = new Vector<>();
@@ -122,10 +122,11 @@ public class TestEnvContext
 
     /**
      * Get a environment from this set of environments.
+     *
      * @param name the name of the desired environment
      * @return the specified environment, or null if not found
      * @throws TestEnvironment.Fault if there is a problem creating
-     *          the specified environment
+     *                               the specified environment
      */
     public TestEnvironment getEnv(String name) throws TestEnvironment.Fault {
         if (isValidEnv(name))
@@ -137,6 +138,7 @@ public class TestEnvContext
     /**
      * Check if a name matches the name of one of the environments in this
      * set of environments.
+     *
      * @param name the name to check
      * @return true if and only if the name matches the name of one of the
      * environments in trhis set of environments
@@ -156,6 +158,7 @@ public class TestEnvContext
     /**
      * Get an array containing all the names of environments in this set of
      * environments.
+     *
      * @return an array containing the names of all the environments in this set
      */
     public String[] getEnvNames() {
@@ -167,6 +170,7 @@ public class TestEnvContext
      * Get an array containing all the names of environments that should
      * appear in a menu of valid environment names. This is all environment
      * names, excluding those environments that define an entry "menu=false".
+     *
      * @return an array containing the names of all the environments in this set
      * that should appear in a menu of valid environment names
      */
@@ -193,12 +197,10 @@ public class TestEnvContext
                 return d;
             }
             else*/
-                return p;
-        }
-        catch (FileNotFoundException e) {
+            return p;
+        } catch (FileNotFoundException e) {
             throw new Fault(i18n, "tec.cantFindFile", f);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new Fault(i18n, "tec.ioError", f, e);
         }
         /*
@@ -321,8 +323,7 @@ public class TestEnvContext
             if (c > 0) {
                 v.insertElementAt(s, i);
                 return;
-            }
-            else if (c == 0)
+            } else if (c == 0)
                 return;
         }
         v.addElement(s);

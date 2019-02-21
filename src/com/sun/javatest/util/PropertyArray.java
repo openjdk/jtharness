@@ -44,7 +44,7 @@ import java.io.Writer;
  * </Pre>
  */
 
- // This code was derived from that in com.sun.javatest.util.Properties.
+// This code was derived from that in com.sun.javatest.util.Properties.
 
 public class PropertyArray {
     /**
@@ -60,6 +60,7 @@ public class PropertyArray {
 
         /**
          * Create a PropertyArrayError object.
+         *
          * @param msg a detail message for the error
          */
         public PropertyArrayError(String msg) {
@@ -76,6 +77,7 @@ public class PropertyArray {
 
     /**
      * Create a mutable object.
+     *
      * @param initSize the initial capacity of the array
      */
     public PropertyArray(int initSize) {
@@ -88,6 +90,7 @@ public class PropertyArray {
     /**
      * Create a immutable object, from data read from on a stream in
      * the format of a standard Java properties file.
+     *
      * @param in the stream from which to read the properties
      * @throws IOException if a problem occurred while reading the data
      */
@@ -98,6 +101,7 @@ public class PropertyArray {
 
     /**
      * Create a immutable PropertyArray object from a standard Properties object.
+     *
      * @param props the object from which to initialize the array
      */
     public PropertyArray(Map<String, String> props) {
@@ -109,9 +113,10 @@ public class PropertyArray {
     /**
      * Create a immutable PropertyArray object from data in a compact array of
      * names and values.
+     *
      * @param data an array containing pairs of entries: even-numbered entries
-     * identify the names of properties, odd-numbered entries give the value
-     * for the preceding property name.
+     *             identify the names of properties, odd-numbered entries give the value
+     *             for the preceding property name.
      */
     public PropertyArray(String... data) {
         locked = true;
@@ -128,12 +133,13 @@ public class PropertyArray {
     /**
      * Get a compact array containing the names and values of entries
      * from a standard Properties object.
+     *
      * @param props the Properties object from which to get the data
      * @return an array containing the names of the properties in even-numbered
      * entries, and the corresponding values in the adjacent odd-numbered entries
      */
     public static String[] getArray(Map<String, String> props) {
-        Vector<String> data = new Vector<>(props.size(),2);
+        Vector<String> data = new Vector<>(props.size(), 2);
         for (Map.Entry<String, String> entry : props.entrySet()) {
             insert(data, entry.getKey(), entry.getValue());
         }
@@ -146,12 +152,13 @@ public class PropertyArray {
 
     /**
      * Add a mapping to an array, returning a new array.
-     * @param data The array to which to the new array is to be added.  May be null.
-     * @param key the name of the new value to be added
+     *
+     * @param data  The array to which to the new array is to be added.  May be null.
+     * @param key   the name of the new value to be added
      * @param value the new value to be added
      * @return an array with the new element added
-     * @exception PropertyArrayError May be thrown if a null key or value is
-     *            supplied.
+     * @throws PropertyArrayError May be thrown if a null key or value is
+     *                            supplied.
      */
     public static String[] put(String[] data, String key, String value) {
         Vector<String> vec;
@@ -161,7 +168,7 @@ public class PropertyArray {
         if (key == null || value == null) {
             // i'd like to make null values legal but...
             throw new PropertyArrayError(
-                "A key or value was null.  Null keys and values are illegal");
+                    "A key or value was null.  Null keys and values are illegal");
         }
 
         if (data == null) {
@@ -182,8 +189,9 @@ public class PropertyArray {
      * If the given data array is null or zero length, null is returned.
      * If the key paramter is null, null will be returned, no error will
      * occur.
+     *
      * @param data an array containing sequential name value pairs
-     * @param key the name of the property to be returned
+     * @param key  the name of the property to be returned
      * @return the value of the named entry, or null if not found
      */
     public static String get(String[] data, String key) {
@@ -213,7 +221,7 @@ public class PropertyArray {
             else if (cmp > 0)
                 lower = mid + 2;
             else
-                return data[mid+1];
+                return data[mid + 1];
         }
 
         // did not find an exact match
@@ -222,8 +230,9 @@ public class PropertyArray {
 
     /**
      * Remove an entry from an array of properties.
+     *
      * @param data an array of sequential name value properties
-     * @param key the name of the entry to be removed
+     * @param key  the name of the entry to be removed
      * @return an array that does not contain the named property
      */
     public static String[] remove(String[] data, String key) {
@@ -252,11 +261,9 @@ public class PropertyArray {
             cmp = key.compareTo(e);
             if (cmp < 0) {
                 upper = mid - 2;
-            }
-            else if (cmp > 0) {
+            } else if (cmp > 0) {
                 lower = mid + 2;
-            }
-            else {
+            } else {
                 // strings equal, zap key and value
                 vec.removeElementAt(mid);
                 old = vec.elementAt(mid);
@@ -272,6 +279,7 @@ public class PropertyArray {
 
     /**
      * Get a standard Map object from an array of properties.
+     *
      * @param data an array of sequential name value properties
      * @return a Map object containing data from the array
      */
@@ -279,8 +287,8 @@ public class PropertyArray {
         Map<String, String> props = new HashMap<>();
 
         if (data != null && data.length > 0) {
-            for (int i = 0; i < data.length; i+=2) {
-                props.put(data[i], data[i+1]);
+            for (int i = 0; i < data.length; i += 2) {
+                props.put(data[i], data[i + 1]);
             }   // for
         }   // else
         return props;
@@ -289,8 +297,9 @@ public class PropertyArray {
     /**
      * Write an array of properties to a stream.
      * The data is written using the format for standard Java property files.
+     *
      * @param data an array of sequential name value properties
-     * @param out a stream to which to write the data
+     * @param out  a stream to which to write the data
      * @throws IOException if a problem occurred while writing to the stream
      * @see #load(Reader)
      */
@@ -329,11 +338,11 @@ public class PropertyArray {
         }
 
         // From JDK 1.6 java.util.Properties
-        BufferedWriter bout = (out instanceof BufferedWriter)?(BufferedWriter)out
-                                                 : new BufferedWriter(out);
-        for (int i = 0; i < data.length; i+=2) {
+        BufferedWriter bout = (out instanceof BufferedWriter) ? (BufferedWriter) out
+                : new BufferedWriter(out);
+        for (int i = 0; i < data.length; i += 2) {
             String key = data[i];
-            String val = data[i+1];
+            String val = data[i + 1];
             key = PropertyUtils.saveConvert(key, true, false);
             /* No need to escape embedded and trailing spaces for value, hence
              * pass false to flag.
@@ -350,6 +359,7 @@ public class PropertyArray {
      * Read an array of properties from an input stream.
      * The data will be read according to the standard format for Java
      * property files.
+     *
      * @param in the stream from which to read the data
      * @return an array of sequential name value properties
      * @throws IOException if an error occurred while reading the data
@@ -359,7 +369,7 @@ public class PropertyArray {
 
         Vector<String> v = PropertyUtils.load0(in, true);
         Vector<String> sorted = new Vector<>(v.size());
-        for (int i = 0; i < v.size(); i+=2) {
+        for (int i = 0; i < v.size(); i += 2) {
             insert(sorted, v.elementAt(i), v.elementAt(i + 1));
         }
 
@@ -370,6 +380,7 @@ public class PropertyArray {
 
     /**
      * Enumerate the properties in an array.
+     *
      * @param props an array of sequential name value properties
      * @return an enumeration of the properties in the array
      */
@@ -385,12 +396,11 @@ public class PropertyArray {
             @Override
             public String nextElement() {
                 if (props == null || pos >= props.length) {
-                   return null;
-                }
-                else {
-                   String current = props[pos];
-                   pos += 2;
-                   return current;
+                    return null;
+                } else {
+                    String current = props[pos];
+                    pos += 2;
+                    return current;
                 }
             }
         };
@@ -400,6 +410,7 @@ public class PropertyArray {
 
     /**
      * Get the data in this PropertyArray as a standard Properties object.
+     *
      * @return a Properties object containing the same data as this PropertyArray
      */
     public Map<String, String> getProperties() {
@@ -408,6 +419,7 @@ public class PropertyArray {
 
     /**
      * Check if the property array is mutable.
+     *
      * @return true if data can be stored in this array, and false otherwise
      */
     public boolean isMutable() {
@@ -416,19 +428,20 @@ public class PropertyArray {
 
     /**
      * Get the number of properties stored in the property array.
+     *
      * @return the number of properties stored in the property array
      */
     public int size() {
         if (dataA == null) {
             return 0;
-        }
-        else {
+        } else {
             return dataA.length / 2;
         }
     }
 
     /**
      * Get the value of a named property.
+     *
      * @param key the name of the desired property
      * @return the value of the property, or null if it was not found
      */
@@ -438,6 +451,7 @@ public class PropertyArray {
 
     /**
      * Get a copy of the data in this PropertyArray.
+     *
      * @return a copy of the data, or null if there is no data.
      */
     public String[] getArray() {
@@ -450,7 +464,8 @@ public class PropertyArray {
 
     /**
      * Put a property into the PropertyArray.
-     * @param key the name of the property to be added
+     *
+     * @param key   the name of the property to be added
      * @param value the value of the property to be added
      * @return the previous value (if any) of this property
      * @throws PropertyArrayError if a null key or value is supplied.
@@ -465,7 +480,7 @@ public class PropertyArray {
         if (key == null || value == null) {
             // i'd like to make null values legal but...
             throw new PropertyArrayError(
-                "A key or value was null.  Null keys and values are illegal");
+                    "A key or value was null.  Null keys and values are illegal");
         }
 
         Vector<String> vec = copyOutOf(dataA);
@@ -478,6 +493,7 @@ public class PropertyArray {
 
     /**
      * Remove a property.
+     *
      * @param key the name of the property to be removed
      */
     public void remove(String key) {
@@ -487,6 +503,7 @@ public class PropertyArray {
     /**
      * Save the properties to a stream. The data is written using the format
      * for a standard Java properties file.
+     *
      * @param out the stream to which to write the data
      * @throws IOException if an error occurred while writing the data
      */
@@ -530,11 +547,9 @@ public class PropertyArray {
             cmp = key.compareTo(e);
             if (cmp < 0) {
                 upper = mid - 2;
-            }
-            else if (cmp > 0) {
+            } else if (cmp > 0) {
                 lower = mid + 2;
-            }
-            else {
+            } else {
                 // strings equal
                 vec.removeElementAt(mid);
                 old = vec.elementAt(mid);
@@ -549,7 +564,7 @@ public class PropertyArray {
             mid += 2;
 
         vec.insertElementAt(key, mid);
-        vec.insertElementAt(value, mid+1);
+        vec.insertElementAt(value, mid + 1);
 
         return old;
     }
@@ -558,10 +573,9 @@ public class PropertyArray {
         Vector<String> vec = null;
 
         if (data == null) {
-            vec = new Vector<>(0,2);
-        }
-        else {
-            vec = new Vector<>(data.length,2);
+            vec = new Vector<>(0, 2);
+        } else {
+            vec = new Vector<>(data.length, 2);
 
             for (String aData : data) {
                 vec.addElement(aData);
@@ -588,15 +602,18 @@ public class PropertyArray {
 
     /**
      * Convert a nibble to a hex character
-     * @param   nibble  the nibble to convert.
+     *
+     * @param nibble the nibble to convert.
      */
     private static char toHex(int nibble) {
         return hexDigit[nibble & 0xF];
     }
 
-    /** A table of hex digits */
+    /**
+     * A table of hex digits
+     */
     private static char[] hexDigit = {
-        '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
     };
 
     private static final String lineSeparator = System.getProperty("line.separator");

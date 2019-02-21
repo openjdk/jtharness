@@ -39,17 +39,16 @@ import com.sun.javatest.util.LineParser;
 /**
  * A class to parse a series of commands, with the help of their associated command managers.
  */
-public class CommandParser
-{
+public class CommandParser {
     /**
      * Thrown when a bad command line argument is encountered.
      */
-    public class Fault extends Exception
-    {
+    public class Fault extends Exception {
         /**
          * Create a Fault exception.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param key The key for the detail message.
+         * @param key  The key for the detail message.
          */
         Fault(I18NResourceBundle i18n, String key) {
             super(i18n.getString(key));
@@ -57,10 +56,11 @@ public class CommandParser
 
         /**
          * Create a Fault exception.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param key The key for the detail message.
-         * @param arg An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param key  The key for the detail message.
+         * @param arg  An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         Fault(I18NResourceBundle i18n, String key, Object arg) {
             super(i18n.getString(key, arg));
@@ -68,10 +68,11 @@ public class CommandParser
 
         /**
          * Create a Fault exception.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param key The key for the detail message.
+         * @param key  The key for the detail message.
          * @param args An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         *             {@link java.text.MessageFormat#format}
          */
         Fault(I18NResourceBundle i18n, String key, Object... args) {
             super(i18n.getString(key, args));
@@ -84,6 +85,7 @@ public class CommandParser
 
     /**
      * Create a parser to parse the commands accepted by a set of command managers.
+     *
      * @param mgrs the command managers for the commands that can be parsed
      */
     public CommandParser(CommandManager... mgrs) {
@@ -92,35 +94,34 @@ public class CommandParser
 
     /**
      * Parse command line arguments into a series of commands.
+     *
      * @param args the args to be parsed
-     * @param ctx the context in which to store the commands that are created
+     * @param ctx  the context in which to store the commands that are created
      * @throws CommandParser.Fault if there are any problems with a command that is parsed,
-     * such as missing or inappropriate options
+     *                             such as missing or inappropriate options
      */
     public void parse(String[] args, CommandContext ctx)
-        throws Fault
-    {
+            throws Fault {
         parse(args, false, ctx);
     }
 
     /**
      * Parse command line arguments into a series of commands.
-     * @param args the args to be parsed
+     *
+     * @param args       the args to be parsed
      * @param urlEncoded whether or not the args have been encoded according to the
-     * "application/x-www-form-urlencoded" MIME format.
-     * @param ctx the context in which to store the commands that are created
+     *                   "application/x-www-form-urlencoded" MIME format.
+     * @param ctx        the context in which to store the commands that are created
      * @throws CommandParser.Fault if there are any problems with a command that is parsed,
-     * such as missing or inappropriate options
+     *                             such as missing or inappropriate options
      */
     public void parse(String[] args, boolean urlEncoded, CommandContext ctx)
-        throws Fault
-    {
+            throws Fault {
         if (urlEncoded) {
             for (int i = 0; i < args.length; i++) {
                 try {
                     args[i] = URLDecoder.decode(args[i], "UTF-8");
-                }
-                catch (Throwable e) {
+                } catch (Throwable e) {
                     throw new Fault(i18n, "cmdp.cantDecode", args[i], e.toString());
                 }
             }
@@ -134,8 +135,7 @@ public class CommandParser
     }
 
     private void decodeArg(String arg, ListIterator<String> argIter, CommandContext ctx)
-        throws CommandParser.Fault
-    {
+            throws CommandParser.Fault {
         // special case for Windows-like help option
         if (arg.equals("/?"))
             arg = "-?";
@@ -157,8 +157,7 @@ public class CommandParser
                     File f = new File(arg2);
                     read(f, ctx);
                     return;
-                }
-                else
+                } else
                     throw new Fault(i18n, "cmdp.badReadOpt");
             }
 
@@ -182,8 +181,7 @@ public class CommandParser
                 LineParser p = new LineParser(new StringReader(arg));
                 read(p, ctx);
                 return;
-            }
-            catch (LineParser.Fault e) {
+            } catch (LineParser.Fault e) {
                 throw new Fault(i18n, "cmdp.errorInString", e.getMessage());
             }
         }
@@ -196,8 +194,7 @@ public class CommandParser
                     ctx.addCommand(ConfigManager.getOpenCommand(file));
                     return;
                 }
-            }
-            catch (Command.Fault e) {
+            } catch (Command.Fault e) {
                 throw new Fault(i18n, "cmdp.badFileOpt", e.getMessage());
             }
         }
@@ -207,23 +204,19 @@ public class CommandParser
     }
 
     private void read(File file, CommandContext ctx)
-        throws Fault
-    {
+            throws Fault {
         LineParser p;
         try {
             p = new LineParser(file);
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             throw new Fault(i18n, "cmdp.cantFindFile", file);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new Fault(i18n, "cmdp.cantOpenFile", file, e);
         }
 
         try {
             read(p, ctx);
-        }
-        catch (Fault | LineParser.Fault e) {
+        } catch (Fault | LineParser.Fault e) {
             throw new Fault(i18n, "cmdp.errorInFile",
                     file,
                     Integer.valueOf(p.getLineNumber()),
@@ -232,12 +225,11 @@ public class CommandParser
     }
 
     private void read(LineParser p, CommandContext ctx)
-        throws Fault, LineParser.Fault
-    {
+            throws Fault, LineParser.Fault {
         File file = p.getFile();
         String[] line;
 
-    nextLine:
+        nextLine:
         while ((line = p.readLine()) != null) {
             ListIterator<String> iter = getIterator(line);
             String cmd = iter.next();
@@ -286,53 +278,53 @@ public class CommandParser
 
     private static ListIterator<String> getIterator(final String... args) {
         return new ListIterator<String>() {
-                @Override
-                public void add(String o) {
-                    throw new UnsupportedOperationException();
-                }
+            @Override
+            public void add(String o) {
+                throw new UnsupportedOperationException();
+            }
 
-                @Override
-                public boolean hasNext() {
-                    return index < args.length;
-                }
+            @Override
+            public boolean hasNext() {
+                return index < args.length;
+            }
 
-                @Override
-                public boolean hasPrevious() {
-                    return index > 0;
-                }
+            @Override
+            public boolean hasPrevious() {
+                return index > 0;
+            }
 
-                @Override
-                public String next() {
-                    return index < args.length ? args[index++] : null;
-                }
+            @Override
+            public String next() {
+                return index < args.length ? args[index++] : null;
+            }
 
-                @Override
-                public int nextIndex() {
-                    return index;
-                }
+            @Override
+            public int nextIndex() {
+                return index;
+            }
 
-                @Override
-                public String previous() {
-                    return index > 0 ? args[--index] : null;
-                }
+            @Override
+            public String previous() {
+                return index > 0 ? args[--index] : null;
+            }
 
-                @Override
-                public int previousIndex() {
-                    return index - 1;
-                }
+            @Override
+            public int previousIndex() {
+                return index - 1;
+            }
 
-                @Override
-                public void remove() {
-                    throw new UnsupportedOperationException();
-                }
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
 
-                @Override
-                public void set(String obj) {
-                    throw new UnsupportedOperationException();
-                }
+            @Override
+            public void set(String obj) {
+                throw new UnsupportedOperationException();
+            }
 
-                private int index;
-            };
+            private int index;
+        };
     }
 
     private CommandManager[] mgrs;

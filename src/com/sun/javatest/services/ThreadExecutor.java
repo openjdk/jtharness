@@ -82,8 +82,7 @@ public class ThreadExecutor implements ServiceExecutor {
 
         if (worker != null && worker.isAlive()) {
             return new Message(MessageType.ALIVE, "Service is alive");
-        }
-        else {
+        } else {
             return new Message(MessageType.NOT_ALIVE, "Service is not alive");
         }
     }

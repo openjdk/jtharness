@@ -43,7 +43,7 @@ import java.util.Vector;
 
 public class ResourceLoader {
 
-    public static Enumeration<URL> getResources(String name, Class<?> ownClass) throws IOException  {
+    public static Enumeration<URL> getResources(String name, Class<?> ownClass) throws IOException {
         URL extResource = getExtResource(name, null);
         if (extResource != null) {
             Vector<URL> r = new Vector<>();
@@ -87,7 +87,7 @@ public class ResourceLoader {
         try {
             if (!f.isAbsolute()) {
                 f = new File(ResourceLoader.getExt().getAbsoluteFile(),
-                            filename.getPath());
+                        filename.getPath());
             }
 
             url = f.toURI().toURL();
@@ -140,7 +140,7 @@ public class ResourceLoader {
             int index = baseName.lastIndexOf('.');
             if (index != -1) {
                 name = baseName.substring(0, index).replace('.', '/')
-                    +"/"+name;
+                        + "/" + name;
             }
         } else {
             name = name.substring(1);

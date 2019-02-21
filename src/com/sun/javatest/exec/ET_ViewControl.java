@@ -28,12 +28,12 @@
 package com.sun.javatest.exec;
 
 /**
- *
  * @author Dmitry Fazunenko
  */
 public interface ET_ViewControl extends ET_Control {
 
     public void setConfig(Session ses);
+
     public Session getConfig();
 
 }

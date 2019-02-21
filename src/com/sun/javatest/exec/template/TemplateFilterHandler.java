@@ -32,6 +32,7 @@ import com.sun.javatest.exec.Session.Event;
 import com.sun.javatest.exec.ET_FilterHandler;
 import com.sun.javatest.exec.ExecModel;
 import com.sun.javatest.tool.UIFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
@@ -44,6 +45,7 @@ import javax.swing.JComponent;
 public class TemplateFilterHandler extends ET_FilterHandler {
 
     TemplateParameterFilter tFilter;
+
     TemplateFilterHandler(JComponent parent, ExecModel model, UIFactory uif) {
         super(parent, model, uif);
         tFilter = new TemplateParameterFilter();
@@ -66,7 +68,7 @@ public class TemplateFilterHandler extends ET_FilterHandler {
     @Override
     public void updated(Event ev) {
         if (ev instanceof TemplateSession.E_NewTemplate) {
-            tFilter.update(((TemplateSession.E_NewTemplate)ev).templ);
+            tFilter.update(((TemplateSession.E_NewTemplate) ev).templ);
         }
         super.updated(ev);
     }

@@ -53,14 +53,14 @@ public class PieChart extends JComponent /* implements Accessible*/ {
     /**
      * Constructs a pie chart with the given initial distribution and colors.
      *
-     * @param dist the numerical values to be represented in the pie.  it is
-     *        assumed that the sum of these numbers equals 100% of the pie.
+     * @param dist   the numerical values to be represented in the pie.  it is
+     *               assumed that the sum of these numbers equals 100% of the pie.
      * @param colors The colors that should be used to paint each of the pie
-     *        slices, positionally corresponding to the values in the first
-     *        argument.
+     *               slices, positionally corresponding to the values in the first
+     *               argument.
      * @throws IllegalArgumentException If the length of the first parameter
-     *         does not equal the second.
-     * @throws NullPointerException if either argument is null
+     *                                  does not equal the second.
+     * @throws NullPointerException     if either argument is null
      * @see #setValue
      */
     public PieChart(int[] dist, Color... colors) {
@@ -74,12 +74,12 @@ public class PieChart extends JComponent /* implements Accessible*/ {
      * Sets the pie chart to the given distribution and corresponding colors.
      *
      * @param dist the numerical values to be represented in the pie.  it is
-     *        assumed that the sum of these numbers equals 100% of the pie.
-     * @param c The colors that should be used to paint each of the pie slices,
-     *          positionally corresponding to the values in the first argument.
+     *             assumed that the sum of these numbers equals 100% of the pie.
+     * @param c    The colors that should be used to paint each of the pie slices,
+     *             positionally corresponding to the values in the first argument.
      * @throws IllegalArgumentException If the length of the first parameter
-     *         does not equal the second.
-     * @throws NullPointerException if either argument is null
+     *                                  does not equal the second.
+     * @throws NullPointerException     if either argument is null
      */
     public void setValue(int[] dist, Color... c) {
         if (dist.length != c.length)
@@ -93,8 +93,8 @@ public class PieChart extends JComponent /* implements Accessible*/ {
     @Override
     protected void paintComponent(Graphics g) {
         Image image = new BufferedImage(getWidth(), getHeight(),
-                                  BufferedImage.TYPE_INT_ARGB);
-        Graphics2D imageG = (Graphics2D)image.getGraphics();
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D imageG = (Graphics2D) image.getGraphics();
         paintPie(imageG);
         imageG.dispose();
 
@@ -105,7 +105,7 @@ public class PieChart extends JComponent /* implements Accessible*/ {
     private void paintPie(Graphics2D g2d) {
         if (isOpaque()) {
             g2d.setColor(getBackground());
-            g2d.fillRect(0,0, getWidth(), getHeight());
+            g2d.fillRect(0, 0, getWidth(), getHeight());
         }
 
         if (slices == null || slices.length == 0)
@@ -131,22 +131,21 @@ public class PieChart extends JComponent /* implements Accessible*/ {
 
         // this is critical - pie can look ugly without
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                             RenderingHints.VALUE_ANTIALIAS_ON);
+                RenderingHints.VALUE_ANTIALIAS_ON);
 
         int maxDia = Math.min(getWidth() - inset.left - inset.right,
                 getHeight() - inset.top - inset.bottom);
-        float targetDia = (float)maxDia * 0.8f;
+        float targetDia = (float) maxDia * 0.8f;
 
 
         // coords of point defining the box which defines the arcs
-        float boxX = inset.left + (0.1f  * (maxDia - targetDia));
+        float boxX = inset.left + (0.1f * (maxDia - targetDia));
 
-        float boxY = inset.top + (0.1f  * (maxDia - targetDia));
+        float boxY = inset.top + (0.1f * (maxDia - targetDia));
         if (getWidth() > getHeight()) {
-        }
-        else {
+        } else {
             // vertical centering
-            boxY = (float)(getHeight() / 2) - (0.5f * targetDia);
+            boxY = (float) (getHeight() / 2) - (0.5f * targetDia);
         }
 
         // center of gradient circle
@@ -165,22 +164,22 @@ public class PieChart extends JComponent /* implements Accessible*/ {
                                         getBackground());
         */
         GradientPaint grad = new GradientPaint(
-                                        0.0f, 0.0f,
-                                        Color.decode("#dddddd"),
-                                        (float)getWidth(), (float)getHeight(),
-                                        getBackground());
+                0.0f, 0.0f,
+                Color.decode("#dddddd"),
+                (float) getWidth(), (float) getHeight(),
+                getBackground());
         g2d.setPaint(grad);
         g2d.fill(new Ellipse2D.Float(gradx, grady,
-                                     targetDia*0.98f, targetDia*0.98f));
+                targetDia * 0.98f, targetDia * 0.98f));
 
         float[] dist = new float[slices.length];
         for (int i = 0; i < slices.length; i++) {
             if (slices[i] == 0)
                 dist[i] = 0.0f;
-            else if (Math.abs( slices[i] - sum) < .0000001) // slices[i] == sum
+            else if (Math.abs(slices[i] - sum) < .0000001) // slices[i] == sum
                 dist[i] = 360.0f;
             else
-                dist[i] = 360.0f * ((float)slices[i] / sum);
+                dist[i] = 360.0f * ((float) slices[i] / sum);
         }
 
         // post process to provide slices of minimal viewable size
@@ -197,7 +196,7 @@ public class PieChart extends JComponent /* implements Accessible*/ {
             if (dist[i] > 0.0) {
                 g2d.setPaint(colors[i]);
                 g2d.fill(new Arc2D.Float(boxX, boxY, targetDia, targetDia,
-                                         pos, -1.0f*dist[i], Arc2D.PIE));
+                        pos, -1.0f * dist[i], Arc2D.PIE));
 
                 // special outline for white slices
                 if (colors[i].equals(Color.WHITE)) {
@@ -207,9 +206,9 @@ public class PieChart extends JComponent /* implements Accessible*/ {
                         g2d.draw(new Ellipse2D.Float(boxX, boxY, targetDia, targetDia));
                     else
                         g2d.draw(new Arc2D.Float(boxX, boxY, targetDia, targetDia,
-                                                 pos, -1.0f*dist[i], Arc2D.PIE));
+                                pos, -1.0f * dist[i], Arc2D.PIE));
+                } else {
                 }
-                else { }
 
                 pos -= dist[i];
             }

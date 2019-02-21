@@ -38,8 +38,7 @@ import com.sun.javatest.TestSuite;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
 
-class TestSuiteErrorsDialog extends ToolDialog
-{
+class TestSuiteErrorsDialog extends ToolDialog {
 
     TestSuiteErrorsDialog(Component parent, UIFactory uif) {
         super(parent, uif, "tse");
@@ -99,24 +98,33 @@ class TestSuiteErrorsDialog extends ToolDialog
 
         JButton helpBtn = uif.createHelpButton("tse.help", "browse.testSuiteErrors.csh");
         JButton closeBtn = uif.createCloseButton("tse.close");
-        setButtons(new JButton[] { helpBtn, closeBtn }, closeBtn);
+        setButtons(new JButton[]{helpBtn, closeBtn}, closeBtn);
     }
 
     private String escape(String s) {
         for (int i = 0; i < s.length(); i++) {
             switch (s.charAt(i)) {
-            case '<': case '>': case '&':
-                StringBuilder sb = new StringBuilder(s.length()*2);
-                for (int j = 0; j < s.length(); j++) {
-                    char c = s.charAt(j);
-                    switch (c) {
-                    case '<': sb.append("&lt;"); break;
-                    case '>': sb.append("&gt;"); break;
-                    case '&': sb.append("&amp;"); break;
-                    default: sb.append(c);
+                case '<':
+                case '>':
+                case '&':
+                    StringBuilder sb = new StringBuilder(s.length() * 2);
+                    for (int j = 0; j < s.length(); j++) {
+                        char c = s.charAt(j);
+                        switch (c) {
+                            case '<':
+                                sb.append("&lt;");
+                                break;
+                            case '>':
+                                sb.append("&gt;");
+                                break;
+                            case '&':
+                                sb.append("&amp;");
+                                break;
+                            default:
+                                sb.append(c);
+                        }
                     }
-                }
-                return sb.toString();
+                    return sb.toString();
             }
         }
         return s;

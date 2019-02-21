@@ -41,19 +41,19 @@ import com.sun.javatest.util.WriterStream;
  * Invoke a Java compiler via reflection.
  * The compiler is assumed to have a constructor and compile method
  * matching the following signature:
- *<pre>
+ * <pre>
  * public class COMPILER {
  *     public COMPILER(java.io.OutputStream out, String compilerName);
  *     public boolean compile(String[] args);
  * }
- *</pre>
+ * </pre>
  * or
- *<pre>
+ * <pre>
  * public class COMPILER {
  *     public COMPILER();
  *     public int compile(String[] args);
  * }
- *</pre>
+ * </pre>
  * or
  * <pre>
  * public class COMPILER {
@@ -65,13 +65,13 @@ import com.sun.javatest.util.WriterStream;
  * API of javac which is not documented and is not guaranteed to exist
  * in any specific release of JDK.)
  */
-public class JavaCompileCommand extends Command
-{
+public class JavaCompileCommand extends Command {
     /**
      * A stand-alone entry point for this command. An instance of this
      * command is created, and its <code>run</code> method invoked,
      * passing in the command line args and <code>System.out</code> and
      * <code>System.err</code> as the two streams.
+     *
      * @param args command line arguments for this command.
      * @see #run
      */
@@ -82,8 +82,7 @@ public class JavaCompileCommand extends Command
         try {
             JavaCompileCommand c = new JavaCompileCommand();
             s = c.run(args, out, err);
-        }
-        finally {
+        } finally {
             out.flush();
             err.flush();
         }
@@ -109,14 +108,15 @@ public class JavaCompileCommand extends Command
      * the result will be a status of `passed'; if it returns `false', the
      * result will be `failed'. If any problems arise, the result will be
      * a status of `error'.
+     *
      * @param args An optional specification for the compiler to be invoked,
-     *          followed by arguments for the compiler's compile method.
+     *             followed by arguments for the compiler's compile method.
      * @param log  Not used.
      * @param ref  Passed to the compiler that is invoked.
      * @return `passed' if the compilation is successful; `failed' if the
-     *          compiler is invoked and errors are found in the file(s)
-     *          being compiler; or `error' if some more serious problem arose
-     *          that prevented the compiler performing its task.
+     * compiler is invoked and errors are found in the file(s)
+     * being compiler; or `error' if some more serious problem arose
+     * that prevented the compiler performing its task.
      */
     @Override
     public Status run(String[] args, PrintWriter log, PrintWriter ref) {
@@ -139,7 +139,7 @@ public class JavaCompileCommand extends Command
             if (args[i].equals("-")) {
                 options = new String[i];
                 System.arraycopy(args, 0, options, 0, options.length);
-                args = shift(args, i+1);
+                args = shift(args, i + 1);
                 break;
             }
         }
@@ -155,18 +155,15 @@ public class JavaCompileCommand extends Command
                     if (colon == -1) {
                         compilerClassName = s;
                         compilerName = "java " + s;
-                    }
-                    else {
+                    } else {
                         compilerClassName = s.substring(colon + 1);
                         compilerName = s.substring(0, colon);
                     }
-                }
-                else if (options[i].equals("-cp") || options[i].equals("-classpath")) {
+                } else if (options[i].equals("-cp") || options[i].equals("-classpath")) {
                     if (i + 1 == options.length)
                         return Status.error("No path specified after -cp or -classpath option");
                     classpath = options[++i];
-                }
-                else if (options[i].equals("-verbose"))
+                } else if (options[i].equals("-verbose"))
                     verbose = true;
                 else
                     return Status.error("Unrecognized option: " + options[i]);
@@ -188,8 +185,7 @@ public class JavaCompileCommand extends Command
                 compilerClass = getClass(loader, compilerClassName);
                 if (compilerClass == null)
                     return Status.error("Cannot find compiler: " + compilerClassName);
-            }
-            else {
+            } else {
                 compilerName = "javac";
                 compilerClass = getClass(loader, "com.sun.tools.javac.Main");  // JDK1.3+
                 if (compilerClass == null)
@@ -204,25 +200,25 @@ public class JavaCompileCommand extends Command
             Method compileMethod = getMethod(compilerClass, "compile", // JDK1.4+
                     String[].class, PrintWriter.class);
             if (compileMethod != null)
-                compileMethodArgs = new Object[] { args, ref };
+                compileMethodArgs = new Object[]{args, ref};
             else {
                 compileMethod = getMethod(compilerClass, "compile",   // JDK1.1-3
                         String[].class);
                 if (compileMethod != null)
-                    compileMethodArgs = new Object[] { args };
+                    compileMethodArgs = new Object[]{args};
                 else
                     return Status.error("Cannot find compile method for " + compilerClass.getName());
             }
 
             Object compiler;
             if (Modifier.isStatic(compileMethod.getModifiers()))
-                compiler =  null;
+                compiler = null;
             else {
                 Object[] constrArgs;
                 Constructor<?> constr = getConstructor(compilerClass, // JDK1.1-2
                         OutputStream.class, String.class);
                 if (constr != null)
-                    constrArgs = new Object[] { new WriterStream(ref), compilerName };
+                    constrArgs = new Object[]{new WriterStream(ref), compilerName};
                 else {
                     constr = getConstructor(compilerClass); // JDK1.3
                     if (constr != null)
@@ -232,8 +228,7 @@ public class JavaCompileCommand extends Command
                 }
                 try {
                     compiler = constr.newInstance(constrArgs);
-                }
-                catch (Throwable t) {
+                } catch (Throwable t) {
                     t.printStackTrace(log);
                     return Status.error("Cannot instantiate compiler");
                 }
@@ -242,25 +237,21 @@ public class JavaCompileCommand extends Command
             Object result;
             try {
                 result = compileMethod.invoke(compiler, compileMethodArgs);
-            }
-            catch (Throwable t) {
+            } catch (Throwable t) {
                 t.printStackTrace(log);
                 return Status.error("Error invoking compiler");
             }
 
             // result might be a boolean (old javac) or an int (new javac)
             if (result instanceof Boolean) {
-                boolean ok = ((Boolean)result).booleanValue();
+                boolean ok = ((Boolean) result).booleanValue();
                 return ok ? passed : failed;
-            }
-            else if (result instanceof Integer) {
-                int rc = ((Integer)result).intValue();
+            } else if (result instanceof Integer) {
+                int rc = ((Integer) result).intValue();
                 return rc == 0 ? passed : failed;
-            }
-            else
+            } else
                 return Status.error("Unexpected return value from compiler: " + result);
-        }
-        finally {
+        } finally {
             log.flush();
             ref.flush();
         }
@@ -269,8 +260,7 @@ public class JavaCompileCommand extends Command
     private Class<?> getClass(ClassLoader loader, String name) {
         try {
             return loader == null ? Class.forName(name) : loader.loadClass(name);
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             return null;
         }
     }
@@ -278,11 +268,9 @@ public class JavaCompileCommand extends Command
     private Constructor<?> getConstructor(Class<?> c, Class<?>... argTypes) {
         try {
             return c.getConstructor(argTypes);
-        }
-        catch (NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             return null;
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             if (verbose)
                 t.printStackTrace(log);
             return null;
@@ -292,11 +280,9 @@ public class JavaCompileCommand extends Command
     private Method getMethod(Class<?> c, String name, Class<?>... argTypes) {
         try {
             return c.getMethod(name, argTypes);
-        }
-        catch (NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             return null;
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             if (verbose)
                 t.printStackTrace(log);
             return null;

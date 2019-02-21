@@ -35,7 +35,7 @@ import java.util.List;
  */
 interface ReportFormat {
     /**
-     * @param s Settings to use to create the report.
+     * @param s   Settings to use to create the report.
      * @param dir Directory in which the report output should be written.
      * @return ReportLink object for the report file (used in report index)
      */
@@ -66,7 +66,7 @@ interface ReportFormat {
 
         @Override
         public String toString() {
-            return "ID=" + linkID + " FILE="+linkFile;
+            return "ID=" + linkID + " FILE=" + linkFile;
         }
 
     }

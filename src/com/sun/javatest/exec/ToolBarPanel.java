@@ -54,6 +54,7 @@ class ToolBarPanel extends JPanel {
     /**
      * Paints the panel.
      * Invoked by Swing to draw components.
+     *
      * @param g - the Graphics context in which to paint
      **/
     @Override
@@ -74,8 +75,8 @@ class ToolBarPanel extends JPanel {
     }
 
     /**
-     *ToolBarLayout lays out the panel and calculates positions for
-     *horisontal separators
+     * ToolBarLayout lays out the panel and calculates positions for
+     * horisontal separators
      **/
     class ToolBarLayout extends FlowLayout {
 
@@ -100,7 +101,7 @@ class ToolBarPanel extends JPanel {
                 int maxWidth = 0;
                 int maxHeight = 0;
                 int row = 1;
-                for (int i = 0 ; i < nmembers ; i++) {
+                for (int i = 0; i < nmembers; i++) {
                     Component m = target.getComponent(i);
                     Dimension d = m.getPreferredSize();
                     if (m.isVisible()) {
@@ -112,7 +113,7 @@ class ToolBarPanel extends JPanel {
                             dim.width += getHgap();
                         }
                         // width of a current row can be
-                        int newFullWidth = dim.width + d.width + insets.left + insets.right + getHgap()*2;
+                        int newFullWidth = dim.width + d.width + insets.left + insets.right + getHgap() * 2;
                         if (newFullWidth < realW || commponentsPerRow == 1) {
                             // add to the row
                             dim.width += d.width;
@@ -132,13 +133,13 @@ class ToolBarPanel extends JPanel {
                             commponentsPerRow = 1;
                         }
                         if (m instanceof JComponent) {
-                            ((JComponent)m).putClientProperty(PB_PROP_NAME, new Boolean(!firstVisibleComponent));
+                            ((JComponent) m).putClientProperty(PB_PROP_NAME, new Boolean(!firstVisibleComponent));
                         }
                     }
                 }
                 dim.width = Math.max(maxWidth, dim.width);
-                dim.width += insets.left + insets.right + getHgap()*2;
-                dim.height += insets.top + insets.bottom + getVgap() *2;
+                dim.width += insets.left + insets.right + getHgap() * 2;
+                dim.height += insets.top + insets.bottom + getVgap() * 2;
                 // fill in separators between rows
                 separators = new int[hs.size()];
                 for (int i = 0; i < hs.size(); i++) {
@@ -151,6 +152,7 @@ class ToolBarPanel extends JPanel {
         synchronized int[] getRowPositions() {
             return separators;
         }
+
         private int[] separators = new int[0];
     }
 

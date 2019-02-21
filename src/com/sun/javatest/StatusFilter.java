@@ -34,12 +34,13 @@ import com.sun.javatest.util.I18NResourceBundle;
 public class StatusFilter extends TestFilter {
     /**
      * Create a filter that filters tests according to their execution status.
+     *
      * @param statusValues an array of booleans, indexed by the standard
-     * {@link com.sun.javatest.Status Status} constants, that indicate
-     * which status values should be accepted (passed) by the filter,
-     * and which should be rejected.
-     * @param trt a test result table in which to look up the value of
-     * the tests being checked by the filter
+     *                     {@link com.sun.javatest.Status Status} constants, that indicate
+     *                     which status values should be accepted (passed) by the filter,
+     *                     and which should be rejected.
+     * @param trt          a test result table in which to look up the value of
+     *                     the tests being checked by the filter
      * @see com.sun.javatest.Status#PASSED
      * @see com.sun.javatest.Status#FAILED
      * @see com.sun.javatest.Status#ERROR
@@ -61,6 +62,7 @@ public class StatusFilter extends TestFilter {
      * {@link com.sun.javatest.Status Status} constants, that indicate
      * which status values should be accepted (passed) by the filter,
      * and which should be rejected.
+     *
      * @return an array of booleans indicating which status values should be accepted by the filter
      * @see com.sun.javatest.Status#PASSED
      * @see com.sun.javatest.Status#FAILED
@@ -74,6 +76,7 @@ public class StatusFilter extends TestFilter {
     /**
      * Get the test result table in which to look up tests to
      * see if they should be accepted by the filter or not.
+     *
      * @return a test result table
      */
     public TestResultTable getTestResultTable() {
@@ -100,7 +103,7 @@ public class StatusFilter extends TestFilter {
         TestResult tr = null;
 
         synchronized (trt) {
-           tr = trt.lookup(td);
+            tr = trt.lookup(td);
         }
 
         if (tr == null)
@@ -126,7 +129,7 @@ public class StatusFilter extends TestFilter {
         if (o == this)
             return true;
 
-        if ( !(o instanceof StatusFilter))
+        if (!(o instanceof StatusFilter))
             return false;
 
         StatusFilter other = (StatusFilter) o;

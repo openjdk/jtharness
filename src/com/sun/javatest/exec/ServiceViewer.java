@@ -33,6 +33,7 @@ import com.sun.javatest.services.Service.ServiceError;
 import com.sun.javatest.services.ServiceManager;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -70,7 +71,7 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
         Arrays.sort(ids);
 
         initGUI();
-        mgr.addObserver( new ServiceManager.Observer() {
+        mgr.addObserver(new ServiceManager.Observer() {
 
             @Override
             public void handleAlive(String sID, boolean alive) {
@@ -107,27 +108,27 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
         table.getSelectionModel().addListSelectionListener
                 (new ListSelectionListener() {
 
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                int[] ix = table.getSelectedRows();
+                    @Override
+                    public void valueChanged(ListSelectionEvent e) {
+                        int[] ix = table.getSelectedRows();
 //                boolean allAlive = true;
-                for (int i : ix) {
-                    Status stat;
-                    try {
-                        boolean isAlive = mgr.getAllServices().get(ids[i]).isAlive();
+                        for (int i : ix) {
+                            Status stat;
+                            try {
+                                boolean isAlive = mgr.getAllServices().get(ids[i]).isAlive();
 //                        allAlive &= isAlive;
-                        stat = isAlive ? Status.ALIVE : Status.NOT_ALIVE;
-                    } catch (NotConnectedException ex) {
-                        stat = Status.NOT_CONNECTED;
-                    } catch (ServiceError ex) {
-                        stat = Status.ERROR;
+                                stat = isAlive ? Status.ALIVE : Status.NOT_ALIVE;
+                            } catch (NotConnectedException ex) {
+                                stat = Status.NOT_CONNECTED;
+                            } catch (ServiceError ex) {
+                                stat = Status.ERROR;
+                            }
+                            table.getModel().setValueAt(stat, i, 2);
+                        }
+                        table.repaint();
                     }
-                    table.getModel().setValueAt(stat , i, 2);
-                }
-                table.repaint();
-            }
 
-        });
+                });
     }
 
     ServiceManager getServiceManager() {
@@ -176,7 +177,7 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
                 setVisible(false);
             }
         });
-        setButtons(new JButton[] {btnStart, btnStop, btnClose}, btnClose);
+        setButtons(new JButton[]{btnStart, btnStop, btnClose}, btnClose);
 
         table.getColumnModel().getColumn(0).setPreferredWidth(100);
         table.getColumnModel().getColumn(1).setPreferredWidth(400);
@@ -203,7 +204,7 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
                 } catch (ServiceError ex) {
                     stat = Status.ERROR;
                 }
-                setValueAt(stat , i, 2);
+                setValueAt(stat, i, 2);
             }
         }
 
@@ -252,7 +253,7 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
 
         @Override
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-            stats[rowIndex] = (Status)aValue;
+            stats[rowIndex] = (Status) aValue;
         }
     }
 
@@ -261,6 +262,7 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
         NOT_CONNECTED("Not Connected"), ERROR("Error");
 
         private String str;
+
         Status(String str) {
             this.str = str;
         }

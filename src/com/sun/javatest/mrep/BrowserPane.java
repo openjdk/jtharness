@@ -207,7 +207,7 @@ class BrowserPane extends JPanel {
         c.anchor = GridBagConstraints.EAST;
         c.gridx = 0;
         c.gridy = 0;
-        c.insets = new Insets(0,0,0,5);
+        c.insets = new Insets(0, 0, 0, 5);
 
         JLabel fileLbl = uif.createLabel("fp.file", true);
         head.add(fileLbl, c);
@@ -218,21 +218,21 @@ class BrowserPane extends JPanel {
         selectBox.addItemListener(listener);
         selectBox.setMaximumRowCount(MAX_ROWS_DISPLAY);
         selectBox.setUI(new BasicComboBoxUI() {
-            // wrap the content with a scrolling interface
-            // would be nice if Swing did this for us
-            @Override
-            protected ComboPopup createPopup() {
-                return new BasicComboPopup(selectBox) {
-                    @Override
-                    protected JScrollPane createScroller() {
-                        return new JScrollPane(list,
-                            ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                    }
-                };
-            }
-            }   // class
-            );
+                            // wrap the content with a scrolling interface
+                            // would be nice if Swing did this for us
+                            @Override
+                            protected ComboPopup createPopup() {
+                                return new BasicComboPopup(selectBox) {
+                                    @Override
+                                    protected JScrollPane createScroller() {
+                                        return new JScrollPane(list,
+                                                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                                    }
+                                };
+                            }
+                        }   // class
+        );
         uif.setAccessibleName(selectBox, "fp.choice");  // override default a11y name
 
         c.gridx = 1;
@@ -241,9 +241,9 @@ class BrowserPane extends JPanel {
 
         head.add(selectBox, c);
 
-        Action[] actions = { backAction, forwardAction, null, homeAction };
+        Action[] actions = {backAction, forwardAction, null, homeAction};
 
-        toolBar = uif.createToolBar("fp.toolbar", actions );
+        toolBar = uif.createToolBar("fp.toolbar", actions);
         toolBar.setFloatable(false);
 
         c.weightx = 0;
@@ -267,9 +267,9 @@ class BrowserPane extends JPanel {
         textArea.addHyperlinkListener(listener);
         uif.setAccessibleInfo(textArea, "fp");
         body.add(uif.createScrollPane(textArea,
-                                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
-                 BorderLayout.CENTER);
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
+                BorderLayout.CENTER);
     }
 
     //------------------------------------------------------------------------------------
@@ -291,7 +291,7 @@ class BrowserPane extends JPanel {
     private void loadPage(URL url) {
         // avoid recursive callbacks from updating combo
         // URL.equals can result in a big performance hit
-        if (currURL!= null && url.toString().equals(currURL.toString()))
+        if (currURL != null && url.toString().equals(currURL.toString()))
             return;
 
         currURL = url;
@@ -305,22 +305,19 @@ class BrowserPane extends JPanel {
             htmlDoc.setBase(url);
             textArea.setContentType("text/html");
             textArea.setText(list);
-        }
-        else if (protocol.equals("file")
-                 && !url.getFile().endsWith(".htm")
-                 && !url.getFile().endsWith(".html")) {
+        } else if (protocol.equals("file")
+                && !url.getFile().endsWith(".htm")
+                && !url.getFile().endsWith(".html")) {
             textArea.setContentType("text/plain");
             try {
                 BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
                 textArea.read(br, url);
                 br.close();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 uif.showError("fp.load.error", url, e);
             }
 
-        }
-        else {
+        } else {
             try {
                 URL loaded = textArea.getPage();
                 // this next stuff is just to avoid some screen flash if a new doc
@@ -330,8 +327,7 @@ class BrowserPane extends JPanel {
                     textArea.setDocument(htmlDoc);
                 }
                 textArea.setPage(url);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 uif.showError("fp.load.error", url, e);
             }
         }
@@ -351,8 +347,8 @@ class BrowserPane extends JPanel {
         if (baseDir != null) {
             String p = baseDir.getParent();
             if (p != null
-                && displayPath.startsWith(p) &&
-                (displayPath.length() > p.length())) {
+                    && displayPath.startsWith(p) &&
+                    (displayPath.length() > p.length())) {
                 displayPath = displayPath.substring(p.length());
                 // in case of Unix
                 if (displayPath.startsWith(File.separator)) {
@@ -394,8 +390,7 @@ class BrowserPane extends JPanel {
                     out.writeAttr(HTMLWriterEx.HREF, parent.toURL().toString());
                     out.writeI18N("fp.parent");
                     out.endTag(HTMLWriterEx.A);
-                }
-                catch (MalformedURLException e) {
+                } catch (MalformedURLException e) {
                     out.writeI18N("fp.parent");
                 }
             }
@@ -419,8 +414,7 @@ class BrowserPane extends JPanel {
             out.endTag(HTMLWriterEx.BODY);
             out.endTag(HTMLWriterEx.HTML);
             out.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // should not happen, writing to StringWriter
         }
 
@@ -536,20 +530,17 @@ class BrowserPane extends JPanel {
             if (et == HyperlinkEvent.EventType.ACTIVATED) {
                 if (e instanceof HTMLFrameHyperlinkEvent) {
                     HTMLDocument doc = (HTMLDocument)
-                        ((JEditorPane) e.getSource()).getDocument();
+                            ((JEditorPane) e.getSource()).getDocument();
                     doc.processHTMLFrameHyperlinkEvent((HTMLFrameHyperlinkEvent) e);
-                }
-                else
+                } else
                     loadPage(e.getURL());
-            }
-            else if (et == HyperlinkEvent.EventType.ENTERED) {
+            } else if (et == HyperlinkEvent.EventType.ENTERED) {
                 URL u = e.getURL();
                 if (u != null) {
                     textArea.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                     noteField.setText(u.toString());
                 }
-            }
-            else if (et == HyperlinkEvent.EventType.EXITED) {
+            } else if (et == HyperlinkEvent.EventType.EXITED) {
                 textArea.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 noteField.setText("");
             }
@@ -576,8 +567,7 @@ class BrowserPane extends JPanel {
                 // if not file URL
                 if (!url.getProtocol().equals("file")) {
                     name = url.toString();
-                }
-                else {
+                } else {
                     // if file URL, remove the "file:" prefix
                     name = extractPrefix(url.toString(), "file:");
                     String baseName = null;
@@ -587,9 +577,9 @@ class BrowserPane extends JPanel {
                     }
                     // if contains base dir, only show file name
                     if (baseName != null &&
-                        name.startsWith(baseName) &&
-                        (name.length() > baseName.length())) {
-                        name = name.substring(baseName.length() );
+                            name.startsWith(baseName) &&
+                            (name.length() > baseName.length())) {
+                        name = name.substring(baseName.length());
                         // in case of Unix
                         if (name.startsWith(File.separator)) {
                             name = name.substring(1);

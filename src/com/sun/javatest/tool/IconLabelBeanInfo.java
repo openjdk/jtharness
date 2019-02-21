@@ -28,16 +28,17 @@ package com.sun.javatest.tool;
 
 import java.beans.SimpleBeanInfo;
 import java.beans.PropertyDescriptor;
+
 import com.sun.javatest.JavaTestError;
 
 /**
  * Bean info for {@link IconLabel}.
  */
-public class IconLabelBeanInfo extends SimpleBeanInfo
-{
+public class IconLabelBeanInfo extends SimpleBeanInfo {
     /**
      * Get property descriptors for properties of IconLabel objects.
      * Two properties are defined: type and state.
+     *
      * @return property descriptors for properties of IconLabel objects
      * @see IconLabel
      */
@@ -45,11 +46,10 @@ public class IconLabelBeanInfo extends SimpleBeanInfo
     public PropertyDescriptor[] getPropertyDescriptors() {
         try {
             return new PropertyDescriptor[]{
-                new PropertyDescriptor("type",     IconLabel.class),
-                new PropertyDescriptor("state",    IconLabel.class)
+                    new PropertyDescriptor("type", IconLabel.class),
+                    new PropertyDescriptor("state", IconLabel.class)
             };
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             JavaTestError.unexpectedException(e);
             return null;
         }

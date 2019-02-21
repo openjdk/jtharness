@@ -37,6 +37,7 @@ import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.DynamicArray;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -102,6 +103,7 @@ class TT_NodeCache implements Runnable {
      * If the node has completed processing, calling this method has no
      * effect.
      * Be careful with MT activities when using <tt>pause() resume() isPaused()</tt>.
+     *
      * @see #resume()
      */
     void pause() {
@@ -115,8 +117,9 @@ class TT_NodeCache implements Runnable {
 
     /**
      * Continue processing after a pause.
-     * @see #pause
+     *
      * @throws IllegalStateException if <tt>pause()</tt> was not previously called.
+     * @see #pause
      */
     void resume() {
         if (state != PAUSED) {
@@ -131,7 +134,7 @@ class TT_NodeCache implements Runnable {
 
     /**
      * @return True if the replacement has an effect on the statistics.  False
-     *         if it does not.
+     * if it does not.
      */
     synchronized boolean add(TestResultTable.TreeNode[] path, TestResult what, int index) {
         boolean result = false;
@@ -200,7 +203,7 @@ class TT_NodeCache implements Runnable {
 
             // send out notifications if needed
             notify(wouldAccept ? what.getStatus().getType() + TT_NodeCacheObserver.OFFSET_FROM_STATUS
-                    : TT_NodeCacheObserver.MSGS_FILTERED,
+                            : TT_NodeCacheObserver.MSGS_FILTERED,
                     true, path, what, index);
 
             if (result) {
@@ -237,8 +240,8 @@ class TT_NodeCache implements Runnable {
             if (needsProcessing) {
                 localRejectCount++;
                 testLists[testLists.length - 1].add(what);
-            // this reject will not have a reason entry in
-            // rejectReasons
+                // this reject will not have a reason entry in
+                // rejectReasons
             }
 
             // ignore error and don't do anything
@@ -250,7 +253,7 @@ class TT_NodeCache implements Runnable {
 
     /**
      * @return True if the replacement has an effect on the statistics.  False
-     *         if it does not.
+     * if it does not.
      */
     synchronized boolean remove(TestResultTable.TreeNode[] path, TestResult what, int index) {
         boolean result = false;
@@ -302,10 +305,10 @@ class TT_NodeCache implements Runnable {
 
     /**
      * @return True if the replacement has an effect on the statistics.  False
-     *         if it does not.
+     * if it does not.
      */
     synchronized boolean replace(TestResultTable.TreeNode[] path, TestResult what,
-            int index, TestResult old) {
+                                 int index, TestResult old) {
         boolean result = false;
         // not even running yet
         if (it == null) {
@@ -456,8 +459,9 @@ class TT_NodeCache implements Runnable {
 
     /**
      * Has all the information been collected.
+     *
      * @return True if all information is up to date, and will not change
-     *         unless this node is invalidated.
+     * unless this node is invalidated.
      */
     boolean isComplete() {
         return state == COMPLETED;
@@ -469,6 +473,7 @@ class TT_NodeCache implements Runnable {
 
     /**
      * Invalidate any information in this node cache.
+     *
      * @see #isValid()
      */
     void invalidate() {
@@ -480,6 +485,7 @@ class TT_NodeCache implements Runnable {
      * A node may be valid while it is active, but becomes invalid when
      * notified that the constraints that it is executing with are no longer
      * correct.  It may also become invalid if the thread is interrupted.
+     *
      * @see #invalidate()
      */
     boolean isValid() {
@@ -498,8 +504,9 @@ class TT_NodeCache implements Runnable {
      * Get the pass fail error notrun stats.
      * The data may be in flux if the data is still being collected, use
      * <tt>isActive()</tt> to anticipate this.
+     *
      * @return An array of size Status.NUM_STATES.  This is not a copy, do not
-     *         alter.
+     * alter.
      * @see #isActive()
      * @see com.sun.javatest.Status#NUM_STATES
      */
@@ -509,6 +516,7 @@ class TT_NodeCache implements Runnable {
 
     /**
      * Find out how many tests were rejected by filters.
+     *
      * @return Number of rejected tests found in and below this node.
      */
     int getRejectCount() {
@@ -528,11 +536,11 @@ class TT_NodeCache implements Runnable {
      * This is an atomic operation so that you can get completely up to date
      * and monitor all changes going forward.
      *
-     * @param obs The observer to attach.  Must not be null.
+     * @param obs          The observer to attach.  Must not be null.
      * @param needSnapshot Does the caller want a snapshot of the current test lists.
-     *        True if yes, false if not.
+     *                     True if yes, false if not.
      * @return A copy of the Vectors that contain the current list of tests.  Null if
-     *         <tt>needSnapshot</tt> is false.
+     * <tt>needSnapshot</tt> is false.
      */
     synchronized Vector<TestResult>[] addObserver(TT_NodeCacheObserver obs, boolean needSnapshot) {
         // snapshot the current data
@@ -643,8 +651,8 @@ class TT_NodeCache implements Runnable {
                         log.log(Level.SEVERE, "TT_NodeCache - problem with test result", f);
                     }
 
-                // try to recover it?
-                // ignore error and don't do anything
+                    // try to recover it?
+                    // ignore error and don't do anything
                 }   // catch
 
                 notifyStats();
@@ -664,16 +672,16 @@ class TT_NodeCache implements Runnable {
      * search first or last to help mitigate the O(n) search performance.  It is
      * assumed that synchronization for access to the lists has been taken care of.
      *
-     * @param tr The test to locate.
+     * @param tr               The test to locate.
      * @param firstListToCheck Hint of where to start looking.  -1 to specify none.
-     * @param lastListToCheck Hint of where the last place to look should be.
-     *          -1 to specify none.
+     * @param lastListToCheck  Hint of where the last place to look should be.
+     *                         -1 to specify none.
      * @return Array describing [0] which list the item was found in, [1] at
-     *         what index.  If [0] is greater than -1, then so will [1].  [0]
-     *         of -1 indicates that then item was not found.
+     * what index.  If [0] is greater than -1, then so will [1].  [0]
+     * of -1 indicates that then item was not found.
      */
     private int[] locateTestInLists(TestResult tr, int firstListToCheck,
-            int lastListToCheck) {
+                                    int lastListToCheck) {
         int[] result = new int[2];
         result[0] = -1;
         result[1] = -1;
@@ -741,6 +749,7 @@ class TT_NodeCache implements Runnable {
     /**
      * Prepare to process this node.
      * Avoid calling until it is time to process the node.
+     *
      * @return Iterator for this node, or null if not possible.
      */
     private TestResultTable.TreeIterator init() {
@@ -754,8 +763,8 @@ class TT_NodeCache implements Runnable {
     }
 
     private synchronized void notify(int type, boolean isAdd,
-            TestResultTable.TreeNode[] path,
-            TestResult what, int index) {
+                                     TestResultTable.TreeNode[] path,
+                                     TestResult what, int index) {
         if (observers.length == 0) {
             return;
         }
@@ -819,12 +828,13 @@ class TT_NodeCache implements Runnable {
         }
 
         public abstract void testAdded(int messageType,
-                TestResultTable.TreeNode[] path, TestResult what, int index);
+                                       TestResultTable.TreeNode[] path, TestResult what, int index);
 
         public abstract void testRemoved(int messageType,
-                TestResultTable.TreeNode[] path, TestResult what, int index);
+                                         TestResultTable.TreeNode[] path, TestResult what, int index);
 
         public abstract void statsUpdated(int... stats);
+
         protected boolean[] interestList;
         public static final int EVENT_LIST_SIZE = 7;
         public static final int MSGS_ALL = 0;
@@ -849,6 +859,7 @@ class TT_NodeCache implements Runnable {
             lastTd = null;
             lastRejector = null;
         }
+
         TestDescription lastTd;
         TestFilter lastRejector;
     }

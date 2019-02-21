@@ -54,8 +54,7 @@ import javax.swing.event.ListSelectionListener;
 /**
  * A component that displays an editable list of items.
  */
-public class EditableList extends JComponent implements Accessible
-{
+public class EditableList extends JComponent implements Accessible {
     /**
      * Create an empty component, using a standard UIFactory for this class,
      * and using resources beginning with "list.".
@@ -73,7 +72,8 @@ public class EditableList extends JComponent implements Accessible
 
     /**
      * Create an empty component, using a specified UIFactory and resource prefix.
-     * @param uif The UIFactory used to construct the component
+     *
+     * @param uif   The UIFactory used to construct the component
      * @param uiKey The prefix for any UI resources that may be required
      */
     public EditableList(UIFactory uif, String uiKey) {
@@ -90,7 +90,7 @@ public class EditableList extends JComponent implements Accessible
 
         JToolBar bar = new JToolBar(JToolBar.VERTICAL);
         bar.setFloatable(false);
-        bar.add(addBtn  = createButton(uiKey + ".add"));
+        bar.add(addBtn = createButton(uiKey + ".add"));
         bar.add(removeBtn = createButton(uiKey + ".remove"));
         bar.add(upBtn = createButton(uiKey + ".up"));
         bar.add(downBtn = createButton(uiKey + ".down"));
@@ -102,19 +102,22 @@ public class EditableList extends JComponent implements Accessible
 
     /**
      * Get the accessible context for this pane.
+     *
      * @return the accessible context for this pane
      */
     @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null)
-            accessibleContext = new AccessibleJComponent() { };
+            accessibleContext = new AccessibleJComponent() {
+            };
         return accessibleContext;
     }
 
     /**
      * Set whether or not the list can be edited by the user.
+     *
      * @param b if true, the component can be edited by the user;
-     *   if false, it cannot
+     *          if false, it cannot
      */
     @Override
     public void setEnabled(boolean b) {
@@ -125,6 +128,7 @@ public class EditableList extends JComponent implements Accessible
 
     /**
      * Set the items in the list. Any previous items are removed first.
+     *
      * @param items the array of items to be put in the list.
      * @see #getItems
      */
@@ -144,6 +148,7 @@ public class EditableList extends JComponent implements Accessible
 
     /**
      * Get the items currently in the list.
+     *
      * @return an array containing the items currently in the list
      * @see #setItems
      */
@@ -154,6 +159,7 @@ public class EditableList extends JComponent implements Accessible
 
     /**
      * Get the items currently in the list, in an array of a specific type.
+     *
      * @param c the component type of the array to be returned
      * @return an array containing the items currently in the list
      * @see #setItems
@@ -167,6 +173,7 @@ public class EditableList extends JComponent implements Accessible
     /**
      * Get the tool tip text that appears on the list.
      * (Separate tool tip text will appear on the buttons to manipulate the list.)
+     *
      * @return the tool tip text that appears on the list
      * @see #setToolTipText
      */
@@ -179,6 +186,7 @@ public class EditableList extends JComponent implements Accessible
     /**
      * Set the tool tip text that appears on the list.
      * (Separate tool tip text will appear on the buttons to manipulate the list.)
+     *
      * @param tip the tool tip text to appear on the list
      * @see #getToolTipText
      */
@@ -189,6 +197,7 @@ public class EditableList extends JComponent implements Accessible
 
     /**
      * Add a listener to be notified of events when the list data changes.
+     *
      * @param l the listener to be notified
      * @see #removeListDataListener
      */
@@ -199,6 +208,7 @@ public class EditableList extends JComponent implements Accessible
     /**
      * Remove a listener that was previously added to be notified of
      * events when the list data changes.
+     *
      * @param l the listener to be notified
      * @see #addListDataListener
      */
@@ -208,6 +218,7 @@ public class EditableList extends JComponent implements Accessible
 
     /**
      * Specify whether or not duplicates should be allowed in the list.
+     *
      * @param b true if duplicates should be allowed, and false otherwise
      * @see #isDuplicatesAllowed
      */
@@ -217,6 +228,7 @@ public class EditableList extends JComponent implements Accessible
 
     /**
      * Check whether or not duplicates should be allowed in the list.
+     *
      * @return true if duplicates should be allowed, and false otherwise
      * @see #setDuplicatesAllowed
      */
@@ -227,6 +239,7 @@ public class EditableList extends JComponent implements Accessible
     /**
      * Get the display value for an item in the list. By default, the display
      * value is the item itself.
+     *
      * @param item the object for which to get the display value
      * @return the display value for the specified item
      */
@@ -240,6 +253,7 @@ public class EditableList extends JComponent implements Accessible
      * the user to type in a new string. Subtypes may override this method
      * to provide other ways of specifying items to be added, such as a
      * file chooser.
+     *
      * @return an object to be added to the list, or null if no object
      * to be added.
      */
@@ -253,6 +267,7 @@ public class EditableList extends JComponent implements Accessible
      * the user to type in a new string. Subtypes may override this method
      * to provide other ways of specifying items to be added, such as a
      * file chooser.
+     *
      * @param oldItem the item to be replaced in the list
      * @return an object to replace the old item the list, or null if no
      * replacement should occur.
@@ -267,7 +282,7 @@ public class EditableList extends JComponent implements Accessible
         b.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
         b.addActionListener(listener);
         // should be in uif.createButton?
-        b.setMnemonic(uif.getI18NString(uiKey+ ".mne").charAt(0));
+        b.setMnemonic(uif.getI18NString(uiKey + ".mne").charAt(0));
         return b;
     }
 
@@ -312,6 +327,7 @@ public class EditableList extends JComponent implements Accessible
             }
         }
     }
+
     private void editItem(int index) {
         Object newItem = getNewItem(listModel.getElementAt(index));
 
@@ -331,26 +347,25 @@ public class EditableList extends JComponent implements Accessible
         String title = uif.getI18NString("list.duplicate.title");
 
         JOptionPane.showMessageDialog(this,
-                                      text,
-                                      title,
-                                      JOptionPane.INFORMATION_MESSAGE);
+                text,
+                title,
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     private class Renderer
-        extends DefaultListCellRenderer {
+            extends DefaultListCellRenderer {
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             return super.getListCellRendererComponent(list,
-                                                      getDisplayValue(value),
-                                                      index,
-                                                      isSelected,
-                                                      cellHasFocus);
+                    getDisplayValue(value),
+                    index,
+                    isSelected,
+                    cellHasFocus);
         }
     }
 
     private class Listener
-        implements ActionListener, ListDataListener, ListSelectionListener, MouseListener
-    {
+            implements ActionListener, ListDataListener, ListSelectionListener, MouseListener {
         // ActionListener events, for buttons
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -378,19 +393,26 @@ public class EditableList extends JComponent implements Accessible
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 int index = list.locationToIndex(e.getPoint());
-                if(index != -1)
+                if (index != -1)
                     editItem(index);
             }
         }
 
         @Override
-        public void mouseEntered(MouseEvent e) { }
+        public void mouseEntered(MouseEvent e) {
+        }
+
         @Override
-        public void mouseExited(MouseEvent e) { }
+        public void mouseExited(MouseEvent e) {
+        }
+
         @Override
-        public void mousePressed(MouseEvent e) { }
+        public void mousePressed(MouseEvent e) {
+        }
+
         @Override
-        public void mouseReleased(MouseEvent e) { }
+        public void mouseReleased(MouseEvent e) {
+        }
 
         // ListData events, to redispatch to client, with EditableList.this as the source
         @Override
@@ -401,7 +423,7 @@ public class EditableList extends JComponent implements Accessible
                 if (listeners[i] == ListDataListener.class) {
                     if (e2 == null)
                         e2 = new ListDataEvent(EditableList.this, e.getType(), e.getIndex0(), e.getIndex1());
-                    ((ListDataListener)listeners[i+1]).contentsChanged(e2);
+                    ((ListDataListener) listeners[i + 1]).contentsChanged(e2);
                 }
             }
         }
@@ -414,7 +436,7 @@ public class EditableList extends JComponent implements Accessible
                 if (listeners[i] == ListDataListener.class) {
                     if (e2 == null)
                         e2 = new ListDataEvent(EditableList.this, e.getType(), e.getIndex0(), e.getIndex1());
-                    ((ListDataListener)listeners[i+1]).intervalAdded(e2);
+                    ((ListDataListener) listeners[i + 1]).intervalAdded(e2);
                 }
             }
         }
@@ -427,7 +449,7 @@ public class EditableList extends JComponent implements Accessible
                 if (listeners[i] == ListDataListener.class) {
                     if (e2 == null)
                         e2 = new ListDataEvent(EditableList.this, e.getType(), e.getIndex0(), e.getIndex1());
-                    ((ListDataListener)listeners[i+1]).intervalRemoved(e2);
+                    ((ListDataListener) listeners[i + 1]).intervalRemoved(e2);
                 }
             }
         }
@@ -440,8 +462,7 @@ public class EditableList extends JComponent implements Accessible
             removeBtn.setEnabled(false);
             upBtn.setEnabled(false);
             downBtn.setEnabled(false);
-        }
-        else {
+        } else {
             removeBtn.setEnabled(true);
             int i = list.getSelectedIndex();
             upBtn.setEnabled(i > 0);

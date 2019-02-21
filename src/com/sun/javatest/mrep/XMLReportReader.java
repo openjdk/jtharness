@@ -29,6 +29,7 @@ package com.sun.javatest.mrep;
 
 import com.sun.javatest.ResourceLoader;
 import com.sun.javatest.report.Report;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,12 +57,12 @@ class XMLReportReader {
 
     // this copyes constants from non-API com.sun.org.apache.xerces.internal.jaxp.JAXPConstants
     private static final String JAXP_SCHEMA_LANGUAGE =
-        "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
+            "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
     private static final String W3C_XML_SCHEMA =
-        "http://www.w3.org/2001/XMLSchema";
+            "http://www.w3.org/2001/XMLSchema";
 
     private static final String JAXP_SCHEMA_SOURCE =
-        "http://java.sun.com/xml/jaxp/properties/schemaSource";
+            "http://java.sun.com/xml/jaxp/properties/schemaSource";
 
     Map<Object, Object> readIDs(File file) throws SAXException, IOException, ParserConfigurationException {
         XMLReader reader = XMLReportReader.createXMLReader(true);

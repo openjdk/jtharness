@@ -42,9 +42,10 @@ public class ObservedFile extends File {
 
     synchronized public void addFileListener(FileListener listener) {
         if (listener != null) {
-            list.add(listener );
+            list.add(listener);
         }
     }
+
     synchronized public void removeFileListener(FileListener listener) {
         if (listener != null) {
             list.remove(listener);
@@ -58,9 +59,9 @@ public class ObservedFile extends File {
     }
 
     synchronized public boolean backup() {
-        File to = new File(getAbsolutePath()+"~");
-        File toRecInd = new File(getRecordInexName()+"~");
-        File toLogInd = new File(getLoggersInexName()+"~");
+        File to = new File(getAbsolutePath() + "~");
+        File toRecInd = new File(getRecordInexName() + "~");
+        File toLogInd = new File(getLoggersInexName() + "~");
 
         // need for windows:
         to.delete();
@@ -124,7 +125,7 @@ public class ObservedFile extends File {
             recs.close();
         } catch (IOException ex) {
             ex.printStackTrace();
-        } finally{
+        } finally {
             try {
                 if (logs != null) logs.close();
                 if (recs != null) recs.close();

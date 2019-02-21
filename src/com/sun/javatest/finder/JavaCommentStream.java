@@ -29,48 +29,47 @@ package com.sun.javatest.finder;
 import java.io.IOException;
 
 /**
-  * This class extracts all ASCII characters within two of Java's
-  * comments:  traditional comments (bound by "/*" and "*\/") and
-  * documentation comments (bound by "/**" and "*\/").  The comment
-  * may span multiple lines.  All leading "*" characters and any
-  * preceding blanks or tabs are ignored.
-  *
-  * @see CommentStream
-  */
-public class JavaCommentStream extends CommentStream
-{
+ * This class extracts all ASCII characters within two of Java's
+ * comments:  traditional comments (bound by "/*" and "*\/") and
+ * documentation comments (bound by "/**" and "*\/").  The comment
+ * may span multiple lines.  All leading "*" characters and any
+ * preceding blanks or tabs are ignored.
+ *
+ * @see CommentStream
+ */
+public class JavaCommentStream extends CommentStream {
     @Override
     public String readComment() throws IOException {
         int c;
         StringBuffer comment = new StringBuffer(0);
 
-    commentStart:
+        commentStart:
         // start of comment is "/*".
         while (true) {
             switch (c = cs.read()) {
-            case -1:
-                return null;
-            case '/':
-                switch (cs.read()) {
                 case -1:
                     return null;
-                case '*':
-                    break commentStart;
                 case '/':
-                    skipLine();
+                    switch (cs.read()) {
+                        case -1:
+                            return null;
+                        case '*':
+                            break commentStart;
+                        case '/':
+                            skipLine();
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case '\'':
+                case '"':
+                    skipString(c);
                     break;
                 default:
+                    if (!Character.isWhitespace((char) c) && fastScan)
+                        return null;
                     break;
-                }
-                break;
-            case '\'':
-            case '"':
-                skipString(c);
-                break;
-            default:
-                if (!Character.isWhitespace((char) c) && fastScan)
-                    return null;
-                break;
             }
         }
 
@@ -79,29 +78,29 @@ public class JavaCommentStream extends CommentStream
         // end of comment is "*/".
         // take care to handle repeated stars before end of comment
         boolean starPending = false;
-    commentEnd:
+        commentEnd:
         while (true) {
             switch (c = cs.read()) {
-            case -1:
-                return null;
-            case '*':
-                if (starPending)
-                    putc(comment, c); // flush pending *, leave * pending
-                else
-                    starPending = true;
-                break;
-            case '/':
-                if (starPending)
-                    break commentEnd;  // finally got "*/"
-                putc(comment, c);
-                break;
-            default:
-                if (starPending) {
-                    putc(comment, '*');
-                    starPending = false;
-                }
-                putc(comment, c);
-                break;
+                case -1:
+                    return null;
+                case '*':
+                    if (starPending)
+                        putc(comment, c); // flush pending *, leave * pending
+                    else
+                        starPending = true;
+                    break;
+                case '/':
+                    if (starPending)
+                        break commentEnd;  // finally got "*/"
+                    putc(comment, c);
+                    break;
+                default:
+                    if (starPending) {
+                        putc(comment, '*');
+                        starPending = false;
+                    }
+                    putc(comment, c);
+                    break;
             }
         }
         return comment.toString();
@@ -114,22 +113,22 @@ public class JavaCommentStream extends CommentStream
             //case '\b':
             //case '\f':
             //break;
-        case '\n':
-        case '\r':
-            //XXX dump the newline info?
-            s.append((char) c);
-            startLine = true;
-            break;
-        case ' ':
-        case '\t':
-        case '*':
-            if (!startLine)
+            case '\n':
+            case '\r':
+                //XXX dump the newline info?
                 s.append((char) c);
-            break;
-        default:
-            startLine = false;
-            s.append((char) c);
-            break;
+                startLine = true;
+                break;
+            case ' ':
+            case '\t':
+            case '*':
+                if (!startLine)
+                    s.append((char) c);
+                break;
+            default:
+                startLine = false;
+                s.append((char) c);
+                break;
         }
     } // putc()
 

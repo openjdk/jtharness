@@ -38,17 +38,16 @@ import com.sun.javatest.Parameters;
  * a test run.
  */
 public class ConcurrencyInterview
-    extends Interview
-    implements Parameters.MutableConcurrencyParameters
-{
+        extends Interview
+        implements Parameters.MutableConcurrencyParameters {
     /**
      * Create an interview.
+     *
      * @param parent The parent interview of which this is a child.
      * @throws Interview.Fault if there is a problem while creating the interview.
      */
     public ConcurrencyInterview(Interview parent)
-        throws Interview.Fault
-    {
+            throws Interview.Fault {
         // if this constructor is used, it uses the system max value
         // existing JT code should be using the two param constructor
         this(parent, Parameters.ConcurrencyParameters.MAX_CONCURRENCY);
@@ -56,14 +55,14 @@ public class ConcurrencyInterview
 
     /**
      * Create an interview.
+     *
      * @param parent The parent interview of which this is a child.
-     * @param max The maximum value for concurrency which should be accepted.
-     *     Should be a value between 1 and the maximum possible positive value.
+     * @param max    The maximum value for concurrency which should be accepted.
+     *               Should be a value between 1 and the maximum possible positive value.
      * @throws Interview.Fault if there is a problem while creating the interview.
      */
     public ConcurrencyInterview(Interview parent, int max)
-        throws Interview.Fault
-    {
+            throws Interview.Fault {
         super(parent, "concurrency");
         this.parent = parent;
         setResourceBundle("i18n");
@@ -74,23 +73,22 @@ public class ConcurrencyInterview
         }
 
         // init here so that we can use the value provided for max
-        qConcurrency =  new IntQuestion(this, "concurrency") {
-        {
-            setBounds(Parameters.ConcurrencyParameters.MIN_CONCURRENCY,
-                      maxValue);
-        }
+        qConcurrency = new IntQuestion(this, "concurrency") {
+            {
+                setBounds(Parameters.ConcurrencyParameters.MIN_CONCURRENCY,
+                        maxValue);
+            }
 
-        @Override
-        protected Question getNext() {
-            return qEnd;
-        }
+            @Override
+            protected Question getNext() {
+                return qEnd;
+            }
 
-        @Override
-        public void clear() {
-            setValue(1);
-        }
-    };
-
+            @Override
+            public void clear() {
+                setValue(1);
+            }
+        };
 
 
         setFirstQuestion(qConcurrency);
@@ -98,6 +96,7 @@ public class ConcurrencyInterview
 
     /**
      * Get the concurrency value from the interview.
+     *
      * @return an integer representing the desired concurrency for a test run.
      * @see #setConcurrency
      */
@@ -108,6 +107,7 @@ public class ConcurrencyInterview
 
     /**
      * Set the concurrency value in the interview.
+     *
      * @param conc The desired concurrency value.
      * @see #getConcurrency
      */

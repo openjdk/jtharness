@@ -35,6 +35,7 @@ import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.tool.Tool;
 import com.sun.javatest.tool.UIFactory;
+
 import java.awt.BorderLayout;
 import java.awt.print.PageFormat;
 import java.awt.print.PrinterException;
@@ -87,7 +88,7 @@ public class ExecTool extends Tool implements ExecModel,
         sessionControl = controlFactory.createSessionControl();
         Session s = sessionControl.getSession();
         if (s instanceof SessionExt) {
-            session = (SessionExt)s;
+            session = (SessionExt) s;
         } else {
             throw new Error(uif.getI18NString("bcc.notSessionExtInstance.err", s.getClass()));
         }
@@ -95,7 +96,7 @@ public class ExecTool extends Tool implements ExecModel,
         controls.add(sessionControl);
 
 
-        runTestsHandler =  prviateFactory.createRunTestControl();
+        runTestsHandler = prviateFactory.createRunTestControl();
         runTestsHandler.setConfig(session);
         controls.add(runTestsHandler);
 
@@ -103,8 +104,8 @@ public class ExecTool extends Tool implements ExecModel,
         controls.add(reportHandler);
 
         ET_FilterControl fControl = controlFactory.createFilterControl();
-        if (fControl instanceof ET_FilterHandler){
-            filterHandler = (ET_FilterHandler)fControl;
+        if (fControl instanceof ET_FilterHandler) {
+            filterHandler = (ET_FilterHandler) fControl;
         } else {
             throw new Error(uif.getI18NString("et.badFilterControl.err"));
         }
@@ -129,15 +130,15 @@ public class ExecTool extends Tool implements ExecModel,
         }
 
         Harness harness = runTestsHandler.getHarness();
-        for (ET_Control c:controls) {
+        for (ET_Control c : controls) {
             if (c instanceof Session.Observer) {
-                session.addObserver((Session.Observer)c);
+                session.addObserver((Session.Observer) c);
             }
             if (c instanceof ET_RunTestControl.Observer) {
-                runTestsHandler.addObserver((ET_RunTestControl.Observer)c);
+                runTestsHandler.addObserver((ET_RunTestControl.Observer) c);
             }
             if (c instanceof HarnessAware) {
-                ((HarnessAware)c).setHarness(harness);
+                ((HarnessAware) c).setHarness(harness);
             }
         }
 
@@ -150,21 +151,22 @@ public class ExecTool extends Tool implements ExecModel,
 
     ContextManager createContextManager() {
         try {
-           ContextManager cm = createContextManager(testSuite);
-           if (cm != null) {
-               cm.setTestSuite(testSuite);
-               if (session != null) {
-                   cm.setCurrentConfig(session);
-               }
-               cm.setTool(this);
-           }
-           return cm;
+            ContextManager cm = createContextManager(testSuite);
+            if (cm != null) {
+                cm.setTestSuite(testSuite);
+                if (session != null) {
+                    cm.setCurrentConfig(session);
+                }
+                cm.setTool(this);
+            }
+            return cm;
         } catch (Exception e) {
             e.printStackTrace();        // XXX rm
             // should print log entry
         }
         return null;
     }
+
     public static ContextManager createContextManager(TestSuite ts) {
         ContextManager cm = null;
         String cls = null;
@@ -201,7 +203,7 @@ public class ExecTool extends Tool implements ExecModel,
         }
 
         menuBar = new JMenuBar();
-        for (ET_Control c:controls) {
+        for (ET_Control c : controls) {
             JMenu m = c.getMenu();
             if (m != null) {
                 menuBar.add(m);
@@ -212,7 +214,7 @@ public class ExecTool extends Tool implements ExecModel,
 
     protected JToolBar getToolBar() {
         ArrayList<Action> v = new ArrayList<>();
-        for (ET_Control c: controls) {
+        for (ET_Control c : controls) {
             List<Action> acts = c.getToolBarActionList();
             if (acts != null) {
                 v.addAll(acts);
@@ -246,11 +248,13 @@ public class ExecTool extends Tool implements ExecModel,
     }
 
     boolean initialized = false;
+
     @Override
     public void setVisible(boolean f) {
         initGUI(); // does real work just once
         super.setVisible(f);
     }
+
     protected void initGUI() {
         if (initialized) {
             return;
@@ -258,7 +262,7 @@ public class ExecTool extends Tool implements ExecModel,
         initialized = true;
 
         if (context != null &&
-            "com.sun.javatest.exec.ContextManager".equals(context.getClass().getCanonicalName())) {
+                "com.sun.javatest.exec.ContextManager".equals(context.getClass().getCanonicalName())) {
             context = null;
         }
         setLayout(new BorderLayout());
@@ -293,14 +297,14 @@ public class ExecTool extends Tool implements ExecModel,
 
     @Override
     protected void save(Map<String, String> m) {
-        for (ET_Control c:controls) {
+        for (ET_Control c : controls) {
             c.save(m);
         }
     }
 
     @Override
     protected void restore(Map<String, String> m) {
-        for (ET_Control c:controls) {
+        for (ET_Control c : controls) {
             c.restore(m);
         }
     }
@@ -312,7 +316,7 @@ public class ExecTool extends Tool implements ExecModel,
         if (context != null)
             context.dispose();
 
-        for (ET_Control c:controls) {
+        for (ET_Control c : controls) {
             c.dispose();
         }
 
@@ -348,7 +352,7 @@ public class ExecTool extends Tool implements ExecModel,
 
     @Override
     public FilterConfig getFilterConfig() {
-         return filterHandler.getFilterConfig();
+        return filterHandler.getFilterConfig();
     }
 
     @Override
@@ -389,7 +393,7 @@ public class ExecTool extends Tool implements ExecModel,
      */
     Action getCreateWDAction() {
         if (sessionControl instanceof BasicSessionControl) {
-            return ((BasicSessionControl)sessionControl).newWorkDirAction;
+            return ((BasicSessionControl) sessionControl).newWorkDirAction;
         }
         return null; // no idea how to create WD
     }
@@ -404,7 +408,7 @@ public class ExecTool extends Tool implements ExecModel,
      */
     Action getOpenWDAction() {
         if (sessionControl instanceof BasicSessionControl) {
-            return ((BasicSessionControl)sessionControl).openWorkDirAction;
+            return ((BasicSessionControl) sessionControl).openWorkDirAction;
         }
         return null; // no idea how to create WD
     }
@@ -413,7 +417,7 @@ public class ExecTool extends Tool implements ExecModel,
         if (!initialized) {
             return;
         }
-        for (ET_Control c: controls) {
+        for (ET_Control c : controls) {
             c.updateGUI();
         }
         updateTitle();
@@ -421,6 +425,7 @@ public class ExecTool extends Tool implements ExecModel,
 
     /**
      * Invoked when manager orders to use new wd.
+     *
      * @param wd
      * @throws com.sun.javatest.exec.Session.Fault
      * @see ExecTool#update(WorkDirectory, boolean)
@@ -432,7 +437,8 @@ public class ExecTool extends Tool implements ExecModel,
 
     /**
      * Invoked when manager orders to use new wd.
-     * @param wd Work dir to update.
+     *
+     * @param wd           Work dir to update.
      * @param updateConfig - hint whether to reload the configuration from disk
      * @throws com.sun.javatest.exec.Session.Fault
      */
@@ -442,6 +448,7 @@ public class ExecTool extends Tool implements ExecModel,
 
     /**
      * Invoked when manager orders to use new ip
+     *
      * @param ip
      * @throws com.sun.javatest.exec.Session.Fault
      */
@@ -455,6 +462,7 @@ public class ExecTool extends Tool implements ExecModel,
 
     /**
      * Session.Observer interface method
+     *
      * @param e
      */
     @Override
@@ -479,6 +487,7 @@ public class ExecTool extends Tool implements ExecModel,
     public void showConfigEditor(boolean runTests) {
         throw new UnsupportedOperationException("Not supported already.");
     }
+
     @Override
     public void showTemplateEditor() {
         throw new UnsupportedOperationException("Not supported already.");
@@ -530,12 +539,11 @@ public class ExecTool extends Tool implements ExecModel,
         if (result) {
             try {
                 pj.print();
-            } catch(PrinterException e) {
+            } catch (PrinterException e) {
                 // Should send to logging system
                 //e.printStackTrace();
             }
-        }
-        else {
+        } else {
             //System.err.println("print job REJECTED!");
             //Send to logging system
         }
@@ -571,6 +579,7 @@ public class ExecTool extends Tool implements ExecModel,
     public void showQuickStartWizard() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
     public boolean isQuickStartWizardShowing() {
         return false;
     }
@@ -620,10 +629,10 @@ public class ExecTool extends Tool implements ExecModel,
             testTreePanel.getTreePanelModel().refreshTree();
             testTreePanel.getTreePanelModel().unpauseWork();
 
-        }
-        else
+        } else
             shouldPauseTree = false;
     }
+
     // special method to allow saving when the interview was externally modified
     // for JDTS project, may change in the future
     // as of JT 4.3 does nothing...
@@ -634,7 +643,7 @@ public class ExecTool extends Tool implements ExecModel,
     // legacy
     void loadInterview(File file) {
         if (sessionControl instanceof BasicSessionControl) {
-            BasicSessionControl bcc = (BasicSessionControl)sessionControl;
+            BasicSessionControl bcc = (BasicSessionControl) sessionControl;
             if (bcc.session.getWorkDirectory() == null) {
                 throw new IllegalStateException();
             }

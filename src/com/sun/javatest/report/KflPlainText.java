@@ -38,6 +38,7 @@ import java.util.SortedSet;
 
 /**
  * Class to emit KFL check results in plain text format.
+ *
  * @since 4.5
  */
 public class KflPlainText {
@@ -100,19 +101,18 @@ public class KflPlainText {
         // find associated KFL entries
         if (diff.getTestCase() == null) {
             e = kfl.find(diff.getTestName());
-        }
-        else {
+        } else {
             KnownFailuresList.Entry ee = kfl.find(diff.getTestName(),
                     diff.getTestCase());
             if (ee != null)
-                e = new KnownFailuresList.Entry[] {ee};
+                e = new KnownFailuresList.Entry[]{ee};
         }
 
         // no entry, nothing to print
         if (e == null || e.length == 0) {
             // force the associated entry if possible
             if (diff.getKflEntry() != null)
-                e = new KnownFailuresList.Entry[] {diff.getKflEntry()};
+                e = new KnownFailuresList.Entry[]{diff.getKflEntry()};
             else
                 return;
         }

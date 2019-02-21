@@ -57,8 +57,7 @@ import com.sun.javatest.Parameters;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
 
-class ExcludeListBrowser extends ToolDialog
-{
+class ExcludeListBrowser extends ToolDialog {
     ExcludeListBrowser(Container parent, UIFactory uif) {
         super(parent, uif, "elb");
 
@@ -74,7 +73,7 @@ class ExcludeListBrowser extends ToolDialog
         ExcludeList exclList = params.getExcludeList();
         File[] exclFiles;
         Parameters.ExcludeListParameters eParams =
-            params.getExcludeListParameters();
+                params.getExcludeListParameters();
         if (eParams instanceof Parameters.MutableExcludeListParameters)
             exclFiles = ((Parameters.MutableExcludeListParameters) eParams).getExcludeFiles();
         else
@@ -83,7 +82,7 @@ class ExcludeListBrowser extends ToolDialog
         // rely on interview caching to allow reference equality here
         if (list != exclList || files != exclFiles || model == null || list.size() != model.getRowCount()) {
             setTable(exclFiles, exclList);
-    }
+        }
     }
 
     private void setTable(File[] files, ExcludeList list) {
@@ -94,11 +93,11 @@ class ExcludeListBrowser extends ToolDialog
         model = new ExcludeListTableModel(list);
         table.setModel(model);
 
-    if (model.getRowCount() == 0) {
+        if (model.getRowCount() == 0) {
             setI18NTitle("elb.title0");
-    } else {
+        } else {
             setI18NTitle("elb.title1", String.valueOf(model.getRowCount()));
-    }
+        }
 
     }
 
@@ -184,7 +183,7 @@ class ExcludeListBrowser extends ToolDialog
 
         JButton helpBtn = uif.createHelpButton("elb.help", "exclList.window.csh");
         JButton closeBtn = uif.createCloseButton("elb.close");
-        setButtons(new JButton[] { helpBtn, closeBtn }, closeBtn);
+        setButtons(new JButton[]{helpBtn, closeBtn}, closeBtn);
 
         setComponentListener(listener);
     }
@@ -196,8 +195,7 @@ class ExcludeListBrowser extends ToolDialog
             synopsisField.setText("");
             kwField.setText("");
             bugIdsField.setText("");
-        }
-        else {
+        } else {
             synopsisField.setText(e.getSynopsis());
             kwField.setText(getKeywords(e));
             bugIdsField.setText(getBugIds(e));
@@ -246,9 +244,8 @@ class ExcludeListBrowser extends ToolDialog
     private Listener listener;
 
     private class Listener
-        extends ComponentAdapter
-        implements Interview.Observer
-    {
+            extends ComponentAdapter
+            implements Interview.Observer {
         // ComponentListener
         @Override
         public void componentShown(ComponentEvent e) {
@@ -281,8 +278,7 @@ class ExcludeListBrowser extends ToolDialog
 
     private String[] columnNames;
 
-    private class ExcludeListTableModel implements TableModel
-    {
+    private class ExcludeListTableModel implements TableModel {
         ExcludeListTableModel(ExcludeList list) {
             if (columnNames == null) {
                 columnNames = new String[COLUMN_COUNT];
@@ -297,13 +293,13 @@ class ExcludeListBrowser extends ToolDialog
             // done by a worker thread, perhaps using the nested List class as
             // a Runnable.
             SortedSet<ExcludeList.Entry> sortedEntries = new TreeSet<>(new Comparator<ExcludeList.Entry>() {
-                    @Override
-                    public int compare(ExcludeList.Entry o1, ExcludeList.Entry o2) {
-                        String s1 = entryToString(o1);
-                        String s2 = entryToString(o2);
-                        return s1.compareTo(s2);
-                    }
-                });
+                @Override
+                public int compare(ExcludeList.Entry o1, ExcludeList.Entry o2) {
+                    String s1 = entryToString(o1);
+                    String s2 = entryToString(o2);
+                    return s1.compareTo(s2);
+                }
+            });
 
             if (list != null) {
                 for (Iterator<?> iter = list.getIterator(false); iter.hasNext(); ) {
@@ -350,20 +346,20 @@ class ExcludeListBrowser extends ToolDialog
         public Object getValueAt(int rowIndex, int colIndex) {
             ExcludeList.Entry e = entries[rowIndex];
             switch (colIndex) {
-            case TEST_NAME_COL:
-                return e.getRelativeURL();
+                case TEST_NAME_COL:
+                    return e.getRelativeURL();
 
-            case TEST_CASE_COL:
-                return e.getTestCases();
+                case TEST_CASE_COL:
+                    return e.getTestCases();
 
-            case BUG_COL:
-                return getBugIds(e);
+                case BUG_COL:
+                    return getBugIds(e);
 
-            case KEYWORDS_COL:
-                return getKeywords(e);
+                case KEYWORDS_COL:
+                    return getKeywords(e);
 
-            case SYNOPSIS_COL:
-                return e.getSynopsis();
+                case SYNOPSIS_COL:
+                    return e.getSynopsis();
             }
 
             throw new IllegalArgumentException();

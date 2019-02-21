@@ -31,6 +31,7 @@ package com.sun.javatest.exec;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.tool.Tool;
 import com.sun.javatest.tool.UIFactory;
+
 import java.util.List;
 import javax.swing.JComponent;
 
@@ -63,7 +64,7 @@ public class ET_DefaultControlFactory implements ET_ControlFactory {
      * Initializes fields, does not create any instances.
      */
     public ET_DefaultControlFactory(JComponent parent, UIFactory uif, TestSuite ts,
-            ContextManager cm, ExecModel execModel, Tool tool) {
+                                    ContextManager cm, ExecModel execModel, Tool tool) {
 
         this.parent = parent;
         this.uif = uif;
@@ -114,7 +115,7 @@ public class ET_DefaultControlFactory implements ET_ControlFactory {
     public ET_ViewControl createViewControl() {
         if (viewControl == null) {
             viewControl = new ET_DefaultViewControl(parent, ts, execModel, uif,
-                createFilterControl());
+                    createFilterControl());
         }
         return viewControl;
     }
@@ -132,6 +133,7 @@ public class ET_DefaultControlFactory implements ET_ControlFactory {
 
     /**
      * No custom controls by default.
+     *
      * @return null
      */
     @Override

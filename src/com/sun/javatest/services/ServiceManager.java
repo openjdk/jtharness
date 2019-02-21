@@ -44,6 +44,7 @@ import com.sun.javatest.tool.CommandManager;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.HelpTree.Node;
 import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
@@ -104,13 +105,16 @@ public class ServiceManager implements Harness.Observer {
             key = s;
         }
 
-        public String getKey() {return key;}
+        public String getKey() {
+            return key;
+        }
     }
 
     /**
      * Constructor to create ServiceManager for services of given test suite.
      * During initialization, reads from test suite information about specified
      * services.
+     *
      * @param ts test suite, which services will be managed.
      */
     public ServiceManager(TestSuite ts) {
@@ -133,6 +137,7 @@ public class ServiceManager implements Harness.Observer {
      * Links this ServiceManager with {@link com.sun.javatest.Harness}.
      * Set itself as Harness observer, creates logger for service-related
      * messages.
+     *
      * @param h {@link com.sun.javatest.Harness} to link with.
      */
     public void setHarness(Harness h) {
@@ -172,6 +177,7 @@ public class ServiceManager implements Harness.Observer {
     /**
      * Allows to specify non-default output Writer for particular service.
      * Default writer logs services output to JavaTest logging subsystem.
+     *
      * @param sID string with service's ID.
      * @param out Writer to use.
      */
@@ -182,6 +188,7 @@ public class ServiceManager implements Harness.Observer {
     /**
      * Allows to specify non-default error Writer for particular service.
      * Default writer logs services error output to JavaTest logging subsystem.
+     *
      * @param sID string with service's ID.
      * @param err Writer to use.
      */
@@ -190,9 +197,9 @@ public class ServiceManager implements Harness.Observer {
     }
 
 
-
     /**
      * Returns all services it manages.
+     *
      * @return Map of all managed services, where keys are service's IDs and
      * values are {@link com.sun.javatest.services.Service} objects.
      */
@@ -203,6 +210,7 @@ public class ServiceManager implements Harness.Observer {
     /**
      * Returns set of string with IDs for those services, which are required
      * for current test run.
+     *
      * @return IDs for currently used services.
      */
     public Set<String> getActiveServices() {
@@ -222,8 +230,7 @@ public class ServiceManager implements Harness.Observer {
                 for (Observer o : watchDog.getObservers()) {
                     o.handleError(sID, new ServiceError(msg));
                 }
-            }
-            else {
+            } else {
                 String msg = "Service " + sID + " was started";
                 commonLog.log(Level.INFO, msg);
                 activeServices.add(sID);
@@ -365,8 +372,9 @@ public class ServiceManager implements Harness.Observer {
 
     /**
      * Set service's start mode.
+     *
      * @param mode one of supported
-     * {@link com.sun.javatest.service.ServiceManager#StartMode} values.
+     *             {@link com.sun.javatest.service.ServiceManager#StartMode} values.
      */
     public void setStartMode(StartMode mode) {
         this.mode = mode;
@@ -378,7 +386,7 @@ public class ServiceManager implements Harness.Observer {
         TestResult tr;
         TestDescription td;
         while (!copy.isEmpty() && active.size() < services.size() &&
-                (tr = iter.next()) != null ) {
+                (tr = iter.next()) != null) {
             try {
                 td = tr.getDescription();
                 Set<TestPath> toRemove = new HashSet<>();
@@ -391,7 +399,8 @@ public class ServiceManager implements Harness.Observer {
                     }
                 }
                 copy.removeAll(toRemove);
-            } catch (Fault ex) {}
+            } catch (Fault ex) {
+            }
         }
         return active;
     }
@@ -433,14 +442,14 @@ public class ServiceManager implements Harness.Observer {
                 if (w == null) {
                     outs.put(sID, new LogWriter(s.getLog(), Level.ALL));
                 }
-                InputStreamReader or  = new InputStreamReader(s.getInputStream());
+                InputStreamReader or = new InputStreamReader(s.getInputStream());
                 sOuts.put(sID, or);
 
                 w = errs.get(sID);
                 if (w == null) {
                     errs.put(sID, new LogWriter(s.getLog(), Level.SEVERE));
                 }
-                InputStreamReader er  = new InputStreamReader(s.getErrorStream());
+                InputStreamReader er = new InputStreamReader(s.getErrorStream());
                 sErrs.put(sID, er);
 
                 notifyAll();
@@ -508,14 +517,16 @@ public class ServiceManager implements Harness.Observer {
                     if (sOuts.isEmpty() && sErrs.isEmpty()) {
                         try {
                             wait();
-                        } catch (InterruptedException ex) {}
+                        } catch (InterruptedException ex) {
+                        }
                     }
                 }
                 write(outs, sOuts);
                 write(errs, sErrs);
                 try {
                     Thread.currentThread().sleep(1000);
-                } catch (InterruptedException ex) {}
+                } catch (InterruptedException ex) {
+                }
             }
         }
 
@@ -542,7 +553,8 @@ public class ServiceManager implements Harness.Observer {
                         if (n > 0) {
                             w.write(buf, 0, n);
                         }
-                    } catch (IOException ex) {}
+                    } catch (IOException ex) {
+                    }
                     if (n == -1) {
                         toRemove.add(sID);
                     }
@@ -582,9 +594,11 @@ public class ServiceManager implements Harness.Observer {
         public void addObserver(Observer o) {
             observers.add(o);
         }
+
         public void removeObserver(Observer o) {
             observers.remove(o);
         }
+
         public Set<Observer> getObservers() {
             return observers;
         }
@@ -606,7 +620,8 @@ public class ServiceManager implements Harness.Observer {
                     if (active.isEmpty()) {
                         try {
                             sync.wait();
-                        } catch (InterruptedException ex) {}
+                        } catch (InterruptedException ex) {
+                        }
                     }
                 }
 
@@ -632,7 +647,8 @@ public class ServiceManager implements Harness.Observer {
                 }
                 try {
                     Thread.currentThread().sleep(1000);
-                } catch (InterruptedException ex) {}
+                } catch (InterruptedException ex) {
+                }
             }
         }
 
@@ -640,7 +656,9 @@ public class ServiceManager implements Harness.Observer {
 
     public static interface Observer {
         public void handleAlive(String sID, boolean alive);
+
         public void handleNotConnected(String sID, NotConnectedException ex);
+
         public void handleError(String sID, ServiceError ex);
     }
 
@@ -666,7 +684,7 @@ public class ServiceManager implements Harness.Observer {
         @Override
         public Node getHelp() {
             String[] cmds = {
-                ServiceStartCommand.getName()
+                    ServiceStartCommand.getName()
             };
             return new HelpTree.Node(i18n, "cmds", cmds);
         }
@@ -701,7 +719,8 @@ public class ServiceManager implements Harness.Observer {
             }
 
             @Override
-            public void run(CommandContext ctx) {}
+            public void run(CommandContext ctx) {
+            }
         }
 
 

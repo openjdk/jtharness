@@ -27,6 +27,7 @@
 package com.sun.javatest.exec;
 
 import com.sun.javatest.TestResult;
+
 import javax.swing.JPanel;
 
 /**
@@ -44,13 +45,15 @@ public abstract class CustomTestResultViewer extends JPanel {
      * <li>TestResult is the current test, the viewer should check the result for updates</li>
      * <li>TestResult is null. There is no selected test.</li>
      * </ul>
+     *
      * @param currTestResult Test result object which should be rendered in this
-     *    panel immediately.  May or may not be the one currently displayed.
+     *                       panel immediately.  May or may not be the one currently displayed.
      */
     public abstract void setResult(TestResult currTestResult);
 
     /**
      * Returns the name of this CustomTestResultViewer.
+     *
      * @return <tt>title</tt> for the viewer.
      * Return value can't be null or empty String
      **/
@@ -61,6 +64,7 @@ public abstract class CustomTestResultViewer extends JPanel {
      * Get the long description of this CustomTestResultViewer's purpose.
      * May be multiple sentences if desired.
      * The return value should be localized.
+     *
      * @return <tt>description</tt> for the viewer.
      * Return value can't be null or empty String
      **/
@@ -68,8 +72,9 @@ public abstract class CustomTestResultViewer extends JPanel {
 
     /**
      * Makes the viewer visible or invisible.
-     * @param aFlag  true to make the viewer visible; false to
-     *          make it invisible
+     *
+     * @param aFlag true to make the viewer visible; false to
+     *              make it invisible
      */
     public void setViewerVisible(boolean aFlag) {
         if (aFlag != isVisible) {
@@ -95,12 +100,12 @@ public abstract class CustomTestResultViewer extends JPanel {
      * Subclasses might override this method, e.g. to change
      * the <tt>TestResult</tt> object to observe upon.
      *
-     * @param newTR is a <tt>TestResult</tt> object for  selected test.
+     * @param newTR    is a <tt>TestResult</tt> object for  selected test.
      * @param isActive true if this <tt>CustomTestResultViewer</tt> is currently
-     * selected otherwise false
+     *                 selected otherwise false
      */
     public void onCangedTestResult(TestResult newTR, boolean isActive) {
-        return ;
+        return;
     }
 
 

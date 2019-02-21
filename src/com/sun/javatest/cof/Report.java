@@ -32,401 +32,364 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class Report extends COFItem {
-        static final String COF_SCHEMA = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema";
+    static final String COF_SCHEMA = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema";
 
-        static final String COF_SCHEMA_LOCATION = "http://hestia.sfbay.sun.com/projects/COF/2003/2_0_2/Schema/COF2_0_2.xsd";
+    static final String COF_SCHEMA_LOCATION = "http://hestia.sfbay.sun.com/projects/COF/2003/2_0_2/Schema/COF2_0_2.xsd";
 
-        static final String VERSION = "2.0.2";
+    static final String VERSION = "2.0.2";
 
-        static final LinkedHashMap<String, String> xmlAttributes;
+    static final LinkedHashMap<String, String> xmlAttributes;
 
-        static final LinkedHashMap<String, String> xmlElements;
+    static final LinkedHashMap<String, String> xmlElements;
 
-        static String xmlTagName;
+    static String xmlTagName;
 
-        private static final String XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
+    private static final String XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
 
-        static {
-                xmlElements = new LinkedHashMap<>();
-                xmlAttributes = new LinkedHashMap<>();
-                xmlElements.put("date", "date");
-                xmlElements.put("version", "version");
-                xmlElements.put("environments", "environments");
-                xmlElements.put("swentities", "swentities");
-                xmlElements.put("applications", "applications");
-                xmlElements.put("operator", "operator");
-                xmlElements.put("harness", "harness");
-                xmlElements.put("testsuites", "testsuites");
-                xmlElements.put("annotations", "annotations");
-                xmlAttributes.put("xsiNS", "xmlns:xsi");
-                xmlAttributes.put("cofNS", "xmlns:cof");
-                xmlAttributes.put("targetNS", "xmlns");
-                xmlAttributes.put("schemaLocation", "xsi:schemaLocation");
-                xmlTagName = "report";
+    static {
+        xmlElements = new LinkedHashMap<>();
+        xmlAttributes = new LinkedHashMap<>();
+        xmlElements.put("date", "date");
+        xmlElements.put("version", "version");
+        xmlElements.put("environments", "environments");
+        xmlElements.put("swentities", "swentities");
+        xmlElements.put("applications", "applications");
+        xmlElements.put("operator", "operator");
+        xmlElements.put("harness", "harness");
+        xmlElements.put("testsuites", "testsuites");
+        xmlElements.put("annotations", "annotations");
+        xmlAttributes.put("xsiNS", "xmlns:xsi");
+        xmlAttributes.put("cofNS", "xmlns:cof");
+        xmlAttributes.put("targetNS", "xmlns");
+        xmlAttributes.put("schemaLocation", "xsi:schemaLocation");
+        xmlTagName = "report";
 
-        }
+    }
 
-        //    @XmlAttribute
-        protected String analysis;
+    //    @XmlAttribute
+    protected String analysis;
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
-        protected COFReportAnnotations annotations;
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    protected COFReportAnnotations annotations;
 
-        //    @XmlAnyElement
-        protected List<COFItem>any;
+    //    @XmlAnyElement
+    protected List<COFItem> any;
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
-        protected COFApplications applications;
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    protected COFApplications applications;
 
-        //  @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true, type = String.class)
-        protected Date date;
+    //  @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true, type = String.class)
+    protected Date date;
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
-        protected COFEnvironments environments;
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    protected COFEnvironments environments;
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
-        protected String harness;
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
+    protected String harness;
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
-        protected String operator;
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
+    protected String operator;
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
-        protected COFSWEntities swentities;
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
+    protected COFSWEntities swentities;
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
-        protected COFTestSuites testsuites;
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    protected COFTestSuites testsuites;
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
-        protected String version;
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    protected String version;
 
-        Report() {
-                setDate(new Date());
-                setVersion(VERSION);
-                setAnnotations(new COFReportAnnotations());
-        }
+    Report() {
+        setDate(new Date());
+        setVersion(VERSION);
+        setAnnotations(new COFReportAnnotations());
+    }
 
-        Report(COFEnvironment env, COFTestSuite ts) {
-                this();
-                getEnvironments().getEnvironment().add(env);
-                getTestsuites().getTestsuite().add(ts);
-        }
+    Report(COFEnvironment env, COFTestSuite ts) {
+        this();
+        getEnvironments().getEnvironment().add(env);
+        getTestsuites().getTestsuite().add(ts);
+    }
 
-        Report(COFEnvironment[] envs, COFTestSuite ts) {
-                this();
+    Report(COFEnvironment[] envs, COFTestSuite ts) {
+        this();
         for (int i = 0; i < envs.length; i++) {
             getEnvironments().getEnvironment().add(envs[i]);
         }
-                getTestsuites().getTestsuite().add(ts);
-        }
+        getTestsuites().getTestsuite().add(ts);
+    }
 
-        void addEnvironment(COFEnvironment env) {
-                getEnvironments().getEnvironment().add(env);
-        }
+    void addEnvironment(COFEnvironment env) {
+        getEnvironments().getEnvironment().add(env);
+    }
 
-        void addTestSuite(COFTestSuite ts) {
-                getTestsuites().getTestsuite().add(ts);
-        }
+    void addTestSuite(COFTestSuite ts) {
+        getTestsuites().getTestsuite().add(ts);
+    }
 
-        /**
-         * Gets the value of the analysis property.
-         *
-         * @return
-         *     possible object is
-         *     {@link String }
-         *
-         */
-        public String getAnalysis() {
-                if (analysis == null) {
-                        return "accept";
-                } else {
-                        return analysis;
-                }
+    /**
+     * Gets the value of the analysis property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public String getAnalysis() {
+        if (analysis == null) {
+            return "accept";
+        } else {
+            return analysis;
         }
+    }
 
-        /**
-         * Gets the value of the annotations property.
-         *
-         * @return
-         *     possible object is
-         *     {@link COFReportAnnotations }
-         *
-         */
-        public COFReportAnnotations getAnnotations() {
-                return annotations;
-        }
+    /**
+     * Gets the value of the annotations property.
+     *
+     * @return possible object is
+     * {@link COFReportAnnotations }
+     */
+    public COFReportAnnotations getAnnotations() {
+        return annotations;
+    }
 
-        /**
-         * Gets the value of the any property.
-         *
-         * <p>
-         * This accessor method returns a reference to the live list,
-         * not a snapshot. Therefore any modification you make to the
-         * returned list will be present inside the JAXB object.
-         * This is why there is not a <CODE>set</CODE> method for the any property.
-         *
-         * <p>
-         * For example, to add a new item, do as follows:
-         * <pre>
-         *    getAny().add(newItem);
-         * </pre>
-         *
-         *
-         * <p>
-         * Objects of the following type(s) are allowed in the list
-         * {@link Element }
-         *
-         *
-         */
-        public List<COFItem>getAny() {
-                if (any == null) {
-                        any = new ArrayList<>();
-                }
-                return this.any;
+    /**
+     * Gets the value of the any property.
+     *
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the any property.
+     *
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getAny().add(newItem);
+     * </pre>
+     *
+     *
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Element }
+     */
+    public List<COFItem> getAny() {
+        if (any == null) {
+            any = new ArrayList<>();
         }
+        return this.any;
+    }
 
-        /**
-         * Gets the value of the applications property.
-         */
-        public COFApplications getApplications() {
-                return applications;
-        }
+    /**
+     * Gets the value of the applications property.
+     */
+    public COFApplications getApplications() {
+        return applications;
+    }
 
-        /**
-         * @return Returns the cofNS.
-         */
-        public String getCofNS() {
-                return COF_SCHEMA;
-        }
+    /**
+     * @return Returns the cofNS.
+     */
+    public String getCofNS() {
+        return COF_SCHEMA;
+    }
 
-        /**
-         * Gets the value of the date property.
-         *
-         * @return
-         *     possible object is
-         *     {@link String }
-         *
-         */
-        public Date getDate() {
-                return date;
-        }
+    /**
+     * Gets the value of the date property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public Date getDate() {
+        return date;
+    }
 
-        /**
-         * Gets the value of the environments property.
-         *
-         * @return
-         *     possible object is
-         *     {@link Environments }
-         *
-         */
-        public COFEnvironments getEnvironments() {
-                if (environments == null)
-                        environments = new COFEnvironments();
-                return environments;
-        }
+    /**
+     * Gets the value of the environments property.
+     *
+     * @return possible object is
+     * {@link Environments }
+     */
+    public COFEnvironments getEnvironments() {
+        if (environments == null)
+            environments = new COFEnvironments();
+        return environments;
+    }
 
-        /**
-         * Gets the value of the harness property.
-         *
-         * @return
-         *     possible object is
-         *     {@link String }
-         *
-         */
-        public String getHarness() {
-                return harness;
-        }
+    /**
+     * Gets the value of the harness property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public String getHarness() {
+        return harness;
+    }
 
-        LinkedHashMap<String, String> getItemAttributes() {
-                return xmlAttributes;
-        }
+    LinkedHashMap<String, String> getItemAttributes() {
+        return xmlAttributes;
+    }
 
-        LinkedHashMap<String, String> getItemElements() {
-                return xmlElements;
-        }
+    LinkedHashMap<String, String> getItemElements() {
+        return xmlElements;
+    }
 
-        String getItemTagName() {
-                return xmlTagName;
-        }
+    String getItemTagName() {
+        return xmlTagName;
+    }
 
-        /**
-         * Gets the value of the operator property.
-         *
-         * @return
-         *     possible object is
-         *     {@link String }
-         *
-         */
-        public String getOperator() {
-                return operator;
-        }
+    /**
+     * Gets the value of the operator property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public String getOperator() {
+        return operator;
+    }
 
-        /**
-         * @return Returns the schemaLocation.
-         */
-        public String getSchemaLocation() {
-                return COF_SCHEMA + " " + COF_SCHEMA_LOCATION;
-        }
+    /**
+     * @return Returns the schemaLocation.
+     */
+    public String getSchemaLocation() {
+        return COF_SCHEMA + " " + COF_SCHEMA_LOCATION;
+    }
 
-        /**
-         * Gets the value of the swentities property.
-         *
-         * @return
-         *     possible object is
-         *     {@link COFSWEntities }
-         *
-         */
-        public COFSWEntities getSwentities() {
-                return swentities;
-        }
+    /**
+     * Gets the value of the swentities property.
+     *
+     * @return possible object is
+     * {@link COFSWEntities }
+     */
+    public COFSWEntities getSwentities() {
+        return swentities;
+    }
 
-        /**
-         * @return Returns the targetNS.
-         */
-        public String getTargetNS() {
-                return COF_SCHEMA;
-        }
+    /**
+     * @return Returns the targetNS.
+     */
+    public String getTargetNS() {
+        return COF_SCHEMA;
+    }
 
-        /**
-         * Gets the value of the testsuites property.
-         *
-         * @return
-         *     possible object is
-         *     {@link TestSuites }
-         *
-         */
-        public COFTestSuites getTestsuites() {
-                if (testsuites == null)
-                        testsuites = new COFTestSuites();
-                return testsuites;
-        }
+    /**
+     * Gets the value of the testsuites property.
+     *
+     * @return possible object is
+     * {@link TestSuites }
+     */
+    public COFTestSuites getTestsuites() {
+        if (testsuites == null)
+            testsuites = new COFTestSuites();
+        return testsuites;
+    }
 
-        /**
-         * Gets the value of the version property.
-         *
-         * @return
-         *     possible object is
-         *     {@link String }
-         *
-         */
-        public String getVersion() {
-                return version;
-        }
+    /**
+     * Gets the value of the version property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public String getVersion() {
+        return version;
+    }
 
-        /**
-         * @return Returns the xsiNS.
-         */
-        public String getXsiNS() {
-                return XSI_NS;
-        }
+    /**
+     * @return Returns the xsiNS.
+     */
+    public String getXsiNS() {
+        return XSI_NS;
+    }
 
-        /**
-         * Sets the value of the analysis property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *
-         */
-        public void setAnalysis(String value) {
-                this.analysis = value;
-        }
+    /**
+     * Sets the value of the analysis property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setAnalysis(String value) {
+        this.analysis = value;
+    }
 
-        /**
-         * Sets the value of the annotations property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link COFReportAnnotations }
-         *
-         */
-        public void setAnnotations(COFReportAnnotations value) {
-                this.annotations = value;
-        }
+    /**
+     * Sets the value of the annotations property.
+     *
+     * @param value allowed object is
+     *              {@link COFReportAnnotations }
+     */
+    public void setAnnotations(COFReportAnnotations value) {
+        this.annotations = value;
+    }
 
-        /**
-         * Sets the value of the date property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *
-         */
-        public void setDate(Date value) {
-                this.date = value;
-        }
+    /**
+     * Sets the value of the date property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setDate(Date value) {
+        this.date = value;
+    }
 
-        /**
-         * Sets the value of the environments property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link Environments }
-         *
-         */
-        public void setEnvironments(COFEnvironments value) {
-                this.environments = value;
-        }
+    /**
+     * Sets the value of the environments property.
+     *
+     * @param value allowed object is
+     *              {@link Environments }
+     */
+    public void setEnvironments(COFEnvironments value) {
+        this.environments = value;
+    }
 
-        /**
-         * Sets the value of the harness property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *
-         */
-        public void setHarness(String value) {
-                this.harness = value;
-        }
+    /**
+     * Sets the value of the harness property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setHarness(String value) {
+        this.harness = value;
+    }
 
-        /**
-         * Sets the value of the operator property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *
-         */
-        public void setOperator(String value) {
-                this.operator = value;
-        }
+    /**
+     * Sets the value of the operator property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setOperator(String value) {
+        this.operator = value;
+    }
 
-        /**
-         * Sets the value of the swentities property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link COFSWEntities }
-         *
-         */
-        public void setSwentities(COFSWEntities value) {
-                this.swentities = value;
-        }
+    /**
+     * Sets the value of the swentities property.
+     *
+     * @param value allowed object is
+     *              {@link COFSWEntities }
+     */
+    public void setSwentities(COFSWEntities value) {
+        this.swentities = value;
+    }
 
-        public void setApplications(COFApplications value) {
-                this.applications = value;
-        }
-        /**
-         * Sets the value of the testsuites property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link TestSuites }
-         *
-         */
-        public void setTestsuites(COFTestSuites value) {
-                this.testsuites = value;
-        }
+    public void setApplications(COFApplications value) {
+        this.applications = value;
+    }
 
-        /**
-         * Sets the value of the version property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *
-         */
-        public void setVersion(String value) {
-                this.version = value;
-        }
+    /**
+     * Sets the value of the testsuites property.
+     *
+     * @param value allowed object is
+     *              {@link TestSuites }
+     */
+    public void setTestsuites(COFTestSuites value) {
+        this.testsuites = value;
+    }
+
+    /**
+     * Sets the value of the version property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setVersion(String value) {
+        this.version = value;
+    }
 }

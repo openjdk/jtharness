@@ -33,14 +33,14 @@ import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileView;
+
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.util.FileInfoCache;
 
 /**
  * A custom JFileChooser, for a user to choose a test suite.
  */
-public class TestSuiteChooser extends JFileChooser
-{
+public class TestSuiteChooser extends JFileChooser {
 
     /**
      * Create a TestSuiteChooser, initially showing the user's current directory.
@@ -51,6 +51,7 @@ public class TestSuiteChooser extends JFileChooser
 
     /**
      * Create a TestSuiteChooser, initially showing a given directory.
+     *
      * @param initialDir the initial directory to be shown
      */
     public TestSuiteChooser(File initialDir) {
@@ -62,8 +63,8 @@ public class TestSuiteChooser extends JFileChooser
 
         setDialogTitle(uif.getI18NString("tsc.title"));
         setApproveButtonText(uif.getI18NString("tsc.open.btn"));
-    setApproveButtonMnemonic(uif.getI18NMnemonic("tsc.open.mne"));
-    setApproveButtonToolTipText(uif.getI18NString("tsc.open.tip"));
+        setApproveButtonMnemonic(uif.getI18NMnemonic("tsc.open.mne"));
+        setApproveButtonToolTipText(uif.getI18NString("tsc.open.tip"));
 
         // only want to accept test suites
         setAcceptAllFileFilterUsed(false);
@@ -91,6 +92,7 @@ public class TestSuiteChooser extends JFileChooser
 
     /**
      * Get the test suite that was most recently selected by the user.
+     *
      * @return the test suite that was most recently selected by the user
      * @see #showDialog
      * @see #setSelectedTestSuite
@@ -101,6 +103,7 @@ public class TestSuiteChooser extends JFileChooser
 
     /**
      * Set the selected test suite.
+     *
      * @param ts the test suite to select
      * @see #getSelectedTestSuite
      */
@@ -113,6 +116,7 @@ public class TestSuiteChooser extends JFileChooser
     /**
      * Show a dialog to allow the user to select a test suite.
      * If a test suite is selected, it can be accessed via getSelectedTestSuite.
+     *
      * @param parent the component to be used at the parent of this dialog
      * @return an integer signifying how the dialog was dismissed
      * (APPROVE_OPTION or CANCEL_OPTION).
@@ -155,11 +159,9 @@ public class TestSuiteChooser extends JFileChooser
         try {
             selectedTestSuite = TestSuite.open(file);
             super.approveSelection();
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             uif.showError("tsc.cantFindTestSuite", e.getMessage());
-        }
-        catch (TestSuite.Fault e) {
+        } catch (TestSuite.Fault e) {
             uif.showError("tsc.unableToOpen", e.getMessage());
         }
     }
@@ -184,8 +186,7 @@ public class TestSuiteChooser extends JFileChooser
             boolean v = TestSuite.isTestSuite(f);
             cache.put(f, v);
             return v;
-        }
-        else
+        } else
             return b;
     }
 

@@ -27,6 +27,7 @@
 package com.sun.javatest.exec;
 
 import java.awt.EventQueue;
+
 import com.sun.javatest.TestResult;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
@@ -36,8 +37,7 @@ import com.sun.javatest.tool.jthelp.ContextHelpManager;
  */
 
 class TP_EnvSubpanel
-    extends TP_PropertySubpanel
-{
+        extends TP_PropertySubpanel {
     TP_EnvSubpanel(UIFactory uif) {
         super(uif, "env");
         ContextHelpManager.setHelpIDString(this, "browse.testEnvironmentTab.csh");
@@ -52,7 +52,7 @@ class TP_EnvSubpanel
         updateEntries();
 
         // if it is mutable, track updates
-        if (subpanelTest.isMutable())  {
+        if (subpanelTest.isMutable()) {
             subpanelTest.addObserver(observer);
         }
     }
@@ -60,8 +60,7 @@ class TP_EnvSubpanel
     private void updateEntries() {
         try {
             updateEntries(subpanelTest.getEnvironment());
-        }
-        catch (TestResult.Fault f) {
+        } catch (TestResult.Fault f) {
             // quietly ignore
         }
     }
@@ -72,13 +71,13 @@ class TP_EnvSubpanel
                 updateEntries();
             else {
                 EventQueue.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (tr == subpanelTest) {
-                                updateEntries();
-                            }
+                    @Override
+                    public void run() {
+                        if (tr == subpanelTest) {
+                            updateEntries();
                         }
-                    });
+                    }
+                });
             }
         }
     }
@@ -88,8 +87,7 @@ class TP_EnvSubpanel
     //------------------------------------------------------------------------------------
 
     private class TRObserver
-        implements TestResult.Observer
-    {
+            implements TestResult.Observer {
         @Override
         public void completed(TestResult tr) {
             //System.err.println("TPES_TRO: completed: " + tr.getWorkRelativePath());

@@ -28,6 +28,7 @@ package com.sun.javatest.exec;
 
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.tool.UIFactory;
+
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -37,7 +38,9 @@ import javax.swing.JPanel;
 
 public class BP_DocumentationSubpanel extends BP_BranchSubpanel {
 
-    /** Creates a new instance of BP_DocumentationSubpanel */
+    /**
+     * Creates a new instance of BP_DocumentationSubpanel
+     */
     public BP_DocumentationSubpanel(UIFactory uif, BP_Model bpm, TestTreeModel ttm, ExecModel em) {
         super("ds", uif, bpm, ttm, "br.ds");
         this.em = em;
@@ -61,17 +64,16 @@ public class BP_DocumentationSubpanel extends BP_BranchSubpanel {
     protected void updateSubpanel(TT_BasicNode currNode) {
         super.updateSubpanel(currNode);
         TestSuite ts = em.getTestSuite();
-        try{
+        try {
             String path = currNode.getLongPath();
             filelist = em.getTestSuite().getDocsForFolder(path);
-            if(filelist != null) {
+            if (filelist != null) {
                 filesPane.setFiles(filelist);
                 setPanel(filesPane);
-            }
-            else {
+            } else {
                 setPanel(emptyPane);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -85,14 +87,14 @@ public class BP_DocumentationSubpanel extends BP_BranchSubpanel {
     }
 
     private void validateEnabledState() {
-        if(filelist != null)
+        if (filelist != null)
             bpm.setEnabled(this, true);
         else
             bpm.setEnabled(this, false);
     }
 
     private void setPanel(JPanel p) {
-        if(p != null) {
+        if (p != null) {
             this.removeAll();
             this.add(p, BorderLayout.CENTER);
         }

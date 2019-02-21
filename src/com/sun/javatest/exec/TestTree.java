@@ -43,6 +43,7 @@ import com.sun.javatest.TestResultTable;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.DynamicArray;
+
 import javax.swing.tree.TreeSelectionModel;
 
 /**
@@ -50,9 +51,9 @@ import javax.swing.tree.TreeSelectionModel;
  */
 class TestTree extends JTree {
     /**
-     * @param uif The UI factory object to use.
-     * @param model The GUI model object.
-     * @param fConfig The active filter configuration object.
+     * @param uif       The UI factory object to use.
+     * @param model     The GUI model object.
+     * @param fConfig   The active filter configuration object.
      * @param treeModel The data model.
      */
     public TestTree(UIFactory uif, TreePanelModel model, FilterSelectionHandler fh,
@@ -141,8 +142,7 @@ class TestTree extends JTree {
                     }
 
                 });
-            }
-            else
+            } else
                 restoreSelection(paths);
         }
     }
@@ -162,6 +162,7 @@ class TestTree extends JTree {
 
     /**
      * Record which tree nodes are currently visible.
+     *
      * @see #restorePaths
      */
     TreePath[] snapshotOpenPaths() {
@@ -189,9 +190,10 @@ class TestTree extends JTree {
 
     /**
      * Restore open paths in the tree.  Should be called on the event thread.
+     *
      * @param openUrls The path urls to restore.
-     * @param queue True if the request should be put into the event queue at the
-     *  end - this can be important for proper queuing of operations.
+     * @param queue    True if the request should be put into the event queue at the
+     *                 end - this can be important for proper queuing of operations.
      */
     void restorePaths(final String[] openUrls, boolean queue) {
         if (openUrls == null || openUrls.length == 0)
@@ -207,14 +209,14 @@ class TestTree extends JTree {
                         restorePaths(paths);
                     }
                 });
-            }
-            else
+            } else
                 restorePaths(paths);
         }
     }
 
     /**
      * Attempt to restore paths which were previously recorded.
+     *
      * @see #snapshotOpenPaths
      */
     void restorePaths(TreePath... paths) {

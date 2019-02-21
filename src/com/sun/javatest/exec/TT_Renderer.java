@@ -49,8 +49,8 @@ import com.sun.javatest.util.Debug;
 class TT_Renderer extends DefaultTreeCellRenderer {
     /**
      * @param fh The filter configuration object.
-     *        This information is needed to make it easy to retrieve the
-     *        current filter for rendering purposes.
+     *           This information is needed to make it easy to retrieve the
+     *           current filter for rendering purposes.
      */
     TT_Renderer(UIFactory uif, FilterSelectionHandler fh, TreePanelModel model) {
         this.uif = uif;
@@ -72,10 +72,10 @@ class TT_Renderer extends DefaultTreeCellRenderer {
                                                   int row,
                                                   boolean hasFocus) {
         super.getTreeCellRendererComponent(tree, value, selected, expanded,
-                                           leaf, row, hasFocus);
+                leaf, row, hasFocus);
 
         setIcon(getIcon(value, (TestTreeModel) tree.getModel()));
-        setText(getLabelText(value, (TestTreeModel)tree.getModel()));
+        setText(getLabelText(value, (TestTreeModel) tree.getModel()));
         setToolTipText(getTipText(value));
 
         return this;
@@ -125,7 +125,6 @@ class TT_Renderer extends DefaultTreeCellRenderer {
         }
     }
     */
-
     private Icon getIcon(Object value, TestTreeModel model) {
         // XXX may want to cache the filters - performance
         TestFilter filter = filterHandler.getActiveFilter();
@@ -135,7 +134,7 @@ class TT_Renderer extends DefaultTreeCellRenderer {
             return IconFactory.getTestFolderIcon(Status.NOT_RUN, false, true);
 
         if (value instanceof TT_TestNode) {
-            TestResult tr = ((TT_TestNode)value).getTestResult();
+            TestResult tr = ((TT_TestNode) value).getTestResult();
             /*
             if (isFilteredOut(tr, filter))          // not selected for execution
                 return leafIcons[numLeafIcons-1];
@@ -151,9 +150,8 @@ class TT_Renderer extends DefaultTreeCellRenderer {
                 return IconFactory.getTestIcon(tr.getStatus().getType(), true, true);
             else
                 return IconFactory.getTestIcon(tr.getStatus().getType(), false, true);
-        }
-        else if (value instanceof TT_BasicNode) {
-            TT_BasicNode tn = (TT_BasicNode)value;
+        } else if (value instanceof TT_BasicNode) {
+            TT_BasicNode tn = (TT_BasicNode) value;
             TT_NodeCache info = model.getNodeInfo(tn.getTableNode(), false);
             int[] stats = info.getStats();
 
@@ -171,29 +169,27 @@ class TT_Renderer extends DefaultTreeCellRenderer {
             }*/
             // being processed
             boolean active = !info.isValid()
-                               || info.isActive()       // being processed
-                               || (info.isValid() && !info.isComplete());   // to be processed
+                    || info.isActive()       // being processed
+                    || (info.isValid() && !info.isComplete());   // to be processed
 
             active = active || tpm.isActive(tn);
             return IconFactory.getTestFolderIcon(
                     selectBranchIconIndex(stats, active),
                     active, true);
-        }
-        else
+        } else
             return IconFactory.getFolderIcon();
     }
 
     private String getLabelText(Object value, TestTreeModel model) {
         if (value instanceof TT_TestNode) {
-            return ((TT_TestNode)value).getDisplayName();
+            return ((TT_TestNode) value).getDisplayName();
         } else if (value instanceof TT_BasicNode) {
-            TT_BasicNode tn = (TT_BasicNode)value;
+            TT_BasicNode tn = (TT_BasicNode) value;
             if (tn.getParent() == null)
                 return uif.getI18NString("tree.rootName");
             else
                 return tn.getDisplayName();
-        }
-        else if (model instanceof EmptyTestTreeModel)
+        } else if (model instanceof EmptyTestTreeModel)
             if (params == null || params.getTestSuite() == null)
                 return uif.getI18NString("tree.noTs");
             else
@@ -205,19 +201,17 @@ class TT_Renderer extends DefaultTreeCellRenderer {
     private String getTipText(Object val) {
         if (val instanceof TestResult) {
             //return ((TestResult)val).getWorkRelativePath();
-            return ((TestResult)val).getTestName();
-        }
-        else if (val instanceof TestResultTable.TreeNode) {
+            return ((TestResult) val).getTestName();
+        } else if (val instanceof TestResultTable.TreeNode) {
             if (params == null || params.getTestSuite() == null)
                 return uif.getI18NString("tree.noRootName.tip");
 
-            TestResultTable.TreeNode node = (TestResultTable.TreeNode)val;
+            TestResultTable.TreeNode node = (TestResultTable.TreeNode) val;
             if (node.isRoot())
                 return uif.getI18NString("tree.rootName.tip", params.getTestSuite().getName());
             else
                 return TestResultTable.getRootRelativePath(node);
-        }
-        else
+        } else
             return null;
     }
 
@@ -227,14 +221,13 @@ class TT_Renderer extends DefaultTreeCellRenderer {
 
         if (debug > 1)
             Debug.println("TT - Checking filter for: " + tr.getTestName() + " (TR status=" +
-                                tr.getStatus().getType() + ")");
+                    tr.getStatus().getType() + ")");
 
         TestDescription td;
 
         try {
             td = tr.getDescription();
-        }
-        catch (TestResult.Fault f) {
+        } catch (TestResult.Fault f) {
             if (debug > 0)
                 f.printStackTrace(Debug.getWriter());
 
@@ -245,14 +238,13 @@ class TT_Renderer extends DefaultTreeCellRenderer {
             if (!filter.accepts(td)) {
                 if (debug > 1) {
                     Debug.println("TT - Filter " + filter + " rejected: " +
-                                  tr.getWorkRelativePath());
+                            tr.getWorkRelativePath());
                 }
 
                 // rejected
                 return true;
             }
-        }
-        catch (TestFilter.Fault f) {
+        } catch (TestFilter.Fault f) {
             if (debug > 0)
                 f.printStackTrace(Debug.getWriter());
 
@@ -272,8 +264,8 @@ class TT_Renderer extends DefaultTreeCellRenderer {
 
     /**
      * @param loading If true, the result will be appropriate for indicating that
-     *        a folder is still in flux.  False, indicates that normal evaluation
-     *        rules should apply.
+     *                a folder is still in flux.  False, indicates that normal evaluation
+     *                rules should apply.
      */
     private static int selectBranchIconIndex(int[] stats, boolean loading) {
         /*

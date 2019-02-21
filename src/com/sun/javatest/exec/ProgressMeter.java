@@ -89,7 +89,7 @@ class ProgressMeter extends JComponent implements Accessible {
             myThread = new Thread() {
                 @Override
                 public void run() {
-                    while(myThread == currentThread()) {
+                    while (myThread == currentThread()) {
                         try {
                             synchronized (myThread) {
                                 update();
@@ -103,8 +103,7 @@ class ProgressMeter extends JComponent implements Accessible {
 
                                 myThread.wait(5000);
                             }
-                        }
-                        catch(InterruptedException e) {
+                        } catch (InterruptedException e) {
                         }
                     }   // while
                 }
@@ -113,8 +112,7 @@ class ProgressMeter extends JComponent implements Accessible {
             // user will notice this, so set a higher priority
             myThread.setPriority(Thread.MIN_PRIORITY + 2);
             myThread.start();
-        }
-        else {
+        } else {
             clear();
             indetTimer = new Timer(100, new ActionListener() {
                 @Override
@@ -136,8 +134,7 @@ class ProgressMeter extends JComponent implements Accessible {
                 myThread = null;
                 old.notify();
             }
-        }
-        else {
+        } else {
             indetTimer.stop();
             clear();
         }
@@ -154,9 +151,9 @@ class ProgressMeter extends JComponent implements Accessible {
                         index = actions.length - 1;
                     if (index != -1) {
                         ActionEvent ae =
-                            new ActionEvent(ProgressMeter.this,
-                                            ActionEvent.ACTION_PERFORMED,
-                                            actions[index]);
+                                new ActionEvent(ProgressMeter.this,
+                                        ActionEvent.ACTION_PERFORMED,
+                                        actions[index]);
                         actionListener.actionPerformed(ae);
                     }
                 }
@@ -209,7 +206,7 @@ class ProgressMeter extends JComponent implements Accessible {
         for (int i = 0; i < v.length; i++) {
             totalSoFar += v[i];
             int x = total == 0 ? 0 : totalSoFar * SCALE / total;
-            if (values[i] != x ) {
+            if (values[i] != x) {
                 values[i] = x;
                 changed = true;
             }
@@ -290,11 +287,11 @@ class ProgressMeter extends JComponent implements Accessible {
             if (supername == null) {
                 if (i18n == null)
                     i18n = I18NResourceBundle.getBundleForClass(getClass());
-                else { }
+                else {
+                }
 
                 return i18n.getString("pmtr.name");
-            }
-            else {
+            } else {
                 return supername;
             }
         }

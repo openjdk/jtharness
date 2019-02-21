@@ -27,6 +27,7 @@
 package com.sun.javatest.services;
 
 import com.sun.javatest.TestSuite;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -43,23 +44,28 @@ public interface ServiceReader {
     /**
      * Invoked after ServiceReader object achieved from test suite and before
      * reading any information from reader.
-     * @param ts test suite.
+     *
+     * @param ts   test suite.
      * @param args any args, found in reader declaration in {@code testsuite.jtt} file,
-     * except first arg, which is reader's implementation class. The key of this
-     * record in {@code testsuite.jtt} file is "serviceReader"
+     *             except first arg, which is reader's implementation class. The key of this
+     *             record in {@code testsuite.jtt} file is "serviceReader"
      */
     public void init(TestSuite ts, String... args);
+
     /**
      * Creates {@link com.sun.javatest.services.Service} instances and map from
      * service's IDs to services. During process of reading,
      * reader needs to instantiate all Service objects and fill them with required
      * data
+     *
      * @return map from service's IDs to services.
      */
     public Map<String, Service> readServices();
+
     /**
      * Creates and returns set of test paths, which describe mapping from tests
      * to services, required by this tests.
+     *
      * @return set of tests-to-services maps
      */
     public Set<TestPath> readTestServiceMap();

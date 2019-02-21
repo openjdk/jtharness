@@ -73,6 +73,7 @@ public abstract class JThttpProvider {
     }
 
 //  ------ non-public methods -------
+
     /**
      * Prints the supplied text to the writer, after filtering and replacing
      * characters which need to be "escaped" in HTML.
@@ -110,14 +111,14 @@ public abstract class JThttpProvider {
             currChar = workStr.charAt(currIndex);
             if (currChar == '<') {
                 workStr.setCharAt(currIndex, '&');
-                workStr.insert(currIndex+1, "lt;");
+                workStr.insert(currIndex + 1, "lt;");
                 beginIndex = currIndex + 4;
-                currIndex+= 3;
-            } else if(currChar == '>') {
+                currIndex += 3;
+            } else if (currChar == '>') {
                 workStr.setCharAt(currIndex, '&');
-                workStr.insert(currIndex+1, "gt;");
+                workStr.insert(currIndex + 1, "gt;");
                 beginIndex = currIndex + 4;
-                currIndex+= 3;
+                currIndex += 3;
             }
 
             currIndex++;

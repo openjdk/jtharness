@@ -59,6 +59,7 @@ public class ChameleonTestFinder extends TestFinder {
     /**
      * Exclude all files with a particular name from being scanned.
      * This will typically be for directories like SCCS, Codemgr_wsdata, etc
+     *
      * @param name The name of files to be excluded
      */
     public void exclude(String name) {
@@ -68,6 +69,7 @@ public class ChameleonTestFinder extends TestFinder {
     /**
      * Exclude all files with particular names from being scanned.
      * This will typically be for directories like SCCS, Codemgr_wsdata, etc
+     *
      * @param names The names of files to be excluded
      */
     public void exclude(String... names) {
@@ -78,18 +80,18 @@ public class ChameleonTestFinder extends TestFinder {
 
     /**
      * Check whether or not to ignore case when matching files against entries.
-     *
+     * <p>
      * By default, case will be ignored on Windows platforms.
      * (<code><font size=-1>System.getProperty("os.name").startsWith("Windows")</font></code>)
      * This can be overridden by setting the following system property:
      * <pre>
      *    -Djavatest.chameleon.ignoreCase=true|false
      * </pre>
-     *
+     * <p>
      * This in turn can be overridden by using -ignoreCase or -dontIgnoreCase
      * in the args to {@link #init init}.
      *
-     * @return  whether or not to ignore case when matching files against entries.
+     * @return whether or not to ignore case when matching files against entries.
      * @see #setIgnoreCase
      */
     public boolean getIgnoreCase() {
@@ -105,15 +107,17 @@ public class ChameleonTestFinder extends TestFinder {
     public void setIgnoreCase(boolean b) {
         ignoreCase = b;
     }
+
     /**
      * Generic initialization routine. You can also initialize the test finder
      * directly, with {@link #exclude}, {@link #readEntries}, etc.
-     * @param args An array of strings giving initialization data.
-     *  The primary option is "-f <em>file</em>" to specify the name
-     *  of the file describing which test finder to use in which section
-     *  of the test suite.
-     * @param testSuiteRoot     The root file of the test suite.
-     * @param env               This argument is not required by this test finder.
+     *
+     * @param args          An array of strings giving initialization data.
+     *                      The primary option is "-f <em>file</em>" to specify the name
+     *                      of the file describing which test finder to use in which section
+     *                      of the test suite.
+     * @param testSuiteRoot The root file of the test suite.
+     * @param env           This argument is not required by this test finder.
      * @throws TestFinder.Fault if an error is found during initialization.
      */
     @Override
@@ -141,7 +145,8 @@ public class ChameleonTestFinder extends TestFinder {
      * the beginning of the name of the file to be read. If and when a match
      * is found, the test finder delegates the request to the test finder specified
      * in the rest of the entry that provided the match.
-     * @param file              The file containing the entries to be read.
+     *
+     * @param file The file containing the entries to be read.
      * @throws TestFinder.Fault if a problem occurs while reading the file.
      */
     public void readEntries(File file) throws Fault {
@@ -161,7 +166,7 @@ public class ChameleonTestFinder extends TestFinder {
             while ((line = in.readLine()) != null) {
                 line = line.trim();
                 lineNum++;
-                if (line.startsWith("#")  || line.isEmpty())
+                if (line.startsWith("#") || line.isEmpty())
                     continue;
 
                 String[] words = StringArray.split(line);
@@ -177,11 +182,9 @@ public class ChameleonTestFinder extends TestFinder {
                 Entry e = new Entry(pattern, finderClassName, finderArgs);
                 s.add(e);
             }
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             throw new Fault(i18n, "cham.cantFindFile", file);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new Fault(i18n, "cham.ioError",
                     file, e);
         }
@@ -198,16 +201,13 @@ public class ChameleonTestFinder extends TestFinder {
         if (args[i].equals("-f") && i + 1 < args.length) {
             entryFile = new File(args[i + 1]);
             return 2;
-        }
-        else if (args[i].equalsIgnoreCase("-ignoreCase")) {
+        } else if (args[i].equalsIgnoreCase("-ignoreCase")) {
             ignoreCase = true;
             return 1;
-        }
-        else if (args[i].equalsIgnoreCase("-dontIgnoreCase")) {
+        } else if (args[i].equalsIgnoreCase("-dontIgnoreCase")) {
             ignoreCase = false;
             return 1;
-        }
-        else
+        } else
             return super.decodeArg(args, i);
     }
 
@@ -216,6 +216,7 @@ public class ChameleonTestFinder extends TestFinder {
      * Scan a file, looking for test descriptions and other files that might
      * need to be scanned.  The implementation depends on the type of test
      * finder.
+     *
      * @param file The file to scan
      */
     @Override
@@ -252,6 +253,7 @@ public class ChameleonTestFinder extends TestFinder {
 
     /**
      * Scan a directory, looking for more files to scan
+     *
      * @param dir The directory to scan
      */
     private void scanDirectory(File dir) {
@@ -286,12 +288,10 @@ public class ChameleonTestFinder extends TestFinder {
     private TestFinder newInstance(Class<? extends TestFinder> c) throws Fault {
         try {
             return c.getDeclaredConstructor().newInstance();
-        }
-        catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             throw new Fault(i18n, "cham.cantCreateClass",
                     c.getName(), e);
-        }
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             throw new Fault(i18n, "cham.cantAccessClass",
                     c.getName(), e);
         }
@@ -303,12 +303,10 @@ public class ChameleonTestFinder extends TestFinder {
                 return Class.forName(className).asSubclass(TestFinder.class);
             else
                 return loader.loadClass(className).asSubclass(TestFinder.class);
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             throw new Fault(i18n, "cham.cantFindClass",
                     className, e);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             throw new Fault(i18n, "cham.badClassName", className);
         }
 
@@ -326,7 +324,7 @@ public class ChameleonTestFinder extends TestFinder {
     private Map<String, String> excludeList = new HashMap<>();
 
     private static final String[] excludeNames = {
-        "SCCS", "deleted_files"
+            "SCCS", "deleted_files"
     };
 
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ChameleonTestFinder.class);
@@ -337,10 +335,9 @@ public class ChameleonTestFinder extends TestFinder {
             if (star == -1) {
                 prefix = pattern;
                 suffix = null;
-            }
-            else {
+            } else {
                 prefix = pattern.substring(0, star);
-                suffix = pattern.substring(star+1);
+                suffix = pattern.substring(star + 1);
             }
             prefix = new File(getRootDir(), prefix.replace('/', File.separatorChar)).getPath();
             if (suffix != null)
@@ -398,11 +395,9 @@ public class ChameleonTestFinder extends TestFinder {
                     finder = newInstance(loadClass(finderClassName));
                     finder.init(finderArgs, getRoot(), getEnv());
                 }
-            }
-            catch (Fault e) {
+            } catch (Fault e) {
                 error(i18n, "cham.cantInitClass", e.getMessage());
-            }
-            finally {
+            } finally {
                 initialized = true;
             }
         }
@@ -433,8 +428,7 @@ public class ChameleonTestFinder extends TestFinder {
 
                     return as.compareTo(bs);
                 }
-            }
-            else
+            } else
                 return +1;
         }
 

@@ -40,13 +40,12 @@ import java.io.Writer;
 /**
  * Note: this class should be JDK 1.1 compatible
  */
-public class WriterStream extends OutputStream
-{
+public class WriterStream extends OutputStream {
     /**
-      * Create a stream that writes to a writer.
-      *
-      * @param w the writer
-      */
+     * Create a stream that writes to a writer.
+     *
+     * @param w the writer
+     */
     public WriterStream(Writer w) {
         writer = w;
         OutputStreamWriter osw = new OutputStreamWriter(this);
@@ -56,9 +55,9 @@ public class WriterStream extends OutputStream
     /**
      * Create a stream that writes to a writer.
      *
-     * @param w the writer
+     * @param w           the writer
      * @param charsetName name of encoding to be used when decode byte stream
-     * (instead of default one)
+     *                    (instead of default one)
      */
     public WriterStream(Writer w, String charsetName) {
         writer = w;
@@ -66,10 +65,10 @@ public class WriterStream extends OutputStream
     }
 
     /**
-      * Flush the stream.
-      *
-      * @exception IOException if an I/O error occurs
-      */
+     * Flush the stream.
+     *
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     public void flush() throws IOException {
         String result = new String(buff, 0, index, charsetName);

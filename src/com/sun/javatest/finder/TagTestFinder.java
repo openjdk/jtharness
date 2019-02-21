@@ -45,8 +45,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  *
  * @see TestFinder
  */
-public class TagTestFinder extends TestFinder
-{
+public class TagTestFinder extends TestFinder {
     /**
      * Constructs the list of file names to exclude for pruning in the search
      * for files to examine for test descriptions.  This constructor also sets
@@ -65,28 +64,28 @@ public class TagTestFinder extends TestFinder
      *
      * @param args The array of arguments
      * @param i    The next argument to be decoded.
-     * @return     The number of elements consumed in the array; for example,
-     *             for a simple option like "-v" the result should be 1; for an
-     *             option with an argument like "-f file" the result should be
-     *             2, etc.
+     * @return The number of elements consumed in the array; for example,
+     * for a simple option like "-v" the result should be 1; for an
+     * option with an argument like "-f file" the result should be
+     * 2, etc.
      * @throws TestFinder.Fault If there is a problem with the value of the current arg,
-     *             such as a bad value to an option, the Fault exception can be
-     *             thrown.  The exception should NOT be thrown if the current
-     *             arg is unrecognized: in that case, an implementation should
-     *             delegate the call to the supertype.
+     *                          such as a bad value to an option, the Fault exception can be
+     *                          thrown.  The exception should NOT be thrown if the current
+     *                          arg is unrecognized: in that case, an implementation should
+     *                          delegate the call to the supertype.
      */
     @Override
     protected int decodeArg(String[] args, int i) throws Fault {
         if ("-fast".equalsIgnoreCase(args[i])) {
             fastScan = true;
             return 1;
-        }
-        else
+        } else
             return super.decodeArg(args, i);
     }
 
     /**
      * Scan a file, looking for test descriptions and/or more files to scan.
+     *
      * @param file The file to scan
      */
     @Override
@@ -100,6 +99,7 @@ public class TagTestFinder extends TestFinder
 
     /**
      * Get the name of the file currently being scanned.
+     *
      * @return the name of the file currently being scanned.
      */
     // Ideally, we should be able to get the current line number as well,
@@ -111,6 +111,7 @@ public class TagTestFinder extends TestFinder
     /**
      * Exclude all files with a particular name from being scanned.
      * This will typically be for directories like SCCS, Codemgr_wsdata, etc
+     *
      * @param name The name of files to be excluded.
      */
     public void exclude(String name) {
@@ -120,6 +121,7 @@ public class TagTestFinder extends TestFinder
     /**
      * Exclude all files with particular names from being scanned.
      * This will typically be for directories like SCCS, Codemgr_wsdata, etc
+     *
      * @param names The names of files to be excluded.
      */
     public void exclude(String... names) {
@@ -130,6 +132,7 @@ public class TagTestFinder extends TestFinder
 
     /**
      * Undo an exclude operation.
+     *
      * @param name The filename to stop ignoring, should never be null.
      * @see TagTestFinder#exclude
      * @see TagTestFinder#isExcluded(String)
@@ -140,6 +143,7 @@ public class TagTestFinder extends TestFinder
 
     /**
      * Determine if the given extension is excluded from scanning.
+     *
      * @param s The extension to check for (should not contain the leading dot)
      * @return True if it is excluded, false otherwise.
      * @see TagTestFinder#exclude(java.lang.String)
@@ -152,10 +156,10 @@ public class TagTestFinder extends TestFinder
 
     /**
      * Nominate a class to read files that have a particular extension.
-     * @param extn      The extension for which this class is to be used
-     * @param commentStreamClass
-     *                  A class to read files of a particular extension.
-     *                  The class must be a subtype of CommentStream
+     *
+     * @param extn               The extension for which this class is to be used
+     * @param commentStreamClass A class to read files of a particular extension.
+     *                           The class must be a subtype of CommentStream
      */
     public void addExtension(String extn, Class<? extends CommentStream> commentStreamClass) {
         if (!extn.startsWith("."))
@@ -168,6 +172,7 @@ public class TagTestFinder extends TestFinder
 
     /**
      * Get the class used to handle an extension.
+     *
      * @param extn The extension in question
      * @return the class previously registered with addExtension
      */
@@ -180,6 +185,7 @@ public class TagTestFinder extends TestFinder
      * If set to null, no initial tag is required.  The default value
      * for the initial tag is "test".  (i.e. @test must appear in the
      * test description.)
+     *
      * @param tag The tag to be checked for.
      * @see #getInitialTag
      */
@@ -190,6 +196,7 @@ public class TagTestFinder extends TestFinder
     /**
      * Get the current value of the initial tag that is checked for
      * in a test description. If null, no tag is required.
+     *
      * @return the value of the required initial tag, or null if none required.
      * @see #setInitialTag
      */
@@ -202,6 +209,7 @@ public class TagTestFinder extends TestFinder
 
     /**
      * Scan a directory, looking for more files to scan
+     *
      * @param dir The directory to scan
      */
     private void scanDirectory(File dir) {
@@ -242,6 +250,7 @@ public class TagTestFinder extends TestFinder
     /**
      * Scan a file, looking for comments and in the comments, for test
      * description data.
+     *
      * @param file The file to scan
      */
     protected void scanFile(File file) {
@@ -259,12 +268,10 @@ public class TagTestFinder extends TestFinder
         CommentStream cs = null;
         try {
             cs = csc.getDeclaredConstructor().newInstance();
-        }
-        catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             error(i18n, "tag.cantCreateClass", csc.getName(), extn);
             return;
-        }
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             error(i18n, "tag.cantAccessClass", csc.getName(), extn);
             return;
         }
@@ -301,18 +308,14 @@ public class TagTestFinder extends TestFinder
 
                 foundTestDescription(tagValues, file, /*line*/0);
             }
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             error(i18n, "tag.cantFindFile", file);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             error(i18n, "tag.ioError", file);
-        }
-        finally {
+        } finally {
             try {
                 cs.close();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
             }
         }
     }
@@ -322,14 +325,15 @@ public class TagTestFinder extends TestFinder
      * Given a comment, find all tags of interest.  Return a map
      * containing the name-value pairs for those tags.  If a duplicate
      * name is found, the last name-value will be returned.
-     * @param comment   The comment to be parsed.
-     * @param currFile  The name of the file currently being read.
+     *
+     * @param comment  The comment to be parsed.
+     * @param currFile The name of the file currently being read.
      * @return A map containing the name-value pairs read from the comment.
      */
     protected Map<String, String> parseComment(String comment, File currFile) {
         Map<String, String> tagValues = new HashMap<>();
         int tagStart = 0;
-        int tagEnd   = 0;
+        int tagEnd = 0;
 
 //      System.out.println(comment);
         while (true) {
@@ -342,12 +346,12 @@ public class TagTestFinder extends TestFinder
 
             int pos = 0;
             while ((pos < tag.length())
-                   && !Character.isWhitespace(tag.charAt(pos)))
+                    && !Character.isWhitespace(tag.charAt(pos)))
                 pos++;
 
             String name = tag.substring(1, pos);
             while ((pos < tag.length())
-                   && Character.isWhitespace(tag.charAt(pos)))
+                    && Character.isWhitespace(tag.charAt(pos)))
                 pos++;
             String value = tag.substring(pos);
             value = value.replace('\n', ' ').replace('\r', ' ').trim();
@@ -367,19 +371,19 @@ public class TagTestFinder extends TestFinder
      * need to look for the pattern: " @.".  If the very first token of the
      * string begins with '@' then the pattern is "@.".
      *
-     * @param s    The string to search.
-     * @param pos  The position in the string to start looking for the beginning
-     *             of the tag.
-     * @return     The position in the string of the start of the next tag.
+     * @param s   The string to search.
+     * @param pos The position in the string to start looking for the beginning
+     *            of the tag.
+     * @return The position in the string of the start of the next tag.
      */
     private int findTagStart(String s, int pos) {
         while (true) {
             pos = s.indexOf("@", pos);
-            if ((pos == -1) || (pos >= (s.length()-1)))
+            if ((pos == -1) || (pos >= (s.length() - 1)))
                 return -1;
-            if (((pos == 0) && !Character.isWhitespace(s.charAt(pos+1)))
-                || ((pos > 0) && !Character.isWhitespace(s.charAt(pos+1))
-                    && Character.isWhitespace(s.charAt(pos-1))))
+            if (((pos == 0) && !Character.isWhitespace(s.charAt(pos + 1)))
+                    || ((pos > 0) && !Character.isWhitespace(s.charAt(pos + 1))
+                    && Character.isWhitespace(s.charAt(pos - 1))))
                 return pos;
             pos++;
         }
@@ -389,13 +393,13 @@ public class TagTestFinder extends TestFinder
      * Identify the end of the next tag.  The end is identified as either the
      * position before the next tag start or the end of the string.
      *
-     * @param s    The string to search.
+     * @param s        The string to search.
      * @param tagStart The position in the string which marks the beginning of
-     *             the tag.
-     * @return     The position in the string of the end of the current tag.
+     *                 the tag.
+     * @return The position in the string of the end of the current tag.
      */
     private int findTagEnd(String s, int tagStart) {
-        int end = findTagStart(s, tagStart+1);
+        int end = findTagStart(s, tagStart + 1);
         if (end == -1) {
             return s.length();
         }
@@ -405,14 +409,14 @@ public class TagTestFinder extends TestFinder
     //----------member variables------------------------------------------------
 
     private File currFile;
-    private Map<String, String> excludeList   = new HashMap<>();
+    private Map<String, String> excludeList = new HashMap<>();
     private Map<String, Class<? extends CommentStream>> extensionTable = new HashMap<>();
     private boolean fastScan = false;
     private String initialTag = "test";
 
     //private int testDescNumber;
     private static final String[] excludeNames = {
-        "SCCS", "deleted_files", ".svn", ".git", ".hg"
+            "SCCS", "deleted_files", ".svn", ".git", ".hg"
     };
 
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TagTestFinder.class);

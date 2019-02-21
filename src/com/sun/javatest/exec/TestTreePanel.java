@@ -103,12 +103,13 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         this.parent = parent;
         uif.setAccessibleInfo(this, "treep");
     }
+
     /**
      * @param map Saved state map, may be null.
      */
     public TestTreePanel(UIFactory uif, Harness h, ExecModel em,
-            FilterSelectionHandler fh, JComponent parent,
-            Map<String, String> map) {
+                         FilterSelectionHandler fh, JComponent parent,
+                         Map<String, String> map) {
         this(parent, em, uif);
         setHarness(h);
         this.filterHandler = fh;
@@ -177,6 +178,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     }
 
     // --------- private ---------
+
     /**
      * This method should only be called to indicate that a change has occurred
      * which replaces the active TRT.  In most cases, a call to this method
@@ -185,7 +187,6 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
      * system.<br>
      * It does nothing but remembers passed object. The real work is done
      * by applyParameters() method.
-     *
      *
      * @see #updateGUI
      * @see #applyParameters
@@ -283,7 +284,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             tree.restorePaths(paths, true);
         }
 
-        if (tree != null ) {
+        if (tree != null) {
             tree.restoreSelection(selectedPaths);
         }
 
@@ -348,6 +349,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
     /**
      * Translates open tree paths into string URLs.
+     *
      * @return null if no paths are open or the tree is not available.
      */
     private String[] getOpenPaths() {
@@ -624,7 +626,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             } else if (item instanceof TT_BasicNode) {
                 if (((TT_BasicNode) item).isRoot()) {
                     result = new String[1];
-                    result[0] = TestResultTable.getRootRelativePath(((TT_BasicNode)item).getTableNode());
+                    result[0] = TestResultTable.getRootRelativePath(((TT_BasicNode) item).getTableNode());
                     return result;
                 } else {
                     TestResultTable.TreeNode tn = ((TT_BasicNode) item).getTableNode();
@@ -639,9 +641,9 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 TestResultTable.TreeNode tn = (TestResultTable.TreeNode) item;
                 result[i] = TestResultTable.getRootRelativePath(tn);
             } else // should not happen
-            if (items[i] != null) {
-                result[i] = items[i].toString();
-            }
+                if (items[i] != null) {
+                    result[i] = items[i].toString();
+                }
         }   // for
 
         return result;
@@ -670,7 +672,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     private static void restore(final TreePath[] paths, final TestTree targetTree) {
         if (paths == null || targetTree == null) {
             return;        // we do it this way so that the tree updates itself, THEN we
-        // ask it to restore
+            // ask it to restore
         }
         Runnable restorer = new Runnable() {
 
@@ -684,7 +686,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     }
 
     private void refreshNodes(TreePath... what) {
-       // dialog to confirm wipe of results with refresh?
+        // dialog to confirm wipe of results with refresh?
 
         if (harness.isRunning()) {
             JOptionPane.showMessageDialog(parent,
@@ -712,8 +714,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
             if (confirm != JOptionPane.YES_OPTION) {
                 return;
-            }
-            else {
+            } else {
                 ack = true;
             }
 
@@ -721,9 +722,9 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 Object item = what[i].getLastPathComponent();
                 if (item instanceof TT_TestNode) {
                     ackTargets[i] = ((TT_TestNode) item).getLongPath();
-                    ackNodes = DynamicArray.append(ackNodes, (TT_TestNode)item, TT_TreeNode.class);
+                    ackNodes = DynamicArray.append(ackNodes, (TT_TestNode) item, TT_TreeNode.class);
                 } else if (item instanceof TT_BasicNode) {
-                    ackNodes = DynamicArray.append(ackNodes, (TT_BasicNode)item, TT_TreeNode.class);
+                    ackNodes = DynamicArray.append(ackNodes, (TT_BasicNode) item, TT_TreeNode.class);
                     TT_BasicNode tn = (TT_BasicNode) item;
                     if (tn.isRoot()) {
                         ackTargets = new String[1];
@@ -763,12 +764,11 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             }
             if (confirm != JOptionPane.YES_OPTION) {
                 return;
-            }
-            else
+            } else
                 ack = true;
 
             if (tn instanceof TT_BasicNode) {
-                ackNodes = new TT_TreeNode[] {tn};
+                ackNodes = new TT_TreeNode[]{tn};
             }
         }   // else
 
@@ -826,12 +826,11 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                     if (finalNodes[i] instanceof TT_TestNode)
                                         changes = trt.refreshIfNeeded(finalNodes[i].getLongPath());
                                     else {
-                                        changes = trt.refreshIfNeeded(((TT_BasicNode)finalNodes[i]).getTableNode());
-                                        if (changes) trt.prune(((TT_BasicNode)finalNodes[i]).getTableNode());
+                                        changes = trt.refreshIfNeeded(((TT_BasicNode) finalNodes[i]).getTableNode());
+                                        if (changes) trt.prune(((TT_BasicNode) finalNodes[i]).getTableNode());
                                     }
 
-                                }
-                                catch (TestResultTable.Fault f) {
+                                } catch (TestResultTable.Fault f) {
                                     // log the error
                                     final WorkDirectory wd = execModel.getWorkDirectory();
                                     if (wd != null) {
@@ -840,7 +839,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                                 finalTargets[i], f.getMessage());
                                     }
                                 }       // catch
-                                }   // for
+                            }   // for
                         }
                     } finally {
                         treeModel.unpauseWork();
@@ -853,7 +852,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                 public void run() {
                                     if (d.isShowing()) {
                                         d.hide();
-                                    // enable all menu items
+                                        // enable all menu items
                                     }
                                     setPopupItemsEnabled(true);
                                     if (updateTree) {
@@ -900,7 +899,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
     private void refreshFilters() {
         if (execModel instanceof ExecTool) {
-            ExecTool et = (ExecTool)execModel;
+            ExecTool et = (ExecTool) execModel;
             et.filterHandler.updateFilters();
         }
     }
@@ -930,7 +929,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
         if (disposed) {
             return;        // enabled/disable popup menu items based on whether we have a
-        // workdir or testsuite
+            // workdir or testsuite
         }
         applyParameters(false);
         if (popup != null && params != null) {
@@ -1053,8 +1052,8 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
         tree.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
                 KeyStroke.getKeyStroke(KeyEvent.VK_F10,
-                InputEvent.SHIFT_MASK,
-                false),
+                        InputEvent.SHIFT_MASK,
+                        false),
                 "triggerPopup");
         tree.getActionMap().put("triggerPopup",
                 new TreePopupAction(uif.getI18NResourceBundle(), "treep.popup"));
@@ -1200,7 +1199,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         setLayout(new BorderLayout());
 
         add(splitPane, BorderLayout.CENTER);
-    //add(topPanel, BorderLayout.NORTH);
+        //add(topPanel, BorderLayout.NORTH);
         applyParameters(false);
         TestResultTable trt = treeModel.getTestResultTable();
         if (wd != null && trt != null) {
@@ -1219,7 +1218,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 try {
                     WorkDirectory wd = execModel.getWorkDirectory();
                     TestResultTable trt = getTestResultTable();
-                    if(trt != null && !wd.isTRTSet()) {
+                    if (trt != null && !wd.isTRTSet()) {
                         wd.setTestResultTable(trt);
                     }
                     applyParameters(true);
@@ -1263,7 +1262,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
             if (item instanceof TreePath) {
                 item = ((TreePath) item).getLastPathComponent();
-            // determine leaf type
+                // determine leaf type
             }
             if (item instanceof TT_TestNode) {
                 TestResult tr = ((TT_TestNode) item).getTestResult();
@@ -1579,7 +1578,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
     /**
      * @param prefix i18n bundle prefix
-     * @param args Arguments for the user message string, which is prefix.txt.
+     * @param args   Arguments for the user message string, which is prefix.txt.
      */
     private int showConfirmListDialog(String prefix, Object[] args, ListModel<?> model) {
         // resources needed:
@@ -1607,6 +1606,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             return true;
         }
     }
+
     private UIFactory uif;
     private Harness harness;
     private FilterSelectionHandler filterHandler;
@@ -1627,7 +1627,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     private JMenuItem purgeMI;
     private JMenuItem runMI;
     private String activeTest;
-    private ArrayList<JavaTestContextMenu> testMenus,  folderMenus,  mixedMenus,  customMenus;
+    private ArrayList<JavaTestContextMenu> testMenus, folderMenus, mixedMenus, customMenus;
     private TestTreeModel treeModel;
     private Deck deck;
     private JPanel deckPanel;
@@ -1644,6 +1644,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
     /**
      * ET_Config method
+     *
      * @return null - no menu required
      */
     @Override
@@ -1653,6 +1654,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
     /**
      * ET_Config method
+     *
      * @return null - no tool bar actions
      */
     @Override
@@ -1684,17 +1686,18 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
     /**
      * Session.Observer method. Invoked when parameters object has been changed.
+     *
      * @param ev
      */
     @Override
     public void updated(Event ev) {
         if (ev instanceof BasicSession.E_NewConfig) {
-            setParameters(((BasicSession.E_NewConfig)ev).ip);
+            setParameters(((BasicSession.E_NewConfig) ev).ip);
         } else if (ev instanceof BasicSession.E_NewWD) {
-            WorkDirectory wd = ((BasicSession.E_NewWD)ev).wd;
+            WorkDirectory wd = ((BasicSession.E_NewWD) ev).wd;
             try {
                 TestResultTable trt = getTestResultTable();
-                if(trt != null && !wd.isTRTSet()) {
+                if (trt != null && !wd.isTRTSet()) {
                     wd.setTestResultTable(trt);
                 }
                 applyParameters(true);
@@ -1753,7 +1756,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         public void treeExpanded(TreeExpansionEvent event) {
             if (disposed || treeModel instanceof EmptyTestTreeModel) {
                 return;            // basically send a hint to the model indicating that some nodes
-            // are now visible
+                // are now visible
             }
             TreePath tp = event.getPath();
             TT_BasicNode tn = (TT_BasicNode) tp.getLastPathComponent();
@@ -1813,7 +1816,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
         private void updateSelection(MouseEvent e) {
             TreePath pathClicked = tree.getPathForLocation(e.getX(), e.getY());
-            if(pathClicked != null && tree.getSelectionCount() <= 1 && tree.getSelectionPath() != pathClicked) {
+            if (pathClicked != null && tree.getSelectionCount() <= 1 && tree.getSelectionPath() != pathClicked) {
                 tree.setSelectionPath(pathClicked);
             }
         }
@@ -1857,8 +1860,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             else if (e.getActionCommand().equals("info")) {
             showNodeInfoDialog(tree.getSelectionPaths());
             }
-             */
-            else if (e.getActionCommand().equals("run")) {
+             */ else if (e.getActionCommand().equals("run")) {
                 if (paths != null && paths.length > 0) {
                     // special case check, remove all items if root
                     // is selected
@@ -1886,6 +1888,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 }
             }
         }
+
         private int lastX;
         private int lastY;
     }
@@ -1913,6 +1916,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 selectBranch((TT_BasicNode) tn, tp);
             }
         }
+
         private TreePath tp;
         private TestResult tr;
         private TT_TreeNode tn;
@@ -1954,6 +1958,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 return null;
             }
         }
+
         private String name;
         private String desc;
     }
@@ -2120,8 +2125,8 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             {
                 return;            // BK needed anymore?  see renderer
 
-            //TestResult lookupTr = treeModel.getTestResultTable().lookup(tr.getWorkRelativePath());
-            //TreePath tp = treeModel.resolveUrl(tr.getWorkRelativePath());
+                //TestResult lookupTr = treeModel.getTestResultTable().lookup(tr.getWorkRelativePath());
+                //TreePath tp = treeModel.resolveUrl(tr.getWorkRelativePath());
             }
 
             runningTests.put(tr.getTestName(), tr);
@@ -2160,8 +2165,8 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             if (treeModel == null) // may occur during shutdown, see dispose()
             {
                 return;            //runningTests.remove(tr.getTestName());
-            // it's very important for items to be correctly removed
-            // from the hashtables
+                // it's very important for items to be correctly removed
+                // from the hashtables
             }
 
             runningTests.remove(tr.getTestName());
@@ -2247,7 +2252,8 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         public void updated(TestResult whichTR) {
             // ignore
         }
-        private Hashtable<String,TestResult> runningTests;
+
+        private Hashtable<String, TestResult> runningTests;
         private Hashtable<Object, Integer> activeNodes;
         private Integer ONE = Integer.valueOf(1);
     }

@@ -36,12 +36,14 @@ import javax.swing.tree.TreeNode;
 public abstract class TT_TreeNode implements TreeNode {
     /**
      * Short name that should be shown in user interfaces.
+     *
      * @return Concise description of this node instance.
      */
     abstract String getDisplayName();
 
     /**
      * Description to be shown when needed.
+     *
      * @return Verbose description of this node instance.
      * @see TT_TreeNode#getDisplayName()
      */
@@ -49,6 +51,7 @@ public abstract class TT_TreeNode implements TreeNode {
 
     /**
      * Get the long internal representation of this location.
+     *
      * @return Null if the node is the root, else a forward slash separated
      * path.
      */
@@ -57,6 +60,7 @@ public abstract class TT_TreeNode implements TreeNode {
     /**
      * String for use whenever you need a basic name for this node.  You can
      * assume that this name is unique within any node.
+     *
      * @return Short name for this node, containing no forward slashes or
      * spaces.
      */
@@ -64,7 +68,7 @@ public abstract class TT_TreeNode implements TreeNode {
 
     TT_TreeNode[] getNodePath() {
         if (parent == null)
-            return new TT_TreeNode[] {this};
+            return new TT_TreeNode[]{this};
 
         LinkedList<TT_TreeNode> l = new LinkedList<>();
         l.add(this);

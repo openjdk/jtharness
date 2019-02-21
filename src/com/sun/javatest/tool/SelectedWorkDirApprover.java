@@ -36,6 +36,7 @@ import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.tool.jthelp.JTHelpBroker;
 import com.sun.javatest.util.FileInfoCache;
 import com.sun.javatest.util.I18NResourceBundle;
+
 /**
  *
  */
@@ -64,15 +65,14 @@ public class SelectedWorkDirApprover {
                 return approveNewSelection_dirExists(dir, testSuite);
             else
                 uif.showLiteralError(null, i18n.getString("wdc.notADir.err", dir));
-        }
-        else
+        } else
             return approveNewSelection_dirNotFound(dir, testSuite);
         return false;
     }
 
     private boolean approveNewSelection_workDirExists(File dir, TestSuite testSuite) {
         int option = uif.showLiteralYesNoDialog(i18n.getString("wdc.exists_openIt.title"),
-                            i18n.getString("wdc.exists_openIt.txt"));
+                i18n.getString("wdc.exists_openIt.txt"));
 
         if (option != JOptionPane.YES_OPTION)
             return false;
@@ -88,18 +88,15 @@ public class SelectedWorkDirApprover {
             }
             openInsteadOfCreate = true;
             return true;
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             // should not happen: work directory is known to exist
             //uif.showError("wdc.cantFindDir", dir.getPath());
             uif.showLiteralError(null, i18n.getString("wdc.cantFindDir.err", dir.getPath()));
             return false;
-        }
-        catch (WorkDirectory.MismatchFault e) {
+        } catch (WorkDirectory.MismatchFault e) {
             uif.showLiteralError(null, i18n.getString("wdc.wrongTS.err"));
             return false;
-        }
-        catch (WorkDirectory.Fault e) {
+        } catch (WorkDirectory.Fault e) {
             //uif.showError("wdc.cantOpen", e.getMessage());
             uif.showLiteralError(null, i18n.getString("wdc.cantOpen.err", e.getMessage()));
             return false;
@@ -115,12 +112,10 @@ public class SelectedWorkDirApprover {
         try {
             workDir = WorkDirectory.convert(dir, testSuite);
             return true;
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             uif.showError("wdc.cantFindDir", dir.getPath());
             return false;
-        }
-        catch (WorkDirectory.Fault e) {
+        } catch (WorkDirectory.Fault e) {
             uif.showError("wdc.cantConvert", e.getMessage());
             return false;
         }
@@ -130,8 +125,7 @@ public class SelectedWorkDirApprover {
         try {
             workDir = WorkDirectory.create(dir, testSuite);
             return true;
-        }
-        catch (WorkDirectory.Fault e) {
+        } catch (WorkDirectory.Fault e) {
             uif.showError("wdc.cantCreate", e.getMessage());
             return false;
         }
@@ -149,8 +143,7 @@ public class SelectedWorkDirApprover {
             } else {
                 uif.showLiteralError(null, i18n.getString("wdc.notADir.err", dir));
             }   // inner if
-        }
-        else
+        } else
             return approveOpenSelection_dirNotFound(dir, testSuite);
         return false;
     }
@@ -159,85 +152,80 @@ public class SelectedWorkDirApprover {
 
         try {
             switch (mode) {
-            case WorkDirChooser.OPEN_FOR_GIVEN_TESTSUITE:
-                if (testSuite == null)
-                    throw new IllegalStateException();
+                case WorkDirChooser.OPEN_FOR_GIVEN_TESTSUITE:
+                    if (testSuite == null)
+                        throw new IllegalStateException();
 
-                workDir = WorkDirectory.open(dir, testSuite);
-                // I don't think the following test can ever happen, because the open
-                // will fail and throw a WorkDirectory.MismatchFault.
-                if (workDir.getTestSuite() != testSuite) {
-                    uif.showLiteralError(null, i18n.getString("wdc.wrongTS.err"));
-                    return false;
-                }
-                break;
-
-            case WorkDirChooser.OPEN_FOR_ANY_TESTSUITE:
-                try {
-                    workDir = WorkDirectory.open(dir);
-                }
-                catch (WorkDirectory.TestSuiteFault e) {
-                    // error opening test suite -- allow user to specify new test suite
-                    int option = uif.showYesNoDialog("wdc.tsError_specifyNew", e.getMessage());
-                    if (option != JOptionPane.YES_OPTION)
+                    workDir = WorkDirectory.open(dir, testSuite);
+                    // I don't think the following test can ever happen, because the open
+                    // will fail and throw a WorkDirectory.MismatchFault.
+                    if (workDir.getTestSuite() != testSuite) {
+                        uif.showLiteralError(null, i18n.getString("wdc.wrongTS.err"));
                         return false;
+                    }
+                    break;
 
-                    // ensure testSuiteChooser initialized
-                    if (testSuiteChooser == null)
-                        testSuiteChooser = new TestSuiteChooser();
+                case WorkDirChooser.OPEN_FOR_ANY_TESTSUITE:
+                    try {
+                        workDir = WorkDirectory.open(dir);
+                    } catch (WorkDirectory.TestSuiteFault e) {
+                        // error opening test suite -- allow user to specify new test suite
+                        int option = uif.showYesNoDialog("wdc.tsError_specifyNew", e.getMessage());
+                        if (option != JOptionPane.YES_OPTION)
+                            return false;
 
-                    // set a context in the chooser if one is available
-                    if (testSuite != null)
-                        testSuiteChooser.setSelectedTestSuite(testSuite);
+                        // ensure testSuiteChooser initialized
+                        if (testSuiteChooser == null)
+                            testSuiteChooser = new TestSuiteChooser();
 
-                    // display the chooser
-                    testSuiteChooser.showDialog(parent);
+                        // set a context in the chooser if one is available
+                        if (testSuite != null)
+                            testSuiteChooser.setSelectedTestSuite(testSuite);
 
-                    // get the alternate test suite
-                    TestSuite newTestSuite = testSuiteChooser.getSelectedTestSuite();
+                        // display the chooser
+                        testSuiteChooser.showDialog(parent);
 
-                    // user cancelled dialog, so exit out of approve*
-                    if (newTestSuite == null)
-                        return false;
+                        // get the alternate test suite
+                        TestSuite newTestSuite = testSuiteChooser.getSelectedTestSuite();
 
-                    // try using that new test suite
-                    workDir = WorkDirectory.open(dir, newTestSuite);
+                        // user cancelled dialog, so exit out of approve*
+                        if (newTestSuite == null)
+                            return false;
 
-                }
-                                catch(WorkDirectory.TemplateMissingFault e) {
-                    // error opening test suite -- allow user to specify new test suite
-                    int option = uif.showYesNoDialog("wdc.tsError_specifyTemplate", e.getMessage());
-                    if (option != JOptionPane.YES_OPTION)
-                        return false;
+                        // try using that new test suite
+                        workDir = WorkDirectory.open(dir, newTestSuite);
 
-                    // display the chooser
-                    FileChooser chooser = new FileChooser();
-                                        chooser.addChoosableExtension(JTM, uif.getI18NString("ce.jtmFiles"));
-                                        chooser.showOpenDialog(parent);
+                    } catch (WorkDirectory.TemplateMissingFault e) {
+                        // error opening test suite -- allow user to specify new test suite
+                        int option = uif.showYesNoDialog("wdc.tsError_specifyTemplate", e.getMessage());
+                        if (option != JOptionPane.YES_OPTION)
+                            return false;
 
-                    // get the alternate test suite
-                    File newTemplate = chooser.getSelectedFile();
+                        // display the chooser
+                        FileChooser chooser = new FileChooser();
+                        chooser.addChoosableExtension(JTM, uif.getI18NString("ce.jtmFiles"));
+                        chooser.showOpenDialog(parent);
 
-                    // user cancelled dialog, so exit out of approve*
-                    if (newTemplate == null)
-                        return false;
+                        // get the alternate test suite
+                        File newTemplate = chooser.getSelectedFile();
 
-                    // try using that new template
-                                        WorkDirectory.changeTemplate(dir, newTemplate);
-                    workDir = WorkDirectory.open(dir);
+                        // user cancelled dialog, so exit out of approve*
+                        if (newTemplate == null)
+                            return false;
 
-                                }
-                break;
+                        // try using that new template
+                        WorkDirectory.changeTemplate(dir, newTemplate);
+                        workDir = WorkDirectory.open(dir);
+
+                    }
+                    break;
             }
             return true;
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             uif.showLiteralError(null, i18n.getString("wdc.cantFindDir.err", dir.getPath()));
-        }
-        catch (WorkDirectory.MismatchFault e) {
+        } catch (WorkDirectory.MismatchFault e) {
             uif.showLiteralError(null, i18n.getString("wdc.wrongTS.err"));
-        }
-        catch (WorkDirectory.Fault e) {
+        } catch (WorkDirectory.Fault e) {
             uif.showLiteralError(null, i18n.getString("wdc.cantOpen.err", e.getMessage()));
         }
         return false;
@@ -247,7 +235,8 @@ public class SelectedWorkDirApprover {
         if (testSuite == null) {
             uif.showError("wdc.notFound_noTestSuite");
             return false;
-        } if (! allowNoTemplate) {
+        }
+        if (!allowNoTemplate) {
             uif.showLiteralError(null, i18n.getString("wdc.cantFindDir.err", dir.getPath()));
             return false;
         } else {
@@ -258,8 +247,7 @@ public class SelectedWorkDirApprover {
 
         try {
             workDir = WorkDirectory.create(dir, testSuite);
-        }
-        catch (WorkDirectory.Fault e) {
+        } catch (WorkDirectory.Fault e) {
             uif.showError("wdc.cantCreate", e.getMessage());
             return false;
         }
@@ -272,13 +260,12 @@ public class SelectedWorkDirApprover {
         if (isIgnoreable(f))
             return false;
 
-        Boolean b =  cache.get(f);
+        Boolean b = cache.get(f);
         if (b == null) {
             boolean v = WorkDirectory.isWorkDirectory(f);
             cache.put(f, v);
             return v;
-        }
-        else
+        } else
             return b;
     }
 

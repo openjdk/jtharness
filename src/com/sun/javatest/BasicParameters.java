@@ -39,15 +39,14 @@ import com.sun.javatest.util.I18NResourceBundle;
  * subsection.
  */
 public abstract class BasicParameters
-    implements
+        implements
         Parameters,
         Parameters.MutableTestsParameters,
         Parameters.MutableExcludeListParameters,
         Parameters.MutableKeywordsParameters,
         Parameters.MutablePriorStatusParameters,
         Parameters.MutableConcurrencyParameters,
-        Parameters.MutableTimeoutFactorParameters
-{
+        Parameters.MutableTimeoutFactorParameters {
     //---------------------------------------------------------------------
 
     @Override
@@ -59,8 +58,9 @@ public abstract class BasicParameters
      * Set the test suite for the test run. The test suite may only be set once.
      * If the test suite cannot be opened, isValid will return false, and
      * getErrorMessage will contain an error message.
+     *
      * @param file a path defining the test suite to be opened and set as the test
-     * suite for the test run.
+     *             suite for the test run.
      * @see #getTestSuite
      * @see #setTestSuite(TestSuite)
      */
@@ -71,11 +71,9 @@ public abstract class BasicParameters
             try {
                 setTestSuite(TestSuite.open(file));
                 //System.err.println("BP.setTestSuite: " + file + " opened");
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 testSuiteError = i18n.getString("bp.cantFindTestSuite", file);
-            }
-            catch (TestSuite.Fault e) {
+            } catch (TestSuite.Fault e) {
                 testSuiteError = i18n.getString("bp.badTestSuite", e.getMessage());
             }
         }
@@ -83,11 +81,12 @@ public abstract class BasicParameters
 
     /**
      * Set the test suite for the test run. The test suite may only be set once.
+     *
      * @param ts the test suite to be set.
-     * @see #getTestSuite
-     * @throws NullPointerException if ts is null
+     * @throws NullPointerException  if ts is null
      * @throws IllegalStateException if the test suite has already been set to
-     * something different
+     *                               something different
+     * @see #getTestSuite
      */
     @Override
     public void setTestSuite(TestSuite ts) {
@@ -127,8 +126,9 @@ public abstract class BasicParameters
      * If the work directory cannot be opened, isValid will return false, and
      * getErrorMessage will contain an error message.
      * The test suite must already be set before this method is called.
+     *
      * @param dir a path defining the work directory to be opened and set as the
-     * work directory for the test run.
+     *            work directory for the test run.
      * @see #getWorkDirectory
      * @see #setWorkDirectory(WorkDirectory)
      */
@@ -142,25 +142,19 @@ public abstract class BasicParameters
                     if (WorkDirectory.isWorkDirectory(dir)) {
                         setWorkDirectory(WorkDirectory.open(dir, ts));
                         workDirError = null;
-                    }
-                    else if (WorkDirectory.isEmptyDirectory(dir)) {
+                    } else if (WorkDirectory.isEmptyDirectory(dir)) {
                         workDir = WorkDirectory.create(dir, ts);
                         workDirError = null;
-                    }
-                    else
+                    } else
                         workDirError = i18n.getString("bp.badWorkDir", dir.getPath());
-                }
-                else
+                } else
                     workDirError = i18n.getString("bp.cantFindWorkDir", dir.getPath());
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 workDirError = i18n.getString("bp.cantFindWorkDir", dir.getPath());
-            }
-            catch (WorkDirectory.Fault e) {
+            } catch (WorkDirectory.Fault e) {
                 workDirError = i18n.getString("bp.workDirError", e.getMessage());
             }
-        }
-        else
+        } else
             workDirError = i18n.getString("bp.noTestSuite");
     }
 
@@ -170,11 +164,12 @@ public abstract class BasicParameters
      * If the test suite has already been set, it must exactly match the test suite
      * for the work directory; if the test suite has not yet been set, it will
      * be set to the test suite for this work directory.
+     *
      * @param wd the work directory to be set.
-     * @see #getWorkDirectory
-     * @throws NullPointerException if wd is null
+     * @throws NullPointerException  if wd is null
      * @throws IllegalStateException if the work directory has already been set to
-     * something different
+     *                               something different
+     * @see #getWorkDirectory
      */
     @Override
     public void setWorkDirectory(WorkDirectory wd) {
@@ -234,7 +229,7 @@ public abstract class BasicParameters
     @Override
     public void setTestsMode(int mode) {
         if (mode != ALL_TESTS &&
-            mode != SPECIFIED_TESTS)
+                mode != SPECIFIED_TESTS)
             throw new IllegalArgumentException();
 
         testsMode = mode;
@@ -271,30 +266,30 @@ public abstract class BasicParameters
     public File[] getExcludeFiles() {
         TestSuite ts = getTestSuite();
         switch (excludeMode) {
-        case INITIAL_EXCLUDE_LIST:
-            if (ts == null)
-                return null;
-            File df = ts.getInitialExcludeList();
-            if (df == null)
-                return null;
-            return new File[] { df };
+            case INITIAL_EXCLUDE_LIST:
+                if (ts == null)
+                    return null;
+                File df = ts.getInitialExcludeList();
+                if (df == null)
+                    return null;
+                return new File[]{df};
 
-        case LATEST_EXCLUDE_LIST:
-            if (ts == null)
-                return null;
-            URL u = ts.getLatestExcludeList();
-            if (u == null)
-                return null;
-            WorkDirectory wd = getWorkDirectory();
-            if (wd == null)
-                return null;
-            return new File[] { wd.getSystemFile("latest.jtx") };
+            case LATEST_EXCLUDE_LIST:
+                if (ts == null)
+                    return null;
+                URL u = ts.getLatestExcludeList();
+                if (u == null)
+                    return null;
+                WorkDirectory wd = getWorkDirectory();
+                if (wd == null)
+                    return null;
+                return new File[]{wd.getSystemFile("latest.jtx")};
 
-        case CUSTOM_EXCLUDE_LIST:
-            return customExcludeFiles;
+            case CUSTOM_EXCLUDE_LIST:
+                return customExcludeFiles;
 
-        default:
-            return null;
+            default:
+                return null;
         }
     }
 
@@ -378,13 +373,14 @@ public abstract class BasicParameters
         updateAbsoluteExcludeFiles();
         return cachedAbsExcludeFiles;
     }
+
     private void updateAbsoluteExcludeFiles() {
         TestSuite ts = getTestSuite();
         File base = ts == null ? null : ts.getRootDir();
         File[] excludeFiles = getExcludeFiles();
         if (cachedAbsExcludeFiles == null ||
-            cachedAbsExcludeFiles_base != base ||
-            cachedAbsExcludeFiles_excludeFiles != excludeFiles) {
+                cachedAbsExcludeFiles_base != base ||
+                cachedAbsExcludeFiles_excludeFiles != excludeFiles) {
             cachedAbsExcludeFiles = getAbsoluteFiles(base, excludeFiles);
         }
     }
@@ -392,7 +388,7 @@ public abstract class BasicParameters
     private void updateExcludeList() {
         File[] absExclFiles = getAbsoluteExcludeFiles();
         if (cachedExcludeList == null
-            || !equal(cachedExcludeList_absExclFiles, absExclFiles)) {
+                || !equal(cachedExcludeList_absExclFiles, absExclFiles)) {
             try {
                 if (absExclFiles == null)
                     cachedExcludeList = new ExcludeList();
@@ -401,18 +397,15 @@ public abstract class BasicParameters
                 cachedExcludeList_absExclFiles = cachedAbsExcludeFiles;
                 cachedExcludeListFilter = new ExcludeListFilter(cachedExcludeList);
                 excludeListError = null;
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 cachedExcludeList = null;
                 cachedExcludeListFilter = null;
                 excludeListError = i18n.getString("bp.exclListNotFound", e.getMessage());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 cachedExcludeList = null;
                 cachedExcludeListFilter = null;
                 excludeListError = i18n.getString("bp.exclListFault", e);
-            }
-            catch (ExcludeList.Fault e) {
+            } catch (ExcludeList.Fault e) {
                 cachedExcludeList = null;
                 cachedExcludeListFilter = null;
                 excludeListError = i18n.getString("bp.exclListFault", e.getMessage());
@@ -424,7 +417,7 @@ public abstract class BasicParameters
     private boolean latestExcludeAutoCheck;
     private int latestExcludeAutoCheckMode;
     private int latestExcludeAutoCheckInterval;
-    private File[] customExcludeFiles = { };
+    private File[] customExcludeFiles = {};
 
 
     private File[] cachedAbsExcludeFiles;
@@ -505,21 +498,19 @@ public abstract class BasicParameters
             cachedKeywords = null;
             cachedKeywordsFilter = null;
             keywordsError = null;
-        }
-        else {
+        } else {
             if (cachedKeywordsMatchMode != keywordsMatchMode
-                || cachedKeywordsMatchValue == null
-                || !cachedKeywordsMatchValue.equals(keywordsMatchValue)) {
+                    || cachedKeywordsMatchValue == null
+                    || !cachedKeywordsMatchValue.equals(keywordsMatchValue)) {
                 try {
                     cachedKeywordsMatchMode = keywordsMatchMode;
                     cachedKeywordsMatchValue = keywordsMatchValue;
                     String op = keywordsMatchMode == EXPR ? "expr"
-                                 : keywordsMatchMode == ALL_OF ? "all of"
-                                 : "any of";
+                            : keywordsMatchMode == ALL_OF ? "all of"
+                            : "any of";
                     cachedKeywords = Keywords.create(op, keywordsMatchValue);
                     cachedKeywordsFilter = new KeywordsFilter(cachedKeywords);
-                }
-                catch (Keywords.Fault e) {
+                } catch (Keywords.Fault e) {
                     cachedKeywords = null;
                     cachedKeywordsFilter = null;
                     keywordsError = i18n.getString("bp.badKeywords", e.getMessage());
@@ -580,8 +571,8 @@ public abstract class BasicParameters
         if (r == null || s == null)
             cachedPriorStatusFilter = null;
         else if (cachedPriorStatusFilter == null
-                 || cachedPriorStatusFilter.getTestResultTable() != r
-                 || !equal(cachedPriorStatusFilter.getStatusValues(), s)) {
+                || cachedPriorStatusFilter.getTestResultTable() != r
+                || !equal(cachedPriorStatusFilter.getStatusValues(), s)) {
             cachedPriorStatusFilter = new StatusFilter(s, r);
         }
 
@@ -596,7 +587,7 @@ public abstract class BasicParameters
     @Override
     public void setPriorStatusMode(int mode) {
         if (mode != NO_PRIOR_STATUS &&
-            mode != MATCH_PRIOR_STATUS)
+                mode != MATCH_PRIOR_STATUS)
             throw new IllegalArgumentException();
 
         priorStatusMode = mode;
@@ -642,10 +633,9 @@ public abstract class BasicParameters
     public void setConcurrency(int conc) {
         if (conc <= 0) {
             concurrencyError =
-                i18n.getString("bp.badConcurrency", Integer.valueOf(conc));
+                    i18n.getString("bp.badConcurrency", Integer.valueOf(conc));
             concurrency = 1;
-        }
-        else {
+        } else {
             concurrencyError = null;
             concurrency = conc;
         }
@@ -679,8 +669,7 @@ public abstract class BasicParameters
         if (tf <= 0) {
             timeoutFactorError = i18n.getString("bp.badTimeout", Float.valueOf(tf));
             timeoutFactor = 1;
-        }
-        else {
+        } else {
             timeoutFactorError = null;
             timeoutFactor = tf;
         }
@@ -706,8 +695,8 @@ public abstract class BasicParameters
         if (ts == null || env == null)
             cachedRelevantTestFilter = null;
         else if (cachedRelevantTestFilter == null ||
-                 ts != cachedRelevantTestFilterTestSuite ||
-                 env != cachedRelevantTestFilterEnv) {
+                ts != cachedRelevantTestFilterTestSuite ||
+                env != cachedRelevantTestFilterEnv) {
             cachedRelevantTestFilter = ts.createTestFilter(env);
         }
         return cachedRelevantTestFilter;
@@ -735,7 +724,7 @@ public abstract class BasicParameters
 
         TestFilter testSuiteFilter = getRelevantTestFilter();
         if (testSuiteFilter != null)
-        v.addElement(testSuiteFilter);
+            v.addElement(testSuiteFilter);
 
         if (v.isEmpty())
             return null;
@@ -782,8 +771,9 @@ public abstract class BasicParameters
      * Convert a set of files to be absolute files. Files that are already
      * absolute are left unchanged; relative files are evaluated relative to
      * a specified base directory.
+     *
      * @param baseDir The base directory for any relative files
-     * @param files The files to be made absolute, or null if none
+     * @param files   The files to be made absolute, or null if none
      * @return the given files with any relative files having been evaluated
      * relative to the given base directory, or null if files was null.
      */
@@ -811,6 +801,7 @@ public abstract class BasicParameters
 
     /**
      * Compare two boolean arrays for equality.
+     *
      * @param b1 the first array to be compared
      * @param b2 the second array to be compared
      * @return true and only if both arguments are null, or if both are not null
@@ -833,6 +824,7 @@ public abstract class BasicParameters
 
     /**
      * Compare two arrays of Files for equality.
+     *
      * @param f1 the first array to be compared
      * @param f2 the second array to be compared
      * @return true and only if both arguments are null, or if both are not null
@@ -866,5 +858,5 @@ public abstract class BasicParameters
     //---------------------------------------------------------------------
 
     private static final I18NResourceBundle i18n =
-        I18NResourceBundle.getBundleForClass(BasicParameters.class);
+            I18NResourceBundle.getBundleForClass(BasicParameters.class);
 }

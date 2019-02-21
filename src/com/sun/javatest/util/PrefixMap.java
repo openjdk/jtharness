@@ -38,14 +38,14 @@ import java.util.Vector;
  * A map whose entries are stored in a parent map by prefixing
  * the key names with a specific string.
  */
-public class PrefixMap<V> implements Map<String, V>
-{
+public class PrefixMap<V> implements Map<String, V> {
     /**
      * Create a map whose entries are stored in a parent map
      * by prefixing the key names with a specific string.
-     * @param map the parent map
+     *
+     * @param map    the parent map
      * @param prefix the prefix with which to prefix the entries in the
-     * parent map
+     *               parent map
      */
     public PrefixMap(Map<String, V> map, String prefix) {
         this.map = map;
@@ -66,6 +66,7 @@ public class PrefixMap<V> implements Map<String, V>
      * This is the value that was supplied to the constructor.  This class
      * reserves the right to return a String which is not reference equivalent
      * to the given string.
+     *
      * @return The prefix string, which may be a zero length string.
      */
     public String getPrefix() {

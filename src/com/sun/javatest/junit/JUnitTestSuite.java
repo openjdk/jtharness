@@ -28,6 +28,7 @@ package com.sun.javatest.junit;
 
 import com.sun.javatest.TestRunner;
 import com.sun.javatest.TestSuite;
+
 import java.io.File;
 import java.util.Map;
 import java.net.URLClassLoader;
@@ -41,9 +42,9 @@ public class JUnitTestSuite extends TestSuite {
         super(root, props, loader);
         try {
             if (getTestsDir() != null)
-                loader = new URLClassLoader(new URL[] {getTestsDir().toURI().toURL()}, loader);
+                loader = new URLClassLoader(new URL[]{getTestsDir().toURI().toURL()}, loader);
             else loader = ClassLoader.getSystemClassLoader();
-        } catch(Exception e) {
+        } catch (Exception e) {
         }
         cl = loader;
     }

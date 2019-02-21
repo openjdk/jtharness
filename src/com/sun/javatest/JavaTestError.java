@@ -35,8 +35,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  * Special error class to be used for errors which may pop out of JT Harness and
  * be seen by the user.
  */
-public class JavaTestError extends Error
-{
+public class JavaTestError extends Error {
     /**
      * Constructs a JavaTestError object with a literal string as the message
      * text.  You should ensure that the string you supply here is subject to
@@ -53,7 +52,7 @@ public class JavaTestError extends Error
      * text.  You should ensure that the string you supply here is subject to
      * I18N.
      *
-     * @param s Literal string to use as the message text.
+     * @param s        Literal string to use as the message text.
      * @param original The exception which originally caused the problem.
      */
     public JavaTestError(String s, Throwable original) {
@@ -77,7 +76,7 @@ public class JavaTestError extends Error
      * Constructs a JavaTestError object with an I18N string as the message.
      *
      * @param i18n The resource bundle to get the message text from.
-     * @param key The key to access the resource bundle.
+     * @param key  The key to access the resource bundle.
      */
     public JavaTestError(I18NResourceBundle i18n, String key) {
         super(i18n.getString(key));
@@ -87,8 +86,8 @@ public class JavaTestError extends Error
      * Constructs a JavaTestError object with an I18N string as the message.
      *
      * @param i18n The resource bundle to get the message text from.
-     * @param key The key to access the resource bundle.
-     * @param arg Item to be substituted into the internationalized string.
+     * @param key  The key to access the resource bundle.
+     * @param arg  Item to be substituted into the internationalized string.
      */
     public JavaTestError(I18NResourceBundle i18n, String key, Object arg) {
         super(i18n.getString(key, arg));
@@ -98,7 +97,7 @@ public class JavaTestError extends Error
      * Constructs a JavaTestError object with an I18N string as the message.
      *
      * @param i18n The resource bundle to get the message text from.
-     * @param key The key to access the resource bundle.
+     * @param key  The key to access the resource bundle.
      * @param args Items to be substituted into the internationalized string.
      */
     public JavaTestError(I18NResourceBundle i18n, String key, Object... args) {
@@ -110,8 +109,8 @@ public class JavaTestError extends Error
      * the error or exception which caused this error to be thrown.  The original
      * throwable will probably be something like an IOException object.
      *
-     * @param i18n The resource bundle to get the message text from.
-     * @param key The key to access the resource bundle.
+     * @param i18n     The resource bundle to get the message text from.
+     * @param key      The key to access the resource bundle.
      * @param original The problem which ultimately caused this error.
      */
     public JavaTestError(I18NResourceBundle i18n, String key, Throwable original) {
@@ -124,9 +123,9 @@ public class JavaTestError extends Error
      * the error or exception which caused this error to be thrown.  The original
      * throwable will probably be something like an IOException object.
      *
-     * @param i18n The resource bundle to get the message text from.
-     * @param key The key to access the resource bundle.
-     * @param arg Item to be substituted into the internationalized string.
+     * @param i18n     The resource bundle to get the message text from.
+     * @param key      The key to access the resource bundle.
+     * @param arg      Item to be substituted into the internationalized string.
      * @param original The problem which ultimately caused this error.
      */
     public JavaTestError(I18NResourceBundle i18n, String key, Object arg, Throwable original) {
@@ -139,9 +138,9 @@ public class JavaTestError extends Error
      * the error or exception which caused this error to be thrown.  The original
      * throwable will probably be something like an IOException object.
      *
-     * @param i18n The resource bundle to get the message text from.
-     * @param key The key to access the resource bundle.
-     * @param args Items to be substituted into the internationalized string.
+     * @param i18n     The resource bundle to get the message text from.
+     * @param key      The key to access the resource bundle.
+     * @param args     Items to be substituted into the internationalized string.
      * @param original The problem which ultimately caused this error.
      */
     public JavaTestError(I18NResourceBundle i18n, String key, Object[] args, Throwable original) {
@@ -185,7 +184,7 @@ public class JavaTestError extends Error
      * object and to throw it.
      *
      * @return The original Throwable object that this object was created in
-     *         response to.  May be null if there was none.
+     * response to.  May be null if there was none.
      */
     public Throwable getOriginalFault() {
         return original;
@@ -203,6 +202,7 @@ public class JavaTestError extends Error
 
     /**
      * Print out a message when an unexpected exception has been caught.
+     *
      * @param t The exception that was caught.
      * @see #JavaTestError(Throwable)
      */

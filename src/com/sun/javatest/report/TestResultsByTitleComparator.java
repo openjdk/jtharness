@@ -48,5 +48,5 @@ class TestResultsByTitleComparator implements Comparator<TestResult> {
             return +1;
 
         return a.compareTo(b);
-     }
+    }
 }

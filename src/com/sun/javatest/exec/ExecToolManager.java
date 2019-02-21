@@ -27,6 +27,7 @@
 package com.sun.javatest.exec;
 
 import com.sun.interview.Interview;
+
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,6 +54,7 @@ import com.sun.javatest.tool.Tool;
 import com.sun.javatest.tool.ToolAction;
 import com.sun.javatest.tool.ToolManager;
 import com.sun.javatest.tool.WorkDirChooser;
+
 import javax.swing.JMenu;
 import javax.swing.KeyStroke;
 
@@ -60,10 +62,10 @@ import javax.swing.KeyStroke;
 /**
  * The ToolManager for {@link ExecTool test manager} windows.
  */
-public class ExecToolManager extends ToolManager implements QSW_Listener
-{
+public class ExecToolManager extends ToolManager implements QSW_Listener {
     /**
      * Create an ExecManager to manage the test manager windows on a desktop.
+     *
      * @param desktop the desktop for which this manager is responsible
      */
     public ExecToolManager(Desktop desktop) {
@@ -81,7 +83,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         if (QuickStartWizard.isQswDisabled()) {
             return new Action[0];
         } else {
-            return new Action[] {openQuickStartAction};
+            return new Action[]{openQuickStartAction};
         }
 
         // action is performed.
@@ -164,7 +166,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         Action createWD = null;
         Action openWD = openWorkDirAction;
         if (currentTool != null && currentTool instanceof ExecTool) {
-            ExecTool et = (ExecTool)currentTool;
+            ExecTool et = (ExecTool) currentTool;
             createWD = et.getCreateWDAction();
             openWD = et.getOpenWDAction();
             // Normally, create/open WD actions should become unavailable
@@ -192,8 +194,8 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         openMenu.add(new JMenuItem(openTestSuiteAction));
         //openMenu.add(new JMenuItem(openConfigAction));
 
-        return createWD == null ? new JMenuItem[] {openMenu} :
-            new JMenuItem[] {new JMenuItem(createWD), openMenu} ;
+        return createWD == null ? new JMenuItem[]{openMenu} :
+                new JMenuItem[]{new JMenuItem(createWD), openMenu};
         /*
         return new JMenuItem[] {
             new JMenuItem(openTestSuiteAction),
@@ -210,7 +212,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         Desktop d = getDesktop();
         Tool t = d.getSelectedTool();
         if (t != null && (t instanceof ExecTool)) {
-            ExecTool et = (ExecTool)t;
+            ExecTool et = (ExecTool) t;
             ContextManager context = et.getContextManager();
             if (context == null)
                 return null;
@@ -229,7 +231,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         Desktop d = getDesktop();
         Tool t = d.getSelectedTool();
         if (t != null && (t instanceof ExecTool)) {
-            ExecTool et = (ExecTool)t;
+            ExecTool et = (ExecTool) t;
             ContextManager context = et.getContextManager();
             if (context == null)
                 return null;
@@ -249,7 +251,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         Desktop d = getDesktop();
         Tool t = d.getSelectedTool();
         if (t != null && (t instanceof ExecTool)) {
-            ExecTool et = (ExecTool)t;
+            ExecTool et = (ExecTool) t;
             ContextManager context = et.getContextManager();
             if (context == null)
                 return null;
@@ -273,9 +275,10 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         if (QuickStartWizard.isQswDisabled()) {
             return new Action[0];
         } else {
-            return new Action[] {openTMQSWAction};
+            return new Action[]{openTMQSWAction};
         }
     }
+
     @Override
     public PreferencesPane getPrefsPane() {
         if (prefsPane == null)
@@ -290,17 +293,17 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
      * loaded tools and return false if such found.
      *
      * @param newTool new tool which is added to Desktop
-     * @param d Desktop to add
+     * @param d       Desktop to add
      * @return true if there is no conflict with SINGLE_TEST_MANAGER
-     *             false otherwise
+     * false otherwise
      */
     boolean checkOpenNewTool(ExecTool newTool, Desktop d) {
         return checkOpenNewTool(d, newTool.getContextManager());
     }
 
     public boolean checkOpenNewTool(Desktop d, ContextManager conManager) {
-        if (conManager != null  && conManager.getFeatureManager().isEnabled(
-                        FeatureManager.SINGLE_TEST_MANAGER)) {
+        if (conManager != null && conManager.getFeatureManager().isEnabled(
+                FeatureManager.SINGLE_TEST_MANAGER)) {
             Tool[] tools = d.getTools();
             ArrayList<Tool> list = new ArrayList<>();
             for (Tool tool1 : tools) {
@@ -384,8 +387,9 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
 
     /**
      * Start an ExecTool for a particular configuration.
+     *
      * @param p the configuration defining the tests and test results to be
-     * displayed
+     *          displayed
      * @return the tool created to show the tests and test results specified
      * by the configuration
      */
@@ -441,6 +445,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
 
         return InterviewParameters.open(tsp, wdp, cfp);
     }
+
     private static boolean isEmpty(String s) {
         return s == null || s.isEmpty();
     }
@@ -449,17 +454,18 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
 
     /**
      * Create an ExecTool instance using the given test suite.
+     *
      * @param ts the test suite to seed the new tool with
      * @return tool instance now associated with the given test suite
      * @throws Interview.Fault if there is a problem initializing
-     *         the test suite interview parameters
+     *                         the test suite interview parameters
      * @throws TestSuite.Fault if there is a problem while accessing the test
-     *         suite object
+     *                         suite object
      * @deprecated
      */
     @Deprecated
     public ExecTool showTestSuite(TestSuite ts) {
-        return  addNewExecTool(ts, null, null, "tmgr.errorOpenTestSuite");
+        return addNewExecTool(ts, null, null, "tmgr.errorOpenTestSuite");
 
 /*
         // check to see if there is an empty tool; if so select it
@@ -508,12 +514,13 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
 
     /**
      * Create an ExecTool instance using the given work directory.
+     *
      * @param wd the work directory to open
      * @return tool instance now associated with the given work directory
      * @throws Interview.Fault if there is a problem initializing
-     *         the test suite interview parameters
+     *                         the test suite interview parameters
      * @throws TestSuite.Fault if there is a problem while accessing the test
-     *         suite object
+     *                         suite object
      * @deprecated
      */
     @Deprecated
@@ -549,7 +556,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
     }
 
     protected ExecTool addNewExecTool(TestSuite ts, WorkDirectory wd,
-            InterviewParameters ip, String errorKey) {
+                                      InterviewParameters ip, String errorKey) {
         Desktop d = getDesktop();
         ExecTool et;
         try {
@@ -575,6 +582,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
     }
 
     //-------------------------------------------------------------------------
+
     /**
      * QSW_Listener interface method
      *
@@ -600,6 +608,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
         }
 
     }
+
     /**
      * QSW_Listener interface method
      */
@@ -672,7 +681,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
             if (currentTool == null || !(currentTool instanceof ExecTool)) {
                 return;
             }
-            TestSuite ts = ((ExecTool)currentTool).getTestSuite();
+            TestSuite ts = ((ExecTool) currentTool).getTestSuite();
 
             ExecTool et = addNewExecTool(ts, null, null, "tmgr.errorOpenTestSuite");
             if (et != null) {
@@ -725,9 +734,9 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
             Preferences prefs = Preferences.access();
             try {
                 prefs.setPreference(WorkDirChooseTool.DEFAULT_WD_PREF_NAME,
-                                        f.getParentFile().getCanonicalPath());
+                        f.getParentFile().getCanonicalPath());
+            } catch (IOException e) {
             }
-            catch (IOException e) {}
         }
     };
 
@@ -748,8 +757,8 @@ public class ExecToolManager extends ToolManager implements QSW_Listener
     private final Tool emptyTool;
 
     private FileOpener[] fileOpeners = {
-        testSuiteOpener,
-        workDirOpener
+            testSuiteOpener,
+            workDirOpener
     };
 /*
     private Action[] fileMenuActions = {

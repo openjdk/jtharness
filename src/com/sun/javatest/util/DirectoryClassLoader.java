@@ -36,16 +36,16 @@ import java.util.Map;
 
 /**
  * This class loader loads classes from files a specified directory.
+ *
  * @see com.sun.javatest.util.PathClassLoader
  * @deprecated use PathClassLoader
  */
-public class DirectoryClassLoader extends ClassLoader
-{
+public class DirectoryClassLoader extends ClassLoader {
     /**
      * Constructor that provides the name of the directory in which to search
      * for a given class.
      *
-     * @param dir  The File specifying the directory to search.
+     * @param dir The File specifying the directory to search.
      */
     public DirectoryClassLoader(File dir) {
         loadDir = dir;
@@ -55,7 +55,7 @@ public class DirectoryClassLoader extends ClassLoader
      * Constructor that provides the name of the directory in which to search
      * for a given class.
      *
-     * @param dirName  A file pathname specifying the directory to search.
+     * @param dirName A file pathname specifying the directory to search.
      */
     public DirectoryClassLoader(String dirName) {
         loadDir = new File(dirName);
@@ -67,14 +67,14 @@ public class DirectoryClassLoader extends ClassLoader
      * Attempt to load a class if it is not already loaded, and optionally
      * resolve any imports it might have.
      *
-     * @param name The fully-qualified name of the class to load.
+     * @param name    The fully-qualified name of the class to load.
      * @param resolve True if imports should be resolved, false otherwise.
      * @return the class that was loaded
      * @throws ClassNotFoundException if the class was not found.
      */
     @Override
     protected Class<?> loadClass(String name, boolean resolve)
-        throws ClassNotFoundException {
+            throws ClassNotFoundException {
 
         // check the cache first
         Class<?> cl = classes.get(name);
@@ -84,8 +84,7 @@ public class DirectoryClassLoader extends ClassLoader
             // see if it is a system class
             try {
                 cl = findSystemClass(name);
-            }
-            catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 // It's not a system class, look in the directory for this
                 // class loader.  If there is an IO problem, we'll throw
                 // ClassNotFoundException; if the class file is read correctly
@@ -104,11 +103,11 @@ public class DirectoryClassLoader extends ClassLoader
     /**
      * Returns an input stream for reading the specified resource.
      *
-     * @param  name the resource name
+     * @param name the resource name
      * @return an input stream for reading the resource, or <code>null</code>
-     *         if the resource could not be found
-     *
-     *  redundant in 1.2
+     * if the resource could not be found
+     * <p>
+     * redundant in 1.2
      */
     @Override
     public InputStream getResourceAsStream(String name) {
@@ -132,12 +131,12 @@ public class DirectoryClassLoader extends ClassLoader
      * resource, then call <code>findResource</code> to find the
      * resource.
      *
-     * @param  name resource name
+     * @param name resource name
      * @return a URL for reading the resource, or <code>null</code> if
-     *         the resource could not be found or the caller doesn't have
-     *          adequate privileges to get the resource.
-     *
-     *  redundant in 1.2
+     * the resource could not be found or the caller doesn't have
+     * adequate privileges to get the resource.
+     * <p>
+     * redundant in 1.2
      */
     @Override
     public URL getResource(String name) {
@@ -155,29 +154,28 @@ public class DirectoryClassLoader extends ClassLoader
      * implementations should override this method to specify where to
      * find resources.
      *
-     * @param  name the resource name
+     * @param name the resource name
      * @return a URL for reading the resource, or <code>null</code>
-     *         if the resource could not be found
-     * @since  JDK1.2
+     * if the resource could not be found
+     * @since JDK1.2
      */
     @Override
     public URL findResource(String name) {
-       try {
-           File f = new File(loadDir, name);
-           if (f.exists())
-               return new URL("file:" + f.getAbsolutePath());
-           else
-               return null;
-       }
-       catch (java.net.MalformedURLException e) {
-           return null;
-       }
+        try {
+            File f = new File(loadDir, name);
+            if (f.exists())
+                return new URL("file:" + f.getAbsolutePath());
+            else
+                return null;
+        } catch (java.net.MalformedURLException e) {
+            return null;
+        }
     }
 
     //----------internal methods------------------------------------------------
 
     private synchronized Class<?> locateClass(String name)
-        throws ClassNotFoundException {
+            throws ClassNotFoundException {
         //This check is currently necessary; we just
         // check the cache at the one call site, but that was not
         // synchronized, so there is a very small remote chance another

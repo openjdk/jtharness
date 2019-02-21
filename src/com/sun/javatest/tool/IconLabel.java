@@ -44,10 +44,10 @@ import javax.swing.JLabel;
  * <dt>state
  * <dd>one of "passed", "failed", "error", "notRun"
  * </dl>
+ *
  * @see IconLabelBeanInfo
  */
-public class IconLabel extends JLabel
-{
+public class IconLabel extends JLabel {
     @Override
     public float getAlignmentY() {
         return .7f;
@@ -94,6 +94,7 @@ public class IconLabel extends JLabel
 
     /**
      * Get the type of icon to be displayed.
+     *
      * @return either "test" or "folder"
      * @see #setType
      */
@@ -103,6 +104,7 @@ public class IconLabel extends JLabel
 
     /**
      * Set the type of icon to be displayed.
+     *
      * @param type one of "test" or "folder"
      * @see #getType
      */
@@ -112,6 +114,7 @@ public class IconLabel extends JLabel
 
     /**
      * Get the state for the icon to be displayed.
+     *
      * @return one of "passed", "failed", "error", "notRun"
      * @see #setState
      */
@@ -121,6 +124,7 @@ public class IconLabel extends JLabel
 
     /**
      * Set the state for the icon to be displayed.
+     *
      * @param state one of "passed", "failed", "error", "notRun"
      * @see #getState
      */

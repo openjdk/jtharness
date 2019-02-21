@@ -32,8 +32,7 @@ import javax.swing.JFileChooser;
 /**
  * A component that displays an editable list of filenames.
  */
-public class EditableFileList extends EditableList
-{
+public class EditableFileList extends EditableList {
     /**
      * Create an empty component.
      */
@@ -43,6 +42,7 @@ public class EditableFileList extends EditableList
     /**
      * Create an empty component, that uses a given file chooser
      * to allow the user to specify new filenames to be added.
+     *
      * @param c the file chooser to be used
      * @see #setChooser
      */
@@ -53,6 +53,7 @@ public class EditableFileList extends EditableList
     /**
      * Set the base directory to be displayed by the file chooser.
      * "null" may be used to mean "the user's current directory".
+     *
      * @param dir the directory to be displayed by the file chooser
      */
     public void setBaseDirectory(File dir) {
@@ -67,6 +68,7 @@ public class EditableFileList extends EditableList
     /**
      * Set the file chooser used to display filenames when the user
      * wants to add another file to the list.
+     *
      * @param c the chooser to be used
      */
     public void setChooser(JFileChooser c) {
@@ -79,6 +81,7 @@ public class EditableFileList extends EditableList
      * Set the items in the list. Any previous items are removed first.
      * The items should be files, or strings (which will be turned into
      * files.)
+     *
      * @param items the array of strings or files to be put in the list.
      * @see #getItems
      */
@@ -100,6 +103,7 @@ public class EditableFileList extends EditableList
 
     /**
      * Get the files currently in the list.
+     *
      * @return the files currently in the list
      * @see #setFiles
      */
@@ -111,6 +115,7 @@ public class EditableFileList extends EditableList
 
     /**
      * Set the files in the list, replacing any files currently there.
+     *
      * @param files the files to be put in the list
      * @see #getFiles
      */
@@ -123,6 +128,7 @@ public class EditableFileList extends EditableList
      * the "Add" button". The current file chooser will be shown. If the
      * user selects a file, it will be returned as the result of this method;
      * otherwise, the result will be null, to indicate that no file was selected.
+     *
      * @return a file to be added to the list, or null if none
      */
     @Override

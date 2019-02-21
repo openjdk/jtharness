@@ -61,14 +61,12 @@ public class httpURL {
             if (fileLen == 1 && file.charAt(0) == '/') {        // should only happen when full URL is "/"
                 ss = "/";
                 pathPos = fileLen;
-            }
-            else {
+            } else {
                 ss = file.substring(pathPos, fileLen);
                 pathPos = fileLen;
             }
-        }
-        else {                          // * normal cases
-            int nextPos = file.indexOf('/', pathPos+1);
+        } else {                          // * normal cases
+            int nextPos = file.indexOf('/', pathPos + 1);
 
             if (nextPos == -1) {
                 // give the remainder of the string up to:
@@ -77,8 +75,7 @@ public class httpURL {
                 String result = file.substring(pathPos, firstQ == -1 ? fileLen : firstQ);
                 pathPos = fileLen;
                 ss = result;
-            }
-            else {
+            } else {
                 ss = file.substring(pathPos, nextPos);
                 pathPos = nextPos + 1;
             }
@@ -145,6 +142,7 @@ public class httpURL {
     }
 
     // ------- Key-Value Processing ---------
+
     /**
      * Set the key-value pairs encoded in this URL.
      * Not implemented yet.
@@ -174,13 +172,14 @@ public class httpURL {
     }
 
     // ----------- Utility -----------
+
     /**
      * Assembles a slash separated path from the elements of the given array.
      * Null entries in the array are ignored.
      *
-     * @param path An empty or null array results in a zero length string.
+     * @param path         An empty or null array results in a zero length string.
      * @param leadingSlash Whether or not to put a slash at the beginning of the path
-     * @param trailSlash Whether or not to put a slash at the end of the path
+     * @param trailSlash   Whether or not to put a slash at the end of the path
      */
     public static String reassemblePath(String[] path, boolean leadingSlash,
                                         boolean trailSlash) {
@@ -199,7 +198,7 @@ public class httpURL {
         }   // for
 
         // remove trailing slash if needed
-        if (!trailSlash && result.length() > 1) result.setLength(result.length()-1);
+        if (!trailSlash && result.length() > 1) result.setLength(result.length() - 1);
 
         return result.toString();
     }
@@ -235,8 +234,7 @@ public class httpURL {
                 // there is no value with this key
                 if (debug) System.out.println("key: " + key + "  value: null");
                 urlValues.put(key, "true");
-            }
-            else {
+            } else {
                 // char at pos must be '='
                 String val = readSegment(data, ++pos, dataLen);
                 if (debug) System.out.println("key: " + key + "  value: " + val);
@@ -261,7 +259,7 @@ public class httpURL {
 
         // loop until you hit end of string, a & or a =
         while (i < dataLen && data.charAt(i) != '&' &&
-               data.charAt(i) != '=') {
+                data.charAt(i) != '=') {
             buf.append(data.charAt(i));
             i++;
         }   // while

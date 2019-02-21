@@ -48,8 +48,7 @@ import com.sun.javatest.TestSuite;
 import com.sun.javatest.tool.EditableFileList;
 import com.sun.javatest.tool.UIFactory;
 
-class CE_EnvironmentPane extends CE_StdPane
-{
+class CE_EnvironmentPane extends CE_StdPane {
     CE_EnvironmentPane(UIFactory uif, InterviewParameters config) {
         super(uif, config, "env");
         ContextHelpManager.setHelpIDString(this, "confEdit.envTab.csh");
@@ -90,8 +89,7 @@ class CE_EnvironmentPane extends CE_StdPane
             String envName = legacyEnvParameters.getEnvName();
             if (envName != null)
                 envNameField.setSelectedItem(envName);
-        }
-        else {
+        } else {
             envFilesField.clear();
             envFilesField.setEnabled(false);
             envNameField.removeAllItems();
@@ -150,10 +148,12 @@ class CE_EnvironmentPane extends CE_StdPane
             public void contentsChanged(ListDataEvent e) {
                 envFilesChanged();
             }
+
             @Override
             public void intervalAdded(ListDataEvent e) {
                 envFilesChanged();
             }
+
             @Override
             public void intervalRemoved(ListDataEvent e) {
                 envFilesChanged();
@@ -168,9 +168,9 @@ class CE_EnvironmentPane extends CE_StdPane
         p.add(envNameLabel, lc);
 
         JPanel envNamePanel = uif.createPanel("ce.env.name",
-                                    new GridBagLayout(),
-                                    false);
-        GridBagConstraints c = new  GridBagConstraints();
+                new GridBagLayout(),
+                false);
+        GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 1;
         envNameField = uif.createChoice("ce.env.envName", envNameLabel);
@@ -207,16 +207,14 @@ class CE_EnvironmentPane extends CE_StdPane
             Arrays.sort(sortedNames);
             envNameField.removeAllItems();
             for (String sortedName : sortedNames) envNameField.addItem(sortedName);
-        }
-        catch (TestEnvContext.Fault ex) {
+        } catch (TestEnvContext.Fault ex) {
             uif.showError("ce.env.cannotEvalEnvs", ex.getMessage());
         }
 
         if (envNameField.getItemCount() == 0) {
             envNameField.addItem(uif.getI18NString("ce.env.noEnvs"));
             envNameField.setEnabled(false);
-        }
-        else
+        } else
             envNameField.setEnabled(legacyEnvParameters != null);
     }
 
@@ -233,8 +231,8 @@ class CE_EnvironmentPane extends CE_StdPane
             File tsd = testSuite.getRootDir();
             String canonTSDPath = tsd.getCanonicalPath();
             if (canonFilePath.length() > canonTSDPath.length() + 1 &&
-                canonFilePath.startsWith(canonTSDPath) &&
-                canonFilePath.charAt(canonTSDPath.length()) == File.separatorChar) {
+                    canonFilePath.startsWith(canonTSDPath) &&
+                    canonFilePath.charAt(canonTSDPath.length()) == File.separatorChar) {
                 return new File(canonFilePath.substring(canonTSDPath.length() + 1));
             }
 
@@ -247,8 +245,8 @@ class CE_EnvironmentPane extends CE_StdPane
                     prefix.append(File.separator);
                 prefix.append("..");
                 if (canonFilePath.length() > cp.length() + 1 &&
-                    canonFilePath.startsWith(cp) &&
-                    canonFilePath.charAt(cp.length()) == File.separatorChar) {
+                        canonFilePath.startsWith(cp) &&
+                        canonFilePath.charAt(cp.length()) == File.separatorChar) {
                     ////System.err.println("match: (" + prefix + ") " + cp);
                     // so the guess is that "new File(prefix, file)" is what
                     // we want; the verification is that "new File(tsd, guess)
@@ -265,8 +263,7 @@ class CE_EnvironmentPane extends CE_StdPane
             }
 
             return new File(canonFilePath);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             uif.showError("ce.env.makeTSRelIOError", file, e);
             return null;
         }

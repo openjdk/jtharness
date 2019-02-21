@@ -40,6 +40,7 @@ public interface ET_ControlFactory {
 
     /**
      * Creates a control over session.
+     *
      * @throws com.sun.javatest.exec.Session.Fault
      */
     public ET_SessionControl createSessionControl() throws Session.Fault;

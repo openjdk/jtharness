@@ -41,8 +41,7 @@ import java.util.Vector;
  * An abstract base class to provide a way of opening files subject
  * to a policy of what to do if a file of the same name already exists.
  */
-public abstract class BackupPolicy
-{
+public abstract class BackupPolicy {
     /**
      * Backup a file by renaming it to have have a new name of
      * <i>old-name</i>~<i>n</i> where n is chosen to be higher than
@@ -52,10 +51,11 @@ public abstract class BackupPolicy
      * The number of backup files to keep is determined by
      * getNumBackupsToKeep. In addition, backups can be suppressed
      * by isBackupRequired if desired.
+     *
      * @param file the file to be backed up
-     * @throws IOException if there is a problem renaming the file
+     * @throws IOException       if there is a problem renaming the file
      * @throws SecurityException if the file could not be backed up because
-     * permission was not given by the security manager
+     *                           permission was not given by the security manager
      * @see #getNumBackupsToKeep
      * @see #isBackupRequired
      */
@@ -84,7 +84,7 @@ public abstract class BackupPolicy
         String suffix = "~";
         int maxBackupIndex = 0;
         Vector<Integer> backups = new Vector<>();
-    nextFile:
+        nextFile:
         if (dirFiles != null) {
             for (String s : dirFiles) {
                 if (s.length() > (prefix.length() + suffix.length()) &&
@@ -115,7 +115,7 @@ public abstract class BackupPolicy
         int numBackupsToKeep = getNumBackupsToKeep(file);
         for (int i = 0; i < backups.size(); i++) {
             int index = backups.elementAt(i).intValue();
-            if (index <= (maxBackupIndex-numBackupsToKeep)) {
+            if (index <= (maxBackupIndex - numBackupsToKeep)) {
                 File backupToGo = new File(file.getPath() + "~" + index + "~");
                 // let SecurityExceptions out, but otherwise ignore failures
                 // to delete old backups
@@ -130,15 +130,15 @@ public abstract class BackupPolicy
      * exist.
      *
      * @param source The file to be backed up.
-     *                  It must be a file (not a directory) which is deleteable.
+     *               It must be a file (not a directory) which is deleteable.
      * @param target The new name for the file. It must be a file (not a directory)
-     *                  which is will be at a writable location.
-     * @throws IOException if there is a problem renaming the file.
-     *          This may happen if the source is a
-     *         directory, the source file is not writable, or the rename operation
-     *         fails.  In all cases, the rename operation was not successful.
+     *               which is will be at a writable location.
+     * @throws IOException       if there is a problem renaming the file.
+     *                           This may happen if the source is a
+     *                           directory, the source file is not writable, or the rename operation
+     *                           fails.  In all cases, the rename operation was not successful.
      * @throws SecurityException if the backup operation fails because of a security
-     *         constraint.
+     *                           constraint.
      * @see #backup(File)
      * @since 3.0.1
      */
@@ -154,8 +154,7 @@ public abstract class BackupPolicy
 
         if (isBackupRequired(target)) {
             backup(target);
-        }
-        else if (target.exists()) {
+        } else if (target.exists()) {
             // remove the file we are about to overwrite
             // not really needed on Solaris, seems to be needed on Win32
             target.delete();
@@ -168,12 +167,13 @@ public abstract class BackupPolicy
 
     /**
      * Backup a file and open a new Writer to the file.
+     *
      * @param file the file to be backed up, and for which a new Writer will be opened
      * @return a buffered file writer to the specified file
-     * @throws IOException if there is a problem backing up the file or creating
-     *  the new writer object
+     * @throws IOException       if there is a problem backing up the file or creating
+     *                           the new writer object
      * @throws SecurityException if the operation could not be completed because
-     * of a security constraint
+     *                           of a security constraint
      */
     public Writer backupAndOpenWriter(File file) throws IOException {
         backup(file);
@@ -182,13 +182,14 @@ public abstract class BackupPolicy
 
     /**
      * Backup a file and open a new Writer to the file with specified charset.
-     * @param file the file to be backed up, and for which a new Writer will be opened
+     *
+     * @param file        the file to be backed up, and for which a new Writer will be opened
      * @param charsetName Create an OutputStreamWriter that uses the named charset
      * @return a buffered file writer to the specified file
-     * @throws IOException if there is a problem backing up the file or creating
-     *  the new writer object
+     * @throws IOException       if there is a problem backing up the file or creating
+     *                           the new writer object
      * @throws SecurityException if the operation could not be completed because
-     * of a security constraint
+     *                           of a security constraint
      */
     public Writer backupAndOpenWriter(File file, String charsetName) throws IOException {
         backup(file);
@@ -198,12 +199,13 @@ public abstract class BackupPolicy
 
     /**
      * Backup a file and open a new output stream to the file.
+     *
      * @param file the file to be backed up, and for which a new output stream will be opened
      * @return a buffered output stream to the specified file
-     * @throws IOException if there is a problem backing up the file or creating
-     *  the new output stream
+     * @throws IOException       if there is a problem backing up the file or creating
+     *                           the new output stream
      * @throws SecurityException if the operation could not be completed because
-     * of a security constraint
+     *                           of a security constraint
      */
     public OutputStream backupAndOpenStream(File file) throws IOException {
         backup(file);
@@ -214,6 +216,7 @@ public abstract class BackupPolicy
      * Get the number of backup files to keep for a particular file.
      * When backup is called, the oldest backups are automatically deleted
      * to limit the number of backup files.
+     *
      * @param file the file for which to check how many backups are required
      * @return the maximum number of backups to keep for this file
      * @see #backup
@@ -223,6 +226,7 @@ public abstract class BackupPolicy
     /**
      * Determine if backups are enabled for this file. If backups are not
      * enabled, backup will return without affecting the file.
+     *
      * @param file the file for which to check if backups are enabled
      * @return true if backups are enabled for this type of file, and false otherwise
      */
@@ -230,6 +234,7 @@ public abstract class BackupPolicy
 
     /**
      * Get a BackupPolicy object which does no backups for any files.
+     *
      * @return a BackupPolicy object which does no backups for any files
      */
     public static BackupPolicy noBackups() {
@@ -238,6 +243,7 @@ public abstract class BackupPolicy
             public int getNumBackupsToKeep(File file) {
                 return 0;
             }
+
             @Override
             public boolean isBackupRequired(File file) {
                 return false;
@@ -247,6 +253,7 @@ public abstract class BackupPolicy
 
     /**
      * Get a BackupPolicy object which does a set number of backups for all files.
+     *
      * @param n The number of backups to kept for each file
      * @return a BackupPolicy object which does a set number of backups for all files
      */
@@ -256,6 +263,7 @@ public abstract class BackupPolicy
             public int getNumBackupsToKeep(File file) {
                 return n;
             }
+
             @Override
             public boolean isBackupRequired(File file) {
                 return true;

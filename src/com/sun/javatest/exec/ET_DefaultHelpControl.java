@@ -31,6 +31,7 @@ import com.sun.javatest.tool.Tool;
 import com.sun.javatest.tool.ToolAction;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.jthelp.HelpBroker;
+
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,6 @@ import javax.swing.Action;
 import javax.swing.JMenu;
 
 /**
- *
  * @author Dmitry Fazunenko
  */
 public class ET_DefaultHelpControl implements ET_HelpControl {
@@ -99,7 +99,7 @@ public class ET_DefaultHelpControl implements ET_HelpControl {
     public void dispose() {
     }
 
-    private List<Action>  actionList = null;
+    private List<Action> actionList = null;
     private Action helpAction = null;
 
     void initActions() {

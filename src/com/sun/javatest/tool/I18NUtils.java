@@ -27,6 +27,7 @@
 package com.sun.javatest.tool;
 
 import java.awt.Color;
+
 import com.sun.javatest.Status;
 import com.sun.javatest.util.I18NResourceBundle;
 
@@ -37,8 +38,9 @@ import com.sun.javatest.util.I18NResourceBundle;
 public class I18NUtils {
     /**
      * Get the base color for a test status.
+     *
      * @param status the status for which the color is required: one of
-     * {@link #PASSED}, {@link #FAILED}, {@link #ERROR}, {@link #NOT_RUN}
+     *               {@link #PASSED}, {@link #FAILED}, {@link #ERROR}, {@link #NOT_RUN}
      * @return the base color for the specified test status
      */
     public static Color getStatusColor(int status) {
@@ -47,8 +49,9 @@ public class I18NUtils {
 
     /**
      * Get the color for a bar for a test status.
+     *
      * @param status the status for which the color is required: one of
-     * {@link #PASSED}, {@link #FAILED}, {@link #ERROR}, {@link #NOT_RUN}
+     *               {@link #PASSED}, {@link #FAILED}, {@link #ERROR}, {@link #NOT_RUN}
      * @return the color for a bar for the specified test status
      */
     public static Color getStatusBarColor(int status) {
@@ -57,8 +60,9 @@ public class I18NUtils {
 
     /**
      * Get the localized status string for a particular test status.
+     *
      * @param status the status for which the color is required: one of
-     * {@link #PASSED}, {@link #FAILED}, {@link #ERROR}, {@link #NOT_RUN}
+     *               {@link #PASSED}, {@link #FAILED}, {@link #ERROR}, {@link #NOT_RUN}
      * @return the color for a bar for the specified test status
      * @see com.sun.javatest.Status
      */
@@ -76,9 +80,10 @@ public class I18NUtils {
      * Get localized version of the message string.
      * This includes a localized version of the status (e.g. "Passed") and
      * the raw status message.
+     *
      * @param status The status object for format.  May not be null.
      * @return A formatted, internationalized string representation of the
-     *         status object (state and reason).
+     * status object (state and reason).
      * @see com.sun.javatest.Status#getReason
      */
     public static String getStatusMessage(Status status) {
@@ -91,23 +96,23 @@ public class I18NUtils {
 
     static Color getColorForState(int state) {
         switch (state) {
-        case PASSED:
-            return passedColor;
+            case PASSED:
+                return passedColor;
 
-        case FAILED:
-            return failedColor;
+            case FAILED:
+                return failedColor;
 
-        case ERROR:
-            return errorColor;
+            case ERROR:
+                return errorColor;
 
-        case NOT_RUN:
-            return notRunColor;
+            case NOT_RUN:
+                return notRunColor;
 
-        case FILTERED_OUT:
-            return filteredOutColor;
+            case FILTERED_OUT:
+                return filteredOutColor;
 
-        default:
-            return null;
+            default:
+                return null;
         }
     }
 
@@ -125,6 +130,7 @@ public class I18NUtils {
     /**
      * Create a color derived from the given color, but lighter.
      * This is currently done by decreasing it's saturation and brightness.
+     *
      * @param c The color to lighten.
      * @return The derived color.
      */
@@ -140,8 +146,7 @@ public class I18NUtils {
         try {
             if (value != null)
                 return Color.decode(value);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // ignore
         }
         return new Color(deflt);
@@ -154,11 +159,12 @@ public class I18NUtils {
      * backup value will be used if a value cannot be located in any of
      * those three locations.  If read from system properties, the pref
      * key is prefixed by <code>javatest.</code>.
-     * @param pref The system property and preferences key for the color value.
-     * @param bundle The resource bundle key for the colors value.
+     *
+     * @param pref      The system property and preferences key for the color value.
+     * @param bundle    The resource bundle key for the colors value.
      * @param syncPrefs Write system property value to the preferences if
-     *        present.
-     * @param backup The color to use if no color settings are available.
+     *                  present.
+     * @param backup    The color to use if no color settings are available.
      */
     private static Color getPreferredColor(String pref, String bundle,
                                            int backup, boolean syncPrefs) {
@@ -172,7 +178,7 @@ public class I18NUtils {
         if (result != null) {
             if (syncPrefs) {
                 Preferences prefs = Preferences.access();
-                prefs.setPreference(pref, Integer.toString(result.getRGB()) );
+                prefs.setPreference(pref, Integer.toString(result.getRGB()));
             }
 
             return result;
@@ -185,8 +191,7 @@ public class I18NUtils {
         if (val != null) {
             try {
                 result = Color.decode(val);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 // XXX log error somehow?
                 result = null;
             }   // catch
@@ -201,7 +206,7 @@ public class I18NUtils {
     }
 
     private static I18NResourceBundle i18n =
-        I18NResourceBundle.getBundleForClass(I18NUtils.class);
+            I18NResourceBundle.getBundleForClass(I18NUtils.class);
     private static Color passedColor;
     private static Color failedColor;
     private static Color errorColor;
@@ -216,16 +221,16 @@ public class I18NUtils {
 
     static {
         passedColor = getPreferredColor(PASS_COLOR_PREF, "i18n.passed",
-                                        0x00ff00, true);
+                0x00ff00, true);
         failedColor = getPreferredColor(FAIL_COLOR_PREF, "i18n.failed",
-                                        0xff0000, true);
+                0xff0000, true);
         errorColor = getPreferredColor(ERR_COLOR_PREF, "i18n.error",
-                                        0x3f3fff, true);
+                0x3f3fff, true);
         notRunColor = getPreferredColor(NOTRUN_COLOR_PREF, "i18n.notRun",
-                                        0xffffff, true);
+                0xffffff, true);
         filteredOutColor = getPreferredColor(FILTERED_COLOR_PREF,
-                                        "i18n.filtered",
-                                        0xa999999, true);
+                "i18n.filtered",
+                0xa999999, true);
     }
 
     /**
@@ -241,7 +246,7 @@ public class I18NUtils {
     /**
      * A convenience redefinition of {@link Status#ERROR Status.ERROR}.
      */
-    public static final int ERROR  = Status.ERROR;
+    public static final int ERROR = Status.ERROR;
 
     /**
      * A convenience redefinition of {@link Status#NOT_RUN Status.NOT_RUN}.

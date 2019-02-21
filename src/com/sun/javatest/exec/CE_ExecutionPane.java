@@ -45,8 +45,7 @@ import com.sun.javatest.tool.UIFactory;
 /**
  * Standard values, core values pane (concurrency, timeout, ...).
  */
-class CE_ExecutionPane extends CE_StdPane
-{
+class CE_ExecutionPane extends CE_StdPane {
     CE_ExecutionPane(UIFactory uif, InterviewParameters config) {
         super(uif, config, "exec");
 
@@ -95,8 +94,7 @@ class CE_ExecutionPane extends CE_StdPane
                             Integer.valueOf(ConcurrencyParameters.MIN_CONCURRENCY), Integer.valueOf(ConcurrencyParameters.MAX_CONCURRENCY));
                     return false;
                 }
-            }
-            else {
+            } else {
                 uif.showError("ce.exec.badConcurrency");
                 return false;
             }
@@ -122,8 +120,7 @@ class CE_ExecutionPane extends CE_StdPane
                             Float.valueOf(TimeoutFactorParameters.MIN_TIMEOUT_FACTOR), Float.valueOf(TimeoutFactorParameters.MAX_TIMEOUT_FACTOR));
                     return false;
                 }
-            }
-            else {
+            } else {
                 uif.showError("ce.exec.badTimeoutFactor");
                 return false;
             }
@@ -155,14 +152,14 @@ class CE_ExecutionPane extends CE_StdPane
         concurrencyParameters = config.getConcurrencyParameters();
         if (concurrencyParameters instanceof MutableConcurrencyParameters)
             mutableConcurrencyParameters =
-                (MutableConcurrencyParameters) concurrencyParameters;
+                    (MutableConcurrencyParameters) concurrencyParameters;
         else
             mutableConcurrencyParameters = null;
 
         timeoutFactorParameters = config.getTimeoutFactorParameters();
         if (timeoutFactorParameters instanceof MutableTimeoutFactorParameters)
             mutableTimeoutFactorParameters =
-                (MutableTimeoutFactorParameters) timeoutFactorParameters;
+                    (MutableTimeoutFactorParameters) timeoutFactorParameters;
         else
             mutableTimeoutFactorParameters = null;
 

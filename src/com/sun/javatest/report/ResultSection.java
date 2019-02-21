@@ -46,18 +46,18 @@ class ResultSection extends HTMLSection {
         super(i18n.getString("result.title"), settings, dir, parent);
         this.i18n = i18n;
 
-        headings = new String[] {
-            i18n.getString("result.heading.passed"),
-            i18n.getString("result.heading.failed"),
-            i18n.getString("result.heading.errors"),
-            i18n.getString("result.heading.notRun")
+        headings = new String[]{
+                i18n.getString("result.heading.passed"),
+                i18n.getString("result.heading.failed"),
+                i18n.getString("result.heading.errors"),
+                i18n.getString("result.heading.notRun")
         };
 
         resultTable = settings.getInterview().getWorkDirectory().getTestResultTable();
         initFiles = settings.getInitialFiles();
         lists = sortedResults;
 
-        for (TreeSet<TestResult> s: sortedResults)
+        for (TreeSet<TestResult> s : sortedResults)
             totalFound += s.size();
         /*
         lists = new TreeSet[Status.NUM_STATES];
@@ -106,14 +106,14 @@ class ResultSection extends HTMLSection {
 
         boolean thirdColumn = false;
         boolean secondColumn = false;
-        for (int i = 0; i < lists.length; i++ ) {
+        for (int i = 0; i < lists.length; i++) {
             thirdColumn |= settings.isStateFileEnabled(i) && hasGroupedReport(i);
-            secondColumn |= settings.isStateFileEnabled(i) ;
+            secondColumn |= settings.isStateFileEnabled(i);
         }
         String grouped = i18n.getString("result.grouped");
         String plain = i18n.getString("result.plain");
 
-        for (int i = 0; i < lists.length; i++ ) {
+        for (int i = 0; i < lists.length; i++) {
             String reportFile = HTMLReport.files[fileCodes[i]];
             TreeSet<TestResult> l = lists[i];
 
@@ -168,7 +168,7 @@ class ResultSection extends HTMLSection {
     }
 
     private boolean hasGroupedReport(int st) {
-        return st == Status.FAILED || st == Status.PASSED || st == Status.ERROR ;
+        return st == Status.FAILED || st == Status.PASSED || st == Status.ERROR;
     }
 
     @Override
@@ -177,7 +177,7 @@ class ResultSection extends HTMLSection {
     }
 
     private void writeStatusFiles() throws IOException {
-        for (int i = 0; i < lists.length; i++ ) {
+        for (int i = 0; i < lists.length; i++) {
             // each file is optional
             if (!settings.isStateFileEnabled(i))
                 continue;
@@ -192,7 +192,7 @@ class ResultSection extends HTMLSection {
 
                 writeGroupedReport(i);
             }
-       }
+        }
     }
 
     private void writeUnGroupedReport(int i) throws IOException {
@@ -232,8 +232,7 @@ class ResultSection extends HTMLSection {
                     out.newLine();
                 }
             }
-        }
-        finally {
+        } finally {
             out.close();
         }
 
@@ -294,8 +293,7 @@ class ResultSection extends HTMLSection {
                     out.endTag(HTMLWriterEx.UL);
                 }
             }
-        }
-        finally {
+        } finally {
             out.close();
         }
     }
@@ -307,16 +305,16 @@ class ResultSection extends HTMLSection {
     private int totalFound;
 
     private final int[] fileCodes = {
-        HTMLReport.PASSED_HTML,
-        HTMLReport.FAILED_HTML,
-        HTMLReport.ERROR_HTML,
-        HTMLReport.NOTRUN_HTML
+            HTMLReport.PASSED_HTML,
+            HTMLReport.FAILED_HTML,
+            HTMLReport.ERROR_HTML,
+            HTMLReport.NOTRUN_HTML
     };
 
     private final int[] groupedFileCodes = {
-        HTMLReport.PASSED_HTML_2,
-        HTMLReport.FAILED_HTML_2,
-        HTMLReport.ERROR_HTML_2
+            HTMLReport.PASSED_HTML_2,
+            HTMLReport.FAILED_HTML_2,
+            HTMLReport.ERROR_HTML_2
     };
 
     private final I18NResourceBundle i18n;

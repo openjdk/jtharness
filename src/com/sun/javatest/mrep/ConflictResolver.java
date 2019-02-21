@@ -27,12 +27,12 @@
 package com.sun.javatest.mrep;
 
 interface ConflictResolver {
-        /**
-         * This interface is used to resolve conflicts by Merger
-         *
-         * @param testUrl URL of test which has conflicts
-         * @param descrs array of TestDescr with conflicting version
-         * @return number of select version
-         */
-        int resolve(String testUrl, TestResultDescr... descrs);
+    /**
+     * This interface is used to resolve conflicts by Merger
+     *
+     * @param testUrl URL of test which has conflicts
+     * @param descrs  array of TestDescr with conflicting version
+     * @return number of select version
+     */
+    int resolve(String testUrl, TestResultDescr... descrs);
 }

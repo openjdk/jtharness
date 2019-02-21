@@ -51,13 +51,13 @@ import com.sun.javatest.tool.FileChooser;
 import com.sun.javatest.tool.TestTreeSelectionPane;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
+
 import java.util.ArrayList;
 
 /**
  * Standard values view, initial tests selection panel.
  */
-class CE_TestsPane extends CE_StdPane
-{
+class CE_TestsPane extends CE_StdPane {
     CE_TestsPane(UIFactory uif, InterviewParameters config) {
         super(uif, config, "tests");
 
@@ -99,16 +99,14 @@ class CE_TestsPane extends CE_StdPane
 
             testsField.setSelection(mutableTestsParameters.getSpecifiedTests());
             testsField.setEnabled(selectTestsBtn.isSelected());
-        }
-        else {
+        } else {
             mutableTestsParameters = null;
 
             String[] tests = testsParameters.getTests();
             if (tests == null || tests.length == 0) {
                 allTestsBtn.setSelected(true);
                 testsField.clear();
-            }
-            else {
+            } else {
                 selectTestsBtn.setSelected(true);
                 testsField.setSelection(tests);
             }
@@ -168,11 +166,11 @@ class CE_TestsPane extends CE_StdPane
         p.add(testsField, c);
 
         loadBtn = uif.createButton("ce.tests.load", new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    selectFromFile();
-                }
-            });
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectFromFile();
+            }
+        });
         loadBtn.setEnabled(selectTestsBtn.isSelected());
         c.anchor = GridBagConstraints.EAST;
         c.fill = GridBagConstraints.NONE;
@@ -219,24 +217,27 @@ class CE_TestsPane extends CE_StdPane
                 }
             }
             in.close();
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             uif.showError("ce.tests.cantFindFile", file.toString());
             return;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             uif.showError("ce.tests.cantReadFile", file, e.toString());
             return;
-        }
-        finally {
+        } finally {
             // attempt to close buffered reader first
             // followed by the underlying reader for leak prevention
-            if (in != null){
-                try { in.close(); } catch (IOException e) { }
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                }
             }
 
-            if (fr != null){
-                try { fr.close(); } catch (IOException e) { }
+            if (fr != null) {
+                try {
+                    fr.close();
+                } catch (IOException e) {
+                }
             }
         }
 

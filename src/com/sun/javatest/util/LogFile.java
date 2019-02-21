@@ -35,8 +35,7 @@ import java.util.Date;
 /**
  * An object providing support for writing log messages to a file.
  */
-public class LogFile
-{
+public class LogFile {
 
     /**
      * Create a log file object to which log messages can be written.
@@ -48,6 +47,7 @@ public class LogFile
 
     /**
      * Create a log file object to which log messages can be written.
+     *
      * @param out the stream to which to write the messages.
      */
     public LogFile(Writer out) {
@@ -59,6 +59,7 @@ public class LogFile
 
     /**
      * Create a log file object to which log messages can be written.
+     *
      * @param file the file to which to write the messages.
      */
     public LogFile(File file) {
@@ -74,7 +75,7 @@ public class LogFile
      * recommended for readability purposes.
      *
      * @param i18n a resource bundle containing the localized messages
-     * @param key a key into the resource bundle for the required message
+     * @param key  a key into the resource bundle for the required message
      */
     public void log(I18NResourceBundle i18n, String key) {
         log(i18n.getString(key), null);
@@ -86,14 +87,14 @@ public class LogFile
      * recommended for readability purposes.
      *
      * @param i18n a resource bundle containing the localized messages
-     * @param key a key into the resource bundle for the required message
-     * @param arg An argument to be formatted into the specified message.
-     *          If this is a <code>Throwable</code>, its stack trace
-     *          will be included in the log.
+     * @param key  a key into the resource bundle for the required message
+     * @param arg  An argument to be formatted into the specified message.
+     *             If this is a <code>Throwable</code>, its stack trace
+     *             will be included in the log.
      */
     public void log(I18NResourceBundle i18n, String key, Object arg) {
         if (arg instanceof Throwable)
-            log(i18n.getString(key, arg), (Throwable)arg);
+            log(i18n.getString(key, arg), (Throwable) arg);
         else
             log(i18n.getString(key, arg), null);
     }
@@ -104,14 +105,14 @@ public class LogFile
      * recommended for readability purposes.
      *
      * @param i18n a resource bundle containing the localized messages
-     * @param key a key into the resource bundle for the required message
+     * @param key  a key into the resource bundle for the required message
      * @param args An array of arguments to be formatted into the specified message.
-     *          If the first arg is a <code>Throwable</code>, its stack
-     *          trace will be included in the log.
+     *             If the first arg is a <code>Throwable</code>, its stack
+     *             trace will be included in the log.
      */
     public void log(I18NResourceBundle i18n, String key, Object... args) {
         if (args != null && args.length > 0 && args[0] instanceof Throwable)
-            log(i18n.getString(key, args), (Throwable)args[0]);
+            log(i18n.getString(key, args), (Throwable) args[0]);
         else
             log(i18n.getString(key, args), null);
     }
@@ -124,14 +125,12 @@ public class LogFile
         if (out != null) {
             pw = new PrintWriter(out);
             closeWhenDone = false;
-        }
-        else {
+        } else {
             Writer fw = null;
             try {
                 // open writer in append mode
                 fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 // oh well
                 if (!logError) {
                     // just report first instance

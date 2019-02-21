@@ -31,6 +31,7 @@ import com.sun.interview.Question;
 import com.sun.javatest.Parameters;
 import com.sun.javatest.TestEnvironment;
 import com.sun.javatest.interview.BasicInterviewParameters;
+
 import java.util.HashMap;
 
 /**
@@ -38,7 +39,9 @@ import java.util.HashMap;
  */
 public class JUnitBaseInterview extends BasicInterviewParameters implements Parameters.EnvParameters {
 
-    /** Creates a new instance of JUnitBaseInterview */
+    /**
+     * Creates a new instance of JUnitBaseInterview
+     */
     public JUnitBaseInterview() throws Fault {
         super("junit");
     }
@@ -57,10 +60,9 @@ public class JUnitBaseInterview extends BasicInterviewParameters implements Para
     public TestEnvironment getEnv() {
         try {
             return new TestEnvironment("junitenv", new HashMap<String, String>(), "junit");
-        }
-        catch (TestEnvironment.Fault f) {
-           f.printStackTrace();
-           throw new RuntimeException();
+        } catch (TestEnvironment.Fault f) {
+            f.printStackTrace();
+            throw new RuntimeException();
         }
     }
 }

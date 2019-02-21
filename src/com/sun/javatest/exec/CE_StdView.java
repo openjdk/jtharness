@@ -27,6 +27,7 @@
 package com.sun.javatest.exec;
 
 import com.sun.interview.Help;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -54,8 +55,7 @@ import com.sun.javatest.tool.jthelp.HelpSet;
 import com.sun.javatest.tool.jthelp.JHelpContentViewer;
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
-class CE_StdView extends CE_View
-{
+class CE_StdView extends CE_View {
     CE_StdView(InterviewParameters config,
                JHelpContentViewer infoPanel, UIFactory uif, ActionListener l) {
         super(config, infoPanel, uif, l);
@@ -97,31 +97,31 @@ class CE_StdView extends CE_View
     void showTab(int id) {
         Class<?> c;
         switch (id) {
-        case TESTS_PANE:
-            c = CE_TestsPane.class;
-            break;
-        case EXCLUDE_LIST_PANE:
-            c = CE_ExcludeListPane.class;
-            break;
-        case KFL_PANE:
-            c = CE_KFLPane.class;
-            break;
-        case KEYWORDS_PANE:
-            c = CE_KeywordsPane.class;
-            break;
-        case PRIOR_STATUS_PANE:
-            c = CE_PriorStatusPane.class;
-            break;
-        case ENVIRONMENT_PANE:
-            c = CE_EnvironmentPane.class;
-            break;
-        case EXECUTION_PANE:
-        case CONCURRENCY_PANE:
-        case TIMEOUT_FACTOR_PANE:
-            c = CE_ExecutionPane.class;
-            break;
-        default:
-            throw new IllegalArgumentException();
+            case TESTS_PANE:
+                c = CE_TestsPane.class;
+                break;
+            case EXCLUDE_LIST_PANE:
+                c = CE_ExcludeListPane.class;
+                break;
+            case KFL_PANE:
+                c = CE_KFLPane.class;
+                break;
+            case KEYWORDS_PANE:
+                c = CE_KeywordsPane.class;
+                break;
+            case PRIOR_STATUS_PANE:
+                c = CE_PriorStatusPane.class;
+                break;
+            case ENVIRONMENT_PANE:
+                c = CE_EnvironmentPane.class;
+                break;
+            case EXECUTION_PANE:
+            case CONCURRENCY_PANE:
+            case TIMEOUT_FACTOR_PANE:
+                c = CE_ExecutionPane.class;
+                break;
+            default:
+                throw new IllegalArgumentException();
         }
 
         for (int i = 0; i < tabs.getTabCount(); i++) {
@@ -180,29 +180,29 @@ class CE_StdView extends CE_View
     private void initBody() {
         CE_KeywordsPane kp = new CE_KeywordsPane(uif, config);
         kp.setParentToolDialog(toolDialog);
-        panes = new CE_StdPane[] {
-            new CE_TestsPane(uif, config),
-            new CE_ExcludeListPane(uif, config),
-            new CE_KFLPane(uif, config),
-            kp,
-            new CE_PriorStatusPane(uif, config),
-            new CE_EnvironmentPane(uif, config),
-            new CE_ExecutionPane(uif, config)
+        panes = new CE_StdPane[]{
+                new CE_TestsPane(uif, config),
+                new CE_ExcludeListPane(uif, config),
+                new CE_KFLPane(uif, config),
+                kp,
+                new CE_PriorStatusPane(uif, config),
+                new CE_EnvironmentPane(uif, config),
+                new CE_ExecutionPane(uif, config)
         };
 
         tabs = new JTabbedPane() {
-                @Override
-                public void setSelectedIndex(int index) {
-                    if (index == getSelectedIndex())
-                        return;
+            @Override
+            public void setSelectedIndex(int index) {
+                if (index == getSelectedIndex())
+                    return;
 
-                    CE_StdPane p = (CE_StdPane) getSelectedComponent();
-                    if (p != null && !p.isOKToClose())
-                        return;
+                CE_StdPane p = (CE_StdPane) getSelectedComponent();
+                if (p != null && !p.isOKToClose())
+                    return;
 
-                    super.setSelectedIndex(index);
-                }
-            };
+                super.setSelectedIndex(index);
+            }
+        };
         tabs.setName("tabs");
         uif.setAccessibleName(tabs, "ce.tabs");
         uif.setToolTip(tabs, "ce.tabs");
@@ -225,8 +225,8 @@ class CE_StdView extends CE_View
 
     private void initButtons() {
         JPanel btnPanel = uif.createPanel("ce.std.btns",
-                                    new GridBagLayout(),
-                                    false);
+                new GridBagLayout(),
+                false);
         GridBagConstraints c = new GridBagConstraints();
         c.insets.top = 5;
         c.insets.bottom = 11;  // value from JL&F Guidelines
@@ -275,8 +275,7 @@ class CE_StdView extends CE_View
     private Listener localListener = new Listener();
 
     private class Listener
-        implements AncestorListener, ChangeListener
-    {
+            implements AncestorListener, ChangeListener {
         // ---------- from AncestorListener -----------
 
         @Override
@@ -285,7 +284,8 @@ class CE_StdView extends CE_View
         }
 
         @Override
-        public void ancestorMoved(AncestorEvent e) { }
+        public void ancestorMoved(AncestorEvent e) {
+        }
 
         @Override
         public void ancestorRemoved(AncestorEvent e) {

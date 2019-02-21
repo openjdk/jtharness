@@ -36,30 +36,33 @@ import java.util.Queue;
  * performance reasons or to help find out the number of items returned by an
  * iterator before accessing them.
  */
-public class ReadAheadIterator<T> implements Iterator<T>
-{
+public class ReadAheadIterator<T> implements Iterator<T> {
     /**
      * A constant indicating that no read ahead is required.
+     *
      * @see #ReadAheadIterator
      */
     public static final int NONE = 0;
 
     /**
      * A constant indicating that limited read ahead is required.
+     *
      * @see #ReadAheadIterator
      */
     public static final int LIMITED = 1;
 
     /**
      * A constant indicating that full read ahead is required.
+     *
      * @see #ReadAheadIterator
      */
     public static final int FULL = 2;
 
     /**
      * Create a ReadAheadIterator.
+     *
      * @param source The iterator from which to read ahead
-     * @param mode A value indicating the type of read ahead required.
+     * @param mode   A value indicating the type of read ahead required.
      * @see #NONE
      * @see #LIMITED
      * @see #FULL
@@ -70,11 +73,12 @@ public class ReadAheadIterator<T> implements Iterator<T>
 
     /**
      * Create a ReadAheadIterator.
+     *
      * @param source The iterator from which to read ahead.
-     * @param mode A value indicating the type of read ahead required.
+     * @param mode   A value indicating the type of read ahead required.
      * @param amount A value indicating the amount of read ahead required,
-     * if the mode is set to LIMITED. If the mode is NON or FULL, this
-     * parameter will be ignored.
+     *               if the mode is set to LIMITED. If the mode is NON or FULL, this
+     *               parameter will be ignored.
      * @see #NONE
      * @see #LIMITED
      * @see #FULL
@@ -87,6 +91,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
     /**
      * Check if all available items from the underlying source iterator
      * have been read.
+     *
      * @return true if all available items from the underlying source iterator
      * have been read.
      */
@@ -100,6 +105,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
      * the total set of items available to be read.  If the read ahead is complete,
      * the value will be the total number of items returned from the underlying
      * source iterator.
+     *
      * @return the number of items (so far) from the underlying source iterator.
      * @see #isReadAheadComplete
      */
@@ -109,6 +115,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
 
     /**
      * Are there items that have not be read-ahead yet?
+     *
      * @return True if the source has no more elements, false otherwise.
      * @deprecated Use hasNext().
      */
@@ -118,9 +125,10 @@ public class ReadAheadIterator<T> implements Iterator<T>
 
     /**
      * How many elements have been distributed through <code>getNext()</code>.
+     *
      * @return number of used elements, greater-than or equal-to zero
-     * @deprecated Will not be supported in the future.
      * @see #getItemsFoundCount
+     * @deprecated Will not be supported in the future.
      */
     public synchronized int getUsedElementCount() {
         return usedCount;
@@ -128,8 +136,9 @@ public class ReadAheadIterator<T> implements Iterator<T>
 
     /**
      * Number of items have been read-ahead by not distributed.
+     *
      * @return number of items ready to be distributed, greater-than
-     *         or equal-to zero
+     * or equal-to zero
      * @deprecated Will not be supported in the future.
      */
     public synchronized int getOutputQueueSize() {
@@ -138,36 +147,37 @@ public class ReadAheadIterator<T> implements Iterator<T>
 
     /**
      * Set the type and/or amount of read ahead required.
-     * @param mode A value indicating the type of read ahead required.
+     *
+     * @param mode   A value indicating the type of read ahead required.
      * @param amount A value indicating the amount of read ahead required,
-     * if the mode is set to LIMITED. If the mode is NON or FULL, this
-     * parameter will be ignored.
+     *               if the mode is set to LIMITED. If the mode is NON or FULL, this
+     *               parameter will be ignored.
      */
     synchronized void setMode(int mode, int amount) {
         switch (mode) {
-        case NONE:
-            minQueueSize = 0;
-            maxQueueSize = 0;
-            if (worker != null) {
-                worker = null;
-                notifyAll();  // wake up worker if necessary
-            }
-            break;
+            case NONE:
+                minQueueSize = 0;
+                maxQueueSize = 0;
+                if (worker != null) {
+                    worker = null;
+                    notifyAll();  // wake up worker if necessary
+                }
+                break;
 
-        case LIMITED:
-            if (amount <= 0)
+            case LIMITED:
+                if (amount <= 0)
+                    throw new IllegalArgumentException();
+                minQueueSize = Math.min(10, amount);
+                maxQueueSize = amount;
+                break;
+
+            case FULL:
+                minQueueSize = 10;
+                maxQueueSize = Integer.MAX_VALUE;
+                break;
+
+            default:
                 throw new IllegalArgumentException();
-            minQueueSize = Math.min(10, amount);
-            maxQueueSize = amount;
-            break;
-
-        case FULL:
-            minQueueSize = 10;
-            maxQueueSize = Integer.MAX_VALUE;
-            break;
-
-        default:
-            throw new IllegalArgumentException();
         }
     }
 
@@ -194,15 +204,14 @@ public class ReadAheadIterator<T> implements Iterator<T>
                     if (sourceHasNext) {
                         // there is more to be read, so start a worker to read it
                         worker = new Thread("ReadAheadIterator" + workerNum++) {
-                                @Override
-                                public void run() {
-                                    readAhead();
-                                }
-                            };
+                            @Override
+                            public void run() {
+                                readAhead();
+                            }
+                        };
                         worker.start();
                     }
-                }
-                else {
+                } else {
                     // ensure worker is awake
                     notifyAll();
                 }
@@ -211,8 +220,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
                 while (sourceHasNext && queue.isEmpty()) {
                     try {
                         wait();
-                    }
-                    catch (InterruptedException e) {
+                    } catch (InterruptedException e) {
                         // should not happen, but if it does, propogate the interrupt
                         Thread.currentThread().interrupt();
                     }
@@ -220,8 +228,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
 
                 result = queue.poll();
             }
-        }
-        else if (sourceHasNext && (queue.size() < minQueueSize)) {
+        } else if (sourceHasNext && (queue.size() < minQueueSize)) {
             // we've got something from the queue, but the queue is getting empty,
             // so ensure worker is awake
             notifyAll();
@@ -263,7 +270,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
                 // sourceHasNext is true, which means there is another item
                 // to be read, so read it, and also check whether there is
                 // another item after that
-                T srcNext  = source.next();
+                T srcNext = source.next();
                 boolean srcHasNext = source.hasNext();
 
                 // get the lock to update the queue and sourceHasNext;
@@ -282,11 +289,9 @@ public class ReadAheadIterator<T> implements Iterator<T>
                     }
                 }
             }
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             // ignore
-        }
-        finally {
+        } finally {
             // if this is still the main worker thread, zap the
             // reference to the thread, to help GC.
             synchronized (this) {
@@ -309,6 +314,7 @@ public class ReadAheadIterator<T> implements Iterator<T>
      * The underlying source iterator.  If the worker thread is running, it alone
      * should access this iterator; otherwise, access to this should be synchronized,
      * along with everything else.
+     *
      * @see #worker
      */
     private final Iterator<T> source;

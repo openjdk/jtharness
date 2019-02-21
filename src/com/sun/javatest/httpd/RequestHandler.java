@@ -90,8 +90,7 @@ class RequestHandler implements Runnable {
             }
 
             if (debug) System.out.println("-------------");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -111,12 +110,10 @@ class RequestHandler implements Runnable {
         if (args[0].equalsIgnoreCase(GET)) {
             if (debug) System.out.println("RH-Processing HTTP GET request.");
             doGet(args);
-        }
-        else if (args[0].equalsIgnoreCase(POST)) {
+        } else if (args[0].equalsIgnoreCase(POST)) {
             if (debug) System.out.println("RH-Processing HTTP POST request.");
             doPost(args);
-        }
-        else {
+        } else {
             if (debug) System.err.println("RH-Unsupported request method: " + args[0]);
             error(out, BAD_METHOD, args[0] + " is an unsupported request method. " + BAD_METHOD);
             out.close();

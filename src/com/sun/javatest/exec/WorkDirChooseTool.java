@@ -108,8 +108,7 @@ public class WorkDirChooseTool extends JDialog {
             //defaultDir = new File(System.getProperty("user.dir"));
             try {
                 defaultDir = new File(".").getCanonicalFile();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 defaultDir = new File(System.getProperty("user.dir"));
             }
         }
@@ -118,8 +117,7 @@ public class WorkDirChooseTool extends JDialog {
             //currentTemplateDir = new File(System.getProperty("user.dir"));
             try {
                 currentTemplateDir = new File(".").getCanonicalFile();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 currentTemplateDir = new File(System.getProperty("user.dir"));
             }
         }
@@ -133,10 +131,9 @@ public class WorkDirChooseTool extends JDialog {
                 if (currMode == LOAD_TEMPLATE &&
                         !wdWithoutTemplatePermitted(em.getWorkDirectory())) {
                     uif.showError("ce.force_close");
-                }
-                else {
-                    ((JDialog)e.getSource()).setVisible(false);
-                    ((JDialog)e.getSource()).dispose();
+                } else {
+                    ((JDialog) e.getSource()).setVisible(false);
+                    ((JDialog) e.getSource()).dispose();
                 }
             }
         });
@@ -145,12 +142,12 @@ public class WorkDirChooseTool extends JDialog {
 
     public void setDefaultDirectory(File f, boolean isNonDefaultDirAllowed) {
         setDefaultDirectoryNoPrefs(f, isNonDefaultDirAllowed);
-        if(f != null) {
+        if (f != null) {
             Preferences prefs = Preferences.access();
             try {
                 prefs.setPreference(DEFAULT_WD_PREF_NAME, f.getCanonicalPath());
+            } catch (IOException e) {
             }
-            catch (IOException e) {}
         }
     }
 
@@ -165,7 +162,7 @@ public class WorkDirChooseTool extends JDialog {
         Preferences prefs = Preferences.access();
         String prefsDefaultDir = prefs.getPreference(DEFAULT_WD_PREF_NAME);
 
-        if(prefsDefaultDir != null) {
+        if (prefsDefaultDir != null) {
             setDefaultDirectoryNoPrefs(new File(prefsDefaultDir), isNonDefaultDirAllowed);
         }
     }
@@ -247,6 +244,7 @@ public class WorkDirChooseTool extends JDialog {
                 public void keyTyped(KeyEvent evt) {
                     updateCreateBtn();
                 }
+
                 @Override
                 public void keyReleased(KeyEvent e) {
                     updateCreateBtn();
@@ -283,41 +281,41 @@ public class WorkDirChooseTool extends JDialog {
 
             JButton browseBtn = uif.createButton("wdc.browse",
                     new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent ae) {
-                    if (fileChooser == null)
-                        fileChooser = new FileChooser(true);
-                    else
-                        fileChooser.resetChoosableFileFilters();
+                        @Override
+                        public void actionPerformed(ActionEvent ae) {
+                            if (fileChooser == null)
+                                fileChooser = new FileChooser(true);
+                            else
+                                fileChooser.resetChoosableFileFilters();
 
-                    fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                    fileChooser.setDialogTitle(uif.getI18NString("wdc.filechoosertitle"));
+                            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                            fileChooser.setDialogTitle(uif.getI18NString("wdc.filechoosertitle"));
 
-                    File f = new File(dirField.getText());
-                    if (f.isDirectory())
-                        fileChooser.setCurrentDirectory(f);
+                            File f = new File(dirField.getText());
+                            if (f.isDirectory())
+                                fileChooser.setCurrentDirectory(f);
 
-                    int returnVal = fileChooser.showOpenDialog(parent);
-                    if (returnVal == JFileChooser.APPROVE_OPTION) {
-                        File dir = fileChooser.getSelectedFile();
-                        if (!dir.exists()) {
-                            int answer = uif.showYesNoDialog("wdc.createparents");
-                            if (answer == JOptionPane.NO_OPTION)
-                                return;
+                            int returnVal = fileChooser.showOpenDialog(parent);
+                            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                                File dir = fileChooser.getSelectedFile();
+                                if (!dir.exists()) {
+                                    int answer = uif.showYesNoDialog("wdc.createparents");
+                                    if (answer == JOptionPane.NO_OPTION)
+                                        return;
 
-                            if (!dir.mkdirs()) {
-                                uif.showError("wdc.createerror", dir);
-                                return;
+                                    if (!dir.mkdirs()) {
+                                        uif.showError("wdc.createerror", dir);
+                                        return;
+                                    }
+                                }
+                                dirField.setText(fileChooser.getSelectedFile().getAbsolutePath());
                             }
                         }
-                        dirField.setText(fileChooser.getSelectedFile().getAbsolutePath());
-                    }
-                }
-            });
+                    });
 
             browseBtn.setBorder(BorderFactory.createCompoundBorder(
                     BorderFactory.createEtchedBorder(),
-                    BorderFactory.createEmptyBorder(0,3,0,3)));
+                    BorderFactory.createEmptyBorder(0, 3, 0, 3)));
             lc = new GridBagConstraints();
             lc.gridy = 1;
             lc.insets.left = 11;
@@ -393,8 +391,8 @@ public class WorkDirChooseTool extends JDialog {
         }   // switch
 
         bottom.setBorder(BorderFactory.createCompoundBorder(
-                            tb,
-                            BorderFactory.createEmptyBorder(12,12,12,12)));
+                tb,
+                BorderFactory.createEmptyBorder(12, 12, 12, 12)));
 
         templatePLabel = uif.createLabel("wdc.template.path", true);
         lc = new GridBagConstraints();
@@ -447,19 +445,18 @@ public class WorkDirChooseTool extends JDialog {
         lc.weighty = 1.0;
         lc.fill = GridBagConstraints.BOTH;
 
-        if (! hideTemplates) {
+        if (!hideTemplates) {
             main.add(bottom, lc);
         }
 
         lc = new GridBagConstraints();
-        lc.gridy= 5;
-        lc.gridwidth= 3;
+        lc.gridy = 5;
+        lc.gridwidth = 3;
         lc.anchor = GridBagConstraints.WEST;
 
         if (mode == WorkDirChooser.NEW || mode == LOAD_CONFIG) {
             launchEditorCB = uif.createCheckBox("wdc.launncheditor");
-        }
-        else {  // mode == LOAD_TEMPLATE
+        } else {  // mode == LOAD_TEMPLATE
             launchEditorCB = uif.createCheckBox("wdc.launchteditor");
         }
         launchEditorCB.addItemListener(new ItemListener() {
@@ -474,29 +471,29 @@ public class WorkDirChooseTool extends JDialog {
         }
 
         if (mode == WorkDirChooser.NEW) {
-            createBtn = uif.createButton("wdc.create" , new CreateWDAction());
+            createBtn = uif.createButton("wdc.create", new CreateWDAction());
 
-        } else if (mode == LOAD_TEMPLATE ) {
-            createBtn = uif.createButton("wdc.load" , new LoadTemplateAction());
-        } else if ( mode == LOAD_CONFIG) {
-            createBtn = uif.createButton("wdc.load" , new LoadConfigAction());
+        } else if (mode == LOAD_TEMPLATE) {
+            createBtn = uif.createButton("wdc.load", new LoadTemplateAction());
+        } else if (mode == LOAD_CONFIG) {
+            createBtn = uif.createButton("wdc.load", new LoadConfigAction());
         }
         createBtn.setEnabled(false);
         cancelBtn = uif.createCancelButton("wdc.cancel",
                 new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                setVisible(false);
-                dispose();
-            }
-        });
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        setVisible(false);
+                        dispose();
+                    }
+                });
 
         if (mode == LOAD_TEMPLATE &&
                 !wdWithoutTemplatePermitted(em.getWorkDirectory())) {
             cancelBtn.setEnabled(false);
         }
 
-        setButtons(new JButton[] { createBtn, cancelBtn }, createBtn);
+        setButtons(new JButton[]{createBtn, cancelBtn}, createBtn);
         setSize(getPreferredSize());
         setLocationRelativeTo(parent);
 
@@ -544,7 +541,7 @@ public class WorkDirChooseTool extends JDialog {
 
             if (mode == WorkDirChooser.OPEN_FOR_ANY_TESTSUITE) {
                 em.getExecToolManager().showWorkDirectory(wd);
-            } else  if (mode == WorkDirChooser.OPEN_FOR_GIVEN_TESTSUITE ||
+            } else if (mode == WorkDirChooser.OPEN_FOR_GIVEN_TESTSUITE ||
                     mode == WorkDirChooser.NEW) {
                 if (em.getTestSuite() == null)
                     em.getExecToolManager().showWorkDirectory(wd);
@@ -596,17 +593,16 @@ public class WorkDirChooseTool extends JDialog {
                     uif.showError("wdc.nottemplatefile");
                     return;
                 }
-            }
-            else {      // null template
+            } else {      // null template
                 if (!em.getContextManager().getFeatureManager().isEnabled(
-                        FeatureManager.WD_WITHOUT_TEMPLATE) && !hideTemplates ) {
+                        FeatureManager.WD_WITHOUT_TEMPLATE) && !hideTemplates) {
                     uif.showError("wdc.wdNeedTemplate");
                     return;
                 }
             }
 
             wd = new File(dir, tField.getText());
-            if(!swda.approveNewSelection(wd, testSuite))
+            if (!swda.approveNewSelection(wd, testSuite))
                 return;
             if (swda.isOpenedInsteadOfCreated()) {
                 selectedTemplate =
@@ -654,7 +650,7 @@ public class WorkDirChooseTool extends JDialog {
     private void makeFileList() {
 
         fsm = new FileSystemTableModel(currentTemplateDir.getAbsolutePath(),
-                        getTableFilter(), defaultTemplateDir, allowTraversDirs);
+                getTableFilter(), defaultTemplateDir, allowTraversDirs);
         setUpTree(new FileTable(fsm, uif));
     }
 
@@ -668,12 +664,12 @@ public class WorkDirChooseTool extends JDialog {
                 if (e.getValueIsAdjusting()) return;
 
                 ListSelectionModel lsm =
-                        (ListSelectionModel)e.getSource();
+                        (ListSelectionModel) e.getSource();
                 if (!lsm.isSelectionEmpty()) {
                     int selectedRow = lsm.getMinSelectionIndex();
                     FileSystemTableModel model = (FileSystemTableModel) fileTable.getModel();
                     File selected = model.getNode(selectedRow);
-                    if(selected != null && selected.isFile())
+                    if (selected != null && selected.isFile())
                         selectedTemplate = selected;
                     else
                         selectedTemplate = null;
@@ -694,8 +690,8 @@ public class WorkDirChooseTool extends JDialog {
                             currentTemplateDir = selected;
                             templateField.setText(currentTemplateDir.getAbsolutePath());
                             model.resetTable(selected.getAbsolutePath());
-                            for(int i = 0; i < model.getRowCount(); i++) {
-                                if(model.getNode(i).equals(oldDir)) {
+                            for (int i = 0; i < model.getRowCount(); i++) {
+                                if (model.getNode(i).equals(oldDir)) {
                                     fileTable.setRowSelectionInterval(i, i);
                                     scrollIfNeed(i);
                                     break;
@@ -710,7 +706,7 @@ public class WorkDirChooseTool extends JDialog {
         fileTable.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == e.VK_ENTER) {
+                if (e.getKeyCode() == e.VK_ENTER) {
                     if (fileTable.getSelectedRow() != -1) {
                         FileSystemTableModel model = (FileSystemTableModel) fileTable.getModel();
                         File selected = model.getNode(fileTable.getSelectedRow());
@@ -719,14 +715,14 @@ public class WorkDirChooseTool extends JDialog {
                             currentTemplateDir = selected;
                             templateField.setText(currentTemplateDir.getAbsolutePath());
                             model.resetTable(selected.getAbsolutePath());
-                            for(int i = 0; i < model.getRowCount(); i++) {
-                                if(model.getNode(i).equals(oldDir)) {
-                                    try{
-                                        fileTable.setRowSelectionInterval(i -1, i - 1);
+                            for (int i = 0; i < model.getRowCount(); i++) {
+                                if (model.getNode(i).equals(oldDir)) {
+                                    try {
+                                        fileTable.setRowSelectionInterval(i - 1, i - 1);
                                     } catch (IllegalArgumentException exc) {
-                                        if(i == 0)
+                                        if (i == 0)
                                             fileTable.setRowSelectionInterval(fileTable.getRowCount() - 1, fileTable.getRowCount() - 1);
-                                        else if(i == (fileTable.getRowCount() - 1))
+                                        else if (i == (fileTable.getRowCount() - 1))
                                             fileTable.setRowSelectionInterval(fileTable.getRowCount() - 2, fileTable.getRowCount() - 2);
                                     }
                                     scrollIfNeed(i);
@@ -734,43 +730,38 @@ public class WorkDirChooseTool extends JDialog {
                                 }
 
                             }
-                        }
-                        else {
+                        } else {
                             ActionEvent ae = new ActionEvent(createBtn, ActionEvent.ACTION_PERFORMED, "pressed");
                             ActionListener[] als = createBtn.getActionListeners();
-                            if(als != null)
+                            if (als != null)
                                 for (ActionListener al : als) al.actionPerformed(ae);
                         }
                     }
 
-                }
-                else if((e.getModifiersEx() & e.CTRL_DOWN_MASK) != 0) {
+                } else if ((e.getModifiersEx() & e.CTRL_DOWN_MASK) != 0) {
                     return;
-                }
-                else if((e.getModifiersEx() & e.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == e.VK_TAB) {
+                } else if ((e.getModifiersEx() & e.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == e.VK_TAB) {
                     int i = fileTable.getSelectedRow();
-                    if(i == -1)
+                    if (i == -1)
                         return;
-                    else if(i == 0)
+                    else if (i == 0)
                         i = fileTable.getRowCount() - 1;
                     else
                         i--;
                     fileTable.setRowSelectionInterval(i, i);
                     e.consume();
-                    fileTable.scrollRectToVisible(fileTable.getCellRect(i , 0, true));
-                }
-
-                else if(e.getKeyCode() == e.VK_TAB) {
+                    fileTable.scrollRectToVisible(fileTable.getCellRect(i, 0, true));
+                } else if (e.getKeyCode() == e.VK_TAB) {
                     int i = fileTable.getSelectedRow();
-                    if(i == -1)
+                    if (i == -1)
                         return;
-                    else if(i == fileTable.getRowCount() - 1)
+                    else if (i == fileTable.getRowCount() - 1)
                         i = 0;
                     else
                         i++;
                     fileTable.setRowSelectionInterval(i, i);
                     e.consume();
-                    fileTable.scrollRectToVisible(fileTable.getCellRect(i , 0, true));
+                    fileTable.scrollRectToVisible(fileTable.getCellRect(i, 0, true));
                 }
             }
 
@@ -779,18 +770,19 @@ public class WorkDirChooseTool extends JDialog {
     }
 
     private void scrollIfNeed(int rowIndex) {
-        if(!isCellVisible(rowIndex, 0))
+        if (!isCellVisible(rowIndex, 0))
             scrollToCenter(rowIndex, 0);
     }
+
     private boolean isCellVisible(int rowIndex, int vColIndex) {
         if (!(fileTable.getParent() instanceof JViewport)) {
             return false;
         }
-        JViewport viewport = (JViewport)fileTable.getParent();
+        JViewport viewport = (JViewport) fileTable.getParent();
 
         Rectangle rect = fileTable.getCellRect(rowIndex, vColIndex, true);
         Point pt = viewport.getViewPosition();
-        rect.setLocation(rect.x-pt.x, rect.y-pt.y);
+        rect.setLocation(rect.x - pt.x, rect.y - pt.y);
 
         return new Rectangle(viewport.getExtentSize()).contains(rect);
     }
@@ -800,14 +792,14 @@ public class WorkDirChooseTool extends JDialog {
         if (!(fileTable.getParent() instanceof JViewport)) {
             return;
         }
-        JViewport viewport = (JViewport)fileTable.getParent();
+        JViewport viewport = (JViewport) fileTable.getParent();
 
         Rectangle rect = fileTable.getCellRect(rowIndex, vColIndex, true);
         Rectangle viewRect = viewport.getViewRect();
-        rect.setLocation(rect.x-viewRect.x, rect.y-viewRect.y);
+        rect.setLocation(rect.x - viewRect.x, rect.y - viewRect.y);
 
-        int centerX = (viewRect.width-rect.width)/2;
-        int centerY = (viewRect.height-rect.height)/2;
+        int centerX = (viewRect.width - rect.width) / 2;
+        int centerY = (viewRect.height - rect.height) / 2;
 
         if (rect.x < centerX) {
             centerX = -centerX;
@@ -867,11 +859,11 @@ public class WorkDirChooseTool extends JDialog {
                     }
                     if (currentTemplateDir != null) {
                         templateField.setText(currentTemplateDir.getAbsolutePath());
-                        fsm = new FileSystemTableModel(currentTemplateDir.getAbsolutePath(),  getTableFilter(), defaultTemplateDir, allowTraversDirs);
+                        fsm = new FileSystemTableModel(currentTemplateDir.getAbsolutePath(), getTableFilter(), defaultTemplateDir, allowTraversDirs);
                         setUpTree(new FileTable(fsm, uif));
                         if (selectedFile != null) {
                             TableModel mod = fileTable.getModel();
-                            for (int i = 0 ; i < mod.getRowCount(); i++) {
+                            for (int i = 0; i < mod.getRowCount(); i++) {
                                 FileTableNode ftn = (FileTableNode) mod.getValueAt(i, 0);
                                 if (selectedFile.equals(ftn.getFile())) {
                                     fileTable.getSelectionModel().setSelectionInterval(i, i);
@@ -879,7 +871,7 @@ public class WorkDirChooseTool extends JDialog {
                                     break;
                                 }
                             }
-                       }
+                        }
                     }
                 }
             }
@@ -887,7 +879,7 @@ public class WorkDirChooseTool extends JDialog {
         });
         browseTmplBtn.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createEtchedBorder(),
-                BorderFactory.createEmptyBorder(0,3,0,3)));
+                BorderFactory.createEmptyBorder(0, 3, 0, 3)));
     }
 
     private void setUpTree(FileTable table) {
@@ -917,6 +909,7 @@ public class WorkDirChooseTool extends JDialog {
 
     /**
      * Set the test suite for this chooser.
+     *
      * @param ts The test suite to be used when opening or creating a work directory.
      */
     public void setTestSuite(TestSuite ts) {
@@ -934,9 +927,9 @@ public class WorkDirChooseTool extends JDialog {
             // record template path if user selected one or was required to
             // select one
             if (selectedTemplate != null &&
-                (templateCB.isSelected() ||
-                 !em.getContextManager().getFeatureManager().isEnabled(
-                        FeatureManager.WD_WITHOUT_TEMPLATE))) {
+                    (templateCB.isSelected() ||
+                            !em.getContextManager().getFeatureManager().isEnabled(
+                                    FeatureManager.WD_WITHOUT_TEMPLATE))) {
                 templateName = selectedTemplate;
             }
         } else {
@@ -949,9 +942,9 @@ public class WorkDirChooseTool extends JDialog {
         try {
             if (mode == WorkDirChooser.OPEN_FOR_ANY_TESTSUITE) {
                 em.getExecToolManager().showWorkDirectory(getWorkDirectory());
-            } else  if (mode == WorkDirChooser.OPEN_FOR_GIVEN_TESTSUITE ) {
+            } else if (mode == WorkDirChooser.OPEN_FOR_GIVEN_TESTSUITE) {
                 em.setWorkDir(getWorkDirectory(), true);
-            } else  if (mode == WorkDirChooser.NEW) {
+            } else if (mode == WorkDirChooser.NEW) {
                 TemplateUtilities.setTemplateFile(getWorkDirectory(), templateName, true);
                 em.setWorkDir(getWorkDirectory(), true);
 /*
@@ -1034,7 +1027,7 @@ public class WorkDirChooseTool extends JDialog {
             if (tField.getText().trim() != null && tField.getText().trim().isEmpty()) {
                 createBtn.setEnabled(false);
             } else {
-                createBtn.setEnabled(noTemplateCB.isSelected() || selectedTemplate != null );
+                createBtn.setEnabled(noTemplateCB.isSelected() || selectedTemplate != null);
             }
         } else if (mode == LOAD_TEMPLATE || mode == LOAD_CONFIG) {
             createBtn.setEnabled(selectedTemplate != null);
@@ -1049,7 +1042,7 @@ public class WorkDirChooseTool extends JDialog {
     private void setTemplatesEnabled(boolean t) {
         browseTmplBtn.setEnabled(t);
         fileTable.setEnabled(t);
-        Color c = t ? enabledColor : disabledColor ;
+        Color c = t ? enabledColor : disabledColor;
         fileTable.setBackground(c);
         scPane.getViewport().setBackground(c);
         templatePLabel.setEnabled(t);
@@ -1058,38 +1051,41 @@ public class WorkDirChooseTool extends JDialog {
     }
 
     private void setHideTemplateButtons(boolean show) {
-        this.hideTemplates = ! show;
+        this.hideTemplates = !show;
     }
 
     private static File defWD = null;
+
     private static File getDefDir() {
         if (defWD != null) {
             return defWD;
         }
         Preferences prefs = Preferences.access();
         String prefsDefaultDir = prefs.getPreference(DEFAULT_WD_PREF_NAME);
-        if(prefsDefaultDir != null) {
+        if (prefsDefaultDir != null) {
             defWD = new File(prefsDefaultDir);
         } else {
             defWD = new File(".");
         }
         return defWD;
     }
+
     private static void setDefDir(File newDefDir) {
         if (newDefDir != null) {
             Preferences prefs = Preferences.access();
             try {
                 prefs.setPreference(DEFAULT_WD_PREF_NAME, newDefDir.getCanonicalPath());
+            } catch (IOException e) {
             }
-            catch (IOException e) {}
             defWD = newDefDir;
         }
     }
 
-    public  static WorkDirectory chooseWD(JComponent parent, File dir, TestSuite ts, int mode) {
+    public static WorkDirectory chooseWD(JComponent parent, File dir, TestSuite ts, int mode) {
         return chooseWD(parent, dir, ts, mode, true);
     }
-    public  static WorkDirectory chooseWD(JComponent parent, File dir, TestSuite ts, int mode, boolean noTemplate) {
+
+    public static WorkDirectory chooseWD(JComponent parent, File dir, TestSuite ts, int mode, boolean noTemplate) {
 
         File initDir = dir != null ? dir : getDefDir();
         WorkDirChooser wdc = new WorkDirChooser(initDir);
@@ -1125,17 +1121,17 @@ public class WorkDirChooseTool extends JDialog {
         Frame aFrame = (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
         WorkDirChooseTool wdct = new WorkDirChooseTool(aFrame, ts, ui, mode);
         //wdct.setTestSuiteChooser(getTestSuiteChooser());
-                File defaultWorkDirPath = em.getContextManager().getDefaultWorkDirPath();
-                if (defaultWorkDirPath == null || defaultWorkDirPath.isAbsolute()) {
-                        wdct.setDefaultDirectoryNoPrefs(defaultWorkDirPath, true);
-                } else {
-                        try {
-                                wdct.setDefaultDirectoryNoPrefs(defaultWorkDirPath.getCanonicalFile(), true);
-                        } catch (IOException ex) {
-                                // IOException in case "may require filesystem queries"
-                                wdct.setDefaultDirectoryNoPrefs(defaultWorkDirPath, true);
-                        }
-                }
+        File defaultWorkDirPath = em.getContextManager().getDefaultWorkDirPath();
+        if (defaultWorkDirPath == null || defaultWorkDirPath.isAbsolute()) {
+            wdct.setDefaultDirectoryNoPrefs(defaultWorkDirPath, true);
+        } else {
+            try {
+                wdct.setDefaultDirectoryNoPrefs(defaultWorkDirPath.getCanonicalFile(), true);
+            } catch (IOException ex) {
+                // IOException in case "may require filesystem queries"
+                wdct.setDefaultDirectoryNoPrefs(defaultWorkDirPath, true);
+            }
+        }
 
         if (mode != LOAD_CONFIG) {
             wdct.setDefaultTemplateDir(em.getContextManager().getDefaultTemplateLoadPath(), true);
@@ -1157,6 +1153,7 @@ public class WorkDirChooseTool extends JDialog {
     public void setChosenFileHandler(ChosenFileHandler cfh) {
         chosenFileHandler = cfh;
     }
+
     /**
      * The class is used by WorkDirChooseTool to interact with those,
      * who use WorkDirChooseTool in LOAD_CONFIG, LOAD_TEMPLATE modes.
@@ -1229,10 +1226,12 @@ public class WorkDirChooseTool extends JDialog {
         public void showWorkDirDialog(boolean allowTemplates) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
+
         @Override
         public void configure() {
             throw new UnsupportedOperationException("Not supported yet.");
         }
+
         @Override
         public boolean isConfiguring() {
             return false;

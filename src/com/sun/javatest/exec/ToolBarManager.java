@@ -50,8 +50,9 @@ public class ToolBarManager {
 
     /**
      * Adds specified toolbar.
-     * @param theBar the tool bar which should be added to the TestManager,
-     * can't be null
+     *
+     * @param theBar    the tool bar which should be added to the TestManager,
+     *                  can't be null
      * @param toolBarID unique string ID of theBar, can't be null or empty
      * @return <tt>true</tt> if the bar was successfully added
      **/
@@ -67,8 +68,7 @@ public class ToolBarManager {
                         mmanager.addToolbar(theBar);
                     }
                 });
-            }
-            else {
+            } else {
                 // will occur in setPanel()
             }
 
@@ -79,6 +79,7 @@ public class ToolBarManager {
 
     /**
      * Finds toolbar by ID and returns it.
+     *
      * @param toolBarID unique string ID of theBar, can't be null or empty
      * @return the toolbar object, or <tt>null</tt> if the manager contains
      * no tool bar for this key.
@@ -89,6 +90,7 @@ public class ToolBarManager {
 
     /**
      * Returns an array of currently registered toolbars.
+     *
      * @return array of currently registered toolbars
      **/
     public JavaTestToolBar[] getToolBars() {
@@ -99,6 +101,7 @@ public class ToolBarManager {
 
     /**
      * Removes the toolbar by ID.
+     *
      * @param toolBarID unique string ID of theBar, can't be null or empty
      * @return <tt>true</tt> if the bar was successfully removed and <tt>false</tt>
      * if the specified ID was not be found.
@@ -178,14 +181,13 @@ public class ToolBarManager {
     void setVisibleFromPrefs(boolean visible) {
         int count = toolBarMenu.getItemCount();
         for (int i = 0; i < count; i++) {
-            JCheckBoxMenuItem mi = (JCheckBoxMenuItem)toolBarMenu.getItem(i);
+            JCheckBoxMenuItem mi = (JCheckBoxMenuItem) toolBarMenu.getItem(i);
             if (mi != null) {
-                ToolbarMenuAction a = (ToolbarMenuAction)mi.getAction();
+                ToolbarMenuAction a = (ToolbarMenuAction) mi.getAction();
                 JavaTestToolBar bar = a.getBar();
                 if (!visible) {
                     bar.setVisibleNoStateAffect(visible);
-                }
-                else {
+                } else {
                     bar.setVisibleNoStateAffect(bar.readVisibleState());
                 }
                 mi.setState(bar.isVisible());
@@ -210,13 +212,14 @@ public class ToolBarManager {
                 toolBarMenu.setVisible(true);
             }
         }
+
         /**
          * Process removing toolbar from the panel.
          **/
         public void removeToolbar(JavaTestToolBar t) {
             if (t.isMenuControlled()) {
                 JMenu m = getToolbarMenu();
-                for (int i = 0; i < m.getItemCount() ; i++) {
+                for (int i = 0; i < m.getItemCount(); i++) {
                     JMenuItem it = m.getItem(i);
                     Action act = it.getAction();
                     if (act instanceof ToolbarMenuAction) {
@@ -235,20 +238,23 @@ public class ToolBarManager {
     }
 
     /**
-     *ToolbarMenuAction reflects changing of visible state to the menu
+     * ToolbarMenuAction reflects changing of visible state to the menu
      **/
     class ToolbarMenuAction extends AbstractAction {
         public JavaTestToolBar getBar() {
             return theBar;
         }
+
         public ToolbarMenuAction(JavaTestToolBar bar) {
             super(bar.getName());
             theBar = bar;
         }
+
         @Override
         public void actionPerformed(ActionEvent evt) {
             theBar.setVisible(!theBar.isVisible());
         }
+
         private JavaTestToolBar theBar;
     }
 
@@ -256,7 +262,7 @@ public class ToolBarManager {
     private JMenu toolBarMenu;
     private TBMenuManager mmanager = new TBMenuManager();
     private Map<String, JavaTestToolBar> store =
-        Collections.synchronizedMap(new LinkedHashMap<String, JavaTestToolBar>());
+            Collections.synchronizedMap(new LinkedHashMap<String, JavaTestToolBar>());
     private ToolBarPanel panel;
 
 }

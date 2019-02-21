@@ -35,8 +35,7 @@ import javax.swing.filechooser.FileFilter;
  * filename extensions. The chooser also always starts in the user's
  * current directory (instead of home directory).
  */
-public class FileChooser extends JFileChooser
-{
+public class FileChooser extends JFileChooser {
     /**
      * Create a default file chooser.
      */
@@ -47,8 +46,9 @@ public class FileChooser extends JFileChooser
     /**
      * Create a file chooser, specifying whether or not it should have
      * a generic file filter for "all files".
+     *
      * @param showAllFilesFilter true if the "All Files" filter should
-     *        be available, and false if not.
+     *                           be available, and false if not.
      */
     public FileChooser(boolean showAllFilesFilter) {
         this.showAllFilesFilter = showAllFilesFilter;
@@ -63,6 +63,7 @@ public class FileChooser extends JFileChooser
     /**
      * Add a choosable file filter based on a filename extension.
      * This filter becomes the default filter.
+     *
      * @param extn the filename extension used to filter the files to be shown
      * @param desc the description for files selected by the filter
      */
@@ -78,6 +79,7 @@ public class FileChooser extends JFileChooser
 
     /**
      * Get a chosen file filter extension.
+     *
      * @return an extension or null if not specified
      */
     public String getChosenExtension() {
@@ -91,8 +93,9 @@ public class FileChooser extends JFileChooser
 
     /**
      * Allows to disable directories browsing
+     *
      * @param enableDirs <code>true</code> if directories browsing is allowed,
-     * <code>false</code> otherwise
+     *                   <code>false</code> otherwise
      */
     public void enableDirectories(boolean enableDirs) {
         this.enableDirs = enableDirs;
@@ -102,8 +105,7 @@ public class FileChooser extends JFileChooser
     private boolean enableDirs = true;
     private static File userDir = new File(System.getProperty("user.dir"));
 
-    private class ExtensionFileFilter extends FileFilter
-    {
+    private class ExtensionFileFilter extends FileFilter {
         ExtensionFileFilter(String extn, String desc) {
             this.extn = extn;
             this.desc = desc;

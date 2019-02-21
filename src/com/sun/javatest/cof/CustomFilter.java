@@ -34,6 +34,7 @@ public interface CustomFilter {
 
     /**
      * Transforms and/or filters out detected test case names.
+     *
      * @param testCaseName
      * @return transformed test case name or null if this test case
      * should be filtered out

@@ -28,6 +28,7 @@
 package com.sun.javatest.exec;
 
 import com.sun.javatest.tool.UIFactory;
+
 import javax.swing.JComponent;
 
 /**
@@ -44,7 +45,7 @@ class ET_PrivateControlFactory {
     protected final ExecModel execModel;
 
     public ET_PrivateControlFactory(JComponent parent, UIFactory uif,
-            ExecModel execModel) {
+                                    ExecModel execModel) {
 
         this.parent = parent;
         this.uif = uif;

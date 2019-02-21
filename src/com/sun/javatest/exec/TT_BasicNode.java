@@ -31,6 +31,7 @@ import com.sun.javatest.util.Debug;
 
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -40,7 +41,6 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.tree.TreeNode;
 
 /**
- *
  * Representation of a node in the GUI tree representing the visible test structure.
  */
 public class TT_BasicNode extends TT_TreeNode {
@@ -50,6 +50,7 @@ public class TT_BasicNode extends TT_TreeNode {
         this.parent = parent;
         this.tn = tn;
     }
+
     // ------- interface methods --------
     @Override
     public Enumeration<TT_TreeNode> children() {
@@ -128,6 +129,7 @@ public class TT_BasicNode extends TT_TreeNode {
     public boolean isLeaf() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
     // --------- basic interface -------------
     @Override
     boolean isRoot() {
@@ -137,8 +139,9 @@ public class TT_BasicNode extends TT_TreeNode {
     /**
      * What should the name of this node be when shown in a user interface?
      * May or may not be the same as the short name.
-     * @see #getShortName()
+     *
      * @return Shortest possible name of this node when displayed.
+     * @see #getShortName()
      */
     @Override
     String getDisplayName() {
@@ -156,8 +159,9 @@ public class TT_BasicNode extends TT_TreeNode {
     /**
      * String for use whenever you need a basic name for this node.  You can
      * assume that this name is unique within any node.
+     *
      * @return Short name for this node, containing no forward slashes or
-     *    spaces.
+     * spaces.
      */
     @Override
     String getShortName() {
@@ -166,8 +170,9 @@ public class TT_BasicNode extends TT_TreeNode {
 
     /**
      * Get the long internal representation of this location.
+     *
      * @return Null if the node is the root, else a forward slash separated
-     *      path.
+     * path.
      */
     @Override
     String getLongPath() {
@@ -240,7 +245,7 @@ public class TT_BasicNode extends TT_TreeNode {
             int index = children.indexOf(tn);
             children.remove(tn);
             return new TreeModelEvent(
-                this, getNodePath(), new int[]{index}, new Object[]{tn});
+                    this, getNodePath(), new int[]{index}, new Object[]{tn});
             //return index;
         }
     }
@@ -259,26 +264,24 @@ public class TT_BasicNode extends TT_TreeNode {
     }
 
     TreeModelEvent replaceTest(TestResult tr, boolean insert) {
-       if (updateNode()) {
-           return null;
-       }
+        if (updateNode()) {
+            return null;
+        }
 
-       synchronized (children) {
-           TT_TestNode tn = findByName(tr);
-           if (tn != null) {
-               int pos = getIndex(tn);
-               children.remove(pos);
-               children.add(pos, new TT_TestNode(this, tr));
-               return new TreeModelEvent(this, getNodePath());
-           }
-           else {
+        synchronized (children) {
+            TT_TestNode tn = findByName(tr);
+            if (tn != null) {
+                int pos = getIndex(tn);
+                children.remove(pos);
+                children.add(pos, new TT_TestNode(this, tr));
+                return new TreeModelEvent(this, getNodePath());
+            } else {
                 if (insert) {
                     return addTest(new TT_TestNode(this, tr), comp);
-                }
-                else
+                } else
                     return null;
-           }
-       }
+            }
+        }
     }
 
     TreeModelEvent addTest(final TT_TestNode tn, Comparator<String> sortComparator) {
@@ -303,7 +306,7 @@ public class TT_BasicNode extends TT_TreeNode {
                 children.add(0, tn);
                 result = 0;
             } else {
-                result = recursiveIns(0, children.size()-1, tn, tn.getDisplayName(),
+                result = recursiveIns(0, children.size() - 1, tn, tn.getDisplayName(),
                         sortComparator);
             }
 
@@ -314,12 +317,12 @@ public class TT_BasicNode extends TT_TreeNode {
 
     // --------- internal methods ------------
     private int recursiveIns(final int lPos, final int rPos,
-                final TT_TreeNode tn,
-                final String dispName,
-                final Comparator<String> sortComparator) {
+                             final TT_TreeNode tn,
+                             final String dispName,
+                             final Comparator<String> sortComparator) {
         synchronized (children) {   // should already be locked!
-            int diff = rPos-lPos;
-            int pos = (diff/2) + lPos;
+            int diff = rPos - lPos;
+            int pos = (diff / 2) + lPos;
             String posStr = children.get(pos).getDisplayName();
             int res = sortComparator.compare(dispName, posStr);
             if (res == 0) {
@@ -336,15 +339,14 @@ public class TT_BasicNode extends TT_TreeNode {
                     children.add(lPos, tn);
                     return lPos;
                 } else if (res > 0) {
-                    children.add(lPos+1, tn);
-                    return lPos+1;
+                    children.add(lPos + 1, tn);
+                    return lPos + 1;
                 }
 
             if (res < 0) {
-                return recursiveIns(lPos, pos-1, tn, dispName, sortComparator);
-            }
-            else {
-                return recursiveIns(pos+1, rPos, tn, dispName, sortComparator);
+                return recursiveIns(lPos, pos - 1, tn, dispName, sortComparator);
+            } else {
+                return recursiveIns(pos + 1, rPos, tn, dispName, sortComparator);
             }
         }
     }
@@ -355,8 +357,7 @@ public class TT_BasicNode extends TT_TreeNode {
             if (isUpdated.compareAndSet(false, true)) {
                 updateNode0();
                 return true;
-            }
-            else
+            } else
                 return false;
         }  // sync
     }
@@ -381,7 +382,7 @@ public class TT_BasicNode extends TT_TreeNode {
 
         int[] newPositions = new int[nodes.length];
         for (int i = 0; i < nodes.length; i++) {
-            TRT_TreeNode tnode = (TRT_TreeNode)nodes[i];
+            TRT_TreeNode tnode = (TRT_TreeNode) nodes[i];
 
             synchronized (children) {
                 newPositions[i] = findDuplicateNode(tnode);
@@ -392,14 +393,12 @@ public class TT_BasicNode extends TT_TreeNode {
                 if (children.isEmpty()) {
                     children.add(newNode);
                     newPositions[i] = 0;
-                }
-                else if (comp == null) {
+                } else if (comp == null) {
                     children.add(newNode);
-                    newPositions[i] = children.size()-1;
-                }
-                else {
-                    newPositions[i] = recursiveIns(0, children.size()-1, newNode,
-                        newNode.getDisplayName(), comp);
+                    newPositions[i] = children.size() - 1;
+                } else {
+                    newPositions[i] = recursiveIns(0, children.size() - 1, newNode,
+                            newNode.getDisplayName(), comp);
                 }
             }
         }   // for
@@ -427,6 +426,7 @@ public class TT_BasicNode extends TT_TreeNode {
 
     /**
      * Assumes that children is already locked (synchronized on).
+     *
      * @param node The node to look for.
      * @return Position of duplicate, -1 if not found.
      */
@@ -449,16 +449,15 @@ public class TT_BasicNode extends TT_TreeNode {
             if (children.isEmpty()) {
                 children.add(tn);
                 return 0;
-            }
-            else if (comp == null) {
+            } else if (comp == null) {
                 children.add(tn);
-                return children.size()-1;
+                return children.size() - 1;
             } else {
-                int result = recursiveIns(0, children.size()-1, tn,
+                int result = recursiveIns(0, children.size() - 1, tn,
                         tn.getDisplayName(), comp);
-    //                Iterator<TT_TreeNode> it = children.iterator();
-    //                while (it.hasNext())
-    //                    System.out.println("  " + it.next().getDisplayName());
+                //                Iterator<TT_TreeNode> it = children.iterator();
+                //                while (it.hasNext())
+                //                    System.out.println("  " + it.next().getDisplayName());
 
                 return result;
             }

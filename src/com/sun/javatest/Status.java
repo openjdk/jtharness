@@ -30,10 +30,10 @@ package com.sun.javatest;
  * A class to embody the result of a test: a status-code and a related message.
  */
 
-public class Status
-{
+public class Status {
     /**
      * Create a Status to indicate the successful outcome of a test.
+     *
      * @param reason A short string describing why the test passed.
      * @return a Status to indicate the successful outcome of a test.
      */
@@ -45,6 +45,7 @@ public class Status
      * Create a Status to indicate the unsuccessful outcome of a test:
      * i.e. the test completed, but the test determined that what was being tested
      * did not pass the test.
+     *
      * @param reason A short string describing why the test failed.
      * @return a Status to indicate the unsuccessful outcome of a test.
      */
@@ -56,6 +57,7 @@ public class Status
      * Create a Status to indicate that an error occurred while trying to run a test:
      * i.e. the test did not complete for some reason, and so it could not determine
      * whether what was being tested passed or failed.
+     *
      * @param reason A short string describing the error that occurred.
      * @return a Status to indicate the error outcome of a test.
      */
@@ -68,6 +70,7 @@ public class Status
      * the conditions given it was not applicable.  This method is retained
      * for backwards compatibility only; the resultant object is of FAILED
      * type.
+     *
      * @param reason A short string describing why the test was not applicable.
      * @return a Status to indicate that a test failed because it was not applicable
      * @deprecated
@@ -78,6 +81,7 @@ public class Status
 
     /**
      * Create a Status to indicate that the test has not yet been run.
+     *
      * @param reason A short string indicating why the test has not yet been  run.
      */
     static Status notRun(String reason) {
@@ -86,6 +90,7 @@ public class Status
 
     /**
      * Check if the type code of the status is PASSED.
+     *
      * @return true if the type code is PASSED.
      * @see #passed
      * @see #getType
@@ -97,6 +102,7 @@ public class Status
 
     /**
      * Check if the type code of the status is FAILED.
+     *
      * @return true if the type code is FAILED.
      * @see #failed
      * @see #getType
@@ -108,6 +114,7 @@ public class Status
 
     /**
      * Check if the type code of the status is ERROR.
+     *
      * @return true if the type code is ERROR.
      * @see #error
      * @see #getType
@@ -119,6 +126,7 @@ public class Status
 
     /**
      * Check if the type code of the status is NOT_RUN.
+     *
      * @return true if the type code is ERROR.
      * @see #getType
      * @see #NOT_RUN
@@ -129,6 +137,7 @@ public class Status
 
     /**
      * A return code indicating that the test was executed and was successful.
+     *
      * @see #passed
      * @see #getType
      */
@@ -137,6 +146,7 @@ public class Status
     /**
      * A return code indicating that the test was executed but the test
      * reported that it failed.
+     *
      * @see #failed
      * @see #getType
      */
@@ -146,6 +156,7 @@ public class Status
      * A return code indicating that the test was not run because some error
      * occurred before the test could even be attempted. This is generally
      * a more serious error than FAILED.
+     *
      * @see #getType
      */
     public static final int ERROR = 2;
@@ -154,6 +165,7 @@ public class Status
      * A return code indicating that the test has not yet been run in this context.
      * (More specifically, no status file has been recorded for this test in the
      * current work directory.)  This is for the internal use of the harness only.
+     *
      * @see #getType
      */
     public static final int NOT_RUN = 3;
@@ -165,6 +177,7 @@ public class Status
 
     /**
      * Get the type code indicating the type of this Status object.
+     *
      * @return the type code indicating the type of this Status object.
      * @see #PASSED
      * @see #FAILED
@@ -176,6 +189,7 @@ public class Status
 
     /**
      * Get the message given when the status was created.
+     *
      * @return the string given when this Status object was created.
      */
     public String getReason() {
@@ -184,6 +198,7 @@ public class Status
 
     /**
      * Return a new Status object with a possibly augmented reason field.
+     *
      * @param aux if not null and not empty, it will be combined with the original reason.
      * @return if <em>aux</em> is null or empty, the result will be the same as this object;
      * otherwise, it will be a new object combining the original status reason and the
@@ -198,6 +213,7 @@ public class Status
 
     /**
      * Return a new Status object with a possibly augmented reason field.
+     *
      * @param aux a Status to combine with this object
      * @return if <em>aux</em> is null, the result will be the same as this object;
      * otherwise, it will be a new object combining the original status reason and the
@@ -209,16 +225,16 @@ public class Status
 
     /**
      * Parse a string-form of a Status.
+     *
      * @param s a string containing the string form of a Status
-     * as generated by {@link #toString}
+     *          as generated by {@link #toString}
      * @return the corresponding Status, or null if it could not be parsed successfully
      * @see #exit
      */
     public static Status parse(String s) {
         try {
             return new Status(decode(s));
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return null;
         }
     }
@@ -247,6 +263,7 @@ public class Status
 
     /**
      * Convert a Status to a string.
+     *
      * @see #parse
      */
     @Override
@@ -277,11 +294,11 @@ public class Status
      * information (ie exit codes don't give the associated text of the status
      * and return codes when exceptions are thrown could cause unintended
      * results). <p>
-     *
+     * <p>
      * An identifying marker is written to the error stream, which the script
      * running the test watches for as the last output before returning,
      * followed by the type and reason
-     *
+     * <p>
      * The method does not return.  It calls System.exit with a value
      * dependent on the type.
      */
@@ -298,11 +315,12 @@ public class Status
     /**
      * Create a Status object.  See {@link #passed}, {@link #failed}, {@link #error}
      * etc. for more convenient factory methods to create Status objects.
-     * @param type The type code for the Status object.
+     *
+     * @param type   The type code for the Status object.
      * @param reason A short string to store in the status. Unprintable
-     * characters (i.e. outside the range 040C to 177C) in the string are
-     * replaced by a space.  All whitespace runs are reduced to a single
-     * whitespace.
+     *               characters (i.e. outside the range 040C to 177C) in the string are
+     *               replaced by a space.  All whitespace runs are reduced to a single
+     *               whitespace.
      * @throws IllegalArgumentException if the specified type is invalid.
      */
     public Status(int type, String reason) {
@@ -387,11 +405,11 @@ public class Status
     public static final String EXIT_PREFIX = "STATUS:";
 
     private static String[] texts = {
-        // correspond to PASSED, FAILED, ERROR, NOT_RUN
-        "Passed.",
-        "Failed.",
-        "Error.",
-        "Not run."
+            // correspond to PASSED, FAILED, ERROR, NOT_RUN
+            "Passed.",
+            "Failed.",
+            "Error.",
+            "Not run."
     };
 
     /**
@@ -401,7 +419,7 @@ public class Status
      * are the first three; the other value is provided for completeness.
      * <font size=-1> Note: The assignment is historical and cannot easily be changed. </font>
      */
-    public static final int[] exitCodes = { 95, 97, 98, 99 };
+    public static final int[] exitCodes = {95, 97, 98, 99};
 
     /**
      * Encodes strings containing non-ascii characters, where all characters
@@ -413,9 +431,9 @@ public class Status
      * System.out.println(Status.encode("X \u01AB")); //<Encoded>58 20 1AB </Encoded>
      * System.out.println(Status.encode("Abc1")); // Abc1
      * </pre>
+     *
      * @param str - string to encode
      * @return Encoded string or the same string if none non-ascii chars were found
-     *
      * @see #decode(java.lang.String)
      */
     public static String encode(String str) {
@@ -445,10 +463,10 @@ public class Status
 
     /**
      * Decodes string encoded by encode(String) method.
+     *
      * @param str - string to decode
      * @return Decoded string or the same string if encoded prefix/suffix
      * were found
-     *
      * @see #encode(java.lang.String)
      */
     public static String decode(String str) {
@@ -481,11 +499,11 @@ public class Status
     }
 
     private static String encodeChar(char c) {
-        return Integer.toString((int)c, 16);
+        return Integer.toString((int) c, 16);
     }
 
     private static char decodeChar(String s) {
-        return (char)Integer.parseInt(s, 16);
+        return (char) Integer.parseInt(s, 16);
     }
 
     /**

@@ -41,8 +41,7 @@ import com.sun.javatest.util.PropertyArray;
 import com.sun.javatest.util.StringArray;
 
 class HarnessHttpHandler extends JThttpProvider
-    implements Harness.Observer
-{
+        implements Harness.Observer {
     HarnessHttpHandler(Harness harness) {
         this.harness = harness;
         harness.addObserver(this);
@@ -54,27 +53,23 @@ class HarnessHttpHandler extends JThttpProvider
         if (nf == null) {                           // request for root
             beginGood(out);
             printHtml(out);
-        }
-        else if (nf.equals("env")) {                // environment dump
+        } else if (nf.equals("env")) {                // environment dump
             beginGood(out);
             printEnv(out);
-        }
-        else if (nf.equals("interview")) {          // interview dump
+        } else if (nf.equals("interview")) {          // interview dump
             beginGood(out);
             printInterview(out);
-        }
-        else if (nf.equals("text"))                 // get text only data
+        } else if (nf.equals("text"))                 // get text only data
             printText(requestURL, out);
         else if (nf.equals("stop")) {       // stop the harness
             if (!harness.isRunning()) {
                 println(out, i18n.getString("harnessHttp.noStop"));
-            }
-            else {
+            } else {
                 // generate the token if it hasn't already been
                 beginGood(out);
                 if (magicToken == null) {
-                    long num = Math.round(Math.floor(Math.random() * 30000.0 ));
-                    magicToken = Integer.toString((int)num);
+                    long num = Math.round(Math.floor(Math.random() * 30000.0));
+                    magicToken = Integer.toString((int) num);
                 }
 
                 PageGenerator.writeHeader(out, i18n.getString("harnessHttp.stop.hdr"));
@@ -86,8 +81,7 @@ class HarnessHttpHandler extends JThttpProvider
                 else if (token.equals(magicToken)) {
                     harness.stop();
                     println(out, i18n.getString("harnessHttp.stopped"));
-                }
-                else {
+                } else {
                     printStopErr(out);
                 }
 
@@ -96,8 +90,7 @@ class HarnessHttpHandler extends JThttpProvider
                 PageGenerator.endBody(out);
                 PageGenerator.writeEndDoc(out);
             }
-        }
-        else {                              // bad url
+        } else {                              // bad url
             if (debug)
                 System.out.println("TRT.HH-remainder of URL unknown (" + nf + ")");
 
@@ -169,10 +162,9 @@ class HarnessHttpHandler extends JThttpProvider
         try {
             Parameters params = harness.getParameters();
             if (params == null ||
-                !(harness.getParameters() instanceof InterviewParameters)) {
+                    !(harness.getParameters() instanceof InterviewParameters)) {
                 println(out, i18n.getString("harnessHttp.interview.none"));
-            }
-            else {
+            } else {
                 InterviewParameters interview = (InterviewParameters) harness.getParameters();
                 WizPrint wp = new WizPrint(interview);
                 wp.setShowResponses(true);
@@ -204,8 +196,7 @@ class HarnessHttpHandler extends JThttpProvider
         if (nf == null) {
             beginGood(out);
             printIndex(out);
-        }
-        else if (nf.equals("env")) {
+        } else if (nf.equals("env")) {
             // special case for incomplete interview?
 
             TestEnvironment env = params.getEnv();
@@ -229,14 +220,12 @@ class HarnessHttpHandler extends JThttpProvider
 
             try {
                 PropertyArray.save(pa, out);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 // this is probably useless since problems with out
                 // probably caused this
                 out.println(i18n.getString("harnessHttp.ioProblem"));
             }
-        }
-        else if (nf.equals("config")) {
+        } else if (nf.equals("config")) {
             if (params == null) {
                 out.print(i18n.getString("harnessHttp.text.unavail"));
                 return;
@@ -248,16 +237,14 @@ class HarnessHttpHandler extends JThttpProvider
             out.print("=");
             if (ts != null) {
                 out.println(ts.getPath());
-            }
-            else
+            } else
                 out.println(i18n.getString("harnessHttp.text.empty"));
 
             out.print(i18n.getString("harnessHttp.text.ts.name"));
             out.print("=");
             if (ts != null) {
                 out.println(ts.getName());
-            }
-            else
+            } else
                 out.println(i18n.getString("harnessHttp.text.empty"));
 
             out.print(i18n.getString("harnessHttp.text.wd.val"));
@@ -267,8 +254,7 @@ class HarnessHttpHandler extends JThttpProvider
                 out.println(wd.getPath());
             else
                 out.println(i18n.getString("harnessHttp.text.empty"));
-        }
-        else if (nf.equals("tests")) {
+        } else if (nf.equals("tests")) {
             if (params == null) {
                 out.print(i18n.getString("harnessHttp.text.unavail"));
                 return;
@@ -283,28 +269,25 @@ class HarnessHttpHandler extends JThttpProvider
                     out.println(tests[i]);
                 }   // for
             }
-        }
-        else if (nf.equals("stats")) {
+        } else if (nf.equals("stats")) {
             if (!harness.isRunning()) {
                 out.println("");
                 return;
             }
 
             stats[Status.NOT_RUN] = harness.getTestsFoundCount() - stats[Status.PASSED] -
-                                stats[Status.FAILED] - stats[Status.ERROR];
+                    stats[Status.FAILED] - stats[Status.ERROR];
 
             for (int i = 0; i < Status.NUM_STATES; i++) {
                 out.print(Status.typeToString(i).replace(' ', '_'));
                 out.print("=");
                 out.println(stats[i]);
             }   // for
-        }
-        else if (nf.equals("state")) {
+        } else if (nf.equals("state")) {
             // provide information about the Harness' state
             print(out, i18n.getString("harnessHttp.state.run.val"));
             out.println(harness.isRunning());
-        }
-        else if (nf.equals("results")) {
+        } else if (nf.equals("results")) {
             // test dump
             TestResultTable trt = harness.getResultTable();
             TestFilter[] filters = params.getFilters();
@@ -321,8 +304,7 @@ class HarnessHttpHandler extends JThttpProvider
                 out.println(tr.getTestName());
                 out.println(tr.getStatus().toString());
             }   // while
-        }
-        else {
+        } else {
             if (debug)
                 System.out.println("TRT.HH-remainder of URL unknown (" + nf + ")");
 
@@ -381,15 +363,15 @@ class HarnessHttpHandler extends JThttpProvider
         print(out, i18n.getString("harnessHttp.parameters.tsName"));
         String name = params.getTestSuite().getName();
         println(out, name == null ?
-                      i18n.getString("harnessHttp.parameters.noTs") :
-                      name);
+                i18n.getString("harnessHttp.parameters.noTs") :
+                name);
 
         out.println("<br>");
         print(out, i18n.getString("harnessHttp.parameters.tsPath"));
         File tsr = params.getTestSuite().getRoot();
         println(out, tsr == null ?
-                      i18n.getString("harnessHttp.parameters.noTs") :
-                      tsr.getPath());
+                i18n.getString("harnessHttp.parameters.noTs") :
+                tsr.getPath());
 
         out.println("<br>");
 
@@ -421,8 +403,7 @@ class HarnessHttpHandler extends JThttpProvider
                 print(out, i18n.getString("harnessHttp.trt.link"));
                 out.println("</a>");
             }
-        }
-        else {
+        } else {
             out.print(i18n.getString("harnessHttp.trt.none"));
         }
     }
@@ -441,8 +422,7 @@ class HarnessHttpHandler extends JThttpProvider
 
             print(out, tev.getName());
             out.println("</a>");
-        }
-        else {
+        } else {
             println(out, i18n.getString("harnessHttp.parameters.noEnv"));
         }
 
@@ -450,18 +430,17 @@ class HarnessHttpHandler extends JThttpProvider
 
         print(out, i18n.getString("harnessHttp.parameters.interview"));
         if (params instanceof InterviewParameters) {
-            InterviewParameters ip = (InterviewParameters)params;
+            InterviewParameters ip = (InterviewParameters) params;
             File ipf = ip.getFile();
 
             out.print("<a href=\"");
             out.print(getRootURL());
             out.print("/interview\">");
             print(out, ipf == null ?
-                       i18n.getString("harnessHttp.parameters.noInterviewFile") :
-                       ipf.getPath());
+                    i18n.getString("harnessHttp.parameters.noInterviewFile") :
+                    ipf.getPath());
             out.println("</a>");
-        }
-        else {
+        } else {
             println(out, i18n.getString("harnessHttp.parameters.noInterview"));
         }
 
@@ -480,7 +459,7 @@ class HarnessHttpHandler extends JThttpProvider
 
         if (exclParams instanceof Parameters.MutableExcludeListParameters) {
             Parameters.MutableExcludeListParameters e =
-                (Parameters.MutableExcludeListParameters) exclParams;
+                    (Parameters.MutableExcludeListParameters) exclParams;
             File[] jtx = e.getExcludeFiles();
             if (jtx == null || jtx.length == 0)
                 println(out, i18n.getString("harnessHttp.parameters.emptyJtx"));
@@ -490,8 +469,7 @@ class HarnessHttpHandler extends JThttpProvider
 
                 out.println("</ul>");
             }
-        }
-        else {
+        } else {
             println(out, i18n.getString("harnessHttp.parameters.noJtx"));
         }
 
@@ -511,8 +489,7 @@ class HarnessHttpHandler extends JThttpProvider
         String[] tests = harness.getParameters().getTests();
         if (tests == null || tests.length == 0) {
             print(out, i18n.getString("harnessHttp.parameters.noTests"));
-        }
-        else {
+        } else {
             out.println("<ul>");
 
             for (String test : tests) {
@@ -572,10 +549,12 @@ class HarnessHttpHandler extends JThttpProvider
 
     // ------------ Harness.Observer ------------
     @Override
-    public void startingTestRun(Parameters params) { }
+    public void startingTestRun(Parameters params) {
+    }
 
     @Override
-    public void startingTest(TestResult tr) { }
+    public void startingTest(TestResult tr) {
+    }
 
     @Override
     public void finishedTest(TestResult tr) {
@@ -583,12 +562,18 @@ class HarnessHttpHandler extends JThttpProvider
     }
 
     @Override
-    public void stoppingTestRun() { }
-    @Override
-    public void finishedTesting() { }
-    @Override
-    public void finishedTestRun(boolean allOK) { }
+    public void stoppingTestRun() {
+    }
 
     @Override
-    public void error(String msg) { }
+    public void finishedTesting() {
+    }
+
+    @Override
+    public void finishedTestRun(boolean allOK) {
+    }
+
+    @Override
+    public void error(String msg) {
+    }
 }

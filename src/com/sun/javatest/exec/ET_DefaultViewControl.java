@@ -33,6 +33,7 @@ import com.sun.javatest.services.ServiceManager;
 import com.sun.javatest.tool.ToolAction;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.Debug;
+
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,7 +44,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 /**
- *
  * @author Dmitry Fazunenko
  */
 public class ET_DefaultViewControl implements ET_ViewControl {
@@ -62,7 +62,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     private static int debug = Debug.getInt(BasicSessionControl.class);
 
     public ET_DefaultViewControl(JComponent parent, TestSuite ts,
-            ExecModel execModel, UIFactory uif, ET_FilterControl filterControl) {
+                                 ExecModel execModel, UIFactory uif, ET_FilterControl filterControl) {
         this.parent = parent;
         this.uif = uif;
         this.testSuite = ts;
@@ -74,7 +74,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     @Override
     public void setConfig(Session cfg) {
         if (cfg instanceof SessionExt) {
-            config = (SessionExt)cfg;
+            config = (SessionExt) cfg;
         } else {
             throw new Error(uif.getI18NString("bcc.notSessionExtInstance.err", cfg.getClass()));
         }
@@ -87,7 +87,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
 
     @Override
     public void updateGUI() {
-        boolean isWD  = config != null && config.getWorkDirectory() != null;
+        boolean isWD = config != null && config.getWorkDirectory() != null;
 
         // we always allow View/Properties action
         // even if config and/or wd is not set
@@ -126,11 +126,11 @@ public class ET_DefaultViewControl implements ET_ViewControl {
         if (filterControl != null) {
             JMenu filters = filterControl.getFilterMenu();
             if (filters != null) {
-                 viewMenu.add(filters);
+                viewMenu.add(filters);
             }
         }
         viewMenu.addSeparator();
-        for (Action action: createActions()) {
+        for (Action action : createActions()) {
             viewMenu.add(action);
         }
 
@@ -180,6 +180,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     }
 
     private Action propertiesAction;
+
     private Action createPropertyAction() {
         return new ToolAction(uif, "exec.view.props") {
             @Override
@@ -197,6 +198,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
 
     TestSuiteErrorsDialog testSuiteErrorsDialog = null;
     private Action testSuiteErrorsAction;
+
     private Action createTestSuiteErrorsAction() {
         return new ToolAction(uif, "exec.view.testSuiteErrors") {
             @Override
@@ -209,6 +211,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     }
 
     private Action logViewerAction;
+
     private Action createLogViewerAction() {
         return new ToolAction(uif, "exec.view.logviewer") {
             @Override
@@ -230,6 +233,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     private ServiceViewer serviceViewer;
 
     private Action serviceViewerAction;
+
     private Action createServiceViewerAction() {
         return new ToolAction(uif, "exec.view.serviceviewer") {
             @Override
@@ -270,6 +274,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     Action showExcludeListAction;
     Action showChecklistAction;
     Action showQuestionLogAction;
+
     List<Action> createConfigActions() {
         List<Action> acts = new LinkedList<>();
 
@@ -321,6 +326,7 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     boolean isConfigEdited() {
         return false;
     }
+
     boolean isOKToContinue() {
         return true;
     }

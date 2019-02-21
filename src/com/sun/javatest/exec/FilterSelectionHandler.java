@@ -48,29 +48,30 @@ import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.OrderedTwoWayTable;
+
 import java.util.Arrays;
 
 class FilterSelectionHandler {
-     /**
-      * Observe changes to the state of the view.  The changes to the view state
-      * will generally be the result of user actions.
-      */
+    /**
+     * Observe changes to the state of the view.  The changes to the view state
+     * will generally be the result of user actions.
+     */
     public interface Observer {
-       /**
-        * The state of the given filter has changed.
-        */
+        /**
+         * The state of the given filter has changed.
+         */
         public void filterUpdated(TestFilter f);
 
-       /**
-        * The system is requesting a different filter.
-        */
+        /**
+         * The system is requesting a different filter.
+         */
         public void filterSelected(TestFilter f);
 
         public void filterAdded(TestFilter f);
 
-       /**
-        * Removing the active filter will result in an exception.
-        */
+        /**
+         * Removing the active filter will result in an exception.
+         */
         public void filterRemoved(TestFilter f);
     }
 
@@ -124,8 +125,8 @@ class FilterSelectionHandler {
         configButton = uif.createButton("fconfig.config");
         // make button smaller, with minimal border
         configButton.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createEtchedBorder(),
-            BorderFactory.createEmptyBorder(0,3,0,3)));
+                BorderFactory.createEtchedBorder(),
+                BorderFactory.createEmptyBorder(0, 3, 0, 3)));
         configButton.addActionListener(listener);
         configButton.setMaximumSize(configButton.getPreferredSize());
         uif.setAccessibleName(configButton, "fconfig.config");
@@ -139,8 +140,7 @@ class FilterSelectionHandler {
             TestFilter[] filters = filterConfig.getFilters();
             if (filters != null && filters.length > 0)
                 setFilter(filters[0]);
-        }
-        else {
+        } else {
             selectBox.setSelectedItem(activeFilter);
         }
 
@@ -243,29 +243,30 @@ class FilterSelectionHandler {
 
             if (index >= 0) {
                 JMenuItem jmi = (JMenuItem) filterMenuTable.getValueAt(index);
-        int mne = jmi.getMnemonic();
-        if (mne > 0)
-            jmi.setText((char)mne + " " + f.getName());
-        else
-            jmi.setText(f.getName());
+                int mne = jmi.getMnemonic();
+                if (mne > 0)
+                    jmi.setText((char) mne + " " + f.getName());
+                else
+                    jmi.setText(f.getName());
+            }
         }
-    }
     }
 
     /**
      * Add the filter to the list of filters in the menu.
      * No action is taken if the menu system is not initilized.  No
      * checking for duplicate insertions occurs.
+     *
      * @param location Position to place the new item at.  -1 indicates
-     *        indifference.
-     * @param f The test filter to add.
+     *                 indifference.
+     * @param f        The test filter to add.
      */
     private synchronized void addToMenu(TestFilter f, int location) {
         if (editMenu == null)
             return;
 
-    boolean[] mnemonics = new boolean[10];
-    Arrays.fill(mnemonics, false);
+        boolean[] mnemonics = new boolean[10];
+        Arrays.fill(mnemonics, false);
 
         // guess a mnemonic
         for (int i = 0; i < editMenu.getItemCount(); i++) {
@@ -278,19 +279,19 @@ class FilterSelectionHandler {
             }
         }
 
-    int mne = -1;
-    for (int i = 0; i < mnemonics.length; i++) {
-        if (mnemonics[i] == false) {
-            mne = i;
-            break;
+        int mne = -1;
+        for (int i = 0; i < mnemonics.length; i++) {
+            if (mnemonics[i] == false) {
+                mne = i;
+                break;
+            }
         }
-    }
 
-    if (mne == 9) {
-        mne = '0';
-    } else if (mne >= 0) {
-        mne = mne + 1 + '0';
-    }
+        if (mne == 9) {
+            mne = '0';
+        } else if (mne >= 0) {
+            mne = mne + 1 + '0';
+        }
 
         String text = (mne == 0 ? "" : (char) mne) + " " + f.getName();
         JRadioButtonMenuItem b = new JRadioButtonMenuItem(text);
@@ -304,7 +305,7 @@ class FilterSelectionHandler {
         filterMenuTable.put(f, b);
 
         if (location < 0)       // no preference, insert as last filter
-            editMenu.insert(b, menuGroup.getButtonCount()-1);
+            editMenu.insert(b, menuGroup.getButtonCount() - 1);
         else
             editMenu.insert(b, location);
 
@@ -372,19 +373,16 @@ class FilterSelectionHandler {
                         Debug.println("FC - keeping filter");
 
                     return;
-                }
-                else {
+                } else {
                     if (debug)
                         Debug.println("FC - changing filter");
 
                     setFilter(vf);
                 }
-            }
-            else if (source == configButton) {
+            } else if (source == configButton) {
                 TestFilter vf = (TestFilter) selectBox.getSelectedItem();
                 filterConfig.showEditorDialog(vf);
-            }
-            else if (source instanceof JRadioButtonMenuItem) {
+            } else if (source instanceof JRadioButtonMenuItem) {
                 // a filter menu item
                 int which = filterMenuTable.getValueIndex(source);
                 if (which != -1) {
@@ -418,9 +416,9 @@ class FilterSelectionHandler {
             for (Observer ob : obs) ob.filterAdded(f);
         }
 
-       /**
-        * Removing the active filter will result in an exception.
-        */
+        /**
+         * Removing the active filter will result in an exception.
+         */
         @Override
         public void filterRemoved(TestFilter f) {
             // remove from list box

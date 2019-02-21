@@ -45,6 +45,7 @@ import com.sun.javatest.Status;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResult.ReloadFault;
 import com.sun.javatest.TestResult.ResultFileNotFoundFault;
+
 import java.util.Iterator;
 
 /*import javax.xml.bind.annotation.XmlAccessType;
@@ -54,13 +55,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
+
 /**
- *
- *         The analysis setting is meant to allow remote groups to waive or
- *         accept the pass/fail status of the test using E-mail. For
- *         testcases, the analysis setting provides a default value to
- *         apply to the analysis the setting for all testcase results for
- *         this test.
+ * The analysis setting is meant to allow remote groups to waive or
+ * accept the pass/fail status of the test using E-mail. For
+ * testcases, the analysis setting provides a default value to
+ * apply to the analysis the setting for all testcase results for
+ * this test.
  *
  *
  * <p>Java class for Test complex type.
@@ -144,6 +145,7 @@ public class COFTest extends COFItem {
         cofStatus[Status.ERROR] = "error";
         cofStatus[Status.NOT_RUN] = "did_not_run";
     }
+
     //    @XmlAttribute
     protected String analysis;
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
@@ -176,7 +178,7 @@ public class COFTest extends COFItem {
         status.setActual(tr.getStatus().getReason());
         fillTestCases(tr);
         //if (tr.getStatus().isError() || tr.getStatus().isFailed()) {
-            checkLostTestCases(tr);
+        checkLostTestCases(tr);
         //}
         setName(tr.getTestName());
         if (!tr.getStatus().isNotRun()) {
@@ -191,7 +193,7 @@ public class COFTest extends COFItem {
                 if (!data.getInterviewParameters().getExcludeListFilter().accepts(tr.getDescription())) {
                     attributes.getAttribute().add(new COFTestAttribute("isOnExcludeList", "true"));
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
             }
         }
         String jo = cofData.get("jvmopt", null);
@@ -263,8 +265,8 @@ public class COFTest extends COFItem {
             return;
         }
 
-        List  <COFTestCase> jtrCases = testcases.getTestcase();
-        List  <String> mtlTestCases = mtl.getTestCases(tr.getTestName());
+        List<COFTestCase> jtrCases = testcases.getTestcase();
+        List<String> mtlTestCases = mtl.getTestCases(tr.getTestName());
         if (mtlTestCases != null && !mtlTestCases.isEmpty()) {
             // for (COFTestCase jtrCase : jtrCases) {
             Iterator it = jtrCases.iterator();
@@ -275,7 +277,7 @@ public class COFTest extends COFItem {
             if (!mtlTestCases.isEmpty()) {
                 //for (String testCaseName : mtlTestCases) {
                 it = mtlTestCases.iterator();
-                while(it.hasNext()) {
+                while (it.hasNext()) {
                     String testCaseName = (String) it.next();
                     COFTestCase nTc = new COFTestCase();
                     COFStatus nStatus = new COFStatus();
@@ -292,10 +294,8 @@ public class COFTest extends COFItem {
     /**
      * Gets the value of the analysis property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public String getAnalysis() {
         if (analysis == null) {
@@ -324,8 +324,6 @@ public class COFTest extends COFItem {
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
-     *
-     *
      */
     public List<String> getAppuse() {
         if (appuse == null) {
@@ -337,10 +335,8 @@ public class COFTest extends COFItem {
     /**
      * Gets the value of the attributes property.
      *
-     * @return
-     *     possible object is
-     *     {@link COFTestAttributes }
-     *
+     * @return possible object is
+     * {@link COFTestAttributes }
      */
     public COFTestAttributes getAttributes() {
         return attributes;
@@ -349,10 +345,8 @@ public class COFTest extends COFItem {
     /**
      * Gets the value of the description property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public String getDescription() {
         return description;
@@ -361,10 +355,8 @@ public class COFTest extends COFItem {
     /**
      * Gets the value of the endtime property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public Date getEndtime() {
         return endtime;
@@ -373,10 +365,8 @@ public class COFTest extends COFItem {
     /**
      * Gets the value of the id property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public String getId() {
         if (id != null) {
@@ -409,10 +399,8 @@ public class COFTest extends COFItem {
     /**
      * Gets the value of the name property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public String getName() {
         return name;
@@ -421,10 +409,8 @@ public class COFTest extends COFItem {
     /**
      * Gets the value of the starttime property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public Date getStarttime() {
         return starttime;
@@ -433,10 +419,8 @@ public class COFTest extends COFItem {
     /**
      * Gets the value of the status property.
      *
-     * @return
-     *     possible object is
-     *     {@link COFStatus }
-     *
+     * @return possible object is
+     * {@link COFStatus }
      */
     public COFStatus getStatus() {
         return status;
@@ -445,10 +429,8 @@ public class COFTest extends COFItem {
     /**
      * Gets the value of the testcases property.
      *
-     * @return
-     *     possible object is
-     *     {@link COFTestCases }
-     *
+     * @return possible object is
+     * {@link COFTestCases }
      */
     public COFTestCases getTestcases() {
         return testcases;
@@ -457,10 +439,8 @@ public class COFTest extends COFItem {
     /**
      * Sets the value of the id property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     //  public void setId(String value) {
     //          this.id = value;
@@ -532,10 +512,8 @@ public class COFTest extends COFItem {
     /**
      * Sets the value of the analysis property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setAnalysis(String value) {
         this.analysis = value;
@@ -544,10 +522,8 @@ public class COFTest extends COFItem {
     /**
      * Sets the value of the attributes property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link COFTestAttributes }
-     *
+     * @param value allowed object is
+     *              {@link COFTestAttributes }
      */
     public void setAttributes(COFTestAttributes value) {
         this.attributes = value;
@@ -556,10 +532,8 @@ public class COFTest extends COFItem {
     /**
      * Sets the value of the description property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setDescription(String value) {
         this.description = value;
@@ -568,10 +542,8 @@ public class COFTest extends COFItem {
     /**
      * Sets the value of the endtime property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setEndtime(Date value) {
         this.endtime = value;
@@ -580,10 +552,8 @@ public class COFTest extends COFItem {
     /**
      * Sets the value of the name property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setName(String value) {
         this.name = value;
@@ -592,10 +562,8 @@ public class COFTest extends COFItem {
     /**
      * Sets the value of the starttime property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setStarttime(Date value) {
         this.starttime = value;
@@ -604,10 +572,8 @@ public class COFTest extends COFItem {
     /**
      * Sets the value of the status property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link COFStatus }
-     *
+     * @param value allowed object is
+     *              {@link COFStatus }
      */
     public void setStatus(COFStatus value) {
         this.status = value;
@@ -616,10 +582,8 @@ public class COFTest extends COFItem {
     /**
      * Sets the value of the testcases property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link COFTestCases }
-     *
+     * @param value allowed object is
+     *              {@link COFTestCases }
      */
     public void setTestcases(COFTestCases value) {
         this.testcases = value;

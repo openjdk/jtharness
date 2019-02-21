@@ -54,31 +54,32 @@ import java.util.List;
 })*/
 public class COFSWEntities extends COFItem {
 
-static LinkedHashMap<String, String> xmlAttributes;
+    static LinkedHashMap<String, String> xmlAttributes;
 
     static LinkedHashMap<String, String> xmlElements;
 
-        static String xmlTagName;
+    static String xmlTagName;
 
-        static  {
+    static {
         xmlElements = new LinkedHashMap<>();
         xmlElements.put("swentity", "swentity");
         xmlTagName = "swentities";
     }
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
     protected List<COFSWEntity> swentity;
 
-        LinkedHashMap<String, String> getItemAttributes() {
-                return xmlAttributes;
-        }
+    LinkedHashMap<String, String> getItemAttributes() {
+        return xmlAttributes;
+    }
 
-        LinkedHashMap<String, String> getItemElements() {
-                return xmlElements;
-        }
+    LinkedHashMap<String, String> getItemElements() {
+        return xmlElements;
+    }
+
     String getItemTagName() {
-                return xmlTagName;
-        }
+        return xmlTagName;
+    }
 
     /**
      * Gets the value of the swentity property.
@@ -99,8 +100,6 @@ static LinkedHashMap<String, String> xmlAttributes;
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link COFSWEntity }
-     *
-     *
      */
     public List<COFSWEntity> getSwentity() {
         if (swentity == null) {

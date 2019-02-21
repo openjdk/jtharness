@@ -27,6 +27,7 @@
 package com.sun.javatest.lib;
 
 import java.io.PrintWriter;
+
 import com.sun.javatest.Status;
 
 /**
@@ -65,8 +66,9 @@ public class MultiStatus {
 
     /**
      * Create a MultiStatus object to accumulate individual Status objects.
-     * @param out    A stream to which the report the outcome of the tests.
-     *                   If the stream is null, no reporting is done.
+     *
+     * @param out A stream to which the report the outcome of the tests.
+     *            If the stream is null, no reporting is done.
      */
     public MultiStatus(PrintWriter out) {
         this.out = out;
@@ -74,6 +76,7 @@ public class MultiStatus {
 
     /**
      * Get the number of individual test results that have been added.
+     *
      * @return the number of individual results that have been added.
      */
     public int getTestCount() {
@@ -97,21 +100,21 @@ public class MultiStatus {
             int t = status.getType();
 
             switch (t) {
-            case Status.PASSED:
-                ++iPassed;
-                break;
+                case Status.PASSED:
+                    ++iPassed;
+                    break;
 
-            case Status.FAILED:
-                ++iFail;
-                break;
+                case Status.FAILED:
+                    ++iFail;
+                    break;
 
-            case Status.ERROR:
-                ++iError;
-                break;
+                case Status.ERROR:
+                    ++iError;
+                    break;
 
-            default:
-                ++iBad;
-                break;
+                default:
+                    ++iBad;
+                    break;
             }
 
             if (t != Status.PASSED && firstTestCase.isEmpty())
@@ -121,12 +124,13 @@ public class MultiStatus {
 
     /**
      * Get the aggregate outcome of all the outcomes passed to "add".
+     *
      * @return the aggregate outcome
      */
     public Status getStatus() {
 
         // If stream not null, flush it
-        if( out != null ) {
+        if (out != null) {
             out.flush();
         }
 
@@ -193,17 +197,17 @@ public class MultiStatus {
      * no output is generated.
      *
      * @param testIDs an array of names used to identify the individual test cases.
-     * @param status an array of Status objects giving the outcomes of the individual test cases.
-     * @param out a PrintWriter that can be used to output the individual test case
-     *            status values. If null, no output is generated.
+     * @param status  an array of Status objects giving the outcomes of the individual test cases.
+     * @param out     a PrintWriter that can be used to output the individual test case
+     *                status values. If null, no output is generated.
      * @return the aggregate status of the array of Status objects.
      */
     public static Status overallStatus(String testIDs[], Status status[], PrintWriter out) {
 
         /* Check the number of tests against the number of statuses */
-        if( testIDs.length != status.length ) {
-            return Status.failed( "mismatched array sizes; test cases: " + testIDs.length +
-                                  " statuses: " + status.length );
+        if (testIDs.length != status.length) {
+            return Status.failed("mismatched array sizes; test cases: " + testIDs.length +
+                    " statuses: " + status.length);
         }
 
         /* Loop through status objects, check types,
@@ -212,7 +216,7 @@ public class MultiStatus {
          */
 
         MultiStatus ms = new MultiStatus(out);
-        for( int i = 0; i < status.length; ++i ) {
+        for (int i = 0; i < status.length; ++i) {
             ms.add(testIDs[i], status[i]);
         }
 
@@ -226,7 +230,7 @@ public class MultiStatus {
      * Status objects.  This method does not output any information
      *
      * @param testIDs an array of names used to identify the individual test cases.
-     * @param status an array of Status objects giving the outcomes of the individual test cases.
+     * @param status  an array of Status objects giving the outcomes of the individual test cases.
      * @return overall status of the specified array of Status objects.
      */
     public static Status overallStatus(String testIDs[], Status... status) {

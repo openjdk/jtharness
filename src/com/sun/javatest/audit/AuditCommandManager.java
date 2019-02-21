@@ -40,14 +40,13 @@ import com.sun.javatest.util.I18NResourceBundle;
 /**
  * The CommandManager for audit support.
  */
-public class AuditCommandManager extends CommandManager
-{
+public class AuditCommandManager extends CommandManager {
 
     @Override
     public HelpTree.Node getHelp() {
         String[] cmds = {
-            "audit",
-            "showAudit"
+                "audit",
+                "showAudit"
         };
         return new HelpTree.Node(i18n, "cmgr.help", cmds);
     }
@@ -56,8 +55,7 @@ public class AuditCommandManager extends CommandManager
 
     @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
-        throws Command.Fault
-    {
+            throws Command.Fault {
         if (cmd.equalsIgnoreCase(AuditCommand.getName())) {
             ctx.addCommand(new AuditCommand(argIter));
             return true;
@@ -75,8 +73,7 @@ public class AuditCommandManager extends CommandManager
 
     //----------------------------------------------------------------------------
 
-    private static class AuditCommand extends Command
-    {
+    private static class AuditCommand extends Command {
         static String getName() {
             return "audit";
         }

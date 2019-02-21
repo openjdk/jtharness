@@ -32,19 +32,18 @@ import com.sun.javatest.TestResultTable;
 /**
  * A pane for selecting tests in a test result table.
  */
-public class TestTreeSelectionPane extends TreeSelectionPane
-{
+public class TestTreeSelectionPane extends TreeSelectionPane {
     /**
      * Create a pane for selecting tests found in a test result table.
+     *
      * @param trt the test result table from which to get the tests
-     * that may be selected
+     *            that may be selected
      */
     public TestTreeSelectionPane(TestResultTable trt) {
         super(new TRTModel(trt));
     }
 
-    private static class TRTModel implements Model
-    {
+    private static class TRTModel implements Model {
         TRTModel(TestResultTable trt) {
             this.trt = trt;
         }
@@ -90,10 +89,9 @@ public class TestTreeSelectionPane extends TreeSelectionPane
                 int lastSlash = fullName.lastIndexOf("/");
                 return lastSlash == -1
                         ? fullName
-                        : fullName.substring(lastSlash+1);
+                        : fullName.substring(lastSlash + 1);
 
-            }
-            else
+            } else
                 throw new IllegalArgumentException();
         }
 
@@ -109,8 +107,7 @@ public class TestTreeSelectionPane extends TreeSelectionPane
                     return tn.getName();
                 else
                     return getPath(tn.getParent() + "/" + tn.getName());
-            }
-            else
+            } else
                 throw new IllegalArgumentException();
         }
 

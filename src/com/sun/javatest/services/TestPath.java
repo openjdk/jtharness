@@ -45,7 +45,7 @@ public class TestPath {
 
     protected ServiceManager mgr;
     protected Pattern p;
-    private final  Set<String> services;
+    private final Set<String> services;
     protected TDMatcher tdm;
 
     /**
@@ -53,10 +53,11 @@ public class TestPath {
      * services. Both pattern and matcher may be null, test path is always
      * accepted in such case. Otherwise, matching result ic logical AND of
      * regexp and custom matching.
-     * @param ts test suite
-     * @param pathPattern patter for matching test paths.
+     *
+     * @param ts                 test suite
+     * @param pathPattern        patter for matching test paths.
      * @param tdMatcherClassName {@link com.sun.javatest.services.TestPath.TDMatcher}
-     * to customize matching rules.
+     *                           to customize matching rules.
      */
     public TestPath(TestSuite ts, String pathPattern, String tdMatcherClassName) {
         if (pathPattern != null) {
@@ -101,6 +102,7 @@ public class TestPath {
 
     /**
      * Gives access to the set of services of this test path.
+     *
      * @return set of test path service's IDs.
      */
     public Set<String> getServices() {
@@ -121,10 +123,10 @@ public class TestPath {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("TestPath  pattern='" );
+        StringBuilder sb = new StringBuilder("TestPath  pattern='");
         sb.append(p);
         sb.append("' services={");
-        for (String s: services) {
+        for (String s : services) {
             sb.append(s).append(" ");
         }
         sb.append("}");

@@ -34,6 +34,7 @@ import com.sun.javatest.util.I18NResourceBundle;
 public class KeywordsFilter extends TestFilter {
     /**
      * Create a filter that filters tests according to a Keywords object.
+     *
      * @param keywords an object that provides the basic filter
      */
     public KeywordsFilter(Keywords keywords) {
@@ -42,6 +43,7 @@ public class KeywordsFilter extends TestFilter {
 
     /**
      * Get the underlying keywords object.
+     *
      * @return the keywords object that provides the basic filter
      */
     public Keywords getKeywords() {

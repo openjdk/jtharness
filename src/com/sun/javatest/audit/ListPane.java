@@ -47,8 +47,8 @@ abstract class ListPane extends AuditPane {
         list.setCellRenderer(new Renderer());
 
         JScrollPane sp = uif.createScrollPane(list,
-                                         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                                         JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         setBody(sp);
     }
 
@@ -87,12 +87,10 @@ abstract class ListPane extends AuditPane {
             if (o instanceof TestResult) {
                 TestResult tr = (TestResult) o;
                 name = tr.getTestName();
-            }
-            else if (o instanceof TestDescription) {
+            } else if (o instanceof TestDescription) {
                 TestDescription td = (TestDescription) o;
                 name = td.getRootRelativeURL();
-            }
-            else
+            } else
                 name = String.valueOf(o);
             return super.getListCellRendererComponent(list, name, index, isSelected, cellHasFocus);
         }

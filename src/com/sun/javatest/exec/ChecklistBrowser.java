@@ -46,12 +46,12 @@ import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.tool.FileChooser;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
+
 import java.awt.Dimension;
 import java.nio.charset.StandardCharsets;
 import javax.swing.BorderFactory;
 
-class ChecklistBrowser extends ToolDialog
-{
+class ChecklistBrowser extends ToolDialog {
     ChecklistBrowser(JComponent parent, ExecModel model, UIFactory uif) {
         super(parent, uif, "cb");
 
@@ -72,7 +72,7 @@ class ChecklistBrowser extends ToolDialog
         setHelp("checklist.window.csh");
 
         JMenuBar mb = uif.createMenuBar("cb");
-        String[] fileActions = { SAVE_AS, PRINT_SETUP, PRINT };
+        String[] fileActions = {SAVE_AS, PRINT_SETUP, PRINT};
         JMenu fileMenu = uif.createMenu("cb.file", fileActions, listener);
         mb.add(fileMenu);
         setJMenuBar(mb);
@@ -87,7 +87,7 @@ class ChecklistBrowser extends ToolDialog
 
         JButton helpBtn = uif.createHelpButton("cb.help", "checklist.window.csh");
         JButton closeBtn = uif.createCloseButton("cb.close");
-        setButtons(new JButton[] { helpBtn, closeBtn }, closeBtn);
+        setButtons(new JButton[]{helpBtn, closeBtn}, closeBtn);
 
         setComponentListener(listener);
     }
@@ -106,8 +106,7 @@ class ChecklistBrowser extends ToolDialog
             Checklist c = params.createChecklist();
             StringWriter out = new StringWriter();
             writeChecklist(c, out);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // should not happen while writing to StringWriter
         }
 
@@ -138,7 +137,7 @@ class ChecklistBrowser extends ToolDialog
         out.write("</body></html>");
         out.close();
 
-        TextPane pane = (TextPane)body.getMediaPane(body.TEXT);
+        TextPane pane = (TextPane) body.getMediaPane(body.TEXT);
         pane.showText(out.toString(), "text/html");
         pane.getCaret().setDot(0);
     }
@@ -161,18 +160,27 @@ class ChecklistBrowser extends ToolDialog
     private String escape(String s) {
         for (int i = 0; i < s.length(); i++) {
             switch (s.charAt(i)) {
-            case '<': case '>': case '&':
-                StringBuilder sb = new StringBuilder(s.length()*2);
-                for (int j = 0; j < s.length(); j++) {
-                    char c = s.charAt(j);
-                    switch (c) {
-                    case '<': sb.append("&lt;"); break;
-                    case '>': sb.append("&gt;"); break;
-                    case '&': sb.append("&amp;"); break;
-                    default: sb.append(c);
+                case '<':
+                case '>':
+                case '&':
+                    StringBuilder sb = new StringBuilder(s.length() * 2);
+                    for (int j = 0; j < s.length(); j++) {
+                        char c = s.charAt(j);
+                        switch (c) {
+                            case '<':
+                                sb.append("&lt;");
+                                break;
+                            case '>':
+                                sb.append("&gt;");
+                                break;
+                            case '&':
+                                sb.append("&amp;");
+                                break;
+                            default:
+                                sb.append(c);
+                        }
                     }
-                }
-                return sb.toString();
+                    return sb.toString();
             }
         }
         return s;
@@ -182,7 +190,7 @@ class ChecklistBrowser extends ToolDialog
         if (fileChooser == null) {
             fileChooser = new FileChooser(true);
             fileChooser.addChoosableExtension(".html",
-                                              uif.getI18NString("cb.htmlFiles"));
+                    uif.getI18NString("cb.htmlFiles"));
         }
 
         fileChooser.setDialogTitle(uif.getI18NString("cb.save.title"));
@@ -209,16 +217,16 @@ class ChecklistBrowser extends ToolDialog
             if (file.exists()) {
                 rc = uif.showYesNoCancelDialog("cb.save.warn");
                 switch (rc) {
-                case JOptionPane.YES_OPTION:
-                    break;  // use this file
+                    case JOptionPane.YES_OPTION:
+                        break;  // use this file
 
-                case JOptionPane.NO_OPTION:
-                    fileChooser.setSelectedFile(null);
-                    file = null;
-                    continue;  // choose another file
+                    case JOptionPane.NO_OPTION:
+                        fileChooser.setSelectedFile(null);
+                        file = null;
+                        continue;  // choose another file
 
-                default:
-                    return;  // exit without saving
+                    default:
+                        return;  // exit without saving
                 }
             }
         }
@@ -227,8 +235,7 @@ class ChecklistBrowser extends ToolDialog
              Writer out = new BufferedWriter(fw)) {
             TextPane pane = (TextPane) body.getMediaPane(body.TEXT);
             out.write(pane.getText());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             if (!file.canWrite())
                 uif.showError("cb.save.cantWriteFile", file);
             else if (e instanceof FileNotFoundException)
@@ -251,9 +258,8 @@ class ChecklistBrowser extends ToolDialog
     private static final String PRINT = "Print";
 
     private class Listener
-        extends ComponentAdapter
-        implements ActionListener, Interview.Observer
-    {
+            extends ComponentAdapter
+            implements ActionListener, Interview.Observer {
         // ActionListener
         @Override
         public void actionPerformed(ActionEvent e) {

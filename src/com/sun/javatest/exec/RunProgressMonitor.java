@@ -84,8 +84,8 @@ class RunProgressMonitor extends Monitor implements MonitorState.Observer {
         smMeter.setStringPainted(true);
         //smMeter.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         smMeter.setBorder(BorderFactory.createCompoundBorder(
-                                BorderFactory.createEmptyBorder(3,5,3,5),
-                                BorderFactory.createLineBorder(Color.black)));
+                BorderFactory.createEmptyBorder(3, 5, 3, 5),
+                BorderFactory.createLineBorder(Color.black)));
         ContextHelpManager.setHelpIDString(smMeter, "run.testProgress");
 
         return smMeter;
@@ -168,6 +168,6 @@ class RunProgressMonitor extends Monitor implements MonitorState.Observer {
     private JProgressBar smMeter;
     private Timer pmTimer;
     private ActionListener pmUpdate;
-    private static final int TIMER_FREQ= 3;
+    private static final int TIMER_FREQ = 3;
     private static final int TIMER_INITIAL = 1;
 }

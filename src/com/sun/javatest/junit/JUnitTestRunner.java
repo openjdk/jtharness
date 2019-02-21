@@ -34,6 +34,7 @@ import com.sun.javatest.TestRunner;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.lib.MultiTest;
 import com.sun.javatest.util.BackupPolicy;
+
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -42,7 +43,9 @@ import java.util.Iterator;
  */
 public class JUnitTestRunner extends TestRunner {
 
-    /** Creates a new instance of JUnitTestRunner */
+    /**
+     * Creates a new instance of JUnitTestRunner
+     */
     public JUnitTestRunner() {
         // could create additional constructors to accept args
         // might be useful if there are more settings that need to be passed
@@ -55,7 +58,7 @@ public class JUnitTestRunner extends TestRunner {
         WorkDirectory wd = getWorkDirectory();
         TestDescription td = null;
         //for (TestDescription td: testIter) {
-        for (; testIter.hasNext() ;) {
+        for (; testIter.hasNext(); ) {
             td = testIter.next();
             TestResult tr = new TestResult(td);
             TestResult.Section outSection = tr.createSection("Main");
@@ -98,7 +101,7 @@ public class JUnitTestRunner extends TestRunner {
      * The default implementation returns a JUnitBareMultiTest or
      * JUnitAnnotationMultiTest depending on the <tt>junit.finderscantype</tt>
      * value in the test description.
-     *
+     * <p>
      * Override this method if you wish to return a <tt>JUnitMultiTest</tt> of
      * your own.
      *
@@ -123,7 +126,7 @@ public class JUnitTestRunner extends TestRunner {
     // could make this protected so that custom test runners could easily
     // add args without changing other code
     private String[] getTestArgs(TestDescription td) {
-        return new String[] {td.getParameter("executeClass")};
+        return new String[]{td.getParameter("executeClass")};
     }
 
     protected BackupPolicy backupPolicy = BackupPolicy.noBackups(); // optional

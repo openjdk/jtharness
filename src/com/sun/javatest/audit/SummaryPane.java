@@ -52,8 +52,8 @@ class SummaryPane extends AuditPane {
         uif.setAccessibleInfo(htmlPane, "smry.html");
 
         JScrollPane sp = uif.createScrollPane(htmlPane,
-                                         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                                         JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         setBody(sp);
 
         ContextHelpManager.setHelpIDString(this, "audit.summaryTab.csh");
@@ -73,8 +73,7 @@ class SummaryPane extends AuditPane {
                 out = new HTMLWriterEx(sw, uif.getI18NResourceBundle());
                 writeReport();
                 out.close();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 // can't happen, with StringWRiter
             }
             htmlPane.setText(sw.toString());
@@ -251,8 +250,7 @@ class SummaryPane extends AuditPane {
 
         if (earliestStart == null || latestStart == null) {
             out.writeI18N("smry.dates.noStamps");
-        }
-        else {
+        } else {
             Integer b = Integer.valueOf(badStarts ? 1 : 0);
             out.writeI18N("smry.dates.earliest",
                     earliestStart, b);

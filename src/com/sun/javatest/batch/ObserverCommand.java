@@ -42,14 +42,13 @@ import com.sun.javatest.tool.CommandContext;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
 
-class ObserverCommand extends Command
-{
+class ObserverCommand extends Command {
     static String getName() {
         return "observer";
     }
 
     static HelpTree.Node getHelp() {
-        String[] opts = { "cp" };
+        String[] opts = {"cp"};
         return new HelpTree.Node(i18n, "cmgr.help.observer", opts);
     }
 
@@ -98,44 +97,38 @@ class ObserverCommand extends Command
             Harness.Observer o = null;
             if (classArgs == null || classArgs.length == 0) {
                 o = tryConstructor(oc,
-                                   new Class<?>[] { },
-                                   new Object[] { });
-            }
-            else if (classArgs.length == 1) {
+                        new Class<?>[]{},
+                        new Object[]{});
+            } else if (classArgs.length == 1) {
                 o = tryConstructor(oc,
-                                   new Class<?>[] { String.class },
-                                   new Object[] { classArgs[0] });
+                        new Class<?>[]{String.class},
+                        new Object[]{classArgs[0]});
             }
 
             if (o == null)
                 o = tryConstructor(oc,
-                                   new Class<?>[] { String[].class },
-                                   new Object[] { classArgs });
+                        new Class<?>[]{String[].class},
+                        new Object[]{classArgs});
 
             if (o == null)
                 throw new Fault(i18n, "observer.cantFindConstructor", className);
 
             ctx.addHarnessObserver(o);
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             throw new Fault(i18n, "observer.cantFindClass", className);
-        }
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             throw new Fault(i18n, "observer.cantAccessClass", className);
-        }
-        catch (InstantiationException | InvocationTargetException e) {
+        } catch (InstantiationException | InvocationTargetException e) {
             throw new Fault(i18n, "observer.cantCreateClass", className);
         }
     }
 
     private Harness.Observer tryConstructor(Class<?> obsClass, Class<?>[] argTypes, Object[] args)
-        throws IllegalAccessException, InstantiationException, InvocationTargetException
-    {
+            throws IllegalAccessException, InstantiationException, InvocationTargetException {
         try {
             Constructor<?> c = obsClass.getConstructor(argTypes);
             return (Harness.Observer) c.newInstance(args);
-        }
-        catch (NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             return null;
         }
     }
@@ -166,8 +159,7 @@ class ObserverCommand extends Command
         try {
             if (!s.isEmpty())
                 v.add(new File(s).toURL());
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             throw new Fault(i18n, "observer.badClassPath", s, e);
         }
     }

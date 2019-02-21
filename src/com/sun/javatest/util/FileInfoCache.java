@@ -31,12 +31,11 @@ import java.util.Map;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 
-public class FileInfoCache
-{
+public class FileInfoCache {
 
     private final int SIZE = 500;
 
-    private Map<String, Boolean> map = Collections.synchronizedMap( new LinkedHashMap<String, Boolean>() {
+    private Map<String, Boolean> map = Collections.synchronizedMap(new LinkedHashMap<String, Boolean>() {
         @Override
         protected boolean removeEldestEntry(Map.Entry<String, Boolean> eldest) {
             return size() > SIZE;

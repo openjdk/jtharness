@@ -97,8 +97,7 @@ import javax.swing.text.Keymap;
 import javax.swing.Timer;
 import javax.swing.text.JTextComponent;
 
-class NewReportDialog extends ToolDialog
-{
+class NewReportDialog extends ToolDialog {
 
     //----------------------------------------------------------------------------
 
@@ -108,7 +107,7 @@ class NewReportDialog extends ToolDialog
         // if ever made public, should rethink method names and if any helpful
         // parameters are passed
 
-       /**
+        /**
          * The dialog is done. Notify the observer to keep a snapshot of
          * current state.
          */
@@ -136,7 +135,7 @@ class NewReportDialog extends ToolDialog
     }
 
     public void setInterviewParameters(InterviewParameters p) {
-         interviewParams = p;
+        interviewParams = p;
     }
 
     // ---------------------------------------------------------------------------
@@ -151,7 +150,7 @@ class NewReportDialog extends ToolDialog
         dirField.setText(rd);
 
         if (filter != null && !filter.isEmpty())
-           filterHandler.setFilter(filter);
+            filterHandler.setFilter(filter);
 
         updateHtmlCheckboxStates();
         updateCofCheckboxStates();
@@ -163,10 +162,10 @@ class NewReportDialog extends ToolDialog
         Map<String, String> lastState = new HashMap<>();
 
         if (rd != null && !rd.isEmpty())
-           lastState.put(REPORT_DIR, rd);
+            lastState.put(REPORT_DIR, rd);
 
         if (filter != null && !filter.isEmpty())
-           lastState.put(FILTER, filter);
+            lastState.put(FILTER, filter);
 
         return lastState;
     }
@@ -218,13 +217,13 @@ class NewReportDialog extends ToolDialog
         setI18NTitle("nrd.title");
 
         JPanel body = new JPanel() {
-                @Override
-                public Dimension getPreferredSize() {
-                    Dimension d = super.getPreferredSize();
-                    int dpi = uif.getDotsPerInch();
-                    return new Dimension(Math.max(d.width, 5 * dpi), d.height);
-                }
-            };
+            @Override
+            public Dimension getPreferredSize() {
+                Dimension d = super.getPreferredSize();
+                int dpi = uif.getDotsPerInch();
+                return new Dimension(Math.max(d.width, 5 * dpi), d.height);
+            }
+        };
         body.setName("nrd.body");
         body.setFocusable(false);
         body.setLayout(new GridBagLayout());
@@ -251,8 +250,8 @@ class NewReportDialog extends ToolDialog
 
         browseBtn = uif.createButton("nrd.browse", listener);
         browseBtn.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createEtchedBorder(),
-            BorderFactory.createEmptyBorder(0,3,0,3)));
+                BorderFactory.createEtchedBorder(),
+                BorderFactory.createEmptyBorder(0, 3, 0, 3)));
         lc.gridwidth = GridBagConstraints.REMAINDER;
         lc.insets.left = 11;
         lc.weightx = 0.0;
@@ -288,13 +287,13 @@ class NewReportDialog extends ToolDialog
         JPanel middle = uif.createPanel("nrd.middle", false);
         middle.setLayout(new BorderLayout());
         middle.setBorder(BorderFactory.createCompoundBorder(
-                        uif.createTitledBorder("nrd.middle"),
-                        BorderFactory.createEmptyBorder(12,12,12,12)));
+                uif.createTitledBorder("nrd.middle"),
+                BorderFactory.createEmptyBorder(12, 12, 12, 12)));
 
-        panes = new JComponent[] {
-            createHtmlBlock(),
-            createFilesBlock(),
-            createKflBlock()
+        panes = new JComponent[]{
+                createHtmlBlock(),
+                createFilesBlock(),
+                createKflBlock()
         };
 
         tabs = uif.createTabbedPane("nrd.tabs", panes);
@@ -336,13 +335,13 @@ class NewReportDialog extends ToolDialog
         list.addListSelectionListener(sl);
         list.setCellRenderer(new CheckBoxListCellRenderer());
         list.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createEtchedBorder(),
-            BorderFactory.createEmptyBorder(0,3,0,3)));
+                BorderFactory.createEtchedBorder(),
+                BorderFactory.createEmptyBorder(0, 3, 0, 3)));
 
         infoArea = uif.createMessageArea("nrd.info");
         infoArea.setRows(3);
         Font f = infoArea.getFont();
-        f = f.deriveFont(Font.PLAIN, f.getSize2D()-1);
+        f = f.deriveFont(Font.PLAIN, f.getSize2D() - 1);
         infoArea.setFont(f);
 
         // create container for right side (next to list)
@@ -360,21 +359,21 @@ class NewReportDialog extends ToolDialog
 
         Action listMnemonics = new AbstractAction() {
 
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                                int ord;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int ord;
                 try {
                     ord = Integer.parseInt(e.getActionCommand()) - 1;
                 } catch (Exception ex) {
                     // ignore
                     return;
                 }
-                                if (ord == -1) ord = 9;
-                                if (ord <= list.getModel().getSize()) {
-                                        list.requestFocusInWindow();
-                                        list.setSelectedIndex(ord);
-                                }
-                        }
+                if (ord == -1) ord = 9;
+                if (ord <= list.getModel().getSize()) {
+                    list.requestFocusInWindow();
+                    list.setSelectedIndex(ord);
+                }
+            }
 
         };
 
@@ -383,24 +382,24 @@ class NewReportDialog extends ToolDialog
         int itemCount = listModel.size();
         if (itemCount > 9) itemCount = 9;
         for (int i = 1; i <= itemCount; ++i) {
-                list.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(i + '0', InputEvent.ALT_DOWN_MASK), ACTION_MAP_KEY);
-                JCheckBox box = listModel.getElementAt(i - 1);
-                box.setMnemonic(i + '0');
-                box.setText(Character.toString((char)('0' + i)) + " " + box.getText());
+            list.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(i + '0', InputEvent.ALT_DOWN_MASK), ACTION_MAP_KEY);
+            JCheckBox box = listModel.getElementAt(i - 1);
+            box.setMnemonic(i + '0');
+            box.setText(Character.toString((char) ('0' + i)) + " " + box.getText());
         }
 
-        if (listModel.size() == 10){
-                list.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('0', InputEvent.ALT_DOWN_MASK), ACTION_MAP_KEY);
-                JCheckBox box = listModel.getElementAt(9);
-                box.setMnemonic('0');
-                box.setText("0 " + box.getText());
+        if (listModel.size() == 10) {
+            list.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('0', InputEvent.ALT_DOWN_MASK), ACTION_MAP_KEY);
+            JCheckBox box = listModel.getElementAt(9);
+            box.setMnemonic('0');
+            box.setText("0 " + box.getText());
         }
 
 //-----------------------------------------------------------------
         JPanel bottom = createBackupOpsPane();
         bottom.setBorder(BorderFactory.createCompoundBorder(
-                        uif.createTitledBorder("nrd.backup"),
-                        BorderFactory.createEmptyBorder(12,12,12,12)));
+                uif.createTitledBorder("nrd.backup"),
+                BorderFactory.createEmptyBorder(12, 12, 12, 12)));
 
         body.add(bottom, lc);
         setBody(body);
@@ -409,8 +408,8 @@ class NewReportDialog extends ToolDialog
         okBtn = uif.createButton("nrd.ok", listener);
         sl.setOkBtn(okBtn);
         cancelBtn = uif.createCancelButton("nrd.cancel", listener);
-        JButton helpBtn = uif.createHelpButton("nrd.help","report.newReport.csh" );
-        setButtons(new JButton[] { okBtn, cancelBtn, helpBtn }, cancelBtn);
+        JButton helpBtn = uif.createHelpButton("nrd.help", "report.newReport.csh");
+        setButtons(new JButton[]{okBtn, cancelBtn, helpBtn}, cancelBtn);
 
         list.setSelectedIndex(0);
         setState(Report.getSettingsPrefs());
@@ -421,7 +420,7 @@ class NewReportDialog extends ToolDialog
      */
     private JComponent createHtmlBlock() {
         JPanel p = uif.createPanel("nrd.htmlops", new GridBagLayout(),
-                                    false);
+                false);
         p.setName("htmlops");
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.NONE;
@@ -494,8 +493,8 @@ class NewReportDialog extends ToolDialog
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         sp.setViewportBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createEmptyBorder(10, 5, 5, 5),
-            uif.createTitledBorder("nrd.htmlops")
+                BorderFactory.createEmptyBorder(10, 5, 5, 5),
+                uif.createTitledBorder("nrd.htmlops")
         ));
         sp.addPropertyChangeListener("enabled", new PanelEnableListener(sp));
         return sp;
@@ -506,7 +505,7 @@ class NewReportDialog extends ToolDialog
      */
     private JComponent createFilesBlock() {
         JPanel p = uif.createPanel("nrd.htmlf", new GridBagLayout(),
-                                    false);
+                false);
         p.setName("htmlf");
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -579,8 +578,8 @@ class NewReportDialog extends ToolDialog
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         sp.setViewportBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createEmptyBorder(10, 5, 5, 5),
-            uif.createTitledBorder("nrd.htmlf")
+                BorderFactory.createEmptyBorder(10, 5, 5, 5),
+                uif.createTitledBorder("nrd.htmlf")
         ));
 
         sp.addPropertyChangeListener("enabled", new PanelEnableListener(sp));
@@ -610,7 +609,7 @@ class NewReportDialog extends ToolDialog
      */
     private JComponent createKflBlock() {
         JPanel p = uif.createPanel("nrd.htmlkfl", new GridBagLayout(),
-                                    false);
+                false);
         p.setName("htmlkfl");
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -685,8 +684,8 @@ class NewReportDialog extends ToolDialog
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         sp.setViewportBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createEmptyBorder(10, 5, 5, 5),
-            uif.createTitledBorder("nrd.htmlkfl")
+                BorderFactory.createEmptyBorder(10, 5, 5, 5),
+                uif.createTitledBorder("nrd.htmlkfl")
         ));
 
         sp.addPropertyChangeListener("enabled", new PanelEnableListener(sp));
@@ -695,7 +694,7 @@ class NewReportDialog extends ToolDialog
 
     private JPanel createBackupOpsPane() {
         JPanel p = uif.createPanel("nrd.backup", new GridBagLayout(),
-                                    false);
+                false);
         p.setName("backup");
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -713,13 +712,13 @@ class NewReportDialog extends ToolDialog
         // elsewhere before the user sees them
         JCheckBox cb = cbBak = uif.createCheckBox("nrd.backup.bak", true);
         cbBak.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent e) {
-                    if (numBak != null) {
-                        numBak.setEnabled(cbBak.isSelected());
-                    }
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (numBak != null) {
+                    numBak.setEnabled(cbBak.isSelected());
                 }
-            });
+            }
+        });
         p.add(cb, gbc);
 
         gbc.gridwidth = 1;
@@ -738,27 +737,27 @@ class NewReportDialog extends ToolDialog
         Action action = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    JTextField src = (JTextField) e.getSource();
-                    String cmd = e.getActionCommand();
-                    char ch = cmd.charAt(0);
-                    int savedDot = src.getCaret().getDot();
-                    int savedMark = src.getCaret().getMark();
-                    String savedText = src.getText();
+                JTextField src = (JTextField) e.getSource();
+                String cmd = e.getActionCommand();
+                char ch = cmd.charAt(0);
+                int savedDot = src.getCaret().getDot();
+                int savedMark = src.getCaret().getMark();
+                String savedText = src.getText();
 
-                    // reject all non-numeric chars
-                    if (Character.isDigit(ch) && ch != '0') {
-                        Action delegate = new javax.swing.text.DefaultEditorKit.InsertContentAction();
-                        delegate.actionPerformed(e);
+                // reject all non-numeric chars
+                if (Character.isDigit(ch) && ch != '0') {
+                    Action delegate = new javax.swing.text.DefaultEditorKit.InsertContentAction();
+                    delegate.actionPerformed(e);
 
-                        String newText = src.getText();
-                        // reject new input if it leaves an invalid value,
-                        // i.e. more than one digit (>9)
-                        if (newText.length() > 1) {
-                            src.setText(savedText);
-                        }
+                    String newText = src.getText();
+                    // reject new input if it leaves an invalid value,
+                    // i.e. more than one digit (>9)
+                    if (newText.length() > 1) {
+                        src.setText(savedText);
                     }
                 }
-            };
+            }
+        };
         Keymap keymap = numBak.addKeymap("intField", numBak.getKeymap());
         keymap.setDefaultAction(action);
         numBak.setKeymap(keymap);
@@ -815,6 +814,7 @@ class NewReportDialog extends ToolDialog
 
     /**
      * Walks through the list of check boxes.
+     *
      * @return false iff none of check boxes is selected, true otherwise
      */
     private boolean hasSelectedCheckBox() {
@@ -844,10 +844,9 @@ class NewReportDialog extends ToolDialog
     }
 
     void showReportBrowser(File f) {
-        if(f.equals(new File(reportDir, Report.INDEX_FILE_NAME))) {
+        if (f.equals(new File(reportDir, Report.INDEX_FILE_NAME))) {
             reportBrowser.show(f);
-        }
-        else {
+        } else {
             String[] names = Report.getHtmlReportFilenames();
             List<File> possible = new ArrayList<>();
 
@@ -872,8 +871,7 @@ class NewReportDialog extends ToolDialog
                     }
                 }       // for
                 reportBrowser.show(newestF);
-            }
-            else
+            } else
                 reportBrowser.show(reportDir);
         }
     }
@@ -891,10 +889,9 @@ class NewReportDialog extends ToolDialog
             }
             r.addStartGenListener(new ReportGenListener());
             settings.setCustomReports(getActiveCustomReports());
-            r.writeReports(settings, reportDir );
+            r.writeReports(settings, reportDir);
 
-        }
-        else {
+        } else {
             throw new IOException(uif.getI18NString("nrd.nullParams.err"));
         }
     }
@@ -922,8 +919,7 @@ class NewReportDialog extends ToolDialog
 
         if (!cbHtml.isSelected()) {
             for (JCheckBox aHtmlGroup : htmlGroup) aHtmlGroup.setEnabled(false);
-        }
-        else {
+        } else {
             for (JCheckBox aHtmlGroup : htmlGroup) aHtmlGroup.setEnabled(true);
             for (JCheckBox aConfigGroup : configGroup) aConfigGroup.setEnabled(cbConfig.isSelected());
         }
@@ -972,8 +968,7 @@ class NewReportDialog extends ToolDialog
         try {
             int i = Integer.parseInt(numBak.getText());
             snap.setBackupLevels(i);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
         }
 
         TestFilter filter = filterHandler.getActiveFilter();
@@ -1054,8 +1049,8 @@ class NewReportDialog extends ToolDialog
                 updateHtmlCheckboxStates();
             else if (src == cbBak) {
                 numBak.setEnabled(cbBak.isSelected());
-                } else if (src == cbCof)
-                        updateCofCheckboxStates();
+            } else if (src == cbCof)
+                updateCofCheckboxStates();
         }
     };
 
@@ -1066,8 +1061,7 @@ class NewReportDialog extends ToolDialog
 
             if (src == browseBtn) {
                 showReportChooserDialog();
-            }
-            else if (src == cancelBtn) {
+            } else if (src == cancelBtn) {
                 // revert settings
                 // hide dialog
                 setVisible(false);
@@ -1076,8 +1070,7 @@ class NewReportDialog extends ToolDialog
                 if (okBtn != null) {
                     okBtn.setEnabled(hasSelectedCheckBox());
                 }
-            }
-            else if (src == okBtn) {
+            } else if (src == okBtn) {
                 String s = dirField.getText();
 
                 // check null input
@@ -1090,7 +1083,7 @@ class NewReportDialog extends ToolDialog
                 if (cbBak.isSelected() && numBak.getText().isEmpty()) {
                     uif.showError("nrd.emptyBak");
                     // select the last tab (assumes this has the backup settings)
-                    tabs.setSelectedIndex(tabs.getTabCount()-1);
+                    tabs.setSelectedIndex(tabs.getTabCount() - 1);
                     return;
                 }
 
@@ -1115,11 +1108,10 @@ class NewReportDialog extends ToolDialog
                     // check if dir needs to be created.
                     if (!reportDir.isDirectory()) {
                         reportDir.mkdirs();
-                    }
-                    else {
-                            // check if dir is a report dir
+                    } else {
+                        // check if dir is a report dir
                         if (!Report.isReportDirectory(reportDir) &&
-                            !isEmptyDirectory(reportDir)) {
+                                !isEmptyDirectory(reportDir)) {
                             uif.showError("nrd.cantUse", reportDir);
                             return;
                         }
@@ -1131,8 +1123,7 @@ class NewReportDialog extends ToolDialog
                     lastSettings = captureState();
                     notifyStarting();
                     doBgReport(lastSettings);
-                }
-                catch (SecurityException se) {
+                } catch (SecurityException se) {
                     uif.showError("nrd.cantCreate", se.getMessage());
                 }
             }
@@ -1140,7 +1131,8 @@ class NewReportDialog extends ToolDialog
 
         // does work on background thread
         private void doBgReport(final ReportSettings snap) {
-            /*final JDialog*/ waitDialog = uif.createWaitDialog("nrd.wait", parent);
+            /*final JDialog*/
+            waitDialog = uif.createWaitDialog("nrd.wait", parent);
 
             final Stopper stopper = new Stopper();
             final Thread worker = new Thread() {
@@ -1150,22 +1142,18 @@ class NewReportDialog extends ToolDialog
                         runReport(snap);
                         // go away to switch back to GUI thread
                         finishReport(waitDialog, snap, stopper);
-                    }
-                    catch (CustomReport.ReportException ie) {
+                    } catch (CustomReport.ReportException ie) {
                         showError("nrd.custom", ie.getMessage(), waitDialog);
                         notifyError(ie.getMessage());
-                    }
-                    catch (IOException ie) {
+                    } catch (IOException ie) {
                         showError("nrd.cantWrite", ie.getMessage(), waitDialog);
                         notifyError(ie.getMessage());
                         // should reshow dialog
-                    }
-                    catch (SecurityException se) {
+                    } catch (SecurityException se) {
                         showError("nrd.cantCreate", se.getMessage(), waitDialog);
                         notifyError(se.getMessage());
                         // should reshow dialog
-                    }
-                    catch (RuntimeException re) {
+                    } catch (RuntimeException re) {
                         showError("nrd.errorWriting", re.getMessage(), waitDialog);
                         notifyErrorWriting(re.getMessage());
                     }
@@ -1184,7 +1172,7 @@ class NewReportDialog extends ToolDialog
             waitDialog.getContentPane().add(cancelBtn, gbc);
             waitDialog.pack();
             final String cancelling = uif.getI18NString("nrd.cancelling");
-            cancelBtn.addActionListener( new ActionListener() {
+            cancelBtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     JButton butt = (JButton) e.getSource();
@@ -1205,8 +1193,6 @@ class NewReportDialog extends ToolDialog
 
                 }
             });
-
-
 
 
             ActionListener al = new ActionListener() {
@@ -1233,33 +1219,32 @@ class NewReportDialog extends ToolDialog
                                   final ReportSettings snap, final Stopper stopper) {
             // done generating report, switch back to GUI thread
             EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        waitDialog.hide();
-                        if(!stopper.waitWasHidden) {
-                            int r = uif.showYesNoDialog("nrd.showReport");
+                                       @Override
+                                       public void run() {
+                                           waitDialog.hide();
+                                           if (!stopper.waitWasHidden) {
+                                               int r = uif.showYesNoDialog("nrd.showReport");
 
-                            switch (r) {
-                            case JOptionPane.YES_OPTION:
-                                File index = new File(reportDir, Report.INDEX_FILE_NAME);
-                                if(index.exists() && index.canRead()) {
-                                    showReportBrowser(index);
-                                }
-                                else {
-                                    showReportBrowser(selectFileToShow(snap));
-                                }
-                                break;
-                            case JOptionPane.NO_OPTION:
-                                break;
-                            default:
-                                break;
-                            }
-                        }
+                                               switch (r) {
+                                                   case JOptionPane.YES_OPTION:
+                                                       File index = new File(reportDir, Report.INDEX_FILE_NAME);
+                                                       if (index.exists() && index.canRead()) {
+                                                           showReportBrowser(index);
+                                                       } else {
+                                                           showReportBrowser(selectFileToShow(snap));
+                                                       }
+                                                       break;
+                                                   case JOptionPane.NO_OPTION:
+                                                       break;
+                                                   default:
+                                                       break;
+                                               }
+                                           }
 
-                        notifyDone();
-                        notifyUpdate(getLastState());
-                    }
-                }
+                                           notifyDone();
+                                           notifyUpdate(getLastState());
+                                       }
+                                   }
             );
         }
 
@@ -1269,15 +1254,15 @@ class NewReportDialog extends ToolDialog
          * @param msg The localized error message to show.
          */
         private void showError(final String uiKey, final String msg,
-                                final JDialog waitDialog) {
+                               final JDialog waitDialog) {
             // switch back to GUI thread
             EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        waitDialog.hide();
-                        uif.showError(uiKey, msg);
-                    }
-                }
+                                       @Override
+                                       public void run() {
+                                           waitDialog.hide();
+                                           uif.showError(uiKey, msg);
+                                       }
+                                   }
             );
         }
 
@@ -1288,7 +1273,7 @@ class NewReportDialog extends ToolDialog
         private File selectFileToShow(ReportSettings snap) {
             File result = new File(reportDir, Report.INDEX_FILE_NAME);
 
-            if(!result.exists()) {
+            if (!result.exists()) {
                 if (snap.isHtmlEnabled()) {
                     // show main report file or file listing
                     result = searchForFile(reportDir, Report.getHtmlReportFilenames());
@@ -1337,11 +1322,10 @@ class NewReportDialog extends ToolDialog
         @Override
         public void startReportGeneration(ReportSettings s, String reportID) {
             String reportName;
-            if(reportID.equals("xml") || reportID.equals("pt") ||
-                                                reportID.equals("html")) {
+            if (reportID.equals("xml") || reportID.equals("pt") ||
+                    reportID.equals("html")) {
                 reportName = uif.getI18NString("nrd.type." + reportID + ".ckb");
-            }
-            else {
+            } else {
                 reportName = reportID;
             }
 
@@ -1366,11 +1350,11 @@ class NewReportDialog extends ToolDialog
     private class SelectListener extends MouseInputAdapter implements KeyListener, ListSelectionListener {
 
         /**
-         * @param lst JList of checkboxes
-         * @param p parent Panel
+         * @param lst        JList of checkboxes
+         * @param p          parent Panel
          * @param cardLayout The CardLayout for options
          */
-        SelectListener(JList<?> lst, JPanel p, CardLayout cardLayout ) {
+        SelectListener(JList<?> lst, JPanel p, CardLayout cardLayout) {
             list = lst;
             listModel = list.getModel();
             lastSelected = listModel.getElementAt(0);
@@ -1396,7 +1380,7 @@ class NewReportDialog extends ToolDialog
         public void valueChanged(ListSelectionEvent e) {
             int index = list.getSelectedIndex();
             if (index < 0) {
-                    // no element selected in the list
+                // no element selected in the list
                 return;
             }
             JCheckBox box = (JCheckBox) listModel.getElementAt(index);
@@ -1477,6 +1461,7 @@ class NewReportDialog extends ToolDialog
          * Sets the button to change enable/disable state. If none of
          * check boxes is selected, the button will be disabled until a check
          * box is selected.
+         *
          * @param okBtn - button
          */
         private void setOkBtn(JButton okBtn) {
@@ -1502,6 +1487,7 @@ class NewReportDialog extends ToolDialog
         PanelEnableListener(Container container) {
             theContainer = container;
         }
+
         /**
          * Catches changes of "enabled" property
          * and changes enabled status for all child components
@@ -1514,7 +1500,7 @@ class NewReportDialog extends ToolDialog
                 if (oldV && !newV) {
                     // disable
                     enabledComp = new HashSet<>();
-                    for (Component c: collectChildren(theContainer, new ArrayList<Component>())) {
+                    for (Component c : collectChildren(theContainer, new ArrayList<Component>())) {
                         if (c.isEnabled()) {
                             enabledComp.add(c);
                             c.setEnabled(false);
@@ -1522,7 +1508,7 @@ class NewReportDialog extends ToolDialog
                     }
                 } else if (!oldV && newV && enabledComp != null) {
                     // enable
-                    for (Component c: collectChildren(theContainer, new ArrayList<Component>())) {
+                    for (Component c : collectChildren(theContainer, new ArrayList<Component>())) {
                         if (enabledComp.contains(c)) {
                             c.setEnabled(true);
                         }
@@ -1535,7 +1521,7 @@ class NewReportDialog extends ToolDialog
          * Recursively gathers all children components
          */
         private Collection<Component> collectChildren(Container comp, Collection<Component> c) {
-            Component [] ch = comp.getComponents();
+            Component[] ch = comp.getComponents();
             for (Component aCh : ch) {
                 c.add(aCh);
                 if (aCh instanceof Container) {
@@ -1552,24 +1538,23 @@ class NewReportDialog extends ToolDialog
     private class CheckBoxListCellRenderer implements ListCellRenderer<JComponent> {
         @Override
         public Component getListCellRendererComponent(
-                    JList<? extends JComponent> list,
-                    JComponent component,
-                    int index,
-                    boolean isSelected,
-                    boolean cellHasFocus) {
+                JList<? extends JComponent> list,
+                JComponent component,
+                int index,
+                boolean isSelected,
+                boolean cellHasFocus) {
             // assert: component is a JCheckBox
             if (isSelected) {
                 component.setOpaque(true);
                 component.setBackground(list.getSelectionBackground());
                 component.setForeground(list.getSelectionForeground());
-            }
-            else {
+            } else {
                 component.setOpaque(false);
                 component.setForeground(list.getForeground());
             }
 
             return component;
-         }
+        }
     }
 
     private Observer[] obs = new Observer[0];

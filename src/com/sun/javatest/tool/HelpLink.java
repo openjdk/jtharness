@@ -63,11 +63,11 @@ import javax.swing.SwingUtilities;
  * <dt>textColor
  * <dd>the color used to display the link
  * </dl>
+ *
  * @see HelpLinkBeanInfo
  * @see HelpExternalLink
  */
-public class HelpLink extends JComponent implements Accessible
-{
+public class HelpLink extends JComponent implements Accessible {
     /**
      * Create a HelpLink object.
      */
@@ -85,6 +85,7 @@ public class HelpLink extends JComponent implements Accessible
 
     /**
      * A constructor used to specify another MouseListener by subclasses
+     *
      * @param o fake param - not used
      */
     protected HelpLink(Object o) {
@@ -93,12 +94,14 @@ public class HelpLink extends JComponent implements Accessible
 
     /**
      * Get the accessible context for this pane.
+     *
      * @return the accessible context for this pane
      */
     @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null)
-            accessibleContext = new AccessibleJComponent() { };
+            accessibleContext = new AccessibleJComponent() {
+            };
         return accessibleContext;
     }
 
@@ -126,6 +129,7 @@ public class HelpLink extends JComponent implements Accessible
 
     /**
      * Get the help ID that will be displayed when the link is activated.
+     *
      * @return the help ID that will be displayed when the link is activated
      * @see #setTarget
      */
@@ -136,6 +140,7 @@ public class HelpLink extends JComponent implements Accessible
     /**
      * Set the help ID that will be displayed when the link is activated.
      * The ID must be set before the link is displayed.
+     *
      * @param target the help ID that will be displayed when the link is activated
      * @see #getTarget
      */
@@ -145,6 +150,7 @@ public class HelpLink extends JComponent implements Accessible
 
     /**
      * Get the text string that will be displayed as the body of the link.
+     *
      * @return the text string that will be displayed as the body of the link
      * @see #setText
      */
@@ -155,6 +161,7 @@ public class HelpLink extends JComponent implements Accessible
     /**
      * Set the text string that will be displayed as the body of the link.
      * The text must be set before the link is displayed.
+     *
      * @param text the text string that will be displayed as the body of the link
      * @see #getText
      */
@@ -165,6 +172,7 @@ public class HelpLink extends JComponent implements Accessible
     /**
      * Get the font that will be used to display the link.
      * The default font is inherited from the context in which the link appears.
+     *
      * @return the name of the font that will be used to display the link
      * @see #setTextFont
      */
@@ -174,6 +182,7 @@ public class HelpLink extends JComponent implements Accessible
 
     /**
      * Set the font that will be used to display the link.
+     *
      * @param font the name of font that will be used to display the link
      * @see #getTextFont
      */
@@ -184,6 +193,7 @@ public class HelpLink extends JComponent implements Accessible
     /**
      * Get the color that will be used to display the link.
      * The default color is blue.
+     *
      * @return a string giving the color that will be used to display the link
      * @see #setTextColor
      */
@@ -193,6 +203,7 @@ public class HelpLink extends JComponent implements Accessible
 
     /**
      * Set the color that will be used to display the link.
+     *
      * @param color the name of color that will be used to display the link
      * @see #getTextColor
      */

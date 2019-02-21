@@ -40,16 +40,16 @@ public interface QSW_Listener {
     /**
      * Invoked when user decided to open new TestSuite
      *
-     * @param ts TestSuite to be viewed
-     * @param wd WorkDir to be openned
-     * @param ip Config to be used
+     * @param ts                   TestSuite to be viewed
+     * @param wd                   WorkDir to be openned
+     * @param ip                   Config to be used
      * @param showConfigEditorFlag - true, if user wants to edit config
-     *        right after TestSuite appeared
-     * @param runTestsFlag - true, if user wants to run tests
-     *        right after TestSuite appeared
+     *                             right after TestSuite appeared
+     * @param runTestsFlag         - true, if user wants to run tests
+     *                             right after TestSuite appeared
      */
     void finishQSW(TestSuite ts, WorkDirectory wd, InterviewParameters ip,
-            boolean showConfigEditorFlag, boolean runTestsFlag);
+                   boolean showConfigEditorFlag, boolean runTestsFlag);
 
     /**
      * Invoked when user decided to not open new TestSuite

@@ -32,11 +32,11 @@ import java.beans.PropertyDescriptor;
 /**
  * Bean info for {@link ShowFile}.
  */
-public class ShowFileBeanInfo extends SimpleBeanInfo
-{
+public class ShowFileBeanInfo extends SimpleBeanInfo {
     /**
      * Get property descriptors for properties of ShowFile objects.
      * Five properties are defined: path, startLine, text, textFont and textColor.
+     *
      * @return property descriptors for properties of ShowFile objects
      * @see ShowFile
      */
@@ -44,15 +44,14 @@ public class ShowFileBeanInfo extends SimpleBeanInfo
     public PropertyDescriptor[] getPropertyDescriptors() {
         try {
             return new PropertyDescriptor[]{
-                new PropertyDescriptor("path",       ShowFile.class),
-                new PropertyDescriptor("startLine",  ShowFile.class),
-                new PropertyDescriptor("text",       ShowFile.class),
-                new PropertyDescriptor("textFont",   ShowFile.class),
-                new PropertyDescriptor("textColor",  ShowFile.class),
-                new PropertyDescriptor("title",      ShowFile.class)
+                    new PropertyDescriptor("path", ShowFile.class),
+                    new PropertyDescriptor("startLine", ShowFile.class),
+                    new PropertyDescriptor("text", ShowFile.class),
+                    new PropertyDescriptor("textFont", ShowFile.class),
+                    new PropertyDescriptor("textColor", ShowFile.class),
+                    new PropertyDescriptor("title", ShowFile.class)
             };
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

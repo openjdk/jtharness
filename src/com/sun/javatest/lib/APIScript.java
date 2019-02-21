@@ -37,8 +37,7 @@ import com.sun.javatest.TestDescription;
 /**
  * A Script designed to compile/execute a test.
  */
-public class APIScript extends Script
-{
+public class APIScript extends Script {
     /// XXX this code really needs to be re-visited!
 
     /**
@@ -50,11 +49,11 @@ public class APIScript extends Script
      * @param td   The current TestDescription.
      * @param env  The test environment giving the details of how to run the
      *             test.
-     * @return     The result of running the script on the given test
-     *             description.
+     * @return The result of running the script on the given test
+     * description.
      */
     @Override
-    public Status run(String [] args, TestDescription td, TestEnvironment env) {
+    public Status run(String[] args, TestDescription td, TestEnvironment env) {
 
         PrintWriter trOut = getTestResult().getTestCommentWriter();
 
@@ -67,7 +66,7 @@ public class APIScript extends Script
         // XXX available there?  How about the keywords?
 
         // compile
-        File [] srcs = td.getSourceFiles();
+        File[] srcs = td.getSourceFiles();
         Status compileStatus;
         if (precompileClassDir == null) {
             trOut.println("Unconditionally compiling all sources");
@@ -81,8 +80,8 @@ public class APIScript extends Script
             return compileStatus;
 
         // execute
-        String executeClass  = td.getParameter("executeClass");
-        String executeArgs   = td.getParameter("executeArgs");
+        String executeClass = td.getParameter("executeClass");
+        String executeArgs = td.getParameter("executeArgs");
 
         return execute(TEST_EXECUTE, executeClass, executeArgs);
     } // run()
@@ -92,7 +91,7 @@ public class APIScript extends Script
     private Status decodeArgs(String... args) {
         // decode args
         for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("-precompileClassDir") && (i+1 < args.length))
+            if (args[i].equals("-precompileClassDir") && (i + 1 < args.length))
                 precompileClassDir = args[++i];
             else
                 return Status.failed(UNRECOGNIZED_ARG + args[i]);
@@ -110,5 +109,5 @@ public class APIScript extends Script
     private String precompileClassDir;
 
     private static final String
-        UNRECOGNIZED_ARG      = "Unrecognized argument for script: ";
+            UNRECOGNIZED_ARG = "Unrecognized argument for script: ";
 }

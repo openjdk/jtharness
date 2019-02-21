@@ -51,7 +51,6 @@ import com.sun.javatest.services.Message.MessageType;
  * default ServiceExecutor object to use.
  * {@link com.sun.javatest.services.Service#prepareMessage()}
  * create messages to be sent to executor by interpreting service properties.
- *
  */
 public abstract class Service implements MessageHandler {
 
@@ -65,6 +64,7 @@ public abstract class Service implements MessageHandler {
      * Specifies default ServiceExecutor to use. This executor may be replaced
      * later, by achieving Service from ServiceManager, and setting another
      * executor to its connector.
+     *
      * @return
      */
     public abstract ServiceExecutor getDefaultServiceExecutor();
@@ -75,8 +75,7 @@ public abstract class Service implements MessageHandler {
      *
      * @param type Type of message to create.
      * @return created message.
-     * @throws com.sun.javatest.services.Service.MalformedParamsException
-     * in case service properties are inconsistent.
+     * @throws com.sun.javatest.services.Service.MalformedParamsException in case service properties are inconsistent.
      */
     public abstract Message prepareMessage(MessageType type)
             throws MalformedParamsException;
@@ -88,7 +87,8 @@ public abstract class Service implements MessageHandler {
      * @param msg message to handle.
      */
     @Override
-    public void handleMessage(Message msg) {}
+    public void handleMessage(Message msg) {
+    }
 
     /**
      * Method to start service. Checks connection, prepares start message with
@@ -99,10 +99,10 @@ public abstract class Service implements MessageHandler {
      * if response message has
      * {@link com.sun.javatest.services.Message.MessageType.START} type.
      * @throws com.sun.javatest.services.Service.NotConnectedException if
-     * connection is not opened or alive.
-     * @throws com.sun.javatest.services.Service.ServiceError if response
-     * message has {@link com.sun.javatest.services.Message.MessageType.ERROR}
-     * type
+     *                                                                 connection is not opened or alive.
+     * @throws com.sun.javatest.services.Service.ServiceError          if response
+     *                                                                 message has {@link com.sun.javatest.services.Message.MessageType.ERROR}
+     *                                                                 type
      */
     public boolean start() throws NotConnectedException, ServiceError {
         if (conn == null || !conn.connected()) {
@@ -138,10 +138,10 @@ public abstract class Service implements MessageHandler {
      * if response message has
      * {@link com.sun.javatest.services.Message.MessageType.STOPPED} type.
      * @throws com.sun.javatest.services.Service.NotConnectedException if
-     * connection is not opened or alive.
-     * @throws com.sun.javatest.services.Service.ServiceError if response
-     * message has {@link com.sun.javatest.services.Message.MessageType.ERROR}
-     * type
+     *                                                                 connection is not opened or alive.
+     * @throws com.sun.javatest.services.Service.ServiceError          if response
+     *                                                                 message has {@link com.sun.javatest.services.Message.MessageType.ERROR}
+     *                                                                 type
      */
     public boolean stop() throws NotConnectedException, ServiceError {
         if (conn == null || !conn.connected()) {
@@ -179,10 +179,10 @@ public abstract class Service implements MessageHandler {
      * Service is not alive, if response message has
      * {@link com.sun.javatest.services.Message.MessageType.NOT_ALIVE} type.
      * @throws com.sun.javatest.services.Service.NotConnectedException if
-     * connection is not opened or alive.
-     * @throws com.sun.javatest.services.Service.ServiceError if response
-     * message has {@link com.sun.javatest.services.Message.MessageType.ERROR}
-     * type
+     *                                                                 connection is not opened or alive.
+     * @throws com.sun.javatest.services.Service.ServiceError          if response
+     *                                                                 message has {@link com.sun.javatest.services.Message.MessageType.ERROR}
+     *                                                                 type
      */
     public boolean isAlive() throws NotConnectedException, ServiceError {
         if (conn == null || !conn.connected()) {
@@ -204,8 +204,8 @@ public abstract class Service implements MessageHandler {
 
         if (response.getType() != MessageType.ALIVE &&
                 response.getType() != MessageType.NOT_ALIVE) {
-                logBadMsgTypeException(response.getType(), MessageType.ALIVE);
-                logBadMsgTypeException(response.getType(), MessageType.NOT_ALIVE);
+            logBadMsgTypeException(response.getType(), MessageType.ALIVE);
+            logBadMsgTypeException(response.getType(), MessageType.NOT_ALIVE);
             return false;
         }
         return response.getType() == MessageType.ALIVE;
@@ -215,9 +215,10 @@ public abstract class Service implements MessageHandler {
     /**
      * Method to provide access for ServiceExecutor's error output. Redirects
      * invokation to connector.
+     *
      * @return InputStream to read service error output.
      * @throws com.sun.javatest.services.Service.NotConnectedException if
-     * connection is not opened or alive.
+     *                                                                 connection is not opened or alive.
      */
     public InputStream getInputStream() throws NotConnectedException {
         if (conn == null || !conn.connected()) {
@@ -230,9 +231,10 @@ public abstract class Service implements MessageHandler {
     /**
      * Method to provide access for ServiceExecutor's output. Redirects
      * invokation to connector.
+     *
      * @return InputStream to read service output.
      * @throws com.sun.javatest.services.Service.NotConnectedException if
-     * connection is not opened or alive.
+     *                                                                 connection is not opened or alive.
      */
     public InputStream getErrorStream() throws NotConnectedException {
         if (conn == null || !conn.connected()) {
@@ -254,6 +256,7 @@ public abstract class Service implements MessageHandler {
             super(msg);
         }
     }
+
     public static class MalformedParamsException extends Exception {
         private String descr;
         private Map<String, String> params;
@@ -276,6 +279,7 @@ public abstract class Service implements MessageHandler {
 
     /**
      * Method to replace default {@link com.sun.javatest.services.LocalConnector}
+     *
      * @param conn new {@link com.sun.javatest.services.Connector} to use
      */
     public void setConnector(Connector conn) {
@@ -291,6 +295,7 @@ public abstract class Service implements MessageHandler {
 
     /**
      * Method to set ServiceProperties for this service.
+     *
      * @param props ServiceProperties of this service
      */
     public void setProperties(ServiceProperties props) {
@@ -299,6 +304,7 @@ public abstract class Service implements MessageHandler {
 
     /**
      * Method to set ServiceProperties for this service.
+     *
      * @return ServiceProperties of this service.
      */
     public ServiceProperties getProperties() {
@@ -307,6 +313,7 @@ public abstract class Service implements MessageHandler {
 
     /**
      * Method to set {@code id} for this service.
+     *
      * @param id unique identifier of the service in test suite.
      */
     public void setId(String id) {
@@ -315,6 +322,7 @@ public abstract class Service implements MessageHandler {
 
     /**
      * Method to get {@code id} of this service.
+     *
      * @return unique identifier of the service in test suite.
      */
     public String getId() {
@@ -332,6 +340,7 @@ public abstract class Service implements MessageHandler {
 
     /**
      * Method to get string with description of this service.
+     *
      * @return description of the service.
      */
     public String getDescription() {
@@ -356,6 +365,7 @@ public abstract class Service implements MessageHandler {
 
     /**
      * Method to get Logger used by this service.
+     *
      * @return logger used by this service.
      */
     public Logger getLog() {

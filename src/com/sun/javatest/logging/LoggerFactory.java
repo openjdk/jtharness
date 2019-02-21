@@ -27,6 +27,7 @@
 package com.sun.javatest.logging;
 
 import java.util.logging.Level;
+
 import com.sun.javatest.util.I18NResourceBundle;
 
 public class LoggerFactory {

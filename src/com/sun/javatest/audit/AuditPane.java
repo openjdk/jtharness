@@ -54,8 +54,8 @@ abstract class AuditPane extends JPanel {
         // don't really expect to need a scrollpane, but use one for visual
         // consistency with body
         JScrollPane sp = uif.createScrollPane(textArea,
-                                         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                                         JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         add(sp, "text");
 
         // leave subtypes to create other content

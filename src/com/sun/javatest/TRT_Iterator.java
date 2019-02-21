@@ -46,10 +46,11 @@ import com.sun.javatest.util.I18NResourceBundle;
  * it searches for the next test it can distribute.
  */
 class TRT_Iterator implements TestResultTable.TreeIterator {
-/*
- * path[pathIdx] points to the next available TestResult
- * finished indicates that we're done
- */
+    /*
+     * path[pathIdx] points to the next available TestResult
+     * finished indicates that we're done
+     */
+
     /**
      * Initialize the outQueue and result stats.  This is here only to share
      * construction code and does not create a usable object.
@@ -93,8 +94,8 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * Enumerate elements below and including the specified nodes.
      * This is mainly here to support initial URLs.
      *
-     * @param nodes Which nodes to enumerate.  May be null or zero length.  This will be
-     *        shallow copied.
+     * @param nodes   Which nodes to enumerate.  May be null or zero length.  This will be
+     *                shallow copied.
      * @param filters Which filters to apply to the tests found.  May be null.
      */
     TRT_Iterator(TestResultTable.TreeNode[] nodes, TestFilter... filters) {
@@ -116,10 +117,10 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * Enumerate elements below and including the specified nodes.
      * This is mainly here to support initial URLs.
      *
-     * @param nodes Which nodes to enumerate.  May be null or zero length.  This will be
-     *        shallow copied.
-     * @param trs   A given set of TestResults which should be enumerated.  These
-     *              are sent through the filters.  This set of tests is shallow copied.
+     * @param nodes   Which nodes to enumerate.  May be null or zero length.  This will be
+     *                shallow copied.
+     * @param trs     A given set of TestResults which should be enumerated.  These
+     *                are sent through the filters.  This set of tests is shallow copied.
      * @param filters Which filters to apply to the tests found.  May be null.
      */
     TRT_Iterator(TestResultTable.TreeNode[] nodes, TestResult[] trs, TestFilter... filters) {
@@ -160,11 +161,10 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     // --- Enumerator interface  ---
     @Override
     public boolean hasMoreElements() {
-        synchronized(outQueueLock) {
+        synchronized (outQueueLock) {
             if (!finished) {
                 return true;
-            }
-            else
+            } else
                 return false;
         }   // sync
     }
@@ -182,8 +182,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                 // the test in the TRT may have changed since it was selected by
                 resultStats[val.getStatus().getType()]++;
                 return val;
-            }
-            else {
+            } else {
                 throw new NoSuchElementException(i18n.getString("trt.noElements"));
             }
         }       // sync
@@ -212,6 +211,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     }
 
     // --- Statistics info ---
+
     /**
      * Find out how many tests have been processed.
      * This count includes tests which have been filtered out and is an
@@ -230,6 +230,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * Determines whether or not filtered out tests are recorded for future use
      * or not.  This does not affect operation of <tt>getRejectCount()</tt>.
      * By default, this setting is false.
+     *
      * @param state True if rejected tests should be logged, false otherwise.
      */
     @Override
@@ -279,8 +280,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     public HashMap<TestFilter, ArrayList<TestDescription>> getFilterStats() {
         if (filteredTRs == null) {
             return null;
-        }
-        else {
+        } else {
             // create shallow copy
             // keys are TRs, values are TestFilters.
             HashMap<TestFilter, ArrayList<TestDescription>> out = new HashMap<>(filteredTRs.size());
@@ -328,7 +328,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * particular instance of this class.
      *
      * @return Null if no specific nodes or tests were requested.  Any array of the initial
-     *         URLs otherwise.
+     * URLs otherwise.
      */
     @Override
     public String[] getInitialURLs() {
@@ -391,13 +391,11 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                         result = true;
                         done = true;
                         break;
-                    }
-                    else if (i < nodeIndex) { // passed this location already
+                    } else if (i < nodeIndex) { // passed this location already
                         result = false;
                         done = true;
                         break;
-                    }
-                    else {                  // working at this location
+                    } else {                  // working at this location
                         // if this is a root iterator, we always end up in this
                         // case
 
@@ -406,7 +404,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                         // lang/foo/bar/baz.html becomes bar/baz.html and
                         // we continue...
                         if (!nodePath.isEmpty())     // root nodePath is ""
-                            partial = testName.substring(nodePath.length()+1);
+                            partial = testName.substring(nodePath.length() + 1);
 
                         // traverse the stack
                         // XXX this could be made more efficient
@@ -437,36 +435,32 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                                 result = false;
                                 done = true;
                                 break;
-                            }
-                            else if (pos == frame.getCurrentIndex()) { // case 3
+                            } else if (pos == frame.getCurrentIndex()) { // case 3
                                 if (partial.indexOf('/') != -1) {
                                     // more depth needed, go around again
                                     continue;
-                                }
-                                else if (j+1 == stack.size()) {     // test should be in currFrame
+                                } else if (j + 1 == stack.size()) {     // test should be in currFrame
                                     done = false;   // jump out to special case
                                     break;
-                                }
-                                else {                              // test should be in this frame
+                                } else {                              // test should be in this frame
                                     switch (checkTestPosition(frame, testName)) {
-                                    case -1:
-                                    case 0 :
-                                        result = false;
-                                        done = true;
-                                        break;
-                                    case 2 :
-                                        result = true;
-                                        done = true;
-                                        break;
-                                    case 1 :
-                                    default:
-                                        throw new IllegalStateException();
+                                        case -1:
+                                        case 0:
+                                            result = false;
+                                            done = true;
+                                            break;
+                                        case 2:
+                                            result = true;
+                                            done = true;
+                                            break;
+                                        case 1:
+                                        default:
+                                            throw new IllegalStateException();
                                     }   // switch
 
                                     break;
                                 }
-                            }
-                            else {                                  // case 4
+                            } else {                                  // case 4
                                 result = true;
                                 done = true;
                                 break;
@@ -480,10 +474,10 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                         // - loop exhausted the stack and done == false
 
                         // need to check exact iterator location
-                            // chop at depth of incoming node
-                            // chop stack size
-                            // search for first path comp. in currFrame
-                            // match node name, compare to location
+                        // chop at depth of incoming node
+                        // chop stack size
+                        // search for first path comp. in currFrame
+                        // match node name, compare to location
                     }
                 }
             }   // outer for
@@ -497,19 +491,18 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
                 if (!partial.contains("/")) {
                     switch (checkTestPosition(currFrame, testName)) {
-                    case -1:
-                    case 0 :
-                        result = false;
-                        break;
-                    case 2 :
-                        result = true;
-                        break;
-                    case 1 :
-                    default:
-                        throw new IllegalStateException();
+                        case -1:
+                        case 0:
+                            result = false;
+                            break;
+                        case 2:
+                            result = true;
+                            break;
+                        case 1:
+                        default:
+                            throw new IllegalStateException();
                     }   // switch
-                }
-                else if (!dir.equals(currFrame.getNode().getName())) {
+                } else if (!dir.equals(currFrame.getNode().getName())) {
                     result = false;         // can't find location
                     // test is *below* this node
                     dir = TestResultTable.getDirName(partial);
@@ -525,19 +518,15 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
                     if (pos == -1) {                        // case 1
                         result = false;
-                    }
-                    else if (pos < currIndex) {             // case 2
+                    } else if (pos < currIndex) {             // case 2
                         result = false;
-                    }
-                    else if (pos == currIndex) {            // case 3
+                    } else if (pos == currIndex) {            // case 3
                         // not possible?
                         throw new IllegalStateException("");
-                    }
-                    else {                                          // case 4
+                    } else {                                          // case 4
                         result = true;
                     }
-                }
-                else {
+                } else {
                     int pos = tn.getTestIndex(testName);
                     if (pos == -1) {        // not found
                         result = false;
@@ -545,8 +534,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
                     if (pos > currFrame.getCurrentIndex()) {
                         result = true;
-                    }
-                    else {
+                    } else {
                         result = false;
                     }
                 }
@@ -558,6 +546,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     }
 
     // ------------------ TreeIterator Private --------------------
+
     /**
      * Initialize state.  Should be called during construction, but after filters are set.
      * outQueue should be populated before you call this method.  This method should only be
@@ -605,8 +594,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
             if (nextIndex == -1) {          // done with this node
                 nextFrame();
                 continue;
-            }
-            else {                          // keep going
+            } else {                          // keep going
                 Object anonNode = currFrame.getNode().getChild(nextIndex);
                 if (anonNode == null) {     // error condition really
                     nextFrame();
@@ -616,15 +604,14 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                 if (anonNode instanceof TestResultTable.TreeNode) {
                     // need to recurse into this node
                     // setup stack frames and recurse
-                    TestResultTable.TreeNode node = (TestResultTable.TreeNode)anonNode;
+                    TestResultTable.TreeNode node = (TestResultTable.TreeNode) anonNode;
                     push(currFrame);
                     currFrame = new PseudoFrame(node);
                     continue;               // recurse
-                }
-                else {
+                } else {
                     // we can assume that the node is a test since it is not
                     // null and not a node
-                    TestResult test = (TestResult)anonNode;
+                    TestResult test = (TestResult) anonNode;
 
                     // check the filters
                     try {
@@ -633,8 +620,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                         if (would >= 0) {               // rejected
                             continue;           // recurse
                         }
-                    }
-                    catch (TestResult.Fault f) {
+                    } catch (TestResult.Fault f) {
 
                         TestResultTable trt = null;
                         // need handle onto TRT to reset
@@ -644,8 +630,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                             trt = nodes[0].getEnclosingTable();
                         else if (test.getParent() != null) {
                             trt = test.getParent().getEnclosingTable();
-                        }
-                        else
+                        } else
                             continue;
 
                         if (trt == null)
@@ -656,8 +641,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                             try {
                                 if (wouldAccept(test) >= 0)
                                     continue;   // rejected
-                            }
-                            catch (TestResult.Fault f2) {
+                            } catch (TestResult.Fault f2) {
                                 if (debug)
                                     f2.printStackTrace(Debug.getWriter());
                                 // give up
@@ -696,7 +680,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * be null if this method returns false;
      *
      * @return True if at least one node to enum. has been found.  False
-     *         otherwise.
+     * otherwise.
      */
     private boolean nextNode() {
         // stacks only valid in the context of a single node
@@ -713,8 +697,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
             currFrame = new PseudoFrame(next);
 
             return true;
-        }
-        else {
+        } else {
             // no more nodes
             return false;
         }
@@ -724,19 +707,19 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * Move down one level in the tree.
      * The path basically operates like a program stack and remembers what we
      * were doing at each level so we can continue when we get back there.
-    private void push(TestResultTable.TreeNode newLocation) {
-        // increase available recording depth
-        if (pathIdx + 1 == path.length) {
-            // need more array space
-            int[] temp = new int[path.length+1];
-            System.arraycopy(path, 0, temp, 0, path.length);
-            path = temp;
-        }
-
-        pathIdx++;
-        path[pathIdx] = -1;
-        location = (TestResultTable.TreeNode)newLocation;
-    }
+     * private void push(TestResultTable.TreeNode newLocation) {
+     * // increase available recording depth
+     * if (pathIdx + 1 == path.length) {
+     * // need more array space
+     * int[] temp = new int[path.length+1];
+     * System.arraycopy(path, 0, temp, 0, path.length);
+     * path = temp;
+     * }
+     * <p>
+     * pathIdx++;
+     * path[pathIdx] = -1;
+     * location = (TestResultTable.TreeNode)newLocation;
+     * }
      */
 
     private void push(PseudoFrame frame) {
@@ -771,7 +754,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * @param tr The test to run through the filter, must not be null
      * @return The index into filters[] which rejected the test, -1 if it would be accepted.
      * @throws TestResult.Fault May happen when requesting info from the TestResult,
-     *         probably a reload fault.
+     *                          probably a reload fault.
      */
     private int wouldAccept(TestResult tr) throws TestResult.Fault {
         if (filters == null || filters.length == 0)
@@ -789,12 +772,10 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
             try {
                 if (fo == null) {
                     accepted = filters[i].accepts(td);
-                }
-                else {
+                } else {
                     accepted = filters[i].accepts(td, fo);
                 }
-            }
-            catch (TestFilter.Fault f) {
+            } catch (TestFilter.Fault f) {
                 accepted = true;
                 if (debug)
                     Debug.println("   -> exception while checking filter: " + f.getMessage());
@@ -855,8 +836,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * Necessary calculation because the rest of harness filtering typically fails fast
      * on the first rejection.  Composite filters are not included in the search, only
      * concrete filters are returned.
+     *
      * @param filters Filters to check.
-     * @param td Tests to check.
+     * @param td      Tests to check.
      * @return Null if the filter list is empty, array of size zero or greater
      * otherwise.  Will be size zero if no filters reject the test.
      */
@@ -883,8 +865,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                 }
 
                 f.accepts(td, foo);
-            }
-            catch (TestFilter.Fault fault) {
+            } catch (TestFilter.Fault fault) {
                 out.add(f);
             }
         }   // for
@@ -897,9 +878,8 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
         if (fs == null || fs.isEmpty()) {
             sb.append("Rejected by test filters.");
-        }
-        else {
-            sb.append("Rejected by test filters: " );
+        } else {
+            sb.append("Rejected by test filters: ");
 
             for (TestFilter f : fs) {
                 sb.append(f.getName());
@@ -907,9 +887,8 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
             }
         }
         if (sb.length() > 2) {
-            return sb.substring(0, sb.length()-2);  // remove trailing ", "
-        }
-        else {
+            return sb.substring(0, sb.length() - 2);  // remove trailing ", "
+        } else {
             // exceptional case
             return "";
         }
@@ -956,6 +935,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     protected boolean debug = Debug.getBoolean(TRT_Iterator.class);
 
     // INNER CLASS
+
     /**
      * We can't use real recursion to implement an iterator, so this is a simulated,
      * persistent stack frame which will store state as we traverse the tree.
@@ -990,8 +970,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
         /**
          * What was the last index returned.
+         *
          * @return A value greater than zero, unless the node has been
-         *         exhausted, in which case -1.
+         * exhausted, in which case -1.
          */
         int getCurrentIndex() {
             return currIndex;
@@ -1015,8 +996,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                 try {
                     if (currentResult.getDescription() != d)
                         throw new JavaTestError("TRT_Iterator observed TR.TD does not match filtered one.");
-                }
-                catch (TestResult.Fault f) {
+                } catch (TestResult.Fault f) {
                     throw new JavaTestError("TRT_Iterator cannot determine TR source info.", f);
                 }   // sanity check
 

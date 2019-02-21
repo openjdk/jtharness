@@ -56,8 +56,7 @@ import com.sun.javatest.tool.FileChooser;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
 
-class CE_TemplateDialog extends ToolDialog
-{
+class CE_TemplateDialog extends ToolDialog {
     CE_TemplateDialog(JComponent parent, InterviewParameters config, ExecModel model, UIFactory uif) {
         super(parent, uif, "ct");
 
@@ -66,7 +65,7 @@ class CE_TemplateDialog extends ToolDialog
 
         fileChooser = new FileChooser(true);
         fileChooser.addChoosableExtension(".jti",
-                                          uif.getI18NString("ct.jtiFiles"));
+                uif.getI18NString("ct.jtiFiles"));
     }
 
     @Override
@@ -156,8 +155,8 @@ class CE_TemplateDialog extends ToolDialog
         okBtn = uif.createButton("ct.ok", listener);
         okBtn.setEnabled(false); // enable when file field looks OK
         JButton cancelBtn = uif.createCancelButton("ct.cancel");
-        JButton helpBtn = uif.createHelpButton("ct.help","confEdit.templateDialog.csh" );
-        setButtons(new JButton[] { okBtn, cancelBtn, helpBtn }, null);
+        JButton helpBtn = uif.createHelpButton("ct.help", "confEdit.templateDialog.csh");
+        setButtons(new JButton[]{okBtn, cancelBtn, helpBtn}, null);
     }
 
     private void doBrowse() {
@@ -197,27 +196,26 @@ class CE_TemplateDialog extends ToolDialog
         if (file.exists()) {
             int rc = uif.showYesNoCancelDialog("ce.save.warn");
             switch (rc) {
-            case JOptionPane.YES_OPTION:
-                break;  // use this file
+                case JOptionPane.YES_OPTION:
+                    break;  // use this file
 
-            default:
-                return false; // save unsuccessful
+                default:
+                    return false; // save unsuccessful
             }
         }
 
         InterviewParameters c;
         boolean createdNew = false;
         if (clearCheckBox.isSelected()
-            || markersCheckBox.isSelected() != config.getMarkersEnabled()
-            || filterCheckBox.isSelected() != config.getMarkersFilterEnabled()) {
+                || markersCheckBox.isSelected() != config.getMarkersEnabled()
+                || filterCheckBox.isSelected() != config.getMarkersFilterEnabled()) {
             try {
                 c = config.getTestSuite().createInterview();
                 createdNew = true;
                 Map<String, String> data = new HashMap<>();
                 config.save(data);
                 c.load(data, false);
-            }
-            catch (Interview.Fault | TestSuite.Fault e) {
+            } catch (Interview.Fault | TestSuite.Fault e) {
                 // ignore, for now; should not happen
                 return false;
             }
@@ -227,8 +225,7 @@ class CE_TemplateDialog extends ToolDialog
 
             if (clearCheckBox.isSelected())
                 c.clearMarkedResponses(null); // null == default marker name
-        }
-        else
+        } else
             c = config;
 
         boolean tsb = testSuiteCheckBox.isSelected();
@@ -240,12 +237,10 @@ class CE_TemplateDialog extends ToolDialog
                 c.dispose();
             }
             return true;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             uif.showError("ct.save", e.toString());
             return false;
-        }
-        catch (Interview.Fault e) {
+        } catch (Interview.Fault e) {
             uif.showError("ct.save", e.getMessage());
             return false;
         }
@@ -267,8 +262,7 @@ class CE_TemplateDialog extends ToolDialog
     private Listener listener;
 
     private class Listener
-        implements ActionListener, ChangeListener, DocumentListener
-    {
+            implements ActionListener, ChangeListener, DocumentListener {
         //----- for ActionListener ----------------------
 
         @Override
@@ -290,8 +284,7 @@ class CE_TemplateDialog extends ToolDialog
             Object src = e.getSource();
             if (src == testSuiteCheckBox) {
                 workDirCheckBox.setEnabled(testSuiteCheckBox.isSelected());
-            }
-            else if (src == markersCheckBox) {
+            } else if (src == markersCheckBox) {
                 filterCheckBox.setEnabled(markersCheckBox.isSelected());
             }
         }

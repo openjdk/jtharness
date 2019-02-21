@@ -50,17 +50,16 @@ import com.sun.javatest.WorkDirectory;
  * a test run.
  */
 public class TestsInterview
-    extends Interview
-    implements Parameters.MutableTestsParameters
-{
+        extends Interview
+        implements Parameters.MutableTestsParameters {
     /**
      * Create an interview.
+     *
      * @param parent The parent interview of which this is a child.
      * @throws Interview.Fault if there is a problem while creating the interview.
      */
     public TestsInterview(InterviewParameters parent)
-        throws Interview.Fault
-    {
+            throws Interview.Fault {
         super(parent, "tests");
         this.parent = parent;
         setResourceBundle("i18n");
@@ -78,6 +77,7 @@ public class TestsInterview
 
     /**
      * Get the initial files from the interview.
+     *
      * @return a list of initial files to be read, to determine the tests to be selected
      * @see #setTests
      */
@@ -86,15 +86,12 @@ public class TestsInterview
         if (Objects.equals(qNeedTests.getValue(), YesNoQuestion.YES)) {
             if (Objects.equals(qTreeOrFile.getValue(), TREE)) {
                 return qTestTree.getValue();
-            }
-            else if(Objects.equals(qTreeOrFile.getValue(), FILE)) {
+            } else if (Objects.equals(qTreeOrFile.getValue(), FILE)) {
                 return getTests(qTestFile.getValue());
-            }
-            else {
+            } else {
                 return null;
             }
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -103,8 +100,7 @@ public class TestsInterview
     public void setTests(String... tests) {
         if (tests == null) {
             setTestsMode(ALL_TESTS);
-        }
-        else {
+        } else {
             setTestsMode(SPECIFIED_TESTS);
             setSpecifiedTests(tests);
         }
@@ -118,16 +114,16 @@ public class TestsInterview
     @Override
     public void setTestsMode(int mode) {
         switch (mode) {
-        case ALL_TESTS:
-            qNeedTests.setValue(YesNoQuestion.NO);
-            break;
+            case ALL_TESTS:
+                qNeedTests.setValue(YesNoQuestion.NO);
+                break;
 
-        case SPECIFIED_TESTS:
-            qNeedTests.setValue(YesNoQuestion.YES);
-            break;
+            case SPECIFIED_TESTS:
+                qNeedTests.setValue(YesNoQuestion.YES);
+                break;
 
-        default:
-            throw new IllegalArgumentException();
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
@@ -139,11 +135,9 @@ public class TestsInterview
         String[] v;
         if (Objects.equals(qTreeOrFile.getValue(), TREE)) {
             v = qTestTree.getValue();
-        }
-        else if (Objects.equals(qTreeOrFile.getValue(), FILE)) {
+        } else if (Objects.equals(qTreeOrFile.getValue(), FILE)) {
             v = getTests(qTestFile.getValue());
-        }
-        else {
+        } else {
             v = null;
         }
 
@@ -171,11 +165,9 @@ public class TestsInterview
         protected Question getNext() {
             if (value == null) {
                 return null;
-            }
-            else if (Objects.equals(value, YES)) {
+            } else if (Objects.equals(value, YES)) {
                 return qTreeOrFile;
-            }
-            else {
+            } else {
                 return qEnd;
             }
         }
@@ -192,7 +184,7 @@ public class TestsInterview
      * Represents Tests Selection Choice Question. Extracted to separate class
      * for extensibility purposes
      */
-    public class TreeOrFileChoiceQuestion extends ChoiceQuestion{
+    public class TreeOrFileChoiceQuestion extends ChoiceQuestion {
 
         public TreeOrFileChoiceQuestion(Interview interview, String tag) {
             super(interview, tag);
@@ -201,15 +193,16 @@ public class TestsInterview
 
         /**
          * Should be overridden if more selection choices are needed
+         *
          * @return array of test selection choices
          */
-        protected String[] getTestSelectionChoices(){
-            return new String[] { TREE, FILE };
+        protected String[] getTestSelectionChoices() {
+            return new String[]{TREE, FILE};
         }
 
         @Override
         public void setValue(String newValue) {
-            if ( !Objects.equals(newValue, value) ) {
+            if (!Objects.equals(newValue, value)) {
                 cachedTestsError = null;
                 cachedTestsErrorArgs = null;
                 cachedTestsValue = null;
@@ -222,8 +215,7 @@ public class TestsInterview
         protected Question getNext() {
             if (Objects.equals(value, TREE)) {
                 return qTestTree;
-            }
-            else {
+            } else {
                 return qTestFile;
             }
         }
@@ -235,11 +227,12 @@ public class TestsInterview
     /**
      * creation of {#link TreeOrFileChoiceQuestion} is extracted into separate class
      * to enable 'hooks' and return {#link TreeOrFileChoiceQuestion} sub class
+     *
      * @param interview
      * @param tag
      * @return Instance of TreeOrFileChoiceQuestion
      */
-    protected TreeOrFileChoiceQuestion createTreeOrFileChoiceQuestion(Interview interview, String tag){
+    protected TreeOrFileChoiceQuestion createTreeOrFileChoiceQuestion(Interview interview, String tag) {
         return new TreeOrFileChoiceQuestion(interview, tag);
     }
 
@@ -268,8 +261,7 @@ public class TestsInterview
 
             if (cachedTestsError != null) {
                 return cachedTestsError;
-            }
-            else {
+            } else {
                 return qEnd;
             }
         }
@@ -289,29 +281,27 @@ public class TestsInterview
                 paths.add(sp == -1 ? line : line.substring(0, sp));
             }
             in.close();
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             cachedTestsError = qCantFindFileError;
-            cachedTestsErrorArgs = new Object[] { file };
+            cachedTestsErrorArgs = new Object[]{file};
             return null;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             cachedTestsError = qCantFindFileError;
-            cachedTestsErrorArgs = new Object[] { file, e.toString() };
-            return null ;
+            cachedTestsErrorArgs = new Object[]{file, e.toString()};
+            return null;
         }
 
         return paths.toArray(new String[paths.size()]);
     }
 
-    private Question qCantFindFileError  = new ErrorQuestion(this, "cantFindFile") {
+    private Question qCantFindFileError = new ErrorQuestion(this, "cantFindFile") {
         @Override
         protected Object[] getTextArgs() {
             return cachedTestsErrorArgs;
         }
     };
 
-    private Question qCantReadFileError  = new ErrorQuestion(this, "cantReadFile") {
+    private Question qCantReadFileError = new ErrorQuestion(this, "cantReadFile") {
         @Override
         protected Object[] getTextArgs() {
             return cachedTestsErrorArgs;
@@ -342,14 +332,11 @@ public class TestsInterview
         public int getChildCount(Object node) {
             if (node == null) {
                 throw new NullPointerException();
-            }
-            else if (node instanceof TestResultTable.TreeNode) {
+            } else if (node instanceof TestResultTable.TreeNode) {
                 return ((TestResultTable.TreeNode) node).getChildCount();
-            }
-            else if (node instanceof TestResult) {
+            } else if (node instanceof TestResult) {
                 return 0;
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException();
             }
         }
@@ -358,14 +345,11 @@ public class TestsInterview
         public Object getChild(Object node, int index) {
             if (node == null) {
                 throw new NullPointerException();
-            }
-            else if (node instanceof TestResultTable.TreeNode) {
+            } else if (node instanceof TestResultTable.TreeNode) {
                 return ((TestResultTable.TreeNode) node).getChild(index);
-            }
-            else if (node instanceof TestResult) {
+            } else if (node instanceof TestResult) {
                 return null;
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException();
             }
         }
@@ -374,20 +358,17 @@ public class TestsInterview
         public String getName(Object node) {
             if (node == null) {
                 throw new NullPointerException();
-            }
-            else if (node instanceof TestResultTable.TreeNode) {
+            } else if (node instanceof TestResultTable.TreeNode) {
                 return ((TestResultTable.TreeNode) node).getName();
-            }
-            else if (node instanceof TestResult) {
+            } else if (node instanceof TestResult) {
                 TestResult tr = (TestResult) node;
                 String fullName = tr.getTestName();
                 int lastSlash = fullName.lastIndexOf("/");
                 return lastSlash == -1
                         ? fullName
-                        : fullName.substring(lastSlash+1);
+                        : fullName.substring(lastSlash + 1);
 
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException();
             }
         }
@@ -396,20 +377,16 @@ public class TestsInterview
         public String getPath(Object node) {
             if (node == null) {
                 throw new NullPointerException();
-            }
-            else if (node instanceof TestResult) {
+            } else if (node instanceof TestResult) {
                 return ((TestResult) node).getTestName();
-            }
-            else if (node instanceof TestResultTable.TreeNode) {
+            } else if (node instanceof TestResultTable.TreeNode) {
                 TestResultTable.TreeNode tn = (TestResultTable.TreeNode) node;
                 if (tn.isRoot()) {
                     return tn.getName();
-                }
-                else {
+                } else {
                     return getPath(tn.getParent() + "/" + tn.getName());
                 }
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException();
             }
         }
@@ -418,14 +395,11 @@ public class TestsInterview
         public boolean isLeaf(Object node) {
             if (node == null) {
                 throw new NullPointerException();
-            }
-            else if (node instanceof TestResult) {
+            } else if (node instanceof TestResult) {
                 return true;
-            }
-            else if (node instanceof TestResultTable.TreeNode) {
+            } else if (node instanceof TestResultTable.TreeNode) {
                 return false;
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException();
             }
         }
@@ -450,10 +424,10 @@ public class TestsInterview
             // a pseudo-name in the saved value for "ALL"
             /*if (value == null || value.length == 0)
                 return null;
-            else */if (cachedTestsError != null) {
+            else */
+            if (cachedTestsError != null) {
                 return cachedTestsError;
-            }
-            else {
+            } else {
                 return qEnd;
             }
         }
@@ -482,8 +456,7 @@ public class TestsInterview
             // is saved as an empty string.
             //      cachedTestsError = qNoTestsError;
             return;
-        }
-        else {
+        } else {
             List<String> v = new ArrayList<>();
             StringBuilder sb = new StringBuilder();
             for (String test : tests) {
@@ -507,7 +480,7 @@ public class TestsInterview
             if (sb.length() > 0) {
                 // got bad tests
                 cachedTestsError = qBadTestsError;
-                cachedTestsErrorArgs = new Object[] {Integer.valueOf(v.size()), sb.toString() };
+                cachedTestsErrorArgs = new Object[]{Integer.valueOf(v.size()), sb.toString()};
             }
         }
     }

@@ -86,7 +86,7 @@ abstract class HTMLSection {
     }
 
     void writeContents(ReportWriter out) throws IOException {
-        out.writeLink('#' + name,  name);
+        out.writeLink('#' + name, name);
     }
 
     void writeSummary(ReportWriter out) throws IOException {
@@ -99,7 +99,7 @@ abstract class HTMLSection {
     }
 
     protected ReportWriter openAuxFile(int code, String title,
-                                I18NResourceBundle i18n) throws IOException {
+                                       I18NResourceBundle i18n) throws IOException {
         return new ReportWriter(openWriter(code), title, i18n);
     }
 

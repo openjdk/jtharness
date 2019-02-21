@@ -46,8 +46,7 @@ import com.sun.javatest.tool.ToolAction;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
 
-class ReportBrowser extends ToolDialog
-{
+class ReportBrowser extends ToolDialog {
     public ReportBrowser(JComponent parent, ExecModel model, UIFactory uif, ReportHandler rh) {
         super(parent, uif, "rb");
         this.model = model;
@@ -58,14 +57,12 @@ class ReportBrowser extends ToolDialog
         try {
             setSelectedFile(f);
             setVisible(true);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             uif.showError("rb.load.error", f, e);
         }
     }
 
-    void setSelectedFile(File f) throws IOException
-    {
+    void setSelectedFile(File f) throws IOException {
         if (f == null)
             throw new NullPointerException();
 
@@ -113,8 +110,7 @@ class ReportBrowser extends ToolDialog
             fp.setBaseDirectory(reportFile);
             try {
                 fp.setFile(reportFile.toURL());
-            }
-            catch (MalformedURLException e) {
+            } catch (MalformedURLException e) {
                 // ignore
                 //e.printStackTrace();
             }
@@ -128,29 +124,29 @@ class ReportBrowser extends ToolDialog
         Action openReport = reportHandler.getOpenReportAction();
 
         Action printSetup = new ToolAction(uif, "rb.file.printSetup") {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    model.printSetup();
-                }
-            };
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                model.printSetup();
+            }
+        };
 
         Action print = new ToolAction(uif, "rb.file.print") {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    model.print(fp);
-                }
-            };
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                model.print(fp);
+            }
+        };
 
         Action close = new ToolAction(uif, "rb.file.close") {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    setVisible(false);
-                    cleanup();
-                }
-            };
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                cleanup();
+            }
+        };
 
-        Action[] actions = { newReport, openReport, null, printSetup, print, null, close };
-        return uif.createMenu("rb.file", actions );
+        Action[] actions = {newReport, openReport, null, printSetup, print, null, close};
+        return uif.createMenu("rb.file", actions);
     }
 
     private JMenu createHelpMenu() {

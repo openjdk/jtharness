@@ -64,10 +64,10 @@ public class ErrorDialogHandler extends StreamHandler {
             String[] message = new String[trace.length + 1];
             message[0] = record.getThrown().toString();
             for (int i = 1; i < message.length; i++)
-                message[i] = trace[i-1].toString();
+                message[i] = trace[i - 1].toString();
 
             argsToArr[0] = i18n.getString("logger.exception.message") + record.getSourceClassName() +
-                "," + record.getSourceMethodName();
+                    "," + record.getSourceMethodName();
             showError("logger.error.message", argsToArr, message);
         } else if (record.getLevel().intValue() > 800) {
             showError("logger.error.message", argsToArr, null);
@@ -81,14 +81,14 @@ public class ErrorDialogHandler extends StreamHandler {
     private void showError(String text, String[] args, String... trace) {
         String title = i18n.getString("logger.dialog.error");
         ActionListener al = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Component c = (Component) e.getSource();
-                    JOptionPane op = (JOptionPane) SwingUtilities.getAncestorOfClass(JOptionPane.class, c);
-                    op.setValue(c); // JOptionPane expects the value to be set to the selected button
-                    op.setVisible(false);
-                }
-            };
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Component c = (Component) e.getSource();
+                JOptionPane op = (JOptionPane) SwingUtilities.getAncestorOfClass(JOptionPane.class, c);
+                op.setValue(c); // JOptionPane expects the value to be set to the selected button
+                op.setVisible(false);
+            }
+        };
         // button setup
         JButton okBtn = new JButton(i18n.getString("logger.dialog.ok.btn"));
         okBtn.setActionCommand("logger.dialog.ok");
@@ -112,7 +112,7 @@ public class ErrorDialogHandler extends StreamHandler {
             traceString.append(":\n");
             for (int i = 0; i < trace.length; i++) {
                 traceString.append(trace[i]);
-                if (i != (trace.length -1))
+                if (i != (trace.length - 1))
                     traceString.append("\n\tat ");      // needs i18n
             }
         }
@@ -142,25 +142,24 @@ public class ErrorDialogHandler extends StreamHandler {
             // we definitely want it to have scrolling
             JScrollPane sp = new JScrollPane(txt);
             sp.setPreferredSize(new Dimension(Math.round(6.f * DOTS_PER_INCH),
-                                    Math.round(2.f * DOTS_PER_INCH)));
+                    Math.round(2.f * DOTS_PER_INCH)));
             content = sp;
-        }
-        else if (d.width > Math.round(6.f * DOTS_PER_INCH) || d.height > Math.round(2.f * DOTS_PER_INCH)) {
+        } else if (d.width > Math.round(6.f * DOTS_PER_INCH) || d.height > Math.round(2.f * DOTS_PER_INCH)) {
             // need scrolling ?
             JScrollPane sp = new JScrollPane(txt);
             sp.setPreferredSize(new Dimension(Math.round(6.f * DOTS_PER_INCH),
-                                    Math.round(2.f * DOTS_PER_INCH)));
+                    Math.round(2.f * DOTS_PER_INCH)));
             content = sp;
         }
 
         JOptionPane.showOptionDialog(null,
-                                     content,
-                                     i18n.getString("logger.message.title"),
-                                     JOptionPane.DEFAULT_OPTION,
-                                     JOptionPane.ERROR_MESSAGE,
-                                     null,
-                                     new Object[] { okBtn },
-                                     null);
+                content,
+                i18n.getString("logger.message.title"),
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.ERROR_MESSAGE,
+                null,
+                new Object[]{okBtn},
+                null);
     }
 
     private void showInformationDialog(String title, String text) {
@@ -185,18 +184,18 @@ public class ErrorDialogHandler extends StreamHandler {
         Object content = txt;
         // need scrolling ?
         if (d.width > Math.round(6.f * DOTS_PER_INCH) ||
-            d.height > Math.round(2.f * DOTS_PER_INCH)) {
+                d.height > Math.round(2.f * DOTS_PER_INCH)) {
             JScrollPane sp = new JScrollPane(txt);
             sp.setPreferredSize(new Dimension(Math.round(6.f * DOTS_PER_INCH),
-                                    Math.round(2.f * DOTS_PER_INCH)));
+                    Math.round(2.f * DOTS_PER_INCH)));
             content = sp;
         }
 
         JOptionPane.showMessageDialog(null,
-                                        content,
-                                        i18n.getString("logger.info.message.title"),
-                                        JOptionPane.INFORMATION_MESSAGE,
-                                        null);
+                content,
+                i18n.getString("logger.info.message.title"),
+                JOptionPane.INFORMATION_MESSAGE,
+                null);
     }
 
     private static int getI18NMnemonic(String key) {
@@ -210,9 +209,8 @@ public class ErrorDialogHandler extends StreamHandler {
     }
 
 
-
     private String[] argsToArr = new String[1];
-    private static I18NResourceBundle i18n= I18NResourceBundle.getBundleForClass(ErrorDialogHandler.class);
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ErrorDialogHandler.class);
     private static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
 }
 

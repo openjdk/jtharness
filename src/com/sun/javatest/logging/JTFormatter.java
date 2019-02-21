@@ -56,7 +56,7 @@ class JTFormatter extends Formatter {
             StackTraceElement trace[] = th.getStackTrace();
             for (int i = 0; i < trace.length; i++) {
                 msgBuf.append("  at ").append(trace[i]);
-                if (i != trace.length-1) {
+                if (i != trace.length - 1) {
                     msgBuf.append('\n');
                 }
             }

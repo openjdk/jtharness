@@ -57,13 +57,14 @@ import javax.swing.event.InternalFrameListener;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+
 import com.sun.javatest.util.PrefixMap;
 
 //-------------------------------------------------------------------------
 
-    /**
-     * A container that presents the current desktop tools in a JDesktopPane.
-     */
+/**
+ * A container that presents the current desktop tools in a JDesktopPane.
+ */
 class MDIDeskView extends DeskView {
     MDIDeskView(Desktop desktop) {
         this(desktop, getDefaultBounds());
@@ -169,8 +170,8 @@ class MDIDeskView extends DeskView {
         if (dtSize.width == 0 || dtSize.height == 0)
             dtSize = desktopPane.getPreferredSize();
         Dimension size = f.getSize();
-        f.setLocation(Math.max(0, dtSize.width/2 - size.width/2),
-                      Math.max(0, dtSize.height/2 - size.height/2) );
+        f.setLocation(Math.max(0, dtSize.width / 2 - size.width / 2),
+                Math.max(0, dtSize.height / 2 - size.height / 2));
         f.setVisible(true);
         internalFrames.put(t, f);
 
@@ -223,8 +224,7 @@ class MDIDeskView extends DeskView {
                 f.setIcon(false);
                 f.setSelected(true);
                 desktopPane.moveToFront(f);
-            }
-            catch (Exception e) { // for java.beans.PropertyVetoException
+            } catch (Exception e) { // for java.beans.PropertyVetoException
             }
         }
     }
@@ -236,7 +236,7 @@ class MDIDeskView extends DeskView {
 
     @Override
     public JFrame[] getFrames() {
-        return new JFrame[] { mainFrame };
+        return new JFrame[]{mainFrame};
     }
 
     @Override
@@ -262,7 +262,7 @@ class MDIDeskView extends DeskView {
         UIFactory uif = tool.uif;
 
         if (useInternalDialogs) {
-        // create resizeable, closable, non-maximizable, non-iconifiable frame
+            // create resizeable, closable, non-maximizable, non-iconifiable frame
             JInternalFrame f = new JInternalFrame(title, true, true, false, false);
             f.putClientProperty(this, tool);
 
@@ -291,9 +291,8 @@ class MDIDeskView extends DeskView {
                 JInternalFrame tf = internalFrames.get(tool);
                 Rectangle tb = tf.getBounds();
                 f.setLocation(Math.max(0, tb.x + (tb.width - size.width) / 2),
-                              Math.max(0, tb.y + (tb.height - size.height ) / 2) );
-            }
-            else
+                        Math.max(0, tb.y + (tb.height - size.height) / 2));
+            } else
                 f.setBounds(bounds);
 
             // put dialogs above tools on the desktop
@@ -302,8 +301,7 @@ class MDIDeskView extends DeskView {
             desktopPane.add(f);
 
             return f;
-        }
-        else {
+        } else {
             JDialog d = uif.createDialog(uiKey, mainFrame, title, body);
             if (menuBar != null)
                 d.setJMenuBar(menuBar);
@@ -311,8 +309,7 @@ class MDIDeskView extends DeskView {
             if (bounds == null) {
                 d.pack();
                 d.setLocationRelativeTo(mainFrame);
-            }
-            else
+            } else
                 d.setBounds(bounds);
 
             return d;
@@ -339,8 +336,7 @@ class MDIDeskView extends DeskView {
     }
 
     @Override
-    protected Tool restoreTool(Map<String, String> m, String name) throws Fault, ToolManager.Fault
-    {
+    protected Tool restoreTool(Map<String, String> m, String name) throws Fault, ToolManager.Fault {
         Tool t = super.restoreTool(m, name);
         JInternalFrame f = internalFrames.get(t);
         restoreBounds(f, new PrefixMap<>(m, "dt"));
@@ -380,8 +376,7 @@ class MDIDeskView extends DeskView {
                     f.setSelected(true);
                     // would be nice to make sure the previously
                     // selected window stays on top
-                }
-                catch (Exception e) { // for java.beans.PropertyVetoException
+                } catch (Exception e) { // for java.beans.PropertyVetoException
                 }
             }
             BasicInternalFrameUI ui = (BasicInternalFrameUI) f.getUI();
@@ -429,10 +424,9 @@ class MDIDeskView extends DeskView {
     private static final boolean useInternalDialogs = true;
 
     private class Listener
-        implements ActionListener, AncestorListener,
-                   InternalFrameListener, MenuListener,
-                   Tool.Observer
-    {
+            implements ActionListener, AncestorListener,
+            InternalFrameListener, MenuListener,
+            Tool.Observer {
         // --------- ActionListener  ---------
 
         @Override
@@ -465,7 +459,8 @@ class MDIDeskView extends DeskView {
         }
 
         @Override
-        public void ancestorMoved(AncestorEvent event) { }
+        public void ancestorMoved(AncestorEvent event) {
+        }
 
         @Override
         public void ancestorRemoved(AncestorEvent event) {
@@ -478,7 +473,7 @@ class MDIDeskView extends DeskView {
         // --------- InternalFrameListener ---------
 
         @Override
-        public void internalFrameClosed(InternalFrameEvent e)  {
+        public void internalFrameClosed(InternalFrameEvent e) {
             JInternalFrame f = (JInternalFrame) e.getSource();
             if (f.getContentPane() instanceof Tool) {
                 Tool t = (Tool) f.getContentPane();
@@ -492,7 +487,7 @@ class MDIDeskView extends DeskView {
         }
 
         @Override
-        public void internalFrameClosing(InternalFrameEvent e)  {
+        public void internalFrameClosing(InternalFrameEvent e) {
             JInternalFrame f = (JInternalFrame) e.getSource();
             Tool t = (Tool) f.getContentPane();
             if (getDesktop().isOKToClose(t, mainFrame))
@@ -500,19 +495,24 @@ class MDIDeskView extends DeskView {
         }
 
         @Override
-        public void internalFrameActivated(InternalFrameEvent e) { }
+        public void internalFrameActivated(InternalFrameEvent e) {
+        }
 
         @Override
-        public void internalFrameDeactivated(InternalFrameEvent e) { }
+        public void internalFrameDeactivated(InternalFrameEvent e) {
+        }
 
         @Override
-        public void internalFrameDeiconified(InternalFrameEvent e)  { }
+        public void internalFrameDeiconified(InternalFrameEvent e) {
+        }
 
         @Override
-        public void internalFrameIconified(InternalFrameEvent e)  { }
+        public void internalFrameIconified(InternalFrameEvent e) {
+        }
 
         @Override
-        public void internalFrameOpened(InternalFrameEvent e)  { }
+        public void internalFrameOpened(InternalFrameEvent e) {
+        }
 
         // --------- MenuListener ---------
 
@@ -595,7 +595,8 @@ class MDIDeskView extends DeskView {
         }
 
         @Override
-        public void toolDisposed(Tool src) { }
+        public void toolDisposed(Tool src) {
+        }
 
     }
 }

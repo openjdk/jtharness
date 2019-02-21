@@ -36,7 +36,7 @@ import javax.swing.JMenuItem;
  * positions and are semantic locations, not absolute.  This allows
  * reorganization of menus at the harness level without necessarily breaking
  * the positioning that the architect expected.
- *
+ * <p>
  * This class can be used in two ways.  First, the concrete class overrides
  * <code>getMenuItems()</code> to return the correct set of items for the given
  * category.  This method may be the most simple for straight forward insertions.
@@ -44,10 +44,10 @@ import javax.swing.JMenuItem;
  * specify which menu items should appear.  The default implementation of
  * <code>getMenuItems()</code> will use data provided by using this second
  * method.
- *
+ * <p>
  * By default, no menu category will have any custom menus (<code>getMenuItems()</code>
  * will always return null).
- *
+ * <p>
  * The <code>JMenuItem</code> objects may be "pull-right" menus if desired.  It is
  * the responsibility of the architect to manage keystroke mneumonics.
  */
@@ -55,13 +55,14 @@ public abstract class JavaTestMenuManager {
     /**
      * Get the menu items to go into the specified position in the menu system.
      * See the constants in this class for the possible value.
+     *
      * @param position The menu position, one of the constants of this class.
      * @return The custom menu items to be displayed in the given position.
-     *         Null if there are none.  Never a zero-length array.
+     * Null if there are none.  Never a zero-length array.
      * @throws IllegalArgumentException If the position parameter is out of
-     *         range.  This is usually the fault of the harness itself, but
-     *         may occur if classes are compiled against one development version
-     *         of the harness and run with another.
+     *                                  range.  This is usually the fault of the harness itself, but
+     *                                  may occur if classes are compiled against one development version
+     *                                  of the harness and run with another.
      */
     public JMenuItem[] getMenuItems(int position) {
         if (bank == null)
@@ -82,19 +83,20 @@ public abstract class JavaTestMenuManager {
      * Add a menu item to the given menu position.
      * The item is added to the bottom, in that position, so you must add them
      * in the order you wish them to appear.
+     *
      * @param position The menu position, one of the constants of this class.
-     * @param item The menu item to add.
+     * @param item     The menu item to add.
      * @throws IndexOutOfBoundsException If the position index is out of
-     *     range.  Be sure that you are using the constants given in this
-     *     class to supply this parameter.
+     *                                   range.  Be sure that you are using the constants given in this
+     *                                   class to supply this parameter.
      */
     protected synchronized void addMenuItem(int position, JMenuItem item) {
         if (position > NUM_POSITIONS)
             throw new IndexOutOfBoundsException("Position index too large - " +
-                position);
+                    position);
         if (position < 0)
             throw new IndexOutOfBoundsException("Position index too small - " +
-                position);
+                    position);
 
         if (bank == null) {
             bank = new ArrayList[NUM_POSITIONS];

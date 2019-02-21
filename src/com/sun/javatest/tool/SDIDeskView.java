@@ -48,6 +48,7 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.PrefixMap;
 
@@ -194,8 +195,8 @@ class SDIDeskView extends DeskView {
         //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension size = f.getSize();
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        f.setLocation(ge.getCenterPoint().x - size.width/2,
-                      ge.getCenterPoint().y - size.height/2);
+        f.setLocation(ge.getCenterPoint().x - size.width / 2,
+                ge.getCenterPoint().y - size.height / 2);
         //f.setLocation(screenSize.width/2 - size.width/2, screenSize.height/2 - size.height/2);
         f.setVisible(visible);
 
@@ -288,8 +289,7 @@ class SDIDeskView extends DeskView {
             // seem to have no effect, so after 2 calls we seem to have stable results.
             d.pack();
             d.setLocationRelativeTo(f);
-        }
-        else
+        } else
             d.setBounds(bounds);
 
         return d;
@@ -314,8 +314,7 @@ class SDIDeskView extends DeskView {
     }
 
     @Override
-    protected Tool restoreTool(Map<String, String> m, String name) throws Fault, ToolManager.Fault
-    {
+    protected Tool restoreTool(Map<String, String> m, String name) throws Fault, ToolManager.Fault {
         Tool t = super.restoreTool(m, name);
         restoreBounds(getFrameForTool(t), new PrefixMap<>(m, "dt"));
         return t;
@@ -336,7 +335,7 @@ class SDIDeskView extends DeskView {
         logo.setOpaque(true);
         console.setContentPane(logo);
         console.pack();
-        frames = new JFrame[] { console };
+        frames = new JFrame[]{console};
     }
 
     private void doCascade() {
@@ -354,8 +353,8 @@ class SDIDeskView extends DeskView {
         //Dimension dSize = Toolkit.getDefaultToolkit().getScreenSize();
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
-        int offsetX = ge.getCenterPoint().x - maxWidth/2;
-        int offsetY = ge.getCenterPoint().y - maxHeight/2;
+        int offsetX = ge.getCenterPoint().x - maxWidth / 2;
+        int offsetY = ge.getCenterPoint().y - maxHeight / 2;
 
         // make sure we start on-screen
         if (offsetX <= 0)
@@ -407,8 +406,7 @@ class SDIDeskView extends DeskView {
     private static final String CASCADE = "cascade";
 
     private class Listener
-        implements ActionListener, MenuListener, Tool.Observer
-    {
+            implements ActionListener, MenuListener, Tool.Observer {
         // --------- ActionListener  ---------
 
         @Override
@@ -511,6 +509,7 @@ class SDIDeskView extends DeskView {
         }
 
         @Override
-        public void toolDisposed(Tool src) { }
+        public void toolDisposed(Tool src) {
+        }
     }
 }

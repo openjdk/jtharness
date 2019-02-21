@@ -94,7 +94,7 @@ public class FeatureManager {
 
     /**
      * @param feature one of TEMPLATE_USAGE, TEMPLATE_CREATION,
-     *              AUTOPROPAGATE, SINGLE_TEST_MANAGER
+     *                AUTOPROPAGATE, SINGLE_TEST_MANAGER
      * @return true if this feature enabled, false otherwise
      */
     public boolean isEnabled(int feature) {

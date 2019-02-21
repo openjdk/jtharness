@@ -41,10 +41,10 @@ import java.io.File;
  *
  * @since 3.0.2
  */
-public interface Parameters
-{
+public interface Parameters {
     /**
      * Get the test suite for which these parameters apply.
+     *
      * @return the test suite for which these parameters apply.
      * @see #setTestSuite
      */
@@ -52,6 +52,7 @@ public interface Parameters
 
     /**
      * Set the test suite for which these parameters apply.
+     *
      * @param ts the test suite for which these parameters apply
      * @see #getTestSuite
      */
@@ -59,6 +60,7 @@ public interface Parameters
 
     /**
      * Get the work directory in which to store the results of the test run.
+     *
      * @return the work directory in which to store the results of the test run.
      * @see #setWorkDirectory
      */
@@ -66,6 +68,7 @@ public interface Parameters
 
     /**
      * Set the work directory for which these parameters apply.
+     *
      * @param wd the work directory for which these parameters apply
      * @see #getWorkDirectory
      */
@@ -74,6 +77,7 @@ public interface Parameters
     /**
      * Get the paths identifying the tests or folders of tests within
      * the test suite to be run.
+     *
      * @return an array of paths identifying the tests to be run
      * @see Parameters.TestsParameters#getTests
      */
@@ -82,6 +86,7 @@ public interface Parameters
     /**
      * Get an object which provides access to the paths identifying the tests
      * or folders of tests to be run.
+     *
      * @return an object which provides access to the paths identifying tests to be run.
      */
     TestsParameters getTestsParameters();
@@ -89,6 +94,7 @@ public interface Parameters
     /**
      * Get an exclude list which identifies tests or test cases
      * to be excluded from the test run.
+     *
      * @return an exclude list  identifying tests or test cases
      * to be excluded from the test run.
      * @see #getExcludeListFilter
@@ -99,6 +105,7 @@ public interface Parameters
     /**
      * Get an object which provides access to the exclude list which
      * identifies tests or test cases to be excluded from the test run.
+     *
      * @return an object which provides access to the exclude list
      * identifying tests or test cases to be excluded from the test run.
      */
@@ -107,7 +114,8 @@ public interface Parameters
     /**
      * Get a keywords object which identifies tests to be run according
      * to their keywords.
-     * @return  a keywords object which identifies tests to be run according
+     *
+     * @return a keywords object which identifies tests to be run according
      * to their keywords.
      * @see Parameters.KeywordsParameters#getKeywords
      */
@@ -116,7 +124,8 @@ public interface Parameters
     /**
      * Get an object which provides access to the keywords object which
      * identifies tests to be run according to their keywords.
-     * @return  an object which provides access to the keywords object
+     *
+     * @return an object which provides access to the keywords object
      * which identifies tests to be run according to their keywords.
      */
     KeywordsParameters getKeywordsParameters();
@@ -128,6 +137,7 @@ public interface Parameters
      * For each of those values, if the corresponding boolean in the array
      * is true, a test will be selected if its status matches the index.
      * If the array is null, all tests will be selected.
+     *
      * @return an array of booleans which identifying tests to be run according
      * to their prior execution status, or null if no such criteria is required.
      * @see Parameters.PriorStatusParameters#getPriorStatusValues
@@ -137,6 +147,7 @@ public interface Parameters
     /**
      * Get an object which provides access to an array of booleans which
      * identify tests to be run according to their prior execution status.
+     *
      * @return an object which provides access to an array of booleans which
      * identify tests to be run according to their prior execution status,
      * or null if no such selection criteria is required.
@@ -146,6 +157,7 @@ public interface Parameters
     /**
      * Get the environment of test-suite-specific configuration values,
      * to be passed to the script used to run each test.
+     *
      * @return an environment to be passed to the script used to run
      * each test.
      * @see Parameters.EnvParameters#getEnv
@@ -156,6 +168,7 @@ public interface Parameters
      * Get an object which provides access to the environment of
      * test-suite-specific configuration values to be used when each
      * test is run.
+     *
      * @return an object which provides access to the environment to
      * be used when each test is run.
      */
@@ -164,6 +177,7 @@ public interface Parameters
     /**
      * Get an integer specifying the maximum number of tests that may
      * be run in parallel.
+     *
      * @return an integer specifying the maximum number of tests that
      * may be run in parallel
      * @see Parameters.ConcurrencyParameters#getConcurrency
@@ -173,6 +187,7 @@ public interface Parameters
     /**
      * Get an object which provides access to the integer specifying
      * the maximum number of tests that may be run in parallel.
+     *
      * @return an object which provides access to the integer specifying
      * the maximum number of tests that may be run in parallel.
      */
@@ -181,6 +196,7 @@ public interface Parameters
     /**
      * Get an integer specifying a scale factor to be applied to the
      * standard timeout for the test.
+     *
      * @return an integer specifying a scale factor to be applied to
      * the standard timeout for each test.
      * @see Parameters.TimeoutFactorParameters#getTimeoutFactor
@@ -190,6 +206,7 @@ public interface Parameters
     /**
      * Get an object which provides access to the integer specifying
      * a scale factor to be applied to the standard timeout for the test.
+     *
      * @return an object which provides access to the integer specifying
      * a scale factor to be applied to the standard timeout for each test.
      */
@@ -199,6 +216,7 @@ public interface Parameters
      * Get a filter which will filter tests according to the result
      * of getExcludeList(). If the result of getExcludeList is null
      * or an empty exclude list, the result of this method will also be null.
+     *
      * @return a filter which will filter tests according to the result
      * of getExcludeList().
      * @see #getExcludeList
@@ -209,6 +227,7 @@ public interface Parameters
      * Get a filter which will filter tests according to the result
      * of getKeywords(). If the result of getKeywords is null,
      * the result of this method will also be null.
+     *
      * @return a filter which will filter tests according to the result
      * of getKeywords().
      * @see #getKeywords
@@ -219,6 +238,7 @@ public interface Parameters
      * Get a filter which will filter tests according to the result
      * of getPriorStatusValus(). If the result of getPriorStatusValues is null,
      * the result of this method will also be null.
+     *
      * @return a filter which will filter tests according to the result
      * of getPriorStatusValues().
      * @see #getPriorStatusValues
@@ -232,6 +252,7 @@ public interface Parameters
      * does not support some optional feature, the tests for that feature
      * could be automatically filtered out. If no such filter is required,
      * null can be returned.
+     *
      * @return a test-suite-specific filter, or null if no such filter is
      * required.
      */
@@ -241,6 +262,7 @@ public interface Parameters
      * Get an array of the non-null filters returned from
      * getExcludeListFilter, getKeywordsFilter, getPriorStatusFilter,
      * and getRelevantTestFilter.
+     *
      * @return an array of the non-null filters returned by the
      * various getXXXFilter methods.
      * @see #getExcludeListFilter
@@ -255,6 +277,7 @@ public interface Parameters
      * If so, the result will be true; if not, the result will be false,
      * and getErrorMessage will provide details about at least one of the
      * invalid values.
+     *
      * @return true if and only if all the configuration values are valid
      * @see #getErrorMessage
      */
@@ -265,6 +288,7 @@ public interface Parameters
      * as indicated by isValid, this method will provide a detail
      * message about one or more of the invalid values.
      * The result is undefined if isValid is true.
+     *
      * @return a detail message about one or more invalid values
      * @see #isValid
      */
@@ -280,6 +304,7 @@ public interface Parameters
         /**
          * Get the paths identifying the tests or folders of tests within
          * the test suite to be run.
+         *
          * @return an array of paths identifying the tests to be run
          * @see Parameters#getTests
          */
@@ -295,15 +320,17 @@ public interface Parameters
     interface MutableTestsParameters extends TestsParameters {
         /**
          * Specify the tests to be executed.
+         *
          * @param tests If null, set the tests mode to ALL_TESTS;
-         * if not null, set the tests mode to SPECIFIED_TESTS, and set
-         * the specified tests.
+         *              if not null, set the tests mode to SPECIFIED_TESTS, and set
+         *              the specified tests.
          * @see #getTests
          */
         void setTests(String... tests);
 
         /**
          * Get the current mode for how the tests are specified.
+         *
          * @return ALL_TESTS if all tests are to be run, irrespective of
          * the selected tests, or SPECIFIED_TESTS if  a set of specified
          * tests are to be run.
@@ -315,11 +342,12 @@ public interface Parameters
 
         /**
          * Set the current mode for how the tests are specified.
+         *
          * @param mode use ALL_TESTS if all tests are to be run, irrespective of
-         * the selected tests, or SPECIFIED_TESTS if  a set of specified
-         * tests are to be run.
+         *             the selected tests, or SPECIFIED_TESTS if  a set of specified
+         *             tests are to be run.
          * @throws IllegalArgumentException if neither ALL_TESTS or SPECIFIED_TESTS
-         * is given
+         *                                  is given
          * @see #getTestsMode
          * @see #ALL_TESTS
          * @see #SPECIFIED_TESTS
@@ -331,6 +359,7 @@ public interface Parameters
          * be run when the mode is set to SPECIFIED_TESTS. When the mode is
          * set to ALL_TESTS, the specified tests are remembered, but not used,
          * until the mode is set back to SPECIFIED_TESTS.
+         *
          * @return an array of specified tests to be used as the set of tests to
          * be run when the mode is set to SPECIFIED_TESTS.
          * @see #setSpecifiedTests
@@ -342,6 +371,7 @@ public interface Parameters
          * Set the specified tests to be be run when the mode is set to SPECIFIED_TESTS.
          * When the mode is set to ALL_TESTS, these tests are remembered, but not used,
          * until the mode is set back to SPECIFIED_TESTS.
+         *
          * @param tests an array of paths identifying the tests to be run
          * @see #getSpecifiedTests
          * @see #getTests
@@ -371,6 +401,7 @@ public interface Parameters
         /**
          * Get an exclude list which identifies tests or test cases
          * to be excluded from the test run.
+         *
          * @return an exclude list  identifying tests or test cases
          * to be excluded from the test run.
          * @see #getExcludeListFilter
@@ -390,6 +421,7 @@ public interface Parameters
         /**
          * Get the set of files which define the exclude list. The files
          * are all returned as absolute files.
+         *
          * @return the set of files which define the exclude list
          * @see #getExcludeFiles
          * @see #setExcludeFiles
@@ -398,15 +430,17 @@ public interface Parameters
 
         /**
          * Set the set of files used to define the exclude list.
+         *
          * @param files If null, the exclude mode will be set to NO_EXCLUDE_LIST;
-         * if not null, the exclude mode will be set to CUSTOM_EXCLUDE_LIST
-         * and the custom exclude files will be set to this value
+         *              if not null, the exclude mode will be set to CUSTOM_EXCLUDE_LIST
+         *              and the custom exclude files will be set to this value
          * @see #getExcludeFiles
          */
         void setExcludeFiles(File... files);
 
         /**
          * Get the current exclude list mode.
+         *
          * @return A value indicating the current exclude list mode
          * @see #setExcludeMode
          * @see #NO_EXCLUDE_LIST
@@ -418,6 +452,7 @@ public interface Parameters
 
         /**
          * Set the current exclude list mode.
+         *
          * @param mode A value indicating the desired exclude list mode
          * @see #getExcludeMode
          * @see #NO_EXCLUDE_LIST
@@ -435,6 +470,7 @@ public interface Parameters
         /**
          * A constant used to indicate that the default exclude list
          * (if any) for the test suite should be used.
+         *
          * @see TestSuite#hasInitialExcludeList
          */
         int INITIAL_EXCLUDE_LIST = 2;
@@ -442,6 +478,7 @@ public interface Parameters
         /**
          * A constant used to indicate that the latest exclude list
          * (if any) for the test suite should be used.
+         *
          * @see TestSuite#hasLatestExcludeList
          */
         int LATEST_EXCLUDE_LIST = 3;
@@ -455,6 +492,7 @@ public interface Parameters
         /**
          * Get the files used to define the exclude list when the
          * exclude list mode is set to CUSTOM_EXCLUDE_LIST.
+         *
          * @return the files used to define a custom exclude list
          * @see #setCustomExcludeFiles
          */
@@ -463,6 +501,7 @@ public interface Parameters
         /**
          * Set the files used to define the exclude list when the
          * exclude list mode is set to CUSTOM_EXCLUDE_LIST.
+         *
          * @param files the files used to define a custom exclude list
          * @see #getCustomExcludeFiles
          */
@@ -471,6 +510,7 @@ public interface Parameters
         /**
          * Check if the automatic check for newer exclude lists
          * is enabled when the exclude list mode is set to LATEST_EXCLUDE_LIST.
+         *
          * @return true if the automatic check is enabled
          * @see #setLatestExcludeAutoCheckEnabled
          */
@@ -479,6 +519,7 @@ public interface Parameters
         /**
          * Specify if the automatic check for newer exclude lists
          * is enabled when the exclude list mode is set to LATEST_EXCLUDE_LIST.
+         *
          * @param b whether or not the automatic check is enabled
          * @see #isLatestExcludeAutoCheckEnabled
          */
@@ -488,6 +529,7 @@ public interface Parameters
          * Get the mode which defines how often to automatically check
          * for updated exclude lists, when the exclude list mode is set
          * to LATEST_EXCLUDE_LIST, and the automatic check is enabled.
+         *
          * @return a value indicating how often to check for the
          * availability of a newer exclude list
          * @see #setLatestExcludeAutoCheckMode
@@ -500,8 +542,9 @@ public interface Parameters
          * Set the mode which defines how often to automatically check
          * for updated exclude lists, when the exclude list mode is set
          * to LATEST_EXCLUDE_LIST, and the automatic check is enabled.
+         *
          * @param mode a value indicating how often to check for the
-         * availability of a newer exclude list
+         *             availability of a newer exclude list
          * @see #getLatestExcludeAutoCheckMode
          * @see #CHECK_EVERY_X_DAYS
          * @see #CHECK_EVERY_RUN
@@ -526,6 +569,7 @@ public interface Parameters
          * Get the interval, in days, to be used when automatically
          * checking for exclude list updates and the auto check mode
          * is set to CHECK_EVERY_X_DAYS.
+         *
          * @return the interval, in days, between checks
          * @see #setLatestExcludeAutoCheckInterval
          */
@@ -535,6 +579,7 @@ public interface Parameters
          * Set the interval, in days, to be used when automatically
          * checking for exclude list updates and the auto check mode
          * is set to CHECK_EVERY_X_DAYS.
+         *
          * @param days the number of days to wait between checks
          * @see #getLatestExcludeAutoCheckInterval
          */
@@ -551,7 +596,8 @@ public interface Parameters
         /**
          * Get a keywords object which identifies tests to be run according
          * to their keywords.
-         * @return  a keywords object which identifies tests to be run according
+         *
+         * @return a keywords object which identifies tests to be run according
          * to their keywords.
          */
         Keywords getKeywords();
@@ -567,12 +613,13 @@ public interface Parameters
         /**
          * Set the details of the keywords to be used, if any,
          * to filter tests for execution.
-         * @param mode the value of the match keywords mode to be set if
-         * <code>value</code> is not null
+         *
+         * @param mode  the value of the match keywords mode to be set if
+         *              <code>value</code> is not null
          * @param value if null, the keywords mode will be set to NO_KEYWORDS;
-         * if not null, the keywords mode will be set to MATCH_KEYWORDS, the
-         * match keywords mode will be set to <code>mode</code>,
-         * and the match keywords value will be set to this value
+         *              if not null, the keywords mode will be set to MATCH_KEYWORDS, the
+         *              match keywords mode will be set to <code>mode</code>,
+         *              and the match keywords value will be set to this value
          * @see #getKeywords
          * @see #NO_KEYWORDS
          * @see #MATCH_KEYWORDS
@@ -581,7 +628,8 @@ public interface Parameters
 
         /**
          * Get the current keywords mode.
-         * @return  NO_KEYWORDS if no keyword filtering will be used to
+         *
+         * @return NO_KEYWORDS if no keyword filtering will be used to
          * select tests for execution, or MATCH_KEYWORDS if  keywords
          * will be filtered according to the match mode and match value.
          * @see #setKeywordsMode
@@ -592,9 +640,10 @@ public interface Parameters
 
         /**
          * Set the current keywords mode.
+         *
          * @param mode set to NO_KEYWORDS if no keyword filtering will be
-         * used to select tests for execution, or MATCH_KEYWORDS if  keywords
-         * will be filtered according to the match mode and match value.
+         *             used to select tests for execution, or MATCH_KEYWORDS if  keywords
+         *             will be filtered according to the match mode and match value.
          * @see #getKeywordsMode
          * @see #NO_KEYWORDS
          * @see #MATCH_KEYWORDS
@@ -616,6 +665,7 @@ public interface Parameters
         /**
          * Get a value which indicates how to interpret the match value,
          * when the keywords mode is set to MATCH_KEYWORDS.
+         *
          * @return a value which indicates how to interpret the match value,
          * when the keywords mode is set to MATCH_KEYWORDS
          * @see #setMatchKeywords
@@ -628,6 +678,7 @@ public interface Parameters
         /**
          * Get a value that identifies which tests are to be selected,
          * when the keywords mode is set to MATCH_KEYWORDS.
+         *
          * @return a value that identifies which tests are to be selected,
          * when the keywords mode is set to MATCH_KEYWORDS
          * @see #setMatchKeywords
@@ -640,13 +691,14 @@ public interface Parameters
         /**
          * Set how to match a tests keywords when the keywords mode
          * is set to MATCH_KEYWORDS.
-         * @param mode A value indicating how to interpret <code>value</code>
+         *
+         * @param mode  A value indicating how to interpret <code>value</code>
          * @param value If <code>mode</code> is set to ANY_OF or ALL_OF,
-         * this value should give a white-space separate list of keywords
-         * to be matched; if <code>mode</code> is set to EXPR, this value
-         * should be a boolean expression using terminals, &amp; (and), | (or),
-         * ! (negation) and parentheses, where the terminals are true if
-         * a test description contains that name as one of its keywords.
+         *              this value should give a white-space separate list of keywords
+         *              to be matched; if <code>mode</code> is set to EXPR, this value
+         *              should be a boolean expression using terminals, &amp; (and), | (or),
+         *              ! (negation) and parentheses, where the terminals are true if
+         *              a test description contains that name as one of its keywords.
          * @see #getMatchKeywordsMode
          * @see #getMatchKeywordsValue
          * @see #ANY_OF
@@ -690,6 +742,7 @@ public interface Parameters
          * For each of those values, if the corresponding boolean in the array
          * is true, a test will be selected if its status matches the index.
          * If the array is null, all tests will be selected.
+         *
          * @return an array of booleans which identifying tests to be run according
          * to their prior execution status, or null if no such criteria is required.
          * @see Parameters#getPriorStatusValues
@@ -709,9 +762,10 @@ public interface Parameters
         /**
          * Set which prior status values should be used, if any, to select tests
          * for execution.
+         *
          * @param b if null, the prior status mode will be set to NO_PRIOR_STATUS;
-         * if not null, the prior status mode will be set to MATCH_PRIOR_STATUS,
-         * and the matching values will be set to this array.
+         *          if not null, the prior status mode will be set to MATCH_PRIOR_STATUS,
+         *          and the matching values will be set to this array.
          * @see #getPriorStatusValues
          */
         void setPriorStatusValues(boolean... b);
@@ -719,6 +773,7 @@ public interface Parameters
         /**
          * Get the current mode determining whether tests are selected or not
          * according to their prior execution status.
+         *
          * @return a value of NO_PRIOR_STATUS indicates the prior execution status
          * will not be taken into account; otherwise, a value of MATCH_PRIOR_STATUS
          * means that tests will be selected if and only of their execution status
@@ -732,10 +787,11 @@ public interface Parameters
         /**
          * Set the current mode determining whether tests are selected or not
          * according to their prior execution status.
+         *
          * @param mode if set to NO_PRIOR_STATUS, the prior execution status
-         * will not be taken into account; otherwise, if set to MATCH_PRIOR_STATUS
-         * tests will be selected if and only of their execution status matches
-         * one of the matching prior status values.
+         *             will not be taken into account; otherwise, if set to MATCH_PRIOR_STATUS
+         *             tests will be selected if and only of their execution status matches
+         *             one of the matching prior status values.
          * @see #getPriorStatusMode
          * @see #NO_PRIOR_STATUS
          * @see #MATCH_PRIOR_STATUS
@@ -763,6 +819,7 @@ public interface Parameters
          * {@link Status#ERROR}, and {@link Status#NOT_RUN}.
          * A test will be selected for execution if the entry in the
          * array corresponding to the tests execution status is set to true.
+         *
          * @return an array of booleans which identifying
          * the prior execution status of tests to be selected to be executed.
          * @see #setMatchPriorStatusValues
@@ -777,8 +834,9 @@ public interface Parameters
          * {@link Status#ERROR}, and {@link Status#NOT_RUN}.
          * A test will be selected for execution if the entry in the
          * array corresponding to the tests execution status is set to true.
+         *
          * @param values an array of booleans which identifying
-         * the prior execution status of tests to be selected to be executed.
+         *               the prior execution status of tests to be selected to be executed.
          * @see #getMatchPriorStatusValues
          */
         void setMatchPriorStatusValues(boolean... values);
@@ -796,6 +854,7 @@ public interface Parameters
         /**
          * Get the environment of test-suite-specific configuration values,
          * to be passed to the script used to run each test.
+         *
          * @return an environment to be passed to the script used to run
          * each test.
          * @see Parameters#getEnv
@@ -815,6 +874,7 @@ public interface Parameters
         /**
          * Get the set of files which define the environment used to run
          * the tests. The files are returned as they were set by setEnvFiles.
+         *
          * @return the set of files which define the exclude list
          * @see #getAbsoluteEnvFiles
          * @see #setEnvFiles
@@ -825,8 +885,9 @@ public interface Parameters
          * Set the files which contain the environment used to run
          * the tests. Relative files will be evaluated relative to the
          * test suite root directory.
+         *
          * @param files the set of files which contain the environment
-         * to be used
+         *              to be used
          * @see #getEnvFiles
          * @see #getAbsoluteEnvFiles
          */
@@ -835,6 +896,7 @@ public interface Parameters
         /**
          * Get the set of files which define the environment used to run
          * the tests. The files are all returned as absolute files.
+         *
          * @return the set of files which contact the exclude list
          * @see #getEnvFiles
          * @see #setEnvFiles
@@ -844,6 +906,7 @@ public interface Parameters
         /**
          * Get the name of the environment to be used, from the set of
          * environments contained in the fles set by setEnvFiles.
+         *
          * @return the name of the environment to be used to run the tests
          * @see #setEnvName
          */
@@ -852,6 +915,7 @@ public interface Parameters
         /**
          * Set the name of the environment to be used, from the set of
          * environments contained in the fles set by setEnvFiles.
+         *
          * @param name the name of the environment to be used to run the tests
          * @see #getEnvName
          */
@@ -868,6 +932,7 @@ public interface Parameters
         /**
          * Get an integer specifying the maximum number of tests that may
          * be run in parallel.
+         *
          * @return an integer specifying the maximum number of tests that
          * may be run in parallel
          * @see Parameters#getConcurrency
@@ -895,8 +960,9 @@ public interface Parameters
         /**
          * Set an integer specifying the maximum number of tests that may
          * be run in parallel.
+         *
          * @param conc an integer specifying the maximum number of tests that
-         * may be run in parallel
+         *             may be run in parallel
          * @see #getConcurrency
          */
         void setConcurrency(int conc);
@@ -912,6 +978,7 @@ public interface Parameters
         /**
          * Get an integer specifying a scale factor to be applied to the
          * standard timeout for the test.
+         *
          * @return an integer specifying a scale factor to be applied to
          * the standard timeout for each test.
          * @see Parameters#getTimeoutFactor
@@ -939,8 +1006,9 @@ public interface Parameters
         /**
          * Set an integer specifying a scale factor to be applied to the
          * standard timeout for the test.
+         *
          * @param factor an integer specifying a scale factor to be applied to
-         * the standard timeout for each test.
+         *               the standard timeout for each test.
          * @see #getTimeoutFactor
          */
         void setTimeoutFactor(float factor);

@@ -28,16 +28,17 @@ package com.sun.javatest.tool;
 
 import java.beans.SimpleBeanInfo;
 import java.beans.PropertyDescriptor;
+
 import com.sun.javatest.JavaTestError;
 
 /**
  * Bean info for {@link HelpLink}.
  */
-public class HelpLinkBeanInfo extends SimpleBeanInfo
-{
+public class HelpLinkBeanInfo extends SimpleBeanInfo {
     /**
      * Get property descriptors for properties of HelpLink objects.
      * Four properties are defined: target, text, textFont and textColor.
+     *
      * @return property descriptors for properties of HelpLink objects
      * @see HelpLink
      */
@@ -45,13 +46,12 @@ public class HelpLinkBeanInfo extends SimpleBeanInfo
     public PropertyDescriptor[] getPropertyDescriptors() {
         try {
             return new PropertyDescriptor[]{
-                new PropertyDescriptor("target",     HelpLink.class),
-                new PropertyDescriptor("text",       HelpLink.class),
-                new PropertyDescriptor("textFont",   HelpLink.class),
-                new PropertyDescriptor("textColor",  HelpLink.class)
+                    new PropertyDescriptor("target", HelpLink.class),
+                    new PropertyDescriptor("text", HelpLink.class),
+                    new PropertyDescriptor("textFont", HelpLink.class),
+                    new PropertyDescriptor("textColor", HelpLink.class)
             };
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             JavaTestError.unexpectedException(e);
             return null;
         }

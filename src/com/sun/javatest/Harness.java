@@ -41,19 +41,17 @@ import com.sun.javatest.util.ReadAheadIterator;
 /**
  * The object responsible for coordinating the execution of a test run.
  */
-public class Harness
-{
+public class Harness {
     /**
      * This exception is used to report problems while executing a test run.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         Fault(I18NResourceBundle i18n, String s) {
             super(i18n.getString(s));
         }
 
         Fault(I18NResourceBundle i18n, String s, Throwable cause) {
-           super(i18n.getString(s), cause);
+            super(i18n.getString(s), cause);
         }
 
         Fault(I18NResourceBundle i18n, String s, Object o) {
@@ -69,10 +67,10 @@ public class Harness
      * This interface provides a means for Harness to report
      * on events that might be of interest as it executes.
      */
-    public interface Observer
-    {
+    public interface Observer {
         /**
          * The harness is beginning to execute tests.
+         *
          * @param params the parameters for the test run
          */
         void startingTestRun(Parameters params);
@@ -81,7 +79,7 @@ public class Harness
          * The harness is about to run the given test.
          *
          * @param tr The test result which is going to receive the data
-         *        from the current execution of that test.
+         *           from the current execution of that test.
          */
         void startingTest(TestResult tr);
 
@@ -91,7 +89,7 @@ public class Harness
          * completion status (pass, fail, etc...).
          *
          * @param tr The result object containing the results from the
-         *        execution which was just completed.
+         *           execution which was just completed.
          */
         void finishedTest(TestResult tr);
 
@@ -136,10 +134,11 @@ public class Harness
 
     /**
      * Instantiate a harness.
-     * @param classDir  The class dir to put in the environment for otherJVM tests
-     * @deprecated      Use Harness() instead
+     *
+     * @param classDir The class dir to put in the environment for otherJVM tests
      * @see #Harness()
      * @see #setClassDir
+     * @deprecated Use Harness() instead
      */
     public Harness(File classDir) {
         this();
@@ -163,7 +162,7 @@ public class Harness
         if (HttpdServer.isActive()) {
             httpHandler = new HarnessHttpHandler(this);
             RootRegistry.getInstance().addHandler("/harness", "JT Harness",
-                                                  httpHandler);
+                    httpHandler);
         }
     }
 
@@ -172,6 +171,7 @@ public class Harness
     /**
      * Get the backup policy object used by this harness, used to determine
      * the policy for backing up files before overwriting them.
+     *
      * @return the backup policy object used by this harness
      * @see #setBackupPolicy
      */
@@ -183,6 +183,7 @@ public class Harness
      * Set the backup policy object to be used by this harness,
      * used to determine the policy for backing up files before
      * overwriting them.
+     *
      * @param bp the backup policy object used by this harness
      * @see #getBackupPolicy
      */
@@ -192,6 +193,7 @@ public class Harness
 
     /**
      * Check if a trace file should be generated while performing a test run.
+     *
      * @return true if and only if a trace file should be generated
      * @see #setTracingRequired
      */
@@ -201,6 +203,7 @@ public class Harness
 
     /**
      * Set whether a trace file should be generated while performing a test run.
+     *
      * @param b whether or not a trace file should be generated
      * @see #isTracingRequired
      */
@@ -209,8 +212,7 @@ public class Harness
             trace = new Trace(backupPolicy);
             addObserver(trace);
             //currentResults.addObserver(trace);
-        }
-        else if (!b && trace != null) {
+        } else if (!b && trace != null) {
             removeObserver(trace);
             //currentResults.removeObserver(trace);
             trace = null;
@@ -219,6 +221,7 @@ public class Harness
 
     /**
      * Get the class directory or jar file containing JT Harness.
+     *
      * @return the class directory or jar file containing JT Harness
      * @see #setClassDir
      */
@@ -228,6 +231,7 @@ public class Harness
 
     /**
      * Specify the class directory or jar file containing JT Harness.
+     *
      * @param classDir the class directory or jar file containing JT Harness
      * @see #getClassDir
      */
@@ -270,8 +274,8 @@ public class Harness
      * from which are currently running, or the results from the last run.
      *
      * @return null if no results are currently available.  This will be the case
-     *         if the Harness has not been run, or the parameters have been changed
-     *         without doing a new run.
+     * if the Harness has not been run, or the parameters have been changed
+     * without doing a new run.
      */
     public TestResultTable getResultTable() {
         WorkDirectory wd = params == null ? null : params.getWorkDirectory();
@@ -284,6 +288,7 @@ public class Harness
      * Add an observer to be notified during the execution of a test run.
      * Observers are notified of events in the reverse order they were added --
      * the most recently added observer gets notified first.
+     *
      * @param o the observer to be added
      * @see #removeObserver
      */
@@ -293,10 +298,11 @@ public class Harness
 
     /**
      * Remove a previously registered observer so that it will no longer
-     *  be notified during the execution of a test run.
+     * be notified during the execution of a test run.
      * It is safe for observers to remove themselves during a notification;
      * most obviously, an observer may remove itself during finishedTesting()
      * or finishedTestRun().
+     *
      * @param o the observer to be removed
      * @see #addObserver
      */
@@ -309,11 +315,12 @@ public class Harness
     /**
      * Start running all the tests defined by a new set of parameters.
      * The tests are run asynchronously, in a separate worker thread.
-     * @param p         The parameters to be set when the tests are run.
-     *                  Any errors in the parameters are reported to
-     *                  any registered observers.
+     *
+     * @param p The parameters to be set when the tests are run.
+     *          Any errors in the parameters are reported to
+     *          any registered observers.
      * @throws Harness.Fault if the harness is currently running tests
-     *                  and so cannot start running any more tests right now.
+     *                       and so cannot start running any more tests right now.
      * @see #isRunning
      * @see #stop
      * @see #waitUntilDone
@@ -324,8 +331,9 @@ public class Harness
 
     /**
      * Wait until the harness completes the current task.
-     * @exception InterruptedException if the thread making the call is
-     * interrupted.
+     *
+     * @throws InterruptedException if the thread making the call is
+     *                              interrupted.
      */
     public synchronized void waitUntilDone() throws InterruptedException {
         while (worker != null) {
@@ -340,6 +348,7 @@ public class Harness
      * and interrupts the thread doing the work. The worker may carry
      * on for a short time after this method is called, while it waits
      * for all the related tasks to complete.
+     *
      * @see #waitUntilDone
      */
     public synchronized void stop() {
@@ -354,19 +363,19 @@ public class Harness
 
     /**
      * Run the tests defined by a new set of parameters.
-     * @param params    The parameters to be used; they will be validated first.
+     *
+     * @param params The parameters to be used; they will be validated first.
      * @return true if and only if all the selected tests were executed successfully, and all passed
-     * @throws Harness.Fault if the harness is currently running tests
-     *                  and cannot start running any more tests right now.
+     * @throws Harness.Fault        if the harness is currently running tests
+     *                              and cannot start running any more tests right now.
      * @throws InterruptedException if the thread making the call is
-     * interrupted, perhaps because of an asynchronous call of stop().
+     *                              interrupted, perhaps because of an asynchronous call of stop().
      * @see #isRunning
      * @see #stop
      * @see #waitUntilDone
      */
     public boolean batch(Parameters params)
-        throws Fault, InterruptedException
-    {
+            throws Fault, InterruptedException {
         isBatchRun = true;
         // allow full read-ahead by default now - as of 3.2.1
         // this allows the not run field of verbose mode to work
@@ -383,7 +392,7 @@ public class Harness
         // too to specifically verify that workDir is set
         if (!params.isValid())
             throw new Harness.Fault(i18n, "harness.incompleteParameters",
-                                    params.getErrorMessage());
+                    params.getErrorMessage());
 
         boolean ok = false;
         try {
@@ -395,11 +404,9 @@ public class Harness
             //   suite.  that goal and this one are fundamentally opposed
             //resultTable.suppressFinderScan(true);
             ok = runTests(params, ZERO_TESTS_OK);
-        }
-        catch (TestSuite.Fault e) {
+        } catch (TestSuite.Fault e) {
             throw new Fault(i18n, "harness.testsuiteError", e.getMessage());
-        }
-        finally {
+        } finally {
             synchronized (this) {
                 worker = null;
                 notifyAll();
@@ -414,6 +421,7 @@ public class Harness
 
     /**
      * Check if the harness is currently executing a test suite or not.
+     *
      * @return true if and only if the harness is currently executing a test suite.
      * @see #start
      * @see #batch
@@ -427,9 +435,10 @@ public class Harness
     /**
      * Was the harness invoked in batch mode?  If it is not in batch mode, this
      * typically implies that the user is using an interactive GUI interface.
+     *
      * @return True if the harness is running and was invoked in batch mode.
      * @throws IllegalStateException If the harness is not running, care should
-     *         be taken to handle this in case the run terminates.
+     *                               be taken to handle this in case the run terminates.
      */
     public synchronized boolean isBatchRun() {
         if (!isRunning())
@@ -445,9 +454,10 @@ public class Harness
      * halt for special cases (errors, user request, etc...).  If false,
      * <tt>getTestsFoundCount()</tt> returns the number of tests located so
      * far.
+     *
      * @return True if all tests have been located.  False if the harness is
-     *         still looking for tests.  Always false if the harness is not
-     *         running.
+     * still looking for tests.  Always false if the harness is not
+     * running.
      * @see #isRunning()
      * @see #getTestsFoundCount()
      */
@@ -464,7 +474,7 @@ public class Harness
      * last run.
      *
      * @return Zero if no run has ever been started yet.  Elapsed time in
-     *         milliseconds otherwise.
+     * milliseconds otherwise.
      */
     public long getElapsedTime() {
         long time = 0L;
@@ -474,8 +484,7 @@ public class Harness
         else if (cleanupFinishTime == -1L) {    // isRunning() isn't good enough
             long now = System.currentTimeMillis();
             time = now - startTime;     // we are still running
-        }
-        else
+        } else
             time = cleanupFinishTime - startTime;
 
         return time;
@@ -485,7 +494,7 @@ public class Harness
      * Get the time at which the last run start.
      *
      * @return Time when the last run started in milliseconds.  -1 if there is
-     *         no previous run.
+     * no previous run.
      * @see #getFinishTime
      */
     public long getStartTime() {
@@ -497,7 +506,7 @@ public class Harness
      * the last test completed, and does not include post-run cleanup time.
      *
      * @return Time when the last run finished in milliseconds.  -1 if there is
-     *         no previous run or a run is in progress.
+     * no previous run or a run is in progress.
      * @see #getStartTime
      */
     public long getFinishTime() {
@@ -509,7 +518,7 @@ public class Harness
      * This is after the time when the last test completed.
      *
      * @return Time when the run finished in milliseconds.  -1 if there is
-     *         no previous run or a run is in progress.
+     * no previous run or a run is in progress.
      * @see #getStartTime
      */
     public long getCleanupFinishTime() {
@@ -534,7 +543,7 @@ public class Harness
      * Find out the estimated time required to complete the remaining tests.
      *
      * @return A time estimate in milliseconds.  Zero if no run is in progress or
-     *         no estimate is available.
+     * no estimate is available.
      */
     public long getEstimatedTime() {
         if (isRunning() == false || numTestsDone == 0)
@@ -550,8 +559,8 @@ public class Harness
      * of the Harness.
      *
      * @return Number of tests which the harness will try to run.  Greater than or
-     *         equal to zero and less than or equal to the total number of tests in
-     *         the testsuite.
+     * equal to zero and less than or equal to the total number of tests in
+     * the testsuite.
      * @see #isRunning()
      */
     public int getTestsFoundCount() {
@@ -568,6 +577,7 @@ public class Harness
      * The current algorithm is to begin at zero, add one for every failure,
      * five for every error and subtract two for each pass.  This value must be
      * set before the run begins, do not change it during a run.
+     *
      * @see #getAutostopThreshold
      */
     public void setAutostopThreshold(int n) {
@@ -594,8 +604,7 @@ public class Harness
                 boolean ok = false;
                 try {
                     ok = runTests(p, ZERO_TESTS_ERROR);
-                }
-                catch (Fault | TestSuite.Fault e) {
+                } catch (Fault | TestSuite.Fault e) {
                     notifyLocalizedError(e.getMessage());
                 } finally {
                     synchronized (Harness.this) {
@@ -617,25 +626,26 @@ public class Harness
     /**
      * This method is the one that does the work and runs the tests. Any parameters
      * should have been set up in the constructor.
+     *
      * @return The result is `true' if and only if all tests passed.
      */
     // This methods notifies observers for startingTestRun and stoppingTestRun.
     // The caller should notify finishedTestRun when it is OK to run start again
     // (i.e. when worker has been reset to null.
     private boolean runTests(Parameters p, boolean zeroTestsOK)
-        throws Fault, TestSuite.Fault {
+            throws Fault, TestSuite.Fault {
 
         boolean ok = true; // default return/finished notification value
         stopping = false;
         startTime = System.currentTimeMillis();
         testsStartTime = -1l;
-        cleanupFinishTime= -1l;
+        cleanupFinishTime = -1l;
         finishTime = -1l;
         numTestsDone = 0;
 
         if (!p.isValid())
             throw new Harness.Fault(i18n, "harness.incompleteParameters",
-                                    p.getErrorMessage());
+                    p.getErrorMessage());
         params = p;
 
         // get lots of necessary values from parameters
@@ -655,8 +665,8 @@ public class Harness
             tf = 1.0f;
 
         String[] timeoutFactors = {
-            String.valueOf((int) Math.ceil(tf)),
-            String.valueOf(tf)
+                String.valueOf((int) Math.ceil(tf)),
+                String.valueOf(tf)
         };
 
         env = params.getEnv();
@@ -675,8 +685,7 @@ public class Harness
             env.putUrlAndFile("testSuiteRoot", atsr);
             env.putUrlAndFile("testSuiteRootDir",
                     atsr.isDirectory() ? atsr : atsr.getParentFile());
-        }
-        else {
+        } else {
             // normal case
             env.putUrlAndFile("testSuiteRoot", testSuite.getRoot());
             env.putUrlAndFile("testSuiteRootDir", testSuite.getRootDir());
@@ -703,7 +712,7 @@ public class Harness
 
         int concurrency = params.getConcurrency();
         concurrency = Math.max(1, Math.min(concurrency,
-                                           Parameters.ConcurrencyParameters.MAX_CONCURRENCY));
+                Parameters.ConcurrencyParameters.MAX_CONCURRENCY));
         r.setConcurrency(concurrency);
 
         r.setNotifier(notifier);
@@ -713,28 +722,28 @@ public class Harness
         testsStartTime = System.currentTimeMillis();
         try {
             ok = r.runTests(new Iterator<TestDescription>() {
-                    @Override
-                    public boolean hasNext() {
-                        return stopping ? false : raTestIter.hasNext();
+                @Override
+                public boolean hasNext() {
+                    return stopping ? false : raTestIter.hasNext();
+                }
+
+                @Override
+                public TestDescription next() {
+                    TestResult tr = raTestIter.next();
+                    try {
+                        return tr.getDescription();
+                    } catch (TestResult.Fault e) {
+                        stopping = true;
+                        throw new JavaTestError(i18n, "harness.trProb", tr.getWorkRelativePath(), e);
                     }
-                    @Override
-                    public TestDescription next() {
-                        TestResult tr = raTestIter.next();
-                        try {
-                            return tr.getDescription();
-                        }
-                        catch (TestResult.Fault e) {
-                            stopping = true;
-                            throw new JavaTestError(i18n, "harness.trProb",  tr.getWorkRelativePath(), e);
-                        }
-                    }
-                    @Override
-                    public void remove() {
-                        throw new UnsupportedOperationException();
-                    }
-                });
-        }
-        catch (InterruptedException e) {
+                }
+
+                @Override
+                public void remove() {
+                    throw new UnsupportedOperationException();
+                }
+            });
+        } catch (InterruptedException e) {
             // swallow interrupts, because we're just going to wind up the run
         }
         notifier.removeObserver(testURLCollector);
@@ -755,8 +764,7 @@ public class Harness
             notifyError(i18n, "harness.noTests",
                     formatFilterList(listFilterNames(filters)), testIter.getRejectCount(), formatFilterStats(params.getTests(), testIter));
             ok = false;
-        }
-        else {
+        } else {
             /* user is notified of this in real-time
                although it may not be evident in batch mode
             if (resultTable.getTestFinder().getErrorCount() > 0) {
@@ -772,8 +780,7 @@ public class Harness
         try {
             LastRunInfo.writeInfo(workDir, startTime, finishTime,
                     env.getName(), testURLCollector.testURLs);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // ignore
         }
 
@@ -812,10 +819,9 @@ public class Harness
                 for (int i = 0; i < tests.length; i++)
                     files[i] = new File(tests[i]);
                 iter = resultTable.getIterator(files, filters);
-            }
-            catch (TestResultTable.Fault err) {
+            } catch (TestResultTable.Fault err) {
                 throw new Harness.Fault(i18n, "harness.badInitFiles",
-                                        err.getMessage());
+                        err.getMessage());
             }
         }
 
@@ -828,15 +834,13 @@ public class Harness
         if (filters == null || filters.length == 0)
             return result;      // i.e. empty
 
-        for (TestFilter f: filters) {
+        for (TestFilter f : filters) {
             // we don't care about composite wrappers, recurse into them
             if (f instanceof CompositeFilter) {
-                result.addAll(listFilterNames(((CompositeFilter)f).getFilters()));
-            }
-            else if (f instanceof AllTestsFilter) {
+                result.addAll(listFilterNames(((CompositeFilter) f).getFilters()));
+            } else if (f instanceof AllTestsFilter) {
                 continue;
-            }
-            else {
+            } else {
                 result.add(f.getName());
             }
         }
@@ -850,7 +854,7 @@ public class Harness
             return "";
 
         StringBuilder sb = new StringBuilder();
-        for (String s: names) {
+        for (String s : names) {
             sb.append("- ");
             sb.append(s);
             sb.append("\n");
@@ -860,14 +864,13 @@ public class Harness
     }
 
     private static String formatFilterStats(final String[] tests,
-            final TreeIterator iter) {
+                                            final TreeIterator iter) {
         TRT_Iterator treeit = null;
 
         if (iter == null || !(iter instanceof TRT_Iterator)) {
             return "";
-        }
-        else {
-            treeit = (TRT_Iterator)iter;
+        } else {
+            treeit = (TRT_Iterator) iter;
         }
 
         TestFilter[] filters = treeit.getFilters();
@@ -883,7 +886,7 @@ public class Harness
             sb.append("\n");
         }
 
-        for (TestFilter f: keyset) {
+        for (TestFilter f : keyset) {
             ArrayList<TestDescription> tds = map.get(f);
             // this works, should consider switching to something which has more
             // rendering control - RTF
@@ -921,8 +924,10 @@ public class Harness
 
     private BackupPolicy backupPolicy;
     private int autostopThreshold;
-    { Integer i = Integer.getInteger("javatest.autostop.threshold");
-      autostopThreshold = i == null ? 0 : i.intValue();
+
+    {
+        Integer i = Integer.getInteger("javatest.autostop.threshold");
+        autostopThreshold = i == null ? 0 : i.intValue();
     }
 
     private HarnessHttpHandler httpHandler;
@@ -954,8 +959,7 @@ public class Harness
     private static final int DEFAULT_READ_AHEAD = 100;
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Harness.class);
 
-    private class Notifier implements Harness.Observer
-    {
+    private class Notifier implements Harness.Observer {
         void addObserver(Observer o) {
             if (o == null)
                 throw new NullPointerException();
@@ -995,12 +999,12 @@ public class Harness
 
             switch (tr.getStatus().getType()) {
                 case Status.FAILED:
-                    synchronized(this) {
+                    synchronized (this) {
                         failCount++;
                     }
                     break;
                 case Status.ERROR:
-                    synchronized(this) {
+                    synchronized (this) {
                         errCount++;
                     }
                     break;
@@ -1063,39 +1067,46 @@ public class Harness
         }
 
         @Override
-        public void startingTestRun(Parameters p) { }
+        public void startingTestRun(Parameters p) {
+        }
 
         @Override
-        public void startingTest(TestResult tr) { }
+        public void startingTest(TestResult tr) {
+        }
 
         @Override
         public void finishedTest(TestResult tr) {
             switch (tr.getStatus().getType()) {
-            case Status.FAILED:
-                level++;
-                break;
-            case Status.ERROR:
-                level += 5;
-                break;
-            default:
-                level = Math.max(level - 2, 0);
+                case Status.FAILED:
+                    level++;
+                    break;
+                case Status.ERROR:
+                    level += 5;
+                    break;
+                default:
+                    level = Math.max(level - 2, 0);
             }
             if (level >= threshold) {
                 Harness.this.notifyError(i18n, "harness.tooManyErrors");
                 stop();
             }
         }
-        @Override
-        public void stoppingTestRun() { }
 
         @Override
-        public void finishedTesting() { }
+        public void stoppingTestRun() {
+        }
 
         @Override
-        public void finishedTestRun(boolean allOK) { }
+        public void finishedTesting() {
+        }
 
         @Override
-        public void error(String msg) { }
+        public void finishedTestRun(boolean allOK) {
+        }
+
+        @Override
+        public void error(String msg) {
+        }
 
         private int level;
         private int threshold;
@@ -1111,7 +1122,8 @@ public class Harness
         final List<String> testURLs = new ArrayList<>();
 
         @Override
-        public void startingTestRun(Parameters p) { }
+        public void startingTestRun(Parameters p) {
+        }
 
         @Override
         public synchronized void startingTest(TestResult tr) {
@@ -1119,18 +1131,23 @@ public class Harness
         }
 
         @Override
-        public void finishedTest(TestResult tr) { }
+        public void finishedTest(TestResult tr) {
+        }
 
         @Override
-        public void stoppingTestRun() { }
+        public void stoppingTestRun() {
+        }
 
         @Override
-        public void finishedTesting() { }
+        public void finishedTesting() {
+        }
 
         @Override
-        public void finishedTestRun(boolean allOK) { }
+        public void finishedTestRun(boolean allOK) {
+        }
 
         @Override
-        public void error(String msg) { }
+        public void error(String msg) {
+        }
     }
 }

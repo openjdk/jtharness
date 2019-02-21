@@ -36,6 +36,7 @@ import com.sun.javatest.exec.ET_FilterControl;
 import com.sun.javatest.exec.ExecModel;
 import com.sun.javatest.tool.Tool;
 import com.sun.javatest.tool.UIFactory;
+
 import javax.swing.JComponent;
 
 /**
@@ -56,7 +57,7 @@ public class ET_TemplateControlFactory extends ET_DefaultControlFactory {
     private ET_FilterControl filterControl;
 
     public ET_TemplateControlFactory(JComponent parent, UIFactory uif, TestSuite ts,
-            ContextManager cm, ExecModel execModel, Tool tool) {
+                                     ContextManager cm, ExecModel execModel, Tool tool) {
         super(parent, new UIFactory.UIFactoryExt(uif, ET_TemplateControlFactory.class),
                 ts, cm, execModel, tool);
         uifOrig = uif;
@@ -64,6 +65,7 @@ public class ET_TemplateControlFactory extends ET_DefaultControlFactory {
 
     /**
      * Overrides to return TemplateSessionControl instance
+     *
      * @return TemplateSessionControl instance
      * @throws com.sun.javatest.exec.Session.Fault
      */
@@ -77,6 +79,7 @@ public class ET_TemplateControlFactory extends ET_DefaultControlFactory {
 
     /**
      * Overrides to return TemplateFilterHandler instance
+     *
      * @return TemplateFilterHandler instance
      */
     @Override

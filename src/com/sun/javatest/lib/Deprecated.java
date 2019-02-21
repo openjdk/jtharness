@@ -33,8 +33,7 @@ import java.io.PrintStream;
  * This class should take the hit for all deprecated methods used in this
  * package.
  */
-class Deprecated
-{
+class Deprecated {
     /**
      * This method is for use in place of calls to the deprecated constructors
      * for PrintStream().  It is necessary to keep using PrintStreams for
@@ -42,9 +41,9 @@ class Deprecated
      * in sun.tools that have no alternative entry points that do not use
      * PrintStreams.
      *
-     * @param out  The output stream to which values and objects will be
-     *             printed.
-     * @return     A PrintStream.
+     * @param out The output stream to which values and objects will be
+     *            printed.
+     * @return A PrintStream.
      */
     static PrintStream createPrintStream(OutputStream out) {
         return new PrintStream(out);

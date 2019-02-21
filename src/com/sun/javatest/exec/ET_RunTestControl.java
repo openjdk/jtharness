@@ -29,22 +29,26 @@ package com.sun.javatest.exec;
 
 import com.sun.javatest.Harness;
 import com.sun.javatest.Parameters;
+
 import javax.swing.JComponent;
 
 /**
  * Interface allowing access to basic harness facilities.
- *
  */
 interface ET_RunTestControl extends ET_Control {
 
     void runTests();
 
     void setTreePanelModel(TreePanelModel tpm);
+
     void setConfig(Session config);
+
     Harness getHarness();
+
     public void executeImmediate(String... paths);
 
     void addObserver(Observer obs);
+
     void removeObserver(Observer obs);
 
     /**

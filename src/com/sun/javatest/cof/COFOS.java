@@ -30,10 +30,9 @@ import java.util.LinkedHashMap;
 
 
 /**
- *
- *         OS name elements use the property os.name. OS version elements
- *         use the property os.version. OS arch elements use the property
- *         os.arch.
+ * OS name elements use the property os.name. OS version elements
+ * use the property os.version. OS arch elements use the property
+ * os.arch.
  *
  *
  * <p>Java class for OS complex type.
@@ -53,22 +52,20 @@ import java.util.LinkedHashMap;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
  */
-public class COFOS extends COFItem{
+public class COFOS extends COFItem {
 
-static final String [] propOrder = {
-        "name",
-        "version",
-        "arch"
+    static final String[] propOrder = {
+            "name",
+            "version",
+            "arch"
     };
-static final String [] tags = {
-        "name",
-        "version",
-        "arch"
+    static final String[] tags = {
+            "name",
+            "version",
+            "arch"
     };
-static LinkedHashMap<String, String> xmlAttributes;
+    static LinkedHashMap<String, String> xmlAttributes;
 
     static LinkedHashMap<String, String> xmlElements;
 
@@ -76,51 +73,48 @@ static LinkedHashMap<String, String> xmlAttributes;
 
     static {
         xmlElements = new LinkedHashMap<>();
-        for (int i = 0;i<propOrder.length;i++) {
+        for (int i = 0; i < propOrder.length; i++) {
             xmlElements.put(propOrder[i], tags[i]);
         }
         xmlTagName = "os";
-        }
+    }
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
     protected String arch;
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
     protected String name;
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
     protected String version;
 
-        /**
+    /**
      * Gets the value of the arch property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public String getArch() {
         return arch;
     }
 
-        LinkedHashMap<String, String> getItemAttributes() {
-                return xmlAttributes;
-        }
-    LinkedHashMap<String, String> getItemElements() {
-                return xmlElements;
-        }
+    LinkedHashMap<String, String> getItemAttributes() {
+        return xmlAttributes;
+    }
 
-        String getItemTagName() {
-                return xmlTagName;
-        }
+    LinkedHashMap<String, String> getItemElements() {
+        return xmlElements;
+    }
+
+    String getItemTagName() {
+        return xmlTagName;
+    }
 
     /**
      * Gets the value of the name property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public String getName() {
         return name;
@@ -129,10 +123,8 @@ static LinkedHashMap<String, String> xmlAttributes;
     /**
      * Gets the value of the version property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public String getVersion() {
         return version;
@@ -141,10 +133,8 @@ static LinkedHashMap<String, String> xmlAttributes;
     /**
      * Sets the value of the arch property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setArch(String value) {
         this.arch = value;
@@ -153,10 +143,8 @@ static LinkedHashMap<String, String> xmlAttributes;
     /**
      * Sets the value of the name property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setName(String value) {
         this.name = value;
@@ -165,10 +153,8 @@ static LinkedHashMap<String, String> xmlAttributes;
     /**
      * Sets the value of the version property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setVersion(String value) {
         this.version = value;

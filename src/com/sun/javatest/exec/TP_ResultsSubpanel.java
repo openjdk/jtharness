@@ -28,6 +28,7 @@ package com.sun.javatest.exec;
 
 import java.awt.EventQueue;
 import java.util.Enumeration;
+
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.tool.UIFactory;
@@ -37,8 +38,7 @@ import com.sun.javatest.tool.UIFactory;
  */
 
 class TP_ResultsSubpanel
-    extends TP_PropertySubpanel
-{
+        extends TP_PropertySubpanel {
 
     TP_ResultsSubpanel(UIFactory uif) {
         super(uif, "rslt");
@@ -54,7 +54,7 @@ class TP_ResultsSubpanel
         updateEntries();
 
         // if it is mutable, track updates
-        if (subpanelTest.isMutable())  {
+        if (subpanelTest.isMutable()) {
             subpanelTest.addObserver(observer);
         }
     }
@@ -65,8 +65,7 @@ class TP_ResultsSubpanel
                 String key = e.nextElement();
                 String val = subpanelTest.getProperty(key);
                 updateEntry(key, val);
-            }
-            catch (TestResult.Fault f) {
+            } catch (TestResult.Fault f) {
             }
         }
     }
@@ -77,12 +76,12 @@ class TP_ResultsSubpanel
                 updateEntries();
             else {
                 EventQueue.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (tr == subpanelTest)
-                                updateEntries();
-                        }
-                    });
+                    @Override
+                    public void run() {
+                        if (tr == subpanelTest)
+                            updateEntries();
+                    }
+                });
             }
         }
     }
@@ -93,12 +92,12 @@ class TP_ResultsSubpanel
                 updateEntry(name, value);
             else {
                 EventQueue.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (tr == subpanelTest)
-                                updateEntry(name, value);
-                        }
-                    });
+                    @Override
+                    public void run() {
+                        if (tr == subpanelTest)
+                            updateEntry(name, value);
+                    }
+                });
             }
         }
     }
@@ -108,8 +107,7 @@ class TP_ResultsSubpanel
     //------------------------------------------------------------------------------------
 
     private class TRObserver
-        implements TestResult.Observer
-    {
+            implements TestResult.Observer {
         @Override
         public void completed(TestResult tr) {
             updateEntriesLater(tr);

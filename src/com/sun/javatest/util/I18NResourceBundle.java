@@ -40,12 +40,12 @@ import java.util.MissingResourceException;
  * A class that lazily opens a package-specific resource bundle
  * containing localization data for a class.
  */
-public class I18NResourceBundle extends ResourceBundle
-{
+public class I18NResourceBundle extends ResourceBundle {
     /**
      * Get a package-specific resource bundle for a class containing localization data.
      * The bundle is named i18n.properties in the same
      * package as the given class.
+     *
      * @param c the class for which to obtain the resource bundle
      * @return the appropriate resource bundle for the class
      */
@@ -61,29 +61,30 @@ public class I18NResourceBundle extends ResourceBundle
      * Get an entry from the resource bundle.
      * If the resource cannot be found, a message is printed to the console
      * and the result will be a string containing the method parameters.
+     *
      * @param key the name of the entry to be returned
      * @param arg an argument to be formatted into the result using
-     * {@link java.text.MessageFormat#format}
+     *            {@link java.text.MessageFormat#format}
      * @return the formatted string
      */
     public String getString(String key, Object arg) {
-        return getString(key, new Object[] {arg});
+        return getString(key, new Object[]{arg});
     }
 
     /**
      * Get an entry from the resource bundle.
      * If the resource cannot be found, a message is printed to the console
      * and the result will be a string containing the method parameters.
-     * @param key the name of the entry to be returned
+     *
+     * @param key  the name of the entry to be returned
      * @param args an array of arguments to be formatted into the result using
-     * {@link java.text.MessageFormat#format}
+     *             {@link java.text.MessageFormat#format}
      * @return the formatted string
      */
     public String getString(String key, Object... args) {
         try {
             return MessageFormat.format(getString(key), args);
-        }
-        catch (MissingResourceException e) {
+        } catch (MissingResourceException e) {
             System.err.println("WARNING: missing resource: " + key + " for " + name);
             StringBuilder sb = new StringBuilder(key);
             for (Object arg : args) {
@@ -96,6 +97,7 @@ public class I18NResourceBundle extends ResourceBundle
 
     /**
      * Get an entry from the bundle, returning null if it is not found.
+     *
      * @param key the name of the entry to be returned
      * @return the value of the entry, or null if it is not found.
      */
@@ -106,8 +108,7 @@ public class I18NResourceBundle extends ResourceBundle
                 System.out.println("i18n: " + key);
             }
             return s;
-        }
-        catch (MissingResourceException e) {
+        } catch (MissingResourceException e) {
             return null;
         }
     }
@@ -139,6 +140,7 @@ public class I18NResourceBundle extends ResourceBundle
     /**
      * Create a resource bundle for the given name.
      * The actual resource bundle will not be loaded until it is needed.
+     *
      * @param name The name of the actual resource bundle to use.
      */
     private I18NResourceBundle(String name, boolean logging, ClassLoader cl) {
@@ -161,8 +163,7 @@ public class I18NResourceBundle extends ResourceBundle
                 System.out.println("i18n: " + key);
             }
             return getObj(key);
-        }
-        catch (MissingResourceException e) {
+        } catch (MissingResourceException e) {
             System.err.println("WARNING: missing resource: " + key + " for " + name);
             return key;
         }
@@ -202,6 +203,7 @@ public class I18NResourceBundle extends ResourceBundle
     /**
      * Returns the name of this bundle (useful for methods using
      * bundle name instead of instance, such as <code>Logger</code> creation,
+     *
      * @return the name of this resource bundle
      */
 

@@ -51,30 +51,28 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
  */
 /*@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TestAttributes", propOrder = {
     "attribute"
 })*/
-public class COFTestAttributes extends COFItem{
+public class COFTestAttributes extends COFItem {
 
-static LinkedHashMap<String, String> xmlAttributes;
+    static LinkedHashMap<String, String> xmlAttributes;
 
     static LinkedHashMap<String, String> xmlElements;
     static String xmlTagName;
 
-        static {
-                xmlTagName = "attributes";
-                xmlElements = new LinkedHashMap<>();
-                xmlElements.put("attribute","attribute");
-        }
+    static {
+        xmlTagName = "attributes";
+        xmlElements = new LinkedHashMap<>();
+        xmlElements.put("attribute", "attribute");
+    }
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
     protected List<COFTestAttribute> attribute;
 
-        /**
+    /**
      * Gets the value of the attribute property.
      *
      * <p>
@@ -93,8 +91,6 @@ static LinkedHashMap<String, String> xmlAttributes;
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link COFTestAttribute }
-     *
-     *
      */
     public List<COFTestAttribute> getAttribute() {
         if (attribute == null) {
@@ -103,14 +99,15 @@ static LinkedHashMap<String, String> xmlAttributes;
         return this.attribute;
     }
 
-        LinkedHashMap<String, String> getItemAttributes() {
-                return xmlAttributes;
-        }
+    LinkedHashMap<String, String> getItemAttributes() {
+        return xmlAttributes;
+    }
 
-        LinkedHashMap<String, String> getItemElements() {
-                return xmlElements;
-        }
-        String getItemTagName() {
-                return xmlTagName;
-        }
+    LinkedHashMap<String, String> getItemElements() {
+        return xmlElements;
+    }
+
+    String getItemTagName() {
+        return xmlTagName;
+    }
 }

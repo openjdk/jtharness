@@ -42,6 +42,7 @@ public class LastRunFilter extends ObservableTestFilter {
     /**
      * Create uninitialized filter.  Will not work until the work directory is set or
      * the last start time is set.
+     *
      * @see #setLastStartTime
      * @see #setWorkDirectory
      */
@@ -71,8 +72,7 @@ public class LastRunFilter extends ObservableTestFilter {
             //   comparing below one second (system clock) may cause unexpected
             //   results
             //lastStart = info.getStartTime();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
         }
 
         workdir = wd;
@@ -167,8 +167,7 @@ public class LastRunFilter extends ObservableTestFilter {
                     o.rejected(td, this);
                 return false;
             }
-        }
-        else
+        } else
             return true;
 
     }

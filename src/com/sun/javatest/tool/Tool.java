@@ -47,8 +47,7 @@ import com.sun.javatest.util.DynamicArray;
 /**
  * A base class for tools to appear on the JT Harness desktop.
  */
-public abstract class Tool extends JPanel
-{
+public abstract class Tool extends JPanel {
     /**
      * An observer interface for use by those that wishing to monitor changes
      * to a tool.
@@ -56,20 +55,23 @@ public abstract class Tool extends JPanel
     public interface Observer {
         /**
          * The title of a tool has been changed.
-         * @param source The tool whose title has been changed.
+         *
+         * @param source   The tool whose title has been changed.
          * @param newValue The new title for the tool.
          */
         void titleChanged(Tool source, String newValue);
 
         /**
          * The short title of a tool has been changed.
-         * @param source The tool whose title has been changed.
+         *
+         * @param source   The tool whose title has been changed.
          * @param newValue The new title for the tool.
          */
         void shortTitleChanged(Tool source, String newValue);
 
         /**
          * A tool has been disposed.
+         *
          * @param source the tool that has been disposed
          */
         void toolDisposed(Tool source);
@@ -79,6 +81,7 @@ public abstract class Tool extends JPanel
 
     /**
      * Add an observer to be notified of changes to a tool.
+     *
      * @param o the observer to be added
      * @see #removeObserver
      */
@@ -88,7 +91,8 @@ public abstract class Tool extends JPanel
 
     /**
      * Remove a previously registered observer so that it will no longer
-     *  be notified of changes to a tool.
+     * be notified of changes to a tool.
+     *
      * @param o the observer to be removed
      * @see #addObserver
      */
@@ -102,6 +106,7 @@ public abstract class Tool extends JPanel
      * Get the menu bar for a tool.
      * This should just contain the tool-specific menus. The desktop will
      * automatically add and display the standard menus on the menu bar.
+     *
      * @return a menu bar containing tool-specific menus
      */
     public abstract JMenuBar getMenuBar();
@@ -109,6 +114,7 @@ public abstract class Tool extends JPanel
     /**
      * Set the title string for the tool. This will normally the displayed
      * by the desktop in the title bar of the window containing the tool.
+     *
      * @param key key to be used to get title text from resource bundle
      * @see #getTitle
      */
@@ -119,6 +125,7 @@ public abstract class Tool extends JPanel
     /**
      * Set the title string for the tool. This will normally the displayed
      * by the desktop in the title bar of the window containing the tool.
+     *
      * @param key key to be used to get title text from resource bundle
      * @param arg item for substitution into string from resource bundle
      * @see com.sun.javatest.util.I18NResourceBundle
@@ -131,7 +138,8 @@ public abstract class Tool extends JPanel
     /**
      * Set the title string for the tool. This will normally the displayed
      * by the desktop in the title bar of the window containing the tool.
-     * @param key key to be used to get title text from resource bundle
+     *
+     * @param key  key to be used to get title text from resource bundle
      * @param args items for substitution into string from resource bundle
      * @see com.sun.javatest.util.I18NResourceBundle
      * @see #getTitle
@@ -143,6 +151,7 @@ public abstract class Tool extends JPanel
     /**
      * Set the title string for the tool. This will normally the displayed
      * by the desktop in the title bar of the window containing the tool.
+     *
      * @param newTitle the title string for the tool
      * @see #getTitle
      */
@@ -158,10 +167,11 @@ public abstract class Tool extends JPanel
 
     /**
      * Get the title string for the tool.
+     *
      * @return the title string for the tool
      * @see #setI18NTitle(String)
-     * @see #setI18NTitle(String,Object)
-     * @see #setI18NTitle(String,Object[])
+     * @see #setI18NTitle(String, Object)
+     * @see #setI18NTitle(String, Object[])
      */
     public String getTitle() {
         return title;
@@ -171,6 +181,7 @@ public abstract class Tool extends JPanel
      * Set a short title for the tool. This will normally be displayed
      * by the desktop in situations where there is not room for the
      * full title.
+     *
      * @param newShortTitle the short title string for the tool
      * @see #getShortTitle
      */
@@ -186,6 +197,7 @@ public abstract class Tool extends JPanel
 
     /**
      * Get a short title for the tool.
+     *
      * @return the short title string for the tool
      * @see #setShortTitle
      */
@@ -200,6 +212,7 @@ public abstract class Tool extends JPanel
 
     /**
      * Get a list of any test suites that are being used by this tool.
+     *
      * @return a list of test suites being used by the tool, or null if none
      */
     public TestSuite[] getLoadedTestSuites() {
@@ -208,6 +221,7 @@ public abstract class Tool extends JPanel
 
     /**
      * Get a list of any work directories that are being used by this tool.
+     *
      * @return a list of work directories being used by the tool, or null if none
      */
     public WorkDirectory[] getLoadedWorkDirectories() {
@@ -218,13 +232,13 @@ public abstract class Tool extends JPanel
      * Get the creation time for this tool. This is used by the desktop
      * to help preserve a consistent order when changing between desktop
      * styles.
+     *
      * @return a standard long cvalue, as returned by
      * System.currentTimeMillis, indicating the time the tool was created
      */
     public long getCreationTime() {
         return creationTime;
     }
-
 
 
     //--------------------------------------------------------------------------
@@ -251,7 +265,8 @@ public abstract class Tool extends JPanel
      * <table>
      * <tr><td><i>uiKey</i>.name <td>accessible name text
      * </table>
-     * @param m the manager for this tool
+     *
+     * @param m     the manager for this tool
      * @param uiKey the component name for this tool
      */
     protected Tool(ToolManager m, String uiKey) {
@@ -267,8 +282,9 @@ public abstract class Tool extends JPanel
 
     /**
      * Create a tool object.
-     * @param m the manager for this tool
-     * @param uiKey the component name for this tool
+     *
+     * @param m      the manager for this tool
+     * @param uiKey  the component name for this tool
      * @param helpID the help ID for context-sensitive help for this tool
      */
     protected Tool(ToolManager m, String uiKey, String helpID) {
@@ -279,6 +295,7 @@ public abstract class Tool extends JPanel
 
     /**
      * Get the manager for this tool.
+     *
      * @return the manager for this tool
      */
     public ToolManager getManager() {
@@ -287,6 +304,7 @@ public abstract class Tool extends JPanel
 
     /**
      * Get the desktop for this tool.
+     *
      * @return the desktop for this tool
      */
     public Desktop getDesktop() {
@@ -295,6 +313,7 @@ public abstract class Tool extends JPanel
 
     /**
      * Get the help broker used to provide help for this tool.
+     *
      * @return the help broker used to provide help for this tool
      */
     public HelpBroker getHelpBroker() {
@@ -307,8 +326,9 @@ public abstract class Tool extends JPanel
      * The tool must also implement the following method
      * <code>public static Tool restore(Map m)</code>
      * which will be invoked to recreate the tool.
+     *
      * @param m the map in which to store the significant state
-     * of the tool
+     *          of the tool
      */
     protected abstract void save(Map<String, String> m);
 
@@ -316,8 +336,9 @@ public abstract class Tool extends JPanel
     /**
      * Restore information about a tool from a map, and configure
      * the tool according this information.
+     *
      * @param m the map in which to store the significant state
-     * of the tool
+     *          of the tool
      */
     protected abstract void restore(Map<String, String> m);
 
@@ -326,6 +347,7 @@ public abstract class Tool extends JPanel
      * Get a list (if any) of the reasons why it might be inadvisable
      * to close the tool at this point. This will normally include
      * information about unsaved data or tasks in progress.
+     *
      * @return a list of alerts about why the user might not want
      * to close the tool at this time; the list may be empty or null
      * to indicate that there are no such reasons
@@ -339,6 +361,7 @@ public abstract class Tool extends JPanel
      * Set the helpID for this component.  The help
      * will be shown if and when the focus is on this component
      * and the standard Help key (F1) is pressed.
+     *
      * @param helpID the ID for the help to be displayed
      */
     protected void setHelp(String helpID) {
@@ -349,7 +372,8 @@ public abstract class Tool extends JPanel
      * Set the helpID for a specific component.  The help
      * will be shown if and when the focus is on the specified component
      * and the standard Help key (F1) is pressed.
-     * @param comp the component in question
+     *
+     * @param comp   the component in question
      * @param helpID the ID for the help to be displayed
      */
     protected void setHelp(Component comp, String helpID) {
@@ -370,9 +394,10 @@ public abstract class Tool extends JPanel
     /**
      * Set a button to be a Help button and to invoke the help
      * view set to a specific helpID.
-     * @param comp the button to be made into a help button
+     *
+     * @param comp   the button to be made into a help button
      * @param helpID the ID for the help to be displayed when the
-     * button is pressed
+     *               button is pressed
      */
     protected void setHelpOnButton(Component comp, String helpID) {
         HelpBroker b = getHelpBroker();
@@ -382,6 +407,7 @@ public abstract class Tool extends JPanel
 
     /**
      * Get an array containing the set of ToolDialogs owned by this tool.
+     *
      * @return an array containing the set of ToolDialogs owned by this tool
      */
     public ToolDialog[] getToolDialogs() {
@@ -403,6 +429,7 @@ public abstract class Tool extends JPanel
 
     /**
      * Record a ToolDialog as belonging to this tool.
+     *
      * @param td the tool dialog to be registered as belonging to this tool.
      */
     void addToolDialog(ToolDialog td) {

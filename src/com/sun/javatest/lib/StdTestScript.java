@@ -27,6 +27,7 @@
 package com.sun.javatest.lib;
 
 import java.io.File;
+
 import com.sun.javatest.Script;
 import com.sun.javatest.Status;
 import com.sun.javatest.TestDescription;
@@ -36,16 +37,14 @@ import com.sun.javatest.util.StringArray;
 /**
  * A Script to compile/execute a standard test.
  */
-public class StdTestScript extends Script
-{
+public class StdTestScript extends Script {
     @Override
     public Status run(String[] args, TestDescription td, TestEnvironment env) {
         try {
             String[] m = env.lookup("script.mode");
             if (m != null && m.length == 1)
                 setMode(m[0]);
-        }
-        catch (TestEnvironment.Fault e) {
+        } catch (TestEnvironment.Fault e) {
             return Status.failed("error determining script mode: " + e.getMessage());
         }
 
@@ -86,14 +85,14 @@ public class StdTestScript extends Script
                 srcsParameter = td.getParameter("source");
             String[] srcs = StringArray.split(srcsParameter);
             File[] files = new File[srcs.length];
-            File tdDir  = td.getDir();
+            File tdDir = td.getDir();
             for (int i = 0; i < files.length; i++)
                 files[i] = new File(tdDir, srcs[i].replace('/', File.separatorChar));
 
             Status compileStatus = compileTogether(files);
 
             // if we're not going to execute the test, this is the end of the task
-            if (!execute)  {
+            if (!execute) {
                 if (expectFail) {
                     // backwards compatibility for negative compiler tests,
                     // for which we expect the compilation to fail,
@@ -137,6 +136,7 @@ public class StdTestScript extends Script
 
     /**
      * Get the execution mode for this script. The default mode is CERTIFY.
+     *
      * @return an integer signifying the execution mode for this script
      * @see #setMode
      * @see #UNKNOWN
@@ -150,6 +150,7 @@ public class StdTestScript extends Script
 
     /**
      * Set the execution mode for this script.
+     *
      * @param mode an integer signifying the execution mode for this script
      * @see #getMode
      * @see #UNKNOWN
@@ -159,14 +160,14 @@ public class StdTestScript extends Script
      */
     public void setMode(int mode) {
         switch (mode) {
-        case CERTIFY:
-        case PRECOMPILE:
-        case DEVELOPER:
-            this.mode = mode;
-            break;
+            case CERTIFY:
+            case PRECOMPILE:
+            case DEVELOPER:
+                this.mode = mode;
+                break;
 
-        default:
-            throw new IllegalArgumentException();
+            default:
+                throw new IllegalArgumentException();
         }
     }
 

@@ -27,6 +27,7 @@
 package com.sun.javatest.exec;
 
 import com.sun.javatest.tool.UIFactory;
+
 import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.Icon;
@@ -38,7 +39,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
 public class FileTable extends JTable {
-
 
 
     public FileTable(FileSystemTableModel model, UIFactory uif) {
@@ -67,19 +67,20 @@ public class FileTable extends JTable {
 
     /**
      * Selects column to be autoresized
-     * @param column column index, should be &lt;= 0 and &gt; getColumnCount()
+     *
+     * @param column   column index, should be &lt;= 0 and &gt; getColumnCount()
      * @param keepSize shows if it is needed to keep width of column when the model
-     * is changed
-     * true: width of the column will be the same or greater at model change
-     * false: width will always equal the longest name
+     *                 is changed
+     *                 true: width of the column will be the same or greater at model change
+     *                 false: width will always equal the longest name
      * @return false in case this column is already autoresizing, true if column was added
      */
     public boolean addAutoResizeColumn(int column, boolean keepSize) {
-        if(column < 0 || column >= getColumnCount())
+        if (column < 0 || column >= getColumnCount())
             throw new IllegalArgumentException("Column " + column + " doesn't exist in the table");
 
-        for(Resize r: autoResizeColumns)
-            if(r.column == column)
+        for (Resize r : autoResizeColumns)
+            if (r.column == column)
                 return false;
 
         autoResizeColumns.add(new Resize(column, keepSize));
@@ -88,13 +89,14 @@ public class FileTable extends JTable {
 
     /**
      * Selects column not to be autoresized
+     *
      * @param column column index
      * @return true in case column was set not to be autoresized,
      * false in case column wasn't autoresized
      */
     public boolean removeAutoResizeColumn(int column) {
-        for(Resize r: autoResizeColumns) {
-            if(r.column == column) {
+        for (Resize r : autoResizeColumns) {
+            if (r.column == column) {
                 autoResizeColumns.remove(r);
                 return true;
             }
@@ -106,40 +108,41 @@ public class FileTable extends JTable {
      * Autoresize all selected columns
      */
     void updateWidth() {
-        for(Resize r: autoResizeColumns) {
+        for (Resize r : autoResizeColumns) {
             updateWidth(r.column, r.keep);
         }
     }
 
     /**
      * Autoresize column to fit the longest containing name
+     *
      * @param columnIndex column index
-     * @param keepWidth shows if it is needed to keep width of column when the model
-     * is changed
-     * true: width of the column will be the same or greater at model change
-     * false: width will always equal the longest name
+     * @param keepWidth   shows if it is needed to keep width of column when the model
+     *                    is changed
+     *                    true: width of the column will be the same or greater at model change
+     *                    false: width will always equal the longest name
      */
     void updateWidth(int columnIndex, boolean keepWidth) {
         int width = 0;
         TableColumn column = getColumnModel().getColumn(columnIndex);
         // if it is needed to keep width - starting width is set to old value
-        if(keepWidth)
+        if (keepWidth)
             width = column.getWidth();
 
         boolean modified = false;
-        for(int i = 0; i < getRowCount(); i++) {
+        for (int i = 0; i < getRowCount(); i++) {
             Object o = getValueAt(i, columnIndex);
-            if(o != null) {
+            if (o != null) {
                 String s = o.toString();
                 int stringWidth = getFontMetrics(getFont()).stringWidth(s);
-                if(stringWidth > width) {
+                if (stringWidth > width) {
                     width = stringWidth;
                     modified = true;
                 }
             }
         }
 
-        if(modified)
+        if (modified)
             width *= 1.1; // table lines also have some width
         column.setPreferredWidth(width);
     }

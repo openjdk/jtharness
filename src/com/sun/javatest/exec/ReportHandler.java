@@ -29,6 +29,7 @@ package com.sun.javatest.exec;
 import com.sun.javatest.Harness;
 import com.sun.javatest.Parameters;
 import com.sun.javatest.TestResult;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -70,9 +71,9 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
     @Override
     public JMenu getMenu() {
         Action[] reportActions = {
-            newReportAction,
-            openReportAction,
-            null
+                newReportAction,
+                openReportAction,
+                null
         };
 
         JMenu menu = uif.createMenu("rpth", reportActions);
@@ -92,8 +93,7 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
                 return;
 
             // set parameters?
-        }
-        else if (mode == ReportDirChooser.OPEN) {
+        } else if (mode == ReportDirChooser.OPEN) {
             FileChooser fc = new FileChooser();
             fc.setApproveButtonToolTipText(uif.getI18NString("rh.open.tip"));
             fc.setApproveButtonMnemonic(uif.getI18NMnemonic("rh.open.mne"));
@@ -117,17 +117,17 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
     void showNewReportDialog() {
         if (newReportD == null) {
             newReportD = new NewReportDialog(parent, uif, model.getFilterConfig(),
-                            getReportBrowser(), model);
+                    getReportBrowser(), model);
 
-        newReportD.addObserver(new NewReportDialog.Observer() {
+            newReportD.addObserver(new NewReportDialog.Observer() {
                 @Override
                 public void update(Map<String, String> l) {
                     lastState = l;
                     String lastReportDir =
-                        lastState.get(NewReportDialog.REPORT_DIR);
+                            lastState.get(NewReportDialog.REPORT_DIR);
 
-                   if (lastReportDir != null)
-                       history.add(new File(lastReportDir));
+                    if (lastReportDir != null)
+                        history.add(new File(lastReportDir));
                 }
 
                 @Override
@@ -170,8 +170,7 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
                     newestTime = f.lastModified();
                 }
             }   // for
-        }
-        else {
+        } else {
             // target is a file
         }
 
@@ -219,9 +218,9 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
 
     @Override
     public void save(Map<String, String> parentMap) {
-        if (lastState != null && !lastState.isEmpty())  {
-           Map<String, String> pm = new PrefixMap<>(parentMap, REPORT_PREFIX);
-           pm.putAll(lastState);
+        if (lastState != null && !lastState.isEmpty()) {
+            Map<String, String> pm = new PrefixMap<>(parentMap, REPORT_PREFIX);
+            pm.putAll(lastState);
         }
     }
 
@@ -279,13 +278,20 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
             }
 
             @Override
-            public void startingTest(TestResult tr) {}
+            public void startingTest(TestResult tr) {
+            }
+
             @Override
-            public void finishedTest(TestResult tr) {}
+            public void finishedTest(TestResult tr) {
+            }
+
             @Override
-            public void stoppingTestRun() {}
+            public void stoppingTestRun() {
+            }
+
             @Override
-            public void finishedTesting() {}
+            public void finishedTesting() {
+            }
 
             @Override
             public void finishedTestRun(boolean allOK) {
@@ -293,12 +299,14 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
             }
 
             @Override
-            public void error(String msg) {}
+            public void error(String msg) {
+            }
         });
     }
 
     /**
      * ET_Control interface method
+     *
      * @return null
      */
     @Override

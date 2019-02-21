@@ -29,6 +29,7 @@ package com.sun.javatest.exec;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.tool.UIFactory;
+
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -36,9 +37,11 @@ import java.net.URL;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class TP_DocumentationSubpanel extends TP_Subpanel{
+public class TP_DocumentationSubpanel extends TP_Subpanel {
 
-    /** Creates a new instance of TP_DocumentationSubpanel */
+    /**
+     * Creates a new instance of TP_DocumentationSubpanel
+     */
     public TP_DocumentationSubpanel(UIFactory uif) {
         super(uif, "docs");
         initGUI();
@@ -62,11 +65,10 @@ public class TP_DocumentationSubpanel extends TP_Subpanel{
         try {
             TestDescription td = currTest.getDescription();
             filelist = testSuite.getDocsForTest(td);
-            if(filelist != null) {
+            if (filelist != null) {
                 filesPane.setFiles(filelist);
                 setPanel(filesPane);
-            }
-            else {
+            } else {
                 setPanel(emptyPane);
             }
         } catch (TestResult.Fault e) {
@@ -79,7 +81,7 @@ public class TP_DocumentationSubpanel extends TP_Subpanel{
     }
 
     private void setPanel(JPanel p) {
-        if(p != null) {
+        if (p != null) {
             this.removeAll();
             this.add(p, BorderLayout.CENTER);
         }

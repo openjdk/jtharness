@@ -27,6 +27,7 @@
 package com.sun.javatest.report;
 
 import com.sun.javatest.TestSuite;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class CustomReportFormat implements ReportFormat {
             return new ReportLink(theCustomReport.getName(), theCustomReport.getReportId(),
                     theCustomReport.getDescription(), f);
         } else
-        throw new IllegalStateException();
+            throw new IllegalStateException();
     }
 
     @Override

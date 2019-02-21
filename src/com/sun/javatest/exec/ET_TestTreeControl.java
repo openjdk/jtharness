@@ -30,6 +30,7 @@ package com.sun.javatest.exec;
 
 import com.sun.javatest.Parameters;
 import com.sun.javatest.TestResultTable;
+
 import java.util.Map;
 import javax.swing.JComponent;
 
@@ -39,14 +40,21 @@ import javax.swing.JComponent;
 interface ET_TestTreeControl extends ET_Control, Session.Observer {
 
     public TestResultTable getTestResultTable();
+
     public TreePanelModel getTreePanelModel();
+
     public void setParameters(Parameters p);
+
     public Parameters getParameters();
+
     public void setFilterSelectionHandler(FilterSelectionHandler fh);
+
     public void initialize();
+
     public JComponent getViewComponent();
 
     void saveTreeState(Map<String, String> m);
+
     void restoreTreeState(Map<String, String> m);
 
 }

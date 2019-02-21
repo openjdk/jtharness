@@ -42,8 +42,7 @@ import com.sun.javatest.Status;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
-class CE_PriorStatusPane extends CE_StdPane
-{
+class CE_PriorStatusPane extends CE_StdPane {
     CE_PriorStatusPane(UIFactory uif, InterviewParameters config) {
         super(uif, config, "status");
 
@@ -88,14 +87,12 @@ class CE_PriorStatusPane extends CE_StdPane
             boolean[] statusValues = mutablePriorStatusParameters.getMatchPriorStatusValues();
             for (int i = 0; i < statusChecks.length; i++)
                 statusChecks[i].setSelected(statusValues[i]);
-        }
-        else {
+        } else {
             boolean[] statusValues = priorStatusParameters.getPriorStatusValues();
             if (statusValues == null) {
                 selectCheck.setSelected(false);
                 for (JCheckBox statusCheck : statusChecks) statusCheck.setSelected(false);
-            }
-            else {
+            } else {
                 selectCheck.setSelected(true);
                 for (int i = 0; i < statusChecks.length; i++)
                     statusChecks[i].setSelected(statusValues[i]);
@@ -112,8 +109,8 @@ class CE_PriorStatusPane extends CE_StdPane
     void save() {
         if (mutablePriorStatusParameters != null) {
             int sm = selectCheck.isSelected()
-                      ? MutablePriorStatusParameters.MATCH_PRIOR_STATUS
-                      : MutablePriorStatusParameters.NO_PRIOR_STATUS;
+                    ? MutablePriorStatusParameters.MATCH_PRIOR_STATUS
+                    : MutablePriorStatusParameters.NO_PRIOR_STATUS;
             mutablePriorStatusParameters.setPriorStatusMode(sm);
 
             boolean[] b = new boolean[Status.NUM_STATES];
@@ -127,7 +124,7 @@ class CE_PriorStatusPane extends CE_StdPane
         ContextHelpManager.setHelpIDString(this, "confEdit.statusTab.csh");
 
         JPanel p = uif.createPanel("ce.status", new GridBagLayout(),
-                                    false);
+                false);
 
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.WEST;
@@ -152,27 +149,27 @@ class CE_PriorStatusPane extends CE_StdPane
         p.add(anyOfLabel, c);
 
         JPanel row = uif.createPanel("ce.status.body",
-                                    new GridBagLayout(),
-                                    false);
+                new GridBagLayout(),
+                false);
         row.setBorder(BorderFactory.createEtchedBorder());
         GridBagConstraints rc = new GridBagConstraints();
         rc.insets.left = 10;
 
         statusChecks[Status.PASSED] =
-            uif.createCheckBox("ce.status.prev.passed", false);
+                uif.createCheckBox("ce.status.prev.passed", false);
         row.add(statusChecks[Status.PASSED], rc);
 
         statusChecks[Status.FAILED] =
-            uif.createCheckBox("ce.status.prev.failed", true);
+                uif.createCheckBox("ce.status.prev.failed", true);
         row.add(statusChecks[Status.FAILED], rc);
 
         statusChecks[Status.ERROR] =
-            uif.createCheckBox("ce.status.prev.error", true);
+                uif.createCheckBox("ce.status.prev.error", true);
         row.add(statusChecks[Status.ERROR], rc);
 
         rc.insets.right = 10;
         statusChecks[Status.NOT_RUN] =
-            uif.createCheckBox("ce.status.prev.notRun", true);
+                uif.createCheckBox("ce.status.prev.notRun", true);
         row.add(statusChecks[Status.NOT_RUN], rc);
         uif.setToolTip(row, "ce.status.prev");
 

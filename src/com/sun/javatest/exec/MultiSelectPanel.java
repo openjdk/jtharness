@@ -47,8 +47,8 @@ import com.sun.javatest.util.Debug;
  * This panel shows information when multiple nodes are selected in the tree.
  */
 class MultiSelectPanel
-    extends JPanel
-    //implements FilterSelectionHandler.Observer
+        extends JPanel
+        //implements FilterSelectionHandler.Observer
 {
     MultiSelectPanel(UIFactory uif, TreePanelModel model, TestTreeModel ttm) {
         this.uif = uif;
@@ -60,7 +60,7 @@ class MultiSelectPanel
 
     // XXX use TreePath[] as parameter?
     void setNodes(Object... nodes) {
-        this.nodes =nodes;
+        this.nodes = nodes;
         updatePanel(nodes);
     }
 
@@ -71,19 +71,19 @@ class MultiSelectPanel
      *
      * @param p A validated set of parameters.
      * @see com.sun.javatest.exec.FilterConfig
-    void setParameters(Parameters p) {
-        this.params = p;
-
-        TestResultTable newTrt = null;
-        if (p.getWorkDirectory() != null) {
-            newTrt = p.getWorkDirectory().getTestResultTable();
-        }
-    }
-
-    void dispose() {
-        // stop counter thread
-        summPanel.dispose();
-    }
+     * void setParameters(Parameters p) {
+     * this.params = p;
+     * <p>
+     * TestResultTable newTrt = null;
+     * if (p.getWorkDirectory() != null) {
+     * newTrt = p.getWorkDirectory().getTestResultTable();
+     * }
+     * }
+     * <p>
+     * void dispose() {
+     * // stop counter thread
+     * summPanel.dispose();
+     * }
      */
 
     protected void initGUI() {
@@ -94,7 +94,7 @@ class MultiSelectPanel
         listModel = new DefaultListModel<>();
         nodeList = uif.createList("ms.nlist", listModel);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.weightx= 1.0;
+        gbc.weightx = 1.0;
         gbc.gridy = 0;
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -107,8 +107,8 @@ class MultiSelectPanel
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.BOTH;
         nodeList.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createEmptyBorder(10, 5, 5, 5),
-            uif.createTitledBorder("ms.nlist"))
+                BorderFactory.createEmptyBorder(10, 5, 5, 5),
+                uif.createTitledBorder("ms.nlist"))
         );
 
         nodeList.setCellRenderer(RenderingUtilities.createTRTNodeRenderer());
@@ -132,6 +132,7 @@ class MultiSelectPanel
                     needToUpdateGUIWhenShown = false;
                 }
             }
+
             @Override
             public void componentHidden(ComponentEvent e) {
             }

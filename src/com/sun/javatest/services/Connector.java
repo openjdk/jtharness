@@ -58,6 +58,7 @@ public interface Connector {
 
     /**
      * Method, that may be invoked, to check that connection is alive.
+     *
      * @return
      */
     public boolean connected();
@@ -66,25 +67,28 @@ public interface Connector {
      * Method for synchronous message exchange
      *
      * @param msg {@link com.sun.javatest.services.Message} container with
-     * message type and parameters to be sent.
+     *            message type and parameters to be sent.
      * @return response message
      */
     public Message send(Message msg);
 
     /**
      * Method for asynchronous message exchange.
+     *
      * @param handler handler to process asynchronous incoming messages.
      */
     public void setMessageHandler(MessageHandler handler);
 
     /**
      * Method to provide access for ServiceExecutor's error output.
+     *
      * @return InputStream to read service error output.
      */
     public InputStream getServiceErrorStream();
 
     /**
      * Method to provide access for ServiceExecutor's output.
+     *
      * @return InputStream to read service output.
      */
     public InputStream getServiceOutputStream();

@@ -40,12 +40,13 @@ import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * Known failures report emitter.
+ *
  * @since 4.4
  */
 class KflSection extends HTMLSection {
 
     KflSection(HTMLReport parent, ReportSettings settings, File dir, I18NResourceBundle i18n,
-            KflSorter data) {
+               KflSorter data) {
         super(i18n.getString("kfl.title"), settings, dir, parent);
         this.i18n = i18n;
         sorter = data;
@@ -349,19 +350,18 @@ class KflSection extends HTMLSection {
         // find associated KFL entries
         if (diff.getTestCase() == null) {
             e = kfl.find(diff.getTestName());
-        }
-        else {
+        } else {
             KnownFailuresList.Entry ee = kfl.find(diff.getTestName(),
                     diff.getTestCase());
             if (ee != null)
-                e = new KnownFailuresList.Entry[] {ee};
+                e = new KnownFailuresList.Entry[]{ee};
         }
 
         // no entry, nothing to print
         if (e == null || e.length == 0) {
             // force the associated entry if possible
             if (diff.getKflEntry() != null)
-                e = new KnownFailuresList.Entry[] {diff.getKflEntry()};
+                e = new KnownFailuresList.Entry[]{diff.getKflEntry()};
             else
                 return;
         }

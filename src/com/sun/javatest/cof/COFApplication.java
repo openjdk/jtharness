@@ -29,71 +29,71 @@ package com.sun.javatest.cof;
 import java.util.LinkedHashMap;
 
 public class COFApplication extends COFItem {
-        static LinkedHashMap<String, String> xmlAttributes;
-        static LinkedHashMap<String, String> xmlElements;
-        static String xmlTagName;
-        static {
-                xmlTagName = "application";
-                xmlAttributes = new LinkedHashMap<>();
-                xmlAttributes.put("id", "id");
-                xmlAttributes.put("environmentid", "environmentid");
-                xmlAttributes.put("swentityid", "swentityid");
-        }
+    static LinkedHashMap<String, String> xmlAttributes;
+    static LinkedHashMap<String, String> xmlElements;
+    static String xmlTagName;
 
-        protected String id = "app:0";
+    static {
+        xmlTagName = "application";
+        xmlAttributes = new LinkedHashMap<>();
+        xmlAttributes.put("id", "id");
+        xmlAttributes.put("environmentid", "environmentid");
+        xmlAttributes.put("swentityid", "swentityid");
+    }
 
-        protected String environmentid="env:0";
+    protected String id = "app:0";
 
-        protected String swentityid = "swentity:0";
+    protected String environmentid = "env:0";
 
-        /**
-         * Gets the value of the id property.
-         *
-         * @return possible object is {@link String }
-         *
-         */
-        public String getId() {
-                return id;
-        }
+    protected String swentityid = "swentity:0";
 
-        LinkedHashMap<String, String> getItemAttributes() {
-                return xmlAttributes;
-        }
+    /**
+     * Gets the value of the id property.
+     *
+     * @return possible object is {@link String }
+     */
+    public String getId() {
+        return id;
+    }
 
-        LinkedHashMap<String, String> getItemElements() {
-                return xmlElements;
-        }
+    LinkedHashMap<String, String> getItemAttributes() {
+        return xmlAttributes;
+    }
 
-        String getItemTagName() {
-                return xmlTagName;
-        }
+    LinkedHashMap<String, String> getItemElements() {
+        return xmlElements;
+    }
 
-        public void setId(String value) {
-                this.id = value;
-        }
+    String getItemTagName() {
+        return xmlTagName;
+    }
 
-        public String getEnvironmentid() {
-                return environmentid;
-        }
+    public void setId(String value) {
+        this.id = value;
+    }
 
-        public void setEnvironmentid(String environmentid) {
-                this.environmentid = environmentid;
-        }
+    public String getEnvironmentid() {
+        return environmentid;
+    }
 
-        public String getSwentityid() {
-                return swentityid;
-        }
+    public void setEnvironmentid(String environmentid) {
+        this.environmentid = environmentid;
+    }
 
-        public void setSwentityid(String swentityid) {
-                this.swentityid = swentityid;
-        }
+    public String getSwentityid() {
+        return swentityid;
+    }
 
-        /**
-         * Sets the value of the name property.
-         *
-         * @param value
-         *            allowed object is {@link String }
-         *
-         */
+    public void setSwentityid(String swentityid) {
+        this.swentityid = swentityid;
+    }
+
+    /**
+     * Sets the value of the name property.
+     *
+     * @param value
+     *            allowed object is {@link String }
+     *
+     */
 
 }

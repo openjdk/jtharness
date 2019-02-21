@@ -27,6 +27,7 @@
 package com.sun.javatest.exec;
 
 import java.util.Iterator;
+
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestResult;
@@ -50,8 +51,7 @@ class TP_DescSubpanel extends TP_PropertySubpanel {
 
         try {
             td = subpanelTest.getDescription();
-        }
-        catch (TestResult.Fault f) {
+        } catch (TestResult.Fault f) {
             return;
         }
 

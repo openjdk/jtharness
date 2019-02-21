@@ -40,17 +40,17 @@ import com.sun.javatest.util.I18NResourceBundle;
  * analysis of repetitive test runs, making is easier to find out what has
  * "changed" since the list was made.  This class is loosely based on the
  * exclude list, making it easy to interchange the files and tools.
- *
+ * <p>
  * File format:
  * Test_URL[Test_Cases] BugID_List
  * The test URL rules are defined elsewhere, but it is critical that the test
  * names do not contain spaces and nothing before the BugID_List has any
  * whitespace.  The exact format of the BugID_List must simply conform to being
  * comma separated values, no whitespace or non-printable characters.
+ *
  * @since 4.4
  */
-public class KnownFailuresList
-{
+public class KnownFailuresList {
 
     public void addEntry(Entry e) throws Fault {
         synchronized (table) {
@@ -60,11 +60,10 @@ public class KnownFailuresList
                 // easy case: nothing already exists in the table, so just
                 // add this one
                 table.put(key, e);
-            }
-            else if (o instanceof Entry) {
+            } else if (o instanceof Entry) {
                 // a single entry exists in the table, so need to check for
                 // invalid combinations of test cases and tests
-                Entry curr = (Entry)o;
+                Entry curr = (Entry) o;
                 if (curr.testCase == null) {
                     if (e.testCase == null)
                         // overwrite existing entry for entire test
@@ -76,46 +75,39 @@ public class KnownFailuresList
                         }
                         // else ignore new entry since entire test is already listed
                     }
-                }
-                else {
+                } else {
                     if (e.testCase == null) {
                         if (strict) {
                             // can't record entire test when test case already listed
                             throw new Fault(i18n, "kfl.cantListTest", e.relativeURL);
-                        }
-                        else {
+                        } else {
                             // overwrite existing entry for a test case with
                             // new entry for entire test
                             table.put(key, e);
                         }
-                    }
-                    else if (curr.testCase.equals(e.testCase)) {
+                    } else if (curr.testCase.equals(e.testCase)) {
                         // overwrite existing entry for the same test case
                         table.put(key, e);
-                    }
-                    else {
+                    } else {
                         // already excluded one test case, now we need to exclude
                         // another; make an array to hold both entries against the
                         // one key
-                        table.put(key, new Entry[] {curr, e});
+                        table.put(key, new Entry[]{curr, e});
                     }
                 }
-            }
-            else {
+            } else {
                 // if there is an array, it must be for unique test cases
                 if (e.testCase == null) {
                     if (strict) {
                         // can't exclude entire test when selected test cases already excluded
                         throw new Fault(i18n, "kfl.cantListTest", e.relativeURL);
-                    }
-                    else {
+                    } else {
                         // overwrite existing entry for list of test cases with
                         // new entry for entire test
                         table.put(key, e);
                     }
-                }
-                else {
-                    Entry[] curr = (Entry[])o;
+                } else {
+                    Entry[] curr = (Entry[]) o;
                     for (int i = 0; i < curr.length; i++) {
                         if (curr[i].testCase.equals(e.testCase)) {
                             curr[i] = e;
@@ -133,8 +125,7 @@ public class KnownFailuresList
     /**
      * This exception is used to report problems manipulating an exclude list.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         Fault(I18NResourceBundle i18n, String s, Object o) {
             super(i18n.getString(s, o));
         }
@@ -142,6 +133,7 @@ public class KnownFailuresList
 
     /**
      * Test if a file appears to be for an exclude list, by checking the extension.
+     *
      * @param f The file to be tested.
      * @return <code>true</code> if the file appears to be a known failures list.
      */
@@ -157,31 +149,31 @@ public class KnownFailuresList
 
     /**
      * Create an KnownFailuresList from the data contained in a file.
+     *
      * @param f The file to be read.
-     * @throws FileNotFoundException if the file cannot be found
-     * @throws IOException if any problems occur while reading the file
+     * @throws FileNotFoundException   if the file cannot be found
+     * @throws IOException             if any problems occur while reading the file
      * @throws KnownFailuresList.Fault if the data in the file is inconsistent
      * @see #KnownFailuresList(File[])
      */
     public KnownFailuresList(File f)
-        throws FileNotFoundException, IOException, Fault
-    {
+            throws FileNotFoundException, IOException, Fault {
         this(f, false);
     }
 
     /**
      * Create an KnownFailuresList from the data contained in a file.
-     * @param f The file to be read.
+     *
+     * @param f      The file to be read.
      * @param strict Indicate if strict data checking rules should be used.
-     * @throws FileNotFoundException if the file cannot be found
-     * @throws IOException if any problems occur while reading the file
+     * @throws FileNotFoundException   if the file cannot be found
+     * @throws IOException             if any problems occur while reading the file
      * @throws KnownFailuresList.Fault if the data in the file is inconsistent
      * @see #KnownFailuresList(File[])
      * @see #setStrictModeEnabled(boolean)
      */
     public KnownFailuresList(File f, boolean strict)
-        throws FileNotFoundException, IOException, Fault
-    {
+            throws FileNotFoundException, IOException, Fault {
         setStrictModeEnabled(strict);
         if (f != null) {
             BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
@@ -191,8 +183,7 @@ public class KnownFailuresList
                 Entry e;
                 while ((e = p.readEntry()) != null)
                     addEntry(e);
-            }
-            finally {
+            } finally {
                 in.close();
             }
 
@@ -203,31 +194,31 @@ public class KnownFailuresList
 
     /**
      * Create a KnownFailuresList from the data contained in a series of files.
+     *
      * @param files The file to be read.
-     * @throws FileNotFoundException if any of the files cannot be found
-     * @throws IOException if any problems occur while reading the files.
+     * @throws FileNotFoundException   if any of the files cannot be found
+     * @throws IOException             if any problems occur while reading the files.
      * @throws KnownFailuresList.Fault if the data in the files is inconsistent
      * @see #KnownFailuresList(File)
      */
     public KnownFailuresList(File... files)
-        throws FileNotFoundException, IOException, Fault
-    {
+            throws FileNotFoundException, IOException, Fault {
         this(files, false);
     }
 
     /**
      * Create a KnownFailuresList from the data contained in a series of files.
-     * @param files The file to be read.
+     *
+     * @param files  The file to be read.
      * @param strict Indicate if strict data checking rules should be used.
-     * @throws FileNotFoundException if any of the files cannot be found
-     * @throws IOException if any problems occur while reading the files.
+     * @throws FileNotFoundException   if any of the files cannot be found
+     * @throws IOException             if any problems occur while reading the files.
      * @throws KnownFailuresList.Fault if the data in the files is inconsistent
      * @see #KnownFailuresList(File)
      * @see #setStrictModeEnabled(boolean)
      */
     public KnownFailuresList(File[] files, boolean strict)
-        throws FileNotFoundException, IOException, Fault
-    {
+            throws FileNotFoundException, IOException, Fault {
         setStrictModeEnabled(strict);
         for (File file : files) {
             KnownFailuresList kfl = new KnownFailuresList(file, strict);
@@ -239,6 +230,7 @@ public class KnownFailuresList
      * Specify whether strict mode is on or not. In strict mode, calls to addEntry
      * may generate an exception in the case of conflicts, such as adding an entry
      * to exclude a specific test case when the entire test is already excluded.
+     *
      * @param on true if strict mode should be enabled, and false otherwise
      * @see #isStrictModeEnabled
      */
@@ -251,6 +243,7 @@ public class KnownFailuresList
      * Check whether strict mode is enabled or not. In strict mode, calls to addEntry
      * may generate an exception in the case of conflicts, such as adding an entry
      * to exclude a specific test case when the entire test is already excluded.
+     *
      * @return true if strict mode is enabled, and false otherwise
      * @see #setStrictModeEnabled
      */
@@ -260,15 +253,16 @@ public class KnownFailuresList
 
     /**
      * Iterate over the contents of the table.
+     *
      * @param group if <code>true</code>, entries for the same relative
-     * URL are grouped together, and if more than one, returned in an
-     * array; if <code>false</code>, the iterator always returns
-     * separate entries.
-     * @see Entry
+     *              URL are grouped together, and if more than one, returned in an
+     *              array; if <code>false</code>, the iterator always returns
+     *              separate entries.
      * @return an iterator for the table: the entries are either
      * single instances of @link(Entry) or a mixture of @link(Entry)
      * and @link(Entry)[], depending on the <code>group</code>
      * parameter.
+     * @see Entry
      */
     public Iterator<Entry> getIterator(boolean group) {
         if (group)
@@ -295,8 +289,8 @@ public class KnownFailuresList
      * Merge the contents of another exclude list into this one.
      * The individual entries are merged;  The title of the exclude list
      * being merged is ignored.
-     * @param other the exclude list to be merged with this one.
      *
+     * @param other the exclude list to be merged with this one.
      */
     public void merge(KnownFailuresList other) {
         synchronized (table) {
@@ -308,33 +302,29 @@ public class KnownFailuresList
                     // Easy case: nothing already exists in the table, so just
                     // add this one
                     table.put(key, otherEntry);
-                }
-                else if (o instanceof Entry) {
+                } else if (o instanceof Entry) {
                     // A single entry exists in the table
-                    Entry curr = (Entry)o;
+                    Entry curr = (Entry) o;
                     if (curr.testCase == null || otherEntry.testCase == null) {
                         table.put(key, new Entry(curr.relativeURL, null,
-                                            ExcludeList.mergeBugIds(curr.bugIdStrings, otherEntry.bugIdStrings),
-                                            ExcludeList.mergeSynopsis(curr.notes, otherEntry.notes)));
-                    }
-                    else
-                        table.put(key, new Entry[] {curr, otherEntry});
-                }
-                else if (otherEntry.testCase == null) {
+                                ExcludeList.mergeBugIds(curr.bugIdStrings, otherEntry.bugIdStrings),
+                                ExcludeList.mergeSynopsis(curr.notes, otherEntry.notes)));
+                    } else
+                        table.put(key, new Entry[]{curr, otherEntry});
+                } else if (otherEntry.testCase == null) {
                     // An array of test cases exist in the table, but we're merging
                     // an entry for the complete test, so flatten down to a single entry
                     // for the whole test
                     String[] bugIdStrings = otherEntry.bugIdStrings;
                     String notes = otherEntry.notes;
-                    Entry[] curr = (Entry[])o;
+                    Entry[] curr = (Entry[]) o;
                     for (Entry aCurr : curr) {
                         bugIdStrings = ExcludeList.mergeBugIds(bugIdStrings, aCurr.bugIdStrings);
                         notes = ExcludeList.mergeSynopsis(notes, aCurr.notes);
                     }
                     table.put(key, new Entry(otherEntry.relativeURL, null,
-                                             bugIdStrings, notes));
-                }
-                else {
+                            bugIdStrings, notes));
+                } else {
                     // An array of test cases exist in the table, and we're merging
                     // an entry with another set of test cases.
                     // For now, concatenate the arrays.
@@ -351,10 +341,9 @@ public class KnownFailuresList
             return null;
         }
         if (o instanceof Entry[]) {
-            return (Entry[])o;
-        }
-        else {
-            return new Entry[] {(Entry)o};
+            return (Entry[]) o;
+        } else {
+            return new Entry[]{(Entry) o};
         }
     }
 
@@ -364,7 +353,7 @@ public class KnownFailuresList
         if (entries == null || entries.length == 0)
             return null;
 
-        for(Entry e: entries) {
+        for (Entry e : entries) {
             if (e.containsTestCase(tc))
                 return e;
         }
@@ -375,6 +364,7 @@ public class KnownFailuresList
     /**
      * Test if a specific test is completely excluded according to the table.
      * It is completely excluded if there is an entry, and the test case field is null.
+     *
      * @param td A test description for the test being checked.
      * @return <code>true</code> if the table contains an entry for this test.
      */
@@ -385,17 +375,19 @@ public class KnownFailuresList
     /**
      * Test if a specific test is completely excluded according to the table.
      * It is completely excluded if there is an entry, and the test case field is null.
+     *
      * @param url The test-suite root-relative URL for the test.
      * @return <code>true</code> if the table contains an entry for this test.
      */
     public boolean listsAllOf(String url) {
         Object o = table.get(new Key(url));
-        return o != null && o instanceof Entry && ((Entry)o).testCase == null;
+        return o != null && o instanceof Entry && ((Entry) o).testCase == null;
     }
 
     /**
      * Test if a specific test is partially or completely excluded according to the table.
      * It is so excluded if there is any entry in the table for the test.
+     *
      * @param td A test description for the test being checked.
      * @return <code>true</code> if the table contains an entry for this test.
      */
@@ -406,6 +398,7 @@ public class KnownFailuresList
     /**
      * Test if a specific test is partially or completely excluded according to the table.
      * It is so excluded if there is any entry in the table for the test.
+     *
      * @param url The test-suite root-relative URL for the test.
      * @return <code>true</code> if the table contains an entry for this test.
      */
@@ -416,6 +409,7 @@ public class KnownFailuresList
 
     /**
      * Check whether an exclude list has any entries or not.
+     *
      * @return true if this exclude list has no entries
      * @see #size
      */
@@ -425,6 +419,7 @@ public class KnownFailuresList
 
     /**
      * Get the number of entries in the table.
+     *
      * @return the number of entries in the table
      * @see #isEmpty
      */
@@ -434,6 +429,7 @@ public class KnownFailuresList
 
     /**
      * Get the title for this exclude list.
+     *
      * @return the title for this exclude list
      * @see #setTitle
      */
@@ -443,6 +439,7 @@ public class KnownFailuresList
 
     /**
      * Set the title for this exclude list.
+     *
      * @param title the title for this exclude list
      * @see #getTitle
      */
@@ -452,9 +449,10 @@ public class KnownFailuresList
 
     /**
      * Write the table out to a file.
+     *
      * @param f The file to which the table should be written.
      * @throws IOException is thrown if any problems occur while the
-     * file is being written.
+     *                     file is being written.
      */
     public void write(File f) throws IOException {
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8));
@@ -532,7 +530,7 @@ public class KnownFailuresList
             if (url.endsWith("]")) {
                 int i = url.lastIndexOf("[");
                 if (i != -1) {
-                    testCase = url.substring(i+1, url.length()-1);
+                    testCase = url.substring(i + 1, url.length() - 1);
                     url = url.substring(0, i);
                 }
             }
@@ -551,23 +549,23 @@ public class KnownFailuresList
 
         private String readURL() throws IOException, Fault {
             // skip white space, comments and blank lines until a word is found
-            for (;;) {
+            for (; ; ) {
                 skipWhite();
                 switch (ch) {
-                case -1:
-                    // end of file
-                    return null;
-                case '#':
-                    // comment
-                    skipComment();
-                    break;
-                case '\r':
-                case '\n':
-                    // blank line (or end of comment)
-                    ch = in.read();
-                    break;
-                default:
-                    return readWord();
+                    case -1:
+                        // end of file
+                        return null;
+                    case '#':
+                        // comment
+                        skipComment();
+                        break;
+                    case '\r':
+                    case '\n':
+                        // blank line (or end of comment)
+                        ch = in.read();
+                        break;
+                    default:
+                        return readWord();
                 }
             }
         }
@@ -578,14 +576,13 @@ public class KnownFailuresList
             skipWhite();
             Set<String> s = new TreeSet<>();
             StringBuilder sb = new StringBuilder();
-            for ( ; !isEndOfLine(ch) && !isWhitespace(ch); ch = in.read()) {
+            for (; !isEndOfLine(ch) && !isWhitespace(ch); ch = in.read()) {
                 if (ch == ',') {
                     if (sb.length() > 0) {
                         s.add(sb.toString());
                         sb.setLength(0);
                     }
-                }
-                else
+                } else
                     sb.append((char) ch);
             }
 
@@ -602,8 +599,8 @@ public class KnownFailuresList
             // skip white space, then read up to the end of the line
             skipWhite();
             StringBuilder word = new StringBuilder(80);
-            for ( ; !isEndOfLine(ch); ch = in.read())
-                word.append((char)ch);
+            for (; !isEndOfLine(ch); ch = in.read())
+                word.append((char) ch);
             // skip over terminating character
             ch = in.read();
             return word.toString();
@@ -612,8 +609,8 @@ public class KnownFailuresList
         private String readWord() throws IOException {
             // read characters up to the next white space
             StringBuilder word = new StringBuilder(32);
-            for ( ; !isEndOfLine(ch) && !isWhitespace(ch); ch = in.read())
-                word.append((char)ch);
+            for (; !isEndOfLine(ch) && !isWhitespace(ch); ch = in.read())
+                word.append((char) ch);
             return word.toString();
         }
 
@@ -666,7 +663,7 @@ public class KnownFailuresList
                     char c = Character.toLowerCase(relativeURL.charAt(i));
                     if (c == sep)
                         c = '/';
-                    h = 31*h + c;
+                    h = 31 * h + c;
                 }
                 hash = h;
             }
@@ -708,11 +705,11 @@ public class KnownFailuresList
     public static final class Entry implements Comparable<Entry> {
         /**
          * Create an ExcludeList entry.
-         * @param u The URL for the test, specified relative to the test suite root.
+         *
+         * @param u  The URL for the test, specified relative to the test suite root.
          * @param tc One or more test cases within the test to be excluded.
-         * @param b An array of bug identifiers, justifying why the test is excluded.
-
-         * @param s A short synopsis of the reasons why the test is excluded.
+         * @param b  An array of bug identifiers, justifying why the test is excluded.
+         * @param s  A short synopsis of the reasons why the test is excluded.
          */
         public Entry(String u, String tc, String[] b, String s) {
             if (b == null)
@@ -742,8 +739,7 @@ public class KnownFailuresList
                     return +1;
                 else
                     return testCase.compareTo(e.testCase);
-            }
-            else
+            } else
                 return n;
         }
 
@@ -763,6 +759,7 @@ public class KnownFailuresList
 
         /**
          * Get the relative URL identifying the test referenced by this entry.
+         *
          * @return the relative URL identifying the test referenced by this entry
          */
         public String getRelativeURL() {
@@ -798,9 +795,8 @@ public class KnownFailuresList
                     if (start != -1)
                         v.add(testCase.substring(start, i));
                     start = -1;
-                } else
-                    if (start == -1)
-                        start = i;
+                } else if (start == -1)
+                    start = i;
             }
             if (start != -1)
                 v.add(testCase.substring(start));
@@ -815,6 +811,7 @@ public class KnownFailuresList
 
         /**
          * Get the set of bug IDs referenced by this entry.
+         *
          * @return the bugs referenced by the entry
          */
         public String[] getBugIdStrings() {
@@ -825,6 +822,7 @@ public class KnownFailuresList
          * Get a short description associated with this entry.
          * This should normally give details about why the test has been
          * excluded.
+         *
          * @return a short description associated with this entry
          */
         public String getNotes() {
@@ -834,6 +832,7 @@ public class KnownFailuresList
         /**
          * Create an entry from a string. The string should be formatted
          * as though it were a line of text in an exclude file.
+         *
          * @param text The text to be read
          * @return the first entry read from the supplied text
          * @throws ExcludeList.Fault if there is a problem reading the entry.
@@ -841,28 +840,27 @@ public class KnownFailuresList
         public static Entry read(String text) throws Fault {
             try {
                 return new Parser(new StringReader(text)).readEntry();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new Fault(i18n, "kfl.badEntry", e);
             }
         }
 
         /**
          * Compare this entry against another.
+         *
          * @param o the object to compare against
          * @return true is the objects are bothe ExcludeList.Entries containing
-         *    the same details
+         * the same details
          */
         @Override
         public boolean equals(Object o) {
             if (o instanceof Entry) {
-                Entry e = (Entry)o;
+                Entry e = (Entry) o;
                 return equals(relativeURL, e.relativeURL)
-                    && equals(testCase, e.testCase)
-                    && equals(bugIdStrings, e.bugIdStrings)
-                    && equals(notes, e.notes);
-            }
-            else
+                        && equals(testCase, e.testCase)
+                        && equals(bugIdStrings, e.bugIdStrings)
+                        && equals(notes, e.notes);
+            } else
                 return false;
         }
 
@@ -881,7 +879,7 @@ public class KnownFailuresList
                 sb.append(']');
             }
             if (bugIdStrings != null) {
-                for (int i = 0; i<bugIdStrings.length; i++) {
+                for (int i = 0; i < bugIdStrings.length; i++) {
                     sb.append(i == 0 ? ' ' : ',');
                     sb.append(bugIdStrings[i]);
                 }

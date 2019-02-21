@@ -42,8 +42,7 @@ import com.sun.javatest.tool.VerboseCommand;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
 
-class RunTestsCommand extends Command
-{
+class RunTestsCommand extends Command {
     static String getName() {
         return "runTests";
     }
@@ -111,9 +110,9 @@ class RunTestsCommand extends Command
                 long tt = h.getElapsedTime();
                 long setupT = h.getTotalSetupTime();
                 long cleanupT = h.getTotalCleanupTime();
-                ctx.printMessage(i18n, "runTests.totalTime", tt/1000L);
-                ctx.printMessage(i18n, "runTests.setupTime", setupT/1000L);
-                ctx.printMessage(i18n, "runTests.cleanupTime", cleanupT/1000L);
+                ctx.printMessage(i18n, "runTests.totalTime", tt / 1000L);
+                ctx.printMessage(i18n, "runTests.setupTime", setupT / 1000L);
+                ctx.printMessage(i18n, "runTests.cleanupTime", cleanupT / 1000L);
 
                 showResultStats(bo.getStats());
             }
@@ -127,7 +126,7 @@ class RunTestsCommand extends Command
 
             if (!ok) {
                 if (testsFound > 0 &&
-                    testsFound != stats[Status.PASSED]) {
+                        testsFound != stats[Status.PASSED]) {
                     // some tests are actually not passed, print
                     // appropriate message
                     ctx.printErrorMessage(i18n, "runTests.testsFailed");
@@ -135,11 +134,9 @@ class RunTestsCommand extends Command
             }
 
             ctx.addTestStats(stats);
-        }
-        catch (Harness.Fault e) {
+        } catch (Harness.Fault e) {
             throw new Fault(i18n, "runTests.harnessError", e.getMessage());
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             throw new Fault(i18n, "runTests.interrupted");
         }
     }
@@ -149,7 +146,7 @@ class RunTestsCommand extends Command
         int f = stats[Status.FAILED];
         int e = stats[Status.ERROR];
         int nr = stats[Status.NOT_RUN] =
-            harness.getTestsFoundCount() - p - f - e;
+                harness.getTestsFoundCount() - p - f - e;
 
 
         if (p + f + e + nr == 0)
@@ -169,7 +166,7 @@ class RunTestsCommand extends Command
     //-------------------------------------------------------------------------
 
     private class BatchObserver
-        implements Harness.Observer, TestFinder.ErrorHandler {
+            implements Harness.Observer, TestFinder.ErrorHandler {
 
         int[] getStats() {
             return stats;
@@ -185,7 +182,8 @@ class RunTestsCommand extends Command
         }
 
         @Override
-        public void startingTest(TestResult tr) { }
+        public void startingTest(TestResult tr) {
+        }
 
         @Override
         public void finishedTest(TestResult tr) {
@@ -193,12 +191,16 @@ class RunTestsCommand extends Command
         }
 
         @Override
-        public void stoppingTestRun() { }
+        public void stoppingTestRun() {
+        }
 
         @Override
-        public void finishedTesting() { }
+        public void finishedTesting() {
+        }
+
         @Override
-        public void finishedTestRun(boolean allOK) { }
+        public void finishedTestRun(boolean allOK) {
+        }
 
         @Override
         public void error(String msg) {
@@ -210,15 +212,14 @@ class RunTestsCommand extends Command
         private int finderErrors;
     }
 
-    private class VerboseObserver implements Harness.Observer
-    {
+    private class VerboseObserver implements Harness.Observer {
         VerboseObserver(CommandContext ctx) {
             this.ctx = ctx;
             this.out = ctx.getLogWriter();
 
             quiet_flag = ctx.isVerboseQuiet();
             df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
-                                                DateFormat.MEDIUM);
+                    DateFormat.MEDIUM);
             ctx.addHarnessObserver(this);
 
             boolean defaultFlag = ctx.getVerboseOptionValue("default", false);
@@ -261,7 +262,7 @@ class RunTestsCommand extends Command
                     out.println();
                 printTimestamp();
                 ctx.printMessage(i18n, "cmgr.verb.strt",
-                    params.getEnv().getName());
+                        params.getEnv().getName());
                 out.flush();
                 progressOnline = false;
             }
@@ -287,7 +288,7 @@ class RunTestsCommand extends Command
             Status s = tr.getStatus();
             stats[s.getType()]++;
 
-            switch(s.getType()) {
+            switch (s.getType()) {
                 case Status.FAILED:
                 case Status.ERROR:
                     if (isVerbose(NON_PASS) || isVerbose(FINISH)) {
@@ -370,7 +371,7 @@ class RunTestsCommand extends Command
             int f = stats[Status.FAILED];
             int e = stats[Status.ERROR];
             int nr = stats[Status.NOT_RUN] =
-                harness.getTestsFoundCount() - p - f - e;
+                    harness.getTestsFoundCount() - p - f - e;
 
             out.print(i18n.getString("cmgr.verb.prog",
                     Integer.valueOf(p), Integer.valueOf(f), Integer.valueOf(e), Integer.valueOf(nr)));
@@ -388,7 +389,7 @@ class RunTestsCommand extends Command
 
                 printTimestamp();
                 String[] args = {tr.getTestName(),
-                                 s.toString()};
+                        s.toString()};
                 ctx.printMessage(i18n, "cmgr.verb.tstd", args);
                 out.flush();
                 progressOnline = false;

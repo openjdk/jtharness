@@ -28,6 +28,7 @@ package com.sun.javatest.report;
 
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.TestFilter;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,6 +38,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import javax.swing.JPanel;
+
 import org.xml.sax.SAXException;
 
 //import com.sun.javatest.util.I18NResourceBundle;
@@ -54,6 +56,7 @@ public abstract class CustomReport {
      * not mean that the report cannot ask for the XML, but by correctly
      * answering, the harness may be able to apply some optimization based on
      * which other reports are being generated.
+     *
      * @return True if the XML report will be requested, false otherwise.
      * @see #getXmlReport
      */
@@ -67,6 +70,7 @@ public abstract class CustomReport {
      * exists to generate a report.  Should only be called subsequent to
      * a call from the harness to one of the <code>createReport</code>
      * methods.
+     *
      * @see #needsXmlReport
      */
     public final InputStream getXmlReport() throws IOException, SAXException {
@@ -97,12 +101,13 @@ public abstract class CustomReport {
      * data structures required to generate a useful report.  This is the
      * primary method which needs to be overridden to create your report.  Be
      * sure to call the superclass method when overriding.
+     *
      * @param rootDir The directory to write the report to.
      * @return The filename of a file that should be displayed if possible.
-     *         Currently, only HTML (with simple CSS), plain text and RTF
-     *         can be rendered.
+     * Currently, only HTML (with simple CSS), plain text and RTF
+     * can be rendered.
      * @throws com.sun.javatest.report.CustomReport.ReportException - if the report creation was unsuccessful.
-     *         Harness can show Exception's text
+     *                                                              Harness can show Exception's text
      */
     public abstract File createReport(File rootDir);
 
@@ -113,28 +118,29 @@ public abstract class CustomReport {
      * careful not to provoke any GUI initialization because the AWT and Swing
      * toolkits may be unable to run in the current environment.  Be
      * sure to call the superclass method when overriding.
-     * @param args Arguments given to this report format.  It is encoded into
-     *             a single string, the format of which is defined by the
-     *             report implementation.  In general though, the arg string
-     *             must be absent of spaces, and should not require any
-     *             characters which require escaping on common platforms
-     *             (semicolon, ampersand, exclamation, any quotation marks).
+     *
+     * @param args    Arguments given to this report format.  It is encoded into
+     *                a single string, the format of which is defined by the
+     *                report implementation.  In general though, the arg string
+     *                must be absent of spaces, and should not require any
+     *                characters which require escaping on common platforms
+     *                (semicolon, ampersand, exclamation, any quotation marks).
      * @param rootDir The directory to write the report to.
-     * @param ip The interview which should be report on.
-     * @param filter The test filter that should be applied when iterating
-     *               over the results to place in the report.  If the report
-     *               relies on the XML report, this parameter can usually be
-     *               ignored since the XML report itself will have been filtered
-     *               already.
+     * @param ip      The interview which should be report on.
+     * @param filter  The test filter that should be applied when iterating
+     *                over the results to place in the report.  If the report
+     *                relies on the XML report, this parameter can usually be
+     *                ignored since the XML report itself will have been filtered
+     *                already.
      * @return The filename of a file that should be displayed if possible.
-     *         Currently, only HTML (with simple CSS), plain text and RTF
-     *         can be rendered.
-     * @see com.sun.javatest.tool.Preferences
+     * Currently, only HTML (with simple CSS), plain text and RTF
+     * can be rendered.
      * @throws com.sun.javatest.report.CustomReport.ReportException - if the report creation was unsuccessful.
-     *         Harness can show Exception's text
+     *                                                              Harness can show Exception's text
+     * @see com.sun.javatest.tool.Preferences
      */
     public abstract File createReport(String args, File rootDir,
-                             InterviewParameters ip, TestFilter filter)
+                                      InterviewParameters ip, TestFilter filter)
     ;
 
 
@@ -144,11 +150,12 @@ public abstract class CustomReport {
      * should be a valid Java identifier.  This value could be used
      * by the user to identify the report type on the command line, but
      * otherwise will not generally be visible to the user.
-     *
+     * <p>
      * This value is also used to generate a unique directory name
      * within the report directory when writing the report.  So, it will
      * be used when constructing the <code>rootDir</code> parameter
      * of the <code>createReport</code> methods.
+     *
      * @see #getName
      * @see java.lang.Character#isJavaIdentifierStart(char)
      * @see java.lang.Character#isJavaIdentifierPart(char)
@@ -162,8 +169,9 @@ public abstract class CustomReport {
      * restrictions on the characters in the name, it may contain spaces,
      * etc.  It should be kept short, since it is likely to be presented
      * in GUI lists and tabs.  Example value: <i>JT Harness Extended XML</i>
+     *
      * @return Internationalized name of this report.  Should never be null
-     *         or zero-length string.
+     * or zero-length string.
      */
     public abstract String getName();
 
@@ -177,8 +185,9 @@ public abstract class CustomReport {
      * of the description could be up to a full paragraph in length.
      * Do not include any special formatting in the string (newlines,
      * HTML, etc...).
+     *
      * @return Internationalized description of this report.  Should
-     *         never be null or zero-length string.
+     * never be null or zero-length string.
      */
     public abstract String getDescription();
 
@@ -205,10 +214,11 @@ public abstract class CustomReport {
      * It can be assumed that this method is called just before
      * <code>createReport</code> to ensure that the user's settings are valid (in
      * GUI mode).  It is not called in non-GUI mode.
+     *
      * @return Null if the current options are valid.  If something is invalid,
-     *         the return value is a short message indicating what setting the
-     *         user should correct.  The message should not be longer than a
-     *         sentence or two.
+     * the return value is a short message indicating what setting the
+     * user should correct.  The message should not be longer than a
+     * sentence or two.
      * @see #getOptionPanes
      * @see CustomReport.ReportConfigPanel
      */
@@ -243,7 +253,7 @@ public abstract class CustomReport {
      * Configuration panel for a report.  It is recommended that you set
      * the name of this component to something unique so that it can be
      * identified when browsing the component tree (during development).
-     *
+     * <p>
      * Do not forget to call the superclass constructor if you override
      * the constructor.
      */
@@ -256,6 +266,7 @@ public abstract class CustomReport {
          * Get a short name of this option pane.
          * For display on a tab or list in the GUI.
          * <i>The implementation should internationalize this value.</i>
+         *
          * @return A short localized name to be shown to the user.
          */
         public abstract String getPanelName();

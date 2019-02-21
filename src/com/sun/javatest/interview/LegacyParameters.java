@@ -34,16 +34,15 @@ import com.sun.javatest.TestSuite;
  * A configuration interview for legacy test suites that use environment
  * (.jte) files to define the environment used to run tests.
  */
-public class LegacyParameters extends BasicInterviewParameters
-{
+public class LegacyParameters extends BasicInterviewParameters {
     /**
      * Create a configuration interview for legacy tests suites.
+     *
      * @throws com.sun.interview.Interview.Fault if there is a problem instantiating the
-     * interview.
+     *                                           interview.
      */
     public LegacyParameters()
-        throws Fault
-    {
+            throws Fault {
         super("jtwiz");
         setHelpSet("/com/sun/javatest/moreInfo/moreInfo.hs");
         setResourceBundle("i18n");
@@ -52,13 +51,13 @@ public class LegacyParameters extends BasicInterviewParameters
 
     /**
      * Create a configuration interview for legacy tests suites.
+     *
      * @param testSuite The test suite for which this interview applies
      * @throws com.sun.interview.Interview.Fault if there is a problem instantiating the
-     * interview.
+     *                                           interview.
      */
     public LegacyParameters(TestSuite testSuite)
-        throws Fault
-    {
+            throws Fault {
         super("jtwiz", testSuite);
         setHelpSet("/com/sun/javatest/moreInfo/moreInfo.hs");
         setResourceBundle("i18n");
@@ -77,6 +76,7 @@ public class LegacyParameters extends BasicInterviewParameters
      * set up and used for each test to be run. For legacy test suites,
      * questions are asked to determine environment files to be read
      * and the name of an environment to be found in those files.
+     *
      * @return the first question to be asked concerning the environment to be
      * set up and used for each test to be run.
      * @see #getEnvSuccessorQuestion

@@ -50,8 +50,7 @@ import java.util.TreeMap;
  * in the user's home directory; eventually, it will be converted to
  * use the J2SE support for user preferences.
  */
-public class Preferences
-{
+public class Preferences {
     /**
      * An observer interface for use by those that wishing to monitor changes
      * to user preferences.
@@ -59,7 +58,8 @@ public class Preferences
     public static interface Observer {
         /**
          * A preference has been changed.
-         * @param name the name of the preference that has been changed
+         *
+         * @param name     the name of the preference that has been changed
          * @param newValue the new value for the named preference
          */
         public void updated(String name, String newValue);
@@ -67,6 +67,7 @@ public class Preferences
 
     /**
      * Access the single Preferences object.
+     *
      * @return the single Preferences object
      */
     public static Preferences access() {
@@ -86,8 +87,7 @@ public class Preferences
         if (s == null) {
             File jtDir = getPrefsDir();
             return new File(jtDir, "preferences");
-        }
-        else if (!s.equals("NONE"))
+        } else if (!s.equals("NONE"))
             return new File(s);
         else
             return null;
@@ -129,8 +129,7 @@ public class Preferences
                 out.close();
                 isUpToDate = true;
                 fileModifiedTime = prefsFile.lastModified();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 System.err.println(i18n.getString("prefs.cannotSave", e));
             }
         }
@@ -138,6 +137,7 @@ public class Preferences
 
     /**
      * Get a named preference value.
+     *
      * @param name the name of the desired preference
      * @return the value of the named preference, or null if no such preference found
      * @see #setPreference
@@ -149,9 +149,10 @@ public class Preferences
     /**
      * Get a named preference value, using a default if the named preference
      * is not found.
-     * @param name the name of the desired preference
+     *
+     * @param name         the name of the desired preference
      * @param defaultValue the default value to be returned if no such preference
-     * is found
+     *                     is found
      * @return the value of the named preference, or the default value if no such preference found
      * @see #setPreference
      */
@@ -165,7 +166,8 @@ public class Preferences
     /**
      * Set the value of a named preference. Any interested observers will
      * be notified.
-     * @param name the name of the preference to be set
+     *
+     * @param name     the name of the preference to be set
      * @param newValue the new value for the preference
      * @see #getPreference
      */
@@ -173,7 +175,7 @@ public class Preferences
         isUpToDate = false;
         props.put(name, newValue);
         // notify observers
-        for (String prefix: observers.keySet()) {
+        for (String prefix : observers.keySet()) {
             if (name.startsWith(prefix)) {
                 Observer[] obs = observers.get(prefix);
                 for (Observer ob : obs) {
@@ -187,9 +189,10 @@ public class Preferences
      * Add an observer to be notified of changes to all preferences
      * whose name begins with a given prefix. This allows an observer
      * to monitor a single preference or a group of preferences.
+     *
      * @param prefix the prefix to determine which preferences will
-     *          be observed
-     * @param o the observer to be added
+     *               be observed
+     * @param o      the observer to be added
      * @see #removeObserver
      */
     public void addObserver(String prefix, Observer o) {
@@ -197,7 +200,7 @@ public class Preferences
         // cost when updating preferences
         Observer[] obs = observers.get(prefix);
         if (obs == null)
-            obs = new Observer[] { o };
+            obs = new Observer[]{o};
         else
             obs = DynamicArray.append(obs, o);
         observers.put(prefix, obs);
@@ -208,9 +211,10 @@ public class Preferences
      * whose name begins with any of a set of given prefixes.
      * This allows an observer to monitor a single preference
      * or a group of preferences.
+     *
      * @param prefixes the prefix to determine which preferences will
-     *          be observed
-     * @param o the observer to be added
+     *                 be observed
+     * @param o        the observer to be added
      * @see #removeObserver
      */
     public void addObserver(String[] prefixes, Observer o) {
@@ -224,9 +228,10 @@ public class Preferences
      * notified of changes to all preferences whose name begins
      * with a given prefix. The prefix must exactly match the
      * prefix with which it was previously registered.
+     *
      * @param prefix the prefix to identify which instance of the
-     * observer to be removed
-     * @param o the observer to be removed
+     *               observer to be removed
+     * @param o      the observer to be removed
      * @see #addObserver
      */
     public void removeObserver(String prefix, Observer o) {
@@ -242,9 +247,10 @@ public class Preferences
      * notified of changes to all preferences whose name begins
      * with any of a set of prefixed. Each prefix must exactly
      * match one with which the observer was previously registered.
+     *
      * @param prefixes the prefix to identify which instances of the
-     * observer to be removed
-     * @param o the observer to be removed
+     *                 observer to be removed
+     * @param o        the observer to be removed
      * @see #addObserver
      */
     public void removeObserver(String[] prefixes, Observer o) {
@@ -255,6 +261,7 @@ public class Preferences
 
     /**
      * Access method for props to be used by PreferencesPane
+     *
      * @return props
      */
     Map<String, String> getProperties() {

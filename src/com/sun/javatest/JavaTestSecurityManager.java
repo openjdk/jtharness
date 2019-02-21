@@ -36,14 +36,13 @@ import java.util.PropertyPermission;
  * This class is set for JT Harness running as an application.  Currently, it imposes
  * almost no security restrictions at all: its existence prevents anyone else
  * (e.g. a test running in this JVM) from setting a more restrictive security manager.
- *
+ * <p>
  * Although not required for running under JDK1.0.2, extra definitions for forward
  * compatibility with JDK1.1 are also provided. They will effectively be ignored
  * by JDK1.0.2.
  */
 
-public class JavaTestSecurityManager extends SecurityManager
-{
+public class JavaTestSecurityManager extends SecurityManager {
     {
         // use user specified value if given
         String s = System.getProperty("javatest.security.allowPropertiesAccess");
@@ -51,13 +50,14 @@ public class JavaTestSecurityManager extends SecurityManager
             allowPropertiesAccess = Boolean.valueOf(s).booleanValue();
         }
     }
+
     /**
      * Try to install a copy of this security manager. If another security manager is
      * already installed, the install will fail;  a warning message wil, be written to
      * the console if the previously installed security manager is not a subtype of
      * com.sun.javatest.JavaTestSecurityManager.
      * The install can be suppressed by setting the system property
-     *  "javatest.security.noSecurityManager" to true.
+     * "javatest.security.noSecurityManager" to true.
      */
     public static void install() {
         try {
@@ -73,21 +73,18 @@ public class JavaTestSecurityManager extends SecurityManager
                 System.err.println("This is not a fatal error, but it may affect the");
                 System.err.println("execution of sameJVM tests");
                 System.err.println();
-            }
-            else {
+            } else {
                 try {
                     // test to see if permission API available:
                     // if it's not, we'll get an exception and load
                     // an old-style security manager
                     Class.forName("java.security.Permission");
                     System.setSecurityManager(new NewJavaTestSecurityManager());
-                }
-                catch (ClassNotFoundException e) {
+                } catch (ClassNotFoundException e) {
                     System.setSecurityManager(new JavaTestSecurityManager());
                 }
             }
-        }
-        catch (SecurityException e) {
+        } catch (SecurityException e) {
             SecurityManager sm = System.getSecurityManager();
             if (!(sm instanceof JavaTestSecurityManager)) {
                 System.err.println();
@@ -105,21 +102,36 @@ public class JavaTestSecurityManager extends SecurityManager
 
     // These are the JDK1.0.2 security methods
     @Override
-    public void checkAccept(String host, int port) { }
+    public void checkAccept(String host, int port) {
+    }
+
     @Override
-    public void checkAccess(Thread g) { }
+    public void checkAccess(Thread g) {
+    }
+
     @Override
-    public void checkAccess(ThreadGroup g) { }
+    public void checkAccess(ThreadGroup g) {
+    }
+
     @Override
-    public void checkConnect(String host, int port) { }
+    public void checkConnect(String host, int port) {
+    }
+
     @Override
-    public void checkConnect(String host, int port, Object context) { }
+    public void checkConnect(String host, int port, Object context) {
+    }
+
     @Override
-    public void checkCreateClassLoader() { }
+    public void checkCreateClassLoader() {
+    }
+
     @Override
-    public void checkDelete(String file) { }
+    public void checkDelete(String file) {
+    }
+
     @Override
-    public void checkExec(String cmd) { }
+    public void checkExec(String cmd) {
+    }
 
     // tests which call System.exit() should not cause JT Harness to exit
     @Override
@@ -134,13 +146,20 @@ public class JavaTestSecurityManager extends SecurityManager
     }
 
     @Override
-    public void checkLink(String lib) { }
+    public void checkLink(String lib) {
+    }
+
     @Override
-    public void checkListen(int port) { }
+    public void checkListen(int port) {
+    }
+
     @Override
-    public void checkPackageAccess(String pkg) { }
+    public void checkPackageAccess(String pkg) {
+    }
+
     @Override
-    public void checkPackageDefinition(String pkg) { }
+    public void checkPackageDefinition(String pkg) {
+    }
 
     // allowing tests to get at and manipulate the system properties
     // is too dangerous to permit when multiple tests are running,
@@ -157,40 +176,70 @@ public class JavaTestSecurityManager extends SecurityManager
     }
 
     @Override
-    public void checkPropertyAccess(String key) { }
+    public void checkPropertyAccess(String key) {
+    }
+
     @Override
-    public void checkRead(FileDescriptor fd) { }
+    public void checkRead(FileDescriptor fd) {
+    }
+
     @Override
-    public void checkRead(String file) { }
+    public void checkRead(String file) {
+    }
+
     @Override
-    public void checkRead(String file, Object context) { }
+    public void checkRead(String file, Object context) {
+    }
+
     @Override
-    public void checkSetFactory() { }
+    public void checkSetFactory() {
+    }
+
     @Override
-    public boolean checkTopLevelWindow(Object window) { return true; }
+    public boolean checkTopLevelWindow(Object window) {
+        return true;
+    }
+
     @Override
-    public void checkWrite(FileDescriptor fd) { }
+    public void checkWrite(FileDescriptor fd) {
+    }
+
     @Override
-    public void checkWrite(String file) { }
+    public void checkWrite(String file) {
+    }
 
     // These methods are added for forward-compatibility with JDK1.1
     @Override
-    public void checkAwtEventQueueAccess() { }
+    public void checkAwtEventQueueAccess() {
+    }
+
     @Override
-    public void checkMemberAccess(Class<?> clazz, int which) { }
+    public void checkMemberAccess(Class<?> clazz, int which) {
+    }
+
     @Override
-    public void checkMulticast(InetAddress maddr) { }
+    public void checkMulticast(InetAddress maddr) {
+    }
+
     @Override
-    public void checkMulticast(InetAddress maddr, byte ttl) { }
+    public void checkMulticast(InetAddress maddr, byte ttl) {
+    }
+
     @Override
-    public void checkPrintJobAccess() { }
+    public void checkPrintJobAccess() {
+    }
+
     @Override
-    public void checkSecurityAccess(String provider) { }
+    public void checkSecurityAccess(String provider) {
+    }
+
     @Override
-    public void checkSystemClipboardAccess() { }
+    public void checkSystemClipboardAccess() {
+    }
 
     /**
      * Set whether or not the JVM may be exited. The default value is "false".
+     *
      * @param bool true if the JVM may be exited, and false otherwise
      * @return the previous value of this setting
      */
@@ -204,6 +253,7 @@ public class JavaTestSecurityManager extends SecurityManager
      * Set whether or not the set of system properties may be accessed.
      * The default value is determined by the system property
      * "javatest.security.allowPropertiesAccess".
+     *
      * @param bool true if the system properties may be accessed, and false otherwise
      * @return the previous value of this setting
      */
@@ -216,11 +266,10 @@ public class JavaTestSecurityManager extends SecurityManager
     static private boolean allowExit = false; // no overrides on this one; API control only
     static private boolean allowPropertiesAccess = true;   // see initializer
     static private boolean verbose =
-        Boolean.getBoolean("javatest.security.verbose");
+            Boolean.getBoolean("javatest.security.verbose");
 }
 
-class NewJavaTestSecurityManager extends JavaTestSecurityManager
-{
+class NewJavaTestSecurityManager extends JavaTestSecurityManager {
     @Override
     public void checkPermission(Permission perm) {
         // allow most stuff, but limit as appropriate
@@ -230,8 +279,7 @@ class NewJavaTestSecurityManager extends JavaTestSecurityManager
             if (perm.getName().equals("createSecurityManager")) {
                 super.checkPermission(new java.lang.RuntimePermission("createSecurityManager"));
             }
-        }
-        else if (perm instanceof PropertyPermission) {
+        } else if (perm instanceof PropertyPermission) {
             if (perm.getActions().equals("read,write"))
                 checkPropertiesAccess();
         }

@@ -44,10 +44,10 @@ import java.util.*;
 /**
  * Information about this release of the JT Harness test harness.
  */
-public class ProductInfo
-{
+public class ProductInfo {
     /**
      * The name of this product.
+     *
      * @return a string identifying the name of this product.
      */
     public static String getName() {
@@ -56,6 +56,7 @@ public class ProductInfo
 
     /**
      * The version of this product.
+     *
      * @return a string identifying the version of this product.
      */
     public static String getVersion() {
@@ -78,8 +79,8 @@ public class ProductInfo
      */
     public static String getDetailedVersion() {
         StringBuilder sb = new StringBuilder(getVersion()).append('-')
-                                     .append(getMilestone()).append('+')
-                                     .append(getBuildNumber());
+                .append(getMilestone()).append('+')
+                .append(getBuildNumber());
         Date buildDate = getBuildDate();
         if (buildDate != null) {
             sb.append('-').append(BUILD_DATE_FORMAT.format(buildDate));
@@ -114,7 +115,7 @@ public class ProductInfo
      * So 4.3.1 will be parsed into {4,3,1,0,0,0,0,0,0,0}
      */
     private static int[] parseVersion(String v) {
-        int[] arr = {0,0,0,0,0,0,0,0,0,0};
+        int[] arr = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         List<String> list = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(v, ".");
         while (st.hasMoreTokens()) {
@@ -136,6 +137,7 @@ public class ProductInfo
 
     /**
      * The milestone of this product.
+     *
      * @return a string identifying the milestone of this product.
      */
     public static String getMilestone() {
@@ -144,6 +146,7 @@ public class ProductInfo
 
     /**
      * The build number for this product.
+     *
      * @return a string identifying the build number of this product.
      */
     public static String getBuildNumber() {
@@ -152,6 +155,7 @@ public class ProductInfo
 
     /**
      * The version of Java used to build this product.
+     *
      * @return a string identifying a version of Java used to build this product.
      */
     public static String getBuildJavaVersion() {
@@ -160,19 +164,19 @@ public class ProductInfo
 
     /**
      * The date this product was built.
+     *
      * @return A string identifying the date on which this product was built.
-     *         Null will be returned if no build data is available.
+     * Null will be returned if no build data is available.
      */
     public static Date getBuildDate() {
         // read en_US date, and prepare to emit it using the
         // current locale
         DateFormat endf =
-            DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
+                DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
         Date date = null;
         try {
             date = endf.parse(getProperty("date"));
-        }
-        catch (ParseException pe) {
+        } catch (ParseException pe) {
             // can't get the date
             date = null;
         }
@@ -183,6 +187,7 @@ public class ProductInfo
     /**
      * Get the entry on the class path which contains the JT Harness harness.
      * This may be a classes directory or javatest.jar.
+     *
      * @return the entry on the class path which contains the JT Harness harness.
      */
     public static File getJavaTestClassDir() {
@@ -196,6 +201,7 @@ public class ProductInfo
      * Determine the type of package the harness was loaded from.
      * This value is for informational purposes only, the possible values
      * isn't defined.
+     *
      * @return Empty string if the information isn't available.
      */
     public static String getPackagingType() {
@@ -204,11 +210,12 @@ public class ProductInfo
 
     /**
      * What sort of subset (if any) of the full harness is this.
+     *
      * @return A short descriptor describing this variety of the harness, empty
-     *     string if unset, never returns null.
+     * string if unset, never returns null.
      */
     public static String getHarnessVariety() {
-         return getProperty("harness-variety");
+        return getProperty("harness-variety");
     }
 
     private static File findJavaTestClassDir(PrintStream log) {
@@ -224,7 +231,7 @@ public class ProductInfo
         if (jc != null) {
             File javatestClassDir = new File(new File(jc).getAbsolutePath());
             if (verbose)
-            log.println("  " + CLASSDIR_PROPNAME + " = " + javatestClassDir);
+                log.println("  " + CLASSDIR_PROPNAME + " = " + javatestClassDir);
 
             return javatestClassDir;
         }
@@ -238,7 +245,7 @@ public class ProductInfo
             if (url.getProtocol().equals("jar")) {
                 String path = url.getPath();
                 int sep = path.lastIndexOf("!");
-                path=path.substring(0, sep);
+                path = path.substring(0, sep);
                 url = new URL(path);
             }
             if (url.getProtocol().equals("file")) {
@@ -259,7 +266,7 @@ public class ProductInfo
             log.println(i18n.getString("pi.jcd.cant"));
         }
 
-        if(i18n == null) {
+        if (i18n == null) {
             // we need initialized i18n for the following exception
             i18n = I18NResourceBundle.getBundleForClass(ProductInfo.class);
         }
@@ -277,8 +284,7 @@ public class ProductInfo
                     info.load(in);
                     in.close();
                 }
-            }
-            catch (IOException ignore) {
+            } catch (IOException ignore) {
                 //e.printStackTrace();
             }
         }

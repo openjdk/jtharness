@@ -28,6 +28,7 @@ package com.sun.javatest.report;
 
 import com.sun.javatest.util.HTMLWriter;
 import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -38,6 +39,7 @@ import java.nio.charset.Charset;
  * which requires newer than JDK 1.1 API
  * The base class, according to the convention, must be compatible with jdk 1.1
  * so such functionality was implemented here outside of com.sun.javatest.util
+ *
  * @see com.sun.javatest.util.HTMLWriter
  */
 public class HTMLWriterEx extends HTMLWriter {
@@ -47,7 +49,7 @@ public class HTMLWriterEx extends HTMLWriter {
      *
      * @param out a Writer to which to write the generated HTML
      * @throws IOException if there is a problem writing to the underlying
-     * stream
+     *                     stream
      */
     public HTMLWriterEx(Writer out) throws IOException {
         super(out);
@@ -56,11 +58,11 @@ public class HTMLWriterEx extends HTMLWriter {
     /**
      * Create an HTMLWriterEx object, using a specified doctype header.
      *
-     * @param out a Writer to which to write the generated HTML
+     * @param out     a Writer to which to write the generated HTML
      * @param docType a string containing a doctype header for the HTML to be
-     * generated
+     *                generated
      * @throws IOException if there is a problem writing to the underlying
-     * stream
+     *                     stream
      */
     public HTMLWriterEx(Writer out, String docType) throws IOException {
         super(out, docType);
@@ -70,10 +72,10 @@ public class HTMLWriterEx extends HTMLWriter {
      * Create an HTMLWriterEx object, using a specified bundle for localizing
      * messages.
      *
-     * @param out a Writer to which to write the generated HTML
+     * @param out  a Writer to which to write the generated HTML
      * @param i18n a resource bundle to use to localize messages
      * @throws IOException if there is a problem writing to the underlying
-     * stream
+     *                     stream
      */
     public HTMLWriterEx(Writer out, I18NResourceBundle i18n) throws IOException {
         super(out, i18n);
@@ -83,12 +85,12 @@ public class HTMLWriterEx extends HTMLWriter {
      * Create an HTMLWriterEx object, using a specified doctype header and using
      * a specified bundle for localizing messages.
      *
-     * @param out a Writer to which to write the generated HTML
+     * @param out     a Writer to which to write the generated HTML
      * @param docType a string containing a doctype header for the HTML to be
-     * generated
-     * @param i18n a resource bundle to use to localize messages
+     *                generated
+     * @param i18n    a resource bundle to use to localize messages
      * @throws IOException if there is a problem writing to the underlying
-     * stream
+     *                     stream
      */
     public HTMLWriterEx(Writer out, String docType, I18NResourceBundle i18n) throws IOException {
         super(out, docType, i18n);
@@ -109,6 +111,7 @@ public class HTMLWriterEx extends HTMLWriter {
      * available on the current runtime.  If the Charset provided is null, the
      * runtime default charset will be used - by calling the no-param
      * version of this method.
+     *
      * @param charSet Character set to use, must not be null.
      */
     public void writeContentMeta(Charset charSet) throws IOException {

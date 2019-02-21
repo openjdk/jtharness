@@ -29,12 +29,12 @@ package com.sun.javatest.services;
 /**
  * MessageHandler objects are passed to Connectors and responsible for handling
  * asynchronous incoming messages.
- *
  */
 public interface MessageHandler {
 
     /**
      * Method, that handles asynchronous incoming messages
+     *
      * @param msg
      */
     public void handleMessage(Message msg);

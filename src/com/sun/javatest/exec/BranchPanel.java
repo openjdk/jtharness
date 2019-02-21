@@ -66,9 +66,8 @@ import com.sun.javatest.util.Debug;
  */
 
 class BranchPanel
-    extends JPanel
-    implements FilterSelectionHandler.Observer
-{
+        extends JPanel
+        implements FilterSelectionHandler.Observer {
     BranchPanel(UIFactory uif, TreePanelModel model, Harness h, ExecModel em, JComponent parent,
                 FilterSelectionHandler filterHandler, TestTreeModel ttm) {
         this.uif = uif;
@@ -126,11 +125,11 @@ class BranchPanel
         // the summary tab is not a list
         lists = new BP_TestListSubpanel[Status.NUM_STATES];
         for (int i = 0; i < lists.length; i++) {
-            allPanels[i+2] = lists[i] =
-                new BP_TestListSubpanel(uif, harness, execModel, bModel, ttm, i);
+            allPanels[i + 2] = lists[i] =
+                    new BP_TestListSubpanel(uif, harness, execModel, bModel, ttm, i);
         }
 
-        allPanels[allPanels.length-1] = foPanel =
+        allPanels[allPanels.length - 1] = foPanel =
                 new BP_FilteredOutSubpanel(uif, bModel, ttm);
 
         listDisplayStatus = new boolean[allPanels.length];
@@ -140,7 +139,7 @@ class BranchPanel
         JComponent[] panes = new JComponent[3 + lists.length];
         panes[0] = summPanel;
         panes[1] = docPanel;
-        panes[panes.length-1] = foPanel;
+        panes[panes.length - 1] = foPanel;
         System.arraycopy(lists, 0, panes, 2, lists.length);
 
         bPane = uif.createTabbedPane("br.tabs", panes);
@@ -152,7 +151,7 @@ class BranchPanel
             public void stateChanged(ChangeEvent e) {
                 Component c = bPane.getSelectedComponent();
                 if (c instanceof BP_BranchSubpanel) {
-                    BP_BranchSubpanel bsp = (BP_BranchSubpanel)c;
+                    BP_BranchSubpanel bsp = (BP_BranchSubpanel) c;
                     bsp.updateSubpanel(currNode);
 
                     if (bPane.isEnabledAt(bPane.indexOfComponent(c))) {
@@ -204,6 +203,7 @@ class BranchPanel
                     needToUpdateGUIWhenShown = false;
                 }
             }
+
             @Override
             public void componentHidden(ComponentEvent e) {
             }
@@ -264,8 +264,7 @@ class BranchPanel
             // start at 1 since we don't disable the summary tab
             for (int i = 1; i < bPane.getComponentCount(); i++)
                 bPane.setEnabledAt(i, false);
-        }
-        else {
+        } else {
             // preemptively start these threads as soon as we change nodes
             // this allows us to get disabled tabs early - and have data if the user
             // does ask for it
@@ -387,6 +386,7 @@ class BranchPanel
 
         /**
          * Message are automatically placed onto the event thread.
+         *
          * @param msg Localized message to be displayed.
          */
         @Override
@@ -410,8 +410,7 @@ class BranchPanel
                 };      // end anon. class
 
                 EventQueue.invokeLater(cmd);
-            }
-            else {      // now on event thread
+            } else {      // now on event thread
                 // only likely at startup
                 if (bPane == null)
                     return;
@@ -450,12 +449,10 @@ class BranchPanel
                 };      // end anon. class
 
                 EventQueue.invokeLater(cmd);
-            }
-            else {          // on dispatch thread
+            } else {          // on dispatch thread
                 if (index == -1) {
                     return;
-                }
-                else {
+                } else {
                     listDisplayStatus[index] = newState;
                     bPane.setEnabledAt(index, newState);
                 }
@@ -572,23 +569,22 @@ class BranchPanel
                 };      // end anon. class
 
                 EventQueue.invokeLater(cmd);
-            }
-            else {
+            } else {
                 for (int i = 0; i < stats.length; i++) {
-                    if (stats[i] > 0 && !listDisplayStatus[i+2])
-                        bModel.setEnabled(i+2, true);
-                    if (stats[i] == 0 && listDisplayStatus[i+2])
-                        bModel.setEnabled(i+2, false);
+                    if (stats[i] > 0 && !listDisplayStatus[i + 2])
+                        bModel.setEnabled(i + 2, true);
+                    if (stats[i] == 0 && listDisplayStatus[i + 2])
+                        bModel.setEnabled(i + 2, false);
                 }       // for
 
                 int rej = cache.getRejectCount();
                 if (rej == 0) {
-                    if (listDisplayStatus[listDisplayStatus.length-1])
-                        bModel.setEnabled(listDisplayStatus.length-1, false);
-                    else {}
-                }
-                else if (rej > 0 && !listDisplayStatus[listDisplayStatus.length-1]) {
-                    bModel.setEnabled(listDisplayStatus.length-1, true);
+                    if (listDisplayStatus[listDisplayStatus.length - 1])
+                        bModel.setEnabled(listDisplayStatus.length - 1, false);
+                    else {
+                    }
+                } else if (rej > 0 && !listDisplayStatus[listDisplayStatus.length - 1]) {
+                    bModel.setEnabled(listDisplayStatus.length - 1, true);
                 }
             }   // else
         }

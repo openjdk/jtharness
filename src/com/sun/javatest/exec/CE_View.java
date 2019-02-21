@@ -35,8 +35,7 @@ import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.jthelp.HelpID;
 import com.sun.javatest.tool.jthelp.JHelpContentViewer;
 
-abstract class CE_View extends JPanel
-{
+abstract class CE_View extends JPanel {
     protected CE_View(InterviewParameters config,
                       JHelpContentViewer infoPanel,
                       UIFactory uif, ActionListener l) {
@@ -53,7 +52,8 @@ abstract class CE_View extends JPanel
 
     abstract void save();
 
-    void refresh() { }
+    void refresh() {
+    }
 
     public void setParentToolDialog(ToolDialog d) {
         toolDialog = d;

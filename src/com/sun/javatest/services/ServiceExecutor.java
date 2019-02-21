@@ -32,14 +32,14 @@ import java.io.InputStream;
  * Interface, which describes concept of service execution. Contains methods to
  * start, stop service, check that it is alive. Provides InputStreams to read service
  * error and output.
- *
  */
 public interface ServiceExecutor {
 
     /**
      * Method, that starts service.
+     *
      * @param startMsg incoming message with {@link com.sun.javatest.services.Message.MessageType#START}
-     * type and start arguments (in any form, acceptable by ServiceExecutor's implementation).
+     *                 type and start arguments (in any form, acceptable by ServiceExecutor's implementation).
      * @return response message with type {@link com.sun.javatest.services.Message.MessageType#STARTED},
      * in case service was started successfully, or type {@link com.sun.javatest.services.Message.MessageType#ERROR},
      * in case some problems occurred.
@@ -48,8 +48,9 @@ public interface ServiceExecutor {
 
     /**
      * Method, that stops service.
+     *
      * @param stopMsg incoming message with {@link com.sun.javatest.services.Message.MessageType#STOP}
-     * type.
+     *                type.
      * @return response message with type {@link com.sun.javatest.services.Message.MessageType#STOPPED},
      * in case service was stopped successfully, or type {@link com.sun.javatest.services.Message.MessageType#ERROR},
      * in case some problems occurred.
@@ -58,8 +59,9 @@ public interface ServiceExecutor {
 
     /**
      * Method, that checks that service is alive and runs normally.
+     *
      * @param isAlive incoming message with {@link com.sun.javatest.services.Message.MessageType#IS_ALIVE}
-     * type.
+     *                type.
      * @return response message with type {@link com.sun.javatest.services.Message.MessageType#ALIVE},
      * in case service alive, or {@link com.sun.javatest.services.Message.MessageType#NOT_ALIVE},
      * if there any problems with running service.
@@ -68,12 +70,14 @@ public interface ServiceExecutor {
 
     /**
      * Method, which provides access for service error output.
+     *
      * @return InputStream to read service error output.
      */
     public InputStream getServiceErrorStream();
 
     /**
      * Method, which provides access for service output.
+     *
      * @return InputStream to read service output.
      */
     public InputStream getServiceOutputStream();

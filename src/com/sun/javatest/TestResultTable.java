@@ -93,46 +93,47 @@ public class TestResultTable {
      * @since 3.0
      */
     public interface TreeObserver {
-       /**
-        * A node has been inserted into the tree.
-        * @param path The path to the node that was inserted.  Does not include
-        *        the actual object which is new.
-        * @param what The actual object that changed.  So <code>path</code> plus
-        *        this is the entire path.  The type will either be TestResult or
-        *        TreeNode.
-        * @param index The index in <code>path[path.length-1]</code> where the
-        *        new node was placed.
-        */
-       void nodeInserted(TreeNode[] path, Object what, int index);
+        /**
+         * A node has been inserted into the tree.
+         *
+         * @param path  The path to the node that was inserted.  Does not include
+         *              the actual object which is new.
+         * @param what  The actual object that changed.  So <code>path</code> plus
+         *              this is the entire path.  The type will either be TestResult or
+         *              TreeNode.
+         * @param index The index in <code>path[path.length-1]</code> where the
+         *              new node was placed.
+         */
+        void nodeInserted(TreeNode[] path, Object what, int index);
 
-       /**
-        * A node has changed.
-        * In the case of a test changing, the old object is the test result
-        * being replaced.  In the case of a branch changing, the old object is
-        * the same as the what object.
-        *
-        * @param path The path to the node that changed.  Does not include
-        *        the actual object which changed.
-        * @param what The actual object that changed.  So <code>path</code> plus
-        *        this is the entire path.  The type will either be TestResult or
-        *        TreeNode.
-        * @param index The index in <code>path[path.length-1]</code> that changed.
-        * @param old The old value at the changed location.
-        */
-       void nodeChanged(TreeNode[] path, Object what, int index, Object old);
+        /**
+         * A node has changed.
+         * In the case of a test changing, the old object is the test result
+         * being replaced.  In the case of a branch changing, the old object is
+         * the same as the what object.
+         *
+         * @param path  The path to the node that changed.  Does not include
+         *              the actual object which changed.
+         * @param what  The actual object that changed.  So <code>path</code> plus
+         *              this is the entire path.  The type will either be TestResult or
+         *              TreeNode.
+         * @param index The index in <code>path[path.length-1]</code> that changed.
+         * @param old   The old value at the changed location.
+         */
+        void nodeChanged(TreeNode[] path, Object what, int index, Object old);
 
-       /**
-        * An item has been removed from the tree.
-        *
-        * @param path The path to the node that changed.  Does not include
-        *        the actual object which changed.
-        * @param what The actual object that was removed.  So <code>path</code> plus
-        *        this is the entire path.  The type will either be TestResult or
-        *        TreeNode.
-        * @param index The index in <code>path[path.length-1]</code> that was
-        *        removed.
-        */
-       void nodeRemoved(TreeNode[] path, Object what, int index);
+        /**
+         * An item has been removed from the tree.
+         *
+         * @param path  The path to the node that changed.  Does not include
+         *              the actual object which changed.
+         * @param what  The actual object that was removed.  So <code>path</code> plus
+         *              this is the entire path.  The type will either be TestResult or
+         *              TreeNode.
+         * @param index The index in <code>path[path.length-1]</code> that was
+         *              removed.
+         */
+        void nodeRemoved(TreeNode[] path, Object what, int index);
     }
 
     /**
@@ -147,7 +148,6 @@ public class TestResultTable {
          * original node will be delivered.
          *
          * @param origin Node the refresh has been originated
-         *
          */
         void startRefresh(TreeNode origin);
 
@@ -157,7 +157,6 @@ public class TestResultTable {
          * original node will be delivered.
          *
          * @param origin Node the refresh has been originated
-         *
          */
         void finishRefresh(TreeNode origin);
     }
@@ -171,10 +170,10 @@ public class TestResultTable {
         /**
          * A TreeNode has been inserted into the given parent node.
          *
-         * @param parent The node which acquired the new node.  This is the same as
-         *        the object that the observer attached to.
+         * @param parent  The node which acquired the new node.  This is the same as
+         *                the object that the observer attached to.
          * @param newNode The node which was added.
-         * @param index The index at which the node was added.
+         * @param index   The index at which the node was added.
          */
         public void insertedBranch(TreeNode parent, TreeNode newNode, int index);
 
@@ -182,20 +181,20 @@ public class TestResultTable {
          * A TestResult has been inserted into the given parent node.
          *
          * @param parent The node which acquired the new test.  This is the same as
-         *        the object that the observer attached to.
-         * @param test The test which was added.
-         * @param index The index at which the test was added.
+         *               the object that the observer attached to.
+         * @param test   The test which was added.
+         * @param index  The index at which the test was added.
          */
         public void insertedResult(TreeNode parent, TestResult test, int index);
 
         /**
          * A TestResult has been replaced in the given parent node.
          *
-         * @param parent The node which acquired the new test.  This is the same as
-         *        the object that the observer attached to.
+         * @param parent  The node which acquired the new test.  This is the same as
+         *                the object that the observer attached to.
          * @param oldTest The test which was replaced.
          * @param newTest The test which took the old test's place.
-         * @param index The index at which activity occurred.
+         * @param index   The index at which activity occurred.
          */
         public void replacedResult(TreeNode parent, TestResult oldTest,
                                    TestResult newTest, int index);
@@ -204,8 +203,8 @@ public class TestResultTable {
          * A TreeNode has been removed from the given parent node.
          *
          * @param parent The node which acquired the new test.  This is the same as
-         *        the object that the observer attached to.
-         * @param index The index at which the removed node resided in the parent.
+         *               the object that the observer attached to.
+         * @param index  The index at which the removed node resided in the parent.
          */
         public void removedBranch(TreeNode parent, int index);
 
@@ -213,9 +212,9 @@ public class TestResultTable {
          * A TestResult has been removed from the given parent node.
          *
          * @param parent The node which acquired the new test.  This is the same as
-         *        the object that the observer attached to.
-         * @param test The test which was removed.
-         * @param index The index at which the removed test resided in the parent.
+         *               the object that the observer attached to.
+         * @param test   The test which was removed.
+         * @param index  The index at which the removed test resided in the parent.
          */
         public void removedResult(TreeNode parent, TestResult test, int index);
 
@@ -223,7 +222,7 @@ public class TestResultTable {
          * The statistics counters of the node have changed.
          *
          * @param node The node whose counters were invalidated.
-         *        This is the same as the node which this observer attached to.
+         *             This is the same as the node which this observer attached to.
          */
         public void countersInvalidated(TreeNode node);
     }
@@ -233,8 +232,7 @@ public class TestResultTable {
      * Exception class to communicate any special conditions which may occur
      * while using this class.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         Fault(I18NResourceBundle i18n, String s) {
             super(i18n.getString(s));
         }
@@ -263,12 +261,12 @@ public class TestResultTable {
             String url = "/trt/" + instanceId;
             httpHandle = new TRT_HttpHandler(this, url, instanceId);
             RootRegistry.getInstance().addHandler(url, "Test Result Table",
-                                                  httpHandle);
+                    httpHandle);
             RootRegistry.associateObject(this, httpHandle);
         }
 
         rtc = new RequestsToCache();
-            }
+    }
 
 
     /**
@@ -289,7 +287,7 @@ public class TestResultTable {
      *
      * @param wd The work directory to associate with this table.
      * @param tf The finder to use.  Do not use this constructor unless
-     *        necessary.
+     *           necessary.
      * @see #TestResultTable(WorkDirectory)
      * @since 3.0
      */
@@ -320,7 +318,7 @@ public class TestResultTable {
             initFinder();
     }
 
-    public void updateTestExecutionOrderOnTheFly(){
+    public void updateTestExecutionOrderOnTheFly() {
         root = new TRT_TreeNode(TestResultTable.this, null);
     }
 
@@ -405,8 +403,7 @@ public class TestResultTable {
         */
         try {
             trCache = new TestResultCache(workDir, updater);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // should consider throwing Fault, but that will destabilize too many APIs for now
             updater.error(e);
         }
@@ -462,7 +459,7 @@ public class TestResultTable {
      * an existing test or it can be completely new.  Doing this operation will
      * trigger appropriate observer messages.
      *
-     * @param tr The test to insert or update.
+     * @param tr           The test to insert or update.
      * @param suppressScan Request that test finder activity be suppressed if possible
      * @throws JavaTestError Throws if the result cache throws an error.
      */
@@ -475,11 +472,12 @@ public class TestResultTable {
      * Complete the notification process for insertion of a new result.
      * This method adds it to the cache, sends notifications and does other
      * bookkeeping only.
-     *
+     * <p>
      * This method was introduced to allow updates to occur from non-root
      * branches (bottom up updates) or updates from insertions into the table
      * which are usual during test execution (top down).
-     * @param tr Result inserted.
+     *
+     * @param tr   Result inserted.
      * @param prev Result replaced (if any).
      */
     void updateNotify(TestResult tr, TestResult prev) {
@@ -488,8 +486,7 @@ public class TestResultTable {
             tr.shareStatus(statusTables);
 
             for (Observer observer : observers) observer.update(prev, tr);
-        }
-        else {
+        } else {
             // tests are the same, we are probably changing the status
             for (Observer observer : observers) observer.updated(tr);
         }
@@ -499,7 +496,7 @@ public class TestResultTable {
         // things which haven't been run are not put in cache
         // doing so will cause problems in the cache and possibly other
         // places because there is never a JTR file to reload the result from
-        if (trCache!= null && !updateInProgress && tr.getStatus().getType() != Status.NOT_RUN) {
+        if (trCache != null && !updateInProgress && tr.getStatus().getType() != Status.NOT_RUN) {
             trCache.insert(tr);
         }
 
@@ -512,23 +509,22 @@ public class TestResultTable {
      * using an iterator to ensure that you get consistent and up to date
      * data.  It would also be advisable to do this before forcing the VM to
      * exit.
-     * @return Always true.  Reserved for later use.
      *
+     * @return Always true.  Reserved for later use.
      * @since 3.0.1
      */
     public synchronized boolean waitUntilReady() {
-        while ( ((workDir != null) && !cacheInitialized) ||
-                  updateInProgress) {
+        while (((workDir != null) && !cacheInitialized) ||
+                updateInProgress) {
             try {
                 wait();
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 if (debug > 0)
                     e.printStackTrace(Debug.getWriter());
             }
         }
 
-        if (trCache != null){
+        if (trCache != null) {
             trCache.requestFullUpdate();
         }
 
@@ -580,8 +576,9 @@ public class TestResultTable {
      * <li>A folder (non-leaf) node.  Type <code>TreeNode</code>
      * <li>A test (leaf) node.  Type <code>TestResult</code>
      * </ul>
+     *
      * @param url A forward-slash separated path referring to node names along a
-     *        path originating at the root node.
+     *            path originating at the root node.
      * @return The nodes that the given URL refers to.  Null if no match.
      * @since 3.2
      */
@@ -594,8 +591,8 @@ public class TestResultTable {
      * rules for initial URLs.
      *
      * @param path The path to validate.  Should be internal URL format (forward
-     *        slashes, relative to test root, ...)  Null is acceptable but will
-     *        immediately result in null being returned.
+     *             slashes, relative to test root, ...)  Null is acceptable but will
+     *             immediately result in null being returned.
      * @return True if the given path is valid in this instance, false otherwise.
      * @since 3.0.2
      */
@@ -614,11 +611,11 @@ public class TestResultTable {
     /**
      * Find the specified test, recording the path from the root.
      *
-     * @since 3.0
      * @param target The test to generate the path for.
      * @return The path to the root of the enclosing TRT.  Null if the operation
-     *      could not be completed.  The target node is not included in the
-     *      returned array.  Index 0 will be the TRT root.
+     * could not be completed.  The target node is not included in the
+     * returned array.  Index 0 will be the TRT root.
+     * @since 3.0
      */
     public static TreeNode[] getObjectPath(TestResult target) {
         if (target == null)
@@ -650,11 +647,11 @@ public class TestResultTable {
     /**
      * Find the specified test, recording the path from the root.
      *
-     * @since 3.0
      * @param target The node to generate the path for.
      * @return The path to the root of the enclosing TRT.  Null if the operation
-     *      could not be completed.  The target node is included in the returned array
-     *      as the last element, index 0 will be the TRT root.
+     * could not be completed.  The target node is included in the returned array
+     * as the last element, index 0 will be the TRT root.
+     * @since 3.0
      */
     public static TreeNode[] getObjectPath(TreeNode target) {
         if (target == null)
@@ -707,9 +704,9 @@ public class TestResultTable {
      * List all the tests in the tree subject to the given filters.
      *
      * @param filters The Filters to run tests through before "selecting"
-     *        them for iteration.  May be null.
+     *                them for iteration.  May be null.
      * @return An iterator which returns all tests in the tree after removing
-     *         those filtered out by the filters.
+     * those filtered out by the filters.
      * @since 3.0
      */
     public TreeIterator getIterator(TestFilter... filters) {
@@ -723,11 +720,11 @@ public class TestResultTable {
      * Same description as getIterator() method with same args.
      *
      * @param filters The Filters to run tests through before "selecting"
-     *        them for iteration.  May be null.
+     *                them for iteration.  May be null.
      * @return An enumerator which returns all tests in the tree after removing
-     *         those filtered out by the filters.
-     * @since 3.0
+     * those filtered out by the filters.
      * @see #getIterator()
+     * @since 3.0
      */
     public Enumeration<TestResult> elements(TestFilter... filters) {
         return getIterator(filters);
@@ -765,11 +762,11 @@ public class TestResultTable {
      * An empty or null set of filters is acceptable and will result in unfiltered
      * iteration.
      *
-     * @param node The tree node to being the iteration at.  May be null.
+     * @param node   The tree node to being the iteration at.  May be null.
      * @param filter The filter to run tests through before "selecting"
-     *        them for iteration.
+     *               them for iteration.
      * @return An iterator which returns test below the given node after
-     *         removing any tests which the filter rejects.
+     * removing any tests which the filter rejects.
      * @since 3.0
      */
     public static TreeIterator getIterator(TreeNode node, TestFilter filter) {
@@ -784,11 +781,11 @@ public class TestResultTable {
     /**
      * Same description as getIterator() method with same args.
      *
-     * @param node The tree node to being the enumeration at.  May be null.
+     * @param node   The tree node to being the enumeration at.  May be null.
      * @param filter The filter to run tests through before "selecting"
-     *        them for enumeration.  May be null.
+     *               them for enumeration.  May be null.
      * @return An enumerator which returns test below the given node after
-     *         removing any tests which the filter rejects.
+     * removing any tests which the filter rejects.
      * @see #getIterator()
      * @since 3.0
      */
@@ -802,10 +799,10 @@ public class TestResultTable {
      * An empty or null set of filters is acceptable and will result in unfiltered
      * iteration.
      *
-     * @param node The tree node to begin enumerating at.  May be null.
+     * @param node    The tree node to begin enumerating at.  May be null.
      * @param filters The test filters to apply to any tests found.
      * @return An iterator which returns test below the given node after
-     *         removing any tests which the filters reject.
+     * removing any tests which the filters reject.
      * @since 3.0
      */
     public static TreeIterator getIterator(TreeNode node, TestFilter... filters) {
@@ -818,10 +815,10 @@ public class TestResultTable {
     /**
      * Same description as getIterator() method with same args.
      *
-     * @param node The tree node to begin enumerating at.  May be null.
+     * @param node    The tree node to begin enumerating at.  May be null.
      * @param filters The test filters to apply to any tests found.
      * @return An enumerator which returns test below the given node after
-     *         removing any tests which the filters reject.
+     * removing any tests which the filters reject.
      * @see #getIterator()
      * @since 3.0
      */
@@ -838,11 +835,11 @@ public class TestResultTable {
      * An empty or null set of filters is acceptable and will result in
      * unfiltered iteration.
      *
-     * @param url The test URL to scan.  This value should have already be
-     *            normalized to a '/' file separator.  May be null.
+     * @param url     The test URL to scan.  This value should have already be
+     *                normalized to a '/' file separator.  May be null.
      * @param filters The test filters to apply to any tests found.  May be null.
      * @return An enumerator which returns test below the given location after
-     *         removing any tests which the filters reject.
+     * removing any tests which the filters reject.
      * @see #getIterator()
      * @since 3.0
      */
@@ -864,15 +861,15 @@ public class TestResultTable {
      * An empty or null set of filters is acceptable and will result in
      * unfiltered iteration.
      *
-     * @param tests The set of files base the iterator on.  May be null.
-     *        If this set is not empty, the contents should have already been
-     *        validated using the validatePath() method.
+     * @param tests   The set of files base the iterator on.  May be null.
+     *                If this set is not empty, the contents should have already been
+     *                validated using the validatePath() method.
      * @param filters The test filters to apply to any tests found.  May be null.
      * @return An iterator which return the union of tests specified by the
-     *         initial files but not removed by the filters.
+     * initial files but not removed by the filters.
      * @throws TestResultTable.Fault Thrown if the given initialUrls are invalid.
-     * @since 3.0
      * @see #validatePath
+     * @since 3.0
      */
     public TreeIterator getIterator(File[] tests, TestFilter... filters) throws Fault {
         String[] urls = preProcessInitFiles(tests);
@@ -886,10 +883,10 @@ public class TestResultTable {
     /**
      * Same as getIterator() with the same args.
      *
-     * @param tests The set of files base the enumerator on.  May be null.
+     * @param tests   The set of files base the enumerator on.  May be null.
      * @param filters The test filters to apply to any tests found.  May be null.
      * @return An enumerator which return the union of tests specified by the
-     *         initial files but not removed by the filters.
+     * initial files but not removed by the filters.
      * @throws TestResultTable.Fault Thrown if the given initialUrls are invalid.
      * @see #getIterator()
      * @since 3.0
@@ -904,11 +901,11 @@ public class TestResultTable {
      * URL selection.  An empty or null set of filters is acceptable and will
      * result in unfiltered iteration.
      *
-     * @param paths The test URLs to scan.  Values should have already be normalized to a
-     *            '/' file separator.  May not be null.
+     * @param paths   The test URLs to scan.  Values should have already be normalized to a
+     *                '/' file separator.  May not be null.
      * @param filters The test filters to apply to any tests found.  May be null.
      * @return An iterator which return the union of tests specified by the
-     *         URLs but not removed by the filters.
+     * URLs but not removed by the filters.
      * @since 3.0
      */
     public TreeIterator getIterator(String[] paths, TestFilter... filters) {
@@ -919,7 +916,7 @@ public class TestResultTable {
         urls = distillUrls(urls);
 
         if (!Boolean.parseBoolean(
-            Preferences.access().getPreference("javatest.sortExecution", "true"))) {
+                Preferences.access().getPreference("javatest.sortExecution", "true"))) {
             // need to exclude extra elements from initial array
             if (urls.length != paths.length) {
                 urls = removeMissing(paths, urls);
@@ -950,7 +947,7 @@ public class TestResultTable {
         }   // for
 
         if ((initNodes == null || initNodes.isEmpty()) &&
-            (initTests == null || initTests.isEmpty())) {
+                (initTests == null || initTests.isEmpty())) {
             if (debug == 1 || debug == 99)
                 Debug.println("None of the initial URLs could be looked up.");
 
@@ -960,21 +957,20 @@ public class TestResultTable {
         if (!initTests.isEmpty()) {
             if (debug == 1 || debug == 99)
                 Debug.println("Using combo TreeIterator, " + initTests.size() +
-                            " tests, " + initNodes.size() + " nodes.");
+                        " tests, " + initNodes.size() + " nodes.");
             return new TRT_Iterator(initNodes.toArray(new TreeNode[0]), initTests.toArray(new TestResult[0]), filters);
-        }
-        else
+        } else
             return new TRT_Iterator(initNodes.toArray(new TreeNode[0]), filters);
     }
 
     /**
      * This method is the same as getIterator() with the same params.
      *
-     * @param urls The test URLs to scan.  Values should have already be normalized to a
-     *            '/' file separator.
+     * @param urls    The test URLs to scan.  Values should have already be normalized to a
+     *                '/' file separator.
      * @param filters The test filters to apply to any tests found.
      * @return An enumerator which return the union of tests specified by the
-     *         URLs but not removed by the filters.
+     * URLs but not removed by the filters.
      * @see #getIterator()
      * @since 3.0
      */
@@ -1008,7 +1004,7 @@ public class TestResultTable {
     /**
      * Insert the given test into the tree.
      *
-     * @param tr The test to insert.  A null value is ignored.
+     * @param tr           The test to insert.  A null value is ignored.
      * @param suppressScan Request that test finder activity be suppressed.
      * @return The old value.  Null if none or the parameter was null.
      */
@@ -1027,11 +1023,11 @@ public class TestResultTable {
     /**
      * Insert the given test and indicate that test's previous status.
      *
-     * @param tr The test to insert, may or may not already exist in the table.
-     *           A null value is ignored.
+     * @param tr        The test to insert, may or may not already exist in the table.
+     *                  A null value is ignored.
      * @param oldStatus The previous status of the given test.
      * @return The old result which was replaced.  Null if the parameter was null or
-     *         there was no previous value.
+     * there was no previous value.
      */
     TestResult insert(TestResult tr, Status oldStatus) {
         if (tr == null)
@@ -1082,9 +1078,10 @@ public class TestResultTable {
      * Get the path to this node, relative to the root of the testsuite.
      * The returned URL does not have a trailing slash, nor does it begin
      * with one.
+     *
      * @param node The node to find the path to.
      * @return The URL to the given node, with '/' as the path separator.
-     *         Zero length string if the node is a root.
+     * Zero length string if the node is a root.
      * @since 3.0
      */
     public static String getRootRelativePath(TreeNode node) {
@@ -1133,7 +1130,7 @@ public class TestResultTable {
         if (dir.equals(path)) { // last element of the path
             tn = ((TRT_TreeNode) node).getTreeNode(path, false);
         } else {                        // recurse
-            TreeNode next = ((TRT_TreeNode)node).getTreeNode(dir, false);
+            TreeNode next = ((TRT_TreeNode) node).getTreeNode(dir, false);
             if (next != null)
                 tn = findNode(next, behead(path));
             else { // not found
@@ -1199,7 +1196,7 @@ public class TestResultTable {
      *
      * @param tr The test to find, purge and replace.
      * @return The new <code>NOT_RUN</code> test.  Null if the operation fails
-     *         because the test could not be found.
+     * because the test could not be found.
      * @see #resetTest(String)
      * @since 3.0
      */
@@ -1215,9 +1212,8 @@ public class TestResultTable {
             newTest = lookup(tr.getWorkRelativePath());
             if (debug > 0)
                 Debug.println("Recovered test by replacement (1). " + newTest);
-        }
-        else {
-            TRT_TreeNode targetNode = (TRT_TreeNode) location[location.length-1];
+        } else {
+            TRT_TreeNode targetNode = (TRT_TreeNode) location[location.length - 1];
             int index = targetNode.getIndex(tr, false);
             if (index >= 0) {
                 newTest = targetNode.resetTest(index, tr);
@@ -1227,16 +1223,16 @@ public class TestResultTable {
                     /*OLD
                     try {
                     */
-                        // Insert into cache?
-                        // this will cause a cache error on flush because it can't reload the
-                        // result, but that should get it out of the cache
-                        if (trCache != null) {
-                            testsInUpdate.add(newTest);
-                            trCache.insert(newTest);
-                            testsInUpdate.remove(newTest);
-                        }
-                        notifyRemoveLeaf(location, tr, index);
-                        notifyNewLeaf(location, newTest, index);
+                    // Insert into cache?
+                    // this will cause a cache error on flush because it can't reload the
+                    // result, but that should get it out of the cache
+                    if (trCache != null) {
+                        testsInUpdate.add(newTest);
+                        trCache.insert(newTest);
+                        testsInUpdate.remove(newTest);
+                    }
+                    notifyRemoveLeaf(location, tr, index);
+                    notifyNewLeaf(location, newTest, index);
                     /*OLD
                     }   // try
                     catch (TestResultCache.Fault f) {
@@ -1269,9 +1265,9 @@ public class TestResultTable {
      * NOTE: This method may cause waitUntilReady() to block.
      *
      * @param testName The test to find, purge and replace.  This is of the form
-     *        given by TestResult.getTestName().
+     *                 given by TestResult.getTestName().
      * @return The new <code>NOT_RUN</code> test.  Null if the given test name
-     *         could not be found.
+     * could not be found.
      * @see com.sun.javatest.TestResult#getTestName
      * @since 3.0
      */
@@ -1285,10 +1281,11 @@ public class TestResultTable {
 
     /**
      * Refresh a test if the files on disk have been modified since the test was read.
+     *
      * @param test The path for the test to be refreshed
      * @return true if a refresh was needed, false otherwise.
      * @throws TestResultTable.Fault if the test indicated cannot be located for
-     *         refreshing.
+     *                               refreshing.
      */
     public synchronized boolean refreshIfNeeded(String test) throws Fault {
         TestResult tr = lookup(TestResult.getWorkRelativePath(test));
@@ -1301,12 +1298,12 @@ public class TestResultTable {
         if (path == null)
             return false;
 
-        TRT_TreeNode tn = (TRT_TreeNode)path[path.length-1];
+        TRT_TreeNode tn = (TRT_TreeNode) path[path.length - 1];
         TestResult newTr = tn.refreshIfNeeded(tr);
 
         if (newTr != tr)
             notifyChangeLeaf(TestResultTable.getObjectPath(tn),
-                             newTr, tn.getTestIndex(newTr, false), tr);
+                    newTr, tn.getTestIndex(newTr, false), tr);
 
         return false;
     }
@@ -1314,10 +1311,11 @@ public class TestResultTable {
     /**
      * Refresh a folder if the files on disk have been modified since the
      * folder was read. Notifies observers of the refresh happened.
+     *
      * @param node the node representing the folder to be refreshed
      * @return true if any refreshing was needed, false otherwise.
      * @throws TestResultTable.Fault if the node indicated cannot be located for
-     *         refreshing.
+     *                               refreshing.
      */
     public synchronized boolean refreshIfNeeded(TreeNode node) {
         if (node.getEnclosingTable() != this)
@@ -1325,7 +1323,7 @@ public class TestResultTable {
 
         notifyStartRefresh(node);
         try {
-            return recursiveRefresh((TRT_TreeNode)node);
+            return recursiveRefresh((TRT_TreeNode) node);
         } finally {
             notifyFinishRefresh(node);
         }
@@ -1352,6 +1350,7 @@ public class TestResultTable {
 
     /**
      * Removes empty nodes (things with no tests below them).
+     *
      * @param node The node to perform the prune operation upon.
      * @return True if some nodes were pruned, false otherwise.
      */
@@ -1359,7 +1358,7 @@ public class TestResultTable {
         TRT_TreeNode parent = (TRT_TreeNode) node.getParent();
 
         if (node.getChildCount() == 0) {
-            int index = parent.rmChild((TRT_TreeNode)node);
+            int index = parent.rmChild((TRT_TreeNode) node);
 
             if (index != -1)
                 notifyRemoveLeaf(getObjectPath(parent), node, index);
@@ -1378,7 +1377,7 @@ public class TestResultTable {
 
         if (node.getChildCount() == 0) {
             // prune
-            int index = parent.rmChild((TRT_TreeNode)node);
+            int index = parent.rmChild((TRT_TreeNode) node);
             if (index != -1)
                 notifyRemoveLeaf(getObjectPath(parent), node, index);
 
@@ -1403,15 +1402,13 @@ public class TestResultTable {
         else if (workDir != null) {
             TestSuite ts = workDir.getTestSuite();
             if (ts != null && (
-                ts.getTestRefreshBehavior(TestSuite.DELETE_NONTEST_RESULTS) ||
-                ts.getTestRefreshBehavior(TestSuite.REFRESH_ON_RUN) ||
-                ts.getTestRefreshBehavior(TestSuite.CLEAR_CHANGED_TEST)) ) {
+                    ts.getTestRefreshBehavior(TestSuite.DELETE_NONTEST_RESULTS) ||
+                            ts.getTestRefreshBehavior(TestSuite.REFRESH_ON_RUN) ||
+                            ts.getTestRefreshBehavior(TestSuite.CLEAR_CHANGED_TEST))) {
                 suppressFinderScan = false;
-            }
-            else
+            } else
                 suppressFinderScan = state;     // i.e. true
-        }
-        else
+        } else
             suppressFinderScan = state;     // i.e. true
 
     }
@@ -1424,6 +1421,7 @@ public class TestResultTable {
      * Determine if the path represented by the file is a branch or a leaf.
      * This is the semantic equivalent of File.isDirectory(), but shielded
      * behind this method for finders which do not use the filesystem.
+     *
      * @param f The file to check.  May not be null.
      */
     boolean isBranchFile(File f) {
@@ -1434,6 +1432,7 @@ public class TestResultTable {
      * Determine the last logical time that a file was modified.
      * This is the semantic equivalent of File.lastModified(), but shielded
      * behind this method for finders which do not use the filesystem.
+     *
      * @param f The file to check.  May not be null.
      */
     long getLastModifiedTime(File f) {
@@ -1506,7 +1505,7 @@ public class TestResultTable {
 
         String result[] = new String[elements.length];
         int i = 0;
-        for(DisassembledUrl s: elements)
+        for (DisassembledUrl s : elements)
             result[i++] = s.initStr;
 
         return result;
@@ -1589,15 +1588,15 @@ public class TestResultTable {
      * Creates a new array which contains all elements from missingIn ordered as in removeFrom
      *
      * @param removeFrom unsorted not distilled array
-     * @param missingIn sorted and distilled array
+     * @param missingIn  sorted and distilled array
      * @return a new array which contains all elements from missingIn ordered as in removeFrom
      */
     private String[] removeMissing(String[] removeFrom, String... missingIn) {
         String[] result = new String[missingIn.length];
         int i = 0;
         outer:
-        for (String path: removeFrom) {
-            for (String url: missingIn) {
+        for (String path : removeFrom) {
+            for (String url : missingIn) {
                 // if a path is in distilled array - save it and continue with next
                 if (Objects.equals(path, url)) {
                     result[i++] = path;
@@ -1640,10 +1639,10 @@ public class TestResultTable {
      * path along the way.  This is <em>not</em> a general purpose method.
      *
      * @param path Remaining part of the path.  Must not be null.
-     *        The expected format is: foo/bar/baz.html#bear
+     *             The expected format is: foo/bar/baz.html#bear
      * @param tr   The test result object we are storing
      * @return The test result which was replaced by this operation, null if no
-     *         previous entry existed.
+     * previous entry existed.
      */
     synchronized TestResult insert(TRT_TreeNode node, String path, TestResult tr,
                                    TRT_TreeNode... rec) {
@@ -1654,12 +1653,12 @@ public class TestResultTable {
      * Recursively Insert the given test into the tree, recording the insertion
      * path along the way.  This is <em>not</em> a general purpose method.
      *
-     * @param path Remaining part of the path.  Must not be null.
-     *        The expected format is: foo/bar/baz.html#bear
-     * @param tr   The test result object we are storing
+     * @param path         Remaining part of the path.  Must not be null.
+     *                     The expected format is: foo/bar/baz.html#bear
+     * @param tr           The test result object we are storing
      * @param suppressScan Request that test finder activity be suppressed.
      * @return The test result which was replaced by this operation, null if no
-     *         previous entry existed.
+     * previous entry existed.
      */
     synchronized TestResult insert(TRT_TreeNode node, String path, TestResult tr,
                                    TRT_TreeNode[] rec, boolean suppressScan) {
@@ -1695,8 +1694,7 @@ public class TestResultTable {
 
                 if (index != -1)
                     notifyNewLeaf(rec, tr, node.getIndex(tr, suppressScan));
-            }
-            else if (oldTR == tr) {
+            } else if (oldTR == tr) {
                 if (debug > 10) {
                     Debug.println("   => Ignored new TR: " + tr.getTestName());
                     Debug.println("   => Test Ref: " + tr);
@@ -1706,8 +1704,7 @@ public class TestResultTable {
 
                 if (updateInProgress)
                     resetTest(tr.getTestName());
-            }
-            else {
+            } else {
                 if (debug > 10) {
                     Debug.println("   => Updated TR: " + tr.getTestName());
                     Debug.println("   => Test Ref: " + tr);
@@ -1720,16 +1717,14 @@ public class TestResultTable {
 
                 if (index == -1) {
                     // insert was ignored for some reason
-                }
-                else if (oldTR != null && oldTR != tr) {
+                } else if (oldTR != null && oldTR != tr) {
                     // handover known info if new tr is minimal
                     if (tr.isShrunk()) {
                         try {
                             TestDescription desc = oldTR.getDescription();
                             if (desc != null)
                                 tr.setTestDescription(desc);
-                        }
-                        catch (TestResult.Fault f) {
+                        } catch (TestResult.Fault f) {
                             // give up
                         }
                     }
@@ -1737,14 +1732,12 @@ public class TestResultTable {
                     //notifyChangeLeaf(rec, tr, index, oldTR);
                     notifyRemoveLeaf(rec, oldTR, index);
                     notifyNewLeaf(rec, tr, index);
-                }
-                else
+                } else
                     notifyChangeLeaf(rec, tr, index, oldTR);
             }
 
             return oldTR;
-        }
-        else {
+        } else {
             // has at least 1 dir name left
             // find or create a TRT_TreeNode and follow it
 
@@ -1760,8 +1753,7 @@ public class TestResultTable {
                 notifyNewBranch(rec, tn, node.getIndex(tn, suppressScan));
 
                 return insert(tn, newPath, tr, rec, suppressScan);
-            }
-            else {                  // no work, just recurse
+            } else {                  // no work, just recurse
                 rec = DynamicArray.append(rec, node);
                 return insert(next, newPath, tr, rec, suppressScan);
             }
@@ -1770,7 +1762,6 @@ public class TestResultTable {
     }
 
     /**
-     *
      * @return true if any refreshing was needed, false otherwise.
      */
     private boolean recursiveRefresh(TRT_TreeNode node) {
@@ -1804,7 +1795,7 @@ public class TestResultTable {
     }
 
     private void notifyChangeLeaf(TreeNode[] where, TestResult what, int index,
-                          TestResult old) {
+                                  TestResult old) {
         if (treeObservers == null) return;
 
         for (TreeObserver treeObserver : treeObservers) {
@@ -1839,6 +1830,7 @@ public class TestResultTable {
             }
         }
     }
+
     void notifyFinishRefresh(TreeNode origin) {
         if (treeObservers == null) return;
 
@@ -1857,10 +1849,10 @@ public class TestResultTable {
      *
      * @param tests Files to resolve.  May be zero length or null.
      * @return Root relative paths to the given file in internal URL format.
-     *         Null <b>or</b> zero length if the given parameter was an empty
-     *         set, or the given files could not be resolved in this TRT.
+     * Null <b>or</b> zero length if the given parameter was an empty
+     * set, or the given files could not be resolved in this TRT.
      * @throws Fault Will occur if any of the initial files are completely invalid.
-     *         validatePath() can be used to validate things in advance.
+     *               validatePath() can be used to validate things in advance.
      * @see #validatePath
      * @see java.io.File#getPath()
      */
@@ -1896,13 +1888,12 @@ public class TestResultTable {
                     Debug.println("An initial URL equals testsuite root, ignoring it.");
 
                 continue;
-            }
-            else if (tests[i].isAbsolute()) {
+            } else if (tests[i].isAbsolute()) {
                 String rrp = getRootRelativePath(getRoot());
 
                 if (debug > 1) {
                     Debug.println("  -> Initial URL is absolute, stripping from " +
-                                       tests[i].getPath());
+                            tests[i].getPath());
                     Debug.println("  -> Stripping: " + finder.getRootDir());
                     Debug.println("  -> removing rrp: " + rrp);
                 }
@@ -1919,8 +1910,7 @@ public class TestResultTable {
                 String platformPath = thisInitPath.substring(distToDel);
 
                 relativeURL = platformPath.replace(File.separatorChar, '/');
-            }
-            else
+            } else
                 relativeURL = tests[i].getPath().replace(File.separatorChar, '/');
 
             files[i] = relativeURL;
@@ -1939,13 +1929,13 @@ public class TestResultTable {
     }
 
     /**
-     * @param where Where to start searching.
+     * @param where    Where to start searching.
      * @param fullPath Work relative path to JTR to look for.  Must not be null.
-     * @param path Current part of the path, used to support recursion.
+     * @param path     Current part of the path, used to support recursion.
      * @return null will be returned if the node cannot be located.
      */
     private static TestResult findTest(TreeNode where, String fullPath, String path) {
-        ((TRT_TreeNode)where).scanIfNeeded();
+        ((TRT_TreeNode) where).scanIfNeeded();
 
         // this is an internal routine, so params are expected to be non-null
 
@@ -1959,33 +1949,30 @@ public class TestResultTable {
             if (debug == 2 || debug == 99)
                 Debug.println("    -> Looking for TR in this node.");
 
-            int location = ((TRT_TreeNode)where).getResultIndex(fullPath, false);
+            int location = ((TRT_TreeNode) where).getResultIndex(fullPath, false);
             if (location != -1) {
                 tr = (TestResult) where.getChild(location);
                 if (debug == 2 || debug == 99) {
                     Debug.println("    -> TRT.findTest() located " + tr);
                     Debug.println("");
                 }   // debug
-            }
-            else {
+            } else {
                 // not found, branches exist, leaf does not
                 if (debug == 2 || debug == 99) {
                     Debug.println("    -> TRT.findTest(): unable to find node " + fullPath);
                     Debug.println("");
                 }   // debug
             }
-        }
-        else {
+        } else {
             if (debug == 2 || debug == 99)
                 Debug.println("    -> Looking for branch name: " + dir);
 
-            TRT_TreeNode tn = ((TRT_TreeNode)where).getTreeNode(dir, false);
+            TRT_TreeNode tn = ((TRT_TreeNode) where).getTreeNode(dir, false);
 
             if (tn != null) {
                 // go down a level
                 tr = findTest(tn, fullPath, TestResultTable.behead(path));
-            }
-            else {
+            } else {
                 // not found, a branch name does not exits
                 if (debug == 2 || debug == 99)
                     Debug.println("TRT.findTest(): unable to find node " + fullPath);
@@ -1997,6 +1984,7 @@ public class TestResultTable {
 
     /**
      * Get a node by path.
+     *
      * @since 3.2
      */
     private static Object lookupNode(TreeNode where, String url) {
@@ -2016,17 +2004,17 @@ public class TestResultTable {
      * Find a branch or leaf which matches the URL.
      * This method searches in the following order for the given URL:
      * <ul>
-     *    <li>Branch match
-     *    <li>Test URL match (up to and including the test id)
-     *    <li>Set of tests match (e.g. multiple test ids, same file)
+     * <li>Branch match
+     * <li>Test URL match (up to and including the test id)
+     * <li>Set of tests match (e.g. multiple test ids, same file)
      * </ul>
-     *
+     * <p>
      * This method is designed to deprecate lookup(TreeNode, String[]).
      *
      * @param where Node to start recursive search at.
-     * @param url The directory name, test URL (TestDescription.getRootRelativeURL), or
-     *            file prefix of a set of test ids (index.html might match {index.html#t1,
-     *            index.html#t2, index.html#t3})
+     * @param url   The directory name, test URL (TestDescription.getRootRelativeURL), or
+     *              file prefix of a set of test ids (index.html might match {index.html#t1,
+     *              index.html#t2, index.html#t3})
      * @return Null if no matches.  A TreeNode, or a non-empty set of TestResults.
      */
     private static Object[] lookupInitURL(TreeNode where, String url) {
@@ -2040,13 +2028,13 @@ public class TestResultTable {
         Object simple = lookupNode(where, url);
         if (simple != null) {
             if (debug == 2 || debug == 99 && simple instanceof TreeNode) {
-                Debug.println("  -> simple match found " + getRootRelativePath((TreeNode)simple));
+                Debug.println("  -> simple match found " + getRootRelativePath((TreeNode) simple));
             }
 
             if (simple instanceof TestResult)
-                return new TestResult[] {(TestResult)simple};
+                return new TestResult[]{(TestResult) simple};
             else
-                return new TreeNode[] {(TreeNode)simple};
+                return new TreeNode[]{(TreeNode) simple};
         }
 
         // first find the node directly above where we want to search
@@ -2079,8 +2067,7 @@ public class TestResultTable {
                 if (tr.getDescription().getRootRelativeURL().startsWith(url))
                     v.addElement(tr);           // match
             }   // for
-        }
-        catch (TestResult.Fault f) {
+        } catch (TestResult.Fault f) {
             // this is a very bad thing I think
             throw new JavaTestError(i18n, "trt.trNoTd", f);
         }
@@ -2088,8 +2075,7 @@ public class TestResultTable {
         if (!v.isEmpty()) {
             trs = new TestResult[v.size()];
             v.copyInto(trs);
-        }
-        else {
+        } else {
             // no matches
             trs = null;
         }
@@ -2109,8 +2095,7 @@ public class TestResultTable {
         if (trCache == null || !trCache.workerAlive()) {
             try {
                 trCache = new TestResultCache(workDir, updater);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 // should consider throwing Fault, but that will destabilize too many APIs for now
                 updater.error(e);
             }
@@ -2167,13 +2152,12 @@ public class TestResultTable {
     public TestResult getCachedResult(TestDescription td) {
         if (cachedResults != null) {
             String url = TestResult.getWorkRelativePath(td.getRootRelativeURL());
-                TestResult res = cachedResults.get(url);
-                if (res != null) {
-                    res.setTestDescription(td);
-                }
-                return res;
-        }
-        else {
+            TestResult res = cachedResults.get(url);
+            if (res != null) {
+                res.setTestDescription(td);
+            }
+            return res;
+        } else {
             rtc.addToUpdateFromCache(td);
             return null;
         }
@@ -2193,7 +2177,7 @@ public class TestResultTable {
             needUpdateFromCache.add(td);
         }
 
-        public HashSet<TestDescription> getRequests () {
+        public HashSet<TestDescription> getRequests() {
             return needUpdateFromCache;
         }
 
@@ -2220,11 +2204,11 @@ public class TestResultTable {
     private static final String formatVersion = "JavaTest/Results/2.0";
     */
     private Map<String, Status>[] statusTables;
-                                // tables indexed by status.type mapping status.reason
-                                // to a unique status object
+    // tables indexed by status.type mapping status.reason
+    // to a unique status object
     private WorkDirectory workDir;
     private TestFinder finder;
-    private String[] finderErrors =new String[0];
+    private String[] finderErrors = new String[0];
     private Observer[] observers = new Observer[0];
     private TRT_HttpHandler httpHandle;     // the http handler for this instance
     private TreeObserver[] treeObservers = new TreeObserver[0];
@@ -2265,6 +2249,7 @@ public class TestResultTable {
 
     // BEGIN INNER CLASSES
     // the public interface to a node.  impl. is in TRT_TreeNode
+
     /**
      * Interface to a node which contitutes the skeleton of the test result tree.
      * These are in most cases equivalent to directories or folders.
@@ -2274,14 +2259,15 @@ public class TestResultTable {
          * Add a observer for this particular node.
          *
          * @param obs The observer to attach to this node.  Should never be
-         *        null.
+         *            null.
          */
         public void addObserver(TestResultTable.TreeNodeObserver obs);
 
         /**
          * Add a observer for this particular node.
+         *
          * @param obs The observer to remove.  No effect if it was never
-         *        attached.
+         *            attached.
          */
         public void removeObserver(TestResultTable.TreeNodeObserver obs);
 
@@ -2323,7 +2309,7 @@ public class TestResultTable {
          * being used by the TestResultTable.
          *
          * @return True if this location in tree has already been processed,
-         *         false otherwise.
+         * false otherwise.
          */
         public boolean isUpToDate();
 
@@ -2346,7 +2332,7 @@ public class TestResultTable {
          *
          * @param index The location to retrieve.
          * @return Null if there are no children here or the specified index if out of
-         *         range.
+         * range.
          */
         public Object getChild(int index);
 
@@ -2380,7 +2366,7 @@ public class TestResultTable {
          * well designed and needs trimming.
          *
          * @param index The element index of this node.  An out of range index
-         *        will return false.
+         *              will return false.
          * @return True if the element at the given index is a leaf.
          */
         public boolean isLeaf(int index);
@@ -2389,7 +2375,7 @@ public class TestResultTable {
          * Get the statistics for the state of tests under this node.
          *
          * @return An array of length Status.NUM_STATES, positionally representing
-         *         the number of tests under this node with that state.
+         * the number of tests under this node with that state.
          */
         public int[] getChildStatus();
 
@@ -2398,7 +2384,7 @@ public class TestResultTable {
          *
          * @param target The target object should either be of type TreeNode or TestResult
          * @return The index at which the target object is located in this node.
-         *         -1 if not found in in this node.  -2 if the parameter is null
+         * -1 if not found in in this node.  -2 if the parameter is null
          */
         public int getIndex(Object target);
 
@@ -2410,7 +2396,7 @@ public class TestResultTable {
          *
          * @param url The full name of the test to find.
          * @return The matching test result object, or null if not found.  Also
-         *         null if this node has no children.
+         * null if this node has no children.
          * @see com.sun.javatest.TestDescription#getRootRelativeURL()
          */
         public TestResult matchTest(String url);
@@ -2471,12 +2457,14 @@ public class TestResultTable {
         // --- Enumerator interface  ---
         @Override
         public abstract boolean hasMoreElements();
+
         @Override
         public abstract TestResult nextElement();
 
         // --- Iterator interface ---
         @Override
         public abstract boolean hasNext();
+
         @Override
         public abstract TestResult next();
 
@@ -2489,12 +2477,13 @@ public class TestResultTable {
         public abstract void remove();
 
         // --- Statistics info ---
+
         /**
          * Find out how many tests were rejected by filters while doing iteration.
          * This number will be available despite the setting on setRecordRejects().
          *
          * @return The number of tests found by rejected by the filters.  The
-         *         value will be between zero and max. int.
+         * value will be between zero and max. int.
          */
         public abstract int getRejectCount();
 
@@ -2506,6 +2495,7 @@ public class TestResultTable {
          * recorded statistics represent iterator output during this object's
          * lifetime, while this feature was enabled.  The setting here does not
          * affect information from <tt>getRejectCount()</tt>
+         *
          * @param state True to activate this feature, false to disable.
          * @see com.sun.javatest.TestResultTable.TreeIterator#getFilterStats()
          */
@@ -2539,6 +2529,7 @@ public class TestResultTable {
         public abstract HashMap<TestFilter, ArrayList<TestDescription>> getFilterStats();
 
         // --- misc info ---
+
         /**
          * Find out what the effective filters are.
          *
@@ -2553,14 +2544,15 @@ public class TestResultTable {
          * platform specific.
          *
          * @return Null if no nodes or tests were found.  Any array of the initial
-         *         URLs otherwise.
+         * URLs otherwise.
          */
         public abstract String[] getInitialURLs();
 
         /**
          * Peek into the future to see which object will be returned next.
+         *
          * @return The next object scheduled to come out of <code>next()</code>,
-         *         or null if <code>hasNext()</code> is false.
+         * or null if <code>hasNext()</code> is false.
          */
         public abstract Object peek();
 
@@ -2571,16 +2563,16 @@ public class TestResultTable {
          * but location based, so, will the test at the location indicated by
          * the given test be evaluated for iterator later?  This query is done
          * without respect to the filters.
+         *
          * @param node The test result indicating the location in question.
          * @return True if the test in question has not been passed by the
-         *         iterator and may still be returned.  False if the given
-         *         test will not subsequently be returned by this iterator.
+         * iterator and may still be returned.  False if the given
+         * test will not subsequently be returned by this iterator.
          */
         public abstract boolean isPending(TestResult node);
     }   // TreeIterator
 
-    class Updater implements TestResultCache.Observer
-    {
+    class Updater implements TestResultCache.Observer {
         //-----methods from TestResultCache.Observer-----
         @Override
         public void update(Map<String, TestResult> tests) {
@@ -2591,9 +2583,9 @@ public class TestResultTable {
         public void waitingForLock(long timeSoFar) {
             // in time, could propogate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
-            int seconds = (int) (timeSoFar/1000);
-            int minutes = seconds/60;
-            seconds = seconds - 60*minutes;
+            int seconds = (int) (timeSoFar / 1000);
+            int minutes = seconds / 60;
+            seconds = seconds - 60 * minutes;
             writeI18N("trt.waitingForLock",
                     workDir.getRoot(), Integer.valueOf(minutes), Integer.valueOf(seconds));
         }
@@ -2814,8 +2806,8 @@ public class TestResultTable {
         }
 
         /**
-         * @exception JavaTestError Will be thrown if you attempt to add a node to a
-         *            path that already has a leaf (TestResult) assigned.
+         * @throws JavaTestError Will be thrown if you attempt to add a node to a
+         *                       path that already has a leaf (TestResult) assigned.
          */
         void addNode(TreeNode tn) {
             if (tr != null) throw new JavaTestError(i18n, "trt.invalidPath");
@@ -2841,7 +2833,7 @@ public class TestResultTable {
          * Provides the indexes into each node provided by <code>getNodes()</code>.
          *
          * @return The indexes of the corresponding TreeNode at each level.  Null if
-         *         no index information is available;
+         * no index information is available;
          */
         public int[] getIndicies() {
             if (inds == null) {
@@ -2871,7 +2863,7 @@ public class TestResultTable {
          * @return The path that leads to the given test.
          */
         public /* static */ TreeNode[] generateNodes(TestResult tr) {
-            if (tr == null)  return null;
+            if (tr == null) return null;
 
             TreeNode[] nodes = null;
             TreeNode node = tr.getParent();
@@ -2899,7 +2891,7 @@ public class TestResultTable {
      *
      * @param path The path to manipulate.
      * @return Beheaded path, or the <b>same</b> object if there is
-     *         no leading directory to strip.
+     * no leading directory to strip.
      */
     static String behead(String path) {
         int index = path.indexOf("/");
@@ -2908,7 +2900,7 @@ public class TestResultTable {
             return path;
         else {
             // assume file separator is 1 char
-            return path.substring(index+1);
+            return path.substring(index + 1);
             //return path.substring(index+File.separator.length());
         }
     }
@@ -2943,8 +2935,9 @@ public class TestResultTable {
 
     /**
      * Does the given array contain the given object.
+     *
      * @return True if o is in arr, false if arr is null or zero length,or
-     *         does not contain o.
+     * does not contain o.
      */
     static boolean arrayContains(Object[] arr, Object o) {
         if (arr == null || arr.length == 0)

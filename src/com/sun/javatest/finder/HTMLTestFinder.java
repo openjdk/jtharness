@@ -43,8 +43,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  *
  * @see TestFinder
  */
-public class HTMLTestFinder extends TestFinder
-{
+public class HTMLTestFinder extends TestFinder {
     /**
      * Create an HTMLTestFinder.
      */
@@ -64,16 +63,13 @@ public class HTMLTestFinder extends TestFinder
         if (args[i].equalsIgnoreCase("-webWalk")) {
             mode = WEB_WALK;
             return 1;
-        }
-        else if (args[i].equalsIgnoreCase("-dirWalk")) {
+        } else if (args[i].equalsIgnoreCase("-dirWalk")) {
             mode = DIR_WALK;
             return 1;
-        }
-        else if (args[i].equalsIgnoreCase("-IGNORE-ERRORS")) {
+        } else if (args[i].equalsIgnoreCase("-IGNORE-ERRORS")) {
             ignoreErrors = true;
             return 1;
-        }
-        else
+        } else
             return super.decodeArg(args, i);
     }
 
@@ -84,11 +80,9 @@ public class HTMLTestFinder extends TestFinder
 
         if (mode == DIR_WALK && providedRoot.isFile()) {
             validatedRoot = new File(providedRoot.getParent());
-        }
-        else if (mode == WEB_WALK && providedRoot.isDirectory()) {
-            throw new IllegalStateException (i18n.getString("html.badRootForWebWalk", providedRoot.getPath()));
-        }
-        else {
+        } else if (mode == WEB_WALK && providedRoot.isDirectory()) {
+            throw new IllegalStateException(i18n.getString("html.badRootForWebWalk", providedRoot.getPath()));
+        } else {
             validatedRoot = new File(providedRoot.getPath());
         }
 
@@ -104,24 +98,26 @@ public class HTMLTestFinder extends TestFinder
     /**
      * Specify the mode for how this test finder determines the child files
      * to be scanned.  The default is <tt>DIR_WALK</tt>.
+     *
      * @param mode One of {@link #WEB_WALK} or {@link #DIR_WALK}
      * @see #getMode
      */
     public void setMode(int mode) {
         switch (mode) {
-        case DIR_WALK:
-        case WEB_WALK:
-            this.mode = mode;
-            break;
+            case DIR_WALK:
+            case WEB_WALK:
+                this.mode = mode;
+                break;
 
-        default:
-            throw new IllegalArgumentException();
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
     /**
      * Get the current mode for how this test finder determines the child files
      * to be scanned.
+     *
      * @return One of {@link #WEB_WALK} or {@link #DIR_WALK}
      * @see #setMode
      */
@@ -189,133 +185,129 @@ public class HTMLTestFinder extends TestFinder
             nextCh();
             while (c >= 0) {
                 switch (c) {
-                case '<' :
-                    nextCh();
-                    skipSpace();
-                    switch (c) {
-                      case '!':
+                    case '<':
                         nextCh();
-                        if (c == '-') {
-                            nextCh();
-                            if (c == '-') {
+                        skipSpace();
+                        switch (c) {
+                            case '!':
                                 nextCh();
-                                skipComment();
-                            }
+                                if (c == '-') {
+                                    nextCh();
+                                    if (c == '-') {
+                                        nextCh();
+                                        skipComment();
+                                    }
+                                }
+                                break;
+
+                            case '/':
+                                nextCh();
+                                tag = scanIdentifier();
+                                if (tag.equals("dl"))
+                                    endDefList();
+                                else if (tag.equals("td") || tag.equals("th"))
+                                    endTableData();
+                                else if (tag.equals("tr") || tag.equals("table"))
+                                    endTableRow();
+                                skipTag();
+
+                                if (inTestDescription() && tag.equals(endTestDescriptionTag)) {
+                                    foundTestDescription(params, file, line);
+                                    params = null;
+                                }
+                                break;
+
+                            default:
+                                tag = scanIdentifier();
+                                if (tag.equals("a"))
+                                    scanLink(file);
+                                else if (tag.equals("table"))
+                                    scanTable(file);
+                                else if (tag.equals("tr"))
+                                    scanTableRow();
+                                else if (tag.equals("td") || tag.equals("th"))
+                                    scanTableData();
+                                else if (tag.equals("dl"))
+                                    scanDefList(file);
+                                else if (tag.equals("dt"))
+                                    scanDefTerm();
+                                else if (tag.equals("dd"))
+                                    scanDefData();
+                                else
+                                    skipTag();
                         }
                         break;
 
-                      case '/':
+                    case ' ':
+                    case '\f':
+                    case '\t':
+                    case '\r':
+                    case '\n':
+                        if (text != null && text.length() > 0 && text.charAt(text.length() - 1) != ' ')
+                            text.append(' ');
                         nextCh();
-                        tag = scanIdentifier();
-                        if (tag.equals("dl"))
-                            endDefList();
-                        else if (tag.equals("td") || tag.equals("th"))
-                            endTableData();
-                        else if (tag.equals("tr") || tag.equals("table"))
-                            endTableRow();
-                        skipTag();
-
-                        if (inTestDescription() && tag.equals(endTestDescriptionTag)) {
-                            foundTestDescription(params, file, line);
-                            params = null;
-                        }
                         break;
 
-                      default:
-                        tag = scanIdentifier();
-                        if (tag.equals("a"))
-                            scanLink(file);
-                        else if (tag.equals("table"))
-                            scanTable(file);
-                        else if (tag.equals("tr"))
-                            scanTableRow();
-                        else if (tag.equals("td") || tag.equals("th"))
-                            scanTableData();
-                        else if (tag.equals("dl"))
-                            scanDefList(file);
-                        else if (tag.equals("dt"))
-                            scanDefTerm();
-                        else if (tag.equals("dd"))
-                            scanDefData();
-                        else
-                            skipTag();
-                    }
-                    break;
-
-                case ' ':
-                case '\f':
-                case '\t':
-                case '\r':
-                case '\n':
-                    if (text != null && text.length() > 0 && text.charAt(text.length()-1) != ' ')
-                        text.append(' ');
-                    nextCh();
-                    break;
-
-                case '&':
-                    String replace = null;
-                    nextCh();
-                    if (c == '#') {
-                        int n = 0;
+                    case '&':
+                        String replace = null;
                         nextCh();
-                        tag = "#";
-                        while ('0' <= c && c <= '9') {
-                            tag += (char) c;
-                            n = (n * 10) + (c - '0');
+                        if (c == '#') {
+                            int n = 0;
                             nextCh();
+                            tag = "#";
+                            while ('0' <= c && c <= '9') {
+                                tag += (char) c;
+                                n = (n * 10) + (c - '0');
+                                nextCh();
+                            }
+                            replace = String.valueOf((char) n);
+                        } else {
+                            tag = scanIdentifier();
+                            if (tag.equals("lt"))
+                                replace = "<";
+                            else if (tag.equals("gt"))
+                                replace = ">";
+                            else if (tag.equals("amp"))
+                                replace = "&";
+                            else if (tag.equals("copy"))
+                                replace = "�";
+                            if (replace == null)
+                                replace = "&" + tag + (char) c;
                         }
-                        replace = String.valueOf((char) n);
-                    }
-                    else {
-                        tag = scanIdentifier();
-                        if (tag.equals("lt"))
-                            replace = "<";
-                        else if (tag.equals("gt"))
-                            replace = ">";
-                        else if (tag.equals("amp"))
-                            replace = "&";
-                        else if (tag.equals("copy"))
-                            replace = "�";
-                        if (replace == null)
-                            replace = "&" + tag + (char) c;
-                    }
-                    if (c != ';') {
-                        if (!Character.isWhitespace((char) c))
-                            tag += (char) c;
-                        error(i18n, "html.badEscape", tag, file);
-                    }
-                    if (text != null)
-                        text.append(replace);
-                    nextCh();
-                    break;
+                        if (c != ';') {
+                            if (!Character.isWhitespace((char) c))
+                                tag += (char) c;
+                            error(i18n, "html.badEscape", tag, file);
+                        }
+                        if (text != null)
+                            text.append(replace);
+                        nextCh();
+                        break;
 
-                default:
-                    if (text != null)
-                        text.append((char)c);
-                    nextCh();
+                    default:
+                        if (text != null)
+                            text.append((char) c);
+                        nextCh();
                 }
             }
-        }
-        catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             error(i18n, "html.cantFindFile", file);
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             error(i18n, "html.ioError", file, Integer.valueOf(line), ex);
-        }
-        finally {
+        } finally {
             if (input != null) {
-              try {
-                  input.close();
-              }
-              catch (IOException e) {
-              }
-              input = null;
+                try {
+                    input.close();
+                } catch (IOException e) {
+                }
+                input = null;
             }
         }
     }
 
     /**
      * Get the name of the file currently being read.
+     *
      * @return the name of the file currently being read.
      */
     protected File getCurrentFile() {
@@ -387,7 +379,7 @@ public class HTMLTestFinder extends TestFinder
     private void endTableData() {
         if (params != null && tableRow != null && text != null) {
             while (text.length() > 0 && text.charAt(text.length() - 1) == ' ')
-                text.setLength(text.length() -1);
+                text.setLength(text.length() - 1);
             tableRow.addElement(new String(text));
             text = null;
         }
@@ -421,7 +413,7 @@ public class HTMLTestFinder extends TestFinder
         if (params != null) {
             if (defTerm != null && text != null) {
                 while (text.length() > 0 && text.charAt(text.length() - 1) == ' ')
-                    text.setLength(text.length() -1);
+                    text.setLength(text.length() - 1);
                 String defData = new String(text);
                 processEntry(params, defTerm, defData);
             }
@@ -434,7 +426,7 @@ public class HTMLTestFinder extends TestFinder
         skipTag();
         if (params != null && text != null) {
             while (text.length() > 0 && text.charAt(text.length() - 1) == ' ')
-                text.setLength(text.length() -1);
+                text.setLength(text.length() - 1);
             defTerm = new String(text);
             text = new StringBuffer();
         }
@@ -444,7 +436,7 @@ public class HTMLTestFinder extends TestFinder
         if (params != null) {
             if (defTerm != null && text != null) {
                 while (text.length() > 0 && text.charAt(text.length() - 1) == ' ')
-                    text.setLength(text.length() -1);
+                    text.setLength(text.length() - 1);
                 String defData = new String(text);
                 processEntry(params, defTerm, defData);
             }
@@ -462,22 +454,21 @@ public class HTMLTestFinder extends TestFinder
         StringBuilder buf = new StringBuilder();
         while (true) {
             if ((c >= 'a') && (c <= 'z')) {
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
             } else if ((c >= 'A') && (c <= 'Z')) {
-                buf.append((char)('a' + (c - 'A')));
+                buf.append((char) ('a' + (c - 'A')));
                 nextCh();
             } else if ((c >= '0') && (c <= '9')) {
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
             } else if (c == '-') {  // needed for <META HTTP-EQUIV ....>
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
-            } else
-                if (buf.length() == 0)
-                    throw new IOException("Identifier expected");
-                else
-                    return buf.toString();
+            } else if (buf.length() == 0)
+                throw new IOException("Identifier expected");
+            else
+                return buf.toString();
         }
     }
 
@@ -488,10 +479,10 @@ public class HTMLTestFinder extends TestFinder
             String value = scanValue();
             skipSpace();
             if (mode == WEB_WALK &&
-                att.equals("href") &&
-                value.indexOf(':') == -1 &&     // no protocol
-                !value.startsWith("/") &&       // no host or port or absolute files
-                !value.startsWith("../")) {     // no backing up the tree
+                    att.equals("href") &&
+                    value.indexOf(':') == -1 &&     // no protocol
+                    !value.startsWith("/") &&       // no host or port or absolute files
+                    !value.startsWith("../")) {     // no backing up the tree
                 // remove trailing #ref, if any
                 int refStart = value.lastIndexOf('#');
                 if (refStart != -1)
@@ -536,12 +527,12 @@ public class HTMLTestFinder extends TestFinder
         StringBuilder buf = new StringBuilder();
         while (((quote < 0) && (c != ' ') && (c != '\t') &&
                 (c != '\n') && (c != '\r') && (c != '>')) ||
-               ((quote >= 0) && (c != quote))) {
+                ((quote >= 0) && (c != quote))) {
             if (c == -1 || c == '\n' || c == '\r') {
                 error(i18n, "html.quoteMismatch", currFile, Integer.valueOf(line));
                 break;
             }
-            buf.append((char)c);
+            buf.append((char) c);
             nextCh();
         }
         if (c == quote)

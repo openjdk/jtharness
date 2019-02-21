@@ -49,22 +49,22 @@ import com.sun.javatest.util.I18NResourceBundle;
  * previously "compiled" results of some other test finder.
  */
 
-public class BinaryTestFinder extends TestFinder
-{
+public class BinaryTestFinder extends TestFinder {
     /**
      * Create an uninitialized binary test finder. Use one of the init
      * methods to initialize it.
      */
-    public BinaryTestFinder() { }
+    public BinaryTestFinder() {
+    }
 
     /**
      * Create and initialize a binary test finder.
-     * @param jtdFile   The binary file containing the precompiled test descriptions.
-     *                  The file should be an absolute file.
-     * @throws TestFinder.Fault
-     *                  if there is a problem while reading the data file.
-     * @deprecated Use BinaryTestFinder(File testSuiteRoot, File jtdFile) instead
+     *
+     * @param jtdFile The binary file containing the precompiled test descriptions.
+     *                The file should be an absolute file.
+     * @throws TestFinder.Fault if there is a problem while reading the data file.
      * @see #BinaryTestFinder(File, File)
+     * @deprecated Use BinaryTestFinder(File testSuiteRoot, File jtdFile) instead
      */
     public BinaryTestFinder(File jtdFile) throws Fault {
         this.jtdFile = jtdFile;
@@ -73,14 +73,14 @@ public class BinaryTestFinder extends TestFinder
 
     /**
      * Create and initialize a binary test finder.
-     * @param jtdFile   The binary file containing the precompiled test descriptions.
-     *                  If the file is relative, it will be evaluated relative to testSuiteRoot.
+     *
+     * @param jtdFile       The binary file containing the precompiled test descriptions.
+     *                      If the file is relative, it will be evaluated relative to testSuiteRoot.
      * @param testSuiteRoot The root file of the Test Suite.
-     *                  This is usually a file called testsuite.html
-     * @throws TestFinder.Fault
-     *                  if there is a problem while reading the data file.
+     *                      This is usually a file called testsuite.html
+     * @throws TestFinder.Fault if there is a problem while reading the data file.
      * @deprecated Use BinaryTestFinder(File, File, TestEnvironment) with null as
-     *    the last argument.
+     * the last argument.
      */
     public BinaryTestFinder(File testSuiteRoot, File jtdFile) throws Fault {
         init(testSuiteRoot, jtdFile);
@@ -88,16 +88,15 @@ public class BinaryTestFinder extends TestFinder
 
     /**
      * Initialize a new BinaryTestFinder. This method opens the binary file to read
-     *          from, calls methods to read the data, and initializes other variables.
+     * from, calls methods to read the data, and initializes other variables.
      *
-     * @param args      Any arguments needed by the TestFinder. You must pass "-binary"
-     *                  followed by the path to the binary file. If the file is relative,
-     *                  it will be evaluated relative to testSuiteRoot.
+     * @param args          Any arguments needed by the TestFinder. You must pass "-binary"
+     *                      followed by the path to the binary file. If the file is relative,
+     *                      it will be evaluated relative to testSuiteRoot.
      * @param testSuiteRoot The root file of the Test Suite.
-     *                  This is usually a file called testsuite.html
-     * @param env       Environment file for the TestFinder. Not used by BinaryTestFinder.
-     * @throws TestFinder.Fault
-     *                  if there is a problem while reading the data file.
+     *                      This is usually a file called testsuite.html
+     * @param env           Environment file for the TestFinder. Not used by BinaryTestFinder.
+     * @throws TestFinder.Fault if there is a problem while reading the data file.
      */
     @Override
     public void init(String[] args, File testSuiteRoot, TestEnvironment env) throws Fault {
@@ -107,14 +106,13 @@ public class BinaryTestFinder extends TestFinder
 
     /**
      * Initialize a new BinaryTestFinder. This method opens the binary file to read
-     *          from, calls methods to read the data, and initializes other variables.
+     * from, calls methods to read the data, and initializes other variables.
      *
      * @param testSuiteRoot The root file of the Test Suite.
-     *                  This is usually a file called testsuite.html
-     * @param jtdFile   The file containing the binary data for the test descriptions.
-     *                  If the file is relative, it will be evaluated relative to testSuiteRoot.
-     * @throws TestFinder.Fault
-     *                  if there is a problem while reading the data file.
+     *                      This is usually a file called testsuite.html
+     * @param jtdFile       The file containing the binary data for the test descriptions.
+     *                      If the file is relative, it will be evaluated relative to testSuiteRoot.
+     * @throws TestFinder.Fault if there is a problem while reading the data file.
      * @deprecated Use init(File, File TestEnvironment) with null args as needed.
      */
     public void init(File testSuiteRoot, File jtdFile) throws Fault {
@@ -127,27 +125,25 @@ public class BinaryTestFinder extends TestFinder
      * Decodes any args needed by BinaryTestFinder. The only supported args
      * are "-binary" or "-jtd" followed by the name of the binary file,
      * or the name of the binary file as the last argument.
-     * @param args      An array of arguments, containing the next argument to be
-     *                  decoded.
-     * @param i         The position in the args array of the next argument to be
-     *                  decoded.
-     * @return          The number of entries in the args array that were
-     *                  taken as part of the next argument.
-     * @throws TestFinder.Fault
-     *                  if any problems occur while decoding the next argument
+     *
+     * @param args An array of arguments, containing the next argument to be
+     *             decoded.
+     * @param i    The position in the args array of the next argument to be
+     *             decoded.
+     * @return The number of entries in the args array that were
+     * taken as part of the next argument.
+     * @throws TestFinder.Fault if any problems occur while decoding the next argument
      */
     @Override
     protected int decodeArg(String[] args, int i) throws Fault {
         if (args[i].equalsIgnoreCase("-binary") || args[i].equalsIgnoreCase("-jtd")) {
-            String e = args[i+1];
+            String e = args[i + 1];
             jtdFile = new File(e);
             return 2;
-        }
-        else if (i == args.length - 1 &&  !args[i].startsWith("-")) {
+        } else if (i == args.length - 1 && !args[i].startsWith("-")) {
             jtdFile = new File(args[i]);
             return 1;
-        }
-        else
+        } else
             return super.decodeArg(args, i);
     }
 
@@ -177,8 +173,8 @@ public class BinaryTestFinder extends TestFinder
         // need to find algorithm to determine if the path is a test in
         // a leightweight manner
         if (path.getPath().endsWith(".html") ||
-            path.getPath().endsWith(".java") ||
-            path.getPath().endsWith(".xml"))
+                path.getPath().endsWith(".java") ||
+                path.getPath().endsWith(".xml"))
             return false;
 
         if (node != null)
@@ -190,7 +186,7 @@ public class BinaryTestFinder extends TestFinder
     /**
      * Given a File, scan to look for other files or tests. These can
      * then be used through getTests() and getFiles().
-     *
+     * <p>
      * This method first takes the file path and makes it relative to the testsuite
      * root. It then finds the corresponding node in the test tree, and calls
      * foundFile and foundTestDescription based on the info in that node, thereby
@@ -231,16 +227,16 @@ public class BinaryTestFinder extends TestFinder
                     foundTestDescription(td);
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             error(i18n, "bin.internalIOError", file.getPath(), e);
         }
     }
 
     /**
      * Create the relative path of a filename relative to a root directory.
+     *
      * @throws IllegalArgumentException is the file is not under the root
-     * directory.
+     *                                  directory.
      */
     private String getRelativePath(File rootDir, File file) {
         if (file.isAbsolute()) {
@@ -250,11 +246,9 @@ public class BinaryTestFinder extends TestFinder
                 return filePath.equals(rootDirPath)
                         ? ""
                         : filePath.substring(rootDirPath.length() + 1);
-            }
-            else
+            } else
                 throw new IllegalArgumentException();
-        }
-        else
+        } else
             return file.getPath();
     }
 
@@ -263,9 +257,10 @@ public class BinaryTestFinder extends TestFinder
      * BinaryTestWriter. All three sections are reed, but only the string table
      * and test tree are parsed at this point. The test table is read from an
      * internal byte array as required.
+     *
      * @param closeIfSuccess if set to <b>true</b>, binary file will be closed
-     * after necessary integrity checks; if set to <b>false</b> binary file
-     * remains opened (and probably locked by OS).
+     *                       after necessary integrity checks; if set to <b>false</b> binary file
+     *                       remains opened (and probably locked by OS).
      */
     private void openBinaryFile(boolean closeIfSuccess) throws Fault {
         try {
@@ -285,11 +280,9 @@ public class BinaryTestFinder extends TestFinder
             if (stringsEntry == null || testsEntry == null || treeEntry == null)
                 throw new Fault(i18n, "bin.badBinFile", zipFile.getName());
             zipFileRead = true;
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             throw new Fault(i18n, "bin.cantFindFile", jtdFile.getPath());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new Fault(i18n, "bin.ioError", jtdFile.getPath(), e);
         } finally {
             if (closeIfSuccess || !zipFileRead) {
@@ -315,14 +308,14 @@ public class BinaryTestFinder extends TestFinder
      * internal byte array as required.
      */
     private synchronized void readBinaryFile() {
-    if (zipFile == null && zipFileRead) {
-        try {
-            openBinaryFile(false);
-        } catch (Fault ex) {
-            localizedError(ex.getLocalizedMessage());
-            zipFile = null;
+        if (zipFile == null && zipFileRead) {
+            try {
+                openBinaryFile(false);
+            } catch (Fault ex) {
+                localizedError(ex.getLocalizedMessage());
+                zipFile = null;
+            }
         }
-    }
         if (zipFile == null)
             throw new IllegalStateException();
 
@@ -331,15 +324,12 @@ public class BinaryTestFinder extends TestFinder
             testTable = TestTable.read(zipFile, testsEntry, stringTable);
             testTree = TestTree.read(zipFile, treeEntry);
             zipFileRead = false;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             error(i18n, "bin.ioError", jtdFile.getPath(), e);
-        }
-        finally {
+        } finally {
             try {
                 zipFile.close();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 error(i18n, "bin.ioError", jtdFile.getPath(), e);
             }
             stringsEntry = null;
@@ -385,6 +375,7 @@ public class BinaryTestFinder extends TestFinder
      * A StringTable is an array of strings. References to these strings
      * are written either as an index into the string array, or as zero
      * followed by the string inline.
+     *
      * @see BinaryTestWriter.StringTable
      */
     static class StringTable {

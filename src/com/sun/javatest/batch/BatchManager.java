@@ -40,8 +40,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  * A command manager to provide commands for batch execution of tests.
  */
 public class BatchManager
-    extends CommandManager
-{
+        extends CommandManager {
     static {
         RunTestsCommand.initVerboseOptions();
     }
@@ -49,9 +48,9 @@ public class BatchManager
     @Override
     public HelpTree.Node getHelp() {
         HelpTree.Node[] cmdNodes = {
-            getCommandHelp(BatchCommand.getName()),
-            ObserverCommand.getHelp(),
-            getCommandHelp(RunTestsCommand.getName())
+                getCommandHelp(BatchCommand.getName()),
+                ObserverCommand.getHelp(),
+                getCommandHelp(RunTestsCommand.getName())
         };
         return new HelpTree.Node(i18n, "cmgr.help", cmdNodes);
 
@@ -63,8 +62,7 @@ public class BatchManager
 
     @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
-        throws Command.Fault
-    {
+            throws Command.Fault {
         if (isMatch(cmd, BatchCommand.getName())) {
             ctx.addCommand(new BatchCommand());
             return true;
@@ -88,8 +86,7 @@ public class BatchManager
     //--------------------------------------------------------------------------
 
     static class BatchCommand
-        extends Command
-    {
+            extends Command {
         static String getName() {
             return "batch";
         }
@@ -110,8 +107,7 @@ public class BatchManager
         }
     }
 
-    static class AutoRunCommand extends RunTestsCommand
-    {
+    static class AutoRunCommand extends RunTestsCommand {
         @Override
         public void run(CommandContext ctx) throws Fault {
             super.run(ctx);

@@ -79,6 +79,7 @@ import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
+
 import java.awt.datatransfer.Clipboard;
 
 /**
@@ -99,7 +100,7 @@ import java.awt.datatransfer.Clipboard;
  */
 class BP_TestListSubpanel extends BP_BranchSubpanel {
     BP_TestListSubpanel(UIFactory uif, Harness h, ExecModel em,
-            BP_Model bpm, TestTreeModel ttm, int state) {
+                        BP_Model bpm, TestTreeModel ttm, int state) {
         super("tl" + state, uif, bpm, ttm, "br.list");
         this.state = state;
         this.harness = h;
@@ -158,7 +159,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             final TT_NodeCache cacheCopy = this.cache;
             synchronized (cacheCopy) {
                 synchronized (BP_TestListSubpanel.this) {
-                        cacheCopy.removeObserver(cacheWatcher);
+                    cacheCopy.removeObserver(cacheWatcher);
                 }   // sync this panel
             }   // sync cache
         }
@@ -197,7 +198,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
     }
 
     public void setUpdateRequired(boolean updateRequired) {
-         this.updateRequired = updateRequired;
+        this.updateRequired = updateRequired;
     }
 
     /**
@@ -209,7 +210,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
 
         if (debug) {
             Debug.println("updating test list " + state);
-            Debug.println("  -> size " + (mod == null? 0 : mod.getRowCount()));
+            Debug.println("  -> size " + (mod == null ? 0 : mod.getRowCount()));
         }
 
         // only run if we change nodes
@@ -272,7 +273,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                             break;
 
                         if (sortingRequested) {
-                           mod.sortTests(mod.liveData, mod.SORTING_COLUMN,
+                            mod.sortTests(mod.liveData, mod.SORTING_COLUMN,
                                     mod.SORTING_MODE);
                         } else {
                             mod.addTest(newData[state].elementAt(j), true);
@@ -356,18 +357,18 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         table.getActionMap().put("gotoTest", new KbTableAction(uif.getI18NResourceBundle(),
                 "br.list.enter"));
 
-        String[] showDescr = { "show.title", "show.keywords" };
+        String[] showDescr = {"show.title", "show.keywords"};
         showDescrMenu = uif.createMenu("br.description", showDescr,
                 tableListener);
 
-        String[] showRun = { "show.status", "show.time.start", "show.time.end" };
+        String[] showRun = {"show.status", "show.time.start", "show.time.end"};
         showRunMenu = uif.createMenu("br.runtime", showRun, tableListener);
 
         popupHeader = uif.createPopupMenu("br");
         popupHeader.add(showDescrMenu);
         popupHeader.add(showRunMenu);
 
-        String[] actions = { "action.run", "action.clear" };
+        String[] actions = {"action.run", "action.clear"};
         popupTable = uif.createPopupMenu("br", actions, tableListener);
 
         if (state == Status.NOT_RUN) { // ignore clear result in "not run"
@@ -377,7 +378,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             popupTable.getComponent(1).setEnabled(false);
         }
 
-        actions = new String[] { "action.cpnamelist", "action.cpnamestr" };
+        actions = new String[]{"action.cpnamelist", "action.cpnamestr"};
         popupTable.add(uif.createMenu("br.cp", actions, tableListener));
 
         // this is necessary to make sure that the split pane can resize
@@ -397,6 +398,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
      */
 
     // ------------- inner class -------------
+
     /**
      * Enumerates tree in background to populate the list. If this thread is
      * running, consider list data incomplete. Swing cannot handle an updating
@@ -411,15 +413,15 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         TestTableModel(UIFactory uif) {
             super();
 
-            colNames = new String[] { uif.getI18NString("br.list.col0.txt"),
-                    uif.getI18NString("br.list.col1.txt") };
+            colNames = new String[]{uif.getI18NString("br.list.col0.txt"),
+                    uif.getI18NString("br.list.col1.txt")};
 
-                    if (debug) {
-                        Debug.println("TableModel constructed: ");
-                        Debug.println("   -> " + this);
-                    }
+            if (debug) {
+                Debug.println("TableModel constructed: ");
+                Debug.println("   -> " + this);
+            }
 
-                    init();
+            init();
         }
 
         // ---------- TableModel interface ----------
@@ -460,7 +462,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             } else
                 throw new IndexOutOfBoundsException(
                         "Index into filtered out table is out of range: " + row
-                        + ", " + column);
+                                + ", " + column);
         }
 
         @Override
@@ -469,9 +471,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         }
 
         // ---------- Custom methods for this model ----------
+
         /**
-         * @param suppressNotify
-         *        Actively request that no update be scheduled.
+         * @param suppressNotify Actively request that no update be scheduled.
          */
         void addTest(TestResult tr, boolean suppressNotify) {
             synchronized (vLock) {
@@ -491,12 +493,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         /**
          * Sorts data in the table
          *
-         * @param v
-         *        Current tests list
-         * @param column
-         *        Number of column sorting to be applied to
-         * @param mode
-         *        Indicates ascending (0) or descending (1) sorting
+         * @param v      Current tests list
+         * @param column Number of column sorting to be applied to
+         * @param mode   Indicates ascending (0) or descending (1) sorting
          */
         void sortTests(LinkedList<TestResult> v, int column, boolean mode) {
             synchronized (vLock) {
@@ -556,7 +555,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 } else if (show.equals(TestResult.EXEC_STATUS)) {
                     String tmpStr = tst.getStatus().getReason();
                     return tmpStr == null || tmpStr.isEmpty() ?
-                        uif.getI18NString("br.list.notAvailable.txt") : tmpStr;
+                            uif.getI18NString("br.list.notAvailable.txt") : tmpStr;
                 }
                 return tst.getProperty(show) == null ? uif.getI18NString("br.list.notAvailable.txt")
                         : tst.getProperty(show);
@@ -636,9 +635,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
 
                 if (o[index] instanceof TestResult) {
                     return ((TestResult) o[index]).getTestName().
-                             compareTo(((TestResult) o[otherRow.index]).getTestName());
+                            compareTo(((TestResult) o[otherRow.index]).getTestName());
                 } else if (o[index] instanceof String) {
-                    return ((String) o[index]).compareTo((String)o[otherRow.index]);
+                    return ((String) o[index]).compareTo((String) o[otherRow.index]);
                 } else {
                     return index - otherRow.index; // should not happen
                 }
@@ -720,10 +719,10 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                     }
 
                     // enable this tab now that it has data
-            /*
-             * if (liveData.size() > 0) { // switch back from an empty
-             * list setEmpty(false); } else { setEmpty(true); }
-             */
+                    /*
+                     * if (liveData.size() > 0) { // switch back from an empty
+                     * list setEmpty(false); } else { setEmpty(true); }
+                     */
 
                     // this clears the "please wait" message if needed
                     if (table.getSelectedRow() == -1 && inQueue.isEmpty())
@@ -787,6 +786,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         }
 
         // --------- event utility methods -----------
+
         /**
          * Notify observers that the given index was added
          */
@@ -1139,10 +1139,10 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                     // send to clipboard
                     if (payload != null) {
                         Toolkit.getDefaultToolkit().getSystemClipboard().
-                            setContents(payload, null);
+                                setContents(payload, null);
                         Clipboard selection = Toolkit.getDefaultToolkit().getSystemSelection();
                         if (selection != null)
-                                selection.setContents(payload, null);
+                            selection.setContents(payload, null);
                     }
 
                 } else { // now rows selected
@@ -1313,7 +1313,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 setText(tr.getTestName());
                 setToolTipText(I18NUtils.getStatusMessage(tr.getStatus()));
             } else if (value instanceof TT_TestNode) {
-                TestResult tr = ((TT_TestNode)value).getTestResult();
+                TestResult tr = ((TT_TestNode) value).getTestResult();
                 setText(tr.getTestName());
                 setToolTipText(I18NUtils.getStatusMessage(tr.getStatus()));
             } else { // this will run for the property column (1)
@@ -1339,7 +1339,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             // is rendered though
             if (!rowHeightSet) {
                 table.setRowHeight(getFontMetrics(getFont()).getHeight()
-                + ROW_HEIGHT_PADDING);
+                        + ROW_HEIGHT_PADDING);
                 rowHeightSet = true;
             }
 

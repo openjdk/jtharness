@@ -45,6 +45,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
+
 import com.sun.javatest.finder.BinaryTestFinder;
 import com.sun.javatest.finder.HTMLTestFinder;
 import com.sun.javatest.finder.TestFinderDecorator;
@@ -72,17 +73,16 @@ import java.lang.reflect.Modifier;
  * <li>{@link TestSuite#createScript createScript }
  * </ul>
  */
-public class TestSuite
-{
+public class TestSuite {
     /**
      * An exception used to report errors while using a TestSUite object.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         public Fault(I18NResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -90,10 +90,11 @@ public class TestSuite
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(I18NResourceBundle i18n, String s, Object o) {
             super(i18n.getString(s, o));
@@ -101,10 +102,11 @@ public class TestSuite
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
@@ -114,40 +116,40 @@ public class TestSuite
     /**
      * An exception that is used to report that a given file is not a test suite.
      */
-    public static class NotTestSuiteFault extends Fault
-    {
+    public static class NotTestSuiteFault extends Fault {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param f The file in question, to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param f    The file in question, to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public NotTestSuiteFault(I18NResourceBundle i18n, String s, File f) {
             super(i18n, s, f.getPath());
         }
     }
 
-    public static class DuplicateLogNameFault extends Fault
-    {
+    public static class DuplicateLogNameFault extends Fault {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param key The internal name of the log.
-         * {@link java.text.MessageFormat#format}
+         * @param key  The internal name of the log.
+         *             {@link java.text.MessageFormat#format}
          */
         public DuplicateLogNameFault(I18NResourceBundle i18n, String s, String key) {
             super(i18n, s, key);
         }
     }
 
-    public static class NoSuchLogFault extends Fault
-    {
+    public static class NoSuchLogFault extends Fault {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param key The internal name of the log.
-         * {@link java.text.MessageFormat#format}
+         * @param key  The internal name of the log.
+         *             {@link java.text.MessageFormat#format}
          */
         public NoSuchLogFault(I18NResourceBundle i18n, String s, String key) {
             super(i18n, s, key);
@@ -159,6 +161,7 @@ public class TestSuite
      * either by the root directory of the test suite, or by the file testsuite.html within
      * that directory. The directory must contain either a test suite properties file
      * (testsuite.jtt) or, for backwards compatibility, a file named testsuite.html.
+     *
      * @param root The file to be checked.
      * @return true if and only if <em>root</em> is the root of a valid test suite.
      */
@@ -183,12 +186,13 @@ public class TestSuite
 
     /**
      * Open a test suite.
+     *
      * @param root A file identifying the root of the test suite.
      * @return A TestSuite object for the test suite in question. The actual type of the result
      * will depend on the test suite properties found in the root directory of the test suite.
-     * @throws FileNotFoundException if <em>root</em> does not exist.
+     * @throws FileNotFoundException       if <em>root</em> does not exist.
      * @throws TestSuite.NotTestSuiteFault if <em>root</em> does not identify a valid test suite.
-     * @throws TestSuite.Fault if any other problems occur while trying to open the test suite.
+     * @throws TestSuite.Fault             if any other problems occur while trying to open the test suite.
      * @see #isTestSuite
      */
     public static TestSuite open(File root) throws FileNotFoundException, Fault, NotTestSuiteFault {
@@ -198,8 +202,7 @@ public class TestSuite
         File canonRoot;
         try {
             canonRoot = root.getCanonicalFile();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new Fault(i18n, "ts.cantCanonicalize",
                     root.getPath(), e.toString());
         }
@@ -219,12 +222,10 @@ public class TestSuite
             try (InputStream in = new BufferedInputStream(new FileInputStream(f))) {
                 Map<String, String> p = PropertyUtils.load(in);
                 return open(canonRoot, p);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new Fault(i18n, "ts.cantReadTestSuiteFile", e.toString());
             }
-        }
-        else {
+        } else {
             // check for old style test suite
             File ts_html = new File(canonRootDir, TESTSUITE_HTML);
             File parentDir = canonRootDir.getParentFile();
@@ -238,7 +239,8 @@ public class TestSuite
 
     /**
      * Open a test suite.
-     * @param root A file identifying the root of the test suite.
+     *
+     * @param root   A file identifying the root of the test suite.
      * @param tsInfo Test Suite properties read from the test suite properties file.
      * @return A TestSuite object for the test suite in question.
      * @throws TestSuite.Fault if any problems occur while opening the test suite
@@ -287,8 +289,7 @@ public class TestSuite
                     }
                 }
                 cl = new URLClassLoader(p, TestSuite.class.getClassLoader());
-            }
-            catch (MalformedURLException e) {
+            } catch (MalformedURLException e) {
                 throw new Fault(i18n, "ts.badClassPath",
                         root, e.getMessage());
             }
@@ -307,12 +308,10 @@ public class TestSuite
                 Class<?>[] tsArgTypes = {File.class, Map.class, ClassLoader.class};
                 Object[] tsArgs = {root, tsInfo, cl};
                 testSuite = newInstance(c, tsArgTypes, tsArgs);
-            }
-            catch (ClassCastException e) {
+            } catch (ClassCastException e) {
                 throw new Fault(i18n, "ts.notASubtype",
                         className, "testsuite", TestSuite.class.getName());
-            }
-            catch (UnsupportedClassVersionError uce){
+            } catch (UnsupportedClassVersionError uce) {
                 throw new Fault(i18n, "ts.compiledRecentVersion",
                         System.getProperty("java.version"), root.getPath());
             }
@@ -355,11 +354,12 @@ public class TestSuite
 
     /**
      * Create a TestSuite object.
-     * @param root The root file for this test suite.
+     *
+     * @param root   The root file for this test suite.
      * @param tsInfo Test suite properties, typically read from the test suite properties file
-     * in the root directory of the test suite.
-     * @param cl A class loader to be used to load additional classes as required,
-     * typically using a class path defined in the test suite properties file.
+     *               in the root directory of the test suite.
+     * @param cl     A class loader to be used to load additional classes as required,
+     *               typically using a class path defined in the test suite properties file.
      * @throws TestSuite.Fault if a problem occurs while creating this test suite.
      */
     public TestSuite(File root, Map<String, String> tsInfo, ClassLoader cl) {
@@ -375,6 +375,7 @@ public class TestSuite
     /**
      * Create a TestSuite object, with no additional test suite properties and no
      * class loader.
+     *
      * @param root The root file for this test suite.
      */
     public TestSuite(File root) {
@@ -385,9 +386,10 @@ public class TestSuite
      * Initialize this test suite, with args typically read from a .jtt file.
      * The default implementation does not recognize any arguments and always
      * throws an exception.
+     *
      * @param args an array of strings to initialize this test suite object
      * @throws TestSuite.Fault if there are any problems initializing the
-     * test suite from the specified arguments.
+     *                         test suite from the specified arguments.
      */
     protected void init(String... args) throws Fault {
         if (args.length > 0)
@@ -397,6 +399,7 @@ public class TestSuite
 
     /**
      * Get the path for the root file of this test suite.
+     *
      * @return the path for the root file of this test suite.
      */
     public String getPath() {
@@ -405,6 +408,7 @@ public class TestSuite
 
     /**
      * Get the root file of this test suite.
+     *
      * @return the root file of this test suite.
      */
     public File getRoot() {
@@ -415,6 +419,7 @@ public class TestSuite
      * Get the root directory of this test suite. If the root file is itself a directory,
      * the result will be that directory; otherwise, the result will be the parent directory
      * of the root file.
+     *
      * @return the root directory of this test suite.
      */
     public File getRootDir() {
@@ -434,6 +439,7 @@ public class TestSuite
      * for compatibility with standard TCK layout.
      * <li>Otherwise, the result is the root directory of the test suite.
      * </ol>
+     *
      * @return the directory that contains the tests
      */
     public File getTestsDir() {
@@ -448,8 +454,7 @@ public class TestSuite
             }
             // default
             return rootDir;
-        }
-        else {
+        } else {
             File f = new File(t);
             if (f.isAbsolute())
                 return f;
@@ -469,9 +474,10 @@ public class TestSuite
      * so that they can catch this error and do any cleanup to abort the
      * test suite startup sequence (check if services were started and close them
      * down, etc).
+     *
      * @param harness The harness that will be used to run the tests.
      * @throws TestSuite.Fault if an error occurred while doing test suite-specific
-     * initialization that should cause the test run to be aborted.
+     *                         initialization that should cause the test run to be aborted.
      */
     public void starting(Harness harness) throws Fault {
         if (getServiceManager() != null) {
@@ -484,6 +490,7 @@ public class TestSuite
      * to be selected for a test run.
      * The method should return null if no test suite specific filtering is required.
      * The default is to return null.
+     *
      * @param filterEnv Configuration data that may be used by the filter.
      * @return a test suite filter, or null if no test suite specific filter is
      * required for this test suite.
@@ -494,6 +501,7 @@ public class TestSuite
 
     /**
      * Get a shared test finder to read the tests in this test suite.
+     *
      * @return a test finder to read the tests in this test suite
      * @see #createTestFinder
      * @see #setTestFinder
@@ -508,9 +516,10 @@ public class TestSuite
      * cause IllegalStateException to be thrown.
      * This method is normally called by TestSuite.open to initialize the
      * finder to the result of calling createTestFinder.
+     *
      * @param tf the test finder to be used
      * @throws IllegalStateException if the test finder has previously
-     * been set to a different value
+     *                               been set to a different value
      * @see #getTestFinder
      */
     protected void setTestFinder(TestFinder tf) {
@@ -530,7 +539,7 @@ public class TestSuite
      * and any arguments it may require. The class will be loaded via the class
      * loader specified when the test suite was opened, if one was given;
      * otherwise, the system class loader will be used.
-     *
+     * <p>
      * The default implementation attempts to use a file <tt>testsuite.jtd</tt>
      * in the tests directory.  If found, a BinaryTestFinder will be created
      * using this file.  If it is not found, then it searches for a property
@@ -538,6 +547,7 @@ public class TestSuite
      * instantiate that.  If no entry is found or it is blank, an
      * HTMLTestFinder is used, using whatever a basic settings HTMLTestFinder
      * initializes to.
+     *
      * @return a test finder to be used to read the tests in the test suite
      * @throws TestSuite.Fault if there is a problem creating the test finder
      * @see #getTestFinder
@@ -556,15 +566,13 @@ public class TestSuite
             //finderCmd = new String[] {HTMLTestFinder.class.getName()};
             finderCmd = null;   // ensure null for later use
             finderClassName = HTMLTestFinder.class.getName();
-        }
-        else {
+        } else {
             finderClassName = finderCmd[0];
 
             if (finderCmd.length > 1) {
                 finderArgs = new String[finderCmd.length - 1];
                 System.arraycopy(finderCmd, 1, finderArgs, 0, finderArgs.length);
-            }
-            else {
+            } else {
                 // finderArgs should remain empty array
             }
         }
@@ -578,8 +586,7 @@ public class TestSuite
                 // only pass the finder class if it was not defaulted to HTMLTestFinder
                 return createBinaryTestFinder(finderCmd == null ? null : finderClassName,
                         finderArgs, testsDir, jtdFile);
-            }
-            catch (Fault e) {
+            } catch (Fault e) {
                 // ignore, try to continue with normal finder
             }
         }
@@ -592,12 +599,10 @@ public class TestSuite
             // this likely kills ExpandTestFinder, finally
             tf.init(finderArgs, testsDir, null, null, null/*pass in env?*/);
             return tf;
-        }
-        catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             throw new Fault(i18n, "ts.notASubtype",
                     finderClassName, "finder", TestFinder.class.getName());
-        }
-        catch (TestFinder.Fault e) {
+        } catch (TestFinder.Fault e) {
             throw new Fault(i18n, "ts.errorInitFinder",
                     finderClassName, e.getMessage());
         }
@@ -609,10 +614,10 @@ public class TestSuite
      * test suite properties if it is a BinaryTestFinder subclass.
      *
      * @param finderClassName Finder class name to attempt to use as a BTF.  Null if
-     *      the default BTF class should be used.
-     * @param finderArgs Arguments to finder given from the test suite property.
-     * @param testsDir Reference location to pass to finder.
-     * @param jtdFile Location of the JTD file to give to the BTF.
+     *                        the default BTF class should be used.
+     * @param finderArgs      Arguments to finder given from the test suite property.
+     * @param testsDir        Reference location to pass to finder.
+     * @param jtdFile         Location of the JTD file to give to the BTF.
      * @return The binary test finder which was created.
      * @throws com.sun.javatest.TestSuite.Fault
      * @throws com.sun.javatest.TestFinder.Fault
@@ -620,7 +625,7 @@ public class TestSuite
      * @see com.sun.javatest.finder.BinaryTestFinder
      */
     protected TestFinder createBinaryTestFinder(String finderClassName,
-            String finderArgs[], File testsDir, File jtdFile) throws Fault {
+                                                String finderArgs[], File testsDir, File jtdFile) throws Fault {
         try {
             TestFinder tf = null;
 
@@ -632,16 +637,13 @@ public class TestSuite
             if (tf instanceof BinaryTestFinder) {
                 tf.init(finderArgs, testsDir, null, null, null);
                 return tf;
-            }
-            else {
+            } else {
                 return new BinaryTestFinder(testsDir, jtdFile);
             }
-        }
-        catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             throw new Fault(i18n, "ts.notASubtype",
                     finderClassName, "finder", TestFinder.class.getName());
-        }
-        catch (TestFinder.Fault e) {
+        } catch (TestFinder.Fault e) {
             throw new Fault(i18n, "ts.errorInitFinder",
                     finderClassName, e.getMessage());
         }
@@ -655,6 +657,7 @@ public class TestSuite
      * creates a number of test execution threads which each
      * create and run a script for each test obtained from
      * the test runners iterator.
+     *
      * @return a TestRunner that can be used to run a series of tests
      */
     public TestRunner createTestRunner() {
@@ -672,16 +675,17 @@ public class TestSuite
      * typically use a more direct means to create an appropriate script object.
      * The parameters for this method are normally passed through to the script
      * that is created.
-     *
+     * <p>
      * Note that the name of this method is "create", it is not recommended
      * that the value returned ever be re-used or cached for subsequent requests
      * to this method.
-     * @param td The test description for the test to be executed.
+     *
+     * @param td            The test description for the test to be executed.
      * @param exclTestCases Any test cases within the test that should not be executed.
-     * @param scriptEnv Configuration data to be given to the test as necessary.
-     * @param workDir A work directory in which to store the results of the test.
-     * @param backupPolicy A policy object used to control how to backup any files that
-     * might be overwritten.
+     * @param scriptEnv     Configuration data to be given to the test as necessary.
+     * @param workDir       A work directory in which to store the results of the test.
+     * @param backupPolicy  A policy object used to control how to backup any files that
+     *                      might be overwritten.
      * @return a script to be used to execute the given test
      * @throws TestSuite.Fault if any errors occur while creating the script
      */
@@ -700,8 +704,7 @@ public class TestSuite
                 }
                 scriptArgs = new String[script.length - 1];
                 System.arraycopy(script, 1, scriptArgs, 0, scriptArgs.length);
-            }
-            else {
+            } else {
                 // for backwards compatibility,
                 // see if KeywordScript is a reasonable default
                 boolean keywordScriptOK = false;
@@ -711,9 +714,8 @@ public class TestSuite
                 }
                 if (keywordScriptOK) {
                     scriptClass = KeywordScript.class;
-                    scriptArgs = new String[] { };
-                }
-                else {
+                    scriptArgs = new String[]{};
+                } else {
                     throw new Fault(i18n, "ts.noScript");
                 }
             }
@@ -741,25 +743,24 @@ public class TestSuite
      * which must be created and updated separately.
      * <p>Individual test suites should provide their own interview, with questions
      * customized to the configuration data they require.
-     *
+     * <p>
      * Note that the name of this method is "create", the harness may instantiate
      * multiple copies for temporary use, resetting data or transferring data.
      * Do not override this method with an implementation which caches the
      * return value.
+     *
      * @return A configuration interview to collect the configuration data for a test run.
      * @throws TestSuite.Fault if a problem occurs while creating the interview
      */
     public InterviewParameters createInterview()
-        throws Fault
-    {
+            throws Fault {
         String[] classNameAndArgs = StringArray.split(tsInfo.get("interview"));
         if (classNameAndArgs == null || classNameAndArgs.length == 0) {
             try {
                 return new LegacyParameters(this);
-            }
-            catch (InterviewParameters.Fault e) {
+            } catch (InterviewParameters.Fault e) {
                 throw new Fault(i18n, "ts.errorInitDefaultInterview",
-                                e.getMessage());
+                        e.getMessage());
             }
         }
 
@@ -774,12 +775,10 @@ public class TestSuite
             p.init(args);
             p.setTestSuite(this);
             return p;
-        }
-        catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             throw new Fault(i18n, "ts.notASubtype",
                     className, "interview", InterviewParameters.class.getName());
-        }
-        catch (InterviewParameters.Fault e) {
+        } catch (InterviewParameters.Fault e) {
             //e.printStackTrace();
             throw new Fault(i18n, "ts.errorInitInterview",
                     className, e.getMessage());
@@ -789,6 +788,7 @@ public class TestSuite
 
     /**
      * Create a configuration interview based on specified map of template values
+     *
      * @return A configuration interview to collect the configuration data for a test run.
      * @throws TestSuite.Fault if a problem occurs while creating the interview
      */
@@ -800,21 +800,21 @@ public class TestSuite
 
     /**
      * Create a configuration interview based on specified template file
+     *
      * @return A configuration interview to collect the configuration data for a test run.
-     *         null if specified file is not template
+     * null if specified file is not template
      * @throws TestSuite.Fault if a problem occurs while creating the interview
-     *         IOException if a problem occurs while reading a template file
+     *                         IOException if a problem occurs while reading a template file
      */
     public InterviewParameters loadInterviewFromTemplate(File template,
                                                          InterviewParameters ip)
-        throws Fault, IOException
-    {
+            throws Fault, IOException {
         try (InputStream in = new BufferedInputStream(new FileInputStream(template))) {
             Map<String, String> stringProps = PropertyUtils.load(in);
             String tm = stringProps.get(InterviewParameters.IS_TEMPLATE);
             if (InterviewParameters.TRUE.equals(tm)) {
                 stringProps.put(InterviewParameters.TEMPLATE_PATH,
-                         template.getAbsolutePath());
+                        template.getAbsolutePath());
                 ip.setTemplatePath(template.getAbsolutePath());
                 return loadInterviewFromTemplate(stringProps, ip);
             } else {
@@ -830,6 +830,7 @@ public class TestSuite
      * Get a string containing a unique ID identifying this test suite,
      * or null if not available.  The default is taken from the "id" entry
      * in the .jtt file.
+     *
      * @return a unique ID identifying the test suite, or null if not specified.
      * @see #getName
      */
@@ -842,6 +843,7 @@ public class TestSuite
      * The default is taken from the "name" entry in the .jtt file.
      * This string is for presentation to the user, and may be localized
      * if appropriate.
+     *
      * @return a string identifying the test suite, or null if not specified.
      * @see #getID
      */
@@ -863,8 +865,7 @@ public class TestSuite
                 if (s != null)
                     return Integer.parseInt(s);
             }
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             // ignore
         }
         return -1; // unknown
@@ -875,6 +876,7 @@ public class TestSuite
      * The default is to use the value of the "initial.jtx" property from the
      * testsuite.jtt file. If the value is a relative filename, it will be made absolute
      * by evaluating it relative to the test suite root directory.
+     *
      * @return the name of the default exclude list, or null if none specified.
      */
     public File getInitialExcludeList() {
@@ -892,6 +894,7 @@ public class TestSuite
      * Check if the test suite has an initial exclude list.
      * The default is to use getInitialExcludeList, and if that returns
      * a non-null result, check whether that file exists or not.
+     *
      * @return true if the test suite has an initial exclude list,
      * and false otherwise
      */
@@ -905,14 +908,14 @@ public class TestSuite
      * The default is to use the value of the "latest.jtx" property from the
      * testsuite.jtt file., which (if present) must be a fully qualified URL
      * identifying the latest exclude list for this test suite.
+     *
      * @return the name of the latest exclude list, or null if none specified.
      */
     public URL getLatestExcludeList() {
         try {
             String s = tsInfo == null ? null : tsInfo.get("latest.jtx");
             return s == null ? null : new URL(s);
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             // ignore
             return null;
         }
@@ -923,6 +926,7 @@ public class TestSuite
      * The default is to use getLatestExcludeList, and to
      * check whether that return a non-null result. The URL is not
      * itself checked for validity.
+     *
      * @return true if the test suite has a latest exclude list,
      * and false otherwise
      */
@@ -940,6 +944,7 @@ public class TestSuite
      * containing the help set on the classpath as well.
      * By default, the names will be looked up under the name "additionalDocs"
      * in the testsuite.jtt file.
+     *
      * @return an array of names identifying helpsets that contain related
      * documents for this testsuite. The result may be null if there are no
      * such documents.
@@ -954,6 +959,7 @@ public class TestSuite
      * Get the set of valid keywords for this test suite.
      * By default, the keywords will be looked up under the name "keywords"
      * in the testsuite.jtt file.
+     *
      * @return the set of valid keywords for this test suite, or null
      * if not known.
      */
@@ -966,9 +972,10 @@ public class TestSuite
      * Normally, this will include the file containing the test description,
      * and any source files used by the test.  By default, the source files
      * are determined from the test description's "source" entry.
-     * @see TestDescription#getSourceURLs()
+     *
      * @param td The test description for which the associated files are required
      * @return a list of associated files for this test description
+     * @see TestDescription#getSourceURLs()
      */
     public URL[] getFilesForTest(TestDescription td) {
         return td.getSourceURLs();
@@ -976,9 +983,10 @@ public class TestSuite
 
     /**
      * This method should be overridden in subclasses
+     *
      * @param path String, which determines path to currently selected test's folder.
-     * This is root relative path. This shouldn't be null, for the
-     * root folder use "".
+     *             This is root relative path. This shouldn't be null, for the
+     *             root folder use "".
      * @return array of files with documentation for test's folder, determined by path.
      * null means there no documentation for this folder
      */
@@ -988,6 +996,7 @@ public class TestSuite
 
     /**
      * This method should be overridden in subclasses
+     *
      * @param td TestDescription for currently selected test case. This shouldn't be null.
      * @return array of files with documentation for test case, determined td.
      * null means there no documentation for this test case
@@ -998,14 +1007,14 @@ public class TestSuite
 
     /**
      * Get A URL identifying a logo for this test suite, or null if none available.
+     *
      * @return a URL for a logo for the testsuite, or null if not available
      */
     public URL getLogo() {
         try {
             String s = tsInfo == null ? null : tsInfo.get("logo");
             return s == null ? null : new URL(getRootDir().toURL(), s);
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             // ignore
             return null;
         }
@@ -1014,8 +1023,7 @@ public class TestSuite
     private static String[] envLookup(TestEnvironment env, String name) throws Fault {
         try {
             return env.lookup(name);
-        }
-        catch (TestEnvironment.Fault e) {
+        } catch (TestEnvironment.Fault e) {
             throw new Fault(i18n, "ts.cantFindNameInEnv",
                     name, e.getMessage());
         }
@@ -1024,20 +1032,19 @@ public class TestSuite
     /**
      * Create a new instance of a class, translating any exceptions that may arise
      * into Fault.
+     *
      * @param c the class to be instantiated
      * @return an instance of the specified class
      * @throws TestSuite.Fault if any errors arise while trying to instantiate
-     * the class.
+     *                         the class.
      */
     protected static <T> T newInstance(Class<? extends T> c) throws Fault {
         try {
             return c.getDeclaredConstructor().newInstance();
-        }
-        catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             throw new Fault(i18n, "ts.cantInstantiate",
                     c.getName(), e);
-        }
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             throw new Fault(i18n, "ts.illegalAccess",
                     c.getName(), e);
         }
@@ -1047,39 +1054,35 @@ public class TestSuite
     /**
      * Create a new instance of a class using a non-default constructor,
      * translating any exceptions that may arise into Fault.
-     * @param c the class to be instantiated
+     *
+     * @param c        the class to be instantiated
      * @param argTypes the types of the argument to be passed to the constructor,
-     * (thus implying the constructor to be used.)
-     * @param args the arguments to be passed to the constructor
+     *                 (thus implying the constructor to be used.)
+     * @param args     the arguments to be passed to the constructor
      * @return an instance of the specified class
      * @throws TestSuite.Fault if any errors arise while trying to instantiate
-     * the class.
+     *                         the class.
      */
     protected static <T> T newInstance(Class<? extends T> c, Class<?>[] argTypes, Object... args)
-        throws Fault
-    {
+            throws Fault {
         try {
             return c.getConstructor(argTypes).newInstance(args);
-        }
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             throw new Fault(i18n, "ts.illegalAccess",
                     c.getName(), e);
-        }
-        catch (InstantiationException e) {
+        } catch (InstantiationException e) {
             throw new Fault(i18n, "ts.cantInstantiate",
                     c.getName(), e);
-        }
-        catch (InvocationTargetException e) {
+        } catch (InvocationTargetException e) {
             Throwable te = e.getTargetException();
             if (te instanceof Fault)
                 throw (Fault) te;
             else
                 throw new Fault(i18n, "ts.cantInit", c.getName(), te);
-        }
-        catch (NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             // don't recurse past the use of a single arg constructor
             if (argTypes.length > 1 && Boolean.getBoolean(FIND_LEGACY_CONSTRUCTOR)) {
-                return newInstance(c, new Class<?>[] {File.class}, args[0]);
+                return newInstance(c, new Class<?>[]{File.class}, args[0]);
             }
 
             throw new Fault(i18n, "ts.cantFindConstructor",
@@ -1089,6 +1092,7 @@ public class TestSuite
 
     /**
      * Load a class using the class loader provided when this test suite was created.
+     *
      * @param className the name of the class to be loaded
      * @return the class that was loaded
      * @throws TestSuite.Fault if there was a problem loading the specified class
@@ -1100,30 +1104,30 @@ public class TestSuite
     /**
      * Load a class using a specified loader, translating any errors that may arise
      * into Fault.
+     *
      * @param className the name of the class to be loaded
-     * @param cl the class loader to use to load the specified class
+     * @param cl        the class loader to use to load the specified class
      * @return the class that was loaded
      * @throws TestSuite.Fault if there was a problem loading the specified class
      */
     protected static <T> Class<? extends T> loadClass(String className, ClassLoader cl) throws Fault {
         try {
             if (cl == null)
-                return (Class<? extends T>)Class.forName(className);
+                return (Class<? extends T>) Class.forName(className);
             else
-                return (Class<? extends T>)cl.loadClass(className);
-        }
-        catch (ClassNotFoundException e) {
+                return (Class<? extends T>) cl.loadClass(className);
+        } catch (ClassNotFoundException e) {
             throw new Fault(i18n, "ts.classNotFound",
                     className, e);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             throw new Fault(i18n, "ts.badClassName",
-                            new Object[] { className });
+                    new Object[]{className});
         }
     }
 
     /**
      * Get the class loader specified when this test suite object was created.
+     *
      * @return the class loader specified when this test suite object was created
      */
     public ClassLoader getClassLoader() {
@@ -1145,6 +1149,7 @@ public class TestSuite
     /**
      * Checks if serviceReader is active and file with service description does
      * exist.
+     *
      * @return true, if it's needed to start services, false otherwise.
      */
     public boolean needServices() {
@@ -1166,14 +1171,15 @@ public class TestSuite
                 isLegacy = true;
             }
         } catch (NoSuchMethodException e) {
-             isLegacy = true;
+            isLegacy = true;
         }
         File descrFile = isLegacy ?
-            new File(getRootDir(), File.separator + "lib" + File.separator + "services.xml") :
-            new File(getRootDir(), sr.getServiceDescriptorFileName());
+                new File(getRootDir(), File.separator + "lib" + File.separator + "services.xml") :
+                new File(getRootDir(), sr.getServiceDescriptorFileName());
 
         return descrFile.exists();
     }
+
     /**
      * Returns a test suite specific ServiceReader, used to read Service
      * definitions.
@@ -1195,19 +1201,16 @@ public class TestSuite
                     // problem with java1.5, which has no Arrays.copyOfRange();
                     String[] copy = new String[args.length - 1];
                     for (int i = 1; i < args.length; i++) {
-                        copy[i-1] = args[i];
+                        copy[i - 1] = args[i];
                     }
 
                     serviceReader.init(this, copy);
-                }
-                else {
+                } else {
                     serviceReader.init(this, null);
                 }
+            } catch (TestSuite.Fault e) {
             }
-            catch (TestSuite.Fault e) {
-            }
-        }
-        else {
+        } else {
             serviceReader = new PropertyServiceReader();
             serviceReader.init(this, null);
         }
@@ -1217,6 +1220,7 @@ public class TestSuite
 
     /**
      * Get a map containing the test suite data in the .jtt file.
+     *
      * @return a map containing the test suite data in the .jtt file
      */
     protected Map<String, String> getTestSuiteInfo() {
@@ -1225,6 +1229,7 @@ public class TestSuite
 
     /**
      * Get an entry from the data in the .jtt file.
+     *
      * @param name The name of the entry to get from the info in the .jtt file
      * @return the value of the specified entry, or null if not found.
      */
@@ -1238,20 +1243,21 @@ public class TestSuite
     /**
      * Get the requested behavior for dealing with conflicts between
      * which tests are in the test suite vs those in the work directory.
+     *
      * @see #DELETE_NONTEST_RESULTS
      * @see #REFRESH_ON_RUN
      * @see #CLEAR_CHANGED_TEST
      */
     public boolean getTestRefreshBehavior(int event) {
         switch (event) {
-        case DELETE_NONTEST_RESULTS:
-            return Boolean.valueOf(getTestSuiteInfo("deleteNonExistTests")).booleanValue();
-        case REFRESH_ON_RUN:
-            return Boolean.valueOf( getTestSuiteInfo("refreshTestsOnRun") ).booleanValue();
-        case CLEAR_CHANGED_TEST:
-            return Boolean.valueOf( getTestSuiteInfo("clearChangedTests")).booleanValue();
-        default:
-            return false;
+            case DELETE_NONTEST_RESULTS:
+                return Boolean.valueOf(getTestSuiteInfo("deleteNonExistTests")).booleanValue();
+            case REFRESH_ON_RUN:
+                return Boolean.valueOf(getTestSuiteInfo("refreshTestsOnRun")).booleanValue();
+            case CLEAR_CHANGED_TEST:
+                return Boolean.valueOf(getTestSuiteInfo("clearChangedTests")).booleanValue();
+            default:
+                return false;
         }
     }
 
@@ -1259,6 +1265,7 @@ public class TestSuite
     /**
      * Returns notification logger associated with
      * given working directory or common logger if null was specified
+     *
      * @param wd - working directory or null
      */
     public Logger getNotificationLog(WorkDirectory wd) {
@@ -1286,7 +1293,7 @@ public class TestSuite
         // return to current
         f = new ObservedFile(wd.getLogFileName());
 
-        if(observedFiles == null) {
+        if (observedFiles == null) {
             observedFiles = new HashMap<>();
         }
         if (!observedFiles.containsKey(f.getAbsolutePath())) {
@@ -1298,9 +1305,10 @@ public class TestSuite
 
     /**
      * Creates general purpose logger with given key and ResourceBundleName registered for given WorkDirectory.
-     * @param wd WorkDirectory logger should be registered for; may be <code>null</code> if no WorkDirectory
-     * currently available (the log will be registered for the first WD created for this TestSuite
-     * @param b name of ResorceBundle used for this logger; may be <code>null</code> if not required
+     *
+     * @param wd  WorkDirectory logger should be registered for; may be <code>null</code> if no WorkDirectory
+     *            currently available (the log will be registered for the first WD created for this TestSuite
+     * @param b   name of ResorceBundle used for this logger; may be <code>null</code> if not required
      * @param key key for this log
      * @return general purpose logger with given key registered for given WorkDirectory or TestSuite (if WD is null)
      * @throws TestSuite.DuplicateLogNameFault if log with this key has been registered in the system already
@@ -1323,7 +1331,7 @@ public class TestSuite
                 throw new DuplicateLogNameFault(i18n, "ts.logger.duplicatelognamefault", key);
         }
 
-        GeneralPurposeLogger gpl = new GeneralPurposeLogger( key, wd, b, this);
+        GeneralPurposeLogger gpl = new GeneralPurposeLogger(key, wd, b, this);
         gpls.add(gpl);
         return gpl;
     }
@@ -1331,11 +1339,12 @@ public class TestSuite
     /**
      * Returns general purpose logger with given key registered for given WorkDirectory.
      * The log should be created first.
-     * @param wd WorkDirectory desired logger is registered for
+     *
+     * @param wd  WorkDirectory desired logger is registered for
      * @param key key for this log
      * @return general purpose logger with given key registered for given WorkDirectory
      * @throws TestSuite.NoSuchLogFault if desired log not registered in the system
-     * @throws NullPointerException if <code>wd</code> is null
+     * @throws NullPointerException     if <code>wd</code> is null
      * @see #createLog
      */
     public Logger getLog(WorkDirectory wd, String key) throws NoSuchLogFault {
@@ -1356,6 +1365,7 @@ public class TestSuite
 
     /**
      * Cleans the log file in given WorkDirectory
+     *
      * @param wd WorkDirectory desired logger is registered for
      * @throws IOException if log file's content can't be erased
      */
@@ -1471,7 +1481,7 @@ public class TestSuite
 
 
     private static final String TESTSUITE_HTML = "testsuite.html";
-    private static final String TESTSUITE_JTT  = "testsuite.jtt";
+    private static final String TESTSUITE_JTT = "testsuite.jtt";
     private static final String FIND_LEGACY_CONSTRUCTOR = "com.sun.javatest.ts.findLegacyCtor";
 
     private File root;

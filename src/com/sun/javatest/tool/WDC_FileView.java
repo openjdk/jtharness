@@ -64,6 +64,7 @@ public class WDC_FileView extends FileView {
     public Boolean isTraversable(File f) {
         return f.isDirectory() && !swda.isWorkDirectory(f) ? Boolean.TRUE : Boolean.FALSE;
     }
+
     private SelectedWorkDirApprover swda;
     private Icon icon;
 }

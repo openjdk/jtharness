@@ -43,8 +43,7 @@ import com.sun.javatest.util.StringArray;
  * Default script, which delegates to one of a number of scripts defined in
  * environment entries, according to the keywords on the test description.
  */
-public class KeywordScript extends Script
-{
+public class KeywordScript extends Script {
     /**
      * Run the script, using the parameters set up by the standard initialization
      * methods.
@@ -70,67 +69,66 @@ public class KeywordScript extends Script
         Vector<String> matches = new Vector<>(); // the set of matches
         int wordsMatchingInMatches = 0;// the number of words matching
 
-    findMatch:
-    for (String key : env.keys()) {
-        // if the key does not begin with the `script.' prefix, ignore key
-        if (!key.startsWith(prefix))
-            continue;
-
-        if (debug)
-            trOut.println("CHECKING " + key);
-
-        String keyList = key.substring(prefix.length()).replace('_', ' ').toLowerCase();
-        String[] keys = StringArray.split(keyList);
-
-        choices.addElement(keyList);
-
-        if (debug)
-            trOut.println("keys: " + StringArray.join(keys));
-
-        // if there are no words after the `script.' prefix,
-        // or if it has fewer words than the best match so far, ignore key
-        if (keys == null || keys.length < wordsMatchingInMatches)
-            continue;
-
-        for (String key1 : keys) {
-            // if key has a word that is not for the test, ignore key
-            if (!testKeys.contains(key1)) {
-
-                if (debug)
-                    trOut.println("discarding, because of " + key1);
-
-                continue findMatch;
-            }
-        }
-
-        // see if key is better than best so far
-        if (keys.length > wordsMatchingInMatches) {
-            // update best so far
+        findMatch:
+        for (String key : env.keys()) {
+            // if the key does not begin with the `script.' prefix, ignore key
+            if (!key.startsWith(prefix))
+                continue;
 
             if (debug)
-                trOut.println("new best match, " + keys.length + " keys");
+                trOut.println("CHECKING " + key);
 
-            matches = new Vector<>();
-            wordsMatchingInMatches = keys.length;
-        }
+            String keyList = key.substring(prefix.length()).replace('_', ' ').toLowerCase();
+            String[] keys = StringArray.split(keyList);
 
-        // this key deserves note
-        matches.addElement(key);
-    }   // for
+            choices.addElement(keyList);
+
+            if (debug)
+                trOut.println("keys: " + StringArray.join(keys));
+
+            // if there are no words after the `script.' prefix,
+            // or if it has fewer words than the best match so far, ignore key
+            if (keys == null || keys.length < wordsMatchingInMatches)
+                continue;
+
+            for (String key1 : keys) {
+                // if key has a word that is not for the test, ignore key
+                if (!testKeys.contains(key1)) {
+
+                    if (debug)
+                        trOut.println("discarding, because of " + key1);
+
+                    continue findMatch;
+                }
+            }
+
+            // see if key is better than best so far
+            if (keys.length > wordsMatchingInMatches) {
+                // update best so far
+
+                if (debug)
+                    trOut.println("new best match, " + keys.length + " keys");
+
+                matches = new Vector<>();
+                wordsMatchingInMatches = keys.length;
+            }
+
+            // this key deserves note
+            matches.addElement(key);
+        }   // for
 
         // check we have a unique script selected
         String name = env.getName();
         String envName = name.isEmpty() ?
-                          "The anonymous environment" :
-                          "Environment `" + env.getName() + "'";
+                "The anonymous environment" :
+                "Environment `" + env.getName() + "'";
         if (matches.isEmpty()) {
             if (choices.isEmpty()) {
                 String s = envName + " has no `script' entries";
                 trOut.println(s);
                 setStatus(Status.error(s));
                 return;
-            }
-            else {
+            } else {
                 String s = envName + " has no suitable `script' entry";
                 trOut.println(s);
                 trOut.println("The keyword combinations for scripts in this environment are: ");
@@ -166,13 +164,13 @@ public class KeywordScript extends Script
 
             trOut.println("test: " + td.getRootRelativeURL());
             trOut.println("script: " + this.getClass().getName() + " " +
-                          StringArray.join(scriptArgs));
+                    StringArray.join(scriptArgs));
 
             String[] msgs = {
-                "Based on these keywords:    " +
-                bestScript.substring(prefix.length()).replace('_', ' ').toLowerCase(),
-                "this script has now been selected: " + "   " +
-                StringArray.join(command) };
+                    "Based on these keywords:    " +
+                            bestScript.substring(prefix.length()).replace('_', ' ').toLowerCase(),
+                    "this script has now been selected: " + "   " +
+                            StringArray.join(command)};
             printStrArr(trOut, msgs);
 
             try {
@@ -184,29 +182,24 @@ public class KeywordScript extends Script
                 initDelegate(script, scriptArgs);
 
                 script.run();
-            }
-            catch (ClassNotFoundException ex) {
+            } catch (ClassNotFoundException ex) {
                 setStatus(Status.error("Can't find class `" +
-                                     command[0] + "' for `" + env.getName() + "'"));
-            }
-            catch (NoSuchMethodException ex) {
+                        command[0] + "' for `" + env.getName() + "'"));
+            } catch (NoSuchMethodException ex) {
                 setStatus(Status.error("Can't find no-arg constructor `" +
-                                     command[0] + "' for `" + env.getName() + "'"));
-            }
-            catch (IllegalAccessException ex) {
+                        command[0] + "' for `" + env.getName() + "'"));
+            } catch (IllegalAccessException ex) {
                 setStatus(Status.error("Illegal access to class `" +
-                                     command[0] + "' for `" + env.getName() + "'"));
-            }
-            catch (InstantiationException | InvocationTargetException ex) {
+                        command[0] + "' for `" + env.getName() + "'"));
+            } catch (InstantiationException | InvocationTargetException ex) {
                 setStatus(Status.error("Can't instantiate class`" +
-                                     command[0] + "' for `" + env.getName() + "'"));
+                        command[0] + "' for `" + env.getName() + "'"));
             }
-        }
-        catch (TestEnvironment.Fault ex) {
+        } catch (TestEnvironment.Fault ex) {
             setStatus(Status.error("environment `" +
-                                      env.getName() +
-                                      "' has bad `script' entry for `" +
-                                      bestScript +"'"));
+                    env.getName() +
+                    "' has bad `script' entry for `" +
+                    bestScript + "'"));
         }
     }
 
@@ -216,7 +209,7 @@ public class KeywordScript extends Script
     }
 
     private static void printStrArr(PrintWriter pw, String... data) {
-        if(data == null) return;
+        if (data == null) return;
 
         for (String aData : data) {
             pw.println(aData);
@@ -229,8 +222,7 @@ public class KeywordScript extends Script
         tr.setStatus(s);
         try {
             tr.writeResults(workDir, backupPolicy);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

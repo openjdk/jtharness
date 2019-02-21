@@ -51,6 +51,7 @@ import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.WorkDirChooser;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.I18NResourceBundle;
+
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -94,13 +95,13 @@ public class TemplateSessionControl extends BasicSessionControl {
     protected TU_dialog tu_dialog;
 
     private static KeyStroke tEditorAccelerator =
-        KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK);
+            KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK);
 
     public TemplateSessionControl(JComponent parent, UIFactory uif, TestSuite ts,
-            ContextManager cm, UIFactory uifOrig) throws Fault {
+                                  ContextManager cm, UIFactory uifOrig) throws Fault {
         super(parent, uif, ts, cm);
         this.uifOrig = uifOrig;
-        templateSession = (TemplateSession)session;
+        templateSession = (TemplateSession) session;
         template = templateSession.templ;
         tu_dialog = createTU_Dialog();
         TU_ViewManager.register(templateSession.getInterviewParameters(), tu_dialog);
@@ -110,6 +111,7 @@ public class TemplateSessionControl extends BasicSessionControl {
 
     /**
      * Creates an empty session for the test suite.
+     *
      * @return created session instance of TemplateSession
      * @throws com.sun.javatest.exec.Session.Fault
      */
@@ -120,6 +122,7 @@ public class TemplateSessionControl extends BasicSessionControl {
 
     /**
      * Invokes propagator if needed
+     *
      * @param ev
      */
     @Override
@@ -132,13 +135,14 @@ public class TemplateSessionControl extends BasicSessionControl {
 
     /**
      * Checks, if propagator needs to be invoked.
+     *
      * @param ev
      * @return true, if propagator is needed to be invoked
      */
     protected boolean needCheckForUpdates(Event ev) {
         if (ev instanceof E_EditorVisibility) {
-            E_EditorVisibility event = (E_EditorVisibility)ev;
-            if ( event.source != null && event.source instanceof TemplateEditor &&
+            E_EditorVisibility event = (E_EditorVisibility) ev;
+            if (event.source != null && event.source instanceof TemplateEditor &&
                     !event.isVisible &&
                     templateSession.getValue(BasicSession.CONFIG_NAME_PROP) != null &&
                     templateSession.getValue(TemplateSession.TEMPLATE_PROP_NAME) != null) {
@@ -155,7 +159,7 @@ public class TemplateSessionControl extends BasicSessionControl {
     @Override
     public void startTests(Parameters p) {
         super.startTests(p);
-        ((InterviewParameters)p).checkForUpdates();
+        ((InterviewParameters) p).checkForUpdates();
     }
 
     @Override
@@ -179,6 +183,7 @@ public class TemplateSessionControl extends BasicSessionControl {
             configTemplateHistoryListener.setFileHistory(h);
         }
     }
+
     /**
      * @return true if user has an interview editor open.
      */
@@ -226,7 +231,7 @@ public class TemplateSessionControl extends BasicSessionControl {
         TU_ViewManager.unregister(templateSession.getInterviewParameters());
         if (tu_dialog != null) {
             tu_dialog.dispose();
-                        tu_dialog = null;
+            tu_dialog = null;
         }
         if (templateEditor != null) {
             templateEditor.dispose();
@@ -270,18 +275,18 @@ public class TemplateSessionControl extends BasicSessionControl {
     protected void initHistoryListeners() {
         super.initHistoryListeners();
         configTemplateHistoryListener = new FileHistory.Listener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JMenuItem mi = (JMenuItem) e.getSource();
-                    File f = (File) mi.getClientProperty(FileHistory.FILE);
-                    if (f != null) {
-                        if (initTemplateEditor()) {
-                            // ensureConfigEditorInitialized();
-                            templateEditor.loadAndEdit(f);
-                        }
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JMenuItem mi = (JMenuItem) e.getSource();
+                File f = (File) mi.getClientProperty(FileHistory.FILE);
+                if (f != null) {
+                    if (initTemplateEditor()) {
+                        // ensureConfigEditorInitialized();
+                        templateEditor.loadAndEdit(f);
                     }
                 }
-            });
+            }
+        });
         menuHistory = uif.createMenu("tcc.templatehistory");
         menuHistory.addMenuListener(configTemplateHistoryListener);
     }
@@ -326,7 +331,7 @@ public class TemplateSessionControl extends BasicSessionControl {
             InterviewParameters cfg = templateSession.getInterviewParameters();
             WorkDirectory wd = cfg.getWorkDirectory();
             final long start = System.currentTimeMillis();
-            if (cfg.isFileNewer())  {
+            if (cfg.isFileNewer()) {
                 wasUpdate = cfg.load();
                 whichUpdate = "exec.log.iload";
 
@@ -373,6 +378,7 @@ public class TemplateSessionControl extends BasicSessionControl {
 
     /**
      * Initializes interviewEditor.
+     *
      * @return true if initialized successfully, false if failed.
      */
     boolean initTemplateEditor() {
@@ -390,13 +396,13 @@ public class TemplateSessionControl extends BasicSessionControl {
             templateEditor.setCustomRenderers(cm.getCustomRenderersMap());
         }
         templateEditor.setCheckExcludeListListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Object src = e.getSource();
-                    JComponent p = src instanceof JComponent ? (JComponent) src : parent;
-                    checkExcludeListUpdate(p, false, template);
-                }
-            });
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object src = e.getSource();
+                JComponent p = src instanceof JComponent ? (JComponent) src : parent;
+                checkExcludeListUpdate(p, false, template);
+            }
+        });
         templateEditor.addObserver(this);
         return true;
     }
@@ -439,14 +445,14 @@ public class TemplateSessionControl extends BasicSessionControl {
     /**
      * Causes the dialog for work directory selecting to appear.
      * Applies selected work dir and template values
-     * @param mode - either WorkDirChooser.OPEN_FOR_GIVEN_TESTSUITE or
-     *   WorkDirChooser.NEW
      *
+     * @param mode - either WorkDirChooser.OPEN_FOR_GIVEN_TESTSUITE or
+     *             WorkDirChooser.NEW
      * @return true if user kindly agreed to edit configuration
      */
     protected boolean chooseWD(int mode) {
         ExecModelStub em = new ExecModelStub(testSuite, cm);
-        WorkDirChooseTool tool =  WorkDirChooseTool.getTool(parent, uif, em, mode, testSuite, true);
+        WorkDirChooseTool tool = WorkDirChooseTool.getTool(parent, uif, em, mode, testSuite, true);
         tool.doTool();
 
         if (em.getWorkDirectory() != null) {
@@ -498,6 +504,7 @@ public class TemplateSessionControl extends BasicSessionControl {
     /**
      * InterviewEditor.Observer method.
      * Invoked when current session has changed from InterviewEditor
+     *
      * @param p
      */
     @Override
@@ -523,7 +530,6 @@ public class TemplateSessionControl extends BasicSessionControl {
         TemplateConfigView(Session config) {
             super(config);
         }
-
 
 
         @Override

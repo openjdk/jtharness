@@ -68,9 +68,9 @@ class MonitorState {
         public void postProcessing();
 
         /**
-          * A test run is being stopped by something.  This is not the same
-          * as finishing.
-          */
+         * A test run is being stopped by something.  This is not the same
+         * as finishing.
+         */
         public void stopping();
 
         /**
@@ -100,7 +100,7 @@ class MonitorState {
      * Time since the start of the run.
      *
      * @return Zero at the instant we start a run or when no run has been
-     *         performed yet.
+     * performed yet.
      */
     long getElapsedTime() {
         /*
@@ -128,7 +128,7 @@ class MonitorState {
      * Find out the estimated time required to complete the remaining tests.
      *
      * @return A time estimate in milliseconds.  Zero if no run is in progress or
-     *         no estimate is available.
+     * no estimate is available.
      */
     synchronized long getEstimatedTime() {
         return harness.getEstimatedTime();
@@ -158,7 +158,7 @@ class MonitorState {
      * during this run.
      *
      * @return Number of tests found so far to be executed based on the current
-     *         parameters.
+     * parameters.
      */
     synchronized int getTestsFoundCount() {
         return harness.getTestsFoundCount();
@@ -197,7 +197,7 @@ class MonitorState {
 
     /**
      * @return Array representing the currently executing tests. Zero-length
-     *     array if there are no tests running.
+     * array if there are no tests running.
      */
     TestResult[] getRunningTests() {
         TestResult[] trs = new TestResult[0];
@@ -292,8 +292,7 @@ class MonitorState {
                 };      // end anon. class
 
                 EventQueue.invokeLater(cmd);
-            }
-            else {      // now on event thread
+            } else {      // now on event thread
                 for (Observer ob : obs)
                     switch (which) {
                         case 0:
@@ -322,8 +321,7 @@ class MonitorState {
                 };      // end anon. class
 
                 EventQueue.invokeLater(cmd);
-            }
-            else {      // now on event thread
+            } else {      // now on event thread
                 for (Observer ob : obs) ob.finished(allOk);
             }
         }

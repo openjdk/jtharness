@@ -59,8 +59,7 @@ import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
 
-class EnvironmentBrowser extends ToolDialog
-{
+class EnvironmentBrowser extends ToolDialog {
 
     EnvironmentBrowser(JComponent parent, UIFactory uif) {
         super(parent, uif, "env");
@@ -104,7 +103,7 @@ class EnvironmentBrowser extends ToolDialog
             public void mouseClicked(MouseEvent e) {
                 Object src = e.getSource();
                 if (src instanceof JTableHeader) {
-                    JTableHeader th = (JTableHeader)src;
+                    JTableHeader th = (JTableHeader) src;
                     int col = th.columnAtPoint(e.getPoint());
                     envTableModel.sort(col);
                 }
@@ -144,7 +143,7 @@ class EnvironmentBrowser extends ToolDialog
 
         JButton helpBtn = uif.createHelpButton("env.help", "env.window.csh");
         JButton closeBtn = uif.createCloseButton("env.close");
-        setButtons(new JButton[] { helpBtn, closeBtn }, closeBtn);
+        setButtons(new JButton[]{helpBtn, closeBtn}, closeBtn);
 
         setComponentListener(listener);
     }
@@ -163,9 +162,8 @@ class EnvironmentBrowser extends ToolDialog
     private static final int DEFINED_IN_ENV = 3;
 
     private class Listener
-        extends ComponentAdapter
-        implements ListSelectionListener, Interview.Observer
-    {
+            extends ComponentAdapter
+            implements ListSelectionListener, Interview.Observer {
         // ComponentListener
         @Override
         public void componentShown(ComponentEvent e) {
@@ -192,8 +190,7 @@ class EnvironmentBrowser extends ToolDialog
                     text.setFont(text.getFont().deriveFont(Font.ITALIC));
                     text.setForeground(Color.gray);
                     text.setText(uif.getI18NString("env.unset"));
-                }
-                else {
+                } else {
                     text.setFont(text.getFont().deriveFont(Font.PLAIN));
                     text.setForeground(table.getForeground());
                     text.setText(String.valueOf(o));
@@ -234,20 +231,17 @@ class EnvironmentBrowser extends ToolDialog
                 // value probably unique, but if not, sort on key as well
                 int c = e1.getValue().compareTo(e2.getValue());
                 return c != 0 ? c : e1.getKey().compareTo(e2.getKey());
-            }
-            else if (sortMode == DEFINED_IN_ENV) {
+            } else if (sortMode == DEFINED_IN_ENV) {
                 // defined_in probably not unique, so sort on key as well
                 int i1 = getInheritsIndex(e1.getDefinedInEnv());
                 int i2 = getInheritsIndex(e2.getDefinedInEnv());
                 return i1 < i2 ? -1 :
                         i1 > i2 ? +1 : e1.getKey().compareTo(e2.getKey());
-            }
-            else if (sortMode == DEFINED_IN_FILE) {
+            } else if (sortMode == DEFINED_IN_FILE) {
                 // defined_in probably not unique, so sort on key as well
                 int c = e1.getDefinedInFile().compareTo(e2.getDefinedInFile());
                 return c != 0 ? c : e1.getKey().compareTo(e2.getKey());
-            }
-            else {
+            } else {
                 return 0;
             }
         }
@@ -298,8 +292,7 @@ class EnvironmentBrowser extends ToolDialog
             if (newRowCount > oldRowCount) {
                 // the new table is bigger: so rows have been added
                 fireTableRowsInserted(commonRowCount, newRowCount - 1);
-            }
-            else if (newRowCount < oldRowCount) {
+            } else if (newRowCount < oldRowCount) {
                 // the new table is smaller, so rows have been removed
                 fireTableRowsDeleted(commonRowCount, oldRowCount - 1);
             }
@@ -338,21 +331,21 @@ class EnvironmentBrowser extends ToolDialog
         @Override
         public synchronized Object getValueAt(int rowIndex, int columnIndex) {
             if (rowIndex < 0 || rowIndex >= getRowCount()
-                || columnIndex < 0 || columnIndex >= getColumnCount())
+                    || columnIndex < 0 || columnIndex >= getColumnCount())
                 throw new IllegalArgumentException();
 
             TestEnvironment.Element e = elems[rowIndex];
             switch (columnIndex) {
-            case KEY:
-                return e.getKey();
-            case DEFINED_IN_ENV:
-                return e.getDefinedInEnv();
-            case DEFINED_IN_FILE:
-                return e.getDefinedInFile();
-            case VALUE:
-                return e.getValue();
-            default:
-                throw new Error();
+                case KEY:
+                    return e.getKey();
+                case DEFINED_IN_ENV:
+                    return e.getDefinedInEnv();
+                case DEFINED_IN_FILE:
+                    return e.getDefinedInFile();
+                case VALUE:
+                    return e.getValue();
+                default:
+                    throw new Error();
             }
         }
 

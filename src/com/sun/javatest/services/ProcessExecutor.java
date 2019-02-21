@@ -39,25 +39,24 @@ import com.sun.javatest.services.Message.MessageType;
  * that starts services as separate processes. Content of start message should
  * have type {@link com.sun.javatest.services.ProcessParams} and contain data,
  * necessary for {@code java.lang.ProcessBuilder} to start process.
- *
  */
 public class ProcessExecutor implements ServiceExecutor {
 
     private Process proc;
 
     protected List<String> getCommand(Message start) {
-        ProcessParams params = (ProcessParams)start.getContent();
+        ProcessParams params = (ProcessParams) start.getContent();
         return params.getCommand();
     }
 
     protected Map<String, String> getEnv(Message start) {
-        ProcessParams params = (ProcessParams)start.getContent();
+        ProcessParams params = (ProcessParams) start.getContent();
         return params.getEnvironment();
 
     }
 
     protected File getWorkDir(Message start) {
-        ProcessParams params = (ProcessParams)start.getContent();
+        ProcessParams params = (ProcessParams) start.getContent();
         return params.getWorkDirectory();
     }
 
@@ -69,7 +68,7 @@ public class ProcessExecutor implements ServiceExecutor {
         }
 
         if (desired == MessageType.START) {
-            if ( !(msg.getContent() instanceof ProcessParams) ) {
+            if (!(msg.getContent() instanceof ProcessParams)) {
                 throw new BadMessageException();
             }
         }
@@ -84,8 +83,7 @@ public class ProcessExecutor implements ServiceExecutor {
 
         try {
             checkMessage(startMsg, MessageType.START);
-        }
-        catch (BadMessageException ex) {
+        } catch (BadMessageException ex) {
             return new Message(MessageType.ERROR, ex);
         }
 
@@ -131,7 +129,8 @@ public class ProcessExecutor implements ServiceExecutor {
         proc.destroy();
         try {
             proc.waitFor();
-        } catch (InterruptedException ex) {}
+        } catch (InterruptedException ex) {
+        }
 
         //        proc = null;
         return new Message(MessageType.STOPPED, "Process stopped successfully.\n" +
@@ -143,8 +142,7 @@ public class ProcessExecutor implements ServiceExecutor {
 
         try {
             checkMessage(isAlive, MessageType.IS_ALIVE);
-        }
-        catch (BadMessageException ex) {
+        } catch (BadMessageException ex) {
             return new Message(MessageType.ERROR, ex);
         }
 
@@ -153,12 +151,10 @@ public class ProcessExecutor implements ServiceExecutor {
                 int exitValue = proc.exitValue();
                 return new Message(MessageType.NOT_ALIVE,
                         "Process already terminated.\nExit value: " + exitValue);
-            }
-            catch(IllegalThreadStateException e) {
+            } catch (IllegalThreadStateException e) {
                 return new Message(MessageType.ALIVE, "Process not terminated yet");
             }
-        }
-        else {
+        } else {
             return new Message(MessageType.NOT_ALIVE, "Process already stopped");
         }
     }
@@ -167,8 +163,7 @@ public class ProcessExecutor implements ServiceExecutor {
     public InputStream getServiceErrorStream() {
         if (proc != null) {
             return proc.getErrorStream();
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -177,8 +172,7 @@ public class ProcessExecutor implements ServiceExecutor {
     public InputStream getServiceOutputStream() {
         if (proc != null) {
             return proc.getInputStream(); // process output!
-        }
-        else {
+        } else {
             return null;
         }
     }

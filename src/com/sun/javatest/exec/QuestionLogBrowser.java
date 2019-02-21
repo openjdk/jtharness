@@ -53,8 +53,7 @@ import com.sun.javatest.tool.FileChooser;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
 
-class QuestionLogBrowser extends ToolDialog
-{
+class QuestionLogBrowser extends ToolDialog {
     QuestionLogBrowser(JComponent parent, ExecModel model, UIFactory uif) {
         super(parent, uif, "qlb");
 
@@ -75,7 +74,7 @@ class QuestionLogBrowser extends ToolDialog
         setHelp("quLog.window.csh");
 
         JMenuBar mb = uif.createMenuBar("qlb");
-        String[] fileActions = { SAVE_AS, PRINT_SETUP, PRINT };
+        String[] fileActions = {SAVE_AS, PRINT_SETUP, PRINT};
         JMenu fileMenu = uif.createMenu("qlb.file", fileActions, listener);
         mb.add(fileMenu);
         setJMenuBar(mb);
@@ -92,7 +91,7 @@ class QuestionLogBrowser extends ToolDialog
 
         JButton helpBtn = uif.createHelpButton("qlb.help", "quLog.window.csh");
         JButton closeBtn = uif.createCloseButton("qlb.close");
-        setButtons(new JButton[] { helpBtn, closeBtn }, closeBtn);
+        setButtons(new JButton[]{helpBtn, closeBtn}, closeBtn);
 
         setComponentListener(listener);
     }
@@ -122,8 +121,7 @@ class QuestionLogBrowser extends ToolDialog
                     // wp will automatically flush and close the stream
 
                     finishContentUpdate(d, out);
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     // should not happen while writing to StringWriter
                 }
             }
@@ -157,7 +155,7 @@ class QuestionLogBrowser extends ToolDialog
             public void run() {
                 waitDialog.hide();
 
-                TextPane textPane = (TextPane)body.getMediaPane(body.TEXT);
+                TextPane textPane = (TextPane) body.getMediaPane(body.TEXT);
                 textPane.showText(out.toString(), "text/html");
                 textPane.getCaret().setDot(0);
             }
@@ -168,7 +166,7 @@ class QuestionLogBrowser extends ToolDialog
         if (fileChooser == null) {
             fileChooser = new FileChooser(true);
             fileChooser.addChoosableExtension(".html",
-                                              uif.getI18NString("qlb.htmlFiles"));
+                    uif.getI18NString("qlb.htmlFiles"));
         }
 
         fileChooser.setDialogTitle(uif.getI18NString("qlb.save.title"));
@@ -195,26 +193,25 @@ class QuestionLogBrowser extends ToolDialog
             if (file.exists()) {
                 rc = uif.showYesNoCancelDialog("qlb.save.warn", file);
                 switch (rc) {
-                case JOptionPane.YES_OPTION:
-                    break;  // use this file
+                    case JOptionPane.YES_OPTION:
+                        break;  // use this file
 
-                case JOptionPane.NO_OPTION:
-                    fileChooser.setSelectedFile(null);
-                    file = null;
-                    continue;  // choose another file
+                    case JOptionPane.NO_OPTION:
+                        fileChooser.setSelectedFile(null);
+                        file = null;
+                        continue;  // choose another file
 
-                default:
-                    return;  // exit without saving
+                    default:
+                        return;  // exit without saving
                 }
             }
         }
 
         try {
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
-            out.write(((JEditorPane)body.getMediaPane(body.TEXT)).getText());
+            out.write(((JEditorPane) body.getMediaPane(body.TEXT)).getText());
             out.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             if (!file.canWrite())
                 uif.showError("qlb.save.cantWriteFile", file);
             else if (e instanceof FileNotFoundException)
@@ -229,13 +226,12 @@ class QuestionLogBrowser extends ToolDialog
     }
 
     private void doPrint() {
-            model.print(body);
+        model.print(body);
     }
 
     private class Listener
-        extends ComponentAdapter
-        implements ActionListener, Interview.Observer
-    {
+            extends ComponentAdapter
+            implements ActionListener, Interview.Observer {
         // ActionListener
         @Override
         public void actionPerformed(ActionEvent e) {

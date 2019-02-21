@@ -48,13 +48,12 @@ import com.sun.javatest.util.StringArray;
  * A command manager to provide commands for reporting test results.
  */
 public class ReportManager
-    extends CommandManager
-{
+        extends CommandManager {
     @Override
     public HelpTree.Node getHelp() {
         HelpTree.Node[] cmdNodes = {
-            getCommandHelp(ReportCommand.getName()),
-            getCommandHelp(WriteReportCommand.getName())
+                getCommandHelp(ReportCommand.getName()),
+                getCommandHelp(WriteReportCommand.getName())
         };
         return new HelpTree.Node(i18n, "rm.help", cmdNodes);
 
@@ -66,8 +65,7 @@ public class ReportManager
 
     @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
-        throws Command.Fault
-    {
+            throws Command.Fault {
         if (isMatch(cmd, ReportCommand.getName())) {
             ctx.addCommand(new ReportCommand(argIter));
             return true;
@@ -82,8 +80,7 @@ public class ReportManager
     }
 
     public static void writeReport(File reportDir, CommandContext ctx)
-        throws Command.Fault
-    {
+            throws Command.Fault {
         Command c = new WriteReportCommand(reportDir);
         c.run(ctx);
     }
@@ -97,8 +94,7 @@ public class ReportManager
     //--------------------------------------------------------------------------
 
     static class ReportCommand
-        extends Command
-    {
+            extends Command {
         static String getName() {
             return "report";
         }
@@ -122,8 +118,7 @@ public class ReportManager
 
     //--------------------------------------------------------------------------
 
-    static class WriteReportCommand extends Command
-    {
+    static class WriteReportCommand extends Command {
         static String getName() {
             return "writeReport";
         }
@@ -135,27 +130,23 @@ public class ReportManager
                 String arg = nextArg(argIter);
                 if (arg.equals("-create")) {
                     createFlag = true;
-                }
-                else if (arg.equals("-type")) {
+                } else if (arg.equals("-type")) {
                     if (!argIter.hasNext())
                         throw new Fault(i18n, "rm.writeReport.missingArg");
                     if (types == null) {
                         types = new ArrayList<>();
                     }
                     types.add(nextArg(argIter));
-                }
-                else if (arg.equalsIgnoreCase("-kfl") ||
-                         arg.equalsIgnoreCase("-enableKFL")) {
+                } else if (arg.equalsIgnoreCase("-kfl") ||
+                        arg.equalsIgnoreCase("-enableKFL")) {
                     // allow user to turn on KFL section by overriding Preferences
                     Preferences.access().setPreference("rps.html.kfl", "true");
-                }
-                else if (arg.equals("-filter")) {
+                } else if (arg.equals("-filter")) {
                     if (!argIter.hasNext())
                         throw new Fault(i18n, "rm.writeReport.missingArg");
                     filter = nextArg(argIter);
                     validateFilter();
-                }
-                else if (arg.startsWith("-"))
+                } else if (arg.startsWith("-"))
                     // since the report dir is a required arg,
                     // any other option must be a bad one
                     throw new Fault(i18n, "rm.writeReport.badArg", arg);
@@ -201,8 +192,7 @@ public class ReportManager
             if (path.exists()) {
                 if (!path.isDirectory())
                     throw new Fault(i18n, "rm.writeReport.notADir", path);
-            }
-            else {
+            } else {
                 if (createFlag)
                     path.mkdirs();
                 else
@@ -221,19 +211,16 @@ public class ReportManager
                 ParameterFilter pFilter = new ParameterFilter();
                 pFilter.update(p);
                 filterO = pFilter;
-            }
-            else if (filter.equalsIgnoreCase("allTests"))
+            } else if (filter.equalsIgnoreCase("allTests"))
                 filterO = new AllTestsFilter();
             else if (filter.equalsIgnoreCase("lastRun")) {
                 try {
                     filterO = new LastRunFilter(ctx.getWorkDirectory());
-                }
-                catch (CommandContext.Fault f) {
+                } catch (CommandContext.Fault f) {
                     // should in theory never happen in CLI mode
                     ctx.printMessage(i18n, "rm.writeReport.noWdForLast", f.getMessage());
                 }
-            }
-            else    // should not happen!  use legacy setting
+            } else    // should not happen!  use legacy setting
                 filterO = new CompositeFilter(p.getFilters());
 
             try {
@@ -246,14 +233,12 @@ public class ReportManager
                 File cPath;
                 try {
                     cPath = path.getCanonicalFile();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     cPath = path;
                 }
 
                 ctx.printMessage(i18n, "rm.writeReport.done", cPath);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 ctx.printMessage(i18n, "rm.writeReport.error",
                         path, e);
             }

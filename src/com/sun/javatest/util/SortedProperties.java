@@ -36,8 +36,7 @@ import java.util.TreeSet;
  * A subtype of Properties for which the keys method will return a sorted enumeration.
  * This means that the store method will write the various properties in sorted order.
  */
-public class SortedProperties extends Properties
-{
+public class SortedProperties extends Properties {
     // override Keys() to return a sorted set
     @Override
     public Enumeration<Object> keys() {
@@ -48,14 +47,15 @@ public class SortedProperties extends Properties
 
         final Iterator<?> iter = s.iterator();
         return new Enumeration<Object>() {
-                @Override
-                public boolean hasMoreElements() {
-                    return iter.hasNext();
-                }
-                @Override
-                public Object nextElement() {
-                    return iter.next();
-                }
-            };
+            @Override
+            public boolean hasMoreElements() {
+                return iter.hasNext();
+            }
+
+            @Override
+            public Object nextElement() {
+                return iter.next();
+            }
+        };
     }
 }

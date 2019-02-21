@@ -55,6 +55,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
 import javax.swing.tree.TreePath;
+
 import com.sun.javatest.tool.jthelp.HelpBroker;
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
@@ -75,13 +76,14 @@ public abstract class PreferencesPane extends JPanel {
      * Show a dialog to allow the user to edit the set of preferences.
      * A collection of editing panes must be provided that each provide
      * the GUI to edit a subset of the preferences.
-     * @param f the parent frame for the dialog
-     * @param panes the editing panes to be displayed in the dialog
+     *
+     * @param f          the parent frame for the dialog
+     * @param panes      the editing panes to be displayed in the dialog
      * @param helpBroker a help broker to be used to provide context sensitive
-     *          help for the dialog
+     *                   help for the dialog
      */
     public static void showDialog(JFrame f, Preferences preferences,
-            PreferencesPane[] panes, HelpBroker helpBroker) {
+                                  PreferencesPane[] panes, HelpBroker helpBroker) {
         //System.err.println("Preferences.showDialog");
         PrefsDialog d = new PrefsDialog(f, preferences, panes, helpBroker);
         d.setVisible(true);
@@ -92,6 +94,7 @@ public abstract class PreferencesPane extends JPanel {
      * Set the help ID that gives the context sensitive help for
      * this panel. The help will be displayed in the help broker
      * specified when the dialog is displayed.
+     *
      * @param helpID the ID for the context sensitive help for this panel
      * @see PreferencesPane#showDialog
      */
@@ -102,6 +105,7 @@ public abstract class PreferencesPane extends JPanel {
     /**
      * Get a text string which identifies the group of user preferences
      * that can be edited on the panel.
+     *
      * @return a text string to identify the preferences on this panel
      */
     public abstract String getText();
@@ -109,8 +113,9 @@ public abstract class PreferencesPane extends JPanel {
     /**
      * Load the values of the user preferences relevant to this panel
      * from a given map object.
+     *
      * @param m the map from which to load the user preferences into the
-     * GUI components
+     *          GUI components
      */
     public void load(Map<String, String> m) {
         PreferencesPane[] p = getChildPanes();
@@ -122,8 +127,9 @@ public abstract class PreferencesPane extends JPanel {
     /**
      * Save the values of the user preferences relevant to this panel
      * into a given map object.
+     *
      * @param m the map to which to save the user preferences from the
-     * GUI components
+     *          GUI components
      */
     public void save(Map<String, String> m) {
         PreferencesPane[] p = getChildPanes();
@@ -136,8 +142,9 @@ public abstract class PreferencesPane extends JPanel {
      * Analyze the current values entered by the user and determine if
      * they are valid.  If they are, the return value should be null.
      * By default the return value is null.
+     *
      * @return null if all the values are valid.  Otherwise, an
-     *    <b>internationalized</b> string.
+     * <b>internationalized</b> string.
      * @see com.sun.javatest.util.I18NResourceBundle
      */
     public String validateValues() {
@@ -147,6 +154,7 @@ public abstract class PreferencesPane extends JPanel {
     /**
      * Get the set of child panes, if any, containing additional groups
      * of preferences relevant to but not contained on this pane.
+     *
      * @return an array of child panes, or null if none
      */
     public PreferencesPane[] getChildPanes() {
@@ -154,16 +162,15 @@ public abstract class PreferencesPane extends JPanel {
     }
 
     private static class PrefsDialog
-        extends JDialog // can't be ToolDialog because might change desktop style
-        implements ActionListener, TreeModel, TreeSelectionListener, WindowListener
-    {
+            extends JDialog // can't be ToolDialog because might change desktop style
+            implements ActionListener, TreeModel, TreeSelectionListener, WindowListener {
         PrefsDialog(JFrame f, Preferences preferences,
-                PreferencesPane[] panes, HelpBroker helpBroker) {
+                    PreferencesPane[] panes, HelpBroker helpBroker) {
             // Don't use the argument frame 'f' as the parent of the dialog
             // in case that frame is disposed while "apply"ing preferences.
             // Instead, we use null (private hidden frame) as the parent,
             // and merely center the dialog over the argument frame.
-            super((JFrame)null, /*modal:*/true);
+            super((JFrame) null, /*modal:*/true);
             owner = f;
             this.preferences = preferences;
             this.props = preferences.getProperties();
@@ -246,11 +253,11 @@ public abstract class PreferencesPane extends JPanel {
                                                               boolean leaf, int row,
                                                               boolean hasFocus) {
                     if (value instanceof PreferencesPane) {
-                        return super.getTreeCellRendererComponent(tree, ((PreferencesPane)value).getText(),
-                            selected, expanded, leaf, row, hasFocus);
+                        return super.getTreeCellRendererComponent(tree, ((PreferencesPane) value).getText(),
+                                selected, expanded, leaf, row, hasFocus);
                     } else {
                         return super.getTreeCellRendererComponent(tree, value,
-                            selected, expanded, leaf, row, hasFocus);
+                                selected, expanded, leaf, row, hasFocus);
                     }
                 }
                 /*
@@ -275,7 +282,7 @@ public abstract class PreferencesPane extends JPanel {
             cancelBtn = uif.createCancelButton("prefs.cancel", this);
             helpBtn = uif.createHelpButton("prefs.help", "ui.prefs.dialog.csh");
 
-            JButton[] btns = { okBtn, cancelBtn, helpBtn };
+            JButton[] btns = {okBtn, cancelBtn, helpBtn};
 
             // set all the buttons to the same preferred size, per JL&F
             Dimension maxBtnDims = new Dimension();
@@ -307,11 +314,11 @@ public abstract class PreferencesPane extends JPanel {
             ActionMap actionMap = p.getActionMap();
             inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), UIFactory.CANCEL);
             actionMap.put(UIFactory.CANCEL, new AbstractAction() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        cancelBtn.doClick(250);
-                    }
-                });
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    cancelBtn.doClick(250);
+                }
+            });
         }
 
         private void initPanes() {
@@ -320,7 +327,7 @@ public abstract class PreferencesPane extends JPanel {
 
             int dpi = uif.getDotsPerInch();
             Dimension maxPrefSize = new Dimension(3 * dpi, 2 * dpi);
-            for (int i  = 0; i < deck.getComponentCount(); i++) {
+            for (int i = 0; i < deck.getComponentCount(); i++) {
                 Dimension d = deck.getComponent(i).getPreferredSize();
                 maxPrefSize.width = Math.max(maxPrefSize.width, d.width);
                 maxPrefSize.height = Math.max(maxPrefSize.height, d.height);
@@ -363,11 +370,10 @@ public abstract class PreferencesPane extends JPanel {
                 setPreferences(panes);
                 preferences.save();
                 setVisible(false);
-            }
-                else if (src == cancelBtn) {
+            } else if (src == cancelBtn) {
                 for (PreferencesPane pane : panes) pane.load(props);
-                        setVisible(false);
-                }
+                setVisible(false);
+            }
         }
 
         private boolean okToSave() {
@@ -398,7 +404,7 @@ public abstract class PreferencesPane extends JPanel {
             if (reason != null) {
                 // show error dialog
                 uif.showLiteralError(uif.getI18NString("prefs.badPref.title"),
-                                     reason);
+                        reason);
                 return false;
             } else {
                 return true;
@@ -590,7 +596,7 @@ public abstract class PreferencesPane extends JPanel {
         // ------------------------------------------------------------------
 
         private PreferencesPane[] getChildren(Object parent) {
-            return parent == this ? panes : ((PreferencesPane)parent).getChildPanes();
+            return parent == this ? panes : ((PreferencesPane) parent).getChildPanes();
         }
 
         private JFrame owner;

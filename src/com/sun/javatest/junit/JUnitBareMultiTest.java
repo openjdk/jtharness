@@ -29,6 +29,7 @@ package com.sun.javatest.junit;
 
 import com.sun.javatest.Status;
 import com.sun.javatest.lib.MultiStatus;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.AccessController;
@@ -46,7 +47,9 @@ import junit.framework.TestCase;
  */
 public class JUnitBareMultiTest extends JUnitMultiTest {
 
-    /** Creates a new instance of JUnitBareMultiTest using specified ClassLoader */
+    /**
+     * Creates a new instance of JUnitBareMultiTest using specified ClassLoader
+     */
     public JUnitBareMultiTest(ClassLoader loader) {
         super(loader);
     }
@@ -99,22 +102,22 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
             String name = tc.getName();
             String constructor = tc.getConstructors()[0].toGenericString();
             test = constructor.contains("java.lang.String")
-                    ? (TestCase)tc.getConstructors()[0].newInstance(name)
+                    ? (TestCase) tc.getConstructors()[0].newInstance(name)
                     : tc.getDeclaredConstructor().newInstance();
             setTestCaseClass(test);
 
         } catch (NoSuchMethodException | InstantiationException e) {
             log.println("Cannot instantiate test: " + executeClass + " (" + exceptionToString(e) + ")");
-        } catch(InvocationTargetException e){
+        } catch (InvocationTargetException e) {
             log.println("Exception in constructor: " + executeClass + " (" + exceptionToString(e.getTargetException()) + ")");
-        } catch(IllegalAccessException e){
+        } catch (IllegalAccessException e) {
             log.println("Cannot access test: " + executeClass + " (" + exceptionToString(e) + ")");
-        } catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             log.println("Cannot find test: " + executeClass + " (" + exceptionToString(e) + ")");
         }
     }
 
-    protected void setTestCaseClass(TestCase test){
+    protected void setTestCaseClass(TestCase test) {
         testCaseClass = test;
     }
 
@@ -126,12 +129,12 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
         } catch (Throwable e) {
 
             e.printStackTrace(log);
-            return Status.failed("test case " + m.getName() +  "in test " + testCaseClass.getName()+  " failed: " + e);
+            return Status.failed("test case " + m.getName() + "in test " + testCaseClass.getName() + " failed: " + e);
         }
         return Status.passed("OKAY");
     }
 
-    protected void getListAllJunitTestCases(){
+    protected void getListAllJunitTestCases() {
         tests = new TreeMap<>();
         try {
             Method[] methods = AccessController.doPrivileged(
@@ -141,25 +144,25 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
                             return testCaseClass.getClass().getMethods();
                         }
                     });
-            for (Method m: methods){
-                if(m == null || excludeTestCases.contains(m.getName())){
+            for (Method m : methods) {
+                if (m == null || excludeTestCases.contains(m.getName())) {
                     continue;
                 }
                 Class<?>[] paramTypes = m.getParameterTypes();
                 Class<?> returnType = m.getReturnType();
                 String name = m.getName();
                 if ((paramTypes.length == 0) &&
-                        Void.TYPE.isAssignableFrom(returnType) && name.startsWith("test") ) {
+                        Void.TYPE.isAssignableFrom(returnType) && name.startsWith("test")) {
                     tests.put(name, m);
                 }
             }
-        } catch (Throwable e ) {
+        } catch (Throwable e) {
             tests = null;
         }
     }
 
     protected TestCase testCaseClass;
-    protected SortedMap <String, Method> tests;
+    protected SortedMap<String, Method> tests;
 
     protected String testCases[] = null;
     protected List<String> excludeTestCases = new Vector<>();

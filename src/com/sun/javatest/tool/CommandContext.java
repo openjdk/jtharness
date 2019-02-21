@@ -58,17 +58,16 @@ import java.util.Map;
  * @see CommandManager#parseCommand
  * @see Command#run
  */
-public class CommandContext
-{
+public class CommandContext {
     /**
      * This exception is used to report problems while executing a command.
      */
-    public class Fault extends Exception
-    {
+    public class Fault extends Exception {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         Fault(I18NResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -76,10 +75,11 @@ public class CommandContext
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         Fault(I18NResourceBundle i18n, String s, Object o) {
             super(i18n.getString(s, o));
@@ -87,10 +87,11 @@ public class CommandContext
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
@@ -102,6 +103,7 @@ public class CommandContext
 
         /**
          * Get the command context object that created this fault object.
+         *
          * @return the command context object that created this fault object
          */
         public CommandContext getContext() {
@@ -121,6 +123,7 @@ public class CommandContext
     /**
      * Create a new context object, using a specified PrintWriter
      * for the output stream, used by the printXXX methods.
+     *
      * @param out the output stream to be used by the printXXX methods.
      */
     public CommandContext(PrintWriter out) {
@@ -130,6 +133,7 @@ public class CommandContext
     /**
      * Add a new command to the set of commands to be executed
      * by this object.
+     *
      * @param cmd The command to be added
      * @see #runCommands
      */
@@ -139,6 +143,7 @@ public class CommandContext
 
     /**
      * Get the set of commands to be executed by this object.
+     *
      * @return the set of commands to be executed by this object
      * @see #addCommand
      * @see #runCommands
@@ -154,11 +159,11 @@ public class CommandContext
      * If none of the commands executed are action commands, and if an
      * "auto-run" command has been registered, it will be executed after all the
      * other commands have been executed.
+     *
      * @throws CommandContext.Fault if any of the commands executed throw Command.Fault
      */
     public void runCommands()
-        throws CommandContext.Fault
-    {
+            throws CommandContext.Fault {
         boolean foundAction = false;
 
         for (int i = 0; i < commands.size(); i++) {
@@ -172,8 +177,7 @@ public class CommandContext
 
             try {
                 cmd.run(this);
-            }
-            catch (Command.Fault e) {
+            } catch (Command.Fault e) {
                 throw new Fault(e);
             }
         }
@@ -181,8 +185,7 @@ public class CommandContext
         if (!foundAction && autoRunCommand != null) {
             try {
                 autoRunCommand.run(this);
-            }
-            catch (Command.Fault e) {
+            } catch (Command.Fault e) {
                 throw new Fault(i18n, "cc.errorInDefault", e.getMessage());
             }
         }
@@ -190,6 +193,7 @@ public class CommandContext
 
     /**
      * Add an observer to the set of observers maintained by this object.
+     *
      * @param o the observer to be added
      * @see #getHarnessObservers
      */
@@ -199,6 +203,7 @@ public class CommandContext
 
     /**
      * Get the set of observers that have been registered with this object.
+     *
      * @return the set of observers that have been registered with this object
      * @see #addHarnessObserver
      */
@@ -210,6 +215,7 @@ public class CommandContext
      * Get the "auto run" command registered with this object. If not null,
      * this command will be executed after the other commands executed by this
      * object, and if none of those commands are action commands.
+     *
      * @return the "auto run" command registered with this object
      * @see #setAutoRunCommand
      * @see #runCommands
@@ -222,7 +228,8 @@ public class CommandContext
      * Set the "auto run" command registered with this object. If not null,
      * this command will be executed after the other commands executed by this
      * object, and if none of those commands are action commands.
-     * @param c  the "auto run" command to be registered with this object
+     *
+     * @param c the "auto run" command to be registered with this object
      * @see #getAutoRunCommand
      * @see #runCommands
      */
@@ -234,7 +241,8 @@ public class CommandContext
      * Get the "auto run report directory" registered with this object.
      * This is primarily to support backwards compatibility with JT Harness
      * 2.x behavior.
-     * @return  the "auto run report directory" registered with this object
+     *
+     * @return the "auto run report directory" registered with this object
      * @see #setAutoRunReportDir
      */
     public File getAutoRunReportDir() {
@@ -245,7 +253,8 @@ public class CommandContext
      * Set the "auto run report directory" registered with this object.
      * This is primarily to support backwards compatibility with JT Harness
      * 2.x behavior.
-     * @param dir  the "auto run report directory" to be registered with this object
+     *
+     * @param dir the "auto run report directory" to be registered with this object
      * @see #getAutoRunReportDir
      */
     public void setAutoRunReportDir(File dir) {
@@ -254,6 +263,7 @@ public class CommandContext
 
     /**
      * Add test run statistics into the cumulative counts.
+     *
      * @param stats an array of test counts, indexed by the standard Status.XXX values.
      */
     public void addTestStats(int... stats) {
@@ -266,6 +276,7 @@ public class CommandContext
 
     /**
      * Get the cumulative test run statistics.
+     *
      * @return an array of test counts, indexed by the standard Status.XXX values.
      */
     public int[] getTestStats() {
@@ -278,6 +289,7 @@ public class CommandContext
     /**
      * Check whether this object indicates that the desktop should be closed
      * when all commands are done.
+     *
      * @return true if this object indicates that the desktop should be closed
      * when all commands are done, and false otherwise
      * @see #setCloseDesktopWhenDoneEnabled
@@ -289,8 +301,9 @@ public class CommandContext
     /**
      * Specify whether this object should remember that the desktop should be closed
      * when all commands are done.
+     *
      * @param b true if this object should remember that the desktop should be closed
-     * when all commands are done, and false otherwise
+     *          when all commands are done, and false otherwise
      * @see #isCloseDesktopWhenDoneEnabled
      */
     public void setCloseDesktopWhenDoneEnabled(boolean b) {
@@ -299,6 +312,7 @@ public class CommandContext
 
     /**
      * Check whether the test suite has been set yet.
+     *
      * @return true if the test suite has been set, and false otherwise
      */
     public boolean isTestSuiteSet() {
@@ -307,14 +321,14 @@ public class CommandContext
 
     /**
      * Get the test suite associated with this object.
+     *
      * @return the test suite associated with this object
      * @throws CommandContext.Fault if there is a problem determining the test suite from
-     * the available parameters
+     *                              the available parameters
      * @see #setTestSuite
      */
     public TestSuite getTestSuite()
-        throws Fault
-    {
+            throws Fault {
         initConfig();
         return config.getTestSuite();
     }
@@ -324,13 +338,13 @@ public class CommandContext
      * The path will not be verified until required, so that it can be
      * evaluated in conjunction with other parameters such as the work
      * directory and configuration file.
+     *
      * @param path the path for the test suite to be associated with this object
-     * @see #getTestSuite
      * @throws CommandContext.Fault if the test suite has already ben set
+     * @see #getTestSuite
      */
     public void setTestSuite(File path)
-        throws Fault
-    {
+            throws Fault {
         if (testSuitePath != null && !testSuitePath.equals(path))
             throw new Fault(i18n, "cc.tsAlreadySet", testSuitePath);
 
@@ -339,17 +353,17 @@ public class CommandContext
 
     /**
      * Set the test suite to be associated with this object.
+     *
      * @param ts the test suite to be associated with this object
-     * @see #getTestSuite
      * @throws CommandContext.Fault if the test suite has already been set to
-     * something else, or if there is a problem evaluating related parameters,
-     * such as a configuration file or template, or a work directory.
-     * @throws TestSuite.Fault if there is a problem evaluating related
-     * parameters.
+     *                              something else, or if there is a problem evaluating related parameters,
+     *                              such as a configuration file or template, or a work directory.
+     * @throws TestSuite.Fault      if there is a problem evaluating related
+     *                              parameters.
+     * @see #getTestSuite
      */
     public void setTestSuite(TestSuite ts)
-        throws Fault, TestSuite.Fault
-    {
+            throws Fault, TestSuite.Fault {
         if (isInitConfigRequired())
             initConfig();
 
@@ -361,6 +375,7 @@ public class CommandContext
 
     /**
      * Check whether the work directory has been set yet.
+     *
      * @return true if the work directory has been set, and false otherwise
      */
     public boolean isWorkDirectorySet() {
@@ -369,14 +384,14 @@ public class CommandContext
 
     /**
      * Get the work directory associated with this object.
+     *
      * @return the work directory associated with this object, or null if not yet set
      * @throws CommandContext.Fault if there is a problem determining the work directory from
-     * the available parameters
+     *                              the available parameters
      * @see #setWorkDirectory
      */
     public WorkDirectory getWorkDirectory()
-        throws Fault
-    {
+            throws Fault {
         initConfig();
 
         return config.getWorkDirectory();
@@ -388,13 +403,13 @@ public class CommandContext
      * evaluated in conjunction with other parameters such as the test suite
      * and configuration file.
      * The path must identify a work directory that already exists.
+     *
      * @param path the path for the work directory to be associated with this object
-     * @see #getWorkDirectory
      * @throws CommandContext.Fault if the work directory has already been set
+     * @see #getWorkDirectory
      */
     public void setWorkDirectory(File path)
-        throws Fault
-    {
+            throws Fault {
         setWorkDirectory(path, false);
     }
 
@@ -404,14 +419,14 @@ public class CommandContext
      * evaluated in conjunction with other parameters such as the test suite
      * and configuration file.
      * The work directory identified by this path may be created if necessary.
-     * @param path the path for the work directory to be associated with this object
+     *
+     * @param path   the path for the work directory to be associated with this object
      * @param create create the work directory if it does not already exist
-     * @see #getWorkDirectory
      * @throws CommandContext.Fault if the work directory has already been set
+     * @see #getWorkDirectory
      */
     public void setWorkDirectory(File path, boolean create)
-        throws Fault
-    {
+            throws Fault {
         if (workDirectoryPath != null && !workDirectoryPath.equals(path))
             throw new Fault(i18n, "cc.wdAlreadySet", workDirectoryPath);
 
@@ -421,19 +436,19 @@ public class CommandContext
 
     /**
      * Set the work directory to be associated with this object.
+     *
      * @param wd the work directory to be associated with this object
-     * @see #getWorkDirectory
      * @throws CommandContext.Fault if there is a problem evaluating related
-     * parameters, such as a configuration file or template, or a
-     * test suite.
-     * @throws TestSuite.Fault if there is a problem evaluating related
-     * parameters.
+     *                              parameters, such as a configuration file or template, or a
+     *                              test suite.
+     * @throws TestSuite.Fault      if there is a problem evaluating related
+     *                              parameters.
      * @throws CommandContext.Fault if the work directory has already
-     * been set to something else
+     *                              been set to something else
+     * @see #getWorkDirectory
      */
     public void setWorkDirectory(WorkDirectory wd)
-        throws Fault, TestSuite.Fault
-    {
+            throws Fault, TestSuite.Fault {
         if (isInitConfigRequired())
             initConfig();
 
@@ -454,29 +469,29 @@ public class CommandContext
 
     /**
      * Get the configuration associated with this object.
-     * @return  the configuration associated with this object
+     *
+     * @return the configuration associated with this object
+     * @throws CommandContext.Fault if there is a problem evaluating the parameters
+     *                              that define the configuration
      * @see #getConfig
      * @see #setInterviewParameters
      * @deprecated Use getConfig().
-     * @throws CommandContext.Fault if there is a problem evaluating the parameters
-     * that define the configuration
      */
     public InterviewParameters getInterviewParameters()
-        throws Fault
-    {
+            throws Fault {
         return getConfig();
     }
 
     /**
      * Get the configuration associated with this object.
-     * @return  the configuration associated with this object
-     * @see #setConfig
+     *
+     * @return the configuration associated with this object
      * @throws CommandContext.Fault if there is a problem evaluating the parameters
-     * that define the configuration
+     *                              that define the configuration
+     * @see #setConfig
      */
     public InterviewParameters getConfig()
-        throws Fault
-    {
+            throws Fault {
         initConfig();
 
         return config;
@@ -485,6 +500,7 @@ public class CommandContext
 
     /**
      * Check whether a configuration has been set yet.
+     *
      * @return true if a configuration has been set, and false otherwise
      */
     public boolean hasConfig() {
@@ -500,14 +516,14 @@ public class CommandContext
      * The path will not be verified until required, so that it can be
      * evaluated in conjunction with other parameters such as the test suite
      * and work directory.
+     *
      * @param path the path for the configuration information to be associated
-     * with this object.
-     * @see #getConfig
+     *             with this object.
      * @throws CommandContext.Fault if the configuration has already been evaluated
+     * @see #getConfig
      */
     public void setConfig(File path)
-        throws Fault
-    {
+            throws Fault {
         if (config != null) {
             if (configFilePath == null)
                 throw new Fault(i18n, "cc.confAlreadySetDefault", path);
@@ -539,17 +555,17 @@ public class CommandContext
 
     /**
      * Set the configuration associated with this object.
+     *
      * @param p the configuration to be associated with this object
-     * @see #setConfig
      * @throws CommandContext.Fault if the configuration is incompatible with
-     * other parameters that have previously been set up, such as
-     * the test suite and work directory.
+     *                              other parameters that have previously been set up, such as
+     *                              the test suite and work directory.
+     * @see #setConfig
      * @see #getInterviewParameters
      * @deprecated Use setConfig().
      */
     public void setInterviewParameters(InterviewParameters p)
-        throws Fault
-    {
+            throws Fault {
         if (isInitConfigRequired())
             initConfig();
 
@@ -557,16 +573,15 @@ public class CommandContext
         if (config != null) {
             if (config.getTestSuite() != p.getTestSuite())
                 throw new Fault(i18n, "cc.confTestSuiteMismatch",
-                                        new Object[] { config.getTestSuite().getRoot() });
+                        new Object[]{config.getTestSuite().getRoot()});
 
             cwd = config.getWorkDirectory();
 
             WorkDirectory pwd = p.getWorkDirectory();
             if (cwd != null && pwd != null && pwd != cwd)
                 throw new Fault(i18n, "cc.confWorkDirMismatch",
-                                        new Object[] { cwd.getRoot() });
-        }
-        else
+                        new Object[]{cwd.getRoot()});
+        } else
             cwd = null;
 
         if (config != null) {
@@ -580,13 +595,12 @@ public class CommandContext
 
     private boolean isInitConfigRequired() {
         return config == null && (testSuitePath != null
-                                   || workDirectoryPath != null
-                                   || configFilePath != null);
+                || workDirectoryPath != null
+                || configFilePath != null);
     }
 
     private void initConfig()
-        throws Fault
-    {
+            throws Fault {
         if (config != null)
             return;
 
@@ -597,12 +611,12 @@ public class CommandContext
 
         // special case, should correspond to -ts -preferred <path>
         if (testSuitePath != null && workDirectoryPath == null &&
-            defaultWorkDirPath != null) {
+                defaultWorkDirPath != null) {
             workDirectoryPath = new File(defaultWorkDirPath);
         }
 
         if (workDirectoryPath != null
-            && (autoCreateWorkDirectory
+                && (autoCreateWorkDirectory
                 || WorkDirectory.isEmptyDirectory(workDirectoryPath))) {
 
             // first, determine where the test suite is
@@ -618,16 +632,13 @@ public class CommandContext
                 try {
                     try (InputStream in = new BufferedInputStream(new FileInputStream(configFilePath))) {
                         configData = PropertyUtils.load(in);
-                    }
-                    catch (RuntimeException e) {
+                    } catch (RuntimeException e) {
                         // can get IllegalArgumentException if the file is corrupt
                         throw new Fault(i18n, "cc.cantReadConfig", configFilePath, e);
                     }
-                }
-                catch (FileNotFoundException e) {
+                } catch (FileNotFoundException e) {
                     throw new Fault(i18n, "cc.cantFindConfig", configFilePath);
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     throw new Fault(i18n, "cc.cantReadConfig",
                             configFilePath, e);
                 }
@@ -637,8 +648,7 @@ public class CommandContext
                     throw new Fault(i18n, "cc.noTestSuiteInConfigFile", configFilePath);
 
                 tsPath = new File(tsp);
-            }
-            else {
+            } else {
                 configData = null;
                 tsPath = testSuitePath;
             }
@@ -647,14 +657,12 @@ public class CommandContext
             TestSuite ts;
             try {
                 ts = TestSuite.open(tsPath);
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 throw new Fault(i18n, "cc.cantFindTS",
                         tsPath,
                         Integer.valueOf(testSuitePath != null ? 0 : 1),
                         configFilePath);
-            }
-            catch (TestSuite.Fault e) {
+            } catch (TestSuite.Fault e) {
                 throw new Fault(i18n, "cc.cantOpenTS",
                         tsPath,
                         Integer.valueOf(testSuitePath != null ? 0 : 1),
@@ -666,8 +674,7 @@ public class CommandContext
             WorkDirectory wd;
             try {
                 wd = WorkDirectory.create(workDirectoryPath, ts);
-            }
-            catch (WorkDirectory.Fault e) {
+            } catch (WorkDirectory.Fault e) {
                 throw new Fault(i18n, "cc.cantCreateWD", workDirectoryPath);
             }
 
@@ -676,8 +683,7 @@ public class CommandContext
                 // create empty interview
                 try {
                     config = ts.createInterview();
-                }
-                catch (TestSuite.Fault e) {
+                } catch (TestSuite.Fault e) {
                     throw new Fault(i18n, "cc.cantCreateConfig",
                             testSuitePath, e.getMessage());
                 }
@@ -686,23 +692,19 @@ public class CommandContext
                 try {
                     if (configData != null)
                         config.load(configData, configFilePath);
-                }
-                catch (InterviewParameters.Fault e) {
+                } catch (InterviewParameters.Fault e) {
                     throw new Fault(i18n, "cc.cantOpenConfig",
                             configFilePath, e.getMessage());
                 }
 
                 config.setWorkDirectory(wd);
-            }
-            else {
+            } else {
                 try {
                     config = InterviewParameters.open(configFilePath, wd);
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     throw new Fault(i18n, "cc.cantReadConfig",
                             configFilePath, e);
-                }
-                catch (InterviewParameters.Fault e) {
+                } catch (InterviewParameters.Fault e) {
                     throw new Fault(i18n, "cc.cantOpenConfig",
                             configFilePath, e.getMessage());
                 }
@@ -714,35 +716,34 @@ public class CommandContext
             if (config.getTemplatePath() != null) {
                 try {
                     TemplateUtilities.setTemplateFile(
-                        config.getWorkDirectory(),
-                        new File(config.getTemplatePath()),
-                        true);
+                            config.getWorkDirectory(),
+                            new File(config.getTemplatePath()),
+                            true);
                 } catch (IOException errorWritingTemplateInfo) {
                     throw new Fault(i18n, "cnfg.writeTemplate.cantWriteTemplateRef",
                             workDirectoryPath);
                 }
             }
 
-        }
-        else {
+        } else {
             // reject an unusable workdir setting
             try {
                 config = InterviewParameters.open(testSuitePath,
-                                                    workDirectoryPath,
-                                                    configFilePath);
+                        workDirectoryPath,
+                        configFilePath);
 
                 if (config.getWorkDirectory() != null) {
                     File templateFile = TemplateUtilities.getTemplateFile(
-                                        config.getWorkDirectory());
+                            config.getWorkDirectory());
 
                     // must ensure that config has template data if it
                     // exists, usually it is loaded automatically
                     if (config.getTemplatePath() == null &&
-                        templateFile != null) {
+                            templateFile != null) {
                         try {
                             InterviewParameters tConfig =
-                                config.getTestSuite().loadInterviewFromTemplate(
-                                                templateFile, config);
+                                    config.getTestSuite().loadInterviewFromTemplate(
+                                            templateFile, config);
                             if (tConfig != null) {
                                 tConfig.setWorkDirectory(
                                         config.getWorkDirectory());
@@ -751,8 +752,7 @@ public class CommandContext
                                     config = tConfig;
                                 }
                             }
-                        }
-                        catch (IOException | TestSuite.Fault e) {
+                        } catch (IOException | TestSuite.Fault e) {
                             // ignore
                         }
                     }   // if
@@ -779,6 +779,7 @@ public class CommandContext
      * "desktop not required", and none have a mode of "desktop required".
      * In other words, "desktop not required" wins over "default", but "desktop required"
      * wins over "desktop not required".
+     *
      * @return whether or not a desktop is required by the commands registered with this object
      */
     public boolean isDesktopRequired() {
@@ -793,6 +794,7 @@ public class CommandContext
 
     /**
      * Set the desktop associated with this object.
+     *
      * @param d the desktop to be associated with this object
      * @throws NullPointerException if the argument is null
      * @see #getDesktop
@@ -805,6 +807,7 @@ public class CommandContext
 
     /**
      * Get the desktop associated with this object.
+     *
      * @return the desktop associated with this object
      * @see #setDesktop
      */
@@ -818,8 +821,9 @@ public class CommandContext
     /**
      * Specify whether or not to override the setting of all other
      * verbose options to true.
+     *
      * @param on If true, the value of all other verbose options will
-     * be given as true.
+     *           be given as true.
      */
     public void setVerboseMax(boolean on) {
         verboseMax = on;
@@ -828,8 +832,9 @@ public class CommandContext
     /**
      * Specify whether or not to override the setting of all other
      * verbose options to false.
+     *
      * @param on If true, the value of all other verbose options will
-     * be given as false.
+     *           be given as false.
      */
     public void setVerboseQuiet(boolean on) {
         verboseQuiet = on;
@@ -838,6 +843,7 @@ public class CommandContext
     /**
      * Should all verbose output be quieted.
      * This generally overrides any other requests for verbosity.
+     *
      * @return True if verboseness should be quieted.
      */
     public boolean isVerboseQuiet() {
@@ -846,6 +852,7 @@ public class CommandContext
 
     /**
      * Configure whether timestamps are printed with verbose output.
+     *
      * @param on False for no timestamps.
      */
     public void setVerboseTimestampEnabled(boolean on) {
@@ -854,8 +861,9 @@ public class CommandContext
 
     /**
      * Specify the value of a verbose option.
+     *
      * @param name the name of the verbose option
-     * @param on the value of the verbose option
+     * @param on   the value of the verbose option
      * @see #getVerboseOptionValue
      */
     public void setVerboseOptionValue(String name, boolean on) {
@@ -869,6 +877,7 @@ public class CommandContext
      * Otherwise, if the value has been set with setVerboseOptionValue,
      * the result will be the value that was set
      * Otherwise the result will be false.
+     *
      * @param name the name of the verbose option
      * @return the value of the named option
      * @see #setVerboseOptionValue
@@ -884,7 +893,8 @@ public class CommandContext
      * Otherwise, if the value has been set with setVerboseOptionValue,
      * the result will be the value that was set
      * Otherwise the result will be specified default value.
-     * @param name the name of the verbose option
+     *
+     * @param name         the name of the verbose option
      * @param defaultValue the default value to be used if necessary
      * @return the value of the named option
      * @see #setVerboseOptionValue
@@ -903,6 +913,7 @@ public class CommandContext
     /**
      * Check if a verbose option has been set explicitly with
      * setVerboseOptionValue.
+     *
      * @param name the name of the option to be checked
      * @return true if the option has a value that has been explicitly set,
      * and false otherwise
@@ -913,6 +924,7 @@ public class CommandContext
 
     /**
      * Check whether timestamps should be printed with verbose output.
+     *
      * @return False for no timestamps.
      * @see #setVerboseTimestampEnabled
      */
@@ -922,6 +934,7 @@ public class CommandContext
 
     /**
      * Sets preferred LookAndFeel that is used on Desktop creation (should be set before creation)
+     *
      * @param lookAndFeel LookAndFeel code to be set
      * @see #getPreferredLookAndFeel()
      * @see #DEFAULT_LAF
@@ -947,7 +960,8 @@ public class CommandContext
 
     /**
      * Set the log stream associated with this object.
-     * @param out  the log stream to be associated with this object
+     *
+     * @param out the log stream to be associated with this object
      * @see #getLogWriter
      */
     public void setLogWriter(PrintWriter out) {
@@ -956,7 +970,8 @@ public class CommandContext
 
     /**
      * Get the log stream associated with this object.
-     * @return  the log stream associated with this object
+     *
+     * @return the log stream associated with this object
      * @see #setLogWriter
      */
     public PrintWriter getLogWriter() {
@@ -965,8 +980,9 @@ public class CommandContext
 
     /**
      * Write a message to the log stream associated with this object.
+     *
      * @param i18n the resource bundle containing the localized text of the message
-     * @param key the key for the required message in the bundle
+     * @param key  the key for the required message in the bundle
      * @see #setLogWriter
      */
     public void printMessage(I18NResourceBundle i18n, String key) {
@@ -975,9 +991,10 @@ public class CommandContext
 
     /**
      * Write a message to the log stream associated with this object.
+     *
      * @param i18n the resource bundle containing the localized text of the message
-     * @param key the key for the required message in the bundle
-     * @param arg an argument to be formatted into the localized message
+     * @param key  the key for the required message in the bundle
+     * @param arg  an argument to be formatted into the localized message
      * @see #setLogWriter
      */
     public void printMessage(I18NResourceBundle i18n, String key, Object arg) {
@@ -986,8 +1003,9 @@ public class CommandContext
 
     /**
      * Write a message to the log stream associated with this object.
+     *
      * @param i18n the resource bundle containing the localized text of the message
-     * @param key the key for the required message in the bundle
+     * @param key  the key for the required message in the bundle
      * @param args an array of arguments to be formatted into the localized message
      * @see #setLogWriter
      */
@@ -997,8 +1015,9 @@ public class CommandContext
 
     /**
      * Write an error message to the log stream associated with this object.
+     *
      * @param i18n the resource bundle containing the localized text of the message
-     * @param key the key for the required message in the bundle
+     * @param key  the key for the required message in the bundle
      * @see #setLogWriter
      */
     public void printErrorMessage(I18NResourceBundle i18n, String key) {
@@ -1007,9 +1026,10 @@ public class CommandContext
 
     /**
      * Write an error message to the log stream associated with this object.
+     *
      * @param i18n the resource bundle containing the localized text of the message
-     * @param key the key for the required message in the bundle
-     * @param arg an argument to be formatted into the localized message
+     * @param key  the key for the required message in the bundle
+     * @param arg  an argument to be formatted into the localized message
      * @see #setLogWriter
      */
     public void printErrorMessage(I18NResourceBundle i18n, String key, Object arg) {
@@ -1018,8 +1038,9 @@ public class CommandContext
 
     /**
      * Write an error message to the log stream associated with this object.
+     *
      * @param i18n the resource bundle containing the localized text of the message
-     * @param key the key for the required message in the bundle
+     * @param key  the key for the required message in the bundle
      * @param args an array of arguments to be formatted into the localized message
      * @see #setLogWriter
      */
@@ -1078,6 +1099,7 @@ public class CommandContext
 
     /**
      * Code for setting default system LookAndFeel. Should be set before Desktop is created.
+     *
      * @see #getPreferredLookAndFeel()
      * @see #setPreferredLookAndFeel(int)
      * @see #DEFAULT_LAF
@@ -1087,6 +1109,7 @@ public class CommandContext
     public static final int SYSTEM_LAF = 0;
     /**
      * Code for setting Nimbus LookAndFeel. Should be set before Desktop is created.
+     *
      * @see #getPreferredLookAndFeel()
      * @see #setPreferredLookAndFeel(int)
      * @see #DEFAULT_LAF
@@ -1096,6 +1119,7 @@ public class CommandContext
     public static final int NIMBUS_LAF = 1;
     /**
      * Code for setting Metal LookAndFeel. Should be set before Desktop is created.
+     *
      * @see #getPreferredLookAndFeel()
      * @see #setPreferredLookAndFeel(int)
      * @see #DEFAULT_LAF
@@ -1105,6 +1129,7 @@ public class CommandContext
     public static final int METAL_LAF = 2;
     /**
      * Code for setting JavaTest default LookAndFeel. Currently - Nimbus LookAndFeel is default. Should be set before Desktop is created.
+     *
      * @see #getPreferredLookAndFeel()
      * @see #setPreferredLookAndFeel(int)
      * @see #METAL_LAF

@@ -39,8 +39,7 @@ import com.sun.javatest.tool.ToolManager;
 /**
  * The ToolManager for {@link AuditTool audit tool} window.
  */
-public class AuditToolManager extends ToolManager
-{
+public class AuditToolManager extends ToolManager {
     public AuditToolManager(Desktop desktop) {
         super(desktop);
     }
@@ -55,7 +54,7 @@ public class AuditToolManager extends ToolManager
                 startTool();
             }
         };
-        return new Action[] { a };
+        return new Action[]{a};
     }
 
     //----------------------------------------------------------------------------
@@ -90,18 +89,20 @@ public class AuditToolManager extends ToolManager
         if (tool == null) {
             tool = new AuditTool(this);
             tool.addObserver(new Tool.Observer() {
-                    @Override
-                    public void shortTitleChanged(Tool t, String newValue) { }
+                @Override
+                public void shortTitleChanged(Tool t, String newValue) {
+                }
 
-                    @Override
-                    public void titleChanged(Tool t, String newValue) { }
+                @Override
+                public void titleChanged(Tool t, String newValue) {
+                }
 
-                    @Override
-                    public void toolDisposed(Tool t) {
-                        if (t == tool)
-                            tool = null;
-                    }
-                });
+                @Override
+                public void toolDisposed(Tool t) {
+                    if (t == tool)
+                        tool = null;
+                }
+            });
         }
 
         return tool;

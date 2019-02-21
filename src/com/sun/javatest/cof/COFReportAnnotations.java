@@ -52,23 +52,23 @@ import java.util.List;
 @XmlType(name = "ReportAnnotations", propOrder = {
     "annotation"
 })*/
-public class COFReportAnnotations extends COFItem{
+public class COFReportAnnotations extends COFItem {
 
-static LinkedHashMap<String, String> xmlAttributes;
+    static LinkedHashMap<String, String> xmlAttributes;
     static LinkedHashMap<String, String> xmlElements;
 
-        static String xmlTagName;
+    static String xmlTagName;
 
-        static {
-                xmlElements = new LinkedHashMap<>();
-                xmlElements.put("annotation","annotation");
-                xmlTagName = "annotations";
-        }
+    static {
+        xmlElements = new LinkedHashMap<>();
+        xmlElements.put("annotation", "annotation");
+        xmlTagName = "annotations";
+    }
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
     protected List<COFReportAnnotation> annotation;
 
-        /**
+    /**
      * Gets the value of the annotation property.
      *
      * <p>
@@ -87,8 +87,6 @@ static LinkedHashMap<String, String> xmlAttributes;
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link COFReportAnnotation }
-     *
-     *
      */
     public List<COFReportAnnotation> getAnnotation() {
         if (annotation == null) {
@@ -97,16 +95,16 @@ static LinkedHashMap<String, String> xmlAttributes;
         return this.annotation;
     }
 
-        LinkedHashMap<String, String> getItemAttributes() {
-                return xmlAttributes;
-        }
+    LinkedHashMap<String, String> getItemAttributes() {
+        return xmlAttributes;
+    }
 
     LinkedHashMap<String, String> getItemElements() {
-                return xmlElements;
-        }
+        return xmlElements;
+    }
 
-        String getItemTagName() {
-                return xmlTagName;
-        }
+    String getItemTagName() {
+        return xmlTagName;
+    }
 
 }

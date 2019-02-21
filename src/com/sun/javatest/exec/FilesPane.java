@@ -31,8 +31,10 @@ import java.io.File;
 import java.net.URL;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.I18NResourceBundle;
+
 import java.awt.Graphics;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
@@ -77,7 +79,7 @@ class FilesPane extends JPanel implements Printable {
     }
 
     String getText() {
-        return ((JEditorPane)mediaPane.getMediaPane(mediaPane.TEXT)).getText();
+        return ((JEditorPane) mediaPane.getMediaPane(mediaPane.TEXT)).getText();
     }
 
     void setFile(URL file) {
@@ -126,7 +128,7 @@ class FilesPane extends JPanel implements Printable {
     private UIFactory uif;
 
     @Override
-    public int print (Graphics g, PageFormat pf, int pageIndex) {
+    public int print(Graphics g, PageFormat pf, int pageIndex) {
         return mediaPane.print(g, pf, pageIndex);
     }
 

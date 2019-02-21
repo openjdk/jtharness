@@ -44,11 +44,11 @@ public class HelpID {
         this.hs = hs;
     }
 
-    public String getId(){
+    public String getId() {
         return id;
     }
 
-    public HelpSet getHelpSet(){
+    public HelpSet getHelpSet() {
         return hs;
     }
 }

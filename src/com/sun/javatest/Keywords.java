@@ -29,6 +29,7 @@ package com.sun.javatest;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
 
@@ -39,17 +40,16 @@ import com.sun.javatest.util.StringArray;
  *
  * @see TestDescription#getKeywordTable
  */
-public abstract class Keywords
-{
+public abstract class Keywords {
     /**
      * An exception used to report errors while using a Keywords object.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         Fault(I18NResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -57,10 +57,11 @@ public abstract class Keywords
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         Fault(I18NResourceBundle i18n, String s, Object o) {
             super(i18n.getString(s, o));
@@ -68,10 +69,11 @@ public abstract class Keywords
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
@@ -80,11 +82,12 @@ public abstract class Keywords
 
     /**
      * Create a keywords object.
+     *
      * @param type one of ALL_OF, ANY_OF, or EXPR
      * @param text if the type is one of "all of" or "any of", text should
-     *    be a white-space separated list of keywords; if type is "expr",
-     *    text should be a boolean valued expression formed from
-     *    keywords, '&amp;' (and), '|' (or), '!' (not) and '(' ')' (parentheses).
+     *             be a white-space separated list of keywords; if type is "expr",
+     *             text should be a boolean valued expression formed from
+     *             keywords, '&amp;' (and), '|' (or), '!' (not) and '(' ')' (parentheses).
      * @return A Keywords object for the specified type and text.
      * @throws Keywords.Fault if there are errors in the arguments.
      */
@@ -94,14 +97,15 @@ public abstract class Keywords
 
     /**
      * Create a keywords object.
-     * @param type one of ALL_OF, ANY_OF, or EXPR
-     * @param text if the type is one of "all of" or "any of", text should
-     *    be a white-space separated list of keywords; if type is "expr",
-     *    text should be a boolean valued expression formed from
-     *    keywords, '&amp;' (and), '|' (or), '!' (not) and '(' ')' (parentheses).
+     *
+     * @param type          one of ALL_OF, ANY_OF, or EXPR
+     * @param text          if the type is one of "all of" or "any of", text should
+     *                      be a white-space separated list of keywords; if type is "expr",
+     *                      text should be a boolean valued expression formed from
+     *                      keywords, '&amp;' (and), '|' (or), '!' (not) and '(' ')' (parentheses).
      * @param validKeywords a set of valid keywords for this test suite,
-     *    or null.
-     *    If not null, all the keywords in <i>text</i> must be in this set.
+     *                      or null.
+     *                      If not null, all the keywords in <i>text</i> must be in this set.
      * @return A Keywords object for the specified type and text.
      * @throws Keywords.Fault if there are errors in the arguments.
      */
@@ -118,19 +122,16 @@ public abstract class Keywords
             result = new AllKeywords(StringArray.split(text), lowerCaseValidKeywords);
             result.setSummary(result.toString());
             return result;
-        }
-        else if (type.equals(ANY_OF)) {
+        } else if (type.equals(ANY_OF)) {
             result = new AnyKeywords(StringArray.split(text), lowerCaseValidKeywords);
             result.setSummary(result.toString());
             return result;
-        }
-        else if (type.equals(EXPR)) {
+        } else if (type.equals(EXPR)) {
             ExprParser p = new ExprParser(text, lowerCaseValidKeywords);
             result = p.parse();
             result.setSummary(text);
             return result;
-        }
-        else {
+        } else {
             throw new Fault(i18n, "kw.badKeywordType", type);
         }
     }
@@ -138,6 +139,7 @@ public abstract class Keywords
 
     /**
      * Set the descriptive representation of the kw expression provided by the user.
+     *
      * @param text Useful text rendering of current kw expression
      */
     void setSummary(String text) {
@@ -146,6 +148,7 @@ public abstract class Keywords
 
     /**
      * Get a human digestable version of the kw represented by this object.
+     *
      * @return Human readable, fully descriptive rendering of current kw setting
      */
     public String getSummary() {
@@ -167,10 +170,11 @@ public abstract class Keywords
     /**
      * A constant to indicate that an expression keyword should be matched.
      */
-    public static final String EXPR =   "expr";
+    public static final String EXPR = "expr";
 
     /**
      * Allow keywords to begin with a numeric or not.
+     *
      * @param allowNumericKeywords Value to be set.
      */
     public static void setAllowNumericKeywords(boolean allowNumericKeywords) {
@@ -276,6 +280,7 @@ abstract class SetKeywords extends Keywords {
     }
 
 }
+
 class AllKeywords extends SetKeywords {
     AllKeywords(String[] keys, Set<String> validKeywords) throws Keywords.Fault {
         super(keys, validKeywords);
@@ -284,6 +289,7 @@ class AllKeywords extends SetKeywords {
 
     /**
      * Returns true, iff all keywords are in the set.
+     *
      * @param s
      * @return
      */
@@ -294,7 +300,7 @@ class AllKeywords extends SetKeywords {
 
     @Override
     public String toString() {
-            return "all of (" + allKwds + ")";
+        return "all of (" + allKwds + ")";
     }
 }
 
@@ -310,7 +316,7 @@ class AnyKeywords extends SetKeywords {
      */
     @Override
     public boolean accepts(Set<String> s) {
-        for (String kwd :keys) {
+        for (String kwd : keys) {
             if (s.contains(kwd)) {
                 return true;
             }
@@ -343,18 +349,18 @@ class ExprParser {
     }
 
     ExprKeywords parseExpr() throws Keywords.Fault {
-        for (ExprKeywords e = parseTerm() ; e != null ; e = e.order()) {
+        for (ExprKeywords e = parseTerm(); e != null; e = e.order()) {
             switch (token) {
-            case AND:
-                nextToken();
-                e = new AndExprKeywords(e, parseTerm());
-                break;
-            case OR:
-                nextToken();
-                e = new OrExprKeywords(e, parseTerm());
-                break;
-            default:
-                return e;
+                case AND:
+                    nextToken();
+                    e = new AndExprKeywords(e, parseTerm());
+                    break;
+                case OR:
+                    nextToken();
+                    e = new OrExprKeywords(e, parseTerm());
+                    break;
+                default:
+                    return e;
             }
         }
         // bogus return to keep compiler happy
@@ -363,22 +369,22 @@ class ExprParser {
 
     ExprKeywords parseTerm() throws Keywords.Fault {
         switch (token) {
-        case ID:
-            String id = idValue;
-            if (validKeywords != null && !validKeywords.contains(id))
-                throw new Keywords.Fault(i18n, "kw.invalidKeyword", id);
-            nextToken();
-            return new TermExprKeywords(id);
-        case NOT:
-            nextToken();
-            return new NotExprKeywords(parseTerm());
-        case LPAREN:
-            nextToken();
-            ExprKeywords e = parseExpr();
-            expect(RPAREN);
-            return new ParenExprKeywords(e);
-        default:
-            throw new Keywords.Fault(i18n, "kw.badKeywordExpr");
+            case ID:
+                String id = idValue;
+                if (validKeywords != null && !validKeywords.contains(id))
+                    throw new Keywords.Fault(i18n, "kw.invalidKeyword", id);
+                nextToken();
+                return new TermExprKeywords(id);
+            case NOT:
+                nextToken();
+                return new NotExprKeywords(parseTerm());
+            case LPAREN:
+                nextToken();
+                ExprKeywords e = parseExpr();
+                expect(RPAREN);
+                return new ParenExprKeywords(e);
+            default:
+                throw new Keywords.Fault(i18n, "kw.badKeywordExpr");
         }
     }
 
@@ -393,55 +399,54 @@ class ExprParser {
         while (index < text.length()) {
             char c = text.charAt(index++);
             switch (c) {
-            case ' ':
-            case '\t':
-                continue;
-            case '&':
-                token = AND;
-                return;
-            case '|':
-                token = OR;
-                return;
-            case '!':
-                token = NOT;
-                return;
-            case '(':
-                token = LPAREN;
-                return;
-            case ')':
-                token = RPAREN;
-                return;
-            default:
-                if (Character.isUnicodeIdentifierStart(c) ||
-                        (allowNumericKeywords && Character.isDigit(c))) {
-                    idValue = String.valueOf(Character.toLowerCase(c));
-                    while (index < text.length()
-                           && Character.isUnicodeIdentifierPart(text.charAt(index))) {
-                        char ch = text.charAt(index++);
-                        if (!Character.isIdentifierIgnorable(ch))
-                            idValue += Character.toLowerCase(ch);
+                case ' ':
+                case '\t':
+                    continue;
+                case '&':
+                    token = AND;
+                    return;
+                case '|':
+                    token = OR;
+                    return;
+                case '!':
+                    token = NOT;
+                    return;
+                case '(':
+                    token = LPAREN;
+                    return;
+                case ')':
+                    token = RPAREN;
+                    return;
+                default:
+                    if (Character.isUnicodeIdentifierStart(c) ||
+                            (allowNumericKeywords && Character.isDigit(c))) {
+                        idValue = String.valueOf(Character.toLowerCase(c));
+                        while (index < text.length()
+                                && Character.isUnicodeIdentifierPart(text.charAt(index))) {
+                            char ch = text.charAt(index++);
+                            if (!Character.isIdentifierIgnorable(ch))
+                                idValue += Character.toLowerCase(ch);
+                        }
+                        token = ID;
+                        return;
+                    } else {
+                        token = ERROR;
+                        return;
                     }
-                    token = ID;
-                    return;
-                }
-                else {
-                    token = ERROR;
-                    return;
-                }
             }
         }
         token = END;
     }
 
     protected static boolean allowNumericKeywords =
-        Boolean.getBoolean("javatest.allowNumericKeywords");
+            Boolean.getBoolean("javatest.allowNumericKeywords");
     private String text;
     private Set<String> validKeywords;
     private int index;
     private int token;
     private String idValue;
     private static final int
-        ID = 0, AND = 1, OR = 2, NOT = 3, LPAREN = 4, RPAREN = 5, END = 6, ERROR = 7;
+            ID = 0, AND = 1, OR = 2, NOT = 3, LPAREN = 4, RPAREN = 5, END = 6, ERROR = 7;
 
     private static I18NResourceBundle i18n = Keywords.i18n;
 }
@@ -462,8 +467,7 @@ abstract class ExprKeywords extends Keywords {
 
 //------------------------------------------------------------------------------
 
-abstract class BinaryExprKeywords extends ExprKeywords
-{
+abstract class BinaryExprKeywords extends ExprKeywords {
     BinaryExprKeywords(ExprKeywords left, ExprKeywords right) {
         this.left = left;
         this.right = right;
@@ -472,7 +476,7 @@ abstract class BinaryExprKeywords extends ExprKeywords
     @Override
     ExprKeywords order() {
         if (precedence() > left.precedence() && left instanceof BinaryExprKeywords) {
-            BinaryExprKeywords e = (BinaryExprKeywords)left;
+            BinaryExprKeywords e = (BinaryExprKeywords) left;
             left = e.right;
             e.right = order();
             return e;
@@ -509,6 +513,7 @@ abstract class BinaryExprKeywords extends ExprKeywords
     protected ExprKeywords left;
     protected ExprKeywords right;
 }
+
 class AndExprKeywords extends BinaryExprKeywords {
 
     AndExprKeywords(ExprKeywords left, ExprKeywords right) {
@@ -581,6 +586,7 @@ class NotExprKeywords extends ExprKeywords {
 
     private ExprKeywords expr;
 }
+
 class OrExprKeywords extends BinaryExprKeywords {
     OrExprKeywords(ExprKeywords left, ExprKeywords right) {
         super(left, right);
@@ -652,6 +658,7 @@ class ParenExprKeywords extends ExprKeywords {
 
     private ExprKeywords expr;
 }
+
 class TermExprKeywords extends ExprKeywords {
     TermExprKeywords(String key) {
         this.key = key;

@@ -36,17 +36,16 @@ import java.util.Vector;
  * by '#' and extend to the next newline character. Lines may be terminated
  * by newline, semicolon or a comment.
  */
-public class LineParser
-{
+public class LineParser {
     /**
      * This exception is used to report problems while using a line parser.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         Fault(I18NResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -54,10 +53,11 @@ public class LineParser
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         Fault(I18NResourceBundle i18n, String s, Object o) {
             super(i18n.getString(s, o));
@@ -65,10 +65,11 @@ public class LineParser
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
@@ -77,23 +78,23 @@ public class LineParser
 
     /**
      * Create a line parser, reading the data in a given file.
+     *
      * @param file the file to be read
      * @throws FileNotFoundException if the file was not found
-     * @throws IOException if there is some problem opening the file
-     * or reading the initial characters of the file
+     * @throws IOException           if there is some problem opening the file
+     *                               or reading the initial characters of the file
      */
     public LineParser(File file)
-        throws FileNotFoundException, IOException
-    {
+            throws FileNotFoundException, IOException {
         this(file, new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)));
     }
 
     /**
      * Create a line parser, reading data from an anonymous stream.
+     *
      * @param in the stream from which to read the data
      */
-    public LineParser(Reader in)
-    {
+    public LineParser(Reader in) {
         this(null, in);
     }
 
@@ -101,8 +102,9 @@ public class LineParser
      * Create a line parser, reading the data from a file for which a stream
      * has already been opened. The name of the file will be included in any
      * appropriate error messages.
+     *
      * @param file the file from which the data is being read
-     * @param in the stream from which to read the data
+     * @param in   the stream from which to read the data
      */
     private LineParser(File file, Reader in) {
         this.file = file;
@@ -114,6 +116,7 @@ public class LineParser
 
     /**
      * Get the file being read, or null if it is not available.
+     *
      * @return the file being read, or null if not available
      */
     public File getFile() {
@@ -122,6 +125,7 @@ public class LineParser
 
     /**
      * Get the current line number within the stream being read.
+     *
      * @return the current line number within nthe stream being read
      */
     public int getLineNumber() {
@@ -130,68 +134,68 @@ public class LineParser
 
     /**
      * Read the next line of words from the input stream.
+     *
      * @return the next line of words from the input stream
      * @throws LineParser.Fault if there is a problem reading the required data --
-     * such as an unterminated string
+     *                          such as an unterminated string
      */
     public String[] readLine() throws Fault {
         try {
             while (ch != -1) {
                 switch (ch) {
-                case ' ':
-                case '\t':
-                    // end current word
-                    endWord_nextCh();
-                    break;
+                    case ' ':
+                    case '\t':
+                        // end current word
+                        endWord_nextCh();
+                        break;
 
-                case '\r':
-                case '\n':
-                    // end current word, return if curr line not empty
-                    endWord_nextCh();
-                    if (!currLine.isEmpty())
-                        return endLine();
-                    break;
+                    case '\r':
+                    case '\n':
+                        // end current word, return if curr line not empty
+                        endWord_nextCh();
+                        if (!currLine.isEmpty())
+                            return endLine();
+                        break;
 
-                case ';':
-                    // end current word, return if curr line not empty
-                    endWord_nextCh();
-                    if (!currLine.isEmpty())
-                        return endLine();
-                    break;
+                    case ';':
+                        // end current word, return if curr line not empty
+                        endWord_nextCh();
+                        if (!currLine.isEmpty())
+                            return endLine();
+                        break;
 
-                case '#':
-                    // skip to end of line
-                    // return if curr line not empty
-                    endWord_nextCh();
-                    while (ch != -1 && ch != '\r' && ch != '\n')
-                        nextCh();
-                    if (!currLine.isEmpty())
-                        return endLine();
-                    break;
-
-                case '\\':
-                    // read next character; if newline, skip whitespace
-                    // else add next character uninterpreted
-                    nextCh();
-                    if (ch == '\r')
-                        nextCh();
-                    if (ch == '\n') {
-                        nextCh();
-                        while (ch == ' ' || ch == '\t')
+                    case '#':
+                        // skip to end of line
+                        // return if curr line not empty
+                        endWord_nextCh();
+                        while (ch != -1 && ch != '\r' && ch != '\n')
                             nextCh();
-                    }
-                    else
+                        if (!currLine.isEmpty())
+                            return endLine();
+                        break;
+
+                    case '\\':
+                        // read next character; if newline, skip whitespace
+                        // else add next character uninterpreted
+                        nextCh();
+                        if (ch == '\r')
+                            nextCh();
+                        if (ch == '\n') {
+                            nextCh();
+                            while (ch == ' ' || ch == '\t')
+                                nextCh();
+                        } else
+                            append_nextCh();
+                        break;
+
+                    case '"':
+                    case '\'':
+                        readString((char) ch);
+                        break;
+
+                    default:
                         append_nextCh();
-                    break;
-
-                case '"':
-                case '\'':
-                    readString((char) ch);
-                    break;
-
-                default:
-                    append_nextCh();
-                    break;
+                        break;
 
                 }
             }
@@ -204,8 +208,7 @@ public class LineParser
             }
 
             return !currLine.isEmpty() ? endLine() : null;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new Fault(i18n, "lineParser.ioError",
                     Integer.valueOf(file == null ? 0 : 1),
                     file,
@@ -220,25 +223,24 @@ public class LineParser
         nextCh();
         while (ch != -1) {
             switch (ch) {
-            case '\r':
-            case '\n':
-                throw new Fault(i18n, "lineParser.unterminatedString",
-                        Integer.valueOf(file == null ? 0 : 1),
-                        file,
-                        Integer.valueOf(lineNumber));
+                case '\r':
+                case '\n':
+                    throw new Fault(i18n, "lineParser.unterminatedString",
+                            Integer.valueOf(file == null ? 0 : 1),
+                            file,
+                            Integer.valueOf(lineNumber));
 
-            case '\\':
-                nextCh();
-                append_nextCh();
-                break;
-
-            default:
-                if (ch == termCh) {
+                case '\\':
                     nextCh();
-                    return;
-                }
-                else
                     append_nextCh();
+                    break;
+
+                default:
+                    if (ch == termCh) {
+                        nextCh();
+                        return;
+                    } else
+                        append_nextCh();
             }
         }
     }
@@ -280,5 +282,5 @@ public class LineParser
     private Vector<String> currLine;
 
     private static final I18NResourceBundle i18n =
-        I18NResourceBundle.getBundleForClass(LineParser.class);
+            I18NResourceBundle.getBundleForClass(LineParser.class);
 }

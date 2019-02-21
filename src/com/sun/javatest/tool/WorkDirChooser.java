@@ -37,13 +37,13 @@ import com.sun.javatest.TemplateUtilities;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.exec.WorkDirChooseTool;
+
 import java.io.IOException;
 
 /**
  * A custom JFileChooser, for a user to choose a work directory.
  */
-public class WorkDirChooser extends JFileChooser
-{
+public class WorkDirChooser extends JFileChooser {
 
     /**
      * Create a WorkDirChooser, initially showing the user's current directory.
@@ -56,20 +56,20 @@ public class WorkDirChooser extends JFileChooser
     private static File getDefaultDirFromPrefs(boolean usePrefs) {
         if (!usePrefs) {
             return new File(System.getProperty("user.dir"));
-        }
-        else {
+        } else {
             Preferences prefs = Preferences.access();
             String defaultDir = prefs.getPreference(WorkDirChooseTool.DEFAULT_WD_PREF_NAME);
             if (defaultDir != null) {
                 return new File(defaultDir);
-            }
-            else {
+            } else {
                 return new File(System.getProperty("user.dir"));
             }
         }
     }
+
     /**
      * Create a WorkDirChooser, initially showing a given directory.
+     *
      * @param initialDir the initial directory to be shown
      */
     public WorkDirChooser(File initialDir) {
@@ -107,12 +107,14 @@ public class WorkDirChooser extends JFileChooser
 
     /**
      * A constant to indicate that a new work directory is to be created.
+     *
      * @see #setMode
      */
     public static final int NEW = 0;
 
     /**
      * A constant to indicate that an existing work directory is to be opened.
+     *
      * @see #setMode
      */
     public static final int OPEN_FOR_ANY_TESTSUITE = 1;
@@ -120,6 +122,7 @@ public class WorkDirChooser extends JFileChooser
     /**
      * A constant to indicate that an existing work directory that is to be opened
      * in conjunction with a specific test suite.
+     *
      * @see #setMode
      */
     public static final int OPEN_FOR_GIVEN_TESTSUITE = 2;
@@ -127,6 +130,7 @@ public class WorkDirChooser extends JFileChooser
     /**
      * Set whether the chooser is to be used to create a new work directory
      * or to open an existing work directory.
+     *
      * @param mode a constant to indicate how the chooser is to operate
      * @see #NEW
      * @see #OPEN_FOR_ANY_TESTSUITE
@@ -135,26 +139,27 @@ public class WorkDirChooser extends JFileChooser
     public void setMode(int mode) {
         this.mode = mode;
         switch (mode) {
-        case NEW:
-            setApproveButtonText(uif.getI18NString("wdc.new.btn"));
-            setApproveButtonMnemonic(uif.getI18NMnemonic("wdc.new.mne"));
-            setApproveButtonToolTipText(uif.getI18NString("wdc.new.tip"));
-            setDialogTitle(uif.getI18NString("wdc.new.title"));
-            break;
-        case OPEN_FOR_ANY_TESTSUITE:
-        case OPEN_FOR_GIVEN_TESTSUITE:
-            setApproveButtonMnemonic(uif.getI18NMnemonic("wdc.open.mne"));
-            setApproveButtonText(uif.getI18NString("wdc.open.btn"));
-            setApproveButtonToolTipText(uif.getI18NString("wdc.open.tip"));
-            setDialogTitle(uif.getI18NString("wdc.open.title"));
-            break;
-        default:
-            throw new IllegalArgumentException();
+            case NEW:
+                setApproveButtonText(uif.getI18NString("wdc.new.btn"));
+                setApproveButtonMnemonic(uif.getI18NMnemonic("wdc.new.mne"));
+                setApproveButtonToolTipText(uif.getI18NString("wdc.new.tip"));
+                setDialogTitle(uif.getI18NString("wdc.new.title"));
+                break;
+            case OPEN_FOR_ANY_TESTSUITE:
+            case OPEN_FOR_GIVEN_TESTSUITE:
+                setApproveButtonMnemonic(uif.getI18NMnemonic("wdc.open.mne"));
+                setApproveButtonText(uif.getI18NString("wdc.open.btn"));
+                setApproveButtonToolTipText(uif.getI18NString("wdc.open.tip"));
+                setDialogTitle(uif.getI18NString("wdc.open.title"));
+                break;
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
     /**
      * Set the test suite for this chooser.
+     *
      * @param ts The test suite to be used when opening or creating a work directory.
      */
     public void setTestSuite(TestSuite ts) {
@@ -165,6 +170,7 @@ public class WorkDirChooser extends JFileChooser
      * Set a test suite chooser to be used during error handling,
      * if the test suite referenced by an existing work directory
      * cannot be opened.
+     *
      * @param tsc the test suite chooser to be used
      */
     public void setTestSuiteChooser(TestSuiteChooser tsc) {
@@ -173,6 +179,7 @@ public class WorkDirChooser extends JFileChooser
 
     /**
      * Get the work directory that was most recently selected by the user.
+     *
      * @return the work directorythat was most recently selected by the user
      * @see #setSelectedWorkDirectory
      * @see #showDialog
@@ -183,6 +190,7 @@ public class WorkDirChooser extends JFileChooser
 
     /**
      * Set the work directory selected by the user.
+     *
      * @param wd the work directory
      * @see #getSelectedWorkDirectory
      */
@@ -195,6 +203,7 @@ public class WorkDirChooser extends JFileChooser
     /**
      * Show a dialog to allow the user to select a work directory.
      * If a work directory is selected, it can be accessed via getSelectedWorkDirectory.
+     *
      * @param parent the component to be used at the parent of this dialog
      * @return an integer signifying how the dialog was dismissed
      * (APPROVE_OPTION or CANCEL_OPTION).
@@ -228,8 +237,8 @@ public class WorkDirChooser extends JFileChooser
                 Preferences prefs = Preferences.access();
                 String defaultDir = workDir.getRoot().getParentFile().getCanonicalPath();
                 prefs.setPreference(WorkDirChooseTool.DEFAULT_WD_PREF_NAME, defaultDir);
+            } catch (IOException e) {
             }
-            catch (IOException e) {}
 
             super.approveSelection();
         }
@@ -288,14 +297,14 @@ public class WorkDirChooser extends JFileChooser
 
     private boolean isWorkDir(File dir) {
         if (wdData == null) wdData = new LinkedHashMap<String, Boolean>() {
-                @Override
-                protected boolean removeEldestEntry(Map.Entry<String, Boolean> eldest) {
-                    return size() > 500;
-                }
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<String, Boolean> eldest) {
+                return size() > 500;
+            }
         };
 
         // MS Windows top-level folders ("My Computer's children")
-        if (dir.getParent() == null || dir.getParent().startsWith("::") ) {
+        if (dir.getParent() == null || dir.getParent().startsWith("::")) {
             return false;
         }
 
@@ -312,10 +321,10 @@ public class WorkDirChooser extends JFileChooser
     private String[] getInfo(File file) {
 
         if (fileData == null) fileData = new LinkedHashMap<String, String[]>() {
-                @Override
-                protected boolean removeEldestEntry(Map.Entry<String, String[]> eldest) {
-                    return size() > 500;
-                }
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<String, String[]> eldest) {
+                return size() > 500;
+            }
         };
         String key = file.getAbsolutePath();
         String[] value = fileData.get(key);
@@ -329,22 +338,20 @@ public class WorkDirChooser extends JFileChooser
             if (path != null) {
                 TemplateUtilities.ConfigInfo ci = TemplateUtilities.getConfigInfo(new File(path));
                 if (ci != null) {
-                    data = new String[] {ci.getName(), ci.getDescription()};
+                    data = new String[]{ci.getName(), ci.getDescription()};
                 }
 
             }
             fileData.put(key, data);
             return data;
-        }
-        catch  (Exception e) {
-            return new String[] {"", ""};
+        } catch (Exception e) {
+            return new String[]{"", ""};
         }
     }
 
     public void setAllowNoTemplate(boolean allowNoTemplate) {
         this.allowNoTemplate = allowNoTemplate;
     }
-
 
 
 }

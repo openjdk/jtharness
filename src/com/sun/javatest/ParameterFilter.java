@@ -30,6 +30,7 @@ import java.io.File;
 
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
+
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -76,8 +77,7 @@ public class ParameterFilter extends ObservableTestFilter {
         try {
             TestDescription td = tr.getDescription();
             return accepts(td, tr, o);
-        }
-        catch (TestResult.Fault f) {
+        } catch (TestResult.Fault f) {
             throw new Fault(i18n, "pFilter.trNoTd", f);
         }
 
@@ -138,13 +138,14 @@ public class ParameterFilter extends ObservableTestFilter {
     }
 
     // ------- Composite overrides ---------
+
     /**
      * Gets the set of filters that the parameters have supplied.
      * Depending on the initial url setting, an InitialUrlFilter may or may not
      * be included in this set.  The returned array has already be shallow copied.
      *
      * @return The filters in use.  This is affected by the isFilterTests()
-     *         state.
+     * state.
      * @see com.sun.javatest.InitialUrlFilter
      */
     public TestFilter[] getTestFilters() {
@@ -157,9 +158,8 @@ public class ParameterFilter extends ObservableTestFilter {
             // change size depending on whether url filter is to be included
             if (iurlFilter != null) {
                 copy = new TestFilter[filters.length + 1];
-                copy[copy.length-1] = iurlFilter;
-            }
-            else {
+                copy[copy.length - 1] = iurlFilter;
+            } else {
                 copy = new TestFilter[filters.length];
             }
 

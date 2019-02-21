@@ -27,6 +27,7 @@
 package com.sun.javatest.util;
 
 //import java.util.Date;
+
 import java.util.Vector;
 
 /**
@@ -36,16 +37,14 @@ import java.util.Vector;
  * @see Timeable
  */
 
-public class Timer
-{
+public class Timer {
     /**
      * Implementations of this interface are passed to Timer, to be
      * called back after a specified interval.
      *
      * @see com.sun.javatest.util.Timer#requestDelayedCallback
      */
-    public interface Timeable
-    {
+    public interface Timeable {
         /**
          * This method will be called if an implementation of this interface
          * is passed to a Timer.
@@ -57,8 +56,7 @@ public class Timer
      * Entry objects are returned as the result calling
      * requestDelayedCallback on a timer; they may be used to cancel the request.
      */
-    public class Entry
-    {
+    public class Entry {
         Entry(Timeable obj, long expiration) {
             this.obj = obj;
             this.expiration = expiration;
@@ -81,8 +79,7 @@ public class Timer
                         e.obj.timeout();
                         e = null; // for GC
                     }
-                }
-                catch (InterruptedException e) {
+                } catch (InterruptedException e) {
                 }
             }
         };
@@ -94,6 +91,7 @@ public class Timer
 
     /* For autonumbering anonymous threads. */
     private static int threadInitNumber;
+
     private static synchronized int nextThreadNum() {
         return threadInitNumber++;
     }
@@ -102,10 +100,10 @@ public class Timer
      * Request that the Timeable object given will have its timeout() method
      * called after not less than delay milliseconds.
      *
-     * @param obj       The object to be called back
-     * @param delay     The number of milliseconds to delay before invoking the
-     *                  timemout method on the callback object.
-     * @return          An object which can be passed to cancel() to cancel this request
+     * @param obj   The object to be called back
+     * @param delay The number of milliseconds to delay before invoking the
+     *              timemout method on the callback object.
+     * @return An object which can be passed to cancel() to cancel this request
      */
     public synchronized Entry requestDelayedCallback(Timeable obj, long delay) {
         try {
@@ -123,8 +121,7 @@ public class Timer
             }
             entries.addElement(e);
             return e;
-        }
-        finally {
+        } finally {
             // kick timer thread awake to check this entry if necessary
             notify();
         }
@@ -133,7 +130,7 @@ public class Timer
     /**
      * Cancel a prior request to requestDelayedEntry().
      *
-     * @param e         The result of the prior call to requestDelayedEntry
+     * @param e The result of the prior call to requestDelayedEntry
      */
     public synchronized void cancel(Entry e) {
         entries.removeElement(e);
@@ -152,6 +149,7 @@ public class Timer
 
     /**
      * Main body of timer thread .... get next entry to have its timeout called
+     *
      * @return The next entry to have timed out, or null if the timer is closing down.
      */
     private synchronized Entry getNextEntry() throws InterruptedException {
@@ -166,8 +164,7 @@ public class Timer
                     // time to call back e.obj; do so and remove it from list
                     entries.removeElementAt(0);
                     return e;
-                }
-                else {
+                } else {
                     // not ready to invoke e yet; wait until nearer the time
                     wait(e.expiration - now);
                     // update current time
@@ -182,36 +179,36 @@ public class Timer
 
     /**
      * Original code ... problem is timeout is called while synchronized
-     *
-    public synchronized void run() {
-        try {
-            while (acceptingRequests) {
-                if (entries.size() == 0) {
-                    // nothing on list; wait until new requests come in
-                    wait();
-                } else {
-                    long now = System.currentTimeMillis();
-                    Entry e = (Entry)(entries.elementAt(0));
-                    if (e.expiration > now) {
-                        // not ready to invoke e yet; wait until nearer the time
-                        wait(e.expiration - now);
-                        // update current time
-                        now = System.currentTimeMillis();
-                        // list might have been updated during wait, so go round and
-                        // process list again
-                    } else {
-                        // time to call back e.obj; do so and remove it from list
-                        entries.removeElementAt(0);
-                        e.obj.timeout();
-                    }
-                    e = null; // for GC
-                }
-            }
-        }
-        catch (InterruptedException e) {
-        }
-    }
-    */
+     * <p>
+     * public synchronized void run() {
+     * try {
+     * while (acceptingRequests) {
+     * if (entries.size() == 0) {
+     * // nothing on list; wait until new requests come in
+     * wait();
+     * } else {
+     * long now = System.currentTimeMillis();
+     * Entry e = (Entry)(entries.elementAt(0));
+     * if (e.expiration > now) {
+     * // not ready to invoke e yet; wait until nearer the time
+     * wait(e.expiration - now);
+     * // update current time
+     * now = System.currentTimeMillis();
+     * // list might have been updated during wait, so go round and
+     * // process list again
+     * } else {
+     * // time to call back e.obj; do so and remove it from list
+     * entries.removeElementAt(0);
+     * e.obj.timeout();
+     * }
+     * e = null; // for GC
+     * }
+     * }
+     * }
+     * catch (InterruptedException e) {
+     * }
+     * }
+     */
 
     //-----member variables-------------------------------------------------------
 

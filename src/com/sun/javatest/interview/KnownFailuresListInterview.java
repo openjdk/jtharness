@@ -49,16 +49,15 @@ import com.sun.javatest.TestSuite;
  * the parameter information for a test run.
  */
 public class KnownFailuresListInterview
-    extends Interview
-{
+        extends Interview {
     /**
      * Create an interview.
+     *
      * @param parent The parent interview of which this is a child.
      * @throws Interview.Fault if there is a problem while creating the interview.
      */
     public KnownFailuresListInterview(InterviewParameters parent)
-        throws Interview.Fault
-    {
+            throws Interview.Fault {
         super(parent, "knownFailuresList");
         this.parent = parent;
         setResourceBundle("i18n");
@@ -82,8 +81,7 @@ public class KnownFailuresListInterview
         if (files == null || files.length == 0) {
             qNeedKfl.setValue(YesNoQuestion.NO);
             setCustomKflFiles(null);
-        }
-        else {
+        } else {
             qNeedKfl.setValue(YesNoQuestion.YES);
             setCustomKflFiles(files);
         }
@@ -95,7 +93,7 @@ public class KnownFailuresListInterview
 
     public File[] getKflFiles() {
         return qNeedKfl.getValue().equals(YesNoQuestion.NO) ?
-            null : qCustomFiles.getValue();
+                null : qCustomFiles.getValue();
     }
 
     protected void setCustomKflFiles(File... files) {
@@ -115,8 +113,9 @@ public class KnownFailuresListInterview
 
     /**
      * According to the interview, does the user want to use a KFL?
+     *
      * @return True if the user has indicated that they want to use a KFL, false
-     *    otherwise.
+     * otherwise.
      */
     public boolean isKflEnabled() {
         return qNeedKfl.getValue().equals(YesNoQuestion.YES);
@@ -173,12 +172,12 @@ public class KnownFailuresListInterview
         {
             setResourceBundle("i18n");
             FileFilter[] filters = {
-                new ExtensionFileFilter(".jtx",
-                    getResourceString("KnownFailuresListInterview.jtx.extn.desc", false)),
-                new ExtensionFileFilter(".txt",
-                    getResourceString("KnownFailuresListInterview.txt.extn.desc", false)),
-                new ExtensionFileFilter(".kfl",
-                    getResourceString("KnownFailuresListInterview.kfl.extn.desc", false))
+                    new ExtensionFileFilter(".jtx",
+                            getResourceString("KnownFailuresListInterview.jtx.extn.desc", false)),
+                    new ExtensionFileFilter(".txt",
+                            getResourceString("KnownFailuresListInterview.txt.extn.desc", false)),
+                    new ExtensionFileFilter(".kfl",
+                            getResourceString("KnownFailuresListInterview.kfl.extn.desc", false))
             };
             setFilters(filters);
             setDuplicatesAllowed(false);
@@ -211,14 +210,11 @@ public class KnownFailuresListInterview
                     setCachedKfl(new KnownFailuresList());
                 else
                     setCachedKfl(new KnownFailuresList(files));
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 setCachedKflError(qKflFileNotFound, e.getMessage());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 setCachedKflError(qKflIOError, e.toString());
-            }
-            catch (KnownFailuresList.Fault e) {
+            } catch (KnownFailuresList.Fault e) {
                 setCachedKflError(qKflError, e.getMessage());
             }
 
@@ -237,7 +233,7 @@ public class KnownFailuresListInterview
         cachedKfl = new KnownFailuresList();
         //cachedExcludeListFilter = null;
         cachedKflError = q;
-        cachedExcludeListErrorArgs = new String[] { arg };
+        cachedExcludeListErrorArgs = new String[]{arg};
     }
 
 

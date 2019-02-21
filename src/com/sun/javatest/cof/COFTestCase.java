@@ -41,9 +41,8 @@ import com.sun.javatest.util.XMLWriter;
  */
 
 /**
- *
- *         The analysis setting is meant to allow remote groups to waive or
- *         accept the pass/fail status of the test using E-mail.
+ * The analysis setting is meant to allow remote groups to waive or
+ * accept the pass/fail status of the test using E-mail.
  *
  *
  * <p>Java class for TestCase complex type.
@@ -75,8 +74,6 @@ import com.sun.javatest.util.XMLWriter;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
  */
 /*@XmlAccessorType(XmlAccessType.FIELD)
  @XmlType(name = "TestCase", propOrder = {
@@ -88,257 +85,227 @@ import com.sun.javatest.util.XMLWriter;
  "description"
  })*/
 public class COFTestCase extends COFItem {
-        static long count = 0;
+    static long count = 0;
 
-        static LinkedHashMap<String, String> xmlAttributes;
+    static LinkedHashMap<String, String> xmlAttributes;
 
-        static LinkedHashMap<String, String> xmlElements;
+    static LinkedHashMap<String, String> xmlElements;
 
-        static String xmlTagName;
+    static String xmlTagName;
 
-        static {
-                xmlTagName = "testcase";
-                xmlElements = new LinkedHashMap<>();
-                xmlElements.put("name", "name");
-                xmlElements.put("status", "status");
-                xmlElements.put("starttime", "starttime");
-                xmlElements.put("endtime", "endtime");
-                xmlElements.put("attributes", "attributes");
-                xmlElements.put("description", "description");
-                xmlAttributes = new LinkedHashMap<>();
-                xmlAttributes.put("id", "id");
+    static {
+        xmlTagName = "testcase";
+        xmlElements = new LinkedHashMap<>();
+        xmlElements.put("name", "name");
+        xmlElements.put("status", "status");
+        xmlElements.put("starttime", "starttime");
+        xmlElements.put("endtime", "endtime");
+        xmlElements.put("attributes", "attributes");
+        xmlElements.put("description", "description");
+        xmlAttributes = new LinkedHashMap<>();
+        xmlAttributes.put("id", "id");
 //              xmlAttributes.put("analysis", "analysis");
+    }
+
+    //    @XmlAttribute
+    protected String analysis;
+
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
+    protected COFTestAttributes attributes;
+
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
+    protected String description;
+
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", type = String.class)
+    //    @XmlJavaTypeAdapter(Adapter1 .class)
+    protected Date endtime;
+
+    //    @XmlAttribute(required = true)
+    protected String id;
+
+    final long idNum = count++;
+
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    protected String name;
+
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", type = String.class)
+    //    @XmlJavaTypeAdapter(Adapter1 .class)
+    protected Date starttime;
+
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
+    protected COFStatus status;
+
+    /**
+     * Gets the value of the analysis property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public String getAnalysis() {
+        if (analysis == null) {
+            return "accept";
+        } else {
+            return analysis;
         }
+    }
 
-        //    @XmlAttribute
-        protected String analysis;
+    /**
+     * Gets the value of the attributes property.
+     *
+     * @return possible object is
+     * {@link COFTestAttributes }
+     */
+    public COFTestAttributes getAttributes() {
+        return attributes;
+    }
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
-        protected COFTestAttributes attributes;
+    /**
+     * Gets the value of the description property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public String getDescription() {
+        return description;
+    }
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
-        protected String description;
+    /**
+     * Gets the value of the endtime property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public Date getEndtime() {
+        return endtime;
+    }
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", type = String.class)
-        //    @XmlJavaTypeAdapter(Adapter1 .class)
-        protected Date endtime;
+    /**
+     * Gets the value of the id property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public String getId() {
+        return name + ":" + idNum;
+    }
 
-        //    @XmlAttribute(required = true)
-        protected String id;
+    LinkedHashMap<String, String> getItemAttributes() {
+        return xmlAttributes;
+    }
 
-        final long idNum = count++;
+    LinkedHashMap<String, String> getItemElements() {
+        return xmlElements;
+    }
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
-        protected String name;
+    String getItemTagName() {
+        return xmlTagName;
+    }
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", type = String.class)
-        //    @XmlJavaTypeAdapter(Adapter1 .class)
-        protected Date starttime;
+    /**
+     * Gets the value of the name property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public String getName() {
+        return name;
+    }
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
-        protected COFStatus status;
+    /**
+     * Gets the value of the starttime property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public Date getStarttime() {
+        return starttime;
+    }
 
-        /**
-         * Gets the value of the analysis property.
-         *
-         * @return
-         *     possible object is
-         *     {@link String }
-         *
-         */
-        public String getAnalysis() {
-                if (analysis == null) {
-                        return "accept";
-                } else {
-                        return analysis;
-                }
-        }
+    /**
+     * Gets the value of the status property.
+     *
+     * @return possible object is
+     * {@link COFStatus }
+     */
+    public COFStatus getStatus() {
+        return status;
+    }
 
-        /**
-         * Gets the value of the attributes property.
-         *
-         * @return
-         *     possible object is
-         *     {@link COFTestAttributes }
-         *
-         */
-        public COFTestAttributes getAttributes() {
-                return attributes;
-        }
+    /**
+     * Sets the value of the analysis property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setAnalysis(String value) {
+        this.analysis = value;
+    }
 
-        /**
-         * Gets the value of the description property.
-         *
-         * @return
-         *     possible object is
-         *     {@link String }
-         *
-         */
-        public String getDescription() {
-                return description;
-        }
+    /**
+     * Sets the value of the attributes property.
+     *
+     * @param value allowed object is
+     *              {@link COFTestAttributes }
+     */
+    public void setAttributes(COFTestAttributes value) {
+        this.attributes = value;
+    }
 
-        /**
-         * Gets the value of the endtime property.
-         *
-         * @return
-         *     possible object is
-         *     {@link String }
-         *
-         */
-        public Date getEndtime() {
-                return endtime;
-        }
+    /**
+     * Sets the value of the description property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setDescription(String value) {
+        this.description = value;
+    }
 
-        /**
-         * Gets the value of the id property.
-         *
-         * @return
-         *     possible object is
-         *     {@link String }
-         *
-         */
-        public String getId() {
-                return name + ":" + idNum;
-        }
+    /**
+     * Sets the value of the endtime property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setEndtime(Date value) {
+        this.endtime = value;
+    }
 
-        LinkedHashMap<String, String> getItemAttributes() {
-                return xmlAttributes;
-        }
+    /**
+     * Sets the value of the name property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setName(String value) {
+        this.name = value;
+    }
 
-        LinkedHashMap<String, String> getItemElements() {
-                return xmlElements;
-        }
+    /**
+     * Sets the value of the starttime property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setStarttime(Date value) {
+        this.starttime = value;
+    }
 
-        String getItemTagName() {
-                return xmlTagName;
-        }
+    /**
+     * Sets the value of the status property.
+     *
+     * @param value allowed object is
+     *              {@link COFStatus }
+     */
+    public void setStatus(COFStatus value) {
+        this.status = value;
+    }
 
-        /**
-         * Gets the value of the name property.
-         *
-         * @return
-         *     possible object is
-         *     {@link String }
-         *
-         */
-        public String getName() {
-                return name;
-        }
-
-        /**
-         * Gets the value of the starttime property.
-         *
-         * @return
-         *     possible object is
-         *     {@link String }
-         *
-         */
-        public Date getStarttime() {
-                return starttime;
-        }
-
-        /**
-         * Gets the value of the status property.
-         *
-         * @return
-         *     possible object is
-         *     {@link COFStatus }
-         *
-         */
-        public COFStatus getStatus() {
-                return status;
-        }
-
-        /**
-         * Sets the value of the analysis property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *
-         */
-        public void setAnalysis(String value) {
-                this.analysis = value;
-        }
-
-        /**
-         * Sets the value of the attributes property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link COFTestAttributes }
-         *
-         */
-        public void setAttributes(COFTestAttributes value) {
-                this.attributes = value;
-        }
-
-        /**
-         * Sets the value of the description property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *
-         */
-        public void setDescription(String value) {
-                this.description = value;
-        }
-
-        /**
-         * Sets the value of the endtime property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *
-         */
-        public void setEndtime(Date value) {
-                this.endtime = value;
-        }
-
-        /**
-         * Sets the value of the name property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *
-         */
-        public void setName(String value) {
-                this.name = value;
-        }
-
-        /**
-         * Sets the value of the starttime property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *
-         */
-        public void setStarttime(Date value) {
-                this.starttime = value;
-        }
-
-        /**
-         * Sets the value of the status property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link COFStatus }
-         *
-         */
-        public void setStatus(COFStatus value) {
-                this.status = value;
-        }
-
-        /* (non-Javadoc)
-         * @see com.sun.javatest.cof.COFItem#write(com.sun.javatest.util.XMLWriter)
-         */
-        void write(XMLWriter out) throws IOException {
-                out.newLine();
-                super.write(out);
-        }
+    /* (non-Javadoc)
+     * @see com.sun.javatest.cof.COFItem#write(com.sun.javatest.util.XMLWriter)
+     */
+    void write(XMLWriter out) throws IOException {
+        out.newLine();
+        super.write(out);
+    }
 }

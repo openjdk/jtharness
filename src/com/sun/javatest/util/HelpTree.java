@@ -36,8 +36,7 @@ import java.util.TreeMap;
  * A class that provides a tree of information nodes that can be
  * selectively printed, suitable for simple command line help.
  */
-public class HelpTree
-{
+public class HelpTree {
     /**
      * A node within a HelpTree.  A node has a name, a description,
      * and zero or more child nodes.
@@ -46,7 +45,8 @@ public class HelpTree
 
         /**
          * Create a node, with no children.
-         * @param name the name for the node
+         *
+         * @param name        the name for the node
          * @param description the description for the node
          */
         public Node(String name, String description) {
@@ -56,9 +56,10 @@ public class HelpTree
 
         /**
          * Create a node, with given children.
-         * @param name the name for the node
+         *
+         * @param name        the name for the node
          * @param description the description for the node
-         * @param children the child nodes for the node
+         * @param children    the child nodes for the node
          */
         public Node(String name, String description, Node... children) {
             this.name = name;
@@ -71,10 +72,11 @@ public class HelpTree
          * obtained from a resource bundle, using keys based on a common
          * prefix. The key for the name will be <i>prefix</i>.name and
          * the key for the description will be <i>prefix</i>.desc.
-         * @param i18n the resource bundle from which to obtain the
-         * name and description for the node.
+         *
+         * @param i18n   the resource bundle from which to obtain the
+         *               name and description for the node.
          * @param prefix the prefix for the names of the name and description
-         * entries in the resource bundle.
+         *               entries in the resource bundle.
          */
         public Node(I18NResourceBundle i18n, String prefix) {
             name = i18n.getString(prefix + ".name");
@@ -86,10 +88,11 @@ public class HelpTree
          * obtained from a resource bundle, using keys based on a common
          * prefix. The key for the name will be <i>prefix</i>.name and
          * the key for the description will be <i>prefix</i>.desc.
-         * @param i18n the resource bundle from which to obtain the
-         * name and description for the node.
-         * @param prefix the prefix for the names of the name and description
-         * entries in the resource bundle.
+         *
+         * @param i18n     the resource bundle from which to obtain the
+         *                 name and description for the node.
+         * @param prefix   the prefix for the names of the name and description
+         *                 entries in the resource bundle.
          * @param children the child nodes for this node
          */
         public Node(I18NResourceBundle i18n, String prefix, Node... children) {
@@ -104,12 +107,13 @@ public class HelpTree
          * the key for the description will be <i>prefix</i>.desc.
          * The children will each be created with no children of their
          * own, using a prefix of <i>prefix</i>.<i>entry</i>.
-         * @param i18n the resource bundle from which to obtain the
-         * name and description for the node.
-         * @param prefix the prefix for the names of the name and description
-         * entries in the resource bundle.
+         *
+         * @param i18n    the resource bundle from which to obtain the
+         *                name and description for the node.
+         * @param prefix  the prefix for the names of the name and description
+         *                entries in the resource bundle.
          * @param entries the array of <i>entry</i> names used to create
-         * the child nodes.
+         *                the child nodes.
          */
         public Node(I18NResourceBundle i18n, String prefix, String... entries) {
             this(i18n, prefix);
@@ -120,6 +124,7 @@ public class HelpTree
 
         /**
          * Get the name of this node.
+         *
          * @return the name of this node
          */
         public final String getName() {
@@ -128,6 +133,7 @@ public class HelpTree
 
         /**
          * Get the description of this node.
+         *
          * @return the description of this node
          */
         public final String getDescription() {
@@ -136,6 +142,7 @@ public class HelpTree
 
         /**
          * Get the number of children of this node.
+         *
          * @return the number of children of this node
          */
         public int getChildCount() {
@@ -144,6 +151,7 @@ public class HelpTree
 
         /**
          * Get a specified child of this node.
+         *
          * @param i the index of the desired child
          * @return the specified child of this node
          */
@@ -160,6 +168,7 @@ public class HelpTree
 
     /**
      * A selection of nodes within a HelpTree.
+     *
      * @see HelpTree#find
      */
     public class Selection {
@@ -189,6 +198,7 @@ public class HelpTree
 
     /**
      * Create a HelpTree object containing a given set of nodes.
+     *
      * @param nodes the contents of the HelpTree
      */
     public HelpTree(Node... nodes) {
@@ -197,6 +207,7 @@ public class HelpTree
 
     /**
      * Add a node to a help tree.
+     *
      * @param node the node to be added to the tree
      */
     public void addNode(Node node) {
@@ -206,6 +217,7 @@ public class HelpTree
     /**
      * Get the indentation used to adjust the left margin when writing
      * the child nodes for a node.
+     *
      * @return the indentation used to adjust the left margin when writing
      * the child nodes for a node
      * @see #setNodeIndent
@@ -217,8 +229,9 @@ public class HelpTree
     /**
      * Set the indentation used to adjust the left margin when writing
      * the child nodes for a node.
+     *
      * @param n the indentation used to adjust the left margin when writing
-     * the child nodes for a node
+     *          the child nodes for a node
      * @see #getNodeIndent
      */
     public void setNodeIndent(int n) {
@@ -228,6 +241,7 @@ public class HelpTree
     /**
      * Get the indentation used to adjust the left margin when writing
      * the description of a node.
+     *
      * @return the indentation used to adjust the left margin when writing
      * the description of a node
      * @see #setDescriptionIndent
@@ -239,8 +253,9 @@ public class HelpTree
     /**
      * Set the indentation used to adjust the left margin when writing
      * the description of a node.
+     *
      * @param n the indentation used to adjust the left margin when writing
-     * the description of a node
+     *          the description of a node
      * @see #getDescriptionIndent
      */
     public void setDescriptionIndent(int n) {
@@ -253,6 +268,7 @@ public class HelpTree
      * given words, then those nodes will be returned.
      * Otherwise, all nodes whose name or description contain at least one
      * of the given words will be returned.
+     *
      * @param words the words to be searched for
      * @return a Selection containing the matching nodes
      */
@@ -267,6 +283,7 @@ public class HelpTree
 
     /**
      * Get a selection representing the nodes that match all of the given words.
+     *
      * @param words the words to be searched for
      * @return a Selection containing the matching nodes
      */
@@ -277,6 +294,7 @@ public class HelpTree
     /**
      * Get a selection representing the nodes that each match
      * at least one of the given words.
+     *
      * @param words the words to be searched for
      * @return a Selection containing the matching nodes
      */
@@ -303,12 +321,10 @@ public class HelpTree
         if (mode == ALL) {
             if (containsAllOf(node.name, words) || containsAllOf(node.description, words))
                 return new Selection(node);
-        }
-        else if (mode == ANY) {
+        } else if (mode == ANY) {
             if (containsAnyOf(node.name, words) || containsAnyOf(node.description, words))
                 return new Selection(node);
-        }
-        else
+        } else
             throw new IllegalArgumentException();
 
         if (node.children == null)
@@ -331,12 +347,13 @@ public class HelpTree
 
     /**
      * Write out all the nodes in this HelpTree.
+     *
      * @param out the writer to which to write the nodes.
-     * If out is a com.sun.javatest.util.WrapWriter, it will be
-     * used directly, otherwise a WrapWriter will be created
-     * that will write to the given writer.
+     *            If out is a com.sun.javatest.util.WrapWriter, it will be
+     *            used directly, otherwise a WrapWriter will be created
+     *            that will write to the given writer.
      * @throws IOException if the is a problem writing the
-     * nodes.
+     *                     nodes.
      * @see WrapWriter
      */
     public void write(Writer out) throws IOException {
@@ -353,13 +370,14 @@ public class HelpTree
 
     /**
      * Write out selected nodes in this HelpTree.
+     *
      * @param out the writer to which to write the nodes.
-     * If out is a com.sun.javatest.util.WrapWriter, it will be
-     * used directly, otherwise a WrapWriter will be created
-     * that will write to the given writer.
-     * @param s a Selection object containing the nodes to be written
+     *            If out is a com.sun.javatest.util.WrapWriter, it will be
+     *            used directly, otherwise a WrapWriter will be created
+     *            that will write to the given writer.
+     * @param s   a Selection object containing the nodes to be written
      * @throws IOException if the is a problem writing the
-     * nodes.
+     *                     nodes.
      * @see WrapWriter
      */
     public void write(Writer out, Selection s) throws IOException {
@@ -375,12 +393,13 @@ public class HelpTree
      * Write out a summary of all the nodes in this HelpTree.
      * The summary will contain the name and description of the
      * top level nodes, but not any of their children.
+     *
      * @param out the writer to which to write the nodes.
-     * If out is a com.sun.javatest.util.WrapWriter, it will be
-     * used directly, otherwise a WrapWriter will be created
-     * that will write to the given writer.
+     *            If out is a com.sun.javatest.util.WrapWriter, it will be
+     *            used directly, otherwise a WrapWriter will be created
+     *            that will write to the given writer.
      * @throws IOException if the is a problem writing the
-     * nodes.
+     *                     nodes.
      * @see WrapWriter
      */
     public void writeSummary(Writer out) throws IOException {
@@ -395,18 +414,20 @@ public class HelpTree
     /**
      * Sets the comparator which will be used in {@link #find(String[]) find} methods
      * method
+     *
      * @param comparator Comparator to set
      */
-    public void setNodeComparator(Comparator<Node> comparator){
+    public void setNodeComparator(Comparator<Node> comparator) {
         nodeComparator = comparator;
     }
 
     /**
      * Returns current comparator used in {@link #find(String[]) find} methods
      * method
+     *
      * @return current node comparator
      */
-    public Comparator<Node> getNodeComparator(){
+    public Comparator<Node> getNodeComparator() {
         return nodeComparator;
     }
 
@@ -502,20 +523,20 @@ public class HelpTree
     private static final int ANY = 2;
 
     private Comparator<Node> nodeComparator = new Comparator<Node>() {
-            @Override
-            public int compare(Node n1, Node n2) {
-                int v = compareStrings(n1.name, n2.name);
-                return v != 0 ? v : compareStrings(n1.description, n2.description);
-            }
+        @Override
+        public int compare(Node n1, Node n2) {
+            int v = compareStrings(n1.name, n2.name);
+            return v != 0 ? v : compareStrings(n1.description, n2.description);
+        }
 
-            private int compareStrings(String s1, String s2) {
-                if (s1 == null && s2 == null)
-                    return 0;
+        private int compareStrings(String s1, String s2) {
+            if (s1 == null && s2 == null)
+                return 0;
 
-                if (s1 == null || s2 == null)
-                    return s1 == null ? -1 : +1;
+            if (s1 == null || s2 == null)
+                return s1 == null ? -1 : +1;
 
-                return s1.toLowerCase().compareTo(s2.toLowerCase());
-            }
-        };
+            return s1.toLowerCase().compareTo(s2.toLowerCase());
+        }
+    };
 }

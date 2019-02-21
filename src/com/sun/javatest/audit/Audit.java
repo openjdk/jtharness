@@ -62,26 +62,24 @@ import com.sun.javatest.util.StringArray;
  * successfully. Various statistics are collected and can be printed or
  * accessed for external analysis.
  */
-public class Audit
-{
+public class Audit {
     /**
      * Analyze a set of test results for validity, based on the given parameters.
+     *
      * @param params Parameters to define the test finder and work directory
-     * used in the analysis.
+     *               used in the analysis.
      * @throws TestSuite.Fault if there is a problem opening the test suite given in the parameters
      */
-    public Audit(Parameters params)
-    {
+    public Audit(Parameters params) {
         this(getTestFinderQueue(params),
-             params.getExcludeList(),
-             params.getWorkDirectory());
+                params.getExcludeList(),
+                params.getWorkDirectory());
     }
 
     /**
      * Create a test finder queue based on the info in the parameters
      */
-    private static TestFinderQueue getTestFinderQueue(Parameters params)
-    {
+    private static TestFinderQueue getTestFinderQueue(Parameters params) {
         TestSuite ts = params.getTestSuite();
         TestFinder tf = ts.getTestFinder();
 
@@ -100,12 +98,12 @@ public class Audit
 
     /**
      * Analyze a set of test results for validity, based on the given parameters.
-     * @param tfq An enumerator for the set of tests to be run
+     *
+     * @param tfq         An enumerator for the set of tests to be run
      * @param excludeList The excludeList against which to check excluded test cases
-     * @param workDir The set of results
+     * @param workDir     The set of results
      */
-    public Audit(TestFinderQueue tfq, ExcludeList excludeList, WorkDirectory workDir)
-    {
+    public Audit(TestFinderQueue tfq, ExcludeList excludeList, WorkDirectory workDir) {
         Vector<TestResult> badChecksumTestsV = new Vector<>();
         Vector<TestResult> badTestDescriptionsV = new Vector<>();
         Vector<TestResult> badTestCaseTestsV = new Vector<>();
@@ -132,7 +130,7 @@ public class Audit
                     badTestCaseTestsV.addElement(tr);
 
                 Map<String, String> trEnv = tr.getEnvironment();
-                for (Map.Entry<String, String> e : trEnv.entrySet() ) {
+                for (Map.Entry<String, String> e : trEnv.entrySet()) {
                     String key = e.getKey();
                     String value = e.getValue();
                     Vector<String> allValuesForKey = envTable.get(key);
@@ -147,8 +145,7 @@ public class Audit
                 String start = tr.getProperty(TestResult.START);
                 if (start == null) {
                     badDates = true;
-                }
-                else {
+                } else {
                     Date d = parseDate(start);
                     if (d == null)
                         badDates = true;
@@ -159,8 +156,7 @@ public class Audit
                             latestStart = d;
                     }
                 }
-            }
-            catch (TestResult.Fault e) {
+            } catch (TestResult.Fault e) {
                 //System.err.println(td.getRootRelativeURL() + " " + TestResult.getWorkRelativePath(td) + " " + e);
                 badTestsV.addElement(td);
             }
@@ -195,6 +191,7 @@ public class Audit
 
     /**
      * Get a list of tests that had bad checksums during the analysis.
+     *
      * @return A set of tests, or null if none.
      */
     public TestResult[] getBadChecksumTests() {
@@ -203,6 +200,7 @@ public class Audit
 
     /**
      * Get a list of tests that had bad test descriptions during the analysis.
+     *
      * @return A set of tests, or null if none.
      */
     public TestResult[] getBadTestDescriptions() {
@@ -211,6 +209,7 @@ public class Audit
 
     /**
      * Get a list of tests that gave problems during the analysis.
+     *
      * @return A set of tests, or null if none.
      */
     public TestDescription[] getBadTests() {
@@ -220,6 +219,7 @@ public class Audit
     /**
      * Get a list of tests that were executed with too many test cases
      * excluded.
+     *
      * @return A set of tests, or null if none.
      */
     public TestResult[] getBadTestCaseTests() {
@@ -228,6 +228,7 @@ public class Audit
 
     /**
      * Get the statistics about the test result checksums.
+     *
      * @return An array of counts, indexed by
      * TestResult.GOOD_CHECKSUM, TestResult.BAD_CHECKSUM, etc
      */
@@ -237,6 +238,7 @@ public class Audit
 
     /**
      * Get the statistics about the environment values used by the test results.
+     *
      * @return An array of two integers; the first gives the number of env
      * values that were uniquely defined across all test results, the second gives
      * the number that were multiply defined across the results.
@@ -247,6 +249,7 @@ public class Audit
 
     /**
      * Get the composite set of environment values used by the tests.
+     *
      * @return A table of values.
      * The keys to the table are strings; the values are vectors of strings
      * containing the various values for that key.
@@ -257,6 +260,7 @@ public class Audit
 
     /**
      * Get the statistics about the test results.
+     *
      * @return An array of counts, indexed by Status.PASSED, Status.FAILED, etc
      */
     public int[] getStatusCounts() {
@@ -265,6 +269,7 @@ public class Audit
 
     /**
      * Get earliest recorded start time for a test.
+     *
      * @return The earliest recorded valid start time for a test,
      * or null, if none was found.
      */
@@ -274,6 +279,7 @@ public class Audit
 
     /**
      * Get latest recorded start time for a test.
+     *
      * @return The latest recorded valid start time for a test,
      * or null, if none was found.
      */
@@ -288,6 +294,7 @@ public class Audit
     /**
      * Get an overall thumps-up/thumbs-down for the analysis.
      * It is a composite of the other isXXXOK() methods.
+     *
      * @return true if all checks are OK
      */
     public boolean isOK() {
@@ -301,6 +308,7 @@ public class Audit
 
     /**
      * Determine if all tests were analyzed successfully.
+     *
      * @return true if all tests were analyzed successfully.
      */
     public boolean isAllTestsOK() {
@@ -310,6 +318,7 @@ public class Audit
     /**
      * Determine if all test cases were correctly executed for those
      * tests that support test cases.
+     *
      * @return true if all test cases were correctly executed for those
      * tests that support test cases.
      */
@@ -319,6 +328,7 @@ public class Audit
 
     /**
      * Determine if all test descriptions were OK.
+     *
      * @return true is all test descriptions were OK.
      */
     public boolean isAllTestDescriptionsOK() {
@@ -329,6 +339,7 @@ public class Audit
      * Determine if the checksum counts are acceptable.
      * This is currently defined as "no bad checksums";
      * in time, it should become "all good checksums".
+     *
      * @return true is there were no test results with bad checksums.
      */
     public boolean isChecksumCountsOK() {
@@ -339,6 +350,7 @@ public class Audit
      * Determine if all the test results have valid date stamps.
      * "Valid" just means present and parseable dates: no restriction
      * on the value is currently imposed.
+     *
      * @return true if no dates have invalid datestamps.
      */
     public boolean isDateStampsOK() {
@@ -348,6 +360,7 @@ public class Audit
     /**
      * Determine if the test result outcomes are acceptable.
      * All must pass, none must fail.
+     *
      * @return true if all necessary tests passed.
      */
     public boolean isStatusCountsOK() {
@@ -363,11 +376,12 @@ public class Audit
 
     /**
      * Print out a report of the analysis.
-     * @param out  A stream to which to write the output.
-     * @param showAllEnvValues Include a listing of all environment values used
-     *          by the collected set of tests.
+     *
+     * @param out                   A stream to which to write the output.
+     * @param showAllEnvValues      Include a listing of all environment values used
+     *                              by the collected set of tests.
      * @param showMultipleEnvValues Include a listing of those environment values
-     *          which were multiply defined by the collected set of tests.
+     *                              which were multiply defined by the collected set of tests.
      */
     public synchronized void report(PrintStream out,
                                     boolean showAllEnvValues,
@@ -445,8 +459,7 @@ public class Audit
     private void showDateStampInfo() {
         if (earliestStart == null || latestStart == null) {
             out.println(i18n.getString("adt.noDateStamps"));
-        }
-        else {
+        } else {
             Integer b = Integer.valueOf(badDates ? 1 : 0);
             out.println(i18n.getString("adt.earliestResult",
                     earliestStart, b));
@@ -459,7 +472,8 @@ public class Audit
 
     /**
      * Print out a short summary report of the environment statistics.
-     * @param out  A stream to which to write the output.
+     *
+     * @param out A stream to which to write the output.
      */
     private void showEnvCounts() {
         int u = envCounts[0];
@@ -476,8 +490,9 @@ public class Audit
 
     /**
      * Print out a listing of some or all of the env values used by the tests.
+     *
      * @param showAll show all environment values (uniquely and multiply defined.)
-     * The default is to just show the multiple defined values.
+     *                The default is to just show the multiple defined values.
      */
     private void showEnvValues(boolean showAll) {
         out.println();
@@ -543,9 +558,10 @@ public class Audit
 
     /**
      * Print out a labelled count if non-zero
+     *
      * @param needSep Need a leading separator (comma)
-     * @param label The label to display
-     * @param count The count to display, if non-zero
+     * @param label   The label to display
+     * @param count   The count to display, if non-zero
      * @return true if a separator will be needed for the next value to be shown
      */
     private boolean showCount(String msg, boolean needSep, int count) {
@@ -559,7 +575,7 @@ public class Audit
     }
 
     private boolean checkTestCases(TestResult tr, ExcludeList excludeList)
-        throws TestResult.Fault {
+            throws TestResult.Fault {
         // If no test cases excluded when test was run, then OK.
         // (This is the typical case.)
         String[] etcTest;
@@ -585,16 +601,16 @@ public class Audit
             return false;
 
         // now check that etcTest is a subset of etcTable
-    nextTestCase:
-    for (String anEtcTest : etcTest) {
-        for (String anEtcTable : etcTable) {
-            if (anEtcTest.equals(anEtcTable))
-                continue nextTestCase;
+        nextTestCase:
+        for (String anEtcTest : etcTest) {
+            for (String anEtcTable : etcTable) {
+                if (anEtcTest.equals(anEtcTable))
+                    continue nextTestCase;
+            }
+            // etcTest[i] was not found in etcTable;
+            // that means we have a problem
+            return false;
         }
-        // etcTest[i] was not found in etcTable;
-        // that means we have a problem
-        return false;
-    }
 
         // if we're here, we found all the test cases that were actually
         // excluded were all validly excluded, according to excludedTestCases.
@@ -653,8 +669,7 @@ public class Audit
                     dateFormats[0] = tmp;
                 }
                 return d;
-            }
-            catch (ParseException e) {
+            } catch (ParseException e) {
                 //System.err.println("pattern: " + ((SimpleDateFormat)dateFormats[i]).toPattern());
                 //System.err.println("  value: " + s);
                 //System.err.println("example: " + dateFormats[i].format(new Date()));
@@ -673,8 +688,8 @@ public class Audit
         // 10-Sep-99 3:25:11 PM
         v.addElement(DateFormat.getDateTimeInstance());
         v.addElement(DateFormat.getDateTimeInstance(DateFormat.DEFAULT,
-                                                    DateFormat.DEFAULT,
-                                                    Locale.ENGLISH));
+                DateFormat.DEFAULT,
+                Locale.ENGLISH));
 
         // standard IETF date syntax
         // Fri, 10 September 1999 03:25:12 PDT

@@ -67,6 +67,7 @@ import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
+
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -182,11 +183,10 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
     private void validateEnableState() {
         if (cache.getRejectCount() > 0) {
             model.setEnabled(BP_FilteredOutSubpanel.this, true);
-        }
-        else if (cache.getRejectCount() == 0) {
+        } else if (cache.getRejectCount() == 0) {
             model.setEnabled(BP_FilteredOutSubpanel.this, false);
+        } else {
         }
-        else { }
     }
 
     /**
@@ -204,22 +204,22 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             // object, causing a deadlock here.
             // sync. to hold observer traffic until re-sync is done
             synchronized (cache) {
-                synchronized(BP_FilteredOutSubpanel.this) {
+                synchronized (BP_FilteredOutSubpanel.this) {
                     // resync with this node cache
                     Vector<TestResult>[] newData = cache.addObserver(cacheWatcher, true);
 
                     // add tests into the list model - this doesn't make the data
                     // live though
-                    for (int j = 0; j < newData[newData.length-1].size() - 1; j++) {
+                    for (int j = 0; j < newData[newData.length - 1].size() - 1; j++) {
                         if (stopping)
                             break;
 
-                        mod.addTest(newData[newData.length-1].elementAt(j), true);
+                        mod.addTest(newData[newData.length - 1].elementAt(j), true);
                     }   // for
 
                     if (!newData[newData.length - 1].isEmpty() && !stopping) {
                         // final item with a notify
-                        mod.addTest(newData[newData.length-1].lastElement(), false);
+                        mod.addTest(newData[newData.length - 1].lastElement(), false);
                     }
 
                     // to indicate completion
@@ -290,40 +290,41 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
 
         // to trigger test selection when enter is pressed
         table.getInputMap(JComponent.WHEN_FOCUSED).put(
-                        KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false),
-                        "gotoTest");
+                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false),
+                "gotoTest");
         table.getActionMap().put("gotoTest",
-                    new KbTableAction(uif.getI18NResourceBundle(),
-                                    "br.list.enter"));
+                new KbTableAction(uif.getI18NResourceBundle(),
+                        "br.list.enter"));
 
-    String[] actions = { };
-    popupTable = uif.createPopupMenu("br", actions, tableListener);
+        String[] actions = {};
+        popupTable = uif.createPopupMenu("br", actions, tableListener);
 
-    actions = new String[] { "action.cpnamelist", "action.cpnamestr" };
-    popupTable.add(uif.createMenu("br.cp", actions, tableListener));
+        actions = new String[]{"action.cpnamelist", "action.cpnamestr"};
+        popupTable.add(uif.createMenu("br.cp", actions, tableListener));
 
-    // this is necessary to make sure that the split pane can resize
-    // this panel.  without setting the min., the panel seems to take
+        // this is necessary to make sure that the split pane can resize
+        // this panel.  without setting the min., the panel seems to take
         // all it is given, and never gives it back.
-        setMinimumSize(new Dimension(150,100));
+        setMinimumSize(new Dimension(150, 100));
     }
 
     /**
      * It is assumed that this will run on the event thread.
-    private void setEmpty(boolean state) {
-        if (state && list.getModel() != EmptyListModel.getInstance()) {
-            list.setModel(EmptyListModel.getInstance());
-            model.setEnabled(BP_TestListSubpanel.this, false);
-            lastMsg = "";
-        }
-        else if (!state && list.getModel() == EmptyListModel.getInstance()) {
-            list.setModel(mod);
-            model.setEnabled(BP_TestListSubpanel.this, true);
-        }
-    }
+     private void setEmpty(boolean state) {
+     if (state && list.getModel() != EmptyListModel.getInstance()) {
+     list.setModel(EmptyListModel.getInstance());
+     model.setEnabled(BP_TestListSubpanel.this, false);
+     lastMsg = "";
+     }
+     else if (!state && list.getModel() == EmptyListModel.getInstance()) {
+     list.setModel(mod);
+     model.setEnabled(BP_TestListSubpanel.this, true);
+     }
+     }
      */
 
     // ------------- inner class -------------
+
     /**
      * Enumerates tree in background to populate the list.
      * If this thread is running, consider list data incomplete.
@@ -338,9 +339,9 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
         TestTableModel(UIFactory uif) {
             super();
 
-            colNames = new String[] {
-                uif.getI18NString("br.fo.col0.txt"),
-                uif.getI18NString("br.fo.col1.txt")
+            colNames = new String[]{
+                    uif.getI18NString("br.fo.col0.txt"),
+                    uif.getI18NString("br.fo.col1.txt")
             };
 
             if (debug) {
@@ -378,8 +379,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 synchronized (liveData) {
                     return liveData.get(row);
                 }
-            }
-            else if (column == 1) {
+            } else if (column == 1) {
                 synchronized (liveData) {
                     TestResult tst = liveData.get(row);
                     Object r = null;
@@ -393,11 +393,10 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
 
                     return r;
                 }
-            }
-            else
+            } else
                 throw new IndexOutOfBoundsException(
-                    "Index into filtered out table is out of range: " +
-                    row + ", " + column);
+                        "Index into filtered out table is out of range: " +
+                                row + ", " + column);
         }
 
         @Override
@@ -406,6 +405,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
         }
 
         // ---------- Custom methods for this model ----------
+
         /**
          * @param suppressNotify Actively request that no update be scheduled.
          */
@@ -504,30 +504,29 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                             firstNew = liveData.size();
                             if (inQueue.size() < BATCH_SIZE) {
                                 liveData.addAll(inQueue);
-                                lastNew = liveData.size()-1;
+                                lastNew = liveData.size() - 1;
                                 inQueue.setSize(0);
-                            }
-                            else {          // only add some of the new items
-                                    for (int i = 0; i < BATCH_SIZE; i++) {
-                                        liveData.add(inQueue.remove(0));
-                                    }   // for
+                            } else {          // only add some of the new items
+                                for (int i = 0; i < BATCH_SIZE; i++) {
+                                    liveData.add(inQueue.remove(0));
+                                }   // for
 
                                 // schedule a future update
                                 if (!isUpdateScheduled) {
                                     TableNotifier tn = new TableNotifier(
-                                                        subpanelNode, this);
+                                            subpanelNode, this);
                                     pendingEvents.addElement(tn);
                                     EventQueue.invokeLater(tn);
                                 }
 
-                                lastNew = liveData.size()-1;
+                                lastNew = liveData.size() - 1;
                             }
                         }       // sync
 
                         // dispatch update range event to Swing
                         if (listenerList.getListenerCount() > 0) {
                             TableModelEvent e =
-                                new TableModelEvent(this, firstNew, lastNew,
+                                    new TableModelEvent(this, firstNew, lastNew,
                                             TableModelEvent.ALL_COLUMNS,
                                             TableModelEvent.INSERT);
                             TableNotifier tn = new TableNotifier(e, mod);
@@ -600,29 +599,28 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 if (liveData.contains(inQueue.elementAt(i))) {
                     inQueue.remove(i);
                     i--;
-                }
-                else {
+                } else {
                 }
             }   // for
         }
 
         // --------- event utility methods -----------
+
         /**
          * Notify observers that the given index was added
          */
         private void notifyAdded(TestResult what, int index) {
             if (listenerList.getListenerCount() > 0) {
                 // may want to buffer these messages for performance
-                TableModelEvent e = new TableModelEvent (this, index, index,
-                                            TableModelEvent.ALL_COLUMNS,
-                                            TableModelEvent.INSERT);
+                TableModelEvent e = new TableModelEvent(this, index, index,
+                        TableModelEvent.ALL_COLUMNS,
+                        TableModelEvent.INSERT);
 
                 if (EventQueue.isDispatchThread()) {
                     // XXX try without this to see perf. impact
                     // dispatch synchronously
                     mod.fireTableChanged(e);
-                }
-                else {
+                } else {
                     // switch event onto AWT event thread
                     TableNotifier tn = new TableNotifier(e, mod);
                     pendingEvents.addElement(tn);
@@ -635,15 +633,14 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             if (listenerList.getListenerCount() > 0) {
                 // may want to buffer these messages
                 TableModelEvent e = new TableModelEvent(this, index, index,
-                                        TableModelEvent.ALL_COLUMNS,
-                                        TableModelEvent.DELETE);
+                        TableModelEvent.ALL_COLUMNS,
+                        TableModelEvent.DELETE);
 
                 if (EventQueue.isDispatchThread()) {
                     // XXX try without this to see perf. impact
                     // dispatch synchronously
                     mod.fireTableChanged(e);
-                }
-                else {
+                } else {
                     // switch event onto AWT event thread
                     TableNotifier tn = new TableNotifier(e, mod);
                     pendingEvents.addElement(tn);
@@ -688,7 +685,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
         @Override
         public void testAdded(int msgType, TestResultTable.TreeNode[] path,
                               TestResult what, int index) {
-            synchronized(BP_FilteredOutSubpanel.this) {
+            synchronized (BP_FilteredOutSubpanel.this) {
                 mod.addTest(what, false);
             }
         }
@@ -696,7 +693,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
         @Override
         public void testRemoved(int msgType, TestResultTable.TreeNode[] path,
                                 TestResult what, int index) {
-            synchronized(BP_FilteredOutSubpanel.this) {
+            synchronized (BP_FilteredOutSubpanel.this) {
                 mod.removeTest(what);
             }
         }
@@ -738,8 +735,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 // consume the update event
                 tm.isUpdateScheduled = false;
                 tm.goLive();
-            }
-            else {
+            } else {
                 tm.fireTableChanged(tme);
             }
         }
@@ -795,7 +791,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                                 setContents(payload, null);
                         Clipboard selection = Toolkit.getDefaultToolkit().getSystemSelection();
                         if (selection != null)
-                                selection.setContents(payload, null);
+                            selection.setContents(payload, null);
                     }
 
                 } else { // now rows selected
@@ -813,40 +809,39 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 if (e.getButton() == MouseEvent.BUTTON3) {
                     popupTable.show(e.getComponent(), e.getX(), e.getY());
                 } else {
-            JTable tbl = (JTable) e.getComponent();
-            int col = table.columnAtPoint(e.getPoint());
-            int row = table.rowAtPoint(e.getPoint());
-            TableModel tm = table.getModel();
+                    JTable tbl = (JTable) e.getComponent();
+                    int col = table.columnAtPoint(e.getPoint());
+                    int row = table.rowAtPoint(e.getPoint());
+                    TableModel tm = table.getModel();
 
-            // an empty table can't do anything
-            if (tm.getRowCount() < 1) {
-                // clear the message field
-                showMessage("");
-                return;
-            }
+                    // an empty table can't do anything
+                    if (tm.getRowCount() < 1) {
+                        // clear the message field
+                        showMessage("");
+                        return;
+                    }
 
-            // always use col 1, which is where the TestResult is
-            // we only really care which row was clicked on
-            TestResult tr = (TestResult) tm.getValueAt(row, 0);
+                    // always use col 1, which is where the TestResult is
+                    // we only really care which row was clicked on
+                    TestResult tr = (TestResult) tm.getValueAt(row, 0);
 
-            if (e.getClickCount() == 1) {
-                // show vital stats only
-                showMessage(I18NUtils.getStatusMessage(tr.getStatus()));
-            }
-            else if (e.getClickCount() == 2) {
-                // construct the path required by the model
-                TestResultTable.TreeNode[] path = TestResultTable.getObjectPath(tr);
+                    if (e.getClickCount() == 1) {
+                        // show vital stats only
+                        showMessage(I18NUtils.getStatusMessage(tr.getStatus()));
+                    } else if (e.getClickCount() == 2) {
+                        // construct the path required by the model
+                        TestResultTable.TreeNode[] path = TestResultTable.getObjectPath(tr);
 
-                // sanity check, could happen in exceptional cases (out of memory)
-                if (path == null || path.length == 0)
-                    return;
+                        // sanity check, could happen in exceptional cases (out of memory)
+                        if (path == null || path.length == 0)
+                            return;
 
-                Object[] fp = new Object[path.length + 1];
-                System.arraycopy(path, 0, fp, 0, path.length);
-                fp[fp.length-1] = tr;
+                        Object[] fp = new Object[path.length + 1];
+                        System.arraycopy(path, 0, fp, 0, path.length);
+                        fp[fp.length - 1] = tr;
 
-                model.showTest(tr, fp);
-            }
+                        model.showTest(tr, fp);
+                    }
                 }
             }
         }
@@ -866,7 +861,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
 
             if (index != lastIndex) {
                 TestResult tr =
-                    (TestResult) mod.getValueAt(index, 0);
+                        (TestResult) mod.getValueAt(index, 0);
 
                 // show vital stats only
                 showMessage(I18NUtils.getStatusMessage(tr.getStatus()));
@@ -900,7 +895,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             if (!(target instanceof TestResult))
                 return;
 
-            TestResult tr = (TestResult)target;
+            TestResult tr = (TestResult) target;
             TestResultTable.TreeNode[] path = TestResultTable.getObjectPath(tr);
 
             // sanity check, could happen in exceptional cases (out of memory)
@@ -909,7 +904,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
 
             Object[] fp = new Object[path.length + 1];
             System.arraycopy(path, 0, fp, 0, path.length);
-            fp[fp.length-1] = tr;
+            fp[fp.length - 1] = tr;
 
             model.showTest(tr, fp);
         }
@@ -932,9 +927,9 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
     }
 
     class TestCellRenderer extends DefaultTableCellRenderer {
-         public TestCellRenderer(UIFactory uif) {
-             setOpaque(false);
-         }
+        public TestCellRenderer(UIFactory uif) {
+            setOpaque(false);
+        }
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value,
@@ -944,16 +939,15 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 return this;
 
             if (value instanceof TestResult) {
-                TestResult tr = (TestResult)value;
+                TestResult tr = (TestResult) value;
                 setText(tr.getTestName());
                 setToolTipText(I18NUtils.getStatusMessage(tr.getStatus()));
 
             } else if (value instanceof TestFilter) {
-                TestFilter tf = (TestFilter)value;
+                TestFilter tf = (TestFilter) value;
                 setText(tf.getReason());
                 setToolTipText(tf.getDescription());
-            }
-            else {      // this will run for the reason column (1)
+            } else {      // this will run for the reason column (1)
                 setText(value.toString());
             }
 
@@ -965,8 +959,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 //setBackground(MetalLookAndFeel.getTextHighlightColor());
                 setBackground(table.getSelectionBackground());
                 setForeground(table.getSelectionForeground());
-            }
-            else {
+            } else {
                 //setForeground(MetalLookAndFeel.getPrimaryControlDarkShadow());
                 setForeground(table.getForeground());
                 setOpaque(false);
@@ -977,7 +970,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             // is rendered though
             if (!rowHeightSet) {
                 table.setRowHeight(getFontMetrics(getFont()).getHeight() +
-                                   ROW_HEIGHT_PADDING);
+                        ROW_HEIGHT_PADDING);
                 rowHeightSet = true;
             }
 
@@ -985,7 +978,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
         }
 
         // border to pad left and right
-        private Border spacerBorder = BorderFactory.createEmptyBorder(3,3,3,3);
+        private Border spacerBorder = BorderFactory.createEmptyBorder(3, 3, 3, 3);
     }
 
 

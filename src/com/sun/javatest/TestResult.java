@@ -69,12 +69,12 @@ import com.sun.javatest.util.StringArray;
  * Each of these sections is represented by a (@link TestResult.Section Section).
  * Instances of this class are mutable until the result of the section is
  * set or until the result of the test itself is set.
- *
+ * <p>
  * Test results are stored in a structured text files.
  * The TestResult class serves as the API for accessing the various
  * components that make up the result of running a test.
  * The status is cached as its size is small and it is accessed often.
- *
+ * <p>
  * This class and inner classes will throw IllegalStateExceptions if an
  * attempt is made to modify the any part of the object that has been
  * marked immutable.
@@ -84,8 +84,7 @@ public class TestResult {
     /**
      * This exception is to report problems using TestResult objects.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         Fault(I18NResourceBundle i18n, String key) {
             super(i18n.getString(key));
         }
@@ -145,7 +144,7 @@ public class TestResult {
         /**
          * A new section has been created in the test result.
          *
-         * @param tr The test result in which the section was created.
+         * @param tr      The test result in which the section was created.
          * @param section The section that has been created
          */
         public void createdSection(TestResult tr, Section section);
@@ -153,7 +152,7 @@ public class TestResult {
         /**
          * A section has been been completed in the test result.
          *
-         * @param tr The test result containing the section.
+         * @param tr      The test result containing the section.
          * @param section The section that has been completed.
          */
         public void completedSection(TestResult tr, Section section);
@@ -161,8 +160,8 @@ public class TestResult {
         /**
          * New output has been created in a section of the test result.
          *
-         * @param tr The test result containing the output.
-         * @param section The section in which the output has been created.
+         * @param tr         The test result containing the output.
+         * @param section    The section in which the output has been created.
          * @param outputName The name of the output.
          */
         public void createdOutput(TestResult tr, Section section, String outputName);
@@ -170,8 +169,8 @@ public class TestResult {
         /**
          * Output has been completed in a section of the test result.
          *
-         * @param tr The test result containing the output.
-         * @param section The section in which the output has been completed.
+         * @param tr         The test result containing the output.
+         * @param section    The section in which the output has been completed.
          * @param outputName The name of the output.
          */
         public void completedOutput(TestResult tr, Section section, String outputName);
@@ -179,28 +178,28 @@ public class TestResult {
         /**
          * The output for a section has been updated.
          *
-         * @param tr The test result object being modified.
-         * @param section The section in which the output is being produced.
+         * @param tr         The test result object being modified.
+         * @param section    The section in which the output is being produced.
          * @param outputName The name of the output.
-         * @param start the start offset of the text that was changed
-         * @param end the end offset of the text that was changed
-         * @param text the text that replaced the specified range.
+         * @param start      the start offset of the text that was changed
+         * @param end        the end offset of the text that was changed
+         * @param text       the text that replaced the specified range.
          */
         public void updatedOutput(TestResult tr, Section section, String outputName, int start, int end, String text);
 
         /**
          * A property of the test result has been updated.
          *
-         * @param tr The test result containing the property that was modified.
-         * @param name The key for the property that was modified.
+         * @param tr    The test result containing the property that was modified.
+         * @param name  The key for the property that was modified.
          * @param value The new value for the property.
-         *
          */
         public void updatedProperty(TestResult tr, String name, String value);
 
         /**
          * The test has completed, and the results are now immutable.
          * There will be no further observer calls.
+         *
          * @param tr The test result that has been completed.
          */
         public void completed(TestResult tr);
@@ -217,6 +216,7 @@ public class TestResult {
     public class Section {
         /**
          * Query if the section is still writable or not.
+         *
          * @return true if the section is still writable, and false otherwise
          */
         public boolean isMutable() {
@@ -230,6 +230,7 @@ public class TestResult {
 
         /**
          * Find out what the result of the execution of this section was.
+         *
          * @return the result of the execution of this section
          * @see #setStatus
          */
@@ -267,6 +268,7 @@ public class TestResult {
         /**
          * Get the title of this section, specified when the section
          * was created.
+         *
          * @return the title of this section
          */
         public String getTitle() {
@@ -275,6 +277,7 @@ public class TestResult {
 
         /**
          * Get the appropriate to writer to access the default message field.
+         *
          * @return a Writer to access the default message field
          */
         public PrintWriter getMessageWriter() {
@@ -323,9 +326,10 @@ public class TestResult {
 
         /**
          * Get the content that was written to a specified output stream.
+         *
          * @param name the name of the stream in question
          * @return All the data that was written to the specified output,
-         *         or null if nothing has been written.
+         * or null if nothing has been written.
          */
         public String getOutput(String name) {
             if (name == null)
@@ -363,6 +367,7 @@ public class TestResult {
         /**
          * Removes any data added to the named output up to this point, resetting
          * it to an empty state.
+         *
          * @param name The output name to erase the content of.
          * @since 4.2.1
          */
@@ -374,7 +379,7 @@ public class TestResult {
                 synchronized (this) {
                     OutputBuffer b = findOutputBuffer(name);
                     if (b != null && b instanceof WritableOutputBuffer)
-                        ((WritableOutputBuffer)b).deleteAllOutput();
+                        ((WritableOutputBuffer) b).deleteAllOutput();
                 }
             }
         }
@@ -406,8 +411,7 @@ public class TestResult {
                 if (line.startsWith(JTR_V2_SECTION)) {
                     title = extractSlice(line, 0, ":", null);
                     break;
-                }
-                else
+                } else
                     // don't know what this line is, may be empty
                     line = in.readLine();
             }
@@ -576,7 +580,7 @@ public class TestResult {
             // may help in some backward compatibility cases since the most
             // recent stream with that name will be found
             // performance of the search will still be constant
-            for (int i = buffers.length-1; i >= 0 ; i--) {
+            for (int i = buffers.length - 1; i >= 0; i--) {
                 if (name.equals(buffers[i].getName()))
                     return buffers[i];
             }
@@ -617,7 +621,7 @@ public class TestResult {
                 if (nm == null)
                     throw new ReloadFault(i18n, "rslt.noOutputTitle");
 
-                if (nm.equals(MESSAGE_OUTPUT_NAME ))
+                if (nm.equals(MESSAGE_OUTPUT_NAME))
                     nm = MESSAGE_OUTPUT_NAME;
 
                 try {
@@ -634,8 +638,7 @@ public class TestResult {
                             needsEscape = header.charAt(rp + 1) == '*';
                         else
                             needsEscape = false;
-                    }
-                    catch (NumberFormatException e) {
+                    } catch (NumberFormatException e) {
                         // fatal parsing error
                         throw new ReloadFault(i18n, "rslt.badHeaderVersion", e);
                     }
@@ -651,22 +654,21 @@ public class TestResult {
                                 c = in.read();
                                 i++;
                                 if (c == 'u') {
-                                    c =  Character.digit((char)in.read(), 16) << 12;
-                                    c += Character.digit((char)in.read(), 16) <<  8;
-                                    c += Character.digit((char)in.read(), 16) <<  4;
-                                    c += Character.digit((char)in.read(), 16);
+                                    c = Character.digit((char) in.read(), 16) << 12;
+                                    c += Character.digit((char) in.read(), 16) << 8;
+                                    c += Character.digit((char) in.read(), 16) << 4;
+                                    c += Character.digit((char) in.read(), 16);
                                     i += 4;
                                 }
                                 // else drop through (for \\)
                             }
-                            buff.append((char)c);
+                            buff.append((char) c);
                         }
-                    }
-                    else {
+                    } else {
                         char[] data = new char[Math.min(4096, chars)];
                         int charsRead = 0;
                         while (charsRead < chars) {
-                            int n = in.read(data, 0, Math.min(data.length, chars-charsRead));
+                            int n = in.read(data, 0, Math.min(data.length, chars - charsRead));
 
                             // sanity check, may be truncated file
                             if (n < 0) {
@@ -709,13 +711,12 @@ public class TestResult {
                         if (c == '\r')
                             c = in.read();
                         if (c != '\n') {
-                            System.err.println("TR.badChars: output=" + (output.length() < 32 ? output : output.substring(0, 9) + " ... " + output.substring(output.length() - 10) ));
-                            System.err.println("TR.badChars: '" + (char)c + "' (" + c + ")");
+                            System.err.println("TR.badChars: output=" + (output.length() < 32 ? output : output.substring(0, 9) + " ... " + output.substring(output.length() - 10)));
+                            System.err.println("TR.badChars: '" + (char) c + "' (" + c + ")");
                             throw new ReloadFault(i18n, "rslt.badChars", name);
                         }
                     }
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     // not enough data probably fatal parsing error
                     throw new ReloadFault(i18n, "rslt.badFile", e);
                 }
@@ -764,28 +765,27 @@ public class TestResult {
 
                 int maxOutputSize = maxTROutputSize > 0 ? maxTROutputSize : commonOutputSize;
                 if (output.length() > maxOutputSize) {
-                    int overflowEnd = maxOutputSize/3;
+                    int overflowEnd = maxOutputSize / 3;
                     if (overflowed) {
                         // output.delete(overflowStart, overflowEnd);
                         // JDK 1.1--start
                         String s = output.toString();
-                        output = new StringBuffer(s.substring(0, overflowStart) + s.substring(output.length()-overflowEnd));
+                        output = new StringBuffer(s.substring(0, overflowStart) + s.substring(output.length() - overflowEnd));
                         // JDK 1.1--end
                         notifyUpdatedOutput(Section.this, name, overflowStart, overflowEnd, "");
-                    }
-                    else {
+                    } else {
                         String OVERFLOW_MESSAGE =
-                            "\n\n...\n"
-                            + "Output overflow:\n"
-                            + "JT Harness has limited the test output to the text\n"
-                            + "at the beginning and the end, so that you can see how the\n"
-                            + "test began, and how it completed.\n"
-                            + "\n"
-                            + "If you need to see more of the output from the test,\n"
-                            + "set the system property javatest.maxOutputSize to a higher\n"
-                            + "value. The current value is " + maxOutputSize
-                            + "\n...\n\n";
-                        overflowStart = maxOutputSize/3;
+                                "\n\n...\n"
+                                        + "Output overflow:\n"
+                                        + "JT Harness has limited the test output to the text\n"
+                                        + "at the beginning and the end, so that you can see how the\n"
+                                        + "test began, and how it completed.\n"
+                                        + "\n"
+                                        + "If you need to see more of the output from the test,\n"
+                                        + "set the system property javatest.maxOutputSize to a higher\n"
+                                        + "value. The current value is " + maxOutputSize
+                                        + "\n...\n\n";
+                        overflowStart = maxOutputSize / 3;
                         //output.replace(overflowStart, maxOutputSize*2/3, OVERFLOW_MESSAGE);
                         // JDK 1.1--start
                         String s = output.toString();
@@ -835,20 +835,21 @@ public class TestResult {
     // (It is accepted in  1.1.x; rejected by 1.2)
     private interface OutputBuffer {
         String getName();
+
         String getOutput();
+
         PrintWriter getPrintWriter();
     }
 
 
-
-
     // ------------------------- PUBLIC CONSTRUCTORS -------------------------
+
     /**
      * Construct a test result object that will be built as the test runs.
      * The status string will be "running..." rather than "not run".
      *
      * @param td The test description to base this new object on.  Cannot be
-     *        null.
+     *           null.
      */
     public TestResult(TestDescription td) {
         desc = td;
@@ -867,10 +868,10 @@ public class TestResult {
      * @param workDir Work directory in which the tests were run
      * @param td      Description of the test that was run
      * @throws TestResult.Fault if there is a problem recreating the results
-     *                  from the appropriate file in the work directory
+     *                          from the appropriate file in the work directory
      */
     public TestResult(TestDescription td, WorkDirectory workDir)
-                      throws Fault {
+            throws Fault {
         desc = td;
         testURL = desc.getRootRelativeURL();
         execStatus = inProgress;
@@ -882,14 +883,13 @@ public class TestResult {
      * Reconstruct the results of a previously run test.
      *
      * @param file File that the results have been stored into.
-     * @throws     TestResult.ReloadFault if there is a problem recreating the results
-     *                  from the given file
-     * @throws     TestResult.ResultFileNotFoundFault if there is a problem locating
-     *                  the given file
+     * @throws TestResult.ReloadFault             if there is a problem recreating the results
+     *                                            from the given file
+     * @throws TestResult.ResultFileNotFoundFault if there is a problem locating
+     *                                            the given file
      */
     public TestResult(File file)
-        throws ResultFileNotFoundFault, ReloadFault
-    {
+            throws ResultFileNotFoundFault, ReloadFault {
         resultsFile = file;
         reload();
 
@@ -901,12 +901,12 @@ public class TestResult {
     /**
      * Reconstruct the results of a previously run test.
      *
-     * @param workDir The work directory where previous results for the guven
-     *        test can be found.
+     * @param workDir          The work directory where previous results for the guven
+     *                         test can be found.
      * @param workRelativePath The path to the JTR to reload, relative to the
-     *        workdir.
+     *                         workdir.
      * @throws TestResult.Fault if there is a problem recreating the results
-     *            from the given file
+     *                          from the given file
      */
     public TestResult(WorkDirectory workDir, String workRelativePath) throws Fault {
         //resultsFile = workDir.getFile(workRelativePath.replace('/', File.separatorChar));
@@ -921,9 +921,9 @@ public class TestResult {
      * Create a temporary test result for which can be handed around
      * in situations where a reasonable test result can't be created.
      *
-     * @param td     Description of the test
-     * @param s      Status to associate with running the test... presumed
-     *               to be of the Status.FAILED type.
+     * @param td Description of the test
+     * @param s  Status to associate with running the test... presumed
+     *           to be of the Status.FAILED type.
      */
     public TestResult(TestDescription td, Status s) {
         desc = td;
@@ -936,8 +936,8 @@ public class TestResult {
     /**
      * Create a placeholder TestResult for a test that has not yet been run.
      *
-     * @param td     The test description for the test
-     * @return       A test result that indicates that the test has not yet been run
+     * @param td The test description for the test
+     * @return A test result that indicates that the test has not yet been run
      */
     public static TestResult notRun(TestDescription td) {
         return new TestResult(td, notRunStatus);
@@ -954,7 +954,7 @@ public class TestResult {
     public synchronized TestResult.Section createSection(String name) {
         if (!isMutable()) {
             throw new IllegalStateException(
-                        "This TestResult is no longer mutable!");
+                    "This TestResult is no longer mutable!");
         }
 
         Section section = new Section(name);
@@ -972,13 +972,14 @@ public class TestResult {
      * Set the environment used by this test. When the test is run,
      * those entries in the environment that are referenced are noted;
      * those entries will be recorded here in the test result object.
+     *
      * @param environment the test environment used by this test.
      * @see #getEnvironment
      */
     public synchronized void setEnvironment(TestEnvironment environment) {
         if (!isMutable()) {
             throw new IllegalStateException(
-                        "This TestResult is no longer mutable!");
+                    "This TestResult is no longer mutable!");
         }
         for (TestEnvironment.Element elem : environment.elementsUsed()) {
             // this is stunningly inefficient and should be fixed
@@ -989,18 +990,19 @@ public class TestResult {
     /**
      * Set the result of this test.  This action makes this object immutable.
      * If a result comparison is needed, it will be done in here.
+     *
      * @param stat A status object representing the outcome of the test
      * @see #getStatus
      */
     public synchronized void setStatus(Status stat) {
         if (!isMutable()) {
             throw new IllegalStateException(
-                        "This TestResult is no longer mutable!");
+                    "This TestResult is no longer mutable!");
         }
 
         if (stat == null) {
             throw new IllegalArgumentException(
-                        "TestResult status cannot be set to null!");
+                    "TestResult status cannot be set to null!");
         }
 
         // close out message section
@@ -1019,9 +1021,9 @@ public class TestResult {
         }
 
         props = PropertyArray.put(props, SECTIONS,
-                                  StringArray.join(getSectionTitles()));
+                StringArray.join(getSectionTitles()));
         props = PropertyArray.put(props, EXEC_STATUS,
-                                  execStatus.toString());
+                execStatus.toString());
 
         // end time now required
         // mainly for writing in the TRC for the Last Run Filter
@@ -1036,14 +1038,14 @@ public class TestResult {
     /**
      * Add a new property value to this TestResult.
      *
-     * @param name The name of the property to be updated.
+     * @param name  The name of the property to be updated.
      * @param value The new value of the specified property.
      */
     public synchronized void putProperty(String name, String value) {
         // check mutability
         if (!isMutable()) {
             throw new IllegalStateException(
-                "Cannot put property, the TestResult is no longer mutable!");
+                    "Cannot put property, the TestResult is no longer mutable!");
         }
 
         props = PropertyArray.put(props, name, value);
@@ -1054,9 +1056,10 @@ public class TestResult {
      * Sets the maximum output size for the current TestResult.
      * The value will be used instead of the value specified
      * by the system property javatest.maxOutputSize.
+     *
      * @param size the maximum number of characters.
      */
-    public synchronized void setMaxOutputSize(int size){
+    public synchronized void setMaxOutputSize(int size) {
         if (!isMutable()) {
             throw new IllegalStateException(
                     "This TestResult is no longer mutable!");
@@ -1074,7 +1077,7 @@ public class TestResult {
         // check mutability
         if (!isMutable()) {
             throw new IllegalStateException(
-                "Cannot reload results, the TestResult is no longer mutable!");
+                    "Cannot reload results, the TestResult is no longer mutable!");
         }
 
 
@@ -1089,21 +1092,18 @@ public class TestResult {
             // this next line is dubious since the execStatus should have
             // been set during the reload
             execStatus = Status.parse(PropertyArray.get(props, EXEC_STATUS));
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             props = emptyStringArray;
             env = emptyStringArray;
             sections = emptySectionArray;
             execStatus = Status.notRun("no test result file found");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             props = emptyStringArray;
             env = emptyStringArray;
             sections = emptySectionArray;
             execStatus = Status.error("error opening result file: " + e);
             throw new Fault(i18n, "rslt.badFile", e.toString());
-        }
-        catch (Fault f) {
+        } catch (Fault f) {
             props = emptyStringArray;
             env = emptyStringArray;
             sections = emptySectionArray;
@@ -1118,18 +1118,21 @@ public class TestResult {
 
     /**
      * A code indicating that no checksum was found in a .jtr file.
+     *
      * @see #getChecksumState
      */
     public static final int NO_CHECKSUM = 0;
 
     /**
      * A code indicating that an invalid checksum was found in a .jtr file.
+     *
      * @see #getChecksumState
      */
     public static final int BAD_CHECKSUM = 1;
 
     /**
      * A code indicating that a good checksum was found in a .jtr file.
+     *
      * @see #getChecksumState
      */
     public static final int GOOD_CHECKSUM = 2;
@@ -1142,6 +1145,7 @@ public class TestResult {
 
     /**
      * Get info about the checksum in this object.
+     *
      * @return a value indicating the validity or otherwise of the checksum
      * found while reading this result object.
      * @see #NO_CHECKSUM
@@ -1156,7 +1160,7 @@ public class TestResult {
      * A way to write comments about the test execution into the results.
      *
      * @return If this is null, then the object is in a state in which it
-     *         does not accept new messages.
+     * does not accept new messages.
      */
     public PrintWriter getTestCommentWriter() {
         return sections[0].getMessageWriter();
@@ -1177,6 +1181,7 @@ public class TestResult {
     /**
      * Check whether this test result can be reloaded from a file.
      * This method does not validate the contents of the file.
+     *
      * @return true if the result file for this object can be read
      */
     public boolean isReloadable() {
@@ -1195,10 +1200,10 @@ public class TestResult {
      */
     public boolean isShrunk() {
         if (!isMutable() &&
-            (desc == null ||
-             props == null ||
-             env == null ||
-             (sections == null && execStatus != inProgress)))
+                (desc == null ||
+                        props == null ||
+                        env == null ||
+                        (sections == null && execStatus != inProgress)))
             return true;
         else
             return false;
@@ -1212,10 +1217,10 @@ public class TestResult {
      *
      * @return the test description for this test result object
      * @throws TestResult.Fault if there is a problem recreating the description
-     * from the results file.
+     *                          from the results file.
      */
     public synchronized TestDescription getDescription()
-                throws Fault {
+            throws Fault {
         if (desc == null) {
             // reconstitute description (probably from file)
             reload();
@@ -1239,6 +1244,7 @@ public class TestResult {
     /**
      * Get the path name for the results file for this test, relative to the
      * work directory.  The internal separator is '/'.
+     *
      * @return the path name for the results file for this test,
      * relative to the work directory
      */
@@ -1249,6 +1255,7 @@ public class TestResult {
     /**
      * Get the name, if any, for the result file for this object.
      * The path information contains platform specific path separators.
+     *
      * @return the name, if any, for the result file for this object
      */
     public File getFile() {
@@ -1262,6 +1269,7 @@ public class TestResult {
     /**
      * Get the path name for the results file for a test, relative to the
      * work directory.  The internal separator is '/'.
+     *
      * @param td the test description for the test in question
      * @return the path name for the results file for a test, relative to the
      * work directory
@@ -1280,7 +1288,7 @@ public class TestResult {
      *
      * @param testURL May not be null;
      * @return The work relative path of the JTR for this test.  Null if the
-     *         given URL is null.
+     * given URL is null.
      */
     public static String getWorkRelativePath(String testURL) {
         int pound = testURL.lastIndexOf("#");
@@ -1288,7 +1296,7 @@ public class TestResult {
             return getWorkRelativePath(testURL, null);
         else
             return getWorkRelativePath(testURL.substring(0, pound),
-                                       testURL.substring(pound + 1));
+                    testURL.substring(pound + 1));
     }
 
     /**
@@ -1296,22 +1304,22 @@ public class TestResult {
      * work directory.  The internal separator is '/'.
      *
      * @param baseURL May not be null;
-     * @param testId The test identifier that goes with the URL.  This may be null.
+     * @param testId  The test identifier that goes with the URL.  This may be null.
      * @return The work relative path of the JTR for this test.  Null if the
-     *         given URL is null.
+     * given URL is null.
      */
     public static String getWorkRelativePath(String baseURL, String testId) {
         StringBuilder sb = new StringBuilder(baseURL);
 
         // strip off extension
-    stripExtn:
+        stripExtn:
         for (int i = sb.length() - 1; i >= 0; i--) {
             switch (sb.charAt(i)) {
-            case '.':
-                sb.setLength(i);
-                break stripExtn;
-            case '/':
-                break stripExtn;
+                case '.':
+                    sb.setLength(i);
+                    break stripExtn;
+                case '/':
+                    break stripExtn;
             }
         }
 
@@ -1328,6 +1336,7 @@ public class TestResult {
 
     /**
      * Get the keys of the properties that this object has stored.
+     *
      * @return the keys of the properties that this object has stored
      */
     public synchronized Enumeration<String> getPropertyNames() {
@@ -1339,9 +1348,9 @@ public class TestResult {
      *
      * @param name The name of the property to be retrieved.
      * @return The value corresponding to the property name, null if not
-     *          found.
+     * found.
      * @throws TestResult.Fault if there is a problem
-     *          recreating data from the results file.
+     *                          recreating data from the results file.
      */
     public synchronized String getProperty(String name)
             throws Fault {
@@ -1356,9 +1365,10 @@ public class TestResult {
 
     /**
      * Get a copy of the environment that this object has stored.
+     *
      * @return a copy of the environment that this object has stored
      * @throws TestResult.Fault if there is a problem
-     *          recreating data from the results file.
+     *                          recreating data from the results file.
      * @see #setEnvironment
      */
     public synchronized Map<String, String> getEnvironment() throws Fault {
@@ -1373,6 +1383,7 @@ public class TestResult {
     /**
      * Get the parent node in the test result table that
      * contains this test result object.
+     *
      * @return the parent node in the test result table that
      * contains this test result object.
      */
@@ -1384,8 +1395,9 @@ public class TestResult {
     /**
      * Set the parent node in the test result table that
      * contains this test result object.
+     *
      * @param p the parent node in the test result table that
-     * contains this test result object.
+     *          contains this test result object.
      * @see #getParent
      */
     void setParent(TestResultTable.TreeNode p) {
@@ -1398,6 +1410,7 @@ public class TestResult {
      * Determine if the test result object is still mutable.
      * Test results are only mutable while they are being created, up to
      * the point that the final status is set.
+     *
      * @return true if the test result object is still mutable,
      * and false otherwise
      */
@@ -1410,6 +1423,7 @@ public class TestResult {
 
     /**
      * Get the status for this test.
+     *
      * @return the status for this test
      * @see #setStatus
      */
@@ -1427,11 +1441,9 @@ public class TestResult {
     public synchronized int getSectionCount() {
         if (sections != null) {
             return sections.length;
-        }
-        else if (PropertyArray.get(props, SECTIONS) != null) {
+        } else if (PropertyArray.get(props, SECTIONS) != null) {
             return parseSectionCount(PropertyArray.get(props, SECTIONS));
-        }
-        else {
+        } else {
             // hum, test props are never discarded, so we have no sections
             return 0;
         }
@@ -1444,7 +1456,7 @@ public class TestResult {
      * @param index The index of the section to be retrieved.
      * @return The requested section.  Will be null if the section does not exist.
      * @throws TestResult.ReloadFault Will occur if an error is encountered when reloading
-     *         JTR data.  This may be the result of a corrupt or missing JTR file.
+     *                                JTR data.  This may be the result of a corrupt or missing JTR file.
      * @see #MSG_SECTION_NAME
      */
     public synchronized Section getSection(int index) throws ReloadFault {
@@ -1454,19 +1466,16 @@ public class TestResult {
             // try to reload from file
             try {
                 reload();
-            }
-            catch (ReloadFault f) {
+            } catch (ReloadFault f) {
                 throw f;
-            }
-            catch (Fault f) {
-                throw new ReloadFault(i18n, "rslt.badFile",  f.getMessage());
+            } catch (Fault f) {
+                throw new ReloadFault(i18n, "rslt.badFile", f.getMessage());
             }
         }
 
         if (index >= sections.length) {
             target = null;
-        }
-        else {
+        } else {
             target = sections[index];
         }
 
@@ -1479,14 +1488,13 @@ public class TestResult {
      * improbable since most test result object automatically have one section.
      *
      * @return The titles, one at a time in the array.  Null if the titles
-     *          do not exist or could not be determined.
+     * do not exist or could not be determined.
      */
     public synchronized String[] getSectionTitles() {
         if (props == null) {
             try {
                 reload();
-            }
-            catch (Fault f) {
+            } catch (Fault f) {
                 // should this maybe be a JavaTestError?
                 return null;
             }
@@ -1498,8 +1506,7 @@ public class TestResult {
         if (names != null) {
             // it is cached
             return StringArray.split(names);
-        }
-        else if (sections != null) {
+        } else if (sections != null) {
             // TR is not immutable yet, probably
             int numSections = getSectionCount();
             String[] data = new String[numSections];
@@ -1509,8 +1516,7 @@ public class TestResult {
             }
 
             return data;
-        }
-        else {
+        } else {
             // hum, bad.  No sections exist and this data isn't cached
             // the test probably has not run
             return null;
@@ -1520,6 +1526,7 @@ public class TestResult {
     /**
      * Check if this file is or appears to be a result (.jtr) file,
      * according to its filename extension.
+     *
      * @param f the file to be checked
      * @return true if this file is or appears to be a result (.jtr) file.
      */
@@ -1531,17 +1538,16 @@ public class TestResult {
     /**
      * Writes the TestResult into a version 2 jtr file.
      *
-     * @param workDir The work directory in which to write the results
+     * @param workDir      The work directory in which to write the results
      * @param backupPolicy a policy object defining what to do if a file
-     * already exists with the same name as that which is about to be written.
+     *                     already exists with the same name as that which is about to be written.
      * @throws IllegalStateException This will occur if you attempt to write a result
-     *         which is still mutable.
-     * @throws IOException Occurs when the output file cannot be created or written to.
-     *         Under this condition, this object will change it status to an error.
+     *                               which is still mutable.
+     * @throws IOException           Occurs when the output file cannot be created or written to.
+     *                               Under this condition, this object will change it status to an error.
      */
     public synchronized void writeResults(WorkDirectory workDir, BackupPolicy backupPolicy)
-                throws IOException
-    {
+            throws IOException {
         if (isMutable())
             throw new IllegalStateException("This TestResult is still mutable - set the status!");
 
@@ -1558,8 +1564,7 @@ public class TestResult {
         File tempFile = createTempFile(workDir, backupPolicy);
         try {
             writeResults(tempFile, backupPolicy);
-        }
-        finally {
+        } finally {
             if (tempFile.exists())
                 tempFile.delete();
         }
@@ -1571,8 +1576,7 @@ public class TestResult {
      */
     // don't use File.createTempFile because of issues with the internal locking there
     private File createTempFile(WorkDirectory workDir, BackupPolicy backupPolicy)
-        throws IOException
-    {
+            throws IOException {
         final int MAX_TRIES = 100; // absurdly big limit, but a limit nonetheless
         for (int i = 0; i < MAX_TRIES; i++) {
             File tempFile = new File(resultsFile.getPath() + "." + i + ".tmp");
@@ -1586,13 +1590,11 @@ public class TestResult {
      * Write the results to a temporary file, and when done, rename it to resultsFile
      */
     private void writeResults(File tempFile, BackupPolicy backupPolicy)
-        throws IOException
-    {
+            throws IOException {
         Writer out;
         try {
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tempFile), StandardCharsets.UTF_8));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             execStatus = Status.error("Problem writing result file for test: " + getTestName());
             resultsFile = null; // file not successfully written after all
             throw e;
@@ -1706,7 +1708,7 @@ public class TestResult {
             // This exception could be raised when trying to create the directory
             // for the test results; opening the results file, or closing it.
             execStatus = Status.error("Write to temp. JTR file failed (old JTR intact): " +
-                                        tempFile.getPath());
+                    tempFile.getPath());
             resultsFile = null; // file not successfully written after all
             throw e;
         }   // catch
@@ -1722,15 +1724,17 @@ public class TestResult {
             // This exception could be raised when trying to create the directory
             // for the test results; opening the results file, or closing it.
             execStatus = Status.error("Problem writing result file: " +
-                                        resultsFile.getPath());
+                    resultsFile.getPath());
             resultsFile = null; // file not successfully written after all
             throw e;
         }   // catch
     }
 
     // -----observer methods ---------------------------------------------------
+
     /**
      * Add an observer to watch this test result for changes.
+     *
      * @param obs the observer to be added
      */
     public synchronized void addObserver(Observer obs) {
@@ -1746,6 +1750,7 @@ public class TestResult {
 
     /**
      * Remove an observer that was previously added.
+     *
      * @param obs the observer to be removed
      */
     public synchronized void removeObserver(Observer obs) {
@@ -1779,20 +1784,17 @@ public class TestResult {
                     // reload from disk
                     try {
                         datestr = getProperty(END);
-                    }
-                    catch (Fault f) {
+                    } catch (Fault f) {
                     }
                 }
 
                 if (datestr != null) {
                     Date date = parseDate(datestr);
                     endTime = date.getTime();
-                }
-                else {
+                } else {
                     // info not available
                 }
-            }
-            catch (ParseException e) {
+            } catch (ParseException e) {
             }
         }
 
@@ -1801,6 +1803,7 @@ public class TestResult {
 
     /**
      * Parse the date format used for timestamps, such as the start/stop timestamp.
+     *
      * @param s The string containing the date to be restored.
      * @see #formatDate
      */
@@ -1810,6 +1813,7 @@ public class TestResult {
 
     /**
      * Format the date format used for timestamps, such as the start/stop timestamp.
+     *
      * @param d The date object to be formatted into a string.
      * @see #parseDate
      */
@@ -1824,26 +1828,26 @@ public class TestResult {
      * The stream is not closed.
      * @deprecated JTS files are no longer supported
     TestResult(WorkDirectory workDir, DataInputStream in) throws IOException {
-        workRelativePath = in.readUTF();
+    workRelativePath = in.readUTF();
 
-        // ** temp. fix ** XXX
-        // make sure the path is in URL form with forward slashes
-        // in the future all paths should already be of this form (TestDescription)
-        int index = workRelativePath.indexOf('/');
-        if (index == -1) workRelativePath = workRelativePath.replace('\\', '/');
+    // ** temp. fix ** XXX
+    // make sure the path is in URL form with forward slashes
+    // in the future all paths should already be of this form (TestDescription)
+    int index = workRelativePath.indexOf('/');
+    if (index == -1) workRelativePath = workRelativePath.replace('\\', '/');
 
-        resultsFile = workDir.getFile(workRelativePath.replace('/', File.separatorChar));
-        title = in.readUTF();
-        int esc = in.readByte();
-        String esr = in.readUTF();
-        execStatus = new Status(esc, esr);
-        boolean defIsExec = in.readBoolean();
-        if (!defIsExec) {
-            // have to read these, per protocol
-            int dsc = in.readByte();
-            String dsr = in.readUTF();
-            //ignore dsc, dsr; they used to go in defStatus
-        }
+    resultsFile = workDir.getFile(workRelativePath.replace('/', File.separatorChar));
+    title = in.readUTF();
+    int esc = in.readByte();
+    String esr = in.readUTF();
+    execStatus = new Status(esc, esr);
+    boolean defIsExec = in.readBoolean();
+    if (!defIsExec) {
+    // have to read these, per protocol
+    int dsc = in.readByte();
+    String dsr = in.readUTF();
+    //ignore dsc, dsr; they used to go in defStatus
+    }
     }
      */
 
@@ -1851,9 +1855,9 @@ public class TestResult {
      * Read a single minimal TestResult which is capable of reloading itself.
      * None of the parameters may be null.
      *
-     * @param url The full URL of this test, including test id.
+     * @param url     The full URL of this test, including test id.
      * @param workDir The work directory location, platform specfic path.
-     * @param status The status that will be found in the JTR.
+     * @param status  The status that will be found in the JTR.
      * @throws JavaTestError Will be thrown if any params are null.
      */
     TestResult(String url, WorkDirectory workDir, Status status) {
@@ -1875,9 +1879,9 @@ public class TestResult {
      * Read a single minimal TestResult which is capable of reloading itself.
      * None of the parameters may be null.
      *
-     * @param url The full URL of this test, including test id.
+     * @param url     The full URL of this test, including test id.
      * @param workDir The work directory location, platform specific path.
-     * @param status The status that will be found in the JTR.
+     * @param status  The status that will be found in the JTR.
      * @param endTime The time when that test finished execution.
      * @throws JavaTestError Will be thrown if any params are null.
      * @see #getEndTime()
@@ -1939,9 +1943,10 @@ public class TestResult {
      * Insert a test description into this test results.
      * This will only work if the test description is currently not available.
      * The name in the test description must match the name of this test.
+     *
      * @param td The new test description, a null value will have no effect.
-     * @see #isShrunk()
      * @throws IllegalStateException If the state of this object fobiu
+     * @see #isShrunk()
      */
     void setTestDescription(TestDescription td) {
         if (td == null)
@@ -1965,12 +1970,10 @@ public class TestResult {
 
                 if (isMutable())
                     createSection(MSG_SECTION_NAME);
-            }
-            else {
+            } else {
                 // TDs are equal, no action, drop thru and return
             }
-        }
-        else {
+        } else {
             desc = td;
         }
     }
@@ -1984,8 +1987,7 @@ public class TestResult {
         try {
             Section lastBlk = tr.getSection(tr.getSectionCount() - 1);
             return new StringReader(lastBlk.getOutput("ref"));
-        }
-        catch (ReloadFault f) {
+        } catch (ReloadFault f) {
             // not the best, but this method is deprecated and hopefully never
             // called
             return null;
@@ -2058,12 +2060,11 @@ public class TestResult {
 
     /**
      * @throws ResultFileNotFoundFault May be thrown if the JTR file cannot be found.
-     * @throws ReloadFault Generally describes any error which is encountered while
-     *            reading or processing the input file.
+     * @throws ReloadFault             Generally describes any error which is encountered while
+     *                                 reading or processing the input file.
      */
     private synchronized void reload()
-        throws ResultFileNotFoundFault, ReloadFault
-    {
+            throws ResultFileNotFoundFault, ReloadFault {
         if (resultsFile == null)
             throw new ReloadFault(i18n, "rslt.noResultFile");
 
@@ -2076,23 +2077,20 @@ public class TestResult {
             // Well, we have successfully reloaded it, so the object is now taking
             // up a big footprint again ... put it back on the list to be shrunk again
             addToShrinkList();
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             throw new ResultFileNotFoundFault(i18n, "rslt.fileNotFound", resultsFile);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new ReloadFault(i18n, "rslt.badFile", e);
         }
     }
 
     /**
      * @throws ReloadFault Generally describes any error which is encountered while
-     *            reading or processing the input file.  This may indicate
-     *            an empty file or incorrectly formatted file.
+     *                     reading or processing the input file.  This may indicate
+     *                     an empty file or incorrectly formatted file.
      */
     private void reload(Reader r)
-        throws ReloadFault, IOException
-    {
+            throws ReloadFault, IOException {
         try {
             BufferedReader br = new BufferedReader(r);
             String line = br.readLine();
@@ -2103,25 +2101,20 @@ public class TestResult {
             }
             if (line.equals(JTR_V2_HEADER)) {
                 reloadVersion2(br);
-            }
-            else if (line.equals(JTR_V1_HEADER)) {
+            } else if (line.equals(JTR_V1_HEADER)) {
                 reloadVersion1(br);
-            }
-            else
+            } else
                 throw new ReloadFault(i18n, "rslt.badHeader", resultsFile);
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             throw new ReloadFault(i18n, "rslt.badRuntimeErr",
-                    new String[] {resultsFile.getPath(), e.getLocalizedMessage()});
-        }
-        finally {
+                    new String[]{resultsFile.getPath(), e.getLocalizedMessage()});
+        } finally {
             r.close();
         }
     }
 
     private void reloadVersion1(BufferedReader in)
-        throws ReloadFault, IOException
-    {
+            throws ReloadFault, IOException {
         // grab property info
         StringBuffer buff = new StringBuffer();
         String line = in.readLine();
@@ -2157,7 +2150,7 @@ public class TestResult {
             uniquifyStrings(props);
 
             desc = new TestDescription(path, file,
-                                       PropertyArray.getProperties(props));
+                    PropertyArray.getProperties(props));
         }
 
         buff = new StringBuffer();
@@ -2170,20 +2163,17 @@ public class TestResult {
                 if (blk != null) {
                     sections = DynamicArray.append(sections, blk);
                 }
-            }
-            else if (line.startsWith(JTR_V1_TSTRESULT)) {
+            } else if (line.startsWith(JTR_V1_TSTRESULT)) {
                 // test result
                 if (line == null) {
                     // couldn't get the status text for some reason
-                }
-                else {
+                } else {
                     line = extractSlice(line, JTR_V1_TSTRESULT.length(), " ", null);
                     execStatus = Status.parse(line);
                 }   // inner else
 
                 break;
-            }
-            else {
+            } else {
                 // message text
                 buff.append(line);
                 buff.append(lineSeparator);
@@ -2195,15 +2185,14 @@ public class TestResult {
         // create the test message section and put first in the array
         Section blk = new Section(MSG_SECTION_NAME);
         blk.reloadOutput(MESSAGE_OUTPUT_NAME, buff.toString());
-        Section[] tempBlks = new Section[sections.length+1];
+        Section[] tempBlks = new Section[sections.length + 1];
         tempBlks[0] = blk;
         System.arraycopy(sections, 0, tempBlks, 1, sections.length);
         sections = tempBlks;
     }
 
     private Section processOldSection(String line1, BufferedReader in)
-        throws ReloadFault, IOException
-    {
+            throws ReloadFault, IOException {
         StringBuilder sb = new StringBuilder();         // message stream
         Section section = null;
         String line = line1;
@@ -2223,8 +2212,7 @@ public class TestResult {
                     for (int count = 0; count < lines; count++) {
                         buff.append(in.readLine());
                     }
-                }
-                catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     // confused!
                     throw new ReloadFault(i18n, "rslt.badFile", e);
                 }
@@ -2233,8 +2221,7 @@ public class TestResult {
                     section = new Section(sectionName);
 
                 section.reloadOutput(streamName, buff.toString());
-            }
-            else if (line.startsWith(JTR_V1_SECTRESULT)) {
+            } else if (line.startsWith(JTR_V1_SECTRESULT)) {
                 // set result
                 if (section == null)
                     section = new Section("");
@@ -2249,8 +2236,7 @@ public class TestResult {
                     section.reloadStatus(Status.parse(line));
 
                 break;
-            }
-            else {
+            } else {
                 // just a plain message
                 sb.append(line);
                 sb.append(lineSeparator);
@@ -2266,8 +2252,7 @@ public class TestResult {
     }
 
     private void reloadVersion2(BufferedReader in)
-        throws ReloadFault, IOException
-    {
+            throws ReloadFault, IOException {
         //String checksumText = null;
         String line;
 
@@ -2276,9 +2261,9 @@ public class TestResult {
         while ((line = in.readLine()) != null) {
             if (line.equals(JTR_V2_TESTDESC))
                 break;
-            //else if (line.startsWith(JTR_V2_CHECKSUM)) {
+                //else if (line.startsWith(JTR_V2_CHECKSUM)) {
                 //checksumText = line.substring(JTR_V2_CHECKSUM.length());
-            //}
+                //}
             else if (!line.startsWith("#"))
                 throw new ReloadFault(i18n, "rslt.badLine", line);
         }
@@ -2301,13 +2286,12 @@ public class TestResult {
             else if (line.startsWith(JTR_V2_ENVIRONMENT)) {
                 env = PropertyArray.load(in);
                 uniquifyStrings(env);
-            }
-            else if (!line.startsWith("#"))
+            } else if (!line.startsWith("#"))
                 throw new ReloadFault(i18n, "rslt.badLine", line);
         }
 
         if (env == null)
-            env = new String[] {};
+            env = new String[]{};
 
         if (line == null) {
             throw new ReloadFault(i18n, "rslt.badFormat");
@@ -2348,9 +2332,10 @@ public class TestResult {
     /**
      * This method tolerates null.  It expects a list of section names - basically
      * a space separated list and returns the number of items there.
+     *
      * @param s The section name list string to parse and count.  May be null.
      * @return Number of sections listed in the string.  Will be zero if the
-     *     input was null.
+     * input was null.
      */
     int parseSectionCount(String s) {
         if (s == null || s.isEmpty()) {
@@ -2370,11 +2355,12 @@ public class TestResult {
     /**
      * Extract a substring specified by a start and end pattern (string).
      * The start and end strings must be single chars.
-     * @param s String to do this operation on
+     *
+     * @param s     String to do this operation on
      * @param where Position in the string to start at
      * @param start Beginning pattern for the slice, exclusive.
-     * @param end Ending pattern for the slice, exclusive.  Null means
-     *            to-end-of-string.
+     * @param end   Ending pattern for the slice, exclusive.  Null means
+     *              to-end-of-string.
      * @return The requested substring or null if error.
      */
     String extractSlice(String s, int where, String start, String end) {
@@ -2400,18 +2386,17 @@ public class TestResult {
 
         try {
             return s.substring(startInd, endInd);
-        }
-        catch (StringIndexOutOfBoundsException e) {
+        } catch (StringIndexOutOfBoundsException e) {
             return null;
         }
     }
 
 
     private static boolean compare(Reader left, Reader right)
-                throws Fault {
+            throws Fault {
         try {
             try {
-                for (;;) {
+                for (; ; ) {
                     int l = left.read(), r = right.read();
                     if (l != r) {
                         return false; // different content found
@@ -2419,13 +2404,11 @@ public class TestResult {
                     if (l == -1)
                         return true;
                 }
-            }
-            finally {
+            } finally {
                 left.close();
                 right.close();
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new Fault(i18n, "rslt.badCompare", e);
         }
     }
@@ -2469,7 +2452,7 @@ public class TestResult {
     /**
      * Notify observers that new output is being created.
      *
-     * @param section The section that was created.
+     * @param section    The section that was created.
      * @param outputName The name of the output.
      */
     private synchronized void notifyCreatedOutput(Section section, String outputName) {
@@ -2481,7 +2464,7 @@ public class TestResult {
     /**
      * Notify observers that a particular output has been completed.
      *
-     * @param section The section that was completed.
+     * @param section    The section that was completed.
      * @param outputName The name of the output.
      */
     private synchronized void notifyCompletedOutput(Section section, String outputName) {
@@ -2493,9 +2476,9 @@ public class TestResult {
     /**
      * Notify all observers that new data has been written to some output.
      *
-     * @param section The section being modified.
+     * @param section    The section being modified.
      * @param outputName The stream of the section that is being modified.
-     * @param text The text that was added (appended).
+     * @param text       The text that was added (appended).
      */
     private synchronized void notifyUpdatedOutput(Section section, String outputName, int start, int end, String text) {
         Observer[] observers = observersTable.get(this);
@@ -2506,7 +2489,7 @@ public class TestResult {
     /**
      * Notify all observers that new data has been written to some output.
      *
-     * @param section The section being modified.
+     * @param section    The section being modified.
      * @param outputName The stream of the section that is being modified.
      */
     private synchronized void notifyUpdatedOutput(Section section, String outputName, int start, int end,
@@ -2522,7 +2505,7 @@ public class TestResult {
     /**
      * Notify all observers that a property has been updated.
      *
-     * @param key The key for the property that was modified.
+     * @param key   The key for the property that was modified.
      * @param value The new value for the property.
      */
     private synchronized void notifyUpdatedProperty(String key, String value) {
@@ -2652,7 +2635,7 @@ public class TestResult {
     /**
      * The name of the property that defines the time at which the test
      * execution finished.
-    */
+     */
     public static final String END = "end";
 
     /**
@@ -2685,13 +2668,13 @@ public class TestResult {
     /**
      * The name of the property that defines the time at which the test
      * execution started.
-    */
+     */
     public static final String START = "start";
 
     /**
      * The name of the property that defines the test for which this is
      * the result object.
-    */
+     */
     public static final String TEST = "test";
 
     /**
@@ -2726,14 +2709,14 @@ public class TestResult {
     static final String EXTN = ".jtr";
 
     private static final Status
-        filesSame       = Status.passed("Output file and reference file matched"),
-        filesDifferent  = Status.failed("Output file and reference file were different"),
-        fileError       = Status.failed("Error occurred during comparison"),
-        interrupted     = Status.failed("interrupted"),
-        inProgress      = Status.notRun("Test running..."),
-        incomplete      = Status.notRun("Section not closed, may be incomplete"),
-        tdMismatch      = Status.notRun("Old test flushed, new test description located"),
-        notRunStatus    = Status.notRun("");
+            filesSame = Status.passed("Output file and reference file matched"),
+            filesDifferent = Status.failed("Output file and reference file were different"),
+            fileError = Status.failed("Error occurred during comparison"),
+            interrupted = Status.failed("interrupted"),
+            inProgress = Status.notRun("Test running..."),
+            incomplete = Status.notRun("Section not closed, may be incomplete"),
+            tdMismatch = Status.notRun("Old test flushed, new test description located"),
+            notRunStatus = Status.notRun("");
 
     private static final String[] emptyStringArray = new String[0];
     private static final Section[] emptySectionArray = new Section[0];
@@ -2760,12 +2743,12 @@ public class TestResult {
 
     private static final int DEFAULT_MAX_SHRINK_LIST_SIZE = 128;
     private static final int maxShrinkListSize =
-        Integer.getInteger("javatest.numCachedResults", DEFAULT_MAX_SHRINK_LIST_SIZE).intValue();
+            Integer.getInteger("javatest.numCachedResults", DEFAULT_MAX_SHRINK_LIST_SIZE).intValue();
     private static LinkedList<WeakReference<TestResult>> shrinkList = new LinkedList<>();
 
     private static final int DEFAULT_MAX_OUTPUT_SIZE = 100000;
     private static final int commonOutputSize =
-        Integer.getInteger("javatest.maxOutputSize", DEFAULT_MAX_OUTPUT_SIZE).intValue();
+            Integer.getInteger("javatest.maxOutputSize", DEFAULT_MAX_OUTPUT_SIZE).intValue();
 
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestResult.class);
 

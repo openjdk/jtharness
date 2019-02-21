@@ -42,7 +42,7 @@ public class JHelpContentViewer extends JPanel implements Accessible {
 
         helpSet = hs;
         setLayout(new BorderLayout());
-        pane=new JEditorPane();
+        pane = new JEditorPane();
         pane.setContentType("text/html");
         pane.setEditable(false);
 
@@ -54,10 +54,10 @@ public class JHelpContentViewer extends JPanel implements Accessible {
         updateUI();
     }
 
-    public void setCurrentID(HelpID helpId){
+    public void setCurrentID(HelpID helpId) {
 
         URL hurl = helpSet.getLocalMap().get(helpId.getId());
-        if (hurl == null){
+        if (hurl == null) {
             hurl = helpSet.getCombinedMap().get(helpId.getId());
         }
 

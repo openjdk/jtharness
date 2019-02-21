@@ -57,14 +57,16 @@ public class TestResultCache {
     public static interface Observer {
         /**
          * Called when tests have been read from the cache file.
+         *
          * @param tests the tests that have been read
          */
         void update(Map<String, TestResult> tests);
 
         /**
          * Called periodically while waiting to access the cache.
+         *
          * @param timeSoFar the time so far that a client has been waiting to
-         * access the cache
+         *                  access the cache
          */
         void waitingForLock(long timeSoFar);
 
@@ -85,12 +87,14 @@ public class TestResultCache {
 
         /**
          * Called when starting to (re)build the cache.
+         *
          * @param reset currently, always true
          */
         void buildingCache(boolean reset);
 
         /**
          * Called when a test has been found to put in the cache.
+         *
          * @param tr the test that is being put in the cache
          */
         void buildingCache(TestResult tr);
@@ -102,6 +106,7 @@ public class TestResultCache {
 
         /**
          * Called when a serious error has occurred and the cache is unable to continue.
+         *
          * @param t an object identifying the error that occurred
          */
         void error(Throwable t);
@@ -109,12 +114,13 @@ public class TestResultCache {
 
     /**
      * Primary constructor for a cache.
-     * @param workDir the work directory to attach to
+     *
+     * @param workDir  the work directory to attach to
      * @param observer the observer to notify of cache events
      * @throws IOException if an error occurs reading the cache file
      */
     public TestResultCache(WorkDirectory workDir, Observer observer)
-                            throws IOException {
+            throws IOException {
         this.workDir = workDir;
         this.observer = observer;
 
@@ -139,11 +145,11 @@ public class TestResultCache {
         raf = new RandomAccessFile(cacheFile, "rw");
 
         worker = new Thread() {
-                @Override
-                public void run() {
-                    doWorkUntilDone();
-                }
-            };
+            @Override
+            public void run() {
+                doWorkUntilDone();
+            }
+        };
         worker.setName("TestResultCache.worker" + workerNumber++ + "[" + workDir.getRoot() + "]");
         worker.setDaemon(true); // allows thread to run during shutdown
 
@@ -155,17 +161,18 @@ public class TestResultCache {
         worker.start();
 
         shutdownHandler = new Thread() {
-                @Override
-                public void run() {
-                    shutdown();
-                }
-            };
+            @Override
+            public void run() {
+                shutdown();
+            }
+        };
         Runtime.getRuntime().addShutdownHook(shutdownHandler);
     }
 
     /**
      * Insert a test result into the cache.
      * The cache file will be updated asynchronously.
+     *
      * @param tr the test to be inserted.
      **/
     synchronized void insert(TestResult tr) {
@@ -229,8 +236,8 @@ public class TestResultCache {
 
     private void doWorkUntilDone() {
         int compressPercentLevel =
-            Integer.getInteger("javatest.trc.cacheThreshold",
-                               DEFAULT_COMPRESS_PERCENT_LEVEL).intValue();
+                Integer.getInteger("javatest.trc.cacheThreshold",
+                        DEFAULT_COMPRESS_PERCENT_LEVEL).intValue();
         compressPercentLevel = Math.max(1, Math.min(compressPercentLevel, 100));
 
         boolean haveWork = true;  // first time in, we need to read/build the cache
@@ -285,21 +292,17 @@ public class TestResultCache {
                     }
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // A serious error has occurred that cannot be recovered from;
             // report it, and give up
             observer.error(e);
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             // should never happen, but if it does, we were idle anyway
             // so just return, and exit the worker thread
-        }
-        finally {
+        } finally {
             try {
                 raf.close();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 // ignore
             }
 
@@ -325,8 +328,7 @@ public class TestResultCache {
                 } else {
                     rebuildCache = true;
                 }
-            }
-            catch (Throwable e) {
+            } catch (Throwable e) {
                 // cache appears to be corrupt; empty it and rebuild it
                 if (DEBUG_BASIC)
                     Debug.println("TRC.corrupt " + e);
@@ -361,8 +363,7 @@ public class TestResultCache {
 
             // write any outstanding tests
             updateCache(tests);
-        }
-        finally {
+        } finally {
             // if we're exiting abnormally, leave the next user to clean up
             // if the file is corrupt; for now, it is better to unlock the
             // file to say we're not using it any more
@@ -386,9 +387,9 @@ public class TestResultCache {
         if (compressRequested || flushRequested || fullUpdateRequested) {
             if (DEBUG_CHECK_WORK)
                 Debug.println("TRC.haveWork (request"
-                              + (compressRequested ? ":compress" : "")
-                              + (flushRequested ? ":flush" : "")
-                              + (fullUpdateRequested ? ":update" : "") + ")");
+                        + (compressRequested ? ":compress" : "")
+                        + (flushRequested ? ":flush" : "")
+                        + (fullUpdateRequested ? ":update" : "") + ")");
             return true;
         }
 
@@ -406,8 +407,7 @@ public class TestResultCache {
                     Debug.println("TRC.haveWork (file size changed: " + raf.length() + ")");
                 return true;
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // if an error occurred, we ought to let the worker thread go investigate
             if (DEBUG_CHECK_WORK)
                 Debug.println("TRC.haveWork (" + e.getMessage() + ")");
@@ -448,8 +448,7 @@ public class TestResultCache {
 
             if (DEBUG_SYNC)
                 Debug.println("TRC.shutdown done");
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             // ignore
         }
 
@@ -464,8 +463,7 @@ public class TestResultCache {
                     }
                 }
             }
-        }
-        catch (TestSuite.NoSuchLogFault noSuchLogFault) {
+        } catch (TestSuite.NoSuchLogFault noSuchLogFault) {
             //nothing to do
         }
 
@@ -474,8 +472,7 @@ public class TestResultCache {
             if (shutdownHandler != null) {
                 Runtime.getRuntime().removeShutdownHook(shutdownHandler);
             }
-        }
-        catch(IllegalStateException ex) {
+        } catch (IllegalStateException ex) {
             // it's ok if shutdown is in process now
         }
     }
@@ -494,13 +491,12 @@ public class TestResultCache {
         Logger log = null;
         try {
             log = workDir.getTestSuite().createLog(workDir, null,
-                       i18n.getString("core.log.name"));
-        }
-        catch (TestSuite.DuplicateLogNameFault f) {
+                    i18n.getString("core.log.name"));
+        } catch (TestSuite.DuplicateLogNameFault f) {
             try {
                 log = workDir.getTestSuite().getLog(workDir, i18n.getString("core.log.name"));
+            } catch (TestSuite.NoSuchLogFault f2) {
             }
-            catch (TestSuite.NoSuchLogFault f2) { }
         }
 
         if (log != null) {
@@ -529,15 +525,13 @@ public class TestResultCache {
                     try {
                         TestResult tr = new TestResult(f);
                         tests.put(tr.getWorkRelativePath(), tr);
-                    }
-                    catch (TestResult.ResultFileNotFoundFault e) {
+                    } catch (TestResult.ResultFileNotFoundFault e) {
                         // hmm, should not happen, since we just read the directory
                         workDir.log(i18n, "trc.lostjtr", f);
-                    }
-                    catch (TestResult.ReloadFault e) {
+                    } catch (TestResult.ReloadFault e) {
                         // delete this jtr and continue
                         // should we inform TRT? perhaps via observer
-                         workDir.log(i18n, "trc.badjtr", f, e.getLocalizedMessage());
+                        workDir.log(i18n, "trc.badjtr", f, e.getLocalizedMessage());
                         f.delete();
                     }
                 }
@@ -550,16 +544,14 @@ public class TestResultCache {
         File jtr = workDir.getFile(tr.getWorkRelativePath());
         try {
             return new TestResult(jtr);
-        }
-        catch (TestResult.ResultFileNotFoundFault e) {
+        } catch (TestResult.ResultFileNotFoundFault e) {
             // test is presumably not run or has been purged
             // this notRun status will persist in cache until cache rebuilt
             String name = tr.getTestName();
             tr = new TestResult(name, workDir, Status.notRun(""));
             tests.put(name, tr); // in case fullUpdateRequested
             return tr;
-        }
-        catch (TestResult.ReloadFault e) {
+        } catch (TestResult.ReloadFault e) {
             // bad .jtr, delete it
             workDir.log(i18n, "trc.badjtr", jtr, e.getLocalizedMessage());
             jtr.delete();
@@ -576,7 +568,7 @@ public class TestResultCache {
     // Read the cache
 
     private Map<String, TestResult> readCache()
-        throws IOException {
+            throws IOException {
         final long start = System.currentTimeMillis();
 
         if (DEBUG_WORK)
@@ -589,10 +581,10 @@ public class TestResultCache {
             Debug.println("TRC.readCache serial=" + fileSerial);
 
         if (lastFileSize == -1 || fileSerial != lastSerial
-            || fullUpdateRequested || compressRequested) {
+                || fullUpdateRequested || compressRequested) {
             updateNeeded = fullUpdateRequested
-                            || fileSerial != lastSerial
-                            || raf.length() > lastFileSize;
+                    || fileSerial != lastSerial
+                    || raf.length() > lastFileSize;
             // read full cache
             lastSerial = fileSerial;
             totalEntryCount = 0;
@@ -606,13 +598,12 @@ public class TestResultCache {
             Logger log = null;
             try {
                 log = workDir.getTestSuite().createLog(workDir, null,
-                           i18n.getString("core.log.name"));
-            }
-            catch (TestSuite.DuplicateLogNameFault f) {
+                        i18n.getString("core.log.name"));
+            } catch (TestSuite.DuplicateLogNameFault f) {
                 try {
                     log = workDir.getTestSuite().getLog(workDir, i18n.getString("core.log.name"));
+                } catch (TestSuite.NoSuchLogFault f2) {
                 }
-                catch (TestSuite.NoSuchLogFault f2) { }
             }
 
             if (log != null) {
@@ -624,8 +615,7 @@ public class TestResultCache {
             }
 
             return tests;
-        }
-        else if (raf.length() > lastFileSize) {
+        } else if (raf.length() > lastFileSize) {
             // just read updates from file
             raf.seek(lastFileSize);
             Map<String, TestResult> tests = readCacheEntries();
@@ -635,8 +625,7 @@ public class TestResultCache {
 
             updateNeeded = true;
             return tests;
-        }
-        else {
+        } else {
             // no updates available
             updateNeeded = false;
             return null;
@@ -644,7 +633,7 @@ public class TestResultCache {
     }
 
     private Map<String, TestResult> readCacheEntries()
-        throws IOException {
+            throws IOException {
         Map<String, TestResult> tests = new TreeMap<>();
         while (raf.getFilePointer() < raf.length()) {
             String name = raf.readUTF();
@@ -751,9 +740,9 @@ public class TestResultCache {
         // writeUTF() can only accept a limited string length, additionally,
         // in this field and in the cache, the full data is not needed
         if (reason.length() > MAX_REASON_LENGTH) {
-            reason = reason.substring(0,15) +
-                        "[...]" +
-                 reason.substring(reason.length()-MAX_REASON_LENGTH+20);
+            reason = reason.substring(0, 15) +
+                    "[...]" +
+                    reason.substring(reason.length() - MAX_REASON_LENGTH + 20);
         }
         raf.writeUTF(reason);
 
@@ -770,8 +759,8 @@ public class TestResultCache {
     private static final long INITIAL_LOCK_NOTIFY_TIME = 20000; // 20 seconds
     private static final long LOCK_NOTIFY_INTERVAL = 60000;     // 60 second
     private static final long MAX_LOCK_WAIT_TIME =
-        Integer.getInteger("javatest.trc.timeout", 5).intValue() * 60000;
-                                                                // default 5 minutes
+            Integer.getInteger("javatest.trc.timeout", 5).intValue() * 60000;
+    // default 5 minutes
 
     // retry parameters
     private static final int INITIAL_RETRY_DELAY_TIME = 500;    // 0.5 second
@@ -789,12 +778,11 @@ public class TestResultCache {
             if (timeSinceStart < INITIAL_LOCK_NOTIFY_TIME) {
                 // no need to worry, yet
                 continue;
-            }
-            else if (timeSinceStart < MAX_LOCK_WAIT_TIME) {
+            } else if (timeSinceStart < MAX_LOCK_WAIT_TIME) {
                 // slowly getting nervous: periodically notify observer
                 long timeSinceLastNotified = now - lastNotified;
                 if (lastNotified == 0
-                    || timeSinceLastNotified > LOCK_NOTIFY_INTERVAL) {
+                        || timeSinceLastNotified > LOCK_NOTIFY_INTERVAL) {
                     observer.waitingForLock(timeSinceStart);
                     lastNotified = System.currentTimeMillis();
                 }
@@ -802,8 +790,7 @@ public class TestResultCache {
                 // slowly increase delay while we are waiting
                 if (retryDelay < MAX_RETRY_DELAY_TIME)
                     retryDelay = Math.min(2 * retryDelay, MAX_RETRY_DELAY_TIME);
-            }
-            else {
+            } else {
                 // full fledge panic: trash the lock and rebuild the cache
                 observer.timeoutWaitingForLock();
                 workDir.log(i18n, "trc.lockTimeout");
@@ -811,8 +798,7 @@ public class TestResultCache {
                 try {
                     if (raf != null)
                         raf.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     // ignore
                 }
 
@@ -827,8 +813,7 @@ public class TestResultCache {
             // sleep for a bit before retrying to avoid busy waiting
             try {
                 Thread.currentThread().sleep(retryDelay);
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 // ignore
             }
 
@@ -901,7 +886,7 @@ public class TestResultCache {
     private static int debug = Debug.getInt(TestResultCache.class);
     private static final boolean DEBUG_BASIC = debug >= 1;  // basic messages and stack trace
     private static final boolean DEBUG_TESTS = debug >= 2;  // details about tests
-    private static final boolean DEBUG_WORK  = debug >= 3;  // details about work done
+    private static final boolean DEBUG_WORK = debug >= 3;  // details about work done
     private static final boolean DEBUG_CHECK_WORK = debug >= 4;  // details when checking for work
     private static final boolean DEBUG_SYNC = debug >= 5;  // details about thread syncs
 }

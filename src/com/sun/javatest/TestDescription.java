@@ -35,8 +35,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
+
 import com.sun.javatest.util.PropertyArray;
 import com.sun.javatest.util.StringArray;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -48,17 +50,15 @@ import java.util.ArrayList;
  * provide the necessary description of a test.
  */
 
-public class TestDescription implements Serializable
-{
+public class TestDescription implements Serializable {
     /**
      * Construct a test description from the parameters of a recognized descriptions.
      *
-     * @param root      The root file of the test suite
-     * @param file      The file containing the test description
-     * @param params    The collected parameters of the test description
+     * @param root   The root file of the test suite
+     * @param file   The file containing the test description
+     * @param params The collected parameters of the test description
      * @throws IllegalArgumentException if the file argument is an absolute
-     * filename and does not begin with the root filename.
-     *
+     *                                  filename and does not begin with the root filename.
      */
     public TestDescription(File root, File file, Map<?, ?> params) {
 
@@ -81,11 +81,10 @@ public class TestDescription implements Serializable
         String rootRelativeFile;
         if (file.isAbsolute()) {
             String rp = rootDir;
-            if (! (fp.startsWith(rp) && fp.charAt(rp.length()) == File.separatorChar))
+            if (!(fp.startsWith(rp) && fp.charAt(rp.length()) == File.separatorChar))
                 throw new IllegalArgumentException("file must be relative to root: " + file);
             rootRelativeFile = fp.substring(rp.length() + 1);
-        }
-        else
+        } else
             rootRelativeFile = fp;
         rootRelativePath = rootRelativeFile.replace(File.separatorChar, '/');
 
@@ -109,9 +108,9 @@ public class TestDescription implements Serializable
         Vector<String> v = new Vector<>(0, params.length);
         for (int i = 0; i < params.length; i += 2) {
             String key = params[i];
-            if (!(key.startsWith("$") || key.equals("testsuite") ||  key.equals("file"))) {
+            if (!(key.startsWith("$") || key.equals("testsuite") || key.equals("file"))) {
                 // don't keep synthetic values from save;
-                String value = params[i+1];
+                String value = params[i + 1];
                 insert(v, key, value);
             }
         }
@@ -131,7 +130,7 @@ public class TestDescription implements Serializable
         if (!(td instanceof TestDescription))
             return false;
 
-        TestDescription otherTd = (TestDescription)td;
+        TestDescription otherTd = (TestDescription) td;
 
         // a quick and simple check
         if (otherTd.getParameterCount() != getParameterCount()) {
@@ -144,7 +143,7 @@ public class TestDescription implements Serializable
             String otherVal = otherTd.getParameter(fields[pos]);
 
             if (otherVal == null ||
-                !otherVal.equals(fields[pos+1])) {
+                    !otherVal.equals(fields[pos + 1])) {
                 return false;
             }
 
@@ -156,6 +155,7 @@ public class TestDescription implements Serializable
 
     /**
      * Get the directory for this test description.
+     *
      * @return the directory containing this test description
      */
     public File getDir() {
@@ -166,6 +166,7 @@ public class TestDescription implements Serializable
      * Get the file for this test description.
      * WARNING: If this description has been read in from a .jtr file, the rootDir
      * may be inappropriate for this system.
+     *
      * @return the file containing this test description
      */
     public File getFile() {
@@ -174,6 +175,7 @@ public class TestDescription implements Serializable
 
     /**
      * Get the id within the file for this test description.
+     *
      * @return the id within the file of this test description
      */
     public String getId() {
@@ -184,6 +186,7 @@ public class TestDescription implements Serializable
      * Get the title of this test description. This title is determined from
      * the "title" parameter, if present, defaulting to the value returned
      * by <code>getName()</code>.
+     *
      * @return the title of this test description
      */
     public String getTitle() {
@@ -198,6 +201,7 @@ public class TestDescription implements Serializable
     /**
      * Get the name of this test description; if not given explicitly,
      * it defaults to the filename root of the first source file.
+     *
      * @return the name of this test description
      */
     public String getName() {
@@ -206,8 +210,8 @@ public class TestDescription implements Serializable
         // now, it is based on the file and id
         int lastSep = rootRelativePath.lastIndexOf('/');
         String name = lastSep == -1 ?
-                       rootRelativePath :
-                       rootRelativePath.substring(lastSep + 1);
+                rootRelativePath :
+                rootRelativePath.substring(lastSep + 1);
 
         // strip off extension
         int dot = name.indexOf('.');
@@ -224,6 +228,7 @@ public class TestDescription implements Serializable
     /**
      * Get the set of keywords for this test description,
      * as specified by the "keywords" parameter.
+     *
      * @return the set of keywords
      */
     public String[] getKeywords() {
@@ -234,6 +239,7 @@ public class TestDescription implements Serializable
      * Get the set of keywords for this test description,
      * as specified by the "keywords" parameter.
      * They are returned in canonical form (lower-case).
+     *
      * @return the set of keywords
      */
     public Set<String> getKeywordTable() {
@@ -249,6 +255,7 @@ public class TestDescription implements Serializable
     /**
      * Get the set of source files for this test description,
      * as specified by the "source" parameter.
+     *
      * @return The sources as specified in the HTML test description
      * @see #getSourceFiles
      */
@@ -265,11 +272,12 @@ public class TestDescription implements Serializable
      * files are under the user's current directory, they will
      * be returned relative to that directory; otherwise, they
      * will be returned as absolute filenames.
+     *
      * @return filenames specified by the source parameter.
      * @see #getSources
      */
     public File[] getSourceFiles() {
-        String dir  = getFile().getParent();
+        String dir = getFile().getParent();
         String[] srcs = getSources();
         File[] sourceFiles = new File[srcs.length];
         String userCurrDir = System.getProperty("user.dir") + File.separator;
@@ -299,6 +307,7 @@ public class TestDescription implements Serializable
      * Normally, this will include the file containing the test description,
      * and any source files used by the test.  By default, the source files
      * are determined from the test description's "source" entry.
+     *
      * @return a list of associated files for this test description
      */
     public URL[] getSourceURLs() {
@@ -326,6 +335,7 @@ public class TestDescription implements Serializable
     /**
      * Get the optional class directory for this test description,
      * as specified by the "classDir" parameter.
+     *
      * @return the class directory, or null if not specified
      * @deprecated use <code>getParameter("classDir")</code> instead
      */
@@ -336,6 +346,7 @@ public class TestDescription implements Serializable
     /**
      * Get the execution class for this test description,
      * as specified by the "executeClass" parameter.
+     *
      * @return the execute class name, or null if not specified
      * @deprecated use <code>getParameter("executeClass")</code> instead
      */
@@ -346,6 +357,7 @@ public class TestDescription implements Serializable
     /**
      * Get the execution args for this test description,
      * as specified by the "executeArgs" parameter.
+     *
      * @return the execute args, or null if not specified
      * @deprecated use <code>getParameter("executeArgs")</code> instead
      */
@@ -356,8 +368,9 @@ public class TestDescription implements Serializable
     /**
      * Get the requested timeout value for this test description,
      * as specified by the "timeout" parameter.
+     *
      * @return the timeout value, or 0 if not specified
-     * @deprecated  use <code>getParameter("timeout")</code> instead
+     * @deprecated use <code>getParameter("timeout")</code> instead
      */
     public int getTimeout() {
         String t = getParameter("timeout");
@@ -374,11 +387,12 @@ public class TestDescription implements Serializable
      * of the test suite.
      * WARNING: If this description has been read in from a .jtr file, the rootDir
      * may be inappropriate for this system.
+     *
      * @return the root file for this test suite
      * @see #getRootDir
      * @deprecated No longer relevant for some test suites, so will not be supported
-     *    in the future.  If needed the value can be determined by asking the test
-     *    suite's <code>TestFinder</code>.
+     * in the future.  If needed the value can be determined by asking the test
+     * suite's <code>TestFinder</code>.
      */
     public File getRoot() {
         return new File(rootDir, "testsuite.html");
@@ -388,6 +402,7 @@ public class TestDescription implements Serializable
      * Get the root directory for this test suite
      * WARNING: If this description has been read in from a .jtr file, the rootDir
      * may be inappropriate for this system.
+     *
      * @return the root directory for this test suite
      */
     public String getRootDir() {
@@ -398,6 +413,7 @@ public class TestDescription implements Serializable
      * Get the path of the test, relative to the root dir for the test suite.
      * This is the path to the source file for this description.
      * The internal separator is always '/'.
+     *
      * @return the path for this test description within the test suite
      */
     public String getRootRelativePath() {
@@ -406,6 +422,7 @@ public class TestDescription implements Serializable
 
     /**
      * Get the file of the test, relative to the root dir for the test suite.
+     *
      * @return A platform specific path to the source file.
      */
     public File getRootRelativeFile() {
@@ -416,12 +433,13 @@ public class TestDescription implements Serializable
      * Get the url of the test, relative to the root dir for the test suite.
      * This is the path to the source file for this description, plus the
      * test id if necessary.  Again, the path separator is always '/'.
+     *
      * @return a relative URL for this test within the test suite
      */
     public String getRootRelativeURL() {
         if (rrurl == null) {
             String id = getParameter("id");
-            rrurl = id == null ?  rootRelativePath : rootRelativePath + "#" + id;
+            rrurl = id == null ? rootRelativePath : rootRelativePath + "#" + id;
             rrurl = rrurl.intern();
         }
 
@@ -430,8 +448,8 @@ public class TestDescription implements Serializable
 
     /**
      * Get the path of the test directory, relative to the root directory for the test suite.
-     * @return the a relative path to the directory containing this test description
      *
+     * @return the a relative path to the directory containing this test description
      * @deprecated Use getRootRelativeFile().getParent()
      */
     public File getRootRelativeDir() {
@@ -441,6 +459,7 @@ public class TestDescription implements Serializable
 
     /**
      * Get the number of parameters contained in this test description.
+     *
      * @return the number of parameters
      */
     public int getParameterCount() {
@@ -450,6 +469,7 @@ public class TestDescription implements Serializable
     /**
      * Get an iterator for the names of the parameters contained in
      * this test description.
+     *
      * @return an iterator for the names of the parameters
      */
     public Iterator<String> getParameterKeys() {
@@ -458,23 +478,23 @@ public class TestDescription implements Serializable
 
             @Override
             public boolean hasNext() {
-                if(fields == null || fields.length == 0 ||
-                   pos >= fields.length) {
-                   return false;
+                if (fields == null || fields.length == 0 ||
+                        pos >= fields.length) {
+                    return false;
                 } else {
-                   return true;
+                    return true;
                 }
             }
 
             @Override
             public String next() {
-                if(fields == null || fields.length == 0 ||
-                   pos == fields.length) {
-                   return null;
+                if (fields == null || fields.length == 0 ||
+                        pos == fields.length) {
+                    return null;
                 } else {
-                   String current = fields[pos];
-                   pos += 2;
-                   return current;
+                    String current = fields[pos];
+                    pos += 2;
+                    return current;
                 }
             }
 
@@ -487,6 +507,7 @@ public class TestDescription implements Serializable
 
     /**
      * Get a parameter of the test description by name.
+     *
      * @param key the name of the parameter value to be returned
      * @return the value of the specified parameter, or null if not found
      */
@@ -510,12 +531,10 @@ public class TestDescription implements Serializable
             cmp = key.compareTo(e);
             if (cmp < 0) {
                 upper = mid - 2;
-            }
-            else if (cmp > 0) {
+            } else if (cmp > 0) {
                 lower = mid + 2;
-            }
-            else
-                return fields[mid+1];
+            } else
+                return fields[mid + 1];
         }
 
         // did not find an exact match
@@ -538,8 +557,8 @@ public class TestDescription implements Serializable
     void save(Map<String, String> p) {
         saveField(p, "$root", rootDir);
         saveField(p, "$file", getFile().getPath());
-        for (int i = 0; i < fields.length; i+=2) {
-            saveField(p, fields[i], fields[i+1]);
+        for (int i = 0; i < fields.length; i += 2) {
+            saveField(p, fields[i], fields[i + 1]);
         }
     }
 
@@ -591,11 +610,9 @@ public class TestDescription implements Serializable
             cmp = key.compareTo(e);
             if (cmp < 0) {
                 upper = mid - 2;
-            }
-            else if (cmp > 0) {
+            } else if (cmp > 0) {
                 lower = mid + 2;
-            }
-            else
+            } else
                 throw new Error("should not happen");
         }
 
@@ -605,7 +622,7 @@ public class TestDescription implements Serializable
             mid += 2;
 
         v.insertElementAt(key, mid);
-        v.insertElementAt(value, mid+1);
+        v.insertElementAt(value, mid + 1);
     }
 
     //-----member variables-------------------------------------------------------
@@ -614,12 +631,14 @@ public class TestDescription implements Serializable
      * Root directory for the test suite
      * WARNING: If this description has been read in from a .jtr file, the rootDir
      * may be inappropriate for this system.
+     *
      * @serial
      */
     private String rootDir;
 
     /**
      * Root relative path for this test description within the test suite
+     *
      * @serial
      */
     private String rootRelativePath;
@@ -627,12 +646,14 @@ public class TestDescription implements Serializable
     /**
      * The data for this test description, organized as a sequence of
      * name-value pairs.
+     *
      * @serial
      */
     private String[] fields;
 
     /**
      * Cached version of the root relative path.
+     *
      * @see #getRootRelativeURL
      */
     private String rrurl;

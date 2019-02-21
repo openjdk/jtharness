@@ -49,7 +49,7 @@ class DesktopPrefsPane extends PreferencesPane {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1;
-        c.insets.bottom= 10; // set off subsequent entries
+        c.insets.bottom = 10; // set off subsequent entries
 
         //add(createDesktopStylePanel(), c);
         styleGrp = new ButtonGroup();  // to avoid NPE
@@ -74,7 +74,7 @@ class DesktopPrefsPane extends PreferencesPane {
             styleName = Desktop.styleNames[desktop.getStyle()];
 
         for (Enumeration<AbstractButton> e = styleGrp.getElements(); e.hasMoreElements(); ) {
-            JRadioButton rb = (JRadioButton)e.nextElement();
+            JRadioButton rb = (JRadioButton) e.nextElement();
             if (rb.getActionCommand().equals(styleName)) {
                 rb.setSelected(true);
                 break;
@@ -94,10 +94,9 @@ class DesktopPrefsPane extends PreferencesPane {
                 // no delay
                 ttDelay.setSelectedItem(tooltipDelays[0]);
                 complete = true;
-            }
-            else {
+            } else {
                 for (int i = 1; i < ttDelay.getItemCount(); i++) {
-                    if ( ttDelay.getItemAt(i).intValue() == delay ) {
+                    if (ttDelay.getItemAt(i).intValue() == delay) {
                         ttDelay.setSelectedIndex(i);
                         i = ttDelay.getItemCount(); // stop loop
                         complete = true;
@@ -105,8 +104,7 @@ class DesktopPrefsPane extends PreferencesPane {
                 }   // for
 
             }   // if/else
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             complete = false;
         }
 
@@ -115,7 +113,7 @@ class DesktopPrefsPane extends PreferencesPane {
 
         // default
         if (!complete)
-                ttDelay.setSelectedIndex(1);
+            ttDelay.setSelectedIndex(1);
 
         complete = false;
         String tipDuration = m.get(Desktop.TTIP_DURATION);
@@ -123,11 +121,10 @@ class DesktopPrefsPane extends PreferencesPane {
             int duration = Integer.parseInt(tipDuration);
             if (duration == Desktop.TTIP_DURATION_FOREVER) {
                 // forever
-                ttDuration.setSelectedItem(tooltipDurations[tooltipDurations.length-1]);
+                ttDuration.setSelectedItem(tooltipDurations[tooltipDurations.length - 1]);
                 complete = true;
-            }
-            else {
-                for (int i = 0; i < tooltipDurations.length-1; i++) {
+            } else {
+                for (int i = 0; i < tooltipDurations.length - 1; i++) {
                     if (duration == tooltipDurations[i].intValue()) {
                         ttDuration.setSelectedItem(tooltipDurations[i]);
                         complete = true;
@@ -141,9 +138,9 @@ class DesktopPrefsPane extends PreferencesPane {
         }   // catch
 
         // default
-        if (!complete){
-                ttDuration.setSelectedItem(tooltipDurations[1]);
-            }
+        if (!complete) {
+            ttDuration.setSelectedItem(tooltipDurations[1]);
+        }
 
         // make it happen
         syncTooltipPrefs();
@@ -225,7 +222,7 @@ class DesktopPrefsPane extends PreferencesPane {
         Box p = Box.createVerticalBox();
         p.setBorder(uif.createTitledBorder("dt.prefs.shutdown"));
 
-    saveCheck = uif.createCheckBox("dt.prefs.saveOnExit");
+        saveCheck = uif.createCheckBox("dt.prefs.saveOnExit");
         p.add(saveCheck);
 
         restoreCheck = uif.createCheckBox("dt.prefs.restoreOnStart");
@@ -255,19 +252,19 @@ class DesktopPrefsPane extends PreferencesPane {
         uif.setAccessibleName(ttipsCheck, "dt.prefs.ttips");
 
         ttipsCheck.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    boolean state = ttipsCheck.isSelected();
-                    ttDelay.setEnabled(state);
-                    ttDuration.setEnabled(state);
-                }
-            });
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean state = ttipsCheck.isSelected();
+                ttDelay.setEnabled(state);
+                ttDuration.setEnabled(state);
+            }
+        });
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1;
         p.add(ttipsCheck, c);
 
-        tooltipDurations = new Integer[] {1000, 2000, 3000, 5000, 10000, 15000, -1};
-        tooltipDelays    = new Integer[] {0, 1000, 2000, 3000, 5000, 10000};
+        tooltipDurations = new Integer[]{1000, 2000, 3000, 5000, 10000, 15000, -1};
+        tooltipDelays = new Integer[]{0, 1000, 2000, 3000, 5000, 10000};
 
         JLabel l = uif.createLabel("dt.prefs.ttDelay", true);
 
@@ -293,7 +290,7 @@ class DesktopPrefsPane extends PreferencesPane {
         ttDuration.setRenderer(new TipDurationRenderer());
         // nominate a reasonable choice
         ttDuration.setSelectedItem(tooltipDurations[
-                Math.max(tooltipDurations.length-2, 0)]);
+                Math.max(tooltipDurations.length - 2, 0)]);
 
         c.gridwidth = 1;
         c.weightx = 0;
@@ -308,6 +305,7 @@ class DesktopPrefsPane extends PreferencesPane {
 
     /**
      * How long before a tooltip should be shown, as known by the GUI.
+     *
      * @return Zero for no delay, otherwise a delay in milliseconds.
      */
     private int getTooltipDelay() {
@@ -317,8 +315,9 @@ class DesktopPrefsPane extends PreferencesPane {
 
     /**
      * How long tooltips should be shown, as known by the GUI.
+     *
      * @return <code>Desktop.TTIP_DURATION_FOREVER</code>, otherwise a duration in
-     *         milliseconds.
+     * milliseconds.
      */
     private int getTooltipDuration() {
         int value = ((Integer) ttDuration.getSelectedItem()).intValue();
@@ -343,57 +342,54 @@ class DesktopPrefsPane extends PreferencesPane {
     private class TipDelayRenderer extends BasicComboBoxRenderer {
         @Override
         public Component getListCellRendererComponent(JList list,
-                                              Object value,
-                                              int index,
-                                              boolean isSelected,
-                                              boolean cellHasFocus) {
+                                                      Object value,
+                                                      int index,
+                                                      boolean isSelected,
+                                                      boolean cellHasFocus) {
             Object theVal;
             if (value instanceof Integer) {
-                int val = ((Integer)value).intValue();
+                int val = ((Integer) value).intValue();
                 // convert to seconds and create localized text
                 theVal = uif.getI18NString("dt.prefs.ttDelay", Integer.valueOf(val / 1000));
-            }
-            else {
+            } else {
                 theVal = value;
             }
 
             return super.getListCellRendererComponent(
-                list, theVal, index, isSelected, cellHasFocus);
+                    list, theVal, index, isSelected, cellHasFocus);
         }
     }
 
     private class TipDurationRenderer extends BasicComboBoxRenderer {
         TipDurationRenderer() {
             synchronized (DesktopPrefsPane.this) {
-                if (TIP_SHOW_FOREVER  == null)
+                if (TIP_SHOW_FOREVER == null)
                     TIP_SHOW_FOREVER =
-                        uif.getI18NString("dt.prefs.ttDuration.forev");
+                            uif.getI18NString("dt.prefs.ttDuration.forev");
             }
         }
 
         @Override
         public Component getListCellRendererComponent(JList list,
-                                              Object value,
-                                              int index,
-                                              boolean isSelected,
-                                              boolean cellHasFocus) {
+                                                      Object value,
+                                                      int index,
+                                                      boolean isSelected,
+                                                      boolean cellHasFocus) {
             Object theVal;
             if (value instanceof Integer) {
-                int val = ((Integer)value).intValue();
+                int val = ((Integer) value).intValue();
                 if (val > 0) {
                     // convert to seconds and create localized text
                     theVal = uif.getI18NString("dt.prefs.ttDuration.sec",
                             Integer.valueOf(val / 1000));
-                }
-                else
+                } else
                     theVal = TIP_SHOW_FOREVER;
-            }
-            else {
+            } else {
                 theVal = value;
             }
 
             return super.getListCellRendererComponent(
-                list, theVal, index, isSelected, cellHasFocus);
+                    list, theVal, index, isSelected, cellHasFocus);
         }
     }
 }

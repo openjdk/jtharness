@@ -43,17 +43,16 @@ import com.sun.javatest.util.StringArray;
  * given a starting location.  When creating instances of TestFinder for use,
  * the creator should be sure to call the init() method before use.
  */
-public abstract class TestFinder
-{
+public abstract class TestFinder {
     /**
      * This exception is to report serious problems that occur while
      * finding tests.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         /**
          * Create a Fault.
-         * @param i18n A resource bundle in which to find the detail message.
+         *
+         * @param i18n   A resource bundle in which to find the detail message.
          * @param msgKey The key for the detail message.
          */
         public Fault(I18NResourceBundle i18n, String msgKey) {
@@ -62,10 +61,11 @@ public abstract class TestFinder
 
         /**
          * Create a Fault.
-         * @param i18n A resource bundle in which to find the detail message.
+         *
+         * @param i18n   A resource bundle in which to find the detail message.
          * @param msgKey The key for the detail message.
-         * @param arg An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param arg    An argument to be formatted with the detail message by
+         *               {@link java.text.MessageFormat#format}
          */
         public Fault(I18NResourceBundle i18n, String msgKey, Object arg) {
             super(i18n.getString(msgKey, arg));
@@ -73,10 +73,11 @@ public abstract class TestFinder
 
         /**
          * Create a Fault.
-         * @param i18n A resource bundle in which to find the detail message.
+         *
+         * @param i18n   A resource bundle in which to find the detail message.
          * @param msgKey The key for the detail message.
-         * @param args An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param args   An array of arguments to be formatted with the detail message by
+         *               {@link java.text.MessageFormat#format}
          */
         public Fault(I18NResourceBundle i18n, String msgKey, Object... args) {
             super(i18n.getString(msgKey, args));
@@ -88,6 +89,7 @@ public abstract class TestFinder
      * reading files, but which are not of themselves serious enough
      * to stop reading further. More serious errors can be reported by
      * throwing TestFinder.Fault.
+     *
      * @see TestFinder#error
      * @see TestFinder#localizedError
      * @see TestFinder.Fault
@@ -95,6 +97,7 @@ public abstract class TestFinder
     public static interface ErrorHandler {
         /**
          * Report an error found while reading a file.
+         *
          * @param msg A detail string identifying the error
          */
         void error(String msg);
@@ -105,14 +108,12 @@ public abstract class TestFinder
      * Initialize the data required by the finder.
      * Clients creating instances of test finders should call this before allowing use
      * of the finder.  Not doing so may result in unexpected results.
-     * @param args
-     *          An array of strings specified as arguments in the environment.  Null
-     *          indicates no args.
-     * @param testSuiteRoot
-     *          The root file that will be passed to test descriptions read
-     *          by the finder.
-     * @param env
-     *          The environment being used to run the test.  May be null.
+     *
+     * @param args          An array of strings specified as arguments in the environment.  Null
+     *                      indicates no args.
+     * @param testSuiteRoot The root file that will be passed to test descriptions read
+     *                      by the finder.
+     * @param env           The environment being used to run the test.  May be null.
      * @throws TestFinder.Fault if  there is a problem interpreting any of args.
      */
     public void init(String[] args, File testSuiteRoot, TestEnvironment env) throws Fault {
@@ -127,23 +128,19 @@ public abstract class TestFinder
      * Initialize the data required by the finder.
      * Clients creating instances of test finders should call this before allowing use
      * of the finder.  Not doing so may result in unexpected results.
-     * @param args
-     *          An array of strings specified as arguments in the environment.  Null
-     *          indicates no args.
-     * @param testSuiteRoot
-     *          The root file that will be passed to test descriptions read
-     *          by the finder.
-     * @param tests
-     *          The tests to be read by the finder. (ignored)
-     * @param filters
-     *          An optional array of filters to filter the tests read by the finder.
-     * @param env
-     *          The environment being used to run the test.  May be null.
+     *
+     * @param args          An array of strings specified as arguments in the environment.  Null
+     *                      indicates no args.
+     * @param testSuiteRoot The root file that will be passed to test descriptions read
+     *                      by the finder.
+     * @param tests         The tests to be read by the finder. (ignored)
+     * @param filters       An optional array of filters to filter the tests read by the finder.
+     * @param env           The environment being used to run the test.  May be null.
      * @throws TestFinder.Fault if there is a problem interpreting any of args.
-     * @see #init(String[],File,TestEnvironment)
+     * @see #init(String[], File, TestEnvironment)
      * @deprecated Use one of the other init() methods.  This functionality is no
-     *    longer supported.  Methods on TestResultTable should yield similar
-     *    results.
+     * longer supported.  Methods on TestResultTable should yield similar
+     * results.
      */
     public void init(String[] args, File testSuiteRoot,
                      File[] tests, TestFilter[] filters,
@@ -154,14 +151,15 @@ public abstract class TestFinder
     /**
      * Perform argument decoding, calling decodeArg for successive
      * args until exhausted.
+     *
      * @param args The arguments to be decoded
      * @throws TestFinder.Fault if decodeArg throws the exception
-     * while decoding one of the arguments, or if decodeArg does
-     * not recognize an argument.
+     *                          while decoding one of the arguments, or if decodeArg does
+     *                          not recognize an argument.
      */
     protected void decodeAllArgs(String... args) throws Fault {
         for (int i = 0; i < args.length; ) {
-            int j  = decodeArg(args, i);
+            int j = decodeArg(args, i);
             if (j == 0) {
                 throw new Fault(i18n, "finder.badArg", args[i]);
             }
@@ -174,18 +172,19 @@ public abstract class TestFinder
      * If overridden by a subtype, the subtype should try and decode any
      * args it recognizes, and then call super.decodeArg to give the
      * superclass(es) a chance to recognize any arguments.
-     * @param args      The array of arguments
-     * @param i         The next argument to be decoded
-     * @return          The number of elements consumed in the array;
-     *                  for example, for a simple option like "-v" the
-     *                  result should be 1; for an option with an argument
-     *                  like "-f file" the result should be 2, etc.
+     *
+     * @param args The array of arguments
+     * @param i    The next argument to be decoded
+     * @return The number of elements consumed in the array;
+     * for example, for a simple option like "-v" the
+     * result should be 1; for an option with an argument
+     * like "-f file" the result should be 2, etc.
      * @throws TestFinder.Fault If there is a problem with the value of the current
-     *                  arg, such as a bad value to an option, the Fault
-     *                  exception can be thrown. The exception should NOT be
-     *                  thrown if the current arg is unrecognized: in that case,
-     *                  an implementation should delegate the call to the
-     *                  supertype.
+     *                          arg, such as a bad value to an option, the Fault
+     *                          exception can be thrown. The exception should NOT be
+     *                          thrown if the current arg is unrecognized: in that case,
+     *                          an implementation should delegate the call to the
+     *                          supertype.
      */
     protected int decodeArg(String[] args, int i) throws Fault {
         return 0;
@@ -193,11 +192,12 @@ public abstract class TestFinder
 
     /**
      * Set the test suite root file or directory.
+     *
      * @param testSuiteRoot The path to be set as the root of the
-     * test suite in which files will be read.
+     *                      test suite in which files will be read.
      * @throws IllegalStateException if already set
-     * @throws TestFinder.Fault if there is some test-finder-specific
-     * problem with the specified file.
+     * @throws TestFinder.Fault      if there is some test-finder-specific
+     *                               problem with the specified file.
      * @see #getRoot
      */
     protected void setRoot(File testSuiteRoot) throws Fault {
@@ -207,12 +207,13 @@ public abstract class TestFinder
         root = testSuiteRoot.isAbsolute() ?
                 testSuiteRoot : new File(userDir, testSuiteRoot.getPath());
         rootDir = root.isDirectory() ?
-                   root : new File(root.getParent());
+                root : new File(root.getParent());
     }
 
     /**
      * Get the root file of the test suite, as passed in to the
      * <code>init</code> method.
+     *
      * @return the root file of the test suite
      * @see #setRoot
      */
@@ -224,6 +225,7 @@ public abstract class TestFinder
      * Get the root directory of the test suite; this is either the
      * root passed in to the init method or if that is a file, it is
      * the directory containing the file.
+     *
      * @return the root directory of the test suite
      */
     public File getRootDir() {
@@ -264,6 +266,7 @@ public abstract class TestFinder
     /**
      * Get the default to be used when the user does not want to specify
      * their own.  The default is a US Locale Collator.
+     *
      * @return The comparator which would be used if a custom one was not provided.
      */
     protected static Comparator<String> getDefaultComparator() {
@@ -282,8 +285,9 @@ public abstract class TestFinder
 
     /**
      * Get the registered error handler.
+     *
      * @return The error handler currently receiving error messages.  May
-     *          be null.
+     * be null.
      * @see #setErrorHandler
      */
     public ErrorHandler getErrorHandler() {
@@ -295,6 +299,7 @@ public abstract class TestFinder
      * while reading tests. This is typically used to report errors
      * that are not associated with any specific test, such as syntax
      * errors outside of any test description, or problems accessing files.
+     *
      * @param h The error handler that will be informed of non-fatal
      *          errors that occur while reading the test suite
      * @see #getErrorHandler
@@ -305,10 +310,11 @@ public abstract class TestFinder
 
     /**
      * Report an error to the error handler.
+     *
      * @param i18n A resource bundle containing the localized error messages
      * @param key  The name of the entry in the resource bundle containing
-     * the appropriate error message.
-     * The message should not need any arguments.
+     *             the appropriate error message.
+     *             The message should not need any arguments.
      */
     protected void error(I18NResourceBundle i18n, String key) {
         localizedError(i18n.getString(key));
@@ -316,13 +322,14 @@ public abstract class TestFinder
 
     /**
      * Report an error to the error handler.
+     *
      * @param i18n A resource bundle containing the localized error messages
      * @param key  The name of the entry in the resource bundle containing
-     * the appropriate error message.
-     * The message will be formatted with a single argument, using
-     * MessageFormat.format.
-     * @param arg The argument to be formatted in the message found in the
-     * resource bundle
+     *             the appropriate error message.
+     *             The message will be formatted with a single argument, using
+     *             MessageFormat.format.
+     * @param arg  The argument to be formatted in the message found in the
+     *             resource bundle
      */
     protected void error(I18NResourceBundle i18n, String key, Object arg) {
         localizedError(i18n.getString(key, arg));
@@ -330,13 +337,14 @@ public abstract class TestFinder
 
     /**
      * Report an error to the error handler.
+     *
      * @param i18n A resource bundle containing the localized error messages
      * @param key  The name of the entry in the resource bundle containing
-     * the appropriate error message.
-     * The message will be formatted with an array of arguments, using
-     * MessageFormat.format.
+     *             the appropriate error message.
+     *             The message will be formatted with an array of arguments, using
+     *             MessageFormat.format.
      * @param args The arguments to be formatted in the message found in the
-     * resource bundle
+     *             resource bundle
      */
     protected void error(I18NResourceBundle i18n, String key, Object... args) {
         localizedError(i18n.getString(key, args));
@@ -344,6 +352,7 @@ public abstract class TestFinder
 
     /**
      * Report a message to the error handler, without additional processing.
+     *
      * @param msg The message to be reported
      * @see #error
      */
@@ -357,6 +366,7 @@ public abstract class TestFinder
      * Get an count of the number of errors found by this test finder,
      * as recorded by calls to the error handler via error and localizedError.
      * The count may be reset using the clearErrors method.
+     *
      * @return the number of errors found by the test finder
      * @see #getErrors
      * @see #clearErrors
@@ -370,6 +380,7 @@ public abstract class TestFinder
      * to the error handler via error and localizedError. Errors reported
      * by the error methods will be given localized. If there are no errors.\,
      * an empty array (not null) will be returned.
+     *
      * @return the errors found by the test finder
      */
     public synchronized String[] getErrors() {
@@ -396,15 +407,15 @@ public abstract class TestFinder
      * used in read() and scan() may be real or virtual.  This method will be
      * queried to determine if a location is a container or something that
      * should be scanned for tests.  If it is both...
-     * @since 4.0
+     *
      * @param path The location in question.
+     * @since 4.0
      */
     public boolean isFolder(File path) {
         if (!path.isAbsolute()) {
             File f = new File(getRoot(), path.getPath());
             return f.isDirectory();
-        }
-        else
+        } else
             return path.isDirectory();
     }
 
@@ -412,8 +423,9 @@ public abstract class TestFinder
      * Determine when the last time this path was modified.  This is used
      * to decide whether to rescan that location or not.  The default implementation
      * defers the choice to the java.
-     * @since 4.0
+     *
      * @param f The location in question.
+     * @since 4.0
      */
     public long lastModified(File f) {
         if (f.isAbsolute())
@@ -429,6 +441,7 @@ public abstract class TestFinder
      * need to be read.  If the file is relative, it will be evaluated relative
      * to getRootDir. Depending on the test finder, the file may be either
      * a plain file or a directory.
+     *
      * @param file The file to be read.
      */
     public synchronized void read(File file) {
@@ -448,6 +461,7 @@ public abstract class TestFinder
      * Scan a file, looking for test descriptions and other files that might
      * need to be scanned.  The implementation depends on the type of test
      * finder.
+     *
      * @param file The file to scan
      */
     protected abstract void scan(File file);
@@ -458,9 +472,10 @@ public abstract class TestFinder
      * dictionary; however, the method can be overridden by a subtype
      * to adjust the name or value before putting it into the dictionary,
      * or even to ignore/fault the pair.
-     * @param entries   The dictionary of the entries being read
-     * @param name      The name of the entry that has been read
-     * @param value     The value of the entry that has been read
+     *
+     * @param entries The dictionary of the entries being read
+     * @param name    The name of the entry that has been read
+     * @param value   The value of the entry that has been read
      */
     protected void processEntry(Map<String, String> entries, String name, String value) {
         // uniquefy the keys as they go into the entries table
@@ -477,8 +492,7 @@ public abstract class TestFinder
                 keywordCache.put(value, keywordCacheValue);
             }
             value = keywordCacheValue;
-        }
-        else
+        } else
             value = value.intern();
 
         entries.put(name, value);
@@ -491,8 +505,9 @@ public abstract class TestFinder
      * "normalize" the test description entries read from a file.
      * By default, this is a no-op;  however, the method can be overridden
      * by a subtype to supply default values for missing entries, etc.
-     * @param entries  A set of tag values read from a test description in a file
-     * @return       A normalized set of entries
+     *
+     * @param entries A set of tag values read from a test description in a file
+     * @return A normalized set of entries
      */
     protected Map<String, String> normalize(Map<String, String> entries) {
         return entries;
@@ -503,9 +518,10 @@ public abstract class TestFinder
 
     /**
      * Report that data for a test description has been found.
+     *
      * @param entries The data for the test description
-     * @param file   The file being read
-     * @param line   The line number within the file (used for error messages)
+     * @param file    The file being read
+     * @param line    The line number within the file (used for error messages)
      */
     protected void foundTestDescription(Map<String, String> entries, File file, int line) {
         entries = normalize(entries);
@@ -558,7 +574,8 @@ public abstract class TestFinder
 
     /**
      * Report that a test description has been found.
-     * @param td     The data for the test description.  May never be null.
+     *
+     * @param td The data for the test description.  May never be null.
      * @see #foundTestDescription(java.util.Map, java.io.File, int)
      */
     protected void foundTestDescription(TestDescription td) {
@@ -574,25 +591,23 @@ public abstract class TestFinder
         // binary insert
         if (tests.isEmpty()) {
             target = 0;
-        }
-        else if (comp == null) {
+        } else if (comp == null) {
             target = tests.size();  // at end
-        }
-        else {
-            int left = 0, right = tests.size()-1, center = 0;
+        } else {
+            int left = 0, right = tests.size() - 1, center = 0;
             String name = td.getName();
 
             while (left < right) {
-                center = (right+left)/2;
+                center = (right + left) / 2;
                 int cmp = comp.compare(name, tests.get(center).getName());
                 if (cmp < 0)
                     right = center;
                 else if (cmp >= 0)
-                    left = center+1;
+                    left = center + 1;
             }   // while
 
             if (comp.compare(name, tests.get(left).getName()) > 0)
-                target = left+1;
+                target = left + 1;
             else
                 target = left;
 
@@ -614,6 +629,7 @@ public abstract class TestFinder
     /**
      * Get the test descriptions that were found by the most recent call
      * of read.
+     *
      * @return the test descriptions that were found by the most recent call
      * of read.
      * @see #read
@@ -629,10 +645,11 @@ public abstract class TestFinder
         }
     }
 
-    private static final TestDescription[] noTests = { };
+    private static final TestDescription[] noTests = {};
 
     /**
      * Report that another file that needs to be read has been found.
+     *
      * @param newFile the file that has been found that needs to be read.
      * @see #read
      * @see #getFiles
@@ -646,25 +663,23 @@ public abstract class TestFinder
         // binary insert
         if (files.isEmpty()) {
             target = 0;
-        }
-        else if (comp == null) {
+        } else if (comp == null) {
             target = files.size();  // at end
-        }
-        else {
-            int left = 0, right = files.size()-1, center = 0;
+        } else {
+            int left = 0, right = files.size() - 1, center = 0;
             String path = newFile.getPath();
 
             while (left < right) {
-                center = (right+left)/2;
+                center = (right + left) / 2;
                 int cmp = comp.compare(path, files.get(center).getPath());
                 if (cmp < 0)
                     right = center;
                 else if (cmp >= 0)
-                    left = center+1;
+                    left = center + 1;
             }   // while
 
             if (comp.compare(path, files.get(left).getPath()) > 0)
-                target = left+1;
+                target = left + 1;
             else
                 target = left;
         }
@@ -695,6 +710,7 @@ public abstract class TestFinder
     /**
      * Get the files that were found by the most recent call
      * of read.
+     *
      * @return the files that were found by the most recent call of read.
      * @see #read
      * @see #foundFile
@@ -719,6 +735,7 @@ public abstract class TestFinder
      * It is not used by the basic test finder code, but may be used
      * by individual test finders to modify test descriptions as they are
      * read.
+     *
      * @deprecated This feature was available in earlier versions of
      * JT Harness but does not interact well with JT Harness 3.0's GUI features.
      * Use with discretion, if at all.

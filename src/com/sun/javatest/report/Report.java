@@ -45,7 +45,6 @@ import java.util.ServiceLoader;
 import java.util.Vector;
 
 
-
 /**
  * A report generator for sets of test results.
  */
@@ -55,10 +54,11 @@ public class Report implements ReportModel {
 
     /**
      * Creates and initializes an instance of the report generator.
+     *
      * @param params Configuration parameters to be included in the report.
-     * @param dir The directory to which to write the report.
+     * @param dir    The directory to which to write the report.
      * @deprecated It is expected that you call writeReport() if you use this
-     *             constructor.
+     * constructor.
      */
     public Report(InterviewParameters params, File dir) {
         this.params = params;
@@ -69,20 +69,20 @@ public class Report implements ReportModel {
 
     /**
      * Creates and initializes an instance of the report generator.
+     *
      * @param params Configuration parameters to be included in the report.
-     * @param dir The directory to which to write the report.
-     * @param tf The test filter to be used to filter out tests in the report.
+     * @param dir    The directory to which to write the report.
+     * @param tf     The test filter to be used to filter out tests in the report.
      * @deprecated It is expected that you call writeReport() if you use this
-     *             constructor.
+     * constructor.
      */
     public Report(InterviewParameters params, File dir, TestFilter tf) {
         this(params, dir);
 
-        paramFilters = new TestFilter[] { tf };
+        paramFilters = new TestFilter[]{tf};
     }
 
     /**
-     *
      * @deprecated use writeReports(ReportSettings s, File dir)
      */
     @Deprecated
@@ -95,10 +95,11 @@ public class Report implements ReportModel {
      * This is the execution entry point for GUI mode.  The settings used
      * are written into the JT Harness preferences automatically at the end
      * of this method, unless this method exits with an exception.
-     * @param s Settings to use for this report run, never null.
+     *
+     * @param s   Settings to use for this report run, never null.
      * @param dir Output location, never null.
      * @throws IOException May occur at any time during the writing of the reports
-     *     or creating the directories to store them in.
+     *                     or creating the directories to store them in.
      */
     public void writeReports(ReportSettings s, File dir) throws IOException {
         reportDir = dir.getAbsoluteFile();
@@ -133,6 +134,7 @@ public class Report implements ReportModel {
 
     /**
      * Process single ReportFormat and its sub-reports if any
+     *
      * @param rf
      * @param s
      * @param links
@@ -144,14 +146,13 @@ public class Report implements ReportModel {
         if (rf.acceptSettings(s)) {
             try {
                 links.add(writeReport(s, rf));
-            }
-            catch (RuntimeException t) {
+            } catch (RuntimeException t) {
                 t.printStackTrace();
                 throw t;
             }
             if (Thread.currentThread().isInterrupted()) return true;
         }
-        for (ReportFormat sub: rf.getSubReports()) {
+        for (ReportFormat sub : rf.getSubReports()) {
             boolean wasInterrapted = doReport(sub, s, links);
             if (wasInterrapted) return true;
         }
@@ -163,11 +164,12 @@ public class Report implements ReportModel {
      * Writes a report about a set of test results.
      * This is the execution entry point for batch mode.  The default settings
      * from the preferences will be used.
-     * @throws IllegalArgumentException if the type parameter does not
-     *         identify a proper report type.
+     *
      * @param types The report type identifiers, may be a custom type.
      *              null for default generated reports
-     * @throws java.io.IOException If an error occurs writing any of the files.
+     * @throws IllegalArgumentException if the type parameter does not
+     *                                  identify a proper report type.
+     * @throws java.io.IOException      If an error occurs writing any of the files.
      */
     public void writeReport(String... types) throws IOException {
         // make a settings object - default settings
@@ -178,7 +180,7 @@ public class Report implements ReportModel {
         String[] typesToGen;
         if (types == null) {
             // if type is not specified generate html and plain text
-            typesToGen = new String[] {"html", "txt"};
+            typesToGen = new String[]{"html", "txt"};
         } else {
             typesToGen = Arrays.copyOf(types, types.length);
         }
@@ -218,7 +220,7 @@ public class Report implements ReportModel {
     }
 
     private void doCLReport(ReportFormat rf, ReportSettings settings,
-        String[] types, ArrayList<ReportLink> links) throws IOException {
+                            String[] types, ArrayList<ReportLink> links) throws IOException {
         String id = rf.getTypeName();
         for (String t : types) {
             if (t.toLowerCase().equals(id)) {
@@ -233,6 +235,7 @@ public class Report implements ReportModel {
 
     /**
      * Checks if the input directory contains JT Harness reports.
+     *
      * @param d The directory to be checked.
      * @return true if the directory contains JT Harness reports.
      */
@@ -260,11 +263,12 @@ public class Report implements ReportModel {
      * Invokes methods, which rename existing report subdirs, index.html file;
      * updates index.html backupped versions to have correct links
      * Checks, if we able to perform backup
+     *
      * @param dir root report directory, where we perform backup
-     * @param s Settings, collected for report creation
+     * @param s   Settings, collected for report creation
      */
     private void backupReports(File dir, ReportSettings s/*, Collection customReports*/) {
-        if(s.isBackupsEnabled()) {
+        if (s.isBackupsEnabled()) {
             BackupUtil.backupAllSubdirs(dir, s.backups);
 
             backupIndexFile(dir, s.backups);
@@ -274,19 +278,21 @@ public class Report implements ReportModel {
     /**
      * Backups index.html file using BackupUtil.backupFile() method. Then update
      * links in backupped versions of index.html
-     * @param dir Root reportDir, where index.html file situates
+     *
+     * @param dir        Root reportDir, where index.html file situates
      * @param maxBackups maximum allowed number of backupped versions to exist
      */
     private void backupIndexFile(File dir, int maxBackups) {
         int nbackups = BackupUtil.backupFile(new File(dir, INDEX_FILE_NAME), maxBackups);
 
-        for(int i = 1; i <= nbackups; i++) {
+        for (int i = 1; i <= nbackups; i++) {
             updateIndexLinks(new File(dir, INDEX_FILE_NAME + "~" + Integer.toString(i) + "~"), i);
         }
     }
 
     /**
      * This is adapter only for backward compatibility purpose.
+     *
      * @deprecated Use com.sun.javatest.report.ReportSettings instead
      */
     @Deprecated
@@ -356,15 +362,16 @@ public class Report implements ReportModel {
             StringBuilder content = new StringBuilder();
             try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(index), StandardCharsets.UTF_8))) {
                 String line;
-                while( (line = r.readLine()) != null ) {
+                while ((line = r.readLine()) != null) {
                     content.append(line);
                     content.append("\n");
                 }
-            } catch (IOException e) {}
+            } catch (IOException e) {
+            }
 
             int i = 0;
-            while (i < (content.length() - 1) ) {
-                if(content.charAt(i) == '<' && content.charAt(i + 1) == 'a') {
+            while (i < (content.length() - 1)) {
+                if (content.charAt(i) == '<' && content.charAt(i + 1) == 'a') {
                     StringBuilder link = new StringBuilder();
                     link.append(content.charAt(i));
                     i++;
@@ -372,8 +379,8 @@ public class Report implements ReportModel {
                     i++;
 
                     boolean end = false;
-                    while (!end && i < (content.length() - 1) ) {
-                        if (content.charAt(i) == '/' && content.charAt(i+1) == 'a') {
+                    while (!end && i < (content.length() - 1)) {
+                        if (content.charAt(i) == '/' && content.charAt(i + 1) == 'a') {
                             link.append(content.charAt(i));
                             i++;
                             link.append(content.charAt(i));
@@ -381,15 +388,13 @@ public class Report implements ReportModel {
                             link.append(content.charAt(i));
                             i++;
                             end = true;
-                        }
-                        else {
+                        } else {
                             link.append(content.charAt(i));
                             i++;
                         }
                     }
                     links.add(link.toString());
-                }
-                else {
+                } else {
                     i++;
                 }
             }
@@ -403,18 +408,20 @@ public class Report implements ReportModel {
      * to files in backupped subdirs. Searchs for subdirs with the same backup
      * suffix, as selected index.html has. Then checks all links in file to find
      * those pointing to backupped subdirs and updates them.
-     * @param index backupped version of index.html file we work with
+     *
+     * @param index      backupped version of index.html file we work with
      * @param backupNumb index in backupped version of index.html file we work with
      */
     private void updateIndexLinks(File index, int backupNumb) {
         StringBuilder sb = new StringBuilder();
         try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(index), StandardCharsets.UTF_8))) {
             String line;
-            while( (line = r.readLine()) != null ) {
+            while ((line = r.readLine()) != null) {
                 sb.append(line);
                 sb.append("\n");
             }
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
 
         String oldId = backupNumb == 1 ? "" : "~" + (backupNumb - 1) + "~";
         String newId = "~" + backupNumb + "~";
@@ -449,8 +456,8 @@ public class Report implements ReportModel {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(index), StandardCharsets.UTF_8))) {
             writer.write(sb.toString());
             writer.flush();
+        } catch (IOException ex) {
         }
-        catch (IOException ex) {}
     }
 
 
@@ -461,7 +468,7 @@ public class Report implements ReportModel {
 
     private void updateMarkerFile(File dir) {
         File f = new File(dir, MARKER_FILE_NAME);
-        if(!f.exists()) {
+        if (!f.exists()) {
             try {
                 f.createNewFile();
             } catch (IOException e) {
@@ -472,7 +479,7 @@ public class Report implements ReportModel {
 
     private void updateIndexFile(File dir, ReportSettings s, List<ReportLink> links) {
         File f = new File(dir, INDEX_FILE_NAME);
-        if(f.exists()) {
+        if (f.exists()) {
             f.delete();
         }
         try {
@@ -483,7 +490,7 @@ public class Report implements ReportModel {
         }
     }
 
-    private void fillIndexFile(File index, ReportSettings s,  List<ReportLink> links) {
+    private void fillIndexFile(File index, ReportSettings s, List<ReportLink> links) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(index), StandardCharsets.UTF_8))) {
             HTMLWriterEx out = new HTMLWriterEx(writer);
             out.setI18NResourceBundle(i18n);
@@ -505,7 +512,7 @@ public class Report implements ReportModel {
 
             out.newLine();
             Date date = new Date();
-            SimpleDateFormat format= new SimpleDateFormat(i18n.getString("index.dateFormat"));
+            SimpleDateFormat format = new SimpleDateFormat(i18n.getString("index.dateFormat"));
             out.write(i18n.getString("index.date.txt", format.format(date)));
             out.newLine();
 
@@ -555,6 +562,7 @@ public class Report implements ReportModel {
 
     /**
      * Gets the report directory that is currently defined.
+     *
      * @return The report directory.
      */
     @Override
@@ -575,7 +583,7 @@ public class Report implements ReportModel {
     }
 
     private void notifyStartGenListeners(ReportSettings s, String reportID) {
-        if(startGenListeners != null) {
+        if (startGenListeners != null) {
             for (StartGenListener sgl : startGenListeners) {
                 sgl.startReportGeneration(s, reportID);
             }
@@ -602,15 +610,15 @@ public class Report implements ReportModel {
     }
 
     public void addStartGenListener(StartGenListener l) {
-        if(startGenListeners == null) {
+        if (startGenListeners == null) {
             startGenListeners = new ArrayList<>();
         }
 
         startGenListeners.add(l);
     }
 
-    public void removeStartGeneratingListener(StartGenListener l)  {
-        if(startGenListeners != null) {
+    public void removeStartGeneratingListener(StartGenListener l) {
+        if (startGenListeners != null) {
             startGenListeners.remove(l);
         }
     }

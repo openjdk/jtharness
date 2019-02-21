@@ -43,7 +43,7 @@ import java.util.Scanner;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class JTHelpBroker implements HelpBroker{
+public class JTHelpBroker implements HelpBroker {
 
     private static final String HELP_DIR_NAME = "jthelp";
     private static final String HELP_VERSION_NAME = "version";
@@ -51,19 +51,19 @@ public class JTHelpBroker implements HelpBroker{
     private static final String HELP_FILE_NAME = "map.xml";
     private HashMap<String, String> helpMap;
 
-    public JTHelpBroker(){
-        this(HelpBroker.class.getResource(HELP_FILE_PREFIX+HELP_FILE_NAME));
+    public JTHelpBroker() {
+        this(HelpBroker.class.getResource(HELP_FILE_PREFIX + HELP_FILE_NAME));
     }
 
-    private JTHelpBroker(URL url){
+    private JTHelpBroker(URL url) {
         helpMap = HelpSet.readHelpMap(url);
     }
 
     @Override
-    public void enableHelpKey(final Component component, String helpID){
+    public void enableHelpKey(final Component component, String helpID) {
         if (component instanceof JComponent) {
             KeyStroke keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
-            ((JComponent)component).registerKeyboardAction(new ActionListener() {
+            ((JComponent) component).registerKeyboardAction(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     displayCurrentID(ContextHelpManager.getHelpIDString(component));
@@ -73,7 +73,7 @@ public class JTHelpBroker implements HelpBroker{
         ContextHelpManager.setHelpIDString(component, helpID);
     }
 
-    private boolean isHelpUpToDate(){
+    private boolean isHelpUpToDate() {
         File helpDir = new File(Preferences.getPrefsDir(), HELP_DIR_NAME);
         if (!helpDir.exists()) {
             return false;
@@ -82,7 +82,7 @@ public class JTHelpBroker implements HelpBroker{
         try {
             Scanner scanner = new Scanner(helpVersion, StandardCharsets.UTF_8.name());
             String version = scanner.nextLine();
-            if (version == null || !version.equals(ProductInfo.getVersion()+ProductInfo.getBuildNumber())){
+            if (version == null || !version.equals(ProductInfo.getVersion() + ProductInfo.getBuildNumber())) {
                 return false;
             }
         } catch (IOException e) {
@@ -93,9 +93,9 @@ public class JTHelpBroker implements HelpBroker{
         return true;
     }
 
-    private void unpackHelpIfNeeded(){
+    private void unpackHelpIfNeeded() {
 
-        if (isHelpUpToDate()){
+        if (isHelpUpToDate()) {
             return;
         }
 
@@ -105,7 +105,7 @@ public class JTHelpBroker implements HelpBroker{
     }
 
     @Override
-    public void displayCurrentID(String helpID){
+    public void displayCurrentID(String helpID) {
 
         unpackHelpIfNeeded();
 
@@ -141,7 +141,7 @@ public class JTHelpBroker implements HelpBroker{
                     }
                 }
 
-                if (destDir.exists()){
+                if (destDir.exists()) {
                     destDir.delete();
                 }
 
@@ -168,12 +168,11 @@ public class JTHelpBroker implements HelpBroker{
                     }
                 }
 
-                try(PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(helpVersion), StandardCharsets.UTF_8))){
-                    out.println(ProductInfo.getVersion()+ProductInfo.getBuildNumber());
+                try (PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(helpVersion), StandardCharsets.UTF_8))) {
+                    out.println(ProductInfo.getVersion() + ProductInfo.getBuildNumber());
                 }
 
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 System.err.println("Cannot unpack JavaTest help files");
                 System.err.println(e.getMessage());
             }

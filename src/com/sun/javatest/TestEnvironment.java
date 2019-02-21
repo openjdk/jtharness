@@ -54,13 +54,11 @@ import com.sun.javatest.util.StringArray;
  * retained for backwards compatibility with older test suites that read environments
  * from environment (.jte) files.
  */
-public class TestEnvironment
-{
+public class TestEnvironment {
     /**
      * This exception is used to report resolving values in an environment.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         Fault(I18NResourceBundle i18n, String s) {
             super(i18n.getString(s));
         }
@@ -77,12 +75,13 @@ public class TestEnvironment
     /**
      * Add a default set of properties to be included when environments are
      * created. Properties are passed in as a {@code Map<String, String>} instance.
-     * @param name a name for this collection or properties, so that the
-     * source of the properties can be identified when browing an environment
+     *
+     * @param name      a name for this collection or properties, so that the
+     *                  source of the properties can be identified when browing an environment
      * @param propTable a table of properties to be included when environments
-     * are created
-     * @see #clearDefaultPropTables
+     *                  are created
      * @throws NullPointerException if either name or propTable is null.
+     * @see #clearDefaultPropTables
      */
     public static synchronized void addDefaultPropTable(String name, Map<String, String> propTable) {
         if (name == null || propTable == null)
@@ -96,12 +95,13 @@ public class TestEnvironment
     /**
      * Add a default set of properties to be included when environments are
      * created. Properties are passed in as a {@code java.util.Properties} instance.
-     * @param name a name for this collection or properties, so that the
-     * source of the properties can be identified when browing an environment
+     *
+     * @param name      a name for this collection or properties, so that the
+     *                  source of the properties can be identified when browing an environment
      * @param propTable a table of properties to be included when environments
-     * are created
-     * @see #clearDefaultPropTables
+     *                  are created
      * @throws NullPointerException if either name or propTable is null.
+     * @see #clearDefaultPropTables
      */
     public static synchronized void addDefaultPropTable(String name, Properties propTable) {
         addDefaultPropTable(name, PropertyUtils.convertToStringProps(propTable));
@@ -109,6 +109,7 @@ public class TestEnvironment
 
     /**
      * Remove all previously registered default property tables.
+     *
      * @see #addDefaultPropTable
      */
     public static synchronized void clearDefaultPropTables() {
@@ -116,41 +117,38 @@ public class TestEnvironment
         defaultPropTables = new Map[0];
     }
 
-    static String[] defaultPropTableNames = { };
+    static String[] defaultPropTableNames = {};
     static Map<String, String>[] defaultPropTables = new Map[0];
 
     /**
      * Construct an environment for a named group of properties.
-     * @param name      The name by which to identify the group of properties
-     *                  for this environment
-     * @param propTable Dictionaries containing (but not limited to) the
-     *                  properties for this environment.
-     * @param propTableName
-     *                  The name of the property table, for use in diagnostics etc
-     * @throws TestEnvironment.Fault if there is an error in the table
      *
+     * @param name          The name by which to identify the group of properties
+     *                      for this environment
+     * @param propTable     Dictionaries containing (but not limited to) the
+     *                      properties for this environment.
+     * @param propTableName The name of the property table, for use in diagnostics etc
+     * @throws TestEnvironment.Fault if there is an error in the table
      */
     public TestEnvironment(String name, Map<String, String> propTable, String propTableName)
-                throws Fault {
-        this(name, new Map[] {propTable}, propTableName);
+            throws Fault {
+        this(name, new Map[]{propTable}, propTableName);
     }
 
     /**
      * Construct an environment for a named group of properties.
-     * @param name      The name by which to identify the group of properties
-     *                  for this environment
-     * @param propTables        Dictionaries containing (but not limited to) the
-     *                  properties for this environment. They should be ordered
-     *                  so that values specified in later tables override those
-     *                  specified in subsequent tables.
-     * @param propTableNames
-     *                  The names of the property tables, for use in diagnostics etc
-     * @throws TestEnvironment.Fault if there is an error in the given tables
      *
+     * @param name           The name by which to identify the group of properties
+     *                       for this environment
+     * @param propTables     Dictionaries containing (but not limited to) the
+     *                       properties for this environment. They should be ordered
+     *                       so that values specified in later tables override those
+     *                       specified in subsequent tables.
+     * @param propTableNames The names of the property tables, for use in diagnostics etc
+     * @throws TestEnvironment.Fault if there is an error in the given tables
      */
     public TestEnvironment(String name, Map[] propTables, String... propTableNames)
-        throws Fault
-    {
+            throws Fault {
         this.name = name;
         if (defaultPropTables != null && defaultPropTables.length > 0) {
             propTables = DynamicArray.join(defaultPropTables, propTables);
@@ -214,6 +212,7 @@ public class TestEnvironment
 
     /**
      * Create a copy of the current environment.
+     *
      * @return a copy of the current environment
      */
     public TestEnvironment copy() {
@@ -222,7 +221,8 @@ public class TestEnvironment
 
     /**
      * Get the distinguishing name for the properties of this environment.
-     * @return  The name used to distinguish the properties of this environment
+     *
+     * @return The name used to distinguish the properties of this environment
      */
     public String getName() {
         return name;
@@ -230,10 +230,11 @@ public class TestEnvironment
 
     /**
      * Get the description of this environment, as given by the "description" entry.
+     *
      * @return the description of this environment, or null if not given
      */
     public String getDescription() {
-            if (table == null || ! table.containsKey("description")) {
+        if (table == null || !table.containsKey("description")) {
             return null;
         }
 
@@ -243,6 +244,7 @@ public class TestEnvironment
     /**
      * Get the list of names of inherited environments, including this environment,
      * in reverse  order or inheritance (ie this one, parent, grandparent etc).
+     *
      * @return an array containing the names of inherited environments
      */
     public String[] getInherits() {
@@ -252,8 +254,9 @@ public class TestEnvironment
     /**
      * A backdoor method to add global properties to the environment. The value is
      * not subject to any substitutions.
-     * @param name      The name of the property to be written
-     * @param value     The value of the property to be written
+     *
+     * @param name  The name of the property to be written
+     * @param value The value of the property to be written
      */
     public void put(String name, String value) {
         // used to save values without subjecting them to any $ or # processing
@@ -266,8 +269,9 @@ public class TestEnvironment
     /**
      * A backdoor method to add global properties to the environment. The value is
      * not subject to any substitutions.
-     * @param name      The name of the property to be written
-     * @param value     The value of the property to be written
+     *
+     * @param name  The name of the property to be written
+     * @param value The value of the property to be written
      */
     public void put(String name, String... value) {
         // used to save values without subjecting them to any $ or # processing
@@ -283,8 +287,9 @@ public class TestEnvironment
      * The values are not subject to any substitutions.
      * URL result constructed using the following expression -
      * f.toURI().toASCIIString();
-     * @param name      The name of the property to be written
-     * @param f         The file indicating the value to be stored.
+     *
+     * @param name The name of the property to be written
+     * @param f    The file indicating the value to be stored.
      */
     public void putUrlAndFile(String name, File f) {
         String filePath = f.getPath();
@@ -301,7 +306,6 @@ public class TestEnvironment
     }
 
     /**
-     *
      * @return all external global properties.
      */
     public Map<String, String[]> getExtraValues() {
@@ -310,10 +314,11 @@ public class TestEnvironment
 
     /**
      * Lookup a named property in the environment.
-     * @param key       The name of the property to look up
-     * @return          The resolved value of the property
-     * @throws  TestEnvironment.Fault is thrown if there is a problem resolving the value
-     *                  of the property
+     *
+     * @param key The name of the property to look up
+     * @return The resolved value of the property
+     * @throws TestEnvironment.Fault is thrown if there is a problem resolving the value
+     *                               of the property
      * @see #resolve
      */
     public String[] lookup(String key) throws Fault {
@@ -338,12 +343,10 @@ public class TestEnvironment
             activeKeys.addElement(key);
             try {
                 return resolve(elem.getValue(), activeKeys);
-            }
-            catch (Fault e) {
+            } catch (Fault e) {
                 throw new Fault(i18n, "env.badName",
                         key, elem.getDefinedInFile(), e.getMessage());
-            }
-            finally {
+            } finally {
                 activeKeys.removeElement(key);
             }
         }
@@ -364,11 +367,10 @@ public class TestEnvironment
      * are performed in double-quoted strings.
      *
      * @param s The string to be resolved
-     * @return  An array of strings containing the words of the argument, after
-     *          substitutions have been performed.
-     * @throws TestEnvironment.Fault
-     *          This is thrown if there is a problem resolving the value
-     *          of the argument.
+     * @return An array of strings containing the words of the argument, after
+     * substitutions have been performed.
+     * @throws TestEnvironment.Fault This is thrown if there is a problem resolving the value
+     *                               of the argument.
      */
     public String[] resolve(String s) throws Fault {
         return resolve(s, null);
@@ -379,158 +381,156 @@ public class TestEnvironment
         StringBuilder current = new StringBuilder(64);
         char term = 0;
 
-  loop:
+        loop:
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             switch (c) {
-                        case '#':
-                // # at top level introduces comment to end of line and terminates
-                //command (if found); otherwise, it goes into the current word
-                        if ((!isInlineCommentsDisabled() || i == 0 || s.charAt(i - 1) == ' ' || s.charAt(i - 1) == '\t') && (term == 0 || term == ' '))
-                                        break loop;
-                                else
-                                        current.append(c);
-                                break;
+                case '#':
+                    // # at top level introduces comment to end of line and terminates
+                    //command (if found); otherwise, it goes into the current word
+                    if ((!isInlineCommentsDisabled() || i == 0 || s.charAt(i - 1) == ' ' || s.charAt(i - 1) == '\t') && (term == 0 || term == ' '))
+                        break loop;
+                    else
+                        current.append(c);
+                    break;
 
-              case '\'':
-              case '\"':
-                // string quotes at top level begin/end a matched pair; otherwise they
-                // are part of it
-                if (term == 0 || term == ' ') {
-                    term = c;           // start matched pair
-                } else if (term == c)
-                    term = ' ';         // end matched pair
-                else
-                    current.append(c);  // put character in string
-                break;
+                case '\'':
+                case '\"':
+                    // string quotes at top level begin/end a matched pair; otherwise they
+                    // are part of it
+                    if (term == 0 || term == ' ') {
+                        term = c;           // start matched pair
+                    } else if (term == c)
+                        term = ' ';         // end matched pair
+                    else
+                        current.append(c);  // put character in string
+                    break;
 
-              case '$':
-                // dollar introduces a name to be substituted, provided it does not
-                // appear in single quotes. Special values: $/ is File.separatorChar,
-                // $: is File.pathSeparatorChar, and $$ is $
-                if (term != '\'') {
-                    StringBuffer buf = new StringBuffer();
-                    String name = null;
-                    String[] nameArgs = null;
-                    try {
-                        c = s.charAt(++i);
-                        switch (c) {
-                        case '/':
-                            current.append(File.separatorChar);
-                            continue loop;
-
-                        case ':':
-                            current.append(File.pathSeparatorChar);
-                            continue loop;
-
-                        case '$':
-                            current.append('$');
-                            continue loop;
-
-                        case '{':
+                case '$':
+                    // dollar introduces a name to be substituted, provided it does not
+                    // appear in single quotes. Special values: $/ is File.separatorChar,
+                    // $: is File.pathSeparatorChar, and $$ is $
+                    if (term != '\'') {
+                        StringBuffer buf = new StringBuffer();
+                        String name = null;
+                        String[] nameArgs = null;
+                        try {
                             c = s.charAt(++i);
-                            while (c != ':' && c != '}') {
-                                buf.append(c);
-                                c = s.charAt(++i);
-                            }
-                            name=convertToName(resolve(buf.toString()));
+                            switch (c) {
+                                case '/':
+                                    current.append(File.separatorChar);
+                                    continue loop;
 
-                            // pick up optional nameArgs after embedded ':'
-                            if (c == ':') {
-                                buf = new StringBuffer();
-                                c = s.charAt(++i);
-                                while (c != '}') {
-                                    buf.append(c);
+                                case ':':
+                                    current.append(File.pathSeparatorChar);
+                                    continue loop;
+
+                                case '$':
+                                    current.append('$');
+                                    continue loop;
+
+                                case '{':
                                     c = s.charAt(++i);
-                                }
-                                nameArgs = StringArray.split(buf.toString());
+                                    while (c != ':' && c != '}') {
+                                        buf.append(c);
+                                        c = s.charAt(++i);
+                                    }
+                                    name = convertToName(resolve(buf.toString()));
+
+                                    // pick up optional nameArgs after embedded ':'
+                                    if (c == ':') {
+                                        buf = new StringBuffer();
+                                        c = s.charAt(++i);
+                                        while (c != '}') {
+                                            buf.append(c);
+                                            c = s.charAt(++i);
+                                        }
+                                        nameArgs = StringArray.split(buf.toString());
+                                    }
+
+                                    break;
+
+                                default:
+                                    if (isNameChar(c)) {
+                                        while (i < s.length() && isNameChar(s.charAt(i))) {
+                                            buf.append(s.charAt(i++));
+                                        }
+                                        i--;
+                                    } else
+                                        throw new Fault(i18n, "env.badExprChar", new Character(c));
+                                    name = buf.toString();
                             }
 
-                            break;
+                            String[] val = lookup(name, activeKeys);
 
-                        default:
-                            if (isNameChar(c)) {
-                                while (i < s.length() && isNameChar(s.charAt(i))) {
-                                    buf.append(s.charAt(i++));
-                                }
-                                i--;
-                            } else
-                                throw new Fault(i18n, "env.badExprChar", new Character(c));
-                            name = buf.toString();
-                        }
-
-                        String[] val = lookup(name, activeKeys);
-
-                        // apply nameArgs, if any
-                        if (nameArgs != null) {
-                            for (String arg : nameArgs) {
-                                if (arg.startsWith("FS=") && arg.length() == 4)
-                                    substituteChar(val, File.separatorChar, arg.charAt(3));
-                                else if (arg.startsWith("PS=") && arg.length() == 4)
-                                    substituteChar(val, File.pathSeparatorChar, arg.charAt(3));
-                                else if (arg.startsWith("MAP="))
-                                    substituteMap(val, lookup("map." + arg.substring(4), activeKeys));
-                                else if (arg.equals("MAP"))
-                                    substituteMap(val, lookup("map", activeKeys));
-                                else
-                                    throw new Fault(i18n, "env.badOption", arg);
-                            }
-                        }
-
-                        if (val != null && val.length > 0) {
-                            // only start a new word if there is something to substitute
-                            if (term == 0)
-                                term = ' ';
-                            for (int vi = 0; vi < val.length; vi++) {
-                                if (vi == 0)
-                                    current.append(val[vi]);
-                                else if (term == '"') {
-                                    current.append(' ');
-                                    current.append(val[vi]);
-                                }
-                                else {
-                                    v.addElement(current.toString());
-                                    current.setLength(0);
-                                    current.append(val[vi]);
+                            // apply nameArgs, if any
+                            if (nameArgs != null) {
+                                for (String arg : nameArgs) {
+                                    if (arg.startsWith("FS=") && arg.length() == 4)
+                                        substituteChar(val, File.separatorChar, arg.charAt(3));
+                                    else if (arg.startsWith("PS=") && arg.length() == 4)
+                                        substituteChar(val, File.pathSeparatorChar, arg.charAt(3));
+                                    else if (arg.startsWith("MAP="))
+                                        substituteMap(val, lookup("map." + arg.substring(4), activeKeys));
+                                    else if (arg.equals("MAP"))
+                                        substituteMap(val, lookup("map", activeKeys));
+                                    else
+                                        throw new Fault(i18n, "env.badOption", arg);
                                 }
                             }
-                        }
-                    }
-                    catch (IndexOutOfBoundsException e) {
-                        throw new Fault(i18n, "env.badExpr");
-                    }
-                } else
-                    current.append(c);
-                break;
 
-              case ' ':
-              case '\t':
-                // space or tab are skipped if not in a word; if in a word and
-                // term is space, they terminate it; otherwise they go into the
-                // current word
-                if (term != 0) {
-                    if (term == ' ') {
-                        v.addElement(current.toString());
-                        current.setLength(0);
-                        term = 0;
+                            if (val != null && val.length > 0) {
+                                // only start a new word if there is something to substitute
+                                if (term == 0)
+                                    term = ' ';
+                                for (int vi = 0; vi < val.length; vi++) {
+                                    if (vi == 0)
+                                        current.append(val[vi]);
+                                    else if (term == '"') {
+                                        current.append(' ');
+                                        current.append(val[vi]);
+                                    } else {
+                                        v.addElement(current.toString());
+                                        current.setLength(0);
+                                        current.append(val[vi]);
+                                    }
+                                }
+                            }
+                        } catch (IndexOutOfBoundsException e) {
+                            throw new Fault(i18n, "env.badExpr");
+                        }
                     } else
                         current.append(c);
-                }
-                break;
+                    break;
+
+                case ' ':
+                case '\t':
+                    // space or tab are skipped if not in a word; if in a word and
+                    // term is space, they terminate it; otherwise they go into the
+                    // current word
+                    if (term != 0) {
+                        if (term == ' ') {
+                            v.addElement(current.toString());
+                            current.setLength(0);
+                            term = 0;
+                        } else
+                            current.append(c);
+                    }
+                    break;
 
 
-              default:
-                // other characters start a word if needed, then go into the word
-                if (term == 0)
-                    term = ' ';
-                current.append(c);
-                break;
+                default:
+                    // other characters start a word if needed, then go into the word
+                    if (term == 0)
+                        term = ' ';
+                    current.append(c);
+                    break;
             }
         }
 
         // we've reached the end; if a word has been started, finish it
         if (term != 0)
-           v.addElement(current.toString());
+            v.addElement(current.toString());
 
         String[] result = new String[v.size()];
         v.copyInto(result);
@@ -551,6 +551,7 @@ public class TestEnvironment
     /**
      * Check if the environment has any undefined values. These are entries containing
      * the text VALUE_NOT_DEFINED.
+     *
      * @return true if and only if there are any entries containing the text
      * VALUE_NOT_DEFINED.
      */
@@ -575,9 +576,9 @@ public class TestEnvironment
         // Slave.Map, which it supercedes
         for (int i = 0; i < v.length; i++) {
             String word = v[i];
-            for (int j = 0; j+1 < map.length; j+=2) {
+            for (int j = 0; j + 1 < map.length; j += 2) {
                 String f = map[j];
-                String t = map[j+1];
+                String t = map[j + 1];
                 for (int index = word.indexOf(f);
                      index != -1;
                      index = word.indexOf(f, index + t.length())) {
@@ -616,10 +617,10 @@ public class TestEnvironment
      * Enumerate the keys for this environment, including any inherited keys.
      * Use `lookup' to find the values of the individual keys.
      *
-     * @return  An enumeration that yields the various keys, explicit or inherited,
-     *          that are available in this environment. The keys do <em>not</em>
-     *          include the `env.<em>environment-name</em>.' prefix of the corresponding
-     *          property names.
+     * @return An enumeration that yields the various keys, explicit or inherited,
+     * that are available in this environment. The keys do <em>not</em>
+     * include the `env.<em>environment-name</em>.' prefix of the corresponding
+     * property names.
      */
     public Set<String> keys() {
         return table.keySet();
@@ -629,6 +630,7 @@ public class TestEnvironment
      * Get a collection containing those entries in this environment that have been
      * referenced, either directly via lookup, or indirectly via the $ syntax in
      * other entries.
+     *
      * @return a collection of those entries in this environment that have been
      * referenced.
      * @see #resetElementsUsed
@@ -639,6 +641,7 @@ public class TestEnvironment
 
     /**
      * Reset the record of entries in this environment that have been referenced.
+     *
      * @see #elementsUsed
      */
     public void resetElementsUsed() {
@@ -648,8 +651,8 @@ public class TestEnvironment
     /**
      * Enumerate the elements for this environment, including any inherited elements.
      *
-     * @return  An enumeration that yields the various elements, explicit or inherited,
-     *          that are available in this environment.
+     * @return An enumeration that yields the various elements, explicit or inherited,
+     * that are available in this environment.
      */
     public Collection<Element> elements() {
         return table.values();
@@ -669,9 +672,10 @@ public class TestEnvironment
     public class Element {
         /**
          * Create an entry for a test environment.
-         * @param key The name of the entry
-         * @param value The unresolved value of the entry
-         * @param definedInEnv The name of the environment that defines this entry
+         *
+         * @param key           The name of the entry
+         * @param value         The unresolved value of the entry
+         * @param definedInEnv  The name of the environment that defines this entry
          * @param definedInFile The name of the file (or table) that defines this entry
          */
         Element(String key, String value, String definedInEnv, String definedInFile) {
@@ -683,27 +687,39 @@ public class TestEnvironment
 
         /**
          * Get the name of this entry.
+         *
          * @return the name of this entry
          */
-        public String getKey() { return key; }
+        public String getKey() {
+            return key;
+        }
 
         /**
          * Get the (unresolved) value of this entry.
+         *
          * @return the (unresolved) value of this entry
          */
-        public String getValue() { return value; }
+        public String getValue() {
+            return value;
+        }
 
         /**
          * Get the name of the environment that defines this entry.
+         *
          * @return the name of the environment that defines this entry
          */
-        public String getDefinedInEnv() { return definedInEnv; }
+        public String getDefinedInEnv() {
+            return definedInEnv;
+        }
 
         /**
          * Get the name of the file (or table) that defines this entry.
+         *
          * @return the name of the file (or table) that defines this entry
          */
-        public String getDefinedInFile() { return definedInFile; }
+        public String getDefinedInFile() {
+            return definedInFile;
+        }
 
         String key;
         String value;

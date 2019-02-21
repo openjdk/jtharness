@@ -60,24 +60,26 @@ import com.sun.javatest.util.ExitCount;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.PrefixMap;
 import com.sun.javatest.util.StringArray;
+
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 
 /**
  * A deskview defines the abstract behavior of a style of desktop,
  * such as MDI, SDI, or tabbed.
+ *
  * @see Desktop
  */
 abstract class DeskView {
     /**
      * This exception is used to report problems while using a tool manager.
      */
-    static class Fault extends Exception
-    {
+    static class Fault extends Exception {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         Fault(I18NResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -85,10 +87,11 @@ abstract class DeskView {
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         Fault(I18NResourceBundle i18n, String s, Object o) {
             super(i18n.getString(s, o));
@@ -96,10 +99,11 @@ abstract class DeskView {
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
@@ -119,6 +123,7 @@ abstract class DeskView {
      * Dispose of this desktop object, and resources it may use.
      * Subsequent call of access() will cause a new desktop object
      * to be created.
+     *
      * @see #access
      */
     public void dispose() {
@@ -137,6 +142,7 @@ abstract class DeskView {
 
     /**
      * Check if the top level windows of the desktop are visible or not.
+     *
      * @return true if the top level windows are visible; otherwise, return false
      * @see #setVisible
      */
@@ -144,25 +150,29 @@ abstract class DeskView {
 
     /**
      * Set whether or not the top level windows of the desktop should be visible.
+     *
      * @param v If true, the top level windows will be made visible; if false, they
-     * will be hidden.
+     *          will be hidden.
      */
     public abstract void setVisible(boolean v);
 
     /**
      * Check whether the desktop is empty of any tools.
+     *
      * @return true if there are no tools on the desktop, and false otherwise
      */
     public abstract boolean isEmpty();
 
     /**
      * Get the set of tools currently on the desktop.
+     *
      * @return the set of tools currently on the desktop
      */
     public abstract Tool[] getTools();
 
     /**
      * Add a new tool to the desktop.
+     *
      * @param t the tool to be added
      * @see #removeTool
      */
@@ -170,6 +180,7 @@ abstract class DeskView {
 
     /**
      * Remove a tool from the desktop.
+     *
      * @param t the tool to be removed
      * @see #addTool
      */
@@ -177,6 +188,7 @@ abstract class DeskView {
 
     /**
      * Get the currently selected tool on the desktop.
+     *
      * @return the currently selected tool on the desktop
      * @see #setSelectedTool
      */
@@ -184,6 +196,7 @@ abstract class DeskView {
 
     /**
      * Set the currently selected tool on the desktop.
+     *
      * @param t the the tool to be selected on the desktop
      * @see #getSelectedTool
      */
@@ -193,6 +206,7 @@ abstract class DeskView {
 
     /**
      * Get an integer signifying the style of the current desktop.
+     *
      * @return an integer signifying the style of the current desktop
      * @see #TAB_STYLE
      * @see #MDI_STYLE
@@ -205,14 +219,16 @@ abstract class DeskView {
      * Get the top level frames that make up this desktop. TAB and MDI style
      * desktops just have a single frame; An SDI style desktop may have more
      * than one frame.
+     *
      * @return the top level frames of this desktop
      */
     public abstract JFrame[] getFrames();
 
     /**
      * Get a parent component for a dialog to use.
+     *
      * @return a component which can be used as a parent, or null if none
-     *         is available.
+     * is available.
      */
     public Component getDialogParent() {
         JFrame[] frames = getFrames();
@@ -223,6 +239,7 @@ abstract class DeskView {
 
     /**
      * Get the bounds for this desktop.
+     *
      * @return a rectangle describing the size and position of this desktop
      * on the screen.
      */
@@ -230,6 +247,7 @@ abstract class DeskView {
 
     /**
      * Get thedefault bounds for a JT Harness desktop.
+     *
      * @return a rectangle describing the size and position on the screen
      * of the default desktop.
      */
@@ -239,8 +257,8 @@ abstract class DeskView {
         int w = Math.min(mwb.width, Math.max(640, mwb.width * 3 / 4));
         int h = Math.min(mwb.height, Math.max(480, mwb.height * 3 / 4));
 
-        int x = ge.getCenterPoint().x - w/2;
-        int y = ge.getCenterPoint().y - h/2;
+        int x = ge.getCenterPoint().x - w / 2;
+        int y = ge.getCenterPoint().y - h / 2;
 
         return new Rectangle(x, y, w, h);
     }
@@ -248,9 +266,10 @@ abstract class DeskView {
     /**
      * Create a new top level frame for the desktop. The frame will have the
      * standard JT Harness menu bar.
+     *
      * @param winMenuListener a listener to be invoked when the user clicks on
-     * the standard Windows menu
-     * @param uiKey key to use for retrieving accessibility info for the frame
+     *                        the standard Windows menu
+     * @param uiKey           key to use for retrieving accessibility info for the frame
      * @return a new top level frame for the desktop
      */
     protected JFrame createFrame(MenuListener winMenuListener, String uiKey) {
@@ -260,11 +279,12 @@ abstract class DeskView {
     /**
      * Create a new top level frame for the desktop. The frame will have the
      * standard JT Harness menu bar.
+     *
      * @param winMenuListener a listener to be invoked when the user clicks on
-     * the standard Windows menu
+     *                        the standard Windows menu
      * @param fileCloseAction an action to use to create the File>Close menu item
-     * to close the frame
-     * @param uiKey key to use for retrieving accessibility info for the frame
+     *                        to close the frame
+     * @param uiKey           key to use for retrieving accessibility info for the frame
      * @return a new top level frame for the desktop
      */
     protected JFrame createFrame(MenuListener winMenuListener, Action fileCloseAction,
@@ -314,7 +334,7 @@ abstract class DeskView {
         final HelpBroker helpBroker = desktop.getHelpBroker();
         JRootPane rootPane = frame.getRootPane();
         KeyStroke keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
-        rootPane.registerKeyboardAction(new ActionListener(){
+        rootPane.registerKeyboardAction(new ActionListener() {
                                             @Override
                                             public void actionPerformed(ActionEvent e) {
                                                 helpBroker.displayCurrentID(ContextHelpManager.getHelpIDString(getSelectedTool()));
@@ -364,8 +384,9 @@ abstract class DeskView {
     /**
      * Add tool menu items from the given tool into the given frame's
      * tool menu.
+     *
      * @param frame the frame to modify
-     * @param tool the tool to get the menu items from
+     * @param tool  the tool to get the menu items from
      */
     protected void addToolMenuItemsToFrameMenuBar(JFrame frame, Tool tool) {
         JMenuBar frameMenuBar = frame.getJMenuBar();
@@ -400,8 +421,7 @@ abstract class DeskView {
                     frameMenu.add(toolMenu.getMenuComponent(0));
                 }
                 frameMenuBar.add(frameMenu, frameMenuBar.getMenuCount() - MENU_INSERT_POINT);
-            }
-            else {
+            } else {
                 for (int j = 0; j < toolMenuSize; j++) {
                     frameMenu.add(toolMenu.getMenuComponent(0), j);
                 }
@@ -423,9 +443,10 @@ abstract class DeskView {
     /**
      * Remove the tool menu items for the given tool from the given frame's
      * tool menu.
+     *
      * @param frame the frame with the menu bar to which the tool's menus have
-     * been added
-     * @param tool the tool to which to return the menu items
+     *              been added
+     * @param tool  the tool to which to return the menu items
      */
     protected void removeToolMenuItemsFromFrameMenuBar(JFrame frame, Tool tool) {
         JMenuBar frameMenuBar = frame.getJMenuBar();
@@ -483,13 +504,14 @@ abstract class DeskView {
 
     /**
      * Create a dialog.
-     * @param tool the parent tool for the dialog
-     * @param uiKey a string which is to be used as the base name for any
-     * resources that may be required
-     * @param title the title for the dialog
+     *
+     * @param tool    the parent tool for the dialog
+     * @param uiKey   a string which is to be used as the base name for any
+     *                resources that may be required
+     * @param title   the title for the dialog
      * @param menuBar the menu bar for the dialog
-     * @param body the body component for the dialog
-     * @param bounds the size and position for the dialog
+     * @param body    the body component for the dialog
+     * @param bounds  the size and position for the dialog
      * @return a JDialog or JInternalDialog built from the supplied values.
      */
     public abstract Container createDialog(Tool tool, String uiKey, String title,
@@ -500,7 +522,8 @@ abstract class DeskView {
      * Check if the tool's parent Window is the owner of a dialog.
      * This may become false if the desktop style is changed after the dialog
      * was created.
-     * @param tool the tool from which to determine the parent Window
+     *
+     * @param tool   the tool from which to determine the parent Window
      * @param dialog the dialog to be checked
      * @return true if the tool's parent Window is the owner of the dialog, and
      * false otherwise.
@@ -516,6 +539,7 @@ abstract class DeskView {
 
     /**
      * Save the state of the desktop to a map object.
+     *
      * @param m The map object to which to write the state of the desktop
      * @see #restoreDesktop
      */
@@ -523,6 +547,7 @@ abstract class DeskView {
 
     /**
      * Save the state of the current tools on the desktop to a map object.
+     *
      * @param m The map object to which to write the state of the desktop
      * @see #restoreDesktop
      */
@@ -535,6 +560,7 @@ abstract class DeskView {
 
     /**
      * Save information about a tool on the desktop.
+     *
      * @param m A map object in which to save the information
      * @param t the tool to be saved
      * @see #restoreTool
@@ -548,6 +574,7 @@ abstract class DeskView {
 
     /**
      * Restore the state of the desktop from a map object.
+     *
      * @param m The map object from which to restore the state of the desktop
      * @see #saveDesktop
      */
@@ -555,6 +582,7 @@ abstract class DeskView {
 
     /**
      * Restore the state of the saved tools from a map object.
+     *
      * @param m The map object from which to restore the state of the saved tools
      * @see #saveTools
      */
@@ -568,8 +596,7 @@ abstract class DeskView {
                         String prefix = "tool." + i;
                         Map<String, String> toolMap = new PrefixMap<>(m, prefix);
                         restoreTool(toolMap, prefix);
-                    }
-                    catch (ToolManager.Fault | Fault e) {
+                    } catch (ToolManager.Fault | Fault e) {
                         uif.showError("dv.restore.cantRestoreTool",
                                 Integer.valueOf(i), e.getMessage());
                     } catch (Throwable e) {
@@ -581,8 +608,7 @@ abstract class DeskView {
                     }
                 }
             }
-        }
-        catch (NumberFormatException ignore) {
+        } catch (NumberFormatException ignore) {
             // ignore, for now
         }
 
@@ -590,16 +616,16 @@ abstract class DeskView {
 
     /**
      * Restore a tool on the desktop from information in a map object.
+     *
      * @param m The map containing the information about a tool
      * @return the tool that was restored from the specified information in the map
-     * @see #saveTool
-     * @throws ClassNotFoundException if the class for the tool cannot be found
-     * @throws NoSuchMethodException if the tool does not have the appropriate restore method
-     * @throws IllegalAccessException if the tool's restore method does not have public access
+     * @throws ClassNotFoundException    if the class for the tool cannot be found
+     * @throws NoSuchMethodException     if the tool does not have the appropriate restore method
+     * @throws IllegalAccessException    if the tool's restore method does not have public access
      * @throws InvocationTargetException if the tool's restore method threw an exception
+     * @see #saveTool
      */
-    protected Tool restoreTool(Map<String, String> m, String name) throws Fault, ToolManager.Fault
-    {
+    protected Tool restoreTool(Map<String, String> m, String name) throws Fault, ToolManager.Fault {
         String mgrClassName = m.get("mgr");
         if (mgrClassName == null) {
             // backwards compatibility with 3.1
@@ -609,8 +635,7 @@ abstract class DeskView {
                 try {
                     if (Class.forName(n) != null)
                         mgrClassName = n;
-                }
-                catch (Throwable e) {
+                } catch (Throwable e) {
                     // ignore
                 }
             }
@@ -636,6 +661,7 @@ abstract class DeskView {
 
     /**
      * Save the screen size and position for a component in a map object.
+     *
      * @param c the component whose size and position are to be recorded in the map.
      * @param m the map in which the information is to be recorded
      * @see #restoreBounds
@@ -652,6 +678,7 @@ abstract class DeskView {
     /**
      * Restore the screen size and position for a component from information
      * in a map object.
+     *
      * @param c the component whose size and position are to be restored.
      * @param m the map in which the information is to be recorded
      * @see #saveBounds
@@ -674,8 +701,7 @@ abstract class DeskView {
                 }
 
             }
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             // ignore
         }
     }
@@ -731,7 +757,7 @@ abstract class DeskView {
     private static final String SEPARATOR = null;
 
     private static final I18NResourceBundle i18n =
-        I18NResourceBundle.getBundleForClass(DeskView.class);
+            I18NResourceBundle.getBundleForClass(DeskView.class);
 
 
     //-------------------------------------------------------------------------
@@ -782,32 +808,32 @@ abstract class DeskView {
 
             List<Desktop.FileHistoryEntry> fileHistory = desktop.getFileHistory();
 //          if (!fileHistory.isEmpty()) {
-        JMenu hm = uif.createMenu("dt.file.recentwd");
-        if (!fileHistory.isEmpty()) {
+            JMenu hm = uif.createMenu("dt.file.recentwd");
+            if (!fileHistory.isEmpty()) {
                 int n = 0;
 
-            for (Desktop.FileHistoryEntry h : fileHistory) {
-                if (!h.file.exists())
-                    continue;
-                String s = uif.getI18NString("dt.file.historyX.mit",
-                        Integer.valueOf(n), h.file.getPath());
-                JMenuItem mi = new JMenuItem(s);
-                mi.setActionCommand(HISTORY);
-                mi.addActionListener(this);
-                mi.putClientProperty(this, h);
-                if (n < 10)
-                    mi.setMnemonic(Character.forDigit(n, 10));
-                n++;
-                hm.add(mi);
-            }
-        } else {
+                for (Desktop.FileHistoryEntry h : fileHistory) {
+                    if (!h.file.exists())
+                        continue;
+                    String s = uif.getI18NString("dt.file.historyX.mit",
+                            Integer.valueOf(n), h.file.getPath());
+                    JMenuItem mi = new JMenuItem(s);
+                    mi.setActionCommand(HISTORY);
+                    mi.addActionListener(this);
+                    mi.putClientProperty(this, h);
+                    if (n < 10)
+                        mi.setMnemonic(Character.forDigit(n, 10));
+                    n++;
+                    hm.add(mi);
+                }
+            } else {
                 JMenuItem noEntries = new JMenuItem(i18n.getString("fh.empty"));
                 noEntries.setEnabled(false);
                 hm.add(noEntries);
 
-        }
-        m.add(hm);
-                m.addSeparator();
+            }
+            m.add(hm);
+            m.addSeparator();
 
             m.add(prefs);
             m.addSeparator();
@@ -839,22 +865,18 @@ abstract class DeskView {
             String cmd = e.getActionCommand();
             if (cmd.equals(PREFS)) {
                 doPrefs(parent);
-            }
-            else if (cmd.equals(HISTORY)) {
+            } else if (cmd.equals(HISTORY)) {
                 JMenuItem mi = (JMenuItem) e.getSource();
                 Desktop.FileHistoryEntry h = (Desktop.FileHistoryEntry) mi.getClientProperty(this);
                 try {
                     h.fileOpener.open(h.file);
-                }
-                catch (FileNotFoundException ex) {
+                } catch (FileNotFoundException ex) {
                     uif.showError("dt.file.cannotFind", h.file);
-                }
-                catch (FileOpener.Fault ex) {
+                } catch (FileOpener.Fault ex) {
                     uif.showError("dt.file.cannotOpen",
                             h.file, ex.getMessage());
                 }
-            }
-            else if (cmd.equals(EXIT)) {
+            } else if (cmd.equals(EXIT)) {
                 desktop.checkToolsAndExitIfOK(parent);
             }
         }

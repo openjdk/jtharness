@@ -44,8 +44,9 @@ public class FileEvent extends EventObject {
     public String toString() {
         return "FileEvent[file: " + f.getAbsolutePath() + "; event type: " + type + "]";
     }
-    public static final String ERASED="content_erased";
-    public static final String START_ERASING="start_erasing";
+
+    public static final String ERASED = "content_erased";
+    public static final String START_ERASING = "start_erasing";
     private File f;
     private String type;
 }

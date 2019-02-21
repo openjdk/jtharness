@@ -46,7 +46,7 @@ public final class DynamicArray {
      * @param newObj The new value to append to the oldArr.  Null is not a legal value.
      * @return A new array with the object appended to it.
      * @throws IllegalArgumentException If newObj is null.
-     * @throws ArrayStoreException If there is a type mismatch between oldArr and newObj.
+     * @throws ArrayStoreException      If there is a type mismatch between oldArr and newObj.
      */
     public static <T> T[] append(T[] oldArr, T newObj) {
         T[] newArr;
@@ -55,15 +55,13 @@ public final class DynamicArray {
             if (newObj != null) {
                 newArr = (T[]) Array.newInstance(newObj.getClass(), 1);
                 newArr[0] = newObj;
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException("Cannot add null item to null array.");
             }
-        }
-        else {
-            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length+1);
+        } else {
+            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length + 1);
             System.arraycopy(oldArr, 0, newArr, 0, oldArr.length);
-            newArr[newArr.length-1] = newObj;
+            newArr[newArr.length - 1] = newObj;
         }
 
         return newArr;
@@ -72,13 +70,13 @@ public final class DynamicArray {
     /**
      * Append an object to the end of the array.
      *
-     * @param oldArr The original array which we are appending to.  May be zero length or null.
-     * @param newObj The new value to append to the oldArr.
+     * @param oldArr     The original array which we are appending to.  May be zero length or null.
+     * @param newObj     The new value to append to the oldArr.
      * @param arrayClass If the oldArr is null, a new array of arrayClass will be created.
-     *        If arrayClass is null, the type of newObj will be used to create the array.
+     *                   If arrayClass is null, the type of newObj will be used to create the array.
      * @return A new array with the object appended to it.
      * @throws IllegalArgumentException If newObj is null.
-     * @throws ArrayStoreException If there is a type mismatch between oldArr and newObj.
+     * @throws ArrayStoreException      If there is a type mismatch between oldArr and newObj.
      */
     public static <T> T[] append(T[] oldArr, T newObj, Class<? extends T> arrayClass) {
         T[] localArr;
@@ -93,6 +91,7 @@ public final class DynamicArray {
 
     /**
      * Join two arrays.
+     *
      * @param array1 The first array to be joined.
      * @param array2 The second array to be joined.
      * @return If either argument is null, the result is the other argument;
@@ -118,13 +117,13 @@ public final class DynamicArray {
     /**
      * Insert an object into the array at the specified index.
      *
-     * @param oldArr The array to insert into.  May be null, in which case a new array
-     *        will be created using the type of <code>newObj</code>.
-     * @param newObj The object to insert.
+     * @param oldArr   The array to insert into.  May be null, in which case a new array
+     *                 will be created using the type of <code>newObj</code>.
+     * @param newObj   The object to insert.
      * @param location The index at which to insert the item.  An exception will occur
-     *        if the location in out of range.  This location can be equal to
-     *        <code>oldArr.length</code>, in which case this becomes an append
-     *        operation.
+     *                 if the location in out of range.  This location can be equal to
+     *                 <code>oldArr.length</code>, in which case this becomes an append
+     *                 operation.
      * @return A new array with the object inserted into it at the specified location.
      */
     public static <T> T[] insert(T[] oldArr, T newObj, int location) {
@@ -134,16 +133,14 @@ public final class DynamicArray {
             if (newObj != null) {
                 newArr = (T[]) Array.newInstance(newObj.getClass(), 1);
                 newArr[0] = newObj;
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException("Cannot add null item to null array.");
             }
-        }
-        else {
+        } else {
             if (location > oldArr.length)
                 throw new IllegalArgumentException("Index location too large (" + location +
-                                                    ").");
-            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length+1);
+                        ").");
+            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length + 1);
 
             if (location == 0) {
                 newArr[0] = newObj;
@@ -152,7 +149,7 @@ public final class DynamicArray {
                 System.arraycopy(oldArr, 0, newArr, 0, location);
                 newArr[location] = newObj;
                 System.arraycopy(oldArr, location, newArr, location + 1,
-                                 oldArr.length - location);
+                        oldArr.length - location);
             }
         }
 
@@ -165,43 +162,40 @@ public final class DynamicArray {
      * original array.
      *
      * @param oldArr The original array which we are removing from.  May not be
-     *        null or zero length.
-     * @param index The index to remove from <code>oldArr</code>.  Exception
-     *        will be thrown if it is out of range.
+     *               null or zero length.
+     * @param index  The index to remove from <code>oldArr</code>.  Exception
+     *               will be thrown if it is out of range.
      * @return An array of the same type as the original array (element 0), without the
-     *         given index.  Zero length array if the last element is removed.
-     * @exception IllegalArgumentException Will occur if the given index is out of range,
-     *            or the given array is null.
-     * @exception NullPointerException May occur if the source array has null
-     *          values, particularly in the first array position.
-     * @exception ArrayStoreException May occur if all the objects in the
-     *          array do not match.
+     * given index.  Zero length array if the last element is removed.
+     * @throws IllegalArgumentException Will occur if the given index is out of range,
+     *                                  or the given array is null.
+     * @throws NullPointerException     May occur if the source array has null
+     *                                  values, particularly in the first array position.
+     * @throws ArrayStoreException      May occur if all the objects in the
+     *                                  array do not match.
      */
     public static <T> T[] remove(T[] oldArr, int index) {
         T[] newArr;
 
         if (oldArr == null)
             throw new IllegalArgumentException("Cannot remove from null array.");
-        else if (index > oldArr.length-1 || index < 0) {
+        else if (index > oldArr.length - 1 || index < 0) {
             // invalid index
             throw new IllegalArgumentException("Index to remove from array is invalid (too small/large).");
-        }
-        else if (index == 0) {
+        } else if (index == 0) {
             // chop the head
-            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length-1);
-            System.arraycopy(oldArr, 1, newArr, 0, oldArr.length-1);
-        }
-        else if (index == oldArr.length-1) {
+            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length - 1);
+            System.arraycopy(oldArr, 1, newArr, 0, oldArr.length - 1);
+        } else if (index == oldArr.length - 1) {
             // chop the tail
-            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length-1);
-            System.arraycopy(oldArr, 0, newArr, 0, oldArr.length-1);
-        }
-        else {
+            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length - 1);
+            System.arraycopy(oldArr, 0, newArr, 0, oldArr.length - 1);
+        } else {
             // chop the middle
-            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length-1);
+            newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length - 1);
             System.arraycopy(oldArr, 0, newArr, 0, index);
-            System.arraycopy(oldArr, index+1, newArr, index,
-                             oldArr.length-index-1);
+            System.arraycopy(oldArr, index + 1, newArr, index,
+                    oldArr.length - index - 1);
         }
 
         return newArr;
@@ -223,7 +217,7 @@ public final class DynamicArray {
             newArr = oldArr;
         } else {
             int location = find(oldArr, victim);
-            if(location != -1) {
+            if (location != -1) {
                 newArr = remove(oldArr, location);
             } else {
                 // not found, return the original array
@@ -238,15 +232,15 @@ public final class DynamicArray {
      * Find the first index of the object that is equal (reference) to the
      * target.
      *
-     * @param arr The data to search; should not be null.
+     * @param arr    The data to search; should not be null.
      * @param target The reference to search for; can be null.
      * @return The array index of the target.
      */
     public static <T> int find(T[] arr, T target) {
         int index = -1;
 
-        for(int i = 0; i < arr.length; i++) {
-            if(arr[i] == target) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == target) {
                 index = i;
                 break;
             }
@@ -262,7 +256,7 @@ public final class DynamicArray {
      * @return The class of objects that the given array can hold.
      */
     protected static Class<?> getArrayClass(Object... arr) {
-        if(arr != null) {
+        if (arr != null) {
             return arr.getClass().getComponentType();
         } else {
             return null;

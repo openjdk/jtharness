@@ -29,6 +29,7 @@ package com.sun.javatest.junit;
 
 import com.sun.javatest.lib.MultiTest;
 import com.sun.javatest.Status;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -37,7 +38,9 @@ import java.io.StringWriter;
  */
 public abstract class JUnitMultiTest extends MultiTest {
 
-    /** Creates a new instance of JUnitMultiTest setting specified classloader */
+    /**
+     * Creates a new instance of JUnitMultiTest setting specified classloader
+     */
     public JUnitMultiTest(ClassLoader cl) {
         this.cl = cl;
     }
@@ -77,6 +80,7 @@ public abstract class JUnitMultiTest extends MultiTest {
 
     /**
      * Get current ClassLoader used to run tests
+     *
      * @return current classloader
      */
     public ClassLoader getClassLoader() {
@@ -85,6 +89,7 @@ public abstract class JUnitMultiTest extends MultiTest {
 
     /**
      * Set the ClassLoader used to run tests
+     *
      * @param cl ClassLoader to be set
      */
     protected void setClassLoader(ClassLoader cl) {

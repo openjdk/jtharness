@@ -93,10 +93,10 @@ import javax.swing.LookAndFeel;
  * <p>Much of the functionality of a desktop is provided by the current view,
  * and because of that, many of the methods here simply call through to the
  * underlying current view object.
+ *
  * @see DeskView
  */
-public class Desktop
-{
+public class Desktop {
     /**
      * Create a desktop using a style determined according to the
      * user's preferences.
@@ -187,6 +187,7 @@ public class Desktop
 
     /**
      * Create a desktop using a specified style.
+     *
      * @param style a value indicating the desired desktop style.
      * @see #MDI_STYLE
      * @see #SDI_STYLE
@@ -198,6 +199,7 @@ public class Desktop
 
     /**
      * Get a value indicating the current style of the desktop.
+     *
      * @return a value indicating the current style of the desktop
      * @see #setStyle
      * @see #MDI_STYLE
@@ -211,6 +213,7 @@ public class Desktop
     /**
      * Get a value indicating the user's preferred desktop style,
      * as recorded in the user's preferences.
+     *
      * @return a value indicating the user's preferred desktop style
      * @see #MDI_STYLE
      * @see #SDI_STYLE
@@ -230,6 +233,7 @@ public class Desktop
 
     /**
      * Set the current style of the desktop.
+     *
      * @param style a value indicating the current style of the desktop
      * @see #getStyle
      * @see #MDI_STYLE
@@ -249,20 +253,20 @@ public class Desktop
         DeskView oldView = currView;
         //System.err.println("DT: creating new desktop (" + style + ")");
         switch (style) {
-        case MDI_STYLE:
-            currView = new MDIDeskView(oldView);
-            break;
+            case MDI_STYLE:
+                currView = new MDIDeskView(oldView);
+                break;
 
-        case SDI_STYLE:
-            currView = new SDIDeskView(oldView);
-            break;
+            case SDI_STYLE:
+                currView = new SDIDeskView(oldView);
+                break;
 
-        case TAB_STYLE:
-            currView = new TabDeskView(oldView);
-            break;
+            case TAB_STYLE:
+                currView = new TabDeskView(oldView);
+                break;
 
-        default:
-            throw new IllegalArgumentException();
+            default:
+                throw new IllegalArgumentException();
         }
 
         //System.err.println("DT: disposing old deskview");
@@ -273,6 +277,7 @@ public class Desktop
 
     /**
      * Get the Help Broker used by the Help menu amd context sensitive help.
+     *
      * @return the help broker
      */
     public HelpBroker getHelpBroker() {
@@ -283,6 +288,7 @@ public class Desktop
      * Determine if this is the first time that JT Harness has been run.
      * This is determined by checking if a saved desktop exists from
      * a prior run of JT Harness.
+     *
      * @return true if this appears to be the first time the user has
      * run JT Harness, and false otherwise
      */
@@ -293,8 +299,9 @@ public class Desktop
     /**
      * Set the flag indicating whether or not this is the first time
      * that JT Harness has been run.
+     *
      * @param b true if JT Harness should behave as though this is th
-     * first time JT Harness has been run
+     *          first time JT Harness has been run
      * @see #isFirstTime
      */
     public void setFirstTime(boolean b) {
@@ -303,6 +310,7 @@ public class Desktop
 
     /**
      * Check whether the desktop is empty of any tools.
+     *
      * @return true if there are no tools on the desktop, and false otherwise
      */
     public boolean isEmpty() {
@@ -311,6 +319,7 @@ public class Desktop
 
     /**
      * Get the set of tools currently on the desktop.
+     *
      * @return the set of tools currently on the desktop
      */
     public Tool[] getTools() {
@@ -319,6 +328,7 @@ public class Desktop
 
     /**
      * Add a new tool to the desktop.
+     *
      * @param t the tool to be added
      * @see #removeTool
      */
@@ -329,6 +339,7 @@ public class Desktop
 
     /**
      * Remove a tool from the desktop.
+     *
      * @param t the tool to be removed
      * @see #addTool
      */
@@ -339,6 +350,7 @@ public class Desktop
 
     /**
      * Get the currently selected tool on the desktop.
+     *
      * @return the currently selected tool on the desktop
      * @see #setSelectedTool
      */
@@ -348,6 +360,7 @@ public class Desktop
 
     /**
      * Set the currently selected tool on the desktop.
+     *
      * @param t the the tool to be selected on the desktop
      * @see #getSelectedTool
      */
@@ -361,16 +374,17 @@ public class Desktop
      * system property "javatest.desktop.defaultTool", which should identify
      * the class name of an appropriate tool manager; if not set, the default
      * is com.sun.javatest.exec.ExecManager.
+     *
      * @see #removeTool
      */
     public void addDefaultTool() {
         if (!EventQueue.isDispatchThread()) {
             invokeOnEventThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        addDefaultTool();
-                    }
-                });
+                @Override
+                public void run() {
+                    addDefaultTool();
+                }
+            });
             return;
         }
 
@@ -388,8 +402,9 @@ public class Desktop
      * system property "javatest.desktop.defaultTool", which should identify
      * the class name of an appropriate tool manager; if not set, the default
      * is com.sun.javatest.exec.ExecManager.
+     *
      * @param ip a configuration to be passed to the default tool manager's startTool
-     * method
+     *           method
      * @see #removeTool
      */
     public Tool addDefaultTool(InterviewParameters ip) {
@@ -415,6 +430,7 @@ public class Desktop
 
     /**
      * Check if a tool is present on the desktop.
+     *
      * @param t the tool for which to check
      * @return true if the specified tool exists on the desktop, and false otherwise
      */
@@ -431,6 +447,7 @@ public class Desktop
      * Get the set of tool managers associated with this desktop.
      * The managers are determined from resource files named
      * "com.sun.javatest.tool.ToolManager.lst" on the main JT Harness classpath.
+     *
      * @return the set of tool managers associated with this desktop
      */
     public ToolManager[] getToolManagers() {
@@ -439,6 +456,7 @@ public class Desktop
 
     /**
      * Get the instance of a tool manager for this desktop of a specific class.
+     *
      * @param c the class of the desired tool manager.
      * @return a tool manager of the desired type, or null if none found
      */
@@ -452,6 +470,7 @@ public class Desktop
 
     /**
      * Get the instance of a tool manager for this desktop of a specific class.
+     *
      * @param className the name of the class of the desired tool manager.
      * @return a tool manager of the desired type, or null if none found
      */
@@ -467,6 +486,7 @@ public class Desktop
      * Get the top level frames that make up this desktop. TAB and MDI style
      * desktops just have a single frame; An SDI style desktop may have more
      * than one frame.
+     *
      * @return the top level frames of this desktop
      */
     public JFrame[] getFrames() {
@@ -476,8 +496,9 @@ public class Desktop
 
     /**
      * Get a parent component for a dialog to use.
+     *
      * @return Component which can be used as a parent, or null if none
-     *         is available.
+     * is available.
      */
     public Component getDialogParent() {
         ensureViewInitialized();
@@ -487,7 +508,8 @@ public class Desktop
     /**
      * Add a file and a corresponding file opener to the file history
      * that appears on the File menu.
-     * @param f The file to be added
+     *
+     * @param f  The file to be added
      * @param fo A FileOpener object to be used to open the file if necessary
      */
     public void addToFileHistory(File f, FileOpener fo) {
@@ -510,16 +532,17 @@ public class Desktop
 
     /**
      * Get a list of the current entries on the file history associated with this desktop.
-     * @return  a list of the current entries on the file history associated with this desktop
+     *
+     * @return a list of the current entries on the file history associated with this desktop
      * @see #addToFileHistory
      */
-    List<FileHistoryEntry> getFileHistory()
-    {
+    List<FileHistoryEntry> getFileHistory() {
         return fileHistory;
     }
 
     /**
      * Check if the top level windows of the desktop are visible or not.
+     *
      * @return true if the top level windows are visible; otherwise, return false
      * @see #setVisible
      */
@@ -529,17 +552,18 @@ public class Desktop
 
     /**
      * Set whether or not the top level windows of the desktop should be visible.
+     *
      * @param b If true, the top level windows will be made visible; if false, they
-     * will be hidden.
+     *          will be hidden.
      */
     public void setVisible(final boolean b) {
         if (!EventQueue.isDispatchThread()) {
             invokeOnEventThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        setVisible(b);
-                    }
-                });
+                @Override
+                public void run() {
+                    setVisible(b);
+                }
+            });
             return;
         }
 
@@ -549,19 +573,19 @@ public class Desktop
 
     /**
      * Create a dialog.
-     * @param tool the parent tool for the dialog
-     * @param uiKey a string which is to be used as the base name for any
-     * resources that may be required
-     * @param title the title for the dialog
+     *
+     * @param tool    the parent tool for the dialog
+     * @param uiKey   a string which is to be used as the base name for any
+     *                resources that may be required
+     * @param title   the title for the dialog
      * @param menuBar the menu bar for the dialog
-     * @param body the body component for the dialog
-     * @param bounds the size and position for the dialog
+     * @param body    the body component for the dialog
+     * @param bounds  the size and position for the dialog
      * @return a JDialog or JInternalDialog built from the supplied values.
      */
     public Container createDialog(Tool tool, String uiKey, String title,
-                                           JMenuBar menuBar, Container body,
-                                           Rectangle bounds, int type)
-    {
+                                  JMenuBar menuBar, Container body,
+                                  Rectangle bounds, int type) {
         ensureViewInitialized();
         return currView.createDialog(tool, uiKey, title, menuBar, body, bounds, type);
     }
@@ -570,7 +594,8 @@ public class Desktop
      * Check if the tool's parent Window is the owner of a dialog.
      * This may become false if the desktop style is changed after the dialog
      * was created.
-     * @param tool the tool from which to determine the parent Window
+     *
+     * @param tool   the tool from which to determine the parent Window
      * @param dialog the dialog to be checked
      * @return true if the tool's parent Window is the owner of the dialog, and
      * false otherwise.
@@ -586,8 +611,9 @@ public class Desktop
      * or active processes, a confirmation dialog will be displayed.
      * If the user confirms OK, or if there was no need to show the
      * confirmation dialog, the desktop will be saved and disposed.
+     *
      * @param parent A parent frame to be used if a confirmation dialog
-     * is necessary
+     *               is necessary
      * @see #isOKToExit
      */
     public void checkToolsAndExitIfOK(JFrame parent) {
@@ -604,9 +630,10 @@ public class Desktop
      * state that needs to be saved, or any processes running, a confirmation
      * dialog will be shown, to allow the user to cancel the operation if
      * necessary.
-     * @param t The tool to be checked
+     *
+     * @param t      The tool to be checked
      * @param parent A parent frame to be used if a confirmation dialog
-     * is necessary
+     *               is necessary
      * @return true if it is OK to close the tool
      */
     public boolean isOKToClose(Tool t, JFrame parent) {
@@ -628,8 +655,9 @@ public class Desktop
      * If any tools have important state that needs to be saved, or active tasks
      * running, a confirmation dialog will be shown to allow the user to
      * cancel the operation in progress.
+     *
      * @param parent A parent frame to be used if a confirmation dialog
-     * is necessary
+     *               is necessary
      * @return true if it is OK to exit the desktop, and false otherwise.
      */
     public boolean isOKToExit(JFrame parent) {
@@ -714,8 +742,7 @@ public class Desktop
                 out.endTag(HTMLWriterEx.BODY);
                 out.endTag(HTMLWriterEx.HTML);
                 out.close();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 JavaTestError.unexpectedException(e);
             }
 
@@ -734,15 +761,15 @@ public class Desktop
 
             final JOptionPane pane = new JOptionPane(body, JOptionPane.WARNING_MESSAGE);
             ActionListener l = new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        pane.setValue(e.getSource());
-                        pane.setVisible(false);
-                    }
-                };
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    pane.setValue(e.getSource());
+                    pane.setVisible(false);
+                }
+            };
             JButton yesBtn = uif.createButton("dt.confirm.yes", l);
             JButton noBtn = uif.createButton("dt.confirm.no", l);
-            pane.setOptions(new JComponent[] { yesBtn, noBtn });
+            pane.setOptions(new JComponent[]{yesBtn, noBtn});
             pane.setInitialValue(noBtn);
 
             confirmDialog = pane.createDialog(parent, title);
@@ -761,6 +788,7 @@ public class Desktop
      * Check if it is OK to automatically exit JT Harness.
      * A warning dialog is posted to the user for a reasonable but short while
      * allowing the user to cancel the exit.
+     *
      * @return true if the user does not respond within the available time,
      * or if the user allows the request; and false otherwise
      */
@@ -778,18 +806,17 @@ public class Desktop
         final JDialog dialog = pane.createDialog(null, title);
 
         final Timer timer = new Timer(1000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (--timeRemaining == 0) {
-                        pane.setValue(Integer.valueOf(JOptionPane.OK_OPTION));
-                        dialog.setVisible(false);
-                    }
-                    else
-                        body.setText(uif.getI18NString("dt.autoExit.txt", Integer.valueOf(timeRemaining)));
-                }
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (--timeRemaining == 0) {
+                    pane.setValue(Integer.valueOf(JOptionPane.OK_OPTION));
+                    dialog.setVisible(false);
+                } else
+                    body.setText(uif.getI18NString("dt.autoExit.txt", Integer.valueOf(timeRemaining)));
+            }
 
-                private int timeRemaining = delay;
-            });
+            private int timeRemaining = delay;
+        });
 
         timer.start();
         dialog.setVisible(true);
@@ -809,6 +836,7 @@ public class Desktop
 
     /**
      * Save the current state of the desktop in a specified desktop file.
+     *
      * @param f the file in which to save the desktop
      */
     public void save(File f) {
@@ -845,8 +873,7 @@ public class Desktop
                  OutputStream out = new BufferedOutputStream(fos)) {
                 PropertyUtils.store(p, out, "JT Harness Desktop");
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.println(uif.getI18NString("dt.cantWriteDt.txt", e.getMessage()));
             //System.err.println("Error writing desktop file: " + e);
         }
@@ -869,6 +896,7 @@ public class Desktop
      * from the info in the file, add a default tool.
      * The work will automatically performed on the main AWT EventQueue
      * thread.
+     *
      * @param file the file from which to load the data
      */
     public void restore(final File file) {
@@ -884,11 +912,11 @@ public class Desktop
         //System.err.println("DT: restore " + file);
         if (!EventQueue.isDispatchThread()) {
             invokeOnEventThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        restore0(p);
-                    }
-                });
+                @Override
+                public void run() {
+                    restore0(p);
+                }
+            });
             return;
         }
 
@@ -954,7 +982,7 @@ public class Desktop
     }
 
     private void restoreHistory(Map<String, String> p) {
-        HashMap<String, FileOpener> allOpeners  = new HashMap<>();
+        HashMap<String, FileOpener> allOpeners = new HashMap<>();
         for (ToolManager m : toolManagers) {
             FileOpener[] mgrOpeners = m.getFileOpeners();
             if (mgrOpeners != null) {
@@ -978,8 +1006,7 @@ public class Desktop
                             if (path != null && !path.isEmpty())
                                 fileHistory.add(new FileHistoryEntry(fo, new File(path)));
                         }
-                    }
-                    catch (Throwable e) {
+                    } catch (Throwable e) {
                         // I18N
                         //System.err.println("Error loading saved file: " + e);
                         System.err.println(uif.getI18NString("dt.cantLoadHist.txt"));
@@ -987,8 +1014,7 @@ public class Desktop
                     }
                 }
             }
-        }
-        catch (NumberFormatException ignore) {
+        } catch (NumberFormatException ignore) {
             // ignore, for now
         }
     }
@@ -1003,8 +1029,7 @@ public class Desktop
             try (FileInputStream fis = new FileInputStream(file);
                  InputStream in = new BufferedInputStream(fis)) {
                 stringPropsMap = PropertyUtils.load(in);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 // I18N
                 System.err.println("Error reading desktop file: " + e);
             }
@@ -1015,12 +1040,13 @@ public class Desktop
 
     /**
      * Show a Preferences window.
+     *
      * @param parent the parent frame to be used for the preferences dialog
      */
     public void showPreferences(JFrame parent) {
         if (prefsPane == null)
             prefsPane = new DesktopPrefsPane(this, uif);
-        if(colorPane == null)
+        if (colorPane == null)
             colorPane = new ColorPrefsPane(uif);
 
         Vector<PreferencesPane> v = new Vector<>();
@@ -1046,8 +1072,9 @@ public class Desktop
      * test suite properties for one called "prefsPane", which should be a
      * class name referring to a class which subclasses <code>Preferences.Pane</code>.
      * That class will be loaded and instantiated using the test suite's class loader.
+     *
      * @return A set of prefs panes, beyond that of the currently active Tools.
-     *         Null if none.
+     * Null if none.
      */
     private PreferencesPane[] getCustomPreferences() {
         List<PreferencesPane> al = new ArrayList<>();
@@ -1085,13 +1112,13 @@ public class Desktop
             PreferencesPane[] panes = new PreferencesPane[al.size()];
             al.toArray(panes);
             return panes;
-        }
-        else
+        } else
             return null;
     }
 
     /**
      * Get an icon containing the JT Harness logo.
+     *
      * @return an icon containing the JT Harness logo
      */
     public Icon getLogo() {
@@ -1112,8 +1139,7 @@ public class Desktop
      * recommended for readability purposes.
      *
      * @param i18n a resource bundle containing the localized messages
-     * @param key a key into the resource bundle for the required message
-     *
+     * @param key  a key into the resource bundle for the required message
      * @since 3.0.1
      */
     public void log(I18NResourceBundle i18n, String key) {
@@ -1127,10 +1153,10 @@ public class Desktop
      * recommended for readability purposes.
      *
      * @param i18n a resource bundle containing the localized messages
-     * @param key a key into the resource bundle for the required message
-     * @param arg An argument to be formatted into the specified message.
-     *          If this is a <code>Throwable</code>, its stack trace
-     *          will be included in the log.
+     * @param key  a key into the resource bundle for the required message
+     * @param arg  An argument to be formatted into the specified message.
+     *             If this is a <code>Throwable</code>, its stack trace
+     *             will be included in the log.
      * @since 3.0.1
      */
     public void log(I18NResourceBundle i18n, String key, Object arg) {
@@ -1144,10 +1170,10 @@ public class Desktop
      * recommended for readability purposes.
      *
      * @param i18n a resource bundle containing the localized messages
-     * @param key a key into the resource bundle for the required message
+     * @param key  a key into the resource bundle for the required message
      * @param args An array of arguments to be formatted into the specified message.
-     *          If the first arg is a <code>Throwable</code>, its stack
-     *          trace will be included in the log.
+     *             If the first arg is a <code>Throwable</code>, its stack
+     *             trace will be included in the log.
      * @since 3.0.1
      */
     public void log(I18NResourceBundle i18n, String key, Object... args) {
@@ -1162,18 +1188,15 @@ public class Desktop
             if (s == null) {
                 File jtDir = Preferences.getPrefsDir();
                 f = new File(jtDir, "log.txt");
-            }
-            else if (s.equals("NONE")) {
+            } else if (s.equals("NONE")) {
                 f = null;
-            }
-            else
+            } else
                 f = new File(s);
 
             try {
                 BackupPolicy p = BackupPolicy.simpleBackups(5);
                 p.backup(f);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 // ignore? or save exception to write to logFile
             }
 
@@ -1204,13 +1227,14 @@ public class Desktop
     static final String[] styleNames = {"tab", "mdi", "sdi"};
 
     private static final String[] jt31StyleClassNames = {
-        "com.sun.javatest.tool.TabDesktop",
-        "com.sun.javatest.tool.MDIDesktop",
-        "com.sun.javatest.tool.SDIDesktop"
+            "com.sun.javatest.tool.TabDesktop",
+            "com.sun.javatest.tool.MDIDesktop",
+            "com.sun.javatest.tool.SDIDesktop"
     };
 
     /**
      * Check whether or not the desktop will save its state when the VM exits.
+     *
      * @return true if the desktop will save its state when the VM exits, and false otherwise
      * @see #setSaveOnExit
      */
@@ -1220,6 +1244,7 @@ public class Desktop
 
     /**
      * Specify whether or not the desktop will save its state when the VM exits.
+     *
      * @param b true if the desktop should save its state when the VM exits, and false otherwise
      * @see #getSaveOnExit
      */
@@ -1229,6 +1254,7 @@ public class Desktop
 
     /**
      * Check whether or not the desk view should restore saved tools state when the Harness is starting.
+     *
      * @return true if the desk will restore its tools when the Harness is starting, and false otherwise
      * @see #setRestoreOnStart(boolean)
      */
@@ -1238,6 +1264,7 @@ public class Desktop
 
     /**
      * Specify whether or not the desk view should restore saved tools state when the Harness is starting.
+     *
      * @param restoreOnStart true if the desk will restore its tools when the Harness is starting, and false otherwise
      * @see #getRestoreOnStart()
      */
@@ -1247,6 +1274,7 @@ public class Desktop
 
     /**
      * Get Tooltip delay from prefs in ms.
+     *
      * @return Range is 0-Integer.MAX_VALUE
      */
     static int getTooltipDelay(Preferences p) {
@@ -1256,8 +1284,7 @@ public class Desktop
         try {
             // expected range from prefs in 0-Integer.MAX_VALUE
             result = Integer.parseInt(val);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             // default to no delay
             result = TTIP_DELAY_DEFAULT;
         }
@@ -1272,6 +1299,7 @@ public class Desktop
      * Get tooltip duration from prefs in ms.
      * This is the translated value, so the "forever" value has been
      * transformed into something useful.
+     *
      * @return Range is 0-Integer.MAX_VALUE
      */
     static int getTooltipDuration(Preferences p) {
@@ -1281,8 +1309,7 @@ public class Desktop
         try {
             // expected range from prefs in -1-Integer.MAX_VALUE
             result = Integer.parseInt(val);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             // default to no delay
             result = TTIP_DURATION_DEFAULT;
         }
@@ -1292,7 +1319,8 @@ public class Desktop
                 result = Integer.MAX_VALUE;
             else                        // -2 or less, unknown value
                 result = TTIP_DURATION_DEFAULT;
-        else { }
+        else {
+        }
 
         return result;
     }
@@ -1304,6 +1332,7 @@ public class Desktop
 
     /**
      * Unconditionally set the tooltip delay to the given setting.
+     *
      * @param delay Delay time in ms or TTIP_DELAY_NONE.
      */
     void setTooltipDelay(int delay) {
@@ -1312,6 +1341,7 @@ public class Desktop
 
     /**
      * Unconditionally set the tooltip duration to the given setting.
+     *
      * @param duration Duration time in ms or TTTIP_DURATION_FOREVER.
      */
     void setTooltipDuration(int duration) {
@@ -1332,23 +1362,22 @@ public class Desktop
         DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.PRINTABLE;
         PrintService[] services = PrintServiceLookup.lookupPrintServices(flavor, null);
 
-        if(services.length > 0) {
+        if (services.length > 0) {
             ensurePrintAttrsInitialized();
 
             Component parent = getDialogParent();
-            int x = (int)parent.getLocationOnScreen().getX() + parent.getWidth() / 2 - 250;
-            int y = (int)parent.getLocationOnScreen().getY() + parent.getHeight() / 2 - 250;
+            int x = (int) parent.getLocationOnScreen().getX() + parent.getWidth() / 2 - 250;
+            int y = (int) parent.getLocationOnScreen().getY() + parent.getHeight() / 2 - 250;
 
             PrintService service = ServiceUI.printDialog(null, x, y, services,
                     services[0], flavor, printAttrs);
-            if(service != null) {
+            if (service != null) {
                 DocPrintJob job = service.createPrintJob();
                 try {
                     Doc doc = new SimpleDoc(printable, flavor, null);
 
                     job.print(doc, printAttrs);
-                }
-                catch (PrintException e) {
+                } catch (PrintException e) {
                     e.printStackTrace();
                 }
             }
@@ -1357,7 +1386,7 @@ public class Desktop
     }
 
     private void ensurePrintAttrsInitialized() {
-        if(printAttrs == null) {
+        if (printAttrs == null) {
             printAttrs = new HashPrintRequestAttributeSet();
         }
     }
@@ -1417,13 +1446,12 @@ public class Desktop
 
         try {
             ManagerLoader ml = new ManagerLoader(ToolManager.class, System.err);
-            ml.setManagerConstructorArgs(new Class<?>[] { Desktop.class }, this);
+            ml.setManagerConstructorArgs(new Class<?>[]{Desktop.class}, this);
             Set<?> s = ml.loadManagers(TOOLMGRLIST);
             toolManagers = s.toArray(new ToolManager[s.size()]);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new JavaTestError(uif.getI18NResourceBundle(),
-                                    "dt.cantAccessResource", new Object[] { TOOLMGRLIST, e } );
+                    "dt.cantAccessResource", new Object[]{TOOLMGRLIST, e});
         }
     }
 
@@ -1432,17 +1460,17 @@ public class Desktop
             return;
 
         switch (style) {
-        case MDI_STYLE:
-            currView = new MDIDeskView(this);
-            break;
+            case MDI_STYLE:
+                currView = new MDIDeskView(this);
+                break;
 
-        case SDI_STYLE:
-            currView = new SDIDeskView(this);
-            break;
+            case SDI_STYLE:
+                currView = new SDIDeskView(this);
+                break;
 
-        default:
-            currView = new TabDeskView(this);
-            break;
+            default:
+                currView = new TabDeskView(this);
+                break;
         }
     }
 
@@ -1469,8 +1497,7 @@ public class Desktop
         if (s == null) {
             File jtDir = Preferences.getPrefsDir();
             return new File(jtDir, "desktop");
-        }
-        else if (!s.equals("NONE"))
+        } else if (!s.equals("NONE"))
             return new File(s);
         else
             return null;
@@ -1499,8 +1526,8 @@ public class Desktop
         };
 
         root.registerKeyboardAction(showFocusListener,
-                                    KeyStroke.getKeyStroke("alt F2"),
-                                    JComponent.WHEN_IN_FOCUSED_WINDOW);
+                KeyStroke.getKeyStroke("alt F2"),
+                JComponent.WHEN_IN_FOCUSED_WINDOW);
     }
 
     static void addPreferredSizeDebugListener(Component c) {
@@ -1520,24 +1547,22 @@ public class Desktop
                 while (c != null) {
                     Dimension d = c.getPreferredSize();
                     System.err.println("ALT-1: comp=" + c.getName() + "(" + c.getClass().getName() + ") "
-                                     + "[w:" + d.width + ",h:" + d.height + "]");
+                            + "[w:" + d.width + ",h:" + d.height + "]");
                     c = c.getParent();
                 }
             }
         };
 
         root.registerKeyboardAction(showPrefSizeListener,
-                                    KeyStroke.getKeyStroke("alt 1"),
-                                    JComponent.WHEN_IN_FOCUSED_WINDOW);
+                KeyStroke.getKeyStroke("alt 1"),
+                JComponent.WHEN_IN_FOCUSED_WINDOW);
     }
 
     private static void invokeOnEventThread(Runnable r) {
         try {
             EventQueue.invokeAndWait(r);
-        }
-        catch (InterruptedException e) {
-        }
-        catch (InvocationTargetException e) {
+        } catch (InterruptedException e) {
+        } catch (InvocationTargetException e) {
             Throwable t = e.getTargetException();
             if (t instanceof RuntimeException)
                 throw (RuntimeException) t;
@@ -1556,6 +1581,7 @@ public class Desktop
 
     /**
      * Walks down the exception causes until the original exception is found.
+     *
      * @param t The problem object to decend into.
      * @return The original problem object.
      */
@@ -1567,7 +1593,7 @@ public class Desktop
         Throwable t1;
         while (true) {
             t1 = t.getCause();
-            if (t1==null) {
+            if (t1 == null) {
                 return t;
             } else {
                 t = t1;
@@ -1597,7 +1623,7 @@ public class Desktop
 
     static final String STYLE_PREF = "tool.appearance.style";
     static final String TTIP_PREF = "tool.appearance.ttipToggle";
-    static final String TTIP_DELAY= "tool.appearance.ttipDelay";
+    static final String TTIP_DELAY = "tool.appearance.ttipDelay";
     static final String TTIP_DURATION = "tool.appearance.ttipDuration";
     static final int TTIP_DURATION_FOREVER = -1;
     static final int TTIP_DELAY_NONE = 0;
@@ -1608,7 +1634,7 @@ public class Desktop
 
     private static final String TOOLMGRLIST = "META-INF/services/com.sun.javatest.tool.ToolManager.lst";
     private static final String defaultToolManager =
-        System.getProperty("javatest.desktop.defaultToolManager", "com.sun.javatest.exec.ExecToolManager");
+            System.getProperty("javatest.desktop.defaultToolManager", "com.sun.javatest.exec.ExecToolManager");
 
 
     //-------------------------------------------------------------------------

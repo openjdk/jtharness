@@ -39,8 +39,7 @@ import javax.swing.JPanel;
  * be selected by name, this class allows components to be selected
  * by reference.
  */
-public class Deck extends JPanel
-{
+public class Deck extends JPanel {
     /**
      * Create a Deck panel.
      */
@@ -50,6 +49,7 @@ public class Deck extends JPanel
 
     /**
      * Create a Deck panel with a given name.
+     *
      * @param name the name for the panel
      */
     public Deck(String name) {
@@ -60,7 +60,8 @@ public class Deck extends JPanel
 
     /**
      * Create a Deck panel with a given name and set of components.
-     * @param name the name for the panel
+     *
+     * @param name  the name for the panel
      * @param comps the components to be added into the panel
      */
     public Deck(String name, Component... comps) {
@@ -82,6 +83,7 @@ public class Deck extends JPanel
      * Add a component to the panel. If the component does not have a name
      * a default name will be set. The name of the component should not be
      * changed after it has been added to the deck.
+     *
      * @param comp The component to be added.
      * @return The component that was added (comp).
      */
@@ -95,8 +97,9 @@ public class Deck extends JPanel
 
     /**
      * Add a component to the panel. The constraints are ignored.
+     *
      * @param comp The component to be added
-     * @param x Ignored
+     * @param x    Ignored
      */
     @Override
     public void add(Component comp, Object x) {
@@ -105,6 +108,7 @@ public class Deck extends JPanel
 
     /**
      * Get the component that is currently visible in the deck.
+     *
      * @return the component that is currently visible in the deck.
      */
     public Component getCurrentCard() {
@@ -119,8 +123,9 @@ public class Deck extends JPanel
     /**
      * Make a component visible in the deck. If different, the previously
      * visible component will be hidden.
+     *
      * @param comp The component to be made visible. It must previously have
-     * been added to the deck.
+     *             been added to the deck.
      */
     public void show(Component comp) {
         ((CardLayout) getLayout()).show(this, comp.getName());

@@ -30,6 +30,7 @@ package com.sun.javatest.junit;
 import com.sun.javatest.TestFinder;
 import com.sun.javatest.finder.CommentStream;
 import com.sun.javatest.finder.JavaCommentStream;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,9 @@ import java.util.Map;
  */
 public abstract class JUnitTestFinder extends TestFinder {
 
-    /** Creates a new instance of JUnitTestFinder */
+    /**
+     * Creates a new instance of JUnitTestFinder
+     */
     public JUnitTestFinder() {
     }
 
@@ -52,15 +55,15 @@ public abstract class JUnitTestFinder extends TestFinder {
      *
      * @param args The array of arguments
      * @param i    The next argument to be decoded.
-     * @return     The number of elements consumed in the array; for example,
-     *             for a simple option like "-v" the result should be 1; for an
-     *             option with an argument like "-f file" the result should be
-     *             2, etc.
+     * @return The number of elements consumed in the array; for example,
+     * for a simple option like "-v" the result should be 1; for an
+     * option with an argument like "-f file" the result should be
+     * 2, etc.
      * @throws TestFinder.Fault If there is a problem with the value of the current arg,
-     *             such as a bad value to an option, the Fault exception can be
-     *             thrown.  The exception should NOT be thrown if the current
-     *             arg is unrecognized: in that case, an implementation should
-     *             delegate the call to the supertype.
+     *                          such as a bad value to an option, the Fault exception can be
+     *                          thrown.  The exception should NOT be thrown if the current
+     *                          arg is unrecognized: in that case, an implementation should
+     *                          delegate the call to the supertype.
      */
     @Override
     protected void decodeAllArgs(String... args) throws Fault {
@@ -85,6 +88,7 @@ public abstract class JUnitTestFinder extends TestFinder {
 
     /**
      * Get the name of the file currently being scanned.
+     *
      * @return the name of the file currently being scanned.
      */
     // Ideally, we should be able to get the current line number as well,
@@ -96,6 +100,7 @@ public abstract class JUnitTestFinder extends TestFinder {
     /**
      * Exclude all files with a particular name from being scanned.
      * This will typically be for directories like SCCS, Codemgr_wsdata, etc
+     *
      * @param name The name of files to be excluded.
      */
     public void exclude(String name) {
@@ -105,6 +110,7 @@ public abstract class JUnitTestFinder extends TestFinder {
     /**
      * Exclude all files with particular names from being scanned.
      * This will typically be for directories like SCCS, Codemgr_wsdata, etc
+     *
      * @param names The names of files to be excluded.
      */
     public void exclude(String... names) {
@@ -115,10 +121,10 @@ public abstract class JUnitTestFinder extends TestFinder {
 
     /**
      * Nominate a class to read files that have a particular extension.
-     * @param extn      The extension for which this class is to be used
-     * @param commentStreamClass
-     *                  A class to read files of a particular extension.
-     *                  The class must be a subtype of CommentStream
+     *
+     * @param extn               The extension for which this class is to be used
+     * @param commentStreamClass A class to read files of a particular extension.
+     *                           The class must be a subtype of CommentStream
      */
     public void addExtension(String extn, Class<?> commentStreamClass) {
         if (!extn.startsWith("."))
@@ -131,6 +137,7 @@ public abstract class JUnitTestFinder extends TestFinder {
 
     /**
      * Get the class used to handle an extension.
+     *
      * @param extn The extension in question
      * @return the class previously registered with addExtension
      */
@@ -149,10 +156,10 @@ public abstract class JUnitTestFinder extends TestFinder {
     protected Map<String, String> tdValues = new HashMap<>();
     protected boolean scanClasses = false;
     protected File currFile;
-    protected Map<String, String> excludeList   = new HashMap<>();
+    protected Map<String, String> excludeList = new HashMap<>();
     protected Map<String, Class<?>> extensionTable = new HashMap<>();
     protected List<String> testMethods;
     protected static final String[] excludeNames = {
-        "SCCS", "deleted_files", ".svn"
+            "SCCS", "deleted_files", ".svn"
     };
 }

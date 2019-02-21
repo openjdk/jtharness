@@ -62,14 +62,14 @@ import com.sun.javatest.TestFinder;
  * <dd>(Optional)Any initial starting points within the test suite: the default is the test suite root
  * </dl>
  */
-public class BinaryTestWriter
-{
+public class BinaryTestWriter {
     /**
      * This exception is used to report bad command line arguments.
      */
     public class BadArgs extends Exception {
         /**
          * Create a BadArgs exception.
+         *
          * @param msg A detail message about an error that has been found.
          */
         BadArgs(String msg) {
@@ -84,6 +84,7 @@ public class BinaryTestWriter
     public class Fault extends Exception {
         /**
          * Create a Fault exception.
+         *
          * @param msg A detail message about a fault that has occurred.
          */
         Fault(String msg) {
@@ -95,17 +96,18 @@ public class BinaryTestWriter
 
     /**
      * Standard program entry point.
-     * @param args      An array of strings, typically provided via the command line.
-     * The arguments should be of the form:<br>
-     * <em>[options]</em> <em>testsuite</em> <em>[tests]</em>
-     * <table><tr><th colspan=2>Options</th></tr>
-     * <tr><td>-finder <em>finderClass</em> <em>finderArgs</em> <em>...</em> -end
-     *          <td>The name of a test finder class and any arguments it might take.
-     *          The results of reading this test finder will be stored in the
-     *          output file.
-     * <tr><td>-o <em>output-file</em>
-     *          <td>The output file in which to write the results.
-     * </table>
+     *
+     * @param args An array of strings, typically provided via the command line.
+     *             The arguments should be of the form:<br>
+     *             <em>[options]</em> <em>testsuite</em> <em>[tests]</em>
+     *             <table><tr><th colspan=2>Options</th></tr>
+     *             <tr><td>-finder <em>finderClass</em> <em>finderArgs</em> <em>...</em> -end
+     *             <td>The name of a test finder class and any arguments it might take.
+     *             The results of reading this test finder will be stored in the
+     *             output file.
+     *             <tr><td>-o <em>output-file</em>
+     *             <td>The output file in which to write the results.
+     *             </table>
      */
     public static void main(String... args) {
         int result = 0;
@@ -113,17 +115,14 @@ public class BinaryTestWriter
         try {
             BinaryTestWriter m = new BinaryTestWriter();
             result = m.run(args);
-        }
-        catch (BadArgs e) {
+        } catch (BadArgs e) {
             System.err.println("Bad Arguments: " + e.getMessage());
             usage(System.err);
             System.exit(1);
-        }
-        catch (Fault f) {
+        } catch (Fault f) {
             System.err.println("Error: " + f.getMessage());
             System.exit(2);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.println("Error: " + e);
             System.exit(3);
         }
@@ -151,22 +150,20 @@ public class BinaryTestWriter
      * Reads all the arguments on the command line, makes sure a valid
      * testFinder is available, and then calls methods to create the tree of tests
      * and then write the binary file.
-     * @param args      An array of strings, typically provided via the command line
+     *
+     * @param args An array of strings, typically provided via the command line
      * @return The disposition of the run, i.e. zero for a problem-free execution, non-zero
-     *         if there was some sort of problem.
-     * @throws BinaryTestWriter.BadArgs
-     *                  if a problem is found in the arguments provided
-     * @throws BinaryTestWriter.Fault
-     *                  if a fault is found while running
-     * @throws IOException
-     *                  if a problem is found while trying to read a file
-     *                  or write the output file
+     * if there was some sort of problem.
+     * @throws BinaryTestWriter.BadArgs if a problem is found in the arguments provided
+     * @throws BinaryTestWriter.Fault   if a fault is found while running
+     * @throws IOException              if a problem is found while trying to read a file
+     *                                  or write the output file
      * @see #main
      */
     public int run(String... args) throws BadArgs, Fault, IOException {
         File testSuite = null;
         String finder = "com.sun.javatest.finder.TagTestFinder";
-        String[] finderArgs = { };
+        String[] finderArgs = {};
         File outFile = null;
         File[] tests = null;
 
@@ -178,17 +175,13 @@ public class BinaryTestWriter
                     ++i;
                 finderArgs = new String[i - j];
                 System.arraycopy(args, j, finderArgs, 0, finderArgs.length);
-            }
-            else if (args[i].equalsIgnoreCase("-o") && (i + 1 < args.length)) {
+            } else if (args[i].equalsIgnoreCase("-o") && (i + 1 < args.length)) {
                 outFile = new File(args[++i]);
-            }
-            else if (args[i].equalsIgnoreCase("-strictFinder")) {
+            } else if (args[i].equalsIgnoreCase("-strictFinder")) {
                 strictFinder = true;
-            }
-            else if (args[i].startsWith("-") ) {
+            } else if (args[i].startsWith("-")) {
                 throw new BadArgs(args[i]);
-            }
-            else {
+            } else {
                 testSuite = new File(args[i++]);
 
                 if (i < args.length) {
@@ -206,20 +199,20 @@ public class BinaryTestWriter
         TestFinder testFinder = initializeTestFinder(finder, finderArgs, testSuite);
 
         if (tests == null)
-            tests = new File[] { testFinder.getRoot() }; // equals testSuite, adjusted by finder as necessary .. e.g. for dirWalk, webWalk etc
+            tests = new File[]{testFinder.getRoot()}; // equals testSuite, adjusted by finder as necessary .. e.g. for dirWalk, webWalk etc
 
         if (outFile == null)
             outFile = new File(testFinder.getRootDir(), "testsuite.jtd");
 
         if (strictFinder) {
             testFinder.setErrorHandler(new TestFinder.ErrorHandler() {
-                    @Override
-                    public void error(String msg) {
-                        numFinderErrors++;
-                        System.err.println("Finder reported error:\n" + msg);
-                        System.err.println("");
-                    }
-                }
+                                           @Override
+                                           public void error(String msg) {
+                                               numFinderErrors++;
+                                               System.err.println("Finder reported error:\n" + msg);
+                                               System.err.println("");
+                                           }
+                                       }
             );
         }
 
@@ -258,8 +251,7 @@ public class BinaryTestWriter
             if (strictFinder && numFinderErrors > 0) {
                 System.err.println("*** Source finder reported " + numFinderErrors + " errors during execution. ***");
                 return 4;
-            }
-            else {
+            } else {
                 return 0;
             }
         }
@@ -269,8 +261,8 @@ public class BinaryTestWriter
      * Creates and initializes an instance of a test finder
      *
      * @param finder The class name of the required test finder
-     * @param args any args to pass to the TestFinder's init method.
-     * @param ts The testsuite root file
+     * @param args   any args to pass to the TestFinder's init method.
+     * @param ts     The testsuite root file
      * @return The newly created TestFinder.
      */
     private TestFinder initializeTestFinder(String finder, String[] args, File ts) throws Fault {
@@ -283,17 +275,13 @@ public class BinaryTestWriter
             Class<? extends TestFinder> c = Class.forName(finder).asSubclass(TestFinder.class);
             testFinder = c.getDeclaredConstructor().newInstance();
             testFinder.init(args, ts, null);
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             throw new Fault("Error: Can't find class for test finder specified: " + finder);
-        }
-        catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             throw new Fault("Error: Can't create new instance of test finder: " + e);
-        }
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             throw new Fault("Error: Can't access test finder: " + e);
-        }
-        catch (TestFinder.Fault e) {
+        } catch (TestFinder.Fault e) {
             throw new Fault("Error: Can't initialize test-finder: " + e.getMessage());
         }
 
@@ -337,8 +325,7 @@ public class BinaryTestWriter
     /**
      * Read all the tests from a test suite and store them in a test tree
      */
-    void read(TestFinder finder, File[] files, TestTree testTree) throws Fault
-    {
+    void read(TestFinder finder, File[] files, TestTree testTree) throws Fault {
         if (files.length < 1)
             throw new IllegalArgumentException();
 
@@ -372,8 +359,7 @@ public class BinaryTestWriter
     /**
      * Read the tests from a file in test suite
      */
-    private TestTree.Node read0(TestFinder finder, File file, TestTree testTree, Set<File> allFiles)
-    {
+    private TestTree.Node read0(TestFinder finder, File file, TestTree testTree, Set<File> allFiles) {
         // keep track of which files we have read, and ignore duplicates
         if (allFiles.contains(file))
             return null;
@@ -414,6 +400,7 @@ public class BinaryTestWriter
      * The int is broken into groups of seven bits, and these are written out
      * in big-endian order. Leading zeroes are suppressed and all but the last
      * byte have the top bit set.
+     *
      * @see BinaryTestFinder#readInt
      */
     private static void writeInt(DataOutputStream out, int v) throws IOException {
@@ -432,7 +419,7 @@ public class BinaryTestWriter
 
     //------------------------------------------------------------------------------------------
 
-    private static final TestDescription[] noTests = { };
+    private static final TestDescription[] noTests = {};
     private PrintStream log = System.out;
     private boolean strictFinder = false;
     private int numFinderErrors = 0;
@@ -444,6 +431,7 @@ public class BinaryTestWriter
      * choose to write strings as references (indexes) into the string table.
      * Strings in the table are use-counted so that only frequently used
      * strings are output.
+     *
      * @see BinaryTestFinder.StringTable
      */
     static class StringTable {
@@ -501,8 +489,7 @@ public class BinaryTestWriter
          * Write the contents of the table to an entry called "strings"
          * in a zip file.
          */
-        ZipEntry write(ZipOutputStream zos) throws IOException
-        {
+        ZipEntry write(ZipOutputStream zos) throws IOException {
             ZipEntry entry = new ZipEntry("strings");
             zos.putNextEntry(entry);
             DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(zos));
@@ -589,10 +576,10 @@ public class BinaryTestWriter
     /**
      * TestTable is a table of test descriptions, whose written form is
      * based on references into a string table.
+     *
      * @see BinaryTestFinder.TestTable
      */
-    static class TestTable
-    {
+    static class TestTable {
         /**
          * Create a new TestTable.
          */
@@ -633,8 +620,7 @@ public class BinaryTestWriter
          * Write the contents of the table to an entry called "tests"
          * in a zip file.
          */
-        ZipEntry write(ZipOutputStream zos) throws IOException
-        {
+        ZipEntry write(ZipOutputStream zos) throws IOException {
             ZipEntry entry = new ZipEntry("tests");
             zos.putNextEntry(entry);
             DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(zos));
@@ -701,10 +687,10 @@ public class BinaryTestWriter
      * between a node and the results of reading a file from a test finder,
      * which yields a set of test descriptions and a set of additional files
      * to be read.
+     *
      * @see BinaryTestFinder.TestTable
      */
-    static class TestTree
-    {
+    static class TestTree {
         /**
          * Create an test tree. The root node of the tree should be set later.
          */
@@ -730,8 +716,7 @@ public class BinaryTestWriter
          * Write the contents of the tree to an entry called "tree"
          * in a zip file.
          */
-        ZipEntry write(ZipOutputStream zos) throws IOException
-        {
+        ZipEntry write(ZipOutputStream zos) throws IOException {
             ZipEntry entry = new ZipEntry("tree");
             zos.putNextEntry(entry);
             DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(zos));
@@ -763,8 +748,7 @@ public class BinaryTestWriter
          * A node within the test tree. Each node has a name, a set of test
          * descriptions, and a set of child nodes.
          */
-        class Node
-        {
+        class Node {
             /**
              * Create a node. The individual test descriptions are added to
              * the tree's test table.
@@ -792,6 +776,7 @@ public class BinaryTestWriter
             /**
              * Merge the contents of this node with another to produce
              * a new node.
+             *
              * @param other The node to be merged with this one.
              * @return a new Node, containing the merge of this one
              * and the specified node.
@@ -811,7 +796,7 @@ public class BinaryTestWriter
                             c == null ? otherChild : otherChild.merge(c));
                 }
                 Node[] mergedChildren =
-                    mergedChildrenMap.values().toArray(new Node[mergedChildrenMap.size()]);
+                        mergedChildrenMap.values().toArray(new Node[mergedChildrenMap.size()]);
 
                 TestDescription[] mergedTests;
                 if (tests.length + other.tests.length == 0)

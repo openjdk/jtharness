@@ -27,17 +27,18 @@
 package com.sun.javatest.exec;
 
 import javax.swing.JComponent;
+
 import com.sun.javatest.Harness;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.tool.UIFactory;
 
-public class AccessWrapper
-{
-    private AccessWrapper() { }
+public class AccessWrapper {
+    private AccessWrapper() {
+    }
 
     public static ReportHandler createReportHandler(JComponent parent, ExecModel model, Harness harness, UIFactory uif) {
-        return new ReportHandler(parent, model,harness, uif);
+        return new ReportHandler(parent, model, harness, uif);
     }
 
     public static ReportBrowser createReportBrowser(JComponent parent, ExecModel model, UIFactory uif, ReportHandler rh) {
@@ -45,7 +46,7 @@ public class AccessWrapper
     }
 
     public static NewReportDialog createNewReportDialog(JComponent parent, UIFactory uif, FilterConfig f, Object rb, ExecModel model) {
-        return new NewReportDialog(parent, uif, f, (ReportBrowser)rb, model);
+        return new NewReportDialog(parent, uif, f, (ReportBrowser) rb, model);
     }
 /*
     public static ConfigEditor createConfigEditor(JComponent parent, InterviewParameters config, ExecModel model, UIFactory uif) {
@@ -68,7 +69,7 @@ public class AccessWrapper
     }
 
     public static BranchPanel createBranchPanel(UIFactory uif, TreePanelModel model, Harness h, ExecModel em, JComponent parent,
-                FilterSelectionHandler filterHandler, TestTreeModel ttm) {
+                                                FilterSelectionHandler filterHandler, TestTreeModel ttm) {
         return new BranchPanel(uif, model, h, em, parent, filterHandler, ttm);
     }
 }

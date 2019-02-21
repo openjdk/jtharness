@@ -31,6 +31,7 @@ import com.sun.javatest.Harness;
 
 /**
  * Interface for those classes that needs an access to the instance harness
+ *
  * @author Dmitry Fazunenko
  */
 public interface HarnessAware {

@@ -54,13 +54,11 @@ class TRT_HttpHandler extends JThttpProvider {
             PageGenerator.writeBeginDoc(out);
 
             printIndex(out);
-        }
-        else if (nf.equals("tests")) {
+        } else if (nf.equals("tests")) {
             beginGood(out);
             PageGenerator.writeBeginDoc(out);
             printTests(requestURL, out);
-        }
-        else {
+        } else {
             if (debug)
                 Debug.println("TRT.HH-remainder of URL unknown (" + nf + ")");
             beginBad(out);
@@ -113,7 +111,7 @@ class TRT_HttpHandler extends JThttpProvider {
 
         out.println("<p>");
         writeTests(out, i18n.getString("trtHttp.tests.name"),
-                   i18n.getString("trtHttp.tests.status"));
+                i18n.getString("trtHttp.tests.status"));
     }
 
     public void writeTests(PrintWriter out, String keyHeader, String valHeader) {
@@ -143,28 +141,27 @@ class TRT_HttpHandler extends JThttpProvider {
         else {
             */
         Iterator<TestResult> it = trt.getIterator();
-            while (it.hasNext()) {
-                TestResult tr = it.next();
-                String url;
-                try {
-                    url = tr.getDescription().getRootRelativeURL();
-                }
-                catch(TestResult.Fault f) {
-                    out.println("<tr><td>Unable to get TestResult info, aborting.</tr>");
-                    if (debug) f.printStackTrace();
-                    // exit the while loop
-                    break;
-                }
+        while (it.hasNext()) {
+            TestResult tr = it.next();
+            String url;
+            try {
+                url = tr.getDescription().getRootRelativeURL();
+            } catch (TestResult.Fault f) {
+                out.println("<tr><td>Unable to get TestResult info, aborting.</tr>");
+                if (debug) f.printStackTrace();
+                // exit the while loop
+                break;
+            }
 
-                out.println("<tr>");
-                buf.setLength(0);
-                buf.append("<td>");
-                buf.append(url);
-                buf.append("<td>");
-                buf.append(tr.getStatus().toString());
-                out.println(buf.toString());
-                out.println("</tr>");
-            }   // while
+            out.println("<tr>");
+            buf.setLength(0);
+            buf.append("<td>");
+            buf.append(url);
+            buf.append("<td>");
+            buf.append(tr.getStatus().toString());
+            out.println(buf.toString());
+            out.println("</tr>");
+        }   // while
         //}
 
         out.println("</Table>");

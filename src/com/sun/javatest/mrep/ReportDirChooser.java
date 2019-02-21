@@ -45,8 +45,7 @@ import com.sun.javatest.util.FileInfoCache;
 //
 // see also com.sun.javatest.tool.WorkDirChooser
 //
-class ReportDirChooser extends JFileChooser
-{
+class ReportDirChooser extends JFileChooser {
     // the following is a workaround to force the Report class to
     // be safely loaded, before the JFileChooser starts running its background
     // thread, exposing a JVM bug in class loading.
@@ -63,6 +62,7 @@ class ReportDirChooser extends JFileChooser
 
     /**
      * Create a ReportDirChooser, initially showing a given directory.
+     *
      * @param initialDir the initial directory to be shown
      */
     public ReportDirChooser(File initialDir) {
@@ -97,12 +97,14 @@ class ReportDirChooser extends JFileChooser
 
     /**
      * A constant to indicate that a new report directory is to be created.
+     *
      * @see #setMode
      */
     public static final int NEW = 0;
 
     /**
      * A constant to indicate that an existing report directory is to be opened.
+     *
      * @see #setMode
      */
     public static final int OPEN = 1;
@@ -110,6 +112,7 @@ class ReportDirChooser extends JFileChooser
     /**
      * Set whether the chooser is to be used to create a new report directory
      * or to open an existing report directory.
+     *
      * @param mode a constant to indicate how the chooser is to operate
      * @see #NEW
      * @see #OPEN
@@ -117,23 +120,24 @@ class ReportDirChooser extends JFileChooser
     public void setMode(int mode) {
         this.mode = mode;
         switch (mode) {
-        case NEW:
-            setApproveButtonText(uif.getI18NString("rdc.new.btn"));
-            setApproveButtonToolTipText(uif.getI18NString("rdc.new.tip"));
-            setDialogTitle(uif.getI18NString("rdc.new.title"));
-            break;
-        case OPEN:
-            setApproveButtonText(uif.getI18NString("rdc.open.btn"));
-            setApproveButtonToolTipText(uif.getI18NString("rdc.open.tip"));
-            setDialogTitle(uif.getI18NString("rdc.open.title"));
-            break;
-        default:
-            throw new IllegalStateException();
+            case NEW:
+                setApproveButtonText(uif.getI18NString("rdc.new.btn"));
+                setApproveButtonToolTipText(uif.getI18NString("rdc.new.tip"));
+                setDialogTitle(uif.getI18NString("rdc.new.title"));
+                break;
+            case OPEN:
+                setApproveButtonText(uif.getI18NString("rdc.open.btn"));
+                setApproveButtonToolTipText(uif.getI18NString("rdc.open.tip"));
+                setDialogTitle(uif.getI18NString("rdc.open.title"));
+                break;
+            default:
+                throw new IllegalStateException();
         }
     }
 
     /**
      * Get the report directory that was most recently selected by the user.
+     *
      * @return the report directory that was most recently selected by the user
      * @see #showDialog
      */
@@ -144,6 +148,7 @@ class ReportDirChooser extends JFileChooser
     /**
      * Show a dialog to allow the user to select a report directory.
      * If a report directory is selected, it can be accessed via getSelectedReportDirectory.
+     *
      * @param parent the component to be used at the parent of this dialog
      * @return an integer signifying how the dialog was dismissed
      * (APPROVE_OPTION or CANCEL_OPTION).
@@ -174,18 +179,15 @@ class ReportDirChooser extends JFileChooser
                 // create new report in existing or empty report directory
                 reportDir = file;
                 super.approveSelection();
-            }
-            else if (file.isDirectory()) {
+            } else if (file.isDirectory()) {
                 // the directory exists, but is neither a report dir nor empty: open it
                 setCurrentDirectory(file);
                 setSelectedFile(null);
                 setSelectedFiles(null);
-            }
-            else {
+            } else {
                 uif.showError("rdc.notADir", file);
             }
-        }
-        else {
+        } else {
             // create new report in new report directory
             reportDir = file;
             super.approveSelection();
@@ -199,17 +201,14 @@ class ReportDirChooser extends JFileChooser
             if (isReportDirectory(file)) {
                 reportDir = file;
                 super.approveSelection();
-            }
-            else if (isDirectory(file)) {
+            } else if (isDirectory(file)) {
                 // the directory exists, but is not a report dir: open it
                 setCurrentDirectory(file);
                 setSelectedFile(null);
                 setSelectedFiles(null);
-            }
-            else
+            } else
                 uif.showError("rdc.notADir", file);
-        }
-        else
+        } else
             uif.showError("rdc.cantOpen", file);
     }
 
@@ -223,7 +222,7 @@ class ReportDirChooser extends JFileChooser
         if (isIgnoreable(f))
             return false;
 
-        Boolean b =  cache.get(f);
+        Boolean b = cache.get(f);
         if (b == null) {
             boolean v = Report.isReportDirectory(f);
             String[] l = f.list();
@@ -236,8 +235,7 @@ class ReportDirChooser extends JFileChooser
             }
             cache.put(f, v);
             return v;
-        }
-        else
+        } else
             return b;
     }
 

@@ -30,13 +30,12 @@ import java.io.File;
 import java.util.ResourceBundle;
 import javax.swing.filechooser.FileFilter;
 
-class FileType extends FileFilter
-{
+class FileType extends FileFilter {
     public FileType() {
     }
 
     public FileType(String extn) {
-        this(new String[] { extn });
+        this(new String[]{extn});
     }
 
     public FileType(String... extns) {

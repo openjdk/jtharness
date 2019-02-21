@@ -52,15 +52,13 @@ public class LastRunInfo {
 
         try {
             startTime = Long.parseLong(val);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
         }
 
         val = p.getProperty(FINISH);
         try {
             finishTime = Long.parseLong(val);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
         }
 
         configName = p.getProperty(CONFIG);
@@ -73,6 +71,7 @@ public class LastRunInfo {
      * one second, so everything below a 1000ms can't be compared reliably.  If you are
      * comparing times to a TestResult, it is suggested that you either remove the ms
      * from the return value or do something other than compare the integers.
+     *
      * @return The time (in milliseconds) at which the last test run started.
      * @see java.util.Date
      */
@@ -86,8 +85,9 @@ public class LastRunInfo {
      * one second, so everything below a 1000ms can't be compared reliably.  If you are
      * comparing times to a TestResult, it is suggested that you either remove the ms
      * from the return value or do something other than compare the integers.
+     *
      * @return The time (in milliseconds) at which the last test run completed (for
-     *         any reason).
+     * any reason).
      * @see java.util.Date
      */
     public long getFinishTime() {
@@ -96,8 +96,9 @@ public class LastRunInfo {
 
     /**
      * When did the last test run start.
+     *
      * @return The time (in milliseconds) at which the last test run started.
-     *         May be zero if the information is not available.
+     * May be zero if the information is not available.
      * @see java.util.Date
      */
     public Date getStartDate() {
@@ -106,8 +107,9 @@ public class LastRunInfo {
 
     /**
      * When did the last test run end.
+     *
      * @return The time (in milliseconds) at which the last test run completed (for
-     *         any reason).  May be zero if the information is not available.
+     * any reason).  May be zero if the information is not available.
      * @see java.util.Date
      */
     public Date getFinishDate() {
@@ -117,14 +119,17 @@ public class LastRunInfo {
     /**
      * Get the name of the configuration that was used in the last
      * test run.
+     *
      * @return Configuration name as it appeared in the configuration.  May be
-     *         null or empty string if this information is not available.
+     * null or empty string if this information is not available.
      */
     public String getConfigName() {
         return configName;
     }
+
     /**
      * Get the URLs of the tests that were executed in the last test run.
+     *
      * @return String array of testURLs executed.
      */
     public List<String> getTestURLs() {
@@ -133,6 +138,7 @@ public class LastRunInfo {
 
     /**
      * Joins list of String into a single space separated String
+     *
      * @param list
      * @return A single string with all the items in the list joined.
      */
@@ -147,13 +153,15 @@ public class LastRunInfo {
         }
 
         // remove trailing space
-        if (sb.length() > 0 && sb.charAt(sb.length()-1) == ' ')
-            sb.deleteCharAt(sb.length()-1);
+        if (sb.length() > 0 && sb.charAt(sb.length() - 1) == ' ')
+            sb.deleteCharAt(sb.length() - 1);
 
         return sb.toString();
     }
+
     /**
      * Split the string into list
+     *
      * @param joined - string to split
      * @return array list, never null.
      */
@@ -177,11 +185,12 @@ public class LastRunInfo {
     /**
      * Given a work directory, attempt to create an instance using the information
      * found in it.
+     *
      * @param wd The work directory to create the information from.
      * @return Configuration name as it appeared in the configuration.  May be
-     *         null or empty string if this information is not available.
+     * null or empty string if this information is not available.
      * @throws IOException Occurs if the last run info is not available or if the
-     *         system has a problem while reading the file.
+     *                     system has a problem while reading the file.
      */
     public static LastRunInfo readInfo(WorkDirectory wd) throws IOException {
         return new LastRunInfo(wd);
@@ -189,20 +198,21 @@ public class LastRunInfo {
 
     /**
      * Given a work directory, write the given run information in it.
+     *
      * @param workdir The work directory to modify.  Must be able to read-write
      *                files inside it.
-     * @param start Time in milliseconds at which the last test run started.
-     *              Must be a non-negative number.
-     * @param stop Time in milliseconds at which the last test run terminated.
-     *             Must be a non-negative number.
-     * @param config Configuration name which was used to do the last test run.
-     *               May be null or empty string if necessary.
+     * @param start   Time in milliseconds at which the last test run started.
+     *                Must be a non-negative number.
+     * @param stop    Time in milliseconds at which the last test run terminated.
+     *                Must be a non-negative number.
+     * @param config  Configuration name which was used to do the last test run.
+     *                May be null or empty string if necessary.
      * @throws IOException If for any reason the information file cannot be
      *                     created, opened, written into or deleted.
      */
     public static void writeInfo(WorkDirectory workdir, long start, long stop,
-            String config, List<String> testURLs)
-                throws IOException {
+                                 String config, List<String> testURLs)
+            throws IOException {
         Properties p = new Properties();
         p.setProperty(CONFIG, config);
         p.setProperty(START, Long.toString(start));
@@ -228,7 +238,7 @@ public class LastRunInfo {
     private static final String START = "startTime";
     private static final String FINISH = "finishTime";
     private static final String CONFIG = "configName";
-    private static final String TEST_URLS="testURLs";
+    private static final String TEST_URLS = "testURLs";
 
     private static final String SEP = " ";
 }

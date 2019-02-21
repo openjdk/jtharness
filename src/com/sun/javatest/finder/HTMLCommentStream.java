@@ -29,13 +29,12 @@ package com.sun.javatest.finder;
 import java.io.IOException;
 
 /**
-  * This class extracts all ASCII characters within HTML comments
-  * bound by "<!--" and "-->".  The comment may span multiple lines.
-  *
-  * @see CommentStream
-  */
-public class HTMLCommentStream extends CommentStream
-{
+ * This class extracts all ASCII characters within HTML comments
+ * bound by "<!--" and "-->".  The comment may span multiple lines.
+ *
+ * @see CommentStream
+ */
+public class HTMLCommentStream extends CommentStream {
     @Override
     public String readComment() throws IOException {
         String comment, line;
@@ -46,14 +45,14 @@ public class HTMLCommentStream extends CommentStream
         // beginning of comment
         while (true) {
             startComment = 0;
-            endComment   = 0;
+            endComment = 0;
             if ((line = cs.readLine()) == null)
                 return null;
             startComment = line.indexOf("<!--");
             if (startComment >= 0) {
                 // handle a comment that starts and ends on the same line
                 // +4 needed to offset the starting pos characters
-                String tail = line.substring(startComment+4);
+                String tail = line.substring(startComment + 4);
                 if ((endComment = tail.indexOf("-->")) >= 0) {
                     comment = tail.substring(0, endComment);
                     endFound = true;

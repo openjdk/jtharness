@@ -30,13 +30,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
-  * This class extract all ASCII characters within a block comments.  Any
-  * leading spaces or comment-like characters are removed.
-  */
-abstract public class CommentStream
-{
+ * This class extract all ASCII characters within a block comments.  Any
+ * leading spaces or comment-like characters are removed.
+ */
+abstract public class CommentStream {
     /**
      * Initialize a CommentStream.
+     *
      * @param br The reader from which to read.
      */
     public void init(BufferedReader br) {
@@ -45,6 +45,7 @@ abstract public class CommentStream
 
     /**
      * Close this CommentStream.
+     *
      * @throws IOException if there is a problem closing the stream.
      */
     public void close() throws IOException {
@@ -57,6 +58,7 @@ abstract public class CommentStream
      * Depending on the context, this should be set if there is a
      * constraint that limits the set of comments that might be of
      * interest.
+     *
      * @param b Set to true to enable a fast scan for comments.
      */
     public void setFastScan(boolean b) {
@@ -65,9 +67,10 @@ abstract public class CommentStream
 
     /**
      * Read the next comment from the input reader.
+     *
      * @return The next comment that is read from the stream.
      * @throws IOException if there is a problem while reading the
-     *          next comment.
+     *                     next comment.
      */
     abstract public String readComment() throws IOException;
 

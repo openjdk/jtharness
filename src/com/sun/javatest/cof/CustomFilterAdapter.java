@@ -51,10 +51,10 @@ public class CustomFilterAdapter implements CustomFilter {
     private boolean isJavaIdentifier(String jid) {
         for (int i = 0; i < jid.length(); i++) {
             char c = jid.charAt(i);
-            if ( i == 0 && !Character.isJavaIdentifierStart(c)) {
+            if (i == 0 && !Character.isJavaIdentifierStart(c)) {
                 return false;
             }
-            if ( i > 0 && !Character.isJavaIdentifierPart(c) && c != '.') {
+            if (i > 0 && !Character.isJavaIdentifierPart(c) && c != '.') {
                 return false;
             }
         }

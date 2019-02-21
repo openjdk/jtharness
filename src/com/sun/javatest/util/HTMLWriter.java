@@ -36,10 +36,10 @@ import java.net.URLEncoder;
 /**
  * A class to facilitate writing HTML via a stream.
  */
-public class HTMLWriter
-{
+public class HTMLWriter {
     /**
      * Create an HTMLWriter object, using a default doctype for HTML 3.2.
+     *
      * @param out a Writer to which to write the generated HTML
      * @throws IOException if there is a problem writing to the underlying stream
      */
@@ -49,7 +49,8 @@ public class HTMLWriter
 
     /**
      * Create an HTMLWriter object, using a specified doctype header.
-     * @param out a Writer to which to write the generated HTML
+     *
+     * @param out     a Writer to which to write the generated HTML
      * @param docType a string containing a doctype header for the HTML to be generated
      * @throws IOException if there is a problem writing to the underlying stream
      */
@@ -64,7 +65,8 @@ public class HTMLWriter
 
     /**
      * Create an HTMLWriter object, using a specified bundle for l0calizing messages.
-     * @param out a Writer to which to write the generated HTML
+     *
+     * @param out  a Writer to which to write the generated HTML
      * @param i18n a resource bundle to use to localize messages
      * @throws IOException if there is a problem writing to the underlying stream
      */
@@ -77,9 +79,10 @@ public class HTMLWriter
     /**
      * Create an HTMLWriter object, using a specified doctype header and
      * using a specified bundle for localizing messages.
-     * @param out a Writer to which to write the generated HTML
+     *
+     * @param out     a Writer to which to write the generated HTML
      * @param docType a string containing a doctype header for the HTML to be generated
-     * @param i18n a resource bundle to use to localize messages
+     * @param i18n    a resource bundle to use to localize messages
      * @throws IOException if there is a problem writing to the underlying stream
      */
     public HTMLWriter(Writer out, String docType, I18NResourceBundle i18n) throws IOException {
@@ -89,6 +92,7 @@ public class HTMLWriter
 
     /**
      * Set the resource bundle to be used for localizing messages.
+     *
      * @param i18n the resource bundle to be used for localizing messages
      */
     public void setI18NResourceBundle(I18NResourceBundle i18n) {
@@ -97,6 +101,7 @@ public class HTMLWriter
 
     /**
      * Flush the stream, and the underlying output stream.
+     *
      * @throws IOException if there is a problem writing to the underlying stream
      */
     public void flush() throws IOException {
@@ -105,6 +110,7 @@ public class HTMLWriter
 
     /**
      * Close the stream, and the underlying output stream.
+     *
      * @throws IOException if there is a problem closing the underlying stream
      */
     public void close() throws IOException {
@@ -113,6 +119,7 @@ public class HTMLWriter
 
     /**
      * Write a newline to the underlying output stream.
+     *
      * @throws IOException if there is a problem writing to the underlying stream
      */
     public void newLine() throws IOException {
@@ -124,6 +131,7 @@ public class HTMLWriter
      * be closed first. Once a tag has been opened, attributes for the
      * tag may be written out, followed by body content before finally
      * ending the tag.
+     *
      * @param tag the tag to be started
      * @throws IOException if there is a problem writing to the underlying stream
      * @see #writeAttr
@@ -142,11 +150,12 @@ public class HTMLWriter
      * Finish an HTML tag. It is expected that a call to endTag will match
      * a corresponding earlier call to startTag, but there is no formal check
      * for this.
+     *
      * @param tag the tag to be closed.
      * @throws IOException if there is a problem writing to the underlying stream
      */
     public void endTag(String tag) throws IOException {
-        if ( closePrevTag() ) {
+        if (closePrevTag()) {
             out.newLine();
         }
         out.write("</");
@@ -158,11 +167,12 @@ public class HTMLWriter
     /**
      * Finish an empty element tag, such as a META, BASE or LINK tag.
      * This is expected to correspond with a startTag.
+     *
      * @param tag the tag which is being closed.  this is only useful for
-     *        validation, it is not written out
+     *            validation, it is not written out
      * @throws IllegalStateException if this call does not follow startTag
-     *         (stream is not currently inside a tag)
-     * @throws IOException if there is a problem writing to the underlying stream
+     *                               (stream is not currently inside a tag)
+     * @throws IOException           if there is a problem writing to the underlying stream
      */
     public void endEmptyTag(String tag) throws IOException {
         if (state != IN_TAG)
@@ -178,12 +188,13 @@ public class HTMLWriter
      * All tag attributes must be written before any body text is written.
      * The value will be quoted if necessary when writing it to the underlying
      * stream. No check is made that the attribute is valid for the current tag.
-     * @param name the name of the attribute to be written
+     *
+     * @param name  the name of the attribute to be written
      * @param value the value of the attribute to be written
      * @throws IllegalStateException if the stream is not in a state to
-     * write attributes -- e.g. if this call does not follow startTag or other
-     * calls of writteAttr
-     * @throws IOException if there is a problem writing to the underlying stream
+     *                               write attributes -- e.g. if this call does not follow startTag or other
+     *                               calls of writteAttr
+     * @throws IOException           if there is a problem writing to the underlying stream
      */
     public void writeAttr(String name, String value) throws IOException {
         if (state != IN_TAG)
@@ -207,12 +218,13 @@ public class HTMLWriter
      * All tag attributes must be written before any body text is written.
      * The value will be quoted if necessary when writing it to the underlying
      * stream. No check is made that the attribute is valid for the current tag.
-     * @param name the name of the attribute to be written
+     *
+     * @param name  the name of the attribute to be written
      * @param value the value of the attribute to be written
      * @throws IllegalStateException if the stream is not in a state to
-     * write attributes -- e.g. if this call does not follow startTag or other
-     * calls of writteAttr
-     * @throws IOException if there is a problem writing to the underlying stream
+     *                               write attributes -- e.g. if this call does not follow startTag or other
+     *                               calls of writteAttr
+     * @throws IOException           if there is a problem writing to the underlying stream
      */
     public void writeAttr(String name, int value) throws IOException {
         writeAttr(name, Integer.toString(value));
@@ -221,6 +233,7 @@ public class HTMLWriter
     /**
      * Write a line of text, followed by a newline.
      * The text will be escaped as necessary.
+     *
      * @param text the text to be written.
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -228,12 +241,14 @@ public class HTMLWriter
         write(text);
         out.newLine();
     }
-   /**
+
+    /**
      * Write body text, escaping it as necessary.
      * If this call follows a call of startTag, the open tag will be
      * closed -- meaning that no more attributes can be written until another
      * tag is started.  If the text value is null, the current tag will still
      * be closed, but no other text will be written.
+     *
      * @param text the text to be written, may be null or zero length.
      * @throws IOException if there is a problem writing to the underlying stream
      */
@@ -241,8 +256,7 @@ public class HTMLWriter
         closePrevTag();
 
         if (text == null) {
-        }
-        else {
+        } else {
             out.write(text);
         }
     }
@@ -253,6 +267,7 @@ public class HTMLWriter
      * closed -- meaning that no more attributes can be written until another
      * tag is started.  If the text value is null, the current tag will still
      * be closed, but no other text will be written.
+     *
      * @param text the text to be written, may be null or zero length.
      * @throws IOException if there is a problem writing to the underlying stream
      */
@@ -266,8 +281,10 @@ public class HTMLWriter
         boolean specialChars = false;
         for (int i = 0; i < text.length() && !specialChars; i++) {
             switch (text.charAt(i)) {
-            case '<': case '>': case '&':
-                specialChars = true;
+                case '<':
+                case '>':
+                case '&':
+                    specialChars = true;
             }
         }
 
@@ -277,19 +294,26 @@ public class HTMLWriter
             for (int i = 0; i < text.length(); i++) {
                 char c = text.charAt(i);
                 switch (c) {
-                case '<': out.write("&lt;"); break;
-                case '>': out.write("&gt;"); break;
-                case '&': out.write("&amp;"); break;
-                default: out.write(c);
+                    case '<':
+                        out.write("&lt;");
+                        break;
+                    case '>':
+                        out.write("&gt;");
+                        break;
+                    case '&':
+                        out.write("&amp;");
+                        break;
+                    default:
+                        out.write(c);
                 }
             }
-        }
-        else
+        } else
             out.write(text);
     }
 
     /**
      * Write a basic HTML entity, such as &nbsp; or &#123; .
+     *
      * @param entity the entity to write
      * @throws IOException if there is a problem writing to the underlying stream
      */
@@ -300,6 +324,7 @@ public class HTMLWriter
 
     /**
      * Write an image tag, using a specified path for the image source attribute.
+     *
      * @param imagePath the path for the image source
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -310,6 +335,7 @@ public class HTMLWriter
 
     /**
      * Write an image tag, using a specified path for the image source attribute.
+     *
      * @param imageURL the url for the image source
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -319,8 +345,9 @@ public class HTMLWriter
 
     /**
      * Write a hypertext link.
+     *
      * @param anchor the target for the link
-     * @param body the body text for the link
+     * @param body   the body text for the link
      * @throws IOException if there is a problem closing the underlying stream
      */
     public void writeLink(String anchor, String body) throws IOException {
@@ -332,6 +359,7 @@ public class HTMLWriter
 
     /**
      * Write a hypertext link.
+     *
      * @param file the target for the link
      * @param body the body text for the link
      * @throws IOException if there is a problem closing the underlying stream
@@ -345,17 +373,18 @@ public class HTMLWriter
 
     /**
      * Returns URI path to the specified absolute file.
+     *
      * @param file to get URI path
      * @return URI path for the file
      * @throws IOException if there is a problem to encode path symbol
      */
-    public String getCanonicalURIPath(File file) throws IOException{
+    public String getCanonicalURIPath(File file) throws IOException {
         StringBuilder sb = new StringBuilder();
         String path = file.getPath();
         if (file.isAbsolute() && !path.startsWith("/"))
             sb.append('/');
-        for (int i = 0; i < path.length(); i++){
-            switch (path.charAt(i)){
+        for (int i = 0; i < path.length(); i++) {
+            switch (path.charAt(i)) {
                 case '/':
                 case '\\':
                     sb.append("/");
@@ -370,6 +399,7 @@ public class HTMLWriter
 
     /**
      * Write a hypertext link.
+     *
      * @param file the target and body for the link
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -379,7 +409,8 @@ public class HTMLWriter
 
     /**
      * Write a hypertext link.
-     * @param url the target for the link
+     *
+     * @param url  the target for the link
      * @param body the body text for the link
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -392,8 +423,9 @@ public class HTMLWriter
 
     /**
      * Write the destination marker for a hypertext link.
+     *
      * @param anchor the destination marker for hypertext links
-     * @param body the body text for the marker
+     * @param body   the body text for the marker
      * @throws IOException if there is a problem closing the underlying stream
      */
     public void writeLinkDestination(String anchor, String body) throws IOException {
@@ -405,7 +437,8 @@ public class HTMLWriter
 
     /**
      * Write a parameter tag.
-     * @param name the name of the parameter
+     *
+     * @param name  the name of the parameter
      * @param value the value of the parameter
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -417,6 +450,7 @@ public class HTMLWriter
 
     /**
      * Write a style attribute.
+     *
      * @param value the value for the style attribute
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -426,8 +460,9 @@ public class HTMLWriter
 
     /**
      * Write a localized message, using a specified resource bundle.
+     *
      * @param i18n the resource bundle used to localize the message
-     * @param key the key for the message to be localized
+     * @param key  the key for the message to be localized
      * @throws IOException if there is a problem closing the underlying stream
      */
     public void write(I18NResourceBundle i18n, String key) throws IOException {
@@ -436,9 +471,10 @@ public class HTMLWriter
 
     /**
      * Write a localized message, using a specified resource bundle.
+     *
      * @param i18n the resource bundle used to localize the message
-     * @param key the key for the message to be localized
-     * @param arg an argument to be formatted into the localized message
+     * @param key  the key for the message to be localized
+     * @param arg  an argument to be formatted into the localized message
      * @throws IOException if there is a problem closing the underlying stream
      */
     public void write(I18NResourceBundle i18n, String key, Object arg) throws IOException {
@@ -447,8 +483,9 @@ public class HTMLWriter
 
     /**
      * Write a localized message, using a specified resource bundle.
+     *
      * @param i18n the resource bundle used to localize the message
-     * @param key the key for the message to be localized
+     * @param key  the key for the message to be localized
      * @param args arguments to be formatted into the localized message
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -458,6 +495,7 @@ public class HTMLWriter
 
     /**
      * Write a localized message, using the default resource bundle.
+     *
      * @param key the key for the message to be localized
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -467,6 +505,7 @@ public class HTMLWriter
 
     /**
      * Write a localized message, using the default resource bundle.
+     *
      * @param key the key for the message to be localized
      * @param arg an argument to be formatted into the localized message
      * @throws IOException if there is a problem closing the underlying stream
@@ -477,7 +516,8 @@ public class HTMLWriter
 
     /**
      * Write a localized message, using the default resource bundle.
-     * @param key the key for the message to be localized
+     *
+     * @param key  the key for the message to be localized
      * @param args arguments to be formatted into the localized message
      * @throws IOException if there is a problem closing the underlying stream
      */
@@ -494,99 +534,191 @@ public class HTMLWriter
         return false;
     }
 
-    /** The HTML "a" tag. */
+    /**
+     * The HTML "a" tag.
+     */
     public static final String A = "a";
-    /** The HTML "align" attribute. */
+    /**
+     * The HTML "align" attribute.
+     */
     public static final String ALIGN = "align";
-    /** The HTML "b" tag. */
+    /**
+     * The HTML "b" tag.
+     */
     public static final String B = "b";
-    /** The HTML "body" tag. */
+    /**
+     * The HTML "body" tag.
+     */
     public static final String BODY = "body";
-    /** The HTML "border" attribute. */
+    /**
+     * The HTML "border" attribute.
+     */
     public static final String BORDER = "border";
-    /** The HTML "br" tag. */
+    /**
+     * The HTML "br" tag.
+     */
     public static final String BR = "br";
-    /** The HTML "classid" attribute. */
-    public static final String CLASSID  = "classid";
-    /** The HTML "code" tag. */
-    public static final String CODE  = "code";
-    /** The HTML "color" attribute. */
-    public static final String COLOR  = "color";
-    /** The HTML "col" attribute value. */
+    /**
+     * The HTML "classid" attribute.
+     */
+    public static final String CLASSID = "classid";
+    /**
+     * The HTML "code" tag.
+     */
+    public static final String CODE = "code";
+    /**
+     * The HTML "color" attribute.
+     */
+    public static final String COLOR = "color";
+    /**
+     * The HTML "col" attribute value.
+     */
     public static final String COL = "col";
-    /** The HTML "font" tag. */
+    /**
+     * The HTML "font" tag.
+     */
     public static final String FONT = "font";
-    /** The HTML "h1" tag. */
+    /**
+     * The HTML "h1" tag.
+     */
     public static final String H1 = "h1";
-    /** The HTML "h2" tag. */
+    /**
+     * The HTML "h2" tag.
+     */
     public static final String H2 = "h2";
-    /** The HTML "h3" tag. */
+    /**
+     * The HTML "h3" tag.
+     */
     public static final String H3 = "h3";
-    /** The HTML "h4" tag. */
+    /**
+     * The HTML "h4" tag.
+     */
     public static final String H4 = "h4";
-    /** The HTML "head" tag. */
+    /**
+     * The HTML "head" tag.
+     */
     public static final String HEAD = "head";
-    /** The HTML "href" attribute. */
+    /**
+     * The HTML "href" attribute.
+     */
     public static final String HREF = "href";
-    /** The HTML "html" tag. */
+    /**
+     * The HTML "html" tag.
+     */
     public static final String HTML = "html";
-    /** The HTML "hr" tag. */
+    /**
+     * The HTML "hr" tag.
+     */
     public static final String HR = "hr";
-    /** The HTML "i" tag. */
+    /**
+     * The HTML "i" tag.
+     */
     public static final String I = "i";
-    /** The HTML "image" tag. */
+    /**
+     * The HTML "image" tag.
+     */
     public static final String IMAGE = "image";
-    /** The HTML "left" attribute value. */
+    /**
+     * The HTML "left" attribute value.
+     */
     public static final String LEFT = "left";
-    public static final String TEXT_LEFT ="text-align:left;";
-    /** The HTML "li" tag. */
+    public static final String TEXT_LEFT = "text-align:left;";
+    /**
+     * The HTML "li" tag.
+     */
     public static final String LI = "li";
-    /** The HTML "link" tag. */
+    /**
+     * The HTML "link" tag.
+     */
     public static final String LINK = "link";
-    /** The HTML "name" attribute. */
+    /**
+     * The HTML "name" attribute.
+     */
     public static final String NAME = "name";
-    /** The HTML "id" attribute. */
+    /**
+     * The HTML "id" attribute.
+     */
     public static final String ID = "id";
-    /** The HTML "object" tag. */
+    /**
+     * The HTML "object" tag.
+     */
     public static final String OBJECT = "object";
-    /** The HTML "p" tag. */
+    /**
+     * The HTML "p" tag.
+     */
     public static final String PARAM = "param";
-    /** The HTML "param" tag. */
+    /**
+     * The HTML "param" tag.
+     */
     public static final String P = "p";
-    /** The HTML "rel" attribute value. */
+    /**
+     * The HTML "rel" attribute value.
+     */
     public static final String REL = "rel";
-    /** The HTML "right" attribute value. */
+    /**
+     * The HTML "right" attribute value.
+     */
     public static final String RIGHT = "right";
-    public static final String TEXT_RIGHT ="text-align:right;";
-    /** The HTML "row" attribute value. */
+    public static final String TEXT_RIGHT = "text-align:right;";
+    /**
+     * The HTML "row" attribute value.
+     */
     public static final String ROW = "row";
-    /** The HTML "small" tag. */
+    /**
+     * The HTML "small" tag.
+     */
     public static final String SMALL = "small";
-    /** The HTML "src" attribute. */
+    /**
+     * The HTML "src" attribute.
+     */
     public static final String SRC = "src";
-    /** The HTML "scope" attribute. */
+    /**
+     * The HTML "scope" attribute.
+     */
     public static final String SCOPE = "scope";
-    /** The HTML "style" attribute. */
+    /**
+     * The HTML "style" attribute.
+     */
     public static final String STYLE = "style";
-    /** The HTML "table" tag. */
+    /**
+     * The HTML "table" tag.
+     */
     public static final String TABLE = "table";
-    /** The HTML "td" tag. */
+    /**
+     * The HTML "td" tag.
+     */
     public static final String TD = "td";
-    /** The HTML "title"attribute. */
+    /**
+     * The HTML "title"attribute.
+     */
     public static final String TITLE = "title";
-    /** The HTML "th" tag. */
+    /**
+     * The HTML "th" tag.
+     */
     public static final String TH = "th";
-    /** The HTML "top" attribute value. */
+    /**
+     * The HTML "top" attribute value.
+     */
     public static final String TOP = "top";
-    /** The HTML "tr" tag. */
+    /**
+     * The HTML "tr" tag.
+     */
     public static final String TR = "tr";
-    /** The HTML "type" attribute. */
+    /**
+     * The HTML "type" attribute.
+     */
     public static final String TYPE = "type";
-    /** The HTML "ul" tag. */
+    /**
+     * The HTML "ul" tag.
+     */
     public static final String UL = "ul";
-    /** The HTML "valign" attribute. */
+    /**
+     * The HTML "valign" attribute.
+     */
     public static final String VALIGN = "valign";
-    /** The HTML "value" attribute. */
+    /**
+     * The HTML "value" attribute.
+     */
     public static final String VALUE = "value";
 
 

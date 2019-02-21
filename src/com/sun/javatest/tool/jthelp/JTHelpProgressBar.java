@@ -89,7 +89,7 @@ public class JTHelpProgressBar extends Component implements PropertyChangeListen
         frame = new JDialog();
         frame.setModal(true);
         frame.setUndecorated(true);
-        frame.getRootPane().setBorder(BorderFactory.createLineBorder(uif.getI18NColor("help.progress")) );
+        frame.getRootPane().setBorder(BorderFactory.createLineBorder(uif.getI18NColor("help.progress")));
 
         сontentPane.setOpaque(true);
         frame.setContentPane(сontentPane);

@@ -27,6 +27,7 @@
 package com.sun.javatest.services;
 
 import com.sun.javatest.TestEnvironment;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -52,8 +53,9 @@ public class ServiceProperties {
 
     /**
      * Create new ServiceProperties object.
+     *
      * @param common Common properties, shared between all services. Null means
-     * this is common properties, or there is no common properties at all.
+     *               this is common properties, or there is no common properties at all.
      */
     public ServiceProperties(ServiceProperties common) {
         this.common = common;
@@ -67,6 +69,7 @@ public class ServiceProperties {
     /**
      * Method to check, that there exist some properties. Only individual, not
      * common properties are checked.
+     *
      * @return true, if there exist any individual properties.
      */
     public boolean isEmpty() {
@@ -79,7 +82,8 @@ public class ServiceProperties {
      * Adds new individual (or common, in case it is common properties)property.
      * Value is parsed to find all references to other
      * properties, then internal data structures are filled.
-     * @param key key of the property.
+     *
+     * @param key   key of the property.
      * @param value value of the property. May be null.
      */
     public void addProperty(String key, String value) {
@@ -106,6 +110,7 @@ public class ServiceProperties {
      * another will be built at the next
      * {@link com.sun.javatest.services.ServiceProperties#resolveProperties()}
      * request.
+     *
      * @param props external properties to use to resolve own variable values.
      */
     public void setExternalProperties(Properties props) {
@@ -119,12 +124,13 @@ public class ServiceProperties {
     /**
      * Does the same as {@code setExternalProperties(Properties props)},
      * except that properties are firstly extracted from TestEnvironment object.
+     *
      * @param env
      */
     public void setExternalProperties(TestEnvironment env) {
         Properties props = new Properties();
         for (Object o : env.keys()) {
-            String key = (String)o;
+            String key = (String) o;
             String value = new String();
             try {
                 for (String s : env.lookup(key)) {
@@ -150,6 +156,7 @@ public class ServiceProperties {
     /**
      * Resolves variable properties using current set of external properties.
      * Returned map contains only resolved individual properties, not common.
+     *
      * @return map with resolved individual properties.
      */
     public Map<String, String> resolveProperties() {
@@ -167,7 +174,7 @@ public class ServiceProperties {
             justResolved.putAll(common.resolveProperties());
         }
         for (Object key : externalProps.keySet()) {
-            String skey = (String)key;
+            String skey = (String) key;
             justResolved.put(skey, externalProps.getProperty(skey));
         }
 
@@ -183,7 +190,7 @@ public class ServiceProperties {
     }
 
     private Map<String, String> resolveVars(Map<String, ParametrizeValue> varProps,
-            Map<String, String> resolved) {
+                                            Map<String, String> resolved) {
 
         Map<String, String> result = new HashMap<>();
 
@@ -215,9 +222,6 @@ public class ServiceProperties {
     }
 
 
-
-
-
     private void commitProperty(String key, ParametrizeValue value) {
         if (value == null) {
             value = new ParametrizeValue();
@@ -230,8 +234,7 @@ public class ServiceProperties {
 
         if (value.resolved()) {
             constProps.put(key, value.stringValue());
-        }
-        else {
+        } else {
             constructMapping(key, value);
             varProps.put(key, value);
         }
@@ -250,8 +253,7 @@ public class ServiceProperties {
 
                 if (varMap.containsKey(paramName)) {
                     varMap.get(paramName).add(key);
-                }
-                else {
+                } else {
                     Set<String> usages = new HashSet<>();
                     usages.add(key);
                     varMap.put(paramName, usages);
@@ -261,8 +263,7 @@ public class ServiceProperties {
 
         if (varMap.containsKey(key)) {
             varMap.get(key).add(key);
-        }
-        else {
+        } else {
             Set<String> usages = new HashSet<>();
             usages.add(key);
             varMap.put(key, usages);
@@ -279,14 +280,12 @@ public class ServiceProperties {
                 i++;
             }
             i++; // to count '}'
-            s = s.substring(2, i-1);
-        }
-        else {
+            s = s.substring(2, i - 1);
+        } else {
             while (i < s.length()) {
-                if (s.charAt(i) == '$' && s.charAt(i -1) != '\\') {
+                if (s.charAt(i) == '$' && s.charAt(i - 1) != '\\') {
                     break;
-                }
-                else {
+                } else {
                     i++;
                 }
             }
@@ -346,7 +345,7 @@ class ParametrizeValue {
         return copy;
     }
 
-    public void replace (String key, String value) {
+    public void replace(String key, String value) {
         for (Term t : terms) {
             if (t.isVariable() && t.getValue().equals(key)) {
                 t.setValue(value, false);

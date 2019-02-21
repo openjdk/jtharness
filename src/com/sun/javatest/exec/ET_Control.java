@@ -35,6 +35,7 @@ import javax.swing.JMenu;
 
 /**
  * Base interface of ExecTool components
+ *
  * @author Dmitry Fazunenko
  */
 public interface ET_Control {

@@ -27,6 +27,7 @@
 package com.sun.javatest.cof;
 
 import com.sun.javatest.InterviewParameters;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,8 +38,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
 
-public class COFData
-{
+public class COFData {
     public COFData() {
     }
 
@@ -55,20 +55,17 @@ public class COFData
                 String name = s.substring(0, eq);
                 String value = s.substring(eq + 1);
                 put(name, value);
-            }
-            else if (o instanceof File) {
+            } else if (o instanceof File) {
                 File f = (File) o;
                 InputStream in = new BufferedInputStream(new FileInputStream(f));
                 Properties p = new Properties();
                 try {
                     p.load(in);
-                }
-                finally {
+                } finally {
                     in.close();
                 }
                 putAll(p);
-            }
-            else
+            } else
                 throw new IllegalArgumentException(o.toString());
         }
     }
@@ -86,11 +83,11 @@ public class COFData
         data.put(name, value);
     }
 
-    public void putAll(Map<Object,Object> map) {
+    public void putAll(Map<Object, Object> map) {
         data.putAll(map);
     }
 
-    private Map<Object,Object> data = new HashMap<>();
+    private Map<Object, Object> data = new HashMap<>();
 
     private CustomFilter filter = new CustomFilterAdapter();
 

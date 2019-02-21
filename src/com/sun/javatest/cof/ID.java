@@ -29,8 +29,7 @@ package com.sun.javatest.cof;
 import java.util.HashMap;
 import java.util.Map;
 
-class ID
-{
+class ID {
     static class Factory {
         ID create(String base) {
             Integer last = map.get(base);
@@ -40,7 +39,9 @@ class ID
         }
 
         Map<String, Integer> map = new HashMap<>();
-    };
+    }
+
+    ;
 
     private ID(String base, int index) {
         this.base = base;

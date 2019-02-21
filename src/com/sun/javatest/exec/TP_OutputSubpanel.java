@@ -88,7 +88,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
         updateTOC();
 
         // if it is mutable, track updates
-        if (subpanelTest.isMutable())  {
+        if (subpanelTest.isMutable()) {
             subpanelTest.addObserver(observer);
         }
     }
@@ -105,9 +105,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
         toc.addListSelectionListener(listener);
 
         JScrollPane scrollableTOC =
-            uif.createScrollPane(toc,
-                            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                uif.createScrollPane(toc,
+                        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         main = new JPanel(new BorderLayout());
         titleField = uif.createOutputField("test.out.title");
@@ -129,9 +129,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
         textArea.setLineWrap(wrap);
         textArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         body.add(uif.createScrollPane(textArea,
-                                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
-                 "text");
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
+                "text");
 
         htmlArea = new JEditorPane();
         htmlArea.setName("out_summ");
@@ -142,19 +142,20 @@ class TP_OutputSubpanel extends TP_Subpanel {
         // create and set a vacuous subtype of HTMLDocument, simply in order
         // to have the right classloader associated with it, that can load
         // any related OBJECT tags
-        htmlArea.setDocument(new HTMLDocument(getStyleSheet()) { });
+        htmlArea.setDocument(new HTMLDocument(getStyleSheet()) {
+        });
         htmlArea.setEditable(false);
         htmlArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         htmlArea.addHyperlinkListener(listener);
         body.add(uif.createScrollPane(htmlArea,
-                                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER),
-                 "html");
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER),
+                "html");
 
         main.add(body, BorderLayout.CENTER);
 
         JSplitPane sp =
-            new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollableTOC, main);
+                new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollableTOC, main);
         sp.setBorder(BorderFactory.createLoweredBevelBorder());
         sp.setResizeWeight(0); // all excess space to right hand side
         add(sp);
@@ -170,11 +171,16 @@ class TP_OutputSubpanel extends TP_Subpanel {
     private String getStatusKey(int i) {
         String s;
         switch (i) {
-        case Status.PASSED:  return "passed";
-        case Status.FAILED:  return "failed";
-        case Status.ERROR:   return "error";
-        case Status.NOT_RUN: return "notRun";
-        default:             return "unknown";
+            case Status.PASSED:
+                return "passed";
+            case Status.FAILED:
+                return "failed";
+            case Status.ERROR:
+                return "error";
+            case Status.NOT_RUN:
+                return "notRun";
+            default:
+                return "unknown";
         }
     }
 
@@ -192,8 +198,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             out.endTag(HTMLWriterEx.BODY);
             out.endTag(HTMLWriterEx.HTML);
             out.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // should not happen, with StringWriter
         }
         return sw.toString();
@@ -213,14 +218,13 @@ class TP_OutputSubpanel extends TP_Subpanel {
             String[] scriptAndArgs;
             try {
                 scriptAndArgs = StringArray.split(subpanelTest.getProperty(TestResult.SCRIPT));
-            }
-            catch (TestResult.Fault e) {
+            } catch (TestResult.Fault e) {
                 scriptAndArgs = null;
             }
 
             String script = scriptAndArgs == null || scriptAndArgs.length == 0
-                             ? uif.getI18NString("test.out.smry.unknownScript")
-                             : scriptAndArgs[0];
+                    ? uif.getI18NString("test.out.smry.unknownScript")
+                    : scriptAndArgs[0];
             out.writeI18N("test.out.script");
             out.startTag(HTMLWriterEx.TABLE);
             out.writeAttr(HTMLWriterEx.BORDER, "0");
@@ -302,8 +306,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
                 out.writeI18N("test.out.outcome.head");
                 out.endTag(HTMLWriterEx.H3);
                 out.writeI18N("test.out.testResultForOutput.txt");
-            }
-            else {
+            } else {
                 out.startTag(HTMLWriterEx.H3);
                 //out.writeStyleAttr(h3Style);
                 out.writeI18N("test.out.outcome.head");
@@ -332,13 +335,11 @@ class TP_OutputSubpanel extends TP_Subpanel {
             out.endTag(HTMLWriterEx.BODY);
             out.endTag(HTMLWriterEx.HTML);
             out.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // should not happen, writing to StringWriter
-        }
-        catch (TestResult.ReloadFault e) {
+        } catch (TestResult.ReloadFault e) {
             throw new JavaTestError("Error loading result file for " +
-                                    subpanelTest.getTestName());
+                    subpanelTest.getTestName());
         }
 
         return sw.toString();
@@ -418,8 +419,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             out.endTag(HTMLWriterEx.BODY);
             out.endTag(HTMLWriterEx.HTML);
             out.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // should not happen with StringWriter
         }
         return sw.toString();
@@ -461,8 +461,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             out.endTag(HTMLWriterEx.BODY);
             out.endTag(HTMLWriterEx.HTML);
             out.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // should not happen, for StringWriter
         }
         return sw.toString();
@@ -496,10 +495,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
 
             currentTOCEntry = newSelectedEntry.getID();
             toc.setSelectedValue(newSelectedEntry, true);
-        }
-        catch (TestResult.ReloadFault e) {
+        } catch (TestResult.ReloadFault e) {
             throw new JavaTestError("Error loading result file for " +
-                                    subpanelTest.getTestName());
+                    subpanelTest.getTestName());
         }
     }
 
@@ -508,21 +506,21 @@ class TP_OutputSubpanel extends TP_Subpanel {
             updateTOC();
         else {
             EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateTOC(); // will also update current entry
-                    }
-                });
+                @Override
+                public void run() {
+                    updateTOC(); // will also update current entry
+                }
+            });
         }
     }
 
     /**
-     * @param tr Result being updated.
-     * @param section Section being updated.
+     * @param tr         Result being updated.
+     * @param section    Section being updated.
      * @param outputName Output in section being updated, may be null.
-     * @param start Start index from TestResult API
-     * @param end End index from TestResult API
-     * @param text New text.
+     * @param start      Start index from TestResult API
+     * @param end        End index from TestResult API
+     * @param text       New text.
      * @see com.sun.javatest.TestResult
      */
     private void updateOutput(final TestResult tr, final TestResult.Section section,
@@ -569,7 +567,8 @@ class TP_OutputSubpanel extends TP_Subpanel {
         // create and set a vacuous subtype of HTMLDocument, simply in order
         // to have the right classloader associated with it, that can load
         // any related OBJECT tags
-        HTMLDocument doc = new HTMLDocument(getStyleSheet()) { };
+        HTMLDocument doc = new HTMLDocument(getStyleSheet()) {
+        };
         htmlArea.setDocument(doc);
         htmlArea.setText(s);
 
@@ -589,8 +588,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
         if (s.isEmpty()) {
             textArea.setText(uif.getI18NString("test.out.empty.txt"));
             textArea.setEnabled(false);
-        }
-        else {
+        } else {
             wrap = Boolean.parseBoolean(prefs.getPreference(LINE_WRAP_PREF, Boolean.toString(true)));
             if (wrap) {
                 textArea.setLineWrap(true);
@@ -606,7 +604,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
     }
 
     private void addText(TestResult.Section section,
-            String outputName, String s) {
+                         String outputName, String s) {
         if (s == null || s.isEmpty())
             return;
 
@@ -614,8 +612,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             textArea.setText("");
             textArea.append(s);
             textArea.setEnabled(true);
-        }
-        else if (outputName != null) {
+        } else if (outputName != null) {
             textArea.append(s);
         }
     }
@@ -655,8 +652,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
 
     //------------------------------------------------------------------------------------
 
-    private class Listener implements HyperlinkListener, ListSelectionListener
-    {
+    private class Listener implements HyperlinkListener, ListSelectionListener {
         @Override
         public void hyperlinkUpdate(HyperlinkEvent e) {
             if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
@@ -679,8 +675,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
                             }
                         }
                     }
-                }
-                else {
+                } else {
                     try {
                         int sectIndex = Integer.parseInt(desc);
                         TestResult.Section s = subpanelTest.getSection(sectIndex);
@@ -693,10 +688,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
                             }
                         }
 
-                    }
-                    catch (TestResult.ReloadFault f) {
+                    } catch (TestResult.ReloadFault f) {
                         throw new JavaTestError("Error loading result file for " +
-                                                subpanelTest.getTestName());
+                                subpanelTest.getTestName());
                     }
                 }
             }
@@ -717,8 +711,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
                     showHTML(createNotRunSummary());
                 else
                     showHTML(createStatusSummary());
-            }
-            else if (outputName != null)
+            } else if (outputName != null)
                 showText(entry.getSection().getOutput(outputName));
             else if (entry.isScriptMessagesSection())
                 showHTML(createSummary());
@@ -730,8 +723,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
     //------------------------------------------------------------------------------------
 
     private class TRObserver
-        implements TestResult.Observer
-    {
+            implements TestResult.Observer {
         @Override
         public void completed(TestResult tr) {
             //System.err.println("TPOS_TRO: completed: " + tr.getWorkRelativePath());
@@ -826,14 +818,12 @@ class TP_OutputSubpanel extends TP_Subpanel {
                     return uif.getI18NString("test.out.notRunTitle");
                 else
                     return uif.getI18NString("test.out.statusTitle");
-            }
-            else if (isScriptMessagesSection()) {
+            } else if (isScriptMessagesSection()) {
                 if (outputName == null)
                     return uif.getI18NString("test.out.summary");
                 else
                     return uif.getI18NString("test.out.scriptMessages");
-            }
-            else {
+            } else {
                 if (outputName == null)
                     return uif.getI18NString("test.out.sectionTitle", section.getTitle());
                 else
@@ -843,19 +833,17 @@ class TP_OutputSubpanel extends TP_Subpanel {
         }
 
         String getText() {
-            if (section == null){
+            if (section == null) {
                 if (subpanelTest.getStatus().getType() == Status.NOT_RUN)
                     return uif.getI18NString("test.out.notRunTitle");
                 else
                     return uif.getI18NString("test.out.statusTitle");
-            }
-            else if (isScriptMessagesSection()) {
+            } else if (isScriptMessagesSection()) {
                 if (outputName == null)
                     return uif.getI18NString("test.out.summary");
                 else
                     return uif.getI18NString("test.out.scriptMessages");
-            }
-            else {
+            } else {
                 if (outputName == null)
                     return section.getTitle();
                 else
@@ -877,7 +865,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
 
         String getID() {
             String s = "";
-            if (section != null ) {
+            if (section != null) {
                 s = section.getTitle() + ":" +
                         (outputName == null ? "" : outputName);
             }
@@ -896,13 +884,12 @@ class TP_OutputSubpanel extends TP_Subpanel {
                                                       boolean isSelected,
                                                       boolean cellHasFocus) {
             JLabel l = (JLabel) super.getListCellRendererComponent(list, null, index,
-                                                                   isSelected, cellHasFocus);
+                    isSelected, cellHasFocus);
             if (value instanceof TOCEntry) {
                 TOCEntry e = (TOCEntry) value;
                 l.setText(e.getText());
                 l.setIcon(e.getIcon());
-            }
-            else
+            } else
                 l.setText(value.toString());
             return l;
         }

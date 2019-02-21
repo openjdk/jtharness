@@ -46,7 +46,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  * to qualify it as a "test".  If an appropriate JUnit test, it is then scanned
  * for methods that are test methods and this information is added to the
  * TestDescription which is produced.
- *
+ * <p>
  * Note that this class is not reentrant and must be protected by the calling
  * parties.
  *
@@ -70,15 +70,15 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
      *
      * @param args The array of arguments
      * @param i    The next argument to be decoded.
-     * @return     The number of elements consumed in the array; for example,
-     *             for a simple option like "-v" the result should be 1; for an
-     *             option with an argument like "-f file" the result should be
-     *             2, etc.
+     * @return The number of elements consumed in the array; for example,
+     * for a simple option like "-v" the result should be 1; for an
+     * option with an argument like "-f file" the result should be
+     * 2, etc.
      * @throws TestFinder.Fault If there is a problem with the value of the current arg,
-     *             such as a bad value to an option, the Fault exception can be
-     *             thrown.  The exception should NOT be thrown if the current
-     *             arg is unrecognized: in that case, an implementation should
-     *             delegate the call to the supertype.
+     *                          such as a bad value to an option, the Fault exception can be
+     *                          thrown.  The exception should NOT be thrown if the current
+     *                          arg is unrecognized: in that case, an implementation should
+     *                          delegate the call to the supertype.
      */
     @Override
     protected void decodeAllArgs(String... args) throws Fault {
@@ -86,7 +86,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
 
         for (int i = 0; i < args.length; i++) {
             if ("-superclass".equalsIgnoreCase(args[i])) {
-                if (args.length <= i+1) {
+                if (args.length <= i + 1) {
                     error(i18n, "finder.missingsuper");
                     return;
                 }
@@ -101,6 +101,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
 
     /**
      * Scan a file, looking for test descriptions and/or more files to scan.
+     *
      * @param file The file to scan
      */
     @Override
@@ -116,6 +117,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
 
     /**
      * Scan a directory, looking for more files to scan
+     *
      * @param dir The directory to scan
      */
     private void scanDirectory(File dir) {
@@ -153,6 +155,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
     /**
      * Scan a file, looking for comments and in the comments, for test
      * description data.
+     *
      * @param file The file to scan
      */
     protected void scanFile(File file) {
@@ -167,19 +170,19 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
         if (dot == -1)
             return;
 
-        String classFile="";
+        String classFile = "";
         if (scanClasses) {
             classFile = file.getPath();
         } else {
-            String currentDir=new File("").getAbsolutePath();
+            String currentDir = new File("").getAbsolutePath();
             String sources = name;
-            String filePath=file.getAbsolutePath().
-                    substring(currentDir.length()+1, file.getAbsolutePath().length());
+            String filePath = file.getAbsolutePath().
+                    substring(currentDir.length() + 1, file.getAbsolutePath().length());
 
-            if (filePath.startsWith("tests")){
-                classFile=currentDir+File.separator+"classes"+File.separator+filePath.substring(6,filePath.length());
-            } else if (filePath.startsWith("test")){
-                classFile=currentDir+File.separator+"classes"+File.separator+filePath.substring(5,filePath.length());
+            if (filePath.startsWith("tests")) {
+                classFile = currentDir + File.separator + "classes" + File.separator + filePath.substring(6, filePath.length());
+            } else if (filePath.startsWith("test")) {
+                classFile = currentDir + File.separator + "classes" + File.separator + filePath.substring(5, filePath.length());
             } else {
                 return;
             }
@@ -189,10 +192,10 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
         }
 
         dot = classFile.lastIndexOf('.');
-        classFile = classFile.substring(0, dot)+ ".class";
+        classFile = classFile.substring(0, dot) + ".class";
 
         try {
-            if(!new File(classFile).exists()){
+            if (!new File(classFile).exists()) {
                 System.out.println("classFile does not exist: " + classFile);
                 return;
             }
@@ -207,11 +210,11 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
 
                 if (!testMethods.isEmpty()) {
                     StringBuilder tms = new StringBuilder();
-                    for (String n: testMethods) {
+                    for (String n : testMethods) {
                         tms.append(n);
                         tms.append(" ");
                     }
-                    tms.deleteCharAt(tms.length()-1);
+                    tms.deleteCharAt(tms.length() - 1);
 
                     tdValues.put("junit.testmethods", tms.toString());
                 }
@@ -220,16 +223,16 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
                 tdValues.put("junit.finderscantype", "superclass");
                 tdValues.put("source", file.getPath());
                 StringBuilder cls = new StringBuilder();
-                for (String n: requiredSuperclass) {
+                for (String n : requiredSuperclass) {
                     cls.append(n);
                     cls.append(" ");
                 }
-                cls.deleteCharAt(cls.length()-1);
+                cls.deleteCharAt(cls.length() - 1);
                 tdValues.put("junit.findersuperclasses", cls.toString());
 
                 // consider stripping the .java or .class off currFile
                 foundTestDescription(tdValues, currFile, 0);
-            } catch(IOException e) {
+            } catch (IOException e) {
                 error(i18n, "finder.classioe", classFile);
             }       // catch
         } catch (Exception e) {
@@ -247,7 +250,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
         if (cname == null || cname.equals("java.lang.Object"))
             return false;
 
-        for(String n: requiredSuperclass) {
+        for (String n : requiredSuperclass) {
             if (cname.equals(n))
                 return true;
         }   // for
@@ -265,7 +268,6 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
      * default implementation looks for methods that begin with the string
      * "test".  If you wish to do full signature analysis, override
      * visitMethod(...) which is part of the ASM interface.
-     *
      */
     public boolean isTestMethodSignature(String sig) {
         if (sig.startsWith(initialTag))
@@ -316,6 +318,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
         public MethodFinderVisitor() {
             super(Opcodes.ASM4);
         }
+
         /**
          * Return the given class' superclass name in dotted notation.
          */
@@ -332,7 +335,6 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
 
         String thisSupername;
     }
-
 
 
 //----------member variables------------------------------------------------

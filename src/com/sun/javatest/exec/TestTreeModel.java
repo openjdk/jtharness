@@ -206,15 +206,14 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             };  // Runnable
 
             EventQueue.invokeLater(t);
-        }
-        else {
+        } else {
             nodeInserted0(path, what, index);
         }
     }
 
 
     private synchronized void nodeInserted0(final TestResultTable.TreeNode[] path,
-            final Object what, final int index) {
+                                            final Object what, final int index) {
         if (disposed)
             return;
 
@@ -233,8 +232,8 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             if (!relevantNodes.contains(path[path.length - 1])) {
                 return;
             }*/
-            TestResultTable.TreeNode tn = (TestResultTable.TreeNode)what;
-            int[] newPositions = transPath[transPath.length-1].addNodes(tn);
+            TestResultTable.TreeNode tn = (TestResultTable.TreeNode) what;
+            int[] newPositions = transPath[transPath.length - 1].addNodes(tn);
 
             if (debug > 0) {
                 Debug.println("TTM - Node " + what + " inserting, path len=" + path.length);
@@ -246,7 +245,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 tme = new TreeModelEvent(this, transPath, newPositions, nodes);
             }
             //if (cacheWorker != null && !cacheWorker.isPaused()) {
-                notifyModelListeners(tme, Notifier.INS);
+            notifyModelListeners(tme, Notifier.INS);
             //}
         } else {            // test result
             TestResult tr = (TestResult) what;
@@ -262,12 +261,11 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 }
 
 //                if (cacheWorker != null && !cacheWorker.isPaused()) {
-                    // BK optimize reuse of transPath var above
-                    // notifyInserted(makeEvent(path, what, index));
-                    processInsert(transPath, tr);
+                // BK optimize reuse of transPath var above
+                // notifyInserted(makeEvent(path, what, index));
+                processInsert(transPath, tr);
 //                }
-            }
-            else {
+            } else {
             }
 
             // send updates to parent nodes for book keeping
@@ -320,14 +318,13 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             };  // Runnable
 
             EventQueue.invokeLater(t);
-        }
-        else {
+        } else {
             nodeChanged0(path, what, index, old);
         }
     }
 
     private synchronized void nodeChanged0(TestResultTable.TreeNode[] path, Object what,
-            int index, Object old) {
+                                           int index, Object old) {
         if (disposed)
             return;
 
@@ -345,12 +342,11 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
             TT_BasicNode[] transPath = translatePath(path, false);
             if (transPath != null) {
-                TreeModelEvent where = transPath[transPath.length-1].replaceTest((TestResult)what, false);
+                TreeModelEvent where = transPath[transPath.length - 1].replaceTest((TestResult) what, false);
                 if (where == null && debug > 0) {
-                    Debug.println("No test insertion pt for " + ((TestResult)what).getTestName());
+                    Debug.println("No test insertion pt for " + ((TestResult) what).getTestName());
                 }
-            }
-            else {
+            } else {
                 // ignored.  should log it.
             }
 
@@ -390,8 +386,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             };  // Runnable
 
             EventQueue.invokeLater(t);
-        }
-        else {
+        } else {
             nodeRemoved0(path, what, index);
         }
     }
@@ -406,18 +401,18 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             }
 
             TT_BasicNode[] transPath = translatePath(path, false);
-            TestResultTable.TreeNode node = (TestResultTable.TreeNode)what;
-            TT_TreeNode tn = transPath[transPath.length-1].findByName(node.getName());
-            int where = transPath[transPath.length-1].removeNode(tn);
+            TestResultTable.TreeNode node = (TestResultTable.TreeNode) what;
+            TT_TreeNode tn = transPath[transPath.length - 1].findByName(node.getName());
+            int where = transPath[transPath.length - 1].removeNode(tn);
 
             if (where >= 0) {
-                TreeModelEvent tme = new TreeModelEvent(this, transPath, new int[] {where},
-                        new Object[] {tn});
+                TreeModelEvent tme = new TreeModelEvent(this, transPath, new int[]{where},
+                        new Object[]{tn});
                 notifyModelListeners(tme, Notifier.DEL);
             }
         } else {            // test result
             TestResult tr = (TestResult) what;
-            TT_BasicNode[] transPath = translatePath(path,false);
+            TT_BasicNode[] transPath = translatePath(path, false);
 
             relevantTests.remove(tr);
 
@@ -453,7 +448,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
     //  ----- private -----
     private void processRemove(final TT_BasicNode[] path, final TestResult tr,
-            final int index) {
+                               final int index) {
         if (!EventQueue.isDispatchThread()) {
             Runnable t = new Runnable() {
 
@@ -464,8 +459,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             };  // Runnable
 
             EventQueue.invokeLater(t);
-        }
-        else {
+        } else {
             processRemove0(path, tr, index);
         }
     }
@@ -529,7 +523,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 sb.setLength(0);
             } else {
                 current = sb.substring(0, slash);
-                sb = sb.delete(0, slash+1);
+                sb = sb.delete(0, slash + 1);
             }
 
             TT_TreeNode node = spot.findByName(current);
@@ -631,7 +625,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         if (path == null)
             return null;
 
-        TT_BasicNode location = (TT_BasicNode)getRoot();
+        TT_BasicNode location = (TT_BasicNode) getRoot();
         TT_BasicNode[] transPath = new TT_BasicNode[path.length];
         transPath[0] = location;
 
@@ -640,8 +634,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             if (create && mnode == null) {
                 location.addNodes(path[i]);
                 mnode = location.findByName(path[i].getName());
-            }
-            else if (!(mnode instanceof TT_BasicNode)) {
+            } else if (!(mnode instanceof TT_BasicNode)) {
                 return null; // ignore event
             }
             transPath[i] = (TT_BasicNode) mnode;
@@ -653,7 +646,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
     String[] pathsToStrings(TreePath... paths) {
         if (paths == null || paths.length == 0 ||
-            !(getRoot() instanceof TT_BasicNode))
+                !(getRoot() instanceof TT_BasicNode))
             return null;
 
         String[] result = new String[paths.length];
@@ -686,8 +679,8 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             return null;
 
         String[] urlPath = StringArray.splitList(url, "/");
-        TT_TreeNode[] transPath = new TT_TreeNode[urlPath.length+1];
-        TT_BasicNode location = (TT_BasicNode)getRoot();
+        TT_TreeNode[] transPath = new TT_TreeNode[urlPath.length + 1];
+        TT_BasicNode location = (TT_BasicNode) getRoot();
         transPath[0] = location;
 
         for (int i = 0; i < urlPath.length; i++) {
@@ -699,9 +692,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 return null;
             }
 
-            transPath[i+1] = mnode;
-            location = transPath[i+1] instanceof TT_BasicNode ?
-                        (TT_BasicNode)transPath[i+1] : null;
+            transPath[i + 1] = mnode;
+            location = transPath[i + 1] instanceof TT_BasicNode ?
+                    (TT_BasicNode) transPath[i + 1] : null;
         }
 
         return new TreePath(transPath);
@@ -895,9 +888,10 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
      * Retrieve the info about the given node.  The returned info object may be
      * either a running thread or a finished thread, depending on whether recent
      * data is available.
-     * @param node The node to get information for.
+     *
+     * @param node         The node to get information for.
      * @param highPriority Should the task of retrieving this information be
-     *        higher than normal.
+     *                     higher than normal.
      */
     TT_NodeCache getNodeInfo(TestResultTable.TreeNode node, boolean highPriority) {
         TT_NodeCache ni = null;
@@ -1039,7 +1033,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
      * @param node The node to invalidate in the cache.  Must not be null.
      * @deprecated The cache will be smart enough to not need this.
      */
-     void invalidateNodeInfo(TestResultTable.TreeNode node) {
+    void invalidateNodeInfo(TestResultTable.TreeNode node) {
         invalidateNodeInfo(node);
     }
 
@@ -1067,8 +1061,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             Notifier n = new Notifier(eType, treeModelListeners, e, uif);
             if (!EventQueue.isDispatchThread()) {
                 EventQueue.invokeLater(n);
-            }
-            else {
+            } else {
                 n.run();
             }
         }
@@ -1100,12 +1093,11 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         final String logName = uif.getI18NString("tree.log.name");
         try {
             log = wd.getTestSuite().createLog(wd, null, logName);
-        }
-        catch (TestSuite.DuplicateLogNameFault f) {
+        } catch (TestSuite.DuplicateLogNameFault f) {
             try {
                 log = wd.getTestSuite().getLog(wd, logName);
+            } catch (TestSuite.NoSuchLogFault f2) {
             }
-            catch (TestSuite.NoSuchLogFault f2) { }
         }
         return log;
     }
@@ -1230,10 +1222,12 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         stopping = true;
         }
          */
+
         /**
          * Find out which node is currently being processed.
+         *
          * @return The node which is currently being worked on, null if no work is
-         *         in progress.
+         * in progress.
          */
         public TT_NodeCache getActiveNode() {
             return currentUnit;
@@ -1260,11 +1254,13 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             return paused;
         }
         // ------- private -------
+
         /**
          * Request that the worker process the given unit ASAP.
          * This method will first verify that the given node is a candidate for
          * work.  This method is synchronized to avoid context switching into
          * other parts of this class.
+         *
          * @param what Which node to give attention to.
          */
         synchronized void requestActiveNode(TT_NodeCache what) {
@@ -1321,6 +1317,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         }
 
         // -------- various scheduling algorithms ----------
+
         /**
          * Simply do it in the order the requests came in.
          * The root is excluded from selection until the last possible
@@ -1429,7 +1426,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                     int index = ((TT_BasicNode) pp.getLastPathComponent()).getIndex(bn);
 
                     //e = makeEvent(pp, bn, index);
-                    e = new TreeModelEvent(this, pp, new int[] {index}, new Object[] {bn});
+                    e = new TreeModelEvent(this, pp, new int[]{index}, new Object[]{bn});
                 }
             }
 
@@ -1442,6 +1439,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 }
             }
         }
+
         private volatile boolean paused;
         private volatile boolean stopping;
         private volatile TT_NodeCache priorityUnit;
@@ -1453,6 +1451,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     }
 
     // inner class
+
     /**
      * Object used to physically dispatch any model update events onto the event thread.
      */
@@ -1463,15 +1462,15 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
          * The type translates to a switch between the different possible observer
          * methods.
          *
-         * @param eType Type of observer message to generate.
-         *        Must not be greater than zero, see the defined constants.
+         * @param eType     Type of observer message to generate.
+         *                  Must not be greater than zero, see the defined constants.
          * @param listeners The listeners to notify.  This is shallow copied immediately.
-         *        Must not be null.  May be of zero length.
-         * @param e The event to give to the listeners.
-         *        Must not be null.
+         *                  Must not be null.  May be of zero length.
+         * @param e         The event to give to the listeners.
+         *                  Must not be null.
          */
         Notifier(int eType, TreeModelListener[] listeners, TreeModelEvent e,
-                UIFactory uif) {
+                 UIFactory uif) {
             type = eType;
             this.e = e;
             this.uif = uif;
@@ -1491,10 +1490,10 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 case CHANGE:
                     Object[] path = e.getPath();
                     if (path != null && path.length > 0 &&
-                        path[path.length-1] instanceof TT_BasicNode) {
-                        TT_BasicNode bn = (TT_BasicNode) path[path.length-1];
+                            path[path.length - 1] instanceof TT_BasicNode) {
+                        TT_BasicNode bn = (TT_BasicNode) path[path.length - 1];
                         if (e.getChildIndices() != null &&
-                            e.getChildIndices().length >= 1) {
+                                e.getChildIndices().length >= 1) {
                             if (bn.getChildCount() <= e.getChildIndices()[0])
                                 return;
                         }
@@ -1523,6 +1522,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                     throw new JavaTestError(uif.getI18NString("tree.noEType"));
             }   // switch
         }
+
         TreeModelListener[] l;
         int type;
         TreeModelEvent e;

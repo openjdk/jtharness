@@ -60,8 +60,7 @@ import com.sun.javatest.tool.UIFactory;
  */
 
 abstract class TP_PropertySubpanel
-    extends TP_Subpanel
-{
+        extends TP_Subpanel {
     protected TP_PropertySubpanel(UIFactory uif, String uiKey) {
         super(uif, uiKey);
         setLayout(new BorderLayout());
@@ -109,8 +108,7 @@ abstract class TP_PropertySubpanel
     private Table table;
 
     private class Table extends JPanel
-        implements ComponentListener, Scrollable
-    {
+            implements ComponentListener, Scrollable {
         Table(UIFactory uif) {
             addComponentListener(this);
             setLayout(null);
@@ -143,13 +141,12 @@ abstract class TP_PropertySubpanel
 
         void updateEntry(String key, String value) {
             //System.err.println("TP_PS.Table: updateEntry " + key + "=" + value);
-            Entry e =  entries.get(key);
+            Entry e = entries.get(key);
             if (e == null) {
                 e = new Entry(key, value);
                 entries.put(key, e);
                 maxNameStringWidth = Math.max(maxNameStringWidth, getFontMetrics(getFont()).stringWidth(key));
-            }
-            else
+            } else
                 e.valueText.setText(value);
 
             revalidate();
@@ -205,8 +202,7 @@ abstract class TP_PropertySubpanel
                         pendingValidate = true;
                     }
                 }
-            }
-            else
+            } else
                 super.revalidate();
         }
 
@@ -302,25 +298,25 @@ abstract class TP_PropertySubpanel
 
         @Override
         public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-            switch(orientation) {
-            case SwingConstants.VERTICAL:
-                return visibleRect.height / 10;
-            case SwingConstants.HORIZONTAL:
-                return visibleRect.width / 10;
-            default:
-                throw new IllegalArgumentException("Invalid orientation: " + orientation);
+            switch (orientation) {
+                case SwingConstants.VERTICAL:
+                    return visibleRect.height / 10;
+                case SwingConstants.HORIZONTAL:
+                    return visibleRect.width / 10;
+                default:
+                    throw new IllegalArgumentException("Invalid orientation: " + orientation);
             }
         }
 
         @Override
         public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-            switch(orientation) {
-            case SwingConstants.VERTICAL:
-                return visibleRect.height;
-            case SwingConstants.HORIZONTAL:
-                return visibleRect.width;
-            default:
-                throw new IllegalArgumentException("Invalid orientation: " + orientation);
+            switch (orientation) {
+                case SwingConstants.VERTICAL:
+                    return visibleRect.height;
+                case SwingConstants.HORIZONTAL:
+                    return visibleRect.width;
+                default:
+                    throw new IllegalArgumentException("Invalid orientation: " + orientation);
             }
         }
 
@@ -332,7 +328,7 @@ abstract class TP_PropertySubpanel
             if (p instanceof JViewport) {
                 Container gp = p.getParent();
                 if (gp instanceof JScrollPane) {
-                    JScrollPane scrollPane = (JScrollPane)gp;
+                    JScrollPane scrollPane = (JScrollPane) gp;
                     // Make certain we are the viewPort's view and not, for
                     // example, the rowHeaderView of the scrollPane -
                     // an implementor of fixed columns might do this.
@@ -354,7 +350,7 @@ abstract class TP_PropertySubpanel
             if (p instanceof JViewport) {
                 Container gp = p.getParent();
                 if (gp instanceof JScrollPane) {
-                    JScrollPane scrollPane = (JScrollPane)gp;
+                    JScrollPane scrollPane = (JScrollPane) gp;
                     // Make certain we are the viewPort's view and not, for
                     // example, the rowHeaderView of the scrollPane -
                     // an implementor of fixed columns might do this.
@@ -376,8 +372,7 @@ abstract class TP_PropertySubpanel
         private boolean inScrollPane;
         private boolean pendingValidate;
 
-        private class Entry
-        {
+        private class Entry {
             Entry(String name, String value) {
                 this.name = name;
                 this.value = value;
@@ -414,13 +409,13 @@ abstract class TP_PropertySubpanel
 
             public Dimension getMinumumSize() {
                 return new Dimension(Table.this.getMinimumSize().width,
-                                     nameLabel.getMinimumSize().height);
+                        nameLabel.getMinimumSize().height);
             }
 
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(Table.this.getPreferredSize().width,
-                                     nameLabel.getPreferredSize().height);
+                        nameLabel.getPreferredSize().height);
             }
 
             // doLayout -- nameValue and valueLabel are placed by Table.doLayout

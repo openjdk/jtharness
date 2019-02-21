@@ -70,6 +70,7 @@ public class Debug {
 
     /**
      * Print a debugging message.
+     *
      * @param s the message to be printed.
      */
     public static void print(String s) {
@@ -79,6 +80,7 @@ public class Debug {
 
     /**
      * Print a debugging message and end the line.
+     *
      * @param s the message to be printed.
      */
     public static void println(String s) {
@@ -90,6 +92,7 @@ public class Debug {
      * Check if overall debugging is enabled.
      * If it is not enabled, methods will return null, false, and zero,
      * as appropriate for the type.
+     *
      * @return true if debugging is enabled, and false otherwise
      */
     public static boolean isEnabled() {
@@ -106,7 +109,7 @@ public class Debug {
      *
      * @param key The name of the setting to be returned
      * @return The setting, or null if not found.  Null is returned if debugging is
-     *  disabled entirely.
+     * disabled entirely.
      */
     public static String getSetting(String key) {
         // important because there may be uninitialized objects
@@ -129,7 +132,7 @@ public class Debug {
      * Lookup is done by looking for fully qualified class name.
      *
      * @param c Class whose name should be used to lookup the setting, null results in
-     *    a return value of zero.
+     *          a return value of zero.
      * @return the debugging setting for the specified class
      */
     public static boolean getBoolean(Class<?> c) {
@@ -149,10 +152,10 @@ public class Debug {
      * Lookup is done by looking for fully qualified class name with a dot and the
      * given suffix appended.
      *
-     * @param c Class whose name should be used to lookup the setting, null results in
-     *    a return value of zero.
+     * @param c      Class whose name should be used to lookup the setting, null results in
+     *               a return value of zero.
      * @param suffix String to append to the classname, null will result in a lookup
-     *    of just the classname.
+     *               of just the classname.
      * @return the debugging setting for the specified class
      */
     public static boolean getBoolean(Class<?> c, String suffix) {
@@ -175,6 +178,7 @@ public class Debug {
 
     /**
      * Get a named debugging setting.
+     *
      * @param s the name of the desired debugging setting
      * @return the value of the debugging setting
      */
@@ -195,7 +199,7 @@ public class Debug {
      *
      * @param c the class whose name should be used to lookup the setting
      * @return the debugging setting for the given class, or 0 if no class
-     *    was specified
+     * was specified
      */
     public static int getInt(Class<?> c) {
         init(false);
@@ -214,10 +218,10 @@ public class Debug {
      * Lookup is done by looking for fully qualified class name with a dot and the
      * given suffix appended.
      *
-     * @param c a class whose name should be used to lookup the setting;
-     *    null results in a return value of zero.
+     * @param c      a class whose name should be used to lookup the setting;
+     *               null results in a return value of zero.
      * @param suffix a string to append to the classname;
-     *    null will result in a lookup of just the classname.
+     *               null will result in a lookup of just the classname.
      * @return the debugging setting for the class
      */
     public static int getInt(Class<?> c, String suffix) {
@@ -240,6 +244,7 @@ public class Debug {
 
     /**
      * Get a named debugging setting.
+     *
      * @param s the name of the desired debugging setting
      * @return the value of the debugging setting
      */
@@ -272,6 +277,7 @@ public class Debug {
 
     /**
      * Get the debugging stream, used for writing debug messages.
+     *
      * @return the debugging stream, used to write debug messages
      */
     public static PrintWriter getWriter() {
@@ -282,6 +288,7 @@ public class Debug {
      * Set properties containing debugging settings.
      * This is required if the security manager does not allow access to
      * the system properties.
+     *
      * @param props A table of properties containing debugging settings
      */
     public static void setProperties(Properties props) {
@@ -290,6 +297,7 @@ public class Debug {
 
     /**
      * Initialize (or re-initialize) debugging support.
+     *
      * @param force Force reprocessing of System properties.
      */
     public synchronized static void init(boolean force) {
@@ -300,8 +308,7 @@ public class Debug {
 
         try {
             props = System.getProperties();
-        }
-        catch (SecurityException e) {
+        } catch (SecurityException e) {
             // this is the backup source of settings
             props = givenProps;
         }
@@ -326,11 +333,9 @@ public class Debug {
                     // this will disable all debugging, all methods will return zero or false
                     if (val.equalsIgnoreCase(TRUE_STRING))
                         masterSwitch = false;
-                }
-                else if (key.endsWith(WILD_SUFFIX)) {
+                } else if (key.endsWith(WILD_SUFFIX)) {
                     wildProps.put(key.substring(DEBUG_PREFIX.length()), props.getProperty(key));
-                }
-                else
+                } else
                     dProps.put(key.substring(DEBUG_PREFIX.length()), props.getProperty(key));
             }
         }   // while
@@ -372,8 +377,7 @@ public class Debug {
                     return true;
                 else
                     return false;
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 // not "true", not an integer
                 return false;
             }
@@ -394,8 +398,7 @@ public class Debug {
         else {
             try {
                 return Integer.parseInt(setting);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 // not "true", not an integer
                 return 0;
             }

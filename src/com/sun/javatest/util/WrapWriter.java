@@ -35,10 +35,10 @@ import java.io.Writer;
  * A writer that will automatically word wrap lines to fit within
  * left and right margins.
  */
-public class WrapWriter extends Writer
-{
+public class WrapWriter extends Writer {
     /**
      * Create a WrapWriter object that will write to a given stream.
+     *
      * @param out the stream to which the WrapWriter will write
      */
     public WrapWriter(OutputStream out) {
@@ -47,6 +47,7 @@ public class WrapWriter extends Writer
 
     /**
      * Create a WrapWriter object that will write to a given stream.
+     *
      * @param out the stream to which the WrapWriter will write
      */
     public WrapWriter(Writer out) {
@@ -55,9 +56,10 @@ public class WrapWriter extends Writer
 
     /**
      * Set the position for the left margin for the text stream.
+     *
      * @param m the position for the left margin
      * @throws IllegalArgumentException if the value is negative or
-     * greater than the current value of the right margin
+     *                                  greater than the current value of the right margin
      * @see #getLeftMargin
      */
     public void setLeftMargin(int m) {
@@ -68,6 +70,7 @@ public class WrapWriter extends Writer
 
     /**
      * Get the position for the left margin for the text stream.
+     *
      * @return the position for the left margin
      * @see #setLeftMargin
      */
@@ -77,9 +80,10 @@ public class WrapWriter extends Writer
 
     /**
      * Set the position for the right margin for the text stream.
+     *
      * @param m the position for the right margin
      * @throws IllegalArgumentException if the value is
-     * less than the current value of the left margin
+     *                                  less than the current value of the left margin
      * @see #getRightMargin
      */
     public void setRightMargin(int m) {
@@ -90,6 +94,7 @@ public class WrapWriter extends Writer
 
     /**
      * Get the position for the right margin for the text stream.
+     *
      * @return the position for the right margin
      * @see #setRightMargin
      */
@@ -103,6 +108,7 @@ public class WrapWriter extends Writer
      * the last word that have not yet been written. Use flush() or
      * write a white space character to force out the last word
      * written.
+     *
      * @return the number of characters that have been written
      * so far on the line
      */
@@ -135,6 +141,7 @@ public class WrapWriter extends Writer
      * they will fit before the right margin, otherwise a newline and spaces will be
      * inserted so that the buffered characters appear on the next line starting at
      * the left margin.
+     *
      * @param c the character to be written
      * @throws IOException if there is a problem writing to the underlying stream
      */
@@ -153,8 +160,7 @@ public class WrapWriter extends Writer
                     for (int i = charsOnLineSoFar; i < leftMargin; i++)
                         out.write(' ');
                     charsOnLineSoFar = leftMargin;
-                }
-                else if (charsOnLineSoFar > leftMargin) {
+                } else if (charsOnLineSoFar > leftMargin) {
                     out.write(' ');
                     charsOnLineSoFar++;
                 }
@@ -166,8 +172,7 @@ public class WrapWriter extends Writer
 
             if (c == '\n') {
                 newLine();
-            }
-            else if (c == '\t') {
+            } else if (c == '\t') {
                 out.write(' ');
                 charsOnLineSoFar++;
                 while (charsOnLineSoFar % 8 != 0) {
@@ -175,8 +180,7 @@ public class WrapWriter extends Writer
                     charsOnLineSoFar++;
                 }
             }
-        }
-        else
+        } else
             pending.append(c);
     }
 

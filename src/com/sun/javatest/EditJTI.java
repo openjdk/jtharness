@@ -48,17 +48,16 @@ import com.sun.javatest.util.I18NResourceBundle;
  * </pre>
  * For details of the options, use the <code>-help</code> option.
  */
-public class EditJTI
-{
+public class EditJTI {
     /**
      * This exception is used to indicate a problem with the command line arguments.
      */
-    public static class BadArgs extends Exception
-    {
+    public static class BadArgs extends Exception {
         /**
          * Create a BadArgs exception.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         BadArgs(ResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -66,21 +65,24 @@ public class EditJTI
 
         /**
          * Create a BadArgs exception.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
-         */     BadArgs(ResourceBundle i18n, String s, Object o) {
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        BadArgs(ResourceBundle i18n, String s, Object o) {
             super(MessageFormat.format(i18n.getString(s), o));
         }
 
 
         /**
          * Create a BadArgs exception.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         BadArgs(ResourceBundle i18n, String s, Object... o) {
             super(MessageFormat.format(i18n.getString(s), o));
@@ -90,8 +92,7 @@ public class EditJTI
     /**
      * This exception is used to report problems that arise when using this API.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         Fault(I18NResourceBundle i18n, String s) {
             super(i18n.getString(s));
         }
@@ -109,6 +110,7 @@ public class EditJTI
      * Command line entry point. Run with <code>-help</code> to get
      * brief command line help.  Warning: this method uses System.exit
      * and so does not return if called directly.
+     *
      * @param args Comamnd line arguments.
      */
     public static void main(String... args) {
@@ -116,13 +118,11 @@ public class EditJTI
             EditJTI e = new EditJTI();
             boolean ok = e.run(args);
             System.exit(ok ? 0 : 1);
-        }
-        catch (BadArgs e) {
+        } catch (BadArgs e) {
             System.err.println(e.getMessage());
             usage(System.err);
             System.exit(2);
-        }
-        catch (Fault e) {
+        } catch (Fault e) {
             System.err.println(e.getMessage());
             System.exit(3);
         }
@@ -130,6 +130,7 @@ public class EditJTI
 
     /**
      * Print out brief command line help.
+     *
      * @param out the stream to which to write the command line help.
      */
     public static void usage(PrintStream out) {
@@ -167,18 +168,18 @@ public class EditJTI
     /**
      * Run the utility, without exiting.  Any messages are written to
      * the standard output stream.
+     *
      * @param args command line args
      * @return true if the resulting configuration is valid (complete),
      * and false otherwise.
      * @throws EditJTI.BadArgs if there is an error analysing the args
-     * @throws EditJTI.Fault if there is an error executing the args
+     * @throws EditJTI.Fault   if there is an error executing the args
      */
     public boolean run(String... args) throws BadArgs, Fault {
         PrintWriter out = new PrintWriter(System.out);
         try {
             return run(args, out);
-        }
-        finally {
+        } finally {
             out.flush();
         }
     }
@@ -186,12 +187,13 @@ public class EditJTI
 
     /**
      * Run the utility, without exiting, writing any messages to a specified stream.
+     *
      * @param args command line args
-     * @param out the stream to which to write any messages
+     * @param out  the stream to which to write any messages
      * @return true if the resulting configuration is valid (complete),
      * and false otherwise.
      * @throws EditJTI.BadArgs if there is an error analysing the args
-     * @throws EditJTI.Fault if there is an error executing the args
+     * @throws EditJTI.Fault   if there is an error executing the args
      */
     public boolean run(String[] args, PrintWriter out) throws BadArgs, Fault {
         File inFile = null;
@@ -208,39 +210,33 @@ public class EditJTI
 
         for (int i = 0; i < args.length; i++) {
             if ((args[i].equals("-o") || args[i].equals("-out"))
-                && i + 1 < args.length) {
+                    && i + 1 < args.length) {
                 checkUnset(outFile, args[i]);
                 outFile = new File(args[++i]);
-            }
-            else if ((args[i].equals("-i") || args[i].equals("-in"))
-                && i + 1 < args.length) {
+            } else if ((args[i].equals("-i") || args[i].equals("-in"))
+                    && i + 1 < args.length) {
                 checkUnset(inFile, args[i]);
                 inFile = new File(args[++i]);
-            }
-            else if ((args[i].equals("-l") || args[i].equals("-log"))
-                     && i + 1 < args.length) {
+            } else if ((args[i].equals("-l") || args[i].equals("-log"))
+                    && i + 1 < args.length) {
                 checkUnset(logFile, args[i]);
                 logFile = new File(args[++i]);
-            }
-            else if (args[i].equals("-n") || args[i].equals("-preview"))
+            } else if (args[i].equals("-n") || args[i].equals("-preview"))
                 previewFlag = true;
             else if (args[i].equals("-p") || args[i].equals("-path"))
                 showPathFlag = true;
-            else if (args[i].equals("-v") || args[i].equals("-verbose")  )
+            else if (args[i].equals("-v") || args[i].equals("-verbose"))
                 verboseFlag = true;
             else if ((args[i].equals("-cp") || args[i].equals("-classpath")) && i + 1 < args.length) {
                 checkUnset(classPath, args[i]);
                 classPath = new File(args[++i]);
-            }
-            else if ((args[i].equals("-ts") || args[i].equals("-testsuite")) && i + 1 < args.length) {
+            } else if ((args[i].equals("-ts") || args[i].equals("-testsuite")) && i + 1 < args.length) {
                 checkUnset(testSuitePath, args[i]);
                 testSuitePath = new File(args[++i]);
-            }
-            else if ((args[i].equals("-wd") || args[i].equals("-workdir")) && i + 1 < args.length) {
+            } else if ((args[i].equals("-wd") || args[i].equals("-workdir")) && i + 1 < args.length) {
                 checkUnset(testSuitePath, args[i]);
                 workDirPath = new File(args[++i]);
-            }
-            else if (args[i].equals("-help") || args[i].equals("-usage") || args[i].equals("/?") )
+            } else if (args[i].equals("-help") || args[i].equals("-usage") || args[i].equals("/?"))
                 helpFlag = true;
             else if (args[i].startsWith("-"))
                 throw new BadArgs(i18n, "editJTI.badOption", args[i]);
@@ -249,14 +245,12 @@ public class EditJTI
                     editCmds = new String[args.length - 1 - i];
                     System.arraycopy(args, i, editCmds, 0, editCmds.length);
                     inFile = new File(args[args.length - 1]);
-                }
-                else {
+                } else {
                     editCmds = new String[args.length - i];
                     System.arraycopy(args, i, editCmds, 0, editCmds.length);
                 }
                 i = args.length - 1;
-            }
-            else
+            } else
                 throw new BadArgs(i18n, "editJTI.badOption", args[i]);
         }
 
@@ -297,14 +291,11 @@ public class EditJTI
                 TestSuite ts;
                 try {
                     ts = TestSuite.open(testSuitePath);
-                }
-                catch (FileNotFoundException e) {
+                } catch (FileNotFoundException e) {
                     throw new Fault(i18n, "editJTI.cantFindTestSuite", testSuitePath);
-                }
-                catch (TestSuite.NotTestSuiteFault e) {
+                } catch (TestSuite.NotTestSuiteFault e) {
                     throw new Fault(i18n, "editJTI.notATestSuite", testSuitePath);
-                }
-                catch (TestSuite.Fault e) {
+                } catch (TestSuite.Fault e) {
                     throw new Fault(i18n, "editJTI.cantOpenTestSuite",
                             testSuitePath, e);
                 }
@@ -312,25 +303,20 @@ public class EditJTI
             }
             // End of patches for 3.1.4 compatibility
             else if (classPath != null) {
-                URLClassLoader loader = new URLClassLoader(new URL[] { classPath.toURL() });
+                URLClassLoader loader = new URLClassLoader(new URL[]{classPath.toURL()});
                 load(inFile, loader);
-            }
-            else
+            } else
                 load(inFile);
 
-        }
-        catch (Interview.Fault e) {
+        } catch (Interview.Fault e) {
             throw new Fault(i18n, "editJTI.cantOpenFile",
                     inFile.getPath(), e.getMessage());
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             throw new Fault(i18n, "editJTI.cantFindFile", inFile.getPath());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new Fault(i18n, "editJTI.cantOpenFile",
                     inFile.getPath(), e);
-        }
-        catch (IllegalStateException e) {
+        } catch (IllegalStateException e) {
             // only occurs if keywords are being used in the config, and the
             // test suite is not available.  user needs to specify -wd or -ts
             if (verbose)
@@ -354,12 +340,10 @@ public class EditJTI
                 if (previewFlag) {
                     String msg = i18n.getString("editJTI.wouldWriteLog", logFile);
                     out.println(msg);
-                }
-                else
+                } else
                     writeLog(logFile);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new Fault(i18n, "editJTI.cantWriteLog",
                     logFile.getPath(), e);
         }
@@ -376,20 +360,17 @@ public class EditJTI
                 else
                     msg = i18n.getString("editJTI.wouldNotSave");
                 out.println(msg);
-            }
-            else {
+            } else {
                 if (outFile != null)
                     save(outFile);
                 else if (interview.isEdited())
                     save(inFile);
             }
-        }
-        catch (Interview.Fault e) {
+        } catch (Interview.Fault e) {
             throw new Fault(i18n, "editJTI.cantOpenFile",
                     outFile == null || outFile.getPath() == null ?
-                     "??": outFile.getPath(), e);
-        }
-        catch (IOException e) {
+                            "??" : outFile.getPath(), e);
+        } catch (IOException e) {
             File f = outFile == null ? interview.getFile() : outFile;
             throw new Fault(i18n, "editJTI.cantSaveFile",
                     f.getPath(), e);
@@ -400,8 +381,9 @@ public class EditJTI
 
     /**
      * Load a configuration file to be edited.
+     *
      * @param inFile the file to be loaded
-     * @throws IOException if there is a problem reading the file
+     * @throws IOException     if there is a problem reading the file
      * @throws Interview.Fault if there is a problem loading the interview data from the file
      */
     public void load(File inFile) throws IOException, Interview.Fault {
@@ -413,21 +395,20 @@ public class EditJTI
 
     /**
      * Load a configuration file to be edited.
+     *
      * @param inFile the file to be loaded
-     * @param ts the test suite for which the interview is to be loaded
-     * @throws IOException if there is a problem reading the file
+     * @param ts     the test suite for which the interview is to be loaded
+     * @throws IOException     if there is a problem reading the file
      * @throws Interview.Fault if there is a problem loading the interview data from the file
-     * @throws EditJTI.Fault if there is a problem creating the interview for the testsuite
+     * @throws EditJTI.Fault   if there is a problem creating the interview for the testsuite
      */
     public void load(File inFile, TestSuite ts)
-        throws IOException, Interview.Fault, Fault
-    {
+            throws IOException, Interview.Fault, Fault {
         // this opens the interview via the work directory and test suite;
         // the test suite implicitly knows its classpath via the .jtt file
         try {
             interview = ts.createInterview();
-        }
-        catch (TestSuite.Fault e) {
+        } catch (TestSuite.Fault e) {
             throw new Fault(i18n, "editJTI.cantCreateInterviewForTestSuite",
                     ts.getPath(), e.getMessage());
         }
@@ -438,15 +419,15 @@ public class EditJTI
     /**
      * Load a configuration file to be edited, using a specified class loader
      * to load the interview class.
+     *
      * @param inFile the file to be loaded
      * @param loader the class loader to be used to load the interview class
-     * @throws IOException if there is a problem reading the file
+     * @throws IOException     if there is a problem reading the file
      * @throws Interview.Fault if there is a problem loading the interview data from the file
-     * @throws EditJTI.Fault if there is a problem creating the interview for the testsuite
+     * @throws EditJTI.Fault   if there is a problem creating the interview for the testsuite
      */
     public void load(File inFile, URLClassLoader loader)
-        throws IOException, Interview.Fault, Fault
-    {
+            throws IOException, Interview.Fault, Fault {
         InputStream in = new BufferedInputStream(new FileInputStream(inFile));
         Properties p = new Properties();
         p.load(in);
@@ -458,24 +439,22 @@ public class EditJTI
                     loader.loadClass(interviewClassName).asSubclass(InterviewParameters.class);
 
             interview = interviewClass.getDeclaredConstructor().newInstance();
-        }
-        catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             throw new Fault(i18n, "editJTI.invalidInterview", inFile);
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             throw new Fault(i18n, "editJTI.cantFindClass",
                     interviewClassName, inFile);
-        }
-        catch (NoSuchMethodException | InstantiationException | InvocationTargetException e) {
+        } catch (NoSuchMethodException | InstantiationException | InvocationTargetException e) {
             throw new Fault(i18n, "editJTI.cantInstantiateClass",
                     interviewClassName, inFile);
-        }
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             throw new Fault(i18n, "editJTI.cantAccessClass",
                     interviewClassName, inFile);
-        }
-        finally {
-            try { if (in != null) in.close(); } catch (IOException e) {}
+        } finally {
+            try {
+                if (in != null) in.close();
+            } catch (IOException e) {
+            }
         }
 
         interview.load(inFile);
@@ -484,8 +463,9 @@ public class EditJTI
 
     /**
      * Save the edited configuration in a specified file.
+     *
      * @param file The file in which to save the configuration
-     * @throws IOException if there is a problem while writing the file
+     * @throws IOException     if there is a problem while writing the file
      * @throws Interview.Fault if there is a problem while saving the interview data
      */
     public void save(File file) throws IOException, Interview.Fault {
@@ -520,6 +500,7 @@ public class EditJTI
 
     /**
      * Write a log of the questions that determine the current configuration.
+     *
      * @param logFile the file to which to write the log
      * @throws IOException if there is a problem while writing the log file
      */
@@ -534,6 +515,7 @@ public class EditJTI
 
     /**
      * Apply a series of edits to the current configuration.
+     *
      * @param cmds the editing commands to be applied
      * @throws EditJTI.Fault if there is a problem while applying the edit commands.
      * @see #edit(String)
@@ -546,13 +528,14 @@ public class EditJTI
 
     /**
      * Apply an edit to the current configuration.
+     *
      * @param cmd the editing command to be applied
-     * Currently, two forms of command are supported: <dl>
-     * <dt><em>tag-name=value</em>
-     * <dd>Set the response to the question whose value is <em>tag-name</em> to <em>value</em>
-     * <dt><em>/search/replace/</em>
-     * <dd>For all questions on the current path, change instances of <em>search</em> to  <em>replace</em>
-     * </dl>
+     *            Currently, two forms of command are supported: <dl>
+     *            <dt><em>tag-name=value</em>
+     *            <dd>Set the response to the question whose value is <em>tag-name</em> to <em>value</em>
+     *            <dt><em>/search/replace/</em>
+     *            <dd>For all questions on the current path, change instances of <em>search</em> to  <em>replace</em>
+     *            </dl>
      * @throws EditJTI.Fault if there is a problem while applying the edit commands.
      * @see #edit(String[])
      */
@@ -565,8 +548,7 @@ public class EditJTI
             setValue(cmd.substring(0, eqIndex), cmd.substring(eqIndex + 1));
         else if (cmd.toLowerCase().startsWith("import:")) {
             importFile(new File(cmd.substring("import:".length())));
-        }
-        else {
+        } else {
             int left = 0;
             // could support a command letter in front?
             char delim = cmd.charAt(left);
@@ -590,8 +572,7 @@ public class EditJTI
         InputStream in;
         try {
             in = new BufferedInputStream(new FileInputStream(file));
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             throw new Fault(i18n, "editJTI.cantFindImport", file, e);
         }
 
@@ -600,13 +581,14 @@ public class EditJTI
             p = new Properties();
             p.load(in);
             in.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new Fault(i18n, "editJTI.cantReadImport",
                     file, e);
-        }
-        finally {
-            try { if (in != null) in.close(); } catch (IOException e) {}
+        } finally {
+            try {
+                if (in != null) in.close();
+            } catch (IOException e) {
+            }
         }
 
         // for each question on the path, see if there is a corresponding
@@ -635,8 +617,8 @@ public class EditJTI
             int pos = match(searchText, currValue, false, false);
             if (pos >= 0) {
                 String newValue = currValue.substring(0, pos)
-                    + replaceText
-                    + currValue.substring(pos + searchText.length());
+                        + replaceText
+                        + currValue.substring(pos + searchText.length());
                 setValue(q, newValue);
                 found = true;
                 path = interview.getPath(); // update path in case tail has changed
@@ -664,8 +646,7 @@ public class EditJTI
             if (verbose)
                 out.println(i18n.getString("editJTI.update",
                         q.getTag(), oldValue, q.getStringValue()));
-        }
-        catch (Interview.Fault e) {
+        } catch (Interview.Fault e) {
             throw new Fault(i18n, "editJTI.cantSetValue", q.getTag(), e.getMessage());
         }
     }
@@ -686,14 +667,13 @@ public class EditJTI
 
     private static boolean isBoundaryCh(char c) {
         return !(Character.isUnicodeIdentifierStart(c)
-                 || Character.isUnicodeIdentifierPart(c));
+                || Character.isUnicodeIdentifierPart(c));
     }
 
     private static void checkUnset(Object item, String option)
-        throws BadArgs
-    {
+            throws BadArgs {
         if (item != null)
-            throw new BadArgs(i18n, "editJTI.dupOption",option);
+            throw new BadArgs(i18n, "editJTI.dupOption", option);
     }
 
     private InterviewParameters interview;

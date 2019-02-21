@@ -42,25 +42,28 @@ import java.util.LinkedHashMap;
 
 import com.sun.javatest.util.XMLWriter;
 
-abstract class COFItem
-{
+abstract class COFItem {
     BeanInfo bi = null;
     LinkedHashMap itemAttributes = getItemAttributes();
     LinkedHashMap itemElements = getItemElements();
     String itemTagName = getItemTagName();
-    PropertyDescriptor [] pds = null;
+    PropertyDescriptor[] pds = null;
 
     private String[] getAttributeProperties() {
-        return itemAttributes == null? null: (String []) itemAttributes.keySet().toArray(new String[itemAttributes.size()]);
+        return itemAttributes == null ? null : (String[]) itemAttributes.keySet().toArray(new String[itemAttributes.size()]);
     }
-    LinkedHashMap<String, String> getItemAttributes(){
+
+    LinkedHashMap<String, String> getItemAttributes() {
         return null;
     }
+
     LinkedHashMap<String, String> getItemElements() {
         return null;
-    };
+    }
 
-    String getItemTagName(){
+    ;
+
+    String getItemTagName() {
         return null;
     }
 
@@ -85,7 +88,7 @@ abstract class COFItem
         if (pds == null) return null;
 
         Object result = null;
-        int propIndex =  Arrays.binarySearch(pds, name, new Comparator() {
+        int propIndex = Arrays.binarySearch(pds, name, new Comparator() {
             public int compare(Object o1, Object o2) {
                 PropertyDescriptor pd = (PropertyDescriptor) o1;
                 String propName = (String) o2;
@@ -107,7 +110,7 @@ abstract class COFItem
                 return null;
             }
             /* null casted to Object[] for suppresing "non-varargs call" warning */
-            result = readMethod.invoke(this,(Object[]) null);
+            result = readMethod.invoke(this, (Object[]) null);
         } catch (IllegalArgumentException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -122,57 +125,60 @@ abstract class COFItem
     }
 
     private String[] getPropOrder() {
-        return itemElements == null? null: (String []) itemElements.keySet().toArray(new String[itemElements.size()]);
+        return itemElements == null ? null : (String[]) itemElements.keySet().toArray(new String[itemElements.size()]);
     }
+
     void write(XMLWriter out) throws IOException {
 
         if (itemTagName == null)
             return;
         out.startTag(itemTagName);
         if (itemAttributes != null) {
-                        String[] attrOrder = getAttributeProperties();
-                        for (int i = 0; i < attrOrder.length; i++) {
-                                out.writeAttr(itemAttributes.get(attrOrder[i]).toString(),
-                                                (String) getProperty(attrOrder[i]));
-                        }
-                }
-                if (itemElements != null) {
-                        String[] propOrder = getPropOrder();
-                        for (int i = 0; i < propOrder.length; i++) {
-                                Object propValue = getProperty(propOrder[i]);
-                                if (propValue instanceof COFItem) {
-                                        COFItem item = (COFItem) propValue;
-                                        item.write(out);
-                                        continue;
-                                } else if (propValue instanceof Collection) {
-                                        writeCollection(out, propOrder[i]);
-                                        continue;
-                                }
-                                if (propValue == null)
-                                        continue;
-                                out.startTag(itemElements.get(propOrder[i]).toString());
-                                write(out, propValue);
-                                out.endTag(itemElements.get(propOrder[i]).toString());
-                        }
-                }
-                out.endTag(itemTagName);
-    }
-    protected void write(XMLWriter out, Object o) throws IOException {
-                if (o instanceof String) {
-                        out.write((String)o);
-                } else if (o instanceof Date) {
-                        out.writeDate((Date)o);
-                } else out.write(o.toString());
+            String[] attrOrder = getAttributeProperties();
+            for (int i = 0; i < attrOrder.length; i++) {
+                out.writeAttr(itemAttributes.get(attrOrder[i]).toString(),
+                        (String) getProperty(attrOrder[i]));
+            }
         }
+        if (itemElements != null) {
+            String[] propOrder = getPropOrder();
+            for (int i = 0; i < propOrder.length; i++) {
+                Object propValue = getProperty(propOrder[i]);
+                if (propValue instanceof COFItem) {
+                    COFItem item = (COFItem) propValue;
+                    item.write(out);
+                    continue;
+                } else if (propValue instanceof Collection) {
+                    writeCollection(out, propOrder[i]);
+                    continue;
+                }
+                if (propValue == null)
+                    continue;
+                out.startTag(itemElements.get(propOrder[i]).toString());
+                write(out, propValue);
+                out.endTag(itemElements.get(propOrder[i]).toString());
+            }
+        }
+        out.endTag(itemTagName);
+    }
+
+    protected void write(XMLWriter out, Object o) throws IOException {
+        if (o instanceof String) {
+            out.write((String) o);
+        } else if (o instanceof Date) {
+            out.writeDate((Date) o);
+        } else out.write(o.toString());
+    }
+
     void writeCollection(XMLWriter out, String propName) throws IOException {
         Collection col = (Collection) getProperty(propName);
-        for (Iterator iter = col.iterator(); iter.hasNext();) {
+        for (Iterator iter = col.iterator(); iter.hasNext(); ) {
             Object value = iter.next();
             if (value instanceof COFItem) {
-                ((COFItem)value).write(out);
+                ((COFItem) value).write(out);
             } else {
                 out.startTag(itemElements.get(propName).toString());
-                write(out,value);
+                write(out, value);
                 out.endTag(itemElements.get(propName).toString());
             }
         }

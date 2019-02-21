@@ -44,7 +44,8 @@ public class OrderedTwoWayTable {
 
     /**
      * Put an object in the table.
-     * @param key the key for this object
+     *
+     * @param key   the key for this object
      * @param value the object to be stored in the table
      */
     public synchronized void put(Object key, Object value) {
@@ -54,6 +55,7 @@ public class OrderedTwoWayTable {
 
     /**
      * Get the position of the key within the table.
+     *
      * @param key the key whose position is required
      * @return the position of the key within the table, or -1 if not found
      */
@@ -63,6 +65,7 @@ public class OrderedTwoWayTable {
 
     /**
      * Get the position of a value within the table.
+     *
      * @param value the value whose position is required
      * @return the position of the value within the table, or -1 if not found
      */
@@ -72,6 +75,7 @@ public class OrderedTwoWayTable {
 
     /**
      * Get the value at the given index.
+     *
      * @param index the index of the required value
      * @return the value at the given index, or null if not found or index out of bounds.
      */
@@ -84,6 +88,7 @@ public class OrderedTwoWayTable {
 
     /**
      * Get the key at the given index.
+     *
      * @param index the index of the given key
      * @return the value at the given index, null if not found or index out of bounds.
      */
@@ -96,6 +101,7 @@ public class OrderedTwoWayTable {
 
     /**
      * Get the number of pairs in the table.
+     *
      * @return the numbver of pairs on the table
      */
     public synchronized int getSize() {
@@ -104,6 +110,7 @@ public class OrderedTwoWayTable {
 
     /**
      * Remove the object at a specified index.
+     *
      * @param index the index of the entry to be removed.
      */
     public synchronized void remove(int index) {
@@ -117,7 +124,8 @@ public class OrderedTwoWayTable {
     /**
      * Get the index of the target in the table.
      * This is a reference equality search.
-     * @param data the vector in which to search
+     *
+     * @param data   the vector in which to search
      * @param target the object to search for
      * @return the index of the target in the vector, or -1 if not found
      */

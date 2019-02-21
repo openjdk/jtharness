@@ -36,12 +36,11 @@ import javax.xml.bind.annotation.XmlType;
 */
 
 /**
- *
- *         Software is tracked in the hardware/software database that backs
- *         up the COF XML. The elements in the SW type map to fields in the
- *         software table of that database. Type is enumerated. See below.
- *         Name is a product name with no version string. For example,
- *         "Tomcat". Version is a product version. For instance, "8i".
+ * Software is tracked in the hardware/software database that backs
+ * up the COF XML. The elements in the SW type map to fields in the
+ * software table of that database. Type is enumerated. See below.
+ * Name is a product name with no version string. For example,
+ * "Tomcat". Version is a product version. For instance, "8i".
  *
  *
  * <p>Java class for SWEntity complex type.
@@ -74,8 +73,6 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
  */
 /*@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SWEntity", propOrder = {
@@ -84,26 +81,28 @@ import javax.xml.bind.annotation.XmlType;
     "version",
     "description"
 })*/
-public class COFSWEntity extends COFItem{
+public class COFSWEntity extends COFItem {
 
-static LinkedHashMap<String, String> xmlAttributes;
-static LinkedHashMap<String, String> xmlElements;
-static String xmlTagName;
-static {
-                xmlTagName = "swentity";
-                xmlElements = new LinkedHashMap<>();
-                xmlElements.put("name","name");
-                xmlElements.put("type","type");
-                xmlElements.put("version","version");
-                xmlElements.put("description","description");
-                xmlAttributes = new LinkedHashMap<>();
-                xmlAttributes.put("id","id");
-        }
-//    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
+    static LinkedHashMap<String, String> xmlAttributes;
+    static LinkedHashMap<String, String> xmlElements;
+    static String xmlTagName;
+
+    static {
+        xmlTagName = "swentity";
+        xmlElements = new LinkedHashMap<>();
+        xmlElements.put("name", "name");
+        xmlElements.put("type", "type");
+        xmlElements.put("version", "version");
+        xmlElements.put("description", "description");
+        xmlAttributes = new LinkedHashMap<>();
+        xmlAttributes.put("id", "id");
+    }
+
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
     protected String description;
 
     //    @XmlAttribute(required = true)
-    protected String id="swentity:0";
+    protected String id = "swentity:0";
 
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
     protected String name;
@@ -117,10 +116,8 @@ static {
     /**
      * Gets the value of the description property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public String getDescription() {
         return description;
@@ -129,34 +126,30 @@ static {
     /**
      * Gets the value of the id property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public String getId() {
         return id;
     }
 
     LinkedHashMap<String, String> getItemAttributes() {
-                return xmlAttributes;
-        }
+        return xmlAttributes;
+    }
 
     LinkedHashMap<String, String> getItemElements() {
-                return xmlElements;
-        }
+        return xmlElements;
+    }
 
     String getItemTagName() {
-                return xmlTagName;
-        }
+        return xmlTagName;
+    }
 
     /**
      * Gets the value of the name property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public String getName() {
         return name;
@@ -165,81 +158,68 @@ static {
     /**
      * Gets the value of the type property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public String getType() {
         return type;
     }
 
-        /**
+    /**
      * Gets the value of the version property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
+     * @return possible object is
+     * {@link String }
      */
     public String getVersion() {
         return version;
     }
 
-        /**
+    /**
      * Sets the value of the description property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setDescription(String value) {
         this.description = value;
     }
 
-        /**
+    /**
      * Sets the value of the id property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setId(String value) {
         this.id = value;
     }
 
-        /**
+    /**
      * Sets the value of the name property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setName(String value) {
         this.name = value;
     }
 
-        /**
+    /**
      * Sets the value of the type property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setType(String value) {
         this.type = value;
     }
-        /**
+
+    /**
      * Sets the value of the version property.
      *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setVersion(String value) {
         this.version = value;

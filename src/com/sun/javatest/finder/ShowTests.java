@@ -42,14 +42,14 @@ import com.sun.javatest.TestFinder;
  * ShowTests is a utility program to show the tests that are read by
  * a test finder.
  */
-public class ShowTests
-{
+public class ShowTests {
     /**
      * This exception is used to report bad command line arguments.
      */
     public class BadArgs extends Exception {
         /**
          * Create a BadArgs exception.
+         *
          * @param msg A detail message about an error that has been found.
          */
         BadArgs(String msg) {
@@ -64,6 +64,7 @@ public class ShowTests
     public class Fault extends Exception {
         /**
          * Create a Fault exception.
+         *
          * @param msg A detail message about a fault that has occurred.
          */
         Fault(String msg) {
@@ -75,28 +76,29 @@ public class ShowTests
 
     /**
      * Standard program entry point.
-     * @param args      An array of strings, typically provided via the command line.
-     * The arguments should be of the form:<br>
-     * <em>[options]</em> <em>testsuite</em>
-     * <table><tr><th colspan=2>Options</th></tr>
-     * <tr><td>-finder <em>finderClass</em> <em>finderArgs</em> <em>...</em> -end
-     *          <td>The name of a test finder class and any arguments it might take.
-     *          The results of reading this test finder will be stored in the
-     *          output file.
-     * <tr><td>-initial <em>initial-file</em>
-     *          <td>An initial file within the test suite at which to start reading tests.
-     * <tr><td>-o <em>output-file</em>
-     *          <td>The output file in which to write the results. If omitted,
-     *          The results will be written to the standard console output stream.
-     * <tr><td>-nodes
-     *          <td>By default, only the names of the tests are output.
-     *          If you specify this option, the names of the parent directories
-     *          will be displayed as well.
-     * <tr><td>-full]tests
-     *          <td>By default, only the names of the tests are output.
-     *          If you specify this option, the contents of the test descriptions
-     *          will be displayed as well.
-     * </table>
+     *
+     * @param args An array of strings, typically provided via the command line.
+     *             The arguments should be of the form:<br>
+     *             <em>[options]</em> <em>testsuite</em>
+     *             <table><tr><th colspan=2>Options</th></tr>
+     *             <tr><td>-finder <em>finderClass</em> <em>finderArgs</em> <em>...</em> -end
+     *             <td>The name of a test finder class and any arguments it might take.
+     *             The results of reading this test finder will be stored in the
+     *             output file.
+     *             <tr><td>-initial <em>initial-file</em>
+     *             <td>An initial file within the test suite at which to start reading tests.
+     *             <tr><td>-o <em>output-file</em>
+     *             <td>The output file in which to write the results. If omitted,
+     *             The results will be written to the standard console output stream.
+     *             <tr><td>-nodes
+     *             <td>By default, only the names of the tests are output.
+     *             If you specify this option, the names of the parent directories
+     *             will be displayed as well.
+     *             <tr><td>-full]tests
+     *             <td>By default, only the names of the tests are output.
+     *             If you specify this option, the contents of the test descriptions
+     *             will be displayed as well.
+     *             </table>
      */
     public static void main(String... args) {
         try {
@@ -106,17 +108,14 @@ public class ShowTests
                 ShowTests m = new ShowTests();
                 m.run(args);
             }
-        }
-        catch (BadArgs e) {
+        } catch (BadArgs e) {
             System.err.println("Bad Arguments: " + e.getMessage());
             usage(System.err);
             System.exit(1);
-        }
-        catch (Fault f) {
+        } catch (Fault f) {
             System.err.println("Error: " + f.getMessage());
             System.exit(2);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.println("Error: " + e);
             System.exit(3);
         }
@@ -146,13 +145,10 @@ public class ShowTests
      * testFinder is available, and then calls methods to create the tree of tests
      * and then write the binary file.
      *
-     * @param args      An array of strings, typically provided via the command line
-     * @throws ShowTests.BadArgs
-     *                  if a problem is found in the arguments provided
-     * @throws ShowTests.Fault
-     *                  if a fault is found while running
-     * @throws IOException
-     *                  if a problem is found while trying to read a file
+     * @param args An array of strings, typically provided via the command line
+     * @throws ShowTests.BadArgs if a problem is found in the arguments provided
+     * @throws ShowTests.Fault   if a fault is found while running
+     * @throws IOException       if a problem is found while trying to read a file
      * @see #main
      */
     public void run(String... args) throws BadArgs, Fault, IOException {
@@ -170,23 +166,17 @@ public class ShowTests
                     ++i;
                 finderArgs = new String[i - j];
                 System.arraycopy(args, j, finderArgs, 0, finderArgs.length);
-            }
-            else if (args[i].equalsIgnoreCase("-initial") && (i + 1 < args.length)) {
+            } else if (args[i].equalsIgnoreCase("-initial") && (i + 1 < args.length)) {
                 initialFile = new File(args[++i]);
-            }
-            else if (args[i].equalsIgnoreCase("-o") && (i + 1 < args.length)) {
+            } else if (args[i].equalsIgnoreCase("-o") && (i + 1 < args.length)) {
                 outFile = new File(args[++i]);
-            }
-            else if (args[i].equalsIgnoreCase("-nodes")) {
+            } else if (args[i].equalsIgnoreCase("-nodes")) {
                 nodes = true;
-            }
-            else if (args[i].equalsIgnoreCase("-fulltests")) {
+            } else if (args[i].equalsIgnoreCase("-fulltests")) {
                 fullTests = true;
-            }
-            else if (args[i].startsWith("-") ) {
+            } else if (args[i].startsWith("-")) {
                 throw new BadArgs(args[i]);
-            }
-            else
+            } else
                 testSuite = new File(args[i]);
         }
 
@@ -216,8 +206,8 @@ public class ShowTests
      * Creates and initializes an instance of a test finder
      *
      * @param finder The class name of the required test finder
-     * @param args any args to pass to the TestFinder's init method.
-     * @param ts The testsuite root file
+     * @param args   any args to pass to the TestFinder's init method.
+     * @param ts     The testsuite root file
      * @return The newly created TestFinder.
      */
     private TestFinder initializeTestFinder(String finder, String[] args, File ts) throws Fault {
@@ -227,17 +217,13 @@ public class ShowTests
             Class<? extends TestFinder> c = Class.forName(finder).asSubclass(TestFinder.class);
             testFinder = c.getDeclaredConstructor().newInstance();
             testFinder.init(args, ts, null);
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             throw new Fault("Error: Can't find class for TestFinder specified - " + finder);
-        }
-        catch (InstantiationException | InvocationTargetException | NoSuchMethodException e) {
+        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException e) {
             throw new Fault("Error: Can't create new instance of TestFinder - " + finder);
-        }
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             throw new Fault("Error: Illegal Access Exception. TestFinder - " + finder);
-        }
-        catch (TestFinder.Fault e) {
+        } catch (TestFinder.Fault e) {
             throw new Fault("Error: Can't initialize test-finder: " + e.getMessage());
         }
 

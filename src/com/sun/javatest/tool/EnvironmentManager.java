@@ -42,13 +42,12 @@ import com.sun.javatest.util.PropertyUtils;
  * The supported options are:
  * <ul>
  * <li><code>-EsysProps</code>: add all the system properties into every
- *  environment
+ * environment
  * <li><code>-E</code><i>name</i><code>=</code><i>value</i>: set <i>name</i>
  * to <i>value</i> in every environment
  * </ul>
  */
-public class EnvironmentManager extends CommandManager
-{
+public class EnvironmentManager extends CommandManager {
     EnvironmentManager() {
         // flush any prior tables
         TestEnvironment.clearDefaultPropTables();
@@ -65,7 +64,7 @@ public class EnvironmentManager extends CommandManager
 
     @Override
     public HelpTree.Node getHelp() {
-        String[] opts = { "EsysProps", "EnameVar" };
+        String[] opts = {"EsysProps", "EnameVar"};
         return new HelpTree.Node(i18n, "env", opts);
     }
 
@@ -125,20 +124,17 @@ public class EnvironmentManager extends CommandManager
                     // open up the properties access permission to get system props.
                     boolean prev = ((JavaTestSecurityManager) sc).setAllowPropertiesAccess(true);
                     try {
-                        sysProps = PropertyUtils.convertToStringProps( System.getProperties() );
-                    }
-                    finally {
+                        sysProps = PropertyUtils.convertToStringProps(System.getProperties());
+                    } finally {
                         ((JavaTestSecurityManager) sc).setAllowPropertiesAccess(prev);
                     }
-                }
-                else {
+                } else {
                     // if not JTSecurityManager, try to get properties anyway
                     // and handle the exception if we can't get them
-                    sysProps = PropertyUtils.convertToStringProps( System.getProperties() );
+                    sysProps = PropertyUtils.convertToStringProps(System.getProperties());
                 }
                 TestEnvironment.addDefaultPropTable(i18n.getString("env.def.sysProps"), sysProps);
-            }
-            catch (SecurityException e) {
+            } catch (SecurityException e) {
                 throw new Fault(i18n, "env.cantAccessSysProps", e);
             }
         }

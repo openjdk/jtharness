@@ -29,6 +29,7 @@ package com.sun.javatest.interview;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Iterator;
+
 import com.sun.interview.ErrorQuestion;
 import com.sun.interview.ExtensionFileFilter;
 import com.sun.interview.FileListQuestion;
@@ -52,17 +53,16 @@ import com.sun.javatest.TestSuite;
  * environment data directly.
  */
 public class EnvironmentInterview
-    extends Interview
-    implements Parameters.LegacyEnvParameters
-{
+        extends Interview
+        implements Parameters.LegacyEnvParameters {
     /**
      * Create an interview.
+     *
      * @param parent The parent interview of which this is a child.
      * @throws Interview.Fault if there is a problem while creating the interview.
      */
     public EnvironmentInterview(InterviewParameters parent)
-        throws Interview.Fault
-    {
+            throws Interview.Fault {
         super(parent, "environment");
         this.parent = parent;
         setResourceBundle("i18n");
@@ -72,6 +72,7 @@ public class EnvironmentInterview
 
     /**
      * Get the environment files specified in the interview.
+     *
      * @return the list of files specified in the interview
      * @see #setEnvFiles
      */
@@ -89,6 +90,7 @@ public class EnvironmentInterview
 
     /**
      * Set the environment files for the interview.
+     *
      * @param files the environment files for the interview
      * @see #getEnvFiles
      */
@@ -99,6 +101,7 @@ public class EnvironmentInterview
 
     /**
      * Get the environment name specified in the interview.
+     *
      * @return the environment name specified in the interview
      * @see #setEnvName
      */
@@ -109,6 +112,7 @@ public class EnvironmentInterview
 
     /**
      * Set the environment name for the interview.
+     *
      * @param name the environment name for the interview
      * @see #getEnvName
      */
@@ -120,6 +124,7 @@ public class EnvironmentInterview
     /**
      * Get the environment specified by the environment files and environment name,
      * or null, if it cannot be determined.
+     *
      * @return the environment determined by the interview, or null if it cannot be determined.
      * @see #getEnvFiles
      * @see #getEnvName
@@ -176,8 +181,7 @@ public class EnvironmentInterview
             try {
                 cachedEnvTable = new TestEnvContext(absFiles);
                 cachedEnvTableError = null;
-            }
-            catch (TestEnvContext.Fault e) {
+            } catch (TestEnvContext.Fault e) {
                 cachedEnvTable = null;
                 cachedEnvTableError = e.getMessage();
             }
@@ -204,7 +208,7 @@ public class EnvironmentInterview
     private ErrorQuestion qEnvTableError = new ErrorQuestion(this, "envTableError") {
         @Override
         protected Object[] getTextArgs() {
-            return new Object[] { cachedEnvTableError };
+            return new Object[]{cachedEnvTableError};
         }
     };
 
@@ -259,14 +263,12 @@ public class EnvironmentInterview
                 if (envTable == null || envName == null || envName.isEmpty()) {
                     cachedEnv = null;
                     cachedEnvError = null;
-                }
-                else {
+                } else {
                     cachedEnv = envTable.getEnv(envName);
                     if (cachedEnv == null) {
                         cachedEnvError = qEnvNotFound;
-                        cachedEnvErrorArgs = new Object[] { envName };
-                    }
-                    else {
+                        cachedEnvErrorArgs = new Object[]{envName};
+                    } else {
                         // verify all entries defined
                         cachedEnvError = null;
                         cachedEnvErrorArgs = null;
@@ -276,20 +278,19 @@ public class EnvironmentInterview
                             if (entry.getValue().contains("VALUE_NOT_DEFINED")) {
                                 cachedEnv = null;
                                 String eText =
-                                        (entry.getDefinedInEnv() == null ? "" : "env." +  entry.getDefinedInEnv() + ".") +
-                                          entry.getKey() + "=" + entry.getValue();
+                                        (entry.getDefinedInEnv() == null ? "" : "env." + entry.getDefinedInEnv() + ".") +
+                                                entry.getKey() + "=" + entry.getValue();
                                 cachedEnvError = qEnvUndefinedEntry;
-                                cachedEnvErrorArgs = new Object[] {eText, entry.getDefinedInFile()};
+                                cachedEnvErrorArgs = new Object[]{eText, entry.getDefinedInFile()};
                             }
                         }
                     }
                 }
 
-            }
-            catch (TestEnvironment.Fault e) {
+            } catch (TestEnvironment.Fault e) {
                 cachedEnv = null;
                 cachedEnvError = qEnvError;
-                cachedEnvErrorArgs = new Object[] { e.getMessage() };
+                cachedEnvErrorArgs = new Object[]{e.getMessage()};
             }
             cachedEnv_envTable = envTable;
             cachedEnv_envName = envName;
@@ -301,7 +302,6 @@ public class EnvironmentInterview
     private String cachedEnv_envName;
     private Question cachedEnvError;
     private Object[] cachedEnvErrorArgs;
-
 
 
     //----------------------------------------------------------------------------

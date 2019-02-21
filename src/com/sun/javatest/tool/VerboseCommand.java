@@ -40,10 +40,10 @@ import com.sun.javatest.util.StringArray;
  * The current setting of the various options can be obtained from
  * the current CommandContext.
  */
-public class VerboseCommand extends Command
-{
+public class VerboseCommand extends Command {
     /**
      * Add a option to the set recognized by this command.
+     *
      * @param name the name of the option to be accepted.
      * @param node the help node for this option
      */
@@ -65,10 +65,11 @@ public class VerboseCommand extends Command
     private static void ensureAllOptionsInitialized() {
         if (allOptions == null) {
             allOptions = new TreeMap<>();
-            allOptions.put(MAX,  new HelpTree.Node(i18n, "verb.max"));
+            allOptions.put(MAX, new HelpTree.Node(i18n, "verb.max"));
             allOptions.put(QUIET, new HelpTree.Node(i18n, "verb.quiet"));
         }
     }
+
     private static Map<String, HelpTree.Node> allOptions;
 
     //--------------------------------------------------------------------------
@@ -86,13 +87,11 @@ public class VerboseCommand extends Command
 
         if (workstr.isEmpty()) {
             optionValues.put(DEFAULT, Boolean.TRUE);
-        }
-        else if (workstr.charAt(0) == ':') {
+        } else if (workstr.charAt(0) == ':') {
             // rm colon
             workstr = workstr.substring(1);
             processOptions(workstr);
-        }
-        else
+        } else
             throw new Fault(i18n, "verb.badOpts");
     }
 

@@ -39,10 +39,10 @@ import java.net.URLConnection;
 /**
  * A class to handle downloading exclude lists from a server.
  */
-public class ExcludeListUpdateHandler
-{
+public class ExcludeListUpdateHandler {
     /**
      * Create a handler for downloading exclude lists from a server.
+     *
      * @param remoteURL the URL from which the exclude list should be downloaded
      * @param localFile the file to which the exclude list should be written
      */
@@ -56,6 +56,7 @@ public class ExcludeListUpdateHandler
 
     /**
      * Get the file to which the exclude list should be written.
+     *
      * @return the file to which the exclude list should be written
      */
     public File getLocalFile() {
@@ -64,6 +65,7 @@ public class ExcludeListUpdateHandler
 
     /**
      * Get the  time that the local file was last modified.
+     *
      * @return the time the local file was last modified.
      * The result is given in the standard way, in the number of seconds
      * since January 1, 1970. The result may be -1 or if there was
@@ -77,6 +79,7 @@ public class ExcludeListUpdateHandler
 
     /**
      * Get the URL from which the exclude list should be downloaded.
+     *
      * @return the URL from which the exclude list should be downloaded
      */
     public URL getRemoteURL() {
@@ -85,6 +88,7 @@ public class ExcludeListUpdateHandler
 
     /**
      * Get the time that the remote URL was last modified.
+     *
      * @return the time the remote URL was last modified
      * The result is given in the standard way, in the number of seconds
      * since January 1, 1970.
@@ -103,6 +107,7 @@ public class ExcludeListUpdateHandler
     /**
      * Determine if an update is available; this is determined by comparing
      * the last modified times of the remote URL and the local file.
+     *
      * @return true if the remote URL has been modified more recently
      * than the local file.
      * @throws IOException if there is a problem determining the result
@@ -117,6 +122,7 @@ public class ExcludeListUpdateHandler
 
     /**
      * Update the local file with the exclude list given by the remote URL.
+     *
      * @throws IOException if there is a problem reading the exclude list
      */
     public void update() throws IOException {
@@ -126,6 +132,7 @@ public class ExcludeListUpdateHandler
     /**
      * Update the local file if the remote URL has been modified more
      * recently than the local file.
+     *
      * @throws IOException if there is a problem reading the exclude list
      */
     public void updateIfNewer() throws IOException {

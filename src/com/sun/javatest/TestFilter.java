@@ -30,7 +30,7 @@ import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * A filter interface for TestDescriptions.
- *
+ * <p>
  * Implementations of this class <b>should</b> implement the <code>equals()</code>
  * and <code>hashCode()</code> as per the spec in java.lang.Object.  This is used
  * by the harness for file equality purposes which looking for changes and
@@ -38,17 +38,16 @@ import com.sun.javatest.util.I18NResourceBundle;
  *
  * @see TestDescription
  */
-public abstract class TestFilter
-{
+public abstract class TestFilter {
     /**
      * This exception is to report problems that occur while filtering tests.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         public Fault(I18NResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -56,10 +55,11 @@ public abstract class TestFilter
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(I18NResourceBundle i18n, String s, Object o) {
             super(i18n.getString(s, o));
@@ -67,10 +67,11 @@ public abstract class TestFilter
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
@@ -83,7 +84,8 @@ public abstract class TestFilter
     public interface Observer {
         /**
          * Notification methodcalled when a test has been rejected.
-         * @param d The test that has been rejected.
+         *
+         * @param d        The test that has been rejected.
          * @param rejector The filter rejecting the test.
          */
         void rejected(TestDescription d, TestFilter rejector);
@@ -92,6 +94,7 @@ public abstract class TestFilter
     /**
      * Get the name of this filter, as might be used to choose of of a set
      * of filters.  This string should be localized.
+     *
      * @return the name of this filter
      */
     public abstract String getName();
@@ -100,6 +103,7 @@ public abstract class TestFilter
      * Get a description of this filter, as might be used to give more details
      * about this filter than provided by {@link #getName}.  This string should
      * be localized.
+     *
      * @return a description of this filter
      */
     public abstract String getDescription();
@@ -107,6 +111,7 @@ public abstract class TestFilter
     /**
      * Get the reason why this filter would reject a test, as might be used
      * in reports.  This string should be localized.
+     *
      * @return a rejection reason for this filter
      */
     public abstract String getReason();
@@ -115,10 +120,10 @@ public abstract class TestFilter
      * Determines whether a TestDescription should be accepted or rejected
      * by this filter.
      *
-     * @param td        the TestDescription to check
+     * @param td the TestDescription to check
      * @return true if td should be included in collection; false otherwise.
      * @throws TestFilter.Fault if an error occurs while trying to determine if this test
-     * should be accepted or not.
+     *                          should be accepted or not.
      */
     public abstract boolean accepts(TestDescription td) throws Fault;
 
@@ -130,12 +135,12 @@ public abstract class TestFilter
      * Determines whether a TestDescription should be accepted or rejected
      * by this filter; if rejected, it is reported to the provided observer.
      *
-     * @param td        The TestDescription to check.
-     * @param o         An observer, which will be notified if the test is
-     *                  rejected by this filter.
+     * @param td The TestDescription to check.
+     * @param o  An observer, which will be notified if the test is
+     *           rejected by this filter.
      * @return true if td should be included in collection; false otherwise.
      * @throws TestFilter.Fault if an error occurs while trying to determine if this test
-     * should be accepted or not.
+     *                          should be accepted or not.
      */
     public boolean accepts(TestDescription td, Observer o) throws Fault {
         if (accepts(td))

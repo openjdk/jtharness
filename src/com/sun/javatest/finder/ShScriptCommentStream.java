@@ -29,16 +29,15 @@ package com.sun.javatest.finder;
 import java.io.IOException;
 
 /**
-  * This class extracts all ASCII characters within standard shell script
-  * comments.  A shell comment begins with a "#" and ends at the end of a line.
-  * A single comment is regarded as a continuous set of lines that begin with
-  * "#".  All leading "#: characters and any preceding blanks or tabs are
-  * ignored.
-  *
-  * @see CommentStream
-  */
-public class ShScriptCommentStream extends CommentStream
-{
+ * This class extracts all ASCII characters within standard shell script
+ * comments.  A shell comment begins with a "#" and ends at the end of a line.
+ * A single comment is regarded as a continuous set of lines that begin with
+ * "#".  All leading "#: characters and any preceding blanks or tabs are
+ * ignored.
+ *
+ * @see CommentStream
+ */
+public class ShScriptCommentStream extends CommentStream {
     @Override
     public String readComment() throws IOException {
         String comment, line;
@@ -70,7 +69,7 @@ public class ShScriptCommentStream extends CommentStream
             char c = lineArray[pos];
             if (c == '#')
                 isLineComment = true;
-            else if ((c != ' ' ) && (c != '\t') && (c != '\f'))
+            else if ((c != ' ') && (c != '\t') && (c != '\f'))
                 break;
         }
         if (!isLineComment)

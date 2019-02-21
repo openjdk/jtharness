@@ -40,12 +40,10 @@ import com.sun.javatest.util.I18NResourceBundle;
  * for creating threads for each test, running the <code>Script</code>,
  * and handling timeouts.
  */
-public class DefaultTestRunner extends TestRunner
-{
+public class DefaultTestRunner extends TestRunner {
     @Override
     public synchronized boolean runTests(Iterator<TestDescription> testIter)
-        throws InterruptedException
-    {
+            throws InterruptedException {
         this.testIter = testIter;
 
         Thread[] threads = new Thread[getConcurrency()];
@@ -60,22 +58,21 @@ public class DefaultTestRunner extends TestRunner
                     if (t == null || !activeThreads.contains(t)) {
                         int prio = Math.max(Thread.MIN_PRIORITY, Thread.currentThread().getPriority() - 1);
                         t = new Thread() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        TestDescription td;
-                                        while ((td = nextTest()) != null) {
-                                            if (!runTest(td))
-                                                allPassed = false;
-                                        }
+                            @Override
+                            public void run() {
+                                try {
+                                    TestDescription td;
+                                    while ((td = nextTest()) != null) {
+                                        if (!runTest(td))
+                                            allPassed = false;
                                     }
-                                    finally {
-                                        // Inform runner this thread is dying, so it can start another thread
-                                        // to replace it, if necessary.
-                                        threadExiting(this);
-                                    }
+                                } finally {
+                                    // Inform runner this thread is dying, so it can start another thread
+                                    // to replace it, if necessary.
+                                    threadExiting(this);
                                 }
-                            };
+                            }
+                        };
                         t.setName("DefaultTestRunner:Worker-" + i + ":" + n++);
                         t.start();
                         t.setPriority(prio);
@@ -96,8 +93,7 @@ public class DefaultTestRunner extends TestRunner
                     threads[i] = null;
                 }
             }
-        }
-        catch (InterruptedException ex) {
+        } catch (InterruptedException ex) {
             // The thread has been interrupted
 
             stopping = true;    // stop workers from starting any new tests
@@ -114,14 +110,12 @@ public class DefaultTestRunner extends TestRunner
                 while (!activeThreads.isEmpty() && (System.currentTimeMillis() - now < 2000)) {
                     wait(100);
                 }
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
             }
 
             // rethrow the original exception so the caller knows what's happened
             throw ex;
-        }
-        finally {
+        } finally {
             // ensure all child threads killed
             for (Thread thread : threads) {
                 if (thread != null)
@@ -173,23 +167,20 @@ public class DefaultTestRunner extends TestRunner
             result = s.getTestResult();
 
             s.run();
-        }
-        catch (ThreadDeath e) {
+        } catch (ThreadDeath e) {
             String url = td.getRootRelativeURL();
             workDir.log(i18n, "dtr.threadKilled", url);
             result = createErrorResult(td, i18n.getString("dtr.threadKilled", url), e);
             throw e;
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             String url = td.getRootRelativeURL();
             workDir.log(i18n, "dtr.unexpectedThrowable",
                     url, e, classifyThrowable(e));
             result = createErrorResult(td,
-                                       i18n.getString("dtr.unexpectedThrowable",
-                                               url, e, classifyThrowable(e)),
-                                       e);
-        }
-        finally {
+                    i18n.getString("dtr.unexpectedThrowable",
+                            url, e, classifyThrowable(e)),
+                    e);
+        } finally {
             if (result == null) {
                 String url = td.getRootRelativeURL();
                 result = createErrorResult(td, i18n.getString("dtr.noResult", url), null);
@@ -198,13 +189,11 @@ public class DefaultTestRunner extends TestRunner
             if (!scriptUsesNotifier) {
                 try {
                     notifyFinishedTest(result);
-                }
-                catch (ThreadDeath e) {
+                } catch (ThreadDeath e) {
                     String url = td.getRootRelativeURL();
                     workDir.log(i18n, "dtr.threadKilled", url);
                     throw e;
-                }
-                catch (Throwable e) {
+                } catch (Throwable e) {
                     String url = td.getRootRelativeURL();
                     workDir.log(i18n, "dtr.unexpectedThrowable", url, e, classifyThrowable(e));
                 }
@@ -232,8 +221,7 @@ public class DefaultTestRunner extends TestRunner
         BackupPolicy backupPolicy = getBackupPolicy();
         try {
             tr.writeResults(workDir, backupPolicy);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             workDir.log(i18n, "dtr.unexpectedThrowable",
                     td.getRootRelativeURL(), e, EXCEPTION);
         }

@@ -27,6 +27,7 @@
 package com.sun.javatest.report;
 
 import com.sun.javatest.Status;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -38,6 +39,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
+
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -53,7 +55,7 @@ public class XMLReportMaker {
         Properties outputProps = new Properties();
         outputProps.put("indent", "yes");
         outputProps.put("encoding", XML_CHARSET);
-        SAXTransformerFactory stf = (SAXTransformerFactory )TransformerFactory.newInstance();
+        SAXTransformerFactory stf = (SAXTransformerFactory) TransformerFactory.newInstance();
         stf.setAttribute("indent-number", 4);
         try {
             ser = stf.newTransformerHandler();
@@ -117,14 +119,14 @@ public class XMLReportMaker {
         eE(Scheme.ENV);
     }
 
-    void conCur(int val) throws SAXException  {
+    void conCur(int val) throws SAXException {
         sE(Scheme.CONC);
         String sVal = Integer.toString(val);
         ser.characters(sVal.toCharArray(), 0, sVal.length());
         eE(Scheme.CONC);
     }
 
-    void timeOut(float val) throws SAXException  {
+    void timeOut(float val) throws SAXException {
         sE(Scheme.TIMO);
         String sVal = Float.toString(val);
         ser.characters(sVal.toCharArray(), 0, sVal.length());
@@ -305,11 +307,11 @@ public class XMLReportMaker {
         eE(Scheme.CHOICE_QUEST);
     }
 
-    void sPropertiesQuestion()  throws SAXException {
+    void sPropertiesQuestion() throws SAXException {
         sE(Scheme.PROP_QUEST);
     }
 
-    void ePropertiesQuestion()  throws SAXException {
+    void ePropertiesQuestion() throws SAXException {
         eE(Scheme.PROP_QUEST);
     }
 
@@ -466,15 +468,15 @@ public class XMLReportMaker {
 
 
     private void sE(String name) throws SAXException {
-        ser.startElement("","",name, emptyAttr);
+        ser.startElement("", "", name, emptyAttr);
     }
 
     private void sE(String name, Attributes atts) throws SAXException {
-        ser.startElement("","",name, atts);
+        ser.startElement("", "", name, atts);
     }
 
     private void eE(String name) throws SAXException {
-        ser.endElement("","",name);
+        ser.endElement("", "", name);
     }
 
     public static void writeCDATA(LexicalHandler lh, ContentHandler ser, String cdata) throws SAXException {
@@ -484,13 +486,14 @@ public class XMLReportMaker {
         if (lh != null) {
             int start = 0;
             int end;
-            while ( start < cdata.length()) {
-                end = cdata.length(); int xpos = cdata.indexOf("]]>", start);
+            while (start < cdata.length()) {
+                end = cdata.length();
+                int xpos = cdata.indexOf("]]>", start);
                 if (xpos != -1) {
-                    end = xpos+1;
+                    end = xpos + 1;
                 }
                 lh.startCDATA();
-                String fragment= cdata.substring(start, end);
+                String fragment = cdata.substring(start, end);
                 ser.characters(fragment.toCharArray(), 0, fragment.length());
                 lh.endCDATA();
                 start = end;
@@ -500,7 +503,7 @@ public class XMLReportMaker {
 
     public static String convertProhibitedChars(String cdata) {
         StringBuilder sb = new StringBuilder();
-        char [] data = cdata.toCharArray();
+        char[] data = cdata.toCharArray();
         for (char aData : data) {
             if (prohibited(aData)) {
                 sb.append("\\u");
@@ -543,7 +546,7 @@ public class XMLReportMaker {
         private static final String TR = "TestResult";
         private static final String INT = "Interview";
         private static final String Q = "Question";
-        private static final String DESCR_DATA ="DescriptionData";
+        private static final String DESCR_DATA = "DescriptionData";
         private static final String KEY_WORDS = "Keywords";
         private static final String TEST_ENV = "TestEnvironment";
         private static final String RES_PROP = "ResultProperties";

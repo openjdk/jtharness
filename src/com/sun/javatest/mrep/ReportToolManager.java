@@ -63,7 +63,7 @@ public class ReportToolManager extends ToolManager {
                 startTool();
             }
         };
-        return new Action[] { a };
+        return new Action[]{a};
     }
 
     @Override
@@ -72,22 +72,25 @@ public class ReportToolManager extends ToolManager {
         t.restore(m);
         return t;
     }
+
     ReportTool getTool() {
         if (tool == null) {
             tool = new ReportTool(this, getDesktop());
             tool.addObserver(new Tool.Observer() {
-                    @Override
-                    public void shortTitleChanged(Tool t, String newValue) { }
+                @Override
+                public void shortTitleChanged(Tool t, String newValue) {
+                }
 
-                    @Override
-                    public void titleChanged(Tool t, String newValue) { }
+                @Override
+                public void titleChanged(Tool t, String newValue) {
+                }
 
-                    @Override
-                    public void toolDisposed(Tool t) {
-                        if (t == tool)
-                            tool = null;
-                    }
-                });
+                @Override
+                public void toolDisposed(Tool t) {
+                    if (t == tool)
+                        tool = null;
+                }
+            });
         }
 
         return tool;

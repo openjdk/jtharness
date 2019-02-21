@@ -27,6 +27,7 @@
 package com.sun.javatest.httpd;
 
 import com.sun.javatest.agent.SocketConnection;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -49,8 +50,7 @@ public class HttpdServer implements Runnable {
         try {
             init();
             HttpdServer.setActive();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             //e.printStackTrace();
             throw new IllegalStateException(i18n.getString("server.cantInit"));
         }
@@ -68,8 +68,7 @@ public class HttpdServer implements Runnable {
 
                 if (debug) System.out.println("httpd-Starting thread for connection ");
                 thr.start();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 System.out.println(i18n.getString("server.errorInAccept"));
                 e.printStackTrace(System.out);
                 // abort server?
@@ -109,8 +108,8 @@ public class HttpdServer implements Runnable {
     }
 
     /**
-     * @exception IOException May be thrown if an error occurs when attempting
-     *                            to create the Socket.
+     * @throws IOException May be thrown if an error occurs when attempting
+     *                     to create the Socket.
      */
     private void init() throws IOException {
         if (debug) System.out.println("Initializing JT Harness HTTP Server");
@@ -125,7 +124,7 @@ public class HttpdServer implements Runnable {
 
                 // success!
                 System.out.println(i18n.getString("server.port",
-                                                  String.valueOf(socket.getLocalPort())));
+                        String.valueOf(socket.getLocalPort())));
 
                 StringBuffer buf = new StringBuffer("http://");
                 buf.append(InetAddress.getLocalHost().getHostAddress());
@@ -144,8 +143,7 @@ public class HttpdServer implements Runnable {
                 else {
                     System.out.println(i18n.getString("server.portBusy", Integer.valueOf(i)));
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 System.out.println(i18n.getString("server.errorInInit"));
                 throw e;
             }   // catch

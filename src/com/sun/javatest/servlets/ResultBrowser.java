@@ -37,6 +37,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.sun.javatest.Status;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestResult;
@@ -45,7 +46,7 @@ import com.sun.javatest.util.StringArray;
 public class ResultBrowser extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res)
-                throws IOException {
+            throws IOException {
         String uri = req.getRequestURI();
         File file = new File(req.getRealPath(uri));
 
@@ -57,12 +58,11 @@ public class ResultBrowser extends HttpServlet {
         TestResult tr;
         try {
             tr = new TestResult(file);
-        }
-        catch (TestResult.Fault e) {
+        } catch (TestResult.Fault e) {
             String msg =
-                "File does not appear to be a valid test result file. " +
-                "The following exception was received while trying to open it: " +
-                e.getLocalizedMessage();
+                    "File does not appear to be a valid test result file. " +
+                            "The following exception was received while trying to open it: " +
+                            e.getLocalizedMessage();
             res.sendError(HttpServletResponse.SC_NOT_FOUND, msg);
             return;
         }
@@ -79,19 +79,18 @@ public class ResultBrowser extends HttpServlet {
         try {
             TestDescription td = tr.getDescription();
             out.println("<h1>Test Results: " + td.getRootRelativeURL() + "</h1>");
-        }
-        catch (TestResult.Fault e) {
+        } catch (TestResult.Fault e) {
             out.println("<h1>(Unknown test)</h1>");
         }
 
         String[] colors = {"lime", "red", "yellow", "aqua", null};
-                // color names are per HTML 3.2 specification; see http://www.w3.org/TR/REC-html32.html
+        // color names are per HTML 3.2 specification; see http://www.w3.org/TR/REC-html32.html
         String[] outcomes = {"Passed", "Failed", "Check output", "Error", "Not run"};
         Status status = tr.getStatus();
         String color = colors[status.getType()];
         String outcome = outcomes[status.getType()];
-        out.println("<table cellpadding=5><tr><td" + (color != null ? " bgcolor=" + color : "") +">" +
-                    "<b>" + outcome + "</b><td><b>" + status.getReason() + "</b></table>");
+        out.println("<table cellpadding=5><tr><td" + (color != null ? " bgcolor=" + color : "") + ">" +
+                "<b>" + outcome + "</b><td><b>" + status.getReason() + "</b></table>");
 
         out.println("<ul>");
         out.println("<li><a href=\"#td\">Test Description properties</a>");
@@ -103,8 +102,7 @@ public class ResultBrowser extends HttpServlet {
             try {
                 TestResult.Section s = tr.getSection(i);
                 out.println("<li><a href=\"#output-" + s.getTitle() + "\">" + s.getTitle() + "</a>");
-            }
-            catch (TestResult.Fault f) {
+            } catch (TestResult.Fault f) {
                 out.println("The following exception occurred while trying to determine the test description: " + f.getLocalizedMessage());
             }
         }
@@ -136,13 +134,11 @@ public class ResultBrowser extends HttpServlet {
                                 out.println("<a href=\"" + tdDir + src + "\">" + src + "</a>");
                         }
                     }
-                }
-                else
+                } else
                     out.println("<tr><td align=top>" + key + "<td>" + filter(value, true));
             }
             out.println("</table>");
-        }
-        catch (TestResult.Fault e) {
+        } catch (TestResult.Fault e) {
             out.println("The following exception occurred while trying to determine the test description: " + e.getLocalizedMessage());
         }
         out.println("<p><hr>");
@@ -155,11 +151,9 @@ public class ResultBrowser extends HttpServlet {
                 String key = e.nextElement();
                 out.println("<tr><td>" + key + "<td>" + filter(tr.getProperty(key), true));
             }
-        }
-        catch (TestResult.Fault e) {
+        } catch (TestResult.Fault e) {
             out.println("The following exception occurred while trying to determine the test result properties: " + e.getLocalizedMessage());
-        }
-        finally {
+        } finally {
             out.println("</table>");
         }
         out.println("<p><hr>");
@@ -170,8 +164,7 @@ public class ResultBrowser extends HttpServlet {
             Map<String, String> env = tr.getEnvironment();
             if (env.isEmpty()) {
                 out.println("<tr><td>No environment details found");
-            }
-            else {
+            } else {
                 out.println("<table>");
                 for (Map.Entry<String, String> e : env.entrySet()) {
                     String key = e.getKey();
@@ -180,8 +173,7 @@ public class ResultBrowser extends HttpServlet {
                 }
                 out.println("</table>");
             }
-        }
-        catch (TestResult.Fault e) {
+        } catch (TestResult.Fault e) {
             out.println("The following exception occurred while trying to determine the test environment: " + e.getLocalizedMessage());
         }
         out.println("<p><hr>");
@@ -234,19 +226,19 @@ public class ResultBrowser extends HttpServlet {
             for (int i = 0; i < s.length(); i++) {
                 char c;
                 switch (c = s.charAt(i)) {
-                case '<':
-                    sb.append("&lt;");
-                    break;
-                case '>':
-                    sb.append("&gt;");
-                    break;
-                case '\n':
-                    if (newlines)
-                        sb.append("<br>");
-                    sb.append(c);
-                    break;
-                default:
-                    sb.append(c);
+                    case '<':
+                        sb.append("&lt;");
+                        break;
+                    case '>':
+                        sb.append("&gt;");
+                        break;
+                    case '\n':
+                        if (newlines)
+                            sb.append("<br>");
+                        sb.append(c);
+                        break;
+                    default:
+                        sb.append(c);
                 }
             }
             return sb.toString();

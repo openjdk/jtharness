@@ -38,13 +38,14 @@ import javax.swing.SwingUtilities;
 
 /**
  * This link type opens in external browser if current OS supports awt.Desktop
- *
+ * <p>
  * usage:
  * <object classid="java:com.sun.javatest.tool.HelpExternalLink">
  * <param name="text" value=...>
  * <param name="target" value="http://...">
  * </object>
  * note that the protocol should be specified in the URL path (e.g. value="http://www.google.com")
+ *
  * @see HelpLink
  */
 public class HelpExternalLink extends HelpLink {
@@ -77,8 +78,8 @@ public class HelpExternalLink extends HelpLink {
                     openURL.invoke(null, url);
                 } else {
                     String[] commands = {
-                        // xdg-open is used on some linux systems to open files types in default applications
-                        "xdg-open", "firefox", "opera", "konqueror", "epiphany", "mozilla", "netscape"};
+                            // xdg-open is used on some linux systems to open files types in default applications
+                            "xdg-open", "firefox", "opera", "konqueror", "epiphany", "mozilla", "netscape"};
                     String resultCommand = null;
                     for (int i = 0; i < commands.length && resultCommand == null; i++) {
                         Process process = Runtime.getRuntime().exec(new String[]{"which", commands[i]});
@@ -88,13 +89,13 @@ public class HelpExternalLink extends HelpLink {
                         int time = 0;
                         int exitValue = -1;
                         // don't want to catch a lock - waiting 10 seconds for result
-                        while(true) {
+                        while (true) {
                             try {
                                 exitValue = process.exitValue();
                                 break;
-                            } catch(IllegalThreadStateException e) {
+                            } catch (IllegalThreadStateException e) {
                             }
-                            if(time >= 10000) {
+                            if (time >= 10000) {
                                 process.destroy();
                                 break;
                             }
@@ -104,13 +105,13 @@ public class HelpExternalLink extends HelpLink {
 
                         String result = in.readLine();
                         // can't just check exitValue - "which" command works in other way in Solaris
-                        if(result.startsWith("/") && result.endsWith(commands[i]) && exitValue == 0)
+                        if (result.startsWith("/") && result.endsWith(commands[i]) && exitValue == 0)
                             resultCommand = commands[i];
                     }
-                    if(resultCommand == null)
+                    if (resultCommand == null)
                         return false;
                     // starting browser
-                    Runtime.getRuntime().exec(new String[] {resultCommand, url});
+                    Runtime.getRuntime().exec(new String[]{resultCommand, url});
                 }
             }
         } catch (Exception e) {

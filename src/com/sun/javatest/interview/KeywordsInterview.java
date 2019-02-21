@@ -51,17 +51,16 @@ import com.sun.javatest.util.StringArray;
  * a test run.
  */
 public class KeywordsInterview
-    extends Interview
-    implements Parameters.MutableKeywordsParameters
-{
+        extends Interview
+        implements Parameters.MutableKeywordsParameters {
     /**
      * Create an interview.
+     *
      * @param parent The parent interview of which this is a child.
      * @throws Interview.Fault if there is a problem while creating the interview.
      */
     public KeywordsInterview(InterviewParameters parent)
-        throws Interview.Fault
-    {
+            throws Interview.Fault {
         super(parent, "keywords");
         this.parent = parent;
         setResourceBundle("i18n");
@@ -79,6 +78,7 @@ public class KeywordsInterview
 
     /**
      * Get a Keywords object based on the information in the interview.
+     *
      * @return A Keywords object based on the information in the interview.
      * @see #setKeywords
      */
@@ -87,8 +87,7 @@ public class KeywordsInterview
         if (Objects.equals(qNeedKeywords.getValue(), YesNoQuestion.YES)) {
             updateCachedKeywordsData();
             return cachedKeywords;
-        }
-        else
+        } else
             return null;
     }
 
@@ -131,14 +130,14 @@ public class KeywordsInterview
 
     /**
      * Get a test filter based on the keyword expression in the interview.
+     *
      * @return a test filter based on the keyword expression in the interview.
      */
     public TestFilter getKeywordFilter() {
         if (Objects.equals(qNeedKeywords.getValue(), YesNoQuestion.YES)) {
             updateCachedKeywordsData();
             return cachedKeywordsFilter;
-        }
-        else
+        } else
             return null;
     }
 
@@ -162,8 +161,7 @@ public class KeywordsInterview
     //
     // Keywords
 
-    private static abstract class KeywordsQuestion extends StringQuestion
-    {
+    private static abstract class KeywordsQuestion extends StringQuestion {
         KeywordsQuestion(Interview i, String t) {
             super(i, t);
         }
@@ -179,22 +177,22 @@ public class KeywordsInterview
         public void setValue(int m, String v) {
             //System.err.println("KI: m=" + m + " v=" + v);
             switch (m) {
-            case ANY_OF:
-                mode = ANY_OF;
-                modeValue = v;
-                super.setValue(termsToExpr(v, " | "));
-                break;
+                case ANY_OF:
+                    mode = ANY_OF;
+                    modeValue = v;
+                    super.setValue(termsToExpr(v, " | "));
+                    break;
 
-            case ALL_OF:
-                mode = ALL_OF;
-                modeValue = v;
-                super.setValue(termsToExpr(v, " & "));
-                break;
+                case ALL_OF:
+                    mode = ALL_OF;
+                    modeValue = v;
+                    super.setValue(termsToExpr(v, " & "));
+                    break;
 
-            default:
-                mode = EXPR;
-                modeValue = v;
-                super.setValue(v == null || v.isEmpty() ? null : v);
+                default:
+                    mode = EXPR;
+                    modeValue = v;
+                    super.setValue(v == null || v.isEmpty() ? null : v);
             }
         }
 
@@ -293,14 +291,13 @@ public class KeywordsInterview
 
                 int mode = qKeywords.getMode();
                 String modeName = mode == ANY_OF ? Keywords.ANY_OF
-                                   : mode == ALL_OF ? Keywords.ALL_OF
-                                   : Keywords.EXPR;
+                        : mode == ALL_OF ? Keywords.ALL_OF
+                        : Keywords.EXPR;
                 Keywords k = Keywords.create(modeName, qKeywords.getModeValue(), validKeywordsSet);
                 cachedKeywords = k;
                 cachedKeywordsFilter = new KeywordsFilter(k);
                 cachedKeywordsError = null;
-            }
-            catch (Keywords.Fault e) {
+            } catch (Keywords.Fault e) {
                 cachedKeywords = null;
                 cachedKeywordsFilter = null;
                 cachedKeywordsError = e.getMessage();

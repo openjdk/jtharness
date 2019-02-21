@@ -28,6 +28,7 @@ package com.sun.javatest.interview;
 
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
+
 import com.sun.interview.FinalQuestion;
 import com.sun.interview.NullQuestion;
 import com.sun.interview.StringQuestion;
@@ -46,18 +47,17 @@ import java.io.File;
  * interviews for all the various interview sections, except the environment
  * section, which remains to be implemented by subtypes.
  */
-public abstract class BasicInterviewParameters extends InterviewParameters
-{
+public abstract class BasicInterviewParameters extends InterviewParameters {
     /**
      * Create a BasicInterviewParameters object.
      * The test suite for which this interview applies should be set
      * with setTestSuite.
+     *
      * @param tag the tag used to qualify questions in this interview
      * @throws com.sun.interview.Interview.Fault if there is a problem creating this object
      */
     protected BasicInterviewParameters(String tag)
-        throws Fault
-    {
+            throws Fault {
         super(tag);
         // leave this to the subtype to decide whether to provide or not
         //setHelpSet("/com/sun/javatest/moreInfo/moreInfo.hs");
@@ -75,13 +75,13 @@ public abstract class BasicInterviewParameters extends InterviewParameters
 
     /**
      * Create a BasicInterviewParameters object.
+     *
      * @param tag the tag used to qualify questions in this interview
-     * @param ts The test suite to which this interview applies.
+     * @param ts  The test suite to which this interview applies.
      * @throws com.sun.interview.Interview.Fault if there is a problem creating this object
      */
     protected BasicInterviewParameters(String tag, TestSuite ts)
-        throws Fault
-    {
+            throws Fault {
         this(tag);
         setTestSuite(ts);
     }
@@ -112,12 +112,13 @@ public abstract class BasicInterviewParameters extends InterviewParameters
     /**
      * creation of {#link TestsInterview} is extracted into separate class
      * to enable 'hooks' and return {#link TestsInterview} sub class
+     *
      * @param parent
      * @return instance of {#link TestsInterview}
      * @throws com.sun.interview.Interview.Fault
      */
     protected TestsInterview createTestsInterview(InterviewParameters parent)
-            throws InterviewParameters.Fault{
+            throws InterviewParameters.Fault {
         return new TestsInterview(parent);
     }
 
@@ -128,8 +129,9 @@ public abstract class BasicInterviewParameters extends InterviewParameters
      * of the EnvParameters interview to get the name and description.
      * If the standard prolog is bypassed by using setFirstQuestion,
      * this method has no effect.
+     *
      * @param on if true, questions will be included in the standard
-     * prolog to get a name and description for this configuration.
+     *           prolog to get a name and description for this configuration.
      * @see #isNameAndDescriptionInPrologEnabled
      */
     public void setNameAndDescriptionInPrologEnabled(boolean on) {
@@ -148,6 +150,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
      * prolog to get a name and description for this configuration.
      * If these standard questions are not used, it is the responsibility
      * of the EnvParameters interview to get the name and description.
+     *
      * @return true if the standard questions should be included,
      * and false otherwise.
      * @see #setNameAndDescriptionInPrologEnabled
@@ -161,6 +164,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
      * If the standard question for the name has been included in the prolog,
      * it will be used to get the result; otherwise the default
      * implementation to get the name from the environment will be used.
+     *
      * @return the name for this configuration, or null if not known
      * @see #setNameAndDescriptionInPrologEnabled
      */
@@ -168,8 +172,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
     public String getName() {
         if (nameAndDescriptionInPrologEnabled) {
             return qName.getValue();
-        }
-        else {
+        } else {
             return super.getName();
         }
     }
@@ -179,14 +182,14 @@ public abstract class BasicInterviewParameters extends InterviewParameters
      * If the standard question for the description has been included in the prolog,
      * it will be used to get the result; otherwise the default
      * implementation to get the description from the environment will be used.
+     *
      * @return a description for this configuration, or null if not known
      */
     @Override
     public String getDescription() {
         if (nameAndDescriptionInPrologEnabled) {
             return qDescription.getValue();
-        }
-        else {
+        } else {
             return super.getDescription();
         }
     }
@@ -199,11 +202,12 @@ public abstract class BasicInterviewParameters extends InterviewParameters
 
     /**
      * Set the test suite for the test run. The test suite may only be set once.
+     *
      * @param ts the test suite to be set.
-     * @see #getTestSuite
-     * @throws NullPointerException if ts is null
+     * @throws NullPointerException  if ts is null
      * @throws IllegalStateException if the test suite has already been set to
-     * something different
+     *                               something different
+     * @see #getTestSuite
      */
     @Override
     public void setTestSuite(TestSuite ts) {
@@ -229,11 +233,12 @@ public abstract class BasicInterviewParameters extends InterviewParameters
      * If the test suite has already been set, it must exactly match the test suite
      * for the work directory; if the test suite has not yet been set, it will
      * be set to the test suite for this work directory.
+     *
      * @param wd the work directory to be set.
-     * @see #getWorkDirectory
-     * @throws NullPointerException if wd is null
+     * @throws NullPointerException  if wd is null
      * @throws IllegalStateException if the work directory has already been set to
-     * something different
+     *                               something different
+     * @see #getWorkDirectory
      */
     @Override
     public void setWorkDirectory(WorkDirectory wd) {
@@ -293,9 +298,10 @@ public abstract class BasicInterviewParameters extends InterviewParameters
      * Get the combined known failures list - a calculated combination of
      * all the input KFL files which were specified.  The value returned need
      * not be generated from a real file though, it can be software generated.
+     *
      * @return The effective known failed list, possibly combined from many
-     *    physical files.  Null if there was a problem creating it or if there
-     *    are no lists (files) available.
+     * physical files.  Null if there was a problem creating it or if there
+     * are no lists (files) available.
      */
     @Override
     public KnownFailuresList getKnownFailuresList() {
@@ -329,8 +335,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
         String[] kw = ts == null ? null : ts.getKeywords();
         if (kw == null || kw.length > 0) {
             return callInterview(iKeywords, getKeywordsSuccessorQuestion());
-        }
-        else {
+        } else {
             return getKeywordsSuccessorQuestion();
         }
     }
@@ -361,8 +366,9 @@ public abstract class BasicInterviewParameters extends InterviewParameters
 
     /**
      * Discover the maximum allowable concurrency value that should be accepted.
+     *
      * @return The maximum allowable concurrency value that should be accepted
-     *     by the interview.
+     * by the interview.
      * @see com.sun.javatest.Parameters.ConcurrencyParameters#MAX_CONCURRENCY
      */
     protected int getMaxConcurrency() {
@@ -400,8 +406,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
         // otherwise, default to using the bundle for this class
         try {
             return i18n.getString(key);
-        }
-        catch (MissingResourceException e) {
+        } catch (MissingResourceException e) {
             return key;
         }
     }
@@ -425,102 +430,102 @@ public abstract class BasicInterviewParameters extends InterviewParameters
 
     private NullQuestion qProlog = new NullQuestion(this, "prolog") {
         @Override
+        public Question getNext() {
+            if (nameAndDescriptionInPrologEnabled) {
+                return qName;
+            } else {
+                return getPrologSuccessorQuestion();
+            }
+        }
+
+        @Override
+        public Object getHelpID() {
+            Object id = super.getHelpID();
+            if (id == null) {
+                id = getHelpIDX("BasicInterviewParameters.prolog");
+                setHelpID(id);
+            }
+            return id;
+
+        }
+
+        @Override
+        public String getSummary() {
+            if (summary == null) {
+                summary = getResourceStringX("BasicInterviewParameters.prolog.smry");
+            }
+            return summary;
+        }
+
+        @Override
+        public String getText() {
+            if (text == null) {
+                text = getResourceStringX("BasicInterviewParameters.prolog.text");
+            }
+            return MessageFormat.format(text, getTextArgs());
+        }
+
+        @Override
+        public Object[] getTextArgs() {
+            String name = testSuite == null ? null : testSuite.getName();
+            return new Object[]{Integer.valueOf(name == null ? 0 : 1), name};
+        }
+
+        private Object helpID;
+        private String summary;
+        private String text;
+    };
+
+    private StringQuestion qName;
+
+    private void initNameQuestion() {
+        qName = new StringQuestion(this, "name") {
+            @Override
+            public boolean isValueValid() {
+                return isValidIdentifier(value);
+            }
+
+            @Override
             public Question getNext() {
-                if (nameAndDescriptionInPrologEnabled) {
-                    return qName;
-                }
-                else {
-                    return getPrologSuccessorQuestion();
-                }
+                return qDescription;
             }
 
             @Override
             public Object getHelpID() {
                 Object id = super.getHelpID();
                 if (id == null) {
-                    id = getHelpIDX("BasicInterviewParameters.prolog");
+                    id = getHelpIDX("BasicInterviewParameters.name");
                     setHelpID(id);
                 }
                 return id;
-
             }
 
-        @Override
+            @Override
             public String getSummary() {
                 if (summary == null) {
-                    summary = getResourceStringX("BasicInterviewParameters.prolog.smry");
+                    summary = getResourceStringX("BasicInterviewParameters.name.smry");
                 }
                 return summary;
             }
 
-        @Override
+            @Override
             public String getText() {
                 if (text == null) {
-                    text = getResourceStringX("BasicInterviewParameters.prolog.text");
+                    text = getResourceStringX("BasicInterviewParameters.name.text");
                 }
                 return MessageFormat.format(text, getTextArgs());
             }
 
-        @Override
+            @Override
             public Object[] getTextArgs() {
                 String name = testSuite == null ? null : testSuite.getName();
-                return new Object[] {Integer.valueOf(name == null ? 0 : 1), name };
+                return new Object[]{Integer.valueOf(name == null ? 0 : 1), name};
             }
 
             private Object helpID;
             private String summary;
             private String text;
         };
-
-    private StringQuestion qName;
-    private void initNameQuestion() {
-        qName = new StringQuestion(this, "name") {
-            @Override
-                public boolean isValueValid() {
-                    return isValidIdentifier(value);
-                }
-
-            @Override
-                public Question getNext() {
-                    return qDescription;
-                }
-
-                @Override
-                public Object getHelpID() {
-                    Object id = super.getHelpID();
-                    if (id == null) {
-                        id = getHelpIDX("BasicInterviewParameters.name");
-                        setHelpID(id);
-                    }
-                    return id;
-                }
-
-            @Override
-                public String getSummary() {
-                    if (summary == null) {
-                        summary = getResourceStringX("BasicInterviewParameters.name.smry");
-                    }
-                    return summary;
-                }
-
-            @Override
-                public String getText() {
-                    if (text == null) {
-                        text = getResourceStringX("BasicInterviewParameters.name.text");
-                    }
-                    return MessageFormat.format(text, getTextArgs());
-                }
-
-            @Override
-                public Object[] getTextArgs() {
-                    String name = testSuite == null ? null : testSuite.getName();
-                    return new Object[] {Integer.valueOf(name == null ? 0 : 1), name };
-                }
-
-                private Object helpID;
-                private String summary;
-                private String text;
-            };
     }
 
     private static boolean isValidIdentifier(String name) {
@@ -536,7 +541,7 @@ public abstract class BasicInterviewParameters extends InterviewParameters
         // subsequent characters must be a letter or digit or _
         for (int i = 1; i < name.length(); i++) {
             char c = name.charAt(i);
-            if ( !Character.isLetterOrDigit(c) && c != '_') {
+            if (!Character.isLetterOrDigit(c) && c != '_') {
                 return false;
             }
         }
@@ -546,88 +551,89 @@ public abstract class BasicInterviewParameters extends InterviewParameters
     }
 
     private StringQuestion qDescription;
+
     private void initDescriptionQuestion() {
         qDescription = new StringQuestion(this, "description") {
             @Override
-                public boolean isValueValid() {
-                    return value != null && !value.isEmpty();
-                }
+            public boolean isValueValid() {
+                return value != null && !value.isEmpty();
+            }
 
             @Override
-                public Question getNext() {
-                    return getPrologSuccessorQuestion();
-                }
-
-                @Override
-                public Object getHelpID() {
-                    Object id = super.getHelpID();
-                    if (id == null) {
-                        id = getHelpIDX("BasicInterviewParameters.description");
-                        setHelpID(id);
-                    }
-                    return id;
-                }
-
-            @Override
-                public String getSummary() {
-                    if (summary == null) {
-                        summary = getResourceStringX("BasicInterviewParameters.description.smry");
-                    }
-                    return summary;
-                }
-
-            @Override
-                public String getText() {
-                    if (text == null) {
-                        text = getResourceStringX("BasicInterviewParameters.description.text");
-                    }
-                    return MessageFormat.format(text, getTextArgs());
-                }
-
-            @Override
-                public Object[] getTextArgs() {
-                    String name = testSuite == null ? null : testSuite.getName();
-                    return new Object[] {Integer.valueOf(name == null ? 0 : 1), name };
-                }
-
-                private Object helpID;
-                private String summary;
-                private String text;
-            };
-    }
-
-    private FinalQuestion qEpilog = new FinalQuestion(this, "epilog") {
+            public Question getNext() {
+                return getPrologSuccessorQuestion();
+            }
 
             @Override
             public Object getHelpID() {
                 Object id = super.getHelpID();
                 if (id == null) {
-                    id = getHelpIDX("BasicInterviewParameters.epilog");
+                    id = getHelpIDX("BasicInterviewParameters.description");
                     setHelpID(id);
                 }
                 return id;
             }
 
-        @Override
+            @Override
             public String getSummary() {
                 if (summary == null) {
-                    summary = getResourceStringX("BasicInterviewParameters.epilog.smry");
+                    summary = getResourceStringX("BasicInterviewParameters.description.smry");
                 }
                 return summary;
             }
 
-        @Override
+            @Override
             public String getText() {
                 if (text == null) {
-                    text = getResourceStringX("BasicInterviewParameters.epilog.text");
+                    text = getResourceStringX("BasicInterviewParameters.description.text");
                 }
                 return MessageFormat.format(text, getTextArgs());
+            }
+
+            @Override
+            public Object[] getTextArgs() {
+                String name = testSuite == null ? null : testSuite.getName();
+                return new Object[]{Integer.valueOf(name == null ? 0 : 1), name};
             }
 
             private Object helpID;
             private String summary;
             private String text;
         };
+    }
+
+    private FinalQuestion qEpilog = new FinalQuestion(this, "epilog") {
+
+        @Override
+        public Object getHelpID() {
+            Object id = super.getHelpID();
+            if (id == null) {
+                id = getHelpIDX("BasicInterviewParameters.epilog");
+                setHelpID(id);
+            }
+            return id;
+        }
+
+        @Override
+        public String getSummary() {
+            if (summary == null) {
+                summary = getResourceStringX("BasicInterviewParameters.epilog.smry");
+            }
+            return summary;
+        }
+
+        @Override
+        public String getText() {
+            if (text == null) {
+                text = getResourceStringX("BasicInterviewParameters.epilog.text");
+            }
+            return MessageFormat.format(text, getTextArgs());
+        }
+
+        private Object helpID;
+        private String summary;
+        private String text;
+    };
 
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(BasicInterviewParameters.class);
 }

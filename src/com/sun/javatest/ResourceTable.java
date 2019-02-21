@@ -31,8 +31,7 @@ import java.util.*;
 /**
  * A table providing simple named locks for arbitrary resources.
  */
-public class ResourceTable
-{
+public class ResourceTable {
     /**
      * Create a resource table.
      */
@@ -42,6 +41,7 @@ public class ResourceTable
 
     /**
      * Create a resource table of a specified size.
+     *
      * @param initialSize a hint as to the initial capacity to make the table
      */
     public ResourceTable(int initialSize) {
@@ -51,11 +51,12 @@ public class ResourceTable
     /**
      * Try to acquire a set of named locks. To avoid deadlocks, the
      * locks are acquired in a canonical order (alphabetical by name.)
+     *
      * @param resourceNames a list of names identifying locks to be acquired.
-     * @param timeout a maximum time, in milliseconds to ait for the locks to become available.
+     * @param timeout       a maximum time, in milliseconds to ait for the locks to become available.
      * @return true if and only if all the locks were successfully acquired
      * @throws InterruptedException is the method was interrupted while
-     * waiting for the locks to become available.
+     *                              waiting for the locks to become available.
      */
     public synchronized boolean acquire(String[] resourceNames, int timeout) throws InterruptedException {
         if (timeout <= 0)
@@ -92,8 +93,7 @@ public class ResourceTable
                 table.put(resourceName, Thread.currentThread());
             }
             return true;
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             release(resourceNames);
             throw e;
         }
@@ -103,6 +103,7 @@ public class ResourceTable
      * Release a set of previously acquired locks.
      * The named locks are only released if currently owned by the
      * same thread that acquired them.
+     *
      * @param resourceNames the names of the locks to be released
      */
     public synchronized void release(String... resourceNames) {

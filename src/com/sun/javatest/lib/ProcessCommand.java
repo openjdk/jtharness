@@ -48,13 +48,13 @@ import com.sun.javatest.util.StringArray;
 /**
  * A Command to execute an arbitrary OS command.
  **/
-public class ProcessCommand extends Command
-{
+public class ProcessCommand extends Command {
     /**
      * A stand-alone entry point for this command. An instance of this
      * command is created, and its <code>run</code> method invoked,
      * passing in the command line args and <code>System.out</code> and
      * <code>System.err</code> as the two streams.
+     *
      * @param args command line arguments for this command.
      * @see #run
      */
@@ -65,8 +65,7 @@ public class ProcessCommand extends Command
         try {
             Command cmd = new ProcessCommand();
             s = cmd.run(args, log, ref);
-        }
-        finally {
+        } finally {
             log.flush();
             ref.flush();
         }
@@ -79,7 +78,7 @@ public class ProcessCommand extends Command
      * been initialized, it is set to Status.error("unrecognized exit code").
      *
      * @param exitCode The process exit code for which to assign a status.
-     * @param status The status to associate with the exit code.
+     * @param status   The status to associate with the exit code.
      */
     public void setStatusForExit(int exitCode, Status status) {
         if (statusTable == null) {
@@ -99,7 +98,7 @@ public class ProcessCommand extends Command
      * called, which sets the default value to Status.error.
      *
      * @param status The default status to use when a specific status
-     * has not been set for a particular process exit code.
+     *               has not been set for a particular process exit code.
      */
     public void setDefaultStatus(Status status) {
         if (statusTable == null)
@@ -110,6 +109,7 @@ public class ProcessCommand extends Command
     /**
      * Set the directory in which to execute the process.
      * Use null to indicate the default directory.
+     *
      * @param dir the directory in which to execute the process.
      * @see #getExecDir
      */
@@ -120,6 +120,7 @@ public class ProcessCommand extends Command
     /**
      * Get the directory in which to execute the process,
      * or null if none set.
+     *
      * @return the directory in which to execute the process.
      * @see #setExecDir
      */
@@ -142,66 +143,64 @@ public class ProcessCommand extends Command
 
     /**
      * Run the given command.
-     * @param args      An array of strings composed of
-     *                  <em>command-options</em>,
-     *                  <em>environment-variables</em>,
-     *                  <em>command</em>,
-     *                  <em>command-arguments</em>.
-     *                  <br>
      *
-     *                  The <em>command-options</em> are an optional
-     *                  set of options, each beginning with `-', to be
-     *                  used by this object.
-     *                  The options are
-     *                  <dl>
-     *                  <dt>
-     *                  <dt>-v
-     *                  <dd>    verbose mode
-     *                  <dt>-pass|-fail|-error <i>exit-code</i> <i>string</i>
-     *                  <dd>    set the status to be returned for the given
-     *                          exit code to one of
-     *                          Status.passed/Status.failed/Status.error.
-     *                          <i>exit-code</i> can be either an integer or "default".
-     *                          <i>string</i> the message string provided in the
-     *                          status object.
-     *                  <dt>-execDir <i>execDir</i>
-     *                  <dd>    set the directory in which to execute the command.
-     *                  <dt>-inheritEnv
-     *                  <dd>Instructs the code which invokes the new process to
-     *                      allow it to inherit the parent environment values.
-     *                  </dl>
-     *                  <br>
-     *
-     *                  The <em>environment-variables</em> are an
-     *                  optional list of environment variable to be supplied
-     *                  to the command. They should be in the form
-     *                  <em>NAME</em><code>=</code><em>VALUE</em>.
-     *                  <br>
-     *
-     *                  The <em>command</em> identifies the command to
-     *                  be executed. This name will be platform specific.
-     *                  <br>
-     *
-     *                  The <em>command-arguments</em> are an optional
-     *                  list of strings to be passed to the command to be
-     *                  executed.
-     * @param log       A stream for logging output.
-     * @param ref       A stream for reference output, if the test requires it.
-     *                  If not, it can be used as an additional logging stream.
-     *
-     * @return          The result of the method is obtained by calling
-     *                  <code>getStatus</code> after the command completes.
-     *                  The default behaviour is to use the explicit or default
-     *                  status given in the arguments, or via the API. If none
-     *                  have been set up, then the following values are used:
-     *                  <code>Status.passed("exit code 0")</code>
-     *                  if the command exited with exit status 0, or
-     *                  <code>Status.failed("exit code " + exitCode)</code>
-     *                  otherwise.  <code>getStatus</code> may be overridden
-     *                  to provide different behavior.
-     *
+     * @param args An array of strings composed of
+     *             <em>command-options</em>,
+     *             <em>environment-variables</em>,
+     *             <em>command</em>,
+     *             <em>command-arguments</em>.
+     *             <br>
+     *             <p>
+     *             The <em>command-options</em> are an optional
+     *             set of options, each beginning with `-', to be
+     *             used by this object.
+     *             The options are
+     *             <dl>
+     *             <dt>
+     *             <dt>-v
+     *             <dd>    verbose mode
+     *             <dt>-pass|-fail|-error <i>exit-code</i> <i>string</i>
+     *             <dd>    set the status to be returned for the given
+     *             exit code to one of
+     *             Status.passed/Status.failed/Status.error.
+     *             <i>exit-code</i> can be either an integer or "default".
+     *             <i>string</i> the message string provided in the
+     *             status object.
+     *             <dt>-execDir <i>execDir</i>
+     *             <dd>    set the directory in which to execute the command.
+     *             <dt>-inheritEnv
+     *             <dd>Instructs the code which invokes the new process to
+     *             allow it to inherit the parent environment values.
+     *             </dl>
+     *             <br>
+     *             <p>
+     *             The <em>environment-variables</em> are an
+     *             optional list of environment variable to be supplied
+     *             to the command. They should be in the form
+     *             <em>NAME</em><code>=</code><em>VALUE</em>.
+     *             <br>
+     *             <p>
+     *             The <em>command</em> identifies the command to
+     *             be executed. This name will be platform specific.
+     *             <br>
+     *             <p>
+     *             The <em>command-arguments</em> are an optional
+     *             list of strings to be passed to the command to be
+     *             executed.
+     * @param log  A stream for logging output.
+     * @param ref  A stream for reference output, if the test requires it.
+     *             If not, it can be used as an additional logging stream.
+     * @return The result of the method is obtained by calling
+     * <code>getStatus</code> after the command completes.
+     * The default behaviour is to use the explicit or default
+     * status given in the arguments, or via the API. If none
+     * have been set up, then the following values are used:
+     * <code>Status.passed("exit code 0")</code>
+     * if the command exited with exit status 0, or
+     * <code>Status.failed("exit code " + exitCode)</code>
+     * otherwise.  <code>getStatus</code> may be overridden
+     * to provide different behavior.
      * @see #getStatus
-     *
      **/
     @Override
     public Status run(String[] args, PrintWriter log, PrintWriter ref) {
@@ -210,28 +209,22 @@ public class ProcessCommand extends Command
         for (; i < args.length && args[i].startsWith("-"); i++) {
             if (args[i].equals("-v"))
                 verbose = true;
-            else if (args[i].equals("-execDir") && i+1 < args.length) {
+            else if (args[i].equals("-execDir") && i + 1 < args.length) {
                 execDir = new File(args[++i]);
-            }
-            else if (args[i].equals("-pass") && i+2 < args.length) {
+            } else if (args[i].equals("-pass") && i + 2 < args.length) {
                 setStatus(args[++i], Status.passed(args[++i]));
-            }
-            else if (args[i].equals("-fail") && i+2 < args.length) {
+            } else if (args[i].equals("-fail") && i + 2 < args.length) {
                 setStatus(args[++i], Status.failed(args[++i]));
-            }
-            else if (args[i].equals("-error") && i+2 < args.length) {
+            } else if (args[i].equals("-error") && i + 2 < args.length) {
                 setStatus(args[++i], Status.error(args[++i]));
-            }
-            else if (args[i].equals("-inheritEnv")) {
+            } else if (args[i].equals("-inheritEnv")) {
                 inheritEnv = true;
-            }
-            else if (args[i].equals("-end")) {
+            } else if (args[i].equals("-end")) {
                 // -end is supported for the improbable event someone wants an
                 // env var or command beginning with -
                 i++;  // because the for-loop won't get a chance to do it
                 break;
-            }
-            else
+            } else
                 return Status.error("Unrecognized option: " + args[i]);
         }
 
@@ -254,13 +247,14 @@ public class ProcessCommand extends Command
 
     /**
      * Execute a command, bypassing the standard argument decoding of 'run'.
-     * @param cmd       The command to be executed
-     * @param cmdEnv    The environment to be passed to the command
-     * @param log       A stream for logging output.
-     * @param ref       A stream for reference output, if the test requires it.
-     *                  If not, it can be used as an additional logging stream.
-     * @return          The result of the method is obtained by calling
-     *                  <code>getStatus</code> after the command completes.
+     *
+     * @param cmd    The command to be executed
+     * @param cmdEnv The environment to be passed to the command
+     * @param log    A stream for logging output.
+     * @param ref    A stream for reference output, if the test requires it.
+     *               If not, it can be used as an additional logging stream.
+     * @return The result of the method is obtained by calling
+     * <code>getStatus</code> after the command completes.
      * @see #run
      * @see #getStatus
      */
@@ -281,7 +275,7 @@ public class ProcessCommand extends Command
                 // copy env from system
                 // then apply cmdEnv
                 ArrayList<String> out = new ArrayList<>();
-                Map<String,String> sysenv = System.getenv();
+                Map<String, String> sysenv = System.getenv();
                 Set<String> keys = sysenv.keySet();
                 for (String key : keys) {
                     String value = sysenv.get(key);
@@ -299,21 +293,18 @@ public class ProcessCommand extends Command
                 // set new cmdEnv with system env injected
                 // NOTE: upgrade should be made to eliminate duplicate keys
                 cmdEnv = out.toArray(new String[cmdEnv.length]);
-            }
-            else if (cmdEnv != null && cmdEnv.length == 0) {
+            } else if (cmdEnv != null && cmdEnv.length == 0) {
                 String[] envWithDummyEntry = {/*empty*/"="/*empty*/};
-                cmdEnv=envWithDummyEntry;
+                cmdEnv = envWithDummyEntry;
             }
 
             if (verbose) {
                 log.println("Command is: " + StringArray.join(cmd));
                 if (cmdEnv == null) {
                     log.println("Command environment is inherited from parent process");
-                }
-                else if (cmdEnv.length == 0) {
+                } else if (cmdEnv.length == 0) {
                     log.println("Command environment is empty");
-                }
-                else {
+                } else {
                     log.println("Command environment is:");
                     for (String aCmdEnv : cmdEnv) log.println(aCmdEnv);
                 }
@@ -349,30 +340,27 @@ public class ProcessCommand extends Command
             //  log.report("command exited, exit=" + exitCode);
 
             return getStatus(exitCode, logConnector.exitStatus());
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             if (p != null)
                 p.destroy();
             String msg = "Program `" + cmd[0] + "' interrupted! (timed out?)";
             s = useFailedOnException ? Status.failed(msg) : Status.error(msg);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             String msg = "Error invoking program `" + cmd[0] + "': " + e;
             s = useFailedOnException ? Status.failed(msg) : Status.error(msg);
-        }
-        finally  {
-           try {
+        } finally {
+            try {
                 if (inReader != null) {
                     inReader.close();
                 }
-           } catch (Exception whatever) {
-           }
-           try {
+            } catch (Exception whatever) {
+            }
+            try {
                 if (errReader != null) {
                     errReader.close();
                 }
-           } catch (Exception whatever) {
-           }
+            } catch (Exception whatever) {
+            }
         }
         return s;
     }
@@ -382,19 +370,19 @@ public class ProcessCommand extends Command
      * and a status that may have been passed from the command by using
      * <code>status.exit()</code>.
      *
-     * @param exitCode          The exit code from the command that was executed.
-     * @param logStatus         If the command that was executed was a test program
-     *                          and exited by calling <code>status.exit()</code>,
-     *                          then logStatus will be set to `status'.  Otherwise,
-     *                          it will be null.  The value of the status is passed
-     *                          from the command by writing it as the last line to
-     *                          stdout before exiting the process.   If it is not
-     *                          received as the last line, the value will be lost.
-     * @return          Unless overridden, the default is
-     *                  <code>Status.passed("exit code 0")</code>
-     *                  if the command exited with exit code 0, or
-     *                  <code>Status.failed("exit code " + exitCode)</code>
-     *                  otherwise.
+     * @param exitCode  The exit code from the command that was executed.
+     * @param logStatus If the command that was executed was a test program
+     *                  and exited by calling <code>status.exit()</code>,
+     *                  then logStatus will be set to `status'.  Otherwise,
+     *                  it will be null.  The value of the status is passed
+     *                  from the command by writing it as the last line to
+     *                  stdout before exiting the process.   If it is not
+     *                  received as the last line, the value will be lost.
+     * @return Unless overridden, the default is
+     * <code>Status.passed("exit code 0")</code>
+     * if the command exited with exit code 0, or
+     * <code>Status.failed("exit code " + exitCode)</code>
+     * otherwise.
      **/
     protected Status getStatus(int exitCode, Status logStatus) {
         if (logStatus != null)
@@ -402,8 +390,7 @@ public class ProcessCommand extends Command
         else if (statusTable != null) {
             Status s = statusTable.get(Integer.valueOf(exitCode));
             return s == null ? defaultStatus.augment("exit code: " + exitCode) : s;
-        }
-        else if (exitCode == 0)
+        } else if (exitCode == 0)
             return Status.passed("exit code 0");
         else
             return Status.failed("exit code " + exitCode);
@@ -415,12 +402,12 @@ public class ProcessCommand extends Command
     /**
      * A thread to copy an input stream to an output stream
      */
-    class StreamCopier extends Thread
-    {
+    class StreamCopier extends Thread {
         /**
          * Create one.
-         * @param from  the stream to copy from
-         * @param out   the log to copy to
+         *
+         * @param from the stream to copy from
+         * @param out  the log to copy to
          */
         StreamCopier(Reader from, PrintWriter to) {
             super(Thread.currentThread().getName() + "_StreamCopier_" + serial++);
@@ -438,16 +425,15 @@ public class ProcessCommand extends Command
             try {
                 String line;
                 while ((line = in.readLine()) != null) {
-            // take care lastLine doesn't get set to null at EOF
-            // and ignore trailing newlines
-            if (line.startsWith(Status.EXIT_PREFIX)) {
-                line = Status.decode(line);
-                lastStatusLine = line;
-            }
-            out.println(line);
+                    // take care lastLine doesn't get set to null at EOF
+                    // and ignore trailing newlines
+                    if (line.startsWith(Status.EXIT_PREFIX)) {
+                        line = Status.decode(line);
+                        lastStatusLine = line;
+                    }
+                    out.println(line);
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
             }
             //System.out.println("Stream copied");
             synchronized (this) {
@@ -502,7 +488,7 @@ public class ProcessCommand extends Command
     }
 
     private static boolean useFailedOnException =
-        Boolean.getBoolean("javatest.processCommand.useFailedOnException");
+            Boolean.getBoolean("javatest.processCommand.useFailedOnException");
 
     private static int serial;
     private Map<Integer, Status> statusTable;

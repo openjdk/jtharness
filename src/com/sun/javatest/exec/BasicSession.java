@@ -34,6 +34,7 @@ import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -93,6 +94,7 @@ public class BasicSession implements SessionExt {
      */
     public static class U_NewConfig implements Update {
         public final InterviewParameters ip;
+
         public U_NewConfig(InterviewParameters ip) {
             this.ip = ip;
         }
@@ -103,6 +105,7 @@ public class BasicSession implements SessionExt {
      */
     static class U_NewWD implements Update {
         public final WorkDirectory wd;
+
         public U_NewWD(WorkDirectory wd) {
             this.wd = wd;
         }
@@ -115,6 +118,7 @@ public class BasicSession implements SessionExt {
     public static class E_NewWD implements Event {
         public final WorkDirectory wd;
         public final boolean doRestoreConfig; // for optimization
+
         E_NewWD(WorkDirectory wd, boolean doRestoreConfig) {
             this.wd = wd;
             this.doRestoreConfig = doRestoreConfig;
@@ -126,6 +130,7 @@ public class BasicSession implements SessionExt {
      */
     public static class E_NewConfig implements Event {
         public final InterviewParameters ip;
+
         public E_NewConfig(InterviewParameters ip) {
             this.ip = ip;
         }
@@ -150,6 +155,7 @@ public class BasicSession implements SessionExt {
 
     /**
      * Creates empty session for the passed test suite.
+     *
      * @param ts
      * @throws com.sun.javatest.exec.Session.Fault
      */
@@ -163,32 +169,34 @@ public class BasicSession implements SessionExt {
         }
     }
 
-   /**
-    * Applies the update. Ignores updates of unknown type. Subclasses need
-    * override this method to support more update types.
-    * @param u
-    * @throws com.sun.javatest.exec.Session.Fault
-    */
-   @Override
-   public void update(Update u) throws Fault {
+    /**
+     * Applies the update. Ignores updates of unknown type. Subclasses need
+     * override this method to support more update types.
+     *
+     * @param u
+     * @throws com.sun.javatest.exec.Session.Fault
+     */
+    @Override
+    public void update(Update u) throws Fault {
         // here to preserve 4.4.0 behavior (true)
         update(u, true);
     }
 
 
-      /**
-    * Applies the update. Ignores updates of unknown type. Subclasses need
-    * override this method to support more update types.
-    * @param u
-    * @throws com.sun.javatest.exec.Session.Fault
-    * @since 4.4.1
-    */
-   @Override
-   public void update(Update u, boolean updateConfig) throws Fault {
+    /**
+     * Applies the update. Ignores updates of unknown type. Subclasses need
+     * override this method to support more update types.
+     *
+     * @param u
+     * @throws com.sun.javatest.exec.Session.Fault
+     * @since 4.4.1
+     */
+    @Override
+    public void update(Update u, boolean updateConfig) throws Fault {
         if (u instanceof U_NewWD) {
-            updateWorkDir(((U_NewWD)u).wd, updateConfig);
+            updateWorkDir(((U_NewWD) u).wd, updateConfig);
         } else if (u instanceof U_NewConfig) {
-            updateNewConfig(((U_NewConfig)u).ip);
+            updateNewConfig(((U_NewConfig) u).ip);
         }
     }
 
@@ -209,6 +217,7 @@ public class BasicSession implements SessionExt {
 
     /**
      * Delivers events to the all registered observers
+     *
      * @param evn - event to be sent out.
      */
     @Override
@@ -216,22 +225,25 @@ public class BasicSession implements SessionExt {
         if (!isSorted) {
             sortObservers();
         }
-        for (Observer obs: observers) {
+        for (Observer obs : observers) {
             queue.add(new Pair(obs, evn));
         }
         notifyQueue();
     }
 
-    private final ArrayList<Pair> queue  = new ArrayList<>();
+    private final ArrayList<Pair> queue = new ArrayList<>();
     private boolean isNotifying = false;
+
     private static class Pair {
         final Observer obs;
         final Event evn;
+
         Pair(Observer obs, Event evn) {
             this.obs = obs;
             this.evn = evn;
         }
     }
+
     private void notifyQueue() {
         if (isNotifying) {
             return; // already working...
@@ -239,10 +251,10 @@ public class BasicSession implements SessionExt {
         isNotifying = true;
         boolean cont = !queue.isEmpty();
         while (cont) {
-           Pair pair = queue.remove(0);
-           pair.obs.updated(pair.evn); // this call may cause a new
-                                       // pair to be add to the queue
-           cont = !queue.isEmpty();
+            Pair pair = queue.remove(0);
+            pair.obs.updated(pair.evn); // this call may cause a new
+            // pair to be add to the queue
+            cont = !queue.isEmpty();
         }
         isNotifying = false;
     }
@@ -256,13 +268,13 @@ public class BasicSession implements SessionExt {
             public int compare(Observer o1, Observer o2) {
                 long order1 = 0;
                 if (o1 instanceof OrderedObserver) {
-                    order1 = ((OrderedObserver)o1).order();
+                    order1 = ((OrderedObserver) o1).order();
                 }
                 long order2 = 0;
                 if (o2 instanceof OrderedObserver) {
-                    order2 = ((OrderedObserver)o2).order();
+                    order2 = ((OrderedObserver) o2).order();
                 }
-                return (int)(order1 - order2); // long is used to avoid overflow
+                return (int) (order1 - order2); // long is used to avoid overflow
             }
 
         });
@@ -285,6 +297,7 @@ public class BasicSession implements SessionExt {
 
     /**
      * Supposed to be overridden when extra filters added
+     *
      * @param name
      * @return found filter or null, if not found.
      */
@@ -348,6 +361,7 @@ public class BasicSession implements SessionExt {
 
     /**
      * Loads interview from file.
+     *
      * @param wd
      * @param cfgFile
      * @throws com.sun.javatest.exec.Session.Fault
@@ -358,8 +372,8 @@ public class BasicSession implements SessionExt {
             final long start = System.currentTimeMillis();
 
             config.load(cfgFile);
-            logLoadTime("exec.log.iload", System.currentTimeMillis()-start,
-                wd, cfgFile.getAbsolutePath());
+            logLoadTime("exec.log.iload", System.currentTimeMillis() - start,
+                    wd, cfgFile.getAbsolutePath());
             config.setWorkDirectory(wd);
             notifyObservers(new E_NewConfig(config));
         } catch (Exception e) {
@@ -371,6 +385,7 @@ public class BasicSession implements SessionExt {
     public void dispose() {
         config.dispose();
     }
+
     @Override
     public List<String> getPropertyNames() {
         return props;
@@ -386,7 +401,7 @@ public class BasicSession implements SessionExt {
                     return null;
                 }
                 File f = config.getFile();
-                return f == null ?  null : f.getPath();
+                return f == null ? null : f.getPath();
             }
         }
         throw new IllegalArgumentException(i18n.getString("bc.unknownProperty.err", name));
@@ -394,6 +409,7 @@ public class BasicSession implements SessionExt {
 
     /**
      * Work directory assigned to the session.
+     *
      * @return The current wd set.
      */
     @Override
@@ -440,9 +456,10 @@ public class BasicSession implements SessionExt {
      * method, notifies observers of the work dir change.
      * <p>
      * It's not recommended to override this method.
-     * @param wd - instance of WorkDirectory
+     *
+     * @param wd              - instance of WorkDirectory
      * @param doRestoreConfig - flag to be passed via Event
-     *        signaling whether restoring configuration from wd is required
+     *                        signaling whether restoring configuration from wd is required
      */
     protected void updateWorkDir(WorkDirectory wd, boolean doRestoreConfig) {
         if (this.wd == wd) {
@@ -501,32 +518,33 @@ public class BasicSession implements SessionExt {
 
     void ensureInterviewUpToDate() throws Fault {
         try {
-            if (config.isFileNewer())  {
+            if (config.isFileNewer()) {
                 config.load();
             }
         } catch (Exception e) {
             throw new Fault(e);
         }
     }
+
     /**
      * @param time Time used in loading, in ms.
-     * @param wd Work directory associated, may not be null.
-     * @param msg The message to include with the time, may be null, but usually
-     *     is the path to the session file that was loaded.
+     * @param wd   Work directory associated, may not be null.
+     * @param msg  The message to include with the time, may be null, but usually
+     *             is the path to the session file that was loaded.
      */
-    private static void logLoadTime(String res,final long time, WorkDirectory wd, String msg) {
+    private static void logLoadTime(String res, final long time, WorkDirectory wd, String msg) {
         if (wd == null)
             return;
 
         Logger log = null;
         try {
             log = wd.getTestSuite().createLog(wd, null, i18n.getString("exec.log.name"));
-        }
-        catch (TestSuite.DuplicateLogNameFault f) {
+        } catch (TestSuite.DuplicateLogNameFault f) {
             try {
                 log = wd.getTestSuite().getLog(wd, i18n.getString("exec.log.name"));
+            } catch (TestSuite.NoSuchLogFault f2) {
+                return;
             }
-            catch (TestSuite.NoSuchLogFault f2) { return; }
         }
 
         if (log != null) {
@@ -540,6 +558,7 @@ public class BasicSession implements SessionExt {
         }
 
     }
+
     private static int debug = Debug.getInt(ExecTool.class);
 
 }

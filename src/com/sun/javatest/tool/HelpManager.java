@@ -45,8 +45,7 @@ import com.sun.javatest.util.WrapWriter;
 /**
  * A manager for command line help.
  */
-public class HelpManager extends CommandManager
-{
+public class HelpManager extends CommandManager {
     /**
      * Create a HelpManager to manage the command line help
      * for a set of command managers.
@@ -58,8 +57,9 @@ public class HelpManager extends CommandManager
     /**
      * Create a HelpManager to manage the command line help
      * for a set of command managers.
+     *
      * @param commandManagers the command managers for which
-     * to give command line help
+     *                        to give command line help
      */
     public HelpManager(CommandManager... commandManagers) {
         setCommandManagers(commandManagers);
@@ -68,30 +68,31 @@ public class HelpManager extends CommandManager
     @Override
     public HelpTree.Node getHelp() {
         String[] helpOptions = {
-            "help",
-            "onlineHelp",
-            "query1",
-            "query2",
-            "usage",
-            "version"
+                "help",
+                "onlineHelp",
+                "query1",
+                "query2",
+                "usage",
+                "version"
         };
         return new HelpTree.Node(i18n, "help.cmd.opts", helpOptions);
     }
 
     /**
      * Parse a command (and any arguments it might take).
-     * @param cmd the command to be parsed
+     *
+     * @param cmd     the command to be parsed
      * @param argIter an iterator from which to get any arguments that
-     * might be required by the option
-     * @param ctx a context object to use while parsing the command
+     *                might be required by the option
+     * @param ctx     a context object to use while parsing the command
      * @return true if the command is recognized and successfully parsed,
      * and false otherwise
      */
     @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx) {
         if (cmd.equalsIgnoreCase("help")
-            || cmd.equalsIgnoreCase("usage")
-            || cmd.equalsIgnoreCase("?")) {
+                || cmd.equalsIgnoreCase("usage")
+                || cmd.equalsIgnoreCase("?")) {
             List<String> v = new ArrayList<>();
             while (argIter.hasNext()) {
                 v.add(argIter.next().toLowerCase());
@@ -124,6 +125,7 @@ public class HelpManager extends CommandManager
 
     /**
      * Set the command managers for which to generate command line help.
+     *
      * @param commandManagers the command managers for which to generate command line help
      */
     public void setCommandManagers(CommandManager... commandManagers) {
@@ -150,6 +152,7 @@ public class HelpManager extends CommandManager
 
     /**
      * Print out info about the options accepted by the command line decoder.
+     *
      * @param out A stream to which to write the information.
      */
     void showCommandLineHelp(PrintWriter out) {
@@ -178,26 +181,26 @@ public class HelpManager extends CommandManager
 
         // now add file types
         String[] fileTypes = {
-            "ts",
-            "wd",
-            "jti"
+                "ts",
+                "wd",
+                "jti"
         };
         HelpTree.Node filesNode = new HelpTree.Node(i18n, "help.cmd.files", fileTypes);
         commandHelpTree.addNode(filesNode);
 
         // now add syntax info
         String[] syntaxTypes = {
-            "opts",
-            "string",
-            "atfile",
-            "readfile",
-            "encode"
+                "opts",
+                "string",
+                "atfile",
+                "readfile",
+                "encode"
         };
         HelpTree.Node syntaxNode = new HelpTree.Node(i18n, "help.cmd.syntax", syntaxTypes);
         commandHelpTree.addNode(syntaxNode);
 
         String progName =
-            System.getProperty("program", "java " + Main.class.getName());
+                System.getProperty("program", "java " + Main.class.getName());
 
         try {
             WrapWriter ww = new WrapWriter(out);
@@ -209,21 +212,18 @@ public class HelpManager extends CommandManager
                 ww.write(i18n.getString("help.cmd.introHead"));
                 ww.write('\n');
                 commandHelpTree.writeSummary(ww);
-            }
-            else if (Arrays.asList(commandLineHelpQuery).contains("all")) {
+            } else if (Arrays.asList(commandLineHelpQuery).contains("all")) {
                 // -help all
                 ww.write(i18n.getString("help.cmd.proto", progName));
                 ww.write("\n\n");
                 ww.write(i18n.getString("help.cmd.fullHead"));
                 ww.write('\n');
                 commandHelpTree.write(ww);
-            }
-            else {
+            } else {
                 HelpTree.Selection s = commandHelpTree.find(commandLineHelpQuery);
                 if (s != null) {
                     commandHelpTree.write(ww, s);
-                }
-                else {
+                } else {
                     ww.write(i18n.getString("help.cmd.noEntriesFound"));
                     ww.write("\n\n");
                     ww.write(i18n.getString("help.cmd.summaryHead"));
@@ -239,8 +239,7 @@ public class HelpManager extends CommandManager
             ww.write("\n\n");
 
             ww.flush();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // should not happen, from PrintWriter
         }
 
@@ -248,6 +247,7 @@ public class HelpManager extends CommandManager
 
     /**
      * Show the JT Harness online help, and exit when it is closed.
+     *
      * @param out the stream to which to write the help
      */
     void showOnlineHelp(PrintWriter out, CommandContext ctx) {
@@ -281,8 +281,7 @@ public class HelpManager extends CommandManager
             HelpBroker b = new JTHelpBroker();
             if (onlineHelpQuery != null && !onlineHelpQuery.isEmpty()) {
                 b.displayCurrentID(onlineHelpQuery);
-            }
-            else {
+            } else {
                 b.displayCurrentID("command.intro.csh");
             }
         }
@@ -290,6 +289,7 @@ public class HelpManager extends CommandManager
 
     /**
      * Show version information for JT Harness.
+     *
      * @param out the stream to which to write the information
      */
     void showVersion(PrintWriter out) {
@@ -299,17 +299,17 @@ public class HelpManager extends CommandManager
         DateFormat df = DateFormat.getDateInstance(DateFormat.LONG);
 
         Object[] versionArgs = {
-            /*product*/ ProductInfo.getName(),
-            /*version*/ ProductInfo.getVersion(),
-            /*milestone*/ ProductInfo.getMilestone(),
-            /*build*/ ProductInfo.getBuildNumber(),
-            /*type of product*/ ProductInfo.getHarnessVariety(),
-            /*type of the product */ ProductInfo.getPackagingType(),
-            /*Installed in*/ classDirPath,
-            /*Running on platform version*/ System.getProperty("java.version"),
-            /*from*/ System.getProperty("java.home"),
-            /*Built with*/ ProductInfo.getBuildJavaVersion(),
-            /*Built on*/ df.format(ProductInfo.getBuildDate())
+                /*product*/ ProductInfo.getName(),
+                /*version*/ ProductInfo.getVersion(),
+                /*milestone*/ ProductInfo.getMilestone(),
+                /*build*/ ProductInfo.getBuildNumber(),
+                /*type of product*/ ProductInfo.getHarnessVariety(),
+                /*type of the product */ ProductInfo.getPackagingType(),
+                /*Installed in*/ classDirPath,
+                /*Running on platform version*/ System.getProperty("java.version"),
+                /*from*/ System.getProperty("java.home"),
+                /*Built with*/ ProductInfo.getBuildJavaVersion(),
+                /*Built on*/ df.format(ProductInfo.getBuildDate())
         };
 
         out.println(i18n.getString("help.version.txt", versionArgs));

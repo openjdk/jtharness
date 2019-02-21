@@ -66,12 +66,13 @@ public class StringFitter {
     /**
      * Creates a StringFitter with universal replace string and specified split string.
      * Uses current system FontMetrics.
+     *
      * @param replaceString an universal string for replacing truncated parts. It is
-     * used to replace beginning, ending and middle parts
-     * @param splitString a string to provide discrete truncation. E.g. if split
-     * string is "/" - string "/some/long/file/path/that/needs/to/be/fit" will
-     * become "/some/long/file/path/..." and not "/some/long/file/path/th..."
-     * after truncateEnding()
+     *                      used to replace beginning, ending and middle parts
+     * @param splitString   a string to provide discrete truncation. E.g. if split
+     *                      string is "/" - string "/some/long/file/path/that/needs/to/be/fit" will
+     *                      become "/some/long/file/path/..." and not "/some/long/file/path/th..."
+     *                      after truncateEnding()
      */
     public StringFitter(String replaceString, String splitString) {
         this(null, replaceString, replaceString, splitString);
@@ -83,18 +84,19 @@ public class StringFitter {
      * system FontMetrics.
      * This constructor is useful if it is needed to make different behavior
      * when truncating from the beginning and from the ending
-     * @param leftReplaceString a string for replacing truncated parts in the
-     * beginning of the truncated string. If rightReplaceString and
-     * leftReplaceString are equal leftReplaceString is used to replace middle
-     * parts too. A concatenation of two replace strings is used otherwise.
+     *
+     * @param leftReplaceString  a string for replacing truncated parts in the
+     *                           beginning of the truncated string. If rightReplaceString and
+     *                           leftReplaceString are equal leftReplaceString is used to replace middle
+     *                           parts too. A concatenation of two replace strings is used otherwise.
      * @param rightReplaceString a string for replacing truncated parts in the
-     * ending of the truncated string. If rightReplaceString and
-     * leftReplaceString are equal leftReplaceString is used to replace middle
-     * parts too. A concatenation of two replace strings is used otherwise.
-     * @param splitString a string to provide discrete truncation. E.g. if split
-     * string is "/" - string "/some/long/file/path/that/needs/to/be/fit" will
-     * become "/some/long/file/path/..." and not "/some/long/file/path/th..."
-     * after truncateEnding()
+     *                           ending of the truncated string. If rightReplaceString and
+     *                           leftReplaceString are equal leftReplaceString is used to replace middle
+     *                           parts too. A concatenation of two replace strings is used otherwise.
+     * @param splitString        a string to provide discrete truncation. E.g. if split
+     *                           string is "/" - string "/some/long/file/path/that/needs/to/be/fit" will
+     *                           become "/some/long/file/path/..." and not "/some/long/file/path/th..."
+     *                           after truncateEnding()
      */
     public StringFitter(String leftReplaceString, String rightReplaceString, String splitString) {
         this(null, leftReplaceString, rightReplaceString, splitString);
@@ -103,8 +105,9 @@ public class StringFitter {
     /**
      * Creates a StringFitter with specified FontMetrics. Uses "..." for all
      * replace strings and "" for split string
+     *
      * @param fm FontMetrics to use in this StringFitter. Current system
-     * FontMetrics is used if it is null
+     *           FontMetrics is used if it is null
      */
     public StringFitter(FontMetrics fm) {
         this(fm, "...", "...", "");
@@ -113,14 +116,15 @@ public class StringFitter {
     /**
      * Creates a StringFitter with universal replace string, specified split string
      * and FontMetrics.
-     * @param fm FontMetrics to use in this StringFitter. Current system
-     * FontMetrics is used if it is null
+     *
+     * @param fm            FontMetrics to use in this StringFitter. Current system
+     *                      FontMetrics is used if it is null
      * @param replaceString an universal string for replacing truncated parts. It is
-     * used to replace beginning, ending and middle parts
-     * @param splitString a string to provide discrete truncation. E.g. if split
-     * string is "/" - string "/some/long/file/path/that/needs/to/be/fit" will
-     * become "/some/long/file/path/..." and not "/some/long/file/path/th..."
-     * after truncateEnding()
+     *                      used to replace beginning, ending and middle parts
+     * @param splitString   a string to provide discrete truncation. E.g. if split
+     *                      string is "/" - string "/some/long/file/path/that/needs/to/be/fit" will
+     *                      become "/some/long/file/path/..." and not "/some/long/file/path/th..."
+     *                      after truncateEnding()
      */
     public StringFitter(FontMetrics fm, String replaceString, String splitString) {
         this(fm, replaceString, replaceString, splitString);
@@ -131,23 +135,24 @@ public class StringFitter {
      * truncated string and also with specified split string and FontMetrics.
      * This constructor is useful if it is needed to make different behavior
      * when truncating from the beginning and from the ending
-     * @param fm FontMetrics to use in this StringFitter. Current system
-     * FontMetrics is used if it is null
-     * @param leftReplaceString a string for replacing truncated parts in the
-     * beginning of the truncated string. If rightReplaceString and
-     * leftReplaceString are equal leftReplaceString is used to replace middle
-     * parts too. A concatenation of two replace strings is used otherwise.
+     *
+     * @param fm                 FontMetrics to use in this StringFitter. Current system
+     *                           FontMetrics is used if it is null
+     * @param leftReplaceString  a string for replacing truncated parts in the
+     *                           beginning of the truncated string. If rightReplaceString and
+     *                           leftReplaceString are equal leftReplaceString is used to replace middle
+     *                           parts too. A concatenation of two replace strings is used otherwise.
      * @param rightReplaceString a string for replacing truncated parts in the
-     * ending of the truncated string. If rightReplaceString and
-     * leftReplaceString are equal leftReplaceString is used to replace middle
-     * parts too. A concatenation of two replace strings is used otherwise.
-     * @param splitString a string to provide discrete truncation. E.g. if split
-     * string is "/" - string "/some/long/file/path/that/needs/to/be/fit" will
-     * become "/some/long/file/path/..." and not "/some/long/file/path/th..."
-     * after truncateEnding()
+     *                           ending of the truncated string. If rightReplaceString and
+     *                           leftReplaceString are equal leftReplaceString is used to replace middle
+     *                           parts too. A concatenation of two replace strings is used otherwise.
+     * @param splitString        a string to provide discrete truncation. E.g. if split
+     *                           string is "/" - string "/some/long/file/path/that/needs/to/be/fit" will
+     *                           become "/some/long/file/path/..." and not "/some/long/file/path/th..."
+     *                           after truncateEnding()
      */
     public StringFitter(FontMetrics fm, String leftReplaceString, String rightReplaceString, String splitString) {
-        if(fm == null) {
+        if (fm == null) {
             JLabel temp = new JLabel();
             fm = temp.getFontMetrics(temp.getFont());
             temp = null;
@@ -158,7 +163,7 @@ public class StringFitter {
         leftRSWidth = fm.stringWidth(leftReplaceString);
         this.rightReplaceString = rightReplaceString;
         rightRSWidth = fm.stringWidth(rightReplaceString);
-        if(leftReplaceString.equals(rightReplaceString)) {
+        if (leftReplaceString.equals(rightReplaceString)) {
             middleReplaceString = leftReplaceString;
         } else {
             middleReplaceString = leftReplaceString + rightReplaceString;
@@ -173,7 +178,7 @@ public class StringFitter {
      * replace strings and "" for split string
      */
     public static StringFitter getDefaultFitter() {
-        if(defaultInstance == null)
+        if (defaultInstance == null)
             defaultInstance = new StringFitter();
         return defaultInstance;
     }
@@ -187,6 +192,7 @@ public class StringFitter {
 
     /**
      * Set a string for replacing truncated parts in the middle of truncated string ("..." by default)
+     *
      * @param s new replace string
      */
     public void setMiddleReplaceString(String s) {
@@ -224,6 +230,7 @@ public class StringFitter {
 
     /**
      * set replace string for replacing beginning of the truncated string
+     *
      * @param s new replace string
      */
     public void setLeftReplaceString(String s) {
@@ -233,6 +240,7 @@ public class StringFitter {
 
     /**
      * set replace string for replacing ending of the truncated string
+     *
      * @param s new replace string
      */
     public void setRightReplaceString(String s) {
@@ -242,10 +250,11 @@ public class StringFitter {
 
     /**
      * set split string
+     *
      * @param s a string to provide discrete truncation. E.g. if split
-     * string is "/" - string "/some/long/file/path/that/needs/to/be/fit" will
-     * become "/some/long/file/path/..." and not "/some/long/file/path/th..."
-     * after truncateEnding()
+     *          string is "/" - string "/some/long/file/path/that/needs/to/be/fit" will
+     *          become "/some/long/file/path/..." and not "/some/long/file/path/th..."
+     *          after truncateEnding()
      */
     public void setSplitString(String s) {
         splitString = s;
@@ -254,6 +263,7 @@ public class StringFitter {
 
     /**
      * set FontMetrics
+     *
      * @param fm new FontMetrics used to calculate widths of strings
      */
     public void setFontMetrics(FontMetrics fm) {
@@ -266,6 +276,7 @@ public class StringFitter {
     /**
      * set FontMetrics through providing Component that will display truncated
      * string
+     *
      * @param c Component containing FontMetrics used to calculate widths of strings
      */
     public void setFontMetrics(Component c) {
@@ -278,6 +289,7 @@ public class StringFitter {
     /**
      * Truncate a String to fit into Component. The string is truncated from the
      * beginning
+     *
      * @param s a String to truncate
      * @param c Component that will contains String s
      */
@@ -288,33 +300,34 @@ public class StringFitter {
     /**
      * Truncate a String to fit into some width. The string is truncated from
      * the beginning
-     * @param s a String to truncate
+     *
+     * @param s     a String to truncate
      * @param width available space for the string
      */
     public String truncateBeginning(String s, int width) {
         int size = fm.stringWidth(s) + leftRSWidth;
 
         // if component is wider than the string - it isn't modified
-        if(size <= width)
+        if (size <= width)
             return s;
 
         // using String.split(String, int) to avoid cutting empty parts ("///".split("/") -> empty array)
         String parts[] = s.split(splitString, s.length() + 1);
         // truncating only 2+ parts of string
-        if(parts.length < 2)
+        if (parts.length < 2)
             return s;
         size += splitWidth;
 
         int i = 0;
         // truncating (length-1) parts of initial string - the last one will not be truncated
         // i appears to be index of the last truncated part
-        for(; i < parts.length - 1 && size > width; i++) {
+        for (; i < parts.length - 1 && size > width; i++) {
             size -= fm.stringWidth(parts[i]) + splitWidth;
         }
         StringBuilder result = new StringBuilder(leftReplaceString);
         // at least one part of string must be in result
         result.append(splitString).append(parts[i]);
-        for(i++; i < parts.length; i++) {
+        for (i++; i < parts.length; i++) {
             result.append(splitString).append(parts[i]);
         }
         return result.toString();
@@ -323,6 +336,7 @@ public class StringFitter {
     /**
      * Truncate a String to fit into Component. The string is truncated from the
      * ending
+     *
      * @param s a String to truncate
      * @param c Component that will contains String s
      */
@@ -333,30 +347,31 @@ public class StringFitter {
     /**
      * Truncate a String to fit into some width. The string is truncated from
      * the ending.
-     * @param s a String to truncate
+     *
+     * @param s     a String to truncate
      * @param width available space for the string
      */
     public String truncateEnding(String s, int width) {
         int size = fm.stringWidth(s) + rightRSWidth;
         // if component is wider than the string - it isn't modified
-        if(size <= width)
+        if (size <= width)
             return s;
 
         // using String.split(String, int) to avoid cutting empty parts
         String parts[] = s.split(splitString, s.length() + 1);
         // truncating only 2+ parts of string
-        if(parts.length < 2)
+        if (parts.length < 2)
             return s;
         size += splitWidth;
 
         int i = parts.length - 1;
         // truncating (length-1) parts of initial string - the last one will not be truncated
         // i appears to be index of the last truncated part
-        for(; i > 0 && size >= width; i--)
+        for (; i > 0 && size >= width; i--)
             size -= fm.stringWidth(parts[i]) + splitWidth;
 
         StringBuilder result = new StringBuilder();
-        for(int j = 0; j <= i; j++)
+        for (int j = 0; j <= i; j++)
             result.append(parts[j]).append(splitString);
 
         return result.append(rightReplaceString).toString();
@@ -365,6 +380,7 @@ public class StringFitter {
     /**
      * Truncate a String to fit into Component. The string is truncated from the
      * middle
+     *
      * @param s a String to truncate
      * @param c Component that will contains String s
      */
@@ -375,17 +391,18 @@ public class StringFitter {
     /**
      * Truncate a String to fit into some width. The string is truncated from
      * the middle
-     * @param s a String to truncate
+     *
+     * @param s     a String to truncate
      * @param width available space for the string
      */
     public String truncateMiddle(String s, int width) {
         // if component is wider than the string - it isn't modified
-        if(fm.stringWidth(s) + middleRSWidth <= width)
+        if (fm.stringWidth(s) + middleRSWidth <= width)
             return s;
 
         String parts[] = s.split(splitString, s.length() + 1);
         // truncating only 2+ parts of string
-        if(parts.length < 2)
+        if (parts.length < 2)
             return s;
 
         // begI, endI - indexes of ending/starting of remaining parts of the string
@@ -393,18 +410,18 @@ public class StringFitter {
         // beg, end - size of result string at beginning, ending
         int beg = fm.stringWidth(parts[begI]) + splitWidth, end = fm.stringWidth(parts[endI]) + splitWidth;
         StringBuilder begS = new StringBuilder(parts[begI]).append(splitString), endS = new StringBuilder(splitString).append(parts[endI]);
-        while(beg + end <= width) {
-            while(beg <= end && beg + end <= width) {
+        while (beg + end <= width) {
+            while (beg <= end && beg + end <= width) {
                 begI++;
                 beg += fm.stringWidth(parts[begI]) + splitWidth;
-                if(beg + end + middleRSWidth <= width) {
+                if (beg + end + middleRSWidth <= width) {
                     begS.append(parts[begI] + splitString);
                 }
             }
-            while(end < beg && beg + end <= width) {
+            while (end < beg && beg + end <= width) {
                 endI--;
                 end += fm.stringWidth(parts[endI]) + splitWidth;
-                if(beg + end + middleRSWidth <= width) {
+                if (beg + end + middleRSWidth <= width) {
                     endS.insert(0, splitString + parts[endI]);
                 }
             }

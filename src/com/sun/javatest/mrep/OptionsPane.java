@@ -29,6 +29,7 @@ package com.sun.javatest.mrep;
 import com.sun.javatest.CompositeFilter;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.TestFilter;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -72,12 +73,13 @@ import com.sun.javatest.report.ReportSettings;
 import com.sun.javatest.tool.Desktop;
 import com.sun.javatest.tool.Tool;
 import com.sun.javatest.tool.UIFactory;
+
 import java.awt.Font;
 
 class OptionsPane extends JPanel {
 
     OptionsPane(UIFactory uif, Desktop desktop, ActionListener chTabListener,
-            ActionListener okListener) {
+                ActionListener okListener) {
         this.uif = uif;
         this.desktop = desktop;
         this.chTabListener = chTabListener;
@@ -96,17 +98,18 @@ class OptionsPane extends JPanel {
     CustomReport[] getCustomSelected() {
         return getActiveCustomReports().toArray(new CustomReport[0]);
     }
+
     protected void initGUI() {
         setName("opts");
         setFocusable(false);
         setLayout(new GridBagLayout());
-        setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JLabel title = uif.createLabel("opts.title");
         GridBagConstraints lc = new GridBagConstraints();
         lc.gridwidth = GridBagConstraints.REMAINDER;
         lc.anchor = GridBagConstraints.WEST;
-        lc.insets = new Insets(5,5,15,5);
+        lc.insets = new Insets(5, 5, 15, 5);
         lc.fill = GridBagConstraints.HORIZONTAL;
         lc.weightx = 1.0;
         this.add(title, lc);
@@ -136,8 +139,8 @@ class OptionsPane extends JPanel {
         JPanel bottom = uif.createPanel("opts.bottom", false);
         bottom.setLayout(new BorderLayout());
         bottom.setBorder(BorderFactory.createCompoundBorder(
-                        uif.createTitledBorder("opts.bottom"),
-                        BorderFactory.createEmptyBorder(12,12,12,12)));
+                uif.createTitledBorder("opts.bottom"),
+                BorderFactory.createEmptyBorder(12, 12, 12, 12)));
 
 
         listModel = new DefaultListModel<>();
@@ -162,15 +165,14 @@ class OptionsPane extends JPanel {
         list.addListSelectionListener(sl);
         list.setCellRenderer(new CheckBoxListCellRenderer());
         list.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createEtchedBorder(),
-            BorderFactory.createEmptyBorder(0,3,0,3)));
-
+                BorderFactory.createEtchedBorder(),
+                BorderFactory.createEmptyBorder(0, 3, 0, 3)));
 
 
         descriptionArea = uif.createMessageArea("opts.type.desc");
         descriptionArea.setRows(3);
         Font f = descriptionArea.getFont();
-        f = f.deriveFont(Font.PLAIN, f.getSize2D()-1);
+        f = f.deriveFont(Font.PLAIN, f.getSize2D() - 1);
         descriptionArea.setFont(f);
 
 
@@ -205,19 +207,19 @@ class OptionsPane extends JPanel {
         cancelBtn = uif.createCancelButton("opts.cancel");
         backBtn = uif.createButton("opts.back", chTabListener);
         helpBtn = uif.createHelpButton("opts.help",
-                        "mergeReports.window.csh");
-        JButton[] buttons = { okBtn, cancelBtn, helpBtn };
+                "mergeReports.window.csh");
+        JButton[] buttons = {okBtn, cancelBtn, helpBtn};
 
         JPanel buttonsPanel = uif.createPanel("opts.but");
         GridBagConstraints co = new GridBagConstraints();
         co.anchor = GridBagConstraints.EAST;
         co.weightx = 1;
         co.gridwidth = 3;
-        co.insets = new Insets(10,0,0,0);
+        co.insets = new Insets(10, 0, 0, 0);
 
         GridBagConstraints bb = new GridBagConstraints();
         bb.anchor = GridBagConstraints.WEST;
-        bb.insets = new Insets(10,0,0,0);
+        bb.insets = new Insets(10, 0, 0, 0);
         this.add(backBtn, bb);
 
         this.add(buttonsPanel, co);
@@ -225,7 +227,7 @@ class OptionsPane extends JPanel {
 
         GridBagConstraints b = new GridBagConstraints();
         b.anchor = GridBagConstraints.EAST;
-        co.insets = new Insets(10,0,0,0);
+        co.insets = new Insets(10, 0, 0, 0);
         for (JButton button : buttons) {
             buttonsPanel.add(button);
 
@@ -314,8 +316,8 @@ class OptionsPane extends JPanel {
             KeyListener, ListSelectionListener {
 
         /**
-         * @param lst JList of checkboxes
-         * @param p parent Panel
+         * @param lst        JList of checkboxes
+         * @param p          parent Panel
          * @param cardLayout The CardLayout for options
          */
         SelectListener(JList<JCheckBox> lst, JPanel p, CardLayout cardLayout) {
@@ -365,7 +367,7 @@ class OptionsPane extends JPanel {
 
             if (customBoxes != null) {
                 CustomReport rep = customBoxes.get(box);
-                if(rep != null) {
+                if (rep != null) {
                     if (rep.getOptionPanes() != null) {
                         for (int i = 0; i < rep.getOptionPanes().length; i++) {
                             rep.getOptionPanes()[i].setEnabled(box.isSelected());
@@ -486,7 +488,7 @@ class OptionsPane extends JPanel {
     }
 
     JButton[] getButtons() {
-        return new JButton[] { backBtn, okBtn, cancelBtn, helpBtn };
+        return new JButton[]{backBtn, okBtn, cancelBtn, helpBtn};
     }
 
     private DefaultListModel<JCheckBox> listModel;

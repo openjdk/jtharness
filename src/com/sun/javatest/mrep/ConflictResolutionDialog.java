@@ -51,6 +51,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.sun.javatest.tool.UIFactory;
+
 import javax.swing.JOptionPane;
 
 public class ConflictResolutionDialog extends JDialog {
@@ -68,7 +69,7 @@ public class ConflictResolutionDialog extends JDialog {
     private DefaultListModel<String> listModel;
     private JList<?> list;
 
-    private int     selectedIndex;
+    private int selectedIndex;
     private boolean bPreferredReport;
     private boolean bUseMostRecent;
 
@@ -94,19 +95,19 @@ public class ConflictResolutionDialog extends JDialog {
         text.setText(text.getText() + " " + testName);
 
 
-        text.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        text.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         JPanel textPanel = uif.createPanel("conflict.text.panel", new FlowLayout(FlowLayout.CENTER));
         textPanel.add(text);
 
         Box vBox = Box.createVerticalBox();
 
-        JLabel chooseText =uif.createLabel("conflict.chooseText");
+        JLabel chooseText = uif.createLabel("conflict.chooseText");
         //text.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         JPanel chooseTextPanel = uif.createPanel("conflict.choosePanel", new FlowLayout(FlowLayout.CENTER));
         chooseTextPanel.add(chooseText);
 
         // Build list box
-        listModel=new DefaultListModel<>();
+        listModel = new DefaultListModel<>();
         for (String aReportsList : reportsList) {
             listModel.addElement(aReportsList);
         }
@@ -138,8 +139,7 @@ public class ConflictResolutionDialog extends JDialog {
         useRecentPanel.add(useMostRecentCheckBox);
 
 
-
-        vBox.setBorder(BorderFactory.createEmptyBorder(0,20,0,20));
+        vBox.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
         vBox.add(chooseTextPanel);
         vBox.add(hBox);
         // if preferred report was already chosen, in previous dialogs, it should not be seen here
@@ -152,7 +152,7 @@ public class ConflictResolutionDialog extends JDialog {
         // Build control buttons
         JPanel controlButtonsPanel = uif.createPanel("conflict.control", new FlowLayout(FlowLayout.CENTER));
         JPanel p2 = new JPanel();
-        p2.setLayout(new GridLayout(1,0,5,5));
+        p2.setLayout(new GridLayout(1, 0, 5, 5));
 
         resolveButton = uif.createButton("conflict.resolve");
         resolveButton.setMnemonic(0);
@@ -168,7 +168,7 @@ public class ConflictResolutionDialog extends JDialog {
         p2.add(cancelButton);
 
         controlButtonsPanel.add(p2);
-        controlButtonsPanel.setBorder(BorderFactory.createEmptyBorder(20,0,0,0));
+        controlButtonsPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 
         cp.add(textPanel, BorderLayout.NORTH);
         cp.add(vBox, BorderLayout.CENTER);
@@ -178,9 +178,10 @@ public class ConflictResolutionDialog extends JDialog {
         setLocationRelativeTo(parent);
     }
 
-    public int  getSelectedIndex() {
+    public int getSelectedIndex() {
         return selectedIndex;
     }
+
     public boolean getPreferredReport() {
         return bPreferredReport;
     }
@@ -242,7 +243,7 @@ public class ConflictResolutionDialog extends JDialog {
     class ReportsListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            if(e.getValueIsAdjusting()) return;
+            if (e.getValueIsAdjusting()) return;
 
             if ((list.getSelectedValues().length == 0) &&
                     !useMostRecentCheckBox.isSelected()) {

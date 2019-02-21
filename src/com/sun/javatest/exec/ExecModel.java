@@ -32,10 +32,10 @@ import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.WorkDirectory;
+
 import java.awt.print.Printable;
 
-public interface ExecModel
-{
+public interface ExecModel {
     TestSuite getTestSuite();
 
     WorkDirectory getWorkDirectory();
@@ -51,6 +51,7 @@ public interface ExecModel
      * This value provides a temporary answer if the work directory does not
      * exist yet.  If a work directory is available, the query is forwarded
      * to that object.
+     *
      * @return the test result table currently in use for display.
      */
     TestResultTable getActiveTestResultTable();
@@ -60,15 +61,16 @@ public interface ExecModel
     /**
      * Show the configuration editor for this tool, and optionally run
      * the tests defined by the configuration when the editor is closed.
+     *
      * @param runTestsWhenDone true if the tests should automatically
-     * be run when the user closes the configuration editor,
-     * and false otherwise.
+     *                         be run when the user closes the configuration editor,
+     *                         and false otherwise.
      */
     void showConfigEditor(boolean runTestsWhenDone);
 
     /**
-      * Show the configuration editor for this tool with current template
-      */
+     * Show the configuration editor for this tool with current template
+     */
     void showTemplateEditor();
 
     /**
@@ -85,9 +87,10 @@ public interface ExecModel
 
     /**
      * Run specified tests.
+     *
      * @param urls These names may either be paths to folders or test names.
-     * Empty string value in the array indicates that the whole test suite
-     * should be run.
+     *             Empty string value in the array indicates that the whole test suite
+     *             should be run.
      */
     void runTests(String... urls);
 

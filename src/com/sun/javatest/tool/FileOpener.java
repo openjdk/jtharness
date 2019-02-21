@@ -35,17 +35,16 @@ import com.sun.javatest.util.I18NResourceBundle;
  * An interface for a handler, provided by a tool manager,
  * that can open files of a particular type.
  */
-public interface FileOpener
-{
+public interface FileOpener {
     /**
      * This exception is to report problems that occur while opening a file.
      */
-    public static class Fault extends Exception
-    {
+    public static class Fault extends Exception {
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
+         * @param s    The key for the detail message.
          */
         public Fault(I18NResourceBundle i18n, String s) {
             super(i18n.getString(s));
@@ -53,10 +52,11 @@ public interface FileOpener
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An argument to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(I18NResourceBundle i18n, String s, Object o) {
             super(i18n.getString(s, o));
@@ -64,10 +64,11 @@ public interface FileOpener
 
         /**
          * Create a Fault.
+         *
          * @param i18n A resource bundle in which to find the detail message.
-         * @param s The key for the detail message.
-         * @param o An array of arguments to be formatted with the detail message by
-         * {@link java.text.MessageFormat#format}
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
          */
         public Fault(I18NResourceBundle i18n, String s, Object... o) {
             super(i18n.getString(s, o));
@@ -76,15 +77,17 @@ public interface FileOpener
 
     /**
      * Get an ID indicating the type of files this object can handle.
+     *
      * @return an ID indicating the type of files this object can handle.
      */
     String getFileType();
 
     /**
      * Open the given file in an appropriate tool.
+     *
      * @param file the file to be opened
      * @throws FileNotFoundException is the file cannot be found
-     * @throws FileOpener.Fault if there is a problem opening the file
+     * @throws FileOpener.Fault      if there is a problem opening the file
      */
     void open(File file) throws FileNotFoundException, Fault;
 }

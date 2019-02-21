@@ -28,6 +28,7 @@ package com.sun.javatest.services;
 
 import com.sun.javatest.ResourceLoader;
 import com.sun.javatest.TestSuite;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -43,6 +44,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -80,8 +82,7 @@ public class XMLServiceReader implements ServiceReader {
         File tsRoot = ts.getRootDir();
         if (args == null || args.length == 0) {
             xml = new File(tsRoot, SERVICES_XML);
-        }
-        else {
+        } else {
             String path = args[0].replace("/", File.separator);
             xml = new File(tsRoot, path);
         }
@@ -149,7 +150,7 @@ public class XMLServiceReader implements ServiceReader {
 
         NodeList paths = doc.getElementsByTagName("testpath");
         for (int i = 0; i < paths.getLength(); i++) {
-            Element path = (Element)paths.item(i);
+            Element path = (Element) paths.item(i);
 
             String regexp = null;
             String matcher = null;
@@ -163,7 +164,7 @@ public class XMLServiceReader implements ServiceReader {
             NodeList refs = path.getElementsByTagName("service");
 
             for (int j = 0; j < refs.getLength(); j++) {
-                Element ref = (Element)refs.item(j);
+                Element ref = (Element) refs.item(j);
                 tPath.addService(ref.getAttribute("refid"));
             }
             result.add(tPath);
@@ -189,21 +190,23 @@ public class XMLServiceReader implements ServiceReader {
                 fis = new FileInputStream(propFile);
                 props.load(fis);
                 for (Object key : props.keySet()) {
-                    String skey = (String)key;
+                    String skey = (String) key;
                     res.addProperty(skey, props.getProperty(skey));
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
-            }
-            finally {
-                try { if (fis != null) fis.close(); } catch (IOException e) {}
+            } finally {
+                try {
+                    if (fis != null) fis.close();
+                } catch (IOException e) {
+                }
 // TODO                logWrongPropFile();
             }
         }
 
         NodeList defs = doc.getElementsByTagName("property");
         for (int i = 0; i < defs.getLength(); i++) {
-            Element elem = (Element)defs.item(i);
+            Element elem = (Element) defs.item(i);
             String key = elem.getAttribute("name");
             String value = null;
             if (elem.hasAttribute("value")) {
@@ -228,7 +231,7 @@ public class XMLServiceReader implements ServiceReader {
         Node root = doc.getDocumentElement();
         Node child = root.getFirstChild();
         while (child != null) {
-            if(child instanceof Element &&
+            if (child instanceof Element &&
                     child.getNodeName().equals("service")) {
                 try {
                     Element elem = (Element) child;

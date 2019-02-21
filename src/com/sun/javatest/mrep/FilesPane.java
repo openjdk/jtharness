@@ -54,6 +54,7 @@ import javax.swing.filechooser.FileFilter;
 import com.sun.javatest.report.ReportDirChooser;
 import com.sun.javatest.tool.IconFactory;
 import com.sun.javatest.tool.UIFactory;
+
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyListener;
@@ -68,7 +69,7 @@ class FilesPane extends JPanel {
         setName("files");
         setLayout(new GridBagLayout());
         setFocusable(false);
-        setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JLabel title = uif.createLabel("files.title");
         GridBagConstraints lc = new GridBagConstraints();
@@ -76,14 +77,14 @@ class FilesPane extends JPanel {
         lc.weightx = 1.0;
         lc.fill = GridBagConstraints.HORIZONTAL;
         lc.anchor = GridBagConstraints.WEST;
-        lc.insets = new Insets(5,5,15,5);
+        lc.insets = new Insets(5, 5, 15, 5);
         this.add(title, lc);
 
 
         JLabel wdLabel = uif.createLabel("files.resultLabel", true);
         lc = new GridBagConstraints();
         lc.anchor = GridBagConstraints.EAST;
-        lc.insets = new Insets(5,5,0,5);
+        lc.insets = new Insets(5, 5, 0, 5);
         this.add(wdLabel, lc);
 
         resultField = uif.createInputField("files.result", wdLabel);
@@ -92,14 +93,14 @@ class FilesPane extends JPanel {
         resultField.addFocusListener(listener);
 
         GridBagConstraints fc = new GridBagConstraints();
-        fc.insets = new Insets(5,0,0,5);
+        fc.insets = new Insets(5, 0, 0, 5);
         fc.weightx = 1.0;
         fc.fill = GridBagConstraints.HORIZONTAL;
         this.add(resultField, fc);
 
         resultBtn = uif.createButton("files.result.browse", listener);
         GridBagConstraints bc = new GridBagConstraints();
-        bc.insets = new Insets(5,0,0,5);
+        bc.insets = new Insets(5, 0, 0, 5);
         bc.gridwidth = GridBagConstraints.REMAINDER;
         this.add(resultBtn, bc);
 
@@ -109,7 +110,7 @@ class FilesPane extends JPanel {
         GridBagConstraints pan = new GridBagConstraints();
         pan.gridwidth = GridBagConstraints.REMAINDER;
         pan.fill = GridBagConstraints.BOTH;
-        pan.insets = new Insets(10,0,5,0);
+        pan.insets = new Insets(10, 0, 5, 0);
         pan.weightx = 1.0;
         pan.weighty = 1.0;
 
@@ -141,13 +142,13 @@ class FilesPane extends JPanel {
         JButton cancelBtn = uif.createCancelButton("files.cancel");
         JButton helpBtn = uif.createHelpButton("files.help",
                 "mergeReports.window.csh");
-        buttons = new JButton[] { nextBtn, cancelBtn, helpBtn };
+        buttons = new JButton[]{nextBtn, cancelBtn, helpBtn};
         JPanel buttonsPanel = uif.createPanel("files.but");
         GridBagConstraints co = new GridBagConstraints();
         co.anchor = GridBagConstraints.EAST;
         co.weightx = 1;
         co.gridwidth = 3;
-        co.insets = new Insets(5,0,0,0);
+        co.insets = new Insets(5, 0, 0, 0);
         this.add(buttonsPanel, co);
         buttonsPanel.setLayout(new GridLayout(1, 3, 5, 5));
         for (JButton button : buttons) {
@@ -193,7 +194,6 @@ class FilesPane extends JPanel {
     }
 
 
-
     private void enableNext() {
         nextBtn.setEnabled(isNextEnabled());
     }
@@ -202,7 +202,7 @@ class FilesPane extends JPanel {
         boolean resDirEnabled = true;   // block "next" button when result directory is not provided (should be true to unblock)
         resultField.setBackground(UIFactory.getDefaultInputColor());
         if (getResultDir() != null && getResultDir().isEmpty() && resultField.getText().trim() != null && resultField.getText().trim().isEmpty()) {
-            if(!resultField.hasFocus())
+            if (!resultField.hasFocus())
                 resultField.setBackground(UIFactory.getInvalidInputColor());
             resDirEnabled = false;
         }
@@ -229,7 +229,7 @@ class FilesPane extends JPanel {
                 }
             }
         }
-        if(used.isEmpty()) // none file provided
+        if (used.isEmpty()) // none file provided
             return false;
 
         return !error && resDirEnabled;
@@ -239,7 +239,7 @@ class FilesPane extends JPanel {
     class MergedSubPanel extends JPanel {
 
         MergedSubPanel(UIFactory uif) {
-            setBorder(BorderFactory.createEmptyBorder(12,12,12,12));
+            setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
             setName("tool.merged");
             setLayout(new GridBagLayout());
 
@@ -290,7 +290,7 @@ class FilesPane extends JPanel {
                             Object src = e.getSource();
                             for (int i = 0; i < mergedBtns.size(); i++) {
                                 if (src == mergedBtns.get(i)) {
-                                    chooseXmlReportFile( merged
+                                    chooseXmlReportFile(merged
                                             .get(i));
                                 }
                             }
@@ -403,8 +403,9 @@ class FilesPane extends JPanel {
 
     /**
      * Determines if a String contains the target String.
+     *
      * @return True if target is a substring of line, false otherwise and
-     *    false if either argument is null.
+     * false if either argument is null.
      */
     private static boolean hasLineContent(String line, String target) {
         if (line == null || target == null)
@@ -437,7 +438,7 @@ class FilesPane extends JPanel {
     }
 
     String[] getXmlFiles() {
-        int l=0;
+        int l = 0;
         for (JTextField aMerged1 : merged) {
             String s = aMerged1.getText().trim();
             if (s != null && !s.isEmpty()) l++;
@@ -486,10 +487,12 @@ class FilesPane extends JPanel {
         }
 
         @Override
-        public void keyTyped(KeyEvent e) {}
+        public void keyTyped(KeyEvent e) {
+        }
 
         @Override
-        public void keyPressed(KeyEvent e) {}
+        public void keyPressed(KeyEvent e) {
+        }
 
         @Override
         public void keyReleased(KeyEvent e) {

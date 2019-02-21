@@ -39,6 +39,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
@@ -48,8 +49,7 @@ import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.StringArray;
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
-class PropertiesBrowser extends ToolDialog
-{
+class PropertiesBrowser extends ToolDialog {
     PropertiesBrowser(JComponent parent, UIFactory uif) {
         super(parent, uif, "props");
     }
@@ -86,7 +86,7 @@ class PropertiesBrowser extends ToolDialog
 
         JButton helpBtn = uif.createHelpButton("props.help", "execProps.dialog.csh");
         JButton closeBtn = uif.createCloseButton("props.close");
-        setButtons(new JButton[] { helpBtn, closeBtn }, closeBtn);
+        setButtons(new JButton[]{helpBtn, closeBtn}, closeBtn);
     }
 
     private JComponent createTabbedPane(Pane... panes) {
@@ -166,8 +166,7 @@ class PropertiesBrowser extends ToolDialog
             if (v == null || v.isEmpty()) {
                 // set f to italic font?
                 f.setText(unset);
-            }
-            else {
+            } else {
                 // set f to regular font?
                 f.setText(v);
             }
@@ -204,8 +203,7 @@ class PropertiesBrowser extends ToolDialog
                 setField(path, null);
                 setField(name, null);
                 setField(id, null);
-            }
-            else {
+            } else {
                 setField(path, testSuite.getPath());
                 setField(name, testSuite.getName());
                 setField(id, testSuite.getID());
@@ -256,8 +254,7 @@ class PropertiesBrowser extends ToolDialog
                 setField(configName, null);
                 setField(configDesc, null);
                 setField(state, null);
-            }
-            else {
+            } else {
                 File f = config.getFile();
                 setField(path, f == null ? null : f.getPath());
                 //TestEnvironment env = (config == null ? null : config.getEnv());
@@ -274,7 +271,7 @@ class PropertiesBrowser extends ToolDialog
                 if (config.getTemplatePath() != null)
                     setField(templatePath, config.getTemplatePath());
                 else if (config.getFile() != null &&
-                         config.getFile().getPath().endsWith("jtm"))
+                        config.getFile().getPath().endsWith("jtm"))
                     setField(templatePath, config.getFile().getPath());
         }
 
@@ -305,25 +302,22 @@ class PropertiesBrowser extends ToolDialog
                 setField(testSuiteClassName, null);
                 setField(testFinderClassName, null);
                 setField(configClassName, null);
-            }
-            else {
+            } else {
                 setField(testSuiteClassName, testSuite.getClass().getName());
                 String testFinderClassNameValue = testSuite.getTestFinder() instanceof TestFinderDecorator ?
                         ((TestFinderDecorator) testSuite.getTestFinder()).getCurrentTestFinder().getClass().getName() :
                         testSuite.getTestFinder().getClass().getName();
                 setField(testFinderClassName, testFinderClassNameValue);
                 setField(testRunnerClassName,
-                    testSuite.createTestRunner().getClass().getName());
+                        testSuite.createTestRunner().getClass().getName());
 
                 if (config != null) {
                     setField(configClassName, config.getClass().getName());
-                }
-                else {
+                } else {
                     String[] classNameAndArgs = StringArray.split(testSuite.getTestSuiteInfo("interview"));
                     if (classNameAndArgs == null || classNameAndArgs.length == 0) {
                         setField(configClassName, null);
-                    }
-                    else {
+                    } else {
                         setField(configClassName, classNameAndArgs[0]);
                     }
                 }

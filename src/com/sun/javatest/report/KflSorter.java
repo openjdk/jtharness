@@ -31,6 +31,7 @@ import com.sun.javatest.Status;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.util.StringArray;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -44,22 +45,22 @@ import java.util.regex.Pattern;
  * analysis of repetitive test runs, making is easier to find out what has
  * "changed" since the list was made.  This class is loosely based on the
  * exclude list, making it easy to interchange the files and tools.
- *
+ * <p>
  * File format:
  * Test_URL[Test_Cases] BugID_List
  * The test URL rules are defined elsewhere, but it is critical that the test
  * names do not contain spaces and nothing before the BugID_List has any
  * whitespace.  The exact format of the BugID_List must simply conform to being
  * comma separated values, no whitespace or non-printable characters.
+ *
  * @since 4.4
  */
 public class KflSorter {
 
     /**
-     *
-     * @param kfl Effective known failures list to use - merge them in advance
-     *    if multiple KFLs are needed.
-     * @param trt Where to retrieve results from.
+     * @param kfl       Effective known failures list to use - merge them in advance
+     *                  if multiple KFLs are needed.
+     * @param trt       Where to retrieve results from.
      * @param testcases True if test case analysis should be attempted.
      */
     KflSorter(KnownFailuresList kfl, TestResultTable trt, boolean testcases) {
@@ -82,7 +83,7 @@ public class KflSorter {
         enableTestCases = testcases;
     }
 
-//    KFL_Sorter(KnownFailuresList kfl, TestCaseList tcl) {
+    //    KFL_Sorter(KnownFailuresList kfl, TestCaseList tcl) {
 //    }
     KnownFailuresList getKfl() {
         return kfl;
@@ -107,6 +108,7 @@ public class KflSorter {
      * Run the comparison of KFL vs set of results.
      * May take a long time to execute, performing the operation on a background
      * thread may be appropriate.
+     *
      * @param tests Set of results to compare to.
      * @return Number of comparison errors encountered.
      */
@@ -114,7 +116,7 @@ public class KflSorter {
         TreeSet<TestResult>[] lists = new TreeSet[Status.NUM_STATES];
         int totalFound = 0;
 
-        for (; iter.hasNext();) {
+        for (; iter.hasNext(); ) {
             TestResult tr = iter.next();
             Status s = tr.getStatus();
             TreeSet<TestResult> list = lists[s == null ? Status.NOT_RUN : s.getType()];
@@ -129,6 +131,7 @@ public class KflSorter {
      * Run the comparison of KFL vs set of results.
      * May take a long time to execute, performing the operation on a background
      * thread may be appropriate.
+     *
      * @param tests
      * @return Number of comparison problems encountered.
      */
@@ -138,7 +141,7 @@ public class KflSorter {
         int tcprobs = 0;
 
         // iterator KFL entries
-        for (;it.hasNext();) {
+        for (; it.hasNext(); ) {
             KnownFailuresList.Entry entry = it.next();
             String url = entry.getRelativeURL();
             TestResult tr = trt.lookup(TestResult.getWorkRelativePath(url));
@@ -166,7 +169,7 @@ public class KflSorter {
             if (tr.getStatus().isPassed()) {
                 // PASSED test on KFL
                 TestDiff diff = new TestDiff(url, tr, Transitions.FAIL2PASS);
-                if(fail2pass.add(diff))
+                if (fail2pass.add(diff))
                     probs++;
 
                 if (enableTestCases) {
@@ -177,14 +180,13 @@ public class KflSorter {
                             Transitions.TC_FAIL2PASS, tcs,
                             tc_fail2pass);
                 }
-            }
-            else if (tr.getStatus().isError()) {
+            } else if (tr.getStatus().isError()) {
                 // ERROR test on KFL
                 if (!processF2e)
                     continue;
 
                 TestDiff diff = new TestDiff(url, tr, Transitions.FAIL2ERROR);
-                if(fail2error.add(diff))
+                if (fail2error.add(diff))
                     probs++;
 
                 if (enableTestCases) {
@@ -194,11 +196,10 @@ public class KflSorter {
                             Transitions.TC_FAIL2ERROR, tcs,
                             tc_fail2error);
                 }
-            }
-            else if (tr.getStatus().isNotRun()) {
+            } else if (tr.getStatus().isNotRun()) {
                 // NOT RUN test on KFL
                 TestDiff diff = new TestDiff(url, tr, Transitions.FAIL2NOTRUN);
-                if(fail2notrun.add(diff))
+                if (fail2notrun.add(diff))
                     probs++;
 
                 if (enableTestCases) {
@@ -208,8 +209,7 @@ public class KflSorter {
                             Transitions.TC_FAIL2NOTRUN, tcs,
                             tc_fail2notrun);
                 }
-            }
-            else if (enableTestCases && tr.getStatus().isFailed()) {
+            } else if (enableTestCases && tr.getStatus().isFailed()) {
                 // FAILED test on KFL
 
                 // look for new test cases which might be passing
@@ -219,23 +219,22 @@ public class KflSorter {
         }   // for
 
         // iterate failures, are they on the KFL?
-        for(Object o: tests[Status.FAILED]) {
-            TestResult tr = (TestResult)o;
+        for (Object o : tests[Status.FAILED]) {
+            TestResult tr = (TestResult) o;
             KnownFailuresList.Entry[] entries = kfl.find(tr.getTestName());
 
             if (entries == null || entries.length == 0) {
                 // not on KFL
                 TestDiff diff = new TestDiff(tr.getTestName(), tr,
-                            Transitions.NEWFAILURES);
+                        Transitions.NEWFAILURES);
                 if (newFailures.add(diff))
                     probs++;
-            }
-            else {
+            } else {
                 if (!processF2f)
                     continue;
 
                 TestDiff diff = new TestDiff(tr.getTestName(), tr,
-                            Transitions.FAIL2FAIL);
+                        Transitions.FAIL2FAIL);
                 // does not count as a problem, so not added to probs
                 fail2fail.add(diff);
             }
@@ -253,15 +252,15 @@ public class KflSorter {
                     // different behavior if entire test listed vs
                     // specific test cases
                     boolean fullTestListed = full != null && !hasTestCases(full);
-                    for (String name: tcs.keySet()) {
+                    for (String name : tcs.keySet()) {
                         KnownFailuresList.Entry e = kfl.find(tr.getTestName(), name);
-                        switch(tcs.get(name).getType()) {
+                        switch (tcs.get(name).getType()) {
                             case Status.FAILED:
                                 // check that it is listed
                                 if (!fullTestListed && e == null) {
                                     TestDiff td = new TestDiff(tr.getTestName(),
-                                                name, tr, Transitions.TC_NEWFAILURES);
-                                    if(tc_newFailures.add(td))
+                                            name, tr, Transitions.TC_NEWFAILURES);
+                                    if (tc_newFailures.add(td))
                                         tcprobs++;
 
                                     // could optimize slightly to avoid repeated
@@ -276,22 +275,22 @@ public class KflSorter {
                                 }
                                 break;
                             case Status.PASSED:
-                                if((fullTestListed || e != null) &&
-                                    tc_fail2pass.add(new TestDiff(tr.getTestName(),
-                                            name, tr, Transitions.TC_FAIL2PASS)))
+                                if ((fullTestListed || e != null) &&
+                                        tc_fail2pass.add(new TestDiff(tr.getTestName(),
+                                                name, tr, Transitions.TC_FAIL2PASS)))
                                     tcprobs++;
                                 break;
                             case Status.ERROR:
 
-                                if((fullTestListed || e != null) &&
-                                    tc_fail2error.add(new TestDiff(tr.getTestName(),
-                                        name, tr, Transitions.TC_FAIL2ERROR)))
+                                if ((fullTestListed || e != null) &&
+                                        tc_fail2error.add(new TestDiff(tr.getTestName(),
+                                                name, tr, Transitions.TC_FAIL2ERROR)))
                                     tcprobs++;
                                 break;
                             case Status.NOT_RUN:
-                                if((fullTestListed || e != null) &&
-                                    tc_fail2notrun.add(new TestDiff(tr.getTestName(),
-                                        name, tr, Transitions.TC_FAIL2NOTRUN)))
+                                if ((fullTestListed || e != null) &&
+                                        tc_fail2notrun.add(new TestDiff(tr.getTestName(),
+                                                name, tr, Transitions.TC_FAIL2NOTRUN)))
                                     tcprobs++;
                                 break;
                             default:
@@ -303,16 +302,16 @@ public class KflSorter {
             }
         }   // for FAILED
 
-                // iterate errors, are they on the KFL?
-        for(Object o: tests[Status.ERROR]) {
-            TestResult tr = (TestResult)o;
+        // iterate errors, are they on the KFL?
+        for (Object o : tests[Status.ERROR]) {
+            TestResult tr = (TestResult) o;
             KnownFailuresList.Entry[] entries = kfl.find(tr.getTestName());
 
             if (entries == null || entries.length == 0) {
                 // not on KFL
                 // test is an error, but unrelated to the items listed on the KFL
                 TestDiff diff = new TestDiff(tr.getTestName(), tr,
-                            Transitions.OTHER_ERRORS);
+                        Transitions.OTHER_ERRORS);
                 otherErrors.add(diff);
             }
 
@@ -328,10 +327,11 @@ public class KflSorter {
      * Process a KFL entry looking for transitions from Failed to another
      * status.
      * Not sure this method implements an algorithm we want.
+     *
      * @deprecated Method not in use.
      */
     private int findChangedCases(final TestResult tr, final Map<String, Status> tcs,
-            KnownFailuresList.Entry entry) {
+                                 KnownFailuresList.Entry entry) {
         String kfltcl = entry.getTestCases();
 
         int problems = 0;
@@ -340,31 +340,28 @@ public class KflSorter {
             if (tcs != null && !tcs.isEmpty()) {
                 // entire test on KFL. check it for test cases which are not
                 // failed
-                for(String s: tcs.keySet()) {
+                for (String s : tcs.keySet()) {
                     Status stat = tcs.get(s);
 
-                    if(stat.isError()) {
+                    if (stat.isError()) {
                         if (tc_fail2error.add(new TestDiff(
-                            tr.getTestName(), s, tr, Transitions.TC_FAIL2ERROR)))
+                                tr.getTestName(), s, tr, Transitions.TC_FAIL2ERROR)))
                             problems++;
-                    }
-                    else if (stat.isPassed()) {
+                    } else if (stat.isPassed()) {
                         if (tc_fail2pass.add(new TestDiff(
-                            tr.getTestName(), s, tr, Transitions.TC_FAIL2PASS)))
+                                tr.getTestName(), s, tr, Transitions.TC_FAIL2PASS)))
                             problems++;
-                    }
-                    else if (stat.isNotRun()) {
+                    } else if (stat.isNotRun()) {
                         if (tc_fail2notrun.add(new TestDiff(
-                            tr.getTestName(), s, tr, Transitions.TC_FAIL2NOTRUN)))
+                                tr.getTestName(), s, tr, Transitions.TC_FAIL2NOTRUN)))
                             problems++;
                     }
                 }   // for tcs
             }
-        }
-        else {
+        } else {
             // look for test cases listed on KFL, report mismatches (non failed ones)
             String[] kfltcs = StringArray.splitList(kfltcl, ",");
-            for(String s: kfltcs) {
+            for (String s : kfltcs) {
                 if (tcs != null && !tcs.isEmpty()) {
                     return addAllTestCases(entry, entry.getRelativeURL(), tr,
                             Transitions.TC_FAIL2MISSING, tc_missing);
@@ -374,22 +371,19 @@ public class KflSorter {
 
                 if (stat == null) {
                     if (tc_missing.add(new TestDiff(
-                        tr.getTestName(), s, tr, Transitions.TC_FAIL2MISSING)))
+                            tr.getTestName(), s, tr, Transitions.TC_FAIL2MISSING)))
                         problems++;
-                }
-                else if(stat.isError()) {
+                } else if (stat.isError()) {
                     if (tc_fail2error.add(new TestDiff(
-                        tr.getTestName(), s, tr, Transitions.TC_FAIL2ERROR)))
+                            tr.getTestName(), s, tr, Transitions.TC_FAIL2ERROR)))
                         problems++;
-                }
-                else if (stat.isPassed()) {
+                } else if (stat.isPassed()) {
                     if (tc_fail2pass.add(new TestDiff(
-                        tr.getTestName(), s, tr, Transitions.TC_FAIL2PASS)))
+                            tr.getTestName(), s, tr, Transitions.TC_FAIL2PASS)))
                         problems++;
-                }
-                else if (stat.isNotRun()) {
+                } else if (stat.isNotRun()) {
                     if (tc_fail2notrun.add(new TestDiff(
-                        tr.getTestName(), s, tr, Transitions.TC_FAIL2NOTRUN)))
+                            tr.getTestName(), s, tr, Transitions.TC_FAIL2NOTRUN)))
                         problems++;
                 }
             }   // for
@@ -402,8 +396,8 @@ public class KflSorter {
      * Add all test cases from the KFL entry to the set.
      */
     private int addAllTestCases(final KnownFailuresList.Entry entry,
-            final String url, final TestResult tr,
-            Transitions t, Set<TestDiff> set) {
+                                final String url, final TestResult tr,
+                                Transitions t, Set<TestDiff> set) {
         // could check enableTestCases flag before processing
         // add all test cases from this entry
         int problems = 0;
@@ -412,7 +406,7 @@ public class KflSorter {
         if (tcs == null || tcs.length == 0)
             return 0;
 
-        for (String s: tcs) {
+        for (String s : tcs) {
             if (set.add(new TestDiff(url, s, tr, t)))
                 problems++;
         }
@@ -421,15 +415,15 @@ public class KflSorter {
     }
 
     private int addListedTestCases(final KnownFailuresList.Entry entry,
-            final String url, final TestResult tr,
-            Transitions t, TreeSet<?> set) {
+                                   final String url, final TestResult tr,
+                                   Transitions t, TreeSet<?> set) {
         int problems = 0;
 
         String[] tcs = entry.getTestCaseList();
         if (tcs == null || tcs.length == 0)
             return 0;
 
-        for (String s: tcs) {
+        for (String s : tcs) {
 
         }
 
@@ -473,10 +467,11 @@ public class KflSorter {
      * which match the given status.
      * Effectively - iterate test cases in result (tcs), if it is listed in the
      * KFL and matches the given status, add to the given set.
-     * @param entry The KFL entry.
-     * @param tcs Test case results for the given test.
+     *
+     * @param entry  The KFL entry.
+     * @param tcs    Test case results for the given test.
      * @param status the status type to match
-     * @param set the data set to add the selected test cases to
+     * @param set    the data set to add the selected test cases to
      * @return the number of test cases which were added to the set
      * @see com.sun.javatest.Status
      */
@@ -488,9 +483,8 @@ public class KflSorter {
 
         if (trtcs == null || trtcs.isEmpty()) {
             return 0;
-        }
-        else {
-            for (String key: trtcs.keySet()) {
+        } else {
+            for (String key : trtcs.keySet()) {
                 Status stat = trtcs.get(key);
                 KnownFailuresList.Entry e = kfl.find(url, key);
                 KnownFailuresList.Entry[] full = kfl.find(tr.getTestName());
@@ -510,7 +504,7 @@ public class KflSorter {
                     if (fullTestListed && full != null && full.length > 0)
                         diff.setKflEntry(full[0]);
 
-                    if(set.add(diff))
+                    if (set.add(diff))
                         problems++;
                 }
             }   // for
@@ -524,8 +518,8 @@ public class KflSorter {
         if (es == null || es.length == 0)
             return false;
 
-        for(KnownFailuresList.Entry e: es) {
-            if(e.getTestCases() != null)
+        for (KnownFailuresList.Entry e : es) {
+            if (e.getTestCases() != null)
                 return true;
         }
 
@@ -534,20 +528,33 @@ public class KflSorter {
 
     synchronized SortedSet<TestDiff> getSet(Transitions id) {
         switch (id) {
-            case FAIL2PASS: return fail2pass;
-            case FAIL2MISSING: return missing;
-            case NEWFAILURES: return newFailures;
-            case OTHER_ERRORS: return otherErrors;
-            case FAIL2NOTRUN: return fail2notrun;
-            case FAIL2ERROR: return fail2error;
-            case FAIL2FAIL: return fail2fail;
+            case FAIL2PASS:
+                return fail2pass;
+            case FAIL2MISSING:
+                return missing;
+            case NEWFAILURES:
+                return newFailures;
+            case OTHER_ERRORS:
+                return otherErrors;
+            case FAIL2NOTRUN:
+                return fail2notrun;
+            case FAIL2ERROR:
+                return fail2error;
+            case FAIL2FAIL:
+                return fail2fail;
 
-            case TC_FAIL2PASS: return tc_fail2pass;
-            case TC_FAIL2MISSING: return tc_missing;
-            case TC_NEWFAILURES: return tc_newFailures;
-            case TC_FAIL2NOTRUN: return tc_fail2notrun;
-            case TC_FAIL2ERROR: return tc_fail2error;
-            default: return null;
+            case TC_FAIL2PASS:
+                return tc_fail2pass;
+            case TC_FAIL2MISSING:
+                return tc_missing;
+            case TC_NEWFAILURES:
+                return tc_newFailures;
+            case TC_FAIL2NOTRUN:
+                return tc_fail2notrun;
+            case TC_FAIL2ERROR:
+                return tc_fail2error;
+            default:
+                return null;
         } // switch
     }
 
@@ -586,19 +593,18 @@ public class KflSorter {
                         String tcName = m.group(1);
                         // checking for space helps eliminate false matches
                         if (tcName == null || tcName.contains(" ") ||
-                            tcName.contains("\t")) {
+                                tcName.contains("\t")) {
                             s = reader.readLine();
                             continue;
                         }
                         Status stat = Status.parse(m.group(2));
-                        if (result.containsKey(tcName)){
+                        if (result.containsKey(tcName)) {
                             // testcases with the same name are marked as passed
                             // only if all these testcases are passed
-                            if (!stat.isPassed()){
+                            if (!stat.isPassed()) {
                                 result.put(tcName, stat);
                             }
-                        }
-                        else {
+                        } else {
                             result.put(tcName, stat);
                         }
                     }
@@ -636,8 +642,9 @@ public class KflSorter {
 
         /**
          * Is the mismatch concerning the test's main result?
+         *
          * @return True if the result status is not the same as the result expected
-         *    based on the KFL.  False if the main result matches.
+         * based on the KFL.  False if the main result matches.
          */
         public boolean isTestMismatch() {
             return resultMismatch;
@@ -647,6 +654,7 @@ public class KflSorter {
         /**
          * Get the full name for this entry, including the test case.
          * Most useful for display purposes.
+         *
          * @return An easily human readable string.
          * @see #getTestName()
          * @see #getTestCase()
@@ -655,8 +663,7 @@ public class KflSorter {
             String u = url != null ? url : tr.getTestName();
             if (tc == null) {
                 return u;
-            }
-            else {
+            } else {
                 return u + "[" + tc + "]";
             }
         }
@@ -664,6 +671,7 @@ public class KflSorter {
         /**
          * Get the name of the test involved in this diff, not including the
          * test case portion if that applies.
+         *
          * @see #getName()
          */
         public String getTestName() {
@@ -672,8 +680,9 @@ public class KflSorter {
 
         /**
          * Get the list of the test case(s).
+         *
          * @return Null if there are no test cases associated, otherwise a
-         *    comma separated string of test case names.
+         * comma separated string of test case names.
          */
         public String getTestCase() {
             return tc;
@@ -682,6 +691,7 @@ public class KflSorter {
         /**
          * Not normally used, but can be used as a secondary way to get
          * the associated KFL entry.  Typically this value will be null.
+         *
          * @return A KFL entry which caused this diff.
          */
         public KnownFailuresList.Entry getKflEntry() {
@@ -691,6 +701,7 @@ public class KflSorter {
         /**
          * Not normally used, but can be used as a backup if there is a
          * special case where looking up the entry later would fail.
+         *
          * @param e The KFL entry to associate with this diff.
          */
         public void setKflEntry(KnownFailuresList.Entry e) {
@@ -723,9 +734,12 @@ public class KflSorter {
         private KnownFailuresList.Entry kflEntry;
     }
 
-    public enum Transitions { FAIL2PASS, FAIL2ERROR, FAIL2MISSING, FAIL2NOTRUN, FAIL2FAIL, NEWFAILURES,
-        OTHER_ERRORS, TC_FAIL2MISSING, TC_FAIL2PASS, TC_PASS2ERROR, TC_FAIL2NOTRUN, TC_FAIL2ERROR, TC_NEWFAILURES }
-//    interface KflObserver {
+    public enum Transitions {
+        FAIL2PASS, FAIL2ERROR, FAIL2MISSING, FAIL2NOTRUN, FAIL2FAIL, NEWFAILURES,
+        OTHER_ERRORS, TC_FAIL2MISSING, TC_FAIL2PASS, TC_PASS2ERROR, TC_FAIL2NOTRUN, TC_FAIL2ERROR, TC_NEWFAILURES
+    }
+
+    //    interface KflObserver {
 //        public void passToFail(TestResult tr);
 //        public void failToPass(TestResult tr);
 //    }

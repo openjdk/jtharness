@@ -27,6 +27,7 @@
 package com.sun.javatest.services;
 
 import com.sun.javatest.services.Message.*;
+
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,7 +48,6 @@ import java.util.TreeMap;
  * {@link com.sun.javatest.services.AntService#ANT_ENV}<p>
  * All other parameters are interpreted as command arguments for {@code ant}
  * executable.
- *
  */
 public class AntService extends Service {
 
@@ -69,7 +69,7 @@ public class AntService extends Service {
      * content, other messages have nothing to be sent, except their type
      *
      * @param type The type of Message to create.
-     * @return     new message.
+     * @return new message.
      * @throws com.sun.javatest.services.Service.MalformedParamsException
      */
     @Override
@@ -105,8 +105,7 @@ public class AntService extends Service {
         for (String name : p.keySet()) {
             if (name.startsWith(ANT_ENV)) {
                 env.put(name.substring(ANT_ENV.length()), p.remove(name));
-            }
-            else if (!name.equals(ANT_TARGETS)) {
+            } else if (!name.equals(ANT_TARGETS)) {
                 command.add(p.remove(name));
             }
         }
@@ -143,7 +142,6 @@ public class AntService extends Service {
      * The property name is achieved by subtracting ANT_ENV prefix from
      * argument name. For example, to specify JAVA_HOME variable, arg name
      * should be {@code ant.env.JAVA_HOME}
-     *
      */
     public static final String ANT_ENV = "ant.env.";
 }

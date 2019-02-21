@@ -27,6 +27,7 @@
 package com.sun.javatest.exec;
 
 import com.sun.javatest.TemplateUtilities;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,15 +36,15 @@ import java.util.Map;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 
-public class FileSystemTableModel extends AbstractTableModel  {
+public class FileSystemTableModel extends AbstractTableModel {
 
     // Names of the columns.
     // TODO - i18!
-    static protected String[]  cNames = {"File Name", "Name", "Description"};
+    static protected String[] cNames = {"File Name", "Name", "Description"};
 
     // Types of the columns.
-    static protected Class<?>[]  cTypes = { String.class,
-                                         String.class, String.class};
+    static protected Class<?>[] cTypes = {String.class,
+            String.class, String.class};
 
     private FileTableFilter filter = null;
 
@@ -116,7 +117,7 @@ public class FileSystemTableModel extends AbstractTableModel  {
             }
         }
 
-        File [] lst = file.listFiles();
+        File[] lst = file.listFiles();
         if (lst != null)
             Arrays.sort(lst);
 
@@ -140,7 +141,7 @@ public class FileSystemTableModel extends AbstractTableModel  {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if (rowIndex < 0 || rowIndex >= data.size() ) return null;
+        if (rowIndex < 0 || rowIndex >= data.size()) return null;
         FileTableNode f = data.get(rowIndex);
         File file = f.getFile();
         if (file == null) return null;
@@ -152,7 +153,7 @@ public class FileSystemTableModel extends AbstractTableModel  {
     }
 
     public File getNode(int rowIndex) {
-        if (rowIndex < 0 || rowIndex >= data.size() ) return null;
+        if (rowIndex < 0 || rowIndex >= data.size()) return null;
         return data.get(rowIndex).getFile();
     }
 
@@ -173,10 +174,10 @@ public class FileSystemTableModel extends AbstractTableModel  {
     private String[] getInfo(File file) {
 
         if (fileData == null) fileData = new LinkedHashMap<String, String[]>() {
-                @Override
-                protected boolean removeEldestEntry(Map.Entry<String, String[]> eldest) {
-                    return size() > 500;
-                }
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<String, String[]> eldest) {
+                return size() > 500;
+            }
         };
         String key = file.getAbsolutePath();
         String[] value = fileData.get(key);
@@ -199,13 +200,12 @@ public class FileSystemTableModel extends AbstractTableModel  {
             */
             TemplateUtilities.ConfigInfo ci = TemplateUtilities.getConfigInfo(file);
             if (ci != null) {
-                data = new String[] {ci.getName(), ci.getDescription()};
+                data = new String[]{ci.getName(), ci.getDescription()};
             }
             fileData.put(key, data);
             return data;
-        }
-        catch  (Exception e) {
-            return new String[] {"", ""};
+        } catch (Exception e) {
+            return new String[]{"", ""};
         }
     }
 

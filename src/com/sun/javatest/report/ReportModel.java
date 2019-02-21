@@ -28,7 +28,6 @@ package com.sun.javatest.report;
 
 import java.io.File;
 
-interface ReportModel
-{
+interface ReportModel {
     File getReportDir();
 }

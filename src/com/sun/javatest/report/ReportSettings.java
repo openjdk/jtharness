@@ -40,6 +40,7 @@ import com.sun.javatest.TestResultTable;
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
+
 import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
@@ -479,7 +480,7 @@ public class ReportSettings {
         } catch (TestResultTable.Fault f) {
             throw new JavaTestError(ReportSettings.i18n.getString("result.testResult.err"));
         }
-        for (; iter.hasNext();) {
+        for (; iter.hasNext(); ) {
             TestResult tr = iter.next();
             Status s = tr.getStatus();
             TreeSet<TestResult> list = sortedResults[s == null ? Status.NOT_RUN : s.getType()];

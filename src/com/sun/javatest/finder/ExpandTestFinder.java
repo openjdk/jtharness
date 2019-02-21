@@ -38,7 +38,7 @@ import com.sun.javatest.util.StringArray;
  * This class allows a new tag "@expand" which allows a single test
  * description to be expanded into multiple test descriptions using
  * variable substitution.  Variables are declared in the .jte file.
- *
+ * <p>
  * The list of valid entries is identical to those found for JCK.
  * There is no list of pre-defined keywords.  If keyword checking
  * is needed, then the list of allowed keywords must be
@@ -46,8 +46,7 @@ import com.sun.javatest.util.StringArray;
  *
  * @see TagTestFinder
  */
-public class ExpandTestFinder extends TagTestFinder
-{
+public class ExpandTestFinder extends TagTestFinder {
     //--------------------------------------------------------------------------
 
     // This code is only needed to ensure that this test finder
@@ -68,18 +67,15 @@ public class ExpandTestFinder extends TagTestFinder
         if (args[i].equals("-verify")) {
             verify = true;
             return 1;
-        }
-        else if (args[i].equals("-allowEntry")) {
-            String e = args[i+1];
+        } else if (args[i].equals("-allowEntry")) {
+            String e = args[i + 1];
             validEntries.put(e.toLowerCase(), e);
             return 2;
-        }
-        else if (args[i].equals("-allowKeyword")) {
-            String k = args[i+1];
+        } else if (args[i].equals("-allowKeyword")) {
+            String k = args[i + 1];
             validKeywords.put(k.toLowerCase(), k);
             return 2;
-        }
-        else
+        } else
             return super.decodeArg(args, i);
     } // decodeArg()
 
@@ -104,10 +100,10 @@ public class ExpandTestFinder extends TagTestFinder
     //--------------------------------------------------------------------------
 
     @Override
-    public void init(String [] args, File testSuiteRoot, TestEnvironment env) throws Fault {
+    public void init(String[] args, File testSuiteRoot, TestEnvironment env) throws Fault {
         // grab all environment variables open for expansion
         if (expandVars == null) {
-            expandVars   = new HashMap<>(3);
+            expandVars = new HashMap<>(3);
             expandVarLen = new HashMap<>(3);
 
             for (String s : env.keys()) {
@@ -152,8 +148,7 @@ public class ExpandTestFinder extends TagTestFinder
                 throw new Fault(i18n, "expand.badRootDir",
                         TESTSUITE_HTML, testSuiteRoot.getPath());
             }
-        }
-        else {
+        } else {
             String name = testSuiteRoot.getName();
             if (!name.equals(TESTSUITE_HTML)) {
                 throw new Fault(i18n, "expand.badRootFile");
@@ -269,7 +264,7 @@ public class ExpandTestFinder extends TagTestFinder
                 error(i18n, "expand.multipleTags");
             }
             testStems = new HashMap<>(3);
-            String [] stems = StringArray.split(value);
+            String[] stems = StringArray.split(value);
             for (String stem : stems) testStems.put(stem, TRUE);
         } else {
 
@@ -315,33 +310,33 @@ public class ExpandTestFinder extends TagTestFinder
     private Map<String, Integer> expandVarLen;
 
     private String[] stdValidEntries = {
-        // required
-        "keywords",
-        "source",
-        "title",
-        // optional
-        "context",
-        "executeArgs",
-        "executeClass",
-        "executeNative",
-        "id",           // defined and used internally by JT Harness
-        "rmicClasses",
-        "timeout"
+            // required
+            "keywords",
+            "source",
+            "title",
+            // optional
+            "context",
+            "executeArgs",
+            "executeClass",
+            "executeNative",
+            "id",           // defined and used internally by JT Harness
+            "rmicClasses",
+            "timeout"
     };
 
     private String[] stdValidKeywords = {
-        // approved
-        "compiler",
-        "runtime",
-        "positive",
-        "negative",
-        "idl_inherit",
-        "idl_tie",
-        "interactive",
-        "jniinvocationapi",
-        "optionalPJava",
-        // will eventually be superceded/deprecated
-        "serial"
+            // approved
+            "compiler",
+            "runtime",
+            "positive",
+            "negative",
+            "idl_inherit",
+            "idl_tie",
+            "interactive",
+            "jniinvocationapi",
+            "optionalPJava",
+            // will eventually be superceded/deprecated
+            "serial"
     };
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ExpandTestFinder.class);
 }

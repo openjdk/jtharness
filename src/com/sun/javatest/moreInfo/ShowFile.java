@@ -76,11 +76,11 @@ import javax.swing.text.html.HTMLDocument;
  * <dt>textColor
  * <dd>the color used to display the link
  * </dl>
+ *
  * @see ShowFileBeanInfo
  */
 public class ShowFile
-    extends JComponent
-{
+        extends JComponent {
     public ShowFile() {
         addMouseListener(new MouseAdapter() {
             @Override
@@ -152,6 +152,7 @@ public class ShowFile
 
     /**
      * Get the text string that will be displayed as the body of the link.
+     *
      * @return the text string that will be displayed as the body of the link
      * @see #setText
      */
@@ -162,6 +163,7 @@ public class ShowFile
     /**
      * Set the text string that will be displayed as the body of the link.
      * The text must be set before the link is displayed.
+     *
      * @param text the text string that will be displayed as the body of the link
      * @see #getText
      */
@@ -172,6 +174,7 @@ public class ShowFile
     /**
      * Get the font that will be used to display the link.
      * The default font is inherited from the context in which the link appears.
+     *
      * @return the name of the font that will be used to display the link
      * @see #setTextFont
      */
@@ -181,6 +184,7 @@ public class ShowFile
 
     /**
      * Set the font that will be used to display the link.
+     *
      * @param fontName the name of font that will be used to display the link
      * @see #getTextFont
      */
@@ -192,7 +196,7 @@ public class ShowFile
             return;
 
         FontMetrics fm = font == null ? g.getFontMetrics()
-                          : g.getFontMetrics(font);
+                : g.getFontMetrics(font);
         int w = fm.stringWidth(text);
         int h = fm.getHeight();
         setPreferredSize(new Dimension(w, h));
@@ -201,6 +205,7 @@ public class ShowFile
     /**
      * Get the color that will be used to display the link.
      * The default color is blue.
+     *
      * @return a string giving the color that will be used to display the link
      * @see #setTextColor
      */
@@ -210,6 +215,7 @@ public class ShowFile
 
     /**
      * Set the color that will be used to display the link.
+     *
      * @param color the name of color that will be used to display the link
      * @see #getTextColor
      */
@@ -258,8 +264,7 @@ public class ShowFile
                 sb.append(buf, 0, n);
             r.close();
             textArea.setText(sb.toString());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             textArea.setText(e.toString());
         }
 
@@ -286,10 +291,9 @@ public class ShowFile
 
                 if (vp != null && startRect != null) {
                     vp.setViewPosition(new Point(startRect.x,
-                                                 Math.max(0, startRect.y - yOffset)));
+                            Math.max(0, startRect.y - yOffset)));
                 }
-            }
-            catch (BadLocationException e) {
+            } catch (BadLocationException e) {
                 textArea.setCaretPosition(0);
             }
         }

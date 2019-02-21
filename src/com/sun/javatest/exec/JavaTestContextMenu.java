@@ -27,6 +27,7 @@
 package com.sun.javatest.exec;
 
 import javax.swing.JMenuItem;
+
 import com.sun.javatest.TestResult;
 
 /**
@@ -35,11 +36,10 @@ import com.sun.javatest.TestResult;
  * of situations the menu should be presented in.  Processing the actual selection
  * action event for the menu item(s) should be processed as you normally would
  * with the Swing-provided Action mechanisms.
- *
+ * <p>
  * All methods in this API will be invoked on the GUI event thread.
  */
-public abstract class JavaTestContextMenu
-{
+public abstract class JavaTestContextMenu {
     /**
      * Create a new instance, based on this instance.  The purpose of this is to allow
      * this menu item to appear in multiple places in the interface.
@@ -52,6 +52,7 @@ public abstract class JavaTestContextMenu
      * should not change after this method has been invoked the first time.
      * This allows for lazy initialization, but then permits caching by the
      * client of the API.
+     *
      * @return A menu to be displayed to the user.  Must never be null.
      */
     public abstract JMenuItem getMenu();
@@ -60,6 +61,7 @@ public abstract class JavaTestContextMenu
      * Determine the contexts in which this menu is applicable.  Unless the value
      * is set to <code>CUSTOM</code>, the system managing the menus assumes that
      * it is allowed to control the enabled/disabled state of the menu item.
+     *
      * @see #TESTS_AND_FOLDERS
      * @see #TESTS_ONLY
      * @see #FOLDERS_ONLY
@@ -72,14 +74,17 @@ public abstract class JavaTestContextMenu
      * enabled.  If not allowed and multiple items are currently selected,
      * updateState() methods will not be called.  The default state of this
      * setting is <code>false</code>, override this method to change.
-     *
+     * <p>
      * If you need to enable/disabled based on the composition of the selection,
      * you should return <code>true</code>, then override <code>updateState(String[],
      * TestResult[])</code> and disable if needed.
+     *
      * @return True if multiselect is permitted for this menu action.  False
-     *         otherwise.
+     * otherwise.
      */
-    public boolean isMultiSelectAllowed() { return false; }
+    public boolean isMultiSelectAllowed() {
+        return false;
+    }
 
     /**
      * Called upon when a test is selected by the user.  This callback allows the
@@ -89,43 +94,49 @@ public abstract class JavaTestContextMenu
      * implementation of this method be reasonably fast and non-blocking
      * because it will may be invoked each time the user requests a popup to be
      * displayed.
-     *
+     * <p>
      * Implementations which return <code>CUSTOM</code> from
      * <code>getMenuApplication</code> will generally override this.  This method
      * is called regardless of what application type the object indicates.
-     *
+     * <p>
      * The controlling class will first enable/disable the menu based on the
      * application type (unless <code>CUSTOM</code>).
-     *
+     * <p>
      * This method will be invoked on the GUI event thread.
+     *
      * @param tr The test result object which the users is acting upon.
      */
-    public void updateState(TestResult tr) { }
+    public void updateState(TestResult tr) {
+    }
 
     /**
      * Called upon when a folder is selected by the user.  It is in
      * canonical internal form - forward slash separated.
-     *
+     * <p>
      * This method will be invoked on the GUI event thread.
+     *
      * @param path
      */
-    public void updateState(String path) { }
+    public void updateState(String path) {
+    }
 
     /**
      * Called upon when multiple items have been selected by the user.  The union
      * of the two parameters represents the leafs selected by the user to act upon.
      * The intersection of those two parameters is empty.
-     *
+     * <p>
      * This method will be invoked on the GUI event thread.
+     *
      * @param folders The test paths which the user is acting upon, only the folders.
-     *              The strings are forward slash separated locations within the
-     *              test suite, a substring of that which would be returned by
-     *              <code>TestDescription.getRootRelativeURL()</code>.  Null if
-     *              none.
-     * @param trs The tests which the user is acting upon.  Null if none.
+     *                The strings are forward slash separated locations within the
+     *                test suite, a substring of that which would be returned by
+     *                <code>TestDescription.getRootRelativeURL()</code>.  Null if
+     *                none.
+     * @param trs     The tests which the user is acting upon.  Null if none.
      * @see com.sun.javatest.TestDescription#getRootRelativeURL
      */
-    public void updateState(String[] folders, TestResult... trs) { }
+    public void updateState(String[] folders, TestResult... trs) {
+    }
 
     public static final int TESTS_AND_FOLDERS = 0;
     public static final int TESTS_ONLY = 1;

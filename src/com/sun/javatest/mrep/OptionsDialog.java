@@ -42,12 +42,12 @@ import com.sun.javatest.report.CustomReport;
 import com.sun.javatest.tool.Desktop;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
+
 import java.awt.event.ComponentAdapter;
 
-class OptionsDialog extends ToolDialog
-{
-    OptionsDialog(final ReportTool tool, ActionListener okListener,  UIFactory uif,
-            Desktop desktop) {
+class OptionsDialog extends ToolDialog {
+    OptionsDialog(final ReportTool tool, ActionListener okListener, UIFactory uif,
+                  Desktop desktop) {
         super(tool, uif, "opts");
         this.tool = tool;
         this.okListener = okListener;
@@ -62,11 +62,11 @@ class OptionsDialog extends ToolDialog
     }
 
     String getResultPath() {
-        return ((FilesPane)panes[0]).getResultDir();
+        return ((FilesPane) panes[0]).getResultDir();
     }
 
     String[] getXmlFiles() {
-        return ((FilesPane)panes[0]).getXmlFiles();
+        return ((FilesPane) panes[0]).getXmlFiles();
     }
 
     boolean handleAsConflict() {
@@ -74,15 +74,15 @@ class OptionsDialog extends ToolDialog
     }
 
     boolean resolveByRecent() {
-        return ((OptionsPane)panes[1]).resolveByRecent();
+        return ((OptionsPane) panes[1]).resolveByRecent();
     }
 
     boolean isXmlReport() {
-        return ((OptionsPane)panes[1]).isXmlReport();
+        return ((OptionsPane) panes[1]).isXmlReport();
     }
 
     CustomReport[] getCustomReports() {
-        return ((OptionsPane)panes[1]).getCustomSelected();
+        return ((OptionsPane) panes[1]).getCustomSelected();
     }
 
     void updateCustomReports() {
@@ -91,8 +91,8 @@ class OptionsDialog extends ToolDialog
 
     // remove this function by something better XXX
     private void setButtonsSize() {
-        JButton[] bb = ((OptionsPane)panes[1]).getButtons();
-        JButton[] fb = ((FilesPane)panes[0]).getButtons();
+        JButton[] bb = ((OptionsPane) panes[1]).getButtons();
+        JButton[] fb = ((FilesPane) panes[0]).getButtons();
         JButton[] all = new JButton[bb.length + fb.length];
         int max = 0;
         for (int i = 0; i < all.length; i++) {
@@ -122,15 +122,15 @@ class OptionsDialog extends ToolDialog
         JPanel tabs = new JPanel();
         CardLayout cl = new CardLayout();
         tabs.setLayout(cl);
-        panes = new JPanel[] {
-            new FilesPane(uif, new ChangeTabListener(cl, "1", tabs)),
-            new OptionsPane(uif, desktop, new ChangeTabListener(cl, "0", tabs), okListener)
+        panes = new JPanel[]{
+                new FilesPane(uif, new ChangeTabListener(cl, "1", tabs)),
+                new OptionsPane(uif, desktop, new ChangeTabListener(cl, "0", tabs), okListener)
         };
 
 
-        attachYardKeeper(((FilesPane)panes[0]).getButtons()[1]);
-        attachYardKeeper(((OptionsPane)panes[1]).getButtons()[1]);
-        attachYardKeeper(((OptionsPane)panes[1]).getButtons()[2]);
+        attachYardKeeper(((FilesPane) panes[0]).getButtons()[1]);
+        attachYardKeeper(((OptionsPane) panes[1]).getButtons()[1]);
+        attachYardKeeper(((OptionsPane) panes[1]).getButtons()[2]);
 
         //Better not to restrict dialog size
         //int dpi = uif.getDotsPerInch();
@@ -155,7 +155,7 @@ class OptionsDialog extends ToolDialog
         if (listeners.length == 0) {
             btn.addActionListener(new YardKeeper(null));
         } else {
-            ActionListener last = listeners[listeners.length-1];
+            ActionListener last = listeners[listeners.length - 1];
             btn.removeActionListener(last);
             btn.addActionListener(new YardKeeper(last));
         }
@@ -166,18 +166,20 @@ class OptionsDialog extends ToolDialog
     }
 
     boolean checkInput() {
-        return ((FilesPane)panes[0]).checkInput();
+        return ((FilesPane) panes[0]).checkInput();
     }
 
     class ChangeTabListener implements ActionListener {
         String key;
         CardLayout cl;
         Container parent;
+
         ChangeTabListener(CardLayout cl, String key, Container parent) {
             this.key = key;
             this.cl = cl;
             this.parent = parent;
         }
+
         @Override
         public void actionPerformed(ActionEvent e) {
             cl.show(parent, key);
@@ -198,10 +200,9 @@ class OptionsDialog extends ToolDialog
         @Override
         public void actionPerformed(ActionEvent e) {
             if (chain != null)
-               chain.actionPerformed(e);
+                chain.actionPerformed(e);
         }
     }
-
 
 
     private ReportTool tool;

@@ -69,27 +69,26 @@ import java.util.Map.Entry;
  * A manager for all the various configuration commands.
  */
 public class ConfigManager
-    extends CommandManager
-{
+        extends CommandManager {
     @Override
     public HelpTree.Node getHelp() {
         Object[] childData = {
-            ConcurrencyCommand.getName(),
-            ConfigCommand.getName(),
-            EnvCommand.getName(),
-            EnvFilesCommand.getNames(),
-            ExcludeListCommand.getName(),
-            KeywordsCommand.getName(),
-            KflCommand.getName(),
-            OpenCommand.getName(),
-            ParamsCommand.getHelp(),
-            PriorStatusCommand.getName(),
-            SetCommand.getName(),
-            TestsCommand.getName(),
-            TestSuiteCommand.getNames(),
-            TimeoutFactorCommand.getName(),
-            WorkDirectoryCommand.getNames(),
-            WriteConfigCommand.getName()
+                ConcurrencyCommand.getName(),
+                ConfigCommand.getName(),
+                EnvCommand.getName(),
+                EnvFilesCommand.getNames(),
+                ExcludeListCommand.getName(),
+                KeywordsCommand.getName(),
+                KflCommand.getName(),
+                OpenCommand.getName(),
+                ParamsCommand.getHelp(),
+                PriorStatusCommand.getName(),
+                SetCommand.getName(),
+                TestsCommand.getName(),
+                TestSuiteCommand.getNames(),
+                TimeoutFactorCommand.getName(),
+                WorkDirectoryCommand.getNames(),
+                WriteConfigCommand.getName()
         };
 
         return getHelp(i18n, "cnfg", childData);
@@ -115,8 +114,7 @@ public class ConfigManager
 
     @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
-        throws Command.Fault
-    {
+            throws Command.Fault {
         if (isMatch(cmd, ConcurrencyCommand.getName())) {
             ctx.addCommand(new ConcurrencyCommand(argIter));
             return true;
@@ -207,8 +205,7 @@ public class ConfigManager
     }
 
     static Command getOpenCommand(File file)
-        throws Command.Fault
-    {
+            throws Command.Fault {
         return new OpenCommand(file);
     }
 
@@ -216,8 +213,7 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class ConcurrencyCommand extends Command
-    {
+    private static class ConcurrencyCommand extends Command {
         static String getName() {
             return "concurrency";
         }
@@ -236,14 +232,13 @@ public class ConfigManager
             if (num != null && (pos.getIndex() == arg.length())) {
                 value = num.intValue();
                 if (value < Parameters.ConcurrencyParameters.MIN_CONCURRENCY
-                    || value > Parameters.ConcurrencyParameters.MAX_CONCURRENCY) {
+                        || value > Parameters.ConcurrencyParameters.MAX_CONCURRENCY) {
                     throw new Fault(i18n, "cnfg.conc.badRange",
                             arg,
                             Integer.valueOf(Parameters.ConcurrencyParameters.MIN_CONCURRENCY),
                             Integer.valueOf(Parameters.ConcurrencyParameters.MAX_CONCURRENCY));
                 }
-            }
-            else
+            } else
                 throw new Fault(i18n, "cnfg.conc.badValue", arg);
         }
 
@@ -252,10 +247,9 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getConcurrencyParameters() instanceof Parameters.MutableConcurrencyParameters) {
                 Parameters.MutableConcurrencyParameters cParams =
-                    (Parameters.MutableConcurrencyParameters) p.getConcurrencyParameters();
+                        (Parameters.MutableConcurrencyParameters) p.getConcurrencyParameters();
                 cParams.setConcurrency(value);
-            }
-            else
+            } else
                 throw new Fault(i18n, "cnfg.conc.notEditable");
         }
 
@@ -265,8 +259,7 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class ConfigCommand extends Command
-    {
+    private static class ConfigCommand extends Command {
         static String getName() {
             return "config";
         }
@@ -320,8 +313,7 @@ public class ConfigManager
             try {
                 ctx.setConfig(path);
                 ctx.setAutoRunReportDir(null);
-            }
-            catch (CommandContext.Fault e) {
+            } catch (CommandContext.Fault e) {
                 throw new Fault(e);
             }
         }
@@ -331,8 +323,7 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class WriteConfigCommand extends Command
-    {
+    private static class WriteConfigCommand extends Command {
         static String getName() {
             return "writeConfig";
         }
@@ -342,9 +333,9 @@ public class ConfigManager
 
             if (!argIter.hasNext())
                 throw new Fault(i18n, "cnfg.conf.missingArg");
-                // XXX could provide a better error message, perhaps including the value of
-                //     getName(), because the missingArg error message is general purpose
-                //     EX: throw new Fault(i18n, "cnfg.conf.missingArg", getName());
+            // XXX could provide a better error message, perhaps including the value of
+            //     getName(), because the missingArg error message is general purpose
+            //     EX: throw new Fault(i18n, "cnfg.conf.missingArg", getName());
 
             path = new File(nextArg(argIter));
         }
@@ -360,14 +351,12 @@ public class ConfigManager
             try {
                 InterviewParameters p = getConfig(ctx);
                 p.saveAs(path, true, true);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 if (!path.canWrite())
                     throw new Fault(i18n, "cnfg.writeConfig.cantWrite", path.getPath());
                 else
                     throw new Fault(i18n, "cnfg.writeConfig.writeErr", path, e);
-            }
-            catch (Interview.Fault e) {
+            } catch (Interview.Fault e) {
                 throw new Fault(i18n, "cnfg.writeConfig.badConfig", path, e.getMessage());
             }   // catch
         }
@@ -377,8 +366,7 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class EnvCommand extends Command
-    {
+    private static class EnvCommand extends Command {
         static String getName() {
             return "env";
         }
@@ -397,10 +385,9 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getEnvParameters() instanceof Parameters.LegacyEnvParameters) {
                 Parameters.LegacyEnvParameters eParams =
-                    (Parameters.LegacyEnvParameters) p.getEnvParameters();
+                        (Parameters.LegacyEnvParameters) p.getEnvParameters();
                 eParams.setEnvName(name);
-            }
-            else
+            } else
                 throw new Fault(i18n, "cnfg.env.notEditable");
         }
 
@@ -409,10 +396,9 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class EnvFilesCommand extends Command
-    {
+    private static class EnvFilesCommand extends Command {
         static String[] getNames() {
-            return new String[] { "envfile", "envfiles" };
+            return new String[]{"envfile", "envfiles"};
         }
 
         EnvFilesCommand(ListIterator<String> argIter) throws Fault {
@@ -425,8 +411,7 @@ public class ConfigManager
                 if (arg.startsWith("-")) {
                     putbackArg(argIter);
                     break;
-                }
-                else
+                } else
                     v.add(new File(arg));
             }
 
@@ -442,10 +427,9 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getEnvParameters() instanceof Parameters.LegacyEnvParameters) {
                 Parameters.LegacyEnvParameters eParams =
-                    (Parameters.LegacyEnvParameters) p.getEnvParameters();
+                        (Parameters.LegacyEnvParameters) p.getEnvParameters();
                 eParams.setEnvFiles(files);
-            }
-            else
+            } else
                 throw new Fault(i18n, "cnfg.envFiles.notEditable");
         }
 
@@ -454,8 +438,7 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class ExcludeListCommand extends Command
-    {
+    private static class ExcludeListCommand extends Command {
         static String getName() {
             return "excludeList";
         }
@@ -471,8 +454,7 @@ public class ConfigManager
                 if (arg.startsWith("-")) {
                     putbackArg(argIter);
                     break;
-                }
-                else
+                } else
                     v.add(new File(arg));
             }
 
@@ -488,11 +470,10 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getExcludeListParameters() instanceof Parameters.MutableExcludeListParameters) {
                 Parameters.MutableExcludeListParameters eParams =
-                    (Parameters.MutableExcludeListParameters) p.getExcludeListParameters();
+                        (Parameters.MutableExcludeListParameters) p.getExcludeListParameters();
                 eParams.setExcludeMode(Parameters.MutableExcludeListParameters.CUSTOM_EXCLUDE_LIST);
                 eParams.setCustomExcludeFiles(files);
-            }
-            else
+            } else
                 throw new Fault(i18n, "cnfg.excl.notEditable");
         }
 
@@ -500,8 +481,7 @@ public class ConfigManager
     }
     //--------------------------------------------------------------------------
 
-    private static class KflCommand extends Command
-    {
+    private static class KflCommand extends Command {
         static String getName() {
             return "kfl";
         }
@@ -517,8 +497,7 @@ public class ConfigManager
                 if (arg.startsWith("-")) {
                     putbackArg(argIter);
                     break;
-                }
-                else
+                } else
                     v.add(new File(arg));
             }
 
@@ -547,8 +526,7 @@ public class ConfigManager
     }
     //--------------------------------------------------------------------------
 
-    private static class OpenCommand extends Command
-    {
+    private static class OpenCommand extends Command {
         static String getName() {
             return "open";
         }
@@ -574,8 +552,7 @@ public class ConfigManager
         }
 
         Command getCommandForFile(File file)
-            throws Fault
-        {
+                throws Fault {
             if (!file.exists())
                 throw new Fault(i18n, "cnfg.open.cantFindFile", file);
 
@@ -608,8 +585,7 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class KeywordsCommand extends Command
-    {
+    private static class KeywordsCommand extends Command {
         static String getName() {
             return "keywords";
         }
@@ -629,15 +605,14 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getKeywordsParameters() instanceof Parameters.MutableKeywordsParameters) {
                 Parameters.MutableKeywordsParameters kParams =
-                    (Parameters.MutableKeywordsParameters) p.getKeywordsParameters();
+                        (Parameters.MutableKeywordsParameters) p.getKeywordsParameters();
                 if (expr == null)
                     kParams.setKeywordsMode(Parameters.MutableKeywordsParameters.NO_KEYWORDS);
                 else {
                     kParams.setKeywordsMode(Parameters.MutableKeywordsParameters.MATCH_KEYWORDS);
                     kParams.setMatchKeywords(Parameters.MutableKeywordsParameters.EXPR, expr);
                 }
-            }
-            else
+            } else
                 throw new Fault(i18n, "cnfg.keywords.notEditable");
         }
 
@@ -648,15 +623,13 @@ public class ConfigManager
     // Legacy CLI support (-params, jte and jtp files)
     // Very deprecated.
 
-    private static abstract class ParamsBaseCommand extends Command
-    {
+    private static abstract class ParamsBaseCommand extends Command {
         ParamsBaseCommand(String name) {
             super(name);
         }
 
         protected void setParameters(CommandContext ctx, FileParameters fp)
-            throws Fault
-        {
+                throws Fault {
             /*OLD
               if (ctx.getTestSuite() != null)
               throw new Command.Fault(i18n, "cnfg.testSuiteAlreadySet");
@@ -680,11 +653,9 @@ public class ConfigManager
                     autoRunReportDir = ctx.getWorkDirectory().getFile(rd.getPath());
                 }
                 ctx.setAutoRunReportDir(autoRunReportDir);
-            }
-            catch (TestSuite.Fault e) {
+            } catch (TestSuite.Fault e) {
                 throw new Fault(i18n, "cnfg.cantSetParameters", e.getMessage());
-            }
-            catch (CommandContext.Fault e) {
+            } catch (CommandContext.Fault e) {
                 throw new Fault(e);
             }
         }
@@ -692,8 +663,7 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class ParamFileCommand extends ParamsBaseCommand
-    {
+    private static class ParamFileCommand extends ParamsBaseCommand {
         ParamFileCommand(File path) {
             super(path.getPath());
             this.path = path;
@@ -708,11 +678,9 @@ public class ConfigManager
                             path, params.getErrorMessage());
                 }
                 setParameters(ctx, params);
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 throw new Fault(i18n, "cnfg.params.cantFindFile", path);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new Fault(i18n, "cnfg.params.cantReadFile",
                         path, e);
             }
@@ -723,24 +691,23 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class ParamsCommand extends ParamsBaseCommand
-    {
+    private static class ParamsCommand extends ParamsBaseCommand {
         static String getName() {
             return "params";
         }
 
         static HelpTree.Node getHelp() {
             String[] opts = {
-                "testSuite", "t",
-                "keywords",
-                "status",
-                "exclude",
-                "envfile",
-                "env",
-                "conc",
-                "timeout",
-                "report", "r",
-                "workdir", "w"
+                    "testSuite", "t",
+                    "keywords",
+                    "status",
+                    "exclude",
+                    "envfile",
+                    "env",
+                    "conc",
+                    "timeout",
+                    "report", "r",
+                    "workdir", "w"
             };
             return new HelpTree.Node(i18n, "cnfg.params", opts);
         }
@@ -774,8 +741,7 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class PriorStatusCommand extends Command
-    {
+    private static class PriorStatusCommand extends Command {
         static String getName() {
             return "priorStatus";
         }
@@ -815,17 +781,16 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getPriorStatusParameters() instanceof Parameters.MutablePriorStatusParameters) {
                 Parameters.MutablePriorStatusParameters sParams =
-                    (Parameters.MutablePriorStatusParameters) p.getPriorStatusParameters();
+                        (Parameters.MutablePriorStatusParameters) p.getPriorStatusParameters();
                 sParams.setPriorStatusMode(Parameters.MutablePriorStatusParameters.MATCH_PRIOR_STATUS);
                 sParams.setMatchPriorStatusValues(values);
-            }
-            else
+            } else
                 throw new Fault(i18n, "cnfg.status.notEditable");
         }
 
         private static String[] split(String s) {
             if (s == null)
-            return null;
+                return null;
 
             Vector<String> v = new Vector<>();
             int start = -1;
@@ -833,17 +798,16 @@ public class ConfigManager
                 if (Character.isLetterOrDigit(s.charAt(i))) {
                     if (start == -1)
                         start = i;
-                }
-                else {
+                } else {
                     if (start != -1)
                         v.addElement(s.substring(start, i));
                     start = -1;
                 }
             }
             if (start != -1)
-            v.addElement(s.substring(start));
+                v.addElement(s.substring(start));
             if (v.isEmpty())
-            return null;
+                return null;
             String[] a = new String[v.size()];
             v.copyInto(a);
             return a;
@@ -855,8 +819,7 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class SetCommand extends Command
-    {
+    private static class SetCommand extends Command {
         static String getName() {
             return "set";
         }
@@ -872,8 +835,7 @@ public class ConfigManager
                 if (!argIter.hasNext())
                     throw new Fault(i18n, "cnfg.set.insufficientArgs");
                 file = new File(nextArg(argIter));
-            }
-            else {
+            } else {
                 tag = arg;
                 if (!argIter.hasNext())
                     throw new Fault(i18n, "cnfg.set.insufficientArgs");
@@ -895,8 +857,7 @@ public class ConfigManager
                         path = p.getPath();
                     }
                 }
-            }
-            else {
+            } else {
                 for (Question q : path) {
                     if (q.getTag().equals(tag)) {
                         setValue(q, value);
@@ -917,7 +878,7 @@ public class ConfigManager
         private void setValue(Question q, String value) throws Fault {
             try {
                 if (q instanceof CompositeQuestion) {
-                    CompositeQuestion cq = (CompositeQuestion)q;
+                    CompositeQuestion cq = (CompositeQuestion) q;
                     int sepIndex = value.indexOf(":");
                     if (sepIndex > 0) {
                         // decode value and send to question
@@ -934,16 +895,13 @@ public class ConfigManager
                             val = value.substring(sepIndex + 1);
 
                         cq.setValue(key, val);
-                    }
-                    else {
+                    } else {
                         q.setValue(value);
                     }
-                }
-                else {
+                } else {
                     q.setValue(value);
                 }
-            }
-            catch (InterviewParameters.Fault e) {
+            } catch (InterviewParameters.Fault e) {
                 throw new Fault(i18n, "cnfg.set.cantSetValue",
                         q.getTag(), value, e.getMessage());
             }
@@ -976,11 +934,9 @@ public class ConfigManager
             try (FileInputStream fis = new FileInputStream(file);
                  InputStream in = new BufferedInputStream(fis)) {
                 return PropertyUtils.load(in);
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 throw new Fault(i18n, "cnfg.set.cantFindFile", file);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new Fault(i18n, "cnfg.set.cantReadFile",
                         file, e.getMessage());
             }
@@ -996,8 +952,7 @@ public class ConfigManager
     /**
      * Sets "external" interview values from the command line.
      */
-    private static class SetXCommand extends Command
-    {
+    private static class SetXCommand extends Command {
         static String getName() {
             return "setX";
         }
@@ -1013,8 +968,7 @@ public class ConfigManager
                 if (!argIter.hasNext())
                     throw new Fault(i18n, "cnfg.set.insufficientArgs");
                 file = new File(nextArg(argIter));
-            }
-            else {
+            } else {
                 name = arg;
                 if (!argIter.hasNext())
                     throw new Fault(i18n, "cnfg.set.insufficientArgs");
@@ -1040,21 +994,18 @@ public class ConfigManager
                     */
                     p.storeProperty(name, values.get(name));
                 }
-            }
-            else {
+            } else {
                 p.storeProperty(name, value);
             }
         }
 
         private Map<String, String> loadFile(File file) throws Fault {
             try (FileInputStream fis = new FileInputStream(file);
-                InputStream in = new BufferedInputStream(fis)) {
+                 InputStream in = new BufferedInputStream(fis)) {
                 return PropertyUtils.load(in);
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 throw new Fault(i18n, "cnfg.set.cantFindFile", file);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new Fault(i18n, "cnfg.set.cantReadFile",
                         file, e.getMessage());
             }
@@ -1067,8 +1018,7 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class TestsCommand extends Command
-    {
+    private static class TestsCommand extends Command {
         static String getName() {
             return "tests";
         }
@@ -1084,8 +1034,7 @@ public class ConfigManager
                 if (arg.startsWith("-")) {
                     putbackArg(argIter);
                     break;
-                }
-                else
+                } else
                     v.add(arg);
             }
 
@@ -1101,12 +1050,11 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getTestsParameters() instanceof Parameters.MutableTestsParameters) {
                 Parameters.MutableTestsParameters iParams =
-                    (Parameters.MutableTestsParameters) p.getTestsParameters();
+                        (Parameters.MutableTestsParameters) p.getTestsParameters();
                 iParams.setTestsMode(Parameters.MutableTestsParameters.SPECIFIED_TESTS);
                 iParams.setSpecifiedTests(tests);
-            }
-        else
-            throw new Fault(i18n, "cnfg.tests.notEditable");
+            } else
+                throw new Fault(i18n, "cnfg.tests.notEditable");
         }
 
         private String[] tests;
@@ -1114,10 +1062,9 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class TestSuiteCommand extends Command
-    {
+    private static class TestSuiteCommand extends Command {
         static String[] getNames() {
-            return new String[] { "testsuite", "ts" };
+            return new String[]{"testsuite", "ts"};
         }
 
         TestSuiteCommand(Iterator<String> argIter) throws Fault {
@@ -1147,12 +1094,12 @@ public class ConfigManager
         @Override
         public URL getCustomSplash() {
             String basePath = path.getAbsolutePath() +
-                              File.separator + "lib";
+                    File.separator + "lib";
             DirectoryClassLoader loader =
                     new DirectoryClassLoader(basePath);
             try {
                 ResourceBundle b = ResourceBundle.getBundle("splash",
-                                        Locale.getDefault(), loader);
+                        Locale.getDefault(), loader);
                 String icon = b.getString("splash.icon");
                 // could support a classpath value in the bundle
                 // and use PathClassLoader to generate the icon
@@ -1163,8 +1110,7 @@ public class ConfigManager
                 if (f.canRead())
                     try {
                         return f.toURL();
-                    }
-                    catch (java.net.MalformedURLException e) {
+                    } catch (java.net.MalformedURLException e) {
                         return null;
                     }
                 else
@@ -1189,12 +1135,12 @@ public class ConfigManager
         ClassLoader getCustomHelpLoader() {
             try {
                 String basePath = path.getCanonicalPath() +
-                                  File.separator + "lib";
+                        File.separator + "lib";
                 DirectoryClassLoader loader =
                         new DirectoryClassLoader(basePath);
 
                 ResourceBundle b = ResourceBundle.getBundle("help",
-                                        Locale.getDefault(), loader);
+                        Locale.getDefault(), loader);
                 String cp = b.getString("classpath");
 
                 // NOTES: PathClassLoader does not currently support resources
@@ -1207,8 +1153,8 @@ public class ConfigManager
                     f = new File(path.getPath(), cp);
                 }
 
-                return new URLClassLoader(new URL[] {f.toURL()},
-                                            this.getClass().getClassLoader());
+                return new URLClassLoader(new URL[]{f.toURL()},
+                        this.getClass().getClassLoader());
             }
             // catch all possible exceptions from ResourceBundle
             catch (MissingResourceException | IOException | ClassCastException | NullPointerException m) {
@@ -1265,24 +1211,22 @@ public class ConfigManager
                                 String s2 = s;
                                 try {
                                     s1 = path.getCanonicalPath();
-                                }
-                                catch (IOException e) {
+                                } catch (IOException e) {
                                     // ignore accept default value of s1
                                 }
 
                                 try {
                                     File file = new File(s2);
                                     s2 = file.getCanonicalPath();
-                                }
-                                catch (IOException e) {
+                                } catch (IOException e) {
                                     // ignore accept default value of s2
                                 }
 
                                 if (s1.equals(s2)) {
                                     s = p.get("tool." + i + ".workDir");
                                     if (s != null &&
-                                        WorkDirectory.isUsableWorkDirectory(
-                                            new File(s))) {
+                                            WorkDirectory.isUsableWorkDirectory(
+                                                    new File(s))) {
                                         // found workdir to use as preferred workdir
                                         ctx.setDefaultWorkDir(s);
 
@@ -1297,8 +1241,7 @@ public class ConfigManager
                                         }
 
                                         break;
-                                    }
-                                    else {
+                                    } else {
                                         if (s != null)
                                             System.out.println(i18n.getString("cnfg.badWorkdir", s));
                                         continue;
@@ -1308,8 +1251,7 @@ public class ConfigManager
                         }   // for
                     }
                 }
-            }
-            catch (CommandContext.Fault e) {
+            } catch (CommandContext.Fault e) {
                 throw new Fault(e);
             }
         }
@@ -1327,7 +1269,7 @@ public class ConfigManager
                     String key = en.getKey();
                     key = key.substring(prefix.length());
                     if ("-workDir-config-class-mgr-".contains(key)) {
-                    //if ("-class-mgr-".contains(key)) {
+                        //if ("-class-mgr-".contains(key)) {
                         continue;
                     }
                     res.put(key, en.getValue());
@@ -1339,8 +1281,7 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class TimeoutFactorCommand extends Command
-    {
+    private static class TimeoutFactorCommand extends Command {
         static String getName() {
             return "timeoutfactor";
         }
@@ -1359,14 +1300,13 @@ public class ConfigManager
             if (num != null && (pos.getIndex() == arg.length())) {
                 value = num.floatValue();
                 if (value < Parameters.TimeoutFactorParameters.MIN_TIMEOUT_FACTOR
-                    || value > Parameters.TimeoutFactorParameters.MAX_TIMEOUT_FACTOR) {
+                        || value > Parameters.TimeoutFactorParameters.MAX_TIMEOUT_FACTOR) {
                     throw new Fault(i18n, "cnfg.tf.badRange",
                             arg,
                             Float.valueOf(Parameters.TimeoutFactorParameters.MIN_TIMEOUT_FACTOR),
                             Float.valueOf(Parameters.TimeoutFactorParameters.MAX_TIMEOUT_FACTOR));
                 }
-            }
-            else
+            } else
                 throw new Fault(i18n, "cnfg.tf.badValue", arg);
         }
 
@@ -1375,10 +1315,9 @@ public class ConfigManager
             InterviewParameters p = getConfig(ctx);
             if (p.getTimeoutFactorParameters() instanceof Parameters.MutableTimeoutFactorParameters) {
                 Parameters.MutableTimeoutFactorParameters cParams =
-                (Parameters.MutableTimeoutFactorParameters) p.getTimeoutFactorParameters();
+                        (Parameters.MutableTimeoutFactorParameters) p.getTimeoutFactorParameters();
                 cParams.setTimeoutFactor(value);
-            }
-            else
+            } else
                 throw new Fault(i18n, "cnfg.tf.notEditable");
         }
 
@@ -1387,10 +1326,9 @@ public class ConfigManager
 
     //--------------------------------------------------------------------------
 
-    private static class WorkDirectoryCommand extends Command
-    {
+    private static class WorkDirectoryCommand extends Command {
         static String[] getNames() {
-            return new String[] { "workdirectory", "workdir", "wd" };
+            return new String[]{"workdirectory", "workdir", "wd"};
         }
 
         WorkDirectoryCommand(Iterator<String> argIter) throws Fault {
@@ -1403,8 +1341,7 @@ public class ConfigManager
                 else if (arg.equalsIgnoreCase("-overwrite")) {
                     createFlag = true;
                     overwriteFlag = true;
-                }
-                else if (arg.startsWith("-"))
+                } else if (arg.startsWith("-"))
                     throw new Fault(i18n, "cnfg.wd.badArg", arg);
                 else {
                     path = new File(arg);
@@ -1446,7 +1383,7 @@ public class ConfigManager
                 if (!path.exists())
                     throw new Fault(i18n, "cnfg.wd.cantFindWorkDir", path);
                 if (!WorkDirectory.isWorkDirectory(path)
-                    && !WorkDirectory.isEmptyDirectory(path))
+                        && !WorkDirectory.isEmptyDirectory(path))
                     throw new Fault(i18n, "cnfg.wd.notAWorkDirectory", path);
             }
 
@@ -1458,8 +1395,7 @@ public class ConfigManager
 
             try {
                 ctx.setWorkDirectory(path, createFlag);
-            }
-            catch (CommandContext.Fault e) {
+            } catch (CommandContext.Fault e) {
                 throw new Fault(e);
             }
 

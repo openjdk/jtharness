@@ -29,6 +29,7 @@ package com.sun.javatest.exec;
 import com.sun.javatest.tool.StringFitter;
 import com.sun.javatest.tool.ToolAction;
 import com.sun.javatest.tool.UIFactory;
+
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
@@ -60,7 +61,7 @@ public class NavigationPane extends JPanel {
 
     public NavigationPane(UIFactory uif, MultiFormatPane mediaPane) {
 
-        if(mediaPane == null) {
+        if (mediaPane == null) {
             throw new IllegalArgumentException("Corresponding media pane should exist");
         }
         this.mediaPane = mediaPane;
@@ -86,18 +87,19 @@ public class NavigationPane extends JPanel {
     }
 
     public void setURLs(URL... urls) {
-        if(model != null) {
+        if (model != null) {
             model.removeAllElements();
 
             homeURL = urls[0];
             homeAction.setEnabled(homeURL != null);
 
-            for(URL url : urls) {
+            for (URL url : urls) {
                 model.addElement(url);
             }
             model.setSelectedItem(homeURL);
         }
     }
+
     // When click link on corresponding media pane
     public void processURL(URL url) {
         history.add(url);
@@ -139,21 +141,21 @@ public class NavigationPane extends JPanel {
         selectBox.addItemListener(listener);
         selectBox.setMaximumRowCount(MAX_ROWS_DISPLAY);
         selectBox.setUI(new BasicComboBoxUI() {
-            // wrap the content with a scrolling interface
-            // would be nice if Swing did this for us
-            @Override
-            protected ComboPopup createPopup() {
-                return new BasicComboPopup(selectBox) {
-                    @Override
-                    protected JScrollPane createScroller() {
-                        return new JScrollPane(list,
-                            ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                    }
-                };
-            }
-            }   // class
-            );
+                            // wrap the content with a scrolling interface
+                            // would be nice if Swing did this for us
+                            @Override
+                            protected ComboPopup createPopup() {
+                                return new BasicComboPopup(selectBox) {
+                                    @Override
+                                    protected JScrollPane createScroller() {
+                                        return new JScrollPane(list,
+                                                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                                    }
+                                };
+                            }
+                        }   // class
+        );
         uif.setAccessibleName(selectBox, "np.choice");  // override default a11y name
 
         c.gridx = 1;
@@ -162,9 +164,9 @@ public class NavigationPane extends JPanel {
 
         add(selectBox, c);
 
-        Action[] actions = { backAction, forwardAction, null, homeAction };
+        Action[] actions = {backAction, forwardAction, null, homeAction};
 
-        toolBar = uif.createToolBar("np.toolbar", actions );
+        toolBar = uif.createToolBar("np.toolbar", actions);
         toolBar.setFloatable(false);
 
         c.weightx = 0;
@@ -181,8 +183,7 @@ public class NavigationPane extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (homeURL == null) {
                     mediaPane.setDefaultView();
-                }
-                else{
+                } else {
                     mediaPane.stopAudio();
                     mediaPane.loadPage(homeURL);
                 }
@@ -243,7 +244,7 @@ public class NavigationPane extends JPanel {
     }
 
 
-// History
+    // History
     private static class History {
         boolean hasPrev() {
             return index > 0;
@@ -294,8 +295,6 @@ public class NavigationPane extends JPanel {
     }
 
 
-
-
     private class Renderer extends DefaultListCellRenderer {
 
         public Renderer() {
@@ -317,8 +316,7 @@ public class NavigationPane extends JPanel {
                 // if not file URL
                 if (!url.getProtocol().equals("file")) {
                     name = url.toString();
-                }
-                else {
+                } else {
                     // if file URL, remove the "file:" prefix
                     name = extractPrefix(url.toString(), "file:");
                     String baseName = null;
@@ -330,22 +328,21 @@ public class NavigationPane extends JPanel {
                     }
                     // if contains base dir, only show file name
                     if (baseName != null &&
-                        name.startsWith(baseName) &&
-                        (name.length() > baseName.length())) {
-                        name = name.substring(baseName.length() );
+                            name.startsWith(baseName) &&
+                            (name.length() > baseName.length())) {
+                        name = name.substring(baseName.length());
                         // in case of Unix
                         if (name.startsWith(File.separator)) {
                             name = name.substring(1);
                         }
                     }
                 }
-            }
-            else
+            } else
                 name = String.valueOf(o);
 
-        JLabel cell = (JLabel) super.getListCellRendererComponent(list, name, index, isSelected, cellHasFocus);
-        if(container != null)
-            cell.setText(sf.truncateBeginning(name, container.getWidth() - 17));
+            JLabel cell = (JLabel) super.getListCellRendererComponent(list, name, index, isSelected, cellHasFocus);
+            if (container != null)
+                cell.setText(sf.truncateBeginning(name, container.getWidth() - 17));
             cell.setToolTipText(name);
             return cell;
         }
@@ -354,8 +351,8 @@ public class NavigationPane extends JPanel {
             return (!origStr.startsWith(target)) ? origStr : origStr.substring(target.length());
         }
 
-    private Container container;
-    private StringFitter sf;
+        private Container container;
+        private StringFitter sf;
     }
 
 

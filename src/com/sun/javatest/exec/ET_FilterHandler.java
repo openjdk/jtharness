@@ -28,6 +28,7 @@
 package com.sun.javatest.exec;
 
 import com.sun.javatest.exec.Session.Event;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.util.Collection;
@@ -113,7 +114,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
         List<TestFilter> usersFilters = getUsersFilters();
         if (usersFilters != null) {
-            for (TestFilter tf: usersFilters) {
+            for (TestFilter tf : usersFilters) {
                 allFilters.add(tf);
                 fConfig.add(tf);
             }
@@ -205,8 +206,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
                 }
 
                 fConfig.remove(certFilter);
-            }
-            else {
+            } else {
                 // FilterConfig is clean
             }
         }   // outer if
@@ -215,8 +215,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             if (newCertFilter == certFilter) {
                 // this is ignored by fConfig if it is not relevant
                 fConfig.notifyUpdated(certFilter);
-            }
-            else {
+            } else {
                 // rm old one, put in new one
                 fConfig.add(newCertFilter);
 
@@ -229,8 +228,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
                 fConfig.remove(certFilter);
                 certFilter = newCertFilter;
             }
-        }
-        else {
+        } else {
             // filter is the same
         }
     }
@@ -285,11 +283,13 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
         prefs.save();
     }
+
     @Override
     public void restore(Map<String, String> m) {
         this.map = m;
         fHandler.setFilter(getDefaultFilter(m));
     }
+
     @Override
     public void updateGUI() {
         // do nothing
@@ -338,13 +338,11 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
                 bctf = new BasicCustomTestFilter(pm, model, uif);
                 allFilters.add(bctf);
                 fConfig.add(bctf);
-            }
-            else {                  // tell filter load settings
+            } else {                  // tell filter load settings
                 bctf.load(pm);
                 fHandler.updateFilterMetaInfo(bctf);
             }
-        }
-        else if (bctf == null) {
+        } else if (bctf == null) {
             // no previous settings to use
             bctf = new BasicCustomTestFilter(model, uif);
             allFilters.add(bctf);
@@ -357,6 +355,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
      * Find the index in the preferences which is appropriate for this filter
      * to save its info in.  Returns the next available one if there isn't
      * an existing one.
+     *
      * @param tsId May be null.
      */
     private int getPreferenceIndexForWrite(Preferences p, String tsId) {
@@ -374,14 +373,12 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
                 p.setPreference(FILTER_PREFIX + ".count",
                         Integer.toString(numFilters));
             }
-        }
-        else if (tsId != null && numFilters == 0) {
+        } else if (tsId != null && numFilters == 0) {
             index = 1;
             numFilters = 1;
             p.setPreference(FILTER_PREFIX + ".count",
                     Integer.toString(numFilters));
-        }
-        else {
+        } else {
             // index remains 0, the default
         }
         return index;
@@ -389,6 +386,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
     /**
      * Which pref index should be read for the given test suite.
+     *
      * @return -1 if there is no pref. to read.
      */
     private int getPreferenceIndexForRead(Preferences p, String tsId) {
@@ -413,6 +411,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
     /**
      * Do not call this directly.
+     *
      * @param numFilters A number greater than zero.
      * @return -1 if not found.
      */
@@ -435,12 +434,13 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
     /**
      * How many indexes are we using for filters right now.
+     *
      * @return -1 for none.
      */
     private int getPreferenceCount(Preferences p) {
 
         return Integer.parseInt(
-                            p.getPreference(FILTER_PREFIX + ".count", "0"));
+                p.getPreference(FILTER_PREFIX + ".count", "0"));
     }
 
     private FilterConfig fConfig;
@@ -471,7 +471,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
     @Override
     public void updated(Event ev) {
         if (ev instanceof BasicSession.E_NewConfig) {
-            paramFilter.update(((BasicSession.E_NewConfig)ev).ip);
+            paramFilter.update(((BasicSession.E_NewConfig) ev).ip);
         }
         updateFilters();
     }
@@ -510,7 +510,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             if (!(key instanceof String))
                 throw new IllegalArgumentException("key must be a string");
 
-            return prefs.getPreference((String)key);
+            return prefs.getPreference((String) key);
         }
 
         @Override
@@ -577,7 +577,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
             // XXX avoid poking an uninitialized GUI what is a better check
             //if (testTreePanel != null)
-        //      updateGUI();
+            //      updateGUI();
         }
 
         @Override
@@ -613,7 +613,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
                 if (p.getPreference(ExecTool.FILTER_WARN_PREF, "true").equals("true")) {
                     final JPanel pan = uif.createPanel("notagain", false);
                     final JCheckBox cb = uif.createCheckBox("exec.fltr.noShow",
-                                                      false);
+                            false);
                     final JTextArea msg = uif.createMessageArea("exec.fltr.note");
                     EventQueue.invokeLater(new Runnable() {
                         @Override
@@ -623,7 +623,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
                             pan.add(msg, BorderLayout.CENTER);
 
                             JOptionPane pane = new JOptionPane(pan, JOptionPane.INFORMATION_MESSAGE,
-                                JOptionPane.DEFAULT_OPTION, null, null, null);
+                                    JOptionPane.DEFAULT_OPTION, null, null, null);
                             JDialog dialog = pane.createDialog(parentComponent, uif.getI18NString("exec.fltr.note.title"));
                             dialog.show();
 
@@ -632,10 +632,10 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
                             //uif.showCustomOptionDialog("exec.fltr.note", pan);
 
                             Object selectedValue = pane.getValue();
-                            if( (selectedValue instanceof Integer) &&
-                                ((Integer)selectedValue).intValue() >= 0 )
+                            if ((selectedValue instanceof Integer) &&
+                                    ((Integer) selectedValue).intValue() >= 0)
                                 p.setPreference(ExecTool.FILTER_WARN_PREF,
-                                                Boolean.toString(!cb.isSelected()));
+                                        Boolean.toString(!cb.isSelected()));
                         }
                     });
                 }
@@ -648,19 +648,24 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         }
 
         @Override
-        public void finishedTest(TestResult tr) { }
+        public void finishedTest(TestResult tr) {
+        }
 
         @Override
-        public void stoppingTestRun() { }
+        public void stoppingTestRun() {
+        }
 
         @Override
-        public void finishedTesting() { }
+        public void finishedTesting() {
+        }
 
         @Override
-        public void finishedTestRun(boolean allOK) { }
+        public void finishedTestRun(boolean allOK) {
+        }
 
         @Override
-        public void error(String msg) { }
+        public void error(String msg) {
+        }
     }
 }
 

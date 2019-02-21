@@ -30,8 +30,7 @@ package com.sun.javatest;
  * This class should take the hit for all deprecated methods used in this
  * package.
  */
-class Deprecated
-{
+class Deprecated {
     /**
      * The method is for use in place of calls to the deprecated Thread.stop().
      * It should only be used when Thread.interrupt() has not succeeded and the

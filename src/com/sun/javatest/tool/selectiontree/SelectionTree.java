@@ -69,6 +69,7 @@ import com.sun.javatest.tool.selectiontree.selection.SelectionElement;
 import com.sun.javatest.tool.selectiontree.selection.SelectionType;
 import com.sun.javatest.tool.selectiontree.selection.StyledSelectionElement;
 import com.sun.javatest.util.I18NResourceBundle;
+
 import javax.swing.Action;
 
 /**
@@ -114,7 +115,7 @@ public class SelectionTree extends JTree {
     /**
      * Answers selection tree with given {@link SelectionElement} object as its root, which has root node shown or not.
      *
-     * @param rootObject {@link SelectionElement} root object
+     * @param rootObject    {@link SelectionElement} root object
      * @param rootIsVisible true if root node is be visible
      */
     public SelectionTree(SelectionElement rootObject, boolean rootIsVisible) {
@@ -124,8 +125,8 @@ public class SelectionTree extends JTree {
     /**
      * Answers selection tree with given {@link SelectionElement} object as its root, which has root node shown or not.
      *
-     * @param rootObject {@link SelectionElement} root object
-     * @param filter {@link SelectionTreeFilter} to filter objects in the tree
+     * @param rootObject    {@link SelectionElement} root object
+     * @param filter        {@link SelectionTreeFilter} to filter objects in the tree
      * @param rootIsVisible true if root node should be visible
      */
     public SelectionTree(SelectionElement rootObject, SelectionTreeFilter filter, boolean rootIsVisible) {
@@ -170,7 +171,7 @@ public class SelectionTree extends JTree {
         try {
             return new ImageIcon(
                     ImageIO.read(
-                    com.sun.javatest.tool.Main.class.getResourceAsStream(i18n.getString(iconResource))));
+                            com.sun.javatest.tool.Main.class.getResourceAsStream(i18n.getString(iconResource))));
         } catch (IOException e) {
             return null;
         }
@@ -665,7 +666,7 @@ public class SelectionTree extends JTree {
     /**
      * Notifies listeners than selection type of a node has been changed.
      *
-     * @param node     {@link SelectionTreeNode} with selection type changed
+     * @param node    {@link SelectionTreeNode} with selection type changed
      * @param oldType old selection type
      * @param newType new selection type
      */

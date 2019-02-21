@@ -47,22 +47,21 @@ class StatisticsSection extends HTMLSection {
         super(i18n.getString("stats.title"), set, dir, parent);
         this.i18n = i18n;
 
-        headings = new String[] {
-            i18n.getString("stats.heading.passed"),
-            i18n.getString("stats.heading.failed"),
-            i18n.getString("stats.heading.error"),
-            i18n.getString("stats.heading.notRun")};
+        headings = new String[]{
+                i18n.getString("stats.heading.passed"),
+                i18n.getString("stats.heading.failed"),
+                i18n.getString("stats.heading.error"),
+                i18n.getString("stats.heading.notRun")};
 
         initFiles = settings.getInitialFiles();
 
         resultTable = settings.getInterview().getWorkDirectory().getTestResultTable();
-        Iterator<TestResult> iter =  null;
+        Iterator<TestResult> iter = null;
         try {
             iter = (initFiles == null) ?
-                        resultTable.getIterator(settings.filter) :
-                        resultTable.getIterator(initFiles, settings.filter);
-        }
-        catch (TestResultTable.Fault f) {
+                    resultTable.getIterator(settings.filter) :
+                    resultTable.getIterator(initFiles, settings.filter);
+        } catch (TestResultTable.Fault f) {
             throw new JavaTestError(i18n.getString("stats.testResult.err"));
         }       // catch
 
@@ -85,8 +84,7 @@ class StatisticsSection extends HTMLSection {
                 v[s.getType()]++;
 
                 statusTotals[s.getType()]++;
-            }
-            catch (TestResult.Fault ex) {
+            } catch (TestResult.Fault ex) {
                 // hmmm. Could count problem files here and report on them later
             }
         }
@@ -102,7 +100,7 @@ class StatisticsSection extends HTMLSection {
         out.startTag(HTMLWriterEx.UL);
         out.startTag(HTMLWriterEx.LI);
         out.writeLink("#" + HTMLReport.anchors[HTMLReport.KEYWORD_ANCHOR],
-                      i18n.getString("stats.keywordValue"));
+                i18n.getString("stats.keywordValue"));
         out.endTag(HTMLWriterEx.UL);
         out.newLine();
     }
@@ -188,7 +186,7 @@ class StatisticsSection extends HTMLSection {
 
         out.startTag(HTMLWriterEx.H3);
         out.writeLinkDestination(HTMLReport.anchors[HTMLReport.KEYWORD_ANCHOR],
-                      i18n.getString("stats.keywordValue"));
+                i18n.getString("stats.keywordValue"));
         out.endTag(HTMLWriterEx.H3);
         out.newLine();
 

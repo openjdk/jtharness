@@ -47,17 +47,16 @@ import java.util.Objects;
  * the parameter information for a test run.
  */
 public class PriorStatusInterview
-    extends Interview
-    implements Parameters.MutablePriorStatusParameters
-{
+        extends Interview
+        implements Parameters.MutablePriorStatusParameters {
     /**
      * Create an interview.
+     *
      * @param parent The parent interview of which this is a child.
      * @throws Interview.Fault if there is a problem while creating the interview.
      */
     public PriorStatusInterview(InterviewParameters parent)
-        throws Interview.Fault
-    {
+            throws Interview.Fault {
         super(parent, "priorStatus");
         this.parent = parent;
         setResourceBundle("i18n");
@@ -70,6 +69,7 @@ public class PriorStatusInterview
      * which "prior status" values will cause a test to be selected for execution.
      * The array of values can be indexed with {@link Status#PASSED}, {@link Status#FAILED},
      * etc.
+     *
      * @return an array of boolean values which indicate which "prior status" values
      * will cause a test to be selected for execution.
      * @see #setPriorStatusValues
@@ -118,8 +118,9 @@ public class PriorStatusInterview
      * which "prior status" values will cause a test to be selected for execution.
      * The array of values can be indexed with {@link Status#PASSED}, {@link Status#FAILED},
      * etc.
+     *
      * @param b an array of {@link Status#NUM_STATES} boolean values which indicate
-     * which "prior status" values will cause a test to be selected for execution.
+     *          which "prior status" values will cause a test to be selected for execution.
      * @see #getMatchPriorStatusValues
      */
     @Override
@@ -138,6 +139,7 @@ public class PriorStatusInterview
 
     /**
      * Get a test filter generated from the status test values in the interview.
+     *
      * @return a test filter generated from the status test values in the interview
      * @see #getPriorStatusValues
      */
@@ -172,12 +174,12 @@ public class PriorStatusInterview
     private static final String FAILED = "failed";
     private static final String ERROR = "error";
     private static final String NOT_RUN = "not_run";
-    private static int[] choiceToStatus =  {Status.ERROR, Status.FAILED,
-                                            Status.NOT_RUN, Status.PASSED};
+    private static int[] choiceToStatus = {Status.ERROR, Status.FAILED,
+            Status.NOT_RUN, Status.PASSED};
 
     private ChoiceArrayQuestion qStatus = new ChoiceArrayQuestion(this, "status") {
         {
-            setChoices(new String[] {ERROR, FAILED, NOT_RUN, PASSED}, true);
+            setChoices(new String[]{ERROR, FAILED, NOT_RUN, PASSED}, true);
         }
 
         @Override
@@ -204,8 +206,8 @@ public class PriorStatusInterview
         if (r == null || s == null)
             cachedStatusFilter = null;
         else if (cachedStatusFilter == null
-                 || cachedStatusFilter.getTestResultTable() != r
-                 || !equal(cachedStatusFilter.getStatusValues(), s))
+                || cachedStatusFilter.getTestResultTable() != r
+                || !equal(cachedStatusFilter.getStatusValues(), s))
             cachedStatusFilter = new StatusFilter(s, r);
         // else
         //   cachedStatusFilter is OK

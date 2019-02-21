@@ -114,7 +114,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     JMenu menuHistory;
 
     private static KeyStroke configEditorAccelerator =
-        KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK);
+            KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK);
 
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(BasicSessionControl.class);
     private static int debug = Debug.getInt(BasicSessionControl.class);
@@ -122,6 +122,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     /**
      * Creates a control over new created session for the passed test suite.
+     *
      * @param parent
      * @param uif
      * @param ts
@@ -129,7 +130,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
      * @throws com.sun.javatest.exec.Session.Fault
      */
     public BasicSessionControl(JComponent parent, UIFactory uif, TestSuite ts,
-            ContextManager cm) throws Fault {
+                               ContextManager cm) throws Fault {
         this.testSuite = ts;
         this.cm = cm;
         this.uif = uif;
@@ -162,9 +163,9 @@ public class BasicSessionControl implements InterviewEditor.Observer,
      * Returns array of actions for the tool bar.
      */
     Action[] getToolBarActions() {
-        return new Action[] {
-            showFullConfigAction,
-            showStdConfigAction,
+        return new Action[]{
+                showFullConfigAction,
+                showStdConfigAction,
         };
     }
 
@@ -206,6 +207,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     /**
      * Creates an empty configuration for the test suite. By default BasicSession
      * is used. It's supposed for subclasses to override this method.
+     *
      * @return created session.
      * @throws com.sun.javatest.exec.Session.Fault
      */
@@ -215,6 +217,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     /**
      * Clones passed parameters. Works only for InterviewParameters instances.
+     *
      * @param p instance to clone, might be null.
      * @return cloned object obtained for the passed one by performing save/load
      * operations.
@@ -226,7 +229,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         }
         if (p instanceof InterviewParameters) {
             try {
-                InterviewParameters ip = (InterviewParameters)p;
+                InterviewParameters ip = (InterviewParameters) p;
                 InterviewParameters clone = ip.getWorkDirectory().getTestSuite().createInterview();
                 clone.setWorkDirectory(ip.getWorkDirectory());
                 Map<String, String> data = new HashMap<>();
@@ -305,8 +308,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                 if (ip.isTemplate() ||
                         !ip.isFinishable()) {
                     startAction.setEnabled(true);
-                }
-                else {
+                } else {
                     int option = uif.showOKCancelDialog("rh.configDone");
                     if (option == JOptionPane.OK_OPTION) {
                         startAction.actionPerformed(null);
@@ -320,8 +322,8 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         final InterviewParameters ip = session.getInterviewParameters();
         String errorMessage = ip.getErrorMessage();
         int option = (errorMessage == null) ?
-            uif.showOKCancelDialog("rh.mustConfigure") :
-            uif.showOKCancelDialog("rh.configError", errorMessage);
+                uif.showOKCancelDialog("rh.mustConfigure") :
+                uif.showOKCancelDialog("rh.configError", errorMessage);
 
         // show the session editor if user clicks ok
         if (option == JOptionPane.OK_OPTION) {
@@ -335,7 +337,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     protected void checkExcludeListUpdate(JComponent parent, boolean quietIfNoUpdate, Parameters params) {
         if (params instanceof InterviewParameters) {
-            InterviewParameters ip = (InterviewParameters)params;
+            InterviewParameters ip = (InterviewParameters) params;
             checkExcludeListUpdate(parent, quietIfNoUpdate, ip,
                     ip.getTestSuite(), ip.getWorkDirectory(), uif);
 
@@ -343,11 +345,11 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     }
 
     static void checkExcludeListUpdate(JComponent parent, boolean quietIfNoUpdate,
-            Parameters interviewParams, TestSuite testSuite,
-            WorkDirectory workDir, UIFactory uif) {
+                                       Parameters interviewParams, TestSuite testSuite,
+                                       WorkDirectory workDir, UIFactory uif) {
         try {
             InterviewParameters.ExcludeListParameters elp = interviewParams.getExcludeListParameters();
-            if ( !(elp instanceof InterviewParameters.MutableExcludeListParameters))
+            if (!(elp instanceof InterviewParameters.MutableExcludeListParameters))
                 return;
 
             URL remote = testSuite.getLatestExcludeList();
@@ -372,10 +374,10 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             JTextField remoteText = uif.createOutputField("ch.elu.remote", remoteLbl);
             remoteText.setBorder(null);
             // should consider better date formatting; is this i18n-ok?
-            long remoteDate =  eluh.getRemoteURLLastModified();
+            long remoteDate = eluh.getRemoteURLLastModified();
             String remoteDateText = remoteDate <= 0 ?
-                                     uif.getI18NString("ch.elu.notAvailable")
-                                     : new Date(remoteDate).toString();
+                    uif.getI18NString("ch.elu.notAvailable")
+                    : new Date(remoteDate).toString();
             remoteText.setText(remoteDateText);
             remoteText.setColumns(remoteDateText.length());
             info.add(remoteText, fc);
@@ -386,10 +388,10 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             JTextField localText = uif.createOutputField("ch.elu.local", localLbl);
             localText.setBorder(null);
             // should consider better date formatting; is this i18n-ok?
-            long localDate =  eluh.getLocalFileLastModified();
+            long localDate = eluh.getLocalFileLastModified();
             String localDateText = localDate <= 0 ?
-                                    uif.getI18NString("ch.elu.notAvailable")
-                                    : new Date(localDate).toString();
+                    uif.getI18NString("ch.elu.notAvailable")
+                    : new Date(localDate).toString();
             localText.setText(localDateText);
             localText.setColumns(localDateText.length());
             info.add(localText, fc);
@@ -399,22 +401,20 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                 String head = uif.getI18NString("ch.elu.update.head");
                 String foot = uif.getI18NString("ch.elu.update.foot");
                 int rc = JOptionPane.showConfirmDialog(parent,
-                                                       new Object[] { head, info, foot },
-                                                       title,
-                                                       JOptionPane.YES_NO_OPTION );
+                        new Object[]{head, info, foot},
+                        title,
+                        JOptionPane.YES_NO_OPTION);
                 if (rc == JOptionPane.YES_OPTION)
                     eluh.update(); // should we show message if successful?
-            }
-            else {
+            } else {
                 String title = uif.getI18NString("ch.elu.noUpdate.title");
                 String head = uif.getI18NString("ch.elu.noUpdate.head");
                 JOptionPane.showMessageDialog(parent,
-                                              new Object[] { head, info },
-                                              title,
-                                              JOptionPane.INFORMATION_MESSAGE );
+                        new Object[]{head, info},
+                        title,
+                        JOptionPane.INFORMATION_MESSAGE);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             workDir.log(uif.getI18NResourceBundle(), "ch.elu.logError", e);
             uif.showError("ch.elu.error", e);
         }
@@ -433,7 +433,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     protected boolean getNeedToAutoCheckExcludeList(Parameters params) {
         WorkDirectory workDir = params.getWorkDirectory();
         InterviewParameters.ExcludeListParameters elp = session.getParameters().getExcludeListParameters();
-        if ( !(elp instanceof InterviewParameters.MutableExcludeListParameters))
+        if (!(elp instanceof InterviewParameters.MutableExcludeListParameters))
             return false;
 
         InterviewParameters.MutableExcludeListParameters melp = (InterviewParameters.MutableExcludeListParameters) elp;
@@ -496,12 +496,11 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             menuManager = cm.getMenuManager();
             if (menuManager != null) {
                 JMenuItem[] items =
-                    menuManager.getMenuItems(JavaTestMenuManager.CONFIG_PRIMARY);
+                        menuManager.getMenuItems(JavaTestMenuManager.CONFIG_PRIMARY);
                 if (items != null)
                     for (JMenuItem item : items) menu.add(item);
             }
         }
-
 
 
         //menu.addMenuListener(configHistoryListener);
@@ -511,7 +510,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             menuManager = cm.getMenuManager();
             if (menuManager != null) {
                 JMenuItem[] items =
-                    menuManager.getMenuItems(JavaTestMenuManager.CONFIG_OTHER);
+                        menuManager.getMenuItems(JavaTestMenuManager.CONFIG_OTHER);
                 if (items != null) {
                     menu.addSeparator();
                     for (JMenuItem item : items) menu.add(item);
@@ -523,6 +522,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     /**
      * Initializes interviewEditor.
+     *
      * @return true if initialized successfully, false if failed.
      */
     protected boolean initEditor() {
@@ -541,13 +541,13 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             interviewEditor.setContextManager(cm);
         }
         interviewEditor.setCheckExcludeListListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Object src = e.getSource();
-                    JComponent p = src instanceof JComponent ? (JComponent) src : parent;
-                    checkExcludeListUpdate(p, false, session.getParameters());
-                }
-            });
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Object src = e.getSource();
+                JComponent p = src instanceof JComponent ? (JComponent) src : parent;
+                checkExcludeListUpdate(p, false, session.getParameters());
+            }
+        });
 
         interviewEditor.addObserver(this);
         return true;
@@ -715,6 +715,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     /**
      * Action to edit current configuration
+     *
      * @param mode
      */
     void showConfig(int mode) {
@@ -730,9 +731,11 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         }
         interviewEditor.edit(InterviewEditor.FULL_MODE);
     }
+
     void checkUpdate() {
         System.err.println("Temporary not implemented...");
     }
+
     void ensureConfigEditorInitialized() {
         /*
         if (workDir == null)
@@ -783,17 +786,18 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                 }
                 newConfig();
             }
+
             @Override
             public Object getValue(String key) {
-                if (SessionView.ACTION_NAME.equals(key)){
+                if (SessionView.ACTION_NAME.equals(key)) {
                     return uif.getI18NString("ch.new2.act");
                 }
                 return super.getValue(key);
             }
         };
 
-       showFullConfigAction = new ConfigAction(uif, "ch.full",
-               InterviewEditor.FULL_MODE, true) {
+        showFullConfigAction = new ConfigAction(uif, "ch.full",
+                InterviewEditor.FULL_MODE, true) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (session.getWorkDirectory() == null) {
@@ -801,17 +805,18 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                 }
                 showConfig(InterviewEditor.FULL_MODE);
             }
+
             @Override
             public Object getValue(String key) {
-                if (SessionView.ACTION_NAME.equals(key)){
+                if (SessionView.ACTION_NAME.equals(key)) {
                     return uif.getI18NString("ch.full2.act");
                 }
                 return super.getValue(key);
             }
-       };
+        };
 
-       showStdConfigAction = new ConfigAction(uif, "ch.std",
-               InterviewEditor.STD_MODE, true) {
+        showStdConfigAction = new ConfigAction(uif, "ch.std",
+                InterviewEditor.STD_MODE, true) {
 
             @Override
             public void setEnabled(boolean newValue) {
@@ -820,6 +825,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                     changeMenu.checkEnabled();
                 }
             }
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!isEnabled())
@@ -827,20 +833,19 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
                 Object control = e.getSource();
                 if (control instanceof JMenuItem) {
-                    JMenuItem mi = (JMenuItem)control;
-                    Integer miMode = (Integer)getValue(mi.getName());
+                    JMenuItem mi = (JMenuItem) control;
+                    Integer miMode = (Integer) getValue(mi.getName());
                     performAction(miMode);
-                }
-                else {
+                } else {
                     performAction(mode);
                 }
             }
-       };
+        };
 
-       changeMenu = new ChangeConfigMenu();
+        changeMenu = new ChangeConfigMenu();
 
-       newWorkDirAction = createNewWorkDirAction();
-       openWorkDirAction = createSetWorkDirAction();
+        newWorkDirAction = createNewWorkDirAction();
+        openWorkDirAction = createSetWorkDirAction();
 
     }
 
@@ -856,7 +861,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
             @Override
             public Object getValue(String key) {
-                if (SessionView.ACTION_NAME.equals(key)){
+                if (SessionView.ACTION_NAME.equals(key)) {
                     return uif.getI18NString("ch.newWorkDir.act");
                 }
                 return super.getValue(key);
@@ -874,9 +879,10 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                     showConfig(InterviewEditor.FULL_MODE);
                 }
             }
+
             @Override
             public Object getValue(String key) {
-                if (SessionView.ACTION_NAME.equals(key)){
+                if (SessionView.ACTION_NAME.equals(key)) {
                     return uif.getI18NString("ch.setWorkDir.act");
                 }
                 return super.getValue(key);
@@ -886,18 +892,18 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     protected void initHistoryListeners() {
         configHistoryListener = new FileHistory.Listener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JMenuItem mi = (JMenuItem) e.getSource();
-                    File f = (File) mi.getClientProperty(FileHistory.FILE);
-                    if (f != null) {
-                        if (initEditor()) {
-                            // ensureConfigEditorInitialized();
-                            interviewEditor.loadAndEdit(f);
-                        }
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JMenuItem mi = (JMenuItem) e.getSource();
+                File f = (File) mi.getClientProperty(FileHistory.FILE);
+                if (f != null) {
+                    if (initEditor()) {
+                        // ensureConfigEditorInitialized();
+                        interviewEditor.loadAndEdit(f);
                     }
                 }
-            });
+            }
+        });
         menuHistory = uif.createMenu("ch.history");
         menuHistory.addMenuListener(configHistoryListener);
 
@@ -990,6 +996,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     /**
      * InterviewEditor.Observer method.
      * Invoked when current session has changed from InterviewEditor
+     *
      * @param p
      */
     @Override
@@ -1006,6 +1013,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
      * InterviewEditor.Observer method.
      * Invoked when InterviewEditor is made either visible or invisible.
      * Implementations call updateGUI() to enable/disable actions.
+     *
      * @param isVisible - true or false
      */
     @Override
@@ -1023,8 +1031,8 @@ public class BasicSessionControl implements InterviewEditor.Observer,
      * @return true if configuration editing is required after WorkDir created
      */
     protected boolean createWD() {
-         applyWorkDir(WorkDirChooseTool.chooseWD(parent, null, testSuite, WorkDirChooser.NEW));
-         return false;
+        applyWorkDir(WorkDirChooseTool.chooseWD(parent, null, testSuite, WorkDirChooser.NEW));
+        return false;
     }
 
     /**
@@ -1042,6 +1050,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     /**
      * Applies value of the selected work directory.
+     *
      * @param wd
      */
     protected void applyWorkDir(WorkDirectory wd) {
@@ -1056,6 +1065,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     /**
      * Tries to restore latest available configuration for the session.
+     *
      * @param wd
      */
     public void restoreConfigFromWD(WorkDirectory wd) throws Fault {
@@ -1072,7 +1082,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
                 File dir = new File(latestConfigFile.getAbsolutePath().substring(
                         0, latestConfigFile.getAbsolutePath().
-                        lastIndexOf(File.separator)));
+                                lastIndexOf(File.separator)));
 
                 boolean isMatch = true;
 
@@ -1115,7 +1125,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     @Override
     public void updated(Event ev) {
         if (ev instanceof BasicSession.E_NewWD) {
-            E_NewWD e_WD = (BasicSession.E_NewWD)ev;
+            E_NewWD e_WD = (BasicSession.E_NewWD) ev;
             if (e_WD.doRestoreConfig) {
                 try {
                     restoreConfigFromWD(e_WD.wd);
@@ -1132,6 +1142,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     protected class E_EditorVisibility implements Event {
         public final boolean isVisible;
         public final InterviewEditor source;
+
         E_EditorVisibility(boolean isVisible, InterviewEditor source) {
             this.isVisible = isVisible;
             this.source = source;
@@ -1219,7 +1230,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             } else {
                 tipText = text;
                 int index = text.lastIndexOf(File.separator);
-                if (index >=0) {
+                if (index >= 0) {
                     text = text.substring(index + 1);
                 }
             }
@@ -1227,6 +1238,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             fld.setToolTipText(tipText);
             //fld.setFont(BOLD_FONT);
         }
+
         protected void updateWD(JTextField fld, boolean isReady) {
             String text = session.getValue(BasicSession.WD_PROP);
             updateField(fld, text);
@@ -1264,14 +1276,14 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
         ChangeConfigMenu() {
             uif.initMenu(this, "ch.change");
-            tests       = addMenuItem(CHANGE_TESTS,             InterviewEditor.STD_TESTS_MODE);
-            excludeList = addMenuItem(CHANGE_EXCLUDE_LIST,      InterviewEditor.STD_EXCLUDE_LIST_MODE);
-            keywords    = addMenuItem(CHANGE_KEYWORDS,          InterviewEditor.STD_KEYWORDS_MODE);
-            kfl         = addMenuItem(CHANGE_KFL,               InterviewEditor.STD_KFL_MODE);
-            priorStatus = addMenuItem(CHANGE_PRIOR_STATUS,      InterviewEditor.STD_PRIOR_STATUS_MODE);
-            environment = addMenuItem(CHANGE_ENVIRONMENT,       InterviewEditor.STD_ENVIRONMENT_MODE);
-            concurrency = addMenuItem(CHANGE_CONCURRENCY,       InterviewEditor.STD_CONCURRENCY_MODE);
-            timeoutFactor = addMenuItem(CHANGE_TIMEOUT_FACTOR,  InterviewEditor.STD_TIMEOUT_FACTOR_MODE);
+            tests = addMenuItem(CHANGE_TESTS, InterviewEditor.STD_TESTS_MODE);
+            excludeList = addMenuItem(CHANGE_EXCLUDE_LIST, InterviewEditor.STD_EXCLUDE_LIST_MODE);
+            keywords = addMenuItem(CHANGE_KEYWORDS, InterviewEditor.STD_KEYWORDS_MODE);
+            kfl = addMenuItem(CHANGE_KFL, InterviewEditor.STD_KFL_MODE);
+            priorStatus = addMenuItem(CHANGE_PRIOR_STATUS, InterviewEditor.STD_PRIOR_STATUS_MODE);
+            environment = addMenuItem(CHANGE_ENVIRONMENT, InterviewEditor.STD_ENVIRONMENT_MODE);
+            concurrency = addMenuItem(CHANGE_CONCURRENCY, InterviewEditor.STD_CONCURRENCY_MODE);
+            timeoutFactor = addMenuItem(CHANGE_TIMEOUT_FACTOR, InterviewEditor.STD_TIMEOUT_FACTOR_MODE);
             addMenuListener(this);
         }
 
@@ -1281,8 +1293,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                     environment.isEnabled() || concurrency.isEnabled() ||
                     timeoutFactor.isEnabled() || kfl.isEnabled())) {
                 setEnabled(false);
-            }
-            else {
+            } else {
                 setEnabled(!isEditorVisible());
             }
         }
@@ -1311,12 +1322,12 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             // Note: can't ask configEditor and hence stdView directly, since they
             // may not have been initialized yet
 
-            update(tests,       c.getTestsParameters(),         MutableTestsParameters.class);
-            update(excludeList, c.getExcludeListParameters(),   MutableExcludeListParameters.class);
-            update(keywords,    c.getKeywordsParameters(),      MutableKeywordsParameters.class);
-            update(priorStatus, c.getPriorStatusParameters(),   MutablePriorStatusParameters.class);
-            update(environment, c.getEnvParameters(),           LegacyEnvParameters.class);
-            update(concurrency, c.getConcurrencyParameters(),   MutableConcurrencyParameters.class);
+            update(tests, c.getTestsParameters(), MutableTestsParameters.class);
+            update(excludeList, c.getExcludeListParameters(), MutableExcludeListParameters.class);
+            update(keywords, c.getKeywordsParameters(), MutableKeywordsParameters.class);
+            update(priorStatus, c.getPriorStatusParameters(), MutablePriorStatusParameters.class);
+            update(environment, c.getEnvParameters(), LegacyEnvParameters.class);
+            update(concurrency, c.getConcurrencyParameters(), MutableConcurrencyParameters.class);
             update(timeoutFactor, c.getTimeoutFactorParameters(), MutableTimeoutFactorParameters.class);
         }
 

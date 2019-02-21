@@ -35,22 +35,23 @@ import java.io.PrintWriter;
  * in separate processes, or even on a separate machine.
  * Custom implementations can also be used.
  */
-public abstract class Command
-{
+public abstract class Command {
     /**
      * The method that that does the work of the command.
-     * @param args      Command-specific options and arguments
-     * @param out1      A stream to which to report messages and errors.
-     *                  This stream was previously called "log".
-     * @param out2      An additional stream to which to write output.
-     *                  This stream was previously called "ref".
-     * @return          The result of the command
+     *
+     * @param args Command-specific options and arguments
+     * @param out1 A stream to which to report messages and errors.
+     *             This stream was previously called "log".
+     * @param out2 An additional stream to which to write output.
+     *             This stream was previously called "ref".
+     * @return The result of the command
      */
     public abstract Status run(String[] args, PrintWriter out1, PrintWriter out2);
 
     /**
      * Set a class loader that to be used if this command needs to dynamically
      * load additional classes.
+     *
      * @param cl the class loader to be used
      * @see #getClassLoader
      */
@@ -61,6 +62,7 @@ public abstract class Command
     /**
      * Get the class loader to be used if this command needs to dynamically
      * load additional classes.
+     *
      * @return the class loader to be used
      * @see #setClassLoader
      */

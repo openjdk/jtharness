@@ -32,13 +32,14 @@ import java.util.Iterator;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.sun.javatest.ExcludeList;
 import com.sun.javatest.util.StringArray;
 
 public class ExcludeBrowser extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res)
-                throws IOException {
+            throws IOException {
         String uri = req.getRequestURI();
         File file = new File(req.getRealPath(uri));
 
@@ -50,12 +51,11 @@ public class ExcludeBrowser extends HttpServlet {
         ExcludeList excludeList;
         try {
             excludeList = new ExcludeList(file);
-        }
-        catch (ExcludeList.Fault | IOException e) {
+        } catch (ExcludeList.Fault | IOException e) {
             String msg =
-                "The file does not appear to be a valid exclude-list file. " +
-                "The following exception was received while trying to open it: " +
-                e.toString();
+                    "The file does not appear to be a valid exclude-list file. " +
+                            "The following exception was received while trying to open it: " +
+                            e.toString();
             res.sendError(HttpServletResponse.SC_NOT_FOUND, msg);
             return;
         }

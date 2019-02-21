@@ -58,11 +58,11 @@ public class CompositeFilter extends TestFilter {
      * allowing all tests passing through for filtering to be accepted.
      *
      * @param filters The filters that constitute this composite filter.
-     *        Must never be null.
-     * @param bundle The bundle to get the description, name and reason from.
-     *        Must never be null.
-     * @param prefix Prefix with which begins the I18N key for the description,
-     *        name and reason.  Must never be null.
+     *                Must never be null.
+     * @param bundle  The bundle to get the description, name and reason from.
+     *                Must never be null.
+     * @param prefix  Prefix with which begins the I18N key for the description,
+     *                name and reason.  Must never be null.
      * @see com.sun.javatest.TestFilter
      */
     public CompositeFilter(TestFilter[] filters, I18NResourceBundle bundle,
@@ -94,8 +94,8 @@ public class CompositeFilter extends TestFilter {
      * allowing all tests passing through for filtering to be accepted.
      *
      * @param filters The filters that constitute this composite filter.
-     *        Must never be null.
-     * @see #CompositeFilter(TestFilter[],I18NResourceBundle,String)
+     *                Must never be null.
+     * @see #CompositeFilter(TestFilter[], I18NResourceBundle, String)
      */
     public CompositeFilter(TestFilter... filters) {
         if (filters == null)
@@ -140,15 +140,14 @@ public class CompositeFilter extends TestFilter {
 
             // made it; accepted
             return true;
-        }
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             throw new Fault(i18n, "compFilter.exception", e);
         }
     }
 
     @Override
     public boolean accepts(TestDescription td, TestFilter.Observer o)
-                throws TestFilter.Fault {
+            throws TestFilter.Fault {
         if (filters == null || filters.length == 0)
             return true;
 
@@ -182,7 +181,7 @@ public class CompositeFilter extends TestFilter {
         if (!(tf instanceof CompositeFilter))
             return false;
 
-        TestFilter[] thoseFilters = ((CompositeFilter)tf).getFilters();
+        TestFilter[] thoseFilters = ((CompositeFilter) tf).getFilters();
 
         // no filters in both is equal
         if ((filters == null || filters.length == 0) && thoseFilters.length == 0)
@@ -200,16 +199,17 @@ public class CompositeFilter extends TestFilter {
     public int hashCode() {
         int hash = 3;
         hash = 61 * hash + (this.filters != null ?
-            new HashSet<>(Arrays.asList(this.filters)).hashCode() : 0);
+                new HashSet<>(Arrays.asList(this.filters)).hashCode() : 0);
         return hash;
     }
 
     // ---------- new methods ----------
+
     /**
      * Return the filters being used internally by this composite.
      *
      * @return The filters in use.  Zero length array if none.  Never null.
-     *         Shallow copy.
+     * Shallow copy.
      */
     public TestFilter[] getFilters() {
         if (filters == null)

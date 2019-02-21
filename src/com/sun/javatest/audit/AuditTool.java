@@ -54,11 +54,11 @@ import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.tool.Tool;
 import com.sun.javatest.util.I18NResourceBundle;
+
 import javax.swing.JDialog;
 import javax.swing.Timer;
 
-class AuditTool extends Tool
-{
+class AuditTool extends Tool {
     AuditTool(AuditToolManager m) {
         super(m, "audit", "audit.window.csh");
         setI18NTitle("tool.title");
@@ -84,13 +84,13 @@ class AuditTool extends Tool
     @Override
     public TestSuite[] getLoadedTestSuites() {
         TestSuite ts = interviewParams == null ? null : interviewParams.getTestSuite();
-        return ts == null ? null : new TestSuite[] { ts };
+        return ts == null ? null : new TestSuite[]{ts};
     }
 
     @Override
     public WorkDirectory[] getLoadedWorkDirectories() {
         WorkDirectory wd = interviewParams == null ? null : interviewParams.getWorkDirectory();
-        return wd == null ? null : new WorkDirectory[] { wd };
+        return wd == null ? null : new WorkDirectory[]{wd};
     }
 
     @Override
@@ -129,8 +129,7 @@ class AuditTool extends Tool
             interviewParams = InterviewParameters.open(tsp, wdp, cfp);
             updateGUI(null, interviewParams, uif.getI18NString("tool.restore.txt"));
             autoShowOptions = false;
-        }
-        catch (InterviewParameters.Fault e) {
+        } catch (InterviewParameters.Fault e) {
             uif.showError("tool.cantRestore", e.getMessage());
         }
     }
@@ -144,7 +143,7 @@ class AuditTool extends Tool
 
         menuBar = uif.createMenuBar("tool");
         String[] auditMenuEntries = {
-            OPTIONS
+                OPTIONS
         };
         JMenu auditMenu = uif.createMenu("tool.audit", auditMenuEntries, listener);
         menuBar.add(auditMenu);
@@ -176,12 +175,12 @@ class AuditTool extends Tool
 
         add(head, BorderLayout.NORTH);
 
-        panes = new AuditPane[] {
-            new SummaryPane(uif),
-            new BadTestsPane(uif),
-            new BadChecksumPane(uif),
-            new BadTestDescriptionPane(uif),
-            new BadTestCaseTestsPane(uif)
+        panes = new AuditPane[]{
+                new SummaryPane(uif),
+                new BadTestsPane(uif),
+                new BadChecksumPane(uif),
+                new BadTestDescriptionPane(uif),
+                new BadTestCaseTestsPane(uif)
         };
 
         tabs = uif.createTabbedPane("tool.tabs", panes);
@@ -234,7 +233,7 @@ class AuditTool extends Tool
         String wdp = optionsDialog.getWorkDirPath();
         String cfp = optionsDialog.getConfigFilePath();
 
-        if ( isEmpty(tsp) && isEmpty(wdp) && isEmpty(cfp) ) {
+        if (isEmpty(tsp) && isEmpty(wdp) && isEmpty(cfp)) {
             uif.showError("tool.noOptions");
             return;
         }
@@ -244,8 +243,7 @@ class AuditTool extends Tool
                 interviewParams.dispose();
             }
             interviewParams = InterviewParameters.open(tsp, wdp, cfp);
-        }
-        catch (InterviewParameters.Fault e) {
+        } catch (InterviewParameters.Fault e) {
             uif.showError("tool.badOptions", e.getMessage());
             return;
         }
@@ -271,29 +269,28 @@ class AuditTool extends Tool
         d.setLocationRelativeTo(this);
 
         worker = new Thread() {
-                @Override
-                public void run() {
-                    Audit a = audit; // default to previous value
-                    try {
-                        a = new Audit(interviewParams);
+            @Override
+            public void run() {
+                Audit a = audit; // default to previous value
+                try {
+                    a = new Audit(interviewParams);
+                } finally {
+                    synchronized (AuditTool.this) {
+                        worker = null;
                     }
-                    finally {
-                        synchronized (AuditTool.this) {
-                            worker = null;
-                        }
-                        d.setVisible(false);
-                        // the following may not be right if the audit
-                        // has been interrupted and we are reverting to
-                        // previous state. Ideally, should pull parameters
-                        // from the audit object
-                        updateGUI(a, interviewParams, null);
-                    }
+                    d.setVisible(false);
+                    // the following may not be right if the audit
+                    // has been interrupted and we are reverting to
+                    // previous state. Ideally, should pull parameters
+                    // from the audit object
+                    updateGUI(a, interviewParams, null);
+                }
             }
         };
 
         ActionListener al = new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent evt){
+            public void actionPerformed(ActionEvent evt) {
                 // show dialog if still processing
                 if (worker != null && worker.isAlive()) {
                     d.setVisible(true);
@@ -318,11 +315,11 @@ class AuditTool extends Tool
     private void updateGUI(final Audit a, final InterviewParameters p, final String msg) {
         if (!EventQueue.isDispatchThread()) {
             EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateGUI(a, p, msg);
-                    }
-                });
+                @Override
+                public void run() {
+                    updateGUI(a, p, msg);
+                }
+            });
             return;
         }
 
@@ -333,7 +330,7 @@ class AuditTool extends Tool
         testSuiteField.setText(tsp);
 
         WorkDirectory wd = p == null ? null : p.getWorkDirectory();
-        String wdp = wd == null? "" : wd.getPath();
+        String wdp = wd == null ? "" : wd.getPath();
         workDirField.setText(wdp);
 
         File configFile = p == null ? null : p.getFile();
@@ -378,8 +375,7 @@ class AuditTool extends Tool
             String cmd = e.getActionCommand();
             if (cmd.equals(OPTIONS)) {
                 showOptions();
-            }
-            else if (cmd.equals(OptionsDialog.OK)) {
+            } else if (cmd.equals(OptionsDialog.OK)) {
                 setOptions();
             }
         }
@@ -388,11 +384,11 @@ class AuditTool extends Tool
         public void hierarchyChanged(HierarchyEvent e) {
             if (isShowing() && autoShowOptions) {
                 EventQueue.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            showOptions();
-                        }
-                    });
+                    @Override
+                    public void run() {
+                        showOptions();
+                    }
+                });
                 autoShowOptions = false;
             }
         }

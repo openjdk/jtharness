@@ -48,9 +48,7 @@ import com.sun.javatest.tool.jthelp.HelpBroker;
 import java.awt.Font;
 
 
-
-class PrefsPane extends PreferencesPane
-{
+class PrefsPane extends PreferencesPane {
     PrefsPane(HelpBroker helpBroker) {
         uif = new UIFactory(this, helpBroker);
         initGUI();
@@ -71,7 +69,7 @@ class PrefsPane extends PreferencesPane
         }
 
         if (childPanes == null)
-            childPanes = new PreferencesPane[] { configEditorPane, reportingPane, runPane };
+            childPanes = new PreferencesPane[]{configEditorPane, reportingPane, runPane};
         return childPanes;
     }
 
@@ -137,7 +135,7 @@ class PrefsPane extends PreferencesPane
         c.anchor = GridBagConstraints.WEST;
         c.weightx = 1;
         p.setBorder(uif.createTitledBorder("ep.filt"));
-        filterWarnChk= uif.createCheckBox("ep.filt", true);
+        filterWarnChk = uif.createCheckBox("ep.filt", true);
         // override default a11y name
         uif.setAccessibleName(filterWarnChk, "ep.filt");
         p.add(filterWarnChk, c);
@@ -150,7 +148,7 @@ class PrefsPane extends PreferencesPane
         c.anchor = GridBagConstraints.WEST;
         c.weightx = 1;
         p.setBorder(uif.createTitledBorder("ep.testrun"));
-        wrapResChk= uif.createCheckBox("ep.wrapres", true);
+        wrapResChk = uif.createCheckBox("ep.wrapres", true);
         uif.setAccessibleName(wrapResChk, "ep.wrapres");
         p.add(wrapResChk, c);
         return p;
@@ -318,11 +316,9 @@ class PrefsPane extends PreferencesPane
 
             if (mp.equals("reverse")) {
                 reverseRadio.setSelected(true);
-            }
-            else if (mp.equals("random")) {
+            } else if (mp.equals("random")) {
                 randomRadio.setSelected(true);
-            }
-            else {
+            } else {
                 defaultRadio.setSelected(true);
             }
 
@@ -340,11 +336,9 @@ class PrefsPane extends PreferencesPane
             String sequence = ".default";
             if (reverseRadio.isSelected()) {
                 sequence = reverseRadio.getName();
-            }
-            else if (randomRadio.isSelected()) {
+            } else if (randomRadio.isSelected()) {
                 sequence = randomRadio.getName();
-            }
-            else {
+            } else {
                 sequence = defaultRadio.getName();
             }
 

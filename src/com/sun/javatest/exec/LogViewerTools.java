@@ -33,6 +33,7 @@ import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.logging.LoggerFactory;
 import com.sun.javatest.report.ReportSettings;
 import com.sun.javatest.util.BackupPolicy;
+
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,6 +54,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
+
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
@@ -68,7 +70,7 @@ class LogViewerTools extends Thread {
 
     void go() {
 
-        waitDialog = uif.createWaitDialog("lvt.wait",parent);
+        waitDialog = uif.createWaitDialog("lvt.wait", parent);
         waitDialogEnabled = true;
 
         ActionListener al = new ActionListener() {
@@ -95,7 +97,7 @@ class LogViewerTools extends Thread {
         Properties outputProps = new Properties();
         outputProps.put("indent", "yes");
         outputProps.put("encoding", XML_CHARSET);
-        SAXTransformerFactory stf = (SAXTransformerFactory )TransformerFactory.newInstance();
+        SAXTransformerFactory stf = (SAXTransformerFactory) TransformerFactory.newInstance();
         stf.setAttribute("indent-number", 4);
         try {
             ser = stf.newTransformerHandler();
@@ -113,7 +115,7 @@ class LogViewerTools extends Thread {
 
             if (settings.isBackupsEnabled()) {
                 backupPolicy = BackupPolicy.simpleBackups(settings.getBackupLevel());
-            }  else {
+            } else {
                 backupPolicy = BackupPolicy.noBackups();
             }
 
@@ -129,12 +131,12 @@ class LogViewerTools extends Thread {
             ser.setResult(new StreamResult(w));
 
             ser.startDocument();
-            ser.startElement("","","report", emptyAttr);
+            ser.startElement("", "", "report", emptyAttr);
             for (int i = 0; i < model.getRecords().size(); i++) {
-                LogModel.LiteLogRecord llr =  model.getRecords().get(i);
+                LogModel.LiteLogRecord llr = model.getRecords().get(i);
                 outRecord(llr);
             }
-            ser.endElement("","","report");
+            ser.endElement("", "", "report");
             ser.endDocument();
             w.close();
 
@@ -153,9 +155,9 @@ class LogViewerTools extends Thread {
         atts.addAttribute("", "", "LevelName", "String",
                 LoggerFactory.getLocalizedLevelName(Level.parse(String.valueOf(llr.severety))));
         atts.addAttribute("", "", "Time", "String", dateToISO8601(llr.time));
-        ser.startElement("","","logrecord", atts);
+        ser.startElement("", "", "logrecord", atts);
         XMLReportMaker.writeCDATA(ser, ser, msg);
-        ser.endElement("","","logrecord");
+        ser.endElement("", "", "logrecord");
     }
 
     private String dateToISO8601(long time) {
@@ -171,23 +173,25 @@ class LogViewerTools extends Thread {
     private File out;
     private Logger log;
     private Component parent;
-    private  UIFactory uif;
+    private UIFactory uif;
     private String XML_CHARSET = "UTF-8";
     private static final int WAIT_DIALOG_DELAY = 3000;      // 3 second delay
 }
 
 
-    /*
-     * There is no correct way obtain on close notification for ToolDialog by
-     * clicking dialog's close icon.
-     * So, we need to be on the watch for it...
-     */
+/*
+ * There is no correct way obtain on close notification for ToolDialog by
+ * clicking dialog's close icon.
+ * So, we need to be on the watch for it...
+ */
 class StopWatcher extends Thread {
     public StopWatcher(LogViewer lv) {
         super("LogViewerStopWatcher");
         this.lv = lv;
     }
+
     private LogViewer lv;
+
     @Override
     public void run() {
         while (lv.isVisible()) {

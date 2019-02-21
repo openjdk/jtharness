@@ -42,14 +42,14 @@ import com.sun.javatest.util.I18NResourceBundle;
  * Note: some of this code is based upon the Swing icon factory for
  * the "metal" look and feel.
  */
-public class IconFactory
-{
+public class IconFactory {
     //----------------------------------------------------------------------
     //
     // File chooser and generic tree icons
 
     /**
      * Get an icon for a file.
+     *
      * @return an icon for afile
      */
     public static Icon getFileIcon() {
@@ -61,6 +61,7 @@ public class IconFactory
 
     /**
      * Get an icon for a file.
+     *
      * @return an icon for a report
      */
     public static Icon getReportIcon() {
@@ -73,6 +74,7 @@ public class IconFactory
 
     /**
      * Get an icon for a folder.
+     *
      * @return an icon for a folder
      */
     public static Icon getFolderIcon() {
@@ -81,6 +83,7 @@ public class IconFactory
 
     /**
      * Get an icon for a parent folder.
+     *
      * @return an icon for a parent folder
      */
     public static Icon getUpFolderIcon() {
@@ -91,6 +94,7 @@ public class IconFactory
 
     /**
      * Get an icon for an openable (traversable) folder.
+     *
      * @return an icon for an openable (traversable) folder
      */
     public static Icon getOpenableFolderIcon() {
@@ -101,6 +105,7 @@ public class IconFactory
 
     /**
      * Get an icon for an selectable (non-traversable) folder.
+     *
      * @return an icon for an selectable (non-traversable) folder
      */
     public static Icon getSelectableFolderIcon() {
@@ -131,13 +136,13 @@ public class IconFactory
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (image == null) {
                 image = new BufferedImage(getIconWidth(), getIconHeight(),
-                                          BufferedImage.TYPE_INT_ARGB);
+                        BufferedImage.TYPE_INT_ARGB);
                 Graphics imageG = image.getGraphics();
-                paintMe(c,imageG);
+                paintMe(c, imageG);
                 imageG.dispose();
 
             }
-            g.drawImage(image, x, y+getShift(), null);
+            g.drawImage(image, x, y + getShift(), null);
         }
 
 
@@ -147,64 +152,74 @@ public class IconFactory
             int bottom = folderIcon16Size.height - 1;
 
             // Draw tab top
-            g.setColor( UIFactory.Colors.PRIMARY_CONTROL_DARK_SHADOW.getValue() );
-            g.drawLine( right - 5, 3, right, 3 );
-            g.drawLine( right - 6, 4, right, 4 );
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_DARK_SHADOW.getValue());
+            g.drawLine(right - 5, 3, right, 3);
+            g.drawLine(right - 6, 4, right, 4);
 
             // Draw folder front
-            g.setColor( UIFactory.Colors.PRIMARY_CONTROL.getValue() );
-            g.fillRect( 2, 7, 13, 8 );
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL.getValue());
+            g.fillRect(2, 7, 13, 8);
 
             // Additions/changes to standard Metal icons
             switch (style) {
-            case NOT_FILLED:
-                g.setColor( Color.white );
-                g.fillRect( 2, 7, 13, 8 );
-                break;
+                case NOT_FILLED:
+                    g.setColor(Color.white);
+                    g.fillRect(2, 7, 13, 8);
+                    break;
 
-            case PARTIALLY_FILLED:
-                g.setColor( Color.white );
-                for (int i = 0; i < 8; i++)
-                    g.drawLine(4 + i, 7 + i, 18, 7 + i);
-                break;
+                case PARTIALLY_FILLED:
+                    g.setColor(Color.white);
+                    for (int i = 0; i < 8; i++)
+                        g.drawLine(4 + i, 7 + i, 18, 7 + i);
+                    break;
 
-            case ALL_FILLED:
-                break;
+                case ALL_FILLED:
+                    break;
             }
 
             // Draw tab bottom
-            g.setColor( UIFactory.Colors.PRIMARY_CONTROL_SHADOW.getValue() );
-            g.drawLine( right - 6, 5, right - 1, 5 );
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_SHADOW.getValue());
+            g.drawLine(right - 6, 5, right - 1, 5);
 
             // Draw outline
-            g.setColor( UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue() );
-            g.drawLine( 0, 6, 0, bottom );            // left side
-            g.drawLine( 1, 5, right - 7, 5 );         // first part of top
-            g.drawLine( right - 6, 6, right - 1, 6 ); // second part of top
-            g.drawLine( right, 5, right, bottom );    // right side
-            g.drawLine( 0, bottom, right, bottom );   // bottom
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue());
+            g.drawLine(0, 6, 0, bottom);            // left side
+            g.drawLine(1, 5, right - 7, 5);         // first part of top
+            g.drawLine(right - 6, 6, right - 1, 6); // second part of top
+            g.drawLine(right, 5, right, bottom);    // right side
+            g.drawLine(0, bottom, right, bottom);   // bottom
 
             // Draw highlight
-            g.setColor( UIFactory.Colors.PRIMARY_CONTROL_HIGHLIGHT.getValue() );
-            g.drawLine( 1, 6, 1, bottom - 1 );
-            g.drawLine( 1, 6, right - 7, 6 );
-            g.drawLine( right - 6, 7, right - 1, 7 );
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_HIGHLIGHT.getValue());
+            g.drawLine(1, 6, 1, bottom - 1);
+            g.drawLine(1, 6, right - 7, 6);
+            g.drawLine(right - 6, 7, right - 1, 7);
 
         }
 
-        public int getShift() { return 0; }
-        public int getAdditionalHeight() { return 0; }
+        public int getShift() {
+            return 0;
+        }
+
+        public int getAdditionalHeight() {
+            return 0;
+        }
 
         @Override
-        public int getIconWidth() { return folderIcon16Size.width; }
+        public int getIconWidth() {
+            return folderIcon16Size.width;
+        }
+
         @Override
-        public int getIconHeight() { return folderIcon16Size.height + getAdditionalHeight(); }
+        public int getIconHeight() {
+            return folderIcon16Size.height + getAdditionalHeight();
+        }
 
         private int style;
         private Image image;
     }
 
-    private static final Dimension folderIcon16Size = new Dimension( 16, 16 );
+    private static final Dimension folderIcon16Size = new Dimension(16, 16);
 
 
     private static class TreeFolderIcon extends FolderIcon16 {
@@ -213,9 +228,14 @@ public class IconFactory
         }
 
         @Override
-        public int getShift() { return -1; }
+        public int getShift() {
+            return -1;
+        }
+
         @Override
-        public int getAdditionalHeight() { return 2; }
+        public int getAdditionalHeight() {
+            return 2;
+        }
     }
 
     // File Chooser Up Folder code
@@ -226,33 +246,33 @@ public class IconFactory
 
             // Fill background
             g.setColor(UIFactory.Colors.PRIMARY_CONTROL.getValue());
-            g.fillRect(3,5, 12,9);
+            g.fillRect(3, 5, 12, 9);
 
             // Draw outside edge of folder
             g.setColor(UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue());
-            g.drawLine(1,6,    1,14); // left
-            g.drawLine(2,14,  15,14); // bottom
-            g.drawLine(15,13, 15,5);  // right
-            g.drawLine(2,5,    9,5);  // top left
-            g.drawLine(10,6,  14,6);  // top right
+            g.drawLine(1, 6, 1, 14); // left
+            g.drawLine(2, 14, 15, 14); // bottom
+            g.drawLine(15, 13, 15, 5);  // right
+            g.drawLine(2, 5, 9, 5);  // top left
+            g.drawLine(10, 6, 14, 6);  // top right
             // Draw the UP arrow
             //     same color as edge
-            g.drawLine(8,13,  8,16); // arrow shaft
-            g.drawLine(8, 9,  8, 9); // arrowhead top
-            g.drawLine(7,10,  9,10);
-            g.drawLine(6,11, 10,11);
-            g.drawLine(5,12, 11,12);
+            g.drawLine(8, 13, 8, 16); // arrow shaft
+            g.drawLine(8, 9, 8, 9); // arrowhead top
+            g.drawLine(7, 10, 9, 10);
+            g.drawLine(6, 11, 10, 11);
+            g.drawLine(5, 12, 11, 12);
 
             // Draw inner folder highlight
             g.setColor(UIFactory.Colors.PRIMARY_CONTROL_HIGHLIGHT.getValue());
-            g.drawLine( 2,6,  2,13); // left
-            g.drawLine( 3,6,  9,6);  // top left
-            g.drawLine(10,7, 14,7);  // top right
+            g.drawLine(2, 6, 2, 13); // left
+            g.drawLine(3, 6, 9, 6);  // top left
+            g.drawLine(10, 7, 14, 7);  // top right
 
             // Draw tab on folder
             g.setColor(UIFactory.Colors.PRIMARY_CONTROL_DARK_SHADOW.getValue());
-            g.drawLine(11,3, 15,3); // top
-            g.drawLine(10,4, 15,4); // bottom
+            g.drawLine(11, 3, 15, 3); // top
+            g.drawLine(10, 4, 15, 4); // bottom
 
             g.translate(-x, -y);
         }
@@ -269,61 +289,69 @@ public class IconFactory
     }  // End class FileChooserUpFolderIcon
 
 
-
-
     private static class FileIcon16 implements Icon {
 
         @Override
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (image == null) {
                 image = new BufferedImage(getIconWidth(), getIconHeight(),
-                                          BufferedImage.TYPE_INT_ARGB);
+                        BufferedImage.TYPE_INT_ARGB);
                 Graphics imageG = image.getGraphics();
-                paintMe(c,imageG);
+                paintMe(c, imageG);
                 imageG.dispose();
 
             }
-            g.drawImage(image, x, y+getShift(), null);
+            g.drawImage(image, x, y + getShift(), null);
 
         }
 
         protected void paintMe(Component c, Graphics g) {
 
-                int right = fileIcon16Size.width - 1;
-                int bottom = fileIcon16Size.height - 1;
+            int right = fileIcon16Size.width - 1;
+            int bottom = fileIcon16Size.height - 1;
 
-                // Draw fill
-                g.setColor( UIFactory.Colors.WINDOW_BACKGROUND.getValue() );
-                g.fillRect( 4, 2, 9, 12 );
+            // Draw fill
+            g.setColor(UIFactory.Colors.WINDOW_BACKGROUND.getValue());
+            g.fillRect(4, 2, 9, 12);
 
-                // Draw frame
-                g.setColor( UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue() );
-                g.drawLine( 2, 0, 2, bottom );                 // left
-                g.drawLine( 2, 0, right - 4, 0 );              // top
-                g.drawLine( 2, bottom, right - 1, bottom );    // bottom
-                g.drawLine( right - 1, 6, right - 1, bottom ); // right
-                g.drawLine( right - 6, 2, right - 2, 6 );      // slant 1
-                g.drawLine( right - 5, 1, right - 4, 1 );      // part of slant 2
-                g.drawLine( right - 3, 2, right - 3, 3 );      // part of slant 2
-                g.drawLine( right - 2, 4, right - 2, 5 );      // part of slant 2
+            // Draw frame
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue());
+            g.drawLine(2, 0, 2, bottom);                 // left
+            g.drawLine(2, 0, right - 4, 0);              // top
+            g.drawLine(2, bottom, right - 1, bottom);    // bottom
+            g.drawLine(right - 1, 6, right - 1, bottom); // right
+            g.drawLine(right - 6, 2, right - 2, 6);      // slant 1
+            g.drawLine(right - 5, 1, right - 4, 1);      // part of slant 2
+            g.drawLine(right - 3, 2, right - 3, 3);      // part of slant 2
+            g.drawLine(right - 2, 4, right - 2, 5);      // part of slant 2
 
-                // Draw highlight
-                g.setColor( UIFactory.Colors.PRIMARY_CONTROL.getValue() );
-                g.drawLine( 3, 1, 3, bottom - 1 );                  // left
-                g.drawLine( 3, 1, right - 6, 1 );                   // top
-                g.drawLine( right - 2, 7, right - 2, bottom - 1 );  // right
-                g.drawLine( right - 5, 2, right - 3, 4 );           // slant
-                g.drawLine( 3, bottom - 1, right - 2, bottom - 1 ); // bottom
+            // Draw highlight
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL.getValue());
+            g.drawLine(3, 1, 3, bottom - 1);                  // left
+            g.drawLine(3, 1, right - 6, 1);                   // top
+            g.drawLine(right - 2, 7, right - 2, bottom - 1);  // right
+            g.drawLine(right - 5, 2, right - 3, 4);           // slant
+            g.drawLine(3, bottom - 1, right - 2, bottom - 1); // bottom
 
         }
 
-        public int getShift() { return 0; }
-        public int getAdditionalHeight() { return 0; }
+        public int getShift() {
+            return 0;
+        }
+
+        public int getAdditionalHeight() {
+            return 0;
+        }
 
         @Override
-        public int getIconWidth() { return fileIcon16Size.width; }
+        public int getIconWidth() {
+            return fileIcon16Size.width;
+        }
+
         @Override
-        public int getIconHeight() { return fileIcon16Size.height + getAdditionalHeight(); }
+        public int getIconHeight() {
+            return fileIcon16Size.height + getAdditionalHeight();
+        }
 
         private Image image;
     }
@@ -331,30 +359,35 @@ public class IconFactory
     private static class ReportIcon16 extends FileIcon16 {
         @Override
         protected void paintMe(Component c, Graphics g) {
-            int [][] blacks = {{},{},{5,7,8,9}, {}, {5,6,7,9}, {}, {5,6,7,9,10,11},
-                               {}, {5, 7,8,9,10,11}, {}, {5, 7,8,9,10,11}, {},
-                               {5,6,7,8,9,10,11}};
-            super.paintMe(c,g);
+            int[][] blacks = {{}, {}, {5, 7, 8, 9}, {}, {5, 6, 7, 9}, {}, {5, 6, 7, 9, 10, 11},
+                    {}, {5, 7, 8, 9, 10, 11}, {}, {5, 7, 8, 9, 10, 11}, {},
+                    {5, 6, 7, 8, 9, 10, 11}};
+            super.paintMe(c, g);
             // paint the "text"
-            g.setColor( UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue() );
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue());
             for (int i = 0; i < blacks.length; i++) {
-                for (int j=0; j < blacks[i].length; j++) {
+                for (int j = 0; j < blacks[i].length; j++) {
                     int x = blacks[i][j];
-                    g.drawLine(x, i, x, i );
+                    g.drawLine(x, i, x, i);
                 }
             }
         }
 
     }
 
-    private static final Dimension fileIcon16Size = new Dimension( 16, 16 );
+    private static final Dimension fileIcon16Size = new Dimension(16, 16);
 
 
     private static class TreeLeafIcon extends FileIcon16 {
         @Override
-        public int getShift() { return 2; }
+        public int getShift() {
+            return 2;
+        }
+
         @Override
-        public int getAdditionalHeight() { return 4; }
+        public int getAdditionalHeight() {
+            return 4;
+        }
     }
 
     /**
@@ -370,7 +403,7 @@ public class IconFactory
     /**
      * A convenience redefinition of {@link Status#ERROR Status.ERROR}.
      */
-    public static final int ERROR  = Status.ERROR;
+    public static final int ERROR = Status.ERROR;
 
     /**
      * A convenience redefinition of {@link Status#NOT_RUN Status.NOT_RUN}.
@@ -393,10 +426,11 @@ public class IconFactory
 
     /**
      * Get a test icon.
-     * @param state the state for this test: one of
-     * {@link #PASSED}, {@link #FAILED}, {@link #ERROR}, {@link #NOT_RUN}, {@link #FILTERED_OUT}
+     *
+     * @param state  the state for this test: one of
+     *               {@link #PASSED}, {@link #FAILED}, {@link #ERROR}, {@link #NOT_RUN}, {@link #FILTERED_OUT}
      * @param active whether the icon should indicate current activity or not
-     * @param glyph whether the icon should contain an accessibility glyph or not
+     * @param glyph  whether the icon should contain an accessibility glyph or not
      * @return a test icon appropriate to the arguments
      */
     public static Icon getTestIcon(int state, boolean active, boolean glyph) {
@@ -416,10 +450,11 @@ public class IconFactory
 
     /**
      * Get a test folder icon.
-     * @param state the state for this test: one of
-     * {@link #PASSED}, {@link #FAILED}, {@link #ERROR}, {@link #NOT_RUN}, {@link #FILTERED_OUT}
+     *
+     * @param state  the state for this test: one of
+     *               {@link #PASSED}, {@link #FAILED}, {@link #ERROR}, {@link #NOT_RUN}, {@link #FILTERED_OUT}
      * @param active whether the icon should indicate current activity or not
-     * @param glyph whether the icon should contain an accessibility glyph or not
+     * @param glyph  whether the icon should contain an accessibility glyph or not
      * @return a test folder icon appropriate to the arguments
      */
     public static Icon getTestFolderIcon(int state, boolean active, boolean glyph) {
@@ -439,8 +474,9 @@ public class IconFactory
 
     /**
      * Get a test section icon.
+     *
      * @param state the state for this test: one of
-     * {@link #PASSED}, {@link #FAILED}, {@link #ERROR}, {@link #NOT_RUN}, {@link #FILTERED_OUT}
+     *              {@link #PASSED}, {@link #FAILED}, {@link #ERROR}, {@link #NOT_RUN}, {@link #FILTERED_OUT}
      * @return a test section icon appropriate to the arguments
      */
     public static Icon getTestSectionIcon(int state) {
@@ -490,8 +526,8 @@ public class IconFactory
 
     private static void drawArrow(int x, int y, int w, int h, Graphics g, Color c) {
         g.setColor(c);
-        int[] xx = { x, x + w, x };
-        int[] yy = { y, y + h / 2, y + h };
+        int[] xx = {x, x + w, x};
+        int[] yy = {y, y + h / 2, y + h};
         g.fillPolygon(xx, yy, 3);
     }
 
@@ -503,30 +539,30 @@ public class IconFactory
     private static void drawGlyph(int state, int x, int y, Graphics g, Color c) {
         g.setColor(c);
         switch (state) {
-        case PASSED:
-            g.drawLine(x + 0, y + 3, x + 2, y + 5);
-            g.drawLine(x + 1, y + 3, x + 2, y + 4);
-            g.drawLine(x + 2, y + 4, x + 5, y + 1);
-            g.drawLine(x + 2, y + 5, x + 5, y + 2);
-            break;
+            case PASSED:
+                g.drawLine(x + 0, y + 3, x + 2, y + 5);
+                g.drawLine(x + 1, y + 3, x + 2, y + 4);
+                g.drawLine(x + 2, y + 4, x + 5, y + 1);
+                g.drawLine(x + 2, y + 5, x + 5, y + 2);
+                break;
 
-        case FAILED:
-            g.drawLine(x + 0, y + 0, x + 4, y + 4);
-            g.drawLine(x + 0, y + 1, x + 4, y + 5);
-            g.drawLine(x + 0, y + 4, x + 4, y + 0);
-            g.drawLine(x + 0, y + 5, x + 4, y + 1);
-            break;
+            case FAILED:
+                g.drawLine(x + 0, y + 0, x + 4, y + 4);
+                g.drawLine(x + 0, y + 1, x + 4, y + 5);
+                g.drawLine(x + 0, y + 4, x + 4, y + 0);
+                g.drawLine(x + 0, y + 5, x + 4, y + 1);
+                break;
 
-        case ERROR:
-            g.drawLine(x + 2, y + 0, x + 2, y + 3);
-            g.drawLine(x + 2, y + 5, x + 2, y + 5);
-            g.drawLine(x + 3, y + 0, x + 3, y + 3);
-            g.drawLine(x + 3, y + 5, x + 3, y + 5);
-            break;
+            case ERROR:
+                g.drawLine(x + 2, y + 0, x + 2, y + 3);
+                g.drawLine(x + 2, y + 5, x + 2, y + 5);
+                g.drawLine(x + 3, y + 0, x + 3, y + 3);
+                g.drawLine(x + 3, y + 5, x + 3, y + 5);
+                break;
 
-        case NOT_RUN:
-            g.drawLine(x + 1, y + 3, x + 4, y + 3);
-            break;
+            case NOT_RUN:
+                g.drawLine(x + 1, y + 3, x + 4, y + 3);
+                break;
         }
     }
 
@@ -556,7 +592,7 @@ public class IconFactory
         float d0 = (float) Math.sqrt(dRefX * dRefX + dRefY * dRefY);
 
         // calculate hsb at reference point
-        int refRed =  refColor.getRed();
+        int refRed = refColor.getRed();
         int refGreen = refColor.getGreen();
         int refBlue = refColor.getBlue();
         float[] refHSB = Color.RGBtoHSB(refRed, refGreen, refBlue, null);
@@ -605,7 +641,7 @@ public class IconFactory
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (image == null) {
                 image = new BufferedImage(getIconWidth(), getIconHeight(),
-                                          BufferedImage.TYPE_INT_ARGB);
+                        BufferedImage.TYPE_INT_ARGB);
                 paintMe(image);
 
             }
@@ -629,7 +665,7 @@ public class IconFactory
             g.drawLine(left, top, cornerLeft, top); // top
             g.drawLine(left, top, left, bottom - 1);  // left
             g.drawLine(left, bottom - 1, right - 1, bottom - 1); // bottom
-            g.drawLine(right -1, top + testCornerSize, right - 1, bottom - 1); // right
+            g.drawLine(right - 1, top + testCornerSize, right - 1, bottom - 1); // right
             for (int i = 0; i < testCornerSize; i++)
                 g.drawLine(cornerLeft, top + i, cornerLeft + i, top + i);
 
@@ -675,7 +711,7 @@ public class IconFactory
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (image == null) {
                 image = new BufferedImage(getIconWidth(), getIconHeight(),
-                                          BufferedImage.TYPE_INT_ARGB);
+                        BufferedImage.TYPE_INT_ARGB);
                 paintMe(image);
 
             }
@@ -743,7 +779,7 @@ public class IconFactory
         public void paintIcon(Component c, Graphics g, int x, int y) {
             if (image == null) {
                 image = new BufferedImage(getIconWidth(), getIconHeight(),
-                                          BufferedImage.TYPE_INT_ARGB);
+                        BufferedImage.TYPE_INT_ARGB);
                 paintMe(image);
 
             }
@@ -773,7 +809,7 @@ public class IconFactory
                     int dx = x - hCenterX;
                     int dy = y - hCenterY;
                     float d = (float) Math.sqrt(dx * dx + dy * dy);
-                    int t = Math.min((int) ( d * 255 / sectHighlightSize), 255);
+                    int t = Math.min((int) (d * 255 / sectHighlightSize), 255);
                     g.setColor(new Color(255, 255, 255, 255 - t));
                     g.drawLine(x, y, x, y);
                 }
@@ -785,7 +821,6 @@ public class IconFactory
         private int state;
         private BufferedImage image;
     }
-
 
 
 }

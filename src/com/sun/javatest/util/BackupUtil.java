@@ -35,7 +35,9 @@ import java.io.IOException;
 
 public class BackupUtil {
 
-    /** Creates a new instance of BackupUtil */
+    /**
+     * Creates a new instance of BackupUtil
+     */
     public BackupUtil() {
     }
 
@@ -44,23 +46,24 @@ public class BackupUtil {
      * we use for backupped files). For each backup it increase it's number for 1
      * (older backups has higher numbers). Then checks, if there more backups, then
      * maxBackups allows, and remove superfluous old backups.
-     * @param file File to backup
+     *
+     * @param file       File to backup
      * @param maxBackups Maximum number of allowed backups
      * @return number of backup levels after finishing operation.
      */
     public static int backupFile(File file, int maxBackups) {
-        if(!file.exists()) {
+        if (!file.exists()) {
             return -1;
         }
 
-        if(file.isDirectory()) {
+        if (file.isDirectory()) {
             return -1;
         }
 
         String filename = file.getPath();
         File dir = file.getParentFile();
         String[] list = dir.list();
-        if(list == null) {
+        if (list == null) {
             return -1;
         }
 
@@ -77,7 +80,7 @@ public class BackupUtil {
                     s.startsWith(prefix) && s.endsWith(suffix)) {
                 String mid = s.substring(prefix.length(), s.length() - suffix.length());
 
-                if(!checkForInteger(mid)) {
+                if (!checkForInteger(mid)) {
                     continue;
                 }
 
@@ -86,7 +89,7 @@ public class BackupUtil {
                 index++;
                 renamed =
                         backuppedFile.renameTo(new File(filename + "~" + index + "~"));
-                if(!renamed) {
+                if (!renamed) {
                     return -1;
                 }
                 backups.addElement(Integer.valueOf(index));
@@ -94,7 +97,7 @@ public class BackupUtil {
         }
 
         renamed = file.renameTo(new File(filename + "~" + 1 + "~"));
-        if(!renamed) {
+        if (!renamed) {
             return -1;
         }
         backups.addElement(Integer.valueOf(1));
@@ -118,11 +121,11 @@ public class BackupUtil {
      * If parametr is not dir, returns.
      */
     public static void backupDir(File file, int maxBackups) {
-        if(!file.isDirectory()) {
+        if (!file.isDirectory()) {
             return;
         }
 
-        if(file.list().length == 0) {
+        if (file.list().length == 0) {
             return;
         }
 
@@ -143,7 +146,7 @@ public class BackupUtil {
                     s.startsWith(prefix) && s.endsWith(suffix)) {
                 String mid = s.substring(prefix.length(), s.length() - suffix.length());
 
-                if(!checkForInteger(mid)) {
+                if (!checkForInteger(mid)) {
                     continue;
                 }
 
@@ -152,7 +155,7 @@ public class BackupUtil {
                 index++;
                 renamed =
                         backuppedFile.renameTo(new File(filename + "~" + index + "~"));
-                if(!renamed) {
+                if (!renamed) {
                     return;
                 }
                 backups.addElement(Integer.valueOf(index));
@@ -160,7 +163,7 @@ public class BackupUtil {
         }
 
         renamed = file.renameTo(new File(filename + "~" + 1 + "~"));
-        if(!renamed) {
+        if (!renamed) {
             return;
         }
 //        file = new File(filename);
@@ -179,17 +182,18 @@ public class BackupUtil {
     /**
      * Backups all found "layers" of subdirs. Subdirs have the same layer, if
      * suffixes of their names are the same (suffix has format ~ + int number + ~)
-     * @param dir root dir where layers situated
+     *
+     * @param dir        root dir where layers situated
      * @param maxBackups max allowed time to backup
      */
     public static void backupAllSubdirs(File dir, int maxBackups) {
-        if(!dir.exists()) {
+        if (!dir.exists()) {
             return;
         }
 
         File[] files = dir.listFiles();
 
-        if(files.length == 0) {
+        if (files.length == 0) {
             return;
         }
 
@@ -214,16 +218,17 @@ public class BackupUtil {
 
         Object[] larray = layers.toArray();
         java.util.Arrays.sort(larray);
-        for(int i = larray.length - 1; i >= 0; i--) {
-            backupLayer(dir, (Integer)larray[i], maxBackups);
+        for (int i = larray.length - 1; i >= 0; i--) {
+            backupLayer(dir, (Integer) larray[i], maxBackups);
         }
     }
 
     /**
      * Backups "layer" of subdirs - all subdirs with the same number in suffix.
      * If layer should be deleted (because of max allowed backups) - deletes it
-     * @param parentDir root dir, where layers you want to backup situates
-     * @param numb Number of layer (those in suffix of directories names)
+     *
+     * @param parentDir  root dir, where layers you want to backup situates
+     * @param numb       Number of layer (those in suffix of directories names)
      * @param maxBackups maximum allowed times to backup
      */
     private static void backupLayer(File parentDir, Integer numb, int maxBackups) {
@@ -257,22 +262,23 @@ public class BackupUtil {
 
     private static class LayerFilter implements FileFilter {
         private String suffix;
+
         public LayerFilter(String suffix) {
             this.suffix = suffix;
         }
+
         @Override
         public boolean accept(File file) {
-            if(!file.isDirectory())
+            if (!file.isDirectory())
                 return false;
 
-            if(suffix.isEmpty()) {
-                if(!file.getName().endsWith("~"))
+            if (suffix.isEmpty()) {
+                if (!file.getName().endsWith("~"))
                     return true;
                 else
                     return false;
-            }
-            else {
-                if(file.getName().endsWith(suffix))
+            } else {
+                if (file.getName().endsWith(suffix))
                     return true;
                 else
                     return false;
@@ -285,7 +291,7 @@ public class BackupUtil {
      * backups all files in the directory. No rename of directory. Not - recursive
      */
     public static void backupContents(File dir, int maxBackups) {
-        if(!dir.isDirectory()) {
+        if (!dir.isDirectory()) {
             return;
         }
 
@@ -301,13 +307,12 @@ public class BackupUtil {
     }
 
     /**
-     *
      * @param s Checks, if this String represents integer number
      * @return true, if if this String represents integer number,
      * false otherwise
      */
     public static boolean checkForInteger(String s) {
-        if(s.isEmpty()) {
+        if (s.isEmpty()) {
             return false;
         }
         for (int i = 0; i < s.length(); i++) {
@@ -319,17 +324,16 @@ public class BackupUtil {
     }
 
     /**
-     *
      * @param dir File to delete. If it is not dir, deletes this File. Otherwise deletes dir
-     * recursively
+     *            recursively
      * @return true, if dir (or file) removed successfully
      */
     public static boolean deleteDir(File dir) {
         boolean deleted = dir.delete();
 
-        if(!deleted) {
+        if (!deleted) {
             String[] list = dir.list();
-            if(list != null) {
+            if (list != null) {
                 for (String aList : list) {
                     deleteDir(new File(dir, aList));
                 }

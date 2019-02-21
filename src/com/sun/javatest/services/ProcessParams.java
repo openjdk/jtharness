@@ -34,7 +34,6 @@ import java.util.Map;
 /**
  * This class represents all necessary information to start process, using
  * {@code java.lang.ProcessBuilder}
- *
  */
 public class ProcessParams implements Serializable {
     private List<String> command;

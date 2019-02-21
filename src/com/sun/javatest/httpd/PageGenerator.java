@@ -66,8 +66,12 @@ public class PageGenerator {
      */
     public static void generateDocType(PrintWriter out, int version) {
         switch (version) {
-            case HTML32: out.println(HTML32_ID); break;
-            case HTML40_TRANS: out.println(HTML40_TRANS_ID); break;
+            case HTML32:
+                out.println(HTML32_ID);
+                break;
+            case HTML40_TRANS:
+                out.println(HTML40_TRANS_ID);
+                break;
         }
     }
 
@@ -75,11 +79,11 @@ public class PageGenerator {
      * Creates a plain header, with only a title.
      */
     public static void writeHeader(PrintWriter out, String title) {
-        out.println ("<Head>");
-        out.print ("<Title>");
-        out.print (title);
-        out.println ("</Title>");
-        out.println ("</Head>");
+        out.println("<Head>");
+        out.print("<Title>");
+        out.print(title);
+        out.println("</Title>");
+        out.println("</Head>");
     }
 
     public static void writeBeginDoc(PrintWriter out) {
@@ -146,8 +150,7 @@ public class PageGenerator {
             buf.append("<tr><td colspan=2>");
             buf.append("-EMPTY-");
             buf.append("</tr>");
-        }
-        else {
+        } else {
             Enumeration<?> keys = dict.keys();
             while (keys.hasMoreElements()) {
                 Object key = keys.nextElement();
@@ -244,7 +247,7 @@ public class PageGenerator {
 
     static {
         dateFormat = DateFormat.getDateTimeInstance(DateFormat.FULL,
-                                                    DateFormat.LONG);
+                DateFormat.LONG);
         dateFormat.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
     }
 

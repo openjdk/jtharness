@@ -41,7 +41,7 @@ public class TextWriter extends FilterWriter {
     /**
      * Create a new TextWriter, without automatic line flushing.
      *
-     * @param  out        A character-output stream
+     * @param out A character-output stream
      */
     public TextWriter(Writer out) {
         this(out, false);
@@ -50,9 +50,9 @@ public class TextWriter extends FilterWriter {
     /**
      * Create a new TextWriter.
      *
-     * @param  out        A character-output stream
-     * @param  autoFlush  A boolean; if true, the println() methods will flush
-     *                    the output buffer
+     * @param out       A character-output stream
+     * @param autoFlush A boolean; if true, the println() methods will flush
+     *                  the output buffer
      */
     public TextWriter(Writer out, boolean autoFlush) {
         // this next call establishes "out" as the value of the
@@ -66,6 +66,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print a boolean.
+     *
      * @param b the boolean to be printed
      * @throws IOException if there is a problem writing to the stream
      */
@@ -75,6 +76,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print a character.
+     *
      * @param c the character to be printed
      * @throws IOException if there is a problem writing to the stream
      */
@@ -84,6 +86,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print an integer.
+     *
      * @param i the integer to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
@@ -93,6 +96,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print a long.
+     *
      * @param l the long to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
@@ -102,6 +106,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print a float.
+     *
      * @param f the float to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
@@ -111,6 +116,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print a double.
+     *
      * @param d the double to be printed
      * @throws IOException if an error occurred while writing to the stream
      **/
@@ -120,6 +126,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print an array of characters.
+     *
      * @param s the array of characters to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
@@ -129,6 +136,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print a string.
+     *
      * @param s the string to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
@@ -141,6 +149,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print an object.
+     *
      * @param obj the object to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
@@ -153,6 +162,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Finish the line.
+     *
      * @throws IOException if an error occurred while writing to the stream
      */
     public void println() throws IOException {
@@ -165,6 +175,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print a boolean, and then finish the line.
+     *
      * @param b the boolean to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
@@ -177,6 +188,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print a character, and then finish the line.
+     *
      * @param c the character to beprinted
      * @throws IOException if an error occurred while writing to the stream
      */
@@ -189,6 +201,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print an integer, and then finish the line.
+     *
      * @param i the int to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
@@ -201,6 +214,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print a long, and then finish the line.
+     *
      * @param l the long to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
@@ -213,6 +227,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print a float, and then finish the line.
+     *
      * @param f the float to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
@@ -225,6 +240,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print a double, and then finish the line.
+     *
      * @param d the double to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
@@ -237,6 +253,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print an array of characters, and then finish the line.
+     *
      * @param c the array of characters to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
@@ -249,6 +266,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print a String, and then finish the line.
+     *
      * @param s the string to be printed
      * @throws IOException if an error occurred while writing to the stream
      */
@@ -261,6 +279,7 @@ public class TextWriter extends FilterWriter {
 
     /**
      * Print an Object, and then finish the line.
+     *
      * @param obj the object to be printed
      * @throws IOException if an error occurred while writing to the stream
      */

@@ -116,7 +116,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
                     "br.summ.status" + i + ".mne").charAt(0));
             sTypes[i].setIcon(new LegendIcon(I18NUtils.getStatusBarColor(i), true));
             uif.setAccessibleDescription(sTypes[i], "br.summ.status" + i);
-        // other label config here
+            // other label config here
         }   // for
 
         sTypes[SUBTOTAL_INDEX] = uif.createLabel("br.summ.subtotal");
@@ -466,7 +466,6 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
         //    in a short period of time without intervention
 
 
-
         // it was "ct != null && ct.getNode() == subpanelNode" , result was always false.
         // after fixing this behavuiour can change!!!
         if (ct != null && ct.getNode() == subpanelNode.getTableNode()) {
@@ -510,8 +509,8 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
     private class CounterThread extends Thread {
 
         /**
-         * @param tn The node whose stats are to be scanned and placed onscreen.
-         * @param fs Filters used to correctly generate stats.
+         * @param tn     The node whose stats are to be scanned and placed onscreen.
+         * @param fs     Filters used to correctly generate stats.
          * @param fields Components to be updated with stats.
          */
         CounterThread(TestResultTable.TreeNode tn, JTextField... fields) {
@@ -552,7 +551,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
             if (!model.isRunning()) {
                 EventQueue.invokeLater(
                         new BranchPanel.TextUpdater(BranchPanel.TextUpdater.CLEAR,
-                        tfs, null, uif));
+                                tfs, null, uif));
                 showMessage(uif.getI18NString("br.summ.working"));
             }
 
@@ -590,13 +589,12 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
                     notifyUpdate(stats, combinedStats);
                     lastStats = combinedStats;
                     updateMessage(stats, !isComplete);
-                } else if(ttm.isWorkPaused()) {
+                } else if (ttm.isWorkPaused()) {
                     //Debug.println("Pause update, but have " + ((TRT_TreeNode)node).getEstimatedSize());
                     int[] tmpStats = new int[Status.NUM_STATES];
-                    tmpStats[Status.NOT_RUN] = ((TRT_TreeNode)node).getEstimatedSize();
+                    tmpStats[Status.NOT_RUN] = ((TRT_TreeNode) node).getEstimatedSize();
                     updateMessage(tmpStats, true);
-                }
-                else {
+                } else {
                     //Debug.println("Insig update - ignored");
                 }
 
@@ -663,14 +661,14 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
          * Create an array of length tfs.length.  Containing the basic + filter stats,
          * the subtotal and total fields empty.
          *
-         * @param basic Array of length Status.NUM_STATES, probably output from
-         *        TreeIterator.getResultStats().
+         * @param basic    Array of length Status.NUM_STATES, probably output from
+         *                 TreeIterator.getResultStats().
          * @param filtered Number of tests filtered out.  Should be zero or greater.
          * @param validSub Is the subtotal okay to calculate and display?
          * @param validTot Is the total okay to calculate and display?
          */
         private int[] fillStats(int[] basic, int filtered, boolean validSub,
-                boolean validTot) {
+                                boolean validTot) {
             int[] result = new int[tfs.length];
 
             System.arraycopy(basic, 0, result, 0, basic.length);
@@ -763,9 +761,9 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
         private void notifyUpdate(final int[] basic, final int... values) {
             EventQueue.invokeLater(
                     new BranchPanel.TextUpdater(BranchPanel.TextUpdater.UPDATE,
-                    tfs,
-                    values,
-                    uif));
+                            tfs,
+                            values,
+                            uif));
             final int[] pieStats = new int[I18NUtils.NUM_STATES];
             System.arraycopy(basic, 0, pieStats, 0, basic.length);
             pieStats[I18NUtils.FILTERED_OUT] = values[FILTERED_INDEX];
@@ -789,6 +787,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
                 }
             });
         }
+
         private volatile boolean stopping;
         private TestResultTable.TreeNode node;
         private TT_NodeCache cache;
@@ -856,6 +855,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
             return new Dimension(10 + inset.left + inset.right,
                     thick * 2 + space + inset.top + inset.bottom);
         }
+
         int thick = 2;
         int space = 4;
     }
@@ -909,6 +909,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
             return new Dimension(arcWidth * 2 + inset.left + inset.right,
                     thick * 2 + inset.top + inset.bottom);
         }
+
         int thick = 2;
         int arcWidth = 15;
     }
@@ -978,12 +979,14 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
              */
             g.setColor(c);
             g.fillRect(x, y, width, height);
-        //}
+            //}
         }
-        private Color color,  shadowColor;
+
+        private Color color, shadowColor;
         private Image image;
         private boolean paintShadow;
     }
+
     private CounterThread ct;
     private int[] stats;
     private int filtered;

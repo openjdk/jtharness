@@ -27,6 +27,7 @@
 package com.sun.javatest.exec;
 
 import javax.swing.tree.TreePath;
+
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 
@@ -45,19 +46,26 @@ import com.sun.javatest.TestResultTable;
 interface TreePanelModel {
     // notification
     public void nodeSelected(Object node, TreePath path);
+
     public void testSelected(TestResult node, TreePath path);
+
     public void nodeUnSelected(Object node, TreePath path);
+
     public void testUnSelected(TestResult node, TreePath path);
 
     // requests
     public void showNode(Object node, TreePath path);
+
     public void showNode(String url);
 
     public void showTest(TestResult node, TreePath path);
+
     public void showTest(TestResult node);
+
     public void showTest(String url);
 
     public void hideNode(Object node, TreePath path);
+
     public void hideTest(TestResult node, TreePath path);
 
     /**
@@ -68,8 +76,9 @@ interface TreePanelModel {
 
     /**
      * Find out which test is selected.
+     *
      * @return null if a test is not selected.  Otherwise the string from
-     *         <code>TestResult.getTestName()</code>.
+     * <code>TestResult.getTestName()</code>.
      */
     public String getSelectedTest();
 
@@ -79,8 +88,8 @@ interface TreePanelModel {
      * Return the folder or test that the user is currently viewing.
      */
     //public Object getSelectedObject();        // uncomment to use
-
     public boolean isActive(TT_TreeNode node);
+
     public boolean isActive(TestResult tr);
 
     /**

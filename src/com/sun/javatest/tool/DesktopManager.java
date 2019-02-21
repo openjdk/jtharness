@@ -38,8 +38,7 @@ import com.sun.javatest.util.I18NResourceBundle;
  * <li><code>-cleanDesktop</code>: synonym for newDesktop (backward compatibility)
  * </ul>
  */
-public class DesktopManager extends CommandManager
-{
+public class DesktopManager extends CommandManager {
     @Override
     public HelpTree.Node getHelp() {
         String[] cmds = {"cleanDesktop", "newDesktop", "resume", "laf"};
@@ -71,8 +70,7 @@ public class DesktopManager extends CommandManager
 
     @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
-        throws Command.Fault
-    {
+            throws Command.Fault {
         if (cmd.equalsIgnoreCase("newDesktop") || cmd.equalsIgnoreCase("cleanDesktop")) {
             firstTimeFlag = true;
             ctx.addCommand(new NewDesktopCommand());
@@ -134,7 +132,7 @@ public class DesktopManager extends CommandManager
             } else if ("default".equalsIgnoreCase(lafName)) {
                 laf = CommandContext.DEFAULT_LAF;
             } else {
-                throw new Fault(i18n, "dt.opts.laf.badArg", new Object[] {lafName});
+                throw new Fault(i18n, "dt.opts.laf.badArg", new Object[]{lafName});
             }
 
             addArg(lafName);

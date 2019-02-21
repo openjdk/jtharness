@@ -52,8 +52,7 @@ import com.sun.javatest.tool.jthelp.HelpID;
 import com.sun.javatest.tool.jthelp.JHelpContentViewer;
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
-class CE_FullView extends CE_View
-{
+class CE_FullView extends CE_View {
     CE_FullView(InterviewParameters config,
                 JHelpContentViewer infoPanel, UIFactory uif, ActionListener l) {
         super(config, infoPanel, uif, l);
@@ -109,7 +108,7 @@ class CE_FullView extends CE_View
         setName(FULL);
         ContextHelpManager.setHelpIDString(this, "confEdit.fullView.csh");
 
-        String[] searchMenuItems = { FIND, FIND_NEXT };
+        String[] searchMenuItems = {FIND, FIND_NEXT};
         searchMenu = uif.createMenu("ce.search", searchMenuItems, localListener);
 
         setLayout(new BorderLayout());
@@ -187,8 +186,7 @@ class CE_FullView extends CE_View
     }
 
     private class Listener
-        implements ActionListener, AncestorListener, Interview.Observer
-    {
+            implements ActionListener, AncestorListener, Interview.Observer {
         // ---------- from ActionListener -----------
 
         @Override
@@ -201,27 +199,23 @@ class CE_FullView extends CE_View
                     wizPane.nextVisible();
                 else
                     wizPane.next();
-            }
-            else if (cmd.equals(BACK)) {
+            } else if (cmd.equals(BACK)) {
                 // hmm, arguably, if the filter is *not* enabled,
                 // then nextVisible() should be the same as next() anyway
                 if (wizPane.getMarkersFilterEnabled())
                     wizPane.prevVisible();
                 else
                     wizPane.prev();
-            }
-            else if (cmd.equals(LAST)) {
+            } else if (cmd.equals(LAST)) {
                 // hmm, arguably, if the filter is *not* enabled,
                 // then nextVisible() should be the same as next() anyway
                 if (wizPane.getMarkersFilterEnabled())
                     wizPane.lastVisible();
                 else
                     wizPane.last();
-            }
-            else if (cmd.equals(FIND)) {
+            } else if (cmd.equals(FIND)) {
                 wizPane.find();
-            }
-            else if (cmd.equals(FIND_NEXT)) {
+            } else if (cmd.equals(FIND_NEXT)) {
                 wizPane.findNext();
             }
         }
@@ -236,7 +230,8 @@ class CE_FullView extends CE_View
         }
 
         @Override
-        public void ancestorMoved(AncestorEvent e) { }
+        public void ancestorMoved(AncestorEvent e) {
+        }
 
         @Override
         public void ancestorRemoved(AncestorEvent e) {
@@ -251,8 +246,7 @@ class CE_FullView extends CE_View
             if (msg == null || msg.isEmpty()) {
                 msgField.setEnabled(false);
                 msgField.setText("");
-            }
-            else {
+            } else {
                 msgField.setEnabled(true);
                 msgField.setText(msg);
             }

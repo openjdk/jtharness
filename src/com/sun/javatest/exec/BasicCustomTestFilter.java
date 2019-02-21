@@ -75,6 +75,7 @@ import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.StringArray;
 import com.sun.javatest.tool.TestTreeSelectionPane;
 import com.sun.javatest.tool.UIFactory;
+
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -89,7 +90,7 @@ import java.util.Objects;
  * <li>Keywords
  * </ul>
  *
- *<p>
+ * <p>
  * The settings for this panel are global, so any changes made affect all
  * exec tool instances.
  */
@@ -433,8 +434,9 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     /**
      * Attach observer to the given interview.
      * Automatically detaches from other interviews being observed.
+     *
      * @param ip The interview to observe.  For convenience, if this param
-     *        is null, any current observers will be detached.
+     *           is null, any current observers will be detached.
      */
     private void updateInterviewObserver(InterviewParameters ip) {
         if (ip == null && intObs != null) {
@@ -508,6 +510,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     /**
      * Adds exclude list files to the list.
      * If null or zero length, the list is cleared.
+     *
      * @param files The files to add.  Null ok.
      */
     private void setExcludeFiles(File... files) {
@@ -523,9 +526,9 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     }
 
     private JComponent[] createTabPanels() {
-        return new JComponent[] {createTestsPanel(), createKeywordPanel(),
-            createStatusPanel(), createExcludePanel(),
-            createSpecialPanel()};
+        return new JComponent[]{createTestsPanel(), createKeywordPanel(),
+                createStatusPanel(), createExcludePanel(),
+                createSpecialPanel()};
     }
 
     // KEYWORD PANEL
@@ -780,11 +783,12 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
 
     /**
      * Capture the settings in the current GUI.
+     *
      * @return A snapshot of the settings currently entred into the GUI.
      * @throws IllegalStateException If any part of the GUI has a state which
-     *         does not produce a consistent setting.  The message of this
-     *         exception will contain an internationalized message to help the
-     *         user resolve the problem.
+     *                               does not produce a consistent setting.  The message of this
+     *                               exception will contain an internationalized message to help the
+     *                               user resolve the problem.
      */
     private SettingsSnapshot grabSettings() {
         SettingsSnapshot shot = new SettingsSnapshot();
@@ -923,7 +927,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     private JTextField jtxMode;
     private JList<?> jtxFileList;
     private DefaultListModel<String> jtxFiles;
-    private static String NAME,  REASON,  DESCRIPTION;
+    private static String NAME, REASON, DESCRIPTION;
 
     /**
      * Necessary to track changes which occur in the active interview.
@@ -1000,6 +1004,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
                 return;     // rest of checking no longer needed
             }
         }
+
         private InterviewParameters interview;
     }
 
@@ -1137,6 +1142,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
                 return false;
             }
         }
+
         boolean urlsEnabled;
         boolean keywordsEnabled;
         boolean statusEnabled;

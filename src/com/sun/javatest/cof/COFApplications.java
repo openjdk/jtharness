@@ -33,31 +33,32 @@ import java.util.List;
 
 public class COFApplications extends COFItem {
 
-static LinkedHashMap<String, String> xmlAttributes;
+    static LinkedHashMap<String, String> xmlAttributes;
 
     static LinkedHashMap<String, String> xmlElements;
 
-        static String xmlTagName;
+    static String xmlTagName;
 
-        static  {
+    static {
         xmlElements = new LinkedHashMap<>();
         xmlElements.put("application", "application");
         xmlTagName = "applications";
     }
 
-        //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
-    protected List<COFApplication>  application;
+    //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
+    protected List<COFApplication> application;
 
-        LinkedHashMap<String, String> getItemAttributes() {
-                return xmlAttributes;
-        }
+    LinkedHashMap<String, String> getItemAttributes() {
+        return xmlAttributes;
+    }
 
-        LinkedHashMap<String, String> getItemElements() {
-                return xmlElements;
-        }
+    LinkedHashMap<String, String> getItemElements() {
+        return xmlElements;
+    }
+
     String getItemTagName() {
-                return xmlTagName;
-        }
+        return xmlTagName;
+    }
 
     public List<COFApplication> getApplication() {
         if (application == null) {

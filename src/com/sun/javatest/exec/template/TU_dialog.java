@@ -33,6 +33,7 @@ import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.exec.ContextManager;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.I18NResourceBundle;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -65,12 +66,13 @@ public class TU_dialog extends JDialog {
 
     /**
      * Constructs a new Dialog. Doesn't show it.
+     *
      * @param parent
      * @param uiF
      * @param intV
      */
     public TU_dialog(Frame parent, UIFactory uiF, TemplateSession tSession,
-            ContextManager context) {
+                     ContextManager context) {
         super(parent, true);
         setTitle(i18n.getString("tu_dialog.title"));
         //super(parent, uif, "tu");
@@ -83,6 +85,7 @@ public class TU_dialog extends JDialog {
 
     /**
      * Shows the dialog.
+     *
      * @param prop
      */
     protected void show(InterviewPropagator prop) {
@@ -209,38 +212,38 @@ public class TU_dialog extends JDialog {
 
         buttonPanel = new JPanel();
 
-        btnChangeNow  = uif.createButton("tu_dialog.btnChangeNow");
+        btnChangeNow = uif.createButton("tu_dialog.btnChangeNow");
         btnDontChange = uif.createButton("tu_dialog.btnDontChange");
-        btnLater      = uif.createButton("tu_dialog.btnRemindLater");
-        btnClose      = uif.createButton("tu_dialog.btnClose");
+        btnLater = uif.createButton("tu_dialog.btnRemindLater");
+        btnClose = uif.createButton("tu_dialog.btnClose");
 
         btnChangeNow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               propagator.acceptAll();
-               setVisible(false);
+                propagator.acceptAll();
+                setVisible(false);
             }
         });
 
         btnDontChange.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               propagator.rejectAll();
-               setVisible(false);
+                propagator.rejectAll();
+                setVisible(false);
             }
         });
 
         btnLater.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               setVisible(false);
+                setVisible(false);
             }
         });
 
         btnClose.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               setVisible(false);
+                setVisible(false);
             }
         });
 
@@ -255,12 +258,11 @@ public class TU_dialog extends JDialog {
     }
 
 
-
     protected void updateData() {
 
         if (interview.getTemplatePath() != null) {
             File template = new File(interview.getTemplatePath());
-            temName.setText(i18n.getString("tu_dialog.lblTemName.text", template.getName() ));
+            temName.setText(i18n.getString("tu_dialog.lblTemName.text", template.getName()));
             Date dUpd = new Date(template.lastModified());
             String dateStr = new SimpleDateFormat(i18n.getString("tu_dialog.dateFormat")).format(dUpd);
             updTime.setText(i18n.getString("tu_dialog.lblUpdateTime.text", dateStr));

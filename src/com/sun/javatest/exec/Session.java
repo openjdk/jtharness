@@ -28,6 +28,7 @@
 package com.sun.javatest.exec;
 
 import com.sun.javatest.Parameters;
+
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ import java.util.Map;
  * An interface that encapsulates all properties required to run tests.
  * It's introduced to make it possible to get rid of such monsters as
  * InterviewParameters, Template and WorkDir.
- *
+ * <p>
  * It's assumed that components will communicate Session via Update and Event
  * classes: those components which are aware how to modify the config
  * will apply some Update object to the config, the config in its turn will
@@ -60,6 +61,7 @@ public interface Session {
         public Fault(String reason) {
             super(reason);
         }
+
         public Fault(Throwable thr) {
             super(thr);
         }
@@ -68,12 +70,14 @@ public interface Session {
     /**
      * Root interface for all updates to Session.
      */
-    public interface Update { }
+    public interface Update {
+    }
 
     /**
      * Root interface for all events happened when state of Session changed.
      */
-    public interface Event { }
+    public interface Event {
+    }
 
 
     /**
@@ -82,6 +86,7 @@ public interface Session {
     public interface Observer {
         /**
          * Invoked when state of config has changed
+         *
          * @param ev - Event describing the change
          */
         void updated(Event ev);
@@ -89,6 +94,7 @@ public interface Session {
 
     /**
      * Method to be invoked from outside to change the state of the Session.
+     *
      * @param u - object encapsulating data describing the change.
      * @throws com.sun.javatest.exec.Session.Fault in case of any problem
      */
@@ -96,7 +102,8 @@ public interface Session {
 
     /**
      * Method to be invoked from outside to change the state of the Session.
-     * @param u - object encapsulating data describing the change.
+     *
+     * @param u            - object encapsulating data describing the change.
      * @param updateConfig - hint whether to reload the configuration from disk
      * @throws com.sun.javatest.exec.Session.Fault in case of any problem
      * @since 4.4.1
@@ -106,6 +113,7 @@ public interface Session {
     /**
      * Registers the observer. Does nothing if the observer is null or already
      * registered.
+     *
      * @param obs - observer
      */
     public void addObserver(Observer obs);
@@ -113,12 +121,14 @@ public interface Session {
     /**
      * Unregisters the observer. Does nothing if the observer is null or not
      * registered.
+     *
      * @param obs - observer
      */
     public void removeObserver(Observer obs);
 
     /**
      * Delivers events to the all registered observers
+     *
      * @param evn - event to be sent out.
      */
     public void notifyObservers(Event evn);
@@ -146,6 +156,7 @@ public interface Session {
 
     /**
      * Saves the config state to the map
+     *
      * @param map
      * @throws com.sun.javatest.exec.Session.Fault
      */
@@ -161,6 +172,7 @@ public interface Session {
 
     /**
      * Restores the config state from the map
+     *
      * @param map
      * @throws com.sun.javatest.exec.Session.Fault
      */
@@ -173,6 +185,7 @@ public interface Session {
 
     /**
      * Returns the config property names
+     *
      * @return Configuration property name List
      */
     public List<String> getPropertyNames();
@@ -192,6 +205,7 @@ public interface Session {
     /**
      * Data required to execute tests.
      * In future - should be replaced.
+     *
      * @return The current parameters in use.
      */
     public Parameters getParameters();

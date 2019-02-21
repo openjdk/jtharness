@@ -64,8 +64,7 @@ import com.sun.javatest.tool.UIFactory;
 /**
  * Standard values view, exclude list panel.
  */
-class CE_ExcludeListPane extends CE_StdPane
-{
+class CE_ExcludeListPane extends CE_StdPane {
     CE_ExcludeListPane(UIFactory uif, InterviewParameters config) {
         super(uif, config, "excl");
 
@@ -108,21 +107,21 @@ class CE_ExcludeListPane extends CE_StdPane
         if (mutableExcludeListParameters != null) {
             int mode = mutableExcludeListParameters.getExcludeMode();
             switch (mode) {
-            case MutableExcludeListParameters.NO_EXCLUDE_LIST:
-                noneBtn.setSelected(true);
-                break;
+                case MutableExcludeListParameters.NO_EXCLUDE_LIST:
+                    noneBtn.setSelected(true);
+                    break;
 
-            case MutableExcludeListParameters.INITIAL_EXCLUDE_LIST:
-                initialBtn.setSelected(true);
-                break;
+                case MutableExcludeListParameters.INITIAL_EXCLUDE_LIST:
+                    initialBtn.setSelected(true);
+                    break;
 
-            case MutableExcludeListParameters.LATEST_EXCLUDE_LIST:
-                latestBtn.setSelected(true);
-                break;
+                case MutableExcludeListParameters.LATEST_EXCLUDE_LIST:
+                    latestBtn.setSelected(true);
+                    break;
 
-            case MutableExcludeListParameters.CUSTOM_EXCLUDE_LIST:
-                customBtn.setSelected(true);
-                break;
+                case MutableExcludeListParameters.CUSTOM_EXCLUDE_LIST:
+                    customBtn.setSelected(true);
+                    break;
             }
 
             TestSuite testSuite = config.getTestSuite();
@@ -142,8 +141,7 @@ class CE_ExcludeListPane extends CE_StdPane
             customBtn.setEnabled(true);
             customPanel.load();
             customPanel.setEnabled(true);
-        }
-        else {
+        } else {
             noneBtn.setEnabled(false);
             initialBtn.setEnabled(false);
             latestBtn.setEnabled(false);
@@ -284,7 +282,7 @@ class CE_ExcludeListPane extends CE_StdPane
 
             FileChooser chooser = new FileChooser(true);
             chooser.addChoosableExtension(".jtx",
-                                          uif.getI18NString("ce.excl.jtxfiles"));
+                    uif.getI18NString("ce.excl.jtxfiles"));
             // more configure ...
             filesField = new EditableFileList(chooser);
             filesField.setDuplicatesAllowed(false);
@@ -373,16 +371,13 @@ class CE_ExcludeListPane extends CE_StdPane
             if (initialFile == null) {
                 uif.showError("ce.excl.initial.noFile");
                 return false;
-            }
-            else if (!initialFile.exists()) {
+            } else if (!initialFile.exists()) {
                 uif.showError("ce.excl.initial.cantFindFile", initialFile);
                 return false;
-            }
-            else if (!(initialFile.isFile() && initialFile.canRead())) {
+            } else if (!(initialFile.isFile() && initialFile.canRead())) {
                 uif.showError("ce.excl.initial.cantReadFile", initialFile);
                 return false;
-            }
-            else
+            } else
                 return true;
         }
 
@@ -399,16 +394,15 @@ class CE_ExcludeListPane extends CE_StdPane
     }
 
     private class LatestPanel extends JPanel
-        implements ActionListener, ChangeListener
-    {
+            implements ActionListener, ChangeListener {
         LatestPanel() {
             super(new BorderLayout());
             setName("latest");
 
             // ----- head -----
             JPanel head = uif.createPanel("ce.excl.latest.head",
-                                new GridBagLayout(),
-                                false);
+                    new GridBagLayout(),
+                    false);
             head.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
             GridBagConstraints lc = new GridBagConstraints();
@@ -444,8 +438,8 @@ class CE_ExcludeListPane extends CE_StdPane
 
             // ----- body -----
             JPanel body = uif.createPanel("ce.excl.latest.body",
-                                        new GridBagLayout(),
-                                        false);
+                    new GridBagLayout(),
+                    false);
             body.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
 
             GridBagConstraints c = new GridBagConstraints();
@@ -487,8 +481,8 @@ class CE_ExcludeListPane extends CE_StdPane
 
             // ----- foot -----
             JPanel foot = uif.createPanel("ce.excl.latest.foot",
-                                        new GridBagLayout(),
-                                        false);
+                    new GridBagLayout(),
+                    false);
             foot.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
             c = new GridBagConstraints();
             c.anchor = GridBagConstraints.EAST;
@@ -512,8 +506,7 @@ class CE_ExcludeListPane extends CE_StdPane
                         uif.showError("ce.excl.latest.badDays");
                         return false;
                     }
-                }
-                catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     uif.showError("ce.excl.latest.badDays");
                     return false;
                 }
@@ -558,8 +551,8 @@ class CE_ExcludeListPane extends CE_StdPane
             mutableExcludeListParameters.setLatestExcludeAutoCheckEnabled(ac);
 
             int acm = daysButton.isSelected()
-                       ? MutableExcludeListParameters.CHECK_EVERY_X_DAYS
-                       : MutableExcludeListParameters.CHECK_EVERY_RUN;
+                    ? MutableExcludeListParameters.CHECK_EVERY_X_DAYS
+                    : MutableExcludeListParameters.CHECK_EVERY_RUN;
             mutableExcludeListParameters.setLatestExcludeAutoCheckMode(acm);
 
             try {
@@ -568,8 +561,7 @@ class CE_ExcludeListPane extends CE_StdPane
                     int days = Integer.parseInt(ds);
                     mutableExcludeListParameters.setLatestExcludeAutoCheckInterval(days);
                 }
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 mutableExcludeListParameters.setLatestExcludeAutoCheckInterval(Integer.MIN_VALUE);
             }
         }

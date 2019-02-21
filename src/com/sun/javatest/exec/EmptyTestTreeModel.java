@@ -42,7 +42,7 @@ import java.util.List;
  * if FeatureManager.NO_TREE_WITHOUT_WD set
  * mostly contains stab methods
  */
-class EmptyTestTreeModel extends TestTreeModel implements TreeModel, TestResultTable.TreeObserver  {
+class EmptyTestTreeModel extends TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     private FilterSelectionHandler filterHandler;
     private UIFactory uif;
     private Parameters params;

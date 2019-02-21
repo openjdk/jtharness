@@ -95,7 +95,7 @@ public class RootRegistry extends ProviderRegistry {
                 obj2prov.remove(what);
             else
                 throw new IllegalArgumentException(
-                    "RR-Unable to unassociateObject, providers do not match.");
+                        "RR-Unable to unassociateObject, providers do not match.");
         }
     }
 

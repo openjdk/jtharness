@@ -163,6 +163,7 @@ public class WorkDirectory {
      * Check if a directory is a work directory. This is intended to be a quick
      * check, rather than exhaustive one; as such, it simply checks for the
      * existence of the "jtData" subdirectory.
+     *
      * @param dir the directory to be checked
      * @return true if and only if the specified directory appears to be
      * a work directory
@@ -180,6 +181,7 @@ public class WorkDirectory {
 
     /**
      * Check if a directory is an empty directory.
+     *
      * @param dir the directory to be checked
      * @return true if and only if the directory is empty
      */
@@ -237,47 +239,49 @@ public class WorkDirectory {
 
     /**
      * Create a new work directory with a given name, and for a given test suite.
+     *
      * @param dir the directory to be created as a work directory.
-     * This directory may (but need not) exist; if it does exist, it must be empty.
-     * @param ts the test suite for which this will be a work directory
+     *            This directory may (but need not) exist; if it does exist, it must be empty.
+     * @param ts  the test suite for which this will be a work directory
      * @return the WorkDirectory that was created
      * @throws WorkDirectory.WorkDirectoryExistsFault if the work directory
-     *          could not be created because it already exists.
-     *          If this exception is thrown, you may want to call {@link #open}
-     *          instead.
-     * @throws WorkDirectory.BadDirectoryFault is there was a problem creating
-     *          the work directory.
-     * @throws WorkDirectory.InitializationFault if there are unrecoverable problems encountered
-     *         while reading the data present in the work directory
+     *                                                could not be created because it already exists.
+     *                                                If this exception is thrown, you may want to call {@link #open}
+     *                                                instead.
+     * @throws WorkDirectory.BadDirectoryFault        is there was a problem creating
+     *                                                the work directory.
+     * @throws WorkDirectory.InitializationFault      if there are unrecoverable problems encountered
+     *                                                while reading the data present in the work directory
      * @see #convert
      * @see #open
      */
     public static WorkDirectory create(File dir, TestSuite ts)
-    throws BadDirectoryFault, WorkDirectoryExistsFault, InitializationFault {
+            throws BadDirectoryFault, WorkDirectoryExistsFault, InitializationFault {
         //System.err.println("WD.create: " + dir);
         return createOrConvert(dir, ts, true);
     }
 
     /**
      * Convert an existing directory into a work directory.
+     *
      * @param dir the directory to be converted to a work directory
      * @param ts  the test suite for which this will be a work directory
      * @return the WorkDirectory that was created
-     * @throws FileNotFoundException if the directory to be converted does
-     *          not exist
+     * @throws FileNotFoundException                  if the directory to be converted does
+     *                                                not exist
      * @throws WorkDirectory.WorkDirectoryExistsFault if the work directory
-     *          could not be created because it already exists.
-     *          If this exception is thrown, you may want to call {@link #open}
-     *          instead.
-     * @throws WorkDirectory.BadDirectoryFault is there was a problem creating
-     *          the work directory.
-     * @throws WorkDirectory.InitializationFault if there are unrecoverable problems encountered
-     *         while reading the data present in the work directory
+     *                                                could not be created because it already exists.
+     *                                                If this exception is thrown, you may want to call {@link #open}
+     *                                                instead.
+     * @throws WorkDirectory.BadDirectoryFault        is there was a problem creating
+     *                                                the work directory.
+     * @throws WorkDirectory.InitializationFault      if there are unrecoverable problems encountered
+     *                                                while reading the data present in the work directory
      * @see #create
      * @see #open
      */
     public static WorkDirectory convert(File dir, TestSuite ts)
-    throws BadDirectoryFault, WorkDirectoryExistsFault,
+            throws BadDirectoryFault, WorkDirectoryExistsFault,
             FileNotFoundException, InitializationFault {
         if (!dir.exists())
             throw new FileNotFoundException(dir.getPath());
@@ -285,7 +289,7 @@ public class WorkDirectory {
     }
 
     private static WorkDirectory createOrConvert(File dir, TestSuite ts, boolean checkEmpty)
-    throws BadDirectoryFault, WorkDirectoryExistsFault {
+            throws BadDirectoryFault, WorkDirectoryExistsFault {
         File canonDir;
         File jtData;
         ArrayList<File> undoList = new ArrayList<>();
@@ -384,28 +388,33 @@ public class WorkDirectory {
         f.delete();
     }
 
-        public static void changeTemplate(File dir, File newTemplate) {
-            File templateData = new File(dir, JTDATA + File.separator + "template.data");
-            if (templateData.exists()) {
-                Properties p = new Properties();
-                final String absolutePath = templateData.getAbsolutePath();
-                FileInputStream fis = null;
-                FileOutputStream fos = null;
+    public static void changeTemplate(File dir, File newTemplate) {
+        File templateData = new File(dir, JTDATA + File.separator + "template.data");
+        if (templateData.exists()) {
+            Properties p = new Properties();
+            final String absolutePath = templateData.getAbsolutePath();
+            FileInputStream fis = null;
+            FileOutputStream fos = null;
+            try {
+                fis = new FileInputStream(absolutePath);
+                p.load(fis);
+                p.setProperty("file", newTemplate.getCanonicalPath());
+                fos = new FileOutputStream(absolutePath);
+                p.store(fos, "template information file - do not modify");
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
                 try {
-                    fis = new FileInputStream(absolutePath);
-                    p.load(fis);
-                    p.setProperty("file", newTemplate.getCanonicalPath());
-                    fos = new FileOutputStream(absolutePath);
-                    p.store(fos, "template information file - do not modify");
+                    if (fis != null) fis.close();
                 } catch (IOException e) {
-                        e.printStackTrace();
                 }
-                finally {
-                    try { if (fis != null) fis.close(); } catch (IOException e) {}
-                    try { if (fos != null) fos.close(); } catch (IOException e) {}
+                try {
+                    if (fos != null) fos.close();
+                } catch (IOException e) {
                 }
             }
         }
+    }
 
     private static void validateWD(File dir)
             throws FileNotFoundException,
@@ -468,7 +477,10 @@ public class WorkDirectory {
                                 try {
                                     p.save(out, "template information file - do not modify");
                                 } finally {
-                                    try { if (out != null) out.close(); } catch (IOException e) {}
+                                    try {
+                                        if (out != null) out.close();
+                                    } catch (IOException e) {
+                                    }
                                 }
 
                             }
@@ -503,48 +515,48 @@ public class WorkDirectory {
             }
         }
         if (!nP.getPath().equals(newPath) && !oP.getPath().equals(oldWDpath)) {
-            return new String[] {nP.getPath(), oP.getPath(), newPath.substring(nP.getPath().length())};
+            return new String[]{nP.getPath(), oP.getPath(), newPath.substring(nP.getPath().length())};
         }
         return null;
     }
 
 
-
     /**
      * Open an existing work directory, using the default test suite associated with it.
+     *
      * @param dir the directory to be opened as a WorkDirectory
      * @return the WorkDirectory that is opened
-     * @throws FileNotFoundException if the directory identified by <code>dir</code> does
-     *          not exist. If this exception is thrown, you may want to call {@link #create}
-     *          instead.
-     * @throws WorkDirectory.BadDirectoryFault if there was a problem opening the
-     *          work directory.
+     * @throws FileNotFoundException               if the directory identified by <code>dir</code> does
+     *                                             not exist. If this exception is thrown, you may want to call {@link #create}
+     *                                             instead.
+     * @throws WorkDirectory.BadDirectoryFault     if there was a problem opening the
+     *                                             work directory.
      * @throws WorkDirectory.NotWorkDirectoryFault if the directory identified
-     *          by <code>dir</code> is a valid directory, but has not yet been
-     *          initialized as a work directory. If this exception is thrown,
-     *          you may want to call {@link #create} instead.
-     * @throws WorkDirectory.MismatchFault if the test suite recorded in
-     *          the work directory does not match the test suite's ID recorded
-     *          in the work directory.
-     * @throws WorkDirectory.TestSuiteFault if there was a problem determining
-     *          the test suite for which this is a work directory.
-     *          If this exception is thrown, you can override the test suite
-     *          using the other version of {@link #open(File,TestSuite)}.
-     * @throws WorkDirectory.InitializationFault if there are unrecoverable
-     *         problems encountered while reading the data present in the
-     *         work directory
+     *                                             by <code>dir</code> is a valid directory, but has not yet been
+     *                                             initialized as a work directory. If this exception is thrown,
+     *                                             you may want to call {@link #create} instead.
+     * @throws WorkDirectory.MismatchFault         if the test suite recorded in
+     *                                             the work directory does not match the test suite's ID recorded
+     *                                             in the work directory.
+     * @throws WorkDirectory.TestSuiteFault        if there was a problem determining
+     *                                             the test suite for which this is a work directory.
+     *                                             If this exception is thrown, you can override the test suite
+     *                                             using the other version of {@link #open(File, TestSuite)}.
+     * @throws WorkDirectory.InitializationFault   if there are unrecoverable
+     *                                             problems encountered while reading the data present in the
+     *                                             work directory
      */
     public static WorkDirectory open(File dir)
-    throws FileNotFoundException,
+            throws FileNotFoundException,
             BadDirectoryFault,
             NotWorkDirectoryFault,
             MismatchFault,
             TestSuiteFault,
             TemplateMissingFault {
 
-         validateWD(dir);
+        validateWD(dir);
 
-     File canonDir = canonicalize(dir);
+        File canonDir = canonicalize(dir);
         File jtData = new File(canonDir, JTDATA);
 
         WorkDirectory wd;
@@ -576,7 +588,7 @@ public class WorkDirectory {
                 String tsID = ts.getID();
                 if (!(wdID == null ? "" : wdID).equals(tsID == null ? "" : tsID))
                     throw new MismatchFault(i18n, "wd.mismatchID", canonDir);
-            }  catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 throw new BadDirectoryFault(i18n, "wd.noTestSuiteFile", canonDir, e);
             } catch (IOException e) {
                 throw new BadDirectoryFault(i18n, "wd.badTestSuiteFile", canonDir, e);
@@ -598,32 +610,32 @@ public class WorkDirectory {
      * and lost. Therefore this method should be used with care: normally, a work directory
      * should be opened with {@link #open(File)}.
      *
-     * @param dir The directory to be opened as a WorkDirectory.
+     * @param dir       The directory to be opened as a WorkDirectory.
      * @param testSuite The test suite to be associated with this work directory.
      * @return The WorkDirectory that is opened.
-     * @throws FileNotFoundException if the directory identified by <code>dir</code> does
-     *          not exist. If this exception is thrown, you may want to call {@link #create}
-     *          instead.
-     * @throws WorkDirectory.BadDirectoryFault if there was a problem opening
-     *          the work directory.
+     * @throws FileNotFoundException               if the directory identified by <code>dir</code> does
+     *                                             not exist. If this exception is thrown, you may want to call {@link #create}
+     *                                             instead.
+     * @throws WorkDirectory.BadDirectoryFault     if there was a problem opening
+     *                                             the work directory.
      * @throws WorkDirectory.NotWorkDirectoryFault if the directory identified by
-     *          <code>dir</code> is a valid directory, but has not yet been
-     *          initialized as a work directory. f this exception is thrown,
-     *          you may want to call {@link #create} instead.
-     * @throws WorkDirectory.MismatchFault if the specified test suite does not
-     *          match the ID recorded in the work directory.
-     * @throws WorkDirectory.InitializationFault if there are unrecoverable
-     *         problems encountered while reading the data present in the
-     *         work directory
+     *                                             <code>dir</code> is a valid directory, but has not yet been
+     *                                             initialized as a work directory. f this exception is thrown,
+     *                                             you may want to call {@link #create} instead.
+     * @throws WorkDirectory.MismatchFault         if the specified test suite does not
+     *                                             match the ID recorded in the work directory.
+     * @throws WorkDirectory.InitializationFault   if there are unrecoverable
+     *                                             problems encountered while reading the data present in the
+     *                                             work directory
      */
     public static WorkDirectory open(File dir, TestSuite testSuite)
-    throws FileNotFoundException,
+            throws FileNotFoundException,
             BadDirectoryFault,
             NotWorkDirectoryFault,
             MismatchFault,
             TemplateMissingFault {
 
-         validateWD(dir);
+        validateWD(dir);
 
         File canonDir = canonicalize(dir);
         File jtData = new File(canonDir, JTDATA);
@@ -733,6 +745,7 @@ public class WorkDirectory {
 
     /**
      * Get the root directory for this work directory.
+     *
      * @return the root directory for this work directory
      */
     public File getRoot() {
@@ -741,6 +754,7 @@ public class WorkDirectory {
 
     /**
      * Get the root directory for this work directory.
+     *
      * @return the path of the root directory for this work directory
      */
     public String getPath() {
@@ -749,6 +763,7 @@ public class WorkDirectory {
 
     /**
      * Get the data directory for this work directory.
+     *
      * @return the system (jtData) directory for this work directory
      */
     public File getJTData() {
@@ -757,6 +772,7 @@ public class WorkDirectory {
 
     /**
      * Get a file in this work directory.
+     *
      * @param name the name of a file within this work directory
      * @return the full (absolute) name of the specified file
      */
@@ -766,6 +782,7 @@ public class WorkDirectory {
 
     /**
      * Get a file in the system directory for this work directory.
+     *
      * @param name the name of a file within the system (jtData) directory
      * @return the full (absolute) name of the specified file
      */
@@ -775,6 +792,7 @@ public class WorkDirectory {
 
     /**
      * Get the test suite for this work directory.
+     *
      * @return the test suite for which this is a work directory
      */
     public TestSuite getTestSuite() {
@@ -785,6 +803,7 @@ public class WorkDirectory {
      * Find out the number of tests in the entire test suite.
      * This number is collected from either a previous iteration of the
      * testsuite or from the TestSuite object.
+     *
      * @return the number of tests in the test suite, -1 if not known.
      * @see #setTestSuiteTestCount
      * @see TestSuite#getEstimatedTestCount
@@ -797,6 +816,7 @@ public class WorkDirectory {
      * Specify the total number of tests found in this testsuite.
      * When available, this class prefers to use this number rather
      * than that provided by a TestSuite object.
+     *
      * @param num the number of tests in the test suite
      * @see #getTestSuiteTestCount
      * @see TestSuite#getEstimatedTestCount
@@ -816,12 +836,13 @@ public class WorkDirectory {
 
     /**
      * Get a test result table containing the test results in this work directory.
+     *
      * @return a test result table containing the test results in this work directory
      * @see #setTestResultTable
      */
     public TestResultTable getTestResultTable() {
         if (testResultTable != null) testResultTable.awakeCache();
-        if (testResultTable == null ) {
+        if (testResultTable == null) {
             testResultTable = new TestResultTable(this);
         }
 
@@ -831,11 +852,12 @@ public class WorkDirectory {
     /**
      * Set a test result table containing the test descriptions for the tests in this
      * test suite.
+     *
      * @param trt a test result table containing the test descriptions for the tests
-     * in this work directory
-     * @throws NullPointerException if trt is null.
+     *            in this work directory
+     * @throws NullPointerException     if trt is null.
      * @throws IllegalArgumentException if the test result table has been
-     * initialized with a different work directory.
+     *                                  initialized with a different work directory.
      * @see #getTestResultTable
      */
     public void setTestResultTable(TestResultTable trt) {
@@ -872,8 +894,7 @@ public class WorkDirectory {
      * recommended for readability purposes.
      *
      * @param i18n a resource bundle containing the localized messages
-     * @param key a key into the resource bundle for the required message
-     *
+     * @param key  a key into the resource bundle for the required message
      * @since 3.0.1
      */
     public void log(I18NResourceBundle i18n, String key) {
@@ -887,10 +908,10 @@ public class WorkDirectory {
      * recommended for readability purposes.
      *
      * @param i18n a resource bundle containing the localized messages
-     * @param key a key into the resource bundle for the required message
-     * @param arg An argument to be formatted into the specified message.
-     *          If this is a <code>Throwable</code>, its stack trace
-     *          will be included in the log.
+     * @param key  a key into the resource bundle for the required message
+     * @param arg  An argument to be formatted into the specified message.
+     *             If this is a <code>Throwable</code>, its stack trace
+     *             will be included in the log.
      * @since 3.0.1
      */
     public void log(I18NResourceBundle i18n, String key, Object arg) {
@@ -904,10 +925,10 @@ public class WorkDirectory {
      * recommended for readability purposes.
      *
      * @param i18n a resource bundle containing the localized messages
-     * @param key a key into the resource bundle for the required message
+     * @param key  a key into the resource bundle for the required message
      * @param args An array of arguments to be formatted into the specified message.
-     *          If the first arg is a <code>Throwable</code>, its stack
-     *          trace will be included in the log.
+     *             If the first arg is a <code>Throwable</code>, its stack
+     *             trace will be included in the log.
      * @since 3.0.1
      */
     public void log(I18NResourceBundle i18n, String key, Object... args) {
@@ -923,7 +944,7 @@ public class WorkDirectory {
     /**
      * See <code>putTestAnnotation(String,String,String)</code>.
      *
-     * @see #putTestAnnotation(String,String,String)
+     * @see #putTestAnnotation(String, String, String)
      */
     public synchronized void putTestAnnotation(TestResult tr, String key, String value) {
         putTestAnnotation(tr.getTestName(), key, value);
@@ -931,17 +952,18 @@ public class WorkDirectory {
 
     /**
      * Add an annotation for the given test.
+     *
      * @param testName Test for which the annotation should be added.  This is
-     *     the value from <code>TestResult.getTestName()</code>.
-     * @param key The name of the value to be entered.  The namespace for this
-     *     value is unique for each <code>testName</code>.
-     * @param value The value of the annotation.  Null removes the value from
-     *     the map, an empty string should be used otherwise.
+     *                 the value from <code>TestResult.getTestName()</code>.
+     * @param key      The name of the value to be entered.  The namespace for this
+     *                 value is unique for each <code>testName</code>.
+     * @param value    The value of the annotation.  Null removes the value from
+     *                 the map, an empty string should be used otherwise.
      */
     public synchronized void putTestAnnotation(String testName, String key, String value) {
         loadAnnotations();
 
-        Map<String,String> map = null;
+        Map<String, String> map = null;
         if (annotationMap == null)
             annotationMap = new TreeMap<>();
         else
@@ -964,12 +986,12 @@ public class WorkDirectory {
      * Get any annotations for the given test.
      *
      * @return Null if there are no annotations.  May also be null if the test does not exist.
+     * @throws NullPointerException if the parameter is null.
      * @see #getTestAnnotations(TestResult)
      * @see #putTestAnnotation(String, String, String)
      * @see #putTestAnnotation(TestResult, String, String)
-     * @throws NullPointerException if the parameter is null.
      */
-    public synchronized Map<String,String> getTestAnnotations(String testName) {
+    public synchronized Map<String, String> getTestAnnotations(String testName) {
         loadAnnotations();
         if (annotationMap == null)
             return null;
@@ -981,11 +1003,12 @@ public class WorkDirectory {
      * Get any annotations for the given test in this work directory.
      * The annotations take the form of a map of strings for both the key and
      * value.
+     *
      * @param tr The test to get annotations for.
-     * @throws NullPointerException if the parameter is null.
      * @return Null if there are no annotations.  May also be null if the test does not exist.
+     * @throws NullPointerException if the parameter is null.
      */
-    public synchronized Map<String,String> getTestAnnotations(TestResult tr) {
+    public synchronized Map<String, String> getTestAnnotations(TestResult tr) {
         if (tr == null)
             throw new NullPointerException();
 
@@ -998,15 +1021,16 @@ public class WorkDirectory {
      * is removed.
      * Any user confirmation should be done before calling this method.
      * If the path does not exist in this work directory, false is returned.
+     *
      * @param path Path to a directory in this work directory or a path to
-     *        a jtr file.  A zero length string removes the root.
+     *             a jtr file.  A zero length string removes the root.
      * @return true is the purge occurred normally, false if the purge did not
-     *         complete for some reason.  Most failures to purge will be
-     *         announced by Faults.  A null parameter will result in
-     *         false.
+     * complete for some reason.  Most failures to purge will be
+     * announced by Faults.  A null parameter will result in
+     * false.
      * @throws WorkDirectory.PurgeFault If the file cannot be removed; the message field
-     *         may not contain any useful information due to deficiencies in
-     *         java.io.File.delete()..
+     *                                  may not contain any useful information due to deficiencies in
+     *                                  java.io.File.delete()..
      */
     public boolean purge(String path) throws PurgeFault {
         if (path == null)
@@ -1046,7 +1070,7 @@ public class WorkDirectory {
      */
     private void loadAnnotations() {
         // could do file timestamp check
-        if (annotationMap  == null)
+        if (annotationMap == null)
             loadAnnotationsFromDisk();
     }
 
@@ -1067,26 +1091,29 @@ public class WorkDirectory {
             annotationMap = new TreeMap<>();
 
             try {
-                while(reader.available() > 0) {
+                while (reader.available() > 0) {
                     try {
                         String s1 = reader.readUTF();
                         String s2 = reader.readUTF();
                         String s3 = reader.readUTF();
 
-                        Map<String,String> map = annotationMap.get(s1);
+                        Map<String, String> map = annotationMap.get(s1);
                         if (map == null) {
                             map = new HashMap<>();
                             annotationMap.put(s1, map);
                         }
-                        map.put(s2,s3);
+                        map.put(s2, s3);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
                 reader.close();
-            } catch(IOException ex) {
+            } catch (IOException ex) {
                 ex.printStackTrace();
-                try { if (reader != null) reader.close(); } catch (IOException e) {}
+                try {
+                    if (reader != null) reader.close();
+                } catch (IOException e) {
+                }
             }
 
             if (annotationMap.isEmpty())
@@ -1119,10 +1146,10 @@ public class WorkDirectory {
 
             DataOutputStream writer = new DataOutputStream(new BufferedOutputStream(fos));
             // writes a triplet
-            for (String s: annotationMap.keySet()) {
-                Map<String,String> map = annotationMap.get(s);
+            for (String s : annotationMap.keySet()) {
+                Map<String, String> map = annotationMap.get(s);
                 try {
-                    for (String key: map.keySet()) {
+                    for (String key : map.keySet()) {
                         writer.writeUTF(s);    // 1
                         writer.writeUTF(key);      // 2
                         writer.writeUTF(map.get(key));  // 3
@@ -1134,7 +1161,7 @@ public class WorkDirectory {
 
             try {
                 writer.close();
-            } catch(IOException e) {
+            } catch (IOException e) {
                 // should log
                 e.printStackTrace();
             }
@@ -1144,8 +1171,8 @@ public class WorkDirectory {
     /**
      * @return False if any part of the removal process failed to complete.
      * @throws PurgeFault If the file cannot be removed; the message field
-     *         may not contain any useful information due to deficiencies in
-     *         java.io.File.delete()..
+     *                    may not contain any useful information due to deficiencies in
+     *                    java.io.File.delete()..
      */
     private boolean recursivePurge(File dir, String pathFromRoot) {
         boolean result = true;
@@ -1211,7 +1238,6 @@ public class WorkDirectory {
     }
 
 
-
     private synchronized void saveInfo(Properties p, String name, String descr) throws IOException {
         File f = File.createTempFile(name, ".new", jtData);
         OutputStream out = new BufferedOutputStream(new FileOutputStream(f));
@@ -1242,7 +1268,7 @@ public class WorkDirectory {
     private String oldWDpath;
     private int testCount = -1;
     private TestResultTable testResultTable;
-    private Map<String, Map<String,String>> annotationMap;
+    private Map<String, Map<String, String>> annotationMap;
     private File jtData;
     private String logFileName;
     private LogFile logFile;

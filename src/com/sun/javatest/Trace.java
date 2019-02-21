@@ -35,8 +35,7 @@ import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.TextWriter;
 
 
-class Trace implements Harness.Observer
-{
+class Trace implements Harness.Observer {
     Trace(BackupPolicy backupPolicy) {
         this.backupPolicy = backupPolicy;
     }
@@ -62,7 +61,7 @@ class Trace implements Harness.Observer
             TestDescription td = null;
             try {
                 td = tr.getDescription();
-            } catch(TestResult.Fault e) {
+            } catch (TestResult.Fault e) {
                 e.printStackTrace();
             }
 
@@ -78,8 +77,7 @@ class Trace implements Harness.Observer
                 TestDescription td = tr.getDescription();
                 println(i18n, "trace.testFinished",
                         td.getRootRelativeURL(), tr.getStatus());
-            }
-            catch (TestResult.Fault e) {
+            } catch (TestResult.Fault e) {
                 e.printStackTrace();
             }
         }
@@ -128,8 +126,7 @@ class Trace implements Harness.Observer
             out.println("# " + ProductInfo.getName() + " version " + ProductInfo.getVersion());
             out.println("# class directory: " + Harness.getClassDir());
             out.println("# using java: " + System.getProperty("java.home"));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.println("Cannot open trace file: trace cancelled");
             System.err.println(e);
             out = null;
@@ -140,8 +137,7 @@ class Trace implements Harness.Observer
         if (out != null) {
             try {
                 out.close();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 System.err.println("Exception occurred writing to trace file");
                 System.err.println(e);
             }
@@ -165,8 +161,7 @@ class Trace implements Harness.Observer
         try {
             out.println(msg);
             out.flush();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.println("Exception occurred writing to trace file");
             System.err.println(e);
             System.err.println("while trying to write: " + msg);

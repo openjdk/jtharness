@@ -29,12 +29,13 @@ package com.sun.javatest.exec;
 
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.WorkDirectory;
+
 import java.io.File;
 
 /**
  * Extention to the Session interface. It contains a number of methods
  * to prevent the behavior user gets used to.
- *
+ * <p>
  * Hopefully, some day this interface will be eliminated...
  *
  * @author Dmitry Fazunenko
@@ -43,6 +44,7 @@ public interface SessionExt extends Session {
 
     /**
      * Returns work directory assigned to the session.
+     *
      * @return The current wd set.
      */
     public WorkDirectory getWorkDirectory();
@@ -50,19 +52,20 @@ public interface SessionExt extends Session {
     /**
      * Returns InterviewParameters object, most likely the same object
      * as getParamaters()
-     *
+     * <p>
      * According to the original idea there should not be such method in
      * this interface, getParameters() should be enough. But JavaTest is not
      * ready yet to not use InterviewParameters.
      *
-     * @see #getParameters()
      * @return an instance of InterviewParameters
+     * @see #getParameters()
      */
     public InterviewParameters getInterviewParameters();
 
     /**
      * Loads interview from a given file and associates it with a given
      * working directory.
+     *
      * @param wd
      * @param jti
      * @throws com.sun.javatest.exec.Session.Fault

@@ -55,8 +55,7 @@ import com.sun.javatest.tool.jthelp.HelpSet;
 import com.sun.javatest.tool.jthelp.JTHelpBroker;
 
 
-class HelpMenu extends JMenu
-{
+class HelpMenu extends JMenu {
     HelpMenu(Component parent, Desktop desktop, UIFactory uif) {
         this.parent = parent;
         this.desktop = desktop;
@@ -65,12 +64,12 @@ class HelpMenu extends JMenu
         listener = new Listener();
 
         String[] items = {
-            HELP,
-            null,
-            // test suite items will be dynamically added here
-            // (after the last separator)
-            ABOUT_JAVATEST,
-            ABOUT_JAVA
+                HELP,
+                null,
+                // test suite items will be dynamically added here
+                // (after the last separator)
+                ABOUT_JAVATEST,
+                ABOUT_JAVA
         };
         uif.initMenu(this, "hm", items, listener);
         addMenuListener(listener);
@@ -85,18 +84,17 @@ class HelpMenu extends JMenu
         // first, collect the set of active test suites
         Set<TestSuite> loadedTestSuites = new TreeSet<>(new Comparator<TestSuite>() {
             @Override
-                public int compare(TestSuite o1, TestSuite o2) {
+            public int compare(TestSuite o1, TestSuite o2) {
                 return o1.getName().compareTo(o2.getName());
-                }
-            });
+            }
+        });
         Tool selTool = desktop.getSelectedTool();
         if (selTool != null) {
             TestSuite[] tss = selTool.getLoadedTestSuites();
-            if (tss != null){
+            if (tss != null) {
                 loadedTestSuites.addAll(Arrays.asList(tss));
             }
-        }
-        else {
+        } else {
             for (Tool tool : tools) {
                 TestSuite[] tss = tool.getLoadedTestSuites();
                 if (tss != null) {
@@ -184,19 +182,20 @@ class HelpMenu extends JMenu
     /**
      * Display a multi-line string in a dialog window, in response
      * to a Help>About.... menu item.
-     * @param contKey i18n bundle key for getting accessibility name and desc
-     *        for the container
+     *
+     * @param contKey  i18n bundle key for getting accessibility name and desc
+     *                 for the container
      * @param filedKey i18n bundle key for getting accessibility name and desc
-     *        for each of the fields holding the "about" text
+     *                 for each of the fields holding the "about" text
      */
     private void showAbout(String title, String s, String contKey, String fieldKey) {
         List<String> v = new ArrayList<>();
         int start = 0;
-        int end   = 0;
+        int end = 0;
 
         while ((end = s.indexOf('\n', start)) != -1) {
             v.add(s.substring(start, end));
-            start = end+1;
+            start = end + 1;
         }
         v.add(s.substring(start));
 
@@ -232,7 +231,7 @@ class HelpMenu extends JMenu
         pane.setOptionType(JOptionPane.OK_OPTION);
         uif.setAccessibleInfo(pane, contKey);
         JButton okBtn = uif.createCloseButton("hm.about.ok", false);
-        pane.setOptions(new Object[] { okBtn });
+        pane.setOptions(new Object[]{okBtn});
         JDialog d = pane.createDialog(parent, title);
         d.getRootPane().setDefaultButton(okBtn);
         d.setVisible(true);
@@ -244,8 +243,7 @@ class HelpMenu extends JMenu
             //hb.setDisplayed(true);
             //if (hb instanceof DefaultHelpBroker)
             //    ((DefaultHelpBroker) hb).getWindowPresentation().getHelpWindow().toFront();
-        }
-        else {
+        } else {
             // could internationalize this, but the error isn't that helpful because a
             // end-user probably can't fix the problem
             System.err.println("Unable to display help, the help set isn't available.");
@@ -267,8 +265,7 @@ class HelpMenu extends JMenu
         if (docs == null) {
             try {
                 docs = Help.getAdditionalDocs(ts);
-            }
-            catch (Help.Fault e) {
+            } catch (Help.Fault e) {
                 String msg = uif.getI18NString("hm.cantLoadDocs",
                         ts.getName(), e.getMessage());
                 System.err.println(msg);
@@ -290,22 +287,21 @@ class HelpMenu extends JMenu
             if (count + i < 10) {
                 mi = new JMenuItem((count + i) + " " + doc.getTitle());
                 mi.setMnemonic('0' + count + i);
-            }
-            else {
+            } else {
                 mi = new JMenuItem("  " + doc.getTitle());
             }
 
             mi.addActionListener(new ActionListener() {
                 @Override
-                    public void actionPerformed(ActionEvent e) {
-                        showHelpSet(doc);
-                    }
-                });
+                public void actionPerformed(ActionEvent e) {
+                    showHelpSet(doc);
+                }
+            });
 
             v.add(mi);
         }
 
-        JMenuItem[]items = new JMenuItem[v.size()];
+        JMenuItem[] items = new JMenuItem[v.size()];
         v.toArray(items);
         return items;
     }
@@ -324,8 +320,7 @@ class HelpMenu extends JMenu
     private static final String ABOUT_JAVATEST = "aboutJavaTest";
 
     private class Listener
-        implements MenuListener, ActionListener
-    {
+            implements MenuListener, ActionListener {
         @Override
         public void menuSelected(MenuEvent e) {
             // remove any prior items
@@ -355,28 +350,24 @@ class HelpMenu extends JMenu
                 Date dt = ProductInfo.getBuildDate();
                 if (dt != null) {
                     date = df.format(dt);
-                }
-                else {
+                } else {
                     date = uif.getI18NString("hm.aboutBadDate");
                 }
 
                 String aboutJavaTest =
-                    uif.getI18NString("hm.aboutJavaTest", ProductInfo.getName(), ProductInfo.getVersion(), ProductInfo.getMilestone(), ProductInfo.getBuildNumber(), Harness.getClassDir().getPath(), ProductInfo.getBuildJavaVersion(), date);
+                        uif.getI18NString("hm.aboutJavaTest", ProductInfo.getName(), ProductInfo.getVersion(), ProductInfo.getMilestone(), ProductInfo.getBuildNumber(), Harness.getClassDir().getPath(), ProductInfo.getBuildJavaVersion(), date);
                 showAbout(src.getText(), aboutJavaTest, "hm.aboutJavaTest",
-                            "hm.aboutJavaTest.text");
-            }
-            else if (cmd.equals(ABOUT_JAVA)) {
+                        "hm.aboutJavaTest.text");
+            } else if (cmd.equals(ABOUT_JAVA)) {
                 JMenuItem src = (JMenuItem) e.getSource();
                 String aboutJava =
-                    uif.getI18NString("hm.aboutJava", System.getProperty("java.version"), System.getProperty("java.vendor"), System.getProperty("java.home"), System.getProperty("java.vendor.url"));
+                        uif.getI18NString("hm.aboutJava", System.getProperty("java.version"), System.getProperty("java.vendor"), System.getProperty("java.home"), System.getProperty("java.vendor.url"));
                 showAbout(src.getText(), aboutJava, "hm.aboutJava", "hm.aboutJava.text");
-            }
-            else if (cmd.equals(HELP)) {
+            } else if (cmd.equals(HELP)) {
                 HelpBroker helpBroker = desktop.getHelpBroker();
                 if (helpBroker != null) {
                     helpBroker.displayCurrentID("jthelp.csh");
-                }
-                else {
+                } else {
                     // could internationalize this, but the error isn't that helpful because a
                     // end-user probably can't fix the problem
                     System.err.println("Unable to display help, the help system isn't available.");

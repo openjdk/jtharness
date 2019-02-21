@@ -48,11 +48,11 @@ import com.sun.javatest.util.I18NResourceBundle;
 
 public class ProviderRegistry {
     /**
-     * @param url Root relative path that this handler should be associated with.
+     * @param url     Root relative path that this handler should be associated with.
      * @param descrip Informative description of this handler/url
-     * @param obj The handler itself (JThttpProvider)
+     * @param obj     The handler itself (JThttpProvider)
      * @throws IllegalStateException Thrown if the url is already associated with
-     *         a handler.
+     *                               a handler.
      */
     public void addHandler(String url, String descrip, JThttpProvider obj) {
         // validate url
@@ -71,8 +71,7 @@ public class ProviderRegistry {
         try {
             boolean result = insertHandler(disassembleURL(url), descrip, obj, false);
             if (result) obj.addRegistredURL(url);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             if (debug) {
                 System.out.println("   PR-Error while inserting " + obj);
                 System.out.println("   PR-Ignoring insert of URL " + url);
@@ -94,8 +93,7 @@ public class ProviderRegistry {
         try {
             boolean result = insertHandler(disassembleURL(url), descrip, obj, true);
             if (result) obj.addRegistredURL(url);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             if (debug) {
                 System.out.println("   PR-Error while inserting " + obj);
                 System.out.println("   PR-Ignoring insert of URL " + url);
@@ -134,7 +132,7 @@ public class ProviderRegistry {
     /**
      * @param url The file portion of the url.  Ex: <tt>/harness/foo</tt>
      * @return The handler associated with the url.  A default provider is given
-     *         if the requested one cannot be found.
+     * if the requested one cannot be found.
      */
     public JThttpProvider getHandler(httpURL url) {
         if (url == null) return null;
@@ -160,8 +158,7 @@ public class ProviderRegistry {
         if (nextDir == null) {
             if (debug) System.out.println("PR-End of URL, no handler, using default.");
             prov = null;
-        }
-        else {
+        } else {
             if (debug) System.out.println("PR-Looking up: " + nextDir);
 
             Object target = url2prov.get(nextDir);
@@ -172,9 +169,8 @@ public class ProviderRegistry {
                 HandlerEntry he = (HandlerEntry) target;
                 //prov = (he == null ? null : he.getProvider());
                 prov = he.getProvider();
-            }
-            else {
-                prov = ((ProviderRegistry)target).getHandler(url);
+            } else {
+                prov = ((ProviderRegistry) target).getHandler(url);
             }
         }
 
@@ -225,7 +221,7 @@ public class ProviderRegistry {
 
     /**
      * Process a directory name before it is stored or looked up.
-     *
+     * <p>
      * The default implementation of this method removes the leading and
      * trailing slashes and whitespace.  A null in will result in null out.
      */
@@ -248,9 +244,9 @@ public class ProviderRegistry {
 
     /**
      * @return Whether or not the insertion was successful.
-     * @exception IllegalArgumentException Thrown if the suppled url/object
-     *      combination cannot be properly inserted.  This is most likely
-     *      a name conflict.
+     * @throws IllegalArgumentException Thrown if the suppled url/object
+     *                                  combination cannot be properly inserted.  This is most likely
+     *                                  a name conflict.
      */
     protected final boolean insertHandler(String[] url, String descrip,
                                           JThttpProvider obj, boolean hidden) {
@@ -270,21 +266,18 @@ public class ProviderRegistry {
                 url2prov.put(file, new HandlerEntry(file, descrip, obj));
                 if (debug) System.out.println("    Inserted " + file + " into " + this);
                 result = true;
-            }
-            else {                                  // recurse
+            } else {                                  // recurse
                 ProviderRegistry pr = new ProviderRegistry();
                 url2prov.put(file, pr);
                 result = pr.insertHandler(url, descrip, obj, hidden);
                 if (debug) System.out.println("    Created new registry and recursed, " + file);
             }
-        }
-        else if (lookup instanceof ProviderRegistry) {
+        } else if (lookup instanceof ProviderRegistry) {
             if (debug) System.out.println("    Found existing registry and recursed, " + file);
-            result = ((ProviderRegistry)lookup).insertHandler(url, descrip, obj, hidden);
-        }
-        else {
+            result = ((ProviderRegistry) lookup).insertHandler(url, descrip, obj, hidden);
+        } else {
             throw new IllegalArgumentException(
-                "Supplied URL collides with another registered handler.  Ignoring new handler.");
+                    "Supplied URL collides with another registered handler.  Ignoring new handler.");
         }
 
         return result;
@@ -293,7 +286,7 @@ public class ProviderRegistry {
     /**
      * @return False if the URL cannot be matched.
      * @throws IllegalArgumentException If the url does not match an entry or
-     *          the obj that it maps to does not match the supplied one.
+     *                                  the obj that it maps to does not match the supplied one.
      */
     protected final boolean deleteHandler(String[] url, JThttpProvider obj) {
         if (url.length == 0) {
@@ -312,22 +305,19 @@ public class ProviderRegistry {
             if (debug) System.out.println("    PR-(del) Unable to match URL at: " + file);
 
             return false;
-        }
-        else if (lookup instanceof HandlerEntry) {
-            HandlerEntry entry = (HandlerEntry)lookup;
+        } else if (lookup instanceof HandlerEntry) {
+            HandlerEntry entry = (HandlerEntry) lookup;
 
             if (entry.getProvider() == obj) {
                 deleteByName(file);
                 return true;
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException(
-                    "Given Provider ref. does not match URL Provider.  Unable to complete handler removal.");
+                        "Given Provider ref. does not match URL Provider.  Unable to complete handler removal.");
             }
-        }
-        else if (lookup instanceof ProviderRegistry) {
+        } else if (lookup instanceof ProviderRegistry) {
             if (debug) System.out.println("    PR-(del) Found existing registry and recursed, " + file);
-            ProviderRegistry pr = (ProviderRegistry)lookup;
+            ProviderRegistry pr = (ProviderRegistry) lookup;
 
             boolean result = pr.deleteHandler(url, obj);
 
@@ -335,15 +325,13 @@ public class ProviderRegistry {
                 // only remove a registry if it is empty
                 deleteByName(file);
                 return true;
-            }
-            else {
+            } else {
                 // delete didn't work for some reason
                 return false;   // == result
             }
-        }
-        else {
+        } else {
             throw new IllegalArgumentException(
-                "Unknown object found in registry.  Unable to complete handler removal.");
+                    "Unknown object found in registry.  Unable to complete handler removal.");
         }
     }
 
@@ -365,14 +353,16 @@ public class ProviderRegistry {
         while (pos < urlLen && !done) {
             currC = url.charAt(pos);
             switch (currC) {
-                case '/':   if (pos > start+1)
-                                result = DynamicArray.append(result, url.substring(start, pos));
-                            start = pos + 1;
-                            pos++;
-                            break;
+                case '/':
+                    if (pos > start + 1)
+                        result = DynamicArray.append(result, url.substring(start, pos));
+                    start = pos + 1;
+                    pos++;
+                    break;
                 case ' ':   // fall thru
-                case '?':   done = true;
-                            break;
+                case '?':
+                    done = true;
+                    break;
             }   // switch
 
             pos++;
@@ -467,17 +457,16 @@ public class ProviderRegistry {
             HandlerEntry entry;
 
             // XXX should use set of unique entries
-            for (Object next: urlMap.values()) {
+            for (Object next : urlMap.values()) {
                 if (next instanceof HandlerEntry) {
-                    entry = (HandlerEntry)next;
+                    entry = (HandlerEntry) next;
 
                     out.print("<li><a href=\"");
                     out.print(entry.getURL());
                     out.print("\">");
                     out.print(entry.getDescription());
                     out.println("</a>");
-                }
-                else {
+                } else {
                     //System.out.println("Located sub-Registry");
                 }
             }

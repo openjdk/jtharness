@@ -64,7 +64,7 @@ public class LogModel {
     }
 
     boolean jobDone() {
-        if (worker == null ) {
+        if (worker == null) {
             return false;
         }
         return !worker.isAlive();
@@ -83,7 +83,7 @@ public class LogModel {
         if (records == 0) {
             return 0;
         } else {
-            return (records-1) / PAGE_SIZE + 1;
+            return (records - 1) / PAGE_SIZE + 1;
         }
     }
 
@@ -102,7 +102,7 @@ public class LogModel {
             int recordCount = 0;
             stable = false;
             try {
-                r =  new RandomAccessFile(file, "r");
+                r = new RandomAccessFile(file, "r");
                 String signature = null;
                 while (true) {
                     signature = r.readLine();
@@ -134,7 +134,7 @@ public class LogModel {
                     of.readLoggers(loggers);
                     of.readRecords(records);
                     recordCount = records.size();
-                    firstRecordOnPage = (pagesRead()-1)*PAGE_SIZE;
+                    firstRecordOnPage = (pagesRead() - 1) * PAGE_SIZE;
                     if (debug) System.out.println("Worker-1 read from index " + records.size() + this);
                 }
 
@@ -144,7 +144,7 @@ public class LogModel {
 
                 if (!records.isEmpty()) {
                     recordCount = records.size();
-                    LogModel.LiteLogRecord llr = records.get(recordCount-1);
+                    LogModel.LiteLogRecord llr = records.get(recordCount - 1);
                     r.seek(llr.endOff);
                 }
 
@@ -217,9 +217,10 @@ public class LogModel {
                         if (stop) {
                             return;
                         }
-                        if (firstRecordOnPage  != recordCount) {
-                            fireNewPage(firstRecordOnPage, recordCount-1);
-                            if (debug) System.out.println("Worker-1  - fireNewPage(" + firstRecordOnPage + " , "  + (recordCount-1) + " )");
+                        if (firstRecordOnPage != recordCount) {
+                            fireNewPage(firstRecordOnPage, recordCount - 1);
+                            if (debug)
+                                System.out.println("Worker-1  - fireNewPage(" + firstRecordOnPage + " , " + (recordCount - 1) + " )");
                         }
                         if (debug) System.out.println("Worker-1  - all records read, sleep");
                         sleep(500);
@@ -237,11 +238,11 @@ public class LogModel {
                 logEx(ex);
             } finally {
                 try {
-                    if (r != null ) {
+                    if (r != null) {
                         r.close();
                     }
-                    if (!stop && firstRecordOnPage  != (recordCount-1)) {
-                        fireNewPage(firstRecordOnPage, recordCount-1);
+                    if (!stop && firstRecordOnPage != (recordCount - 1)) {
+                        fireNewPage(firstRecordOnPage, recordCount - 1);
                     }
                 } catch (IOException ex) {
                     logEx(ex);
@@ -279,21 +280,21 @@ public class LogModel {
     }
 
     private void fireNewLoggerFound(String loggerName) {
-        for(LoggerListener lst : loggerListeners) {
+        for (LoggerListener lst : loggerListeners) {
             lst.onNewLogger(loggerName);
         }
     }
 
 
     private void fireRemoveAllLoggers() {
-        for(LoggerListener lst : loggerListeners) {
+        for (LoggerListener lst : loggerListeners) {
             lst.onRemoveAllLoggers();
         }
     }
 
     private void fireNewPage(int from, int to) {
-        int pageNum = (to-1) / PAGE_SIZE + 1;
-        for(NewPageListener lst : pageListeners) {
+        int pageNum = (to - 1) / PAGE_SIZE + 1;
+        for (NewPageListener lst : pageListeners) {
             lst.onNewPage(from, to, pageNum);
         }
     }
@@ -309,7 +310,7 @@ public class LogModel {
         StringBuilder msg = new StringBuilder();
         try {
             ensureMirrorFileOpened();
-            if (rec == null ||  mirrorFile == null) {
+            if (rec == null || mirrorFile == null) {
                 return "";
             }
             mirrorFile.seek(rec.startOff);
@@ -416,10 +417,10 @@ public class LogModel {
         @Override
         public void fileModified(FileEvent e) {
             synchronized (LogModel.this) {
-                if (e.getType().equals(FileEvent.START_ERASING)){
+                if (e.getType().equals(FileEvent.START_ERASING)) {
                     if (debug) System.out.println("FileEvent.START_ERASING");
                     resetModel();
-                } else if (e.getType().equals(FileEvent.ERASED)){
+                } else if (e.getType().equals(FileEvent.ERASED)) {
                     if (debug) System.out.println("FileEvent.ERASED");
                     init();
                 }
@@ -432,7 +433,7 @@ public class LogModel {
     private class MessageCache extends LinkedHashMap<LiteLogRecord, String> {
         @Override
         protected boolean removeEldestEntry(Map.Entry<LiteLogRecord, String> eldest) {
-            return size() > PAGE_SIZE*2;
+            return size() > PAGE_SIZE * 2;
         }
     }
 
@@ -455,6 +456,7 @@ public class LogModel {
 
     public interface LoggerListener {
         void onNewLogger(String name);
+
         void onRemoveAllLoggers();
     }
 
@@ -476,7 +478,7 @@ public class LogModel {
             StringBuilder out = new StringBuilder();
             int pos = logName.indexOf("#");
             if (pos >= 0) {
-                out.append(logName.substring(pos+1));
+                out.append(logName.substring(pos + 1));
             } else {
                 out.append(logName);
             }
@@ -489,6 +491,7 @@ public class LogModel {
             }
             return out.toString();
         }
+
         public int loggerID;
         public long time;
         public int severety;

@@ -30,6 +30,7 @@ import com.sun.javatest.cof.COFData;
 import com.sun.javatest.cof.Main;
 import com.sun.javatest.cof.Main.Fault;
 import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;

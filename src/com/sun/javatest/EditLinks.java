@@ -37,8 +37,7 @@ import com.sun.javatest.util.I18NResourceBundle;
 /**
  * A utility to rewrite links within a set of HTML files.
  */
-public class EditLinks
-{
+public class EditLinks {
     /**
      * An exception to report bad command line arguments.
      */
@@ -46,6 +45,7 @@ public class EditLinks
         BadArgs(I18NResourceBundle i18n, String key) {
             super(i18n.getString(key));
         }
+
         BadArgs(I18NResourceBundle i18n, String key, Object arg) {
             super(i18n.getString(key, arg));
         }
@@ -63,13 +63,14 @@ public class EditLinks
      * <dd>Links beginning with oldPrefix are rewritten to begin with newPrefix
      * <dt>-ignore file
      * <dd>Ignore files and directories named 'file' when scanning directories.
-     *     E.g. -ignore SCCS
+     * E.g. -ignore SCCS
      * <dt>-o file
      * <dd>Output file or directory. It should only be a file if the input is a
-     *     single file; otherwise it should be a directory.
+     * single file; otherwise it should be a directory.
      * <dt>files...
      * <dd>Input files or directories to be copied, with the links edited.
      * </dl>
+     *
      * @param args Command line arguments, per the usage as described.
      */
     public static void main(String... args) {
@@ -82,16 +83,13 @@ public class EditLinks
                     System.err.println(i18n.getString("editLinks.noEdits"));
                 el.run();
             }
-        }
-        catch (BadArgs e) {
+        } catch (BadArgs e) {
             System.err.println(e.getMessage());
             usage(System.err);
             System.exit(1);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.println(e);
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             t.printStackTrace();
             System.exit(2);
         }
@@ -99,6 +97,7 @@ public class EditLinks
 
     /**
      * Write out short command line help.
+     *
      * @param out A stream to which to write the help.
      */
     private static void usage(PrintStream out) {
@@ -123,9 +122,10 @@ public class EditLinks
     /**
      * Create an editor object based on command line args.
      * It is an error if no edits, no input files, or no output file is given.
+     *
      * @param args Command line args.
-     * @see #main
      * @throws EditLinks.BadArgs if problems are found in the given arguments.
+     * @see #main
      */
     public EditLinks(String... args) throws BadArgs {
         for (int i = 0; i < args.length; i++) {
@@ -133,17 +133,13 @@ public class EditLinks
                 String oldPrefix = args[++i];
                 String newPrefix = args[++i];
                 addEdit(oldPrefix, newPrefix);
-            }
-            else if (args[i].equals("-ignore") && i + 2 < args.length) {
+            } else if (args[i].equals("-ignore") && i + 2 < args.length) {
                 ignore(args[++i]);
-            }
-            else if (args[i].equals("-o") && i + 1 < args.length) {
+            } else if (args[i].equals("-o") && i + 1 < args.length) {
                 outFile = new File(args[++i]);
-            }
-            else if (args[i].startsWith("-")) {
+            } else if (args[i].startsWith("-")) {
                 throw new BadArgs(i18n, "editLinks.badOpt", args[i]);
-            }
-            else {
+            } else {
                 inFiles = new File[args.length - i];
                 for (int j = 0; j < inFiles.length; j++)
                     inFiles[j] = new File(args[i++]);
@@ -163,19 +159,21 @@ public class EditLinks
 
     /**
      * Add another edit to be applied when the files are edited.
+     *
      * @param oldPrefix The prefix of HTML references to be updated.
      * @param newPrefix The replacement value for occurrences of oldPrefix.
      */
     public void addEdit(String oldPrefix, String newPrefix) {
         String[][] newEdits = new String[edits.length + 1][];
         System.arraycopy(edits, 0, newEdits, 0, edits.length);
-        newEdits[edits.length] = new String[] { oldPrefix, newPrefix };
+        newEdits[edits.length] = new String[]{oldPrefix, newPrefix};
         edits = newEdits;
     }
 
     /**
      * Add another file to be ignored when the files are edited.
      * For example, specify "SCCS" to ignore SCCS directories.
+     *
      * @param file The name of a file to be ignored when editing.
      */
     public void ignore(String file) {
@@ -184,6 +182,7 @@ public class EditLinks
 
     /**
      * Edit the files set up by the {@link #EditLinks(String[])} constructor.
+     *
      * @throws IOException if any errors occur while editing the specified files.
      */
     public void run() throws IOException {
@@ -194,12 +193,13 @@ public class EditLinks
      * Edit the given files, using the current set of edits and ignores.
      * The source files may be files or directories; the destination can
      * be a directory, or a file if the source is a single file.
-     * @param src An array of files or directories of files to be edited.
+     *
+     * @param src  An array of files or directories of files to be edited.
      * @param dest A destination file for the edit.
-     * @throws IOException if any problems occur while editing the specified
-     * files.
+     * @throws IOException              if any problems occur while editing the specified
+     *                                  files.
      * @throws IllegalArgumentException if the destination is a single file
-     * but the source file is not.
+     *                                  but the source file is not.
      * @see #edit(File, File)
      */
     public void edit(File[] src, File dest) throws IOException {
@@ -210,12 +210,13 @@ public class EditLinks
      * Edit the given file, using the current set of edits and ignores.
      * The source files may be file or directory; the destination can
      * be a directory, or a file if the source is a single file.
-     * @param src A file or directory of files to be edited.
+     *
+     * @param src  A file or directory of files to be edited.
      * @param dest A destination file for the edit.
-     * @throws IOException if any problems occur while editing the specified
-     * files.
+     * @throws IOException              if any problems occur while editing the specified
+     *                                  files.
      * @throws IllegalArgumentException if the destination is a single file
-     * but the source file is not.
+     *                                  but the source file is not.
      * @see #edit(File, File)
      */
     public void edit(File src, File dest) throws IOException {
@@ -226,8 +227,7 @@ public class EditLinks
             if (!dest.exists()) {
                 if (!dest.mkdir())
                     throw new FileNotFoundException(dest.getPath());
-            }
-            else if (!dest.isDirectory())
+            } else if (!dest.isDirectory())
                 throw new IllegalArgumentException(i18n.getString("editLinks.dirExpected", dest));
 
             File canonicalDest = dest.getCanonicalFile();
@@ -244,8 +244,7 @@ public class EditLinks
                 }
             }
             ignores.remove(canonicalDest);
-        }
-        else {
+        } else {
             if (dest.exists() && dest.isDirectory()) {
                 // source is a file, but the target is a directory, so assume a
                 // file of the same name in the target directory
@@ -270,8 +269,7 @@ public class EditLinks
                 edit(in, out);
                 in.close();
                 out.close();
-            }
-            else
+            } else
                 copyFile(src, dest);
         }
     }
@@ -311,32 +309,31 @@ public class EditLinks
                 nextCh();
                 skipSpace();
                 switch (c) {
-                case '!':
-                    nextCh();
-                    if (c == '-') {
+                    case '!':
                         nextCh();
                         if (c == '-') {
                             nextCh();
-                            skipComment();
+                            if (c == '-') {
+                                nextCh();
+                                skipComment();
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case '/':
-                    nextCh();
-                    scanIdentifier();
-                    skipTag();
-                    break;
-
-                default:
-                    String tag = scanIdentifier();
-                    if (tag.equals("a"))
-                        scanLink();
-                    else
+                    case '/':
+                        nextCh();
+                        scanIdentifier();
                         skipTag();
+                        break;
+
+                    default:
+                        String tag = scanIdentifier();
+                        if (tag.equals("a"))
+                            scanLink();
+                        else
+                            skipTag();
                 }
-            }
-            else {
+            } else {
                 nextCh();
             }
         }
@@ -360,8 +357,7 @@ public class EditLinks
                 out.write(edit(target));
                 out.write('"');
                 copying = true;
-            }
-            else
+            } else
                 scanValue();
             skipSpace();
         }
@@ -375,23 +371,22 @@ public class EditLinks
         StringBuilder buf = new StringBuilder();
         while (true) {
             if ((c >= 'a') && (c <= 'z')) {
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
             } else if ((c >= 'A') && (c <= 'Z')) {
-                buf.append((char)('a' + (c - 'A')));
+                buf.append((char) ('a' + (c - 'A')));
                 nextCh();
             } else if ((c >= '0') && (c <= '9')) {
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
             } else if (c == '-') {  // needed for <META HTTP-EQUIV ....>
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
-            } else
-                if (buf.length() == 0)
-                    throw new IOException(i18n.getString("editLinks.idExpected",
-                            currFile, Integer.valueOf(line)));
-                else
-                    return buf.toString();
+            } else if (buf.length() == 0)
+                throw new IOException(i18n.getString("editLinks.idExpected",
+                        currFile, Integer.valueOf(line)));
+            else
+                return buf.toString();
         }
     }
 
@@ -414,12 +409,12 @@ public class EditLinks
         StringBuilder buf = new StringBuilder();
         while (((quote < 0) && (c != ' ') && (c != '\t') &&
                 (c != '\n') && (c != '\r') && (c != '>')) ||
-               ((quote >= 0) && (c != quote))) {
+                ((quote >= 0) && (c != quote))) {
             if (c == -1 || c == '\n' || c == '\r') {
                 throw new IOException(i18n.getString("editLinks.mismatchQuotes",
                         currFile, Integer.valueOf(line)));
             }
-            buf.append((char)c);
+            buf.append((char) c);
             nextCh();
         }
         if (c == quote)
@@ -520,7 +515,7 @@ public class EditLinks
         else if (back > fwd)
             return '\\';
         else
-            return (char)0;
+            return (char) 0;
     }
 
     private File[] inFiles = new File[0];

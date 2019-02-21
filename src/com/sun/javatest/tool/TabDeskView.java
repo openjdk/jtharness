@@ -237,8 +237,7 @@ class TabDeskView extends DeskView {
         if (selectedTool == null) {
             mainFrame.setTitle(uif.getI18NString("dt.title.txt"));
             ContextHelpManager.setHelpIDString(contents, null);
-        }
-        else {
+        } else {
             //OLD addToolMenuItemsToBasicMenuBar(selectedTool);
             addToolMenuItemsToFrameMenuBar(mainFrame, selectedTool);
             selectedTool.addObserver(listener);
@@ -256,7 +255,7 @@ class TabDeskView extends DeskView {
 
     @Override
     public JFrame[] getFrames() {
-        return new JFrame[] { mainFrame };
+        return new JFrame[]{mainFrame};
     }
 
     @Override
@@ -266,7 +265,7 @@ class TabDeskView extends DeskView {
 
     @Override
     public boolean isToolOwnerForDialog(Tool tool, Container dialog) {
-        for (ToolDialog td: tool.getToolDialogs()) {
+        for (ToolDialog td : tool.getToolDialogs()) {
             if (td.getDialogParent() == dialog)
                 return true;
         }
@@ -444,10 +443,9 @@ class TabDeskView extends DeskView {
     }
 
     private class Listener
-        implements ActionListener, AncestorListener,
-                   ChangeListener, MenuListener,
-                   Tool.Observer
-    {
+            implements ActionListener, AncestorListener,
+            ChangeListener, MenuListener,
+            Tool.Observer {
         // --------- ActionListener  ---------
 
         @Override
@@ -474,7 +472,8 @@ class TabDeskView extends DeskView {
         }
 
         @Override
-        public void ancestorMoved(AncestorEvent event) { }
+        public void ancestorMoved(AncestorEvent event) {
+        }
 
         @Override
         public void ancestorRemoved(AncestorEvent event) {
@@ -517,8 +516,7 @@ class TabDeskView extends DeskView {
                 JMenuItem mi = new JMenuItem(uif.getI18NString("dt.windows.noWindows.mit"));
                 mi.setEnabled(false);
                 m.add(mi);
-            }
-            else {
+            } else {
                 int n = 0;
 
                 // add entries for all current tools
@@ -593,6 +591,7 @@ class TabDeskView extends DeskView {
         }
 
         @Override
-        public void toolDisposed(Tool src) { }
+        public void toolDisposed(Tool src) {
+        }
     }
 }

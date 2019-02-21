@@ -42,6 +42,7 @@ public abstract class ObservableTestFilter extends TestFilter {
         /**
          * A notification message that is called when the filter has
          * been changed.
+         *
          * @param filter The filter that has been changed
          */
         public void filterUpdated(ObservableTestFilter filter);
@@ -49,6 +50,7 @@ public abstract class ObservableTestFilter extends TestFilter {
 
     /**
      * Add an observer to be notified when this filter has been changed.
+     *
      * @param o The observer to be registered.  Should never be null.
      */
     public void addObserver(Observer o) {
@@ -58,6 +60,7 @@ public abstract class ObservableTestFilter extends TestFilter {
     /**
      * Remove a previously registered observer so that it will no longer
      * be notified of changes to this filter.
+     *
      * @param o The filter to be un-registered.
      */
     public void removeObserver(Observer o) {
@@ -67,6 +70,7 @@ public abstract class ObservableTestFilter extends TestFilter {
     /**
      * Notify observers that this filter has changed it's internal state
      * (behavior).
+     *
      * @param filter the filter that has changed
      */
     protected void notifyUpdated(ObservableTestFilter filter) {

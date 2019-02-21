@@ -36,25 +36,25 @@ import java.util.Map;
 /**
  * A class to provide access to OS environment variables, by means of
  * an external command which is executed.
- *
+ * <p>
  * The command will be executed when the first access is made to the
  * environment variables. The command name is determined as follows:
  * <ul>
  * <li> The value passed to setCommand, if that has been set
  * <li> The value of the system property "javatest.sysEnv.command",
- *      if that has been set
+ * if that has been set
  * <li> An OS-specific default, if one is known. The current set of
- *      defaults is as follows:
- *      <table>
- *      <tr><th>OS              <th>Default
- *      <tr><td>Mac OS X        <td>/usr/bin/env
- *      <tr><td>Solaris         <td>/usr/bin/env
- *      <tr><td>Windows XP      <td>cmd /c set
- *      </table>
+ * defaults is as follows:
+ * <table>
+ * <tr><th>OS              <th>Default
+ * <tr><td>Mac OS X        <td>/usr/bin/env
+ * <tr><td>Solaris         <td>/usr/bin/env
+ * <tr><td>Windows XP      <td>cmd /c set
+ * </table>
  * <li> Finally, a simple default of "env" is used. While this may not
- *      always work by default, a user could provide a suitable script
- *      or batch file on the current execution path that will yield the
- *      required results.
+ * always work by default, a user could provide a suitable script
+ * or batch file on the current execution path that will yield the
+ * required results.
  * </ul>
  *
  * <p> Note that the specified command will be invoked by Runtime.exec and
@@ -66,11 +66,11 @@ import java.util.Map;
  * <p> The command must print out a series of lines of the form <i>name</i>=<i>value</i>,
  * one for each environment variable.
  */
-public class SysEnv
-{
+public class SysEnv {
     /**
      * Set the command to be executed to access the OS environment variables.
      * To be effective, this method must be set before any of the get methods,
+     *
      * @param cmd the command to be executed
      */
     public static void setCommand(String cmd) {
@@ -79,6 +79,7 @@ public class SysEnv
 
     /**
      * Get the value of a specified environment value.
+     *
      * @param name the name of the environment variable
      * @return the value of the environment variable if set, or null if not
      */
@@ -92,6 +93,7 @@ public class SysEnv
     /**
      * Get a map containing all of the environment variables in the current
      * execution context.
+     *
      * @return a map containing all the known environment variables.
      */
     public static Map<String, String> getAll() {
@@ -101,8 +103,9 @@ public class SysEnv
     /**
      * Get a map containing all of the environment variables in the current
      * execution context.
+     *
      * @param m the map in which to put the names and values of all the
-     * environment variables in the current execution context.
+     *          environment variables in the current execution context.
      * @return the argument map.
      */
     public static Map<String, String> getAll(Map<String, String> m) {
@@ -142,8 +145,7 @@ public class SysEnv
 
             p.getErrorStream().close();
             p.getOutputStream().close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.println(i18n.getString("sysEnv.err", e));
         }
     }
@@ -156,12 +158,12 @@ public class SysEnv
         String osName = System.getProperty("os.name");
 
         if (osName.equalsIgnoreCase("SunOS")
-            || osName.equalsIgnoreCase("Linux")
-            || osName.equalsIgnoreCase("Mac OS X"))
+                || osName.equalsIgnoreCase("Linux")
+                || osName.equalsIgnoreCase("Mac OS X"))
             return "/usr/bin/env";
 
         if (osName.equalsIgnoreCase("Windows XP")
-            || osName.equalsIgnoreCase("Windows 2000"))  // tested
+                || osName.equalsIgnoreCase("Windows 2000"))  // tested
             return "cmd /c set";
 
         if (osName.toLowerCase().startsWith("windows")) // not yet tested

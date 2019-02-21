@@ -146,7 +146,7 @@ class LogViewer extends ToolDialog {
 
                     if (thePane.page == 0 && model.isStableState()) {
                         setPage(page);
-                    } else if (thePane.page == page && model.isStableState()){
+                    } else if (thePane.page == page && model.isStableState()) {
                         updatePage(from, to);
                     } else if (model.isStableState()) {
                         updateNavBtns();
@@ -209,15 +209,15 @@ class LogViewer extends ToolDialog {
         filterPanel.setLayout(new GridBagLayout());
 
         Object[] items = {
-            uif.getI18NString("logviewer.combobox.actions"),
-            new JSeparator(),
-            new FilterComboboxItem(uif.getI18NString("logviewer.combobox.selectall"), true),
-            new FilterComboboxItem(uif.getI18NString("logviewer.combobox.clearall"), false),
-            new JSeparator(),
-            new FilterComboboxItem(uif.getI18NString("logviewer.combobox.select") + levelNames[0], levels[0]),
-            new FilterComboboxItem(uif.getI18NString("logviewer.combobox.select") + levelNames[1], levels[1]),
-            new FilterComboboxItem(uif.getI18NString("logviewer.combobox.select") + levelNames[2], levels[2]),
-            new FilterComboboxItem(uif.getI18NString("logviewer.combobox.select") + levelNames[3], levels[3])
+                uif.getI18NString("logviewer.combobox.actions"),
+                new JSeparator(),
+                new FilterComboboxItem(uif.getI18NString("logviewer.combobox.selectall"), true),
+                new FilterComboboxItem(uif.getI18NString("logviewer.combobox.clearall"), false),
+                new JSeparator(),
+                new FilterComboboxItem(uif.getI18NString("logviewer.combobox.select") + levelNames[0], levels[0]),
+                new FilterComboboxItem(uif.getI18NString("logviewer.combobox.select") + levelNames[1], levels[1]),
+                new FilterComboboxItem(uif.getI18NString("logviewer.combobox.select") + levelNames[2], levels[2]),
+                new FilterComboboxItem(uif.getI18NString("logviewer.combobox.select") + levelNames[3], levels[3])
         };
 
         filterCombo = uif.createLiteralChoice("logviewer.combobox", items);   //new JComboBox(items);
@@ -260,7 +260,7 @@ class LogViewer extends ToolDialog {
                     // try to restore position (not exactly)  -
                     Point vp = scrollPane.getViewport().getViewPosition();
                     Dimension vs = scrollPane.getViewport().getViewSize();
-                    final double magic = vp.getY()/vs.getHeight();
+                    final double magic = vp.getY() / vs.getHeight();
 
                     int p = thePane.page;
                     clearPane(0);
@@ -268,8 +268,8 @@ class LogViewer extends ToolDialog {
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
-                            double newMagic = thePane.getDocument().getLength()*magic;
-                            thePane.setCaretPosition((int)newMagic);
+                            double newMagic = thePane.getDocument().getLength() * magic;
+                            thePane.setCaretPosition((int) newMagic);
                         }
                     });
                 }
@@ -295,7 +295,7 @@ class LogViewer extends ToolDialog {
         naviPanel = new JPanel();
         processLabel = new JLabel();
         Font old = processLabel.getFont();
-        processLabel.setFont(old.deriveFont(old.getSize()-1));
+        processLabel.setFont(old.deriveFont(old.getSize() - 1));
         JPanel naviBtnPanel = new JPanel();
         lblPageCounter = new JLabel();
         lblPageCounter.setVerticalAlignment(SwingConstants.TOP);
@@ -444,10 +444,10 @@ class LogViewer extends ToolDialog {
                     for (int i = 0; i < 10000; i++) {
                         Random r = new Random();
                         Logger myLog = getLogger();
-                        myLog.log(Level.FINE, "To be, or not to be: that is the question:\n"+
-                                "Whether 'tis nobler in the mind to suffer\n"+
-                                "The slings and arrows of outrageous fortune,\n"+
-                                "Or to take arms against a sea of troubles,\n"+
+                        myLog.log(Level.FINE, "To be, or not to be: that is the question:\n" +
+                                "Whether 'tis nobler in the mind to suffer\n" +
+                                "The slings and arrows of outrageous fortune,\n" +
+                                "Or to take arms against a sea of troubles,\n" +
                                 "And by opposing end them? To die: to sleep;");
                         myLog.log(Level.INFO, "Random long " + r.nextLong());
                         myLog.log(Level.WARNING, "The World Health Organization says a cluster of bird flu cases in Indonesia may have been caused by human-to-human transmission. \nAn outbreak of bird flu that infected at least seven Indonesian family members earlier this month in north Sumatra was not a mutated version of the often deadly H5N1 form of the virus, World Health Organization spokesman Peter Cordingly told CNN.");
@@ -531,7 +531,7 @@ class LogViewer extends ToolDialog {
         gridBagConstraints.insets = new Insets(0, 5, 5, 11);
         body.add(naviPanel, gridBagConstraints);
 
-        setButtons(new JButton[] {btnClear, btnSave, btnNew, btnClose}, btnClose);
+        setButtons(new JButton[]{btnClear, btnSave, btnNew, btnClose}, btnClose);
 
         setBody(body);
     }
@@ -575,9 +575,9 @@ class LogViewer extends ToolDialog {
     private class EditorFiller extends Thread {
         EditorFiller(int from, int to, int pagenum) {
             super("editorFiller");
-            this.from=from;
-            this.to=to;
-            this.pagenum=pagenum;
+            this.from = from;
+            this.to = to;
+            this.pagenum = pagenum;
         }
 
         @Override
@@ -599,7 +599,7 @@ class LogViewer extends ToolDialog {
                 final String msg = model.getRecordMessage(rec);
                 final int level = rec.severety;
                 String hd = rec.getHeader(model.getLogname(rec.loggerID));
-                final String header = debug > 1 ? "#" + (i+1) + " " + hd : hd;
+                final String header = debug > 1 ? "#" + (i + 1) + " " + hd : hd;
                 final String substr = model.getFilter().getSubstring();
                 final int iter = i;
                 SwingUtilities.invokeLater(new Runnable() {
@@ -612,29 +612,31 @@ class LogViewer extends ToolDialog {
                             thePane.fromRec = iter;
                         }
                         try {
-                            int pos = doc.getEndPosition().getOffset()-1;
+                            int pos = doc.getEndPosition().getOffset() - 1;
                             if (thePane.getCaret() == null) {
                                 thePane.setCaretPosition(0);
                             }
                             int oldPos = thePane.getCaretPosition();
                             doc.insertString(pos, header, getStyle(level));
-                            doc.insertString(doc.getEndPosition().getOffset()-1, "\n", getStyle(level));
+                            doc.insertString(doc.getEndPosition().getOffset() - 1, "\n", getStyle(level));
 
                             if (substr != null && !substr.isEmpty()) {
                                 String up = header.toUpperCase();
-                                int s = 0; int ss;
+                                int s = 0;
+                                int ss;
                                 while ((ss = up.indexOf(substr, s)) >= 0) {
                                     doc.setCharacterAttributes(pos + ss, substr.length(), selected, false);
                                     s += substr.length();
                                 }
                             }
-                            pos = doc.getEndPosition().getOffset()-1;
+                            pos = doc.getEndPosition().getOffset() - 1;
                             doc.insertString(pos, msg, styleMsg);
-                            doc.insertString(doc.getEndPosition().getOffset()-1, "\n", getStyle(level));
+                            doc.insertString(doc.getEndPosition().getOffset() - 1, "\n", getStyle(level));
 
                             if (substr != null && !substr.isEmpty()) {
                                 String up = msg.toUpperCase();
-                                int s = 0; int ss;
+                                int s = 0;
+                                int ss;
                                 while ((ss = up.indexOf(substr, s)) >= 0) {
                                     doc.setCharacterAttributes(pos + ss, substr.length(), selected, false);
                                     s += substr.length();
@@ -646,7 +648,7 @@ class LogViewer extends ToolDialog {
                             ex.printStackTrace();
                         }
                     }
-                } );
+                });
             }
         }
 
@@ -678,16 +680,16 @@ class LogViewer extends ToolDialog {
             public void run() {
                 if (doc != null) {
                     try {
-                        doc.remove(0, doc.getEndPosition().getOffset()-1);
+                        doc.remove(0, doc.getEndPosition().getOffset() - 1);
                         synchronized (thePane) {
-                            thePane.fromRec = from-1;
+                            thePane.fromRec = from - 1;
                         }
                     } catch (BadLocationException ex) {
                         ex.printStackTrace();
                     }
                 }
             }
-        } );
+        });
     }
 
 
@@ -724,7 +726,7 @@ class LogViewer extends ToolDialog {
                 synchronized (thePane) {
                     autoScrollCheckBox.setSelected(false);
                     autoScroll = false;
-                    setPage(thePane.page-1);
+                    setPage(thePane.page - 1);
                 }
             }
         });
@@ -736,7 +738,7 @@ class LogViewer extends ToolDialog {
             @Override
             public void run() {
                 synchronized (thePane) {
-                    setPage(thePane.page+1);
+                    setPage(thePane.page + 1);
                 }
             }
         });
@@ -805,7 +807,7 @@ class LogViewer extends ToolDialog {
 
     private void setPage(int pageNum) {
         int from, to;
-        from = (pageNum - 1) * model.getPageSize() ;
+        from = (pageNum - 1) * model.getPageSize();
         to = pageNum * model.getPageSize() - 1;
 
         synchronized (thePane) {
@@ -818,12 +820,12 @@ class LogViewer extends ToolDialog {
         updateNavBtns();
 
         if (debugPages > 1) {
-            System.out.println("setPage " + pageNum + " thePane.page=" + thePane.page );
+            System.out.println("setPage " + pageNum + " thePane.page=" + thePane.page);
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     if (thePane != null && currPage != null) {
-                        currPage.setText("Current page " + thePane.page );
+                        currPage.setText("Current page " + thePane.page);
                     }
                 }
             });
@@ -832,7 +834,7 @@ class LogViewer extends ToolDialog {
 
     private void updateNavBtns() {
         // can be called not from swing thread
-        SwingUtilities.invokeLater(new Runnable(){
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 if (noWindow) return;
@@ -867,7 +869,7 @@ class LogViewer extends ToolDialog {
         styleMsg = doc.addStyle("msg_text", def);
         StyleConstants.setFontFamily(styleMsg, "Monospaced");
 
-        styleWait  = doc.addStyle("blink", styleMsg);
+        styleWait = doc.addStyle("blink", styleMsg);
         StyleConstants.setBold(styleWait, true);
 
         styleInfo = doc.addStyle("info_text", styleMsg);
@@ -899,6 +901,7 @@ class LogViewer extends ToolDialog {
             }
             return fact;
         }
+
         ViewFactory fact;
 
         class NoWrapLabelView extends LabelView {
@@ -944,6 +947,7 @@ class LogViewer extends ToolDialog {
     private class LogPane extends JTextPane {
         int page;
         int fromRec;
+
         public LogPane() {
             super();
             setName("logviewer.viewerpane");
@@ -1008,6 +1012,7 @@ class LogViewer extends ToolDialog {
             return defRend.getTreeCellRendererComponent(tree,
                     value, isSelected, expanded, leaf, row, hasFocus);
         }
+
         DefaultTreeCellRenderer defRend = new DefaultTreeCellRenderer();
     }
 
@@ -1023,17 +1028,17 @@ class LogViewer extends ToolDialog {
                 return defRend.getListCellRendererComponent(list, value, index,
                         isSelected, cellHasFocus);
             } else if (value instanceof JSeparator) {
-                return (JSeparator)value;
+                return (JSeparator) value;
             } else if (value instanceof JCheckBox) {
                 if (isSelected) {
-                    ((JCheckBox)value).setBackground(list.getSelectionBackground());
-                    ((JCheckBox)value).setForeground(list.getSelectionForeground());
+                    ((JCheckBox) value).setBackground(list.getSelectionBackground());
+                    ((JCheckBox) value).setForeground(list.getSelectionForeground());
                 } else {
-                    ((JCheckBox)value).setBackground(list.getBackground());
-                    ((JCheckBox)value).setForeground(list.getForeground());
+                    ((JCheckBox) value).setBackground(list.getBackground());
+                    ((JCheckBox) value).setForeground(list.getForeground());
                 }
 
-                return (JCheckBox)value;
+                return (JCheckBox) value;
             }
             return this;
         }
@@ -1056,20 +1061,22 @@ class LogViewer extends ToolDialog {
                             ch.setSelected(true);
                             DefaultMutableTreeNode newLogger = new DefaultMutableTreeNode(ch, true);
 
-                            for (int i = 0 ; i < levels.length; i++) {
+                            for (int i = 0; i < levels.length; i++) {
                                 final JCheckBox chh = new FilterTreeItem(name, levels[i].intValue(), levelNames[i]);
                                 chh.setSelected(true);
                                 final int level = levels[i].intValue();
-                                chh.addItemListener( new ItemListener() {
+                                chh.addItemListener(new ItemListener() {
                                     {
                                         box = chh;
                                         l = level;
                                         logName = name;
                                     }
+
                                     @Override
                                     public void itemStateChanged(ItemEvent e) {
                                         model.getFilter().enableLogger(logName, l, box.isSelected());
                                     }
+
                                     JCheckBox box;
                                     int l;
                                     String logName;
@@ -1080,7 +1087,7 @@ class LogViewer extends ToolDialog {
                             }
 
                             treeRoot.add(newLogger);
-                            nodesWereInserted(treeRoot, new int [] {treeRoot.getIndex(newLogger)});
+                            nodesWereInserted(treeRoot, new int[]{treeRoot.getIndex(newLogger)});
                             filterTree.expandPath(new TreePath(newLogger.getPath()));
 
                         }
@@ -1099,7 +1106,7 @@ class LogViewer extends ToolDialog {
     private class PropagatedCheckBox extends JCheckBox {
         PropagatedCheckBox(final String name) {
             super(name);
-            this.addItemListener( new ItemListener() {
+            this.addItemListener(new ItemListener() {
                 @Override
                 public void itemStateChanged(ItemEvent e) {
                     for (JCheckBox aChildren : children) {
@@ -1119,9 +1126,9 @@ class LogViewer extends ToolDialog {
         public void fireEvent() {
             fireItemStateChanged(
                     new ItemEvent(this,
-                    ItemEvent.ITEM_STATE_CHANGED,
-                    this,
-                    this.isSelected() ?  ItemEvent.SELECTED : ItemEvent.DESELECTED));
+                            ItemEvent.ITEM_STATE_CHANGED,
+                            this,
+                            this.isSelected() ? ItemEvent.SELECTED : ItemEvent.DESELECTED));
         }
 
         public void addChild(JCheckBox ch) {
@@ -1138,6 +1145,7 @@ class LogViewer extends ToolDialog {
             this.logName = logName;
             this.level = level;
         }
+
         String logName;
         int level;
     }
@@ -1188,7 +1196,7 @@ class LogViewer extends ToolDialog {
                 if (debug > 1 && fc.kind) {
                     System.err.println(fc.select ? "Select all" : "Unselect all");
                 }
-                for (int i=0; i < root.getChildCount(); i++) {
+                for (int i = 0; i < root.getChildCount(); i++) {
                     DefaultMutableTreeNode fstLevelCh = (DefaultMutableTreeNode) root.getChildAt(i);
                     PropagatedCheckBox chLog = (PropagatedCheckBox) fstLevelCh.getUserObject();
                     if (fc.kind) {
@@ -1199,7 +1207,7 @@ class LogViewer extends ToolDialog {
                         }
                     } else {
                         boolean allSelected = true;
-                        for (int j=0; j < fstLevelCh.getChildCount(); j++) {
+                        for (int j = 0; j < fstLevelCh.getChildCount(); j++) {
                             DefaultMutableTreeNode secondLevelCh = (DefaultMutableTreeNode) fstLevelCh.getChildAt(j);
                             FilterTreeItem chLev = (FilterTreeItem) secondLevelCh.getUserObject();
                             if (chLev.level == fc.level && !chLev.isSelected()) {
@@ -1341,16 +1349,16 @@ class LogViewer extends ToolDialog {
 
     private UIFactory uif;
 
-    private final Level  [] levels = { Level.SEVERE, Level.WARNING, Level.INFO, Level.FINE } ;
-    private final String [] levelNames =
-    {LoggerFactory.getLocalizedLevelName(Level.SEVERE),
-     LoggerFactory.getLocalizedLevelName(Level.WARNING),
-     LoggerFactory.getLocalizedLevelName(Level.INFO),
-     LoggerFactory.getLocalizedLevelName(Level.FINE) } ;
+    private final Level[] levels = {Level.SEVERE, Level.WARNING, Level.INFO, Level.FINE};
+    private final String[] levelNames =
+            {LoggerFactory.getLocalizedLevelName(Level.SEVERE),
+                    LoggerFactory.getLocalizedLevelName(Level.WARNING),
+                    LoggerFactory.getLocalizedLevelName(Level.INFO),
+                    LoggerFactory.getLocalizedLevelName(Level.FINE)};
 
     private DefaultMutableTreeNode treeRoot;
     private JComboBox<?> filterCombo;
-    private JTree filterTree ;
+    private JTree filterTree;
 
     private boolean noWindow = false;
     private JLabel lblPageCounter;

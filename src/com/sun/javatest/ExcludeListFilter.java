@@ -31,10 +31,10 @@ import com.sun.javatest.util.I18NResourceBundle;
 /**
  * A test filter that filters out tests that appear in an {@link ExcludeList}.
  */
-public class ExcludeListFilter extends TestFilter
-{
+public class ExcludeListFilter extends TestFilter {
     /**
      * Create a test filter that filters out tests that appear in an exclude list.
+     *
      * @param t The exclude list to be used to filter out tests.
      */
     public ExcludeListFilter(ExcludeList t) {
@@ -43,6 +43,7 @@ public class ExcludeListFilter extends TestFilter
 
     /**
      * Get the exclude list used to filter out tests for this filter.
+     *
      * @return The exclude list used to filter out tests for this filter.
      */
     public ExcludeList getExcludeList() {

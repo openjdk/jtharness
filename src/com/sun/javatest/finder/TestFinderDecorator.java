@@ -109,7 +109,7 @@ public class TestFinderDecorator extends TestFinder {
         currentTestFinder.setComparator(c);
     }
 
-    public TestFinder getCurrentTestFinder(){
+    public TestFinder getCurrentTestFinder() {
         return currentTestFinder;
     }
 

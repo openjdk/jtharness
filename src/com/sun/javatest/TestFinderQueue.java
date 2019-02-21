@@ -44,28 +44,31 @@ public class TestFinderQueue {
      * This interface provides a means for TestFinder to report on events that
      * might be of interest as it executes.
      */
-    public static interface Observer
-    {
+    public static interface Observer {
         /**
          * Another file which needs to be read has been found.
+         *
          * @param file the file which was found
          */
         void found(File file);
 
         /**
          * A file is being read.
+         *
          * @param file the file being read
          */
         void reading(File file);
 
         /**
          * A file has been read.
+         *
          * @param file the file which was read
          */
         void done(File file);
 
         /**
          * A test description has been found.
+         *
          * @param td the test description which was found
          */
         void found(TestDescription td);
@@ -73,14 +76,16 @@ public class TestFinderQueue {
         /**
          * A test description which was previously found, has been rejected by
          * a test filter, and so has not been put in the queue of tests to be executed.
+         *
          * @param td the test description which was rejected by the filter
-         * @param f the filter which rejected the test
+         * @param f  the filter which rejected the test
          */
         void ignored(TestDescription td, TestFilter f);
 
         /**
          * A test description that was previously put in the test finder queue
          * has been taken from the queue and passed back to the client caller.
+         *
          * @param td the test description which was taken from the queue
          */
         void done(TestDescription td);
@@ -92,13 +97,15 @@ public class TestFinderQueue {
 
         /**
          * An error was reported by the test finder while reading a file.
+         *
          * @param msg a detail message describing the error
          */
         void error(String msg);
 
         /**
          * An error was reported by the test finder while reading a file.
-         * @param td the test description to which the error applies
+         *
+         * @param td  the test description to which the error applies
          * @param msg a detail message describing the error
          */
         void error(TestDescription td, String msg);
@@ -112,6 +119,7 @@ public class TestFinderQueue {
 
     /**
      * Create a test finder queue, using a specified test finder.
+     *
      * @param finder the test finder to be used to read the tests
      */
     public TestFinderQueue(TestFinder finder) {
@@ -120,6 +128,7 @@ public class TestFinderQueue {
 
     /**
      * Get the test finder being used by this object.
+     *
      * @return the test finder being used by this object
      * @see #setTestFinder
      */
@@ -130,8 +139,9 @@ public class TestFinderQueue {
     /**
      * Set the test finder to be used by this object.
      * It may only be set once.
+     *
      * @param finder the test finder to be used by this object
-     * @throws NullPointerException if the finder is null
+     * @throws NullPointerException  if the finder is null
      * @throws IllegalStateException if the finder has already been set
      * @see #getTestFinder
      */
@@ -156,6 +166,7 @@ public class TestFinderQueue {
      * Set an array of filters that will be used to filter the tests read by the
      * test finder. Each test must be accepted by all the filters to be put in
      * the queue.
+     *
      * @param filters the filters to be used.
      */
     public void setFilters(TestFilter... filters) {
@@ -165,6 +176,7 @@ public class TestFinderQueue {
     /**
      * Set the initial set of files to be read by the test finder.
      * Additional files may be read as a result of reading these and subsequent files.
+     *
      * @param initTests the initial set of files to be read by the test finder
      */
     public synchronized void setTests(String... initTests) {
@@ -175,7 +187,7 @@ public class TestFinderQueue {
         File[] files;
         if (initTests == null)
             // ensure not null
-            files = new File[] {testSuiteRoot};
+            files = new File[]{testSuiteRoot};
         else {
             files = new File[initTests.length];
             for (int i = 0; i < initTests.length; i++) {
@@ -184,7 +196,7 @@ public class TestFinderQueue {
         }
 
         rootDir = testSuiteRoot.isDirectory() ?
-                   testSuiteRoot : new File(testSuiteRoot.getParent());
+                testSuiteRoot : new File(testSuiteRoot.getParent());
 
         // build up the fifo of tests to be used by readNextFile
 
@@ -220,8 +232,9 @@ public class TestFinderQueue {
      * specified set of files. If set to false, and if no tests have
      * been found by the time the last file has been read, an error
      * will be notified to any observers.
+     *
      * @param zeroTestsOK set to true to suppress an error being generated
-     * if no tests are found by the time that all files have been read
+     *                    if no tests are found by the time that all files have been read
      */
     public void setZeroTestsOK(boolean zeroTestsOK) {
         this.zeroTestsOK = zeroTestsOK;
@@ -230,6 +243,7 @@ public class TestFinderQueue {
     /**
      * Set the queue to "repeat" a set of test descriptions by putting
      * them in the test found queue again.
+     *
      * @param tds the test descriptions to be "found again".
      * @deprecated retained for historical purposes
      */
@@ -244,18 +258,17 @@ public class TestFinderQueue {
     }
 
 
-
     /**
      * Get the next test description if one is available, or null when all have
      * been returned.
      *
-     * @return     A test description or null.
+     * @return A test description or null.
      */
     public TestDescription next() {
         TestDescription td;
 
         synchronized (this) {
-            while (needReadAhead() && readNextFile()) /*NO-OP*/;
+            while (needReadAhead() && readNextFile()) /*NO-OP*/ ;
 
             // read files until there is a test description available or there
             // are no more files.
@@ -278,6 +291,7 @@ public class TestFinderQueue {
 
     /**
      * Get the root directory for the test finder.
+     *
      * @return the root directory, as set in the test finder
      */
     public File getRoot() {
@@ -290,6 +304,7 @@ public class TestFinderQueue {
 
     /**
      * Get the number of files that have been found so far.
+     *
      * @return the number of files that have been found so far
      */
     public int getFilesFoundCount() {
@@ -298,6 +313,7 @@ public class TestFinderQueue {
 
     /**
      * Get the number of files that have been found and read so far.
+     *
      * @return the number of files that have been found and read so far
      */
     public int getFilesDoneCount() {
@@ -306,6 +322,7 @@ public class TestFinderQueue {
 
     /**
      * Get the number of files that have been found but not yet read so far.
+     *
      * @return the number of files that have been found but not yet read so far
      */
     public int getFilesRemainingCount() {
@@ -314,6 +331,7 @@ public class TestFinderQueue {
 
     /**
      * Get the number of tests that have been found so far.
+     *
      * @return the number of tests that have been found so far
      */
     public int getTestsFoundCount() {
@@ -322,6 +340,7 @@ public class TestFinderQueue {
 
     /**
      * Get the number of tests that have been read from this object so far.
+     *
      * @return the number of tests that have been read from this object so far
      */
     public int getTestsDoneCount() {
@@ -331,6 +350,7 @@ public class TestFinderQueue {
     /**
      * Get the number of tests which have been found but not yet from this
      * object so far.
+     *
      * @return the number of tests which have been found but not yet read
      * from this object so far
      */
@@ -341,6 +361,7 @@ public class TestFinderQueue {
     /**
      * Get the number of errors that have been found so far by the test finder
      * while reading the tests.
+     *
      * @return the number of errors that have been found so far by the test finder
      * while reading the tests.
      */
@@ -352,6 +373,7 @@ public class TestFinderQueue {
 
     /**
      * Add an observer to monitor the progress of the TestFinder.
+     *
      * @param o the observer
      */
     public void addObserver(Observer o) {
@@ -361,6 +383,7 @@ public class TestFinderQueue {
     /**
      * Remove an observer form the set currently monitoring the progress
      * of the TestFinder.
+     *
      * @param o the observer
      */
     public void removeObserver(Observer o) {
@@ -372,54 +395,55 @@ public class TestFinderQueue {
 
     /**
      * Set the amount of read-ahead done by the finder.
-     * @param mode      acceptable values are as follows:
-     * <dl> <dt> 0: no read ahead
-     * <dd> Files are not read ahead more than necessary
-     * <dt> 1: low read ahead
-     * <dd> A low priority thread is created to read the test files
-     * when the system is otherwise idle
-     * <dt> 2: medium read ahead
-     * <dd> A low priority thread is created to read the test files
-     * when the system is otherwise idle. In addition, if the number
-     * of tests done approaches the number of tests read, then more
-     * tests will be read.
-     * <dt> 3: full and immediate read ahead
-     * <dd> All the tests will be read now
-     * </dl>
+     *
+     * @param mode acceptable values are as follows:
+     *             <dl> <dt> 0: no read ahead
+     *             <dd> Files are not read ahead more than necessary
+     *             <dt> 1: low read ahead
+     *             <dd> A low priority thread is created to read the test files
+     *             when the system is otherwise idle
+     *             <dt> 2: medium read ahead
+     *             <dd> A low priority thread is created to read the test files
+     *             when the system is otherwise idle. In addition, if the number
+     *             of tests done approaches the number of tests read, then more
+     *             tests will be read.
+     *             <dt> 3: full and immediate read ahead
+     *             <dd> All the tests will be read now
+     *             </dl>
      */
     public synchronized void setReadAheadMode(byte mode) {
         switch (mode) {
-        case NO_READ_AHEAD:
-        case FULL_READ_AHEAD:
-            readAheadMode = mode;
-            readAheadWorker = null; // worker will note this and go away
-            break;
+            case NO_READ_AHEAD:
+            case FULL_READ_AHEAD:
+                readAheadMode = mode;
+                readAheadWorker = null; // worker will note this and go away
+                break;
 
-        case LOW_READ_AHEAD:
-        case MEDIUM_READ_AHEAD:
-            readAheadMode = mode;
-            if (readAheadWorker == null) {
-                readAheadWorker = new Thread() {
-                    @Override
-                    public void run() {
-                        // This is intended to be interruptible and
-                        // relies on safe atomic access to worker
-                        while ((readAheadWorker == this) && readNextFile()) /*NO-OP*/;
-                        // when thread exits; flatten pointer if still current
-                        synchronized (TestFinderQueue.this) {
-                            if (readAheadWorker == this)
-                                readAheadWorker = null;
+            case LOW_READ_AHEAD:
+            case MEDIUM_READ_AHEAD:
+                readAheadMode = mode;
+                if (readAheadWorker == null) {
+                    readAheadWorker = new Thread() {
+                        @Override
+                        public void run() {
+                            // This is intended to be interruptible and
+                            // relies on safe atomic access to worker
+                            while ((readAheadWorker == this) && readNextFile()) /*NO-OP*/ ;
+                            // when thread exits; flatten pointer if still current
+                            synchronized (TestFinderQueue.this) {
+                                if (readAheadWorker == this)
+                                    readAheadWorker = null;
+                            }
                         }
-                    }
-                };
-                readAheadWorker.setName("TestFinderQueue:Worker:" + workerIndex++);
-                readAheadWorker.setPriority(Thread.MIN_PRIORITY);
-                readAheadWorker.start();
-            }
-            break;
+                    };
+                    readAheadWorker.setName("TestFinderQueue:Worker:" + workerIndex++);
+                    readAheadWorker.setPriority(Thread.MIN_PRIORITY);
+                    readAheadWorker.start();
+                }
+                break;
 
-        default:
-            throw new IllegalArgumentException("invalid value for mode");
+            default:
+                throw new IllegalArgumentException("invalid value for mode");
         }
     }
 
@@ -469,27 +493,27 @@ public class TestFinderQueue {
      */
     private boolean needReadAhead() {
         switch (readAheadMode) {
-        case FULL_READ_AHEAD:
-            return true;
-        case MEDIUM_READ_AHEAD:
-            // return true if not many tests read yet, or if testsDoneCount
-            // is greater than a certain percentage of testsFoundCount.
-            // This percentage increases inverse exponentially on the
-            // number of tests found. The intent is to try and keep
-            // progress meters based on testsDoneCount and testsFoundCount helpful,
-            // while permitting readAhead to be done.
-            // The formula has the following datapoints:
-            // testsFoundCount: 1000   percent: 18%
-            // testsFoundCount: 10000  percent: 86%
-            if (testsFoundCount < 100)
-                // don't let tests start until at least 100 have been read
+            case FULL_READ_AHEAD:
                 return true;
-            else {
-                double percent = 1 - Math.exp(-0.0002 * testsFoundCount);
-                return testsDoneCount > (testsFoundCount * percent);
-            }
-        default:
-            return false;
+            case MEDIUM_READ_AHEAD:
+                // return true if not many tests read yet, or if testsDoneCount
+                // is greater than a certain percentage of testsFoundCount.
+                // This percentage increases inverse exponentially on the
+                // number of tests found. The intent is to try and keep
+                // progress meters based on testsDoneCount and testsFoundCount helpful,
+                // while permitting readAhead to be done.
+                // The formula has the following datapoints:
+                // testsFoundCount: 1000   percent: 18%
+                // testsFoundCount: 10000  percent: 86%
+                if (testsFoundCount < 100)
+                    // don't let tests start until at least 100 have been read
+                    return true;
+                else {
+                    double percent = 1 - Math.exp(-0.0002 * testsFoundCount);
+                    return testsDoneCount > (testsFoundCount * percent);
+                }
+            default:
+                return false;
         }
     }
 
@@ -500,8 +524,8 @@ public class TestFinderQueue {
             // have we finished reading an initial file and found no test descriptions in it?
             // if so, inform the caller
             if (currInitialFile != null
-                && testsFoundCountBeforeCurrInitialFile == testsFoundCount
-                && !zeroTestsOK) {
+                    && testsFoundCountBeforeCurrInitialFile == testsFoundCount
+                    && !zeroTestsOK) {
                 errorCount++;
                 notifier.error(i18n.getString("finder.noTests", currInitialFile));
             }
@@ -517,8 +541,7 @@ public class TestFinderQueue {
             if (filesToRead.isEmpty()) {
                 currInitialFile = null;
                 return false;
-            }
-            else
+            } else
                 testsFoundCountBeforeCurrInitialFile = testsFoundCount;
         }
 
@@ -548,8 +571,7 @@ public class TestFinderQueue {
         notifier.reading(f);
         try {
             testFinder.read(f);
-        }
-        finally {
+        } finally {
             TestDescription[] tds = testFinder.getTests();
             for (TestDescription td : tds) {
                 foundTestDescription(td);
@@ -585,6 +607,7 @@ public class TestFinderQueue {
      * It will be added to the queue if it has not already been read or is
      * on the queue waiting to be read, and if the finder is not looking for
      * a specific test in the current file.
+     *
      * @param newFile The file to be queued
      */
     private void foundFile(File newFile) {
@@ -695,7 +718,7 @@ public class TestFinderQueue {
     private int testsFoundCountBeforeCurrInitialFile;
     private boolean zeroTestsOK;
 
-    private Vector<File> filesToRead  = new Vector<>(32, 8);
+    private Vector<File> filesToRead = new Vector<>(32, 8);
     private int fileInsertPosn;
     private Queue<TestDescription> testDescsFound = new ArrayDeque<>();
     private int filesRemainingCount;
@@ -704,7 +727,7 @@ public class TestFinderQueue {
     private int testsFoundCount;
     private int errorCount;
 
-    private Map<String, File> filesFound  = new Hashtable<>();
+    private Map<String, File> filesFound = new Hashtable<>();
 
     private byte readAheadMode;
     private Thread readAheadWorker;

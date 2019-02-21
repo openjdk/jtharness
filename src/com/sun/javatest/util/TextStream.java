@@ -35,11 +35,11 @@ import java.io.OutputStream;
  * printing. It is similar to java.io.PrintStream except that it does not swallow
  * exceptions.
  */
-public class TextStream extends FilterOutputStream
-{
+public class TextStream extends FilterOutputStream {
     /**
      * Creates a new TextStream.
-     * @param out       the output stream
+     *
+     * @param out the output stream
      */
     public TextStream(OutputStream out) {
         super(out);
@@ -47,9 +47,10 @@ public class TextStream extends FilterOutputStream
 
     /**
      * Creates a new TextStream.
+     *
      * @param out       the output stream
      * @param autoflush set to true to flush the stream after each newline character
-     * is written
+     *                  is written
      */
     public TextStream(OutputStream out, boolean autoflush) {
         super(out);
@@ -58,6 +59,7 @@ public class TextStream extends FilterOutputStream
 
     /**
      * Prints a String.
+     *
      * @param s the String to be printed
      * @throws IOException if there is a problem writing to the stream
      */
@@ -67,7 +69,7 @@ public class TextStream extends FilterOutputStream
         }
 
         int len = s.length();
-        for (int i = 0 ; i < len ; i++) {
+        for (int i = 0; i < len; i++) {
             char c = s.charAt(i);
             write(c);
             if (autoflush && c == '\n')
@@ -77,6 +79,7 @@ public class TextStream extends FilterOutputStream
 
     /**
      * Prints a newline.
+     *
      * @throws IOException if there is a problem writing to the stream
      */
     public void println() throws IOException {
@@ -85,6 +88,7 @@ public class TextStream extends FilterOutputStream
 
     /**
      * Prints a string followed by a newline.
+     *
      * @param s the String to be printed
      * @throws IOException if there is a problem writing to the stream
      */

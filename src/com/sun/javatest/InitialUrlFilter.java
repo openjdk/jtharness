@@ -37,7 +37,6 @@ import com.sun.javatest.util.I18NResourceBundle;
  * based on the test suite hierarchy.
  * Comparisons of initial URLs vs. test URLs are done without respect to
  * case.
- *
  */
 public class InitialUrlFilter extends TestFilter {
     /**
@@ -47,8 +46,8 @@ public class InitialUrlFilter extends TestFilter {
      * "directory", a specific test, or to a filename which contains tests.
      *
      * @param initFiles Files which specify the tests to be accepted.  Null or
-     * zero length arrays are accepted and result in accepts() always returning
-     * true.
+     *                  zero length arrays are accepted and result in accepts() always returning
+     *                  true.
      */
     public InitialUrlFilter(File... initFiles) {
         this.initFiles = initFiles;
@@ -56,8 +55,7 @@ public class InitialUrlFilter extends TestFilter {
         // preprocess
         if (initFiles == null || initFiles.length == 0) {
             initUrls = null;
-        }
-        else {
+        } else {
             initUrls = new String[initFiles.length];
 
             // validate, make path lower case, change path sep.
@@ -82,8 +80,8 @@ public class InitialUrlFilter extends TestFilter {
      * filename which contains tests.
      *
      * @param initialUrls Paths which specify the tests to be accepted.  Null
-     * or zero length arrays are accepted and result in accepts() always
-     * returning true.
+     *                    or zero length arrays are accepted and result in accepts() always
+     *                    returning true.
      */
     public InitialUrlFilter(String... initialUrls) {
         initStrings = initialUrls;
@@ -91,8 +89,7 @@ public class InitialUrlFilter extends TestFilter {
         // preprocess, make a copy
         if (initialUrls == null || initialUrls.length == 0) {
             initUrls = null;
-        }
-        else {
+        } else {
             initUrls = new String[initialUrls.length];
             //System.arraycopy(initialUrls, 0, initUrls, 0, initialUrls.length);
             for (int i = 0; i < initialUrls.length; i++) {
@@ -123,28 +120,28 @@ public class InitialUrlFilter extends TestFilter {
      * Find out if a given URL falls under a particular initial URL.
      * This effectively compares one incoming URL to one in a set of known
      * initial URLs.
-     * @param toCheck The incoming name to check.  This might originate from a
-     *        TestDescription being filtered.
+     *
+     * @param toCheck   The incoming name to check.  This might originate from a
+     *                  TestDescription being filtered.
      * @param compareTo The known initial URL to compare the previous parameter to.
-     *        This would probably originate from a set of parameters.
+     *                  This would probably originate from a set of parameters.
      * @return True if the toCheck URL falls within the range specified by the compareTo
-     *         URL.
+     * URL.
      */
     public static boolean isInitialUrlMatch(String toCheck, String compareTo) {
         if (toCheck.equals(compareTo))  // direct match of test
             return true;
-        // a startsWith match must end on one of the delimiter characters to
-        // be a valid match.  the delim. can either be on the initial URL or
-        // test URL
-        // during a beginsWith:
-        //    - is the last char of the initUrl a delimiter?
-        //    - is the next char in the test URL a delimiter?
+            // a startsWith match must end on one of the delimiter characters to
+            // be a valid match.  the delim. can either be on the initial URL or
+            // test URL
+            // during a beginsWith:
+            //    - is the last char of the initUrl a delimiter?
+            //    - is the next char in the test URL a delimiter?
         else if (toCheck.startsWith(compareTo) &&
-                 (isDelimiter(compareTo.charAt(compareTo.length()-1)) ||
-                  isDelimiter(toCheck.charAt(compareTo.length())))) {
+                (isDelimiter(compareTo.charAt(compareTo.length() - 1)) ||
+                        isDelimiter(toCheck.charAt(compareTo.length())))) {
             return true;
-        }
-        else
+        } else
             return false;
     }
 
