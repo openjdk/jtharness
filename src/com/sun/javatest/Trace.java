@@ -120,7 +120,7 @@ class Trace implements Harness.Observer {
             WorkDirectory wd = params.getWorkDirectory();
             File traceFile = wd.getSystemFile("harness.trace");
             boolean autoFlush = Boolean.getBoolean("javatest.trace.autoflush");
-            out = new TextWriter(backupPolicy.backupAndOpenWriter(traceFile));
+            out = new TextWriter(backupPolicy.backupAndOpenWriter(traceFile), autoFlush);
             // The following output is verified.
             out.println("# Trace file started at " + new Date());
             out.println("# " + ProductInfo.getName() + " version " + ProductInfo.getVersion());
