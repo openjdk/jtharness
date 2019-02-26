@@ -54,7 +54,7 @@ public class TP_DocumentationSubpanel extends TP_Subpanel {
 
         emptyPane = uif.createPanel("test.docs.ep", new GridBagLayout(), false);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.anchor = gbc.CENTER;
+        gbc.anchor = GridBagConstraints.CENTER;
         JLabel emptyL = uif.createLabel("test.docs.el");
         emptyPane.add(emptyL, gbc);
     }

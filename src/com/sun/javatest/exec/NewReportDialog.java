@@ -758,7 +758,7 @@ class NewReportDialog extends ToolDialog {
                 }
             }
         };
-        Keymap keymap = numBak.addKeymap("intField", numBak.getKeymap());
+        Keymap keymap = JTextComponent.addKeymap("intField", numBak.getKeymap());
         keymap.setDefaultAction(action);
         numBak.setKeymap(keymap);
 

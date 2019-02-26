@@ -155,7 +155,7 @@ class QuestionLogBrowser extends ToolDialog {
             public void run() {
                 waitDialog.hide();
 
-                TextPane textPane = (TextPane) body.getMediaPane(body.TEXT);
+                TextPane textPane = (TextPane) body.getMediaPane(MultiFormatPane.TEXT);
                 textPane.showText(out.toString(), "text/html");
                 textPane.getCaret().setDot(0);
             }
@@ -209,7 +209,7 @@ class QuestionLogBrowser extends ToolDialog {
 
         try {
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
-            out.write(((JEditorPane) body.getMediaPane(body.TEXT)).getText());
+            out.write(((JEditorPane) body.getMediaPane(MultiFormatPane.TEXT)).getText());
             out.close();
         } catch (IOException e) {
             if (!file.canWrite())

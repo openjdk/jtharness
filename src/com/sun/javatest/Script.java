@@ -200,7 +200,7 @@ public abstract class Script {
         if (id != null)
             descUrl += "#" + id;
         testResult.putProperty(TestResult.DESCRIPTION, descUrl);
-        testResult.putProperty(TestResult.START, testResult.formatDate(new Date()));
+        testResult.putProperty(TestResult.START, TestResult.formatDate(new Date()));
         testResult.putProperty(TestResult.VERSION, ProductInfo.getDetailedVersion());
         testResult.putProperty(TestResult.WORK, testWork.getAbsolutePath());
         testResult.putProperty(TestResult.ENVIRONMENT, env.getName());
@@ -261,7 +261,7 @@ public abstract class Script {
                 execStatus = Status.error(i18n.getString("script.interrupted"));
 
             testResult.putProperty(TestResult.END,
-                    testResult.formatDate(new Date()));
+                    TestResult.formatDate(new Date()));
 
             if (execStatus == null) {
                 execStatus = Status.error(i18n.getString("script.noStatus"));

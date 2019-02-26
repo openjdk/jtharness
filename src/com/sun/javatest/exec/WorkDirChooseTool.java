@@ -39,6 +39,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
@@ -559,7 +560,7 @@ public class WorkDirChooseTool extends JDialog {
     private boolean wdWithoutTemplatePermitted(WorkDirectory wd) {
         String wdTmpl = TemplateUtilities.getTemplatePath(wd);
         FeatureManager fm = em.getContextManager().getFeatureManager();
-        if (!fm.isEnabled(fm.WD_WITHOUT_TEMPLATE) && wdTmpl == null) {
+        if (!fm.isEnabled(FeatureManager.WD_WITHOUT_TEMPLATE) && wdTmpl == null) {
             return false;
         }
         return true;
@@ -706,7 +707,7 @@ public class WorkDirChooseTool extends JDialog {
         fileTable.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == e.VK_ENTER) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (fileTable.getSelectedRow() != -1) {
                         FileSystemTableModel model = (FileSystemTableModel) fileTable.getModel();
                         File selected = model.getNode(fileTable.getSelectedRow());
@@ -738,9 +739,9 @@ public class WorkDirChooseTool extends JDialog {
                         }
                     }
 
-                } else if ((e.getModifiersEx() & e.CTRL_DOWN_MASK) != 0) {
+                } else if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
                     return;
-                } else if ((e.getModifiersEx() & e.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == e.VK_TAB) {
+                } else if ((e.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_TAB) {
                     int i = fileTable.getSelectedRow();
                     if (i == -1)
                         return;
@@ -751,7 +752,7 @@ public class WorkDirChooseTool extends JDialog {
                     fileTable.setRowSelectionInterval(i, i);
                     e.consume();
                     fileTable.scrollRectToVisible(fileTable.getCellRect(i, 0, true));
-                } else if (e.getKeyCode() == e.VK_TAB) {
+                } else if (e.getKeyCode() == KeyEvent.VK_TAB) {
                     int i = fileTable.getSelectedRow();
                     if (i == -1)
                         return;

@@ -173,7 +173,7 @@ public class HttpdServer implements Runnable {
         RootRegistry.getInstance().addHandler("/", "Root JT Harness URL", prov);
 
         HttpdServer server = new HttpdServer();
-        server.debug = true;
+        debug = true;
 
         Thread thr = new Thread(server);
         thr.start();

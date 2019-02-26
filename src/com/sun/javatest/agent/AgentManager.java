@@ -225,7 +225,7 @@ public class AgentManager {
                 }
 
                 try {
-                    Thread.currentThread().sleep(5000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException ignore) {
                 }
             }

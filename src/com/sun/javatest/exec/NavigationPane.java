@@ -131,11 +131,11 @@ public class NavigationPane extends JPanel {
         c.gridy = 0;
 
         JLabel fileLbl = uif.createLabel("np.file", true);
-        fileLbl.setFont(new Font(Font.MONOSPACED, uif.getBaseFont().getStyle(), uif.getBaseFont().getSize()));
+        fileLbl.setFont(new Font(Font.MONOSPACED, UIFactory.getBaseFont().getStyle(), UIFactory.getBaseFont().getSize()));
         add(fileLbl, c);
 
         selectBox = uif.createChoice("np.choice", fileLbl);
-        selectBox.setFont(new Font(Font.MONOSPACED, uif.getBaseFont().getStyle(), uif.getBaseFont().getSize()));
+        selectBox.setFont(new Font(Font.MONOSPACED, UIFactory.getBaseFont().getStyle(), UIFactory.getBaseFont().getSize()));
         selectBox.setRenderer(new Renderer(selectBox));
         selectBox.setModel(createModel());
         selectBox.addItemListener(listener);

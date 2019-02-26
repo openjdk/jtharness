@@ -363,7 +363,7 @@ public class Agent implements Runnable {
 
         // wait 3s for shutdown
         traceOut.println("WAITING 3s FOR THREADS TO CLEANUP");
-        Thread.currentThread().sleep(3000);
+        Thread.sleep(3000);
 
         // close any tasks that are running
         for (int i = 0; i < tasks.size(); i++) {
@@ -450,7 +450,7 @@ public class Agent implements Runnable {
                     return;
                 } else {
                     int millis = MILLIS_PER_SECOND * min(5, getRetryDelay());
-                    Thread.currentThread().sleep(millis);
+                    Thread.sleep(millis);
                     continue;
                 }
             }

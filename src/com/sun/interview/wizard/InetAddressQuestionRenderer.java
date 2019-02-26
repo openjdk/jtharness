@@ -50,6 +50,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.Keymap;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -100,7 +101,7 @@ public class InetAddressQuestionRenderer
             field.setName("inet." + i);
             field.setToolTipText(i18n.getString("inet.field.tip", Integer.valueOf(i)));
             field.getDocument().addDocumentListener(new ActionDocListener(field, listener, EDITED));
-            Keymap keymap = field.addKeymap("IP field", field.getKeymap());
+            Keymap keymap = JTextComponent.addKeymap("IP field", field.getKeymap());
             //keymap.addActionForKeyStroke(enterKey, enterListener);
             keymap.setDefaultAction(createKeyMapAction());
             field.setKeymap(keymap);

@@ -808,7 +808,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
                     if (currTests[i] != null) {
                         //System.out.println("** Removing test " + currTests[i].getTestName());
                         if (rmChild(currTests[i]) != -1) {
-                            table.notifyRemoveLeaf(table.getObjectPath(this), currTests[i], i);
+                            table.notifyRemoveLeaf(TestResultTable.getObjectPath(this), currTests[i], i);
                         }
                     }
             }
@@ -888,7 +888,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
                 notifyInsBranch(newNode, thisIndex);
 
                 // need to generate modified path for observer msg
-                TreeNode[] fullPath = table.getObjectPath(newNode);
+                TreeNode[] fullPath = TestResultTable.getObjectPath(newNode);
                 TRT_TreeNode[] modPath = new TRT_TreeNode[fullPath.length - 1];
                 System.arraycopy(fullPath, 0, modPath, 0, fullPath.length - 1);
                 table.notifyNewBranch(modPath, newNode, thisIndex);
@@ -951,7 +951,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
                 table.update(newTr, false);
                 if (debug > 1)
                     System.out.println("New test added");
-                TreeNode[] pathToHere = table.getObjectPath(this);
+                TreeNode[] pathToHere = TestResultTable.getObjectPath(this);
                 int index = getTestIndex(newTr, false);
 
                 if (tr == null)

@@ -43,6 +43,7 @@ import com.sun.interview.ChoiceArrayQuestion;
 import com.sun.interview.Question;
 
 import java.awt.Component;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -183,7 +184,7 @@ public class ChoiceArrayQuestionRenderer
 
         @Override
         public void keyPressed(KeyEvent e) {
-            if ((e.getModifiersEx() & e.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == e.VK_A) {
+            if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_A) {
                 boolean allSelected = true;
                 for (int i = 0; i < tm.getRowCount(); i++) {
                     if (tm.getValueAt(i, 0).equals(new Boolean(false))) {

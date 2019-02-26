@@ -79,7 +79,7 @@ class FilesPane extends JPanel implements Printable {
     }
 
     String getText() {
-        return ((JEditorPane) mediaPane.getMediaPane(mediaPane.TEXT)).getText();
+        return ((JEditorPane) mediaPane.getMediaPane(MultiFormatPane.TEXT)).getText();
     }
 
     void setFile(URL file) {

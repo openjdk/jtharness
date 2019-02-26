@@ -524,7 +524,7 @@ public class ServiceManager implements Harness.Observer {
                 write(outs, sOuts);
                 write(errs, sErrs);
                 try {
-                    Thread.currentThread().sleep(1000);
+                    sleep(1000);
                 } catch (InterruptedException ex) {
                 }
             }
@@ -646,7 +646,7 @@ public class ServiceManager implements Harness.Observer {
                     }
                 }
                 try {
-                    Thread.currentThread().sleep(1000);
+                    sleep(1000);
                 } catch (InterruptedException ex) {
                 }
             }

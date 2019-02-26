@@ -55,7 +55,7 @@ public class BP_DocumentationSubpanel extends BP_BranchSubpanel {
 
         emptyPane = uif.createPanel("br.ds.ep", new GridBagLayout(), false);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.anchor = gbc.CENTER;
+        gbc.anchor = GridBagConstraints.CENTER;
         JLabel emptyL = uif.createLabel("br.ds.el");
         emptyPane.add(emptyL, gbc);
     }

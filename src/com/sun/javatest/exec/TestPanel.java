@@ -199,7 +199,7 @@ class TestPanel extends JPanel {
             }
 
             FeatureManager fm = contextManager.getFeatureManager();
-            if (fm.isEnabled(fm.SHOW_DOCS_FOR_TEST)) {
+            if (fm.isEnabled(FeatureManager.SHOW_DOCS_FOR_TEST)) {
                 if (docPanel.isUpdateRequired(currTest)) {
                     docPanel.updateSubpanel(currTest);
                 }
@@ -249,7 +249,7 @@ class TestPanel extends JPanel {
         vpanels.add(descPanel);
 
         FeatureManager fm = contextManager.getFeatureManager();
-        if (fm.isEnabled(fm.SHOW_DOCS_FOR_TEST)) {
+        if (fm.isEnabled(FeatureManager.SHOW_DOCS_FOR_TEST)) {
             docPanel = new TP_DocumentationSubpanel(uif);
             vpanels.add(docPanel);
         }

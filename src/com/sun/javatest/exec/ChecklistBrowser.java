@@ -137,7 +137,7 @@ class ChecklistBrowser extends ToolDialog {
         out.write("</body></html>");
         out.close();
 
-        TextPane pane = (TextPane) body.getMediaPane(body.TEXT);
+        TextPane pane = (TextPane) body.getMediaPane(MultiFormatPane.TEXT);
         pane.showText(out.toString(), "text/html");
         pane.getCaret().setDot(0);
     }
@@ -233,7 +233,7 @@ class ChecklistBrowser extends ToolDialog {
 
         try (Writer fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
              Writer out = new BufferedWriter(fw)) {
-            TextPane pane = (TextPane) body.getMediaPane(body.TEXT);
+            TextPane pane = (TextPane) body.getMediaPane(MultiFormatPane.TEXT);
             out.write(pane.getText());
         } catch (IOException e) {
             if (!file.canWrite())

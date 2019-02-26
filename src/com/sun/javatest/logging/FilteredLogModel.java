@@ -261,7 +261,7 @@ public class FilteredLogModel extends LogModel {
                 if (!jobDone()) {
                     try {
                         if (debug) System.out.println("Worker - 2 All parent records read, sleep 500");
-                        Thread.currentThread().sleep(500);
+                        sleep(500);
                         stable = true;
                         if (stopFlag) {
                             return;

@@ -812,7 +812,7 @@ public class TestResultCache {
 
             // sleep for a bit before retrying to avoid busy waiting
             try {
-                Thread.currentThread().sleep(retryDelay);
+                Thread.sleep(retryDelay);
             } catch (InterruptedException e) {
                 // ignore
             }

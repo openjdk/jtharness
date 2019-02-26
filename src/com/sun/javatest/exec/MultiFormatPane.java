@@ -558,7 +558,7 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
         setName("text");
         setEditable(false);
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        setFont(new Font(Font.MONOSPACED, uif.getBaseFont().getStyle(), uif.getBaseFont().getSize()));
+        setFont(new Font(Font.MONOSPACED, UIFactory.getBaseFont().getStyle(), UIFactory.getBaseFont().getSize()));
 
         uif.setAccessibleInfo(this, uiKey);
 
@@ -980,7 +980,7 @@ class ErrorFormatPane extends JPanel implements MultiFormatPane.MediaPane {
 
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.anchor = gbc.CENTER;
+        gbc.anchor = GridBagConstraints.CENTER;
         errorLabel = uif.createLabel("mfp.errorPaneLbl", true);
         add(errorLabel, gbc);
 
