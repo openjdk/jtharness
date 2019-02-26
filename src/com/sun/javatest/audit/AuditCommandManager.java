@@ -54,8 +54,7 @@ public class AuditCommandManager extends CommandManager {
     //----------------------------------------------------------------------------
 
     @Override
-    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
-            throws Command.Fault {
+    public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx) {
         if (cmd.equalsIgnoreCase(AuditCommand.getName())) {
             ctx.addCommand(new AuditCommand(argIter));
             return true;

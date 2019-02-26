@@ -368,14 +368,12 @@ public class Harness {
      * @return true if and only if all the selected tests were executed successfully, and all passed
      * @throws Harness.Fault        if the harness is currently running tests
      *                              and cannot start running any more tests right now.
-     * @throws InterruptedException if the thread making the call is
-     *                              interrupted, perhaps because of an asynchronous call of stop().
      * @see #isRunning
      * @see #stop
      * @see #waitUntilDone
      */
     public boolean batch(Parameters params)
-            throws Fault, InterruptedException {
+            throws Fault {
         isBatchRun = true;
         // allow full read-ahead by default now - as of 3.2.1
         // this allows the not run field of verbose mode to work

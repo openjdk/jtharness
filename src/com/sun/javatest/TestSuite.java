@@ -476,10 +476,8 @@ public class TestSuite {
      * down, etc).
      *
      * @param harness The harness that will be used to run the tests.
-     * @throws TestSuite.Fault if an error occurred while doing test suite-specific
-     *                         initialization that should cause the test run to be aborted.
      */
-    public void starting(Harness harness) throws Fault {
+    public void starting(Harness harness) {
         if (getServiceManager() != null) {
             serviceManager.setHarness(harness);
         }
@@ -803,12 +801,10 @@ public class TestSuite {
      *
      * @return A configuration interview to collect the configuration data for a test run.
      * null if specified file is not template
-     * @throws TestSuite.Fault if a problem occurs while creating the interview
-     *                         IOException if a problem occurs while reading a template file
      */
     public InterviewParameters loadInterviewFromTemplate(File template,
                                                          InterviewParameters ip)
-            throws Fault, IOException {
+            throws IOException {
         try (InputStream in = new BufferedInputStream(new FileInputStream(template))) {
             Map<String, String> stringProps = PropertyUtils.load(in);
             String tm = stringProps.get(InterviewParameters.IS_TEMPLATE);

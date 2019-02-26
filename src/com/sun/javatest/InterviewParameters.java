@@ -1104,7 +1104,7 @@ public abstract class InterviewParameters
                 try {
                     wd.getTestSuite().loadInterviewFromTemplate(
                             TemplateUtilities.getTemplateFile(wd), this);
-                } catch (TestSuite.Fault | IOException ex) {
+                } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }

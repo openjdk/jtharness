@@ -147,7 +147,7 @@ class LogViewerTools extends Thread {
         }
     }
 
-    private void outRecord(LogModel.LiteLogRecord llr) throws SAXException, IOException {
+    private void outRecord(LogModel.LiteLogRecord llr) throws SAXException {
         String msg = model.getRecordMessage(llr);
         AttributesImpl atts = new AttributesImpl();
         atts.addAttribute("", "", "Logger", "String", model.getLogname(llr.loggerID));

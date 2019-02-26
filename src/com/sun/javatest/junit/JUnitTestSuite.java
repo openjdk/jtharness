@@ -38,7 +38,7 @@ import java.net.URL;
  * Basic implementation of a test suite for JUnit tests.
  */
 public class JUnitTestSuite extends TestSuite {
-    public JUnitTestSuite(File root, Map<String, String> props, ClassLoader loader) throws TestSuite.Fault {
+    public JUnitTestSuite(File root, Map<String, String> props, ClassLoader loader) {
         super(root, props, loader);
         try {
             if (getTestsDir() != null)

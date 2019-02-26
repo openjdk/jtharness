@@ -736,7 +736,7 @@ public class ExcludeList {
             return ch == ' ' || ch == '\t';
         }
 
-        private String readURL() throws IOException, Fault {
+        private String readURL() throws IOException {
             // skip white space, comments and blank lines until a word is found
             for (; ; ) {
                 skipWhite();

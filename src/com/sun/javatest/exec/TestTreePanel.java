@@ -533,10 +533,10 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                 wd.purge(aFinalList);
                             }
                         } // try
-                        catch (WorkDirectory.PurgeFault f) {
+                        catch (Throwable throwable) {
                             // print something in log...
                             I18NResourceBundle i18n = uif.getI18NResourceBundle();
-                            wd.log(i18n, "treep.purgeFail.err", f);
+                            wd.log(i18n, "treep.purgeFail.err", throwable);
                         } // catch
                         finally {
                             // fixup GUI on GUI thread

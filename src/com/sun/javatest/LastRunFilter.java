@@ -142,7 +142,7 @@ public class LastRunFilter extends ObservableTestFilter {
     }
 
     @Override
-    public boolean accepts(TestDescription td) throws Fault {
+    public boolean accepts(TestDescription td) {
         return accepts(td, null);
     }
 

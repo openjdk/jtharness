@@ -226,12 +226,11 @@ public class Main {
      *             command-line help, version info etc. Some error messages will
      *             still be sent to System.err.
      * @throws Main.Fault           if there is a problem initializing the harness
-     * @throws Command.Fault        if there is a problem with a command's arguments
      * @throws CommandContext.Fault if there is a problem executing a command
      * @throws CommandParser.Fault  if there is a problem parsing the args
      */
     public final void run(String[] args, PrintWriter out)
-            throws Fault, Command.Fault, CommandContext.Fault, CommandParser.Fault {
+            throws Fault, CommandContext.Fault, CommandParser.Fault {
         run(args, new CommandContext(out));
     }
 

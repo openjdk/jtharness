@@ -136,8 +136,6 @@ class RunTestsCommand extends Command {
             ctx.addTestStats(stats);
         } catch (Harness.Fault e) {
             throw new Fault(i18n, "runTests.harnessError", e.getMessage());
-        } catch (InterruptedException e) {
-            throw new Fault(i18n, "runTests.interrupted");
         }
     }
 

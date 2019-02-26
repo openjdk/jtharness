@@ -41,7 +41,7 @@ import java.util.logging.Logger;
 public class COFReport implements ReportFormat {
 
     @Override
-    public ReportLink write(ReportSettings s, File dir) throws IOException {
+    public ReportLink write(ReportSettings s, File dir) {
         COFData data = new COFData();
         data.setInterviewParameters(s.getInterview());
 

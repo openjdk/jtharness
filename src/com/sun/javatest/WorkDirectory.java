@@ -250,13 +250,11 @@ public class WorkDirectory {
      *                                                instead.
      * @throws WorkDirectory.BadDirectoryFault        is there was a problem creating
      *                                                the work directory.
-     * @throws WorkDirectory.InitializationFault      if there are unrecoverable problems encountered
-     *                                                while reading the data present in the work directory
      * @see #convert
      * @see #open
      */
     public static WorkDirectory create(File dir, TestSuite ts)
-            throws BadDirectoryFault, WorkDirectoryExistsFault, InitializationFault {
+            throws BadDirectoryFault, WorkDirectoryExistsFault {
         //System.err.println("WD.create: " + dir);
         return createOrConvert(dir, ts, true);
     }
@@ -275,14 +273,12 @@ public class WorkDirectory {
      *                                                instead.
      * @throws WorkDirectory.BadDirectoryFault        is there was a problem creating
      *                                                the work directory.
-     * @throws WorkDirectory.InitializationFault      if there are unrecoverable problems encountered
-     *                                                while reading the data present in the work directory
      * @see #create
      * @see #open
      */
     public static WorkDirectory convert(File dir, TestSuite ts)
             throws BadDirectoryFault, WorkDirectoryExistsFault,
-            FileNotFoundException, InitializationFault {
+            FileNotFoundException {
         if (!dir.exists())
             throw new FileNotFoundException(dir.getPath());
         return createOrConvert(dir, ts, false);
@@ -1028,11 +1024,8 @@ public class WorkDirectory {
      * complete for some reason.  Most failures to purge will be
      * announced by Faults.  A null parameter will result in
      * false.
-     * @throws WorkDirectory.PurgeFault If the file cannot be removed; the message field
-     *                                  may not contain any useful information due to deficiencies in
-     *                                  java.io.File.delete()..
      */
-    public boolean purge(String path) throws PurgeFault {
+    public boolean purge(String path) {
         if (path == null)
             return false;
 

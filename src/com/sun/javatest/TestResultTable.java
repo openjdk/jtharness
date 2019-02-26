@@ -1329,7 +1329,7 @@ public class TestResultTable {
         }
     }
 
-    public synchronized boolean prune() throws Fault {
+    public synchronized boolean prune() {
         if (root == null)
             return false;
 

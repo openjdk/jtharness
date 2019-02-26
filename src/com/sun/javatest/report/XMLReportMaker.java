@@ -404,7 +404,7 @@ public class XMLReportMaker {
         eE(Scheme.SE);
     }
 
-    void sOutput(String title, String content) throws SAXException, IOException {
+    void sOutput(String title, String content) throws SAXException {
         AttributesImpl atts = new AttributesImpl();
         atts.addAttribute("", "", Scheme.OU_TIT, "String", title);
         sE(Scheme.OU, atts);

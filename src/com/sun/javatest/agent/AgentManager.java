@@ -160,9 +160,8 @@ public class AgentManager {
      *
      * @param c The connection to use to communicate with the agent.
      * @return a task object that can be used to initiate work on an agent
-     * @throws IOException if a problem occurs establishing the connection
      */
-    public Task connect(Connection c) throws IOException {
+    public Task connect(Connection c) {
         return new Task(c);
     }
 

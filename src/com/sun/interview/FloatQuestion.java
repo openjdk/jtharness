@@ -232,14 +232,12 @@ public abstract class FloatQuestion extends Question {
      *          The number should be in the range of valid values defined for
      *          this question; if it is not, the value will be retained,
      *          but isValueValid() will return false.
-     * @throws Interview.Fault This exception is just retained for backwards
-     *                         compatibility; it should never actually be thrown.
      * @see #getValue
      * @see #getValue()
      * @see #setValue(String, Locale)
      */
     @Override
-    public void setValue(String s) throws Interview.Fault {
+    public void setValue(String s) {
         setValue(s, Locale.getDefault());
     }
 

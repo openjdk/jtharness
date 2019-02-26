@@ -45,7 +45,7 @@ public class CustomReportFormat implements ReportFormat {
     }
 
     @Override
-    public ReportLink write(ReportSettings s, File dir) throws IOException {
+    public ReportLink write(ReportSettings s, File dir) {
         if (theCustomReport != null) {
             File f = theCustomReport.createReport(dir);
             return new ReportLink(theCustomReport.getName(), theCustomReport.getReportId(),

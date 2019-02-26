@@ -752,7 +752,7 @@ public class CommandContext {
                                     config = tConfig;
                                 }
                             }
-                        } catch (IOException | TestSuite.Fault e) {
+                        } catch (IOException e) {
                             // ignore
                         }
                     }   // if

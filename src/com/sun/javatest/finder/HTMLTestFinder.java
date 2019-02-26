@@ -357,7 +357,7 @@ public class HTMLTestFinder extends TestFinder {
         }
     }
 
-    private void endTableRow() throws IOException {
+    private void endTableRow() {
         if (params != null && tableRow != null) {
             // ensure any outstanding <td> is closed
             endTableData();

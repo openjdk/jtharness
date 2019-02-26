@@ -237,10 +237,8 @@ public class AgentMain {
      *
      * @param args the array of command line options
      * @throws AgentMain.BadArgs if a problem is found decoding the args
-     * @throws AgentMain.Fault   if the args can be decoded successfully but
-     *                           if there is a problem in their interpretation (e.g invalid port number)
      */
-    protected void decodeAllArgs(String... args) throws BadArgs, Fault {
+    protected void decodeAllArgs(String... args) throws BadArgs {
         int i = 0;
         while (i < args.length) {
             int used = decodeArg(args, i);
