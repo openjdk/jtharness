@@ -398,6 +398,8 @@ public abstract class Question {
      *
      * @param s A string containing a value value appropriate for the
      *          particular type of question whose value is being set.
+     * @throws Interview.Fault retained for compatibility;
+     *                         should not be thrown
      * @see #getStringValue
      */
     public abstract void setValue(String s) throws Interview.Fault;
