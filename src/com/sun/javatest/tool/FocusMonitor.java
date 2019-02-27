@@ -531,7 +531,7 @@ class FocusMonitor {
         boolean enabled;
     }
 
-    private class SummaryPanel extends JPanel {
+    private static class SummaryPanel extends JPanel {
         SummaryPanel() {
             setName("summary");
             setLayout(new GridBagLayout());
@@ -589,7 +589,7 @@ class FocusMonitor {
         private Entry type;
     }
 
-    private class DetailPanel extends SummaryPanel {
+    private static class DetailPanel extends SummaryPanel {
         DetailPanel() {
             // is accessible
             add(accName = new Entry("acc. name"));
