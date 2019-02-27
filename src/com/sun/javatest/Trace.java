@@ -28,6 +28,8 @@ package com.sun.javatest;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.sun.javatest.util.BackupPolicy;
@@ -120,9 +122,11 @@ class Trace implements Harness.Observer {
             WorkDirectory wd = params.getWorkDirectory();
             File traceFile = wd.getSystemFile("harness.trace");
             boolean autoFlush = Boolean.getBoolean("javatest.trace.autoflush");
+            String timeStampSysProp = System.getProperty("javatest.trace.timestamp");
+            useTimestamp = (timeStampSysProp == null) ? true : Boolean.parseBoolean(timeStampSysProp);
             out = new TextWriter(backupPolicy.backupAndOpenWriter(traceFile), autoFlush);
             // The following output is verified.
-            out.println("# Trace file started at " + new Date());
+            out.println("# Trace file started at " + timeStamp());
             out.println("# " + ProductInfo.getName() + " version " + ProductInfo.getVersion());
             out.println("# class directory: " + Harness.getClassDir());
             out.println("# using java: " + System.getProperty("java.home"));
@@ -159,7 +163,7 @@ class Trace implements Harness.Observer {
 
     private void printLocalizedLn(String msg) {
         try {
-            out.println(msg);
+            out.println(useTimestamp ? timeStamp() + " " + msg : msg);
             out.flush();
         } catch (IOException e) {
             System.err.println("Exception occurred writing to trace file");
@@ -168,11 +172,17 @@ class Trace implements Harness.Observer {
         }
     }
 
+    private String timeStamp() {
+        return TIMESTAMP_FORMAT.format(new Date());
+    }
+
     //------private data-----------------------------------------------------------
 
-    TextWriter out;
-    File reportDir;
-    BackupPolicy backupPolicy;
+    private TextWriter out;
+    private File reportDir;
+    private BackupPolicy backupPolicy;
+    private boolean useTimestamp;
 
+    private static final Format TIMESTAMP_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Trace.class);
 }
