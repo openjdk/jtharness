@@ -404,7 +404,7 @@ class ReportTool extends Tool {
 
     }
 
-    class MostRecentConfilctResolver implements ConflictResolver {
+    static class MostRecentConfilctResolver implements ConflictResolver {
 
         @Override
         public int resolve(String testUrl, TestResultDescr... descrs) {

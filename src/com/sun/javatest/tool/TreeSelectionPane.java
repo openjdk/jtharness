@@ -124,7 +124,7 @@ public class TreeSelectionPane extends JComponent implements Accessible {
         add(sp);
     }
 
-    protected class SelectNode implements SelectionElement {
+    protected static class SelectNode implements SelectionElement {
         private SelectionType type = SelectionType.UNSELECTED;
         private Object object;
         private LinkedList<SelectionElement> children;

@@ -229,7 +229,7 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
         return;
     }
 
-    class JUnitAnnotationMethodVisitor extends MethodVisitor {
+    static class JUnitAnnotationMethodVisitor extends MethodVisitor {
         private JUnitAnnotationTestFinder outer;
 
         public JUnitAnnotationMethodVisitor(JUnitAnnotationTestFinder outer) {

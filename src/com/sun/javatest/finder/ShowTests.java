@@ -46,7 +46,7 @@ public class ShowTests {
     /**
      * This exception is used to report bad command line arguments.
      */
-    public class BadArgs extends Exception {
+    public static class BadArgs extends Exception {
         /**
          * Create a BadArgs exception.
          *
@@ -61,7 +61,7 @@ public class ShowTests {
      * This exception is used to report problems that occur while running.
      */
 
-    public class Fault extends Exception {
+    public static class Fault extends Exception {
         /**
          * Create a Fault exception.
          *

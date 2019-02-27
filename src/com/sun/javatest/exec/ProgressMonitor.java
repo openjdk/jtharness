@@ -264,7 +264,7 @@ class ProgressMonitor extends ToolDialog {
         private Timer timer;
     }
 
-    private abstract class StatusSubpanel extends JPanel {
+    private abstract static class StatusSubpanel extends JPanel {
         /**
          * Refresh any data in this subpanel.
          * This method is always called on the event dispatch thread.

@@ -51,7 +51,7 @@ import java.util.Vector;
  */
 
 class Folder extends Panel implements ItemSelectable {
-    private class Entry {
+    private static class Entry {
         Entry(Component comp, String name, Color color, boolean visibleTab) {
             this.comp = comp;
             this.name = name;
@@ -65,7 +65,7 @@ class Folder extends Panel implements ItemSelectable {
         boolean visibleTab;
     }
 
-    private class Layout extends CardLayout {
+    private static class Layout extends CardLayout {
         @Override
         public Dimension minimumLayoutSize(Container parent) {
             Dimension size = super.minimumLayoutSize(parent);

@@ -51,7 +51,7 @@ public abstract class InstantiationClassLoader extends ClassLoader {
     /**
      * This exception is thrown when the ClassLoader object could not create a new instance
      */
-    public class InstantiationStateException extends Exception {
+    public static class InstantiationStateException extends Exception {
         public InstantiationStateException(String msg) {
             super(msg);
         }

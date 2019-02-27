@@ -122,7 +122,7 @@ public class JTHelpBroker implements HelpBroker {
         }
     }
 
-    class ProgressTask extends SwingWorker<Void, Void> {
+    static class ProgressTask extends SwingWorker<Void, Void> {
         @Override
         public Void doInBackground() {
             try {

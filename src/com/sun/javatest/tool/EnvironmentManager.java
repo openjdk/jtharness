@@ -90,7 +90,7 @@ public class EnvironmentManager extends CommandManager {
 
     //--------------------------------------------------------------------------
 
-    private class ENameValueCommand extends Command {
+    private static class ENameValueCommand extends Command {
         ENameValueCommand(String name, String value) {
             super("E" + name + "=" + value);
             this.name = name;
@@ -110,7 +110,7 @@ public class EnvironmentManager extends CommandManager {
 
     //--------------------------------------------------------------------------
 
-    private class ESysPropsCommand extends Command {
+    private static class ESysPropsCommand extends Command {
         ESysPropsCommand() {
             super("EsysProps");
         }

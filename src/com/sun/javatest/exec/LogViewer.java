@@ -956,7 +956,7 @@ class LogViewer extends ToolDialog {
         }
     }
 
-    private class CheckBoxEditor extends DefaultTreeCellEditor {
+    private static class CheckBoxEditor extends DefaultTreeCellEditor {
         CheckBoxEditor(JTree tree) {
             super(tree, new DefaultTreeCellRenderer());
         }
@@ -1017,7 +1017,7 @@ class LogViewer extends ToolDialog {
     }
 
 
-    private class CustomRenderer extends JComponent
+    private static class CustomRenderer extends JComponent
             implements ListCellRenderer<Object> {
         @Override
         public Component getListCellRendererComponent(
@@ -1139,7 +1139,7 @@ class LogViewer extends ToolDialog {
     }
 
 
-    private class FilterTreeItem extends JCheckBox {
+    private static class FilterTreeItem extends JCheckBox {
         public FilterTreeItem(String logName, int level, String levelName) {
             super(levelName);
             this.logName = logName;
@@ -1150,7 +1150,7 @@ class LogViewer extends ToolDialog {
         int level;
     }
 
-    private class FilterComboboxItem {
+    private static class FilterComboboxItem {
 
         public FilterComboboxItem(String txt, Level l) {
             label = txt;

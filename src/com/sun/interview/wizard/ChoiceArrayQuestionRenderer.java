@@ -177,7 +177,7 @@ public class ChoiceArrayQuestionRenderer
         return new TestKeyListener(tm);
     }
 
-    protected class TestKeyListener extends KeyAdapter {
+    protected static class TestKeyListener extends KeyAdapter {
         public TestKeyListener(AbstractTableModel tm) {
             this.tm = tm;
         }

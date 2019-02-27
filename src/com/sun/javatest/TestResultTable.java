@@ -1441,7 +1441,7 @@ public class TestResultTable {
         return finder.lastModified(f);
     }
 
-    private class DisassembledUrl {
+    private static class DisassembledUrl {
         private String[] data;
         private String initStr;
 
@@ -2167,7 +2167,7 @@ public class TestResultTable {
      * Inner class, which specifies methods to work with set of TestDescriptions,
      * which need to be updated after cache will finish his work.
      */
-    private class RequestsToCache {
+    private static class RequestsToCache {
         private HashSet<TestDescription> needUpdateFromCache;
 
         public synchronized void addToUpdateFromCache(TestDescription td) {
@@ -2768,7 +2768,7 @@ public class TestResultTable {
      * TreeNodes plus zero or one TestResult can be represented without using a
      * Object[].
      */
-    public class PathRecord {
+    public static class PathRecord {
         PathRecord() {
         }
 

@@ -194,7 +194,7 @@ public class ConflictResolutionDialog extends JDialog {
         return cancel;
     }
 
-    class CancelException extends Exception {
+    static class CancelException extends Exception {
 
     }
 

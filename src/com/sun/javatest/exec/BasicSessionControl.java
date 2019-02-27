@@ -1139,7 +1139,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     /**
      * Event to be sent out when Editor become visible/invisible
      */
-    protected class E_EditorVisibility implements Event {
+    protected static class E_EditorVisibility implements Event {
         public final boolean isVisible;
         public final InterviewEditor source;
 

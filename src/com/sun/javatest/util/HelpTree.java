@@ -171,7 +171,7 @@ public class HelpTree {
      *
      * @see HelpTree#find
      */
-    public class Selection {
+    public static class Selection {
         private Selection(Node node) {
             this(node, null);
         }

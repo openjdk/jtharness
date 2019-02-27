@@ -1008,7 +1008,7 @@ public class Wizard extends JComponent {
             {"findNext", "performFindNext", "F3"},
     };
 
-    private class ExtensionFileFilter extends FileFilter {
+    private static class ExtensionFileFilter extends FileFilter {
         ExtensionFileFilter(String extn) {
             this.extns = new String[]{extn};
         }

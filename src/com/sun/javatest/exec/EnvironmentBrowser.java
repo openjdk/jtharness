@@ -213,7 +213,7 @@ class EnvironmentBrowser extends ToolDialog {
         }
     }
 
-    private class EnvEntryComparator implements Comparator<TestEnvironment.Element> {
+    private static class EnvEntryComparator implements Comparator<TestEnvironment.Element> {
         EnvEntryComparator(int sortMode, String... inherits) {
             this.sortMode = sortMode;
             this.inherits = inherits;

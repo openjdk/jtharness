@@ -824,7 +824,7 @@ public class TestResult {
         }
     }
 
-    private class LockedWriter extends PrintWriter {
+    private static class LockedWriter extends PrintWriter {
         public LockedWriter(Writer out, Object theLock) {
             super(out);
             lock = theLock;

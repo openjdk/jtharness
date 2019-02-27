@@ -56,7 +56,7 @@ public class Timer {
      * Entry objects are returned as the result calling
      * requestDelayedCallback on a timer; they may be used to cancel the request.
      */
-    public class Entry {
+    public static class Entry {
         Entry(Timeable obj, long expiration) {
             this.obj = obj;
             this.expiration = expiration;

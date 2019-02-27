@@ -474,7 +474,7 @@ class BrowserPane extends JPanel {
 
     //------------------------------------------------------------------------------------
 
-    private class History {
+    private static class History {
         boolean hasPrev() {
             return index > 0;
         }

@@ -1480,7 +1480,7 @@ class NewReportDialog extends ToolDialog {
     /*
      * PropertyChangeListener for enabling/disabling container's content
      */
-    private class PanelEnableListener implements PropertyChangeListener {
+    private static class PanelEnableListener implements PropertyChangeListener {
         /**
          * @param container Container for controlling
          */
@@ -1535,7 +1535,7 @@ class NewReportDialog extends ToolDialog {
         private HashSet<Component> enabledComp;
     }
 
-    private class CheckBoxListCellRenderer implements ListCellRenderer<JComponent> {
+    private static class CheckBoxListCellRenderer implements ListCellRenderer<JComponent> {
         @Override
         public Component getListCellRendererComponent(
                 JList<? extends JComponent> list,

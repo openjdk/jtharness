@@ -409,7 +409,7 @@ class OptionsPane extends JPanel {
     /*
      * PropertyChangeListener for enabling/disabling container's content
      */
-    private class PanelEnableListener implements PropertyChangeListener {
+    private static class PanelEnableListener implements PropertyChangeListener {
         /**
          * @param container Container for controlling
          */
@@ -470,7 +470,7 @@ class OptionsPane extends JPanel {
         private Set<Component> enabledComp;
     }
 
-    private class CheckBoxListCellRenderer implements ListCellRenderer<JCheckBox> {
+    private static class CheckBoxListCellRenderer implements ListCellRenderer<JCheckBox> {
         @Override
         public Component getListCellRendererComponent(JList<? extends JCheckBox> list, JCheckBox comp,
                                                       int index, boolean isSelected, boolean cellHasFocus) {

@@ -915,7 +915,7 @@ class AgentPanel extends ScrollPane {
 
     //-------------------------------------------------------------------
 
-    private class StatsPanel extends Panel {
+    private static class StatsPanel extends Panel {
         StatsPanel() {
             setLayout(new GridBagLayout());
 
@@ -985,7 +985,7 @@ class AgentPanel extends ScrollPane {
 
     //-------------------------------------------------------------------
 
-    private class TaskPanel extends Panel {
+    private static class TaskPanel extends Panel {
         TaskPanel() {
             setLayout(new GridBagLayout());
 

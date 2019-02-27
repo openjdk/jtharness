@@ -556,7 +556,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         private Preferences prefs;
     }
 
-    private class FilterWatcher implements FilterSelectionHandler.Observer {
+    private static class FilterWatcher implements FilterSelectionHandler.Observer {
         // NOTE: disconnected in loadFilters()
         // ---------- FilterConfig.Observer ----------
         @Override

@@ -188,7 +188,7 @@ public class JavaTestToolBar extends JToolBar {
     /**
      * Sets common style for a toolbar with left border
      **/
-    class ToolBarBorder extends BevelBorder {
+    static class ToolBarBorder extends BevelBorder {
 
         public ToolBarBorder() {
             super(BevelBorder.RAISED);

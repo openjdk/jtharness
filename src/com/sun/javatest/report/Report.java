@@ -350,7 +350,7 @@ public class Report implements ReportModel {
         }
     }
 
-    private class LinkFinder {
+    private static class LinkFinder {
         private File index;
 
         public LinkFinder(File index) {

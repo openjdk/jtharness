@@ -259,7 +259,7 @@ public class InetAddressQuestionRenderer
     private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
     protected static final Color INVALID_VALUE_COLOR = i18n.getErrorColor();
 
-    protected class LookupPane extends JOptionPane
+    protected static class LookupPane extends JOptionPane
             implements ActionListener, DocumentListener, ListSelectionListener {
         public LookupPane(int type) {
             super(new JPanel(new GridBagLayout()));

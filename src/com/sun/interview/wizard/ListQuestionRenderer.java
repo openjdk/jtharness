@@ -139,7 +139,7 @@ public class ListQuestionRenderer
 
     private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 
-    protected class BodyList extends EditableList {
+    protected static class BodyList extends EditableList {
         BodyList(ListQuestion q) {
             super("list", q.getBodies());
             question = q;

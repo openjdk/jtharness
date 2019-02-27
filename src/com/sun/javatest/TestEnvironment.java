@@ -669,7 +669,7 @@ public class TestEnvironment {
     /**
      * A class representing an entry in a test environment.
      */
-    public class Element {
+    public static class Element {
         /**
          * Create an entry for a test environment.
          *

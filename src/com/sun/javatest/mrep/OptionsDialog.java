@@ -169,7 +169,7 @@ class OptionsDialog extends ToolDialog {
         return ((FilesPane) panes[0]).checkInput();
     }
 
-    class ChangeTabListener implements ActionListener {
+    static class ChangeTabListener implements ActionListener {
         String key;
         CardLayout cl;
         Container parent;
@@ -190,7 +190,7 @@ class OptionsDialog extends ToolDialog {
         setBody(null);
     }
 
-    private class YardKeeper implements ActionListener {
+    private static class YardKeeper implements ActionListener {
         private ActionListener chain;
 
         private YardKeeper(ActionListener chain) {

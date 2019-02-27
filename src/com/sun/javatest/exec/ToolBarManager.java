@@ -240,7 +240,7 @@ public class ToolBarManager {
     /**
      * ToolbarMenuAction reflects changing of visible state to the menu
      **/
-    class ToolbarMenuAction extends AbstractAction {
+    static class ToolbarMenuAction extends AbstractAction {
         public JavaTestToolBar getBar() {
             return theBar;
         }

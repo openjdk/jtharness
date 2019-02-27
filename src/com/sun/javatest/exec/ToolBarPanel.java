@@ -78,7 +78,7 @@ class ToolBarPanel extends JPanel {
      * ToolBarLayout lays out the panel and calculates positions for
      * horisontal separators
      **/
-    class ToolBarLayout extends FlowLayout {
+    static class ToolBarLayout extends FlowLayout {
 
         public ToolBarLayout() {
             super(FlowLayout.LEFT, 0, 0);

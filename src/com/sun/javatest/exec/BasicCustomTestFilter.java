@@ -1008,7 +1008,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         private InterviewParameters interview;
     }
 
-    private class SettingsSnapshot {
+    private static class SettingsSnapshot {
 
         SettingsSnapshot() {
             statusFields = new boolean[Status.NUM_STATES];

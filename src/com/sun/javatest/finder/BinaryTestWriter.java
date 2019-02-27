@@ -66,7 +66,7 @@ public class BinaryTestWriter {
     /**
      * This exception is used to report bad command line arguments.
      */
-    public class BadArgs extends Exception {
+    public static class BadArgs extends Exception {
         /**
          * Create a BadArgs exception.
          *
@@ -81,7 +81,7 @@ public class BinaryTestWriter {
      * This exception is used to report problems that occur while running.
      */
 
-    public class Fault extends Exception {
+    public static class Fault extends Exception {
         /**
          * Create a Fault exception.
          *
@@ -670,7 +670,7 @@ public class BinaryTestWriter {
         /**
          * Data for each test description in the table.
          */
-        class Entry {
+        static class Entry {
             /**
              * The byte offset of the test description in the stream when
              * last written out.

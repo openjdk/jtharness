@@ -414,7 +414,7 @@ class FilesPane extends JPanel {
         return line.contains(target) ? true : false;
     }
 
-    private class XMLReportView extends FileView {
+    private static class XMLReportView extends FileView {
 
         public XMLReportView() {
             super();

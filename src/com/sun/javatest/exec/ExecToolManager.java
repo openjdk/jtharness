@@ -339,7 +339,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
     }
 
 
-    class EmptyTool extends Tool {
+    static class EmptyTool extends Tool {
         EmptyTool(ToolManager m, String uiKey) {
             super(m, uiKey);
         }

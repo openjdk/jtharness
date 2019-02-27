@@ -43,7 +43,7 @@ public class CommandParser {
     /**
      * Thrown when a bad command line argument is encountered.
      */
-    public class Fault extends Exception {
+    public static class Fault extends Exception {
         /**
          * Create a Fault exception.
          *

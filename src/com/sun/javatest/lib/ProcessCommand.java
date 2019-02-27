@@ -402,7 +402,7 @@ public class ProcessCommand extends Command {
     /**
      * A thread to copy an input stream to an output stream
      */
-    class StreamCopier extends Thread {
+    static class StreamCopier extends Thread {
         /**
          * Create one.
          *

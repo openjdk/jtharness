@@ -1113,7 +1113,7 @@ public class Harness {
     /**
      * Class that collects executed tests
      */
-    class TestURLCollector implements Harness.Observer {
+    static class TestURLCollector implements Harness.Observer {
         TestURLCollector() {
         }
 

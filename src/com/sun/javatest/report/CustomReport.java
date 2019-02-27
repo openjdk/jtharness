@@ -239,7 +239,7 @@ public abstract class CustomReport {
      * The class ReportException indicates an error during report creation.
      * The harness can print or show Exception's text
      */
-    public class ReportException extends IOException {
+    public static class ReportException extends IOException {
 
         /**
          * Constructs a new exception with the specified detail message.

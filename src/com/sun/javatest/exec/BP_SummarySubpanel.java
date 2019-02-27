@@ -796,7 +796,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
         private boolean debug = Debug.getBoolean(BP_SummarySubpanel.class, "CounterThread");
     }
 
-    class Divider extends JComponent {
+    static class Divider extends JComponent {
 
         /**
          * Creates a default 2 wide pair of lines.
@@ -861,7 +861,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
     }
 
     // incomplete
-    class Divider2 extends JComponent {
+    static class Divider2 extends JComponent {
 
         public Divider2() {
         }
@@ -914,7 +914,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
         int arcWidth = 15;
     }
 
-    private class LegendIcon implements Icon {
+    private static class LegendIcon implements Icon {
 
         LegendIcon(Color c, boolean shadow) {
             color = c;

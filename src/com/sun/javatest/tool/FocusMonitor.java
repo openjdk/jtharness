@@ -465,7 +465,7 @@ class FocusMonitor {
     private static final Color HILITE_COLOR = new Color(255, 255, 200);
     private static final String NEWLINE = System.getProperty("line.separator");
 
-    private class Entry {
+    private static class Entry {
         Entry(String name) {
             label = new JLabel(name + ": ");
             label.setName(name);
