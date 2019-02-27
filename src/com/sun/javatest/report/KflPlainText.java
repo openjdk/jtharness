@@ -94,7 +94,7 @@ public class KflPlainText {
     /**
      * Write a list of bug ids, hyperlinked if possible.  Comma separated.
      */
-    void writeBugs(final KflSorter.TestDiff diff, final Writer writer)
+    void writeBugs(KflSorter.TestDiff diff, Writer writer)
             throws IOException {
         KnownFailuresList.Entry[] e = null;
 

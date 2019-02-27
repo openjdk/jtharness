@@ -250,14 +250,14 @@ public class TestEnvContext {
         Vector<String> menuExcludeVec = new Vector<>();
 
         // scan all the property tables, looking for entries
-        final String ENV_DOT = "env.";
-        final String DOT_DESCRIPTION = ".description";
-        final String DOT_FINDER = ".finder";
-        final String DOT_SCRIPT = ".script";
-        final String DOT_SCRIPT_DOT = ".script.";
-        final String DOT_INHERITS = ".inherits";
-        final String DOT_MENU = ".menu";
-        final String DOT_TESTSUITE = ".testsuite";
+        String ENV_DOT = "env.";
+        String DOT_DESCRIPTION = ".description";
+        String DOT_FINDER = ".finder";
+        String DOT_SCRIPT = ".script";
+        String DOT_SCRIPT_DOT = ".script.";
+        String DOT_INHERITS = ".inherits";
+        String DOT_MENU = ".menu";
+        String DOT_TESTSUITE = ".testsuite";
 
         if (debug)
             System.err.println(getClass().getName() + ": trace");

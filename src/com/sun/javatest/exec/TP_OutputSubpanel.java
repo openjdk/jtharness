@@ -523,9 +523,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
      * @param text       New text.
      * @see com.sun.javatest.TestResult
      */
-    private void updateOutput(final TestResult tr, final TestResult.Section section,
-                              final String outputName,
-                              final int start, final int end, final String text) {
+    private void updateOutput(TestResult tr, TestResult.Section section,
+                              String outputName,
+                              int start, int end, String text) {
         //System.err.println("TPOS_TRO: written output[" + section.getTitle() + "/" + outputName + "]: " + tr.getWorkRelativePath());
         TOCEntry entry = findTOCEntry(section);
         // should happen zero or one times per section

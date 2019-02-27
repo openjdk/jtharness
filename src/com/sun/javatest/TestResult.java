@@ -1577,7 +1577,7 @@ public class TestResult {
     // don't use File.createTempFile because of issues with the internal locking there
     private File createTempFile(WorkDirectory workDir, BackupPolicy backupPolicy)
             throws IOException {
-        final int MAX_TRIES = 100; // absurdly big limit, but a limit nonetheless
+        int MAX_TRIES = 100; // absurdly big limit, but a limit nonetheless
         for (int i = 0; i < MAX_TRIES; i++) {
             File tempFile = new File(resultsFile.getPath() + "." + i + ".tmp");
             if (tempFile.createNewFile())

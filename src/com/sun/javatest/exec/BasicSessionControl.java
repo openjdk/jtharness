@@ -319,7 +319,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     }
 
     void editConfigWithErrorMessage() {
-        final InterviewParameters ip = session.getInterviewParameters();
+        InterviewParameters ip = session.getInterviewParameters();
         String errorMessage = ip.getErrorMessage();
         int option = (errorMessage == null) ?
                 uif.showOKCancelDialog("rh.mustConfigure") :

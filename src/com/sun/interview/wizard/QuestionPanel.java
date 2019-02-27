@@ -421,7 +421,7 @@ class QuestionPanel extends JPanel
         }
 
         URL u = q.getImage();
-        final Icon icon = u == null ? null : new ImageIcon(u);
+        Icon icon = u == null ? null : new ImageIcon(u);
 
         if (icon != null)
             graphicLabel.setIcon(icon);
@@ -484,9 +484,9 @@ class QuestionPanel extends JPanel
         JEditorPane ePane = new JEditorPane(q.getTextMimeType(), q.getText());
         ePane.setEditable(false);
 
-        final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        final Dimension minS = new Dimension(350, 100);
-        final Dimension maxS = new Dimension(Math.min(2 * (screen.width / 3), 800), Math.min(2 * (screen.height / 3), 600));
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension minS = new Dimension(350, 100);
+        Dimension maxS = new Dimension(Math.min(2 * (screen.width / 3), 800), Math.min(2 * (screen.height / 3), 600));
         Dimension p = ePane.getPreferredSize();
 
         p.setSize(Math.max(p.width, minS.width), Math.max(p.height, minS.height));

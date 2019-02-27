@@ -573,7 +573,7 @@ public class UIFactory {
      * @param helpID the help ID identifying the context sensitive help for
      *               the component
      */
-    public void setHelp(final Component comp, final String helpID) {
+    public void setHelp(final Component comp, String helpID) {
         if (helpID == null)
             throw new NullPointerException();
 
@@ -1208,7 +1208,7 @@ public class UIFactory {
      * @return the choice item that was created
      * @see #createLiteralChoice
      */
-    public JComboBox<String> createChoice(final String uiKey, final String... choiceKeys) {
+    public JComboBox<String> createChoice(String uiKey, String... choiceKeys) {
         return createChoice(uiKey, choiceKeys, false);
     }
 
@@ -1227,7 +1227,7 @@ public class UIFactory {
      * @return a choice box with the attributes indicated by the parameters
      * @see #createChoice(String, String[])
      */
-    public JComboBox<String> createChoice(final String uiKey, final String[] choiceKeys, boolean editable) {
+    public JComboBox<String> createChoice(String uiKey, final String[] choiceKeys, boolean editable) {
         // create a cache of the presentation string, for use when
         // rendering, but otherwise, let the JComboBox work in terms of the
         // choiceKeys
@@ -3569,7 +3569,7 @@ public class UIFactory {
      * @return a dialog appropriate for asking the user to wait
      */
     public JDialog createWaitDialog(String uiKey, JFrame owner) {
-        final int msgWidth = 50;
+        int msgWidth = 50;
         JDialog d = new JDialog(owner);
         initDialog(d, uiKey);
         d.setTitle(getI18NString(uiKey + ".title"));

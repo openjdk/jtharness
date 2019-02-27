@@ -141,7 +141,7 @@ public class XMLReport implements ReportFormat {
 
     }
 
-    private void writeResults(final XMLReportMaker maker, final ReportSettings sett) throws SAXException, JavaTestError, IOException {
+    private void writeResults(XMLReportMaker maker, ReportSettings sett) throws SAXException, JavaTestError, IOException {
         maker.sTestResults();
 
         File[] initFiles = sett.getInitialFiles();
@@ -164,7 +164,7 @@ public class XMLReport implements ReportFormat {
         }
     }
 
-    private void writeResult(final XMLReportMaker maker, final TestResult testResult) throws SAXException, IOException {
+    private void writeResult(XMLReportMaker maker, TestResult testResult) throws SAXException, IOException {
 
         maker.sTestResult(testResult.getTestName(), testResult.getStatus(), 1);
         try {
@@ -181,7 +181,7 @@ public class XMLReport implements ReportFormat {
         }
     }
 
-    private void writeSections(final XMLReportMaker maker, final TestResult testResult) throws SAXException, IOException, TestResult.Fault {
+    private void writeSections(XMLReportMaker maker, TestResult testResult) throws SAXException, IOException, TestResult.Fault {
 
         maker.sSections();
         for (int i = 0; i < testResult.getSectionCount(); i++) {
@@ -199,7 +199,7 @@ public class XMLReport implements ReportFormat {
         maker.eSections();
     }
 
-    private void writeResultProps(final XMLReportMaker maker, final TestResult testResult) throws SAXException, TestResult.Fault {
+    private void writeResultProps(XMLReportMaker maker, TestResult testResult) throws SAXException, TestResult.Fault {
 
         String time = testResult.getProperty(TestResult.END);
 
@@ -215,7 +215,7 @@ public class XMLReport implements ReportFormat {
         maker.eResultProps();
     }
 
-    private void writeEnvironment(final XMLReportMaker maker, final TestResult testResult) throws SAXException {
+    private void writeEnvironment(XMLReportMaker maker, TestResult testResult) throws SAXException {
 
         Iterator<String> keysIt;
         try {
@@ -233,7 +233,7 @@ public class XMLReport implements ReportFormat {
         }
     }
 
-    private void writeDescriptionData(final XMLReportMaker maker, final TestResult testResult) throws SAXException, TestResult.Fault {
+    private void writeDescriptionData(XMLReportMaker maker, TestResult testResult) throws SAXException, TestResult.Fault {
         maker.sDescriptionData();
 
         TestDescription td = testResult.getDescription();
@@ -285,7 +285,7 @@ public class XMLReport implements ReportFormat {
         }
     }
 
-    private void writeEnvironment(final XMLReportMaker maker, final ReportSettings sett) throws SAXException {
+    private void writeEnvironment(XMLReportMaker maker, ReportSettings sett) throws SAXException {
 
         String name = null, descr = null;
 
@@ -304,7 +304,7 @@ public class XMLReport implements ReportFormat {
         maker.eEnvironment();
     }
 
-    private void writeStandardValues(final XMLReportMaker maker, ReportSettings sett) throws SAXException {
+    private void writeStandardValues(XMLReportMaker maker, ReportSettings sett) throws SAXException {
         maker.sStdValues();
         writeTestsToRun(maker, sett);
         writePriorStatusList(maker, sett);
@@ -315,7 +315,7 @@ public class XMLReport implements ReportFormat {
         maker.eStdValues();
     }
 
-    private void writeKeyWords(final XMLReportMaker maker, final ReportSettings sett) throws SAXException {
+    private void writeKeyWords(XMLReportMaker maker, ReportSettings sett) throws SAXException {
         // keywords
         Keywords keywords = sett.getInterview().getKeywords();
         if (keywords != null) {
@@ -324,7 +324,7 @@ public class XMLReport implements ReportFormat {
         }
     }
 
-    private void writeExcludeLists(final XMLReportMaker maker, final ReportSettings sett) throws SAXException {
+    private void writeExcludeLists(XMLReportMaker maker, ReportSettings sett) throws SAXException {
         // Exclude
         ExcludeList excludeList = sett.getInterview().getExcludeList();
         if (excludeList != null) {
@@ -342,7 +342,7 @@ public class XMLReport implements ReportFormat {
         }
     }
 
-    private void writePriorStatusList(final XMLReportMaker maker, final ReportSettings sett) throws SAXException {
+    private void writePriorStatusList(XMLReportMaker maker, ReportSettings sett) throws SAXException {
         boolean[] b = sett.getInterview().getPriorStatusValues();
         if (b != null) {
             int[] ss = {Status.PASSED, Status.FAILED, Status.ERROR, Status.NOT_RUN};
@@ -356,7 +356,7 @@ public class XMLReport implements ReportFormat {
         }
     }
 
-    private void writeTestsToRun(final XMLReportMaker maker, final ReportSettings sett) throws SAXException {
+    private void writeTestsToRun(XMLReportMaker maker, ReportSettings sett) throws SAXException {
         maker.sTests();
         String[] tests = sett.getInterview().getTests();
         if (tests != null && tests.length > 0) {
@@ -369,7 +369,7 @@ public class XMLReport implements ReportFormat {
         maker.eTests();
     }
 
-    private void writeTemplateInfo(final XMLReportMaker maker, final ReportSettings sett) throws SAXException {
+    private void writeTemplateInfo(XMLReportMaker maker, ReportSettings sett) throws SAXException {
         String tPath = sett.getInterview().getTemplatePath();
         if (tPath != null) {
             try {
@@ -382,7 +382,7 @@ public class XMLReport implements ReportFormat {
     }
 
 
-    private void writeInterview(final XMLReportMaker maker, final ReportSettings sett) throws SAXException {
+    private void writeInterview(XMLReportMaker maker, ReportSettings sett) throws SAXException {
 
         maker.sInterview();
         Question[] questions = sett.getInterview().getPath();

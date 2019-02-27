@@ -257,7 +257,7 @@ public class ReadAheadIterator<T> implements Iterator<T> {
      * main monitor lock.
      */
     private void readAhead() {
-        final Thread thisThread = Thread.currentThread();
+        Thread thisThread = Thread.currentThread();
         boolean keepReading;
 
         // check whether the thread is really required

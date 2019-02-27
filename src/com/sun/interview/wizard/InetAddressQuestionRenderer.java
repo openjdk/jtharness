@@ -77,7 +77,7 @@ public class InetAddressQuestionRenderer
             return createIPv6Panel(q, listener);
     }
 
-    protected JPanel createIPv4Panel(final InetAddressQuestion q, ActionListener listener) {
+    protected JPanel createIPv4Panel(InetAddressQuestion q, ActionListener listener) {
         InetAddress v = q.getValue();
         byte[] addr = v == null ? new byte[4] : v.getAddress();
         fields = new JTextField[4];
@@ -218,7 +218,7 @@ public class InetAddressQuestionRenderer
             }
         }
 
-        final JButton lookupBtn = new JButton(i18n.getString("inet.lookup.btn"));
+        JButton lookupBtn = new JButton(i18n.getString("inet.lookup.btn"));
         lookupBtn.setName("inet.lookup.btn");
         lookupBtn.setMnemonic(i18n.getString("inet.lookup.mne").charAt(0));
         lookupBtn.setToolTipText(i18n.getString("inet.lookup.tip"));

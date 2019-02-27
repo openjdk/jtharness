@@ -343,7 +343,7 @@ class KflSection extends HTMLSection {
     /**
      * Write a list of bug ids, hyperlinked if possible.  Comma separated.
      */
-    void writeBugs(final KflSorter.TestDiff diff, final ReportWriter writer)
+    void writeBugs(KflSorter.TestDiff diff, ReportWriter writer)
             throws IOException {
         KnownFailuresList.Entry[] e = null;
 

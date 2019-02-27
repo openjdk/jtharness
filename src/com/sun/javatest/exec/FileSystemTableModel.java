@@ -104,7 +104,7 @@ public class FileSystemTableModel extends AbstractTableModel {
         return root.getFile();
     }
 
-    private void init(final File file) {
+    private void init(File file) {
         root = new FileTableNode(file, 'r');
         data = new ArrayList<>();
 

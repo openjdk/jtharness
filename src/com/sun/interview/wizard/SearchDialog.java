@@ -263,7 +263,7 @@ class SearchDialog extends JDialog {
         return b;
     }
 
-    private JComboBox<String> createChoice(final String uiKey, final String... choiceKeys) {
+    private JComboBox<String> createChoice(String uiKey, final String... choiceKeys) {
         // create a cache of the presentation string, for use when
         // rendering, but otherwise, let the JComboBox work in terms of the
         // choiceKeys

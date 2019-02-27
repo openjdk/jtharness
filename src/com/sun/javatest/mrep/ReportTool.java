@@ -331,7 +331,7 @@ class ReportTool extends Tool {
     }
 
     private void showError(final String uiKey, final String msg,
-                           final JDialog waitDialog, final WaitDialogController waitDialogController) {
+                           JDialog waitDialog, WaitDialogController waitDialogController) {
         if (!waitDialogController.wasFinished)
             waitDialogController.finish();
         // switch back to GUI thread

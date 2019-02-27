@@ -2532,7 +2532,7 @@ public class Interview {
             return null;
 
         if (q instanceof ListQuestion && q.isEnabled()) {
-            final ListQuestion lq = (ListQuestion) q;
+            ListQuestion lq = (ListQuestion) q;
             if (lq.isEnd())
                 return q.getNext();
 

@@ -758,7 +758,7 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
 
         }
 
-        private void notifyUpdate(final int[] basic, final int... values) {
+        private void notifyUpdate(int[] basic, int... values) {
             EventQueue.invokeLater(
                     new BranchPanel.TextUpdater(BranchPanel.TextUpdater.UPDATE,
                             tfs,

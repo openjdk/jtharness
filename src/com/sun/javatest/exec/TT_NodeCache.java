@@ -572,7 +572,7 @@ class TT_NodeCache implements Runnable {
 
     // ------------- PRIVATE -----------------
     private void process() {
-        final TestResultTable trt = node.getEnclosingTable();
+        TestResultTable trt = node.getEnclosingTable();
         if (trt == null) {
             return;
         }

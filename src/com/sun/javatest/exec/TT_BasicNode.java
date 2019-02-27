@@ -284,7 +284,7 @@ public class TT_BasicNode extends TT_TreeNode {
         }
     }
 
-    TreeModelEvent addTest(final TT_TestNode tn, Comparator<String> sortComparator) {
+    TreeModelEvent addTest(TT_TestNode tn, Comparator<String> sortComparator) {
         if (updateNode()) {
             //Debug.println("Ignoring add of " + tn.getDisplayName());
             return null;
@@ -316,10 +316,10 @@ public class TT_BasicNode extends TT_TreeNode {
     }
 
     // --------- internal methods ------------
-    private int recursiveIns(final int lPos, final int rPos,
-                             final TT_TreeNode tn,
-                             final String dispName,
-                             final Comparator<String> sortComparator) {
+    private int recursiveIns(int lPos, int rPos,
+                             TT_TreeNode tn,
+                             String dispName,
+                             Comparator<String> sortComparator) {
         synchronized (children) {   // should already be locked!
             int diff = rPos - lPos;
             int pos = (diff / 2) + lPos;

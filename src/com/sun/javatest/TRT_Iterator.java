@@ -843,8 +843,8 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * otherwise.  Will be size zero if no filters reject the test.
      */
     private static ArrayList<TestFilter> getFullFilteredList(
-            final TestFilter[] filters,
-            final TestDescription td) {
+            TestFilter[] filters,
+            TestDescription td) {
         if (td == null || filters == null || filters.length == 0) {
             return null;
         }

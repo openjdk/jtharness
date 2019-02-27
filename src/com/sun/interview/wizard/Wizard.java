@@ -292,7 +292,7 @@ public class Wizard extends JComponent {
         okBtn.setVisible(false);
         cancelBtn.setVisible(false);
 
-        final JFrame f = new JFrame();
+        JFrame f = new JFrame();
         initMenuBar(f);
         updateTitle(f);
         f.setName("interview.wizard");
@@ -356,7 +356,7 @@ public class Wizard extends JComponent {
         okBtn.setEnabled(interview.isFinishable());
         cancelBtn.setVisible(true);
 
-        final JDialog d = new JDialog(parent);
+        JDialog d = new JDialog(parent);
         initMenuBar(d);
         updateTitle(d);
         d.setJMenuBar(menuBar);

@@ -330,7 +330,7 @@ public class KflSorter {
      *
      * @deprecated Method not in use.
      */
-    private int findChangedCases(final TestResult tr, final Map<String, Status> tcs,
+    private int findChangedCases(TestResult tr, Map<String, Status> tcs,
                                  KnownFailuresList.Entry entry) {
         String kfltcl = entry.getTestCases();
 
@@ -395,8 +395,8 @@ public class KflSorter {
     /**
      * Add all test cases from the KFL entry to the set.
      */
-    private int addAllTestCases(final KnownFailuresList.Entry entry,
-                                final String url, final TestResult tr,
+    private int addAllTestCases(KnownFailuresList.Entry entry,
+                                String url, TestResult tr,
                                 Transitions t, Set<TestDiff> set) {
         // could check enableTestCases flag before processing
         // add all test cases from this entry
@@ -414,8 +414,8 @@ public class KflSorter {
         return problems;
     }
 
-    private int addListedTestCases(final KnownFailuresList.Entry entry,
-                                   final String url, final TestResult tr,
+    private int addListedTestCases(KnownFailuresList.Entry entry,
+                                   String url, TestResult tr,
                                    Transitions t, TreeSet<?> set) {
         int problems = 0;
 
@@ -476,7 +476,7 @@ public class KflSorter {
      * @see com.sun.javatest.Status
      */
     private int addStatusTestCases(
-            final String url, final TestResult tr, int status,
+            String url, TestResult tr, int status,
             Transitions t, Map<String, Status> trtcs, Set<TestDiff> set) {
         // could check enableTestCases flag before processing
         int problems = 0;
@@ -514,7 +514,7 @@ public class KflSorter {
     }
 
 
-    private boolean hasTestCases(final KnownFailuresList.Entry... es) {
+    private boolean hasTestCases(KnownFailuresList.Entry... es) {
         if (es == null || es.length == 0)
             return false;
 
@@ -567,7 +567,7 @@ public class KflSorter {
     }
 
 
-    private static Map<String, Status> getTestCases(final TestResult tr) {
+    private static Map<String, Status> getTestCases(TestResult tr) {
         Map<String, Status> result = new LinkedHashMap<>();
 
         if (tr.isShrunk() && tr.isReloadable())

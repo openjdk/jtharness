@@ -76,7 +76,7 @@ public class SerialPortConnection implements Connection {
         this(open(portId, app, timeout));
     }
 
-    private SerialPortConnection(final SerialPort port) throws IOException, InterruptedException {
+    private SerialPortConnection(SerialPort port) throws IOException, InterruptedException {
         //System.err.println("opening " + port.getName());
         this.port = port;
 

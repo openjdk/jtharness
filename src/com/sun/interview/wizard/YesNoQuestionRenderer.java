@@ -44,8 +44,8 @@ public class YesNoQuestionRenderer implements QuestionRenderer {
 
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
-        final YesNoQuestion q = (YesNoQuestion) qq;
-        final ActionListener editedListener = listener;
+        YesNoQuestion q = (YesNoQuestion) qq;
+        ActionListener editedListener = listener;
 
         String[] displayChoices = q.getDisplayChoices();
         String[] choices = q.getChoices();
@@ -56,7 +56,7 @@ public class YesNoQuestionRenderer implements QuestionRenderer {
 
         ActionListener l = createActionListener(q, editedListener);
 
-        final JPanel btnPanel = new JPanel(new GridBagLayout());
+        JPanel btnPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         gbc.fill = GridBagConstraints.HORIZONTAL;

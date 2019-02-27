@@ -280,7 +280,7 @@ public class Main {
             initialized = true;
         }
 
-        final Command[] cmds = ctx.getCommands();
+        Command[] cmds = ctx.getCommands();
 
         // special case, when user requested info
         boolean helpInfoRequired = helpManager.isInfoRequired();

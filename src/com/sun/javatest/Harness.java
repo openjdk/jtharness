@@ -826,7 +826,7 @@ public class Harness {
         return iter;
     }
 
-    private static ArrayList<String> listFilterNames(final TestFilter... filters) {
+    private static ArrayList<String> listFilterNames(TestFilter... filters) {
         ArrayList<String> result = new ArrayList<>();
 
         if (filters == null || filters.length == 0)
@@ -847,7 +847,7 @@ public class Harness {
         return result;
     }
 
-    private static String formatFilterList(final List<String> names) {
+    private static String formatFilterList(List<String> names) {
         if (names == null || names.isEmpty())
             return "";
 
@@ -861,8 +861,8 @@ public class Harness {
         return sb.toString();
     }
 
-    private static String formatFilterStats(final String[] tests,
-                                            final TreeIterator iter) {
+    private static String formatFilterStats(String[] tests,
+                                            TreeIterator iter) {
         TRT_Iterator treeit = null;
 
         if (iter == null || !(iter instanceof TRT_Iterator)) {

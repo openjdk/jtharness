@@ -57,7 +57,7 @@ public class ListQuestionRenderer
         return i18n.getString("list.invalid", Integer.valueOf(q.getIncompleteBodyCount()));
     }
 
-    protected JComponent createMoreButton(final ListQuestion q) {
+    protected JComponent createMoreButton(ListQuestion q) {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setName("more");
         panel.setFocusable(false);
@@ -95,7 +95,7 @@ public class ListQuestionRenderer
         };
     }
 
-    protected JComponent createList(final ListQuestion q, ActionListener listener) {
+    protected JComponent createList(ListQuestion q, ActionListener listener) {
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setName("list");
@@ -107,7 +107,7 @@ public class ListQuestionRenderer
         label.setToolTipText(i18n.getString("list.tip"));
         panel.add(label, BorderLayout.NORTH);
 
-        final EditableList list = new BodyList(q);
+        EditableList list = new BodyList(q);
         ListQuestion.Body seln = q.getSelectedBody();
         if (seln != null)
             list.setSelectedItem(seln);

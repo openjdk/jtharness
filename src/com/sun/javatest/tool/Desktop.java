@@ -805,7 +805,7 @@ public class Desktop {
         String title = uif.getI18NString("dt.confirm.title", Integer.valueOf(EXIT));
         final JDialog dialog = pane.createDialog(null, title);
 
-        final Timer timer = new Timer(1000, new ActionListener() {
+        Timer timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (--timeRemaining == 0) {
@@ -899,7 +899,7 @@ public class Desktop {
      *
      * @param file the file from which to load the data
      */
-    public void restore(final File file) {
+    public void restore(File file) {
         Map<String, String> p = getPreviousDesktop(file);
         restore0(p);
     }
@@ -1396,7 +1396,7 @@ public class Desktop {
         ClassLoader theLoader = null;
 
         if (commandContext != null) {
-            final Command[] cmds = commandContext.getCommands();
+            Command[] cmds = commandContext.getCommands();
             // uses the first custom help loader found.
             // use a customized HelpBroker that will exit the VM when closed.
             for (Command cmd : cmds) {

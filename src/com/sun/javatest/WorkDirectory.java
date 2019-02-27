@@ -388,7 +388,7 @@ public class WorkDirectory {
         File templateData = new File(dir, JTDATA + File.separator + "template.data");
         if (templateData.exists()) {
             Properties p = new Properties();
-            final String absolutePath = templateData.getAbsolutePath();
+            String absolutePath = templateData.getAbsolutePath();
             FileInputStream fis = null;
             FileOutputStream fos = null;
             try {

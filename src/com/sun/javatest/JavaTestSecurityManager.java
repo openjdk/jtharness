@@ -63,7 +63,7 @@ public class JavaTestSecurityManager extends SecurityManager {
         try {
             // install our own permissive security manager, to prevent anyone else
             // installing a less permissive one.
-            final String noSecurityMgr = "javatest.security.noSecurityManager";
+            String noSecurityMgr = "javatest.security.noSecurityManager";
             if (Boolean.getBoolean(noSecurityMgr)) {
                 System.err.println();
                 System.err.println("     ---- WARNING -----");

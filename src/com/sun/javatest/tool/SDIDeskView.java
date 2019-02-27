@@ -339,7 +339,7 @@ class SDIDeskView extends DeskView {
     }
 
     private void doCascade() {
-        final int offset = 30;
+        int offset = 30;
         // first find width of cascaded set
         int maxWidth = 0;
         int maxHeight = 0;

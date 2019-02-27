@@ -250,7 +250,7 @@ class ProgressMonitor extends ToolDialog {
         }
 
         @Override
-        public void finished(final boolean allOk) {
+        public void finished(boolean allOk) {
             running = false;
             for (StatusSubpanel subpanel : subpanels) {
                 // make sure the panels update one last time

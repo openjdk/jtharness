@@ -55,7 +55,7 @@ public class FloatQuestionRenderer
         return null;
     }
 
-    protected JPanel createTextField(final FloatQuestion q, ActionListener listener) {
+    protected JPanel createTextField(FloatQuestion q, ActionListener listener) {
         int w = 1;
         while (range >= 10) {
             range /= 10;

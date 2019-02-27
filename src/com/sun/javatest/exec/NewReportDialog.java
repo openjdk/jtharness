@@ -303,8 +303,8 @@ class NewReportDialog extends ToolDialog {
         listModel = new DefaultListModel<>();
 
         // populate list and card panel
-        final CardLayout cards = new CardLayout();
-        final JPanel p = uif.createPanel("nrd.typecards", cards, false);
+        CardLayout cards = new CardLayout();
+        JPanel p = uif.createPanel("nrd.typecards", cards, false);
 
         cbHtml = uif.createCheckBox("nrd.type.html", true);
         //cbHtml.addActionListener(cbListener);
@@ -1392,7 +1392,7 @@ class NewReportDialog extends ToolDialog {
             enablePanel(box);
         }
 
-        private void enablePanel(final JCheckBox box) {
+        private void enablePanel(JCheckBox box) {
             for (int i = 0; i < panel.getComponentCount(); i++) {
                 JComponent tab = (JComponent) panel.getComponent(i);
                 tab.setEnabled(box.isSelected());
@@ -1426,7 +1426,7 @@ class NewReportDialog extends ToolDialog {
 
         }
 
-        private void process(final int index) {
+        private void process(int index) {
             if (index < 0) {
                 return;
             }

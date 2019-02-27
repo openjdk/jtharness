@@ -94,7 +94,7 @@ abstract class BP_BranchSubpanel extends JPanel {
         return lastMsg;
     }
 
-    protected void showTest(final TestResult tr) {
+    protected void showTest(TestResult tr) {
         TT_BasicNode root = (TT_BasicNode) ttm.getRoot();
         if (root == null) {
             return;        // construct the path required by the model

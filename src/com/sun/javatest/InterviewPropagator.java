@@ -357,12 +357,12 @@ public class InterviewPropagator {
         }
     }
 
-    private void acceptTemplateDatafromMap(final Map<String, String[]> map) {
+    private void acceptTemplateDatafromMap(Map<String, String[]> map) {
         acceptTemplateDatafromMap(map, false);
     }
 
 
-    private void acceptTemplateDatafromMap(final Map<String, String[]> map, boolean templateOnly) {
+    private void acceptTemplateDatafromMap(Map<String, String[]> map, boolean templateOnly) {
         for (String key : map.keySet()) {
             String[] vals = map.get(key);
             interview.storeTemplateProperty(key, vals[NEW_TEMPLATE].toString());

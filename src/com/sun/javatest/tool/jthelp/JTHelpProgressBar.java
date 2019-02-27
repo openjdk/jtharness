@@ -95,10 +95,10 @@ public class JTHelpProgressBar extends Component implements PropertyChangeListen
         frame.setContentPane(сontentPane);
         frame.pack();
 
-        final Toolkit toolkit = Toolkit.getDefaultToolkit();
-        final Dimension screenSize = toolkit.getScreenSize();
-        final int x = (screenSize.width - frame.getWidth()) / 2;
-        final int y = (screenSize.height - frame.getHeight()) / 2;
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+        int x = (screenSize.width - frame.getWidth()) / 2;
+        int y = (screenSize.height - frame.getHeight()) / 2;
         frame.setLocation(x, y);
 
         task.addPropertyChangeListener(JTHelpProgressBar.this);

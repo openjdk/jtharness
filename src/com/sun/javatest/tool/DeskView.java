@@ -354,7 +354,7 @@ abstract class DeskView {
                 // WARNING: this event may be called more than once
                 // so only do post-processing the first time it is called
                 // for this window
-                final JFrame frame = (JFrame) e.getSource();
+                JFrame frame = (JFrame) e.getSource();
                 //System.err.println("DT: closed " + frame.getTitle());
                 synchronized (allFrames) {
                     if (allFrames.remove(frame) && allFrames.isEmpty()) {

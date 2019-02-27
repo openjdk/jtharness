@@ -764,7 +764,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
         public void actionPerformed(ActionEvent e) {
             if (e.getActionCommand().equals("action.cpnamelist") ||
                     e.getActionCommand().equals("action.cpnamestr")) {
-                final int[] rows = table.getSelectedRows();
+                int[] rows = table.getSelectedRows();
 
                 if (rows.length > 0) {
                     String[] result = new String[rows.length];

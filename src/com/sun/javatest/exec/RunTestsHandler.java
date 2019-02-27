@@ -325,7 +325,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             throw new RuntimeException("TBD: i18n cannot clone parameters");
         }
 
-        final Preferences p = Preferences.access();
+        Preferences p = Preferences.access();
         boolean useTests2Run = p.getPreference(ExecTool.TESTS2RUN_PREF, "true").equals("true");
 
         if (!useTests2Run) {
@@ -383,7 +383,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
      * @see com.sun.javatest.exec.ExecTool#TESTS2RUN_PREF
      * @since 4.2.1
      */
-    static String[] reprocessTests2Run(final String[] requested, final String... iTests) {
+    static String[] reprocessTests2Run(String[] requested, String... iTests) {
         ArrayList<String> result = new ArrayList<>();
         outer:
         for (String curr : requested) {
@@ -633,7 +633,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
 
     private class HarnessObserver implements Harness.Observer {
         @Override
-        public void startingTestRun(final Parameters params) {
+        public void startingTestRun(Parameters params) {
             EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {

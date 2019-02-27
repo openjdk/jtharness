@@ -369,7 +369,7 @@ public class BasicSession implements SessionExt {
     @Override
     public void loadInterviewFromFile(WorkDirectory wd, File cfgFile) throws Fault {
         try {
-            final long start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
 
             config.load(cfgFile);
             logLoadTime("exec.log.iload", System.currentTimeMillis() - start,
@@ -532,7 +532,7 @@ public class BasicSession implements SessionExt {
      * @param msg  The message to include with the time, may be null, but usually
      *             is the path to the session file that was loaded.
      */
-    private static void logLoadTime(String res, final long time, WorkDirectory wd, String msg) {
+    private static void logLoadTime(String res, long time, WorkDirectory wd, String msg) {
         if (wd == null)
             return;
 

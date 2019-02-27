@@ -277,7 +277,7 @@ public class ShowFile
             textArea.setCaretPosition(0);
         else {
             try {
-                final int start = getStartOfLine(text, startLineIndex);
+                int start = getStartOfLine(text, startLineIndex);
                 int end = getEndOfLine(text, startLineIndex);
                 Highlighter h = textArea.getHighlighter();
                 h.removeAllHighlights();

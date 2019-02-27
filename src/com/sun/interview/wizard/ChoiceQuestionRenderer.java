@@ -132,7 +132,7 @@ public class ChoiceQuestionRenderer
 
         col0.setPreferredWidth(getColumnWidth(tbl, 0) + 20);
 
-        final JScrollPane sp = new JScrollPane(tbl);
+        JScrollPane sp = new JScrollPane(tbl);
         sp.setName("chcArr.sp");
         sp.getViewport().setBackground(tbl.getBackground());
 

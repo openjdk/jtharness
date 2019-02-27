@@ -265,7 +265,7 @@ abstract class SetKeywords extends Keywords {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final SetKeywords other = (SetKeywords) obj;
+        SetKeywords other = (SetKeywords) obj;
         if (this.keys != other.keys && (this.keys == null || !this.keys.equals(other.keys))) {
             return false;
         }
@@ -492,7 +492,7 @@ abstract class BinaryExprKeywords extends ExprKeywords {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final BinaryExprKeywords other = (BinaryExprKeywords) obj;
+        BinaryExprKeywords other = (BinaryExprKeywords) obj;
         if (this.left != other.left && (this.left == null || !this.left.equals(other.left))) {
             return false;
         }
@@ -559,7 +559,7 @@ class NotExprKeywords extends ExprKeywords {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final NotExprKeywords other = (NotExprKeywords) obj;
+        NotExprKeywords other = (NotExprKeywords) obj;
         if (this.expr != other.expr && (this.expr == null || !this.expr.equals(other.expr))) {
             return false;
         }
@@ -631,7 +631,7 @@ class ParenExprKeywords extends ExprKeywords {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ParenExprKeywords other = (ParenExprKeywords) obj;
+        ParenExprKeywords other = (ParenExprKeywords) obj;
         if (this.expr != other.expr && (this.expr == null || !this.expr.equals(other.expr))) {
             return false;
         }
@@ -677,7 +677,7 @@ class TermExprKeywords extends ExprKeywords {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final TermExprKeywords other = (TermExprKeywords) obj;
+        TermExprKeywords other = (TermExprKeywords) obj;
         if ((this.key == null) ? (other.key != null) : !this.key.equals(other.key)) {
             return false;
         }

@@ -669,7 +669,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         execModel.runTests(createNodeList(what));
     }
 
-    private static void restore(final TreePath[] paths, final TestTree targetTree) {
+    private static void restore(TreePath[] paths, TestTree targetTree) {
         if (paths == null || targetTree == null) {
             return;        // we do it this way so that the tree updates itself, THEN we
             // ask it to restore
@@ -740,7 +740,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
         } // BK deprecated, will never happen
         else if (what[0].getLastPathComponent() instanceof TestResult) {
-            final TestResult tr = (TestResult) what[0].getLastPathComponent();
+            TestResult tr = (TestResult) what[0].getLastPathComponent();
 
             int confirm = uif.showYesNoDialog("treep.refreshTestSure",
                     tr.getTestName());
@@ -753,7 +753,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             ackTargets[0] = tr.getTestName();
         } // single node of any type is selected
         else {
-            final TT_TreeNode tn = (TT_TreeNode) what[0].getLastPathComponent();
+            TT_TreeNode tn = (TT_TreeNode) what[0].getLastPathComponent();
             int confirm = JOptionPane.NO_OPTION;
             ackTargets[0] = tn.getLongPath();
             if (tn.isRoot()) {
@@ -812,7 +812,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                 } // try
                                 catch (TestResultTable.Fault f) {
                                     // log the error
-                                    final WorkDirectory wd = execModel.getWorkDirectory();
+                                    WorkDirectory wd = execModel.getWorkDirectory();
                                     if (wd != null) {
                                         I18NResourceBundle i18n = uif.getI18NResourceBundle();
                                         wd.log(i18n, "treep.refFail",
@@ -832,7 +832,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
                                 } catch (TestResultTable.Fault f) {
                                     // log the error
-                                    final WorkDirectory wd = execModel.getWorkDirectory();
+                                    WorkDirectory wd = execModel.getWorkDirectory();
                                     if (wd != null) {
                                         I18NResourceBundle i18n = uif.getI18NResourceBundle();
                                         wd.log(i18n, "treep.refFail",
@@ -904,7 +904,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
     }
 
-    private void restoreOpenTreePaths(final String... urls) {
+    private void restoreOpenTreePaths(String... urls) {
         //treeModel = (TestTreeModel)(tree.getModel());
         //treeModel.notifyFullStructure();
         //tree.restorePaths(treeModel.urlsToPaths(openUrls));

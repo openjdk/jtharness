@@ -156,7 +156,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         // sync. to hold observer traffic until re-sync is done
         // also see TableSynchronizer thread
         if (this.cache != null) {
-            final TT_NodeCache cacheCopy = this.cache;
+            TT_NodeCache cacheCopy = this.cache;
             synchronized (cacheCopy) {
                 synchronized (BP_TestListSubpanel.this) {
                     cacheCopy.removeObserver(cacheWatcher);
@@ -259,7 +259,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             // object, causing a deadlock here.
             // sync. to hold observer traffic until re-sync is done.
             // also see reset() for this panel
-            final TT_NodeCache cacheCopy = cache;
+            TT_NodeCache cacheCopy = cache;
             synchronized (cacheCopy) {
                 synchronized (BP_TestListSubpanel.this) {
                     // resync with this node cache

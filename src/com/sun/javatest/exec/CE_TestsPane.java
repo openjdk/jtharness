@@ -241,7 +241,7 @@ class CE_TestsPane extends CE_StdPane {
             }
         }
 
-        final int MAX_BAD_PATHS = 10;
+        int MAX_BAD_PATHS = 10;
 
         if (!badPaths.isEmpty()) {
             if (badPaths.size() == 1)

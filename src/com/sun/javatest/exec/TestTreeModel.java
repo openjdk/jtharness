@@ -212,8 +212,8 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     }
 
 
-    private synchronized void nodeInserted0(final TestResultTable.TreeNode[] path,
-                                            final Object what, final int index) {
+    private synchronized void nodeInserted0(TestResultTable.TreeNode[] path,
+                                            Object what, int index) {
         if (disposed)
             return;
 
@@ -1090,7 +1090,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
     private Logger getLog(WorkDirectory wd) {
         Logger log = null;
-        final String logName = uif.getI18NString("tree.log.name");
+        String logName = uif.getI18NString("tree.log.name");
         try {
             log = wd.getTestSuite().createLog(wd, null, logName);
         } catch (TestSuite.DuplicateLogNameFault f) {

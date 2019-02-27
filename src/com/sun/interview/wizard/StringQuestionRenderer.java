@@ -40,7 +40,7 @@ import com.sun.interview.Question;
 public class StringQuestionRenderer
         implements QuestionRenderer {
     @Override
-    public JComponent getQuestionRendererComponent(final Question q, ActionListener listener) {
+    public JComponent getQuestionRendererComponent(Question q, ActionListener listener) {
         StringQuestion sq = (StringQuestion) q;
         int nomMaxLen = sq.getNominalMaxLength();
 
@@ -55,7 +55,7 @@ public class StringQuestionRenderer
         return null;
     }
 
-    protected JPanel createTextArea(final StringQuestion q, ActionListener listener) {
+    protected JPanel createTextArea(StringQuestion q, ActionListener listener) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setName("str");
         panel.setFocusable(false);
@@ -66,7 +66,7 @@ public class StringQuestionRenderer
         label.setToolTipText(i18n.getString("str.area.tip"));
         panel.add(label, BorderLayout.NORTH);
 
-        final JTextArea textArea = new JTextArea(q.getValue());
+        JTextArea textArea = new JTextArea(q.getValue());
         textArea.setName("str");
         textArea.setLineWrap(true);
         //textArea.addActionListener(listener);
@@ -84,7 +84,7 @@ public class StringQuestionRenderer
         return panel;
     }
 
-    protected JPanel createTypeInPanel(final StringQuestion q, ActionListener listener) {
+    protected JPanel createTypeInPanel(StringQuestion q, ActionListener listener) {
 
         return new TypeInPanel("str",
                 q,

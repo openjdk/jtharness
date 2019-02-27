@@ -133,7 +133,7 @@ class LogViewer extends ToolDialog {
 
         model.addNewPageListener(new LogModel.NewPageListener() {
             @Override
-            public void onNewPage(final int from, final int to, final int page) {
+            public void onNewPage(int from, int to, int page) {
                 synchronized (thePane) {
 
                     if (debugPages > 1) {
@@ -180,7 +180,7 @@ class LogViewer extends ToolDialog {
         onClose(null);
     }
 
-    private void makeLogger(final WorkDirectory workDir) {
+    private void makeLogger(WorkDirectory workDir) {
         log = Logger.getLogger("LogViewer");
         try {
             log = workDir.getTestSuite().createLog(workDir, null, "LogViewer");
@@ -536,7 +536,7 @@ class LogViewer extends ToolDialog {
         setBody(body);
     }
 
-    private void createFilterTree(final JScrollPane filterTreeScroll) {
+    private void createFilterTree(JScrollPane filterTreeScroll) {
         treeRoot = new DefaultMutableTreeNode(new JCheckBox("Root"));
         filterTree = new JTree();
         LoggersTreeModel ltm = new LoggersTreeModel();
@@ -659,7 +659,7 @@ class LogViewer extends ToolDialog {
     }
 
 
-    private void setRecords(final int from, final int to, final int pagenum) {
+    private void setRecords(int from, int to, int pagenum) {
         if (editorThread != null && editorThread.isAlive()) {
             editorThread.interrupt();
             try {
@@ -1057,7 +1057,7 @@ class LogViewer extends ToolDialog {
                         public void run() {
                             // check for the same
 
-                            final PropagatedCheckBox ch = new PropagatedCheckBox(name);
+                            PropagatedCheckBox ch = new PropagatedCheckBox(name);
                             ch.setSelected(true);
                             DefaultMutableTreeNode newLogger = new DefaultMutableTreeNode(ch, true);
 
@@ -1104,7 +1104,7 @@ class LogViewer extends ToolDialog {
     }
 
     private class PropagatedCheckBox extends JCheckBox {
-        PropagatedCheckBox(final String name) {
+        PropagatedCheckBox(String name) {
             super(name);
             this.addItemListener(new ItemListener() {
                 @Override

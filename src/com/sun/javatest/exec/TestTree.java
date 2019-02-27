@@ -195,7 +195,7 @@ class TestTree extends JTree {
      * @param queue    True if the request should be put into the event queue at the
      *                 end - this can be important for proper queuing of operations.
      */
-    void restorePaths(final String[] openUrls, boolean queue) {
+    void restorePaths(String[] openUrls, boolean queue) {
         if (openUrls == null || openUrls.length == 0)
             return;
 

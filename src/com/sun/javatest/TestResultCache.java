@@ -482,12 +482,12 @@ public class TestResultCache {
     // Read a set of tests from the *.jtr files in the work directory
 
     private Map<String, TestResult> readJTRFiles() {
-        final long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
         Map<String, TestResult> tests = new TreeMap<>();
         readJTRFiles(workDir.getRoot(), tests);
 
         // these lines are all for logging benchmark info
-        final long time = System.currentTimeMillis() - start;
+        long time = System.currentTimeMillis() - start;
         Logger log = null;
         try {
             log = workDir.getTestSuite().createLog(workDir, null,
@@ -569,7 +569,7 @@ public class TestResultCache {
 
     private Map<String, TestResult> readCache()
             throws IOException {
-        final long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
 
         if (DEBUG_WORK)
             Debug.println("TRC.readCache");
@@ -594,7 +594,7 @@ public class TestResultCache {
             if (DEBUG_WORK)
                 Debug.println("TRC.readCache read all (" + tests.size() + " tests, " + uniqueInitialEntryCount + " unique)");
 
-            final long time = System.currentTimeMillis() - start;
+            long time = System.currentTimeMillis() - start;
             Logger log = null;
             try {
                 log = workDir.getTestSuite().createLog(workDir, null,

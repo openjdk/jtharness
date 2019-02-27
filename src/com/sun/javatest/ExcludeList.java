@@ -680,7 +680,7 @@ public class ExcludeList {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ExcludeList other = (ExcludeList) obj;
+        ExcludeList other = (ExcludeList) obj;
         if (this.table != other.table && (this.table == null ||
                 !this.table.equals(other.table))) {
             return false;

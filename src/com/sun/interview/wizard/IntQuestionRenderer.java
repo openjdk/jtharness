@@ -62,7 +62,7 @@ public class IntQuestionRenderer
         return null;
     }
 
-    protected JPanel createTextField(final IntQuestion q, ActionListener listener) {
+    protected JPanel createTextField(IntQuestion q, ActionListener listener) {
         int w = 1;
         while (range >= 10) {
             range /= 10;

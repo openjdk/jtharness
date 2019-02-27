@@ -578,7 +578,7 @@ abstract public class ToolDialog {
             uif.setHelp(dialog, helpID);
 
         if (dialog instanceof JDialog) {
-            final JDialog d = (JDialog) dialog;
+            JDialog d = (JDialog) dialog;
             if (defaultButton != null) {
                 d.getRootPane().setDefaultButton(defaultButton);
             }
@@ -599,7 +599,7 @@ abstract public class ToolDialog {
             d.setDefaultCloseOperation(defaultCloseOperation);
             d.pack();
         } else if (dialog instanceof JFrame) {
-            final JFrame d = (JFrame) dialog;
+            JFrame d = (JFrame) dialog;
             if (defaultButton != null) {
                 d.getRootPane().setDefaultButton(defaultButton);
             }
@@ -620,7 +620,7 @@ abstract public class ToolDialog {
             d.setDefaultCloseOperation(defaultCloseOperation);
             d.pack();
         } else {
-            final JInternalFrame f = (JInternalFrame) dialog;
+            JInternalFrame f = (JInternalFrame) dialog;
             if (defaultButton != null) {
                 f.getRootPane().setDefaultButton(defaultButton);
                 /* this does not seem desirable or according to JL&F
@@ -729,10 +729,10 @@ abstract public class ToolDialog {
         }
 
         if (dialog instanceof JDialog) {
-            final JDialog d = (JDialog) dialog;
+            JDialog d = (JDialog) dialog;
             d.dispose();
         } else if (dialog instanceof JInternalFrame) {
-            final JInternalFrame f = (JInternalFrame) dialog;
+            JInternalFrame f = (JInternalFrame) dialog;
             f.dispose();
         }
     }
@@ -941,7 +941,7 @@ abstract public class ToolDialog {
                 int h = Integer.parseInt(prefs.getPreference(windowKey + SIZE_H, Integer.toString(r.height)));
                 int w = Integer.parseInt(prefs.getPreference(windowKey + SIZE_W, Integer.toString(r.width)));
 
-                final Rectangle screenBounds = DeskView.getScreenBounds();
+                Rectangle screenBounds = DeskView.getScreenBounds();
                 // slow operation - make it before dialog is shown
                 // trick for multiple displays environment when dialog allocated on several displays -
                 // in these conditions dialog contents can be partially shown on one of displays

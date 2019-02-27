@@ -330,7 +330,7 @@ public class TemplateSessionControl extends BasicSessionControl {
             String whichUpdate = null;
             InterviewParameters cfg = templateSession.getInterviewParameters();
             WorkDirectory wd = cfg.getWorkDirectory();
-            final long start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
             if (cfg.isFileNewer()) {
                 wasUpdate = cfg.load();
                 whichUpdate = "exec.log.iload";
@@ -340,7 +340,7 @@ public class TemplateSessionControl extends BasicSessionControl {
                 whichUpdate = "exec.log.iupdate";
             }
 
-            final long time = System.currentTimeMillis();
+            long time = System.currentTimeMillis();
             if (!wasUpdate) {
                 uif.showInformation("exec.noUpdate");
             } else {

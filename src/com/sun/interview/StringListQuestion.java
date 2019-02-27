@@ -247,7 +247,7 @@ public abstract class StringListQuestion extends Question {
         if (s == null)
             return empty;
 
-        final char sep = '\n';
+        char sep = '\n';
 
         Vector<String> v = new Vector<>();
         int start = -1;

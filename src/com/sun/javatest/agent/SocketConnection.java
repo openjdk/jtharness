@@ -68,7 +68,7 @@ public class SocketConnection implements Connection {
      * @param port The port on the host to which to connect to try and get a socket.
      * @throws IOException if an error occurs opening the socket.
      */
-    public SocketConnection(final String host, final int port) throws IOException {
+    public SocketConnection(String host, int port) throws IOException {
         if (host == null) {
             throw new NullPointerException();
         }

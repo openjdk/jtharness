@@ -596,7 +596,7 @@ class QuickStartWizard extends ToolDialog {
             return addFile(key, chooser, null);
         }
 
-        FilePanel addFile(String key, final JFileChooser chooser, final JRadioButton rb) {
+        FilePanel addFile(String key, JFileChooser chooser, final JRadioButton rb) {
             final FilePanel fp = new FilePanel(paneKey + "." + key, chooser);
 
             GridBagConstraints c = new GridBagConstraints();

@@ -146,8 +146,8 @@ class OptionsPane extends JPanel {
         listModel = new DefaultListModel<>();
 
         // populate list and card panel
-        final CardLayout cards = new CardLayout();
-        final JPanel p = uif.createPanel("opts.typecards", cards, false);
+        CardLayout cards = new CardLayout();
+        JPanel p = uif.createPanel("opts.typecards", cards, false);
 
         // standard report
         cbXml = uif.createCheckBox("opts.type.xml", false);
@@ -354,7 +354,7 @@ class OptionsPane extends JPanel {
             enablePanel(box);
         }
 
-        private void enablePanel(final JCheckBox box) {
+        private void enablePanel(JCheckBox box) {
             for (int i = 0; i < panel.getComponentCount(); i++) {
                 JComponent tab = (JComponent) panel.getComponent(i);
                 tab.setEnabled(box.isSelected());
@@ -379,7 +379,7 @@ class OptionsPane extends JPanel {
             }
         }
 
-        private void process(final int index) {
+        private void process(int index) {
             JCheckBox box = listModel.getElementAt(index);
 
             if (lastSelected == box) {

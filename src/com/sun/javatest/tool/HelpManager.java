@@ -254,7 +254,7 @@ public class HelpManager extends CommandManager {
         out.println(i18n.getString("help.onlineHelp.pleaseWait"));
         out.flush();
 
-        final Command[] cmds = ctx.getCommands();
+        Command[] cmds = ctx.getCommands();
         ClassLoader theLoader = null;
         URL u = null;      // URL for help set
         // uses the first custom help loader found.

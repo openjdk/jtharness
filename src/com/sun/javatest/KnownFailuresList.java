@@ -496,7 +496,7 @@ public class KnownFailuresList {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final KnownFailuresList other = (KnownFailuresList) obj;
+        KnownFailuresList other = (KnownFailuresList) obj;
         if (this.table != other.table && (this.table == null ||
                 !this.table.equals(other.table))) {
             return false;
