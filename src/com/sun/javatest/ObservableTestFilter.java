@@ -45,7 +45,7 @@ public abstract class ObservableTestFilter extends TestFilter {
          *
          * @param filter The filter that has been changed
          */
-        public void filterUpdated(ObservableTestFilter filter);
+        void filterUpdated(ObservableTestFilter filter);
     }
 
     /**

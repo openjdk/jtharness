@@ -55,14 +55,14 @@ public class Preferences {
      * An observer interface for use by those that wishing to monitor changes
      * to user preferences.
      */
-    public static interface Observer {
+    public interface Observer {
         /**
          * A preference has been changed.
          *
          * @param name     the name of the preference that has been changed
          * @param newValue the new value for the named preference
          */
-        public void updated(String name, String newValue);
+        void updated(String name, String newValue);
     }
 
     /**

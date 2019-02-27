@@ -39,19 +39,19 @@ import javax.swing.JComponent;
  */
 interface ET_TestTreeControl extends ET_Control, Session.Observer {
 
-    public TestResultTable getTestResultTable();
+    TestResultTable getTestResultTable();
 
-    public TreePanelModel getTreePanelModel();
+    TreePanelModel getTreePanelModel();
 
-    public void setParameters(Parameters p);
+    void setParameters(Parameters p);
 
-    public Parameters getParameters();
+    Parameters getParameters();
 
-    public void setFilterSelectionHandler(FilterSelectionHandler fh);
+    void setFilterSelectionHandler(FilterSelectionHandler fh);
 
-    public void initialize();
+    void initialize();
 
-    public JComponent getViewComponent();
+    JComponent getViewComponent();
 
     void saveTreeState(Map<String, String> m);
 

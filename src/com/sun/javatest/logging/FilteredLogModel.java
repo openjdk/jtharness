@@ -279,7 +279,7 @@ public class FilteredLogModel extends LogModel {
     private ObservedFile of;
 
     public interface FilterChangedListener {
-        public void onFilterChanged();
+        void onFilterChanged();
     }
 
 

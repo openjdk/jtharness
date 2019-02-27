@@ -54,7 +54,7 @@ public class TestResultCache {
      * Interface which allows an external class to monitor the cache's
      * activities.
      */
-    public static interface Observer {
+    public interface Observer {
         /**
          * Called when tests have been read from the cache file.
          *

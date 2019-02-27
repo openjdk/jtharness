@@ -654,12 +654,12 @@ public class ServiceManager implements Harness.Observer {
 
     }
 
-    public static interface Observer {
-        public void handleAlive(String sID, boolean alive);
+    public interface Observer {
+        void handleAlive(String sID, boolean alive);
 
-        public void handleNotConnected(String sID, NotConnectedException ex);
+        void handleNotConnected(String sID, NotConnectedException ex);
 
-        public void handleError(String sID, ServiceError ex);
+        void handleError(String sID, ServiceError ex);
     }
 
     public void addObserver(Observer o) {

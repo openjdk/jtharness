@@ -45,34 +45,34 @@ import com.sun.javatest.TestResultTable;
 
 interface TreePanelModel {
     // notification
-    public void nodeSelected(Object node, TreePath path);
+    void nodeSelected(Object node, TreePath path);
 
-    public void testSelected(TestResult node, TreePath path);
+    void testSelected(TestResult node, TreePath path);
 
-    public void nodeUnSelected(Object node, TreePath path);
+    void nodeUnSelected(Object node, TreePath path);
 
-    public void testUnSelected(TestResult node, TreePath path);
+    void testUnSelected(TestResult node, TreePath path);
 
     // requests
-    public void showNode(Object node, TreePath path);
+    void showNode(Object node, TreePath path);
 
-    public void showNode(String url);
+    void showNode(String url);
 
-    public void showTest(TestResult node, TreePath path);
+    void showTest(TestResult node, TreePath path);
 
-    public void showTest(TestResult node);
+    void showTest(TestResult node);
 
-    public void showTest(String url);
+    void showTest(String url);
 
-    public void hideNode(Object node, TreePath path);
+    void hideNode(Object node, TreePath path);
 
-    public void hideTest(TestResult node, TreePath path);
+    void hideTest(TestResult node, TreePath path);
 
     /**
      * Get the active test result table.
      * This value may change over time.
      */
-    public TestResultTable getTestResultTable();
+    TestResultTable getTestResultTable();
 
     /**
      * Find out which test is selected.
@@ -80,7 +80,7 @@ interface TreePanelModel {
      * @return null if a test is not selected.  Otherwise the string from
      * <code>TestResult.getTestName()</code>.
      */
-    public String getSelectedTest();
+    String getSelectedTest();
 
     //public String getSelectedNode();          // uncomment to use
 
@@ -88,9 +88,9 @@ interface TreePanelModel {
      * Return the folder or test that the user is currently viewing.
      */
     //public Object getSelectedObject();        // uncomment to use
-    public boolean isActive(TT_TreeNode node);
+    boolean isActive(TT_TreeNode node);
 
-    public boolean isActive(TestResult tr);
+    boolean isActive(TestResult tr);
 
     /**
      * Pause background processing.

@@ -36,7 +36,7 @@ public interface ConnectionFactory {
      * This exception is used to forward exception that might occur when
      * using the connection factory.
      */
-    public static class Fault extends Exception {
+    class Fault extends Exception {
         /**
          * Create a Fault.
          *

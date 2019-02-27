@@ -40,16 +40,16 @@ interface BP_Model {
     /**
      * Is the harness currently running tests?
      */
-    public boolean isRunning();
+    boolean isRunning();
 
-    public void showMessage(String msg);
+    void showMessage(String msg);
 
     /**
      * @param tr   The test that should be made active in the GUI.
      * @param path Path to the target test, where the first element is the
      *             root of the appropriate TRT, and the last element is the test.
      */
-    public void showTest(TestResult tr, Object... path);
+    void showTest(TestResult tr, Object... path);
 
     /**
      * Do whatever may be needed to enable/disable the given component in the overall
@@ -58,7 +58,7 @@ interface BP_Model {
      * @param c     The component to affect.
      * @param state True to enable, false to disable.
      */
-    public void setEnabled(Component c, boolean state);
+    void setEnabled(Component c, boolean state);
 
     /**
      * Is the given component enabled or not?
@@ -69,10 +69,10 @@ interface BP_Model {
      * case where the given component can't be found.
      * @see #setEnabled
      */
-    public boolean isEnabled(Component c);
+    boolean isEnabled(Component c);
 
     /**
      * Return the current test filter.
      */
-    public TestFilter getFilter();
+    TestFilter getFilter();
 }

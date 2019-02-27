@@ -45,7 +45,7 @@ interface ET_RunTestControl extends ET_Control {
 
     Harness getHarness();
 
-    public void executeImmediate(String... paths);
+    void executeImmediate(String... paths);
 
     void addObserver(Observer obs);
 
@@ -54,7 +54,7 @@ interface ET_RunTestControl extends ET_Control {
     /**
      * Returns panel reflecting current component state
      */
-    public JComponent getViewComponent();
+    JComponent getViewComponent();
 
     /**
      * Interface for observers for start/finish tests events

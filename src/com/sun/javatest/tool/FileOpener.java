@@ -39,7 +39,7 @@ public interface FileOpener {
     /**
      * This exception is to report problems that occur while opening a file.
      */
-    public static class Fault extends Exception {
+    class Fault extends Exception {
         /**
          * Create a Fault.
          *

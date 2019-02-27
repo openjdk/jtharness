@@ -57,7 +57,7 @@ public interface Session {
     /**
      * Exception signaling of the problem happened while dealing with Session.
      */
-    public class Fault extends Exception {
+    class Fault extends Exception {
         public Fault(String reason) {
             super(reason);
         }
@@ -70,20 +70,20 @@ public interface Session {
     /**
      * Root interface for all updates to Session.
      */
-    public interface Update {
+    interface Update {
     }
 
     /**
      * Root interface for all events happened when state of Session changed.
      */
-    public interface Event {
+    interface Event {
     }
 
 
     /**
      * Interface for observers of the Session state.
      */
-    public interface Observer {
+    interface Observer {
         /**
          * Invoked when state of config has changed
          *
@@ -98,7 +98,7 @@ public interface Session {
      * @param u - object encapsulating data describing the change.
      * @throws com.sun.javatest.exec.Session.Fault in case of any problem
      */
-    public void update(Update u) throws Fault;
+    void update(Update u) throws Fault;
 
     /**
      * Method to be invoked from outside to change the state of the Session.
@@ -108,7 +108,7 @@ public interface Session {
      * @throws com.sun.javatest.exec.Session.Fault in case of any problem
      * @since 4.4.1
      */
-    public void update(Update u, boolean updateConfig) throws Fault;
+    void update(Update u, boolean updateConfig) throws Fault;
 
     /**
      * Registers the observer. Does nothing if the observer is null or already
@@ -116,7 +116,7 @@ public interface Session {
      *
      * @param obs - observer
      */
-    public void addObserver(Observer obs);
+    void addObserver(Observer obs);
 
     /**
      * Unregisters the observer. Does nothing if the observer is null or not
@@ -124,14 +124,14 @@ public interface Session {
      *
      * @param obs - observer
      */
-    public void removeObserver(Observer obs);
+    void removeObserver(Observer obs);
 
     /**
      * Delivers events to the all registered observers
      *
      * @param evn - event to be sent out.
      */
-    public void notifyObservers(Event evn);
+    void notifyObservers(Event evn);
 
     /**
      * Gets test filter by its name.
@@ -160,7 +160,7 @@ public interface Session {
      * @param map
      * @throws com.sun.javatest.exec.Session.Fault
      */
-    public void save(Map<String, String> map);
+    void save(Map<String, String> map);
 
 
     /**
@@ -176,31 +176,31 @@ public interface Session {
      * @param map
      * @throws com.sun.javatest.exec.Session.Fault
      */
-    public void restore(Map<String, String> map) throws Fault;
+    void restore(Map<String, String> map) throws Fault;
 
     /**
      * Disposes configuration. Critical when heavy objects were used.
      */
-    public void dispose();
+    void dispose();
 
     /**
      * Returns the config property names
      *
      * @return Configuration property name List
      */
-    public List<String> getPropertyNames();
+    List<String> getPropertyNames();
 
     /**
      * @return the value of property or null if unset
      * @throws IllegalArgumentException if case of unknown name
      * @see #getPropertyNames
      */
-    public String getValue(String name);
+    String getValue(String name);
 
     /**
      * @return true if configuration is ready for test execution
      */
-    public boolean isReady();
+    boolean isReady();
 
     /**
      * Data required to execute tests.
@@ -208,6 +208,6 @@ public interface Session {
      *
      * @return The current parameters in use.
      */
-    public Parameters getParameters();
+    Parameters getParameters();
 
 }

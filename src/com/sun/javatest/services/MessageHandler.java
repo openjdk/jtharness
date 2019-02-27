@@ -37,5 +37,5 @@ public interface MessageHandler {
      *
      * @param msg
      */
-    public void handleMessage(Message msg);
+    void handleMessage(Message msg);
 }

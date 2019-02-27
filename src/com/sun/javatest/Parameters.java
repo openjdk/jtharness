@@ -942,12 +942,12 @@ public interface Parameters {
         /**
          * The lowest permitted value for the concurrency.
          */
-        static int MIN_CONCURRENCY = 1;
+        int MIN_CONCURRENCY = 1;
 
         /**
          * The highest allowed value for the concurrency.
          */
-        static int MAX_CONCURRENCY = 256;
+        int MAX_CONCURRENCY = 256;
     }
 
     //----------------------------------------------------------------------------
@@ -988,12 +988,12 @@ public interface Parameters {
         /**
          * The lowest permitted value for timeout factor.
          */
-        static float MIN_TIMEOUT_FACTOR = 0.1f;
+        float MIN_TIMEOUT_FACTOR = 0.1f;
 
         /**
          * The highest permitted value for timeout factor.
          */
-        static float MAX_TIMEOUT_FACTOR = 100.f;
+        float MAX_TIMEOUT_FACTOR = 100.f;
     }
 
     //----------------------------------------------------------------------------

@@ -43,34 +43,34 @@ public interface ET_ControlFactory {
      *
      * @throws com.sun.javatest.exec.Session.Fault
      */
-    public ET_SessionControl createSessionControl() throws Session.Fault;
+    ET_SessionControl createSessionControl() throws Session.Fault;
 
     /**
      * Creates a control over filters. Due to internal reasons the returned
      * object must be instance of ET_FilterHandler. Sorry for the inconveniences
      * caused.
      */
-    public ET_FilterControl createFilterControl();
+    ET_FilterControl createFilterControl();
 
     /**
      * Creates a control over help.
      */
-    public ET_HelpControl createHelpControl();
+    ET_HelpControl createHelpControl();
 
     /**
      * Creates a view controls.
      */
-    public ET_ViewControl createViewControl();
+    ET_ViewControl createViewControl();
 
     /**
      * Creates a report controls.
      */
-    public ET_ReportControl createReportControl();
+    ET_ReportControl createReportControl();
 
 
     /**
      * Creates a list of custom controls.
      */
-    public List<ET_Control> createCustomControls();
+    List<ET_Control> createCustomControls();
 
 }

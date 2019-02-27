@@ -44,7 +44,7 @@ public interface ServiceExecutor {
      * in case service was started successfully, or type {@link com.sun.javatest.services.Message.MessageType#ERROR},
      * in case some problems occurred.
      */
-    public Message startService(Message startMsg);
+    Message startService(Message startMsg);
 
     /**
      * Method, that stops service.
@@ -55,7 +55,7 @@ public interface ServiceExecutor {
      * in case service was stopped successfully, or type {@link com.sun.javatest.services.Message.MessageType#ERROR},
      * in case some problems occurred.
      */
-    public Message stopService(Message stopMsg);
+    Message stopService(Message stopMsg);
 
     /**
      * Method, that checks that service is alive and runs normally.
@@ -66,21 +66,21 @@ public interface ServiceExecutor {
      * in case service alive, or {@link com.sun.javatest.services.Message.MessageType#NOT_ALIVE},
      * if there any problems with running service.
      */
-    public Message isAlive(Message isAlive);
+    Message isAlive(Message isAlive);
 
     /**
      * Method, which provides access for service error output.
      *
      * @return InputStream to read service error output.
      */
-    public InputStream getServiceErrorStream();
+    InputStream getServiceErrorStream();
 
     /**
      * Method, which provides access for service output.
      *
      * @return InputStream to read service output.
      */
-    public InputStream getServiceOutputStream();
+    InputStream getServiceOutputStream();
 
 
 }

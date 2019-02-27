@@ -111,18 +111,18 @@ class NewReportDialog extends ToolDialog {
          * The dialog is done. Notify the observer to keep a snapshot of
          * current state.
          */
-        public void update(Map<String, String> l);
+        void update(Map<String, String> l);
 
         // starting
-        public void writingReport();
+        void writingReport();
 
         // done
-        public void wroteReport();
+        void wroteReport();
 
         // error creating report
         // upgrade to use resource bundle+key as message
         // the given error occurred, and the user was informed
-        public void errorWriting(String problem);
+        void errorWriting(String problem);
     }
 
     NewReportDialog(Component parent, UIFactory uif, FilterConfig f,

@@ -47,7 +47,7 @@ public interface SessionExt extends Session {
      *
      * @return The current wd set.
      */
-    public WorkDirectory getWorkDirectory();
+    WorkDirectory getWorkDirectory();
 
     /**
      * Returns InterviewParameters object, most likely the same object
@@ -60,7 +60,7 @@ public interface SessionExt extends Session {
      * @return an instance of InterviewParameters
      * @see #getParameters()
      */
-    public InterviewParameters getInterviewParameters();
+    InterviewParameters getInterviewParameters();
 
     /**
      * Loads interview from a given file and associates it with a given
@@ -70,10 +70,10 @@ public interface SessionExt extends Session {
      * @param jti
      * @throws com.sun.javatest.exec.Session.Fault
      */
-    public void loadInterviewFromFile(WorkDirectory wd, File jti) throws Session.Fault;
+    void loadInterviewFromFile(WorkDirectory wd, File jti) throws Session.Fault;
 
     /**
      * Reloads interview if out of date.
      */
-    public void reloadInterview() throws Session.Fault;
+    void reloadInterview() throws Session.Fault;
 }

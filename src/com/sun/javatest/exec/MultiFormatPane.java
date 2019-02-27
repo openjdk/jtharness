@@ -347,11 +347,11 @@ public class MultiFormatPane extends JPanel implements Printable {
 
     public interface MediaPane {
 
-        public int getMode();
+        int getMode();
 
-        public void changeURL(URL url);
+        void changeURL(URL url);
 
-        public void setParent(JScrollPane pane);
+        void setParent(JScrollPane pane);
     }
 
     // Print this panel

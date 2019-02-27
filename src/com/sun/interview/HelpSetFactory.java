@@ -46,7 +46,7 @@ public interface HelpSetFactory {
      *
      * @throws com.sun.interview.Interview.Fault if something went wrong
      */
-    public Object createHelpSetObject(String name, Class<?> c) throws Interview.Fault;
+    Object createHelpSetObject(String name, Class<?> c) throws Interview.Fault;
 
     /**
      * Creates an instance of HelpSet.
@@ -55,7 +55,7 @@ public interface HelpSetFactory {
      *
      * @throws com.sun.interview.Interview.Fault if something went wrong
      */
-    public Object createHelpSetObject(String name, File file) throws Interview.Fault;
+    Object createHelpSetObject(String name, File file) throws Interview.Fault;
 
     /**
      * Updates a HelpSet instance associated with the given interview.
@@ -63,18 +63,18 @@ public interface HelpSetFactory {
      * @param interview - interview object to reset HelpSet
      * @param object    - an instance of javax.help.HelpSet
      */
-    public Object updateHelpSetObject(Interview interview, Object object);
+    Object updateHelpSetObject(Interview interview, Object object);
 
-    public Object createHelpID(Object hs, String str);
+    Object createHelpID(Object hs, String str);
 
 
     /**
      * The very default implementation of the HelpSetFactory interface.
      * It should be used in case when help is not required (command line mode)
      */
-    public static final HelpSetFactory DEFAULT = new Default();
+    HelpSetFactory DEFAULT = new Default();
 
-    static class Default implements HelpSetFactory {
+    class Default implements HelpSetFactory {
         private static final Object EMPTY = new Object();
 
         @Override

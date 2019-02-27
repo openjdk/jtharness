@@ -39,7 +39,7 @@ public interface ET_FilterControl extends ET_Control, HarnessAware {
     /**
      * @return a menu of available filters
      */
-    public JMenu getFilterMenu();
+    JMenu getFilterMenu();
 
     //FilterSelectionHandler getFilterSelectionHandler();
     //FilterConfig getFilterConfig();

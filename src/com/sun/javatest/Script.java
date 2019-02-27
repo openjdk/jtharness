@@ -1384,13 +1384,13 @@ public abstract class Script {
      *
      * @see #setTimeoutProvider(TimeoutProvider)
      */
-    public static interface TimeoutProvider {
+    public interface TimeoutProvider {
         /**
          * Implement this method returning desired test timeout value
          *
          * @return timeout in <b>seconds</b>
          */
-        public int getTestTimeout();
+        int getTestTimeout();
     }
 
     private class DefaultTimeoutProvider implements TimeoutProvider {

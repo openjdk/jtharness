@@ -94,7 +94,7 @@ public abstract class TestFinder {
      * @see TestFinder#localizedError
      * @see TestFinder.Fault
      */
-    public static interface ErrorHandler {
+    public interface ErrorHandler {
         /**
          * Report an error found while reading a file.
          *

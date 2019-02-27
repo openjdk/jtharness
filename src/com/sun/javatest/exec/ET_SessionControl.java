@@ -39,26 +39,26 @@ public interface ET_SessionControl extends ET_Control {
      *
      * @return The session associated with this instance.
      */
-    public Session getSession();
+    Session getSession();
 
     /**
      * Causes configuration editor to appear
      */
-    public void edit();
+    void edit();
 
     /**
      * Causes a series of actions to be performed to complete configuration.
      */
-    public void configure();
+    void configure();
 
     /**
      * @return true if configuring is in progress at the moment.
      */
-    public boolean isConfiguring();
+    boolean isConfiguring();
 
     /**
      * Returns panel reflecting current component state
      */
-    public JComponent getViewComponent();
+    JComponent getViewComponent();
 
 }

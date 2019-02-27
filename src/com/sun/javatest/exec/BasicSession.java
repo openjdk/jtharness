@@ -144,12 +144,12 @@ public class BasicSession implements SessionExt {
      * Integer.MIN_VALUE. To be notified last, the order() method should return
      * Integer.MAX_VALUE. The order of regular observers is zero.
      */
-    public static interface OrderedObserver extends Observer {
+    public interface OrderedObserver extends Observer {
         /**
          * Returns number from Integer.MIN_VALUE to Integer.MAX_VALUE
          * to be sorted by when notifying.
          */
-        public int order();
+        int order();
     }
 
 

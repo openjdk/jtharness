@@ -117,8 +117,8 @@ public class TestPath {
         this.mgr = mgr;
     }
 
-    public static interface TDMatcher {
-        public boolean matches(TestDescription td);
+    public interface TDMatcher {
+        boolean matches(TestDescription td);
     }
 
     @Override

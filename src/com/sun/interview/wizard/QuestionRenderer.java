@@ -63,10 +63,10 @@ public interface QuestionRenderer {
      * be a Runnable, which will be invoked when any data in the component
      * needs to be saved back into the question.
      */
-    public static final String VALUE_SAVER = "valueSaver";
+    String VALUE_SAVER = "valueSaver";
 
     /**
      * The action command for notifying that a question's response has been edited.
      */
-    public static final String EDITED = "edited";
+    String EDITED = "edited";
 }

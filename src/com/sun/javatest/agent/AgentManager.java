@@ -78,7 +78,7 @@ public class AgentManager {
     /**
      * An Observer class to monitor Agent activity.
      */
-    public static interface Observer {
+    public interface Observer {
         /**
          * Called when a task starts a request.
          *

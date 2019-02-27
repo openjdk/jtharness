@@ -39,7 +39,7 @@ public abstract class TreeQuestion extends Question {
      * An interface that provides the model for the tree whose nodes
      * are selected by a TreeQuestion.
      */
-    public static interface Model {
+    public interface Model {
         /**
          * Get the root node of the tree.
          *

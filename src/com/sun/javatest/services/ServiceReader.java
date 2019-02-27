@@ -50,7 +50,7 @@ public interface ServiceReader {
      *             except first arg, which is reader's implementation class. The key of this
      *             record in {@code testsuite.jtt} file is "serviceReader"
      */
-    public void init(TestSuite ts, String... args);
+    void init(TestSuite ts, String... args);
 
     /**
      * Creates {@link com.sun.javatest.services.Service} instances and map from
@@ -60,7 +60,7 @@ public interface ServiceReader {
      *
      * @return map from service's IDs to services.
      */
-    public Map<String, Service> readServices();
+    Map<String, Service> readServices();
 
     /**
      * Creates and returns set of test paths, which describe mapping from tests
@@ -68,10 +68,10 @@ public interface ServiceReader {
      *
      * @return set of tests-to-services maps
      */
-    public Set<TestPath> readTestServiceMap();
+    Set<TestPath> readTestServiceMap();
 
     /**
      * Returns file name with information on how to start services
      */
-    public String getServiceDescriptorFileName();
+    String getServiceDescriptorFileName();
 }

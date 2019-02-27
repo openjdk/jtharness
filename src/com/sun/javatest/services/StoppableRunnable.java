@@ -43,5 +43,5 @@ public interface StoppableRunnable extends Runnable {
      * The method(s) handling the service should be flagged to exit as soon
      * as possible so the <code>Thread</code> can terminate in a timely manner.
      */
-    public void stop();
+    void stop();
 }

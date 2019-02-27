@@ -36,6 +36,6 @@ import com.sun.javatest.Harness;
  */
 public interface HarnessAware {
 
-    public void setHarness(Harness h);
+    void setHarness(Harness h);
 
 }

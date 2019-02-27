@@ -29,6 +29,6 @@ package com.sun.javatest.logging;
 import java.util.EventListener;
 
 public interface FileListener extends EventListener {
-    public void fileModified(FileEvent e);
+    void fileModified(FileEvent e);
 }
 

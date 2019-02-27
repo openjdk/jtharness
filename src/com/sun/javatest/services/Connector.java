@@ -49,19 +49,19 @@ public interface Connector {
     /**
      * Method, invoked by harness, to establish connection with ServiceExecutor.
      */
-    public void esteblishConnection();
+    void esteblishConnection();
 
     /**
      * Method, invoked by harness, to refuse connection with ServiceExecutor.
      */
-    public void refuseConnection();
+    void refuseConnection();
 
     /**
      * Method, that may be invoked, to check that connection is alive.
      *
      * @return
      */
-    public boolean connected();
+    boolean connected();
 
     /**
      * Method for synchronous message exchange
@@ -70,26 +70,26 @@ public interface Connector {
      *            message type and parameters to be sent.
      * @return response message
      */
-    public Message send(Message msg);
+    Message send(Message msg);
 
     /**
      * Method for asynchronous message exchange.
      *
      * @param handler handler to process asynchronous incoming messages.
      */
-    public void setMessageHandler(MessageHandler handler);
+    void setMessageHandler(MessageHandler handler);
 
     /**
      * Method to provide access for ServiceExecutor's error output.
      *
      * @return InputStream to read service error output.
      */
-    public InputStream getServiceErrorStream();
+    InputStream getServiceErrorStream();
 
     /**
      * Method to provide access for ServiceExecutor's output.
      *
      * @return InputStream to read service output.
      */
-    public InputStream getServiceOutputStream();
+    InputStream getServiceOutputStream();
 }

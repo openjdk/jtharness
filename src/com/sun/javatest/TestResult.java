@@ -147,7 +147,7 @@ public class TestResult {
          * @param tr      The test result in which the section was created.
          * @param section The section that has been created
          */
-        public void createdSection(TestResult tr, Section section);
+        void createdSection(TestResult tr, Section section);
 
         /**
          * A section has been been completed in the test result.
@@ -155,7 +155,7 @@ public class TestResult {
          * @param tr      The test result containing the section.
          * @param section The section that has been completed.
          */
-        public void completedSection(TestResult tr, Section section);
+        void completedSection(TestResult tr, Section section);
 
         /**
          * New output has been created in a section of the test result.
@@ -164,7 +164,7 @@ public class TestResult {
          * @param section    The section in which the output has been created.
          * @param outputName The name of the output.
          */
-        public void createdOutput(TestResult tr, Section section, String outputName);
+        void createdOutput(TestResult tr, Section section, String outputName);
 
         /**
          * Output has been completed in a section of the test result.
@@ -173,7 +173,7 @@ public class TestResult {
          * @param section    The section in which the output has been completed.
          * @param outputName The name of the output.
          */
-        public void completedOutput(TestResult tr, Section section, String outputName);
+        void completedOutput(TestResult tr, Section section, String outputName);
 
         /**
          * The output for a section has been updated.
@@ -185,7 +185,7 @@ public class TestResult {
          * @param end        the end offset of the text that was changed
          * @param text       the text that replaced the specified range.
          */
-        public void updatedOutput(TestResult tr, Section section, String outputName, int start, int end, String text);
+        void updatedOutput(TestResult tr, Section section, String outputName, int start, int end, String text);
 
         /**
          * A property of the test result has been updated.
@@ -194,7 +194,7 @@ public class TestResult {
          * @param name  The key for the property that was modified.
          * @param value The new value for the property.
          */
-        public void updatedProperty(TestResult tr, String name, String value);
+        void updatedProperty(TestResult tr, String name, String value);
 
         /**
          * The test has completed, and the results are now immutable.
@@ -202,7 +202,7 @@ public class TestResult {
          *
          * @param tr The test result that has been completed.
          */
-        public void completed(TestResult tr);
+        void completed(TestResult tr);
 
     }
 

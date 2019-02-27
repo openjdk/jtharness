@@ -59,26 +59,26 @@ class MonitorState {
         /**
          * A new test run is starting.
          */
-        public void starting();
+        void starting();
 
         /**
          * The tests have stopped running, and the harness is now doing
          * cleanup.
          */
-        public void postProcessing();
+        void postProcessing();
 
         /**
          * A test run is being stopped by something.  This is not the same
          * as finishing.
          */
-        public void stopping();
+        void stopping();
 
         /**
          * A test run is finishing.
          *
          * @param allOk Did all the tests pass?
          */
-        public void finished(boolean allOk);
+        void finished(boolean allOk);
     }
 
     void addObserver(Observer o) {

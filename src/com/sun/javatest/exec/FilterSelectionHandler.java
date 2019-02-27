@@ -60,19 +60,19 @@ class FilterSelectionHandler {
         /**
          * The state of the given filter has changed.
          */
-        public void filterUpdated(TestFilter f);
+        void filterUpdated(TestFilter f);
 
         /**
          * The system is requesting a different filter.
          */
-        public void filterSelected(TestFilter f);
+        void filterSelected(TestFilter f);
 
-        public void filterAdded(TestFilter f);
+        void filterAdded(TestFilter f);
 
         /**
          * Removing the active filter will result in an exception.
          */
-        public void filterRemoved(TestFilter f);
+        void filterRemoved(TestFilter f);
     }
 
     FilterSelectionHandler(FilterConfig fc, UIFactory uif) {

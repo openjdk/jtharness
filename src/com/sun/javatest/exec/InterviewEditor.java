@@ -1653,7 +1653,7 @@ public class InterviewEditor extends ToolDialog {
          *
          * @param p object with updated value (viewConfig)
          */
-        public void changed(InterviewParameters p);
+        void changed(InterviewParameters p);
 
         /**
          * Invoked when setVisible() method is invoked on InterviewEditor object
@@ -1661,6 +1661,6 @@ public class InterviewEditor extends ToolDialog {
          * @param isVisible argument passed to setVisible() method
          * @param source    editor that changed the state
          */
-        public void changedVisibility(boolean isVisible, InterviewEditor source);
+        void changedVisibility(boolean isVisible, InterviewEditor source);
     }
 }

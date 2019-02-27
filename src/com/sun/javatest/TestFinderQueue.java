@@ -44,7 +44,7 @@ public class TestFinderQueue {
      * This interface provides a means for TestFinder to report on events that
      * might be of interest as it executes.
      */
-    public static interface Observer {
+    public interface Observer {
         /**
          * Another file which needs to be read has been found.
          *

@@ -59,6 +59,6 @@ public interface Test {
      * @param out2 An additional stream to which to report messages. This stream was previously called "out".
      * @return A {@link Status} object representing the outcome of the test.
      */
-    public Status run(String[] args, PrintWriter out1, PrintWriter out2);
+    Status run(String[] args, PrintWriter out1, PrintWriter out2);
 
 }

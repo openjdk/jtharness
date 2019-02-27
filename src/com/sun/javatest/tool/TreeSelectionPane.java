@@ -47,7 +47,7 @@ public class TreeSelectionPane extends JComponent implements Accessible {
     /**
      * The model for the tree whose nodes can be selected in a TreeSelectionPane.
      */
-    public static interface Model {
+    public interface Model {
         /**
          * Get the root node of the tree.
          *

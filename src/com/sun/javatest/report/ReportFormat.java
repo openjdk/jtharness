@@ -51,7 +51,7 @@ interface ReportFormat {
 
     List<ReportFormat> getSubReports();
 
-    public static class ReportLink {
+    class ReportLink {
         public final String linkText;
         public final String linkID;
         public final File linkFile;

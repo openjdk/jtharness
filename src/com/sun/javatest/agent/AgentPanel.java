@@ -61,7 +61,7 @@ import java.io.PrintStream;
  */
 class AgentPanel extends ScrollPane {
     public interface MapReader {
-        public abstract ConfigValuesMap read(String name) throws IOException;
+        ConfigValuesMap read(String name) throws IOException;
     }
 
     /**

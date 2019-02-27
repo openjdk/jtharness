@@ -75,14 +75,14 @@ public class FilterConfig {
         /**
          * The state of the given filter has changed.
          */
-        public void filterUpdated(TestFilter f);
+        void filterUpdated(TestFilter f);
 
-        public void filterAdded(TestFilter f);
+        void filterAdded(TestFilter f);
 
         /**
          * Removing the active filter will result in an exception.
          */
-        public void filterRemoved(TestFilter f);
+        void filterRemoved(TestFilter f);
     }
 
     public FilterConfig(ExecModel e, JComponent parent, UIFactory uif) {

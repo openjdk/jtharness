@@ -43,28 +43,28 @@ public interface ET_Control {
     /**
      * Invoked when some change has happened
      */
-    public void updateGUI();
+    void updateGUI();
 
     /**
      * Saves current state to the map
      */
-    public void save(Map<String, String> m);
+    void save(Map<String, String> m);
 
     /**
      * Restores saved state from the map
      */
-    public void restore(Map<String, String> m);
+    void restore(Map<String, String> m);
 
     /**
      * Returts menu to be added to the menu mar
      */
-    public JMenu getMenu();
+    JMenu getMenu();
 
     /**
      * Returns list of actions to be added to the tool bar
      */
-    public List<Action> getToolBarActionList();
+    List<Action> getToolBarActionList();
 
-    public void dispose();
+    void dispose();
 
 }

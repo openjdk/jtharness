@@ -195,7 +195,7 @@ public abstract class InterviewParameters
          * @param file template file
          * @return true if this operation is allowed, false otherwise
          */
-        public boolean canSaveTemplate(File file);
+        boolean canSaveTemplate(File file);
     }
 
     public void setPropagationController(CustomPropagationController pc) {

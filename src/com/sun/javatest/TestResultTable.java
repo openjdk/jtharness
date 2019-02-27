@@ -175,7 +175,7 @@ public class TestResultTable {
          * @param newNode The node which was added.
          * @param index   The index at which the node was added.
          */
-        public void insertedBranch(TreeNode parent, TreeNode newNode, int index);
+        void insertedBranch(TreeNode parent, TreeNode newNode, int index);
 
         /**
          * A TestResult has been inserted into the given parent node.
@@ -185,7 +185,7 @@ public class TestResultTable {
          * @param test   The test which was added.
          * @param index  The index at which the test was added.
          */
-        public void insertedResult(TreeNode parent, TestResult test, int index);
+        void insertedResult(TreeNode parent, TestResult test, int index);
 
         /**
          * A TestResult has been replaced in the given parent node.
@@ -196,8 +196,8 @@ public class TestResultTable {
          * @param newTest The test which took the old test's place.
          * @param index   The index at which activity occurred.
          */
-        public void replacedResult(TreeNode parent, TestResult oldTest,
-                                   TestResult newTest, int index);
+        void replacedResult(TreeNode parent, TestResult oldTest,
+                            TestResult newTest, int index);
 
         /**
          * A TreeNode has been removed from the given parent node.
@@ -206,7 +206,7 @@ public class TestResultTable {
          *               the object that the observer attached to.
          * @param index  The index at which the removed node resided in the parent.
          */
-        public void removedBranch(TreeNode parent, int index);
+        void removedBranch(TreeNode parent, int index);
 
         /**
          * A TestResult has been removed from the given parent node.
@@ -216,7 +216,7 @@ public class TestResultTable {
          * @param test   The test which was removed.
          * @param index  The index at which the removed test resided in the parent.
          */
-        public void removedResult(TreeNode parent, TestResult test, int index);
+        void removedResult(TreeNode parent, TestResult test, int index);
 
         /**
          * The statistics counters of the node have changed.
@@ -224,7 +224,7 @@ public class TestResultTable {
          * @param node The node whose counters were invalidated.
          *             This is the same as the node which this observer attached to.
          */
-        public void countersInvalidated(TreeNode node);
+        void countersInvalidated(TreeNode node);
     }
 
 
@@ -2261,7 +2261,7 @@ public class TestResultTable {
          * @param obs The observer to attach to this node.  Should never be
          *            null.
          */
-        public void addObserver(TestResultTable.TreeNodeObserver obs);
+        void addObserver(TestResultTable.TreeNodeObserver obs);
 
         /**
          * Add a observer for this particular node.
@@ -2269,7 +2269,7 @@ public class TestResultTable {
          * @param obs The observer to remove.  No effect if it was never
          *            attached.
          */
-        public void removeObserver(TestResultTable.TreeNodeObserver obs);
+        void removeObserver(TestResultTable.TreeNodeObserver obs);
 
         /**
          * Find out how many nodes are contained in this one and below.
@@ -2277,14 +2277,14 @@ public class TestResultTable {
          *
          * @return The number of tests under this node.
          */
-        public int getSize();
+        int getSize();
 
         /**
          * Get the parent of this node.
          *
          * @return Null if this is the root.  Another TreeNode otherwise.
          */
-        public TreeNode getParent();
+        TreeNode getParent();
 
         /**
          * Is this the root of a tree.
@@ -2292,14 +2292,14 @@ public class TestResultTable {
          *
          * @return True if this is the root node, false otherwise.
          */
-        public boolean isRoot();
+        boolean isRoot();
 
         /**
          * Find out what TestResultTable this node is part of.
          *
          * @return The TRT instance which this node is contained.
          */
-        public TestResultTable getEnclosingTable();
+        TestResultTable getEnclosingTable();
 
         /**
          * Has the finder been used to scan this node from secondary storage?.
@@ -2311,7 +2311,7 @@ public class TestResultTable {
          * @return True if this location in tree has already been processed,
          * false otherwise.
          */
-        public boolean isUpToDate();
+        boolean isUpToDate();
 
         /**
          * Find out how many children this node contains.
@@ -2321,7 +2321,7 @@ public class TestResultTable {
          *
          * @return The number of immediate children this node has.
          */
-        public int getChildCount();
+        int getChildCount();
 
         /**
          * Get the child at the specified location.
@@ -2334,21 +2334,21 @@ public class TestResultTable {
          * @return Null if there are no children here or the specified index if out of
          * range.
          */
-        public Object getChild(int index);
+        Object getChild(int index);
 
         /**
          * Get any immediate children of this node which are test result objects.
          *
          * @return List of TestResult objects in this node.  null if none
          */
-        public TestResult[] getTestResults();
+        TestResult[] getTestResults();
 
         /**
          * Get any immediate children of this node which are tree nodes.
          *
          * @return List of children nodes objects in this node.  null if none
          */
-        public TreeNode[] getTreeNodes();
+        TreeNode[] getTreeNodes();
 
         /**
          * The name of this node, not including all the ancestors names.
@@ -2357,7 +2357,7 @@ public class TestResultTable {
          * @return Immediate name of this node, not the full name.
          * @see #getRootRelativePath
          */
-        public String getName();
+        String getName();
 
         /**
          * Is the given element of this node a leaf.
@@ -2369,7 +2369,7 @@ public class TestResultTable {
          *              will return false.
          * @return True if the element at the given index is a leaf.
          */
-        public boolean isLeaf(int index);
+        boolean isLeaf(int index);
 
         /**
          * Get the statistics for the state of tests under this node.
@@ -2377,7 +2377,7 @@ public class TestResultTable {
          * @return An array of length Status.NUM_STATES, positionally representing
          * the number of tests under this node with that state.
          */
-        public int[] getChildStatus();
+        int[] getChildStatus();
 
         /**
          * Search for a specific item in this node.
@@ -2386,7 +2386,7 @@ public class TestResultTable {
          * @return The index at which the target object is located in this node.
          * -1 if not found in in this node.  -2 if the parameter is null
          */
-        public int getIndex(Object target);
+        int getIndex(Object target);
 
         /**
          * Finds a TestResult in this node with the given name.
@@ -2399,7 +2399,7 @@ public class TestResultTable {
          * null if this node has no children.
          * @see com.sun.javatest.TestDescription#getRootRelativeURL()
          */
-        public TestResult matchTest(String url);
+        TestResult matchTest(String url);
     }   // TreeNode
 
     private static class NullEnum extends TRT_Iterator {
@@ -2456,17 +2456,17 @@ public class TestResultTable {
     public interface TreeIterator extends Enumeration<TestResult>, Iterator<TestResult> {
         // --- Enumerator interface  ---
         @Override
-        public abstract boolean hasMoreElements();
+        boolean hasMoreElements();
 
         @Override
-        public abstract TestResult nextElement();
+        TestResult nextElement();
 
         // --- Iterator interface ---
         @Override
-        public abstract boolean hasNext();
+        boolean hasNext();
 
         @Override
-        public abstract TestResult next();
+        TestResult next();
 
         /**
          * Do not call this method.
@@ -2474,7 +2474,7 @@ public class TestResultTable {
          * @throws UnsupportedOperationException Not available for this iterator.
          */
         @Override
-        public abstract void remove();
+        void remove();
 
         // --- Statistics info ---
 
@@ -2485,7 +2485,7 @@ public class TestResultTable {
          * @return The number of tests found by rejected by the filters.  The
          * value will be between zero and max. int.
          */
-        public abstract int getRejectCount();
+        int getRejectCount();
 
         /**
          * Should the rejected tests be tracked.
@@ -2499,7 +2499,7 @@ public class TestResultTable {
          * @param state True to activate this feature, false to disable.
          * @see com.sun.javatest.TestResultTable.TreeIterator#getFilterStats()
          */
-        public abstract void setRecordRejects(boolean state);
+        void setRecordRejects(boolean state);
 
         /**
          * Find out which states the test which have been enumerated already were in.
@@ -2509,7 +2509,7 @@ public class TestResultTable {
          * @return Indexes refer to those values found in Status
          * @see com.sun.javatest.Status
          */
-        public abstract int[] getResultStats();
+        int[] getResultStats();
 
         /**
          * Find out which filters rejected which tests.
@@ -2526,7 +2526,7 @@ public class TestResultTable {
          * @return Array as described or null if no tests have been rejected yet.
          * @since 3.0.3
          */
-        public abstract HashMap<TestFilter, ArrayList<TestDescription>> getFilterStats();
+        HashMap<TestFilter, ArrayList<TestDescription>> getFilterStats();
 
         // --- misc info ---
 
@@ -2535,7 +2535,7 @@ public class TestResultTable {
          *
          * @return Null if there are no active filters.
          */
-        public abstract TestFilter[] getFilters();
+        TestFilter[] getFilters();
 
         /**
          * Find out what the effective initial URLs for this enumerator are.
@@ -2546,7 +2546,7 @@ public class TestResultTable {
          * @return Null if no nodes or tests were found.  Any array of the initial
          * URLs otherwise.
          */
-        public abstract String[] getInitialURLs();
+        String[] getInitialURLs();
 
         /**
          * Peek into the future to see which object will be returned next.
@@ -2554,7 +2554,7 @@ public class TestResultTable {
          * @return The next object scheduled to come out of <code>next()</code>,
          * or null if <code>hasNext()</code> is false.
          */
-        public abstract Object peek();
+        Object peek();
 
         /**
          * Will the iterator be returning the given node later.
@@ -2569,7 +2569,7 @@ public class TestResultTable {
          * iterator and may still be returned.  False if the given
          * test will not subsequently be returned by this iterator.
          */
-        public abstract boolean isPending(TestResult node);
+        boolean isPending(TestResult node);
     }   // TreeIterator
 
     class Updater implements TestResultCache.Observer {

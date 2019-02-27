@@ -137,7 +137,7 @@ public class Interview {
      * An observer interface for receiving notifications as the state of
      * the interview is updated.
      */
-    public static interface Observer {
+    public interface Observer {
         /**
          * Invoked when the current question in the interview has been changed.
          *

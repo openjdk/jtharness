@@ -61,7 +61,7 @@ public class ActiveAgentPool {
     /**
      * An Observer class to monitor activity of the active agent pool.
      */
-    public static interface Observer {
+    public interface Observer {
         /**
          * Called when a connection to an agent is added to the active agent pool.
          *
