@@ -73,10 +73,8 @@ public class TestEnvContext {
                 }
             }
         } finally {
-            propTables = new Map[p.size()];
-            p.copyInto(propTables);
-            propTableNames = new String[n.size()];
-            n.copyInto(propTableNames);
+            propTables = p.toArray(new Map[p.size()]);
+            propTableNames = n.toArray(new String[n.size()]);
             updateEnvTable();
         }
     }
@@ -95,10 +93,8 @@ public class TestEnvContext {
         for (int i = 0; i < tables.length; i++) {
             add(p, n, tables[i], tableNames[i]);
         }
-        propTables = new Map[p.size()];
-        p.copyInto(propTables);
-        propTableNames = new String[n.size()];
-        n.copyInto(propTableNames);
+        propTables = p.toArray(new Map[p.size()]);
+        propTableNames = n.toArray(new String[n.size()]);
         updateEnvTable();
     }
 
@@ -113,10 +109,8 @@ public class TestEnvContext {
         Vector<String> n = new Vector<>();
         Vector<Map<String, String>> p = new Vector<>();
         add(p, n, table, tableName);
-        propTables = new Map[p.size()];
-        p.copyInto(propTables);
-        propTableNames = new String[n.size()];
-        n.copyInto(propTableNames);
+        propTables = p.toArray(new Map[p.size()]);
+        propTableNames = n.toArray(new String[n.size()]);
         updateEnvTable();
     }
 
@@ -308,13 +302,11 @@ public class TestEnvContext {
             }
         }
 
-        envNames = new String[allVec.size()];
-        allVec.copyInto(envNames);
+        envNames = allVec.toArray(new String[allVec.size()]);
         Vector<String> menuVec = new Vector<>(allVec);
         for (int i = 0; i < menuExcludeVec.size(); i++)
             menuVec.removeElement(menuExcludeVec.elementAt(i));
-        envMenuNames = new String[menuVec.size()];
-        menuVec.copyInto(envMenuNames);
+        envMenuNames = menuVec.toArray(new String[menuVec.size()]);
     }
 
     private void sortedInsert(Vector<String> v, String s) {

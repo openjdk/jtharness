@@ -470,8 +470,7 @@ public class COFTest extends COFItem {
             v.addElement(new SimpleDateFormat(s));
         }
 
-        dateFormats = new DateFormat[v.size()];
-        v.copyInto(dateFormats);
+        dateFormats = v.toArray(new DateFormat[v.size()]);
     }
 
     private static Date parseDate(String s) {

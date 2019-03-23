@@ -256,11 +256,10 @@ public class TestCases {
             v.addElement(s.substring(start, i));
             start = i + 1;
         }
-        if (start != s.length())
+        if (start != s.length()) {
             v.addElement(s.substring(start));
-        String[] ss = new String[v.size()];
-        v.copyInto(ss);
-        return ss;
+        }
+        return v.toArray(new String[v.size()]);
     }
 
     private Object test;

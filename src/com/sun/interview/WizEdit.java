@@ -172,8 +172,7 @@ public class WizEdit {
                 throw new Fault(i18n, "edit.cantReadFile", e);
             }
 
-            String[] cmds = new String[v.size()];
-            v.copyInto(cmds);
+            String[] cmds = v.toArray(new String[v.size()]);
 
             WizEdit editor = new WizEdit(interview);
             editor.edit(cmds);

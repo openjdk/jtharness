@@ -792,8 +792,7 @@ public abstract class Script {
         }
 
         if (!v.isEmpty()) {
-            String[] necessarySrcs = new String[v.size()];
-            v.copyInto(necessarySrcs);
+            String[] necessarySrcs = v.toArray(new String[v.size()]);
 
             return compileTogether(command, necessarySrcs);
         } else

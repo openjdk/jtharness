@@ -84,8 +84,7 @@ class ObserverCommand extends Command {
             throw new Fault(i18n, "observer.noClassName");
 
         if (v != null) {
-            classArgs = new String[v.size()];
-            v.copyInto(classArgs);
+            classArgs = v.toArray(new String[v.size()]);
         }
     }
 
@@ -142,9 +141,7 @@ class ObserverCommand extends Command {
             start = i + 1;
         }
         addClassPathEntry(s.substring(start), v);
-        URL[] path = new URL[v.size()];
-        v.copyInto(path);
-        setClassPath(path);
+        setClassPath(v.toArray(new URL[v.size()]));
     }
 
     private void setClassPath(URL[] path) {

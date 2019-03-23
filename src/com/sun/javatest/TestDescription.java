@@ -92,8 +92,7 @@ public class TestDescription implements Serializable {
         for (Map.Entry<?, ?> entry : params.entrySet()) {
             insert(v, (String) entry.getKey(), (String) entry.getValue());
         }
-        fields = new String[v.size()];
-        v.copyInto(fields);
+        fields = v.toArray(new String[v.size()]);
     }
 
     /**
@@ -114,8 +113,7 @@ public class TestDescription implements Serializable {
                 insert(v, key, value);
             }
         }
-        fields = new String[v.size()];
-        v.copyInto(fields);
+        fields = v.toArray(new String[v.size()]);
     }
 
     @Override

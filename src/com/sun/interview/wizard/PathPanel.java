@@ -816,9 +816,7 @@ class PathPanel extends JPanel
             if (needMore)
                 v.add(moreText);
 
-            Object[] a = new Object[v.size()];
-            v.copyInto(a);
-            return a;
+            return v.toArray(new Object[v.size()]);
         }
 
 

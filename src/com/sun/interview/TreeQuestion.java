@@ -364,9 +364,7 @@ public abstract class TreeQuestion extends Question {
         if (v.isEmpty())
             return empty;
 
-        String[] a = new String[v.size()];
-        v.copyInto(a);
-        return a;
+        return v.toArray(new String[v.size()]);
     }
 
     public static String join(String... paths) {

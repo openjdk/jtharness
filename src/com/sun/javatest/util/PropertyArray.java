@@ -144,10 +144,7 @@ public class PropertyArray {
             insert(data, entry.getKey(), entry.getValue());
         }
 
-        String[] arr = new String[data.size()];
-        data.copyInto(arr);
-
-        return arr;
+        return data.toArray(new String[data.size()]);
     }
 
     /**
@@ -162,7 +159,6 @@ public class PropertyArray {
      */
     public static String[] put(String[] data, String key, String value) {
         Vector<String> vec;
-        String[] arr;
         String old = null;
 
         if (key == null || value == null) {
@@ -178,10 +174,8 @@ public class PropertyArray {
         // key == null is verified
         vec = copyOutOf(data);
         old = insert(vec, key, value);
-        arr = new String[vec.size()];
-        vec.copyInto(arr);
 
-        return arr;
+        return vec.toArray(new String[vec.size()]);
     }
 
     /**
@@ -272,9 +266,7 @@ public class PropertyArray {
             }
         }
 
-        String[] outData = new String[vec.size()];
-        vec.copyInto(outData);
-        return outData;
+        return vec.toArray(new String[vec.size()]);
     }
 
     /**
@@ -373,9 +365,7 @@ public class PropertyArray {
             insert(sorted, v.elementAt(i), v.elementAt(i + 1));
         }
 
-        String[] data = new String[sorted.size()];
-        sorted.copyInto(data);
-        return data;
+        return sorted.toArray(new String[sorted.size()]);
     }
 
     /**
@@ -485,8 +475,7 @@ public class PropertyArray {
 
         Vector<String> vec = copyOutOf(dataA);
         old = insert(vec, key, value);
-        dataA = new String[vec.size()];
-        vec.copyInto(dataA);
+        dataA = vec.toArray(new String[vec.size()]);
 
         return old;
     }

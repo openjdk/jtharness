@@ -149,9 +149,7 @@ public class CommandContext {
      * @see #runCommands
      */
     public Command[] getCommands() {
-        Command[] a = new Command[commands.size()];
-        commands.copyInto(a);
-        return a;
+        return commands.toArray(new Command[commands.size()]);
     }
 
     /**

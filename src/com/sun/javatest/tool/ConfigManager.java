@@ -107,9 +107,7 @@ public class ConfigManager
             } else
                 throw new IllegalArgumentException();
         }
-        HelpTree.Node[] childNodes = new HelpTree.Node[v.size()];
-        v.copyInto(childNodes);
-        return new HelpTree.Node(i18n, prefix, childNodes);
+        return new HelpTree.Node(i18n, prefix, v.toArray(new HelpTree.Node[v.size()]));
     }
 
     @Override
@@ -716,13 +714,12 @@ public class ConfigManager
             super(getName());
 
             Vector<String> v = new Vector<>();
-            while (argIter.hasNext())
+            while (argIter.hasNext()) {
                 v.add(nextArg(argIter));
-            String[] args = new String[v.size()];
-            v.copyInto(args);
+            }
 
             try {
-                params = new FileParameters(args);
+                params = new FileParameters(v.toArray(new String[v.size()]));
             } catch (IllegalArgumentException e) {
                 throw new Fault(i18n, "cnfg.params.badValue", e.getMessage());
             }
@@ -806,11 +803,10 @@ public class ConfigManager
             }
             if (start != -1)
                 v.addElement(s.substring(start));
-            if (v.isEmpty())
+            if (v.isEmpty()) {
                 return null;
-            String[] a = new String[v.size()];
-            v.copyInto(a);
-            return a;
+            }
+            return v.toArray(new String[v.size()]);
         }
 
         private boolean[] values;

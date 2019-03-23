@@ -262,8 +262,7 @@ public class LineParser {
     }
 
     private String[] endLine() {
-        String[] line = new String[currLine.size()];
-        currLine.copyInto(line);
+        String[] line = currLine.toArray(new String[currLine.size()]);
         currLine.setSize(0);
         return line;
     }

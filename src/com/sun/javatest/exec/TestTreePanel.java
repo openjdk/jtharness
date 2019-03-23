@@ -381,9 +381,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         if (urls == null || urls.isEmpty()) {
             return null;
         } else {
-            String[] result = new String[urls.size()];
-            urls.copyInto(result);
-            return result;
+            return urls.toArray(new String[urls.size()]);
         }
     }
 

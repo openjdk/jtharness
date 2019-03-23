@@ -653,9 +653,7 @@ public class AgentManager {
             }
             if (start != s.length())
                 add(s.substring(start), v);
-            File[] path = new File[v.size()];
-            v.copyInto(path);
-            return path;
+            return v.toArray(new File[v.size()]);
         }
 
         private void add(String s, Vector<File> v) {

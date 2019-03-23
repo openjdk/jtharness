@@ -188,11 +188,10 @@ public class PathClassLoader extends ClassLoader {
             add(s.substring(start, i), v);
             start = i + 1;
         }
-        if (start != s.length())
+        if (start != s.length()) {
             add(s.substring(start), v);
-        File[] path = new File[v.size()];
-        v.copyInto(path);
-        return path;
+        }
+        return v.toArray(new File[v.size()]);
     }
 
     private void add(String s, Vector<File> v) {

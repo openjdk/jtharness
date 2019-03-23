@@ -150,9 +150,7 @@ public abstract class Command {
      * @return the array of arguments for this command
      */
     public String[] getArgs() {
-        String[] a = new String[args.size()];
-        args.copyInto(a);
-        return a;
+        return args.toArray(new String[args.size()]);
     }
 
     /**

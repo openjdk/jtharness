@@ -2073,8 +2073,7 @@ public class TestResultTable {
         }
 
         if (!v.isEmpty()) {
-            trs = new TestResult[v.size()];
-            v.copyInto(trs);
+            trs = v.toArray(new TestResult[v.size()]);
         } else {
             // no matches
             trs = null;

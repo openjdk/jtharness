@@ -712,9 +712,7 @@ public class SelectionTree extends JTree {
         Vector<String> v = new Vector<>();
         getSelection((SelectionTreeNode) getModel().getRoot(), v);
 
-        String[] paths = new String[v.size()];
-        v.copyInto(paths);
-        return paths;
+        return v.toArray(new String[v.size()]);
     }
 
     private void getSelection(SelectionTreeNode node, Vector<String> v) {

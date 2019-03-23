@@ -995,7 +995,7 @@ public class WizPrint {
         }
 
         public void copyInto(Question... target) {
-            v.copyInto(target);
+            v.toArray(target);
         }
 
         protected int compare(Question o1, Question o2) {

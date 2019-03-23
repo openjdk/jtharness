@@ -400,8 +400,7 @@ public class ExcludeListInterview
 
             v.add(CUSTOM); // always
 
-            String[] choices = new String[v.size()];
-            v.copyInto(choices);
+            String[] choices = v.toArray(new String[v.size()]);
             initialized = true;
 
             setChoices(choices, true);

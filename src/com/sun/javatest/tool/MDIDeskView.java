@@ -408,9 +408,7 @@ class MDIDeskView extends DeskView {
             if (c instanceof JInternalFrame && c.isVisible())
                 v.add(c);
         }
-        JInternalFrame[] frames = new JInternalFrame[v.size()];
-        v.copyInto(frames);
-        return frames;
+        return v.toArray(new JInternalFrame[v.size()]);
     }
 
     private JFrame mainFrame;

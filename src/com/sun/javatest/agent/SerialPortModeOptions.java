@@ -120,9 +120,7 @@ class ProxyImpl implements Proxy {
                 if (p.getPortType() == CommPortIdentifier.PORT_SERIAL)
                     v.addElement(p.getName());
             }
-            String[] a = new String[v.size()];
-            v.copyInto(a);
-            return a;
+            return v.toArray(new String[v.size()]);
         } catch (Throwable t) {
             return new String[]{};
         }

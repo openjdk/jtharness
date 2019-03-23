@@ -141,10 +141,8 @@ public class ConfigValuesMap {
         }
         in.close();
 
-        fromValues = new String[from.size()];
-        from.copyInto(fromValues);
-        toValues = new String[to.size()];
-        to.copyInto(toValues);
+        fromValues = from.toArray(new String[from.size()]);
+        toValues = to.toArray(new String[to.size()]);
     }
 
     /**

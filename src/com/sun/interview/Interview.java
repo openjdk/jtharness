@@ -970,9 +970,7 @@ public class Interview {
     public Question[] getPath() {
         Vector<Question> v = new Vector<>();
         iteratePath0(v, true, true, true);
-        Question[] p = new Question[v.size()];
-        v.copyInto(p);
-        return p;
+        return v.toArray(new Question[v.size()]);
     }
 
     /**
@@ -986,9 +984,7 @@ public class Interview {
     public Question[] getPathToCurrent() {
         Vector<Question> v = new Vector<>();
         iteratePath0(v, true, false, true);
-        Question[] p = new Question[v.size()];
-        v.copyInto(p);
-        return p;
+        return v.toArray(new Question[v.size()]);
     }
 
     /**

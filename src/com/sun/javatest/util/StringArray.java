@@ -48,23 +48,21 @@ public class StringArray {
         if (s == null)
             return empty;
 
-        Vector<String> v = new Vector<>();
+        Vector<String> strings = new Vector<>();
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             if (white(s.charAt(i))) {
                 if (start != -1)
-                    v.addElement(s.substring(start, i));
+                    strings.addElement(s.substring(start, i));
                 start = -1;
             } else if (start == -1)
                 start = i;
         }
         if (start != -1)
-            v.addElement(s.substring(start));
-        if (v.isEmpty())
+            strings.addElement(s.substring(start));
+        if (strings.isEmpty())
             return empty;
-        String[] a = new String[v.size()];
-        v.copyInto(a);
-        return a;
+        return strings.toArray(new String[strings.size()]);
     }
 
     /**
@@ -150,9 +148,7 @@ public class StringArray {
         if (v.isEmpty())
             return new String[0];
 
-        String[] a = new String[v.size()];
-        v.copyInto(a);
-        return a;
+        return v.toArray(new String[v.size()]);
     }
 
     /**

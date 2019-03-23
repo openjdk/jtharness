@@ -1933,10 +1933,7 @@ public class TestResult {
             }   // inner for
         } // outer for
 
-        String[] tagA = new String[tagV.size()];
-        tagV.copyInto(tagA);
-
-        return tagA;
+        return tagV.toArray(new String[tagV.size()]);
     }
 
     /**

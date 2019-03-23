@@ -620,32 +620,30 @@ public class Main {
                     start = i;
             }
         }
-        if (start != -1)
+        if (start != -1) {
             v.addElement(s.substring(start).trim());
-        String[] a = new String[v.size()];
-        v.copyInto(a);
-        return a;
+        }
+        return v.toArray(new String[v.size()]);
     }
 
     private static File[] splitPath(String s) {
-        Vector<File> v = new Vector<>();
+        Vector<File> files = new Vector<>();
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c == File.pathSeparatorChar)  {
                 if (start != -1)
-                    v.addElement(new File(s.substring(start, i)));
+                    files.addElement(new File(s.substring(start, i)));
                 start = -1;
             } else {
                 if (start == -1)
                     start = i;
             }
         }
-        if (start != -1)
-            v.addElement(new File(s.substring(start)));
-        File[] a = new File[v.size()];
-        v.copyInto(a);
-        return a;
+        if (start != -1) {
+            files.addElement(new File(s.substring(start)));
+        }
+        return files.toArray(new File[files.size()]);
     }
 
     private static String getTarget(String key) {

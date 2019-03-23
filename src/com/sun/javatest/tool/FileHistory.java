@@ -148,10 +148,8 @@ public class FileHistory {
             if (f.exists())
                 v.add(f);
         }
-        File[] e = new File[v.size()];
-        v.copyInto(e);
 
-        return e;
+        return v.toArray(new File[v.size()]);
     }
 
     /**

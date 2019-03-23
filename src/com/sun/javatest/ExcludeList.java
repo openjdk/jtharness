@@ -1058,9 +1058,7 @@ public class ExcludeList {
             if (v.isEmpty())
                 return null;
 
-            String[] a = new String[v.size()];
-            v.copyInto(a);
-            return a;
+            return v.toArray(new String[v.size()]);
         }
 
         /**

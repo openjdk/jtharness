@@ -454,9 +454,7 @@ public abstract class ListQuestion extends Question {
      * @see #setBodies
      */
     public Body[] getBodies() {
-        Body[] b = new Body[bodies.size()];
-        bodies.copyInto(b);
-        return b;
+        return bodies.toArray(new Body[bodies.size()]);
     }
 
     /**

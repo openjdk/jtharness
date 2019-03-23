@@ -94,11 +94,10 @@ public class Checklist {
      */
     public String[] getSectionMessages(String sectionName) {
         Vector<String> v = sections.get(sectionName);
-        if (v == null)
+        if (v == null) {
             return null;
-        String[] msgs = new String[v.size()];
-        v.copyInto(msgs);
-        return msgs;
+        }
+        return v.toArray(new String[v.size()]);
     }
 
     /**

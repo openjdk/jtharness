@@ -981,7 +981,7 @@ class Entry {
     }
 
     private static String[] split(String s) {
-        Vector<String> v = new Vector<>();
+        Vector<String> strings = new Vector<>();
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -991,15 +991,13 @@ class Entry {
             }
             else {
                 if (start != -1)
-                    v.addElement(s.substring(start, i));
+                    strings.addElement(s.substring(start, i));
                 start = -1;
             }
         }
         if (start != -1)
-            v.addElement(s.substring(start));
-        String[] a = new String[v.size()];
-        v.copyInto(a);
-        return a;
+            strings.addElement(s.substring(start));
+        return strings.toArray(new String[strings.size()]);
     }
 
     private File file;

@@ -167,8 +167,7 @@ public class TestEnvironment {
                 inherit = (String) propTables[i].get("env." + n + ".inherits");
             }
         }
-        inherits = new String[v.size()];
-        v.copyInto(inherits);
+        inherits = v.toArray(new String[v.size()]);
 
         // for this environment, and its inherited environments, scan for
         // properties of the form env.NAME.KEY=value and add KEY=value into the
@@ -529,12 +528,11 @@ public class TestEnvironment {
         }
 
         // we've reached the end; if a word has been started, finish it
-        if (term != 0)
+        if (term != 0) {
             v.addElement(current.toString());
+        }
 
-        String[] result = new String[v.size()];
-        v.copyInto(result);
-        return result;
+        return v.toArray(new String[v.size()]);
     }
 
     /**

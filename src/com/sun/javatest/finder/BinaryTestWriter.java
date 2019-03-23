@@ -387,10 +387,8 @@ public class BinaryTestWriter {
             if (n != null)
                 v.addElement(n);
         }
-        TestTree.Node[] nodes = new TestTree.Node[v.size()];
-        v.copyInto(nodes);
 
-        return testTree.new Node(file.getName(), tests, nodes);
+        return testTree.new Node(file.getName(), tests, v.toArray(new TestTree.Node[v.size()]));
     }
 
     //------------------------------------------------------------------------------------------

@@ -816,9 +816,7 @@ public abstract class InterviewParameters
         } else if (equal(v, cachedTestFilters)) {
             return cachedTestFilters;
         } else {
-            TestFilter[] filters = new TestFilter[v.size()];
-            v.copyInto(filters);
-            return filters;
+            return v.toArray(new TestFilter[v.size()]);
         }
 
     }

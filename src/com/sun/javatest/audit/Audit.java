@@ -169,23 +169,19 @@ public class Audit {
         }
 
         if (!badChecksumTestsV.isEmpty()) {
-            badChecksumTests = new TestResult[badChecksumTestsV.size()];
-            badChecksumTestsV.copyInto(badChecksumTests);
+            badChecksumTests = badChecksumTestsV.toArray(new TestResult[badChecksumTestsV.size()]);
         }
 
         if (!badTestDescriptionsV.isEmpty()) {
-            badTestDescriptions = new TestResult[badTestDescriptionsV.size()];
-            badTestDescriptionsV.copyInto(badTestDescriptions);
+            badTestDescriptions = badTestDescriptionsV.toArray(new TestResult[badTestDescriptionsV.size()]);
         }
 
         if (!badTestCaseTestsV.isEmpty()) {
-            badTestCaseTests = new TestResult[badTestCaseTestsV.size()];
-            badTestCaseTestsV.copyInto(badTestCaseTests);
+            badTestCaseTests = badTestCaseTestsV.toArray(new TestResult[badTestCaseTestsV.size()]);
         }
 
         if (!badTestsV.isEmpty()) {
-            badTests = new TestDescription[badTestsV.size()];
-            badTestsV.copyInto(badTests);
+            badTests = badTestsV.toArray(new TestDescription[badTestsV.size()]);
         }
     }
 
@@ -706,8 +702,7 @@ public class Audit {
         if (s != null)
             v.addElement(new SimpleDateFormat(s));
 
-        dateFormats = new DateFormat[v.size()];
-        v.copyInto(dateFormats);
+        dateFormats = v.toArray(new DateFormat[v.size()]);
     }
 
     private int testCount;

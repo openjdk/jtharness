@@ -384,9 +384,7 @@ public abstract class TestFinder {
      * @return the errors found by the test finder
      */
     public synchronized String[] getErrors() {
-        String[] errs = new String[errorMessages.size()];
-        errorMessages.copyInto(errs);
-        return errs;
+        return errorMessages.toArray(new String[errorMessages.size()]);
     }
 
     /**
@@ -636,12 +634,10 @@ public abstract class TestFinder {
      * @see #foundTestDescription
      */
     public TestDescription[] getTests() {
-        if (tests == null)
+        if (tests == null) {
             return noTests;
-        else {
-            TestDescription[] tds = new TestDescription[tests.size()];
-            tests.copyInto(tds);
-            return tds;
+        } else {
+            return tests.toArray(new TestDescription[tests.size()]);
         }
     }
 
@@ -719,9 +715,7 @@ public abstract class TestFinder {
         if (files == null)
             return new File[0];
         else {
-            File[] fs = new File[files.size()];
-            files.copyInto(fs);
-            return fs;
+            return files.toArray(new File[files.size()]);
         }
     }
 

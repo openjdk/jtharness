@@ -676,12 +676,10 @@ public class Desktop {
                 v.addAll(Arrays.asList(alerts));
         }
 
-        if (v.isEmpty())
+        if (v.isEmpty()) {
             return true;
-        else {
-            String[] allAlerts = new String[v.size()];
-            v.copyInto(allAlerts);
-            return isOKToExitOrClose(parent, allAlerts, EXIT);
+        } else {
+            return isOKToExitOrClose(parent, v.toArray(new String[v.size()]), EXIT);
         }
     }
 
@@ -1062,9 +1060,7 @@ public class Desktop {
         if (custom != null)
             for (PreferencesPane aCustom : custom) v.add(aCustom);
 
-        PreferencesPane[] panes = new PreferencesPane[v.size()];
-        v.copyInto(panes);
-        PreferencesPane.showDialog(parent, preferences, panes, helpBroker);
+        PreferencesPane.showDialog(parent, preferences, v.toArray(new PreferencesPane[v.size()]), helpBroker);
     }
 
     /**

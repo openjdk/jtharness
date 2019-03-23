@@ -179,8 +179,7 @@ class StatisticsSection extends HTMLSection {
             v.addElement(totalsEntry);
         }
 
-        String[][] table = new String[v.size()][];
-        v.copyInto(table);
+        String[][] table = v.toArray(new String[v.size()][]);
 
         // write out the keyword statistics
 

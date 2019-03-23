@@ -245,7 +245,7 @@ public abstract class StringListQuestion extends Question {
      */
     protected static String[] split(String s) {
         if (s == null)
-            return empty;
+            return EMPTY;
 
         char sep = '\n';
 
@@ -262,13 +262,11 @@ public abstract class StringListQuestion extends Question {
         if (start != -1)
             v.addElement(s.substring(start));
         if (v.isEmpty())
-            return empty;
-        String[] a = new String[v.size()];
-        v.copyInto(a);
-        return a;
+            return EMPTY;
+        return v.toArray(new String[v.size()]);
     }
 
-    private static final String[] empty = {};
+    private static final String[] EMPTY = {};
 
     /**
      * The current response for this question.
