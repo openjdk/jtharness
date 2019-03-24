@@ -717,7 +717,7 @@ class AgentPanel extends ScrollPane {
 
         @Override
         public synchronized void removeAll() {
-            tasks.setSize(0);
+            tasks.clear();
             if (getItemCount() > 0)
                 // calling List.removeAll on empty list generates motif
                 // warning message
@@ -935,7 +935,7 @@ class AgentPanel extends ScrollPane {
         }
 
         void reset() {
-            tasks.setSize(0);
+            tasks.clear();
             for (int i = 0; i < statusCounts.length; i++)
                 statusCounts[i] = 0;
             exceptionsCount = 0;

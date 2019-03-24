@@ -678,7 +678,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                                     sortingRequested = false;
                                 } else {
                                     liveData.addAll(inQueue);
-                                    inQueue.setSize(0);
+                                    inQueue.clear();
                                 }
                                 table.repaint();
                                 lastNew = liveData.size() - 1;

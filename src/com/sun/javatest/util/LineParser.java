@@ -263,7 +263,7 @@ public class LineParser {
 
     private String[] endLine() {
         String[] line = currLine.toArray(new String[currLine.size()]);
-        currLine.setSize(0);
+        currLine.clear();
         return line;
     }
 

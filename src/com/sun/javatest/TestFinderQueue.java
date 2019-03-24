@@ -477,7 +477,7 @@ public class TestFinderQueue {
      */
     public void flush() {
         synchronized (this) {
-            filesToRead.setSize(0);
+            filesToRead.clear();
             tests.clear();
             testDescsFound.clear();
             filesRemainingCount = 0;

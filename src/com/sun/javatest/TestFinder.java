@@ -393,7 +393,7 @@ public abstract class TestFinder {
      * will return an empty array.
      */
     public synchronized void clearErrors() {
-        errorMessages.setSize(0);
+        errorMessages.clear();
     }
 
 
@@ -444,10 +444,10 @@ public abstract class TestFinder {
      */
     public synchronized void read(File file) {
         if (tests != null)
-            tests.setSize(0);
+            tests.clear();
 
         if (files != null)
-            files.setSize(0);
+            files.clear();
 
         testsInFile.clear();
 

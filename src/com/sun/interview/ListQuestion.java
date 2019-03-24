@@ -359,7 +359,7 @@ public abstract class ListQuestion extends Question {
     @Override
     public void clear() {
         setValue(Integer.MIN_VALUE);
-        bodies.setSize(0);
+        bodies.clear();
     }
 
     /**
@@ -416,7 +416,7 @@ public abstract class ListQuestion extends Question {
 
     @Override
     protected void load(Map<String, String> data) {
-        bodies.setSize(0);
+        bodies.clear();
         String c = data.get(tag + ".count");
         if (c != null && !c.isEmpty()) {
             try {

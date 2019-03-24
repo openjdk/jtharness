@@ -286,7 +286,7 @@ public class NavigationPane extends JPanel {
         }
 
         void clear() {
-            entries.setSize(0);
+            entries.clear();
             index = -1;
         }
 

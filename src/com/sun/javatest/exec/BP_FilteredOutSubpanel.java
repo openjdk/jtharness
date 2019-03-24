@@ -505,7 +505,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                             if (inQueue.size() < BATCH_SIZE) {
                                 liveData.addAll(inQueue);
                                 lastNew = liveData.size() - 1;
-                                inQueue.setSize(0);
+                                inQueue.clear();
                             } else {          // only add some of the new items
                                 for (int i = 0; i < BATCH_SIZE; i++) {
                                     liveData.add(inQueue.remove(0));
