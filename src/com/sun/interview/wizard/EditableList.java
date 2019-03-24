@@ -103,7 +103,7 @@ public class EditableList extends JPanel {
     }
 
     public Object getItem(int index) {
-        return listModel.elementAt(index);
+        return listModel.get(index);
     }
 
     /**
@@ -363,8 +363,8 @@ public class EditableList extends JPanel {
 
 
     private void swap(int i1, int i2) {
-        Object o1 = listModel.elementAt(i1);
-        Object o2 = listModel.elementAt(i2);
+        Object o1 = listModel.get(i1);
+        Object o2 = listModel.get(i2);
         listModel.set(i1, o2);
         listModel.set(i2, o1);
     }

@@ -305,13 +305,13 @@ public class TestEnvContext {
         envNames = allVec.toArray(new String[allVec.size()]);
         Vector<String> menuVec = new Vector<>(allVec);
         for (int i = 0; i < menuExcludeVec.size(); i++)
-            menuVec.removeElement(menuExcludeVec.elementAt(i));
+            menuVec.removeElement(menuExcludeVec.get(i));
         envMenuNames = menuVec.toArray(new String[menuVec.size()]);
     }
 
     private void sortedInsert(Vector<String> v, String s) {
         for (int i = 0; i < v.size(); i++) {
-            int c = s.compareTo(v.elementAt(i));
+            int c = s.compareTo(v.get(i));
             if (c > 0) {
                 v.insertElementAt(s, i);
                 return;

@@ -470,7 +470,7 @@ public class AgentMonitorTool extends Tool {
                 EventQueue.invokeLater(cmd);
             } else {
                 for (int i = 0; i < listData.size(); i++) {
-                    Entry e = listData.elementAt(i);
+                    Entry e = listData.get(i);
                     if (e.connection == c) {
                         listData.removeElement(e);
                         break;

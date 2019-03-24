@@ -398,7 +398,7 @@ public class FilterConfig {
             leftList.setSelectedIndex(index);
 
             // update right panel
-            selectedFilter = listModel.elementAt(index);
+            selectedFilter = listModel.get(index);
             if (selectedFilter instanceof ConfigurableTestFilter) {
                 if (mode == -1 || mode == UNEDITABLE) {
                     nameCards.show(namePanel, NAMING_ACTIVE);
@@ -771,10 +771,10 @@ public class FilterConfig {
         void doReset() {
             // reset all known configurable filters
             for (int i = 0; i < listModel.getSize(); i++) {
-                if (listModel.elementAt(i) instanceof
+                if (listModel.get(i) instanceof
                         ConfigurableTestFilter) {
                     ConfigurableTestFilter ctf =
-                            (ConfigurableTestFilter) listModel.elementAt(i);
+                            (ConfigurableTestFilter) listModel.get(i);
                     ctf.resetEditorSettings();
                 }
             }   // for

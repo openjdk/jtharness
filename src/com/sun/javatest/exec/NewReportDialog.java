@@ -1092,7 +1092,7 @@ class NewReportDialog extends ToolDialog {
                     String error = cr.validateOptions();
                     if (error != null) {
                         for (int i = 0; i < listModel.getSize(); i++) {
-                            JCheckBox cb = listModel.elementAt(i);
+                            JCheckBox cb = listModel.get(i);
                             if (cb.getName().equals(cr.getReportId())) {
                                 list.setSelectedIndex(i);
                             }

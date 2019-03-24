@@ -515,7 +515,7 @@ public class BinaryTestWriter {
 
             writeInt(o, v.size());
             for (int i = 0; i < v.size(); i++)
-                o.writeUTF(v.elementAt(i));
+                o.writeUTF(v.get(i));
 
             writtenSize = nextIndex;
         }
@@ -639,7 +639,7 @@ public class BinaryTestWriter {
         void write(DataOutputStream o) throws IOException {
             writeInt(o, tests.size());
             for (int i = 0; i < tests.size(); i++) {
-                TestDescription td = tests.elementAt(i);
+                TestDescription td = tests.get(i);
                 Entry e = testMap.get(td);
                 e.index = o.size();
                 write(td, o);

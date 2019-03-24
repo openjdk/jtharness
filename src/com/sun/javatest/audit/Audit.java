@@ -505,12 +505,12 @@ public class Audit {
             if (allValuesForKey.size() == 1) {
                 if (showAll)
                     out.println(i18n.getString("adt.envKeyValue",
-                            key, allValuesForKey.elementAt(0)));
+                            key, allValuesForKey.get(0)));
             } else {
                 out.println(i18n.getString("adt.envKey", key));
                 for (int j = 0; j < allValuesForKey.size(); j++) {
                     out.println(i18n.getString("adt.envValue",
-                            allValuesForKey.elementAt(j)));
+                            allValuesForKey.get(j)));
                 }
             }
         }

@@ -169,8 +169,8 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
             // try to use filter indicated in preference
             for (int i = 0; i < allFilters.size(); i++) {
-                if (allFilters.elementAt(i).getClass().getName().equals(pref))
-                    return allFilters.elementAt(i);
+                if (allFilters.get(i).getClass().getName().equals(pref))
+                    return allFilters.get(i);
             }   // for
         }
 

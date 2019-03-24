@@ -361,7 +361,7 @@ public class ActiveAgentPool {
         synchronized Entry next() {
             Entry e = null;
             if (!v.isEmpty()) {
-                e = v.elementAt(0);
+                e = v.get(0);
                 v.removeElementAt(0);
                 notifyRemovedFromPool(e);
             }

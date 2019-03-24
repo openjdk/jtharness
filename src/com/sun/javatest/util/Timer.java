@@ -113,7 +113,7 @@ public class Timer {
             //System.out.println("timeout set for " + obj + " at " + (new Date(absCallbackTime)));
             Entry e = new Entry(obj, absCallbackTime);
             for (int i = 0; i < entries.size(); i++) {
-                Entry ee = entries.elementAt(i);
+                Entry ee = entries.get(i);
                 if (e.expiration < ee.expiration) {
                     entries.insertElementAt(e, i);
                     return e;
@@ -159,7 +159,7 @@ public class Timer {
                 wait();
             } else {
                 long now = System.currentTimeMillis();
-                Entry e = entries.elementAt(0);
+                Entry e = entries.get(0);
                 if (e.expiration <= now) {
                     // time to call back e.obj; do so and remove it from list
                     entries.removeElementAt(0);

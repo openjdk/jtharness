@@ -415,7 +415,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                             // XXX special cases here...
 
                             // it would be nicer if we could just cast to TRT.TreeNode
-                            PseudoFrame frame = stack.elementAt(j);
+                            PseudoFrame frame = stack.get(j);
                             TRT_TreeNode tn = (TRT_TreeNode) frame.getNode();
                             int pos = tn.getNodeIndex(dir, false);
                             int currIndex = frame.getCurrentIndex();

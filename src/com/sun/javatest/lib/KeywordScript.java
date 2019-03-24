@@ -133,7 +133,7 @@ public class KeywordScript extends Script {
                 trOut.println(s);
                 trOut.println("The keyword combinations for scripts in this environment are: ");
                 for (int i = 0; i < choices.size(); i++) {
-                    trOut.println(choices.elementAt(i));
+                    trOut.println(choices.get(i));
                 }   // for
 
                 setStatus(Status.error(s));
@@ -143,14 +143,14 @@ public class KeywordScript extends Script {
             String s = envName + " has ambiguous `script' entries";
             trOut.println(s);
             for (int i = 0; i < matches.size(); i++) {
-                trOut.println(i + ": " + matches.elementAt(i));
+                trOut.println(i + ": " + matches.get(i));
             }   // for
 
             setStatus(Status.error(s));
             return;
         }   // else if
 
-        String bestScript = matches.elementAt(0);
+        String bestScript = matches.get(0);
         //trOut.report.println("BEST " + bestScript);
 
         try {

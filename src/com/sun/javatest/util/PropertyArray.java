@@ -242,7 +242,7 @@ public class PropertyArray {
         }
 
         // goes at the end
-        String last = vec.elementAt(upper);
+        String last = vec.get(upper);
         int cmp = key.compareTo(last);
         if (cmp > 0) {
             return data;
@@ -251,7 +251,7 @@ public class PropertyArray {
         while (lower <= upper) {
             // in next line, take care to ensure that mid is always even
             mid = lower + ((upper - lower) / 4) * 2;
-            String e = vec.elementAt(mid);
+            String e = vec.get(mid);
             cmp = key.compareTo(e);
             if (cmp < 0) {
                 upper = mid - 2;
@@ -260,7 +260,7 @@ public class PropertyArray {
             } else {
                 // strings equal, zap key and value
                 vec.removeElementAt(mid);
-                old = vec.elementAt(mid);
+                old = vec.get(mid);
                 vec.removeElementAt(mid);
                 break;
             }
@@ -362,7 +362,7 @@ public class PropertyArray {
         Vector<String> v = PropertyUtils.load0(in, true);
         Vector<String> sorted = new Vector<>(v.size());
         for (int i = 0; i < v.size(); i += 2) {
-            insert(sorted, v.elementAt(i), v.elementAt(i + 1));
+            insert(sorted, v.get(i), v.get(i + 1));
         }
 
         return sorted.toArray(new String[sorted.size()]);
@@ -521,7 +521,7 @@ public class PropertyArray {
         }
 
         // goes at the end
-        String last = vec.elementAt(upper);
+        String last = vec.get(upper);
         int cmp = key.compareTo(last);
         if (cmp > 0) {
             vec.addElement(key);
@@ -532,7 +532,7 @@ public class PropertyArray {
         while (lower <= upper) {
             // in next line, take care to ensure that mid is always even
             mid = lower + ((upper - lower) / 4) * 2;
-            String e = vec.elementAt(mid);
+            String e = vec.get(mid);
             cmp = key.compareTo(e);
             if (cmp < 0) {
                 upper = mid - 2;
@@ -541,7 +541,7 @@ public class PropertyArray {
             } else {
                 // strings equal
                 vec.removeElementAt(mid);
-                old = vec.elementAt(mid);
+                old = vec.get(mid);
                 vec.removeElementAt(mid);
                 break;
             }

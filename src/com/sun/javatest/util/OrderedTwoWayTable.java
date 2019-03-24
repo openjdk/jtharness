@@ -81,7 +81,7 @@ public class OrderedTwoWayTable {
      */
     public synchronized Object getValueAt(int index) {
         if (index < values.size())
-            return values.elementAt(index);
+            return values.get(index);
         else
             return null;
     }
@@ -94,7 +94,7 @@ public class OrderedTwoWayTable {
      */
     public synchronized Object getKeyAt(int index) {
         if (index < keys.size())
-            return keys.elementAt(index);
+            return keys.get(index);
         else
             return null;
     }
@@ -131,7 +131,7 @@ public class OrderedTwoWayTable {
      */
     protected int findIndex(Vector<?> data, Object target) {
         for (int i = 0; i < data.size(); i++)
-            if (data.elementAt(i) == target)
+            if (data.get(i) == target)
                 return i;
 
         return -1;

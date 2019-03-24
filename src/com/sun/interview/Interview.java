@@ -549,7 +549,7 @@ public class Interview {
             return this;
 
         for (int i = 0; i < children.size(); i++) {
-            Interview c = children.elementAt(i);
+            Interview c = children.get(i);
             Interview iv = c.getInterview0(t);
             if (iv != null)
                 return iv;
@@ -567,7 +567,7 @@ public class Interview {
     private void getInterviews0(Set<Interview> s) {
         s.add(this);
         for (int i = 0; i < children.size(); i++) {
-            Interview child = children.elementAt(i);
+            Interview child = children.get(i);
             child.getInterviews0(s);
         }
     }
@@ -1139,7 +1139,7 @@ public class Interview {
         s.addAll(allQuestions.values());
 
         for (int i = 0; i < children.size(); i++) {
-            Interview child = children.elementAt(i);
+            Interview child = children.get(i);
             child.getQuestions0(s);
         }
     }
@@ -1160,7 +1160,7 @@ public class Interview {
         m.putAll(allQuestions);
 
         for (int i = 0; i < children.size(); i++) {
-            Interview child = children.elementAt(i);
+            Interview child = children.get(i);
             child.getAllQuestions0(m);
         }
     }
@@ -1492,7 +1492,7 @@ public class Interview {
         }
 
         for (int i = 0; i < children.size(); i++) {
-            Interview child = children.elementAt(i);
+            Interview child = children.get(i);
             child.clear();
         }
         if (parent == null) {
@@ -1553,7 +1553,7 @@ public class Interview {
         }
 
         for (int i = 0; i < children.size(); i++) {
-            Interview child = children.elementAt(i);
+            Interview child = children.get(i);
             child.load(data, false);
         }
 
@@ -2322,7 +2322,7 @@ public class Interview {
         Question q = allQuestions.get(tag);
         // if q is null, search children till we find it
         for (int i = 0; i < children.size() && q == null; i++) {
-            Interview child = children.elementAt(i);
+            Interview child = children.get(i);
             q = child.lookup(tag);
         }
 

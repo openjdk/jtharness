@@ -979,7 +979,7 @@ public class WizPrint {
         }
 
         public Question elementAt(int index) {
-            return v.elementAt(index);
+            return v.get(index);
         }
 
         public void insert(Question o) {
@@ -988,7 +988,7 @@ public class WizPrint {
 
         public void insert(Question o, boolean ignoreDuplicates) {
             int i = findSortIndex(o);
-            if (ignoreDuplicates && (i < v.size()) && (compare(o, v.elementAt(i)) == 0))
+            if (ignoreDuplicates && (i < v.size()) && (compare(o, v.get(i)) == 0))
                 return;
 
             v.insertElementAt(o, i);
@@ -1024,14 +1024,14 @@ public class WizPrint {
             }
 
             int cmp = 0;
-            Question last = v.elementAt(upper);
+            Question last = v.get(upper);
             cmp = compare(o, last);
             if (cmp > 0)
                 return upper + 1;
 
             while (lower <= upper) {
                 mid = lower + ((upper - lower) / 2);
-                Question entry = v.elementAt(mid);
+                Question entry = v.get(mid);
                 cmp = compare(o, entry);
 
                 if (cmp == 0) {

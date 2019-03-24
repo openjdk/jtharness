@@ -362,7 +362,7 @@ public class HTMLTestFinder extends TestFinder {
             // ensure any outstanding <td> is closed
             endTableData();
             if (tableRow.size() == 2)
-                processEntry(params, tableRow.elementAt(0), tableRow.elementAt(1));
+                processEntry(params, tableRow.get(0), tableRow.get(1));
             tableRow = null;
         }
     }

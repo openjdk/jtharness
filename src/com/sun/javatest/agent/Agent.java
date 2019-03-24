@@ -355,7 +355,7 @@ public class Agent implements Runnable {
 
         // interrupt any threads that are running
         for (int i = 0; i < threads.size(); i++) {
-            Thread t = threads.elementAt(i);
+            Thread t = threads.get(i);
             if (tracing)
                 traceOut.println("INTERRUPTING THREAD " + t.getName());
             t.interrupt();
@@ -367,7 +367,7 @@ public class Agent implements Runnable {
 
         // close any tasks that are running
         for (int i = 0; i < tasks.size(); i++) {
-            Task t = tasks.elementAt(i);
+            Task t = tasks.get(i);
             if (tracing) {
                 Connection c = t.connection; // maybe null; if it is, task is already closing
                 traceOut.println("CLOSING TASK " + (c == null ? "[unknown]" : c.getName()));

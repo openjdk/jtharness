@@ -131,7 +131,7 @@ public abstract class ListQuestion extends Question {
                 // recycle any default summaries that are no longer required
                 Vector<Body> bodies = question.bodies;
                 for (int i = 0; i < bodies.size(); i++) {
-                    Body b = bodies.elementAt(i);
+                    Body b = bodies.get(i);
                     if (b.defaultSummary != null
                             && b.getSummary() != null
                             && !b.defaultSummary.equals(b.getSummary())) {
@@ -145,7 +145,7 @@ public abstract class ListQuestion extends Question {
                     // check s is not the same as any current default summary;
                     // if it is, reset it to null
                     for (int i = 0; i < bodies.size(); i++) {
-                        Body b = bodies.elementAt(i);
+                        Body b = bodies.get(i);
                         if (s.equals(b.defaultSummary)) {
                             s = null;
                             break;
@@ -243,7 +243,7 @@ public abstract class ListQuestion extends Question {
      */
     public Body getSelectedBody() {
         if (value >= 0 && value < bodies.size())
-            return bodies.elementAt(value);
+            return bodies.get(value);
         else
             return null;
     }
@@ -476,7 +476,7 @@ public abstract class ListQuestion extends Question {
      *                                        valid body
      */
     public Body getBody(int index) {
-        return bodies.elementAt(index);
+        return bodies.get(index);
     }
 
     /**
@@ -505,7 +505,7 @@ public abstract class ListQuestion extends Question {
 
         for (int i = 0; i < newBodies.length; i++) {
             Body b = newBodies[i];
-            if (b != bodies.elementAt(i)) {
+            if (b != bodies.get(i)) {
                 b.setIndex(i);
                 bodies.setElementAt(b, i);
                 edited = true;
@@ -533,7 +533,7 @@ public abstract class ListQuestion extends Question {
     public int getIncompleteBodyCount() {
         int count = 0;
         for (int i = 0; i < bodies.size(); i++) {
-            Body b = bodies.elementAt(i);
+            Body b = bodies.get(i);
             if (!b.isInterviewFinishable())
                 count++;
         }

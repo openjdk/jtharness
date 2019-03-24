@@ -214,7 +214,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                         if (stopping)
                             break;
 
-                        mod.addTest(newData[newData.length - 1].elementAt(j), true);
+                        mod.addTest(newData[newData.length - 1].get(j), true);
                     }   // for
 
                     if (!newData[newData.length - 1].isEmpty() && !stopping) {
@@ -596,7 +596,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
         private void preprocessAddQueue() {
             // make sure this list does not contain dups
             for (int i = 0; i < inQueue.size(); i++) {
-                if (liveData.contains(inQueue.elementAt(i))) {
+                if (liveData.contains(inQueue.get(i))) {
                     inQueue.remove(i);
                     i--;
                 } else {

@@ -593,7 +593,7 @@ public class TestDescription implements Serializable {
             return;
         }
 
-        String last = v.elementAt(upper);
+        String last = v.get(upper);
         int cmp = key.compareTo(last);
         if (cmp > 0) {
             v.addElement(key);
@@ -604,7 +604,7 @@ public class TestDescription implements Serializable {
         while (lower <= upper) {
             // in next line, take care to ensure that mid is always even
             mid = lower + ((upper - lower) / 4) * 2;
-            String e = v.elementAt(mid);
+            String e = v.get(mid);
             cmp = key.compareTo(e);
             if (cmp < 0) {
                 upper = mid - 2;

@@ -840,7 +840,7 @@ public abstract class InterviewParameters
         if (f == null || v.size() != f.length)
             return false;
         for (int i = 0; i < v.size(); i++) {
-            if (!v.elementAt(i).equals(f[i]))
+            if (!v.get(i).equals(f[i]))
                 return false;
         }
         return true;

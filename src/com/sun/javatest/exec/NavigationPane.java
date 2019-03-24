@@ -254,7 +254,7 @@ public class NavigationPane extends JPanel {
             if (index == 0)
                 return null;
 
-            return entries.elementAt(--index);
+            return entries.get(--index);
         }
 
         boolean hasNext() {
@@ -265,7 +265,7 @@ public class NavigationPane extends JPanel {
             if (index == entries.size() - 1)
                 return null;
 
-            return entries.elementAt(++index);
+            return entries.get(++index);
         }
 
         void add(URL u) {
@@ -273,7 +273,7 @@ public class NavigationPane extends JPanel {
                 throw new NullPointerException();
 
             // if there is a current entry, and it matches the one to be added, we're done
-            if (index >= 0 && index < entries.size() && entries.elementAt(index).equals(u))
+            if (index >= 0 && index < entries.size() && entries.get(index).equals(u))
                 return;
 
             // if current entry not the last one, truncate to the current entry

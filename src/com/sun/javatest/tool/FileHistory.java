@@ -144,7 +144,7 @@ public class FileHistory {
         // platforms.
         Vector<File> v = new Vector<>();
         for (int i = 0; i < entries.size() && v.size() < count; i++) {
-            File f = entries.elementAt(i);
+            File f = entries.get(i);
             if (f.exists())
                 v.add(f);
         }
@@ -167,7 +167,7 @@ public class FileHistory {
         // skipped but not deleted because they might be for other
         // platforms.
         for (int i = 0; i < entries.size(); i++) {
-            File f = entries.elementAt(i);
+            File f = entries.get(i);
             if (f.exists())
                 return f;
         }
@@ -179,7 +179,7 @@ public class FileHistory {
         ensureEntriesUpToDate();
 
         for (int i = 0; i < entries.size(); i++) {
-            File f = entries.elementAt(i);
+            File f = entries.get(i);
             if (f.exists()) {
                 return f;
             } else {
@@ -243,7 +243,7 @@ public class FileHistory {
             bw.write("# written at " + new Date());
             bw.newLine();
             for (int i = 0; i < entries.size(); i++) {
-                bw.write(entries.elementAt(i).toString());
+                bw.write(entries.get(i).toString());
                 bw.newLine();
             }
             bw.close();

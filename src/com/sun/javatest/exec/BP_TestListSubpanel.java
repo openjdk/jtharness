@@ -276,7 +276,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                             mod.sortTests(mod.liveData, mod.SORTING_COLUMN,
                                     mod.SORTING_MODE);
                         } else {
-                            mod.addTest(newData[state].elementAt(j), true);
+                            mod.addTest(newData[state].get(j), true);
                         }
 
                     } // for
@@ -777,7 +777,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         private void preprocessAddQueue() {
             // make sure this list does not contain dups
             for (int i = 0; i < inQueue.size(); i++) {
-                if (liveData.contains(inQueue.elementAt(i))) {
+                if (liveData.contains(inQueue.get(i))) {
                     inQueue.remove(i);
                     i--;
                 } else {

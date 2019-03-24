@@ -704,7 +704,7 @@ class AgentPanel extends ScrollPane {
 
         public synchronized TaskState getTask(Connection c) {
             for (int i = 0; i < tasks.size(); i++) {
-                TaskState ts = tasks.elementAt(i);
+                TaskState ts = tasks.get(i);
                 if (ts.connection == c)
                     return ts;
             }
@@ -712,7 +712,7 @@ class AgentPanel extends ScrollPane {
         }
 
         public synchronized TaskState getSelectedTask() {
-            return tasks.elementAt(super.getSelectedIndex());
+            return tasks.get(super.getSelectedIndex());
         }
 
         @Override
