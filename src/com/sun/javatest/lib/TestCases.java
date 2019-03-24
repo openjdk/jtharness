@@ -152,13 +152,13 @@ public class TestCases {
                     Class<?>[] paramTypes = m.getParameterTypes();
                     Class<?> returnType = m.getReturnType();
                     if ((paramTypes.length == 0) && Status.class.isAssignableFrom(returnType))
-                        v.addElement(m);
+                        v.add(m);
                 }
             }
         } else {
             for (Method m : selectedCases.values()) {
                 if (excludedCases.get(m.getName()) == null)
-                    v.addElement(m);
+                    v.add(m);
             }
         }
         return v.elements();
@@ -253,11 +253,11 @@ public class TestCases {
         Vector<String> v = new Vector<>();
         int start = 0;
         for (int i = s.indexOf(','); i != -1; i = s.indexOf(',', start)) {
-            v.addElement(s.substring(start, i));
+            v.add(s.substring(start, i));
             start = i + 1;
         }
         if (start != s.length()) {
-            v.addElement(s.substring(start));
+            v.add(s.substring(start));
         }
         return v.toArray(new String[v.size()]);
     }

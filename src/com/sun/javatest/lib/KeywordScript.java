@@ -81,7 +81,7 @@ public class KeywordScript extends Script {
             String keyList = key.substring(prefix.length()).replace('_', ' ').toLowerCase();
             String[] keys = StringArray.split(keyList);
 
-            choices.addElement(keyList);
+            choices.add(keyList);
 
             if (debug)
                 trOut.println("keys: " + StringArray.join(keys));
@@ -114,7 +114,7 @@ public class KeywordScript extends Script {
             }
 
             // this key deserves note
-            matches.addElement(key);
+            matches.add(key);
         }   // for
 
         // check we have a unique script selected

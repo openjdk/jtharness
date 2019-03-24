@@ -336,7 +336,7 @@ public class ActiveAgentPool {
         }
 
         synchronized void add(final Entry e) {
-            v.addElement(e);
+            v.add(e);
             notifyAddedToPool(e);
             notifyAll();
             Runnable r = new Runnable() {

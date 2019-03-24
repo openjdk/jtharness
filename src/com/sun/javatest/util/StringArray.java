@@ -53,13 +53,13 @@ public class StringArray {
         for (int i = 0; i < s.length(); i++) {
             if (white(s.charAt(i))) {
                 if (start != -1)
-                    strings.addElement(s.substring(start, i));
+                    strings.add(s.substring(start, i));
                 start = -1;
             } else if (start == -1)
                 start = i;
         }
         if (start != -1)
-            strings.addElement(s.substring(start));
+            strings.add(s.substring(start));
         if (strings.isEmpty())
             return empty;
         return strings.toArray(new String[strings.size()]);
@@ -135,7 +135,7 @@ public class StringArray {
             int nextD = list.indexOf(delim, pos);
 
             if (nextD != -1) {
-                v.addElement(list.substring(pos, nextD));
+                v.add(list.substring(pos, nextD));
                 pos = nextD + delim.length();
                 pos = skipWhite(list, pos);
             } else
@@ -143,7 +143,7 @@ public class StringArray {
         }
 
         if (pos < list.length())
-            v.addElement(list.substring(pos));
+            v.add(list.substring(pos));
 
         if (v.isEmpty())
             return new String[0];

@@ -532,9 +532,9 @@ public class ExcludeList {
             Vector<Object> v = new Vector<>(table.size());
             for (Object o : table.values()) {
                 if (o instanceof Entry)
-                    v.addElement(o);
+                    v.add(o);
                 else {
-                    for (Entry entry : (Entry[]) o) v.addElement(entry);
+                    for (Entry entry : (Entry[]) o) v.add(entry);
                 }
             }
             return v.iterator();
@@ -1047,13 +1047,13 @@ public class ExcludeList {
             for (int i = 0; i < testCase.length(); i++) {
                 if (testCase.charAt(i) == ',') {
                     if (start != -1)
-                        v.addElement(testCase.substring(start, i));
+                        v.add(testCase.substring(start, i));
                     start = -1;
                 } else if (start == -1)
                     start = i;
             }
             if (start != -1)
-                v.addElement(testCase.substring(start));
+                v.add(testCase.substring(start));
 
             if (v.isEmpty())
                 return null;

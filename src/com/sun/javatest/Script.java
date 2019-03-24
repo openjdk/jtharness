@@ -767,7 +767,7 @@ public abstract class Script {
                     else {
                         // well, sort of; malformed package statement
                         trOut.println(i18n.getString("script.badPackage"));
-                        v.addElement(src);
+                        v.add(src);
                         continue;
                     }
                 } else
@@ -775,7 +775,7 @@ public abstract class Script {
                     pkgPrefix = "";
             } catch (IOException e) {
                 trOut.println(i18n.getString("script.badDateStamp", src, e));
-                v.addElement(src);
+                v.add(src);
                 continue;
             }
 
@@ -788,7 +788,7 @@ public abstract class Script {
             if (classFile.exists() && classFile.lastModified() > srcFile.lastModified())
                 trOut.println(i18n.getString("script.upToDate", src));
             else
-                v.addElement(src);
+                v.add(src);
         }
 
         if (!v.isEmpty()) {

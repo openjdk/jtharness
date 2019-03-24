@@ -413,14 +413,14 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             synchronized (vLock) {
                 // make sure this item is not already in the list
                 if (!inQueue.contains(tr)) {
-                    inQueue.addElement(tr);
+                    inQueue.add(tr);
                 }
             }   // sync
 
             // try not to saturate the GUI event thread
             if (!suppressNotify && !isUpdateScheduled) {
                 TableNotifier tn = new TableNotifier(subpanelNode, this);
-                pendingEvents.addElement(tn);
+                pendingEvents.add(tn);
                 EventQueue.invokeLater(tn);
             }
         }
@@ -431,12 +431,12 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
          */
         void removeTest(TestResult tr) {
             synchronized (vLock) {
-                rmQueue.addElement(tr);
+                rmQueue.add(tr);
 
                 // try not to saturate the GUI event thread
                 if (!isUpdateScheduled) {
                     TableNotifier tn = new TableNotifier(subpanelNode, this);
-                    pendingEvents.addElement(tn);
+                    pendingEvents.add(tn);
                     EventQueue.invokeLater(tn);
                 }
             }   // sync
@@ -515,7 +515,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                                 if (!isUpdateScheduled) {
                                     TableNotifier tn = new TableNotifier(
                                             subpanelNode, this);
-                                    pendingEvents.addElement(tn);
+                                    pendingEvents.add(tn);
                                     EventQueue.invokeLater(tn);
                                 }
 
@@ -530,7 +530,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                                             TableModelEvent.ALL_COLUMNS,
                                             TableModelEvent.INSERT);
                             TableNotifier tn = new TableNotifier(e, mod);
-                            pendingEvents.addElement(tn);
+                            pendingEvents.add(tn);
                             EventQueue.invokeLater(tn);
                         }
                     }
@@ -623,7 +623,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 } else {
                     // switch event onto AWT event thread
                     TableNotifier tn = new TableNotifier(e, mod);
-                    pendingEvents.addElement(tn);
+                    pendingEvents.add(tn);
                     EventQueue.invokeLater(tn);
                 }
             }
@@ -643,7 +643,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 } else {
                     // switch event onto AWT event thread
                     TableNotifier tn = new TableNotifier(e, mod);
-                    pendingEvents.addElement(tn);
+                    pendingEvents.add(tn);
                     EventQueue.invokeLater(tn);
                 }
             }
@@ -655,7 +655,7 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 TableModelEvent e = new TableModelEvent(this);
                 // switch event onto AWT event thread
                 TableNotifier tn = new TableNotifier(e, mod);
-                pendingEvents.addElement(tn);
+                pendingEvents.add(tn);
                 EventQueue.invokeLater(tn);
             }
         }

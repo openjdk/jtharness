@@ -788,17 +788,17 @@ public abstract class InterviewParameters
 
         TestFilter excludeFilter = getExcludeListFilter();
         if (excludeFilter != null) {
-            v.addElement(excludeFilter);
+            v.add(excludeFilter);
         }
 
         TestFilter keywordFilter = getKeywordsFilter();
         if (keywordFilter != null) {
-            v.addElement(keywordFilter);
+            v.add(keywordFilter);
         }
 
         TestFilter statusFilter = getPriorStatusFilter();
         if (statusFilter != null) {
-            v.addElement(statusFilter);
+            v.add(statusFilter);
         }
 
         TestFilter testSuiteFilter = null;
@@ -808,7 +808,7 @@ public abstract class InterviewParameters
             testSuiteFilter = null;
         }
         if (testSuiteFilter != null) {
-            v.addElement(testSuiteFilter);
+            v.add(testSuiteFilter);
         }
 
         if (v.isEmpty()) {

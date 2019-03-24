@@ -450,24 +450,24 @@ public class COFTest extends COFItem {
 
         // generic Java default
         // 10-Sep-99 3:25:11 PM
-        v.addElement(DateFormat.getDateTimeInstance());
+        v.add(DateFormat.getDateTimeInstance());
 
         // standard IETF date syntax
         // Fri, 10 September 1999 03:25:12 PDT
-        v.addElement(new SimpleDateFormat("EEE, dd MMMM yyyy HH:mm:ss zzz"));
+        v.add(new SimpleDateFormat("EEE, dd MMMM yyyy HH:mm:ss zzz"));
 
         // Unix C time
         // Fri Sep 10 14:41:37 PDT 1999
-        v.addElement(new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy"));
+        v.add(new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy"));
 
         // XML time
         // 1999-09-10T03:25:12.123 (ISO 8601, sect 5.4)
-        v.addElement(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS"));
+        v.add(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS"));
 
         // allow user-specified format
         String s = System.getProperty("javatest.date.format");
         if (s != null) {
-            v.addElement(new SimpleDateFormat(s));
+            v.add(new SimpleDateFormat(s));
         }
 
         dateFormats = v.toArray(new DateFormat[v.size()]);

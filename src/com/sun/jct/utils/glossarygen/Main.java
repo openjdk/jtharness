@@ -991,12 +991,12 @@ class Entry {
             }
             else {
                 if (start != -1)
-                    strings.addElement(s.substring(start, i));
+                    strings.add(s.substring(start, i));
                 start = -1;
             }
         }
         if (start != -1)
-            strings.addElement(s.substring(start));
+            strings.add(s.substring(start));
         return strings.toArray(new String[strings.size()]);
     }
 

@@ -712,19 +712,19 @@ public abstract class BasicParameters
 
         TestFilter excludeFilter = getExcludeListFilter();
         if (excludeFilter != null)
-            v.addElement(excludeFilter);
+            v.add(excludeFilter);
 
         TestFilter keywordFilter = getKeywordsFilter();
         if (keywordFilter != null)
-            v.addElement(keywordFilter);
+            v.add(keywordFilter);
 
         TestFilter statusFilter = getPriorStatusFilter();
         if (statusFilter != null)
-            v.addElement(statusFilter);
+            v.add(statusFilter);
 
         TestFilter testSuiteFilter = getRelevantTestFilter();
         if (testSuiteFilter != null)
-            v.addElement(testSuiteFilter);
+            v.add(testSuiteFilter);
 
         if (v.isEmpty())
             return null;

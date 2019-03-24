@@ -135,8 +135,8 @@ public class ConfigValuesMap {
                 String[] row = StringArray.split(line);
                 if (row.length < 2)
                     throw new IOException("format error in map file, line is: " + line);
-                from.addElement(row[0].replaceAll("\\Q\\u0020\\E", " "));
-                to.addElement(row[1].replaceAll("\\Q\\u0020\\E", " "));
+                from.add(row[0].replaceAll("\\Q\\u0020\\E", " "));
+                to.add(row[1].replaceAll("\\Q\\u0020\\E", " "));
             }
         }
         in.close();
@@ -199,7 +199,7 @@ public class ConfigValuesMap {
     public Enumeration<String[]> enumerate() {
         Vector<String[]> v = new Vector<>(fromValues.length);
         for (int i = 0; i < fromValues.length; i++) {
-            v.addElement(new String[]{fromValues[i], toValues[i]});
+            v.add(new String[]{fromValues[i], toValues[i]});
         }
         return v.elements();
     }

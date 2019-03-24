@@ -588,16 +588,16 @@ public class TestDescription implements Serializable {
         int mid = 0;
 
         if (upper < 0) {
-            v.addElement(key);
-            v.addElement(value);
+            v.add(key);
+            v.add(value);
             return;
         }
 
         String last = v.get(upper);
         int cmp = key.compareTo(last);
         if (cmp > 0) {
-            v.addElement(key);
-            v.addElement(value);
+            v.add(key);
+            v.add(value);
             return;
         }
 

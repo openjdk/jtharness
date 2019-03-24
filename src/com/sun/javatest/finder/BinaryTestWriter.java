@@ -385,7 +385,7 @@ public class BinaryTestWriter {
         for (File file1 : files) {
             TestTree.Node n = read0(finder, file1, testTree, allFiles);
             if (n != null)
-                v.addElement(n);
+                v.add(n);
         }
 
         return testTree.new Node(file.getName(), tests, v.toArray(new TestTree.Node[v.size()]));
@@ -502,14 +502,14 @@ public class BinaryTestWriter {
          */
         void write(DataOutputStream o) throws IOException {
             Vector<String> v = new Vector<>(map.size());
-            v.addElement("");
+            v.add("");
             int nextIndex = 1;
             for (Map.Entry<String, Entry> e : map.entrySet()) {
                 String key = e.getKey();
                 Entry entry = e.getValue();
                 if (entry.isFrequent()) {
                     entry.index = nextIndex++;
-                    v.addElement(key);
+                    v.add(key);
                 }
             }
 
@@ -590,7 +590,7 @@ public class BinaryTestWriter {
          * test description are automatically added to the testTable's stringTable.
          */
         void add(TestDescription td) {
-            tests.addElement(td);
+            tests.add(td);
             testMap.put(td, new Entry());
             stringTable.add(td);
         }

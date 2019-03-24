@@ -316,7 +316,7 @@ public class Agent implements Runnable {
                     int slvPrio = (currPrio + Thread.MIN_PRIORITY) / 2;
                     t.setPriority(slvPrio);
                     t.start();
-                    threads.addElement(t);
+                    threads.add(t);
                 }
                 wait();
             }
@@ -430,7 +430,7 @@ public class Agent implements Runnable {
                     }
 
                     t = new Task(connection);
-                    tasks.addElement(t);
+                    tasks.add(t);
                 }
 
                 try {

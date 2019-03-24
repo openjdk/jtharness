@@ -219,8 +219,8 @@ public class TestEnvContext {
 
     private void add(Vector<Map<String, String>> pv, Vector<String> nv, Map<String, String> p, String n) {
         if (p != null) {
-            pv.addElement(p);
-            nv.addElement(n);
+            pv.add(p);
+            nv.add(n);
         }
     }
 
@@ -318,7 +318,7 @@ public class TestEnvContext {
             } else if (c == 0)
                 return;
         }
-        v.addElement(s);
+        v.add(s);
     }
 
     private Map<String, String>[] propTables;

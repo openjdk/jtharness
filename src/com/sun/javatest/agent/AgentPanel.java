@@ -698,7 +698,7 @@ class AgentPanel extends ScrollPane {
                 }
             }
 
-            tasks.addElement(task);
+            tasks.add(task);
             super.add("CONN " + task.connection.getName());
         }
 
@@ -946,7 +946,7 @@ class AgentPanel extends ScrollPane {
         }
 
         void startedTask(TaskState task) {
-            tasks.addElement(task);
+            tasks.add(task);
             activeField.setText(String.valueOf(tasks.size()));
         }
 

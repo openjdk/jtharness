@@ -120,17 +120,17 @@ class Folder extends Panel implements ItemSelectable {
 
     @Override
     public Component add(String name, Component comp) {
-        entries.addElement(new Entry(comp, name, null, true));
+        entries.add(new Entry(comp, name, null, true));
         return super.add(name, comp);
     }
 
     public Component add(String name, Component comp, Color color) {
-        entries.addElement(new Entry(comp, name, color, true));
+        entries.add(new Entry(comp, name, color, true));
         return super.add(name, comp);
     }
 
     public Component add(String name, Component comp, Color color, boolean visibleTab) {
-        entries.addElement(new Entry(comp, name, color, visibleTab));
+        entries.add(new Entry(comp, name, color, visibleTab));
         return super.add(name, comp);
     }
 

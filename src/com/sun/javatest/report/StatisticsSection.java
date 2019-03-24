@@ -162,7 +162,7 @@ class StatisticsSection extends HTMLSection {
                         break sortedInsert;
                     }
                 }
-                v.addElement(newEntry);
+                v.add(newEntry);
             }
         }
 
@@ -176,7 +176,7 @@ class StatisticsSection extends HTMLSection {
                 total += statusTotal;
             }
             totalsEntry[c] = Integer.toString(total);
-            v.addElement(totalsEntry);
+            v.add(totalsEntry);
         }
 
         String[][] table = v.toArray(new String[v.size()][]);

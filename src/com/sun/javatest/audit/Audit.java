@@ -121,13 +121,13 @@ public class Audit {
                 checksumCounts[tr.getChecksumState()]++;
 
                 if (tr.getChecksumState() == TestResult.BAD_CHECKSUM)
-                    badChecksumTestsV.addElement(tr);
+                    badChecksumTestsV.add(tr);
 
                 if (!equal(td, tr.getDescription()))
-                    badTestDescriptionsV.addElement(tr);
+                    badTestDescriptionsV.add(tr);
 
                 if (!checkTestCases(tr, excludeList))
-                    badTestCaseTestsV.addElement(tr);
+                    badTestCaseTestsV.add(tr);
 
                 Map<String, String> trEnv = tr.getEnvironment();
                 for (Map.Entry<String, String> e : trEnv.entrySet()) {
@@ -139,7 +139,7 @@ public class Audit {
                         envTable.put(key, allValuesForKey);
                     }
                     if (!allValuesForKey.contains(value))
-                        allValuesForKey.addElement(value);
+                        allValuesForKey.add(value);
                 }
 
                 String start = tr.getProperty(TestResult.START);
@@ -158,7 +158,7 @@ public class Audit {
                 }
             } catch (TestResult.Fault e) {
                 //System.err.println(td.getRootRelativeURL() + " " + TestResult.getWorkRelativePath(td) + " " + e);
-                badTestsV.addElement(td);
+                badTestsV.add(td);
             }
         }
 
@@ -682,25 +682,25 @@ public class Audit {
 
         // generic Java default
         // 10-Sep-99 3:25:11 PM
-        v.addElement(DateFormat.getDateTimeInstance());
-        v.addElement(DateFormat.getDateTimeInstance(DateFormat.DEFAULT,
+        v.add(DateFormat.getDateTimeInstance());
+        v.add(DateFormat.getDateTimeInstance(DateFormat.DEFAULT,
                 DateFormat.DEFAULT,
                 Locale.ENGLISH));
 
         // standard IETF date syntax
         // Fri, 10 September 1999 03:25:12 PDT
-        v.addElement(new SimpleDateFormat("EEE, dd MMMM yyyy HH:mm:ss zzz"));
-        v.addElement(new SimpleDateFormat("EEE, dd MMMM yyyy HH:mm:ss zzz", Locale.ENGLISH));
+        v.add(new SimpleDateFormat("EEE, dd MMMM yyyy HH:mm:ss zzz"));
+        v.add(new SimpleDateFormat("EEE, dd MMMM yyyy HH:mm:ss zzz", Locale.ENGLISH));
 
         // Unix C time
         // Fri Sep 10 14:41:37 PDT 1999
-        v.addElement(new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy"));
-        v.addElement(new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH));
+        v.add(new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy"));
+        v.add(new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH));
 
         // allow user-specified format
         String s = System.getProperty("javatest.date.format");
         if (s != null)
-            v.addElement(new SimpleDateFormat(s));
+            v.add(new SimpleDateFormat(s));
 
         dateFormats = v.toArray(new DateFormat[v.size()]);
     }

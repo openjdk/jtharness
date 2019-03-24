@@ -352,14 +352,14 @@ public abstract class TreeQuestion extends Question {
         for (int i = 0; i < s.length(); i++) {
             if (white(s.charAt(i))) {
                 if (start != -1)
-                    v.addElement(s.substring(start, i));
+                    v.add(s.substring(start, i));
                 start = -1;
             } else if (start == -1)
                 start = i;
         }
 
         if (start != -1)
-            v.addElement(s.substring(start));
+            v.add(s.substring(start));
 
         if (v.isEmpty())
             return empty;

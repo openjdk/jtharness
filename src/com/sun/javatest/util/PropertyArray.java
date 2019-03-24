@@ -515,8 +515,8 @@ public class PropertyArray {
 
         if (upper < 0) {
             // no data yet
-            vec.addElement(key);
-            vec.addElement(value);
+            vec.add(key);
+            vec.add(value);
             return old;
         }
 
@@ -524,8 +524,8 @@ public class PropertyArray {
         String last = vec.get(upper);
         int cmp = key.compareTo(last);
         if (cmp > 0) {
-            vec.addElement(key);
-            vec.addElement(value);
+            vec.add(key);
+            vec.add(value);
             return null;
         }
 
@@ -567,7 +567,7 @@ public class PropertyArray {
             vec = new Vector<>(data.length, 2);
 
             for (String aData : data) {
-                vec.addElement(aData);
+                vec.add(aData);
             }   // for
         }
 

@@ -613,7 +613,7 @@ public class Main {
             char c = s.charAt(i);
             if (c == sep)  {
                 if (start != -1)
-                    v.addElement(s.substring(start, i).trim());
+                    v.add(s.substring(start, i).trim());
                 start = -1;
             } else {
                 if (start == -1)
@@ -621,7 +621,7 @@ public class Main {
             }
         }
         if (start != -1) {
-            v.addElement(s.substring(start).trim());
+            v.add(s.substring(start).trim());
         }
         return v.toArray(new String[v.size()]);
     }
@@ -633,7 +633,7 @@ public class Main {
             char c = s.charAt(i);
             if (c == File.pathSeparatorChar)  {
                 if (start != -1)
-                    files.addElement(new File(s.substring(start, i)));
+                    files.add(new File(s.substring(start, i)));
                 start = -1;
             } else {
                 if (start == -1)
@@ -641,7 +641,7 @@ public class Main {
             }
         }
         if (start != -1) {
-            files.addElement(new File(s.substring(start)));
+            files.add(new File(s.substring(start)));
         }
         return files.toArray(new File[files.size()]);
     }

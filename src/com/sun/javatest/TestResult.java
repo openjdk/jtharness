@@ -1929,7 +1929,7 @@ public class TestResult {
             String[] names = section.getOutputNames();
 
             for (String name : names) {
-                tagV.addElement(name);
+                tagV.add(name);
             }   // inner for
         } // outer for
 

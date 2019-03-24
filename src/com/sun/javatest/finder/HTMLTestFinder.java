@@ -380,7 +380,7 @@ public class HTMLTestFinder extends TestFinder {
         if (params != null && tableRow != null && text != null) {
             while (text.length() > 0 && text.charAt(text.length() - 1) == ' ')
                 text.setLength(text.length() - 1);
-            tableRow.addElement(new String(text));
+            tableRow.add(new String(text));
             text = null;
         }
     }

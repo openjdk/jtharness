@@ -119,7 +119,7 @@ public class Timer {
                     return e;
                 }
             }
-            entries.addElement(e);
+            entries.add(e);
             return e;
         } finally {
             // kick timer thread awake to check this entry if necessary

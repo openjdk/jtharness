@@ -161,7 +161,7 @@ public class TestEnvironment {
             if (v.contains(n))
                 throw new Fault(i18n, "env.loop", name);
 
-            v.addElement(n);
+            v.add(n);
             String prefix = "env." + n + ".";
             for (int i = propTables.length - 1; i >= 0 && inherit == null; i--) {
                 inherit = (String) propTables[i].get("env." + n + ".inherits");
@@ -339,7 +339,7 @@ public class TestEnvironment {
                 throw new Fault(i18n, "env.recursive",
                         key, elem.getDefinedInFile());
 
-            activeKeys.addElement(key);
+            activeKeys.add(key);
             try {
                 return resolve(elem.getValue(), activeKeys);
             } catch (Fault e) {
@@ -489,7 +489,7 @@ public class TestEnvironment {
                                         current.append(' ');
                                         current.append(val[vi]);
                                     } else {
-                                        v.addElement(current.toString());
+                                        v.add(current.toString());
                                         current.setLength(0);
                                         current.append(val[vi]);
                                     }
@@ -509,7 +509,7 @@ public class TestEnvironment {
                     // current word
                     if (term != 0) {
                         if (term == ' ') {
-                            v.addElement(current.toString());
+                            v.add(current.toString());
                             current.setLength(0);
                             term = 0;
                         } else
@@ -529,7 +529,7 @@ public class TestEnvironment {
 
         // we've reached the end; if a word has been started, finish it
         if (term != 0) {
-            v.addElement(current.toString());
+            v.add(current.toString());
         }
 
         return v.toArray(new String[v.size()]);

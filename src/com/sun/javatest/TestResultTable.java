@@ -2065,7 +2065,7 @@ public class TestResultTable {
         try {
             for (TestResult tr : trs) {
                 if (tr.getDescription().getRootRelativeURL().startsWith(url))
-                    v.addElement(tr);           // match
+                    v.add(tr);           // match
             }   // for
         } catch (TestResult.Fault f) {
             // this is a very bad thing I think

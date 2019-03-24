@@ -1048,12 +1048,12 @@ public class Desktop {
             colorPane = new ColorPrefsPane(uif);
 
         Vector<PreferencesPane> v = new Vector<>();
-        v.addElement(prefsPane);
-        v.addElement(colorPane);
+        v.add(prefsPane);
+        v.add(colorPane);
         for (ToolManager m : toolManagers) {
             PreferencesPane p = m.getPrefsPane();
             if (p != null)
-                v.addElement(p);
+                v.add(p);
         }
 
         PreferencesPane[] custom = getCustomPreferences();

@@ -479,13 +479,13 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             synchronized (vLock) {
                 // make sure this item is not already in the list
                 if (!inQueue.contains(tr) && !liveData.contains(tr))
-                    inQueue.addElement(tr);
+                    inQueue.add(tr);
             } // sync
 
             // try not to saturate the GUI event thread
             if (!suppressNotify && !isUpdateScheduled) {
                 TableNotifier tn = new TableNotifier(subpanelNode, this);
-                pendingEvents.addElement(tn);
+                pendingEvents.add(tn);
                 EventQueue.invokeLater(tn);
             }
         }
@@ -502,7 +502,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 inQueue = sort(v, mode);
 
                 TableNotifier tn = new TableNotifier(subpanelNode, this);
-                pendingEvents.addElement(tn);
+                pendingEvents.add(tn);
                 EventQueue.invokeLater(tn);
             }
         }
@@ -513,12 +513,12 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
          */
         void removeTest(TestResult tr) {
             synchronized (vLock) {
-                rmQueue.addElement(tr);
+                rmQueue.add(tr);
                 // try not to saturate the GUI event thread
                 if (!isUpdateScheduled) {
                     TableNotifier tn = new TableNotifier(subpanelNode, this);
 
-                    pendingEvents.addElement(tn);
+                    pendingEvents.add(tn);
                     EventQueue.invokeLater(tn);
                 }
             } // sync
@@ -622,7 +622,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             Vector<TestResult> temp = new Vector<>(v.size());
 
             for (int i = 0; i < v.size(); i++)
-                temp.addElement(v.get(aaa[i]));
+                temp.add(v.get(aaa[i]));
 
             return temp;
         }
@@ -698,7 +698,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                                 if (!isUpdateScheduled) {
                                     TableNotifier tn = new TableNotifier(
                                             subpanelNode, this);
-                                    pendingEvents.addElement(tn);
+                                    pendingEvents.add(tn);
                                     EventQueue.invokeLater(tn);
                                 }
                                 table.repaint();
@@ -713,7 +713,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                                     TableModelEvent.INSERT);
 
                             TableNotifier tn = new TableNotifier(e, this);
-                            pendingEvents.addElement(tn);
+                            pendingEvents.add(tn);
                             EventQueue.invokeLater(tn);
                         }
                     }
@@ -803,7 +803,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 } else {
                     // switch event onto AWT event thread
                     TableNotifier tn = new TableNotifier(e, mod);
-                    pendingEvents.addElement(tn);
+                    pendingEvents.add(tn);
                     EventQueue.invokeLater(tn);
                 }
             }
@@ -822,7 +822,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 } else {
                     // switch event onto AWT event thread
                     TableNotifier tn = new TableNotifier(e, mod);
-                    pendingEvents.addElement(tn);
+                    pendingEvents.add(tn);
                     EventQueue.invokeLater(tn);
                 }
             }
@@ -834,7 +834,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 TableModelEvent e = new TableModelEvent(this);
                 // switch event onto AWT event thread
                 TableNotifier tn = new TableNotifier(e, mod);
-                pendingEvents.addElement(tn);
+                pendingEvents.add(tn);
                 EventQueue.invokeLater(tn);
             }
         }

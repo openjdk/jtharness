@@ -143,7 +143,7 @@ public class WizEdit {
                 if (args[i].equals("-o") && i + 1 < args.length)
                     outFileName = new File(args[++i]);
                 else if (args[i].equals("-e"))
-                    v.addElement(args[++i]);
+                    v.add(args[++i]);
                 else if (args[i].startsWith("-"))
                     throw new BadArgs(i18n, "edit.badOption", args[i]);
                 else if (i == args.length - 1 && args[i].endsWith(".jti"))

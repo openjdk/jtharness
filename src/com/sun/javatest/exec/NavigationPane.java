@@ -281,7 +281,7 @@ public class NavigationPane extends JPanel {
                 entries.setSize(index + 1);
 
             // finally, add new entry
-            entries.addElement(u);
+            entries.add(u);
             index = entries.size() - 1;
         }
 

@@ -92,7 +92,7 @@ public class BackupUtil {
                 if (!renamed) {
                     return -1;
                 }
-                backups.addElement(Integer.valueOf(index));
+                backups.add(Integer.valueOf(index));
             }
         }
 
@@ -100,7 +100,7 @@ public class BackupUtil {
         if (!renamed) {
             return -1;
         }
-        backups.addElement(Integer.valueOf(1));
+        backups.add(Integer.valueOf(1));
 
         int maxIndex = 0;
         for (Integer backup : backups) {
@@ -158,7 +158,7 @@ public class BackupUtil {
                 if (!renamed) {
                     return;
                 }
-                backups.addElement(Integer.valueOf(index));
+                backups.add(Integer.valueOf(index));
             }
         }
 

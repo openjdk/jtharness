@@ -374,7 +374,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 } else
                     return null;
 
-                urls.addElement(url);
+                urls.add(url);
             }   // for
         }
 
