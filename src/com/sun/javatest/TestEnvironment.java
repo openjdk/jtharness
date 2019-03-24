@@ -346,7 +346,7 @@ public class TestEnvironment {
                 throw new Fault(i18n, "env.badName",
                         key, elem.getDefinedInFile(), e.getMessage());
             } finally {
-                activeKeys.removeElement(key);
+                activeKeys.remove(key);
             }
         }
 

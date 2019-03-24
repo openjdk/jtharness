@@ -303,7 +303,7 @@ public class Agent implements Runnable {
                             } catch (InterruptedException e) {
                             } finally {
                                 synchronized (Agent.this) {
-                                    threads.removeElement(curr);
+                                    threads.remove(curr);
                                     Agent.this.notifyAll();
                                 }
                                 if (tracing)
@@ -437,7 +437,7 @@ public class Agent implements Runnable {
                     t.handleRequest();
                 } finally {
                     synchronized (this) {
-                        tasks.removeElement(t);
+                        tasks.remove(t);
                     }
                 }
             } catch (ConnectionFactory.Fault e) {

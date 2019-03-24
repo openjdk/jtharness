@@ -133,7 +133,7 @@ public class Timer {
      * @param e The result of the prior call to requestDelayedEntry
      */
     public synchronized void cancel(Entry e) {
-        entries.removeElement(e);
+        entries.remove(e);
         // kick timer thread awake so it can exit if necessary
         notify();
     }

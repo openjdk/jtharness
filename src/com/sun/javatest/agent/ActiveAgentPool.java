@@ -351,7 +351,7 @@ public class ActiveAgentPool {
 
         synchronized boolean remove(Entry e) {
             if (v.contains(e)) {
-                v.removeElement(e);
+                v.remove(e);
                 notifyRemovedFromPool(e);
                 return true;
             } else

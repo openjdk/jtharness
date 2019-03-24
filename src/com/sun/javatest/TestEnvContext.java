@@ -305,7 +305,7 @@ public class TestEnvContext {
         envNames = allVec.toArray(new String[allVec.size()]);
         Vector<String> menuVec = new Vector<>(allVec);
         for (int i = 0; i < menuExcludeVec.size(); i++)
-            menuVec.removeElement(menuExcludeVec.get(i));
+            menuVec.remove(menuExcludeVec.get(i));
         envMenuNames = menuVec.toArray(new String[menuVec.size()]);
     }
 
