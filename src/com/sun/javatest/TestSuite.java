@@ -721,7 +721,7 @@ public class TestSuite {
             }
         }
 
-        Script s = (Script) newInstance(scriptClass);
+        Script s = newInstance(scriptClass);
         s.initArgs(scriptArgs);
         s.initTestDescription(td);
         s.initExcludedTestCases(exclTestCases);
@@ -1488,7 +1488,7 @@ public class TestSuite {
     private TestFinder finder;
 
     // the following are used by the default impl of createScript
-    private Class<?> scriptClass;
+    private Class<? extends Script> scriptClass;
     private String[] scriptArgs;
 
     private String[] keywords;

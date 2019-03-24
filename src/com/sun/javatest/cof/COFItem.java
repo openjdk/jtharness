@@ -44,13 +44,13 @@ import com.sun.javatest.util.XMLWriter;
 
 abstract class COFItem {
     BeanInfo bi = null;
-    LinkedHashMap itemAttributes = getItemAttributes();
-    LinkedHashMap itemElements = getItemElements();
+    LinkedHashMap<String, String> itemAttributes = getItemAttributes();
+    LinkedHashMap<String, String> itemElements = getItemElements();
     String itemTagName = getItemTagName();
     PropertyDescriptor[] pds = null;
 
     private String[] getAttributeProperties() {
-        return itemAttributes == null ? null : (String[]) itemAttributes.keySet().toArray(new String[itemAttributes.size()]);
+        return itemAttributes == null ? null : itemAttributes.keySet().toArray(new String[itemAttributes.size()]);
     }
 
     LinkedHashMap<String, String> getItemAttributes() {
@@ -125,7 +125,7 @@ abstract class COFItem {
     }
 
     private String[] getPropOrder() {
-        return itemElements == null ? null : (String[]) itemElements.keySet().toArray(new String[itemElements.size()]);
+        return itemElements == null ? null : itemElements.keySet().toArray(new String[itemElements.size()]);
     }
 
     void write(XMLWriter out) throws IOException {
@@ -171,8 +171,8 @@ abstract class COFItem {
     }
 
     void writeCollection(XMLWriter out, String propName) throws IOException {
-        Collection col = (Collection) getProperty(propName);
-        for (Iterator iter = col.iterator(); iter.hasNext(); ) {
+        Collection<?> col = (Collection<?>) getProperty(propName);
+        for (Iterator<?> iter = col.iterator(); iter.hasNext(); ) {
             Object value = iter.next();
             if (value instanceof COFItem) {
                 ((COFItem) value).write(out);

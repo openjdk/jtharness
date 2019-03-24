@@ -42,7 +42,7 @@ public class COFData {
     public COFData() {
     }
 
-    COFData(Vector data) throws IOException {
+    COFData(Vector<Object> data) throws IOException {
         for (int i = 0; i < data.size(); i++) {
             Object o = data.get(i);
             if (o == null)
@@ -92,7 +92,7 @@ public class COFData {
     private CustomFilter filter = new CustomFilterAdapter();
 
     void setCustomFilter(String filterClassName) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        Class c = Class.forName(filterClassName, true, ClassLoader.getSystemClassLoader());
+        Class<?> c = Class.forName(filterClassName, true, ClassLoader.getSystemClassLoader());
         filter = (CustomFilter) c.newInstance();
     }
 

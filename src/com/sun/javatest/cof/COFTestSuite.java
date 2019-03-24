@@ -138,8 +138,8 @@ class COFTestSuite extends COFItem {
         // might need to wait for workdir to fully load
         if (!legacyMode)
             trt.waitUntilReady();
-        for (Iterator iter = trt.getIterator(); iter.hasNext(); ) {
-            TestResult tr = (TestResult) (iter.next());
+        for (Iterator<TestResult> iter = trt.getIterator(); iter.hasNext(); ) {
+            TestResult tr = iter.next();
             out.newLine();
             new COFTest(tr, cofData).write(out);
         }
@@ -154,8 +154,8 @@ class COFTestSuite extends COFItem {
         HashMap<String, COFEnvironment> map = new HashMap<>();
         String id = cofData.get("environment.id", "env:0").split(":")[0] + ":";
         int id_n = 0;
-        for (Iterator iter = trt.getIterator(); iter.hasNext(); ) {
-            TestResult tr = (TestResult) (iter.next());
+        for (Iterator<TestResult> iter = trt.getIterator(); iter.hasNext(); ) {
+            TestResult tr = iter.next();
             try {
                 String os = tr.getProperty(TestResult.JAVATEST_OS);
                 if (!map.containsKey(os) && os != null) {
@@ -178,16 +178,16 @@ class COFTestSuite extends COFItem {
             } catch (TestResult.Fault ex) {
             }
         }
-        Collection values = map.values();
+        Collection<COFEnvironment> values = map.values();
         COFEnvironment[] evs;
         if (values.isEmpty()) {
             evs = new COFEnvironment[]{new COFEnvironment(data, "env:0")};
         } else {
             evs = new COFEnvironment[values.size()];
-            Iterator e = values.iterator();
+            Iterator<COFEnvironment> e = values.iterator();
             int i = 0;
             while (e.hasNext()) {
-                evs[i++] = (COFEnvironment) e.next();
+                evs[i++] = e.next();
             }
         }
         return evs;
