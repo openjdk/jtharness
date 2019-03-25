@@ -63,6 +63,10 @@ public class ProductInfo {
         return getProperty("version");
     }
 
+    /**
+     * IMPORTANT: from java.text.SimpleDateFormat specification: "Date formats are not synchronized.
+     * If multiple threads access a format concurrently, it must be synchronized externally"
+     */
     private static final DateFormat BUILD_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     /**
@@ -83,7 +87,13 @@ public class ProductInfo {
                 .append(getBuildNumber());
         Date buildDate = getBuildDate();
         if (buildDate != null) {
-            sb.append('-').append(BUILD_DATE_FORMAT.format(buildDate));
+            String buildDateString;
+            // from java.text.SimpleDateFormat specification: "Date formats are not synchronized.
+            // If multiple threads access a format concurrently, it must be synchronized externally"
+            synchronized (BUILD_DATE_FORMAT) {
+                buildDateString = BUILD_DATE_FORMAT.format(buildDate);
+            }
+            sb.append('-').append(buildDateString);
         }
         return sb.toString();
     }
