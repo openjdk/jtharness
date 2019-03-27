@@ -693,7 +693,7 @@ class AgentPanel extends ScrollPane {
                     if (s.startsWith("CONN") || s.startsWith("EXEC"))
                         continue;
 
-                    tasks.removeElementAt(i);
+                    tasks.remove(i);
                     super.remove(i);
                 }
             }
@@ -726,7 +726,7 @@ class AgentPanel extends ScrollPane {
 
         public synchronized void removeTask(TaskState task) {
             int index = tasks.indexOf(task);
-            tasks.removeElementAt(index);
+            tasks.remove(index);
             super.remove(index);
         }
 
@@ -954,7 +954,7 @@ class AgentPanel extends ScrollPane {
             int index = tasks.indexOf(task);
             if (index == -1)
                 return;
-            tasks.removeElementAt(index);
+            tasks.remove(index);
             activeField.setText(String.valueOf(tasks.size()));
             if (!completedNormally)
                 exceptionsField.setText(String.valueOf(++exceptionsCount));

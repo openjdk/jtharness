@@ -362,7 +362,7 @@ public class ActiveAgentPool {
             Entry e = null;
             if (!v.isEmpty()) {
                 e = v.get(0);
-                v.removeElementAt(0);
+                v.remove(0);
                 notifyRemovedFromPool(e);
             }
             return e;

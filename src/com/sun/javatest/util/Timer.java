@@ -162,7 +162,7 @@ public class Timer {
                 Entry e = entries.get(0);
                 if (e.expiration <= now) {
                     // time to call back e.obj; do so and remove it from list
-                    entries.removeElementAt(0);
+                    entries.remove(0);
                     return e;
                 } else {
                     // not ready to invoke e yet; wait until nearer the time

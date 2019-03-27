@@ -259,9 +259,9 @@ public class PropertyArray {
                 lower = mid + 2;
             } else {
                 // strings equal, zap key and value
-                vec.removeElementAt(mid);
+                vec.remove(mid);
                 old = vec.get(mid);
-                vec.removeElementAt(mid);
+                vec.remove(mid);
                 break;
             }
         }
@@ -540,9 +540,9 @@ public class PropertyArray {
                 lower = mid + 2;
             } else {
                 // strings equal
-                vec.removeElementAt(mid);
+                vec.remove(mid);
                 old = vec.get(mid);
-                vec.removeElementAt(mid);
+                vec.remove(mid);
                 break;
             }
         }

@@ -117,8 +117,8 @@ public class OrderedTwoWayTable {
         if (index >= keys.size())
             return;
 
-        keys.removeElementAt(index);
-        values.removeElementAt(index);
+        keys.remove(index);
+        values.remove(index);
     }
 
     /**
