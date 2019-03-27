@@ -507,7 +507,7 @@ public abstract class ListQuestion extends Question {
             Body b = newBodies[i];
             if (b != bodies.get(i)) {
                 b.setIndex(i);
-                bodies.setElementAt(b, i);
+                bodies.set(i, b);
                 edited = true;
             }
         }
