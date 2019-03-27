@@ -115,7 +115,7 @@ public class Timer {
             for (int i = 0; i < entries.size(); i++) {
                 Entry ee = entries.get(i);
                 if (e.expiration < ee.expiration) {
-                    entries.insertElementAt(e, i);
+                    entries.add(i, e);
                     return e;
                 }
             }

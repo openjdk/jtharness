@@ -983,7 +983,7 @@ public class WizPrint {
         }
 
         public void insert(Question o) {
-            v.insertElementAt(o, findSortIndex(o));
+            v.add(findSortIndex(o), o);
         }
 
         public void insert(Question o, boolean ignoreDuplicates) {
@@ -991,7 +991,7 @@ public class WizPrint {
             if (ignoreDuplicates && (i < v.size()) && (compare(o, v.get(i)) == 0))
                 return;
 
-            v.insertElementAt(o, i);
+            v.add(i, o);
         }
 
         public void copyInto(Question... target) {

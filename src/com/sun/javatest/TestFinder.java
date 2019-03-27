@@ -621,7 +621,7 @@ public abstract class TestFinder {
             */
         }
 
-        tests.insertElementAt(td, target);
+        tests.add(target, td);
     }
 
     /**
@@ -700,7 +700,7 @@ public abstract class TestFinder {
         }
         */
 
-        files.insertElementAt(newFile, target);
+        files.add(target, newFile);
     }
 
     /**

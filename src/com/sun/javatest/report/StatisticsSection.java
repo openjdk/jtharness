@@ -158,7 +158,7 @@ class StatisticsSection extends HTMLSection {
                 for (int i = 0; i < v.size(); i++) {
                     String[] entry = v.get(i);
                     if (k.compareTo(entry[0]) < 0) {
-                        v.insertElementAt(newEntry, i);
+                        v.add(i, newEntry);
                         break sortedInsert;
                     }
                 }

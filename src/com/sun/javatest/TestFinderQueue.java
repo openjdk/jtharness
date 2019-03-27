@@ -616,7 +616,7 @@ public class TestFinderQueue {
         if (selectedId == null) {
             Object prev = filesFound.put(newFile.getPath(), newFile);
             if (prev == null) {
-                filesToRead.insertElementAt(newFile, fileInsertPosn);
+                filesToRead.add(fileInsertPosn, newFile);
                 notifier.found(newFile);
             }
         }

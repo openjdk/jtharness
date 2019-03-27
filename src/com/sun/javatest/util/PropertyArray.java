@@ -552,8 +552,8 @@ public class PropertyArray {
         if (cmp > 0)
             mid += 2;
 
-        vec.insertElementAt(key, mid);
-        vec.insertElementAt(value, mid + 1);
+        vec.add(mid, key);
+        vec.add(mid + 1, value);
 
         return old;
     }

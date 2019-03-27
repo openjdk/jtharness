@@ -313,7 +313,7 @@ public class TestEnvContext {
         for (int i = 0; i < v.size(); i++) {
             int c = s.compareTo(v.get(i));
             if (c > 0) {
-                v.insertElementAt(s, i);
+                v.add(i, s);
                 return;
             } else if (c == 0)
                 return;

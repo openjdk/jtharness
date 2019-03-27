@@ -619,8 +619,8 @@ public class TestDescription implements Serializable {
         if (cmp > 0)
             mid += 2;
 
-        v.insertElementAt(key, mid);
-        v.insertElementAt(value, mid + 1);
+        v.add(mid, key);
+        v.add(mid + 1, value);
     }
 
     //-----member variables-------------------------------------------------------
