@@ -546,7 +546,7 @@ public class TestFinderQueue {
         }
 
 
-        File f = filesToRead.lastElement();
+        File f = filesToRead.get(filesToRead.size() - 1);
         filesToRead.setSize(filesToRead.size() - 1);
         filesRemainingCount = filesToRead.size() + tests.size();
 

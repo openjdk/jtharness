@@ -219,7 +219,8 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
 
                     if (!newData[newData.length - 1].isEmpty() && !stopping) {
                         // final item with a notify
-                        mod.addTest(newData[newData.length - 1].lastElement(), false);
+                        Vector<TestResult> newDatum = newData[newData.length - 1];
+                        mod.addTest(newDatum.get(newDatum.size() - 1), false);
                     }
 
                     // to indicate completion

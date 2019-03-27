@@ -796,7 +796,7 @@ class PathPanel extends JPanel
                     v.add(q);
                 } else {
                     List<Question> l;
-                    Object o = v.lastElement();
+                    Object o = v.get(v.size() - 1);
                     if (o == null || o instanceof Question) {
                         l = new Vector<>();
                         v.add(l);
@@ -807,8 +807,8 @@ class PathPanel extends JPanel
             }
 
             // auto-expand the final section if it doesn't end in FinalQuestion
-            if (!(last instanceof FinalQuestion) && v.lastElement() instanceof List) {
-                List<?> l = (List<?>) v.lastElement();
+            if (!(last instanceof FinalQuestion) && v.get(v.size() - 1) instanceof List) {
+                List<?> l = (List<?>) v.get(v.size() - 1);
                 v.setSize(v.size() - 1);
                 v.addAll(l);
             }

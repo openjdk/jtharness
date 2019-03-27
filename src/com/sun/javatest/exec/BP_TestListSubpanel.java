@@ -283,7 +283,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
 
                     if (!newData[state].isEmpty() && !stopping) {
                         // final item with a notify
-                        mod.addTest(newData[state].lastElement(), false);
+                        mod.addTest(newData[state].get(newData[state].size() - 1), false);
                     }
 
                     // to indicate completion
