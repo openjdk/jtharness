@@ -341,7 +341,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         }
 
         if (initialTests != null) {
-            for (String initialTest : initialTests) urls.add(initialTest);
+            Collections.addAll(urls, initialTests);
         }
 
         if (!urls.isEmpty()) {

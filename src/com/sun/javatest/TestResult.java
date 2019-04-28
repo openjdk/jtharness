@@ -44,6 +44,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -1928,9 +1929,7 @@ public class TestResult {
         for (Section section : sections) {
             String[] names = section.getOutputNames();
 
-            for (String name : names) {
-                tagV.add(name);
-            }   // inner for
+            Collections.addAll(tagV, names);
         } // outer for
 
         return tagV.toArray(new String[tagV.size()]);

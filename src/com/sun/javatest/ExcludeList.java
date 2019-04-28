@@ -534,7 +534,7 @@ public class ExcludeList {
                 if (o instanceof Entry)
                     v.add(o);
                 else {
-                    for (Entry entry : (Entry[]) o) v.add(entry);
+                    Collections.addAll(v, (Entry[]) o);
                 }
             }
             return v.iterator();

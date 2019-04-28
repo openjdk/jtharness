@@ -275,8 +275,7 @@ public class KnownFailuresList {
                 if (value instanceof Entry)
                     v.add((Entry) value);
                 else {
-                    Entry[] entries = (Entry[]) value;
-                    for (Entry entry : entries) v.add(entry);
+                    Collections.addAll(v, (Entry[]) value);
                 }
             }
             return v.iterator();
