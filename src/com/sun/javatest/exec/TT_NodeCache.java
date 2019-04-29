@@ -26,10 +26,6 @@
  */
 package com.sun.javatest.exec;
 
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Vector;
-
 import com.sun.javatest.Status;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestFilter;
@@ -38,6 +34,9 @@ import com.sun.javatest.TestResultTable;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.DynamicArray;
 
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

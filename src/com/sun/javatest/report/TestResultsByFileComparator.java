@@ -26,10 +26,10 @@
  */
 package com.sun.javatest.report;
 
-import java.util.Comparator;
-
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestResult;
+
+import java.util.Comparator;
 
 class TestResultsByFileComparator implements Comparator<TestResult> {
     @Override

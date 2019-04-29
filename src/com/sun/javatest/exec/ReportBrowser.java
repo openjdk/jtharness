@@ -26,14 +26,9 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.AWTEvent;
-import java.io.File;
-
-import java.awt.event.ActionEvent;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.io.IOException;
-import java.net.MalformedURLException;
+import com.sun.javatest.tool.ToolAction;
+import com.sun.javatest.tool.ToolDialog;
+import com.sun.javatest.tool.UIFactory;
 
 import javax.swing.Action;
 import javax.swing.JComponent;
@@ -41,10 +36,13 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
-import com.sun.javatest.tool.ToolAction;
-import com.sun.javatest.tool.ToolDialog;
-import com.sun.javatest.tool.UIFactory;
+import java.awt.AWTEvent;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
 class ReportBrowser extends ToolDialog {
     public ReportBrowser(JComponent parent, ExecModel model, UIFactory uif, ReportHandler rh) {

@@ -26,13 +26,19 @@
  */
 package com.sun.javatest.exec;
 
+import com.sun.javatest.Harness;
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.Parameters;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.exec.Session.Event;
-
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
+import com.sun.javatest.tool.Preferences;
+import com.sun.javatest.tool.ToolAction;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.util.BackupPolicy;
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.StringArray;
 
 import javax.swing.Action;
 import javax.swing.DefaultListModel;
@@ -44,20 +50,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
-
-import com.sun.javatest.Harness;
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.Parameters;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.WorkDirectory;
-import com.sun.javatest.tool.Preferences;
-import com.sun.javatest.tool.ToolAction;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.util.BackupPolicy;
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.StringArray;
-
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

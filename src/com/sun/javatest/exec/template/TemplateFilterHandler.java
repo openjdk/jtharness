@@ -28,14 +28,14 @@
 package com.sun.javatest.exec.template;
 
 import com.sun.javatest.TestFilter;
-import com.sun.javatest.exec.Session.Event;
 import com.sun.javatest.exec.ET_FilterHandler;
 import com.sun.javatest.exec.ExecModel;
+import com.sun.javatest.exec.Session.Event;
 import com.sun.javatest.tool.UIFactory;
 
+import javax.swing.JComponent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JComponent;
 
 /**
  * Extension to ET_FilterHandler with Template filter support.

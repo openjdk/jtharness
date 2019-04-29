@@ -27,6 +27,43 @@
  */
 package com.sun.javatest.exec;
 
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.TemplateUtilities;
+import com.sun.javatest.TestResultTable;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.exec.FileSystemTableModel.FileTableFilter;
+import com.sun.javatest.tool.FileChooser;
+import com.sun.javatest.tool.Preferences;
+import com.sun.javatest.tool.SelectedWorkDirApprover;
+import com.sun.javatest.tool.TestSuiteChooser;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.WorkDirChooser;
+
+import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JViewport;
+import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+import javax.swing.border.Border;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.table.TableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -51,46 +88,7 @@ import java.awt.event.WindowEvent;
 import java.awt.print.Printable;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.event.TreeExpansionEvent;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JViewport;
-import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
-import javax.swing.border.Border;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableModel;
-
-
 import java.util.ResourceBundle;
-import javax.swing.JFileChooser;
-
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.TemplateUtilities;
-import com.sun.javatest.TestResultTable;
-import com.sun.javatest.WorkDirectory;
-import com.sun.javatest.exec.FileSystemTableModel.FileTableFilter;
-import com.sun.javatest.tool.FileChooser;
-import com.sun.javatest.tool.Preferences;
-import com.sun.javatest.tool.SelectedWorkDirApprover;
-import com.sun.javatest.tool.TestSuiteChooser;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.tool.WorkDirChooser;
 
 
 public class WorkDirChooseTool extends JDialog {

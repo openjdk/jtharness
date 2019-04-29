@@ -26,14 +26,14 @@
  */
 package com.sun.javatest.agent;
 
+import com.sun.javatest.JavaTestSecurityManager;
+import com.sun.javatest.Status;
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.sun.javatest.JavaTestSecurityManager;
-import com.sun.javatest.Status;
 
 import static com.sun.javatest.agent.Agent.MILLIS_PER_SECOND;
 

@@ -26,13 +26,16 @@
  */
 package com.sun.javatest.exec;
 
-import com.sun.javatest.*;
+import com.sun.javatest.Parameters;
+import com.sun.javatest.TestFilter;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.TestResultTable;
 import com.sun.javatest.TestResultTable.TreeNode;
 import com.sun.javatest.tool.UIFactory;
 
+import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import javax.swing.event.TreeModelListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

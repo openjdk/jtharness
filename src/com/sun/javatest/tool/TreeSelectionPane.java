@@ -29,16 +29,15 @@ package com.sun.javatest.tool;
 import com.sun.javatest.tool.selectiontree.SelectionTree;
 import com.sun.javatest.tool.selectiontree.selection.SelectionElement;
 import com.sun.javatest.tool.selectiontree.selection.SelectionType;
-
-import java.awt.BorderLayout;
-import java.util.*;
+import com.sun.javatest.util.I18NResourceBundle;
 
 import javax.accessibility.Accessible;
 import javax.accessibility.AccessibleContext;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
-
-import com.sun.javatest.util.I18NResourceBundle;
+import java.awt.BorderLayout;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A component to allow selection of nodes in a tree.

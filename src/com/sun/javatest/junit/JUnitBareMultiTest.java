@@ -29,6 +29,7 @@ package com.sun.javatest.junit;
 
 import com.sun.javatest.Status;
 import com.sun.javatest.lib.MultiStatus;
+import junit.framework.TestCase;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -39,8 +40,6 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Vector;
-
-import junit.framework.TestCase;
 
 /**
  *

@@ -34,7 +34,15 @@ import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.util.BackupUtil;
 import com.sun.javatest.util.I18NResourceBundle;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

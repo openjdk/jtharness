@@ -27,17 +27,16 @@
 package com.sun.javatest.agent;
 
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.net.ServerSocket;
-import java.util.Enumeration;
-import java.util.Vector;
-
 import com.sun.javatest.util.DynamicArray;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InterruptedIOException;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Enumeration;
+import java.util.Vector;
 
 /**
  * A holding area in which to keep incoming requests from active agents

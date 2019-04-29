@@ -30,17 +30,6 @@ import com.sun.javatest.tool.StringFitter;
 import com.sun.javatest.tool.ToolAction;
 import com.sun.javatest.tool.UIFactory;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.Font;
-import java.io.File;
-import java.net.URL;
-import java.util.Vector;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -56,6 +45,17 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.File;
+import java.net.URL;
+import java.util.Vector;
 
 public class NavigationPane extends JPanel {
 

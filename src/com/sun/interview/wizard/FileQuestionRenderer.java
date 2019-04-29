@@ -26,18 +26,18 @@
  */
 package com.sun.interview.wizard;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-
 import com.sun.interview.DirectoryFileFilter;
 import com.sun.interview.ExtensionFileFilter;
 import com.sun.interview.FileFilter;
 import com.sun.interview.FileQuestion;
 import com.sun.interview.Question;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 public class FileQuestionRenderer
         implements QuestionRenderer {

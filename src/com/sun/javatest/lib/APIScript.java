@@ -26,13 +26,13 @@
  */
 package com.sun.javatest.lib;
 
-import java.io.File;
-import java.io.PrintWriter;
-
 import com.sun.javatest.Script;
 import com.sun.javatest.Status;
-import com.sun.javatest.TestEnvironment;
 import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestEnvironment;
+
+import java.io.File;
+import java.io.PrintWriter;
 
 /**
  * A Script designed to compile/execute a test.

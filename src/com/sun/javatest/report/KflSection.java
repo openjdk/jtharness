@@ -26,17 +26,22 @@
  */
 package com.sun.javatest.report;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.SortedSet;
-
 import com.sun.javatest.KnownFailuresList;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.SortedSet;
 
 /**
  * Known failures report emitter.

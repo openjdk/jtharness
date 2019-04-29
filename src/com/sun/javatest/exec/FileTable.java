@@ -28,8 +28,6 @@ package com.sun.javatest.exec;
 
 import com.sun.javatest.tool.UIFactory;
 
-import java.awt.Component;
-import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -37,6 +35,8 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
+import java.awt.Component;
+import java.util.ArrayList;
 
 public class FileTable extends JTable {
 

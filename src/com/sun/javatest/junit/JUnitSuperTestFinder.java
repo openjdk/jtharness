@@ -27,19 +27,18 @@
 
 package com.sun.javatest.junit;
 
+import com.sun.javatest.util.I18NResourceBundle;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-
-import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * Finder which reads class files to locate those with an appropriate base class

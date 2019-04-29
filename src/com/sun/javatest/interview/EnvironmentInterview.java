@@ -26,10 +26,6 @@
  */
 package com.sun.javatest.interview;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.Iterator;
-
 import com.sun.interview.ErrorQuestion;
 import com.sun.interview.ExtensionFileFilter;
 import com.sun.interview.FileListQuestion;
@@ -42,6 +38,10 @@ import com.sun.javatest.Parameters;
 import com.sun.javatest.TestEnvContext;
 import com.sun.javatest.TestEnvironment;
 import com.sun.javatest.TestSuite;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.Iterator;
 
 
 /**

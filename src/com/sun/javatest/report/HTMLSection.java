@@ -26,11 +26,11 @@
  */
 package com.sun.javatest.report;
 
+import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-
-import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * A segment of the main top level HTML report.

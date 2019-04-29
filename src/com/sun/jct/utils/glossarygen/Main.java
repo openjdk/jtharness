@@ -26,6 +26,10 @@
  */
 package com.sun.jct.utils.glossarygen;
 
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.FileScanner;
+import org.apache.tools.ant.taskdefs.MatchingTask;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -47,10 +51,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
-
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.FileScanner;
-import org.apache.tools.ant.taskdefs.MatchingTask;
 
 /**
  * A utility to generate a glossary from a set of HTML files and directories.

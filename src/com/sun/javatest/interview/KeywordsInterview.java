@@ -26,24 +26,24 @@
  */
 package com.sun.javatest.interview;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-
 import com.sun.interview.FinalQuestion;
 import com.sun.interview.Interview;
 import com.sun.interview.Question;
 import com.sun.interview.StringQuestion;
 import com.sun.interview.YesNoQuestion;
 import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.Parameters;
 import com.sun.javatest.Keywords;
 import com.sun.javatest.KeywordsFilter;
+import com.sun.javatest.Parameters;
 import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.util.StringArray;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * This interview collects the keyword parameters. It is normally used as

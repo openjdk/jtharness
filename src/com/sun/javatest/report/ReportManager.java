@@ -26,10 +26,6 @@
  */
 package com.sun.javatest.report;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
 import com.sun.javatest.AllTestsFilter;
 import com.sun.javatest.CompositeFilter;
 import com.sun.javatest.InterviewParameters;
@@ -43,6 +39,13 @@ import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * A command manager to provide commands for reporting test results.

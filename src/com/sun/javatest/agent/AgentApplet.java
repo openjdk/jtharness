@@ -26,6 +26,10 @@
  */
 package com.sun.javatest.agent;
 
+import com.sun.javatest.Status;
+import com.sun.javatest.util.MainAppletContext;
+import com.sun.javatest.util.MainFrame;
+
 import java.applet.Applet;
 import java.applet.AppletContext;
 import java.awt.Component;
@@ -40,10 +44,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
-
-import com.sun.javatest.Status;
-import com.sun.javatest.util.MainAppletContext;
-import com.sun.javatest.util.MainFrame;
 
 /**
  * An applet that displays and controls a Agent.

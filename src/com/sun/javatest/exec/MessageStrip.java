@@ -26,17 +26,12 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.util.ResourceBundle;
+import com.sun.javatest.Harness;
+import com.sun.javatest.Parameters;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.tool.Preferences;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -45,20 +40,24 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.Timer;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.text.JTextComponent;
-
-import com.sun.javatest.Harness;
-import com.sun.javatest.Parameters;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.tool.Preferences;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.util.ResourceBundle;
 
 /**
  * The panel at the bottom of exec tool.

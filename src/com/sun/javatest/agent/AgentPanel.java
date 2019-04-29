@@ -26,6 +26,9 @@
  */
 package com.sun.javatest.agent;
 
+import com.sun.javatest.ProductInfo;
+import com.sun.javatest.Status;
+
 import java.awt.Button;
 import java.awt.Choice;
 import java.awt.Color;
@@ -47,13 +50,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.Vector;
-
-import com.sun.javatest.ProductInfo;
-import com.sun.javatest.Status;
-
-import java.io.PrintStream;
 
 /**
  * A component to monitor the status of a Agent. This is normally displayed

@@ -26,8 +26,8 @@
  */
 package com.sun.interview;
 
-import java.net.InetAddress;
 import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.ResourceBundle;

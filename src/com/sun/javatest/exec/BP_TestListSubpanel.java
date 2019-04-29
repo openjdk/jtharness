@@ -26,23 +26,18 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Toolkit;
-import java.awt.datatransfer.StringSelection;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Vector;
+import com.sun.javatest.Harness;
+import com.sun.javatest.JavaTestError;
+import com.sun.javatest.Status;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.TestResultTable;
+import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.tool.I18NUtils;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.util.Debug;
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.StringArray;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -55,8 +50,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
-import javax.swing.Timer;
 import javax.swing.ListSelectionModel;
+import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -66,21 +61,24 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
-
-import com.sun.javatest.Harness;
-import com.sun.javatest.JavaTestError;
-import com.sun.javatest.Status;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.TestResultTable;
-import com.sun.javatest.WorkDirectory;
-import com.sun.javatest.tool.I18NUtils;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.util.Debug;
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.StringArray;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
-
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Vector;
 
 /**
  * This panel renders information about the tests which are "filtered out" in

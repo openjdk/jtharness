@@ -26,8 +26,8 @@
  */
 package com.sun.javatest.exec;
 
-import java.util.ArrayList;
 import javax.swing.JMenuItem;
+import java.util.ArrayList;
 
 /**
  * Class to manage custom menus.  This class allows the test suite architect to

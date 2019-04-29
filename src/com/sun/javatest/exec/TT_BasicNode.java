@@ -27,18 +27,17 @@
 package com.sun.javatest.exec;
 
 import com.sun.javatest.TRT_TreeNode;
-import com.sun.javatest.util.Debug;
-
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
+import com.sun.javatest.util.Debug;
 
+import javax.swing.event.TreeModelEvent;
+import javax.swing.tree.TreeNode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.tree.TreeNode;
 
 /**
  * Representation of a node in the GUI tree representing the visible test structure.

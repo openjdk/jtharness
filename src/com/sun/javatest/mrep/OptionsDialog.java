@@ -26,6 +26,13 @@
  */
 package com.sun.javatest.mrep;
 
+import com.sun.javatest.report.CustomReport;
+import com.sun.javatest.tool.Desktop;
+import com.sun.javatest.tool.ToolDialog;
+import com.sun.javatest.tool.UIFactory;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -33,17 +40,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
-import com.sun.javatest.report.CustomReport;
-import com.sun.javatest.tool.Desktop;
-import com.sun.javatest.tool.ToolDialog;
-import com.sun.javatest.tool.UIFactory;
-
 import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 class OptionsDialog extends ToolDialog {
     OptionsDialog(final ReportTool tool, ActionListener okListener, UIFactory uif,

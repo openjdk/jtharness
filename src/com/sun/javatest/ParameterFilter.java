@@ -26,11 +26,10 @@
  */
 package com.sun.javatest;
 
-import java.io.File;
-
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
 
+import java.io.File;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 

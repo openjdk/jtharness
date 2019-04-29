@@ -26,15 +26,9 @@
  */
 package com.sun.interview.wizard;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.net.URL;
+import com.sun.interview.InetAddressQuestion;
+import com.sun.interview.Question;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.DefaultListModel;
@@ -50,15 +44,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.Keymap;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import com.sun.interview.InetAddressQuestion;
-import com.sun.interview.Question;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.Keymap;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.URL;
+import java.net.UnknownHostException;
 
 public class InetAddressQuestionRenderer
         implements QuestionRenderer {

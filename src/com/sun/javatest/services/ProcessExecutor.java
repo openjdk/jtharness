@@ -26,13 +26,13 @@
  */
 package com.sun.javatest.services;
 
+import com.sun.javatest.services.Message.MessageType;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-
-import com.sun.javatest.services.Message.MessageType;
 
 /**
  * Implementation for {@link com.sun.javatest.services.ServiceExecutor} interface,

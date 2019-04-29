@@ -26,18 +26,17 @@
  */
 package com.sun.javatest.logging;
 
+import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-
 import java.util.logging.ErrorManager;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.StreamHandler;
-
-import com.sun.javatest.util.I18NResourceBundle;
 
 public class WorkDirLogHandler extends StreamHandler {
 

@@ -26,17 +26,10 @@
  */
 package com.sun.interview.wizard;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Hashtable;
-import java.util.Map;
+import com.sun.interview.Interview;
+import com.sun.interview.Question;
+import com.sun.javatest.tool.jthelp.HelpBroker;
+
 import javax.accessibility.AccessibleContext;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -51,10 +44,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
-
-import com.sun.interview.Interview;
-import com.sun.interview.Question;
-import com.sun.javatest.tool.jthelp.HelpBroker;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Hashtable;
+import java.util.Map;
 
 class SearchDialog extends JDialog {
     static SearchDialog create(Component parent, Interview i,

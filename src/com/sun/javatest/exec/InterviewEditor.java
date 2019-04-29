@@ -27,24 +27,23 @@
 package com.sun.javatest.exec;
 
 import com.sun.interview.Help;
+import com.sun.interview.Interview;
+import com.sun.interview.Question;
+import com.sun.interview.wizard.QuestionRenderer;
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.exec.WorkDirChooseTool.ExecModelStub;
+import com.sun.javatest.tool.FileChooser;
+import com.sun.javatest.tool.FileHistory;
+import com.sun.javatest.tool.HelpLink;
+import com.sun.javatest.tool.Preferences;
+import com.sun.javatest.tool.ToolDialog;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.HelpID;
+import com.sun.javatest.tool.jthelp.JHelpContentViewer;
+import com.sun.javatest.util.Debug;
 
-import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.AWTEvent;
-import java.awt.FocusTraversalPolicy;
-import java.awt.KeyboardFocusManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
@@ -63,26 +62,25 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
-
-import com.sun.interview.Interview;
-import com.sun.interview.Question;
-import com.sun.interview.wizard.QuestionRenderer;
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.WorkDirectory;
-import com.sun.javatest.exec.WorkDirChooseTool.ExecModelStub;
-import com.sun.javatest.tool.FileChooser;
-import com.sun.javatest.tool.FileHistory;
-import com.sun.javatest.tool.HelpLink;
-import com.sun.javatest.tool.Preferences;
-import com.sun.javatest.tool.ToolDialog;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.tool.jthelp.HelpID;
-import com.sun.javatest.tool.jthelp.JHelpContentViewer;
-import com.sun.javatest.util.Debug;
-
+import java.awt.AWTEvent;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FocusTraversalPolicy;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Dialog to edit InterviewParameters object.

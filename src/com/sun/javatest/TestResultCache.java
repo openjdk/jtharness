@@ -26,19 +26,18 @@
  */
 package com.sun.javatest;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.lang.ref.WeakReference;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Queue;
-import java.util.ArrayDeque;
-
 import com.sun.javatest.logging.WorkDirLogHandler;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.I18NResourceBundle;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.lang.ref.WeakReference;
+import java.util.ArrayDeque;
+import java.util.Map;
+import java.util.Queue;
+import java.util.TreeMap;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 

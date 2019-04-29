@@ -26,13 +26,6 @@
  */
 package com.sun.javatest.tool;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.text.DateFormat;
-import java.util.*;
-
 import com.sun.javatest.Harness;
 import com.sun.javatest.ProductInfo;
 import com.sun.javatest.tool.jthelp.HelpBroker;
@@ -41,6 +34,17 @@ import com.sun.javatest.tool.jthelp.JTHelpBroker;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.WrapWriter;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URL;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.TreeMap;
 
 /**
  * A manager for command line help.

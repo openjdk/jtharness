@@ -26,19 +26,19 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.Component;
-import java.awt.Font;
-import javax.swing.border.Border;
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
-
 import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.tool.I18NUtils;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+import javax.swing.border.Border;
+import java.awt.Component;
+import java.awt.Font;
 
 class RenderingUtilities {
     static ListCellRenderer<Object> createTestListRenderer() {

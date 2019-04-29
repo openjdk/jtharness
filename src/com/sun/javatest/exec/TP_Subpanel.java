@@ -26,16 +26,15 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.Color;
-
-import javax.swing.JPanel;
-
 import com.sun.javatest.JavaTestError;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import javax.swing.JPanel;
+import java.awt.Color;
 
 /**
  * Base class for the individual displays of the TestPanel.

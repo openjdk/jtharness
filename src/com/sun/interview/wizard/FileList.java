@@ -27,9 +27,9 @@
 package com.sun.interview.wizard;
 
 
-import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
+import java.io.File;
 
 /**
  * A component that displays an editable list of files.

@@ -27,16 +27,26 @@
 package com.sun.javatest.cof;
 
 import com.sun.javatest.InterviewParameters;
-
-import java.io.*;
-import java.nio.channels.FileChannel;
-import java.nio.charset.StandardCharsets;
-import java.util.Vector;
-
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.XMLWriter;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
+import java.util.Vector;
 
 public class Main {
     /**

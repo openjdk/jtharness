@@ -27,8 +27,10 @@
 package com.sun.javatest.tool.jthelp;
 
 import javax.accessibility.Accessible;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JEditorPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import java.awt.BorderLayout;
 import java.io.IOException;
 import java.net.URL;
 

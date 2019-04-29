@@ -28,10 +28,10 @@
 
 package com.sun.javatest.exec;
 
-import java.util.List;
-import java.util.Map;
 import javax.swing.Action;
 import javax.swing.JMenu;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Base interface of ExecTool components

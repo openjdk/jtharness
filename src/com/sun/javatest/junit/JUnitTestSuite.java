@@ -30,9 +30,9 @@ import com.sun.javatest.TestRunner;
 import com.sun.javatest.TestSuite;
 
 import java.io.File;
-import java.util.Map;
-import java.net.URLClassLoader;
 import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Map;
 
 /**
  * Basic implementation of a test suite for JUnit tests.

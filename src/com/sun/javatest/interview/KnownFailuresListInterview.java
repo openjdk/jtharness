@@ -26,11 +26,6 @@
  */
 package com.sun.javatest.interview;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Objects;
-
 import com.sun.interview.ErrorQuestion;
 import com.sun.interview.ExtensionFileFilter;
 import com.sun.interview.FileFilter;
@@ -42,6 +37,11 @@ import com.sun.interview.YesNoQuestion;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.KnownFailuresList;
 import com.sun.javatest.TestSuite;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Objects;
 
 /**
  * This interview collects the "kfl" test filter parameters.

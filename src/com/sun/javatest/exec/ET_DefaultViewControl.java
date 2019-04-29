@@ -34,14 +34,14 @@ import com.sun.javatest.tool.ToolAction;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.Debug;
 
-import java.awt.event.ActionEvent;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import java.awt.event.ActionEvent;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Dmitry Fazunenko

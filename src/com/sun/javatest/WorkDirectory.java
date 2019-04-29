@@ -27,16 +27,21 @@
 
 package com.sun.javatest;
 
+import com.sun.javatest.logging.LoggerFactory;
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.LogFile;
+import com.sun.javatest.util.PropertyUtils;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -44,11 +49,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
-
-import com.sun.javatest.logging.LoggerFactory;
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.LogFile;
-import com.sun.javatest.util.PropertyUtils;
 
 /**
  * A class providing access to the working state of a test run, as embodied

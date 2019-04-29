@@ -26,13 +26,13 @@
  */
 package com.sun.javatest.tool;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * A command supporting an extensible set of boolean options.

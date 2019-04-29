@@ -26,6 +26,11 @@
  */
 package com.sun.jct.utils.mapmerge;
 
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.FileScanner;
+import org.apache.tools.ant.taskdefs.MatchingTask;
+import org.apache.tools.ant.types.FileSet;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -41,11 +46,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
-
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.FileScanner;
-import org.apache.tools.ant.taskdefs.MatchingTask;
-import org.apache.tools.ant.types.FileSet;
 
 /**
  * A utility to merge JavaHelp map files.

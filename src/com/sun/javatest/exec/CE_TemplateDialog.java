@@ -26,6 +26,26 @@
  */
 package com.sun.javatest.exec;
 
+import com.sun.interview.Interview;
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.tool.FileChooser;
+import com.sun.javatest.tool.ToolDialog;
+import com.sun.javatest.tool.UIFactory;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -35,26 +55,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
-import com.sun.interview.Interview;
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.tool.FileChooser;
-import com.sun.javatest.tool.ToolDialog;
-import com.sun.javatest.tool.UIFactory;
 
 class CE_TemplateDialog extends ToolDialog {
     CE_TemplateDialog(JComponent parent, InterviewParameters config, ExecModel model, UIFactory uif) {

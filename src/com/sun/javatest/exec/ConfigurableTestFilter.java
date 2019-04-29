@@ -26,12 +26,11 @@
  */
 package com.sun.javatest.exec;
 
-import java.util.Map;
-
-import javax.swing.JComponent;
-
 import com.sun.javatest.ObservableTestFilter;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import javax.swing.JComponent;
+import java.util.Map;
 
 /**
  * This class adds the capability to have a filter which is

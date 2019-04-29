@@ -26,25 +26,24 @@
  */
 package com.sun.javatest.logging;
 
-import javax.accessibility.AccessibleContext;
+import com.sun.javatest.util.I18NResourceBundle;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.KeyboardFocusManager;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.accessibility.AccessibleContext;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.KeyboardFocusManager;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.StreamHandler;
-
-import com.sun.javatest.util.I18NResourceBundle;
 
 public class ErrorDialogHandler extends StreamHandler {
 

@@ -26,14 +26,14 @@
  */
 package com.sun.javatest.audit;
 
-import java.awt.event.ActionEvent;
-import java.util.Map;
-import javax.swing.Action;
-
 import com.sun.javatest.tool.Desktop;
 import com.sun.javatest.tool.Tool;
 import com.sun.javatest.tool.ToolAction;
 import com.sun.javatest.tool.ToolManager;
+
+import javax.swing.Action;
+import java.awt.event.ActionEvent;
+import java.util.Map;
 
 
 /**

@@ -26,10 +26,6 @@
  */
 package com.sun.javatest;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
 import com.sun.javatest.TestResultTable.TreeIterator;
 import com.sun.javatest.httpd.HttpdServer;
 import com.sun.javatest.httpd.RootRegistry;
@@ -37,6 +33,14 @@ import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.ReadAheadIterator;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The object responsible for coordinating the execution of a test run.

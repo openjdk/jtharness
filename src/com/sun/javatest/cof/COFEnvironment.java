@@ -26,6 +26,8 @@
  */
 package com.sun.javatest.cof;
 
+import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.net.InetAddress;
@@ -35,8 +37,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
-
-import com.sun.javatest.util.I18NResourceBundle;
 
 /* temp */public/* temp */class COFEnvironment extends COFItem {
     static String[] propOrder = {"machine", "os", "jdk", "systemLocale",

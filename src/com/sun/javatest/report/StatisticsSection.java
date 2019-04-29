@@ -26,14 +26,6 @@
  */
 package com.sun.javatest.report;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Vector;
-
 import com.sun.javatest.JavaTestError;
 import com.sun.javatest.Status;
 import com.sun.javatest.TestDescription;
@@ -41,6 +33,14 @@ import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Vector;
 
 class StatisticsSection extends HTMLSection {
     StatisticsSection(HTMLReport parent, ReportSettings set, File dir, I18NResourceBundle i18n) {

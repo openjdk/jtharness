@@ -26,10 +26,10 @@
  */
 package com.sun.javatest;
 
+import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.PrintStream;
 import java.io.PrintWriter;
-
-import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * Special error class to be used for errors which may pop out of JT Harness and

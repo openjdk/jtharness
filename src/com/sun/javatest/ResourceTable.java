@@ -26,7 +26,11 @@
  */
 package com.sun.javatest;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * A table providing simple named locks for arbitrary resources.

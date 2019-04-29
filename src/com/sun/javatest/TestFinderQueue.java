@@ -26,15 +26,15 @@
  */
 package com.sun.javatest;
 
-import java.io.File;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Vector;
-import java.util.Queue;
-import java.util.ArrayDeque;
-
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.io.File;
+import java.util.ArrayDeque;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Vector;
 
 /**
  * An iterator-based interface to the tests in a test suite, as read by a test finder.

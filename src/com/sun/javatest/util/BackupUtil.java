@@ -27,11 +27,11 @@
 package com.sun.javatest.util;
 
 import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
-import java.io.FileFilter;
-import java.io.IOException;
 
 public class BackupUtil {
 

@@ -26,20 +26,6 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Map;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-
 import com.sun.interview.ErrorQuestion;
 import com.sun.interview.Help;
 import com.sun.interview.Interview;
@@ -48,9 +34,23 @@ import com.sun.interview.wizard.QuestionRenderer;
 import com.sun.interview.wizard.WizPane;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.tool.jthelp.HelpID;
 import com.sun.javatest.tool.jthelp.JHelpContentViewer;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
 
 class CE_FullView extends CE_View {
     CE_FullView(InterviewParameters config,

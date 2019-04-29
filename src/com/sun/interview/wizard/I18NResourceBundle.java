@@ -30,8 +30,8 @@ import java.awt.Color;
 import java.text.MessageFormat;
 import java.util.Enumeration;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 /**
  * A class that lazily opens a package-specific resource bundle

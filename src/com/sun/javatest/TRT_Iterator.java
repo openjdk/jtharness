@@ -26,11 +26,18 @@
  */
 package com.sun.javatest;
 
-import java.util.*;
-
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.Stack;
 
 
 /**

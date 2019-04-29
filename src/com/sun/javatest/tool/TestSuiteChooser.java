@@ -26,16 +26,16 @@
  */
 package com.sun.javatest.tool;
 
-import java.awt.Component;
-import java.io.File;
-import java.io.FileNotFoundException;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.util.FileInfoCache;
+
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileView;
-
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.util.FileInfoCache;
+import java.awt.Component;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * A custom JFileChooser, for a user to choose a test suite.

@@ -26,12 +26,12 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.EventQueue;
-import java.util.Enumeration;
-
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+
+import java.awt.EventQueue;
+import java.util.Enumeration;
 
 /**
  * A subpanel of TestPanel that displays the test result properties.

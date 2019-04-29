@@ -26,15 +26,10 @@
  */
 package com.sun.javatest.agent;
 
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Map;
+import com.sun.javatest.Status;
+import com.sun.javatest.tool.Tool;
+import com.sun.javatest.util.StringArray;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
@@ -46,10 +41,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import com.sun.javatest.Status;
-import com.sun.javatest.tool.Tool;
-import com.sun.javatest.util.StringArray;
+import java.awt.Component;
+import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Map;
 
 import static com.sun.javatest.agent.Agent.MILLIS_PER_SECOND;
 

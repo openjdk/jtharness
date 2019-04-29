@@ -26,6 +26,28 @@
  */
 package com.sun.javatest.exec;
 
+import com.sun.javatest.JavaTestError;
+import com.sun.javatest.Parameters;
+import com.sun.javatest.Status;
+import com.sun.javatest.TRT_TreeNode;
+import com.sun.javatest.TestResultTable;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.tool.I18NUtils;
+import com.sun.javatest.tool.PieChart;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.util.Debug;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -39,29 +61,7 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 //import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
-
-import com.sun.javatest.JavaTestError;
-import com.sun.javatest.Parameters;
-import com.sun.javatest.Status;
-import com.sun.javatest.TRT_TreeNode;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.TestResultTable;
-import com.sun.javatest.tool.I18NUtils;
-import com.sun.javatest.tool.PieChart;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.util.Debug;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 /**
  * Subpanel of BranchPanel.  This panel displays a summary of tests below the given

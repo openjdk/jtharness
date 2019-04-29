@@ -26,11 +26,17 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.event.ComponentListener;
-import java.awt.event.ComponentEvent;
+import com.sun.javatest.Harness;
+import com.sun.javatest.JavaTestError;
+import com.sun.javatest.Parameters;
+import com.sun.javatest.Status;
+import com.sun.javatest.TestFilter;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.TestResultTable;
+import com.sun.javatest.tool.IconFactory;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.util.Debug;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -42,20 +48,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.JTextComponent;
 import javax.swing.tree.TreePath;
-
-import com.sun.javatest.Harness;
-import com.sun.javatest.JavaTestError;
-import com.sun.javatest.Parameters;
-import com.sun.javatest.Status;
-import com.sun.javatest.TestFilter;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.TestResultTable;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
-
-import com.sun.javatest.tool.IconFactory;
-import com.sun.javatest.tool.UIFactory;
-
-import com.sun.javatest.util.Debug;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.EventQueue;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 /**
  * This is the panel which shows information about a particular branch node in the

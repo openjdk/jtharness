@@ -26,11 +26,6 @@
  */
 package com.sun.javatest.batch;
 
-import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.ListIterator;
-
 import com.sun.javatest.Harness;
 import com.sun.javatest.Parameters;
 import com.sun.javatest.Status;
@@ -41,6 +36,11 @@ import com.sun.javatest.tool.CommandContext;
 import com.sun.javatest.tool.VerboseCommand;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.ListIterator;
 
 class RunTestsCommand extends Command {
     static String getName() {

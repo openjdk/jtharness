@@ -26,14 +26,14 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.EventQueue;
-import java.awt.Dimension;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import com.sun.interview.Interview;
+import com.sun.interview.Question;
+import com.sun.interview.WizPrint;
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.tool.FileChooser;
+import com.sun.javatest.tool.ToolDialog;
+import com.sun.javatest.tool.UIFactory;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -44,14 +44,21 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
-
-import com.sun.interview.Interview;
-import com.sun.interview.Question;
-import com.sun.interview.WizPrint;
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.tool.FileChooser;
-import com.sun.javatest.tool.ToolDialog;
-import com.sun.javatest.tool.UIFactory;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 class QuestionLogBrowser extends ToolDialog {
     QuestionLogBrowser(JComponent parent, ExecModel model, UIFactory uif) {

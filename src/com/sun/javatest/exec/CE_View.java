@@ -26,14 +26,14 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.event.ActionListener;
-import javax.swing.JPanel;
-
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.jthelp.HelpID;
 import com.sun.javatest.tool.jthelp.JHelpContentViewer;
+
+import javax.swing.JPanel;
+import java.awt.event.ActionListener;
 
 abstract class CE_View extends JPanel {
     protected CE_View(InterviewParameters config,

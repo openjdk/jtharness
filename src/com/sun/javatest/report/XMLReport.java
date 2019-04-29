@@ -48,6 +48,7 @@ import com.sun.javatest.TestResult.Section;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.util.I18NResourceBundle;
+import org.xml.sax.SAXException;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -64,8 +65,6 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.xml.sax.SAXException;
 
 
 /**

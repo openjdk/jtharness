@@ -27,16 +27,14 @@
 package com.sun.javatest.httpd;
 
 import com.sun.javatest.agent.SocketConnection;
+import com.sun.javatest.util.I18NResourceBundle;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.ServerSocket;
-import java.net.BindException;
-
 import java.io.PrintWriter;
-
-import com.sun.javatest.util.I18NResourceBundle;
+import java.net.BindException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  * HTTP services for JT Harness.

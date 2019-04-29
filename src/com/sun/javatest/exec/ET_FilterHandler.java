@@ -27,25 +27,6 @@
 
 package com.sun.javatest.exec;
 
-import com.sun.javatest.exec.Session.Event;
-
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
-
-import javax.swing.Action;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JMenu;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-
 import com.sun.javatest.AllTestsFilter;
 import com.sun.javatest.Harness;
 import com.sun.javatest.InterviewParameters;
@@ -55,9 +36,26 @@ import com.sun.javatest.Parameters;
 import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestSuite;
+import com.sun.javatest.exec.Session.Event;
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.PrefixMap;
+
+import javax.swing.Action;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JMenu;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
 
 /**
  * This class handles all the special filter juggling that exec tool needs to do.

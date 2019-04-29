@@ -26,13 +26,10 @@
  */
 package com.sun.javatest.interview;
 
-import java.text.MessageFormat;
-import java.util.MissingResourceException;
-
 import com.sun.interview.FinalQuestion;
 import com.sun.interview.NullQuestion;
-import com.sun.interview.StringQuestion;
 import com.sun.interview.Question;
+import com.sun.interview.StringQuestion;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.KnownFailuresList;
 import com.sun.javatest.Parameters;
@@ -41,6 +38,8 @@ import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.util.I18NResourceBundle;
 
 import java.io.File;
+import java.text.MessageFormat;
+import java.util.MissingResourceException;
 
 /**
  * A basic implementation of InterviewParameters that uses standard

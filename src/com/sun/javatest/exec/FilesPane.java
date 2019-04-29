@@ -26,19 +26,18 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.BorderLayout;
-import java.io.File;
-import java.net.URL;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.I18NResourceBundle;
 
+import javax.swing.JEditorPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
-import javax.swing.JEditorPane;
+import java.io.File;
+import java.net.URL;
 
 class FilesPane extends JPanel implements Printable {
 

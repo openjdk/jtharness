@@ -26,6 +26,9 @@
  */
 package com.sun.javatest.agent;
 
+import com.sun.javatest.Status;
+import com.sun.javatest.util.DynamicArray;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
@@ -33,9 +36,9 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.util.Enumeration;
@@ -43,9 +46,6 @@ import java.util.Hashtable;
 import java.util.Vector;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import com.sun.javatest.Status;
-import com.sun.javatest.util.DynamicArray;
 
 /**
  * Access to the facilities provided by JT Harness agents.

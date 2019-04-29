@@ -28,12 +28,12 @@
 package com.sun.javatest.exec.template;
 
 import com.sun.javatest.TestSuite;
-import com.sun.javatest.exec.Session.Fault;
 import com.sun.javatest.exec.ContextManager;
-import com.sun.javatest.exec.ET_SessionControl;
 import com.sun.javatest.exec.ET_DefaultControlFactory;
 import com.sun.javatest.exec.ET_FilterControl;
+import com.sun.javatest.exec.ET_SessionControl;
 import com.sun.javatest.exec.ExecModel;
+import com.sun.javatest.exec.Session.Fault;
 import com.sun.javatest.tool.Tool;
 import com.sun.javatest.tool.UIFactory;
 

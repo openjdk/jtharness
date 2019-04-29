@@ -34,12 +34,12 @@ import com.sun.javatest.exec.InterviewEditor;
 import com.sun.javatest.exec.WorkDirChooseTool;
 import com.sun.javatest.tool.UIFactory;
 
-import java.io.File;
-import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Provides template specific features of interview editing...

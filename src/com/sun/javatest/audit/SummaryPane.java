@@ -26,19 +26,19 @@
  */
 package com.sun.javatest.audit;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.Date;
-import javax.swing.BorderFactory;
-import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
-
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.Status;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestResult;
-import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.report.HTMLWriterEx;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+
+import javax.swing.BorderFactory;
+import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Date;
 
 class SummaryPane extends AuditPane {
     SummaryPane(UIFactory uif) {

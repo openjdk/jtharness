@@ -26,10 +26,6 @@
  */
 package com.sun.javatest.interview;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-
 import com.sun.interview.ChoiceQuestion;
 import com.sun.interview.ErrorQuestion;
 import com.sun.interview.FileQuestion;
@@ -43,6 +39,19 @@ import com.sun.javatest.Parameters;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.WorkDirectory;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.TreeSet;
 
 /**
  * This interview collects the "initial files" parameter. It is normally used as

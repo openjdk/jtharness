@@ -26,12 +26,12 @@
  */
 package com.sun.javatest;
 
-import java.io.IOException;
+import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * This filter designed to show only the results from the last test run.

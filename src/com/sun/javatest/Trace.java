@@ -26,15 +26,15 @@
  */
 package com.sun.javatest;
 
+import com.sun.javatest.util.BackupPolicy;
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.TextWriter;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import com.sun.javatest.util.BackupPolicy;
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.TextWriter;
 
 
 class Trace implements Harness.Observer {

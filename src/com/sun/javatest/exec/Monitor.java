@@ -26,10 +26,10 @@
  */
 package com.sun.javatest.exec;
 
+import com.sun.javatest.tool.UIFactory;
+
 import javax.swing.Icon;
 import javax.swing.JComponent;
-
-import com.sun.javatest.tool.UIFactory;
 
 /**
  * This class provides an interface for exec tool to retrieve two

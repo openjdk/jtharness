@@ -26,18 +26,16 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.net.URL;
-import java.text.DateFormat;
-import java.util.Date;
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.Parameters.ExcludeListParameters;
+import com.sun.javatest.Parameters.MutableExcludeListParameters;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.tool.EditableFileList;
+import com.sun.javatest.tool.FileChooser;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -50,16 +48,18 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.Parameters.ExcludeListParameters;
-import com.sun.javatest.Parameters.MutableExcludeListParameters;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.WorkDirectory;
-import com.sun.javatest.tool.EditableFileList;
-import com.sun.javatest.tool.FileChooser;
-import com.sun.javatest.tool.UIFactory;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.net.URL;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Standard values view, exclude list panel.

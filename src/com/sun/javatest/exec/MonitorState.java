@@ -26,15 +26,15 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.EventQueue;
-import java.util.ArrayList;
-
 import com.sun.javatest.Harness;
 import com.sun.javatest.Parameters;
 import com.sun.javatest.Status;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.util.DynamicArray;
+
+import java.awt.EventQueue;
+import java.util.ArrayList;
 
 /**
  * This class captures the state of the Harness for the purpose of

@@ -26,21 +26,21 @@
  */
 package com.sun.interview.wizard;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import javax.accessibility.AccessibleContext;
-import javax.swing.JComponent;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-
 import com.sun.interview.ErrorQuestion;
 import com.sun.interview.Help;
 import com.sun.interview.Interview;
 import com.sun.interview.Question;
-import com.sun.javatest.tool.jthelp.HelpSet;
 import com.sun.javatest.tool.jthelp.HelpID;
+import com.sun.javatest.tool.jthelp.HelpSet;
 import com.sun.javatest.tool.jthelp.JHelpContentViewer;
+
+import javax.accessibility.AccessibleContext;
+import javax.swing.JComponent;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 class InfoPanel extends JComponent {
     public InfoPanel(Interview interview) {

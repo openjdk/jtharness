@@ -26,18 +26,18 @@
  */
 package com.sun.javatest.lib;
 
+import com.sun.javatest.Script;
+import com.sun.javatest.Status;
+import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestEnvironment;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.util.StringArray;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.Vector;
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import com.sun.javatest.Script;
-import com.sun.javatest.Status;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestEnvironment;
-import com.sun.javatest.util.StringArray;
 
 /**
  * Default script, which delegates to one of a number of scripts defined in

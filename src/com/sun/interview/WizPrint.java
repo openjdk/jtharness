@@ -28,10 +28,21 @@ package com.sun.interview;
 
 import com.sun.javatest.util.PropertyUtils;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Vector;
 
 /**
  * An API (with a basic front-end application) for generating HTML printouts

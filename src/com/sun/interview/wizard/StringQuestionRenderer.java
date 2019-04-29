@@ -26,16 +26,16 @@
  */
 package com.sun.interview.wizard;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
+import com.sun.interview.Question;
+import com.sun.interview.StringQuestion;
+
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
-import com.sun.interview.StringQuestion;
-import com.sun.interview.Question;
+import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
 
 public class StringQuestionRenderer
         implements QuestionRenderer {

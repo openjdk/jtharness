@@ -26,11 +26,11 @@
  */
 package com.sun.interview.wizard;
 
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 
 class ActionListDataListener implements ListDataListener {
     ActionListDataListener(Component src, ActionListener listener, String cmd) {

@@ -26,16 +26,16 @@
  */
 package com.sun.javatest.audit;
 
-import java.awt.Component;
+import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.tool.UIFactory;
+
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.tool.UIFactory;
+import java.awt.Component;
 
 abstract class ListPane extends AuditPane {
     ListPane(String uiKey, UIFactory uif) {

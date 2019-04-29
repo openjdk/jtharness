@@ -26,8 +26,8 @@
  */
 package com.sun.javatest.moreInfo;
 
-import java.beans.SimpleBeanInfo;
 import java.beans.PropertyDescriptor;
+import java.beans.SimpleBeanInfo;
 
 /**
  * Bean info for {@link ShowFile}.

@@ -26,6 +26,7 @@
  */
 package com.sun.javatest.tool;
 
+import javax.swing.JComponent;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -36,8 +37,6 @@ import java.awt.RenderingHints;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-
-import javax.swing.JComponent;
 
 /**
  * Component which draws a 2D pie chart with a drop shadow, based on supplied

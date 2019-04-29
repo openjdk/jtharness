@@ -26,17 +26,17 @@
  */
 package com.sun.javatest.tool;
 
+import com.sun.javatest.util.DynamicArray;
+import com.sun.javatest.util.I18NResourceBundle;
+
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.KeyStroke;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.KeyStroke;
-
-import com.sun.javatest.util.DynamicArray;
-import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * Standard template for creation of an Action to be used in a Tool.

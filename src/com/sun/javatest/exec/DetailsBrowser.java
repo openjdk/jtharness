@@ -26,20 +26,20 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.Component;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import com.sun.interview.Interview;
+import com.sun.interview.Question;
+import com.sun.javatest.tool.jthelp.JHelpContentViewer;
+
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-
-import com.sun.interview.Interview;
-import com.sun.interview.Question;
-import com.sun.javatest.tool.jthelp.JHelpContentViewer;
+import java.awt.Component;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 class DetailsBrowser extends JDialog {
     DetailsBrowser(Component parent, Interview interview, JHelpContentViewer infoPanel) {

@@ -26,26 +26,27 @@
  */
 package com.sun.javatest.tool;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Vector;
-
 import com.sun.javatest.Harness;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.Status;
 import com.sun.javatest.TemplateUtilities;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.util.DynamicArray;
+import com.sun.javatest.util.HelpTree;
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.PropertyUtils;
 
-import com.sun.javatest.util.*;
-
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 /**
  * An object to carry the shared state required and derived from

@@ -26,14 +26,14 @@
  */
 package com.sun.javatest;
 
-import java.io.PrintWriter;
-import java.util.Iterator;
-
-import com.sun.javatest.httpd.httpURL;
 import com.sun.javatest.httpd.JThttpProvider;
 import com.sun.javatest.httpd.PageGenerator;
+import com.sun.javatest.httpd.httpURL;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.io.PrintWriter;
+import java.util.Iterator;
 
 /*
  * HTTP service provider for TestResultTable.

@@ -27,8 +27,8 @@
 
 package com.sun.javatest.exec;
 
-import java.util.LinkedList;
 import javax.swing.tree.TreeNode;
+import java.util.LinkedList;
 
 /**
  * Basic part of the onscreen model of the test tree.

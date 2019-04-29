@@ -26,10 +26,10 @@
  */
 package com.sun.interview.wizard;
 
+import com.sun.interview.Interview;
+
 import java.io.File;
 import java.io.IOException;
-
-import com.sun.interview.Interview;
 
 /**
  * This interface defines the ability to export the answers

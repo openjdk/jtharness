@@ -26,6 +26,9 @@
  */
 package com.sun.javatest.finder;
 
+import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestFinder;
+
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -33,13 +36,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.Vector;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestFinder;
 
 /**
  * BinaryTestWriter creates the data file used by BinaryTestFinder.

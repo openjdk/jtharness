@@ -26,9 +26,9 @@
  */
 package com.sun.javatest;
 
-import java.io.File;
-
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.io.File;
 
 /**
  * Filters tests based on a set of initial files or URLs.

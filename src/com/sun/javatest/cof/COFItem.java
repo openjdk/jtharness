@@ -26,6 +26,8 @@
  */
 package com.sun.javatest.cof;
 
+import com.sun.javatest.util.XMLWriter;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -39,8 +41,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-
-import com.sun.javatest.util.XMLWriter;
 
 abstract class COFItem {
     BeanInfo bi = null;

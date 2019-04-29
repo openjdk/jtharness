@@ -26,10 +26,10 @@
  */
 package com.sun.javatest.agent;
 
-import java.io.IOException;
 import javax.comm.CommPortIdentifier;
 import javax.comm.NoSuchPortException;
 import javax.comm.PortInUseException;
+import java.io.IOException;
 
 /**
  * A factory for creating connections to be used by agents communicating

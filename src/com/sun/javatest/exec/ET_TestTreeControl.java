@@ -31,8 +31,8 @@ package com.sun.javatest.exec;
 import com.sun.javatest.Parameters;
 import com.sun.javatest.TestResultTable;
 
-import java.util.Map;
 import javax.swing.JComponent;
+import java.util.Map;
 
 /**
  *

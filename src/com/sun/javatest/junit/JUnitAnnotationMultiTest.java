@@ -28,11 +28,10 @@
 package com.sun.javatest.junit;
 
 import com.sun.javatest.Status;
-
-import java.io.PrintWriter;
-
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
+
+import java.io.PrintWriter;
 
 /**
  * Class to execute tests using the JUnit annotation style of test execution.

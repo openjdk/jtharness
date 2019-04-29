@@ -26,14 +26,31 @@
  */
 package com.sun.javatest;
 
+import com.sun.javatest.finder.BinaryTestFinder;
+import com.sun.javatest.finder.HTMLTestFinder;
+import com.sun.javatest.finder.TestFinderDecorator;
+import com.sun.javatest.interview.LegacyParameters;
+import com.sun.javatest.lib.KeywordScript;
+import com.sun.javatest.logging.ObservedFile;
+import com.sun.javatest.logging.WorkDirLogHandler;
+import com.sun.javatest.services.PropertyServiceReader;
+import com.sun.javatest.services.ServiceManager;
+import com.sun.javatest.services.ServiceReader;
+import com.sun.javatest.util.BackupPolicy;
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.PropertyUtils;
+import com.sun.javatest.util.StringArray;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -41,28 +58,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.LogRecord;
-
-import com.sun.javatest.finder.BinaryTestFinder;
-import com.sun.javatest.finder.HTMLTestFinder;
-import com.sun.javatest.finder.TestFinderDecorator;
-import com.sun.javatest.interview.LegacyParameters;
-import com.sun.javatest.lib.KeywordScript;
-import com.sun.javatest.logging.WorkDirLogHandler;
-import com.sun.javatest.logging.ObservedFile;
-import com.sun.javatest.services.ServiceManager;
-import com.sun.javatest.services.ServiceReader;
-import com.sun.javatest.services.PropertyServiceReader;
-import com.sun.javatest.util.BackupPolicy;
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.PropertyUtils;
-import com.sun.javatest.util.StringArray;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.util.logging.Logger;
 
 /**
  * A class providing information about and access to the tests in a test suite.

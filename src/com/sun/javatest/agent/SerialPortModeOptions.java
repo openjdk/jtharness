@@ -26,13 +26,13 @@
  */
 package com.sun.javatest.agent;
 
+import javax.comm.CommPortIdentifier;
+import javax.comm.NoSuchPortException;
 import java.awt.Choice;
 import java.awt.GridBagConstraints;
 import java.awt.Label;
 import java.util.Enumeration;
 import java.util.Vector;
-import javax.comm.CommPortIdentifier;
-import javax.comm.NoSuchPortException;
 
 import static com.sun.javatest.agent.Agent.MILLIS_PER_SECOND;
 

@@ -26,13 +26,13 @@
  */
 package com.sun.javatest;
 
+import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Vector;
-
-import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * A basic implementation of Parameters for all except the EnvParameters

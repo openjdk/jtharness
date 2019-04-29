@@ -29,12 +29,12 @@ package com.sun.javatest.exec;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.tool.UIFactory;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.net.URL;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class BP_DocumentationSubpanel extends BP_BranchSubpanel {
 

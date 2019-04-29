@@ -26,10 +26,7 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.event.ActionEvent;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import com.sun.javatest.tool.UIFactory;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -37,8 +34,10 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
-
-import com.sun.javatest.tool.UIFactory;
+import java.awt.event.ActionEvent;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The "Tool Bar Manager" tool, which allows a user to add, remove,

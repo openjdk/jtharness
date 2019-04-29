@@ -26,18 +26,16 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.EventQueue;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.util.I18NResourceBundle;
 
 import javax.accessibility.AccessibleContext;
-
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
-
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import java.awt.EventQueue;
 
 class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
     ElapsedTimeMonitor(MonitorState ms, UIFactory uif) {

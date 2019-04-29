@@ -28,6 +28,9 @@ package com.sun.javatest.exec;
 
 import com.sun.javatest.tool.Preferences;
 
+import javax.swing.JComponent;
+import javax.swing.JToolBar;
+import javax.swing.border.BevelBorder;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -35,9 +38,6 @@ import java.awt.Insets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import javax.swing.JComponent;
-import javax.swing.JToolBar;
-import javax.swing.border.BevelBorder;
 
 /**
  * The custom toolbar.

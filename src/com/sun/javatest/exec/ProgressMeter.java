@@ -26,6 +26,14 @@
  */
 package com.sun.javatest.exec;
 
+import com.sun.javatest.util.I18NResourceBundle;
+
+import javax.accessibility.Accessible;
+import javax.accessibility.AccessibleContext;
+import javax.accessibility.AccessibleRole;
+import javax.accessibility.AccessibleValue;
+import javax.swing.JComponent;
+import javax.swing.Timer;
 import java.awt.AWTEventMulticaster;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -35,16 +43,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import javax.accessibility.Accessible;
-import javax.accessibility.AccessibleContext;
-import javax.accessibility.AccessibleRole;
-import javax.accessibility.AccessibleValue;
-
-import javax.swing.JComponent;
-import javax.swing.Timer;
-
-import com.sun.javatest.util.I18NResourceBundle;
 
 // this class needs to be rewritten; it's unclear what it's place in the world is
 

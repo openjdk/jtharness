@@ -26,22 +26,21 @@
  */
 package com.sun.javatest;
 
+import com.sun.javatest.util.PropertyArray;
+import com.sun.javatest.util.StringArray;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
-
-import com.sun.javatest.util.PropertyArray;
-import com.sun.javatest.util.StringArray;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 
 /**
  * TestDescription objects embody the parameters of a test and provide the

@@ -26,16 +26,16 @@
  */
 package com.sun.javatest.tool;
 
+import com.sun.javatest.Status;
+import com.sun.javatest.util.I18NResourceBundle;
+
+import javax.swing.Icon;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import javax.swing.Icon;
-
-import com.sun.javatest.Status;
-import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * A factory for standard JT Harness icons.

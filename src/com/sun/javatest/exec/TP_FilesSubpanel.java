@@ -26,16 +26,15 @@
  */
 package com.sun.javatest.exec;
 
+import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+
+import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.net.URL;
-
-import javax.swing.SwingUtilities;
-
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 /**
  * Show the source and other files for the test.

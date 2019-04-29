@@ -26,17 +26,6 @@
  */
 package com.sun.javatest;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.*;
-
 import com.sun.interview.ErrorQuestion;
 import com.sun.interview.FinalQuestion;
 import com.sun.interview.Interview;
@@ -46,6 +35,22 @@ import com.sun.javatest.tool.FileHistory;
 import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.PropertyUtils;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.Vector;
 
 /**
  * Configuration parameters provided via an interview.

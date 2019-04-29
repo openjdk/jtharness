@@ -26,14 +26,14 @@
  */
 package com.sun.javatest.httpd;
 
+import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.TimeZone;
-
-import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * Utility methods to make it easier to generate HTTP/HTML.

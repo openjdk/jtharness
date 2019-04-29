@@ -26,16 +26,15 @@
  */
 package com.sun.javatest.tool;
 
-import java.text.DateFormat;
-import java.util.Date;
-
-import java.util.ListIterator;
-
 import com.sun.javatest.ProductInfo;
 import com.sun.javatest.httpd.HttpdServer;
 import com.sun.javatest.httpd.PageGenerator;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.ListIterator;
 
 /**
  * A tool manager to handle the command line options for starting

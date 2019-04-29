@@ -26,17 +26,29 @@
  */
 package com.sun.javatest;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.locks.ReentrantLock;
-
+import com.sun.javatest.httpd.RootRegistry;
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
-import com.sun.javatest.httpd.RootRegistry;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Vector;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Collected results from a test suite.

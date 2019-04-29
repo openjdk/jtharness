@@ -26,15 +26,15 @@
  */
 package com.sun.javatest.tool;
 
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.LineParser;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URLDecoder;
 import java.util.ListIterator;
-
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.LineParser;
 
 /**
  * A class to parse a series of commands, with the help of their associated command managers.

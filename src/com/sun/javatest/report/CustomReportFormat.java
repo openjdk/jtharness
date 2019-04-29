@@ -29,7 +29,6 @@ package com.sun.javatest.report;
 import com.sun.javatest.TestSuite;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

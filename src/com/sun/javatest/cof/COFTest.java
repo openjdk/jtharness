@@ -26,6 +26,11 @@
  */
 package com.sun.javatest.cof;
 
+import com.sun.javatest.Status;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.TestResult.ReloadFault;
+import com.sun.javatest.TestResult.ResultFileNotFoundFault;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -35,18 +40,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.sun.javatest.Status;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.TestResult.ReloadFault;
-import com.sun.javatest.TestResult.ResultFileNotFoundFault;
-
-import java.util.Iterator;
 
 /*import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

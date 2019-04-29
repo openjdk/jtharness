@@ -26,16 +26,22 @@
  */
 package com.sun.javatest;
 
-import java.io.*;
-//import java.util.Hashtable;
+import com.sun.javatest.util.DynamicArray;
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.PropertyUtils;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.PropertyUtils;
-import com.sun.javatest.util.DynamicArray;
+//import java.util.Hashtable;
 //import com.sun.interview.Interview;
 
 /**

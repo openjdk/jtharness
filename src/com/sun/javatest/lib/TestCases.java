@@ -26,6 +26,9 @@
  */
 package com.sun.javatest.lib;
 
+import com.sun.javatest.Status;
+import com.sun.javatest.Test;
+
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -33,9 +36,6 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Vector;
-
-import com.sun.javatest.Status;
-import com.sun.javatest.Test;
 
 /**
  * A handler for the set of test cases in a test.

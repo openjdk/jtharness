@@ -26,13 +26,18 @@
  */
 package com.sun.javatest.tool;
 
-import java.io.*;
+import com.sun.javatest.util.HelpTree;
+import com.sun.javatest.util.I18NResourceBundle;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.ListIterator;
-
-import com.sun.javatest.util.HelpTree;
-import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * A command manager to handle the command line options for

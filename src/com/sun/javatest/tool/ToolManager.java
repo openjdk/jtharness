@@ -26,15 +26,15 @@
  */
 package com.sun.javatest.tool;
 
-import java.net.URL;
-import java.util.Map;
-import java.util.MissingResourceException;
+import com.sun.javatest.util.I18NResourceBundle;
+
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
-
-import com.sun.javatest.util.I18NResourceBundle;
+import java.net.URL;
+import java.util.Map;
+import java.util.MissingResourceException;
 
 /**
  * Tool managers are relatively lightweight managers for tools

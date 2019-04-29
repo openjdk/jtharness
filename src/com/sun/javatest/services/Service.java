@@ -26,17 +26,17 @@
  */
 package com.sun.javatest.services;
 
-import java.io.InputStream;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.sun.javatest.Parameters;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.TestSuite.DuplicateLogNameFault;
 import com.sun.javatest.TestSuite.NoSuchLogFault;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.services.Message.MessageType;
+
+import java.io.InputStream;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Abstract class, that represents service description and provides basic

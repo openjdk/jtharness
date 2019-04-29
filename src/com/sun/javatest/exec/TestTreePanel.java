@@ -26,24 +26,22 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import com.sun.javatest.Harness;
+import com.sun.javatest.JavaTestError;
+import com.sun.javatest.Parameters;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.TestResultTable;
+import com.sun.javatest.TestResultTable.TreeNode;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.exec.Session.Event;
+import com.sun.javatest.tool.Deck;
+import com.sun.javatest.tool.Preferences;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.util.Debug;
+import com.sun.javatest.util.DynamicArray;
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.StringArray;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -65,28 +63,32 @@ import javax.swing.ListModel;
 import javax.swing.MenuElement;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.Timer;
-import javax.swing.event.*;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
+import javax.swing.event.TreeModelListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreeSelectionModel;
 import javax.swing.tree.TreePath;
-
-import com.sun.javatest.tool.Deck;
-import com.sun.javatest.tool.UIFactory;
-
-import com.sun.javatest.exec.Session.Event;
-import com.sun.javatest.Harness;
-import com.sun.javatest.JavaTestError;
-import com.sun.javatest.Parameters;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.TestResultTable;
-import com.sun.javatest.TestResultTable.TreeNode;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.WorkDirectory;
-import com.sun.javatest.tool.Preferences;
-import com.sun.javatest.util.Debug;
-import com.sun.javatest.util.DynamicArray;
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.StringArray;
+import javax.swing.tree.TreeSelectionModel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 /**
  * This panel is a split panel which has the testsuite tree on the left and a context

@@ -26,17 +26,16 @@
  */
 package com.sun.javatest.tool.selectiontree;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
+import com.sun.javatest.tool.selectiontree.selection.SelectionElement;
+import com.sun.javatest.tool.selectiontree.selection.SelectionType;
 
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-
-import com.sun.javatest.tool.selectiontree.selection.SelectionElement;
-import com.sun.javatest.tool.selectiontree.selection.SelectionType;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
 
 /**
  * <code>SelectionTreeNode</code> class represents a tree node displayed in {@link SelectionTree}.

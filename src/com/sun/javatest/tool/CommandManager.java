@@ -26,9 +26,9 @@
  */
 package com.sun.javatest.tool;
 
-import java.util.ListIterator;
-
 import com.sun.javatest.util.HelpTree;
+
+import java.util.ListIterator;
 
 /**
  * Command managers are relatively lightweight managers for the command objects

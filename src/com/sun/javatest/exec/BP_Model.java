@@ -26,10 +26,10 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.Component;
-
 import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestResult;
+
+import java.awt.Component;
 
 /**
  * This model represents the facilities available to a branch panel.  It is

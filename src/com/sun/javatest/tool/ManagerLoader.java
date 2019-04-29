@@ -26,6 +26,11 @@
  */
 package com.sun.javatest.tool;
 
+import com.sun.javatest.ResourceLoader;
+import com.sun.javatest.util.DynamicArray;
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.StringArray;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -38,11 +43,6 @@ import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.sun.javatest.ResourceLoader;
-import com.sun.javatest.util.DynamicArray;
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.StringArray;
 
 class ManagerLoader {
     ManagerLoader(Class<?> managerClass, PrintStream log) {

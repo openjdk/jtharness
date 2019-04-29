@@ -26,6 +26,12 @@
  */
 package com.sun.javatest.batch;
 
+import com.sun.javatest.Harness;
+import com.sun.javatest.tool.Command;
+import com.sun.javatest.tool.CommandContext;
+import com.sun.javatest.util.HelpTree;
+import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -35,12 +41,6 @@ import java.net.URLClassLoader;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-
-import com.sun.javatest.Harness;
-import com.sun.javatest.tool.Command;
-import com.sun.javatest.tool.CommandContext;
-import com.sun.javatest.util.HelpTree;
-import com.sun.javatest.util.I18NResourceBundle;
 
 class ObserverCommand extends Command {
     static String getName() {

@@ -26,12 +26,12 @@
  */
 package com.sun.javatest.finder;
 
-import java.io.File;
-
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestEnvironment;
 import com.sun.javatest.TestFinder;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.io.File;
 
 /**
  * A test finder that reads tests from a delegate, and returns the

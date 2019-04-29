@@ -26,9 +26,9 @@
  */
 package com.sun.javatest;
 
-import java.util.Iterator;
-
 import com.sun.javatest.util.BackupPolicy;
+
+import java.util.Iterator;
 
 /**
  * TestRunner is the abstract base class providing the ability to

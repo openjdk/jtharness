@@ -26,12 +26,12 @@
  */
 package com.sun.javatest.cof;
 
+import com.sun.javatest.util.XMLWriter;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import com.sun.javatest.util.XMLWriter;
 /*import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;

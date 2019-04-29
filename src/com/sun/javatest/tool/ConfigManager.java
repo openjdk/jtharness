@@ -26,6 +26,21 @@
  */
 package com.sun.javatest.tool;
 
+import com.sun.interview.CompositeQuestion;
+import com.sun.interview.Interview;
+import com.sun.interview.NullQuestion;
+import com.sun.interview.Question;
+import com.sun.javatest.FileParameters;
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.Parameters;
+import com.sun.javatest.Status;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.util.DirectoryClassLoader;
+import com.sun.javatest.util.HelpTree;
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.PropertyUtils;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,34 +51,19 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.Vector;
 
-import com.sun.interview.Interview;
-import com.sun.interview.NullQuestion;
-import com.sun.interview.CompositeQuestion;
-import com.sun.interview.Question;
-import com.sun.javatest.FileParameters;
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.Parameters;
-import com.sun.javatest.Status;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.WorkDirectory;
-import com.sun.javatest.util.DirectoryClassLoader;
 //import com.sun.javatest.util.PathClassLoader;
-import com.sun.javatest.util.HelpTree;
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.PropertyUtils;
-
-import java.util.HashMap;
-import java.util.Map.Entry;
 
 /**
  * A manager for all the various configuration commands.

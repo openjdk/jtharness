@@ -26,6 +26,13 @@
  */
 package com.sun.javatest;
 
+import com.sun.javatest.util.BackupPolicy;
+import com.sun.javatest.util.DynamicArray;
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.PropertyArray;
+import com.sun.javatest.util.PropertyUtils;
+import com.sun.javatest.util.StringArray;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -56,13 +63,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
-
-import com.sun.javatest.util.BackupPolicy;
-import com.sun.javatest.util.DynamicArray;
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.PropertyArray;
-import com.sun.javatest.util.PropertyUtils;
-import com.sun.javatest.util.StringArray;
 
 /**
  * The TestResult object encapsulates the results from a test.

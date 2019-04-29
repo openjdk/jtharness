@@ -26,10 +26,10 @@
  */
 package com.sun.javatest.tool;
 
-import java.awt.Color;
-
 import com.sun.javatest.Status;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.awt.Color;
 
 /**
  * Utility class to get general internationalization properties and

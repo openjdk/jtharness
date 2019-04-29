@@ -28,13 +28,13 @@ package com.sun.javatest.exec;
 
 import com.sun.javatest.TemplateUtilities;
 
+import javax.swing.event.TableModelEvent;
+import javax.swing.table.AbstractTableModel;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import javax.swing.event.TableModelEvent;
-import javax.swing.table.AbstractTableModel;
 
 public class FileSystemTableModel extends AbstractTableModel {
 

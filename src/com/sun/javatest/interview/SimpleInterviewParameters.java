@@ -26,22 +26,22 @@
  */
 package com.sun.javatest.interview;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.sun.interview.ChoiceQuestion;
 import com.sun.interview.DirectoryFileFilter;
 import com.sun.interview.ErrorQuestion;
 import com.sun.interview.ExtensionFileFilter;
 import com.sun.interview.FileFilter;
-import com.sun.interview.FileQuestion;
 import com.sun.interview.FileListQuestion;
+import com.sun.interview.FileQuestion;
 import com.sun.interview.NullQuestion;
 import com.sun.interview.Question;
 import com.sun.interview.StringQuestion;
 import com.sun.javatest.Parameters.EnvParameters;
 import com.sun.javatest.TestEnvironment;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple interview that can be used for simple test suites.

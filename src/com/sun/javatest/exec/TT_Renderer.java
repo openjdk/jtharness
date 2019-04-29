@@ -26,12 +26,6 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.Component;
-
-import javax.swing.Icon;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeCellRenderer;
-
 import com.sun.javatest.JavaTestError;
 import com.sun.javatest.Parameters;
 import com.sun.javatest.Status;
@@ -42,6 +36,11 @@ import com.sun.javatest.TestResultTable;
 import com.sun.javatest.tool.IconFactory;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.Debug;
+
+import javax.swing.Icon;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import java.awt.Component;
 
 /**
  * "Basic" renderer for the test manager (exec tool) tree.

@@ -26,6 +26,11 @@
  */
 package com.sun.javatest;
 
+import com.sun.javatest.util.DynamicArray;
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.PropertyUtils;
+import com.sun.javatest.util.StringArray;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,11 +41,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Vector;
-
-import com.sun.javatest.util.DynamicArray;
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.PropertyUtils;
-import com.sun.javatest.util.StringArray;
 
 /**
  * This class provides "environments", as embodied by groups of related properties.

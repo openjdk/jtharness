@@ -27,8 +27,8 @@
 
 package com.sun.javatest.junit;
 
-import com.sun.javatest.lib.MultiTest;
 import com.sun.javatest.Status;
+import com.sun.javatest.lib.MultiTest;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

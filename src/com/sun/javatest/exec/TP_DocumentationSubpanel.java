@@ -30,12 +30,12 @@ import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.tool.UIFactory;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.net.URL;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class TP_DocumentationSubpanel extends TP_Subpanel {
 

@@ -31,8 +31,8 @@ import com.sun.interview.Properties2;
 import com.sun.interview.PropertiesQuestion;
 import com.sun.interview.Question;
 import com.sun.javatest.report.HTMLWriterEx;
-import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.tool.CustomPropagationController.EventType;
+import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.PropertyUtils;
 
 import java.io.BufferedInputStream;

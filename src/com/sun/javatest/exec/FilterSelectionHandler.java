@@ -26,10 +26,12 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import com.sun.javatest.TestFilter;
+import com.sun.javatest.tool.ToolAction;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.util.Debug;
+import com.sun.javatest.util.DynamicArray;
+import com.sun.javatest.util.OrderedTwoWayTable;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -41,14 +43,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
-
-import com.sun.javatest.TestFilter;
-import com.sun.javatest.tool.ToolAction;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.util.Debug;
-import com.sun.javatest.util.DynamicArray;
-import com.sun.javatest.util.OrderedTwoWayTable;
-
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 class FilterSelectionHandler {

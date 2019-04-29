@@ -26,6 +26,13 @@
  */
 package com.sun.javatest.agent;
 
+import com.sun.javatest.Command;
+import com.sun.javatest.Status;
+import com.sun.javatest.Test;
+import com.sun.javatest.util.DynamicArray;
+import com.sun.javatest.util.Timer;
+import com.sun.javatest.util.WriterStream;
+
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -41,13 +48,6 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.MissingResourceException;
 import java.util.Vector;
-
-import com.sun.javatest.Command;
-import com.sun.javatest.Status;
-import com.sun.javatest.Test;
-import com.sun.javatest.util.DynamicArray;
-import com.sun.javatest.util.Timer;
-import com.sun.javatest.util.WriterStream;
 
 /**
  * The means by which the the harness executes requests on other machines.

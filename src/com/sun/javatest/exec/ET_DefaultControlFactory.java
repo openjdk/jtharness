@@ -32,8 +32,8 @@ import com.sun.javatest.TestSuite;
 import com.sun.javatest.tool.Tool;
 import com.sun.javatest.tool.UIFactory;
 
-import java.util.List;
 import javax.swing.JComponent;
+import java.util.List;
 
 /**
  * Default implementation of ET_ControlFactory interface.

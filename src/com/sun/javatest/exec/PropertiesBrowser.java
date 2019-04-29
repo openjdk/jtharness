@@ -26,10 +26,15 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.io.File;
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.finder.TestFinderDecorator;
+import com.sun.javatest.tool.ToolDialog;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.util.StringArray;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -39,15 +44,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.WorkDirectory;
-import com.sun.javatest.finder.TestFinderDecorator;
-import com.sun.javatest.tool.ToolDialog;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.util.StringArray;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.io.File;
 
 class PropertiesBrowser extends ToolDialog {
     PropertiesBrowser(JComponent parent, UIFactory uif) {

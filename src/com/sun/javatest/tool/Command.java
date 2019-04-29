@@ -26,13 +26,13 @@
  */
 package com.sun.javatest.tool;
 
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.util.I18NResourceBundle;
+
 import java.net.URL;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Vector;
-
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * A class to represent a command to be executed.

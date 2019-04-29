@@ -26,20 +26,10 @@
  */
 package com.sun.javatest.mrep;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Vector;
+import com.sun.javatest.report.HTMLWriterEx;
+import com.sun.javatest.tool.ToolAction;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.util.I18NResourceBundle;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -63,11 +53,25 @@ import javax.swing.plaf.basic.ComboPopup;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.HTMLFrameHyperlinkEvent;
-
-import com.sun.javatest.tool.ToolAction;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.report.HTMLWriterEx;
-import com.sun.javatest.util.I18NResourceBundle;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Vector;
 
 class BrowserPane extends JPanel {
     /**

@@ -26,16 +26,8 @@
  */
 package com.sun.javatest.tool;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeEvent;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Set;
-import java.util.Vector;
-import java.beans.PropertyChangeListener;
+import com.sun.javatest.tool.jthelp.JHelpContentViewer;
+
 import javax.accessibility.AccessibleContext;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -65,8 +57,29 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
-
-import com.sun.javatest.tool.jthelp.JHelpContentViewer;
+import java.awt.AWTKeyStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.FocusTraversalPolicy;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.KeyboardFocusManager;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.util.Set;
+import java.util.Vector;
 
 class FocusMonitor {
     public static FocusMonitor access() {

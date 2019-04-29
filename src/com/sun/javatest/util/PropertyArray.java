@@ -27,10 +27,13 @@
 package com.sun.javatest.util;
 
 import java.io.BufferedWriter;
-import java.util.*;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 
 /**
  * A space-efficient string to string map.

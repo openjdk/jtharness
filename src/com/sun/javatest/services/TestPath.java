@@ -26,15 +26,15 @@
  */
 package com.sun.javatest.services;
 
+import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestSuite;
+
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestSuite;
 
 /**
  * This class represents mapping from test path (represented as java regexp),

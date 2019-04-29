@@ -27,16 +27,14 @@
 package com.sun.javatest.exec;
 
 import com.sun.interview.Help;
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.tool.ToolDialog;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.tool.jthelp.HelpID;
+import com.sun.javatest.tool.jthelp.HelpSet;
+import com.sun.javatest.tool.jthelp.JHelpContentViewer;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.GridBagConstraints;
-import java.awt.Graphics;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -46,14 +44,15 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.tool.ToolDialog;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.tool.jthelp.HelpID;
-import com.sun.javatest.tool.jthelp.HelpSet;
-import com.sun.javatest.tool.jthelp.JHelpContentViewer;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionListener;
 
 class CE_StdView extends CE_View {
     CE_StdView(InterviewParameters config,

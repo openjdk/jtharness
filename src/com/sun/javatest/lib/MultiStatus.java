@@ -26,9 +26,9 @@
  */
 package com.sun.javatest.lib;
 
-import java.io.PrintWriter;
-
 import com.sun.javatest.Status;
+
+import java.io.PrintWriter;
 
 /**
  * When executing multiple test cases in the same test class, it is usually

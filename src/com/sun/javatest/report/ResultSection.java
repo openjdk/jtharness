@@ -26,15 +26,15 @@
  */
 package com.sun.javatest.report;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.TreeSet;
-
 import com.sun.javatest.Status;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.TreeSet;
 
 /**
  * Summarize the status, pass/fail/error of the tests which we are reporting on.

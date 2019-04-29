@@ -26,7 +26,33 @@
  */
 package com.sun.javatest.mrep;
 
+import com.sun.javatest.report.CustomReport;
+import com.sun.javatest.report.HTMLWriterEx;
+import com.sun.javatest.report.Report;
+import com.sun.javatest.report.ReportSettings;
+import com.sun.javatest.tool.Desktop;
+import com.sun.javatest.tool.Tool;
+import com.sun.javatest.tool.ToolManager;
+import com.sun.javatest.util.I18NResourceBundle;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.HTMLFrameHyperlinkEvent;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -38,40 +64,18 @@ import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-
-import javax.swing.BorderFactory;
-import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.HTMLFrameHyperlinkEvent;
-
-import com.sun.javatest.report.CustomReport;
-import com.sun.javatest.report.Report;
-import com.sun.javatest.report.ReportSettings;
-import com.sun.javatest.tool.Desktop;
-import com.sun.javatest.tool.Tool;
-import com.sun.javatest.tool.ToolManager;
-import com.sun.javatest.report.HTMLWriterEx;
-import com.sun.javatest.util.I18NResourceBundle;
-
-import java.awt.Component;
-import java.lang.reflect.InvocationTargetException;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.Timer;
-import javax.swing.SwingUtilities;
 
 
 class ReportTool extends Tool {

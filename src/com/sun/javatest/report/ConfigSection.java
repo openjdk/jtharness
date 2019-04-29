@@ -26,11 +26,6 @@
  */
 package com.sun.javatest.report;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.NumberFormat;
-import java.util.*;
-
 import com.sun.interview.WizPrint;
 import com.sun.javatest.ExcludeList;
 import com.sun.javatest.Keywords;
@@ -40,6 +35,15 @@ import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * A report generator for sets of test results.

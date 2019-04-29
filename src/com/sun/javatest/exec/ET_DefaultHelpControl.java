@@ -32,12 +32,12 @@ import com.sun.javatest.tool.ToolAction;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.jthelp.HelpBroker;
 
+import javax.swing.Action;
+import javax.swing.JMenu;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.swing.Action;
-import javax.swing.JMenu;
 
 /**
  * @author Dmitry Fazunenko

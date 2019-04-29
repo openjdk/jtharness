@@ -26,17 +26,14 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.io.File;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import com.sun.interview.Interview;
+import com.sun.interview.Question;
+import com.sun.javatest.ExcludeList;
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.Parameters;
+import com.sun.javatest.tool.ToolDialog;
+import com.sun.javatest.tool.UIFactory;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -48,14 +45,17 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-
-import com.sun.interview.Question;
-import com.sun.interview.Interview;
-import com.sun.javatest.ExcludeList;
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.Parameters;
-import com.sun.javatest.tool.ToolDialog;
-import com.sun.javatest.tool.UIFactory;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 class ExcludeListBrowser extends ToolDialog {
     ExcludeListBrowser(Container parent, UIFactory uif) {

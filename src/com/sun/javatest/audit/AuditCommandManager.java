@@ -26,8 +26,6 @@
  */
 package com.sun.javatest.audit;
 
-import java.util.ListIterator;
-
 import com.sun.javatest.Parameters;
 import com.sun.javatest.tool.Command;
 import com.sun.javatest.tool.CommandContext;
@@ -35,6 +33,8 @@ import com.sun.javatest.tool.CommandManager;
 import com.sun.javatest.tool.Desktop;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.util.ListIterator;
 
 
 /**

@@ -26,6 +26,9 @@
  */
 package com.sun.javatest.finder;
 
+import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestFinder;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,9 +37,6 @@ import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
-
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestFinder;
 
 /**
  * ShowTests is a utility program to show the tests that are read by

@@ -26,9 +26,8 @@
  */
 package com.sun.javatest.audit;
 
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
-
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 
 class BadTestsPane extends ListPane {

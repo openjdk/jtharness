@@ -26,19 +26,18 @@
  */
 package com.sun.javatest.tool;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.io.File;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import javax.swing.JFileChooser;
-
 import com.sun.javatest.TemplateUtilities;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.exec.WorkDirChooseTool;
 
+import javax.swing.JFileChooser;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.io.File;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * A custom JFileChooser, for a user to choose a work directory.

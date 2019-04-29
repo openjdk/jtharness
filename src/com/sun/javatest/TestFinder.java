@@ -26,6 +26,9 @@
  */
 package com.sun.javatest;
 
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.StringArray;
+
 import java.io.File;
 import java.text.Collator;
 import java.util.Arrays;
@@ -34,9 +37,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
-
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.StringArray;
 
 /**
  * Base implementation for test finders which search for test descriptions

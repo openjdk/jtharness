@@ -26,10 +26,13 @@
  */
 package com.sun.javatest.agent;
 
-import java.io.Reader;
+import com.sun.javatest.util.StringArray;
+
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -37,10 +40,6 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
-
-import com.sun.javatest.util.StringArray;
-
-import java.io.PrintStream;
 
 /**
  * A map provides a simple translation table for between configuration values

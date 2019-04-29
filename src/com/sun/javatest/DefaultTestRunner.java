@@ -26,13 +26,13 @@
  */
 package com.sun.javatest;
 
+import com.sun.javatest.util.BackupPolicy;
+import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
-import com.sun.javatest.util.BackupPolicy;
-import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * Traditional implementation of the test execution engine which has been

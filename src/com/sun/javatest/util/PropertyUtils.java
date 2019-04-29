@@ -27,8 +27,15 @@
 package com.sun.javatest.util;
 
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.Vector;
 
 /**
  * A collection of utility methods related to {@code java.util.Properties} loading, saving and transformation.

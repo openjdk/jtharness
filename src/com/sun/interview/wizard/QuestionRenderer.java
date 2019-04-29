@@ -26,10 +26,10 @@
  */
 package com.sun.interview.wizard;
 
-import java.awt.event.ActionListener;
-import javax.swing.JComponent;
-
 import com.sun.interview.Question;
+
+import javax.swing.JComponent;
+import java.awt.event.ActionListener;
 
 /**
  * An interface that is used to access a component to be used to display

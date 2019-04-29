@@ -26,16 +26,6 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.EventQueue;
-import java.util.Enumeration;
-
-import javax.swing.JTree;
-import javax.swing.ToolTipManager;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
-
 import com.sun.javatest.Parameters;
 import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestResult;
@@ -44,7 +34,15 @@ import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.DynamicArray;
 
+import javax.swing.JTree;
+import javax.swing.ToolTipManager;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+import java.awt.EventQueue;
+import java.util.Enumeration;
 
 /**
  * Tree to render test structure.

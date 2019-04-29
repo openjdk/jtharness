@@ -26,21 +26,13 @@
  */
 package com.sun.javatest.interview;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Vector;
-
 import com.sun.interview.ChoiceQuestion;
 import com.sun.interview.ErrorQuestion;
 import com.sun.interview.ExtensionFileFilter;
 import com.sun.interview.FileListQuestion;
 import com.sun.interview.FinalQuestion;
-import com.sun.interview.Interview;
 import com.sun.interview.IntQuestion;
+import com.sun.interview.Interview;
 import com.sun.interview.Question;
 import com.sun.interview.YesNoQuestion;
 import com.sun.javatest.ExcludeList;
@@ -50,6 +42,14 @@ import com.sun.javatest.Parameters;
 import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Vector;
 
 /**
  * This interview collects the "exclude list" test filter parameters.

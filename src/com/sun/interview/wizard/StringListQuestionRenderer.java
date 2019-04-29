@@ -26,14 +26,14 @@
  */
 package com.sun.interview.wizard;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
+import com.sun.interview.Question;
+import com.sun.interview.StringListQuestion;
+
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import com.sun.interview.StringListQuestion;
-import com.sun.interview.Question;
+import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
 
 public class StringListQuestionRenderer
         implements QuestionRenderer {

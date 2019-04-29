@@ -26,17 +26,17 @@
  */
 package com.sun.interview.wizard;
 
-import java.awt.event.ActionListener;
-import java.util.LinkedList;
-import java.util.List;
-import javax.swing.JComponent;
-import javax.swing.JScrollPane;
-
 import com.sun.interview.Question;
 import com.sun.interview.TreeQuestion;
 import com.sun.interview.wizard.selectiontree.SelectionTree;
 import com.sun.interview.wizard.selectiontree.selection.SelectionElement;
 import com.sun.interview.wizard.selectiontree.selection.SelectionType;
+
+import javax.swing.JComponent;
+import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TreeQuestionRenderer
         implements QuestionRenderer {

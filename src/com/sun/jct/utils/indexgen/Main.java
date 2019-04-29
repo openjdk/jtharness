@@ -26,6 +26,10 @@
  */
 package com.sun.jct.utils.indexgen;
 
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.FileScanner;
+import org.apache.tools.ant.taskdefs.MatchingTask;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -45,10 +49,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
-
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.FileScanner;
-import org.apache.tools.ant.taskdefs.MatchingTask;
 
 /**
  * <p>A utility to generate an index from a set of HTML files and directories.

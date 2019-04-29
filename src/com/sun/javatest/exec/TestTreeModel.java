@@ -26,21 +26,6 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.EventQueue;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
-
 import com.sun.javatest.JavaTestError;
 import com.sun.javatest.Parameters;
 import com.sun.javatest.TRT_TreeNode;
@@ -54,9 +39,22 @@ import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.StringArray;
 
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**

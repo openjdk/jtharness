@@ -26,14 +26,16 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.HashSet;
-import java.util.Set;
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.Parameters.MutableTestsParameters;
+import com.sun.javatest.Parameters.TestsParameters;
+import com.sun.javatest.TestResultTable;
+import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.tool.FileChooser;
+import com.sun.javatest.tool.TestTreeSelectionPane;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -41,18 +43,21 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.TestResultTable;
-import com.sun.javatest.WorkDirectory;
-import com.sun.javatest.Parameters.TestsParameters;
-import com.sun.javatest.Parameters.MutableTestsParameters;
-import com.sun.javatest.tool.FileChooser;
-import com.sun.javatest.tool.TestTreeSelectionPane;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
-
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Standard values view, initial tests selection panel.

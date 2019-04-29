@@ -26,10 +26,10 @@
  */
 package com.sun.interview.wizard;
 
-import java.awt.event.ActionListener;
-import javax.swing.JComponent;
-
 import com.sun.interview.Question;
+
+import javax.swing.JComponent;
+import java.awt.event.ActionListener;
 
 class NullQuestionRenderer
         implements QuestionRenderer {

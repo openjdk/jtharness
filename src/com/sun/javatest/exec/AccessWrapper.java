@@ -26,12 +26,12 @@
  */
 package com.sun.javatest.exec;
 
-import javax.swing.JComponent;
-
 import com.sun.javatest.Harness;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.tool.UIFactory;
+
+import javax.swing.JComponent;
 
 public class AccessWrapper {
     private AccessWrapper() {

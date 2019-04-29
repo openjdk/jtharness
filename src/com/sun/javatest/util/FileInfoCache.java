@@ -27,9 +27,9 @@
 package com.sun.javatest.util;
 
 import java.io.File;
-import java.util.Map;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class FileInfoCache {
 

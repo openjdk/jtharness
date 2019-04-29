@@ -26,15 +26,15 @@
  */
 package com.sun.javatest.batch;
 
-import java.io.File;
-import java.util.ListIterator;
-
 import com.sun.javatest.report.ReportManager;
 import com.sun.javatest.tool.Command;
 import com.sun.javatest.tool.CommandContext;
 import com.sun.javatest.tool.CommandManager;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.io.File;
+import java.util.ListIterator;
 
 /**
  * A command manager to provide commands for batch execution of tests.

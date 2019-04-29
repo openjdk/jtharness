@@ -26,16 +26,16 @@
  */
 package com.sun.javatest.lib;
 
+import com.sun.javatest.Command;
+import com.sun.javatest.Status;
+import com.sun.javatest.util.PathClassLoader;
+import com.sun.javatest.util.WriterStream;
+
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-
-import com.sun.javatest.Command;
-import com.sun.javatest.Status;
-import com.sun.javatest.util.PathClassLoader;
-import com.sun.javatest.util.WriterStream;
 
 /**
  * Invoke a Java compiler via reflection.

@@ -26,13 +26,13 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.BorderLayout;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
 
 abstract class CE_StdPane extends JPanel {
     protected CE_StdPane(UIFactory uif, InterviewParameters config, String name) {

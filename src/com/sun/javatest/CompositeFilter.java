@@ -26,11 +26,11 @@
  */
 package com.sun.javatest;
 
+import com.sun.javatest.util.I18NResourceBundle;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-
-import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * A filter which uses one or more filters to implement its accept method.

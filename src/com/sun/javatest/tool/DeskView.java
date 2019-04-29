@@ -26,34 +26,6 @@
  */
 package com.sun.javatest.tool;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.EventQueue;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.KeyEvent;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-import javax.accessibility.AccessibleContext;
-import javax.swing.Action;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JRootPane;
-import javax.swing.SwingUtilities;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
-import javax.swing.KeyStroke;
-import javax.swing.JComponent;
-
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
 import com.sun.javatest.tool.jthelp.HelpBroker;
 import com.sun.javatest.util.ExitCount;
@@ -61,8 +33,35 @@ import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.PrefixMap;
 import com.sun.javatest.util.StringArray;
 
+import javax.accessibility.AccessibleContext;
+import javax.swing.Action;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JRootPane;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.EventQueue;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 /**
  * A deskview defines the abstract behavior of a style of desktop,

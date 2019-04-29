@@ -26,17 +26,11 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.Component;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.lang.reflect.InvocationTargetException;
+import com.sun.javatest.Status;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.tool.I18NUtils;
+import com.sun.javatest.tool.ToolDialog;
+import com.sun.javatest.tool.UIFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -50,12 +44,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.border.Border;
-
-import com.sun.javatest.Status;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.tool.I18NUtils;
-import com.sun.javatest.tool.ToolDialog;
-import com.sun.javatest.tool.UIFactory;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.lang.reflect.InvocationTargetException;
 
 class ProgressMonitor extends ToolDialog {
 

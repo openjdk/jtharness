@@ -26,21 +26,21 @@
  */
 package com.sun.interview.wizard;
 
+import com.sun.interview.Interview;
+import com.sun.interview.Question;
+
+import javax.accessibility.Accessible;
+import javax.accessibility.AccessibleContext;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
-import javax.accessibility.Accessible;
-import javax.accessibility.AccessibleContext;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import com.sun.interview.Interview;
-import com.sun.interview.Question;
 
 public class TypeInPanel extends JPanel {
     public TypeInPanel(String uiKey, final Question q, int fieldWidth,

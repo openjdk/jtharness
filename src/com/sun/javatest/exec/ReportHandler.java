@@ -29,28 +29,28 @@ package com.sun.javatest.exec;
 import com.sun.javatest.Harness;
 import com.sun.javatest.Parameters;
 import com.sun.javatest.TestResult;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import javax.swing.Action;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-
 import com.sun.javatest.WorkDirectory;
-//import com.sun.javatest.report.Report;
-import com.sun.javatest.report.ReportDirChooser;
 import com.sun.javatest.report.Report;
+import com.sun.javatest.report.ReportDirChooser;
 import com.sun.javatest.tool.FileChooser;
 import com.sun.javatest.tool.FileHistory;
 import com.sun.javatest.tool.ToolAction;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.PrefixMap;
+
+import javax.swing.Action;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+//import com.sun.javatest.report.Report;
 
 /**
  * Class to handle report create/open operations in exec tool.

@@ -26,17 +26,17 @@
  */
 package com.sun.javatest.httpd;
 
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.StringArray;
+
 import java.io.BufferedWriter;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.StringArray;
 
 /**
  * HTTP service handler for requests sent to JT Harness

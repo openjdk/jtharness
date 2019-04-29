@@ -26,14 +26,14 @@
  */
 package com.sun.javatest.lib;
 
+import com.sun.javatest.Status;
+import com.sun.javatest.Test;
+
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
-
-import com.sun.javatest.Status;
-import com.sun.javatest.Test;
+import java.lang.reflect.Method;
 
 /**
  * Base class for tests with multiple sub test cases.

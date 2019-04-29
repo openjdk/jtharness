@@ -26,24 +26,14 @@
  */
 package com.sun.interview.wizard;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Frame;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-import java.util.Properties;
+import com.sun.interview.Interview;
+import com.sun.interview.Question;
+import com.sun.interview.WizPrint;
+import com.sun.javatest.tool.jthelp.HelpBroker;
+import com.sun.javatest.tool.jthelp.HelpSet;
+import com.sun.javatest.tool.jthelp.JTHelpBroker;
+import com.sun.javatest.util.PropertyUtils;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.Icon;
@@ -70,14 +60,34 @@ import javax.swing.event.AncestorListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.filechooser.FileFilter;
-
-import com.sun.interview.Interview;
-import com.sun.interview.Question;
-import com.sun.interview.WizPrint;
-import com.sun.javatest.tool.jthelp.HelpBroker;
-import com.sun.javatest.tool.jthelp.HelpSet;
-import com.sun.javatest.tool.jthelp.JTHelpBroker;
-import com.sun.javatest.util.PropertyUtils;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Frame;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * A wizard to present an {@link Interview interview} consisting of

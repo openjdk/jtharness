@@ -26,14 +26,14 @@
  */
 package com.sun.javatest.audit;
 
-import java.awt.CardLayout;
+import com.sun.javatest.tool.UIFactory;
+
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
-import com.sun.javatest.tool.UIFactory;
+import java.awt.CardLayout;
 
 abstract class AuditPane extends JPanel {
     AuditPane(String uiKey, UIFactory uif) {

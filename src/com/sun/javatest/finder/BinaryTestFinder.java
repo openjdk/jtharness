@@ -26,6 +26,11 @@
  */
 package com.sun.javatest.finder;
 
+import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestEnvironment;
+import com.sun.javatest.TestFinder;
+import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -37,11 +42,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestEnvironment;
-import com.sun.javatest.TestFinder;
-import com.sun.javatest.util.I18NResourceBundle;
 
 
 /**

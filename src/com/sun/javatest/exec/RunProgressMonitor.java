@@ -26,20 +26,20 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 //import com.sun.javatest.Status;
 //import com.sun.javatest.tool.I18NUtils;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 /**
  * Progress bars for test run.

@@ -26,25 +26,6 @@
  */
 package com.sun.javatest.audit;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.io.File;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.filechooser.FileFilter;
-
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
@@ -55,6 +36,25 @@ import com.sun.javatest.tool.Tool;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.WorkDirChooser;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.filechooser.FileFilter;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 class OptionsDialog extends ToolDialog {
     OptionsDialog(Tool tool, ActionListener okListener, UIFactory uif) {

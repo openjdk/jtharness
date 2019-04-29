@@ -26,23 +26,10 @@
  */
 package com.sun.javatest.tool;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.KeyboardFocusManager;
-import java.awt.LayoutManager;
-import java.awt.Toolkit;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.net.URL;
-import java.util.MissingResourceException;
+import com.sun.javatest.ProductInfo;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.tool.jthelp.HelpBroker;
+import com.sun.javatest.util.I18NResourceBundle;
 
 import javax.accessibility.Accessible;
 import javax.accessibility.AccessibleContext;
@@ -78,7 +65,6 @@ import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JSplitPane;
-//import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -86,23 +72,36 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.ListModel;
-//import javax.swing.SpinnerModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.TableModel;
-
-import com.sun.javatest.ProductInfo;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
-import com.sun.javatest.tool.jthelp.HelpBroker;
-import com.sun.javatest.util.I18NResourceBundle;
-
-import java.awt.Dialog;
-import java.util.Enumeration;
-import java.util.ResourceBundle;
-import javax.swing.UIManager;
 import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.table.TableModel;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.KeyboardFocusManager;
+import java.awt.LayoutManager;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
+//import javax.swing.JSpinner;
+//import javax.swing.SpinnerModel;
 
 /**
  * A factory for GUI components, providing support for

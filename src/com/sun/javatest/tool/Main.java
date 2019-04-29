@@ -26,14 +26,6 @@
  */
 package com.sun.javatest.tool;
 
-import java.awt.EventQueue;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.MessageFormat;
-import java.util.Map;
-import java.util.Set;
-
 import com.sun.javatest.Harness;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.JavaTestError;
@@ -44,6 +36,14 @@ import com.sun.javatest.services.ServiceManager;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.ExitCount;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.awt.EventQueue;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.MessageFormat;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * The main program class for JT Harness.

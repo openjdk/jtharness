@@ -26,13 +26,19 @@
  */
 package com.sun.javatest;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.PropertyUtils;
 import com.sun.javatest.util.StringArray;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 /**
  * An implementation of Parameters, using data read from a .jtp file.

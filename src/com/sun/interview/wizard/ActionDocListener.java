@@ -26,11 +26,11 @@
  */
 package com.sun.interview.wizard;
 
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 class ActionDocListener implements DocumentListener {
     ActionDocListener(Component src, ActionListener listener, String cmd) {

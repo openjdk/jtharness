@@ -26,15 +26,15 @@
  */
 package com.sun.javatest.tool;
 
-import java.util.HashMap;
-import java.util.ListIterator;
-import java.util.Map;
-
 import com.sun.javatest.JavaTestSecurityManager;
 import com.sun.javatest.TestEnvironment;
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.PropertyUtils;
+
+import java.util.HashMap;
+import java.util.ListIterator;
+import java.util.Map;
 
 /**
  * A command manager to handle the command line options for adding

@@ -26,13 +26,13 @@
  */
 package com.sun.javatest.lib;
 
-import java.io.File;
-
 import com.sun.javatest.Script;
 import com.sun.javatest.Status;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestEnvironment;
 import com.sun.javatest.util.StringArray;
+
+import java.io.File;
 
 /**
  * A Script to compile/execute a standard test.

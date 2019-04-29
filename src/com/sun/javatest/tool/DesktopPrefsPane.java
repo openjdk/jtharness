@@ -26,6 +26,17 @@
  */
 package com.sun.javatest.tool;
 
+import javax.swing.AbstractButton;
+import javax.swing.Box;
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -33,8 +44,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
 import java.util.Map;
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 /**
  * Preferences for the desktop itself.

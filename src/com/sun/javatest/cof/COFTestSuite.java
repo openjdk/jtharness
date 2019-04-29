@@ -26,11 +26,6 @@
  */
 package com.sun.javatest.cof;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.regex.Pattern;
-
 import com.sun.javatest.Status;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
@@ -39,8 +34,12 @@ import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.XMLWriter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.regex.Pattern;
 
 class COFTestSuite extends COFItem {
 

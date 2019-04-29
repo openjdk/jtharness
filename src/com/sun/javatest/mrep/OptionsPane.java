@@ -29,24 +29,14 @@ package com.sun.javatest.mrep;
 import com.sun.javatest.CompositeFilter;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.TestFilter;
-
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.*;
+import com.sun.javatest.exec.ContextManager;
+import com.sun.javatest.exec.ExecTool;
+import com.sun.javatest.report.CustomReport;
+import com.sun.javatest.report.CustomReport.ReportConfigPanel;
+import com.sun.javatest.report.ReportSettings;
+import com.sun.javatest.tool.Desktop;
+import com.sun.javatest.tool.Tool;
+import com.sun.javatest.tool.UIFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -64,17 +54,31 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.MouseInputAdapter;
-
-import com.sun.javatest.exec.ContextManager;
-import com.sun.javatest.exec.ExecTool;
-import com.sun.javatest.report.CustomReport;
-import com.sun.javatest.report.CustomReport.ReportConfigPanel;
-import com.sun.javatest.report.ReportSettings;
-import com.sun.javatest.tool.Desktop;
-import com.sun.javatest.tool.Tool;
-import com.sun.javatest.tool.UIFactory;
-
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 class OptionsPane extends JPanel {
 

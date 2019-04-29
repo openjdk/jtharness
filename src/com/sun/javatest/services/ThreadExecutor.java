@@ -26,9 +26,9 @@
  */
 package com.sun.javatest.services;
 
-import java.io.InputStream;
-
 import com.sun.javatest.services.Message.MessageType;
+
+import java.io.InputStream;
 
 public class ThreadExecutor implements ServiceExecutor {
     private StoppableRunnable runner;

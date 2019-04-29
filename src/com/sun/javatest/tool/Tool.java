@@ -26,6 +26,15 @@
  */
 package com.sun.javatest.tool;
 
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.tool.jthelp.HelpBroker;
+import com.sun.javatest.util.DynamicArray;
+
+import javax.swing.JDialog;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.lang.ref.WeakReference;
@@ -33,16 +42,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.JDialog;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.WorkDirectory;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
-import com.sun.javatest.tool.jthelp.HelpBroker;
-import com.sun.javatest.util.DynamicArray;
 
 /**
  * A base class for tools to appear on the JT Harness desktop.

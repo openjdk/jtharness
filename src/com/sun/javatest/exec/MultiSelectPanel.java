@@ -26,22 +26,20 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ComponentListener;
-import java.awt.event.ComponentEvent;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.util.Debug;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
-
-import com.sun.javatest.util.Debug;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 /**
  * This panel shows information when multiple nodes are selected in the tree.

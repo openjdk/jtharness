@@ -27,26 +27,15 @@
 package com.sun.javatest.exec;
 
 import com.sun.javatest.logging.LogModel;
+import com.sun.javatest.logging.LoggerFactory;
 import com.sun.javatest.report.Report;
+import com.sun.javatest.report.ReportSettings;
 import com.sun.javatest.report.XMLReportMaker;
 import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.logging.LoggerFactory;
-import com.sun.javatest.report.ReportSettings;
 import com.sun.javatest.util.BackupPolicy;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.io.FileNotFoundException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.Timer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -54,9 +43,19 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
-
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.AttributesImpl;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Writer;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class LogViewerTools extends Thread {
 

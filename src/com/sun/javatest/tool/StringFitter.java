@@ -27,9 +27,9 @@
 
 package com.sun.javatest.tool;
 
+import javax.swing.JLabel;
 import java.awt.Component;
 import java.awt.FontMetrics;
-import javax.swing.JLabel;
 
 public class StringFitter {
     // a string for replacing truncated parts in the beginning of the string

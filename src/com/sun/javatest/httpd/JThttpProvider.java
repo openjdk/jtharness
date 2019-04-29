@@ -26,9 +26,9 @@
  */
 package com.sun.javatest.httpd;
 
-import java.io.PrintWriter;
-
 import com.sun.javatest.util.DynamicArray;
+
+import java.io.PrintWriter;
 
 /**
  * The JT Harness web server will delegate handling of requested URLs to

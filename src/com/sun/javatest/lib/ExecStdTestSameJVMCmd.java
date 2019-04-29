@@ -26,14 +26,14 @@
  */
 package com.sun.javatest.lib;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
-
 import com.sun.javatest.Command;
 import com.sun.javatest.Status;
 import com.sun.javatest.Test;
 import com.sun.javatest.util.DirectoryClassLoader;
+
+import java.io.File;
+import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 
 
 /**

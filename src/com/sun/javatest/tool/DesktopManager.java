@@ -26,10 +26,10 @@
  */
 package com.sun.javatest.tool;
 
-import java.util.ListIterator;
-
 import com.sun.javatest.util.HelpTree;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.util.ListIterator;
 
 /**
  * A tool manager to handle the command line options for the JT Harness desktop.

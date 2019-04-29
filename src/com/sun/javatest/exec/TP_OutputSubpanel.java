@@ -26,19 +26,20 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.Objects;
+import com.sun.javatest.JavaTestError;
+import com.sun.javatest.Status;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.report.HTMLWriterEx;
+import com.sun.javatest.tool.IconFactory;
+import com.sun.javatest.tool.Preferences;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.util.StringArray;
+
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
-import javax.swing.ListSelectionModel;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -47,6 +48,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.ListSelectionEvent;
@@ -54,16 +56,14 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
-
-import com.sun.javatest.JavaTestError;
-import com.sun.javatest.Status;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.tool.IconFactory;
-import com.sun.javatest.tool.Preferences;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.report.HTMLWriterEx;
-import com.sun.javatest.util.StringArray;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Objects;
 
 /**
  * Show the output sections for a particular test result.

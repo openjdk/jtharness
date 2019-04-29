@@ -26,17 +26,17 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
-
 import com.sun.javatest.TestFinder;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
+import java.awt.Component;
+import java.awt.Dimension;
 
 class TestSuiteErrorsDialog extends ToolDialog {
 

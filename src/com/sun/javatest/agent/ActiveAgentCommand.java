@@ -26,11 +26,11 @@
  */
 package com.sun.javatest.agent;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import com.sun.javatest.Command;
 import com.sun.javatest.Status;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * A command that delegates a subcommand to a JT Harness agent running in "active" mode.

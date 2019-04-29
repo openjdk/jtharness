@@ -26,18 +26,8 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.tool.UIFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -50,9 +40,18 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.text.View;
-
-import com.sun.javatest.TestResult;
-import com.sun.javatest.tool.UIFactory;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * Base class of all subpanels of TestPanel that need to display property list

@@ -26,17 +26,8 @@
  */
 package com.sun.javatest.tool;
 
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.Map;
+import com.sun.javatest.util.DynamicArray;
+import com.sun.javatest.util.PrefixMap;
 
 import javax.swing.Action;
 import javax.swing.JDialog;
@@ -48,9 +39,17 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
-
-import com.sun.javatest.util.DynamicArray;
-import com.sun.javatest.util.PrefixMap;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Map;
 
 class SDIDeskView extends DeskView {
 

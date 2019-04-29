@@ -28,8 +28,8 @@ package com.sun.javatest.exec;
 
 import com.sun.javatest.TestResult;
 
-import java.util.Enumeration;
 import javax.swing.tree.TreeNode;
+import java.util.Enumeration;
 
 /**
  * @author work

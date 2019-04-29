@@ -26,10 +26,10 @@
  */
 package com.sun.javatest.tool;
 
-import java.beans.SimpleBeanInfo;
-import java.beans.PropertyDescriptor;
-
 import com.sun.javatest.JavaTestError;
+
+import java.beans.PropertyDescriptor;
+import java.beans.SimpleBeanInfo;
 
 /**
  * Bean info for {@link HelpLink}.

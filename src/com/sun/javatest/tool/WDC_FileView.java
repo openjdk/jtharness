@@ -26,9 +26,9 @@
  */
 package com.sun.javatest.tool;
 
-import java.io.File;
 import javax.swing.Icon;
 import javax.swing.filechooser.FileView;
+import java.io.File;
 
 public class WDC_FileView extends FileView {
 

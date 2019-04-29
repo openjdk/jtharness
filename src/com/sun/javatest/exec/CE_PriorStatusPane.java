@@ -26,21 +26,21 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import javax.swing.BorderFactory;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.Parameters.MutablePriorStatusParameters;
 import com.sun.javatest.Parameters.PriorStatusParameters;
 import com.sun.javatest.Status;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
+
+import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 class CE_PriorStatusPane extends CE_StdPane {
     CE_PriorStatusPane(UIFactory uif, InterviewParameters config) {

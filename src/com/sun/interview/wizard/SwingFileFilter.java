@@ -26,9 +26,9 @@
  */
 package com.sun.interview.wizard;
 
-import java.io.File;
-
 import com.sun.interview.FileFilter;
+
+import java.io.File;
 
 class SwingFileFilter extends javax.swing.filechooser.FileFilter {
     static javax.swing.filechooser.FileFilter wrap(FileFilter f) {

@@ -26,6 +26,11 @@
  */
 package com.sun.javatest;
 
+import com.sun.javatest.util.BackupPolicy;
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.StringArray;
+import com.sun.javatest.util.Timer;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -35,11 +40,6 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Date;
 import java.util.Vector;
-
-import com.sun.javatest.util.BackupPolicy;
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.StringArray;
-import com.sun.javatest.util.Timer;
 
 /**
  * Script is the abstract base class providing the ability to control

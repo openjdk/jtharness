@@ -26,12 +26,12 @@
  */
 package com.sun.javatest.finder;
 
+import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestFinder;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
-
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestFinder;
 
 /**
  * A test finder that reads tests from a delegate, and returns the

@@ -26,6 +26,28 @@
  */
 package com.sun.javatest.tool.selectiontree;
 
+import com.sun.javatest.tool.selectiontree.selection.SelectionElement;
+import com.sun.javatest.tool.selectiontree.selection.SelectionType;
+import com.sun.javatest.tool.selectiontree.selection.StyledSelectionElement;
+import com.sun.javatest.util.I18NResourceBundle;
+
+import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
+import javax.swing.JTree;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -48,29 +70,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JPopupMenu;
-import javax.swing.JTree;
-import javax.swing.KeyStroke;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.ToolTipManager;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
-
-import com.sun.javatest.tool.selectiontree.selection.SelectionElement;
-import com.sun.javatest.tool.selectiontree.selection.SelectionType;
-import com.sun.javatest.tool.selectiontree.selection.StyledSelectionElement;
-import com.sun.javatest.util.I18NResourceBundle;
-
-import javax.swing.Action;
 
 /**
  * <code>SelectionTree</code> class provide tree functionality with check-boxes as nodes for comfort selection.

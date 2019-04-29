@@ -26,10 +26,12 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.io.File;
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.tool.EditableFileList;
+import com.sun.javatest.tool.FileChooser;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -37,12 +39,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JToolBar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.tool.EditableFileList;
-import com.sun.javatest.tool.FileChooser;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.io.File;
 
 /**
  * Standard values view, known failures list (KFL) panel.

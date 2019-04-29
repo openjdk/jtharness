@@ -26,16 +26,22 @@
  */
 package com.sun.javatest.finder;
 
-import java.io.*;
+import com.sun.javatest.TestFinder;
+import com.sun.javatest.util.I18NResourceBundle;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
-
-import com.sun.javatest.TestFinder;
-import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * This class searches out test descriptions as represented by

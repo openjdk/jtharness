@@ -26,11 +26,6 @@
  */
 package com.sun.javatest;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Iterator;
-
 import com.sun.interview.WizPrint;
 import com.sun.javatest.httpd.JThttpProvider;
 import com.sun.javatest.httpd.PageGenerator;
@@ -39,6 +34,11 @@ import com.sun.javatest.httpd.httpURL;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.PropertyArray;
 import com.sun.javatest.util.StringArray;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Iterator;
 
 class HarnessHttpHandler extends JThttpProvider
         implements Harness.Observer {

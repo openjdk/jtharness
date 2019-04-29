@@ -26,10 +26,10 @@
  */
 package com.sun.javatest.tool;
 
+import com.sun.javatest.util.I18NResourceBundle;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-
-import com.sun.javatest.util.I18NResourceBundle;
 
 /**
  * An interface for a handler, provided by a tool manager,

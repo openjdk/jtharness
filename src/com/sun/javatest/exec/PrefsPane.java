@@ -26,9 +26,10 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.util.Map;
+import com.sun.javatest.report.ReportManager;
+import com.sun.javatest.tool.PreferencesPane;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.HelpBroker;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -39,13 +40,10 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import com.sun.javatest.report.ReportManager;
-import com.sun.javatest.tool.PreferencesPane;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.tool.jthelp.HelpBroker;
-
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.Map;
 
 
 class PrefsPane extends PreferencesPane {

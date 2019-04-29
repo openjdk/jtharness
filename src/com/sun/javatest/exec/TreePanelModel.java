@@ -26,10 +26,10 @@
  */
 package com.sun.javatest.exec;
 
-import javax.swing.tree.TreePath;
-
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
+
+import javax.swing.tree.TreePath;
 
 /**
  * Interface to which components can request that certain tests or nodes be

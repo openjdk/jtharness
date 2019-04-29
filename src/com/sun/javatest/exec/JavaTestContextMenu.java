@@ -26,9 +26,9 @@
  */
 package com.sun.javatest.exec;
 
-import javax.swing.JMenuItem;
-
 import com.sun.javatest.TestResult;
+
+import javax.swing.JMenuItem;
 
 /**
  * Class to encapsulate a custom context menu item to be added to the GUI by a

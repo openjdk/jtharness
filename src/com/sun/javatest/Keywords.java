@@ -26,12 +26,12 @@
  */
 package com.sun.javatest;
 
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.StringArray;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.StringArray;
 
 //------------------------------------------------------------------------------
 

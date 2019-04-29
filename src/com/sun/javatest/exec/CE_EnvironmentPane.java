@@ -26,27 +26,27 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.Parameters.EnvParameters;
+import com.sun.javatest.Parameters.LegacyEnvParameters;
+import com.sun.javatest.TestEnvContext;
+import com.sun.javatest.TestEnvironment;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.tool.EditableFileList;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.TestEnvironment;
-import com.sun.javatest.Parameters.EnvParameters;
-import com.sun.javatest.Parameters.LegacyEnvParameters;
-import com.sun.javatest.TestEnvContext;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.tool.EditableFileList;
-import com.sun.javatest.tool.UIFactory;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 
 class CE_EnvironmentPane extends CE_StdPane {
     CE_EnvironmentPane(UIFactory uif, InterviewParameters config) {

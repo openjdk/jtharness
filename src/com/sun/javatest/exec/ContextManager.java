@@ -27,27 +27,26 @@
 package com.sun.javatest.exec;
 
 import com.sun.interview.Interview.Fault;
-import com.sun.javatest.exec.Session.Event;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-import java.util.HashMap;
-import java.awt.EventQueue;
-
+import com.sun.interview.Question;
+import com.sun.interview.wizard.QuestionRenderer;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.exec.Session.Event;
+import com.sun.javatest.exec.template.ET_TemplateControlFactory;
+import com.sun.javatest.exec.template.TemplateSession;
 import com.sun.javatest.report.CustomReport;
 import com.sun.javatest.report.Report;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.interview.Question;
-import com.sun.interview.wizard.QuestionRenderer;
-import com.sun.javatest.exec.template.ET_TemplateControlFactory;
-import com.sun.javatest.exec.template.TemplateSession;
+
+import java.awt.EventQueue;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The context manager provides an interface for customization of the user

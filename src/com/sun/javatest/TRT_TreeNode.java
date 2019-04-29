@@ -27,14 +27,18 @@
 
 package com.sun.javatest;
 
-import java.io.File;
-import java.util.*;
-
+import com.sun.javatest.TestResultTable.TreeNode;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
 
-import com.sun.javatest.TestResultTable.TreeNode;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * This is the implementation of a tree node structure for TestResultTable.

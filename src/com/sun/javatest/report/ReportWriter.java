@@ -26,14 +26,19 @@
  */
 package com.sun.javatest.report;
 
-import java.io.*;
+import com.sun.javatest.ProductInfo;
+import com.sun.javatest.util.I18NResourceBundle;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.util.Date;
-
-import com.sun.javatest.ProductInfo;
-import com.sun.javatest.util.I18NResourceBundle;
 
 class ReportWriter extends HTMLWriterEx {
     ReportWriter(Writer out) throws IOException {

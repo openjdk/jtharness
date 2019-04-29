@@ -26,6 +26,24 @@
  */
 package com.sun.javatest.audit;
 
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.tool.Tool;
+import com.sun.javatest.tool.jthelp.ContextHelpManager;
+import com.sun.javatest.util.I18NResourceBundle;
+
+import javax.swing.BorderFactory;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.Timer;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -38,25 +56,6 @@ import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 import java.io.File;
 import java.util.Map;
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import com.sun.javatest.tool.jthelp.ContextHelpManager;
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.WorkDirectory;
-import com.sun.javatest.tool.Tool;
-import com.sun.javatest.util.I18NResourceBundle;
-
-import javax.swing.JDialog;
-import javax.swing.Timer;
 
 class AuditTool extends Tool {
     AuditTool(AuditToolManager m) {

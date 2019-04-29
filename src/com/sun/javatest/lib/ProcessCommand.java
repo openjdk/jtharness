@@ -26,10 +26,14 @@
  */
 package com.sun.javatest.lib;
 
+import com.sun.javatest.Command;
+import com.sun.javatest.Status;
+import com.sun.javatest.util.StringArray;
+
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -38,11 +42,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
-
-
-import com.sun.javatest.Command;
-import com.sun.javatest.Status;
-import com.sun.javatest.util.StringArray;
 
 
 /**

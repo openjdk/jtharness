@@ -26,6 +26,9 @@
  */
 package com.sun.javatest.exec;
 
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -34,9 +37,6 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.border.BevelBorder;
 
 /**
  * The Panel which holds standard and custom toolbars

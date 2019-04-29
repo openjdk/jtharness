@@ -26,14 +26,13 @@
  */
 package com.sun.javatest.exec;
 
-import java.util.ResourceBundle;
-
 import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.TestSuite;
 import com.sun.javatest.TestResultTable;
+import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
 
 import java.awt.print.Printable;
+import java.util.ResourceBundle;
 
 public interface ExecModel {
     TestSuite getTestSuite();

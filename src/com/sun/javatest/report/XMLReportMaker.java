@@ -27,24 +27,22 @@
 package com.sun.javatest.report;
 
 import com.sun.javatest.Status;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.ext.LexicalHandler;
+import org.xml.sax.helpers.AttributesImpl;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.Properties;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
-
-import org.xml.sax.ContentHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.AttributesImpl;
-import org.xml.sax.Attributes;
-import org.xml.sax.ext.LexicalHandler;
+import java.io.File;
+import java.io.Writer;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Properties;
 
 public class XMLReportMaker {
 

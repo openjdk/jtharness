@@ -26,6 +26,14 @@
  */
 package com.sun.javatest.servlets;
 
+import com.sun.javatest.Status;
+import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.util.StringArray;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -34,14 +42,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.sun.javatest.Status;
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.util.StringArray;
 
 public class ResultBrowser extends HttpServlet {
     @Override

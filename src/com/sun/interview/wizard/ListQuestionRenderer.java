@@ -26,19 +26,19 @@
  */
 package com.sun.interview.wizard;
 
+import com.sun.interview.Interview;
+import com.sun.interview.ListQuestion;
+import com.sun.interview.Question;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import com.sun.interview.Interview;
-import com.sun.interview.ListQuestion;
-import com.sun.interview.Question;
 
 public class ListQuestionRenderer
         implements QuestionRenderer {

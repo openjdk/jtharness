@@ -26,9 +26,9 @@
  */
 package com.sun.javatest.exec;
 
+import javax.swing.filechooser.FileFilter;
 import java.io.File;
 import java.util.ResourceBundle;
-import javax.swing.filechooser.FileFilter;
 
 class FileType extends FileFilter {
     public FileType() {

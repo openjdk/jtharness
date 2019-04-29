@@ -29,6 +29,10 @@ package com.sun.javatest.tool;
 import com.sun.javatest.tool.jthelp.HelpBroker;
 import com.sun.javatest.tool.jthelp.JHelpContentViewer;
 
+import javax.accessibility.Accessible;
+import javax.accessibility.AccessibleContext;
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -37,11 +41,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.accessibility.Accessible;
-import javax.accessibility.AccessibleContext;
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
 
 /**
  * A lightweight component that will activate online help, suitable for

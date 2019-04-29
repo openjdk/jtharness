@@ -26,14 +26,13 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.Color;
-import javax.swing.JPanel;
-
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.util.I18NResourceBundle;
 
+import javax.swing.JPanel;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 

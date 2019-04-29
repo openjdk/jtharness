@@ -26,11 +26,11 @@
  */
 package com.sun.javatest.tool;
 
+import javax.swing.JPanel;
 import java.awt.AWTError;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.LayoutManager;
-import javax.swing.JPanel;
 
 /**
  * A class to providing a panel with CardLayout.

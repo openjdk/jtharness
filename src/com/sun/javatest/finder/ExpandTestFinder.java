@@ -26,13 +26,13 @@
  */
 package com.sun.javatest.finder;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.sun.javatest.TestEnvironment;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class allows a new tag "@expand" which allows a single test

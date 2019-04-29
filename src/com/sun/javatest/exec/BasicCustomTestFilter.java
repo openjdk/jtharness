@@ -26,27 +26,36 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.io.File;
-import java.util.Arrays;
-import java.util.Map;
+import com.sun.interview.Interview;
+import com.sun.interview.Question;
+import com.sun.javatest.InitialUrlFilter;
+import com.sun.javatest.InterviewParameters;
+import com.sun.javatest.Keywords;
+import com.sun.javatest.KeywordsFilter;
+import com.sun.javatest.ObservableTestFilter;
+import com.sun.javatest.Parameters.ExcludeListParameters;
+import com.sun.javatest.Parameters.MutableExcludeListParameters;
+import com.sun.javatest.Status;
+import com.sun.javatest.StatusFilter;
+import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestFilter;
+import com.sun.javatest.TestResultTable;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.tool.TestTreeSelectionPane;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.util.DynamicArray;
+import com.sun.javatest.util.StringArray;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -54,29 +63,17 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import com.sun.interview.Interview;
-import com.sun.interview.Question;
-import com.sun.javatest.InterviewParameters;
-import com.sun.javatest.InitialUrlFilter;
-import com.sun.javatest.Keywords;
-import com.sun.javatest.KeywordsFilter;
-import com.sun.javatest.Parameters.ExcludeListParameters;
-import com.sun.javatest.Parameters.MutableExcludeListParameters;
-import com.sun.javatest.Status;
-import com.sun.javatest.StatusFilter;
-import com.sun.javatest.TestFilter;
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestResultTable;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.ObservableTestFilter;
-import com.sun.javatest.ObservableTestFilter.Observer;
-import com.sun.javatest.util.DynamicArray;
-import com.sun.javatest.util.StringArray;
-import com.sun.javatest.tool.TestTreeSelectionPane;
-import com.sun.javatest.tool.UIFactory;
-
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 
 /**

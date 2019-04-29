@@ -26,11 +26,13 @@
  */
 package com.sun.javatest.tool;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.util.*;
+import com.sun.interview.Help;
+import com.sun.javatest.Harness;
+import com.sun.javatest.ProductInfo;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.tool.jthelp.HelpBroker;
+import com.sun.javatest.tool.jthelp.HelpSet;
+import com.sun.javatest.tool.jthelp.JTHelpBroker;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -40,19 +42,24 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JPopupMenu.Separator;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
-
-import com.sun.interview.Help;
-import com.sun.javatest.Harness;
-import com.sun.javatest.ProductInfo;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.tool.jthelp.HelpBroker;
-import com.sun.javatest.tool.jthelp.HelpSet;
-import com.sun.javatest.tool.jthelp.JTHelpBroker;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.WeakHashMap;
 
 
 class HelpMenu extends JMenu {

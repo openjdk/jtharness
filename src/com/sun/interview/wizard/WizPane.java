@@ -26,27 +26,27 @@
  */
 package com.sun.interview.wizard;
 
+import com.sun.interview.FinalQuestion;
+import com.sun.interview.Interview;
+import com.sun.interview.Question;
+import com.sun.javatest.tool.jthelp.HelpBroker;
+
+import javax.accessibility.AccessibleContext;
+import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JMenu;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
-import javax.accessibility.AccessibleContext;
-import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.KeyStroke;
-import javax.swing.JComponent;
-import javax.swing.JMenu;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.SwingUtilities;
-
-import com.sun.interview.FinalQuestion;
-import com.sun.interview.Interview;
-import com.sun.interview.Question;
-import com.sun.javatest.tool.jthelp.HelpBroker;
 
 /**
  * A widget comprising the basic panels for a wizard: an index for the

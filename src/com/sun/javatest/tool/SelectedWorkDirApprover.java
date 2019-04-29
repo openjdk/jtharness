@@ -26,16 +26,16 @@
  */
 package com.sun.javatest.tool;
 
-import java.awt.Component;
-import java.io.File;
-import java.io.FileNotFoundException;
-import javax.swing.JOptionPane;
-
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.tool.jthelp.JTHelpBroker;
 import com.sun.javatest.util.FileInfoCache;
 import com.sun.javatest.util.I18NResourceBundle;
+
+import javax.swing.JOptionPane;
+import java.awt.Component;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  *

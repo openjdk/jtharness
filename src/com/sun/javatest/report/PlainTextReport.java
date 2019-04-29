@@ -32,7 +32,12 @@ import com.sun.javatest.TestResultTable;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.TextWriter;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Iterator;

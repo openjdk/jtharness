@@ -26,14 +26,14 @@
  */
 package com.sun.javatest.agent;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import javax.comm.NoSuchPortException;
-import javax.comm.PortInUseException;
-
 import com.sun.javatest.Command;
 import com.sun.javatest.ProductInfo;
 import com.sun.javatest.Status;
+
+import javax.comm.NoSuchPortException;
+import javax.comm.PortInUseException;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * A command that delegates a subcommand to a JT Harness agent that is accessible

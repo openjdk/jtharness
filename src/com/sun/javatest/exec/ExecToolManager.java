@@ -27,36 +27,35 @@
 package com.sun.javatest.exec;
 
 import com.sun.interview.Interview;
-
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
-import javax.swing.Action;
-import javax.swing.JFileChooser;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-
 import com.sun.javatest.InterviewParameters;
-//import com.sun.javatest.TemplateUtilities;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.tool.Desktop;
 import com.sun.javatest.tool.FileOpener;
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.tool.PreferencesPane;
-import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.TestSuiteChooser;
 import com.sun.javatest.tool.Tool;
 import com.sun.javatest.tool.ToolAction;
 import com.sun.javatest.tool.ToolManager;
+import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.WorkDirChooser;
 
+import javax.swing.Action;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
+
+//import com.sun.javatest.TemplateUtilities;
 
 
 /**

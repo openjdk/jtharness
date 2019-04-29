@@ -26,11 +26,11 @@
  */
 package com.sun.javatest.logging;
 
+import com.sun.javatest.util.I18NResourceBundle;
+
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
-
-import com.sun.javatest.util.I18NResourceBundle;
 
 class JTFormatter extends Formatter {
 

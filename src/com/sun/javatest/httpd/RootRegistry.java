@@ -26,11 +26,11 @@
  */
 package com.sun.javatest.httpd;
 
-import java.util.Hashtable;
-import java.io.PrintWriter;
-import java.util.Map;
-
 import com.sun.javatest.util.I18NResourceBundle;
+
+import java.io.PrintWriter;
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * Root level public registry for JT Harness classes which wish to publish pages

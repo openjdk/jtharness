@@ -26,6 +26,19 @@
  */
 package com.sun.javatest.audit;
 
+import com.sun.javatest.ExcludeList;
+import com.sun.javatest.Parameters;
+import com.sun.javatest.Status;
+import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestFilter;
+import com.sun.javatest.TestFinder;
+import com.sun.javatest.TestFinderQueue;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.WorkDirectory;
+import com.sun.javatest.util.I18NResourceBundle;
+import com.sun.javatest.util.StringArray;
+
 import java.io.PrintStream;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -40,19 +53,6 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Vector;
-
-import com.sun.javatest.ExcludeList;
-import com.sun.javatest.Parameters;
-import com.sun.javatest.Status;
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestFilter;
-import com.sun.javatest.TestFinder;
-import com.sun.javatest.TestFinderQueue;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.WorkDirectory;
-import com.sun.javatest.util.I18NResourceBundle;
-import com.sun.javatest.util.StringArray;
 
 /**
  * Analyze a set of test results for validity.

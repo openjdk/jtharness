@@ -26,18 +26,13 @@
  */
 package com.sun.javatest.exec;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.util.Hashtable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import com.sun.javatest.ObservableTestFilter;
+import com.sun.javatest.TestFilter;
+import com.sun.javatest.TestSuite;
+import com.sun.javatest.tool.ToolDialog;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.util.Debug;
+import com.sun.javatest.util.DynamicArray;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -53,14 +48,18 @@ import javax.swing.ListModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import com.sun.javatest.ObservableTestFilter;
-import com.sun.javatest.TestFilter;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.tool.ToolDialog;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.util.Debug;
-import com.sun.javatest.util.DynamicArray;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.Hashtable;
 
 /**
  * The primary purpose is to hold the a variety of named filter sets from

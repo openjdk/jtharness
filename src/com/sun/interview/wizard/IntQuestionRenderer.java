@@ -26,19 +26,19 @@
  */
 package com.sun.interview.wizard;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.NumberFormat;
+import com.sun.interview.IntQuestion;
+import com.sun.interview.Question;
+
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-
-import com.sun.interview.IntQuestion;
-import com.sun.interview.Question;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 public class IntQuestionRenderer
         implements QuestionRenderer {

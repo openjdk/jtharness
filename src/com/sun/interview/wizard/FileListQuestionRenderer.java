@@ -26,17 +26,16 @@
  */
 package com.sun.interview.wizard;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 import com.sun.interview.FileFilter;
 import com.sun.interview.FileListQuestion;
 import com.sun.interview.Question;
 
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 public class FileListQuestionRenderer

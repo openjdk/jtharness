@@ -26,6 +26,10 @@
  */
 package com.sun.javatest.agent;
 
+import com.sun.javatest.JavaTestSecurityManager;
+import com.sun.javatest.util.ExitCount;
+import com.sun.javatest.util.MainFrame;
+
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Frame;
@@ -40,10 +44,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import com.sun.javatest.JavaTestSecurityManager;
-import com.sun.javatest.util.ExitCount;
-import com.sun.javatest.util.MainFrame;
 
 /**
  * A free-standing window that displays and controls a Agent.

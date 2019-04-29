@@ -26,8 +26,8 @@
  */
 package com.sun.javatest.tool;
 
-import java.io.File;
 import javax.swing.filechooser.FileFilter;
+import java.io.File;
 
 public class WDC_FileFilter extends FileFilter {
     public WDC_FileFilter(String description) {

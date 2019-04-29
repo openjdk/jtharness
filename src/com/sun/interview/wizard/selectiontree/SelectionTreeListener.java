@@ -26,9 +26,9 @@
  */
 package com.sun.interview.wizard.selectiontree;
 
-import java.util.EventListener;
-
 import com.sun.interview.wizard.selectiontree.selection.SelectionType;
+
+import java.util.EventListener;
 
 /**
  * <code>SelectionTreeListener</code> interface used to listen changing of selection type in the {@link SelectionTree}.

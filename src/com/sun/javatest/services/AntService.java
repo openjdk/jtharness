@@ -26,7 +26,7 @@
  */
 package com.sun.javatest.services;
 
-import com.sun.javatest.services.Message.*;
+import com.sun.javatest.services.Message.MessageType;
 
 import java.io.File;
 import java.util.LinkedList;

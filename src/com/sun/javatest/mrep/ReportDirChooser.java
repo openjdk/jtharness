@@ -26,18 +26,17 @@
  */
 package com.sun.javatest.mrep;
 
-import java.awt.Component;
-import java.io.File;
+import com.sun.javatest.report.Report;
+import com.sun.javatest.tool.IconFactory;
+import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.util.FileInfoCache;
 
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileView;
-
-import com.sun.javatest.report.Report;
-import com.sun.javatest.tool.IconFactory;
-import com.sun.javatest.tool.UIFactory;
-import com.sun.javatest.util.FileInfoCache;
+import java.awt.Component;
+import java.io.File;
 
 /**
  * A custom JFileChooser, for a user to choose a report directory.
