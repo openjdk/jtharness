@@ -250,9 +250,10 @@ public class TestResultTable {
      * Create a table ready to be occupied.
      */
     public TestResultTable() {
-        statusTables = new Map[Status.NUM_STATES];
-        for (int i = 0; i < statusTables.length; i++)
-            statusTables[i] = new Hashtable<>();
+        statusTables = new ArrayList<>(Status.NUM_STATES);
+        for (int i = 0; i < Status.NUM_STATES; i++) {
+            statusTables.add(new HashMap<String, Status>());
+        }
 
         root = new TRT_TreeNode(this, null);
 
@@ -2202,7 +2203,7 @@ public class TestResultTable {
     /*OLD
     private static final String formatVersion = "JavaTest/Results/2.0";
     */
-    private Map<String, Status>[] statusTables;
+    private List<Map<String, Status>> statusTables;
     // tables indexed by status.type mapping status.reason
     // to a unique status object
     private WorkDirectory workDir;

@@ -27,8 +27,10 @@
 package com.sun.javatest;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -89,7 +91,7 @@ public class TestEnvironment {
 
         //System.err.println("TEC: add default propTable " + name);
         defaultPropTableNames = DynamicArray.append(defaultPropTableNames, name);
-        defaultPropTables = DynamicArray.append(defaultPropTables, propTable);
+        defaultPropTables.add(propTable);
     }
 
     /**
@@ -114,11 +116,11 @@ public class TestEnvironment {
      */
     public static synchronized void clearDefaultPropTables() {
         defaultPropTableNames = new String[0];
-        defaultPropTables = new Map[0];
+        defaultPropTables = new ArrayList<>();
     }
 
     static String[] defaultPropTableNames = {};
-    static Map<String, String>[] defaultPropTables = new Map[0];
+    static List<Map<String, String>> defaultPropTables = new ArrayList<>();
 
     /**
      * Construct an environment for a named group of properties.
@@ -130,9 +132,9 @@ public class TestEnvironment {
      * @param propTableName The name of the property table, for use in diagnostics etc
      * @throws TestEnvironment.Fault if there is an error in the table
      */
-    public TestEnvironment(String name, Map<String, String> propTable, String propTableName)
+    public TestEnvironment(String name, final Map<String, String> propTable, String propTableName)
             throws Fault {
-        this(name, new Map[]{propTable}, propTableName);
+        this(name, new ArrayList<Map<String, String>>(){{ add(propTable);}}, propTableName);
     }
 
     /**
@@ -147,11 +149,13 @@ public class TestEnvironment {
      * @param propTableNames The names of the property tables, for use in diagnostics etc
      * @throws TestEnvironment.Fault if there is an error in the given tables
      */
-    public TestEnvironment(String name, Map[] propTables, String... propTableNames)
+    public TestEnvironment(String name, List<Map<String, String>> propTables, String... propTableNames)
             throws Fault {
         this.name = name;
-        if (defaultPropTables != null && defaultPropTables.length > 0) {
-            propTables = DynamicArray.join(defaultPropTables, propTables);
+        if (defaultPropTables != null && defaultPropTables.size() > 0) {
+            List<Map<String, String>> newPropsTables = new ArrayList<>(defaultPropTables);
+            newPropsTables.addAll(propTables);
+            propTables = newPropsTables;
             propTableNames = DynamicArray.join(defaultPropTableNames, propTableNames);
         }
 
@@ -163,8 +167,8 @@ public class TestEnvironment {
 
             v.add(n);
             String prefix = "env." + n + ".";
-            for (int i = propTables.length - 1; i >= 0 && inherit == null; i--) {
-                inherit = (String) propTables[i].get("env." + n + ".inherits");
+            for (int i = propTables.size() - 1; i >= 0 && inherit == null; i--) {
+                inherit = propTables.get(i).get("env." + n + ".inherits");
             }
         }
         inherits = v.toArray(new String[v.size()]);
@@ -174,8 +178,8 @@ public class TestEnvironment {
         // environment's table
         for (String inherit : inherits) {
             String prefix = "env." + inherit + ".";
-            for (int propIndex = propTables.length - 1; propIndex >= 0; propIndex--) {
-                Map<String, String> propTable = propTables[propIndex];
+            for (int propIndex = propTables.size() - 1; propIndex >= 0; propIndex--) {
+                Map<String, String> propTable = propTables.get(propIndex);
                 for (String prop : propTable.keySet()) {
                     if (prop.startsWith(prefix)) {
                         String key = prop.substring(prefix.length());
@@ -192,8 +196,8 @@ public class TestEnvironment {
         }
 
         // finally, add in any top-level names (not beginning with env.)
-        for (int propIndex = propTables.length - 1; propIndex >= 0; propIndex--) {
-            Map<String, String> propTable = propTables[propIndex];
+        for (int propIndex = propTables.size() - 1; propIndex >= 0; propIndex--) {
+            Map<String, String> propTable = propTables.get(propIndex);
             for (String key : propTable.keySet()) {
                 if (!key.startsWith("env.")) {
                     if (!table.containsKey(key)) {

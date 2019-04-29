@@ -51,6 +51,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -1903,7 +1904,7 @@ public class TestResult {
         this.endTime = endTime;
     }
 
-    void shareStatus(Map<String, Status>... tables) {
+    void shareStatus(List<Map<String, Status>> tables) {
         execStatus = shareStatus(tables, execStatus);
     }
 
@@ -2408,12 +2409,12 @@ public class TestResult {
         }
     }
 
-    private static Status shareStatus(Map<String, Status>[] tables, Status s) {
+    private static Status shareStatus(List<Map<String, Status>> tables, Status s) {
         int type = s.getType();
         String reason = s.getReason();
-        Status result = tables[type].get(reason);
+        Status result = tables.get(type).get(reason);
         if (result == null) {
-            tables[type].put(reason, s);
+            tables.get(type).put(reason, s);
             result = s;
         }
 

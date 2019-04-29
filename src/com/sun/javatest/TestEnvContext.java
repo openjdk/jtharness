@@ -28,6 +28,8 @@ package com.sun.javatest;
 
 import java.io.*;
 //import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -64,8 +66,8 @@ public class TestEnvContext {
      * @throws TestEnvContext.Fault if an error is found while reading the files
      */
     public TestEnvContext(File... files) throws Fault {
-        Vector<String> n = new Vector<>();
-        Vector<Map<String, String>> p = new Vector<>();
+        List<String> n = new ArrayList<>();
+        List<Map<String, String>> p = new ArrayList<>();
         try {
             if (files != null) {
                 for (File f : files) {
@@ -73,7 +75,7 @@ public class TestEnvContext {
                 }
             }
         } finally {
-            propTables = p.toArray(new Map[p.size()]);
+            propTables = new ArrayList<>(p);
             propTableNames = n.toArray(new String[n.size()]);
             updateEnvTable();
         }
@@ -88,12 +90,12 @@ public class TestEnvContext {
      *                   environments that are created
      */
     public TestEnvContext(Map<String, String>[] tables, String... tableNames) {
-        Vector<String> n = new Vector<>();
-        Vector<Map<String, String>> p = new Vector<>();
+        List<String> n = new ArrayList<>();
+        List<Map<String, String>> p = new ArrayList<>();
         for (int i = 0; i < tables.length; i++) {
             add(p, n, tables[i], tableNames[i]);
         }
-        propTables = p.toArray(new Map[p.size()]);
+        propTables = new ArrayList<>(p);
         propTableNames = n.toArray(new String[n.size()]);
         updateEnvTable();
     }
@@ -106,10 +108,10 @@ public class TestEnvContext {
      *                  of the properties in any environments that are created.
      */
     public TestEnvContext(Map<String, String> table, String tableName) {
-        Vector<String> n = new Vector<>();
-        Vector<Map<String, String>> p = new Vector<>();
+        List<String> n = new ArrayList<>();
+        List<Map<String, String>> p = new ArrayList<>();
         add(p, n, table, tableName);
-        propTables = p.toArray(new Map[p.size()]);
+        propTables = new ArrayList<>(p);
         propTableNames = n.toArray(new String[n.size()]);
         updateEnvTable();
     }
@@ -123,10 +125,11 @@ public class TestEnvContext {
      *                               the specified environment
      */
     public TestEnvironment getEnv(String name) throws TestEnvironment.Fault {
-        if (isValidEnv(name))
+        if (isValidEnv(name)) {
             return new TestEnvironment(name, propTables, propTableNames);
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -217,7 +220,7 @@ public class TestEnvContext {
         */
     }
 
-    private void add(Vector<Map<String, String>> pv, Vector<String> nv, Map<String, String> p, String n) {
+    private void add(List<Map<String, String>> pv, List<String> nv, Map<String, String> p, String n) {
         if (p != null) {
             pv.add(p);
             nv.add(n);
@@ -226,17 +229,18 @@ public class TestEnvContext {
 
     private void updateEnvTable() {
         // the tables given to the constructor ...
-        Map<String, String>[] tables = propTables;
+        List<Map<String, String>> tables = propTables;
         String[] tableNames = propTableNames;
 
         // defaults given to TestEnvironment
-        Map<String, String>[] defaultTables = TestEnvironment.defaultPropTables;
+        List<Map<String, String>> defaultTables = TestEnvironment.defaultPropTables;
         String[] defaultTableNames = TestEnvironment.defaultPropTableNames;
 
         // if there are defaults, merge them with the TestEnvContext tables
         // for the purposes of determining the EnvTable
-        if (defaultTables != null && defaultTables.length > 0) {
-            tables = DynamicArray.join(defaultTables, tables);
+        if (defaultTables != null && defaultTables.size() > 0) {
+            tables = new ArrayList<>(defaultTables);
+            tables.addAll(tables);
             tableNames = DynamicArray.join(defaultTableNames, tableNames);
         }
 
@@ -256,11 +260,11 @@ public class TestEnvContext {
         if (debug)
             System.err.println(getClass().getName() + ": trace");
 
-        for (int i = 0; i < tables.length; i++) {
+        for (int i = 0; i < tables.size(); i++) {
             if (debug)
                 System.err.println("Checking " + tableNames[i] + " for environments...");
 
-            Map<String, String> table = tables[i];
+            Map<String, String> table = tables.get(i);
             for (String prop : table.keySet()) {
                 String name = null;
 
@@ -321,7 +325,7 @@ public class TestEnvContext {
         v.add(s);
     }
 
-    private Map<String, String>[] propTables;
+    private List<Map<String, String>> propTables;
     private String[] propTableNames;
     private String[] envNames;
     private String[] envMenuNames;
