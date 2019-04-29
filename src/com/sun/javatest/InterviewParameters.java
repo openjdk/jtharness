@@ -1372,7 +1372,7 @@ public abstract class InterviewParameters
             String[] tests = other.getTests();
             if (tests == null) {
                 mtp.setTestsMode(MutableTestsParameters.ALL_TESTS);
-                mtp.setSpecifiedTests(null);
+                mtp.setSpecifiedTests((String[]) null);
             } else {
                 mtp.setTestsMode(MutableTestsParameters.SPECIFIED_TESTS);
                 mtp.setSpecifiedTests(tests);
@@ -1396,7 +1396,7 @@ public abstract class InterviewParameters
             mtp.setLatestExcludeAutoCheckInterval(mop.getLatestExcludeAutoCheckInterval());
         } else {
             mtp.setExcludeMode(MutableExcludeListParameters.CUSTOM_EXCLUDE_LIST);
-            mtp.setCustomExcludeFiles(null);
+            mtp.setCustomExcludeFiles((File[]) null);
             mtp.setLatestExcludeAutoCheckEnabled(false);
             mtp.setLatestExcludeAutoCheckMode(MutableExcludeListParameters.CHECK_EVERY_X_DAYS);
             mtp.setLatestExcludeAutoCheckInterval(0);

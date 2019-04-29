@@ -388,7 +388,7 @@ class RunTestsCommand extends Command {
                 printTimestamp();
                 String[] args = {tr.getTestName(),
                         s.toString()};
-                ctx.printMessage(i18n, "cmgr.verb.tstd", args);
+                ctx.printMessage(i18n, "cmgr.verb.tstd", (Object[])args);
                 out.flush();
                 progressOnline = false;
             }

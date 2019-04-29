@@ -1204,13 +1204,13 @@ public class TestSuite {
 
                     serviceReader.init(this, copy);
                 } else {
-                    serviceReader.init(this, null);
+                    serviceReader.init(this, (String[]) null);
                 }
             } catch (TestSuite.Fault e) {
             }
         } else {
             serviceReader = new PropertyServiceReader();
-            serviceReader.init(this, null);
+            serviceReader.init(this, (String[]) null);
         }
 
         return serviceReader;

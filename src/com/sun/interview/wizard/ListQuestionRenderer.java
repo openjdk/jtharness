@@ -141,7 +141,7 @@ public class ListQuestionRenderer
 
     protected static class BodyList extends EditableList {
         BodyList(ListQuestion q) {
-            super("list", q.getBodies());
+            super("list", (Object[]) q.getBodies());
             question = q;
         }
 

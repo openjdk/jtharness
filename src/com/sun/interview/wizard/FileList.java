@@ -43,7 +43,7 @@ public class FileList extends EditableList {
      * @param files An array of files to display as initial values in the list.
      */
     public FileList(String uiKey, File... files) {
-        super(uiKey, files);
+        super(uiKey, (Object[]) files);
 
         chooser = new JFileChooser();
         chooser.setName(uiKey + "chsr");

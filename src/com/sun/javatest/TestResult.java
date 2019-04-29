@@ -2102,8 +2102,7 @@ public class TestResult {
             } else
                 throw new ReloadFault(i18n, "rslt.badHeader", resultsFile);
         } catch (RuntimeException e) {
-            throw new ReloadFault(i18n, "rslt.badRuntimeErr",
-                    new String[]{resultsFile.getPath(), e.getLocalizedMessage()});
+            throw new ReloadFault(i18n, "rslt.badRuntimeErr", resultsFile.getPath(), e.getLocalizedMessage());
         } finally {
             r.close();
         }

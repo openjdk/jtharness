@@ -133,7 +133,7 @@ public class Wizard extends JComponent {
      * @param i The interview to be presented.
      */
     public Wizard(Interview i) {
-        this(i, null);
+        this(i, (Exporter[]) null);
     }
 
     /**

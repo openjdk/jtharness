@@ -42,7 +42,7 @@ class BadChecksumPane extends ListPane {
             showBody();
         else {
             currAudit = audit;
-            setData(currAudit.getBadChecksumTests());
+            setData((Object[])currAudit.getBadChecksumTests());
         }
     }
 

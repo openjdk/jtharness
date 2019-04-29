@@ -660,13 +660,13 @@ public class InterviewPropagator {
             return;
         }
 
-        private String[] convertPQ(Object... data) {
+        private String[] convertPQ(String[] data) {
 
             try {
 
-                Properties2 oldT = InterviewPropagator.stringToProperties2((String) data[OLD_TEMPLATE]);
-                Properties2 newT = InterviewPropagator.stringToProperties2((String) data[NEW_TEMPLATE]);
-                Properties2 conf = InterviewPropagator.stringToProperties2((String) data[CONFIGURATION]);
+                Properties2 oldT = InterviewPropagator.stringToProperties2(data[OLD_TEMPLATE]);
+                Properties2 newT = InterviewPropagator.stringToProperties2(data[NEW_TEMPLATE]);
+                Properties2 conf = InterviewPropagator.stringToProperties2(data[CONFIGURATION]);
 
                 HTMLWriterEx[] writers = new HTMLWriterEx[3];
                 StringWriter[] stringWriters = new StringWriter[writers.length];

@@ -51,7 +51,7 @@ public class StringListQuestionRenderer
         label.setToolTipText(i18n.getString("slst.tip"));
         panel.add(label, BorderLayout.NORTH);
 
-        final EditableList list = new EditableList("slst", q.getValue());
+        final EditableList list = new EditableList("slst", (Object[]) q.getValue());
         list.setDuplicatesAllowed(q.isDuplicatesAllowed());
         list.addListDataListener(new ActionListDataListener(panel,
                 listener,

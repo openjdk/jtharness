@@ -43,7 +43,7 @@ class BadTestDescriptionPane extends ListPane {
             showBody();
         else {
             currAudit = audit;
-            setData(currAudit.getBadTestDescriptions());
+            setData((Object[])currAudit.getBadTestDescriptions());
         }
     }
 
