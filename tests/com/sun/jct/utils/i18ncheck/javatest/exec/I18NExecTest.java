@@ -172,7 +172,7 @@ public class I18NExecTest
 
             cancelClearWhenShown(d);
             ActionEvent event = new ActionEvent(tree, 0, "clear");
-            MouseListener[] ls = (MouseListener[])(tree.getListeners(MouseListener.class));
+            MouseListener[] ls = tree.getListeners(MouseListener.class);
             if (ls != null)
                 for (int i = 0; i < ls.length; i++)
                     if (ls[i] instanceof ActionListener)
@@ -496,13 +496,13 @@ public class I18NExecTest
     }
 
     private TreePath getTreePath(JTree tree, String name) {
-        Vector v = new Vector();
+        Vector<Object> v = new Vector<>();
         v.add(tree.getModel().getRoot());
         getTreePath(tree.getModel(), name, v);
         return new TreePath(v.toArray(new Object[v.size()]));
     }
 
-    private void getTreePath(TreeModel model, String name, Vector v) {
+    private void getTreePath(TreeModel model, String name, Vector<Object> v) {
         //System.err.println("getComponent: " + name);
         int sep = name.indexOf('/');
         String n = (sep == -1 ? name : name.substring(0, sep));
@@ -623,7 +623,7 @@ public class I18NExecTest
 
         mi.setEnabled(true);
 
-        ActionListener[] ll = (ActionListener[])mi.getListeners(ActionListener.class);
+        ActionListener[] ll = mi.getListeners(ActionListener.class);
         ActionEvent e = new ActionEvent(mi, ActionEvent.ACTION_PERFORMED, mi.getActionCommand());
         for (int i = 0; i < ll.length; i++)
             ll[i].actionPerformed(e);

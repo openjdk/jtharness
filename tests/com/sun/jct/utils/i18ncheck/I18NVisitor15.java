@@ -49,12 +49,12 @@ import java.util.regex.Matcher;
 public class I18NVisitor15 extends TreeScanner {
 
     protected String filename;
-    protected HashSet keys;
+    protected HashSet<?> keys;
     private Vector<XMLNode.Rule> rules;
     private Vector<XMLNode.Rule> newRules;
     private I18NStaticChecker checker;
 
-    public I18NVisitor15(String filename, I18NStaticChecker checker, HashSet keys) {
+    public I18NVisitor15(String filename, I18NStaticChecker checker, HashSet<?> keys) {
         super();
         this.filename = filename;
         this.checker = checker;

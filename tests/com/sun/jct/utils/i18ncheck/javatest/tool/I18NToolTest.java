@@ -305,21 +305,21 @@ public class I18NToolTest
 
     private static void invoke(JMenuItem mi) {
         ActionEvent e = new ActionEvent(mi, ActionEvent.ACTION_PERFORMED, mi.getActionCommand());
-        ActionListener[] ll = (ActionListener[])mi.getListeners(ActionListener.class);
+        ActionListener[] ll = mi.getListeners(ActionListener.class);
         for (int i = 0; i < ll.length; i++)
             ll[i].actionPerformed(e);
     }
 
     private static void select(JMenu m) {
         MenuEvent e = new MenuEvent(m);
-        MenuListener[] ll = (MenuListener[]) m.getListeners(MenuListener.class);
+        MenuListener[] ll = m.getListeners(MenuListener.class);
         for (int i = 0; i < ll.length; i++)
             ll[i].menuSelected(e);
     }
 
     private static void deselect(JMenu m) {
         MenuEvent e = new MenuEvent(m);
-        MenuListener[] ll = (MenuListener[]) m.getListeners(MenuListener.class);
+        MenuListener[] ll = m.getListeners(MenuListener.class);
         for (int i = 0; i < ll.length; i++)
             ll[i].menuDeselected(e);
     }
@@ -340,11 +340,13 @@ public class I18NToolTest
             super(d);
         }
 
+        @Override
         public Tool startTool() {
             return new ToyTool(this);
         }
 
-        public Tool restoreTool(Map m) {
+        @Override
+        public Tool restoreTool(Map<String, String> m) {
             return new ToyTool(this);
         }
     };
@@ -354,15 +356,23 @@ public class I18NToolTest
             super(m, "toy");
         }
 
+        @Override
         public JMenuBar getMenuBar() {
             return null;
         }
 
+        @Override
         protected String[] getCloseAlerts() {
             return new String[] { "alert" };
         }
 
-        protected void save(Map m) {
+        @Override
+        protected void save(Map<String, String> m) {
+        }
+
+        @Override
+        protected void restore(Map<String, String> m) {
+
         }
     }
 }

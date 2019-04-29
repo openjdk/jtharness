@@ -152,9 +152,9 @@ public class XMLNode {
                     }
                 }
                 public void finish() {
-                    childCases = (Case[])ca.toArray(new Case[0]);
-                    actions = (Action[])a.toArray(new Action[0]);
-                    conds = (Cond[])c.toArray(new Cond[0]);
+                    childCases = ca.toArray(new Case[0]);
+                    actions = a.toArray(new Action[0]);
+                    conds = c.toArray(new Cond[0]);
                 }
             });
         }
@@ -213,12 +213,12 @@ public class XMLNode {
                     }
                 }
                 public void finish() {
-                    methodNames = (MethodName[])mn.toArray(new MethodName[0]);
-                    argsLengths = (ArgsLength[])al.toArray(new ArgsLength[0]);
-                    args = (Arg[])a.toArray(new Arg[0]);
-                    conds = (Cond[])c.toArray(new Cond[0]);
-                    strArgs = (StringArg[])sa.toArray(new StringArg[0]);
-                    intArgs = (IntArg[])ia.toArray(new IntArg[0]);
+                    methodNames = mn.toArray(new MethodName[0]);
+                    argsLengths = al.toArray(new ArgsLength[0]);
+                    args = a.toArray(new Arg[0]);
+                    conds = c.toArray(new Cond[0]);
+                    strArgs = sa.toArray(new StringArg[0]);
+                    intArgs = ia.toArray(new IntArg[0]);
                 }
             });
 
@@ -446,7 +446,7 @@ public class XMLNode {
     }
 
      static class GoToArg {
-        public Vector elems;
+        public Vector<Object> elems;
 
         public GoToArg(Node arg) throws Exception {
             elems = new Vector();

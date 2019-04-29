@@ -195,15 +195,15 @@ public class I18NStaticChecker {
      * We use reflection here to overcome differences between
      * class names in JDK5 and JDK6 compiler API
      */
-    private Set getLocalizedStrings(File source) {
+    private Set<String> getLocalizedStrings(File source) {
         try {
             Context context = new Context();
             JavaCompiler compiler = new JavaCompiler(context);
             Object parsedTree = compiler.parse(source.getAbsolutePath());
             HashSet<String> keys = new HashSet();
-            Class parsedTreeClass = parsedTree.getClass();
-            Class visitorClass;
-            Class stdVisitorClass;
+            Class<?> parsedTreeClass = parsedTree.getClass();
+            Class<?> visitorClass;
+            Class<?> stdVisitorClass;
             String visitorPckgName = "com.sun.jct.utils.i18ncheck.";
             String stdPckgName = "com.sun.tools.javac.tree.";
             if (I18NStaticMain.java_version == I18NStaticMain.JAVA_5) {
@@ -215,7 +215,7 @@ public class I18NStaticChecker {
                 stdVisitorClass = Class.forName(stdPckgName + "JCTree$Visitor");
             }
             Method accept = parsedTreeClass.getMethod("accept", stdVisitorClass);
-            Constructor constr = visitorClass.getConstructor
+            Constructor<?> constr = visitorClass.getConstructor
                     (String.class, this.getClass(), keys.getClass());
             Object visitor = constr.newInstance(source.getAbsolutePath(), this, keys);
             accept.invoke(parsedTree, visitor);
@@ -589,10 +589,10 @@ public class I18NStaticChecker {
         public PerfEnvironment(Object tree, String filename) {
             this.filename = filename;
 
-            Class c = tree.getClass();
+            Class<?> c = tree.getClass();
             try {
                 Field argsF = c.getField("args");
-                List l = (List)argsF.get(tree);
+                List<?> l = (List<?>)argsF.get(tree);
                 args = toStringArray(l);
 
                 String className = c.getSimpleName();

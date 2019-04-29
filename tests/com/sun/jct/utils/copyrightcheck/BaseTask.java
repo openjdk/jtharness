@@ -46,7 +46,7 @@ public class BaseTask extends MatchingTask {
     private boolean failOnError = true;
     private TaskListener reporter;
     private ConsoleTaskListener consoleListener = new ConsoleTaskListener();
-    private List listeners = new ArrayList();
+    private List<TaskListener> listeners = new ArrayList<>();
     {
         // at least one listener is always present
         listeners.add(consoleListener);
@@ -118,29 +118,29 @@ public class BaseTask extends MatchingTask {
     }
 
     private void taskStarted(BaseTask task) {
-        for (Iterator iter = listeners.iterator(); iter.hasNext();) {
-            TaskListener listener = (TaskListener) iter.next();
+        for (Iterator<TaskListener> iter = listeners.iterator(); iter.hasNext();) {
+            TaskListener listener = iter.next();
             listener.taskStarted();
         }
     }
 
     protected final void errorInFile(File file, String errorMessage) {
-        for (Iterator iter = listeners.iterator(); iter.hasNext();) {
-            TaskListener listener = (TaskListener) iter.next();
+        for (Iterator<TaskListener> iter = listeners.iterator(); iter.hasNext();) {
+            TaskListener listener = iter.next();
             listener.errorInFile(file, errorMessage);
         }
     }
 
     protected final void taskFinished() {
-        for (Iterator iter = listeners.iterator(); iter.hasNext();) {
-            TaskListener listener = (TaskListener) iter.next();
+        for (Iterator<TaskListener> iter = listeners.iterator(); iter.hasNext();) {
+            TaskListener listener = iter.next();
             listener.taskFinished();
         }
     }
 
     protected final void processingFile(File file) {
-        for (Iterator iter = listeners.iterator(); iter.hasNext();) {
-            TaskListener listener = (TaskListener) iter.next();
+        for (Iterator<TaskListener> iter = listeners.iterator(); iter.hasNext();) {
+            TaskListener listener = iter.next();
             listener.processingFile(file);
         }
     }

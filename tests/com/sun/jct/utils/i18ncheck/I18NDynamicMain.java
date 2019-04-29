@@ -169,7 +169,7 @@ public class I18NDynamicMain
         }
     }
 
-    private HashMap<String, Set> table;
+    private HashMap<String, Set<?>> table;
     private File dynamic;
 }
 

@@ -159,7 +159,7 @@ public class I18NAuditTest
     }
 
     private static void invokeMenuItem(JMenuItem mi) {
-        ActionListener[] ll = (ActionListener[])mi.getListeners(ActionListener.class);
+        ActionListener[] ll = mi.getListeners(ActionListener.class);
         ActionEvent e = new ActionEvent(mi, ActionEvent.ACTION_PERFORMED, mi.getActionCommand());
         for (int i = 0; i < ll.length; i++)
             ll[i].actionPerformed(e);

@@ -142,7 +142,6 @@ public class I18NStaticMain {
                 HashSet<String> dynKeys = new HashSet();
                 String dynKeyFile = tmpRoot + File.separator + mergeFileName;
 
-                HashSet keys = new HashSet();
                 File dynFile = new File(dynKeyFile);
                 if (dynFile.exists()) {
                     dynKeys = readKeySet(dynFile);
