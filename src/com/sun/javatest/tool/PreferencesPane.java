@@ -120,7 +120,9 @@ public abstract class PreferencesPane extends JPanel {
     public void load(Map<String, String> m) {
         PreferencesPane[] p = getChildPanes();
         if (p != null) {
-            for (PreferencesPane aP : p) aP.load(m);
+            for (PreferencesPane aP : p) {
+                aP.load(m);
+            }
         }
     }
 
@@ -134,7 +136,9 @@ public abstract class PreferencesPane extends JPanel {
     public void save(Map<String, String> m) {
         PreferencesPane[] p = getChildPanes();
         if (p != null) {
-            for (PreferencesPane aP : p) aP.save(m);
+            for (PreferencesPane aP : p) {
+                aP.save(m);
+            }
         }
     }
 
@@ -187,7 +191,9 @@ public abstract class PreferencesPane extends JPanel {
         @Override
         public void setVisible(boolean b) {
             if (b) {
-                for (PreferencesPane pane : panes) pane.load(props);
+                for (PreferencesPane pane : panes) {
+                    pane.load(props);
+                }
             }
             super.setVisible(b);
 
@@ -292,7 +298,9 @@ public abstract class PreferencesPane extends JPanel {
                 maxBtnDims.height = Math.max(maxBtnDims.height, d.height);
             }
 
-            for (JButton btn1 : btns) btn1.setPreferredSize(maxBtnDims);
+            for (JButton btn1 : btns) {
+                btn1.setPreferredSize(maxBtnDims);
+            }
 
             JPanel p = uif.createPanel("prefs.btns", false);
             p.setLayout(new GridBagLayout());
@@ -349,8 +357,9 @@ public abstract class PreferencesPane extends JPanel {
                 p.add(uif.createScrollPane(pane), BorderLayout.CENTER);
                 deck.add(p, pane.getText());
 
-                if (pane.getChildPanes() != null)
+                if (pane.getChildPanes() != null) {
                     addAllPanes(deck, pane.getChildPanes());
+                }
             }
         }
 
@@ -364,14 +373,17 @@ public abstract class PreferencesPane extends JPanel {
             if (src == okBtn) {
                 boolean b = okToSave();
 
-                if (!b)
+                if (!b) {
                     return;
+                }
 
                 setPreferences(panes);
                 preferences.save();
                 setVisible(false);
             } else if (src == cancelBtn) {
-                for (PreferencesPane pane : panes) pane.load(props);
+                for (PreferencesPane pane : panes) {
+                    pane.load(props);
+                }
                 setVisible(false);
             }
         }
@@ -396,8 +408,9 @@ public abstract class PreferencesPane extends JPanel {
                         }
                     }   // for j
 
-                    if (reason != null)
+                    if (reason != null) {
                         break;
+                    }
                 }
             }   // for i
 
@@ -438,8 +451,9 @@ public abstract class PreferencesPane extends JPanel {
         public int getIndexOfChild(Object parent, Object child) {
             PreferencesPane[] children = getChildren(parent);
             for (int i = 0; i < children.length; i++) {
-                if (children[i] == child)
+                if (children[i] == child) {
                     return i;
+                }
             }
             return -1;
         }
@@ -577,15 +591,17 @@ public abstract class PreferencesPane extends JPanel {
         @Override
         public void windowDeiconified(WindowEvent e) {
             //System.err.println("Prefs.dialog " + e + " (" + e.getSource() + ")");
-            if (e.getSource() == owner)
+            if (e.getSource() == owner) {
                 toFront();
+            }
         }
 
         @Override
         public void windowActivated(WindowEvent e) {
             //System.err.println("Prefs.dialog " + e + " (" + e.getSource() + ")");
-            if (e.getSource() == owner)
+            if (e.getSource() == owner) {
                 toFront();
+            }
         }
 
         @Override

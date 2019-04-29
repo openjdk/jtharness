@@ -197,25 +197,28 @@ public class PropertyArray {
         int upper = data.length - 2;
         int mid;
 
-        if (upper < 0)
+        if (upper < 0) {
             return null;
+        }
 
         String last = data[upper];
         int cmp = key.compareTo(last);
-        if (cmp > 0)
+        if (cmp > 0) {
             return null;
+        }
 
         while (lower <= upper) {
             // in next line, take care to ensure that mid is always even
             mid = lower + ((upper - lower) / 4) * 2;
             String e = data[mid];
             cmp = key.compareTo(e);
-            if (cmp < 0)
+            if (cmp < 0) {
                 upper = mid - 2;
-            else if (cmp > 0)
+            } else if (cmp > 0) {
                 lower = mid + 2;
-            else
+            } else {
                 return data[mid + 1];
+            }
         }
 
         // did not find an exact match
@@ -549,8 +552,9 @@ public class PropertyArray {
 
         // did not find an exact match (we did not expect to)
         // adjust the insert point
-        if (cmp > 0)
+        if (cmp > 0) {
             mid += 2;
+        }
 
         vec.add(mid, key);
         vec.add(mid + 1, value);

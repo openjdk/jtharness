@@ -95,8 +95,9 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
         }   // for
 
         // the default if the user does not give one
-        if (requiredSuperclass.isEmpty())
+        if (requiredSuperclass.isEmpty()) {
             requiredSuperclass.add("junit.framework.TestCase");
+        }
     }
 
     /**
@@ -107,10 +108,11 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
     @Override
     public void scan(File file) {
         currFile = file;
-        if (file.isDirectory())
+        if (file.isDirectory()) {
             scanDirectory(file);
-        else
+        } else {
             scanFile(file);
+        }
     }
 
     //-----internal routines----------------------------------------------------
@@ -128,20 +130,23 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
         for (String name : names) {
             // if the file should be ignored, skip it
             // This is typically for directories like SCCS etc
-            if (excludeList.containsKey(name))
+            if (excludeList.containsKey(name)) {
                 continue;
+            }
 
             File file = new File(dir, name);
             if (file.isDirectory()) {
-                if (verbose)
+                if (verbose) {
                     System.out.println("dir: " + dir.getAbsolutePath());
+                }
                 // if its a directory, add it to the list to be scanned
                 scanDirectory(file);
             } else {
                 // if its a file, check its extension
                 int dot = name.indexOf('.');
-                if (dot == -1)
+                if (dot == -1) {
                     continue;
+                }
                 String extn = name.substring(dot);
                 if (extensionTable.containsKey(extn)) {
                     // extension has a comment reader, so add it to the
@@ -163,12 +168,14 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
         tdValues = new HashMap<>();
 
         String name = file.getName();
-        if (verbose)
+        if (verbose) {
             System.out.println(i18n.getString("finder.whichfile", name));
+        }
 
         int dot = name.indexOf('.');
-        if (dot == -1)
+        if (dot == -1) {
             return;
+        }
 
         String classFile = "";
         if (scanClasses) {
@@ -205,8 +212,9 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
                 cr.accept(new JUnitClassVisitor(this), 0);
                 // action happens in visit(...) below
 
-                if (tdValues.get("executeClass") == null)
+                if (tdValues.get("executeClass") == null) {
                     return;     // not interested in this class
+                }
 
                 if (!testMethods.isEmpty()) {
                     StringBuilder tms = new StringBuilder();
@@ -247,12 +255,14 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
      * Lookup current name among requested superclasses.
      */
     private boolean isMatchSuper(String cname) {
-        if (cname == null || cname.equals("java.lang.Object"))
+        if (cname == null || cname.equals("java.lang.Object")) {
             return false;
+        }
 
         for (String n : requiredSuperclass) {
-            if (cname.equals(n))
+            if (cname.equals(n)) {
                 return true;
+            }
         }   // for
 
         try {
@@ -270,10 +280,11 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
      * visitMethod(...) which is part of the ASM interface.
      */
     public boolean isTestMethodSignature(String sig) {
-        if (sig.startsWith(initialTag))
+        if (sig.startsWith(initialTag)) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     class JUnitClassVisitor extends ClassVisitor {
@@ -287,8 +298,9 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
         @Override
         public void visit(int version, int access, String name, String signature,
                           String superName, String[] interfaces) {
-            if (verbose)
+            if (verbose) {
                 System.out.println("found class " + name + " with super " + superName);
+            }
 
             if (outer.isMatchSuper(superName.replaceAll("/", "."))) {
                 outer.tdValues.put("executeClass", name.replaceAll("/", "."));
@@ -305,8 +317,9 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
         public MethodVisitor visitMethod(int access, String name, String desc,
                                          String signature, String[] exceptions) {
             if (access == Opcodes.ACC_PUBLIC) {
-                if (outer.isTestMethodSignature(name))
+                if (outer.isTestMethodSignature(name)) {
                     outer.foundTestMethod(name);
+                }
             }
 
             return null;

@@ -178,8 +178,9 @@ class OptionsPane extends JPanel {
 
         if (customBoxes != null && list != null) {
             CustomReport val = customBoxes.get(list.getSelectedValue());
-            if (val != null)
+            if (val != null) {
                 descriptionArea.setText(val.getDescription());
+            }
         }
 
         JPanel rightCenter = uif.createPanel("opts.blank", false);
@@ -285,7 +286,9 @@ class OptionsPane extends JPanel {
             } else {
                 // tabbed pane for all supplied panels
                 JTabbedPane tp = uif.createTabbedPane("opts.custom.tabs");
-                for (ReportConfigPanel op : ops) tp.addTab(op.getPanelName(), op);
+                for (ReportConfigPanel op : ops) {
+                    tp.addTab(op.getPanelName(), op);
+                }
 
                 p.add(customReport.getReportId(), tp);
             }

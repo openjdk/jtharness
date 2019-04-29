@@ -80,10 +80,11 @@ public class OrderedTwoWayTable {
      * @return the value at the given index, or null if not found or index out of bounds.
      */
     public synchronized Object getValueAt(int index) {
-        if (index < values.size())
+        if (index < values.size()) {
             return values.get(index);
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -93,10 +94,11 @@ public class OrderedTwoWayTable {
      * @return the value at the given index, null if not found or index out of bounds.
      */
     public synchronized Object getKeyAt(int index) {
-        if (index < keys.size())
+        if (index < keys.size()) {
             return keys.get(index);
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -114,8 +116,9 @@ public class OrderedTwoWayTable {
      * @param index the index of the entry to be removed.
      */
     public synchronized void remove(int index) {
-        if (index >= keys.size())
+        if (index >= keys.size()) {
             return;
+        }
 
         keys.remove(index);
         values.remove(index);
@@ -130,9 +133,11 @@ public class OrderedTwoWayTable {
      * @return the index of the target in the vector, or -1 if not found
      */
     protected int findIndex(Vector<?> data, Object target) {
-        for (int i = 0; i < data.size(); i++)
-            if (data.get(i) == target)
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i) == target) {
                 return i;
+            }
+        }
 
         return -1;
     }

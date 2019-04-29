@@ -85,8 +85,9 @@ public abstract class CommandManager {
      */
     protected static boolean isMatch(String s1, String... s2) {
         for (String aS2 : s2) {
-            if (s1.equalsIgnoreCase(aS2))
+            if (s1.equalsIgnoreCase(aS2)) {
                 return true;
+            }
         }
         return false;
     }
@@ -104,9 +105,10 @@ public abstract class CommandManager {
     protected static boolean isPrefixMatch(String arg, String prefix) {
         String s1 = prefix.toUpperCase();
         String s2 = arg.toUpperCase();
-        if (s2.startsWith(s1))
+        if (s2.startsWith(s1)) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 }

@@ -63,8 +63,9 @@ public class WrapWriter extends Writer {
      * @see #getLeftMargin
      */
     public void setLeftMargin(int m) {
-        if (m < 0 || m >= rightMargin)
+        if (m < 0 || m >= rightMargin) {
             throw new IllegalArgumentException();
+        }
         leftMargin = m;
     }
 
@@ -87,8 +88,9 @@ public class WrapWriter extends Writer {
      * @see #getRightMargin
      */
     public void setRightMargin(int m) {
-        if (m <= leftMargin)
+        if (m <= leftMargin) {
             throw new IllegalArgumentException();
+        }
         rightMargin = m;
     }
 
@@ -130,8 +132,9 @@ public class WrapWriter extends Writer {
 
     @Override
     public void write(char cbuf[], int off, int len) throws IOException {
-        for (int i = off; i < off + len; i++)
+        for (int i = off; i < off + len; i++) {
             write(cbuf[i]);
+        }
     }
 
     /**
@@ -150,15 +153,17 @@ public class WrapWriter extends Writer {
             if (pending.length() > 0) {
                 // if writing the pending text would overrun the margin,
                 // wrap to a new line
-                if (Math.max(leftMargin, charsOnLineSoFar + 1) + pending.length() > rightMargin)
+                if (Math.max(leftMargin, charsOnLineSoFar + 1) + pending.length() > rightMargin) {
                     newLine();
+                }
 
                 // if the pending text is the first on the line, space to
                 // the left margin, otherwise just write a space to separate
                 // from the new text from previously written text
                 if (charsOnLineSoFar < leftMargin) {
-                    for (int i = charsOnLineSoFar; i < leftMargin; i++)
+                    for (int i = charsOnLineSoFar; i < leftMargin; i++) {
                         out.write(' ');
+                    }
                     charsOnLineSoFar = leftMargin;
                 } else if (charsOnLineSoFar > leftMargin) {
                     out.write(' ');
@@ -180,8 +185,9 @@ public class WrapWriter extends Writer {
                     charsOnLineSoFar++;
                 }
             }
-        } else
+        } else {
             pending.append(c);
+        }
     }
 
     private void newLine() throws IOException {

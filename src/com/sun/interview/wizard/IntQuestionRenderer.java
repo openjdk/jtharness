@@ -51,10 +51,11 @@ public class IntQuestionRenderer
         range = (long) upb - (long) lwb;
         suggs = q.getSuggestions();
 
-        if (range > 10 || suggs != null)
+        if (range > 10 || suggs != null) {
             return createTextField(q, listener);
-        else
+        } else {
             return createSlider(q, listener);
+        }
     }
 
     @Override
@@ -68,22 +69,24 @@ public class IntQuestionRenderer
             range /= 10;
             w++;
         }
-        if (lwb < 0)
+        if (lwb < 0) {
             w++;
+        }
 
         String[] strSuggs;
-        if (suggs == null)
+        if (suggs == null) {
             strSuggs = null;
-        else {
+        } else {
             strSuggs = new String[suggs.length];
-            for (int i = 0; i < suggs.length; i++)
+            for (int i = 0; i < suggs.length; i++) {
                 strSuggs[i] = String.valueOf(suggs[i]);
+            }
         }
 
         final int defVal = q.getDefaultValue();
-        if (defVal == Integer.MIN_VALUE)
+        if (defVal == Integer.MIN_VALUE) {
             resetBtn = null;
-        else {
+        } else {
             resetBtn = new JButton(i18n.getString("int.reset.btn"));
             resetBtn.setName("int.reset.btn");
             resetBtn.setMnemonic(i18n.getString("int.reset.mne").charAt(0));
@@ -133,8 +136,9 @@ public class IntQuestionRenderer
         slider.setPaintTicks(true);
         int startHint = q.getLabelStartHint();
         int incHint = q.getLabelIncrementHint();
-        if (incHint != 0)
+        if (incHint != 0) {
             slider.setLabelTable(slider.createStandardLabels(incHint, startHint));
+        }
         slider.setPaintLabels(true);
         //slider.registerKeyboardAction(enterListener, enterKey, JComponent.WHEN_FOCUSED);
         label.setLabelFor(slider);

@@ -113,14 +113,15 @@ public class Debug {
      */
     public static String getSetting(String key) {
         // important because there may be uninitialized objects
-        if (masterSwitch == false)
+        if (masterSwitch == false) {
             return null;
+        }
 
         String match = dProps.getProperty(key);
 
-        if (match != null)
+        if (match != null) {
             return match;
-        else {
+        } else {
             match = wildProps.search(key);
             // may be null
             return match;
@@ -138,8 +139,9 @@ public class Debug {
     public static boolean getBoolean(Class<?> c) {
         init(false);
 
-        if (!masterSwitch)
+        if (!masterSwitch) {
             return false;
+        }
 
         String key = getName(c);
         String setting = getSetting(key);
@@ -161,8 +163,9 @@ public class Debug {
     public static boolean getBoolean(Class<?> c, String suffix) {
         init(false);
 
-        if (!masterSwitch)
+        if (!masterSwitch) {
             return false;
+        }
 
         StringBuilder buf = new StringBuilder(getName(c));
         if (suffix != null && !suffix.isEmpty()) {
@@ -185,8 +188,9 @@ public class Debug {
     public static boolean getBoolean(String s) {
         init(false);
 
-        if (!masterSwitch || s == null)
+        if (!masterSwitch || s == null) {
             return false;
+        }
 
         String setting = getSetting(s);
 
@@ -204,8 +208,9 @@ public class Debug {
     public static int getInt(Class<?> c) {
         init(false);
 
-        if (!masterSwitch || c == null)
+        if (!masterSwitch || c == null) {
             return 0;
+        }
 
         String key = getName(c);
         String setting = getSetting(key);
@@ -227,8 +232,9 @@ public class Debug {
     public static int getInt(Class<?> c, String suffix) {
         init(false);
 
-        if (!masterSwitch || c == null)
+        if (!masterSwitch || c == null) {
             return 0;
+        }
 
         StringBuilder buf = new StringBuilder(getName(c));
         if (suffix != null && !suffix.isEmpty()) {
@@ -251,8 +257,9 @@ public class Debug {
     public static int getInt(String s) {
         init(false);
 
-        if (!masterSwitch)
+        if (!masterSwitch) {
             return 0;
+        }
 
         String setting = getSetting(s);
         return convertToInt(setting);
@@ -301,8 +308,9 @@ public class Debug {
      * @param force Force reprocessing of System properties.
      */
     public synchronized static void init(boolean force) {
-        if (dProps != null && force != true)
+        if (dProps != null && force != true) {
             return;
+        }
 
         Properties props;
 
@@ -331,12 +339,14 @@ public class Debug {
                 if (key.equalsIgnoreCase(MASTER_KEY)) {
                     String val = props.getProperty(key);
                     // this will disable all debugging, all methods will return zero or false
-                    if (val.equalsIgnoreCase(TRUE_STRING))
+                    if (val.equalsIgnoreCase(TRUE_STRING)) {
                         masterSwitch = false;
+                    }
                 } else if (key.endsWith(WILD_SUFFIX)) {
                     wildProps.put(key.substring(DEBUG_PREFIX.length()), props.getProperty(key));
-                } else
+                } else {
                     dProps.put(key.substring(DEBUG_PREFIX.length()), props.getProperty(key));
+                }
             }
         }   // while
     }
@@ -365,18 +375,20 @@ public class Debug {
      * an integer greater than zero, true is returned.  Otherwise, false is returned.
      */
     private static boolean convertToBool(String setting) {
-        if (setting == null)
+        if (setting == null) {
             return false;
+        }
 
-        if (setting.equalsIgnoreCase(TRUE_STRING))
+        if (setting.equalsIgnoreCase(TRUE_STRING)) {
             return true;
-        else {
+        } else {
             try {
                 int num = Integer.parseInt(setting);
-                if (num > 0)
+                if (num > 0) {
                     return true;
-                else
+                } else {
                     return false;
+                }
             } catch (NumberFormatException e) {
                 // not "true", not an integer
                 return false;
@@ -390,12 +402,13 @@ public class Debug {
      * anything else, zero is returned.
      */
     private static int convertToInt(String setting) {
-        if (setting == null)
+        if (setting == null) {
             return 0;
+        }
 
-        if (setting.equalsIgnoreCase(TRUE_STRING))
+        if (setting.equalsIgnoreCase(TRUE_STRING)) {
             return 1;
-        else {
+        } else {
             try {
                 return Integer.parseInt(setting);
             } catch (NumberFormatException e) {
@@ -461,8 +474,9 @@ public class Debug {
                     // should strip target string and dot
                     String tail = lowerK.substring(target.length());
                     String head = lowerK.substring(0, target.length());
-                    if (tail.equals(wildTail) || head.equals(lowerKey))
+                    if (tail.equals(wildTail) || head.equals(lowerKey)) {
                         return getProperty(k);
+                    }
                 }
             }   // while
 
@@ -477,10 +491,11 @@ public class Debug {
          */
         String trimTarget(String t) {
             int index = t.lastIndexOf(Debug.SEPARATOR);
-            if (index != -1)
+            if (index != -1) {
                 return t.substring(0, index);
-            else
+            } else {
                 return t;
+            }
         }
 
         static final String wildTail = Debug.SEPARATOR + Debug.WILD_SUFFIX;

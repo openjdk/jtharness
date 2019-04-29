@@ -89,7 +89,9 @@ class RequestHandler implements Runnable {
                 System.out.println(line);
             }
 
-            if (debug) System.out.println("-------------");
+            if (debug) {
+                System.out.println("-------------");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -102,19 +104,27 @@ class RequestHandler implements Runnable {
         }
 
         if (args == null || args.length < 3) {
-            if (debug) System.err.println("RH-HTTP request too short.");
+            if (debug) {
+                System.err.println("RH-HTTP request too short.");
+            }
             // ignore the request
             return;
         }
 
         if (args[0].equalsIgnoreCase(GET)) {
-            if (debug) System.out.println("RH-Processing HTTP GET request.");
+            if (debug) {
+                System.out.println("RH-Processing HTTP GET request.");
+            }
             doGet(args);
         } else if (args[0].equalsIgnoreCase(POST)) {
-            if (debug) System.out.println("RH-Processing HTTP POST request.");
+            if (debug) {
+                System.out.println("RH-Processing HTTP POST request.");
+            }
             doPost(args);
         } else {
-            if (debug) System.err.println("RH-Unsupported request method: " + args[0]);
+            if (debug) {
+                System.err.println("RH-Unsupported request method: " + args[0]);
+            }
             error(out, BAD_METHOD, args[0] + " is an unsupported request method. " + BAD_METHOD);
             out.close();
             return;
@@ -122,7 +132,9 @@ class RequestHandler implements Runnable {
     }
 
     protected void doGet(String... args) {
-        if (debug) System.out.println("RH-Get processing URL: \"" + args[1] + "\"");
+        if (debug) {
+            System.out.println("RH-Get processing URL: \"" + args[1] + "\"");
+        }
 
         httpURL url = new httpURL(args[1]);
 
@@ -130,11 +142,13 @@ class RequestHandler implements Runnable {
         JThttpProvider handler = ProviderRegistry.getHandler(args[1]);
         */
         JThttpProvider handler = RootRegistry.getInstance().getHandler(url);
-        if (handler != null)
+        if (handler != null) {
             handler.serviceRequest(url, out);
-        else {
+        } else {
             // need to produce an error page!
-            if (debug) System.out.println("No handler found for: " + args[1]);
+            if (debug) {
+                System.out.println("No handler found for: " + args[1]);
+            }
         }
     }
 

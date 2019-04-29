@@ -106,21 +106,25 @@ public abstract class ChoiceArrayQuestion extends Question {
      * @see #getDisplayChoices
      */
     protected void setChoices(String[] choices, String... displayChoices) {
-        if (choices == null)
+        if (choices == null) {
             throw new NullPointerException();
+        }
 
         for (String choice : choices) {
-            if (choice == null)
+            if (choice == null) {
                 throw new NullPointerException();
+            }
         }
 
         if (displayChoices != null) {
-            if (choices.length != displayChoices.length)
+            if (choices.length != displayChoices.length) {
                 throw new IllegalArgumentException();
+            }
 
             for (String displayChoice : displayChoices) {
-                if (displayChoice == null)
+                if (displayChoice == null) {
                     throw new NullPointerException();
+                }
             }
         }
 
@@ -128,8 +132,9 @@ public abstract class ChoiceArrayQuestion extends Question {
         this.displayChoices = displayChoices;
         value = new boolean[choices.length];
 
-        if (defaultValue != null && defaultValue.length != choices.length)
+        if (defaultValue != null && defaultValue.length != choices.length) {
             defaultValue = null;
+        }
     }
 
     /**
@@ -154,9 +159,9 @@ public abstract class ChoiceArrayQuestion extends Question {
     public String[] getDisplayChoices() {
         if (displayChoices == null) {
             ResourceBundle b = interview.getResourceBundle();
-            if (b == null)
+            if (b == null) {
                 return choices;
-            else {
+            } else {
                 displayChoices = new String[choices.length];
                 for (int i = 0; i < choices.length; i++) {
                     String c = choices[i];
@@ -205,15 +210,17 @@ public abstract class ChoiceArrayQuestion extends Question {
      * @see #setChoices
      */
     public boolean[] getValue() {
-        if (value == null)
+        if (value == null) {
             throw new IllegalStateException();
+        }
 
         // returns a copy of the data
         boolean[] cp = null;
         if (value != null) {
             cp = new boolean[value.length];
-            for (int i = 0; i < value.length; i++)
+            for (int i = 0; i < value.length; i++) {
                 cp[i] = value[i];
+            }
         }
 
         return cp;
@@ -236,18 +243,21 @@ public abstract class ChoiceArrayQuestion extends Question {
 
     @Override
     public String getStringValue() {
-        if (value == null)
+        if (value == null) {
             return "";
+        }
 
-        if (value.length != choices.length)
+        if (value.length != choices.length) {
             throw new IllegalStateException();
+        }
 
         StringBuilder sb = new StringBuilder();
         if (value != null) {
             for (int i = 0; i < value.length; i++) {
                 if (value[i]) {
-                    if (sb.length() > 0)
+                    if (sb.length() > 0) {
                         sb.append(' ');
+                    }
                     sb.append(choices[i].replace(' ', '_'));
                 }
             }
@@ -268,22 +278,26 @@ public abstract class ChoiceArrayQuestion extends Question {
      */
     @Override
     public void setValue(String newValue) {
-        if (choices == null)
+        if (choices == null) {
             return;
+        }
 
         boolean[] bb = new boolean[choices.length];
 
         int start = -1;
         for (int i = 0; i < newValue.length(); i++) {
             if (white(newValue.charAt(i))) {
-                if (start != -1)
+                if (start != -1) {
                     set(bb, newValue.substring(start, i));
+                }
                 start = -1;
-            } else if (start == -1)
+            } else if (start == -1) {
                 start = i;
+            }
         }
-        if (start != -1)
+        if (start != -1) {
             set(bb, newValue.substring(start));
+        }
 
         setValue(bb);
     }
@@ -319,21 +333,24 @@ public abstract class ChoiceArrayQuestion extends Question {
      * @see #getValue
      */
     public void setValue(boolean... newValue) {
-        if (choices == null)
+        if (choices == null) {
             return;
+        }
 
         boolean changed = false;
 
         if (newValue == null) {
             for (int i = 0; i < value.length; i++) {
-                if (!changed)
+                if (!changed) {
                     changed = value[i] != false;
+                }
                 value[i] = false;
             }
         } else {
             for (int i = 0; i < Math.min(newValue.length, value.length); i++) {
-                if (!changed)
+                if (!changed) {
                     changed = value[i] != newValue[i];
+                }
                 value[i] = newValue[i];
             }
         }

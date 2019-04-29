@@ -54,7 +54,9 @@ public class httpURL {
      */
     public String getNextFile() {
         // XXX 4 May 2000 rewrite this method so it is not so complex!
-        if (pathPos == fileLen) return null;
+        if (pathPos == fileLen) {
+            return null;
+        }
 
         String ss;   // the substring of the whole file name
         if (pathPos == fileLen - 1) {   // * special cases
@@ -89,10 +91,11 @@ public class httpURL {
         // if the URL is only a slash, we let that through
         // otherwise we ignore the leading slash
         // this allows the web server root page to work, eg. http://foo:1903/
-        if (file.indexOf('/') == 0 && fileLen > 1)
+        if (file.indexOf('/') == 0 && fileLen > 1) {
             pathPos = 1;
-        else
+        } else {
             pathPos = 0;
+        }
     }
 
     /**
@@ -109,10 +112,11 @@ public class httpURL {
      *               be thrown.
      */
     public String getLocalHost() throws Fault {
-        if (lHost == null)
+        if (lHost == null) {
             throw new Fault("Local hostname for URL not available");
-        else
+        } else {
             return lHost;
+        }
     }
 
     /**
@@ -122,10 +126,11 @@ public class httpURL {
      *               be thrown.
      */
     public int getLocalPort() throws Fault {
-        if (lPort == -1)
+        if (lPort == -1) {
             throw new Fault("Local port for URL not available");
-        else
+        } else {
             return lPort;
+        }
     }
 
     /**
@@ -135,10 +140,11 @@ public class httpURL {
      *               be thrown.
      */
     public String getRemoteHost() throws Fault {
-        if (rHost == null)
+        if (rHost == null) {
             throw new Fault("Remote hostname for URL not available");
-        else
+        } else {
             return rHost;
+        }
     }
 
     // ------- Key-Value Processing ---------
@@ -183,12 +189,15 @@ public class httpURL {
      */
     public static String reassemblePath(String[] path, boolean leadingSlash,
                                         boolean trailSlash) {
-        if (path == null || path.length == 0)
+        if (path == null || path.length == 0) {
             return "";
+        }
 
         StringBuilder result = new StringBuilder();
 
-        if (leadingSlash) result.append("/");
+        if (leadingSlash) {
+            result.append("/");
+        }
 
         for (String aPath : path) {
             if (aPath != null) {
@@ -198,7 +207,9 @@ public class httpURL {
         }   // for
 
         // remove trailing slash if needed
-        if (!trailSlash && result.length() > 1) result.setLength(result.length() - 1);
+        if (!trailSlash && result.length() > 1) {
+            result.setLength(result.length() - 1);
+        }
 
         return result.toString();
     }
@@ -220,7 +231,9 @@ public class httpURL {
     private void parseURLKeys() {
         String data = file.substring(firstQ + 1, fileLen);
 
-        if (data.isEmpty()) return;
+        if (data.isEmpty()) {
+            return;
+        }
 
         String key = null;
         int pos = 0;
@@ -228,16 +241,22 @@ public class httpURL {
 
         while ((key = readSegment(data, pos, dataLen)) != null) {
             pos = pos + key.length();
-            if (debug) System.out.println("   Read key: " + key);
+            if (debug) {
+                System.out.println("   Read key: " + key);
+            }
 
             if (pos >= dataLen || data.charAt(pos) == '&') {
                 // there is no value with this key
-                if (debug) System.out.println("key: " + key + "  value: null");
+                if (debug) {
+                    System.out.println("key: " + key + "  value: null");
+                }
                 urlValues.put(key, "true");
             } else {
                 // char at pos must be '='
                 String val = readSegment(data, ++pos, dataLen);
-                if (debug) System.out.println("key: " + key + "  value: " + val);
+                if (debug) {
+                    System.out.println("key: " + key + "  value: " + val);
+                }
                 urlValues.put(key, val);
 
                 // assume that the resulting value will either jump over
@@ -248,7 +267,9 @@ public class httpURL {
                 pos = pos + val.length() + 1;
 
                 // end of data string
-                if (pos > dataLen) break;
+                if (pos > dataLen) {
+                    break;
+                }
             }
         }   // while
     }

@@ -113,8 +113,9 @@ public class BatchManager
             super.run(ctx);
 
             File reportDir = ctx.getAutoRunReportDir();
-            if (reportDir != null)
+            if (reportDir != null) {
                 ReportManager.writeReport(reportDir, ctx);
+            }
         }
     }
 }

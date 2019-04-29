@@ -148,8 +148,9 @@ public abstract class StringQuestion extends Question {
     public void setSuggestions(String... newSuggestions) {
         if (newSuggestions != null) {
             for (String newSuggestion : newSuggestions) {
-                if (newSuggestion == null)
+                if (newSuggestion == null) {
                     throw new IllegalArgumentException();
+                }
             }
         }
 
@@ -190,8 +191,9 @@ public abstract class StringQuestion extends Question {
      */
     @Override
     protected void save(Map<String, String> data) {
-        if (value != null)
+        if (value != null) {
             data.put(tag, value);
+        }
     }
 
     /**

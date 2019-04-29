@@ -75,13 +75,16 @@ public class ExpandTestFinder extends TagTestFinder {
             String k = args[i + 1];
             validKeywords.put(k.toLowerCase(), k);
             return 2;
-        } else
+        } else {
             return super.decodeArg(args, i);
+        }
     } // decodeArg()
 
     private Map<String, String> initTable(String... entries) {
         Map<String, String> map = new HashMap<>();
-        for (String entry : entries) map.put(entry.toLowerCase(), entry);
+        for (String entry : entries) {
+            map.put(entry.toLowerCase(), entry);
+        }
         return map;
     } // initTable()
 
@@ -110,16 +113,18 @@ public class ExpandTestFinder extends TagTestFinder {
                 try {
                     String n = s;
 
-                    if (!n.startsWith("expand."))
+                    if (!n.startsWith("expand.")) {
                         continue;
+                    }
                     String[] v = env.lookup(n);
                     String fqvName = n.substring("expand.".length());
                     // add to hashtable of fully-qualified varNames
                     expandVars.put(fqvName, v);
 
                     int pos;
-                    if ((pos = fqvName.indexOf(".")) == -1)
+                    if ((pos = fqvName.indexOf(".")) == -1) {
                         continue;
+                    }
                     String stem = fqvName.substring(0, pos);
 
                     // checking lengths of co-joined variables
@@ -165,8 +170,9 @@ public class ExpandTestFinder extends TagTestFinder {
     protected void foundTestDescription(Map<String, String> entries, File file, int line) {
         // cross-product and loop call up
         String origId = entries.get("id");
-        if (origId == null)
+        if (origId == null) {
             origId = "";
+        }
         Map<String, Integer> loopVars = new HashMap<>(3);
         foundTestDescription_1(entries, file, line, loopVars, origId);
     } // foundTestDescription()
@@ -177,8 +183,10 @@ public class ExpandTestFinder extends TagTestFinder {
 //          System.out.println("------ NAME:  " + name + " VALUE: " + value);
 
             if (name.equals("title") || name.equals("test") || name.equals("id"))
-                // don't tokenize
+            // don't tokenize
+            {
                 continue;
+            }
 
             String[] words = StringArray.split(value);
             for (int i = 0; i < words.length; i++) {
@@ -209,8 +217,10 @@ public class ExpandTestFinder extends TagTestFinder {
 //                  System.out.println("stem: " + stem + " qual: " + qualifier);
 
                     if (testStems.get(stem) == null)
-                        // this is something we shouldn't expand
+                    // this is something we shouldn't expand
+                    {
                         continue;
+                    }
 
                     String[] valueList;
                     if ((valueList = expandVars.get(varName)) == null) {
@@ -239,11 +249,15 @@ public class ExpandTestFinder extends TagTestFinder {
 
                             entries.put(name, StringArray.join(words));
                             boolean loopy = !qualifier.isEmpty();
-                            if (loopy) loopVars.put(stem, Integer.valueOf(j));
+                            if (loopy) {
+                                loopVars.put(stem, Integer.valueOf(j));
+                            }
                             // clone needed here because we over-wrote words[i]
                             foundTestDescription_1(new HashMap<>(entries), file, line,
                                     loopVars, id);
-                            if (loopy) loopVars.remove(stem);
+                            if (loopy) {
+                                loopVars.remove(stem);
+                            }
 
                         }
                         return;
@@ -265,7 +279,9 @@ public class ExpandTestFinder extends TagTestFinder {
             }
             testStems = new HashMap<>(3);
             String[] stems = StringArray.split(value);
-            for (String stem : stems) testStems.put(stem, TRUE);
+            for (String stem : stems) {
+                testStems.put(stem, TRUE);
+            }
         } else {
 
             // This part of this method is only needed to ensure that this
@@ -293,8 +309,9 @@ public class ExpandTestFinder extends TagTestFinder {
                 }
             }
 
-            if (valid)
+            if (valid) {
                 entries.put(name, value);
+            }
             // end of code for JCKTagTestFinder emulation
 
             // if emulation code is removed, still need to do a put

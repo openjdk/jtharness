@@ -56,8 +56,9 @@ public class PrefixMap<V> implements Map<String, V> {
     public void clear() {
         for (Iterator<String> i = map.keySet().iterator(); i.hasNext(); ) {
             String key = i.next();
-            if (key.startsWith(prefix))
+            if (key.startsWith(prefix)) {
                 i.remove();
+            }
         }
     }
 
@@ -71,10 +72,11 @@ public class PrefixMap<V> implements Map<String, V> {
      */
     public String getPrefix() {
         // protect against zero length prefix
-        if (prefix.length() > 1)
+        if (prefix.length() > 1) {
             return prefix.substring(0, prefix.length() - 1);
-        else
+        } else {
             return "";
+        }
     }
 
     @Override
@@ -86,8 +88,9 @@ public class PrefixMap<V> implements Map<String, V> {
     public boolean containsValue(Object value) {
         for (Entry<String, V> e : map.entrySet()) {
             String key = e.getKey();
-            if (key.startsWith(prefix) && e.getValue().equals(value))
+            if (key.startsWith(prefix) && e.getValue().equals(value)) {
                 return true;
+            }
         }
         return false;
     }
@@ -97,8 +100,9 @@ public class PrefixMap<V> implements Map<String, V> {
         Map<String, V> m = new HashMap<>();
         for (Entry<String, V> e : map.entrySet()) {
             String key = e.getKey();
-            if (key.startsWith(prefix))
+            if (key.startsWith(prefix)) {
                 m.put(key.substring(prefix.length()), e.getValue());
+            }
         }
         return m.entrySet();
     }
@@ -116,8 +120,9 @@ public class PrefixMap<V> implements Map<String, V> {
     @Override
     public boolean isEmpty() {
         for (String key : map.keySet()) {
-            if (key.startsWith(prefix))
+            if (key.startsWith(prefix)) {
                 return false;
+            }
         }
         return true;
     }
@@ -126,8 +131,9 @@ public class PrefixMap<V> implements Map<String, V> {
     public Set<String> keySet() {
         Set<String> s = new HashSet<>();
         for (String key : map.keySet()) {
-            if (key.startsWith(prefix))
+            if (key.startsWith(prefix)) {
                 s.add(key.substring(prefix.length()));
+            }
         }
         return s;
     }
@@ -154,8 +160,9 @@ public class PrefixMap<V> implements Map<String, V> {
     public int size() {
         int n = 0;
         for (String key : map.keySet()) {
-            if (key.startsWith(prefix))
+            if (key.startsWith(prefix)) {
                 n++;
+            }
         }
         return n;
     }
@@ -165,8 +172,9 @@ public class PrefixMap<V> implements Map<String, V> {
         Collection<V> c = new Vector<>();
         for (Entry<String, V> e : map.entrySet()) {
             String key = e.getKey();
-            if (key.startsWith(prefix))
+            if (key.startsWith(prefix)) {
                 c.add(e.getValue());
+            }
         }
         return c;
     }

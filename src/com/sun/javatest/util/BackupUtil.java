@@ -269,19 +269,22 @@ public class BackupUtil {
 
         @Override
         public boolean accept(File file) {
-            if (!file.isDirectory())
+            if (!file.isDirectory()) {
                 return false;
+            }
 
             if (suffix.isEmpty()) {
-                if (!file.getName().endsWith("~"))
+                if (!file.getName().endsWith("~")) {
                     return true;
-                else
+                } else {
                     return false;
+                }
             } else {
-                if (file.getName().endsWith(suffix))
+                if (file.getName().endsWith(suffix)) {
                     return true;
-                else
+                } else {
                     return false;
+                }
             }
         }
 

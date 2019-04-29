@@ -74,8 +74,9 @@ class ProgressMeter extends JComponent implements Accessible {
 
     @Override
     public AccessibleContext getAccessibleContext() {
-        if (ac == null)
+        if (ac == null) {
             ac = new PM_AccessibleContext(this);
+        }
 
         return ac;
     }
@@ -98,8 +99,9 @@ class ProgressMeter extends JComponent implements Accessible {
                                 // stop() should not allow this to happen
                                 // null indicates that we are not running and
                                 // should not be updating
-                                if (myThread == null)
+                                if (myThread == null) {
                                     break;
+                                }
 
                                 myThread.wait(5000);
                             }
@@ -124,8 +126,9 @@ class ProgressMeter extends JComponent implements Accessible {
     }
 
     public void stop() {
-        if (myThread == null)
+        if (myThread == null) {
             return;
+        }
 
         if (indet == false) {
             Thread old = myThread;
@@ -147,8 +150,9 @@ class ProgressMeter extends JComponent implements Accessible {
                 @Override
                 public void mouseClicked(MouseEvent me) {
                     int index = resolve(me.getX(), me.getY());
-                    if (index == -1)
+                    if (index == -1) {
                         index = actions.length - 1;
+                    }
                     if (index != -1) {
                         ActionEvent ae =
                                 new ActionEvent(ProgressMeter.this,
@@ -164,8 +168,9 @@ class ProgressMeter extends JComponent implements Accessible {
 
     public void removeActionListener(ActionListener l) {
         actionListener = AWTEventMulticaster.remove(actionListener, l);
-        if (actionListener == null)
+        if (actionListener == null) {
             removeMouseListener(mouseListener);
+        }
     }
 
     public synchronized void clear() {
@@ -186,7 +191,9 @@ class ProgressMeter extends JComponent implements Accessible {
 
     public synchronized void set(int... v) {
         int total = 0;
-        for (int aV : v) total += aV;
+        for (int aV : v) {
+            total += aV;
+        }
         set(v, total);
     }
 
@@ -214,8 +221,9 @@ class ProgressMeter extends JComponent implements Accessible {
 
         if (changed) {
             repaint(100);
-            if (ac != null)
+            if (ac != null) {
                 ac.notifyNewStats();
+            }
         }
     }
 
@@ -239,8 +247,9 @@ class ProgressMeter extends JComponent implements Accessible {
         if (x > 0) {
             for (int i = 0; i < values.length; i++) {
                 int end = values[i] * (dims.width - 2) / SCALE;
-                if (x < end)
+                if (x < end) {
                     return i;
+                }
             }
         }
         return -1;
@@ -271,11 +280,12 @@ class ProgressMeter extends JComponent implements Accessible {
         @Override
         public String getAccessibleDescription() {
             String superdesc = super.getAccessibleDescription();
-            if (superdesc == null)
+            if (superdesc == null) {
                 return pm.getToolTipText();
-            else {
-                if (i18n == null)
+            } else {
+                if (i18n == null) {
                     i18n = I18NResourceBundle.getBundleForClass(getClass());
+                }
 
                 return i18n.getString("pmtr.desc");
             }
@@ -285,9 +295,9 @@ class ProgressMeter extends JComponent implements Accessible {
         public String getAccessibleName() {
             String supername = super.getAccessibleName();
             if (supername == null) {
-                if (i18n == null)
+                if (i18n == null) {
                     i18n = I18NResourceBundle.getBundleForClass(getClass());
-                else {
+                } else {
                 }
 
                 return i18n.getString("pmtr.name");
@@ -314,8 +324,9 @@ class ProgressMeter extends JComponent implements Accessible {
 
             // add up all but last component
             // this gives the info of a traditional progress bar
-            for (int i = 0; i < stats.length - 1; i++)
+            for (int i = 0; i < stats.length - 1; i++) {
                 ttl += stats[i];
+            }
 
             return Integer.valueOf(ttl);
         }

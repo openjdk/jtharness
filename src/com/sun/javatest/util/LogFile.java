@@ -51,8 +51,9 @@ public class LogFile {
      * @param out the stream to which to write the messages.
      */
     public LogFile(Writer out) {
-        if (out == null)
+        if (out == null) {
             throw new NullPointerException();
+        }
 
         this.out = out;
     }
@@ -63,8 +64,9 @@ public class LogFile {
      * @param file the file to which to write the messages.
      */
     public LogFile(File file) {
-        if (file == null)
+        if (file == null) {
             throw new NullPointerException();
+        }
 
         this.file = file;
     }
@@ -93,10 +95,11 @@ public class LogFile {
      *             will be included in the log.
      */
     public void log(I18NResourceBundle i18n, String key, Object arg) {
-        if (arg instanceof Throwable)
+        if (arg instanceof Throwable) {
             log(i18n.getString(key, arg), (Throwable) arg);
-        else
+        } else {
             log(i18n.getString(key, arg), null);
+        }
     }
 
     /**
@@ -111,10 +114,11 @@ public class LogFile {
      *             trace will be included in the log.
      */
     public void log(I18NResourceBundle i18n, String key, Object... args) {
-        if (args != null && args.length > 0 && args[0] instanceof Throwable)
+        if (args != null && args.length > 0 && args[0] instanceof Throwable) {
             log(i18n.getString(key, args), (Throwable) args[0]);
-        else
+        } else {
             log(i18n.getString(key, args), null);
+        }
     }
 
     private synchronized void log(String text, Throwable trace) {
@@ -149,13 +153,15 @@ public class LogFile {
         pw.print("  ");
         pw.println(text);
 
-        if (trace != null)
+        if (trace != null) {
             trace.printStackTrace(pw);
+        }
 
-        if (closeWhenDone)
+        if (closeWhenDone) {
             pw.close();
-        else
+        } else {
             pw.flush();
+        }
     }
 
     private File file;

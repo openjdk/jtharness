@@ -81,8 +81,9 @@ public class AgentMonitorToolManager extends ToolManager {
         AgentMonitorTool t = getTool();
 
         Desktop d = getDesktop();
-        if (!d.containsTool(t))
+        if (!d.containsTool(t)) {
             d.addTool(t);
+        }
         d.setSelectedTool(t);
 
         return t;
@@ -107,8 +108,9 @@ public class AgentMonitorToolManager extends ToolManager {
 
                 @Override
                 public void toolDisposed(Tool t) {
-                    if (t == tool)
+                    if (t == tool) {
                         tool = null;
+                    }
                 }
             });
         }

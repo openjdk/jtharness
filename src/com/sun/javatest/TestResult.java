@@ -257,11 +257,13 @@ public class TestResult {
                             wb.getPrintWriter().close();
                         }
                     }
-                    if (env == null)
+                    if (env == null) {
                         env = emptyStringArray;
+                    }
                     this.result = result;
-                    if (env == null)
+                    if (env == null) {
                         env = emptyStringArray;
+                    }
                     notifyCompletedSection(this);
                 }
             }
@@ -309,8 +311,9 @@ public class TestResult {
          * @return A PrintWriter that gives access to the new stream.
          */
         public PrintWriter createOutput(String name) {
-            if (name == null)
+            if (name == null) {
                 throw new NullPointerException();
+            }
 
             synchronized (TestResult.this) {
                 synchronized (this) {
@@ -334,8 +337,9 @@ public class TestResult {
          * or null if nothing has been written.
          */
         public String getOutput(String name) {
-            if (name == null)
+            if (name == null) {
                 throw new NullPointerException();
+            }
 
             synchronized (TestResult.this) {
                 synchronized (this) {
@@ -359,8 +363,9 @@ public class TestResult {
 
             for (int i = 0; i < buffers.length; i++) {
                 names[i] = buffers[i].getName();
-                if (names[i] == null)
+                if (names[i] == null) {
                     throw new IllegalStateException("BUFFER IS BROKEN");
+                }
             }
 
             return names;
@@ -374,14 +379,16 @@ public class TestResult {
          * @since 4.2.1
          */
         public synchronized void deleteOutputData(String name) {
-            if (name == null)
+            if (name == null) {
                 throw new NullPointerException();
+            }
 
             synchronized (TestResult.this) {
                 synchronized (this) {
                     OutputBuffer b = findOutputBuffer(name);
-                    if (b != null && b instanceof WritableOutputBuffer)
+                    if (b != null && b instanceof WritableOutputBuffer) {
                         ((WritableOutputBuffer) b).deleteAllOutput();
+                    }
                 }
             }
         }
@@ -389,10 +396,12 @@ public class TestResult {
         // ---------- PACKAGE PRIVATE ----------
 
         public Section(String title) {
-            if (title == null)
+            if (title == null) {
                 throw new NullPointerException();
-            if (title.indexOf(' ') != -1)
+            }
+            if (title.indexOf(' ') != -1) {
                 throw new IllegalArgumentException("space invalid in section title");
+            }
 
             this.title = title;
             result = inProgress;
@@ -414,12 +423,15 @@ public class TestResult {
                     title = extractSlice(line, 0, ":", null);
                     break;
                 } else
-                    // don't know what this line is, may be empty
+                // don't know what this line is, may be empty
+                {
                     line = in.readLine();
+                }
             }
 
-            if (title == null)
+            if (title == null) {
                 throw new ReloadFault(i18n, "rslt.noSectionTitle");
+            }
 
             if (title.equals(MSG_SECTION_NAME)) {
                 // use standard internal copy of string
@@ -434,14 +446,17 @@ public class TestResult {
             // if not in the message section, line should have the section result
             if (!Objects.equals(title, MSG_SECTION_NAME)) {
                 if (line != null) {
-                    if (line.startsWith(JTR_V2_SECTRESULT))
+                    if (line.startsWith(JTR_V2_SECTRESULT)) {
                         result = Status.parse(line.substring(JTR_V2_SECTRESULT.length()));
-                    else
+                    } else {
                         throw new ReloadFault(i18n, "rslt.badLine", line);
+                    }
                 }
                 if (result == null)
-                    // no test result
+                // no test result
+                {
                     throw new ReloadFault(i18n, "rslt.noSectionResult");
+                }
             }
         }
 
@@ -461,15 +476,18 @@ public class TestResult {
                 for (int i = 0; i < text.length(); i++) {
                     char c = text.charAt(i);
                     if (c < 32) {
-                        if (c == '\n')
+                        if (c == '\n') {
                             numLines++;
-                        else if (c != '\t' && c != '\r')
+                        } else if (c != '\t' && c != '\r') {
                             numNonASCII++;
+                        }
                     } else if (c < 127) {
-                        if (c == '\\')
+                        if (c == '\\') {
                             numBackslashes++;
-                    } else
+                        }
+                    } else {
                         numNonASCII++;
+                    }
                 }
 
                 needsEscape = numBackslashes > 0 || numNonASCII > 0;
@@ -493,20 +511,22 @@ public class TestResult {
                     // count one per character, plus an additional one per \ (written as "\ \") and an
                     // additional 5 per nonASCII (written as "\ u x x x x")
                     out.write(String.valueOf(text.length() + numBackslashes + 5 * numNonASCII));
-                } else
+                } else {
                     out.write(String.valueOf(text.length()));
+                }
                 out.write(')');
-                if (needsEscape)
+                if (needsEscape) {
                     out.write('*');
+                }
                 out.write(JTR_V2_SECTSTREAM);
                 out.write(lineSeparator);
 
                 if (needsEscape) {
                     for (int i = 0; i < text.length(); i++) {
                         char c = text.charAt(i);
-                        if (32 <= c && c < 127 && c != '\\')
+                        if (32 <= c && c < 127 && c != '\\') {
                             out.write(c);
-                        else {
+                        } else {
                             switch (c) {
                                 case '\n':
                                 case '\r':
@@ -526,11 +546,13 @@ public class TestResult {
                             }
                         }
                     }
-                } else
+                } else {
                     out.write(text);
+                }
 
-                if (needsFinalNewline)
+                if (needsFinalNewline) {
                     out.write(lineSeparator);
+                }
             }
 
             // the default message section does not need a result line
@@ -547,8 +569,9 @@ public class TestResult {
          * a test result and so bypasses the normal immutability checks.
          */
         synchronized void reloadOutput(String name, String data) {
-            if (name.equals(MESSAGE_OUTPUT_NAME))
+            if (name.equals(MESSAGE_OUTPUT_NAME)) {
                 name = MESSAGE_OUTPUT_NAME;
+            }
             OutputBuffer b = new FixedOutputBuffer(name, data);
             buffers = DynamicArray.append(buffers, b);
         }
@@ -564,8 +587,9 @@ public class TestResult {
         // ---------- PRIVATE ----------
 
         private void checkMutable() {
-            if (!isMutable())
+            if (!isMutable()) {
                 throw new IllegalStateException("This section of the test result is now immutable.");
+            }
         }
 
         private synchronized void makeOutputImmutable(OutputBuffer b, String name, String output) {
@@ -583,8 +607,9 @@ public class TestResult {
             // recent stream with that name will be found
             // performance of the search will still be constant
             for (int i = buffers.length - 1; i >= 0; i--) {
-                if (name.equals(buffers[i].getName()))
+                if (name.equals(buffers[i].getName())) {
                     return buffers[i];
+                }
             }
 
             return null;
@@ -596,8 +621,9 @@ public class TestResult {
 
         private class FixedOutputBuffer implements OutputBuffer {
             FixedOutputBuffer(String name, String output) {
-                if (name == null || output == null)
+                if (name == null || output == null) {
                     throw new NullPointerException();
+                }
 
                 this.name = name;
                 this.output = output;
@@ -620,11 +646,13 @@ public class TestResult {
 
             FixedOutputBuffer(String header, BufferedReader in) throws ReloadFault {
                 String nm = extractSlice(header, JTR_V2_SECTSTREAM.length(), null, ":");
-                if (nm == null)
+                if (nm == null) {
                     throw new ReloadFault(i18n, "rslt.noOutputTitle");
+                }
 
-                if (nm.equals(MESSAGE_OUTPUT_NAME))
+                if (nm.equals(MESSAGE_OUTPUT_NAME)) {
                     nm = MESSAGE_OUTPUT_NAME;
+                }
 
                 try {
                     int lines;
@@ -636,10 +664,11 @@ public class TestResult {
                         lines = Integer.parseInt(extractSlice(header, start, "(", "/"));
                         chars = Integer.parseInt(extractSlice(header, start, "/", ")"));
                         int rp = header.indexOf(")", start);
-                        if (rp >= 0 && rp < header.length() - 2)
+                        if (rp >= 0 && rp < header.length() - 2) {
                             needsEscape = header.charAt(rp + 1) == '*';
-                        else
+                        } else {
                             needsEscape = false;
+                        }
                     } catch (NumberFormatException e) {
                         // fatal parsing error
                         throw new ReloadFault(i18n, "rslt.badHeaderVersion", e);
@@ -650,9 +679,9 @@ public class TestResult {
                     if (needsEscape) {
                         for (int i = 0; i < chars; i++) {
                             int c = in.read();
-                            if (c == -1)
+                            if (c == -1) {
                                 throw new ReloadFault(i18n, "rslt.badEOF");
-                            else if (c == '\\') {
+                            } else if (c == '\\') {
                                 c = in.read();
                                 i++;
                                 if (c == 'u') {
@@ -710,8 +739,9 @@ public class TestResult {
 
                     if (buff.length() > 0 && buff.charAt(buff.length() - 1) != '\n') {
                         int c = in.read();
-                        if (c == '\r')
+                        if (c == '\r') {
                             c = in.read();
+                        }
                         if (c != '\n') {
                             System.err.println("TR.badChars: output=" + (output.length() < 32 ? output : output.substring(0, 9) + " ... " + output.substring(output.length() - 10)));
                             System.err.println("TR.badChars: '" + (char) c + "' (" + c + ")");
@@ -731,8 +761,9 @@ public class TestResult {
         private class WritableOutputBuffer extends Writer implements OutputBuffer {
             WritableOutputBuffer(String name) {
                 super(TestResult.this);
-                if (name == null)
+                if (name == null) {
                     throw new NullPointerException();
+                }
 
                 this.name = name;
                 output = new StringBuffer();
@@ -756,8 +787,9 @@ public class TestResult {
 
             @Override
             public void write(char[] buf, int offset, int len) throws IOException {
-                if (output == null)
+                if (output == null) {
                     throw new IOException("stream has been closed");
+                }
 
                 int end = output.length();
                 output.append(buf, offset, len);
@@ -1012,8 +1044,9 @@ public class TestResult {
 
         execStatus = stat;
 
-        if (execStatus == inProgress)
+        if (execStatus == inProgress) {
             execStatus = interrupted;
+        }
 
         // verify integrity of status in all sections
         for (Section section : sections) {
@@ -1205,10 +1238,11 @@ public class TestResult {
                 (desc == null ||
                         props == null ||
                         env == null ||
-                        (sections == null && execStatus != inProgress)))
+                        (sections == null && execStatus != inProgress))) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -1295,10 +1329,12 @@ public class TestResult {
     public static String getWorkRelativePath(String testURL) {
         int pound = testURL.lastIndexOf("#");
         if (pound == -1)        // no test id
+        {
             return getWorkRelativePath(testURL, null);
-        else
+        } else {
             return getWorkRelativePath(testURL.substring(0, pound),
                     testURL.substring(pound + 1));
+        }
     }
 
     /**
@@ -1550,12 +1586,14 @@ public class TestResult {
      */
     public synchronized void writeResults(WorkDirectory workDir, BackupPolicy backupPolicy)
             throws IOException {
-        if (isMutable())
+        if (isMutable()) {
             throw new IllegalStateException("This TestResult is still mutable - set the status!");
+        }
 
         // could attempt a reload() I suppose
-        if (props == null)
+        if (props == null) {
             props = emptyStringArray;
+        }
 
         String wrp = getWorkRelativePath(desc).replace('/', File.separatorChar);
         resultsFile = workDir.getFile(wrp);
@@ -1567,8 +1605,9 @@ public class TestResult {
         try {
             writeResults(tempFile, backupPolicy);
         } finally {
-            if (tempFile.exists())
+            if (tempFile.exists()) {
                 tempFile.delete();
+            }
         }
     }
 
@@ -1582,8 +1621,9 @@ public class TestResult {
         int MAX_TRIES = 100; // absurdly big limit, but a limit nonetheless
         for (int i = 0; i < MAX_TRIES; i++) {
             File tempFile = new File(resultsFile.getPath() + "." + i + ".tmp");
-            if (tempFile.createNewFile())
+            if (tempFile.createNewFile()) {
                 return tempFile;
+            }
         }
         throw new IOException("could not create temp file for " + resultsFile + ": too many tries");
     }
@@ -1743,7 +1783,9 @@ public class TestResult {
         if (isMutable()) {
             Observer[] observers = observersTable.get(this);
 
-            if (observers == null) observers = new Observer[0];
+            if (observers == null) {
+                observers = new Observer[0];
+            }
 
             observers = DynamicArray.append(observers, obs);
             observersTable.put(this, observers);
@@ -1757,14 +1799,16 @@ public class TestResult {
      */
     public synchronized void removeObserver(Observer obs) {
         Observer[] observers = observersTable.get(this);
-        if (observers == null)
+        if (observers == null) {
             return;
+        }
 
         observers = DynamicArray.remove(observers, obs);
-        if (observers == null)
+        if (observers == null) {
             observersTable.remove(this);
-        else
+        } else {
             observersTable.put(this, observers);
+        }
     }
 
     /**
@@ -1863,14 +1907,17 @@ public class TestResult {
      * @throws JavaTestError Will be thrown if any params are null.
      */
     TestResult(String url, WorkDirectory workDir, Status status) {
-        if (url == null)
+        if (url == null) {
             throw new JavaTestError(i18n, "rslt.badTestUrl");
+        }
 
-        if (workDir == null)
+        if (workDir == null) {
             throw new JavaTestError(i18n, "rslt.badWorkdir");
+        }
 
-        if (status == null)
+        if (status == null) {
             throw new JavaTestError(i18n, "rslt.badStatus");
+        }
 
         testURL = url;
         resultsFile = workDir.getFile(getWorkRelativePath());
@@ -1889,14 +1936,17 @@ public class TestResult {
      * @see #getEndTime()
      */
     TestResult(String url, WorkDirectory workDir, Status status, long endTime) {
-        if (url == null)
+        if (url == null) {
             throw new JavaTestError(i18n, "rslt.badTestUrl");
+        }
 
-        if (workDir == null)
+        if (workDir == null) {
             throw new JavaTestError(i18n, "rslt.badWorkdir");
+        }
 
-        if (status == null)
+        if (status == null) {
             throw new JavaTestError(i18n, "rslt.badStatus");
+        }
 
         testURL = url;
         resultsFile = workDir.getFile(getWorkRelativePath());
@@ -1946,12 +1996,14 @@ public class TestResult {
      * @see #isShrunk()
      */
     void setTestDescription(TestDescription td) {
-        if (td == null)
+        if (td == null) {
             return;
+        }
 
         String name = td.getRootRelativeURL();
-        if (!testURL.equals(name))
+        if (!testURL.equals(name)) {
             throw new IllegalStateException();
+        }
 
         if (desc != null) {             // compare if possible
             if (!desc.equals(td)) {     // test descriptions are not the same
@@ -1965,8 +2017,9 @@ public class TestResult {
                 env = emptyStringArray;
                 sections = emptySectionArray;
 
-                if (isMutable())
+                if (isMutable()) {
                     createSection(MSG_SECTION_NAME);
+                }
             } else {
                 // TDs are equal, no action, drop thru and return
             }
@@ -1998,12 +2051,14 @@ public class TestResult {
         // so allow that for backward compatibility
         String jtv = PropertyArray.get(props, VERSION);
         if (env != null) {
-            if (jtv == null || !jtv.equals("JT_2.1.1a"))
+            if (jtv == null || !jtv.equals("JT_2.1.1a")) {
                 cs = cs * 37 + computeChecksum(env);
+            }
         }
         cs = cs * 37 + computeChecksum(props);
-        if (sections != null)
+        if (sections != null) {
             cs = cs * 37 + computeChecksum(sections);
+        }
         cs = cs * 37 + execStatus.getType() + computeChecksum(execStatus.getReason());
         return Math.abs(cs);  // ensure +ve, to avoid sign issues!
     }
@@ -2062,11 +2117,13 @@ public class TestResult {
      */
     private synchronized void reload()
             throws ResultFileNotFoundFault, ReloadFault {
-        if (resultsFile == null)
+        if (resultsFile == null) {
             throw new ReloadFault(i18n, "rslt.noResultFile");
+        }
 
-        if (isMutable())
+        if (isMutable()) {
             throw new IllegalStateException("Cannot do a reload of this object.");
+        }
 
         try {
             reload(new BufferedReader(new InputStreamReader(new FileInputStream(resultsFile), StandardCharsets.UTF_8)));
@@ -2100,8 +2157,9 @@ public class TestResult {
                 reloadVersion2(br);
             } else if (line.equals(JTR_V1_HEADER)) {
                 reloadVersion1(br);
-            } else
+            } else {
                 throw new ReloadFault(i18n, "rslt.badHeader", resultsFile);
+            }
         } catch (RuntimeException e) {
             throw new ReloadFault(i18n, "rslt.badRuntimeErr", resultsFile.getPath(), e.getLocalizedMessage());
         } finally {
@@ -2139,8 +2197,9 @@ public class TestResult {
 
         if (desc == null) {
             File path = new File(PropertyArray.get(props, "testsuite"));
-            if (!path.isDirectory())
+            if (!path.isDirectory()) {
                 path = new File(path.getParent());
+            }
             File file = new File(PropertyArray.get(props, "file"));
 
             uniquifyStrings(props);
@@ -2213,23 +2272,27 @@ public class TestResult {
                     throw new ReloadFault(i18n, "rslt.badFile", e);
                 }
 
-                if (section == null)
+                if (section == null) {
                     section = new Section(sectionName);
+                }
 
                 section.reloadOutput(streamName, buff.toString());
             } else if (line.startsWith(JTR_V1_SECTRESULT)) {
                 // set result
-                if (section == null)
+                if (section == null) {
                     section = new Section("");
+                }
 
                 // get the Status text
                 line = extractSlice(line, JTR_V1_SECTRESULT.length(), " ", null);
 
                 if (line == null)
-                    // couldn't get the status text for some reason
+                // couldn't get the status text for some reason
+                {
                     throw new ReloadFault(i18n, "rslt.noSectionResult");
-                else
+                } else {
                     section.reloadStatus(Status.parse(line));
+                }
 
                 break;
             } else {
@@ -2241,8 +2304,9 @@ public class TestResult {
             line = in.readLine();
         }
 
-        if (section != null)
+        if (section != null) {
             section.reloadOutput(MESSAGE_OUTPUT_NAME, sb.toString());
+        }
 
         return section;
     }
@@ -2255,13 +2319,15 @@ public class TestResult {
         // look for optional checksum and then test description,
         // skipping comments
         while ((line = in.readLine()) != null) {
-            if (line.equals(JTR_V2_TESTDESC))
+            if (line.equals(JTR_V2_TESTDESC)) {
                 break;
-                //else if (line.startsWith(JTR_V2_CHECKSUM)) {
-                //checksumText = line.substring(JTR_V2_CHECKSUM.length());
-                //}
-            else if (!line.startsWith("#"))
+            }
+            //else if (line.startsWith(JTR_V2_CHECKSUM)) {
+            //checksumText = line.substring(JTR_V2_CHECKSUM.length());
+            //}
+            else if (!line.startsWith("#")) {
                 throw new ReloadFault(i18n, "rslt.badLine", line);
+            }
         }
 
         // this probably won't work with a normal Properties object
@@ -2277,17 +2343,19 @@ public class TestResult {
 
         // remove comment lines and look for test env props
         while ((line = in.readLine()) != null) {
-            if (line.startsWith(JTR_V2_RESPROPS))
+            if (line.startsWith(JTR_V2_RESPROPS)) {
                 break;
-            else if (line.startsWith(JTR_V2_ENVIRONMENT)) {
+            } else if (line.startsWith(JTR_V2_ENVIRONMENT)) {
                 env = PropertyArray.load(in);
                 uniquifyStrings(env);
-            } else if (!line.startsWith("#"))
+            } else if (!line.startsWith("#")) {
                 throw new ReloadFault(i18n, "rslt.badLine", line);
+            }
         }
 
-        if (env == null)
+        if (env == null) {
             env = new String[]{};
+        }
 
         if (line == null) {
             throw new ReloadFault(i18n, "rslt.badFormat");
@@ -2318,8 +2386,9 @@ public class TestResult {
             }
         }
 
-        if (execStatus == null)
+        if (execStatus == null) {
             execStatus = Status.error("NO STATUS RECORDED IN FILE");
+        }
 
         // checksum support removed
         checksumState = NO_CHECKSUM;
@@ -2343,9 +2412,12 @@ public class TestResult {
 
     void uniquifyStrings(String... data) {
         for (int i = 0; i < data.length; i++)
-            // don't do this for large strings
-            if (data[i] != null && data[i].length() < 30)
+        // don't do this for large strings
+        {
+            if (data[i] != null && data[i].length() < 30) {
                 data[i] = data[i].intern();
+            }
+        }
     }
 
     /**
@@ -2363,21 +2435,23 @@ public class TestResult {
         int startInd;
         int endInd;
 
-        if (start == null)
+        if (start == null) {
             startInd = where;
-        else {
+        } else {
             int i = s.indexOf(start, where);
-            if (i < 0)
+            if (i < 0) {
                 return null;
+            }
             startInd = i + start.length();
         }
 
-        if (end == null)
+        if (end == null) {
             endInd = s.length();
-        else {
+        } else {
             endInd = s.indexOf(end, startInd);
-            if (endInd == -1)
+            if (endInd == -1) {
                 return null;
+            }
         }
 
         try {
@@ -2397,8 +2471,9 @@ public class TestResult {
                     if (l != r) {
                         return false; // different content found
                     }
-                    if (l == -1)
+                    if (l == -1) {
                         return true;
+                    }
                 }
             } finally {
                 left.close();
@@ -2430,8 +2505,11 @@ public class TestResult {
      */
     private synchronized void notifyCreatedSection(Section section) {
         Observer[] observers = observersTable.get(this);
-        if (observers != null)
-            for (Observer observer : observers) observer.createdSection(this, section);
+        if (observers != null) {
+            for (Observer observer : observers) {
+                observer.createdSection(this, section);
+            }
+        }
     }
 
     /**
@@ -2441,8 +2519,11 @@ public class TestResult {
      */
     private synchronized void notifyCompletedSection(Section section) {
         Observer[] observers = observersTable.get(this);
-        if (observers != null)
-            for (Observer observer : observers) observer.completedSection(this, section);
+        if (observers != null) {
+            for (Observer observer : observers) {
+                observer.completedSection(this, section);
+            }
+        }
     }
 
     /**
@@ -2453,8 +2534,11 @@ public class TestResult {
      */
     private synchronized void notifyCreatedOutput(Section section, String outputName) {
         Observer[] observers = observersTable.get(this);
-        if (observers != null)
-            for (Observer observer : observers) observer.createdOutput(this, section, outputName);
+        if (observers != null) {
+            for (Observer observer : observers) {
+                observer.createdOutput(this, section, outputName);
+            }
+        }
     }
 
     /**
@@ -2465,8 +2549,11 @@ public class TestResult {
      */
     private synchronized void notifyCompletedOutput(Section section, String outputName) {
         Observer[] observers = observersTable.get(this);
-        if (observers != null)
-            for (Observer observer : observers) observer.completedOutput(this, section, outputName);
+        if (observers != null) {
+            for (Observer observer : observers) {
+                observer.completedOutput(this, section, outputName);
+            }
+        }
     }
 
     /**
@@ -2478,8 +2565,11 @@ public class TestResult {
      */
     private synchronized void notifyUpdatedOutput(Section section, String outputName, int start, int end, String text) {
         Observer[] observers = observersTable.get(this);
-        if (observers != null)
-            for (Observer observer : observers) observer.updatedOutput(this, section, outputName, start, end, text);
+        if (observers != null) {
+            for (Observer observer : observers) {
+                observer.updatedOutput(this, section, outputName, start, end, text);
+            }
+        }
     }
 
     /**
@@ -2494,7 +2584,9 @@ public class TestResult {
         if (observers != null) {
             // only create string if there are really observers who want to see it
             String text = new String(buf, offset, len);
-            for (Observer observer : observers) observer.updatedOutput(this, section, outputName, start, end, text);
+            for (Observer observer : observers) {
+                observer.updatedOutput(this, section, outputName, start, end, text);
+            }
         }
     }
 
@@ -2506,8 +2598,11 @@ public class TestResult {
      */
     private synchronized void notifyUpdatedProperty(String key, String value) {
         Observer[] observers = observersTable.get(this);
-        if (observers != null)
-            for (Observer observer : observers) observer.updatedProperty(this, key, value);
+        if (observers != null) {
+            for (Observer observer : observers) {
+                observer.updatedProperty(this, key, value);
+            }
+        }
     }
 
     /**
@@ -2520,7 +2615,9 @@ public class TestResult {
         // remove them from the table
         Observer[] observers = observersTable.remove(this);
         if (observers != null) {
-            for (Observer observer : observers) observer.completed(this);
+            for (Observer observer : observers) {
+                observer.completed(this);
+            }
             observersTable.remove(this);
         }
 
@@ -2558,14 +2655,16 @@ public class TestResult {
             for (Iterator<WeakReference<TestResult>> iter = shrinkList.iterator(); iter.hasNext(); ) {
                 WeakReference<TestResult> wref = iter.next();
                 Object o = wref.get();
-                if (o == null || o == this)
+                if (o == null || o == this) {
                     iter.remove();
+                }
             }
             while (shrinkList.size() >= maxShrinkListSize) {
                 WeakReference<TestResult> wref = shrinkList.removeFirst();
                 TestResult tr = wref.get();
-                if (tr != null)
+                if (tr != null) {
                     tr.shrink();
+                }
             }
             shrinkList.addLast(new WeakReference<>(this));
         }

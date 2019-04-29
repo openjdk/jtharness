@@ -116,8 +116,9 @@ abstract class BP_BranchSubpanel extends JPanel {
         for (int i = 1; i < path.length; i++) {
             try {
                 spot = (TT_BasicNode) spot.findByName(path[i].getName());
-                if (spot == null)
+                if (spot == null) {
                     return;     // not available in tree
+                }
 
                 list.add(spot);
             } catch (ClassCastException e) {
@@ -128,8 +129,9 @@ abstract class BP_BranchSubpanel extends JPanel {
         }
 
         TT_TreeNode tn = spot.findByName(tr);
-        if (!(tn instanceof TT_TestNode))
+        if (!(tn instanceof TT_TestNode)) {
             return;     // path does not refer to a test apparently
+        }
 
         Object[] fp = new Object[list.size() + 1];
         list.toArray(fp);

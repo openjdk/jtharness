@@ -143,20 +143,22 @@ public class KnownFailuresListInterview
         public void clear() {
             // clear will be called from the constructor once the choices have been set,
             // but we can't call out to the enclosing class before super() completes (NPE)
-            if (!doneSuper)
+            if (!doneSuper) {
                 return;
+            }
 
             super.clear();
         }
 
         @Override
         protected Question getNext() {
-            if (value == null)
+            if (value == null) {
                 return null;
-            else if (Objects.equals(value, YES))
+            } else if (Objects.equals(value, YES)) {
                 return qCustomFiles;
-            else
+            } else {
                 return qEnd;
+            }
         }
 
         private boolean doneSuper;
@@ -185,8 +187,9 @@ public class KnownFailuresListInterview
 
         @Override
         protected Question getNext() {
-            if (value == null || value.length == 0)
+            if (value == null || value.length == 0) {
                 return null;
+            }
 
             return checkExcludeList();
         }
@@ -206,10 +209,11 @@ public class KnownFailuresListInterview
         File[] files = getAbsoluteFiles(tsRootDir, getKflFiles());
         if (!equal(cachedExcludeList_files, files) || cachedExcludeList_testSuite != ts) {
             try {
-                if (ts == null || files == null || files.length == 0)
+                if (ts == null || files == null || files.length == 0) {
                     setCachedKfl(new KnownFailuresList());
-                else
+                } else {
                     setCachedKfl(new KnownFailuresList(files));
+                }
             } catch (FileNotFoundException e) {
                 setCachedKflError(qKflFileNotFound, e.getMessage());
             } catch (IOException e) {
@@ -275,10 +279,11 @@ public class KnownFailuresListInterview
 
     private Question checkExcludeList() {
         updateCachedExcludeListData();
-        if (cachedKflError != null)
+        if (cachedKflError != null) {
             return cachedKflError;
-        else
+        } else {
             return qEnd;
+        }
     }
 
     private Question qEnd = new FinalQuestion(this);
@@ -286,18 +291,22 @@ public class KnownFailuresListInterview
     //---------------------------------------------------------------------
 
     private static File[] getAbsoluteFiles(File baseDir, File... files) {
-        if (files == null)
+        if (files == null) {
             return null;
+        }
 
-        if (baseDir == null)
+        if (baseDir == null) {
             return files;
+        }
 
         boolean allAbsolute = true;
-        for (int i = 0; i < files.length && allAbsolute; i++)
+        for (int i = 0; i < files.length && allAbsolute; i++) {
             allAbsolute = files[i].isAbsolute();
+        }
 
-        if (allAbsolute)
+        if (allAbsolute) {
             return files;
+        }
 
         File[] absoluteFiles = new File[files.length];
         for (int i = 0; i < files.length; i++) {
@@ -315,15 +324,18 @@ public class KnownFailuresListInterview
     }
 
     private static boolean equal(File[] f1, File... f2) {
-        if (f1 == null || f2 == null)
+        if (f1 == null || f2 == null) {
             return f1 == f2;
+        }
 
-        if (f1.length != f2.length)
+        if (f1.length != f2.length) {
             return false;
+        }
 
         for (int i = 0; i < f1.length; i++) {
-            if (f1[i] != f2[i])
+            if (f1[i] != f2[i]) {
                 return false;
+            }
         }
 
         return true;

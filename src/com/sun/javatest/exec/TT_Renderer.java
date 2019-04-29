@@ -59,8 +59,9 @@ class TT_Renderer extends DefaultTreeCellRenderer {
         //loadIcons();
 
         // this is supposed to be caught during development
-        if (stateOrdering.length != Status.NUM_STATES)
+        if (stateOrdering.length != Status.NUM_STATES) {
             throw new JavaTestError(uif.getI18NString("tree.unmatched"));
+        }
     }
 
     @Override
@@ -130,8 +131,9 @@ class TT_Renderer extends DefaultTreeCellRenderer {
         TestFilter filter = filterHandler.getActiveFilter();
 
         if (params == null || params.getTestSuite() == null ||
-                model instanceof EmptyTestTreeModel)
+                model instanceof EmptyTestTreeModel) {
             return IconFactory.getTestFolderIcon(Status.NOT_RUN, false, true);
+        }
 
         if (value instanceof TT_TestNode) {
             TestResult tr = ((TT_TestNode) value).getTestResult();
@@ -145,19 +147,22 @@ class TT_Renderer extends DefaultTreeCellRenderer {
             */
 
             if (isFilteredOut(tr, filter))          // not selected for execution
+            {
                 return IconFactory.getTestIcon(IconFactory.FILTERED_OUT, false, true);
-            else if (isRunning(tr))
+            } else if (isRunning(tr)) {
                 return IconFactory.getTestIcon(tr.getStatus().getType(), true, true);
-            else
+            } else {
                 return IconFactory.getTestIcon(tr.getStatus().getType(), false, true);
+            }
         } else if (value instanceof TT_BasicNode) {
             TT_BasicNode tn = (TT_BasicNode) value;
             TT_NodeCache info = model.getNodeInfo(tn.getTableNode(), false);
             int[] stats = info.getStats();
 
             // XXX should probably investigate why this can happen
-            if (stats == null)
+            if (stats == null) {
                 return unknownIcon;
+            }
 
             /*
             if (!info.isValid() || info.isActive() ||   // being processed
@@ -176,8 +181,9 @@ class TT_Renderer extends DefaultTreeCellRenderer {
             return IconFactory.getTestFolderIcon(
                     selectBranchIconIndex(stats, active),
                     active, true);
-        } else
+        } else {
             return IconFactory.getFolderIcon();
+        }
     }
 
     private String getLabelText(Object value, TestTreeModel model) {
@@ -185,17 +191,20 @@ class TT_Renderer extends DefaultTreeCellRenderer {
             return ((TT_TestNode) value).getDisplayName();
         } else if (value instanceof TT_BasicNode) {
             TT_BasicNode tn = (TT_BasicNode) value;
-            if (tn.getParent() == null)
+            if (tn.getParent() == null) {
                 return uif.getI18NString("tree.rootName");
-            else
+            } else {
                 return tn.getDisplayName();
-        } else if (model instanceof EmptyTestTreeModel)
-            if (params == null || params.getTestSuite() == null)
+            }
+        } else if (model instanceof EmptyTestTreeModel) {
+            if (params == null || params.getTestSuite() == null) {
                 return uif.getI18NString("tree.noTs");
-            else
+            } else {
                 return uif.getI18NString("tree.rootName");
-        else
+            }
+        } else {
             return null;
+        }
     }
 
     private String getTipText(Object val) {
@@ -203,33 +212,39 @@ class TT_Renderer extends DefaultTreeCellRenderer {
             //return ((TestResult)val).getWorkRelativePath();
             return ((TestResult) val).getTestName();
         } else if (val instanceof TestResultTable.TreeNode) {
-            if (params == null || params.getTestSuite() == null)
+            if (params == null || params.getTestSuite() == null) {
                 return uif.getI18NString("tree.noRootName.tip");
+            }
 
             TestResultTable.TreeNode node = (TestResultTable.TreeNode) val;
-            if (node.isRoot())
+            if (node.isRoot()) {
                 return uif.getI18NString("tree.rootName.tip", params.getTestSuite().getName());
-            else
+            } else {
                 return TestResultTable.getRootRelativePath(node);
-        } else
+            }
+        } else {
             return null;
+        }
     }
 
     private boolean isFilteredOut(TestResult tr, TestFilter filter) {
-        if (filter == null)
+        if (filter == null) {
             return false;
+        }
 
-        if (debug > 1)
+        if (debug > 1) {
             Debug.println("TT - Checking filter for: " + tr.getTestName() + " (TR status=" +
                     tr.getStatus().getType() + ")");
+        }
 
         TestDescription td;
 
         try {
             td = tr.getDescription();
         } catch (TestResult.Fault f) {
-            if (debug > 0)
+            if (debug > 0) {
                 f.printStackTrace(Debug.getWriter());
+            }
 
             return false;
         }
@@ -245,8 +260,9 @@ class TT_Renderer extends DefaultTreeCellRenderer {
                 return true;
             }
         } catch (TestFilter.Fault f) {
-            if (debug > 0)
+            if (debug > 0) {
                 f.printStackTrace(Debug.getWriter());
+            }
 
             // just fall through to accept
         }       // catch
@@ -256,10 +272,11 @@ class TT_Renderer extends DefaultTreeCellRenderer {
     }
 
     private boolean isRunning(TestResult tr) {
-        if (tpm.isActive(tr))
+        if (tpm.isActive(tr)) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -290,10 +307,12 @@ class TT_Renderer extends DefaultTreeCellRenderer {
 
         // must be a filtered-out node
         if (!loading)
-            //return numBrIcons-1;
+        //return numBrIcons-1;
+        {
             return IconFactory.FILTERED_OUT;
-        else
+        } else {
             return Status.NOT_RUN;
+        }
     }
 
     private Parameters params;

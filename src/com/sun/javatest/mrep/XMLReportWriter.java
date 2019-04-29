@@ -248,11 +248,13 @@ class CopyHandler extends DefaultHandler {
 
     @Override
     public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
-        if (this.needWrite == false || this.skipByConflict == true)
+        if (this.needWrite == false || this.skipByConflict == true) {
             return;
+        }
         // copy only text is really present
-        if (String.copyValueOf(arg0, arg1, arg2).trim().isEmpty())
+        if (String.copyValueOf(arg0, arg1, arg2).trim().isEmpty()) {
             return;
+        }
         lh.startCDATA();
         ser.characters(arg0, arg1, arg2);
         lh.endCDATA();
@@ -271,9 +273,9 @@ class CopyHandler extends DefaultHandler {
             needWrite = false;
         }
         if (needWrite == true) {
-            if (skipByConflict == false)
+            if (skipByConflict == false) {
                 ser.endElement(arg0, arg1, arg2);
-            else if (arg2.equals(Scheme.TR)) {
+            } else if (arg2.equals(Scheme.TR)) {
                 skipByConflict = false;
             }
         }

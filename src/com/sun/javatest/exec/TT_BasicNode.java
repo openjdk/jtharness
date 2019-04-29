@@ -238,8 +238,9 @@ public class TT_BasicNode extends TT_TreeNode {
         }
 
         TT_TestNode tn = findByName(tr);
-        if (tn == null)
+        if (tn == null) {
             return null;
+        }
 
         synchronized (children) {
             int index = children.indexOf(tn);
@@ -278,8 +279,9 @@ public class TT_BasicNode extends TT_TreeNode {
             } else {
                 if (insert) {
                     return addTest(new TT_TestNode(this, tr), comp);
-                } else
+                } else {
                     return null;
+                }
             }
         }
     }
@@ -334,7 +336,7 @@ public class TT_BasicNode extends TT_TreeNode {
                 return pos;
             }
 
-            if (diff <= 0)
+            if (diff <= 0) {
                 if (res < 0) {
                     children.add(lPos, tn);
                     return lPos;
@@ -342,6 +344,7 @@ public class TT_BasicNode extends TT_TreeNode {
                     children.add(lPos + 1, tn);
                     return lPos + 1;
                 }
+            }
 
             if (res < 0) {
                 return recursiveIns(lPos, pos - 1, tn, dispName, sortComparator);
@@ -357,8 +360,9 @@ public class TT_BasicNode extends TT_TreeNode {
             if (isUpdated.compareAndSet(false, true)) {
                 updateNode0();
                 return true;
-            } else
+            } else {
                 return false;
+            }
         }  // sync
     }
 

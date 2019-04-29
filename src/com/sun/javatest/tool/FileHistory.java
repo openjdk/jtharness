@@ -57,8 +57,9 @@ public class FileHistory {
      * @return the specified FileHistory object
      */
     public static FileHistory getFileHistory(WorkDirectory wd, String name) {
-        if (cache == null)
+        if (cache == null) {
             cache = new WeakHashMap<>(8);
+        }
 
         // first, get a map for all files in this wd
         Map<String, FileHistory> map = cache.get(wd);
@@ -87,11 +88,13 @@ public class FileHistory {
      * @return the specified FileHistory object
      */
     public static FileHistory getFileHistory(File wdFile, String name) {
-        if (cache == null)
+        if (cache == null) {
             cache = new WeakHashMap<>(8);
+        }
 
-        if (!WorkDirectory.isWorkDirectory(wdFile))
+        if (!WorkDirectory.isWorkDirectory(wdFile)) {
             return null;
+        }
 
         // let's find in the cache work dir corresponding to the path
         Iterator<WorkDirectory> it = cache.keySet().iterator();
@@ -103,10 +106,11 @@ public class FileHistory {
                 break;
             }
         }
-        if (wd != null)
+        if (wd != null) {
             return FileHistory.getFileHistory(wd, name);
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -145,8 +149,9 @@ public class FileHistory {
         Vector<File> v = new Vector<>();
         for (int i = 0; i < entries.size() && v.size() < count; i++) {
             File f = entries.get(i);
-            if (f.exists())
+            if (f.exists()) {
                 v.add(f);
+            }
         }
 
         return v.toArray(new File[v.size()]);
@@ -168,8 +173,9 @@ public class FileHistory {
         // platforms.
         for (int i = 0; i < entries.size(); i++) {
             File f = entries.get(i);
-            if (f.exists())
+            if (f.exists()) {
                 return f;
+            }
         }
 
         return null;
@@ -205,15 +211,17 @@ public class FileHistory {
     }
 
     private void ensureEntriesUpToDate() {
-        if (entries == null || historyFile.lastModified() > historyFileLastModified)
+        if (entries == null || historyFile.lastModified() > historyFileLastModified) {
             readEntries();
+        }
     }
 
     private void readEntries() {
-        if (entries == null)
+        if (entries == null) {
             entries = new Vector<>();
-        else
+        } else {
             entries.clear();
+        }
 
         if (historyFile.exists()) {
             try {
@@ -221,8 +229,9 @@ public class FileHistory {
                 String line;
                 while ((line = br.readLine()) != null) {
                     String p = line.trim();
-                    if (p.isEmpty() || p.startsWith("#"))
+                    if (p.isEmpty() || p.startsWith("#")) {
                         continue;
+                    }
                     entries.add(new File(p));
                 }
                 br.close();
@@ -356,10 +365,11 @@ public class FileHistory {
                 JMenuItem noEntries = new JMenuItem(i18n.getString("fh.empty"));
                 noEntries.putClientProperty(FILE_HISTORY, this);
                 noEntries.setEnabled(false);
-                if (offset < 0)
+                if (offset < 0) {
                     menu.add(noEntries);
-                else
+                } else {
                     menu.insert(noEntries, offset);
+                }
             } else {
                 for (int i = 0; i < entries.length; i++) {
                     JMenuItem mi = new JMenuItem(i + " " + entries[i].getPath());
@@ -368,10 +378,11 @@ public class FileHistory {
                     mi.putClientProperty(FILE, entries[i]);
                     mi.putClientProperty(FILE_HISTORY, this);
                     mi.setMnemonic('0' + i);
-                    if (offset < 0)
+                    if (offset < 0) {
                         menu.add(mi);
-                    else
+                    } else {
                         menu.insert(mi, offset + i);
+                    }
                 }
             }
         }
@@ -392,8 +403,9 @@ public class FileHistory {
             // removing an item affects index of subsequent items
             for (int i = menu.getItemCount() - 1; i >= 0; i--) {
                 JMenuItem mi = menu.getItem(i);
-                if (mi != null && mi.getClientProperty(FILE_HISTORY) == this)
+                if (mi != null && mi.getClientProperty(FILE_HISTORY) == this) {
                     menu.remove(mi);
+                }
             }
         }
 

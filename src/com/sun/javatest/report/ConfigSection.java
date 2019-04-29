@@ -97,22 +97,25 @@ class ConfigSection extends HTMLSection {
         out.startTag(HTMLWriterEx.TD);
 
         TestSuite ts = settings.getInterview().getTestSuite();
-        if (ts != null)
+        if (ts != null) {
             out.writeLink(ts.getRoot());
-        else
+        } else {
             out.write(i18n.getString("config.noTestSuite"));
+        }
 
         out.endTag(HTMLWriterEx.TD);
         out.endTag(HTMLWriterEx.TR);
         out.endTag(HTMLWriterEx.TABLE);
 
         // standard values
-        if (settings.isStdEnabled())
+        if (settings.isStdEnabled()) {
             writeStdValSummary(out);
+        }
 
         // optional section
-        if (settings.isEnvEnabled())
+        if (settings.isEnvEnabled()) {
             writeExecutionSummary(out);
+        }
 
         // non-optional section
         // shows workdir, and report dir
@@ -123,17 +126,20 @@ class ConfigSection extends HTMLSection {
     void writeExtraFiles() throws IOException {
         // optional section
         // tied to question log option
-        if (settings.isQuestionLogEnabled())
+        if (settings.isQuestionLogEnabled()) {
             writeConfigInterview();
+        }
 
         // optional section
         // tied to writing env values in main report
-        if (settings.isEnvEnabled())
+        if (settings.isEnvEnabled()) {
             writeEnvironment();
+        }
 
         // tied to writing standard values in main report
-        if (settings.isStdEnabled())
+        if (settings.isStdEnabled()) {
             writeExcludeList();
+        }
     }
 
     private void writeStdValSummary(ReportWriter out) throws IOException {
@@ -154,18 +160,20 @@ class ConfigSection extends HTMLSection {
 
         if (tests != null && tests.length > 0) {
             for (int i = 0; i < tests.length; i++) {
-                if (i > 0)
+                if (i > 0) {
                     out.startTag(HTMLWriterEx.BR);
+                }
                 File file = new File(ts.getTestsDir(), tests[i]);
 
                 // don't try to link if it doesn't exist _now_
                 // this is a combination of legacy behavior (link always)
                 // and better behavior for new test suites which are more
                 // virtual and that may remap file locations
-                if (file.exists())
+                if (file.exists()) {
                     out.writeLink(file, tests[i]);
-                else
+                } else {
                     out.write(tests[i]);
+                }
             }
         } else {
             out.write(i18n.getString("config.tests.all"));
@@ -187,15 +195,17 @@ class ConfigSection extends HTMLSection {
 
             for (int i = 0; i < b.length; i++) {
                 if (b[i]) {
-                    if (sb.length() > 0)
+                    if (sb.length() > 0) {
                         sb.append(" or "); // XXX needs i18n
+                    }
                     sb.append(ss[i]);
                 }
             }  // for
 
             out.writeTD(sb.toString());
-        } else
+        } else {
             out.writeTD(i18n.getString("config.previous.none"));
+        }
 
         out.endTag(HTMLWriterEx.TR);
 
@@ -214,9 +224,10 @@ class ConfigSection extends HTMLSection {
 
             Parameters.ExcludeListParameters exclParams = settings.getInterview().getExcludeListParameters();
             File[] excludeFiles = null;
-            if (exclParams instanceof Parameters.MutableExcludeListParameters)
+            if (exclParams instanceof Parameters.MutableExcludeListParameters) {
                 excludeFiles =
                         ((Parameters.MutableExcludeListParameters) exclParams).getExcludeFiles();
+            }
 
             if (excludeFiles != null && excludeFiles.length > 0) {
                 for (File excludeFile : excludeFiles) {
@@ -225,8 +236,9 @@ class ConfigSection extends HTMLSection {
                             excludeFile.getPath());
                 }   // for
             }
-        } else
+        } else {
             out.write(i18n.getString("config.jtx.nofiles"));
+        }
 
         out.endTag(HTMLWriterEx.TD);
         out.endTag(HTMLWriterEx.TR);
@@ -280,14 +292,16 @@ class ConfigSection extends HTMLSection {
             out.writeTH(i18n.getString("config.configInterview"), HTMLWriterEx.ROW);
             out.startTag(HTMLWriterEx.TD);
             String name = settings.getInterview().getName();
-            if (name == null)
+            if (name == null) {
                 out.writeLink(HTMLReport.files[HTMLReport.CONFIG_HTML],
                         i18n.getString("config.confInterview"));
-            else
+            } else {
                 out.writeLink(HTMLReport.files[HTMLReport.CONFIG_HTML], name);
+            }
 
-            if (!settings.getInterview().isValid())
+            if (!settings.getInterview().isValid()) {
                 out.writeWarning(i18n.getString("config.intIncomplete"));
+            }
             out.endTag(HTMLWriterEx.TD);
             out.endTag(HTMLWriterEx.TR);
         }
@@ -413,8 +427,9 @@ class ConfigSection extends HTMLSection {
             out.writeI18N("config.excl.none");
         } else {
             SortedSet<ExcludeList.Entry> sortedEntries = new TreeSet<>(new ExcludeListEntryComparator());
-            for (Iterator<?> iter = excludeList.getIterator(false); iter.hasNext(); )
+            for (Iterator<?> iter = excludeList.getIterator(false); iter.hasNext(); ) {
                 sortedEntries.add((ExcludeList.Entry) iter.next());
+            }
 
             out.startTag(HTMLWriterEx.TABLE);
             out.writeAttr(HTMLWriterEx.BORDER, 1);
@@ -444,8 +459,9 @@ class ConfigSection extends HTMLSection {
                 out.startTag(HTMLWriterEx.TD);
                 String[] bugIds = e.getBugIdStrings();
                 for (int i = 0; i < bugIds.length; i++) {
-                    if (i > 0)
+                    if (i > 0) {
                         out.write(" ");
+                    }
                     out.write(bugIds[i]);
                 }
                 out.endTag(HTMLWriterEx.TD);
@@ -464,10 +480,11 @@ class ConfigSection extends HTMLSection {
 
     private void writeTD(ReportWriter out, String text) throws IOException {
         out.startTag(HTMLWriterEx.TD);
-        if (text == null || text.isEmpty())
+        if (text == null || text.isEmpty()) {
             out.writeEntity("&nbsp;");
-        else
+        } else {
             out.write(text);
+        }
         out.endTag(HTMLWriterEx.TD);
     }
 
@@ -475,8 +492,9 @@ class ConfigSection extends HTMLSection {
         @Override
         public int compare(ExcludeList.Entry e1, ExcludeList.Entry e2) {
             int x = compare(e1.getRelativeURL(), e2.getRelativeURL());
-            if (x == 0)
+            if (x == 0) {
                 x = compare(e1.getTestCases(), e2.getTestCases());
+            }
             return x;
 
         }
@@ -486,8 +504,9 @@ class ConfigSection extends HTMLSection {
             int blen = b == null ? 0 : b.length;
             for (int i = 0; i < Math.min(alen, blen); i++) {
                 int c = compare(a[i], b[i]);
-                if (c != 0)
+                if (c != 0) {
                     return c;
+                }
             }
             return alen < blen ? -1 : alen == blen ? 0 : +1;
         }

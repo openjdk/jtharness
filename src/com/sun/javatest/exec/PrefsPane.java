@@ -68,8 +68,9 @@ class PrefsPane extends PreferencesPane {
             runPane = new RunPane();
         }
 
-        if (childPanes == null)
+        if (childPanes == null) {
             childPanes = new PreferencesPane[]{configEditorPane, reportingPane, runPane};
+        }
         return childPanes;
     }
 

@@ -42,8 +42,9 @@ public class ActiveConnectionFactory implements ConnectionFactory {
      * @param port The port on the host to which the connections should connect.
      */
     public ActiveConnectionFactory(String host, int port) {
-        if (host == null)
+        if (host == null) {
             throw new NullPointerException();
+        }
 
         if (host.isEmpty()) {
             throw new IllegalArgumentException("Cannot start active agent connection - empty value for hostname.");

@@ -318,8 +318,9 @@ class ParametrizeValue {
         terms = newValue;
         varNumb = 0;
         for (Term t : terms) {
-            if (t.isVariable())
+            if (t.isVariable()) {
                 varNumb++;
+            }
         }
     }
 

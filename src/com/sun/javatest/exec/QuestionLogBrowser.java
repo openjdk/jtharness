@@ -57,14 +57,16 @@ class QuestionLogBrowser extends ToolDialog {
     QuestionLogBrowser(JComponent parent, ExecModel model, UIFactory uif) {
         super(parent, uif, "qlb");
 
-        if (model == null)
+        if (model == null) {
             throw new NullPointerException();
+        }
 
         this.model = model;
 
         params = model.getInterviewParameters();
-        if (params == null)
+        if (params == null) {
             throw new NullPointerException();
+        }
 
         listener = new Listener();
     }
@@ -97,16 +99,18 @@ class QuestionLogBrowser extends ToolDialog {
     }
 
     private void updateContent() {
-        if (body == null)
+        if (body == null) {
             initGUI();
+        }
 
         final JDialog d = uif.createWaitDialog("qlb.wait", parent);
 
         File f = params.getFile();
-        if (f == null)
+        if (f == null) {
             setI18NTitle("qlb.title");
-        else
+        } else {
             setI18NTitle("qlb.titleWithFile", f);
+        }
 
         final Thread t = new Thread() {
             @Override
@@ -176,8 +180,10 @@ class QuestionLogBrowser extends ToolDialog {
         while (file == null) {
             int rc = fileChooser.showDialog(parent, uif.getI18NString("qlb.save.btn"));
             if (rc != JFileChooser.APPROVE_OPTION)
-                // user has canceled or closed the chooser
+            // user has canceled or closed the chooser
+            {
                 return;
+            }
 
             file = fileChooser.getSelectedFile();
 
@@ -185,8 +191,9 @@ class QuestionLogBrowser extends ToolDialog {
             // otherwise, make sure it ends with .html
             if (!file.exists()) {
                 String path = file.getPath();
-                if (!path.endsWith(".html"))
+                if (!path.endsWith(".html")) {
                     file = new File(path + ".html");
+                }
             }
 
             // if file exists, make sure user wants to overwrite it
@@ -212,12 +219,13 @@ class QuestionLogBrowser extends ToolDialog {
             out.write(((JEditorPane) body.getMediaPane(MultiFormatPane.TEXT)).getText());
             out.close();
         } catch (IOException e) {
-            if (!file.canWrite())
+            if (!file.canWrite()) {
                 uif.showError("qlb.save.cantWriteFile", file);
-            else if (e instanceof FileNotFoundException)
+            } else if (e instanceof FileNotFoundException) {
                 uif.showError("qlb.save.cantFindFile", file);
-            else
+            } else {
                 uif.showError("qlb.save.error", file, e);
+            }
         }
     }
 
@@ -236,12 +244,13 @@ class QuestionLogBrowser extends ToolDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
-            if (cmd.equals(SAVE_AS))
+            if (cmd.equals(SAVE_AS)) {
                 doSaveAs();
-            else if (cmd.equals(PRINT_SETUP))
+            } else if (cmd.equals(PRINT_SETUP)) {
                 doPrintSetup();
-            else if (cmd.equals(PRINT))
+            } else if (cmd.equals(PRINT)) {
                 doPrint();
+            }
         }
 
         // ComponentListener

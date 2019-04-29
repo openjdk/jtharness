@@ -71,10 +71,11 @@ public class InetAddressQuestionRenderer
 
         if (type == InetAddressQuestion.IPv4
                 && style == InetAddressQuestion.IPv4
-                && suggestions == null)
+                && suggestions == null) {
             return createIPv4Panel(q, listener);
-        else
+        } else {
             return createIPv6Panel(q, listener);
+        }
     }
 
     protected JPanel createIPv4Panel(InetAddressQuestion q, ActionListener listener) {
@@ -114,8 +115,9 @@ public class InetAddressQuestionRenderer
 
             panel.add(field, c);
 
-            if (i > 0)
+            if (i > 0) {
                 fields[i - 1].putClientProperty("next", field);
+            }
 
             fields[i] = field;
         }
@@ -175,9 +177,11 @@ public class InetAddressQuestionRenderer
                     src.getCaret().moveDot(savedDot);
                 }
             } else if (cmd.charAt(0) == '\n')
-                // ignore spurious newlines; don't know why we are getting them
-                // (they occur when doing enter in previous question)
+            // ignore spurious newlines; don't know why we are getting them
+            // (they occur when doing enter in previous question)
+            {
                 return;
+            }
             fields[0].getToolkit().beep();
         }
     }
@@ -188,12 +192,14 @@ public class InetAddressQuestionRenderer
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 4; i++) {
                 String s = fields[i].getText();
-                if (s == null || s.isEmpty())
+                if (s == null || s.isEmpty()) {
                     sb.append("0");
-                else
+                } else {
                     sb.append(s);
-                if (i < 3)
+                }
+                if (i < 3) {
                     sb.append(".");
+                }
             }
             try {
                 InetAddress a = InetAddress.getByName(sb.toString());
@@ -208,9 +214,9 @@ public class InetAddressQuestionRenderer
         InetAddress[] suggestions = q.getSuggestions();
 
         String[] ss;
-        if (suggestions == null)
+        if (suggestions == null) {
             ss = null;
-        else {
+        } else {
             ss = new String[suggestions.length];
             for (int i = 0; i < suggestions.length; i++) {
                 InetAddress sugg = suggestions[i];
@@ -333,9 +339,9 @@ public class InetAddressQuestionRenderer
             String cmd = e.getActionCommand();
             if (cmd.equals(LOOKUP)) {
                 String name = nameField.getText();
-                if (name == null || name.isEmpty())
+                if (name == null || name.isEmpty()) {
                     errorField.setText(i18n.getString("inet.lookup.noName.err"));
-                else {
+                } else {
                     InetAddress[] addrs;
                     try {
                         addrs = InetAddress.getAllByName(name);
@@ -345,11 +351,13 @@ public class InetAddressQuestionRenderer
 
                     listModel.clear();
 
-                    if (addrs == null || addrs.length == 0)
+                    if (addrs == null || addrs.length == 0) {
                         errorField.setText(i18n.getString("inet.lookup.notFound.err"));
-                    else {
+                    } else {
                         errorField.setText("");
-                        for (InetAddress addr : addrs) listModel.addElement(addr.getHostAddress());
+                        for (InetAddress addr : addrs) {
+                            listModel.addElement(addr.getHostAddress());
+                        }
                         list.setSelectedIndex(0);
                     }
                 }

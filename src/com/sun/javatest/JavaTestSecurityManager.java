@@ -274,14 +274,16 @@ class NewJavaTestSecurityManager extends JavaTestSecurityManager {
     public void checkPermission(Permission perm) {
         // allow most stuff, but limit as appropriate
         if (perm instanceof RuntimePermission) {
-            if (perm.getName().equals("exitVM"))
+            if (perm.getName().equals("exitVM")) {
                 checkExit(0);
+            }
             if (perm.getName().equals("createSecurityManager")) {
                 super.checkPermission(new java.lang.RuntimePermission("createSecurityManager"));
             }
         } else if (perm instanceof PropertyPermission) {
-            if (perm.getActions().equals("read,write"))
+            if (perm.getActions().equals("read,write")) {
                 checkPropertiesAccess();
+            }
         }
     }
 }

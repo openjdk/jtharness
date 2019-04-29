@@ -55,10 +55,11 @@ public class XMLWriter {
      * @throws IOException if there is a problem writing to the underlying stream
      */
     public XMLWriter(Writer out, String docType) throws IOException {
-        if (out instanceof BufferedWriter)
+        if (out instanceof BufferedWriter) {
             this.out = (BufferedWriter) out;
-        else
+        } else {
             this.out = new BufferedWriter(out);
+        }
         this.out.write(docType);
         this.out.newLine();
     }
@@ -187,8 +188,9 @@ public class XMLWriter {
      * @throws IOException           if there is a problem closing the underlying stream
      */
     public void writeAttr(String name, String value) throws IOException {
-        if (state != IN_TAG)
+        if (state != IN_TAG) {
             throw new IllegalStateException();
+        }
 
         out.write(" ");
         out.write(name);
@@ -240,8 +242,9 @@ public class XMLWriter {
      * @throws IOException if a exception occurs during writing
      */
     public void writeDate(Date date) throws IOException {
-        if (dateFormatter == null)
+        if (dateFormatter == null) {
             dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        }
         write(dateFormatter.format(date));
     }
 
@@ -269,8 +272,9 @@ public class XMLWriter {
      * @throws IOException if there is a problem closing the underlying stream
      */
     public void write(String text) throws IOException {
-        if (text.isEmpty())
+        if (text.isEmpty()) {
             return;
+        }
 
         if (state == IN_TAG) {
             out.write(">");
@@ -307,8 +311,9 @@ public class XMLWriter {
                         out.write(c);
                 }
             }
-        } else
+        } else {
             out.write(text);
+        }
     }
 
     /**

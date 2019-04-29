@@ -70,8 +70,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         nodes[0] = node;
         init(nodes);
 
-        if (debug)
+        if (debug) {
             Debug.println("Created TreeIterator without filters, one initial node.");
+        }
     }
 
     /**
@@ -86,8 +87,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         nodes[0] = node;
         init(nodes);
 
-        if (debug)
+        if (debug) {
             Debug.println("Created TreeIterator with filters and one initial node.");
+        }
     }
 
     /**
@@ -109,8 +111,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
         init(this.nodes);
 
-        if (debug)
+        if (debug) {
             Debug.println("Created TreeIterator with filters and initial nodes.");
+        }
     }
 
     /**
@@ -154,8 +157,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
         init(this.nodes);
 
-        if (debug)
+        if (debug) {
             Debug.println("Created TreeIterator with filters, nodes and initial TR set.");
+        }
     }
 
     // --- Enumerator interface  ---
@@ -164,8 +168,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         synchronized (outQueueLock) {
             if (!finished) {
                 return true;
-            } else
+            } else {
                 return false;
+            }
         }   // sync
     }
 
@@ -306,9 +311,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      */
     @Override
     public TestFilter[] getFilters() {
-        if (filters == null || filters.length == 0)
+        if (filters == null || filters.length == 0) {
             return null;
-        else {
+        } else {
             // shallow copy it
             TestFilter[] copy = new TestFilter[filters.length];
             System.arraycopy(filters, 0, copy, 0, filters.length);
@@ -337,7 +342,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
         // can we correctly show the effective urls from here?  what about TCs?
         if (nodes != null) {
-            for (TestResultTable.TreeNode node : nodes) urls.add(TestResultTable.getRootRelativePath(node));
+            for (TestResultTable.TreeNode node : nodes) {
+                urls.add(TestResultTable.getRootRelativePath(node));
+            }
         }
 
         if (initialTests != null) {
@@ -354,30 +361,33 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
     @Override
     public Object peek() {
-        if (hasNext())
+        if (hasNext()) {
             synchronized (outQueueLock) {
                 return outQueue.getFirst();
             }   // sync
-        else
+        } else {
             return null;
+        }
     }
 
     @Override
     public boolean isPending(TestResult node) {
-        if (!hasMoreElements())
+        if (!hasMoreElements()) {
             return false;
+        }
 
         String testName = node.getTestName();
         String partial = testName;
 
         synchronized (outQueueLock) {
             // compare to outgoing test result objects
-            if (!outQueue.isEmpty())
+            if (!outQueue.isEmpty()) {
                 for (TestResult tr : outQueue) {
                     if (tr.getTestName().equals(testName)) {
                         return true;
                     }
                 }   // for
+            }
         }       // sync
 
         boolean result = false;
@@ -404,7 +414,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                         // lang/foo/bar/baz.html becomes bar/baz.html and
                         // we continue...
                         if (!nodePath.isEmpty())     // root nodePath is ""
+                        {
                             partial = testName.substring(nodePath.length() + 1);
+                        }
 
                         // traverse the stack
                         // XXX this could be made more efficient
@@ -421,8 +433,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                             int currIndex = frame.getCurrentIndex();
 
                             // special case where test is at top of testsuite
-                            if (!testName.contains("/"))
+                            if (!testName.contains("/")) {
                                 pos = currIndex;
+                            }
 
                             // possible outcomes:
                             // 1 test in question can not be found
@@ -555,17 +568,19 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * @param nodes May be null or zero length.
      */
     private void init(TestResultTable.TreeNode... nodes) {
-        if (nodes != null && nodes.length == 0)
+        if (nodes != null && nodes.length == 0) {
             this.nodes = null;
-        else
+        } else {
             this.nodes = nodes;
+        }
 
         boolean hasNodes = nextNode();
 
-        if (hasNodes)
+        if (hasNodes) {
             findNext();
-        else if (outQueue.isEmpty())
+        } else if (outQueue.isEmpty()) {
             finished = true;
+        }
         // else outQueue.length != 0, so we continue
     }
 
@@ -575,16 +590,18 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     private synchronized void findNext() {
         boolean done = false;
 
-        if (finished == true)
+        if (finished == true) {
             return;
+        }
 
         while (!done) {
             // init(),nextFrame() will set currFrame if there are any nodes to
             // process.  If this is null, our work is done.
             if (currFrame == null) {
                 synchronized (outQueueLock) {
-                    if (outQueue.isEmpty())
+                    if (outQueue.isEmpty()) {
                         finished = true;
+                    }
                 }   // sync
                 return;
             }
@@ -626,24 +643,27 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                         // need handle onto TRT to reset
                         // could use TR.getParent(), but it's
                         // probably better not to trust it
-                        if (nodes != null && nodes[0] != null)
+                        if (nodes != null && nodes[0] != null) {
                             trt = nodes[0].getEnclosingTable();
-                        else if (test.getParent() != null) {
+                        } else if (test.getParent() != null) {
                             trt = test.getParent().getEnclosingTable();
-                        } else
+                        } else {
                             continue;
+                        }
 
-                        if (trt == null)
+                        if (trt == null) {
                             continue;
-                        else {
+                        } else {
                             test = trt.resetTest(test);
                             // nowr retry once
                             try {
-                                if (wouldAccept(test) >= 0)
+                                if (wouldAccept(test) >= 0) {
                                     continue;   // rejected
+                                }
                             } catch (TestResult.Fault f2) {
-                                if (debug)
+                                if (debug) {
                                     f2.printStackTrace(Debug.getWriter());
+                                }
                                 // give up
                                 continue;
                             }
@@ -668,10 +688,11 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * root node?
      */
     private boolean isTop(TestResultTable.TreeNode where) {
-        if (where.isRoot() || nodes[nodeIndex] == where)
+        if (where.isRoot() || nodes[nodeIndex] == where) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -730,10 +751,11 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * @return The next frame on the stack.  Null if stack is empty.
      */
     private PseudoFrame pop() {
-        if (!stack.empty())
+        if (!stack.empty()) {
             return stack.pop();
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -744,8 +766,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
         // if we reach the bottom of the stack, we need a new node
         // it will set currFrame for us
-        if (currFrame == null)
+        if (currFrame == null) {
             nextNode();
+        }
     }
 
     /**
@@ -757,11 +780,13 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      *                          probably a reload fault.
      */
     private int wouldAccept(TestResult tr) throws TestResult.Fault {
-        if (filters == null || filters.length == 0)
+        if (filters == null || filters.length == 0) {
             return -1;
+        }
 
-        if (debug)
+        if (debug) {
             Debug.println("Iterator checking filter for: " + tr.getWorkRelativePath());
+        }
 
         absoluteCount++;
         currentResult = tr;
@@ -777,8 +802,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                 }
             } catch (TestFilter.Fault f) {
                 accepted = true;
-                if (debug)
+                if (debug) {
                     Debug.println("   -> exception while checking filter: " + f.getMessage());
+                }
             }   // catch
 
             if (!accepted) {
@@ -817,16 +843,17 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         int currIndex = frame.getCurrentIndex();
         int result = 3;
 
-        if (targetIndex == -1)
+        if (targetIndex == -1) {
             result = -1;
-        else if (targetIndex < currIndex)
+        } else if (targetIndex < currIndex) {
             result = 0;
-        else if (targetIndex == currIndex)
+        } else if (targetIndex == currIndex) {
             result = 1;
-        else if (targetIndex > currIndex)
+        } else if (targetIndex > currIndex) {
             result = 2;
-        else
+        } else {
             result = 3;
+        }
 
         return result;
     }
@@ -955,10 +982,11 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
          * @return -1 if work in this node is complete
          */
         int nextIndex() {
-            if (++currIndex < node.getChildCount())
+            if (++currIndex < node.getChildCount()) {
                 return currIndex;
-            else
+            } else {
                 return -1;
+            }
         }
 
         /**
@@ -994,8 +1022,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
                 // XXX remove later...
                 try {
-                    if (currentResult.getDescription() != d)
+                    if (currentResult.getDescription() != d) {
                         throw new JavaTestError("TRT_Iterator observed TR.TD does not match filtered one.");
+                    }
                 } catch (TestResult.Fault f) {
                     throw new JavaTestError("TRT_Iterator cannot determine TR source info.", f);
                 }   // sanity check

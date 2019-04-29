@@ -74,10 +74,11 @@ class ExcludeListBrowser extends ToolDialog {
         File[] exclFiles;
         Parameters.ExcludeListParameters eParams =
                 params.getExcludeListParameters();
-        if (eParams instanceof Parameters.MutableExcludeListParameters)
+        if (eParams instanceof Parameters.MutableExcludeListParameters) {
             exclFiles = ((Parameters.MutableExcludeListParameters) eParams).getExcludeFiles();
-        else
+        } else {
             exclFiles = null;
+        }
 
         // rely on interview caching to allow reference equality here
         if (list != exclList || files != exclFiles || model == null || list.size() != model.getRowCount()) {
@@ -212,8 +213,9 @@ class ExcludeListBrowser extends ToolDialog {
         String[] bugIds = e.getBugIdStrings();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < bugIds.length; i++) {
-            if (i > 0)
+            if (i > 0) {
                 sb.append(", ");
+            }
             sb.append(bugIds[i]);
         }
         return sb.toString();
@@ -223,8 +225,9 @@ class ExcludeListBrowser extends ToolDialog {
         String[] keywords = e.getPlatforms();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < keywords.length; i++) {
-            if (i > 0)
+            if (i > 0) {
                 sb.append(", ");
+            }
             sb.append(keywords[i]);
         }
         return sb.toString();

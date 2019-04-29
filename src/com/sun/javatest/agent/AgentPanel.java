@@ -81,8 +81,9 @@ class AgentPanel extends ScrollPane {
      * @see Agent
      */
     public synchronized void setMode(String mode) {
-        if (currAgent != null)
+        if (currAgent != null) {
             throw new IllegalStateException();
+        }
 
         paramPanel.setMode(mode);
     }
@@ -95,8 +96,9 @@ class AgentPanel extends ScrollPane {
      * @see Agent
      */
     public void setConcurrency(int conc) {
-        if (currAgent != null)
+        if (currAgent != null) {
             throw new IllegalStateException();
+        }
 
         paramPanel.setConcurrency(conc);
     }
@@ -108,8 +110,9 @@ class AgentPanel extends ScrollPane {
      * @see Agent#setMap
      */
     public void setMapFile(String mapFile) {
-        if (currAgent != null)
+        if (currAgent != null) {
             throw new IllegalStateException();
+        }
 
         paramPanel.setMapFile(mapFile);
     }
@@ -122,8 +125,9 @@ class AgentPanel extends ScrollPane {
      * @see Agent
      */
     public void setRetryDelay(int delay) {
-        if (currAgent != null)
+        if (currAgent != null) {
             throw new IllegalStateException();
+        }
 
         paramPanel.setRetryDelay(delay);
     }
@@ -150,8 +154,9 @@ class AgentPanel extends ScrollPane {
      * @see Agent
      */
     public void setHistoryLimit(int limit) {
-        if (currAgent != null)
+        if (currAgent != null) {
             throw new IllegalStateException();
+        }
 
         historyList.setMaxTasks(limit);
     }
@@ -162,10 +167,12 @@ class AgentPanel extends ScrollPane {
      * @param userObs an observer to monitor the agent
      */
     public void addObserver(Agent.Observer userObs) {
-        if (userObs == null)
+        if (userObs == null) {
             throw new NullPointerException();
-        if (this.userObs != null)
+        }
+        if (this.userObs != null) {
             throw new IllegalStateException("Only one observer can be registered.");
+        }
         this.userObs = userObs;
     }
 
@@ -177,8 +184,9 @@ class AgentPanel extends ScrollPane {
             currAgent = paramPanel.createAgent();
             currAgent.setTracing(tracing);
             currAgent.addObserver(agentObs);
-            if (userObs != null)
+            if (userObs != null) {
                 currAgent.addObserver(userObs);
+            }
 
             Thread t = new Thread(currAgent, "AgentPanel worker thread");
             t.start();
@@ -208,8 +216,9 @@ class AgentPanel extends ScrollPane {
      */
     public synchronized void stop() {
         buttonPanel.setStopEnabled(false);
-        if (currAgent != null)
+        if (currAgent != null) {
             currAgent.interrupt();
+        }
         // the panel will be set idle when the agent reports (via the AgentObserver)
         // that it is finished
     }
@@ -294,7 +303,9 @@ class AgentPanel extends ScrollPane {
     }
 
     private void error(String... msgs) {
-        for (String msg : msgs) System.out.println(msg);
+        for (String msg : msgs) {
+            System.out.println(msg);
+        }
         errorPanel.show(msgs);
         deck.show(errorPanel);
     }
@@ -363,8 +374,9 @@ class AgentPanel extends ScrollPane {
         @Override
         public void started(Agent sl) {
             synchronized (AgentPanel.this) {
-                if (sl != currAgent)
+                if (sl != currAgent) {
                     return;
+                }
 
                 historyList.removeAll();
                 taskPanel.setTask(null);
@@ -375,8 +387,9 @@ class AgentPanel extends ScrollPane {
         @Override
         public void errorOpeningConnection(Agent sl, Exception e) {
             synchronized (AgentPanel.this) {
-                if (sl != currAgent)
+                if (sl != currAgent) {
                     return;
+                }
 
                 String[] msgs = {"error opening connection", e.getMessage()};
                 error(msgs);
@@ -386,8 +399,9 @@ class AgentPanel extends ScrollPane {
         @Override
         public void finished(Agent sl) {
             synchronized (AgentPanel.this) {
-                if (sl != currAgent)
+                if (sl != currAgent) {
                     return;
+                }
 
                 setIdle();
             }
@@ -396,13 +410,15 @@ class AgentPanel extends ScrollPane {
         @Override
         public void openedConnection(Agent sl, Connection c) {
             synchronized (AgentPanel.this) {
-                if (sl != currAgent)
+                if (sl != currAgent) {
                     return;
+                }
 
                 TaskState ts = new TaskState(c);
                 historyList.addTask(ts);
-                if (taskPanel.getTask() == null)
+                if (taskPanel.getTask() == null) {
                     taskPanel.setTask(ts);
+                }
                 statsPanel.startedTask(ts);
             }
         }
@@ -410,8 +426,9 @@ class AgentPanel extends ScrollPane {
         @Override
         public void execTest(Agent sl, Connection c, String tag, String className, String... args) {
             synchronized (AgentPanel.this) {
-                if (sl != currAgent)
+                if (sl != currAgent) {
                     return;
+                }
 
                 TaskState ts = historyList.getTask(c);
                 ts.mode = TaskState.TEST;
@@ -419,16 +436,18 @@ class AgentPanel extends ScrollPane {
                 ts.className = className;
                 ts.args = args;
                 historyList.update(ts, "EXEC", tag);
-                if (ts == taskPanel.getTask())
+                if (ts == taskPanel.getTask()) {
                     taskPanel.update();
+                }
             }
         }
 
         @Override
         public void execCommand(Agent sl, Connection c, String tag, String className, String... args) {
             synchronized (AgentPanel.this) {
-                if (sl != currAgent)
+                if (sl != currAgent) {
                     return;
+                }
 
                 TaskState ts = historyList.getTask(c);
                 ts.mode = TaskState.COMMAND;
@@ -436,16 +455,18 @@ class AgentPanel extends ScrollPane {
                 ts.className = className;
                 ts.args = args;
                 historyList.update(ts, "EXEC", tag);
-                if (ts == taskPanel.getTask())
+                if (ts == taskPanel.getTask()) {
                     taskPanel.update();
+                }
             }
         }
 
         @Override
         public void execMain(Agent sl, Connection c, String tag, String className, String... args) {
             synchronized (AgentPanel.this) {
-                if (sl != currAgent)
+                if (sl != currAgent) {
                     return;
+                }
 
                 TaskState ts = historyList.getTask(c);
                 ts.mode = TaskState.MAIN;
@@ -453,37 +474,42 @@ class AgentPanel extends ScrollPane {
                 ts.className = className;
                 ts.args = args;
                 historyList.update(ts, "EXEC", tag);
-                if (ts == taskPanel.getTask())
+                if (ts == taskPanel.getTask()) {
                     taskPanel.update();
+                }
             }
         }
 
         @Override
         public void result(Agent sl, Connection c, Status r) {
             synchronized (AgentPanel.this) {
-                if (sl != currAgent)
+                if (sl != currAgent) {
                     return;
+                }
 
                 TaskState ts = historyList.getTask(c);
                 // don't update history list until data passed back to AgentClient OK
                 // (i.e. in completed(...)
                 ts.status = r;
-                if (ts == taskPanel.getTask())
+                if (ts == taskPanel.getTask()) {
                     taskPanel.update();
+                }
             }
         }
 
         @Override
         public void exception(Agent sl, Connection c, Throwable t) {
             synchronized (AgentPanel.this) {
-                if (sl != currAgent)
+                if (sl != currAgent) {
                     return;
+                }
 
                 TaskState ts = historyList.getTask(c);
-                if (ts.tag == null)
+                if (ts.tag == null) {
                     historyList.removeTask(ts);
-                else
+                } else {
                     historyList.update(ts, "*IO*", ts.tag);
+                }
                 statsPanel.finishedTask(ts, false);
             }
         }
@@ -491,8 +517,9 @@ class AgentPanel extends ScrollPane {
         @Override
         public void completed(Agent sl, Connection c) {
             synchronized (AgentPanel.this) {
-                if (sl != currAgent)
+                if (sl != currAgent) {
                     return;
+                }
 
                 TaskState ts = historyList.getTask(c);
                 historyList.update(ts, statusCodes[ts.status.getType()], ts.tag);
@@ -661,8 +688,9 @@ class AgentPanel extends ScrollPane {
         private Icon createIcon(String name) {
             try {
                 URL url = getClass().getResource(name);
-                if (url == null)
+                if (url == null) {
                     return null;
+                }
                 return new Icon(url);
             } catch (RuntimeException | Error e) {
                 return null;
@@ -690,8 +718,9 @@ class AgentPanel extends ScrollPane {
                 for (int i = 0; i < tasks.size(); i++) {
                     String s = getItem(i);
                     // skip over active tasks that will be updated later
-                    if (s.startsWith("CONN") || s.startsWith("EXEC"))
+                    if (s.startsWith("CONN") || s.startsWith("EXEC")) {
                         continue;
+                    }
 
                     tasks.remove(i);
                     super.remove(i);
@@ -705,8 +734,9 @@ class AgentPanel extends ScrollPane {
         public synchronized TaskState getTask(Connection c) {
             for (int i = 0; i < tasks.size(); i++) {
                 TaskState ts = tasks.get(i);
-                if (ts.connection == c)
+                if (ts.connection == c) {
                     return ts;
+                }
             }
             throw new Error("AgentPanel.HistoryList.getTask: can't find socket");
         }
@@ -719,9 +749,11 @@ class AgentPanel extends ScrollPane {
         public synchronized void removeAll() {
             tasks.clear();
             if (getItemCount() > 0)
-                // calling List.removeAll on empty list generates motif
-                // warning message
+            // calling List.removeAll on empty list generates motif
+            // warning message
+            {
                 super.removeAll();
+            }
         }
 
         public synchronized void removeTask(TaskState task) {
@@ -874,8 +906,9 @@ class AgentPanel extends ScrollPane {
                 ConnectionFactory cf = mo.createConnectionFactory(concurrency);
                 Agent agent = new Agent(cf, concurrency);
 
-                if (retryDelay > 0)
+                if (retryDelay > 0) {
                     agent.setRetryDelay(retryDelay);
+                }
 
                 agent.setMap(map);
 
@@ -936,12 +969,14 @@ class AgentPanel extends ScrollPane {
 
         void reset() {
             tasks.clear();
-            for (int i = 0; i < statusCounts.length; i++)
+            for (int i = 0; i < statusCounts.length; i++) {
                 statusCounts[i] = 0;
+            }
             exceptionsCount = 0;
             activeField.setText("0");
-            for (int i = 0; i < statusCounts.length; i++)
+            for (int i = 0; i < statusCounts.length; i++) {
                 statusFields[i].setText("0");
+            }
             exceptionsField.setText("0");
         }
 
@@ -952,12 +987,14 @@ class AgentPanel extends ScrollPane {
 
         void finishedTask(TaskState task, boolean completedNormally) {
             int index = tasks.indexOf(task);
-            if (index == -1)
+            if (index == -1) {
                 return;
+            }
             tasks.remove(index);
             activeField.setText(String.valueOf(tasks.size()));
-            if (!completedNormally)
+            if (!completedNormally) {
                 exceptionsField.setText(String.valueOf(++exceptionsCount));
+            }
             if (task.status != null) {
                 int t = task.status.getType();
                 statusFields[t].setText(String.valueOf(++statusCounts[t]));
@@ -1051,14 +1088,16 @@ class AgentPanel extends ScrollPane {
                 classField.setText(task.className);
                 String a = "";
                 if (task.args != null) {
-                    for (int i = 0; i < task.args.length; i++)
+                    for (int i = 0; i < task.args.length; i++) {
                         a += task.args[i] + " ";
+                    }
                 }
                 argsField.setText(a);
-                if (task.status == null)
+                if (task.status == null) {
                     resultField.setText("");
-                else
+                } else {
                     resultField.setText(task.status.toString());
+                }
             }
         }
 

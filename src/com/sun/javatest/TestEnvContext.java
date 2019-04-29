@@ -142,12 +142,15 @@ public class TestEnvContext {
      */
     public boolean isValidEnv(String name) {
         // empty name is always valid (null is not)
-        if (name.isEmpty())
+        if (name.isEmpty()) {
             return true;
+        }
 
-        for (String envName : envNames)
-            if (envName.equals(name))
+        for (String envName : envNames) {
+            if (envName.equals(name)) {
                 return true;
+            }
+        }
 
         return false;
     }
@@ -176,8 +179,9 @@ public class TestEnvContext {
     }
 
     private Map<String, String> load(File f) throws Fault {
-        if (f == null)
+        if (f == null) {
             return null;
+        }
 
         try (InputStream in = new BufferedInputStream(new FileInputStream(f))) {
             Map<String, String> p = PropertyUtils.load(in);
@@ -260,30 +264,35 @@ public class TestEnvContext {
         String DOT_MENU = ".menu";
         String DOT_TESTSUITE = ".testsuite";
 
-        if (debug)
+        if (debug) {
             System.err.println(getClass().getName() + ": trace");
+        }
 
         for (int i = 0; i < tables.size(); i++) {
-            if (debug)
+            if (debug) {
                 System.err.println("Checking " + tableNames[i] + " for environments...");
+            }
 
             Map<String, String> table = tables.get(i);
             for (String prop : table.keySet()) {
                 String name = null;
 
-                if (debug)
+                if (debug) {
                     System.err.println("Checking property " + prop);
+                }
 
-                if (!prop.startsWith(ENV_DOT))
+                if (!prop.startsWith(ENV_DOT)) {
                     continue;
+                }
 
                 if (prop.endsWith(DOT_INHERITS)) {
                     name = prop.substring(ENV_DOT.length(), prop.length() - DOT_INHERITS.length());
                 } else if (prop.endsWith(DOT_MENU)) {
                     name = prop.substring(ENV_DOT.length(), prop.length() - DOT_MENU.length());
                     String value = table.get(prop);
-                    if ("false".equals(value))
+                    if ("false".equals(value)) {
                         sortedInsert(menuExcludeVec, name);
+                    }
                 } else if (prop.endsWith(DOT_DESCRIPTION)) {
                     name = prop.substring(ENV_DOT.length(), prop.length() - DOT_DESCRIPTION.length());
                 } else if (prop.endsWith(DOT_FINDER)) {
@@ -298,12 +307,14 @@ public class TestEnvContext {
                     if (scriptStartIndex > 0 &&
                             prop.regionMatches(scriptStartIndex, DOT_SCRIPT_DOT, 0, DOT_SCRIPT_DOT.length())) {
                         name = prop.substring(ENV_DOT.length(), scriptStartIndex);
-                    } else
+                    } else {
                         continue;
+                    }
                 }
 
-                if (debug)
+                if (debug) {
                     System.err.println("found environment name: " + name);
+                }
 
                 sortedInsert(allVec, name);
             }
@@ -311,8 +322,9 @@ public class TestEnvContext {
 
         envNames = allVec.toArray(new String[allVec.size()]);
         Vector<String> menuVec = new Vector<>(allVec);
-        for (int i = 0; i < menuExcludeVec.size(); i++)
+        for (int i = 0; i < menuExcludeVec.size(); i++) {
             menuVec.remove(menuExcludeVec.get(i));
+        }
         envMenuNames = menuVec.toArray(new String[menuVec.size()]);
     }
 
@@ -322,8 +334,9 @@ public class TestEnvContext {
             if (c > 0) {
                 v.add(i, s);
                 return;
-            } else if (c == 0)
+            } else if (c == 0) {
                 return;
+            }
         }
         v.add(s);
     }

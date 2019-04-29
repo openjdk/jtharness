@@ -60,19 +60,20 @@ class ObserverCommand extends Command {
         while (argIter.hasNext()) {
             String arg = nextArg(argIter);
 
-            if (arg.equals("-cp") && argIter.hasNext())
+            if (arg.equals("-cp") && argIter.hasNext()) {
                 setClassPath(nextArg(argIter));
-            else if (arg.startsWith("-"))
+            } else if (arg.startsWith("-")) {
                 throw new Fault(i18n, "observer.badArg", arg);
-            else {
+            } else {
                 className = arg;
                 while (argIter.hasNext()) {
                     arg = nextArg(argIter);
-                    if (arg.equals("-end"))
+                    if (arg.equals("-end")) {
                         break;
-                    else {
-                        if (v == null)
+                    } else {
+                        if (v == null) {
                             v = new Vector<>();
+                        }
                         v.add(arg);
                     }
                 }
@@ -80,8 +81,9 @@ class ObserverCommand extends Command {
             }
         }
 
-        if (className == null)
+        if (className == null) {
             throw new Fault(i18n, "observer.noClassName");
+        }
 
         if (v != null) {
             classArgs = v.toArray(new String[v.size()]);
@@ -104,13 +106,15 @@ class ObserverCommand extends Command {
                         new Object[]{classArgs[0]});
             }
 
-            if (o == null)
+            if (o == null) {
                 o = tryConstructor(oc,
                         new Class<?>[]{String[].class},
                         new Object[]{classArgs});
+            }
 
-            if (o == null)
+            if (o == null) {
                 throw new Fault(i18n, "observer.cantFindConstructor", className);
+            }
 
             ctx.addHarnessObserver(o);
         } catch (ClassNotFoundException e) {
@@ -154,8 +158,9 @@ class ObserverCommand extends Command {
 
     private void addClassPathEntry(String s, List<URL> v) throws Fault {
         try {
-            if (!s.isEmpty())
+            if (!s.isEmpty()) {
                 v.add(new File(s).toURL());
+            }
         } catch (MalformedURLException e) {
             throw new Fault(i18n, "observer.badClassPath", s, e);
         }

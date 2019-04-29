@@ -234,12 +234,14 @@ public class ParameterFilter extends ObservableTestFilter {
     }
 
     private static File[] stringsToFiles(String... tests) {
-        if (tests == null)
+        if (tests == null) {
             return null;
+        }
 
         File[] files = new File[tests.length];
-        for (int i = 0; i < tests.length; i++)
+        for (int i = 0; i < tests.length; i++) {
             files[i] = new File(tests[i]);
+        }
 
         return files;
     }

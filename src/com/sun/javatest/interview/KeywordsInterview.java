@@ -87,15 +87,16 @@ public class KeywordsInterview
         if (Objects.equals(qNeedKeywords.getValue(), YesNoQuestion.YES)) {
             updateCachedKeywordsData();
             return cachedKeywords;
-        } else
+        } else {
             return null;
+        }
     }
 
     @Override
     public void setKeywords(int mode, String value) {
-        if (value == null)
+        if (value == null) {
             setKeywordsMode(NO_KEYWORDS);
-        else {
+        } else {
             setKeywordsMode(MATCH_KEYWORDS);
             setMatchKeywords(mode, value);
         }
@@ -137,8 +138,9 @@ public class KeywordsInterview
         if (Objects.equals(qNeedKeywords.getValue(), YesNoQuestion.YES)) {
             updateCachedKeywordsData();
             return cachedKeywordsFilter;
-        } else
+        } else {
             return null;
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -148,12 +150,13 @@ public class KeywordsInterview
     private YesNoQuestion qNeedKeywords = new YesNoQuestion(this, "needKeywords", YesNoQuestion.NO) {
         @Override
         protected Question getNext() {
-            if (value == null)
+            if (value == null) {
                 return null;
-            else if (Objects.equals(value, YES))
+            } else if (Objects.equals(value, YES)) {
                 return qKeywords;
-            else
+            } else {
                 return qEnd;
+            }
         }
     };
 
@@ -199,8 +202,9 @@ public class KeywordsInterview
         @Override
         public void setValue(String v) {
             //System.err.println("KI: v=" + v);
-            if (v != null && v.equals(getValue()))
+            if (v != null && v.equals(getValue())) {
                 return;
+            }
 
             mode = EXPR;
             modeValue = v;
@@ -212,17 +216,18 @@ public class KeywordsInterview
             String m = data.get(tag + ".mode");
             String v = data.get(tag + ".value");
             //System.err.println("KI.load: m=" + m + " v=" + v);
-            if (m == null)
+            if (m == null) {
                 super.load(data); // support existing interview files
-            else if (m instanceof String && (v == null || v instanceof String)) {
+            } else if (m instanceof String && (v == null || v instanceof String)) {
                 String ms = m;
                 String vs = v;
-                if (ms.equals("allOf"))
+                if (ms.equals("allOf")) {
                     setValue(ALL_OF, vs);
-                else if (ms.equals("anyOf"))
+                } else if (ms.equals("anyOf")) {
                     setValue(ANY_OF, vs);
-                else
+                } else {
                     setValue(EXPR, vs);
+                }
             }
         }
 
@@ -231,20 +236,23 @@ public class KeywordsInterview
             super.save(data);  // for backwards compatibility
             String modeText = mode == ANY_OF ? "anyOf" : mode == ALL_OF ? "allOf" : "expr";
             data.put(tag + ".mode", modeText);
-            if (modeValue != null)
+            if (modeValue != null) {
                 data.put(tag + ".value", modeValue);
+            }
             //System.err.println("KI.save: m=" + mode + " v=" + modeValue);
         }
 
         private String termsToExpr(String list, String op) {
-            if (list == null || list.isEmpty())
+            if (list == null || list.isEmpty()) {
                 return null;
+            }
 
             String[] keys = StringArray.split(list);
             StringBuilder sb = new StringBuilder(list.length());
             for (int i = 0; i < keys.length; i++) {
-                if (i > 0)
+                if (i > 0) {
                     sb.append(op);
+                }
                 sb.append(keys[i]);
             }
             //System.err.println("KI.t2E: list=" + list + " result=" + sb);
@@ -258,9 +266,9 @@ public class KeywordsInterview
     private KeywordsQuestion qKeywords = new KeywordsQuestion(this, "keywords") {
         @Override
         protected Question getNext() {
-            if (value == null || value.isEmpty())
+            if (value == null || value.isEmpty()) {
                 return null;
-            else {
+            } else {
                 return qEnd;
             }
         }
@@ -284,10 +292,11 @@ public class KeywordsInterview
 
                 String[] validKeywords = ts.getKeywords();
                 Set<String> validKeywordsSet;
-                if (validKeywords == null)
+                if (validKeywords == null) {
                     validKeywordsSet = null;
-                else
+                } else {
                     validKeywordsSet = new HashSet<>(Arrays.asList(validKeywords));
+                }
 
                 int mode = qKeywords.getMode();
                 String modeName = mode == ANY_OF ? Keywords.ANY_OF

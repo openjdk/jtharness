@@ -83,9 +83,11 @@ public class ExtensionFileFilter implements FileFilter {
 
     @Override
     public boolean accept(File f) {
-        for (String extn : extns)
-            if (endsWith(f.getName(), extn))
+        for (String extn : extns) {
+            if (endsWith(f.getName(), extn)) {
                 return true;
+            }
+        }
         return false;
     }
 
@@ -115,12 +117,15 @@ public class ExtensionFileFilter implements FileFilter {
      * extension added on.
      */
     public String ensureExtension(String path) {
-        if (path == null || path.isEmpty())
+        if (path == null || path.isEmpty()) {
             return path;
+        }
 
-        for (String extn : extns)
-            if (endsWith(path, extn))
+        for (String extn : extns) {
+            if (endsWith(path, extn)) {
                 return path;
+            }
+        }
 
         return path + extns[0];
     }
@@ -137,8 +142,9 @@ public class ExtensionFileFilter implements FileFilter {
      * of the original, with a valid extension added on.
      */
     public File ensureExtension(File file) {
-        if (file == null)
+        if (file == null) {
             return null;
+        }
 
         String path = file.getPath();
         String newPath = ensureExtension(path);
@@ -146,20 +152,23 @@ public class ExtensionFileFilter implements FileFilter {
     }
 
     private boolean endsWith(String s, String sfx) {
-        if (caseSensitive)
+        if (caseSensitive) {
             return s.endsWith(sfx);
+        }
 
         int slen = s.length();
         int sfxlen = sfx.length();
-        if (slen < sfxlen)
+        if (slen < sfxlen) {
             return false;
+        }
 
         int offset = slen - sfxlen;
         for (int i = 0; i < sfxlen; i++) {
             char c1 = s.charAt(offset + i);
             char c2 = sfx.charAt(i);
-            if (Character.toLowerCase(c1) != Character.toLowerCase(c2))
+            if (Character.toLowerCase(c1) != Character.toLowerCase(c2)) {
                 return false;
+            }
         }
 
         return true;

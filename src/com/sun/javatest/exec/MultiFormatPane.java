@@ -170,8 +170,9 @@ public class MultiFormatPane extends JPanel implements Printable {
     public void loadPage(URL url) {
         // avoid recursive callbacks from updating combo
         // URL.equals can result in a big performance hit
-        if (currURL != null && url.toString().equals(currURL.toString()))
+        if (currURL != null && url.toString().equals(currURL.toString())) {
             return;
+        }
 
         currURL = url;
 
@@ -262,8 +263,9 @@ public class MultiFormatPane extends JPanel implements Printable {
 
 
     private String listLocalDirectory(File dir) {
-        if (!dir.isAbsolute())
+        if (!dir.isAbsolute()) {
             dir = dir.getAbsoluteFile();
+        }
 
         String displayPath = dir.getPath();
         // if contains base dir, only show path relative to baseDir
@@ -634,8 +636,9 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
 
     public static boolean isTextResource(URL url) {
         String mimeType = getMIMEType(url);
-        if (mimeType == null)
+        if (mimeType == null) {
             return false;
+        }
         return mimeType.equals("text/plain") || mimeType.equals("text/html") ||
                 mimeType.equals("text/rtf");
     }
@@ -655,11 +658,11 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
     }
 
     private EditorKit getKitByMIME(String mime) {
-        if (mime.contains("rtf"))
+        if (mime.contains("rtf")) {
             return rtfKit;
-        else if (mime.contains("html"))
+        } else if (mime.contains("html")) {
             return htmlKit;
-        else {
+        } else {
             return defaultKit;
         }
     }
@@ -840,8 +843,9 @@ class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
             clip.flush();
             clip.close();
         }
-        if (sequencer != null && sequencer.isRunning())
+        if (sequencer != null && sequencer.isRunning()) {
             sequencer.stop();
+        }
     }
 
     private void loadSample(URL url) {
@@ -959,8 +963,9 @@ class ImagePane extends JLabel implements MultiFormatPane.MediaPane {
         try {
             ImageInputStream iis = ImageIO.createImageInputStream(new File(url.getFile()));
             Iterator<ImageReader> iter = ImageIO.getImageReaders(iis);
-            if (!iter.hasNext())
+            if (!iter.hasNext()) {
                 return false;
+            }
         } catch (IOException exc) {
             exc.printStackTrace();
             return false;

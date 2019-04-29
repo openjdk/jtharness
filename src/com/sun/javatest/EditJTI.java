@@ -221,13 +221,13 @@ public class EditJTI {
                     && i + 1 < args.length) {
                 checkUnset(logFile, args[i]);
                 logFile = new File(args[++i]);
-            } else if (args[i].equals("-n") || args[i].equals("-preview"))
+            } else if (args[i].equals("-n") || args[i].equals("-preview")) {
                 previewFlag = true;
-            else if (args[i].equals("-p") || args[i].equals("-path"))
+            } else if (args[i].equals("-p") || args[i].equals("-path")) {
                 showPathFlag = true;
-            else if (args[i].equals("-v") || args[i].equals("-verbose"))
+            } else if (args[i].equals("-v") || args[i].equals("-verbose")) {
                 verboseFlag = true;
-            else if ((args[i].equals("-cp") || args[i].equals("-classpath")) && i + 1 < args.length) {
+            } else if ((args[i].equals("-cp") || args[i].equals("-classpath")) && i + 1 < args.length) {
                 checkUnset(classPath, args[i]);
                 classPath = new File(args[++i]);
             } else if ((args[i].equals("-ts") || args[i].equals("-testsuite")) && i + 1 < args.length) {
@@ -236,11 +236,11 @@ public class EditJTI {
             } else if ((args[i].equals("-wd") || args[i].equals("-workdir")) && i + 1 < args.length) {
                 checkUnset(testSuitePath, args[i]);
                 workDirPath = new File(args[++i]);
-            } else if (args[i].equals("-help") || args[i].equals("-usage") || args[i].equals("/?"))
+            } else if (args[i].equals("-help") || args[i].equals("-usage") || args[i].equals("/?")) {
                 helpFlag = true;
-            else if (args[i].startsWith("-"))
+            } else if (args[i].startsWith("-")) {
                 throw new BadArgs(i18n, "editJTI.badOption", args[i]);
-            else if (i <= args.length - 1) {
+            } else if (i <= args.length - 1) {
                 if (inFile == null) {
                     editCmds = new String[args.length - 1 - i];
                     System.arraycopy(args, i, editCmds, 0, editCmds.length);
@@ -250,21 +250,25 @@ public class EditJTI {
                     System.arraycopy(args, i, editCmds, 0, editCmds.length);
                 }
                 i = args.length - 1;
-            } else
+            } else {
                 throw new BadArgs(i18n, "editJTI.badOption", args[i]);
+            }
         }
 
         if (args.length == 0 || helpFlag) {
             usage(System.out);
-            if (inFile == null)
+            if (inFile == null) {
                 return true;
+            }
         }
 
-        if (classPath != null && testSuitePath != null)
+        if (classPath != null && testSuitePath != null) {
             throw new BadArgs(i18n, "editJTI.cantHaveClassPathAndTestSuite");
+        }
 
-        if (inFile == null)
+        if (inFile == null) {
             throw new BadArgs(i18n, "editJTI.noInterview");
+        }
 
         // if (editCmds.length == 0 && outFile == null && logFile == null && !showPathFlag)
         //     throw new BadArgs(...no.actions....);
@@ -284,9 +288,9 @@ public class EditJTI {
                 interview = InterviewParameters.open(testSuitePath, workDirPath, inFile);
             }
             */
-            if (workDirPath != null)
+            if (workDirPath != null) {
                 interview = InterviewParameters.open(testSuitePath, workDirPath, inFile);
-            else if (testSuitePath != null) {
+            } else if (testSuitePath != null) {
                 // only open the test suite, not the work dir
                 TestSuite ts;
                 try {
@@ -305,8 +309,9 @@ public class EditJTI {
             else if (classPath != null) {
                 URLClassLoader loader = new URLClassLoader(new URL[]{classPath.toURL()});
                 load(inFile, loader);
-            } else
+            } else {
                 load(inFile);
+            }
 
         } catch (Interview.Fault e) {
             throw new Fault(i18n, "editJTI.cantOpenFile",
@@ -319,29 +324,34 @@ public class EditJTI {
         } catch (IllegalStateException e) {
             // only occurs if keywords are being used in the config, and the
             // test suite is not available.  user needs to specify -wd or -ts
-            if (verbose)
+            if (verbose) {
                 e.printStackTrace();
+            }
 
             throw new Fault(i18n, "editJTI.badState", e.getMessage());
         }
 
-        if (NUM_BACKUPS > 0)
+        if (NUM_BACKUPS > 0) {
             interview.setBackupPolicy(BackupPolicy.simpleBackups(NUM_BACKUPS));
+        }
 
-        if (editCmds != null)
+        if (editCmds != null) {
             edit(editCmds);
+        }
 
 
-        if (showPathFlag)
+        if (showPathFlag) {
             showPath();
+        }
 
         try {
             if (logFile != null) {
                 if (previewFlag) {
                     String msg = i18n.getString("editJTI.wouldWriteLog", logFile);
                     out.println(msg);
-                } else
+                } else {
                     writeLog(logFile);
+                }
             }
         } catch (IOException e) {
             throw new Fault(i18n, "editJTI.cantWriteLog",
@@ -352,19 +362,21 @@ public class EditJTI {
         try {
             if (previewFlag) {
                 String msg;
-                if (interview.isEdited())
+                if (interview.isEdited()) {
                     msg = i18n.getString("editJTI.wouldSaveEdited",
                             outFile != null ? outFile : inFile);
-                else if (outFile != null)
+                } else if (outFile != null) {
                     msg = i18n.getString("editJTI.wouldSaveNotEdited", outFile);
-                else
+                } else {
                     msg = i18n.getString("editJTI.wouldNotSave");
+                }
                 out.println(msg);
             } else {
-                if (outFile != null)
+                if (outFile != null) {
                     save(outFile);
-                else if (interview.isEdited())
+                } else if (interview.isEdited()) {
                     save(inFile);
+                }
             }
         } catch (Interview.Fault e) {
             throw new Fault(i18n, "editJTI.cantOpenFile",
@@ -452,7 +464,9 @@ public class EditJTI {
                     interviewClassName, inFile);
         } finally {
             try {
-                if (in != null) in.close();
+                if (in != null) {
+                    in.close();
+                }
             } catch (IOException e) {
             }
         }
@@ -479,7 +493,9 @@ public class EditJTI {
         Question[] path = interview.getPath();
 
         int indent = 0;
-        for (Question aPath : path) indent = Math.max(indent, aPath.getTag().length());
+        for (Question aPath : path) {
+            indent = Math.max(indent, aPath.getTag().length());
+        }
         indent = Math.min(indent, MAX_INDENT);
 
         for (Question q : path) {
@@ -491,8 +507,9 @@ public class EditJTI {
                 out.println();
                 l = 0;
             }
-            for (int x = l; x < indent; x++)
+            for (int x = l; x < indent; x++) {
                 out.print(' ');
+            }
             out.print(' ');
             out.println(value == null ? "" : value);
         }
@@ -540,29 +557,33 @@ public class EditJTI {
      * @see #edit(String[])
      */
     public void edit(String cmd) throws Fault {
-        if (cmd == null || cmd.isEmpty())
+        if (cmd == null || cmd.isEmpty()) {
             return;
+        }
 
         int eqIndex = cmd.indexOf('=');
-        if (Character.isJavaIdentifierStart(cmd.charAt(0)) && eqIndex > 0)
+        if (Character.isJavaIdentifierStart(cmd.charAt(0)) && eqIndex > 0) {
             setValue(cmd.substring(0, eqIndex), cmd.substring(eqIndex + 1));
-        else if (cmd.toLowerCase().startsWith("import:")) {
+        } else if (cmd.toLowerCase().startsWith("import:")) {
             importFile(new File(cmd.substring("import:".length())));
         } else {
             int left = 0;
             // could support a command letter in front?
             char delim = cmd.charAt(left);
             int center = cmd.indexOf(delim, left + 1);
-            if (center == -1)
+            if (center == -1) {
                 throw new Fault(i18n, "editJTI.badCmd", cmd);
+            }
             // could support trailing flags?
             int right = cmd.length() - 1;
-            if (cmd.charAt(right) != delim)
+            if (cmd.charAt(right) != delim) {
                 throw new Fault(i18n, "editJTI.badCmd", cmd);
+            }
             String searchText = cmd.substring(left + 1, center);
             String replaceText = cmd.substring(center + 1, right);
-            if (searchText.isEmpty())
+            if (searchText.isEmpty()) {
                 throw new Fault(i18n, "editJTI.badCmd", cmd);
+            }
             setMatchingValues(searchText, replaceText);
         }
     }
@@ -586,7 +607,9 @@ public class EditJTI {
                     file, e);
         } finally {
             try {
-                if (in != null) in.close();
+                if (in != null) {
+                    in.close();
+                }
             } catch (IOException e) {
             }
         }
@@ -611,8 +634,9 @@ public class EditJTI {
         for (int i = 0; i < path.length; i++) {
             Question q = path[i];
             String currValue = q.getStringValue();
-            if (currValue == null)
+            if (currValue == null) {
                 continue;
+            }
             // currently hardwired: considerCase: false; word match: false
             int pos = match(searchText, currValue, false, false);
             if (pos >= 0) {
@@ -624,8 +648,9 @@ public class EditJTI {
                 path = interview.getPath(); // update path in case tail has changed
             }
         }
-        if (!found)
+        if (!found) {
             throw new Fault(i18n, "editJTI.cantFindMatch", searchText);
+        }
     }
 
     private void setValue(String tag, String value) throws Fault {
@@ -643,9 +668,10 @@ public class EditJTI {
         try {
             String oldValue = q.getStringValue();
             q.setValue(value);
-            if (verbose)
+            if (verbose) {
                 out.println(i18n.getString("editJTI.update",
                         q.getTag(), oldValue, q.getStringValue()));
+            }
         } catch (Interview.Fault e) {
             throw new Fault(i18n, "editJTI.cantSetValue", q.getTag(), e.getMessage());
         }
@@ -658,8 +684,9 @@ public class EditJTI {
             if (s1.regionMatches(!considerCase, 0, s2, i, s1len)) {
                 if (!word || (word &&
                         (i == 0 || isBoundaryCh(s2.charAt(i - 1)))
-                        && (i + s1len == s2.length() || isBoundaryCh(s2.charAt(i + s1len)))))
+                        && (i + s1len == s2.length() || isBoundaryCh(s2.charAt(i + s1len))))) {
                     return i;
+                }
             }
         }
         return -1;
@@ -672,8 +699,9 @@ public class EditJTI {
 
     private static void checkUnset(Object item, String option)
             throws BadArgs {
-        if (item != null)
+        if (item != null) {
             throw new BadArgs(i18n, "editJTI.dupOption", option);
+        }
     }
 
     private InterviewParameters interview;

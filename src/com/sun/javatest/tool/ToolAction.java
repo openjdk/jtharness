@@ -85,8 +85,9 @@ public abstract class ToolAction implements Action {
      */
     public ToolAction(UIFactory uif, String key, boolean needIcon) {
         this(uif, key);
-        if (needIcon)
+        if (needIcon) {
             putValue(Action.SMALL_ICON, uif.createIcon(key));
+        }
     }
 
     /**
@@ -117,19 +118,21 @@ public abstract class ToolAction implements Action {
      */
     @Override
     public Object getValue(String key) {
-        if (key == null)
+        if (key == null) {
             throw new NullPointerException();
+        }
 
-        if (key.equals(NAME))
+        if (key.equals(NAME)) {
             return name;
-        else if (key.equals(SHORT_DESCRIPTION))
+        } else if (key.equals(SHORT_DESCRIPTION)) {
             return desc;
-        else if (key.equals(MNEMONIC_KEY))
+        } else if (key.equals(MNEMONIC_KEY)) {
             return mnemonic;
-        else if (key.equals(SMALL_ICON))
+        } else if (key.equals(SMALL_ICON)) {
             return icon;
-        else
+        } else {
             return misc == null ? null : misc.get(key);
+        }
     }
 
     /**
@@ -145,31 +148,37 @@ public abstract class ToolAction implements Action {
         Object oldVal;
 
         if (key.equals(NAME)) {
-            if (equal(newVal, name))
+            if (equal(newVal, name)) {
                 return;
+            }
             oldVal = name;
             name = (String) newVal;
         } else if (key.equals(SHORT_DESCRIPTION)) {
-            if (equal(newVal, desc))
+            if (equal(newVal, desc)) {
                 return;
+            }
             oldVal = desc;
             desc = (String) newVal;
         } else if (key.equals(MNEMONIC_KEY)) {
-            if (equal(newVal, mnemonic))
+            if (equal(newVal, mnemonic)) {
                 return;
+            }
             oldVal = mnemonic;
             mnemonic = (Integer) newVal;
         } else if (key.equals(SMALL_ICON)) {
-            if (equal(newVal, icon))
+            if (equal(newVal, icon)) {
                 return;
+            }
             oldVal = icon;
             icon = (Icon) newVal;
         } else {
-            if (misc == null)
+            if (misc == null) {
                 misc = new HashMap<>();
+            }
             oldVal = misc.get(key);
-            if (equal(newVal, oldVal))
+            if (equal(newVal, oldVal)) {
                 return;
+            }
             misc.put(key, newVal);
         }
         firePropertyChangeEvent(key, oldVal, newVal);
@@ -183,14 +192,16 @@ public abstract class ToolAction implements Action {
 
     @Override
     public void setEnabled(boolean newVal) {
-        if (enabled == newVal)
+        if (enabled == newVal) {
             return;
+        }
 
         boolean oldVal = enabled;
         enabled = newVal;
 
-        if (listeners.length > 0)
+        if (listeners.length > 0) {
             firePropertyChangeEvent("enabled", new Boolean(oldVal), new Boolean(newVal));
+        }
     }
 
     @Override
@@ -203,8 +214,9 @@ public abstract class ToolAction implements Action {
         WeakReference<PropertyChangeListener>[] l = listeners;
         int size = l.length;
         for (int i = size - 1; i >= 0; i--) {
-            if (l[i].get() == listener)
+            if (l[i].get() == listener) {
                 System.arraycopy(l, i + 1, l, i, --size - i);
+            }
         }
 
         if (size < l.length) {
@@ -220,8 +232,9 @@ public abstract class ToolAction implements Action {
             for (int i = l.length - 1; i >= 0; i--) {
                 PropertyChangeListener pcl = l[i].get();
                 if (pcl != null) {
-                    if (ev == null)
+                    if (ev == null) {
                         ev = new PropertyChangeEvent(this, name, oldVal, newVal);
+                    }
                     pcl.propertyChange(ev);
                 }
             }

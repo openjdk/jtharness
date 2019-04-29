@@ -39,8 +39,9 @@ import java.util.MissingResourceException;
  */
 class I18NResourceBundle extends ResourceBundle {
     static I18NResourceBundle getDefaultBundle() {
-        if (defaultBundle == null)
+        if (defaultBundle == null) {
             defaultBundle = getBundleForClass(I18NResourceBundle.class);
+        }
 
         return defaultBundle;
     }
@@ -112,8 +113,9 @@ class I18NResourceBundle extends ResourceBundle {
     public Color getColor(String key, int dflt) {
         String value = getString(key + ".clr");
         try {
-            if (value != null)
+            if (value != null) {
                 return Color.decode(value);
+            }
         } catch (Exception e) {
             // ignore
         }
@@ -152,11 +154,13 @@ class I18NResourceBundle extends ResourceBundle {
      */
     @Override
     protected Object handleGetObject(String key) {
-        if (logging)
+        if (logging) {
             System.out.println("i18n: " + key);
+        }
         try {
-            if (delegate == null)
+            if (delegate == null) {
                 delegate = ResourceBundle.getBundle(name, Locale.getDefault(), classLoader);
+            }
             return delegate.getObject(key);
         } catch (MissingResourceException e) {
             showError(key, name);
@@ -171,8 +175,9 @@ class I18NResourceBundle extends ResourceBundle {
      */
     @Override
     public Enumeration<String> getKeys() {
-        if (delegate == null)
+        if (delegate == null) {
             delegate = ResourceBundle.getBundle(name, Locale.getDefault(), classLoader);
+        }
         return delegate.getKeys();
     }
 

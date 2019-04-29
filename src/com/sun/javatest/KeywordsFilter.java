@@ -79,11 +79,13 @@ public class KeywordsFilter extends TestFilter {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
+        }
 
-        if (!(o instanceof KeywordsFilter))
+        if (!(o instanceof KeywordsFilter)) {
             return false;
+        }
 
         KeywordsFilter other = (KeywordsFilter) o;
         return keywords.equals(other.keywords);

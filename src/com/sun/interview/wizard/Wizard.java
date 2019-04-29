@@ -181,8 +181,9 @@ public class Wizard extends JComponent {
     public void save(File f) throws IOException {
         try (OutputStream out = new BufferedOutputStream(new FileOutputStream(f))) {
             Properties p = new Properties();
-            if (infoPanel != null)
+            if (infoPanel != null) {
                 p.put("INFO", String.valueOf(infoPanel.isShowing()));
+            }
             interview.save(PropertyUtils.convertToStringProps(p));
             interview.setEdited(false);
             p.save(out, "Wizard data file: " + interview.getTitle());
@@ -209,8 +210,9 @@ public class Wizard extends JComponent {
      */
     public void setFile(File f) {
         currFile = new File(f.getAbsolutePath());
-        if (window != null)
+        if (window != null) {
             updateTitle(window);
+        }
     }
 
     /**
@@ -224,8 +226,9 @@ public class Wizard extends JComponent {
      */
     public void setDefaultFile(File f) {
         defaultFile = f;
-        if (window != null)
+        if (window != null) {
             updateTitle(window);
+        }
     }
 
     /**
@@ -275,8 +278,9 @@ public class Wizard extends JComponent {
      * @param exitOnClose Set to true if the JVM should be exited when the frame is closed.
      */
     public void showInFrame(final boolean exitOnClose) {
-        if (window != null && !(window instanceof JFrame))
+        if (window != null && !(window instanceof JFrame)) {
             throw new IllegalStateException();
+        }
 
         if (!EventQueue.isDispatchThread()) {
             EventQueue.invokeLater(new Runnable() {
@@ -304,15 +308,17 @@ public class Wizard extends JComponent {
         f.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (interview.isEdited() && !okToContinue())
+                if (interview.isEdited() && !okToContinue()) {
                     return;
+                }
                 e.getWindow().dispose();
             }
 
             @Override
             public void windowClosed(WindowEvent e) {
-                if (exitOnClose)
+                if (exitOnClose) {
                     System.exit(0);
+                }
             }
         });
 
@@ -336,8 +342,9 @@ public class Wizard extends JComponent {
      * @param okListener A listener to e notified when the dialog is dismissed.
      */
     public void showInDialog(final Frame parent, final ActionListener okListener) {
-        if (window != null && !(window instanceof JDialog))
+        if (window != null && !(window instanceof JDialog)) {
             throw new IllegalStateException();
+        }
 
         if (!EventQueue.isDispatchThread()) {
             EventQueue.invokeLater(new Runnable() {
@@ -367,8 +374,9 @@ public class Wizard extends JComponent {
         d.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (!interview.isEdited() || okToContinue())
+                if (!interview.isEdited() || okToContinue()) {
                     e.getWindow().dispose();
+                }
             }
 
             @Override
@@ -401,8 +409,9 @@ public class Wizard extends JComponent {
      * has no effect.
      */
     public void toFront() {
-        if (window != null)
+        if (window != null) {
             window.toFront();
+        }
     }
 
     /**
@@ -411,8 +420,9 @@ public class Wizard extends JComponent {
     private void initGUI() {
 
         title = interview.getTitle();
-        if (title == null || title.isEmpty())
+        if (title == null || title.isEmpty()) {
             title = i18n.getString("wizard.defaultTitle");
+        }
 
         //main = new JPanel(new BorderLayout());
         setLayout(new BorderLayout());
@@ -422,8 +432,9 @@ public class Wizard extends JComponent {
         questionPanel.setBorder(BorderFactory.createLoweredBevelBorder());
         pathPanel = new PathPanel(questionPanel, interview);
 
-        if (interview.getHelpSet() != null)
+        if (interview.getHelpSet() != null) {
             infoPanel = new InfoPanel(interview);
+        }
 
         buttonPanel = new JToolBar();
         buttonPanel.setFloatable(false);
@@ -455,21 +466,26 @@ public class Wizard extends JComponent {
         body.registerKeyboardAction(performer, "performFindNext", KeyStroke.getKeyStroke("F3"),
                 JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        if (helpHelpPrefix == null)
+        if (helpHelpPrefix == null) {
             helpHelpPrefix = "wizard.";
+        }
 
-        if (helpHelpSet == null && infoPanel != null)
+        if (helpHelpSet == null && infoPanel != null) {
             helpHelpSet = infoPanel.getHelpSet();
+        }
 
-        if (helpHelpBroker == null && helpHelpSet != null)
+        if (helpHelpBroker == null && helpHelpSet != null) {
             helpHelpBroker = new JTHelpBroker();
+        }
 
-        if (helpHelpBroker != null && helpHelpSet != null)
+        if (helpHelpBroker != null && helpHelpSet != null) {
             helpHelpBroker.enableHelpKey(main, helpHelpPrefix + "window.csh");
-        if (infoPanel == null)
+        }
+        if (infoPanel == null) {
             main.add(body);
-        else
+        } else {
             update(infoBtn.isSelected());
+        }
     }
 
     private void initMenuBar(Window w) {
@@ -504,20 +520,23 @@ public class Wizard extends JComponent {
         menuBar.add(searchMenu);
 
         if (helpHelpBroker != null) {
-            if (helpMenu == null)
+            if (helpMenu == null) {
                 helpMenu = createMenu("help", helpMenuData, performer);
+            }
             menuBar.add(helpMenu);
         }
     }
 
     private void update(boolean showInfoPanel) {
         Dimension bodySize = body.getSize();
-        if (bodySize.width == 0)
+        if (bodySize.width == 0) {
             bodySize = body.getPreferredSize();
+        }
 
         Dimension infoSize = infoPanel.getSize();
-        if (infoSize.width == 0)
+        if (infoSize.width == 0) {
             infoSize = infoPanel.getPreferredSize();
+        }
         // need to capture the next value before we remove everything from main
         boolean infoPanelIsShowing = infoPanel.isShowing();
 
@@ -538,26 +557,30 @@ public class Wizard extends JComponent {
             int divWidth = new JSplitPane().getDividerSize();
             Dimension winSize = window.getSize();
             int newWidth = winSize.width;
-            if (showInfoPanel != infoPanelIsShowing)
+            if (showInfoPanel != infoPanelIsShowing) {
                 newWidth += (showInfoPanel ? +1 : -1) * (infoSize.width + divWidth + 4);
+            }
             window.setSize(newWidth, winSize.height);
         }
 
-        if (infoBtn.isSelected() != showInfoPanel)
+        if (infoBtn.isSelected() != showInfoPanel) {
             infoBtn.setSelected(showInfoPanel);
+        }
     }
 
     private void updateTitle(Window w) {
         String t;
         if (currFile == null
-                || (defaultFile != null && currFile.equals(defaultFile)))
+                || (defaultFile != null && currFile.equals(defaultFile))) {
             t = title;
-        else
+        } else {
             t = i18n.getString("wizard.titleAndFile", title, currFile.getPath());
-        if (w instanceof JFrame)
+        }
+        if (w instanceof JFrame) {
             ((JFrame) w).setTitle(t);
-        else
+        } else {
             ((JDialog) w).setTitle(t);
+        }
     }
 
     /**
@@ -604,8 +627,9 @@ public class Wizard extends JComponent {
      */
     private void performCancel() {
         questionPanel.saveCurrentResponse();
-        if (interview.isEdited() && !okToContinue())
+        if (interview.isEdited() && !okToContinue()) {
             return;
+        }
         window.dispose();
     }
 
@@ -614,8 +638,9 @@ public class Wizard extends JComponent {
      */
     private void performExit() {
         questionPanel.saveCurrentResponse();
-        if (interview.isEdited() && !okToContinue())
+        if (interview.isEdited() && !okToContinue()) {
             return;
+        }
         // setVisible(false);
         System.exit(0); // uugh
     }
@@ -640,12 +665,14 @@ public class Wizard extends JComponent {
         chooser.setFileFilter(htmlFilter);
         //chooser.addChoosableFileFilter(txtFilter);
         int action = chooser.showDialog(main, i18n.getString("wizard.exportLog"));
-        if (action != JFileChooser.APPROVE_OPTION)
+        if (action != JFileChooser.APPROVE_OPTION) {
             return;
+        }
 
         File f = ensureExtn(chooser.getSelectedFile(), ".html");
-        if (f.exists() && !okToOverwrite(f))
+        if (f.exists() && !okToOverwrite(f)) {
             return;
+        }
         try {
             Writer out = new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8);
             WizPrint w = new WizPrint(interview, interview.getPath());
@@ -668,8 +695,9 @@ public class Wizard extends JComponent {
      * Handle the "find" action
      */
     private void performFind() {
-        if (searchDialog == null)
+        if (searchDialog == null) {
             searchDialog = SearchDialog.create(window, interview, helpHelpBroker, helpHelpPrefix);
+        }
         searchDialog.setVisible(true);
     }
 
@@ -677,8 +705,9 @@ public class Wizard extends JComponent {
      * Handle the "find" action
      */
     private void performFindNext() {
-        if (searchDialog == null)
+        if (searchDialog == null) {
             searchDialog = SearchDialog.create(window, interview, helpHelpBroker, helpHelpPrefix);
+        }
         searchDialog.find();
     }
 
@@ -705,8 +734,9 @@ public class Wizard extends JComponent {
      */
     private void performNew() {
         questionPanel.saveCurrentResponse();
-        if (interview.isEdited() && !okToContinue())
+        if (interview.isEdited() && !okToContinue()) {
             return;
+        }
         interview.clear();
         interview.setEdited(false);
         setFile(defaultFile);
@@ -747,8 +777,9 @@ public class Wizard extends JComponent {
      */
     private void performOpen() {
         questionPanel.saveCurrentResponse();
-        if (interview.isEdited() && !okToContinue())
+        if (interview.isEdited() && !okToContinue()) {
             return;
+        }
 
         JFileChooser chooser = new JFileChooser();
         // set current directory from file or user.dir
@@ -761,8 +792,9 @@ public class Wizard extends JComponent {
         }
         chooser.setFileFilter(jtiFilter);
         int action = chooser.showOpenDialog(main);
-        if (action != JFileChooser.APPROVE_OPTION)
+        if (action != JFileChooser.APPROVE_OPTION) {
             return;
+        }
         File f = ensureExtn(chooser.getSelectedFile(), ".jti");
         try {
             open(f);
@@ -791,10 +823,11 @@ public class Wizard extends JComponent {
     private void performSave() {
         questionPanel.saveCurrentResponse();
         // save with current file
-        if (currFile == null)
+        if (currFile == null) {
             performSaveAs();
-        else
+        } else {
             performSaveInternal(currFile);
+        }
     }
 
     /**
@@ -812,11 +845,13 @@ public class Wizard extends JComponent {
         }
         chooser.setFileFilter(jtiFilter);
         int action = chooser.showSaveDialog(main);
-        if (action != JFileChooser.APPROVE_OPTION)
+        if (action != JFileChooser.APPROVE_OPTION) {
             return;
+        }
         File f = ensureExtn(chooser.getSelectedFile(), ".jti");
-        if (f.exists() && !okToOverwrite(f))
+        if (f.exists() && !okToOverwrite(f)) {
             return;
+        }
         performSaveInternal(f);
     }
 
@@ -880,9 +915,9 @@ public class Wizard extends JComponent {
         m.setName("wizard." + uiKey);
         m.setMnemonic(i18n.getString("wizard." + uiKey + ".mne").charAt(0));
         for (String[] data : menuData) {
-            if (data == null)
+            if (data == null) {
                 m.addSeparator();
-            else {
+            } else {
                 JMenuItem mi = createMenuItem(uiKey, data[0], data[1], l);
                 if (data.length > 2) {
                     KeyStroke accel = KeyStroke.getKeyStroke(data[2]);
@@ -918,10 +953,11 @@ public class Wizard extends JComponent {
     }
 
     private File ensureExtn(File f, String extn) {
-        if (f.getName().endsWith(extn))
+        if (f.getName().endsWith(extn)) {
             return f;
-        else
+        } else {
             return new File(f.getPath() + extn);
+        }
     }
 
     private boolean okToContinue() {
@@ -1025,11 +1061,14 @@ public class Wizard extends JComponent {
 
         @Override
         public boolean accept(File f) {
-            if (f.isDirectory())
+            if (f.isDirectory()) {
                 return true;
-            for (String extn : extns)
-                if (f.getName().endsWith(extn))
+            }
+            for (String extn : extns) {
+                if (f.getName().endsWith(extn)) {
                     return true;
+                }
+            }
             return false;
         }
 
@@ -1037,10 +1076,12 @@ public class Wizard extends JComponent {
         public String getDescription() {
             if (description == null) {
                 StringBuilder sb = new StringBuilder("wizard.extn");
-                if (extns.length == 0)
+                if (extns.length == 0) {
                     sb.append(".allFiles");
-                else {
-                    for (String extn : extns) sb.append(extn);
+                } else {
+                    for (String extn : extns) {
+                        sb.append(extn);
+                    }
                 }
                 description = i18n.getString(sb.toString());
             }
@@ -1089,8 +1130,9 @@ public class Wizard extends JComponent {
                 JMenuItem mi = (JMenuItem) m.getComponent(i);
                 if (mi != null) {
                     Exporter e = (Exporter) mi.getClientProperty("exporter");
-                    if (e != null)
+                    if (e != null) {
                         mi.setEnabled(e.isExportable());
+                    }
                 }
             }
         }
@@ -1114,11 +1156,13 @@ public class Wizard extends JComponent {
             String desc = e.getFileDescription();
             exportChooser.setFileFilter(new ExtensionFileFilter(extns, desc));
             int action = exportChooser.showSaveDialog(main);
-            if (action != JFileChooser.APPROVE_OPTION)
+            if (action != JFileChooser.APPROVE_OPTION) {
                 return;
+            }
             File f = ensureExtn(exportChooser.getSelectedFile(), extns[0]);
-            if (f.exists() && !okToOverwrite(f))
+            if (f.exists() && !okToOverwrite(f)) {
                 return;
+            }
             e.export(f);
 
         }

@@ -163,25 +163,30 @@ public abstract class Command {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < args.size(); i++) {
-            if (sb.length() > 0)
+            if (sb.length() > 0) {
                 sb.append(' ');
+            }
             String arg = args.get(i);
             boolean hasSpace = arg.indexOf(' ') != -1;
             boolean hasQuote = arg.indexOf('"') != -1;
             boolean hasEscape = arg.indexOf('\\') != -1;
-            if (hasSpace)
+            if (hasSpace) {
                 sb.append('"');
+            }
             if (hasQuote || hasEscape) {
                 for (int ci = 0; ci < arg.length(); ci++) {
                     char c = arg.charAt(ci);
-                    if (c == '"' || c == '\\')
+                    if (c == '"' || c == '\\') {
                         sb.append('\\');
+                    }
                     sb.append(c);
                 }
-            } else
+            } else {
                 sb.append(arg);
-            if (hasSpace)
+            }
+            if (hasSpace) {
                 sb.append('"');
+            }
         }
         return sb.toString();
     }

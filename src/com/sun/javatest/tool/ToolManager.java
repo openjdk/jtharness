@@ -226,8 +226,9 @@ public abstract class ToolManager {
     protected Icon createIcon(String key) {
         String r = i18n.getString(key + ".icon");
         URL url = ToolManager.class.getResource(r);
-        if (url == null)
+        if (url == null) {
             throw new MissingResourceException(r, getClass().getName(), r);
+        }
         return new ImageIcon(url);
     }
 

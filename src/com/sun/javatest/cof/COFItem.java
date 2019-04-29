@@ -85,7 +85,9 @@ abstract class COFItem {
             }
         }
 
-        if (pds == null) return null;
+        if (pds == null) {
+            return null;
+        }
 
         Object result = null;
         int propIndex = Arrays.binarySearch(pds, name, new Comparator() {
@@ -130,8 +132,9 @@ abstract class COFItem {
 
     void write(XMLWriter out) throws IOException {
 
-        if (itemTagName == null)
+        if (itemTagName == null) {
             return;
+        }
         out.startTag(itemTagName);
         if (itemAttributes != null) {
             String[] attrOrder = getAttributeProperties();
@@ -152,8 +155,9 @@ abstract class COFItem {
                     writeCollection(out, propOrder[i]);
                     continue;
                 }
-                if (propValue == null)
+                if (propValue == null) {
                     continue;
+                }
                 out.startTag(itemElements.get(propOrder[i]).toString());
                 write(out, propValue);
                 out.endTag(itemElements.get(propOrder[i]).toString());
@@ -167,7 +171,9 @@ abstract class COFItem {
             out.write((String) o);
         } else if (o instanceof Date) {
             out.writeDate((Date) o);
-        } else out.write(o.toString());
+        } else {
+            out.write(o.toString());
+        }
     }
 
     void writeCollection(XMLWriter out, String propName) throws IOException {

@@ -105,11 +105,13 @@ public class HelpExternalLink extends HelpLink {
 
                         String result = in.readLine();
                         // can't just check exitValue - "which" command works in other way in Solaris
-                        if (result.startsWith("/") && result.endsWith(commands[i]) && exitValue == 0)
+                        if (result.startsWith("/") && result.endsWith(commands[i]) && exitValue == 0) {
                             resultCommand = commands[i];
+                        }
                     }
-                    if (resultCommand == null)
+                    if (resultCommand == null) {
                         return false;
+                    }
                     // starting browser
                     Runtime.getRuntime().exec(new String[]{resultCommand, url});
                 }

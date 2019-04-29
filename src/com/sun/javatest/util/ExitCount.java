@@ -61,11 +61,13 @@ public class ExitCount {
     public static boolean dec(boolean autoExitIfZero, int exitCode) {
         if (--count == 0) {
             SecurityManager sc = System.getSecurityManager();
-            if (sc instanceof JavaTestSecurityManager)
+            if (sc instanceof JavaTestSecurityManager) {
                 ((JavaTestSecurityManager) sc).setAllowExit(true);
+            }
 
-            if (autoExitIfZero)
+            if (autoExitIfZero) {
                 System.exit(exitCode);
+            }
         }
 
         return count == 0;

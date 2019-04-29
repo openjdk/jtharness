@@ -64,7 +64,9 @@ class SerialPortModeOptions extends ModeOptions {
 
         if (proxy != null) {
             String[] portNames = proxy.getPortNames();
-            for (String portName : portNames) portChoice.addItem(portName);
+            for (String portName : portNames) {
+                portChoice.addItem(portName);
+            }
         }
 
         if (portChoice.getItemCount() == 0) {
@@ -79,10 +81,11 @@ class SerialPortModeOptions extends ModeOptions {
 
     @Override
     ConnectionFactory createConnectionFactory(int concurrency) throws BadValue {
-        if (proxy == null)
+        if (proxy == null) {
             throw new BadValue("no serial ports found or accessible");
-        else
+        } else {
             return proxy.createConnectionFactory(portChoice.getSelectedItem());
+        }
 
     }
 
@@ -117,8 +120,9 @@ class ProxyImpl implements Proxy {
             Vector<String> v = new Vector<>();
             for (Enumeration<?> e = CommPortIdentifier.getPortIdentifiers(); e.hasMoreElements(); ) {
                 CommPortIdentifier p = (CommPortIdentifier) e.nextElement();
-                if (p.getPortType() == CommPortIdentifier.PORT_SERIAL)
+                if (p.getPortType() == CommPortIdentifier.PORT_SERIAL) {
                     v.add(p.getName());
+                }
             }
             return v.toArray(new String[v.size()]);
         } catch (Throwable t) {

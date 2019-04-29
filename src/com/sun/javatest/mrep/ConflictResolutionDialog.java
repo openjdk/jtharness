@@ -207,8 +207,9 @@ public class ConflictResolutionDialog extends JDialog {
             String cmd = e.getActionCommand();
             if (cmd.equals(cancelButtonStr)) {
 
-                if (uif.showYesNoDialog("conflict.areyousure") != JOptionPane.YES_OPTION)
+                if (uif.showYesNoDialog("conflict.areyousure") != JOptionPane.YES_OPTION) {
                     return;
+                }
 
                 ConflictResolutionDialog.this.cancel = true;
                 ConflictResolutionDialog.this.dispose();
@@ -234,8 +235,9 @@ public class ConflictResolutionDialog extends JDialog {
                     list.setEnabled(true);
                     preferredReportCheckBox.setEnabled(true);
                 }
-            } else
+            } else {
                 ; // ignore events on all other objects
+            }
         }
     }
 
@@ -243,7 +245,9 @@ public class ConflictResolutionDialog extends JDialog {
     class ReportsListSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            if (e.getValueIsAdjusting()) return;
+            if (e.getValueIsAdjusting()) {
+                return;
+            }
 
             if ((list.getSelectedValues().length == 0) &&
                     !useMostRecentCheckBox.isSelected()) {

@@ -156,8 +156,9 @@ public abstract class Tool extends JPanel {
      * @see #getTitle
      */
     private synchronized void setLocalizedTitle(String newTitle) {
-        if (title == null ? newTitle == null : title.equals(newTitle))
+        if (title == null ? newTitle == null : title.equals(newTitle)) {
             return;
+        }
 
         title = newTitle;
         for (Observer observer : observers) {
@@ -186,8 +187,9 @@ public abstract class Tool extends JPanel {
      * @see #getShortTitle
      */
     public void setShortTitle(String newShortTitle) {
-        if (shortTitle == null ? newShortTitle == null : shortTitle.equals(newShortTitle))
+        if (shortTitle == null ? newShortTitle == null : shortTitle.equals(newShortTitle)) {
             return;
+        }
 
         shortTitle = newShortTitle;
         for (Observer observer : observers) {
@@ -202,12 +204,13 @@ public abstract class Tool extends JPanel {
      * @see #setShortTitle
      */
     public String getShortTitle() {
-        if (shortTitle != null)
+        if (shortTitle != null) {
             return shortTitle;
-        else if (title != null)
+        } else if (title != null) {
             return title;
-        else
+        } else {
             return getName();
+        }
     }
 
     /**
@@ -251,8 +254,9 @@ public abstract class Tool extends JPanel {
         removeAll();
         uif.dispose();
 
-        for (int i = observers.length - 1; i >= 0; i--)
+        for (int i = observers.length - 1; i >= 0; i--) {
             observers[i].toolDisposed(this);
+        }
 
         observers = new Observer[0];
     }
@@ -401,8 +405,9 @@ public abstract class Tool extends JPanel {
      */
     protected void setHelpOnButton(Component comp, String helpID) {
         HelpBroker b = getHelpBroker();
-        if (b != null)
+        if (b != null) {
             b.enableHelpKey(comp, helpID);
+        }
     }
 
     /**
@@ -411,17 +416,19 @@ public abstract class Tool extends JPanel {
      * @return an array containing the set of ToolDialogs owned by this tool
      */
     public ToolDialog[] getToolDialogs() {
-        if (toolDialogs == null)
+        if (toolDialogs == null) {
             return new ToolDialog[0];
+        }
 
         ArrayList<ToolDialog> l = new ArrayList<>();
         for (Iterator<WeakReference<ToolDialog>> iter = toolDialogs.iterator(); iter.hasNext(); ) {
             WeakReference<ToolDialog> r = iter.next();
             ToolDialog td = r.get();
-            if (td == null)
+            if (td == null) {
                 iter.remove();
-            else
+            } else {
                 l.add(td);
+            }
         }
 
         return l.toArray(new ToolDialog[l.size()]);
@@ -433,11 +440,13 @@ public abstract class Tool extends JPanel {
      * @param td the tool dialog to be registered as belonging to this tool.
      */
     void addToolDialog(ToolDialog td) {
-        if (td == null)
+        if (td == null) {
             throw new NullPointerException();
+        }
 
-        if (toolDialogs == null)
+        if (toolDialogs == null) {
             toolDialogs = new ArrayList<>();
+        }
 
         toolDialogs.add(new WeakReference<>(td));
     }

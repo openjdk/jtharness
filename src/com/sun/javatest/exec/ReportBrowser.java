@@ -63,15 +63,17 @@ class ReportBrowser extends ToolDialog {
     }
 
     void setSelectedFile(File f) throws IOException {
-        if (f == null)
+        if (f == null) {
             throw new NullPointerException();
+        }
 
         reportFile = f;
 
         setI18NTitle("rb.title", f);
 
-        if (fp == null)
+        if (fp == null) {
             initGUI();
+        }
 
         fp.setBaseDirectory(f);
         fp.setFile(f.toURL());
@@ -103,9 +105,9 @@ class ReportBrowser extends ToolDialog {
         menuBar.add(createHelpMenu());
         setJMenuBar(menuBar);
 
-        if (reportFile == null)
+        if (reportFile == null) {
             setI18NTitle("rb.title");
-        else {
+        } else {
             setI18NTitle("rb.title_file", reportFile);
             fp.setBaseDirectory(reportFile);
             try {

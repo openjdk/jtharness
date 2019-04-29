@@ -60,22 +60,27 @@ public abstract class BackupPolicy {
      * @see #isBackupRequired
      */
     public void backup(File file) throws IOException {
-        if (!isBackupRequired(file))
+        if (!isBackupRequired(file)) {
             return;
+        }
 
-        if (!file.exists())
+        if (!file.exists()) {
             return;
+        }
 
-        if (file.isDirectory())
+        if (file.isDirectory()) {
             throw new IOException("Cannot backup a directory");
+        }
 
-        if (!file.canWrite())
+        if (!file.canWrite()) {
             throw new IOException("File is write-protected");
+        }
 
         File canon = new File(file.getCanonicalPath());
         String p = canon.getParent();
-        if (p == null)
+        if (p == null) {
             throw new IOException("Cannot determine parent directory of " + file);
+        }
 
         File dir = new File(p);
         String[] dirFiles = dir.list();
@@ -91,14 +96,17 @@ public abstract class BackupPolicy {
                         s.startsWith(prefix) && s.endsWith(suffix)) {
                     String mid = s.substring(prefix.length(), s.length() - suffix.length());
                     // verify filename is numeric between prefix and suffix; if not; skip it
-                    for (int m = 0; m < mid.length(); m++)
-                        if (!Character.isDigit(mid.charAt(m)))
+                    for (int m = 0; m < mid.length(); m++) {
+                        if (!Character.isDigit(mid.charAt(m))) {
                             break nextFile;
+                        }
+                    }
                     // if numeric, get the backup index; ignore NumberFormatException
                     // since is really should not happen, given preceding check
                     int index = Integer.parseInt(mid);
-                    if (index > maxBackupIndex)
+                    if (index > maxBackupIndex) {
                         maxBackupIndex = index;
+                    }
                     backups.add(Integer.valueOf(index));
                 }
             }
@@ -108,8 +116,9 @@ public abstract class BackupPolicy {
         File backup = new File(file.getPath() + "~" + ++maxBackupIndex + "~");
 
         boolean ok = file.renameTo(backup);
-        if (!ok)
+        if (!ok) {
             throw new IOException("failed to backup file: " + file);
+        }
 
         // delete old backups
         int numBackupsToKeep = getNumBackupsToKeep(file);
@@ -143,14 +152,17 @@ public abstract class BackupPolicy {
      * @since 3.0.1
      */
     public void backupAndRename(File source, File target) throws IOException {
-        if (!source.exists())
+        if (!source.exists()) {
             return;
+        }
 
-        if (source.isDirectory())
+        if (source.isDirectory()) {
             throw new IOException("Cannot backup a directory.");
+        }
 
-        if (!source.canWrite())
+        if (!source.canWrite()) {
             throw new IOException("Cannot rename, source file is write-protected " + source.getPath());
+        }
 
         if (isBackupRequired(target)) {
             backup(target);
@@ -161,8 +173,9 @@ public abstract class BackupPolicy {
         }
 
         boolean result = source.renameTo(target);
-        if (!result)
+        if (!result) {
             throw new IOException("Rename of " + target.getPath() + " failed.");
+        }
     }
 
     /**

@@ -47,8 +47,9 @@ public class ExcludeListUpdateHandler {
      * @param localFile the file to which the exclude list should be written
      */
     public ExcludeListUpdateHandler(URL remoteURL, File localFile) {
-        if (remoteURL == null || localFile == null)
+        if (remoteURL == null || localFile == null) {
             throw new NullPointerException();
+        }
 
         this.remoteURL = remoteURL;
         this.localFile = localFile;
@@ -72,8 +73,9 @@ public class ExcludeListUpdateHandler {
      * a problem determining the required information
      */
     public long getLocalFileLastModified() {
-        if (localFileLastModified == 0)
+        if (localFileLastModified == 0) {
             localFileLastModified = localFile.lastModified();
+        }
         return localFileLastModified;
     }
 
@@ -140,10 +142,11 @@ public class ExcludeListUpdateHandler {
         c.getContentLength();
         c.connect();
         remoteURLLastModified = c.getLastModified();
-        if (remoteURLLastModified > getLocalFileLastModified())
+        if (remoteURLLastModified > getLocalFileLastModified()) {
             update(c);
-        else
+        } else {
             c.getInputStream().close();
+        }
     }
 
     private void update(URLConnection c) throws IOException {

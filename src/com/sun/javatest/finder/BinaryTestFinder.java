@@ -143,8 +143,9 @@ public class BinaryTestFinder extends TestFinder {
         } else if (i == args.length - 1 && !args[i].startsWith("-")) {
             jtdFile = new File(args[i]);
             return 1;
-        } else
+        } else {
             return super.decodeArg(args, i);
+        }
     }
 
     @Override
@@ -157,8 +158,9 @@ public class BinaryTestFinder extends TestFinder {
 
     @Override
     public boolean isFolder(File path) {
-        if (zipFile != null || zipFileRead)
+        if (zipFile != null || zipFileRead) {
             readBinaryFile();
+        }
 
         File rootDir = getRootDir();
         String relPath = getRelativePath(rootDir, path);
@@ -174,13 +176,15 @@ public class BinaryTestFinder extends TestFinder {
         // a leightweight manner
         if (path.getPath().endsWith(".html") ||
                 path.getPath().endsWith(".java") ||
-                path.getPath().endsWith(".xml"))
+                path.getPath().endsWith(".xml")) {
             return false;
+        }
 
-        if (node != null)
+        if (node != null) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -195,8 +199,9 @@ public class BinaryTestFinder extends TestFinder {
      */
     @Override
     protected void scan(File file) {
-        if (zipFile != null || zipFileRead)
+        if (zipFile != null || zipFileRead) {
             readBinaryFile();
+        }
 
         try {
             // locate the node for this file
@@ -246,10 +251,12 @@ public class BinaryTestFinder extends TestFinder {
                 return filePath.equals(rootDirPath)
                         ? ""
                         : filePath.substring(rootDirPath.length() + 1);
-            } else
+            } else {
                 throw new IllegalArgumentException();
-        } else
+            }
+        } else {
             return file.getPath();
+        }
     }
 
     /**
@@ -265,8 +272,9 @@ public class BinaryTestFinder extends TestFinder {
     private void openBinaryFile(boolean closeIfSuccess) throws Fault {
         try {
             zipFileRead = false;
-            if (jtdFile == null)
+            if (jtdFile == null) {
                 throw new Fault(i18n, "bin.noFile");
+            }
 
             // open these all here to take the hit of exceptions
             // as early as possible
@@ -277,8 +285,9 @@ public class BinaryTestFinder extends TestFinder {
             testsEntry = zipFile.getEntry("tests");
             treeEntry = zipFile.getEntry("tree");
 
-            if (stringsEntry == null || testsEntry == null || treeEntry == null)
+            if (stringsEntry == null || testsEntry == null || treeEntry == null) {
                 throw new Fault(i18n, "bin.badBinFile", zipFile.getName());
+            }
             zipFileRead = true;
         } catch (FileNotFoundException e) {
             throw new Fault(i18n, "bin.cantFindFile", jtdFile.getPath());
@@ -316,8 +325,9 @@ public class BinaryTestFinder extends TestFinder {
                 zipFile = null;
             }
         }
-        if (zipFile == null)
+        if (zipFile == null) {
             throw new IllegalStateException();
+        }
 
         try {
             stringTable = StringTable.read(zipFile, stringsEntry);
@@ -349,8 +359,9 @@ public class BinaryTestFinder extends TestFinder {
     private static int readInt(DataInputStream in) throws IOException {
         int n = 0;
         int b;
-        while ((b = in.readUnsignedByte()) >= 0x80)
+        while ((b = in.readUnsignedByte()) >= 0x80) {
             n = (n << 7) | (b & 0x7f);
+        }
         n = (n << 7) | b;
         return n;
     }
@@ -393,8 +404,9 @@ public class BinaryTestFinder extends TestFinder {
         StringTable(DataInputStream in) throws IOException {
             int count = readInt(in);
             strings = new String[count];
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++) {
                 strings[i] = in.readUTF();
+            }
         }
 
         /**
@@ -404,10 +416,11 @@ public class BinaryTestFinder extends TestFinder {
          */
         String readRef(DataInputStream in) throws IOException {
             int index = readInt(in);
-            if (index == 0)
+            if (index == 0) {
                 return in.readUTF();
-            else
+            } else {
                 return strings[index];
+            }
         }
 
         /**
@@ -524,14 +537,16 @@ public class BinaryTestFinder extends TestFinder {
                 int testCount = readInt(in);
                 if (testCount > 0) {
                     testIndexes = new int[testCount];
-                    for (int i = 0; i < testIndexes.length; i++)
+                    for (int i = 0; i < testIndexes.length; i++) {
                         testIndexes[i] = readInt(in);
+                    }
                 }
                 int childCount = readInt(in);
                 if (childCount > 0) {
                     children = new Node[childCount];
-                    for (int i = 0; i < children.length; i++)
+                    for (int i = 0; i < children.length; i++) {
                         children[i] = new Node(in);
+                    }
                 }
             }
 
@@ -542,8 +557,9 @@ public class BinaryTestFinder extends TestFinder {
                 int sep = path.indexOf(File.separatorChar);
                 String head = sep == -1 ? path : path.substring(0, sep);
                 for (Node child : children) {
-                    if (child.name.equals(head))
+                    if (child.name.equals(head)) {
                         return sep == -1 ? child : child.getNode(path.substring(sep + 1));
+                    }
                 }
                 // not found
                 return null;
@@ -554,8 +570,9 @@ public class BinaryTestFinder extends TestFinder {
              * test table.
              */
             TestDescription getTest(int index, File root, File path, TestTable testTable) throws IOException {
-                if (testIndexes == null || index > testIndexes.length)
+                if (testIndexes == null || index > testIndexes.length) {
                     throw new IllegalArgumentException();
+                }
                 return testTable.get(root, path, testIndexes[index]);
             }
 

@@ -142,10 +142,11 @@ class MultiSelectPanel
     }
 
     protected void updatePanel(Object... nodes) {
-        if (isVisible())
+        if (isVisible()) {
             updateGUI();
-        else
+        } else {
             needToUpdateGUIWhenShown = true;
+        }
     }
 
     Object[] getNodes() {
@@ -159,10 +160,13 @@ class MultiSelectPanel
     protected void updateGUI() {
         listModel.removeAllElements();
 
-        if (nodes == null)
+        if (nodes == null) {
             return;
+        }
 
-        for (Object node : nodes) listModel.addElement(node);
+        for (Object node : nodes) {
+            listModel.addElement(node);
+        }
     }
 
     @Override

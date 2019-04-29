@@ -165,8 +165,9 @@ public class ReadAheadIterator<T> implements Iterator<T> {
                 break;
 
             case LIMITED:
-                if (amount <= 0)
+                if (amount <= 0) {
                     throw new IllegalArgumentException();
+                }
                 minQueueSize = Math.min(10, amount);
                 maxQueueSize = amount;
                 break;
@@ -195,9 +196,10 @@ public class ReadAheadIterator<T> implements Iterator<T> {
         if (result == null) {
             // queue is empty: check whether to read source directly, or rely on the worker thread
             if (maxQueueSize == 0)
-                // no read ahead, so don't start worker; use source directly
+            // no read ahead, so don't start worker; use source directly
+            {
                 result = source.next();
-            else {
+            } else {
                 if (worker == null) {
                     // only start a worker if there are items for it to read
                     sourceHasNext = source.hasNext();
@@ -234,8 +236,9 @@ public class ReadAheadIterator<T> implements Iterator<T> {
             notifyAll();
         }
 
-        if (result != null)
+        if (result != null) {
             usedCount++;
+        }
 
         return result;
     }
@@ -295,8 +298,9 @@ public class ReadAheadIterator<T> implements Iterator<T> {
             // if this is still the main worker thread, zap the
             // reference to the thread, to help GC.
             synchronized (this) {
-                if (thisThread == worker)
+                if (thisThread == worker) {
                     worker = null;
+                }
             }
         }
     }

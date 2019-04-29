@@ -47,8 +47,9 @@ public class DesktopManager extends CommandManager {
 
     Desktop createDesktop() {
         Desktop d = new Desktop();
-        if (firstTimeFlag)
+        if (firstTimeFlag) {
             d.setFirstTime(firstTimeFlag);
+        }
         if (resumeFlag) {
             d.setRestoreOnStart(true);
         }
@@ -57,8 +58,9 @@ public class DesktopManager extends CommandManager {
 
     Desktop createDesktop(CommandContext ctx) {
         Desktop d = new Desktop(ctx);
-        if (firstTimeFlag)
+        if (firstTimeFlag) {
             d.setFirstTime(firstTimeFlag);
+        }
         if (resumeFlag) {
             d.setRestoreOnStart(true);
         }

@@ -122,15 +122,18 @@ public abstract class StringListQuestion extends Question {
      */
     @Override
     public String getStringValue() {
-        if (value == null)
+        if (value == null) {
             return null;
+        }
 
         StringBuilder sb = new StringBuilder();
         for (String aValue : value) {
-            if (sb.length() > 0)
+            if (sb.length() > 0) {
                 sb.append('\n');
-            if (aValue != null)
+            }
+            if (aValue != null) {
                 sb.append(aValue);
+            }
         }
 
         return sb.toString();
@@ -160,15 +163,16 @@ public abstract class StringListQuestion extends Question {
     public void setValue(String... newValue) {
         if (newValue != null) {
             for (String aNewValue : newValue) {
-                if (aNewValue == null || (aNewValue.contains("\n")))
+                if (aNewValue == null || (aNewValue.contains("\n"))) {
                     throw new IllegalArgumentException();
+                }
             }
         }
 
         if (!equal(newValue, value)) {
-            if (newValue == null)
+            if (newValue == null) {
                 value = null;
-            else {
+            } else {
                 value = new String[newValue.length];
                 System.arraycopy(newValue, 0, value, 0, newValue.length);
             }
@@ -195,8 +199,9 @@ public abstract class StringListQuestion extends Question {
      */
     @Override
     protected void save(Map<String, String> data) {
-        if (value != null)
+        if (value != null) {
             data.put(tag, getStringValue());
+        }
     }
 
     /**
@@ -209,15 +214,18 @@ public abstract class StringListQuestion extends Question {
      * @see #equal(String, String)
      */
     protected static boolean equal(String[] s1, String... s2) {
-        if (s1 == null || s2 == null)
+        if (s1 == null || s2 == null) {
             return s1 == s2;
+        }
 
-        if (s1.length != s2.length)
+        if (s1.length != s2.length) {
             return false;
+        }
 
         for (int i = 0; i < s1.length; i++) {
-            if (!equal(s1[i], s2[i]))
+            if (!equal(s1[i], s2[i])) {
                 return false;
+            }
         }
 
         return true;
@@ -244,8 +252,9 @@ public abstract class StringListQuestion extends Question {
      * the argument.
      */
     protected static String[] split(String s) {
-        if (s == null)
+        if (s == null) {
             return EMPTY;
+        }
 
         char sep = '\n';
 
@@ -253,16 +262,20 @@ public abstract class StringListQuestion extends Question {
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == sep) {
-                if (start != -1)
+                if (start != -1) {
                     v.add(s.substring(start, i));
+                }
                 start = -1;
-            } else if (start == -1)
+            } else if (start == -1) {
                 start = i;
+            }
         }
-        if (start != -1)
+        if (start != -1) {
             v.add(s.substring(start));
-        if (v.isEmpty())
+        }
+        if (v.isEmpty()) {
             return EMPTY;
+        }
         return v.toArray(new String[v.size()]);
     }
 

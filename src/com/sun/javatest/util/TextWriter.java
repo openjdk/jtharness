@@ -168,8 +168,9 @@ public class TextWriter extends FilterWriter {
     public void println() throws IOException {
         synchronized (lock) {
             out.write(lineSeparator);
-            if (autoFlush)
+            if (autoFlush) {
                 out.flush();
+            }
         }
     }
 

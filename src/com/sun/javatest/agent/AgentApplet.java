@@ -109,16 +109,18 @@ public class AgentApplet extends Applet implements Agent.Observer {
                 add(p);
                 return;
             }
-        } else
+        } else {
             appletName = null;
+        }
 
         setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
 
         ActiveModeOptions amo = new ActiveModeOptions();
-        if (activeHost != null)
+        if (activeHost != null) {
             amo.setHost(activeHost);
+        }
         amo.setPort(activePort);
 
         PassiveModeOptions pmo = new PassiveModeOptions();
@@ -149,9 +151,9 @@ public class AgentApplet extends Applet implements Agent.Observer {
         AgentPanel.MapReader mapReader = new AgentPanel.MapReader() {
             @Override
             public ConfigValuesMap read(String name) throws IOException {
-                if (name == null || name.isEmpty())
+                if (name == null || name.isEmpty()) {
                     return null;
-                else {
+                } else {
                     ConfigValuesMap m = ConfigValuesMap.readURL(new URL(getDocumentBase(), name));
                     m.setTracing(tracing, System.out);
                     return m;
@@ -184,14 +186,17 @@ public class AgentApplet extends Applet implements Agent.Observer {
         ap.setConcurrency(concurrency);
         ap.setTracing(tracing, System.out);
 
-        if (mapFile != null)
+        if (mapFile != null) {
             ap.setMapFile(mapFile);
+        }
 
-        if (history != -1)
+        if (history != -1) {
             ap.setHistoryLimit(history);
+        }
 
-        if (delay != -1)
+        if (delay != -1) {
             ap.setRetryDelay(delay);
+        }
 
         c.weightx = 1;
         c.weighty = 1;
@@ -201,10 +206,12 @@ public class AgentApplet extends Applet implements Agent.Observer {
         if (shareFrame) {
             try {
                 Container x = this;
-                while (x != null && !(x instanceof Frame))
+                while (x != null && !(x instanceof Frame)) {
                     x = x.getParent();
-                if (x != null)
+                }
+                if (x != null) {
                     MainFrame.setFrame((Frame) x);
+                }
             } catch (SecurityException e) {
                 System.err.println("Security Exception occurred while attempting to access shared frame; " + e);
             }
@@ -217,14 +224,16 @@ public class AgentApplet extends Applet implements Agent.Observer {
             MainAppletContext.setAgentApplet(this);
         }
 
-        if (autostart)
+        if (autostart) {
             ap.start();
+        }
     }
 
     @Override
     public void start() {
-        if (shareAppletContext)
+        if (shareAppletContext) {
             MainAppletContext.setStarted(true);
+        }
         super.start();
     }
 
@@ -271,8 +280,9 @@ public class AgentApplet extends Applet implements Agent.Observer {
     private int getIntParameter(String name, int dflt) {
         try {
             String s = getParameter(name);
-            if (s != null)
+            if (s != null) {
                 return Integer.parseInt(s);
+            }
         } catch (NumberFormatException e) {
             // ignore
         }

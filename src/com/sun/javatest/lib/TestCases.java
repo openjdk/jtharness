@@ -151,14 +151,16 @@ public class TestCases {
                 if (excludedCases.get(m.getName()) == null) {
                     Class<?>[] paramTypes = m.getParameterTypes();
                     Class<?> returnType = m.getReturnType();
-                    if ((paramTypes.length == 0) && Status.class.isAssignableFrom(returnType))
+                    if ((paramTypes.length == 0) && Status.class.isAssignableFrom(returnType)) {
                         v.add(m);
+                    }
                 }
             }
         } else {
             for (Method m : selectedCases.values()) {
-                if (excludedCases.get(m.getName()) == null)
+                if (excludedCases.get(m.getName()) == null) {
                     v.add(m);
+                }
             }
         }
         return v.elements();
@@ -181,8 +183,9 @@ public class TestCases {
         Method invoker;
         try {
             invoker = testClass.getMethod("invokeTestCase", Method.class);
-            if (!Status.class.isAssignableFrom(invoker.getReturnType()))
+            if (!Status.class.isAssignableFrom(invoker.getReturnType())) {
                 invoker = null;
+            }
         } catch (NoSuchMethodException e) {
             invoker = null;
         }
@@ -192,10 +195,11 @@ public class TestCases {
             Method m = e.nextElement();
             Status s;
             try {
-                if (invoker != null)
+                if (invoker != null) {
                     s = (Status) invoker.invoke(test, new Object[]{m});
-                else
+                } else {
                     s = (Status) m.invoke(test, noArgs);
+                }
             } catch (IllegalAccessException ex) {
                 s = Status.failed("Could not access test case: " + m.getName());
             } catch (InvocationTargetException ex) {
@@ -212,10 +216,11 @@ public class TestCases {
 
             ms.add(m.getName(), s);
         }
-        if (ms.getTestCount() == 0)
+        if (ms.getTestCount() == 0) {
             return Status.passed("Test passed by default: no test cases executed.");
-        else
+        } else {
             return ms.getStatus();
+        }
     }
 
     /**
@@ -224,8 +229,9 @@ public class TestCases {
      * @param t The Throwable for which to print the trace
      */
     protected void printStackTrace(Throwable t) {
-        if (log != null)
+        if (log != null) {
             t.printStackTrace(log);
+        }
     }
 
     /**
@@ -239,8 +245,9 @@ public class TestCases {
     private Method getTestCase(String name) throws Fault {
         try {
             Method m = testClass.getMethod(name, noArgTypes);
-            if (!Status.class.isAssignableFrom(m.getReturnType()))
+            if (!Status.class.isAssignableFrom(m.getReturnType())) {
                 throw new Fault("Method for test case '" + name + "' has wrong return type");
+            }
             return m;
         } catch (NoSuchMethodException e) {
             throw new Fault("Could not find test case: " + name);

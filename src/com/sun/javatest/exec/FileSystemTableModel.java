@@ -118,8 +118,9 @@ public class FileSystemTableModel extends AbstractTableModel {
         }
 
         File[] lst = file.listFiles();
-        if (lst != null)
+        if (lst != null) {
             Arrays.sort(lst);
+        }
 
         if (lst != null && lst.length > 0) {
 //            if (allowTraversDirs) {
@@ -141,19 +142,33 @@ public class FileSystemTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if (rowIndex < 0 || rowIndex >= data.size()) return null;
+        if (rowIndex < 0 || rowIndex >= data.size()) {
+            return null;
+        }
         FileTableNode f = data.get(rowIndex);
         File file = f.getFile();
-        if (file == null) return null;
-        if (columnIndex == 0) return f;//file.getName();
-        if (file.isDirectory()) return "";
-        if (columnIndex == 1) return getConfigName(file);
-        if (columnIndex == 2) return getConfigDesc(file);
+        if (file == null) {
+            return null;
+        }
+        if (columnIndex == 0) {
+            return f;//file.getName();
+        }
+        if (file.isDirectory()) {
+            return "";
+        }
+        if (columnIndex == 1) {
+            return getConfigName(file);
+        }
+        if (columnIndex == 2) {
+            return getConfigDesc(file);
+        }
         return null;
     }
 
     public File getNode(int rowIndex) {
-        if (rowIndex < 0 || rowIndex >= data.size()) return null;
+        if (rowIndex < 0 || rowIndex >= data.size()) {
+            return null;
+        }
         return data.get(rowIndex).getFile();
     }
 
@@ -173,12 +188,14 @@ public class FileSystemTableModel extends AbstractTableModel {
 
     private String[] getInfo(File file) {
 
-        if (fileData == null) fileData = new LinkedHashMap<String, String[]>() {
-            @Override
-            protected boolean removeEldestEntry(Map.Entry<String, String[]> eldest) {
-                return size() > 500;
-            }
-        };
+        if (fileData == null) {
+            fileData = new LinkedHashMap<String, String[]>() {
+                @Override
+                protected boolean removeEldestEntry(Map.Entry<String, String[]> eldest) {
+                    return size() > 500;
+                }
+            };
+        }
         String key = file.getAbsolutePath();
         String[] value = fileData.get(key);
         if (value != null) {
@@ -215,8 +232,12 @@ public class FileSystemTableModel extends AbstractTableModel {
         }
 
         protected boolean isApplicableFile(File f) {
-            if (extension == null) return true;
-            if (f.isDirectory()) return true;
+            if (extension == null) {
+                return true;
+            }
+            if (f.isDirectory()) {
+                return true;
+            }
             return f.getName().endsWith(extension);
         }
 

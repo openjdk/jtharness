@@ -92,7 +92,9 @@ class TabDeskView extends DeskView {
             }
         });
 
-        for (Tool tool : tools) addTool(tool);
+        for (Tool tool : tools) {
+            addTool(tool);
+        }
 
         setVisible(other.isVisible());
     }
@@ -119,15 +121,18 @@ class TabDeskView extends DeskView {
     @Override
     public void setVisible(boolean v) {
         //System.err.println("Tab: setVisible: " + v);
-        if (v == mainFrame.isVisible())
+        if (v == mainFrame.isVisible()) {
             return;
+        }
 
         mainFrame.setVisible(v);
 
         if (v) {
             Window[] ww = mainFrame.getOwnedWindows();
             if (ww != null) {
-                for (Window aWw : ww) aWw.toFront();
+                for (Window aWw : ww) {
+                    aWw.toFront();
+                }
             }
         }
     }
@@ -135,18 +140,21 @@ class TabDeskView extends DeskView {
     @Override
     public void addTool(Tool t) {
         DeskView view = t.getDeskView();
-        if (view == this)
+        if (view == this) {
             return;
+        }
 
         // save info about dialogs before we remove tool from other view
         ToolDialog[] tds = t.getToolDialogs();
         boolean[] vis = new boolean[tds.length];
-        for (int i = 0; i < tds.length; i++)
+        for (int i = 0; i < tds.length; i++) {
             vis[i] = tds[i].isVisible();
+        }
 
         // remove tool from other view (if any)
-        if (view != null)
+        if (view != null) {
             view.removeTool(t);
+        }
 
         //System.err.println("Tab: add " + t);
         String tabTitle = getUniqueTabTitle(t.getShortTitle(), null);
@@ -158,8 +166,9 @@ class TabDeskView extends DeskView {
         t.setDeskView(this);
 
         // update tool dialogs
-        for (int i = 0; i < tds.length; i++)
+        for (int i = 0; i < tds.length; i++) {
             tds[i].initDialog(this, vis[i]);
+        }
     }
 
     @Override
@@ -170,8 +179,9 @@ class TabDeskView extends DeskView {
     @Override
     public Tool[] getTools() {
         Tool[] tools = new Tool[contents.getComponentCount()];
-        for (int i = 0; i < tools.length; i++)
+        for (int i = 0; i < tools.length; i++) {
             tools[i] = (Tool) contents.getComponentAt(i);
+        }
         return tools;
     }
 
@@ -189,11 +199,14 @@ class TabDeskView extends DeskView {
 
         // update the selection as appropriate
         if (t == selectedTool)
-            // set a different tool to be selected
+        // set a different tool to be selected
+        {
             setSelectedTool((Tool) contents.getSelectedComponent());
-        else
-            // set the selection again, in case the index has changed
+        } else
+        // set the selection again, in case the index has changed
+        {
             contents.setSelectedComponent(selectedTool);
+        }
 
         // ensure there is a valid keyboard focus
         KeyboardFocusManager fm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
@@ -221,8 +234,10 @@ class TabDeskView extends DeskView {
     @Override
     public void setSelectedTool(Tool t) {
         if (t == selectedTool)
-            // already selected
+        // already selected
+        {
             return;
+        }
 
         // hands off the old selected tool (if any)
         if (selectedTool != null) {
@@ -266,8 +281,9 @@ class TabDeskView extends DeskView {
     @Override
     public boolean isToolOwnerForDialog(Tool tool, Container dialog) {
         for (ToolDialog td : tool.getToolDialogs()) {
-            if (td.getDialogParent() == dialog)
+            if (td.getDialogParent() == dialog) {
                 return true;
+            }
         }
         return dialog != null
                 && (dialog.getParent() == mainFrame);
@@ -280,8 +296,9 @@ class TabDeskView extends DeskView {
         UIFactory uif = tool.uif;
         if ((type & ToolDialog.FRAME) != 0) {
             JFrame d = uif.createFrame(uiKey, title, body);
-            if (menuBar != null)
+            if (menuBar != null) {
                 d.setJMenuBar(menuBar);
+            }
 
             setBounds(d, bounds);
 
@@ -305,8 +322,9 @@ class TabDeskView extends DeskView {
                     d.setModal(true);
                 }
             }
-            if (menuBar != null)
+            if (menuBar != null) {
                 d.setJMenuBar(menuBar);
+            }
 
             setBounds(d, bounds);
 
@@ -332,8 +350,9 @@ class TabDeskView extends DeskView {
                                   Rectangle bounds) {
         UIFactory uif = tool.uif;
         JDialog d = uif.createDialog(uiKey, mainFrame, title, body);
-        if (menuBar != null)
+        if (menuBar != null) {
             d.setJMenuBar(menuBar);
+        }
 
         setBounds(d, bounds);
 
@@ -345,8 +364,9 @@ class TabDeskView extends DeskView {
         saveBounds(mainFrame, new PrefixMap<>(m, "dt"));
         saveTools(m);
         int sel = contents.getSelectedIndex();
-        if (sel >= 0)
+        if (sel >= 0) {
             m.put("dt.selected", String.valueOf(sel));
+        }
     }
 
     @Override
@@ -398,16 +418,18 @@ class TabDeskView extends DeskView {
     private String getUniqueTabTitle(String base, Component ignoreable) {
         Set<String> s = new HashSet<>();
         for (int i = 0; i < contents.getTabCount(); i++) {
-            if (contents.getComponentAt(i) != ignoreable)
+            if (contents.getComponentAt(i) != ignoreable) {
                 s.add(contents.getTitleAt(i));
+            }
         }
 
         if (s.contains(base)) {
             for (int i = 0; i <= s.size(); i++) {
                 // checking s.size() + 1 cases: at least one must be free
                 String v = base + " [" + (i + 2) + "]";
-                if (!s.contains(v))
+                if (!s.contains(v)) {
                     return v;
+                }
             }
         }
 
@@ -433,12 +455,14 @@ class TabDeskView extends DeskView {
         public void actionPerformed(ActionEvent e) {
             Tool t = (Tool) contents.getSelectedComponent();
             if (t != null)
-                // should never be null because action should be disabled if there
-                // are no tabs
+            // should never be null because action should be disabled if there
+            // are no tabs
+            {
                 if (getDesktop().isOKToClose(t, mainFrame)) {
                     removeTool(t);
                     t.dispose();
                 }
+            }
         }
     }
 
@@ -452,10 +476,11 @@ class TabDeskView extends DeskView {
         public void actionPerformed(ActionEvent e) {
             JMenuItem mi = (JMenuItem) e.getSource();
             Object o = mi.getClientProperty(this);
-            if (o instanceof Window)
+            if (o instanceof Window) {
                 ((Window) o).toFront();
-            else if (o instanceof Tool)
+            } else if (o instanceof Tool) {
                 setSelectedTool((Tool) o);
+            }
         }
 
         // ---------- AncestorListener ----------
@@ -481,8 +506,9 @@ class TabDeskView extends DeskView {
             // removeToolMenuItemsFromBasicMenuBar();
             // stop observing current tool
             Tool t = (Tool) contents.getSelectedComponent();
-            if (t != null)
+            if (t != null) {
                 t.removeObserver(this);
+            }
             mainFrame.setTitle(uif.getI18NString("dt.title.txt"));
         }
 
@@ -528,10 +554,12 @@ class TabDeskView extends DeskView {
                 Window[] ownedWindows = mainFrame.getOwnedWindows();
                 for (Window w : ownedWindows) {
                     if (w.isVisible()) {
-                        if (w instanceof JDialog)
+                        if (w instanceof JDialog) {
                             addMenuItem(m, n++, ((JDialog) w).getTitle(), w);
-                        if (w instanceof JFrame)
+                        }
+                        if (w instanceof JFrame) {
                             addMenuItem(m, n++, ((JFrame) w).getTitle(), w);
+                        }
                     }
                 }
             }
@@ -540,8 +568,9 @@ class TabDeskView extends DeskView {
         private void addMenuItem(JMenu m, int n, String s, Object o) {
             JMenuItem mi = new JMenuItem(uif.getI18NString("dt.windows.toolX.mit",
                     Integer.valueOf(n), s));
-            if (n < 10)
+            if (n < 10) {
                 mi.setMnemonic(Character.forDigit(n, 10));
+            }
             mi.addActionListener(this);
             mi.putClientProperty(this, o);
             m.add(mi);
@@ -578,8 +607,9 @@ class TabDeskView extends DeskView {
 
         @Override
         public void titleChanged(Tool src, String newValue) {
-            if (src == contents.getSelectedComponent())
+            if (src == contents.getSelectedComponent()) {
                 mainFrame.setTitle(uif.getI18NString("dt.title.tool.txt", newValue));
+            }
 
             for (int i = 0; i < contents.getTabCount(); i++) {
                 if (contents.getComponentAt(i) == src) {

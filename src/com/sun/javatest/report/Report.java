@@ -119,12 +119,16 @@ public class Report implements ReportModel {
             ServiceLoader<ReportFormat> reportLoader = ServiceLoader.load(ReportFormat.class);
             for (ReportFormat rf : reportLoader) {
                 boolean wasInterrapted = doReport(rf, s, links);
-                if (wasInterrapted) return;
+                if (wasInterrapted) {
+                    return;
+                }
             }
 
             writePrefs(s); // write settings to Preferences
 
-            if (Thread.currentThread().isInterrupted()) return;
+            if (Thread.currentThread().isInterrupted()) {
+                return;
+            }
         } finally {
             s.cleanup();
         }
@@ -150,11 +154,15 @@ public class Report implements ReportModel {
                 t.printStackTrace();
                 throw t;
             }
-            if (Thread.currentThread().isInterrupted()) return true;
+            if (Thread.currentThread().isInterrupted()) {
+                return true;
+            }
         }
         for (ReportFormat sub : rf.getSubReports()) {
             boolean wasInterrapted = doReport(sub, s, links);
-            if (wasInterrapted) return true;
+            if (wasInterrapted) {
+                return true;
+            }
         }
         return false;
     }
@@ -242,8 +250,9 @@ public class Report implements ReportModel {
     public static boolean isReportDirectory(File d) {
 
         String[] list = d.list();
-        if (list == null)
+        if (list == null) {
             return false;
+        }
 
         for (String aList : list) {
             if (aList.equals(MARKER_FILE_NAME)) {

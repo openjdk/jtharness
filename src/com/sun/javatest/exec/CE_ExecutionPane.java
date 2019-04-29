@@ -55,8 +55,9 @@ class CE_ExecutionPane extends CE_StdPane {
 
     @Override
     boolean isOKToClose() {
-        if (mutableConcurrencyParameters == null && mutableTimeoutFactorParameters == null)
+        if (mutableConcurrencyParameters == null && mutableTimeoutFactorParameters == null) {
             return true;
+        }
 
         // check concurrency is OK...
 
@@ -150,18 +151,20 @@ class CE_ExecutionPane extends CE_StdPane {
      */
     void updateConfig() {
         concurrencyParameters = config.getConcurrencyParameters();
-        if (concurrencyParameters instanceof MutableConcurrencyParameters)
+        if (concurrencyParameters instanceof MutableConcurrencyParameters) {
             mutableConcurrencyParameters =
                     (MutableConcurrencyParameters) concurrencyParameters;
-        else
+        } else {
             mutableConcurrencyParameters = null;
+        }
 
         timeoutFactorParameters = config.getTimeoutFactorParameters();
-        if (timeoutFactorParameters instanceof MutableTimeoutFactorParameters)
+        if (timeoutFactorParameters instanceof MutableTimeoutFactorParameters) {
             mutableTimeoutFactorParameters =
                     (MutableTimeoutFactorParameters) timeoutFactorParameters;
-        else
+        } else {
             mutableTimeoutFactorParameters = null;
+        }
 
     }
 

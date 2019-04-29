@@ -45,13 +45,14 @@ public class COFData {
     COFData(Vector<Object> data) throws IOException {
         for (int i = 0; i < data.size(); i++) {
             Object o = data.get(i);
-            if (o == null)
+            if (o == null) {
                 throw new NullPointerException();
-            else if (o instanceof String) {
+            } else if (o instanceof String) {
                 String s = (String) o;
                 int eq = s.indexOf("=");
-                if (eq < 1)
+                if (eq < 1) {
                     throw new IllegalArgumentException(s);
+                }
                 String name = s.substring(0, eq);
                 String value = s.substring(eq + 1);
                 put(name, value);
@@ -65,8 +66,9 @@ public class COFData {
                     in.close();
                 }
                 putAll(p);
-            } else
+            } else {
                 throw new IllegalArgumentException(o.toString());
+            }
         }
     }
 

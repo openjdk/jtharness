@@ -239,8 +239,9 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     public void refreshTests() {
 
         synchronized (this) {
-            if (pendingRefresh)
+            if (pendingRefresh) {
                 return;
+            }
 
             pendingRefresh = true;
         }   // sync
@@ -306,7 +307,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
             Map<String, String> pathMap = new HashMap<>();
             parentTool.saveTreeState(pathMap);
 
-            if (trt != null)
+            if (trt != null) {
                 try {
                     parentTool.pauseTreeCacheWork();
                     trt.getLock().lock();
@@ -324,6 +325,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
                     trt.getLock().unlock();
                     parentTool.unpauseTreeCacheWork();
                 }   // finally
+            }
             parentTool.restoreTreeState(pathMap);
         }
     }
@@ -386,8 +388,9 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * @see #getDefaultWorkDirPath()
      */
     public void setDefaultWorkDirPath(File dir) {
-        if (dir == null)
+        if (dir == null) {
             throw new NullPointerException();
+        }
         this.wdPath = dir;
     }
 
@@ -415,8 +418,9 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * @see #setAllowTemplateLoadOutsideDefault
      */
     public void setDefaultTemplateLoadPath(File dir) {
-        if (dir == null)
+        if (dir == null) {
             throw new NullPointerException();
+        }
         templateLoadPath = dir;
     }
 
@@ -444,8 +448,9 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * @see #setAllowTemplateLoadOutsideDefault
      */
     public void setDefaultTemplateSavePath(File dir) {
-        if (dir == null)
+        if (dir == null) {
             throw new NullPointerException();
+        }
         templateSavePath = dir;
     }
 
@@ -515,8 +520,9 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * @see #setAllowConfigLoadOutsideDefault
      */
     public void setDefaultConfigLoadPath(File dir) {
-        if (dir == null)
+        if (dir == null) {
             throw new NullPointerException();
+        }
         configLoadPath = dir;
     }
 
@@ -544,8 +550,9 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * @see #setAllowConfigLoadOutsideDefault
      */
     public void setDefaultConfigSavePath(File dir) {
-        if (dir == null)
+        if (dir == null) {
             throw new NullPointerException();
+        }
 
         // verify that it exists?
         // verify that it is a dir?

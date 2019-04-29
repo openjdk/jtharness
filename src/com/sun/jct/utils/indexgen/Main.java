@@ -45,6 +45,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.FileScanner;
 import org.apache.tools.ant.taskdefs.MatchingTask;
@@ -84,23 +85,22 @@ public class Main {
 
     /**
      * Command line entry point.<br>
+     *
      * @param args Command line arguments, per the usage as described.
      */
     public static void main(String... args) {
         try {
-            if (args.length == 0)
+            if (args.length == 0) {
                 usage(System.err);
-            else {
+            } else {
                 Main m = new Main(args);
                 m.run();
             }
-        }
-        catch (BadArgs e) {
+        } catch (BadArgs e) {
             System.err.println(e);
             usage(System.err);
             System.exit(1);
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             t.printStackTrace();
             System.exit(2);
         }
@@ -108,6 +108,7 @@ public class Main {
 
     /**
      * Write out short command line help.
+     *
      * @param out A stream to which to write the help.
      */
     private static void usage(PrintStream out) {
@@ -128,36 +129,34 @@ public class Main {
         out.println("        HTML files and directories.");
     }
 
-    public Main() { }
+    public Main() {
+    }
 
     /**
      * Create an object based on command line args.
      * It is an error if no input files or no output file is given.
+     *
      * @param args Command line args.
-     * @see #main
      * @throws Main.BadArgs if problems are found in the given arguments.
+     * @see #main
      */
     public Main(String... args) {
         for (int i = 0; i < args.length; i++) {
             if (args[i].equalsIgnoreCase("-htmlout") && i + 1 < args.length) {
                 htmlOutFile = new File(args[++i]);
-            }
-            else if (args[i].equalsIgnoreCase("-xmlout") && i + 1 < args.length) {
+            } else if (args[i].equalsIgnoreCase("-xmlout") && i + 1 < args.length) {
                 xmlOutFile = new File(args[++i]);
-            }
-            else if (args[i].equalsIgnoreCase("-mapout") && i + 1 < args.length) {
+            } else if (args[i].equalsIgnoreCase("-mapout") && i + 1 < args.length) {
                 mapOutFile = new File(args[++i]);
-            }
-            else if (args[i].equalsIgnoreCase("-mapdir") && i + 1 < args.length) {
+            } else if (args[i].equalsIgnoreCase("-mapdir") && i + 1 < args.length) {
                 mapDir = new File(args[++i]);
-            }
-            else if (args[i].equalsIgnoreCase("-srcPath") && i + 1 < args.length) {
+            } else if (args[i].equalsIgnoreCase("-srcPath") && i + 1 < args.length) {
                 path = splitPath(args[++i]);
-            }
-            else {
+            } else {
                 inFiles = new File[args.length - i];
-                for (int j = 0; j < inFiles.length; j++)
+                for (int j = 0; j < inFiles.length; j++) {
                     inFiles[j] = new File(args[i++]);
+                }
             }
         }
     }
@@ -188,7 +187,7 @@ public class Main {
         @Override
         public void execute() {
             FileScanner s = getImplicitFileSet().getDirectoryScanner(getProject());
-            m.path = new File[] { s.getBasedir() };
+            m.path = new File[]{s.getBasedir()};
             m.addFiles(s.getIncludedFiles());
 
             try {
@@ -202,27 +201,35 @@ public class Main {
     }
 
     public void addFiles(String... paths) {
-        if (paths == null)
+        if (paths == null) {
             return;
+        }
         List<File> files = new ArrayList<>();
-        if (inFiles != null)
+        if (inFiles != null) {
             files.addAll(Arrays.asList(inFiles));
-        for (String path1 : paths) files.add(new File(path1));
+        }
+        for (String path1 : paths) {
+            files.add(new File(path1));
+        }
         inFiles = files.toArray(new File[files.size()]);
     }
 
     private void run() throws BadArgs, IOException {
-        if (inFiles == null || inFiles.length == 0)
+        if (inFiles == null || inFiles.length == 0) {
             throw new BadArgs("no input files specified");
+        }
 
-        if (htmlOutFile == null && mapOutFile == null && xmlOutFile == null)
+        if (htmlOutFile == null && mapOutFile == null && xmlOutFile == null) {
             throw new BadArgs("no output files specified");
+        }
 
-        if (xmlOutFile != null && mapOutFile == null )
+        if (xmlOutFile != null && mapOutFile == null) {
             throw new BadArgs("no map output file specified");
+        }
 
-        if (mapOutFile != null && xmlOutFile == null)
+        if (mapOutFile != null && xmlOutFile == null) {
             throw new BadArgs("no XML output file specified");
+        }
 
         root = new Node();
 
@@ -232,13 +239,15 @@ public class Main {
     }
 
     private void read(File... files) throws IOException {
-        for (File file : files) read(file);
+        for (File file : files) {
+            read(file);
+        }
     }
 
     private void read(File file) throws IOException {
-        if (path == null)
+        if (path == null) {
             read(file, file);
-        else {
+        } else {
             for (File aPath : path) {
                 File f = new File(aPath, file.getPath());
                 if (f.exists()) {
@@ -263,8 +272,9 @@ public class Main {
             return;
         }
 
-        if (!absFile.getName().endsWith(".html"))
+        if (!absFile.getName().endsWith(".html")) {
             return;
+        }
 
         // ordinary file -- scan it looking for index entries
         in = new BufferedReader(new FileReader(absFile));
@@ -278,38 +288,39 @@ public class Main {
                 nextCh();
                 skipSpace();
                 switch (c) {
-                case '!':
-                    nextCh();
-                    if (c == '-') {
+                    case '!':
                         nextCh();
                         if (c == '-') {
                             nextCh();
-                            scanComment();
+                            if (c == '-') {
+                                nextCh();
+                                scanComment();
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case '/':
-                    nextCh();
-                    String endTag = scanIdentifier();
-                    if (isLink(endTag)) {
-                        currName = "";
-                        skipTag();
-                    }
-                    else
-                        skipTag();
-                    break;
+                    case '/':
+                        nextCh();
+                        String endTag = scanIdentifier();
+                        if (isLink(endTag)) {
+                            currName = "";
+                            skipTag();
+                        } else {
+                            skipTag();
+                        }
+                        break;
 
-                default:
-                    String startTag = scanIdentifier();
-                    if (isLink(startTag))
-                        scanLink();
-                    else
-                        skipTag();
+                    default:
+                        String startTag = scanIdentifier();
+                        if (isLink(startTag)) {
+                            scanLink();
+                        } else {
+                            skipTag();
+                        }
                 }
-            }
-            else
+            } else {
                 nextCh();
+            }
         }
 
     }
@@ -326,8 +337,9 @@ public class Main {
         while (c != '>') {
             String att = scanIdentifier();
             String value = scanValue();
-            if (att.equalsIgnoreCase("name"))
+            if (att.equalsIgnoreCase("name")) {
                 currName = value;
+            }
             skipSpace();
         }
         nextCh();
@@ -340,22 +352,22 @@ public class Main {
         StringBuilder buf = new StringBuilder();
         while (true) {
             if ((c >= 'a') && (c <= 'z')) {
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
             } else if ((c >= 'A') && (c <= 'Z')) {
-                buf.append((char)('a' + (c - 'A')));
+                buf.append((char) ('a' + (c - 'A')));
                 nextCh();
             } else if ((c >= '0') && (c <= '9')) {
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
             } else if (c == '-') {  // needed for <META HTTP-EQUIV ....>
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
-            } else
-                if (buf.length() == 0)
-                    throw new IOException("Identifier expected (" + currFile + ":" + line + ")");
-                else
-                    return buf.toString();
+            } else if (buf.length() == 0) {
+                throw new IOException("Identifier expected (" + currFile + ":" + line + ")");
+            } else {
+                return buf.toString();
+            }
         }
     }
 
@@ -364,8 +376,9 @@ public class Main {
      */
     private String scanValue() throws IOException {
         skipSpace();
-        if (c != '=')
+        if (c != '=') {
             return "";
+        }
 
         int quote = -1;
         nextCh();
@@ -378,15 +391,16 @@ public class Main {
         StringBuilder buf = new StringBuilder();
         while (((quote < 0) && (c != ' ') && (c != '\t') &&
                 (c != '\n') && (c != '\r') && (c != '>')) ||
-               ((quote >= 0) && (c != quote))) {
+                ((quote >= 0) && (c != quote))) {
             if (c == -1 || c == '\n' || c == '\r') {
                 throw new IOException("mismatched quotes (" + currFile + ":" + line + ")");
             }
-            buf.append((char)c);
+            buf.append((char) c);
             nextCh();
         }
-        if (c == quote)
+        if (c == quote) {
             nextCh();
+        }
         skipSpace();
         return buf.toString();
     }
@@ -400,10 +414,11 @@ public class Main {
         StringBuilder text = new StringBuilder("<!--");
         int numHyphens = 0;
         while (c != -1 && (numHyphens < 2 || c != '>')) {
-            if (c == '-')
+            if (c == '-') {
                 numHyphens++;
-            else
+            } else {
                 numHyphens = 0;
+            }
             text.append((char) c);
             nextCh();
             //System.out.print((char)c);
@@ -415,7 +430,9 @@ public class Main {
 
         if (comment.startsWith("index:")) {
             String[] entries = split(comment.substring(6).trim(), ';');
-            for (String entry : entries) addToIndex(split(entry.trim(), ':'), currFile, currName);
+            for (String entry : entries) {
+                addToIndex(split(entry.trim(), ':'), currFile, currName);
+            }
         }
     }
 
@@ -435,8 +452,9 @@ public class Main {
         skipSpace();
         while (c != '>') {
             String att = scanIdentifier();
-            if (Objects.equals(att, ""))
+            if (Objects.equals(att, "")) {
                 throw new IOException("error parsing HTML input (" + currFile + ":" + line + ")");
+            }
             String value = scanValue();
             skipSpace();
         }
@@ -448,25 +466,35 @@ public class Main {
      */
     private void nextCh() throws IOException {
         c = in.read();
-        if (c == '\n')
+        if (c == '\n') {
             line++;
+        }
     }
 
     private static String escape(String s) {
         for (int i = 0; i < s.length(); i++) {
             switch (s.charAt(i)) {
-            case '<': case '>': case '&':
-                StringBuilder sb = new StringBuilder(s.length()*2);
-                for (int j = 0; j < s.length(); j++) {
-                    char c = s.charAt(j);
-                    switch (c) {
-                    case '<': sb.append("&lt;"); break;
-                    case '>': sb.append("&gt;"); break;
-                    case '&': sb.append("&amp;"); break;
-                    default: sb.append(c);
+                case '<':
+                case '>':
+                case '&':
+                    StringBuilder sb = new StringBuilder(s.length() * 2);
+                    for (int j = 0; j < s.length(); j++) {
+                        char c = s.charAt(j);
+                        switch (c) {
+                            case '<':
+                                sb.append("&lt;");
+                                break;
+                            case '>':
+                                sb.append("&gt;");
+                                break;
+                            case '&':
+                                sb.append("&amp;");
+                                break;
+                            default:
+                                sb.append(c);
+                        }
                     }
-                }
-                return sb.toString();
+                    return sb.toString();
             }
         }
         return s;
@@ -475,15 +503,16 @@ public class Main {
     private void addToIndex(String[] path, File file, String ref) {
         Node node = root.getChild(path);
         String href = file.getPath();
-        if (ref != null && !ref.isEmpty())
+        if (ref != null && !ref.isEmpty()) {
             href = href + "#" + ref;
+        }
         node.setInfo(href);
     }
 
     private void writeIndex() throws IOException {
 
         PrintWriter indexOut = xmlOutFile == null ? null
-                                   : new PrintWriter(new BufferedWriter(new FileWriter(xmlOutFile)));
+                : new PrintWriter(new BufferedWriter(new FileWriter(xmlOutFile)));
         if (indexOut != null) {
             indexOut.println("<?xml version='1.0' encoding='ISO-8859-1'  ?>");
             indexOut.println("<!DOCTYPE index");
@@ -494,7 +523,7 @@ public class Main {
         }
 
         PrintWriter mapOut = mapOutFile == null ? null
-                              : new PrintWriter(new BufferedWriter(new FileWriter(mapOutFile)));
+                : new PrintWriter(new BufferedWriter(new FileWriter(mapOutFile)));
         if (mapOut != null) {
             mapOut.println("<?xml version='1.0' encoding='ISO-8859-1' ?>");
             mapOut.println("<!DOCTYPE map");
@@ -504,7 +533,7 @@ public class Main {
         }
 
         PrintWriter htmlOut = htmlOutFile == null ? null
-                               : new PrintWriter(new BufferedWriter(new FileWriter(htmlOutFile)));
+                : new PrintWriter(new BufferedWriter(new FileWriter(htmlOutFile)));
         if (htmlOut != null) {
             htmlOut.println("<!DOCTYPE HTML>");
             htmlOut.println("<html>");
@@ -539,8 +568,9 @@ public class Main {
         }
 
         if (htmlOut != null) {
-            for (char c = (char) (currLetter + 1); c <= 'Z'; c++)
+            for (char c = (char) (currLetter + 1); c <= 'Z'; c++) {
                 htmlOut.println("<p class=\"index0\">" + c + "</p>");
+            }
             htmlOut.println("</body>");
             htmlOut.println("</html>");
             htmlOut.close();
@@ -571,8 +601,9 @@ public class Main {
                 htmlOut.write("\">");
             }
             htmlOut.write(node.getName());
-            if (href != null)
+            if (href != null) {
                 htmlOut.write("</a>");
+            }
             htmlOut.write("</p>\n");
         }
 
@@ -586,10 +617,10 @@ public class Main {
                 xmlOut.write("\" ");
                 if (mapOut != null) {
                     mapOut.println("<mapID target=\""
-                                   + escapeString(getTarget(href))
-                                   + "\" url=\""
-                                   + escapeString(href)
-                                   + "\" />");
+                            + escapeString(getTarget(href))
+                            + "\" url=\""
+                            + escapeString(href)
+                            + "\" />");
                 }
             }
             xmlOut.println(node.getChildCount() == 0 ? "/>" : ">");
@@ -601,8 +632,9 @@ public class Main {
                 write(xmlOut, mapOut, htmlOut, child, depth + 1);
             }
 
-            if (xmlOut != null)
+            if (xmlOut != null) {
                 xmlOut.println("</indexitem>");
+            }
         }
     }
 
@@ -611,13 +643,15 @@ public class Main {
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (c == sep)  {
-                if (start != -1)
+            if (c == sep) {
+                if (start != -1) {
                     v.add(s.substring(start, i).trim());
+                }
                 start = -1;
             } else {
-                if (start == -1)
+                if (start == -1) {
                     start = i;
+                }
             }
         }
         if (start != -1) {
@@ -631,13 +665,15 @@ public class Main {
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (c == File.pathSeparatorChar)  {
-                if (start != -1)
+            if (c == File.pathSeparatorChar) {
+                if (start != -1) {
                     files.add(new File(s.substring(start, i)));
+                }
                 start = -1;
             } else {
-                if (start == -1)
+                if (start == -1) {
                     start = i;
+                }
             }
         }
         if (start != -1) {
@@ -654,19 +690,20 @@ public class Main {
         if (hash == -1) {
             file = key;
             ref = null;
-        }
-        else {
+        } else {
             file = key.substring(0, hash);
             ref = key.substring(hash + 1);
         }
 
-        if (file.endsWith(".html"))
+        if (file.endsWith(".html")) {
             file = file.substring(0, file.length() - 5);
+        }
 
-        if (ref == null)
+        if (ref == null) {
             key = file;
-        else
+        } else {
             key = file + "#" + ref;
+        }
 
         StringBuilder sb = new StringBuilder();
         sb.append("index.");
@@ -676,9 +713,9 @@ public class Main {
             if (Character.isLetter(c)) {
                 sb.append(needUpper ? Character.toUpperCase(c) : c);
                 needUpper = false;
-            }
-            else
+            } else {
                 needUpper = true;
+            }
         }
         return sb.toString();
     }
@@ -689,8 +726,11 @@ public class Main {
         boolean specialChars = false;
         for (int i = 0; i < text.length() && !specialChars; i++) {
             switch (text.charAt(i)) {
-            case '<': case '>': case '&': case '"':
-                specialChars = true;
+                case '<':
+                case '>':
+                case '&':
+                case '"':
+                    specialChars = true;
             }
         }
 
@@ -701,17 +741,26 @@ public class Main {
             for (int i = 0; i < text.length(); i++) {
                 char c = text.charAt(i);
                 switch (c) {
-                case '<': sb.append("&lt;"); break;
-                case '>': sb.append("&gt;"); break;
-                case '&': sb.append("&amp;"); break;
-                case '"': sb.append("&quot;"); break;
-                default: sb.append(c);
+                    case '<':
+                        sb.append("&lt;");
+                        break;
+                    case '>':
+                        sb.append("&gt;");
+                        break;
+                    case '&':
+                        sb.append("&amp;");
+                        break;
+                    case '"':
+                        sb.append("&quot;");
+                        break;
+                    default:
+                        sb.append(c);
                 }
             }
             return sb.toString();
-        }
-        else
+        } else {
             return text;
+        }
     }
 
     private File[] path;
@@ -730,34 +779,36 @@ public class Main {
     private Node root;
 
     private static Iterator<Node> nullIterator = new Iterator<Node>() {
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
-            @Override
-            public Node next() {
-                return null;
-            }
-            @Override
-            public void remove() {
-            }
-        };
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public Node next() {
+            return null;
+        }
+
+        @Override
+        public void remove() {
+        }
+    };
 
     private Comparator<Node> indexComparator = new Comparator<Node>() {
-            @Override
-            public int compare(Node n1, Node n2) {
-                return n1.getName().compareToIgnoreCase(n2.getName());
-            }
+        @Override
+        public int compare(Node n1, Node n2) {
+            return n1.getName().compareToIgnoreCase(n2.getName());
+        }
 
-            @Override
-            public boolean equals(Object o) {
-                return false;
-            }
-        };
+        @Override
+        public boolean equals(Object o) {
+            return false;
+        }
+    };
 
-    private class Node
-    {
-        Node() { }
+    private class Node {
+        Node() {
+        }
 
         Node(Node parent, String name) {
             this.name = name;
@@ -779,8 +830,9 @@ public class Main {
         Node getChild(String name) {
             if (children != null) {
                 for (Node child : children) {
-                    if (child.name.equals(name))
+                    if (child.name.equals(name)) {
                         return child;
+                    }
                 }
             }
 
@@ -789,7 +841,9 @@ public class Main {
 
         Node getChild(String... path) {
             Node c = this;
-            for (String aPath : path) c = c.getChild(aPath);
+            for (String aPath : path) {
+                c = c.getChild(aPath);
+            }
             return c;
         }
 
@@ -802,8 +856,9 @@ public class Main {
         }
 
         private void add(Node child) {
-            if (children == null)
+            if (children == null) {
                 children = new TreeSet<>(indexComparator);
+            }
             children.add(child);
         }
 

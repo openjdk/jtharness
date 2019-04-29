@@ -137,8 +137,9 @@ public class CommandParser {
     private void decodeArg(String arg, ListIterator<String> argIter, CommandContext ctx)
             throws CommandParser.Fault {
         // special case for Windows-like help option
-        if (arg.equals("/?"))
+        if (arg.equals("/?")) {
             arg = "-?";
+        }
 
         if (arg.startsWith("@")) {
             // for backward compatibility, allow @file
@@ -157,14 +158,16 @@ public class CommandParser {
                     File f = new File(arg2);
                     read(f, ctx);
                     return;
-                } else
+                } else {
                     throw new Fault(i18n, "cmdp.badReadOpt");
+                }
             }
 
             for (CommandManager m : mgrs) {
                 try {
-                    if (m.parseCommand(cmd, argIter, ctx))
+                    if (m.parseCommand(cmd, argIter, ctx)) {
                         return;
+                    }
                 } catch (Command.Fault e) {
                     throw new Fault(e);
                 }
@@ -239,8 +242,9 @@ public class CommandParser {
                     String arg = iter.next();
                     // consider supporting URLs here
                     File f = new File(arg);
-                    if (!f.isAbsolute())
+                    if (!f.isAbsolute()) {
                         f = new File(file.getParentFile(), f.getPath());
+                    }
                     // would be nice to have p.push(f) to avoid recursion here
 
                     if (!iter.hasNext()) {
@@ -255,10 +259,11 @@ public class CommandParser {
             for (CommandManager m : mgrs) {
                 try {
                     if (m.parseCommand(cmd, iter, ctx)) {
-                        if (iter.hasNext())
+                        if (iter.hasNext()) {
                             throw new Fault(i18n, "cmdp.excessArgs", cmd);
-                        else
+                        } else {
                             continue nextLine;
+                        }
                     }
                 } catch (Command.Fault e) {
                     throw new Fault(e);
@@ -271,8 +276,9 @@ public class CommandParser {
 
     private static String[] trim(String... args) {
         String[] trimArgs = new String[args.length];
-        for (int i = 0; i < args.length; i++)
+        for (int i = 0; i < args.length; i++) {
             trimArgs[i] = args[i].trim();
+        }
         return trimArgs;
     }
 

@@ -50,13 +50,13 @@ class TestSuiteErrorsDialog extends ToolDialog {
         StringBuilder sb = new StringBuilder();
         sb.append("<html><body style=\"font-family: SansSerif; font-size: 12pt\">");
 
-        if (testSuite == null)
+        if (testSuite == null) {
             sb.append(uif.getI18NString("tse.head.noTestSuite"));
-        else {
+        } else {
             TestFinder tf = testSuite.getTestFinder();
-            if (tf.getErrorCount() == 0)
+            if (tf.getErrorCount() == 0) {
                 sb.append(uif.getI18NString("tse.head.noErrs"));
-            else {
+            } else {
                 sb.append(uif.getI18NString("tse.head.errs"));
                 sb.append("<ul>");
 
@@ -73,8 +73,9 @@ class TestSuiteErrorsDialog extends ToolDialog {
 
         // would be nice to have more incremental update here;
         // might have to rethink use of HTML
-        if (body == null)
+        if (body == null) {
             initGUI();
+        }
 
         body.setText(sb.toString());
         setVisible(true);

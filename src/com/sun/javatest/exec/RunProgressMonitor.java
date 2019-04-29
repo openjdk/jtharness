@@ -131,10 +131,11 @@ class RunProgressMonitor extends Monitor implements MonitorState.Observer {
             pmTimer.setRepeats(true);
         }
 
-        if (pmTimer.isRunning())
+        if (pmTimer.isRunning()) {
             pmTimer.restart();      // this should not happen
-        else
+        } else {
             pmTimer.start();
+        }
     }
 
     @Override
@@ -154,15 +155,17 @@ class RunProgressMonitor extends Monitor implements MonitorState.Observer {
      * Stop all active subthreads associated with a running harness.
      */
     private void stopAll() {
-        if (pmTimer != null && pmTimer.isRunning())
+        if (pmTimer != null && pmTimer.isRunning()) {
             pmTimer.stop();
+        }
 
         // if all tests were completed, make sure that the bar shows
         // 100%.  this is necessary because depending on the timer,
         // it may not have been updated since the last test finished;
         // actually this is likely.
-        if (state.getTestsDoneCount() == state.getTestsFoundCount())
+        if (state.getTestsDoneCount() == state.getTestsFoundCount()) {
             smMeter.setValue(smMeter.getMaximum());
+        }
     }
 
     private JProgressBar smMeter;

@@ -78,33 +78,38 @@ public class SerialPortAgentCommand extends Command {
                 localizeArgs = true;
             } else if ((args[i].equals("-t") || args[i].equals("-tag")) && i + 1 < args.length) {
                 tag = args[++i];
-            } else
+            } else {
                 return Status.error("Unrecognized option: " + args[i]);
+            }
         }
 
-        if (i == args.length)
+        if (i == args.length) {
             return Status.error("No serial port specified");
+        }
 
         String serialPortName = args[i++];
 
-        if (i == args.length)
+        if (i == args.length) {
             return Status.error("No command specified");
+        }
 
         String cmdClass = args[i++];
 
         String[] cmdArgs = new String[args.length - i];
         System.arraycopy(args, i, cmdArgs, 0, cmdArgs.length);
 
-        if (tag == null)
+        if (tag == null) {
             tag = cmdClass;
+        }
 
         try {
             AgentManager mgr = AgentManager.access();
             AgentManager.Task t = mgr.connect(new SerialPortConnection(serialPortName, ProductInfo.getName(), 1000));
 
             try {
-                if (classPath != null)
+                if (classPath != null) {
                     t.setClassPath(classPath);
+                }
 
                 out.println("Executing command via " + t.getConnection().getName());
 

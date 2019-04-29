@@ -47,11 +47,13 @@ public class StatusFilter extends TestFilter {
      * @see com.sun.javatest.Status#NOT_RUN
      */
     public StatusFilter(boolean[] statusValues, TestResultTable trt) {
-        if (statusValues == null || trt == null)
+        if (statusValues == null || trt == null) {
             throw new NullPointerException();
+        }
 
-        if (statusValues.length != Status.NUM_STATES)
+        if (statusValues.length != Status.NUM_STATES) {
             throw new IllegalArgumentException();
+        }
 
         this.statusValues = statusValues;
         this.trt = trt;
@@ -106,11 +108,13 @@ public class StatusFilter extends TestFilter {
             tr = trt.lookup(td);
         }
 
-        if (tr == null)
+        if (tr == null) {
             throw new Fault(i18n, "statusFilter.cantFindTest", td.getRootRelativeURL());
+        }
         Status s = tr.getStatus();
-        if (s == null)
+        if (s == null) {
             throw new Fault(i18n, "statusFilter.noStatus", td.getRootRelativeURL());
+        }
         return statusValues[s.getType()];
     }
 
@@ -119,23 +123,27 @@ public class StatusFilter extends TestFilter {
         assert tr != null;
 
         Status s = tr.getStatus();
-        if (s == null)
+        if (s == null) {
             throw new Fault(i18n, "statusFilter.noStatus", tr.getTestName());
+        }
         return statusValues[s.getType()];
     }
 
     @Override
     public boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
+        }
 
-        if (!(o instanceof StatusFilter))
+        if (!(o instanceof StatusFilter)) {
             return false;
+        }
 
         StatusFilter other = (StatusFilter) o;
         for (int i = 0; i < Status.NUM_STATES; i++) {
-            if (statusValues[i] != other.statusValues[i])
+            if (statusValues[i] != other.statusValues[i]) {
                 return false;
+            }
         }
 
         return trt == other.trt;

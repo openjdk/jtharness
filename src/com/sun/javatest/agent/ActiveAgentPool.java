@@ -110,8 +110,9 @@ public class ActiveAgentPool {
             // If there is no read outstanding in the watcher thread and
             // no buffered data available take the fast way out and simply
             // use the real socket stream.
-            if (!reading && data == null)
+            if (!reading && data == null) {
                 return socketInput;
+            }
 
             // If there is a read outstanding in the watcher  thread, or if there
             // is already buffered data available, create a stream to return that
@@ -134,7 +135,9 @@ public class ActiveAgentPool {
                 @Override
                 public int read(byte[] buffer, int offset, int count) throws IOException {
                     if (count == 0) // we ought to check
+                    {
                         return 0;
+                    }
 
                     try {
                         // if the watcher thread has a read outstanding, wait for it to
@@ -161,9 +164,9 @@ public class ActiveAgentPool {
                     try {
                         if (data instanceof Integer) {
                             int i = ((Integer) data).intValue();
-                            if (i == -1)
+                            if (i == -1) {
                                 return -1;
-                            else {
+                            } else {
                                 buffer[offset] = (byte) i;
                                 return 1;
                             }
@@ -272,12 +275,14 @@ public class ActiveAgentPool {
         void readAhead() {
             synchronized (this) {
                 if (!entries.contains(this))
-                    // if this entry has already been removed from the agent pool,
-                    // there is no need to monitor the socket, so exit without reading.
-                    // This is an optimization only; the entry could be being removed
-                    // right now, but the synchronized block we are in will handle
-                    // everything OK.
+                // if this entry has already been removed from the agent pool,
+                // there is no need to monitor the socket, so exit without reading.
+                // This is an optimization only; the entry could be being removed
+                // right now, but the synchronized block we are in will handle
+                // everything OK.
+                {
                     return;
+                }
 
                 // mark this object as busy doing a read; other synchronized methods
                 // (ie getInputStream()) should take this into account
@@ -300,10 +305,12 @@ public class ActiveAgentPool {
                 synchronized (this) {
                     boolean ok = entries.remove(this);
                     if (ok)
-                        // The read has unblocked prematurely and no one else
-                        // owns the entry (since we managed to remove it ourselves.
-                        // Drop the socket.
+                    // The read has unblocked prematurely and no one else
+                    // owns the entry (since we managed to remove it ourselves.
+                    // Drop the socket.
+                    {
                         closeNoExceptions(this);
+                    }
 
                     reading = false;
                     notifyAll();
@@ -312,8 +319,9 @@ public class ActiveAgentPool {
         }
 
         private synchronized void waitWhileReading() throws InterruptedException {
-            while (reading)
+            while (reading) {
                 wait();
+            }
         }
 
         private final Socket socket;
@@ -354,8 +362,9 @@ public class ActiveAgentPool {
                 v.remove(e);
                 notifyRemovedFromPool(e);
                 return true;
-            } else
+            } else {
                 return false;
+            }
         }
 
         synchronized Entry next() {
@@ -371,12 +380,14 @@ public class ActiveAgentPool {
         synchronized Entry next(int timeout) throws InterruptedException {
             long end = System.currentTimeMillis() + timeout;
             for (long t = timeout; t > 0; t = end - System.currentTimeMillis()) {
-                if (v.isEmpty())
+                if (v.isEmpty()) {
                     wait(t);
+                }
 
                 Entry e = next();
-                if (e != null)
+                if (e != null) {
                     return e;
+                }
             }
             return null;
         }
@@ -493,15 +504,17 @@ public class ActiveAgentPool {
      * @see #isListening
      */
     public synchronized void setListening(boolean listen) throws IOException {
-        if (debug)
+        if (debug) {
             new Exception("ActiveAgentPool.setListening " + listen + ",port=" + port).printStackTrace(System.err);
+        }
 
         if (listen) {
             if (serverSocket != null) {
-                if (port == 0 || serverSocket.getLocalPort() == port)
+                if (port == 0 || serverSocket.getLocalPort() == port) {
                     return;
-                else
+                } else {
                     closeNoExceptions(serverSocket);
+                }
             }
 
             serverSocket = SocketConnection.createServerSocket(port);
@@ -517,22 +530,26 @@ public class ActiveAgentPool {
             // could synchronize (wait()) with run() here
             // if it should be really necessary
         } else {
-            if (serverSocket != null)
+            if (serverSocket != null) {
                 serverSocket.close();
+            }
             serverSocket = null;
             // flush the agents that have already registered
             Entry e;
-            while ((e = entries.next()) != null)
+            while ((e = entries.next()) != null) {
                 closeNoExceptions(e);
+            }
         }
     }
 
     Entry nextAgent() throws NoAgentException, InterruptedException {
-        if (!isListening())
+        if (!isListening()) {
             throw new NoAgentException("AgentPool not listening");
+        }
         Entry e = entries.next(timeout);
-        if (e != null)
+        if (e != null) {
             return e;
+        }
 
         throw new NoAgentException("Timeout waiting for agent to become available");
     }
@@ -562,21 +579,23 @@ public class ActiveAgentPool {
                     // got connection: make sure we still want it,
                     // and if so, add it to pool and notify interested parties
                     synchronized (this) {
-                        if (ss == serverSocket)
+                        if (ss == serverSocket) {
                             entries.add(new Entry(s));
-                        else {
+                        } else {
                             closeNoExceptions(s);
                             return;
                         }
 
                     }
 
-                    if (errors > 0)
+                    if (errors > 0) {
                         errors--; // let #errors decay with each successful open
+                    }
                 } catch (IOException e) {
                     synchronized (this) {
-                        if (ss != serverSocket)
+                        if (ss != serverSocket) {
                             return;
+                        }
                     }
 
                     // perhaps need a better reporting channel here
@@ -590,8 +609,9 @@ public class ActiveAgentPool {
             System.err.println("server thread exiting");
 
             synchronized (this) {
-                if (serverSocket == ss)
+                if (serverSocket == ss) {
                     serverSocket = null;
+                }
             }
         } finally {
             closeNoExceptions(ss);

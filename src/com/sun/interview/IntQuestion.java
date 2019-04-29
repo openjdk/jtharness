@@ -76,8 +76,9 @@ public abstract class IntQuestion extends Question {
      *                                  or equal to <code>max</code>.
      */
     protected void setBounds(int min, int max) {
-        if (min >= max)
+        if (min >= max) {
             throw new IllegalArgumentException("invalid bounds");
+        }
         this.min = min;
         this.max = max;
         // warning, may change result of isValid()
@@ -189,9 +190,9 @@ public abstract class IntQuestion extends Question {
     @Override
     public String getStringValue() {
         if (stringValue == null) {
-            if (value == Integer.MIN_VALUE)
+            if (value == Integer.MIN_VALUE) {
                 stringValue = "";
-            else {
+            } else {
                 NumberFormat fmt = NumberFormat.getIntegerInstance(Locale.getDefault());  // will be locale-specific
                 stringValue = fmt.format(Integer.valueOf(value));
             }
@@ -237,12 +238,13 @@ public abstract class IntQuestion extends Question {
         //String s1 = s;
         int i;
 
-        if (s != null)
+        if (s != null) {
             s = s.trim();
+        }
 
-        if (s == null || s.isEmpty())
+        if (s == null || s.isEmpty()) {
             i = Integer.MIN_VALUE;
-        else {
+        } else {
             NumberFormat fmt = NumberFormat.getIntegerInstance(l); //in given locale
             ParsePosition pos = new ParsePosition(0);
             Number num = fmt.parse(s, pos);

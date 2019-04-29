@@ -36,15 +36,17 @@ class SwingFileFilter extends javax.swing.filechooser.FileFilter {
     }
 
     static FileFilter unwrap(javax.swing.filechooser.FileFilter f) {
-        if (f != null && f instanceof SwingFileFilter)
+        if (f != null && f instanceof SwingFileFilter) {
             return ((SwingFileFilter) f).filter;
-        else
+        } else {
             return null;
+        }
     }
 
     SwingFileFilter(FileFilter ff) {
-        if (ff == null)
+        if (ff == null) {
             throw new NullPointerException();
+        }
         filter = ff;
     }
 

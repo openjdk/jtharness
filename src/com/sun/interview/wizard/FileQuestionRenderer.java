@@ -48,8 +48,9 @@ public class FileQuestionRenderer
         File f = q.getValue();
         if (f == null) {
             File dir = q.getBaseDirectory();
-            if (dir == null)
+            if (dir == null) {
                 dir = new File(System.getProperty("user.dir"));
+            }
             chooser.setCurrentDirectory(dir);
         } else {
             chooser.setSelectedFile(f);
@@ -62,12 +63,13 @@ public class FileQuestionRenderer
 
         File[] suggs = q.getSuggestions();
         String[] strSuggs;
-        if (suggs == null)
+        if (suggs == null) {
             strSuggs = null;
-        else {
+        } else {
             strSuggs = new String[suggs.length];
-            for (int i = 0; i < suggs.length; i++)
+            for (int i = 0; i < suggs.length; i++) {
                 strSuggs[i] = suggs[i].getPath();
+            }
         }
 
         String fileType = "file";   // default
@@ -91,8 +93,9 @@ public class FileQuestionRenderer
                 if (s != null && !s.isEmpty()) {
                     File f = new File(s);
                     File baseDir = q.getBaseDirectory();
-                    if (!f.isAbsolute() && baseDir != null)
+                    if (!f.isAbsolute() && baseDir != null) {
                         f = new File(baseDir, s);
+                    }
                     chooser.setSelectedFile(f);
                 }
 
@@ -107,8 +110,9 @@ public class FileQuestionRenderer
                     File baseDir = q.getBaseDirectory();
                     if (baseDir != null) {
                         String bp = baseDir.getPath();
-                        if (path.startsWith(bp + File.separatorChar))
+                        if (path.startsWith(bp + File.separatorChar)) {
                             path = path.substring(bp.length() + 1);
+                        }
                     }
                     p.setValue(path);
                 }
@@ -144,13 +148,15 @@ public class FileQuestionRenderer
                         // unacceptable files
                         // Same issue in FileListQuestionRenderer
                         mode = JFileChooser.FILES_AND_DIRECTORIES;
-                    } else if (mode == JFileChooser.FILES_ONLY)
+                    } else if (mode == JFileChooser.FILES_ONLY) {
                         mode = JFileChooser.FILES_AND_DIRECTORIES;
+                    }
                 } else {
-                    if (mode == -1)
+                    if (mode == -1) {
                         mode = JFileChooser.FILES_ONLY;
-                    else if (mode == JFileChooser.DIRECTORIES_ONLY)
+                    } else if (mode == JFileChooser.DIRECTORIES_ONLY) {
                         mode = JFileChooser.FILES_AND_DIRECTORIES;
+                    }
                 }
             }
             chooser.setFileSelectionMode(mode);

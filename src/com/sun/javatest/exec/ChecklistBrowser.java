@@ -55,14 +55,16 @@ class ChecklistBrowser extends ToolDialog {
     ChecklistBrowser(JComponent parent, ExecModel model, UIFactory uif) {
         super(parent, uif, "cb");
 
-        if (model == null)
+        if (model == null) {
             throw new NullPointerException();
+        }
 
         this.model = model;
 
         params = model.getInterviewParameters();
-        if (params == null)
+        if (params == null) {
             throw new NullPointerException();
+        }
 
         listener = new Listener();
     }
@@ -93,14 +95,16 @@ class ChecklistBrowser extends ToolDialog {
     }
 
     private void updateContent() {
-        if (body == null)
+        if (body == null) {
             initGUI();
+        }
 
         File f = params.getFile();
-        if (f == null)
+        if (f == null) {
             setI18NTitle("cb.title");
-        else
+        } else {
             setI18NTitle("cb.titleWithFile", f);
+        }
 
         try {
             Checklist c = params.createChecklist();
@@ -124,9 +128,9 @@ class ChecklistBrowser extends ToolDialog {
             out.write("</h1>\n");
         }
 
-        if (c.isEmpty())
+        if (c.isEmpty()) {
             out.write(escape(uif.getI18NString("cb.html.noEntries")));
-        else {
+        } else {
             out.write(escape(uif.getI18NString("cb.html.intro")));
             String[] names = c.getSectionNames();
             for (String name : names) {
@@ -200,8 +204,10 @@ class ChecklistBrowser extends ToolDialog {
         while (file == null) {
             int rc = fileChooser.showDialog(parent, uif.getI18NString("cb.save.btn"));
             if (rc != JFileChooser.APPROVE_OPTION)
-                // user has canceled or closed the chooser
+            // user has canceled or closed the chooser
+            {
                 return;
+            }
 
             file = fileChooser.getSelectedFile();
 
@@ -209,8 +215,9 @@ class ChecklistBrowser extends ToolDialog {
             // otherwise, make sure it ends with .html
             if (!file.exists()) {
                 String path = file.getPath();
-                if (!path.endsWith(".html"))
+                if (!path.endsWith(".html")) {
                     file = new File(path + ".html");
+                }
             }
 
             // if file exists, make sure user wants to overwrite it
@@ -236,12 +243,13 @@ class ChecklistBrowser extends ToolDialog {
             TextPane pane = (TextPane) body.getMediaPane(MultiFormatPane.TEXT);
             out.write(pane.getText());
         } catch (IOException e) {
-            if (!file.canWrite())
+            if (!file.canWrite()) {
                 uif.showError("cb.save.cantWriteFile", file);
-            else if (e instanceof FileNotFoundException)
+            } else if (e instanceof FileNotFoundException) {
                 uif.showError("cb.save.cantFindFile", file);
-            else
+            } else {
                 uif.showError("cb.save.error", file, e);
+            }
         }
     }
 
@@ -264,12 +272,13 @@ class ChecklistBrowser extends ToolDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
-            if (cmd.equals(SAVE_AS))
+            if (cmd.equals(SAVE_AS)) {
                 doSaveAs();
-            else if (cmd.equals(PRINT_SETUP))
+            } else if (cmd.equals(PRINT_SETUP)) {
                 doPrintSetup();
-            else if (cmd.equals(PRINT))
+            } else if (cmd.equals(PRINT)) {
                 doPrint();
+            }
         }
 
         // ComponentListener

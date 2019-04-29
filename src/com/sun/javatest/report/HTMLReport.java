@@ -373,8 +373,9 @@ public class HTMLReport implements ReportFormat {
      */
     static class DuplexWriter extends Writer {
         public DuplexWriter(Writer... writers) {
-            if (writers == null)
+            if (writers == null) {
                 return;
+            }
 
             targets = new Writer[writers.length];
             System.arraycopy(writers, 0, targets, 0, writers.length);
@@ -388,37 +389,51 @@ public class HTMLReport implements ReportFormat {
 
         @Override
         public void close() throws IOException {
-            for (Writer target : targets) target.close();
+            for (Writer target : targets) {
+                target.close();
+            }
         }
 
         @Override
         public void flush() throws IOException {
-            for (Writer target : targets) target.flush();
+            for (Writer target : targets) {
+                target.flush();
+            }
         }
 
         @Override
         public void write(char[] cbuf) throws IOException {
-            for (Writer target : targets) target.write(cbuf);
+            for (Writer target : targets) {
+                target.write(cbuf);
+            }
         }
 
         @Override
         public void write(char[] cbuf, int off, int len) throws IOException {
-            for (Writer target : targets) target.write(cbuf, off, len);
+            for (Writer target : targets) {
+                target.write(cbuf, off, len);
+            }
         }
 
         @Override
         public void write(int c) throws IOException {
-            for (Writer target : targets) target.write(c);
+            for (Writer target : targets) {
+                target.write(c);
+            }
         }
 
         @Override
         public void write(String str) throws IOException {
-            for (Writer target : targets) target.write(str);
+            for (Writer target : targets) {
+                target.write(str);
+            }
         }
 
         @Override
         public void write(String str, int off, int len) throws IOException {
-            for (Writer target : targets) target.write(str, off, len);
+            for (Writer target : targets) {
+                target.write(str, off, len);
+            }
         }
 
         private Writer[] targets;

@@ -73,7 +73,9 @@ class RenderingUtilities {
         public Component getListCellRendererComponent(JList<?> list,
                                                       Object value, int index, boolean isSelected, boolean cellHasFocus) {
             if (value == null)  // very strange...
+            {
                 return this;
+            }
 
             if (value instanceof TestResult) {
                 TestResult tr = (TestResult) value;
@@ -82,10 +84,11 @@ class RenderingUtilities {
                 setBasicAttribs(isSelected, list);
             } else if (value instanceof TestResultTable.TreeNode) {
                 TestResultTable.TreeNode tn = (TestResultTable.TreeNode) value;
-                if (tn.getName() != null)
+                if (tn.getName() != null) {
                     setText(TestResultTable.getRootRelativePath(tn));
-                else
+                } else {
                     setText(i18n.getString("rendUtil.rootName"));
+                }
                 //setToolTipText(I18NUtils.getStatusMessage(tr.getStatus()));
                 setBasicAttribs(isSelected, list);
             } else {          // this code really should never run
@@ -146,10 +149,11 @@ class RenderingUtilities {
             name = filter.getName();
 
             //setToolTipText(filter.getDescription());
-            if (name != null && !name.isEmpty())
+            if (name != null && !name.isEmpty()) {
                 setText(name);
-            else
+            } else {
                 setText(i18n.getString("rendUtil.noFilterName"));
+            }
 
             setColors(isSelected, list);
             setFont(false);
@@ -170,10 +174,11 @@ class RenderingUtilities {
         }
 
         private void setFont(boolean isActive) {
-            if (isActive)
+            if (isActive) {
                 setFont(getFont().deriveFont(Font.BOLD));
-            else
+            } else {
                 setFont(getFont().deriveFont(Font.PLAIN));
+            }
         }
 
         private I18NResourceBundle i18n;

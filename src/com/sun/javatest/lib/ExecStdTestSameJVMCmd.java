@@ -84,8 +84,9 @@ public class ExecStdTestSameJVMCmd extends Command {
                 // -repeat is optional; if given, the test will be run that
                 // number of times (in the same JVM)
                 try {
-                    if ((repeat = Integer.parseInt(args[++i])) < 1)
+                    if ((repeat = Integer.parseInt(args[++i])) < 1) {
                         return Status.error("Unexpected number of repetitions: " + repeat);
+                    }
                 } catch (NumberFormatException e) {
                     return Status.error("Unrecognized number of repetitions: " + repeat);
                 }
@@ -96,8 +97,9 @@ public class ExecStdTestSameJVMCmd extends Command {
         if (i < args.length) {
             className = args[i];
             i++;
-        } else
+        } else {
             return Status.failed("No executeClass specified");
+        }
 
         // Finally, any optional args
         if (i < args.length) {
@@ -108,29 +110,34 @@ public class ExecStdTestSameJVMCmd extends Command {
         Status status = null;
         try {
             Class<? extends Test> c;
-            if (loader == null)
+            if (loader == null) {
                 c = Class.forName(className).asSubclass(Test.class);
-            else
+            } else {
                 c = loader.loadClass(className).asSubclass(Test.class);
+            }
 
             Status prevStatus = null;
             for (int j = 0; j < repeat; j++) {
-                if (repeat > 1)
+                if (repeat > 1) {
                     log.println("iteration: " + (j + 1));
+                }
 
                 Test t = c.getDeclaredConstructor().newInstance();
                 status = t.run(executeArgs, log, ref);
 
-                if (repeat > 1)
+                if (repeat > 1) {
                     log.println("   " + status);
+                }
 
-                if ((prevStatus != null) && status.getType() != prevStatus.getType())
+                if ((prevStatus != null) && status.getType() != prevStatus.getType()) {
                     status = Status.error("Return status type changed at repetition: " + (j + 1));
+                }
 
-                if (status.isError())
+                if (status.isError()) {
                     return status;
-                else
+                } else {
                     prevStatus = status;
+                }
             }
         } catch (ClassCastException e) {
             status = Status.failed("Can't load test: required interface not found");

@@ -63,13 +63,14 @@ public class TestDescription implements Serializable {
     public TestDescription(File root, File file, Map<?, ?> params) {
 
         synchronized (this.getClass()) {
-            if (root.equals(cachedRoot))
+            if (root.equals(cachedRoot)) {
                 rootDir = cachedRootDir;
-            else {
-                if (root.exists() ? root.isFile() : root.getName().endsWith(".html"))
+            } else {
+                if (root.exists() ? root.isFile() : root.getName().endsWith(".html")) {
                     rootDir = root.getParent();
-                else
+                } else {
                     rootDir = root.getPath();
+                }
 
                 // cache root->rootDir map to avoid making extra files
                 cachedRoot = root;
@@ -81,11 +82,13 @@ public class TestDescription implements Serializable {
         String rootRelativeFile;
         if (file.isAbsolute()) {
             String rp = rootDir;
-            if (!(fp.startsWith(rp) && fp.charAt(rp.length()) == File.separatorChar))
+            if (!(fp.startsWith(rp) && fp.charAt(rp.length()) == File.separatorChar)) {
                 throw new IllegalArgumentException("file must be relative to root: " + file);
+            }
             rootRelativeFile = fp.substring(rp.length() + 1);
-        } else
+        } else {
             rootRelativeFile = fp;
+        }
         rootRelativePath = rootRelativeFile.replace(File.separatorChar, '/');
 
         Vector<String> v = new Vector<>(0, params.size() * 2);
@@ -125,8 +128,9 @@ public class TestDescription implements Serializable {
 
     @Override
     public boolean equals(Object td) {
-        if (!(td instanceof TestDescription))
+        if (!(td instanceof TestDescription)) {
             return false;
+        }
 
         TestDescription otherTd = (TestDescription) td;
 
@@ -190,8 +194,9 @@ public class TestDescription implements Serializable {
     public String getTitle() {
         // default title to name
         String title = getParameter("title");
-        if (title == null)
+        if (title == null) {
             title = getName();
+        }
 
         return title;
     }
@@ -213,12 +218,14 @@ public class TestDescription implements Serializable {
 
         // strip off extension
         int dot = name.indexOf('.');
-        if (dot != -1)
+        if (dot != -1) {
             name = name.substring(0, dot);
+        }
 
         String id = getParameter("id");
-        if (id != null)
+        if (id != null) {
             name = name + "_" + id;
+        }
 
         return name;
     }
@@ -293,8 +300,9 @@ public class TestDescription implements Serializable {
             if (s.startsWith(userCurrDir)) {
                 s = s.substring(userCurrDir.length());
                 sourceFiles[i] = new File(s);
-            } else
+            } else {
                 sourceFiles[i] = f;
+            }
         }
         return sourceFiles;
     }
@@ -372,10 +380,11 @@ public class TestDescription implements Serializable {
      */
     public int getTimeout() {
         String t = getParameter("timeout");
-        if (t == null)
+        if (t == null) {
             return 0;
-        else
+        } else {
             return Integer.parseInt(t);
+        }
     }
 
     /**
@@ -514,13 +523,15 @@ public class TestDescription implements Serializable {
         int upper = fields.length - 2;
         int mid;
 
-        if (upper < 0)
+        if (upper < 0) {
             return null;
+        }
 
         String last = fields[upper];
         int cmp = key.compareTo(last);
-        if (cmp > 0)
+        if (cmp > 0) {
             return null;
+        }
 
         while (lower <= upper) {
             // in next line, take care to ensure that mid is always even
@@ -531,8 +542,9 @@ public class TestDescription implements Serializable {
                 upper = mid - 2;
             } else if (cmp > 0) {
                 lower = mid + 2;
-            } else
+            } else {
                 return fields[mid + 1];
+            }
         }
 
         // did not find an exact match
@@ -561,8 +573,9 @@ public class TestDescription implements Serializable {
     }
 
     private void saveField(Map<String, String> p, String key, String value) {
-        if (value != null)
+        if (value != null) {
             p.put(key, value);
+        }
     }
 
     /**
@@ -574,11 +587,13 @@ public class TestDescription implements Serializable {
         //    r = new File(r.getParent());
         //File f = new File((String)d.get("file"));
         String r = PropertyArray.get(params, "$root");
-        if (r == null)
+        if (r == null) {
             r = PropertyArray.get(params, "testsuite");
+        }
         String f = PropertyArray.get(params, "$file");
-        if (f == null)
+        if (f == null) {
             f = PropertyArray.get(params, "file");
+        }
         return new TestDescription(r, f, params);
     }
 
@@ -610,14 +625,16 @@ public class TestDescription implements Serializable {
                 upper = mid - 2;
             } else if (cmp > 0) {
                 lower = mid + 2;
-            } else
+            } else {
                 throw new Error("should not happen");
+            }
         }
 
         // did not find an exact match (we did not expect to)
         // adjust the insert point
-        if (cmp > 0)
+        if (cmp > 0) {
             mid += 2;
+        }
 
         v.add(mid, key);
         v.add(mid + 1, value);

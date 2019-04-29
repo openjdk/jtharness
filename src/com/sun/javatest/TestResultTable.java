@@ -315,8 +315,9 @@ public class TestResultTable {
 
         finder = tf;
 
-        if (trCache == null)
+        if (trCache == null) {
             initFinder();
+        }
     }
 
     public void updateTestExecutionOrderOnTheFly() {
@@ -359,8 +360,9 @@ public class TestResultTable {
     // When that constructor can be deleted, the main body of this
     // method should be merged with setWorkDirectory(WorkDirectory wd)
     private void setWorkDirectory(WorkDirectory wd, TestFinder tf) {
-        if (wd == null)
+        if (wd == null) {
             throw new NullPointerException();
+        }
 
         if (workDir == wd) {
             // already set
@@ -372,8 +374,9 @@ public class TestResultTable {
             throw new IllegalStateException();
         }
 
-        if (finder != null && finder != tf)
+        if (finder != null && finder != tf) {
             throw new IllegalStateException();
+        }
 
         workDir = wd;
         finder = tf;
@@ -486,10 +489,14 @@ public class TestResultTable {
         if (tr != prev) {
             tr.shareStatus(statusTables);
 
-            for (Observer observer : observers) observer.update(prev, tr);
+            for (Observer observer : observers) {
+                observer.update(prev, tr);
+            }
         } else {
             // tests are the same, we are probably changing the status
-            for (Observer observer : observers) observer.updated(tr);
+            for (Observer observer : observers) {
+                observer.updated(tr);
+            }
         }
 
         testsInUpdate.add(tr);
@@ -520,8 +527,9 @@ public class TestResultTable {
             try {
                 wait();
             } catch (InterruptedException e) {
-                if (debug > 0)
+                if (debug > 0) {
                     e.printStackTrace(Debug.getWriter());
+                }
             }
         }
 
@@ -565,7 +573,9 @@ public class TestResultTable {
      */
     public TestResult lookup(String jtrPath) {
         // no tree yet
-        if (root == null) return null;
+        if (root == null) {
+            return null;
+        }
 
         return findTest(root, jtrPath, jtrPath);
     }
@@ -598,15 +608,17 @@ public class TestResultTable {
      * @since 3.0.2
      */
     public boolean validatePath(String path) {
-        if (path == null)
+        if (path == null) {
             return false;
+        }
 
         Object[] result = lookupInitURL(root, path);
 
-        if (result != null && result.length > 0)
+        if (result != null && result.length > 0) {
             return true;        // ok
-        else
+        } else {
             return false;       // no matches for path
+        }
     }
 
     /**
@@ -619,8 +631,9 @@ public class TestResultTable {
      * @since 3.0
      */
     public static TreeNode[] getObjectPath(TestResult target) {
-        if (target == null)
+        if (target == null) {
             return null;
+        }
 
         List<TreeNode> path = new ArrayList<>();
         TreeNode loc = target.getParent();
@@ -639,10 +652,11 @@ public class TestResultTable {
             Debug.println("   -> resulting path length: " + result.length);
         }
 
-        if (result == null || result.length == 0)
+        if (result == null || result.length == 0) {
             return null;
-        else
+        } else {
             return result;
+        }
     }
 
     /**
@@ -655,8 +669,9 @@ public class TestResultTable {
      * @since 3.0
      */
     public static TreeNode[] getObjectPath(TreeNode target) {
-        if (target == null)
+        if (target == null) {
             return null;
+        }
 
         List<TreeNode> path = new ArrayList<>();
         TreeNode loc = target;
@@ -684,10 +699,11 @@ public class TestResultTable {
      * @since 3.0
      */
     public TreeIterator getIterator() {
-        if (root == null)
+        if (root == null) {
             return NullEnum.getInstance();
-        else
+        } else {
             return getIterator(root);
+        }
     }
 
     /**
@@ -711,10 +727,11 @@ public class TestResultTable {
      * @since 3.0
      */
     public TreeIterator getIterator(TestFilter... filters) {
-        if (root == null)
+        if (root == null) {
             return NullEnum.getInstance();
-        else
+        } else {
             return getIterator(root, filters);
+        }
     }
 
     /**
@@ -739,10 +756,11 @@ public class TestResultTable {
      * @since 3.0
      */
     public static TreeIterator getIterator(TreeNode node) {
-        if (node == null)
+        if (node == null) {
             return NullEnum.getInstance();
-        else
+        } else {
             return new TRT_Iterator(node);
+        }
     }
 
     /**
@@ -771,9 +789,9 @@ public class TestResultTable {
      * @since 3.0
      */
     public static TreeIterator getIterator(TreeNode node, TestFilter filter) {
-        if (node == null)
+        if (node == null) {
             return NullEnum.getInstance();
-        else {
+        } else {
             TestFilter[] filters = {filter};
             return new TRT_Iterator(node, filters);
         }
@@ -807,10 +825,11 @@ public class TestResultTable {
      * @since 3.0
      */
     public static TreeIterator getIterator(TreeNode node, TestFilter... filters) {
-        if (node == null)
+        if (node == null) {
             return NullEnum.getInstance();
-        else
+        } else {
             return new TRT_Iterator(node, filters);
+        }
     }
 
     /**
@@ -845,9 +864,9 @@ public class TestResultTable {
      * @since 3.0
      */
     public Enumeration<TestResult> elements(String url, TestFilter... filters) {
-        if (url == null)
+        if (url == null) {
             return NullEnum.getInstance();
-        else {
+        } else {
             String[] urls = {url};
             return elements(urls, filters);
         }
@@ -875,10 +894,11 @@ public class TestResultTable {
     public TreeIterator getIterator(File[] tests, TestFilter... filters) throws Fault {
         String[] urls = preProcessInitFiles(tests);
 
-        if (urls != null && urls.length > 0)
+        if (urls != null && urls.length > 0) {
             return getIterator(urls, filters);
-        else
+        } else {
             return getIterator(filters);
+        }
     }
 
     /**
@@ -929,14 +949,16 @@ public class TestResultTable {
 
         for (String url : urls) {
             Object[] objs = lookupInitURL(root, url);
-            if (debug == 1 || debug == 99)
+            if (debug == 1 || debug == 99) {
                 Debug.println("TRT.lookupInitURL gave back " + Arrays.toString(objs));
+            }
 
             if (objs == null) {   // no match
             } else if (objs instanceof TreeNode[]) {
                 // don't add duplicates
-                if (!initNodes.contains(objs[0]))
+                if (!initNodes.contains(objs[0])) {
                     initNodes.add((TreeNode) objs[0]);
+                }
             } else if (objs instanceof TestResult[]) {
                 initTests.addAll(Arrays.asList((TestResult[]) objs));
                 // XXX should uniquify
@@ -949,19 +971,22 @@ public class TestResultTable {
 
         if ((initNodes == null || initNodes.isEmpty()) &&
                 (initTests == null || initTests.isEmpty())) {
-            if (debug == 1 || debug == 99)
+            if (debug == 1 || debug == 99) {
                 Debug.println("None of the initial URLs could be looked up.");
+            }
 
             return NullEnum.getInstance();
         }
 
         if (!initTests.isEmpty()) {
-            if (debug == 1 || debug == 99)
+            if (debug == 1 || debug == 99) {
                 Debug.println("Using combo TreeIterator, " + initTests.size() +
                         " tests, " + initNodes.size() + " nodes.");
+            }
             return new TRT_Iterator(initNodes.toArray(new TreeNode[0]), initTests.toArray(new TestResult[0]), filters);
-        } else
+        } else {
             return new TRT_Iterator(initNodes.toArray(new TreeNode[0]), filters);
+        }
     }
 
     /**
@@ -986,10 +1011,11 @@ public class TestResultTable {
      * @return The number of tests in the tree.
      */
     public int size() {
-        if (root == null)
+        if (root == null) {
             return 0;
-        else
+        } else {
             return root.getSize();
+        }
     }
 
     /**
@@ -1010,8 +1036,9 @@ public class TestResultTable {
      * @return The old value.  Null if none or the parameter was null.
      */
     TestResult insert(TestResult tr, boolean suppressScan) {
-        if (tr == null)
+        if (tr == null) {
             return null;
+        }
 
         String key = tr.getWorkRelativePath();
         //maxDepth = 0;
@@ -1031,8 +1058,9 @@ public class TestResultTable {
      * there was no previous value.
      */
     TestResult insert(TestResult tr, Status oldStatus) {
-        if (tr == null)
+        if (tr == null) {
             return null;
+        }
 
         String key = tr.getWorkRelativePath();
         //maxDepth = 0;
@@ -1086,7 +1114,9 @@ public class TestResultTable {
      * @since 3.0
      */
     public static String getRootRelativePath(TreeNode node) {
-        if (node.isRoot()) return "";
+        if (node.isRoot()) {
+            return "";
+        }
 
         StringBuilder name = new StringBuilder(node.getName());
         node = node.getParent();
@@ -1113,28 +1143,32 @@ public class TestResultTable {
      * @since 3.0
      */
     public static TreeNode findNode(TreeNode node, String path) {
-        if (node == null)
+        if (node == null) {
             throw new IllegalArgumentException(i18n.getString("trt.nodeNull"));
-        if (path == null)
+        }
+        if (path == null) {
             throw new IllegalArgumentException(i18n.getString("trt.pathNull"));
+        }
 
         // special case, should only happen on first call of this method
-        if (path.isEmpty())
+        if (path.isEmpty()) {
             return node;
+        }
 
         String dir = getDirName(path);
         TreeNode tn = null;
 
-        if (debug > 9)
+        if (debug > 9) {
             Debug.println("TRT.findNode() looking for " + path + " in " + node.getName());
+        }
 
         if (dir.equals(path)) { // last element of the path
             tn = ((TRT_TreeNode) node).getTreeNode(path, false);
         } else {                        // recurse
             TreeNode next = ((TRT_TreeNode) node).getTreeNode(dir, false);
-            if (next != null)
+            if (next != null) {
                 tn = findNode(next, behead(path));
-            else { // not found
+            } else { // not found
             }
         }
 
@@ -1147,8 +1181,9 @@ public class TestResultTable {
      * @param o The observer to attach.  Must never be null.
      */
     public synchronized void addObserver(Observer o) {
-        if (o == null)
+        if (o == null) {
             throw new NullPointerException();
+        }
         observers = DynamicArray.append(observers, o);
     }
 
@@ -1178,8 +1213,9 @@ public class TestResultTable {
      * @param obs The observer to remove.
      */
     public void removeObserver(TreeObserver obs) {
-        if (treeObservers != null)
+        if (treeObservers != null) {
             treeObservers = DynamicArray.remove(treeObservers, obs);
+        }
     }
 
     /**
@@ -1211,16 +1247,17 @@ public class TestResultTable {
             // do nothing
             // result = null
             newTest = lookup(tr.getWorkRelativePath());
-            if (debug > 0)
+            if (debug > 0) {
                 Debug.println("Recovered test by replacement (1). " + newTest);
+            }
         } else {
             TRT_TreeNode targetNode = (TRT_TreeNode) location[location.length - 1];
             int index = targetNode.getIndex(tr, false);
             if (index >= 0) {
                 newTest = targetNode.resetTest(index, tr);
-                if (newTest == null && debug > 0)
+                if (newTest == null && debug > 0) {
                     Debug.println("reset of test " + tr.getTestName() + " failed.");
-                else {
+                } else {
                     /*OLD
                     try {
                     */
@@ -1248,8 +1285,9 @@ public class TestResultTable {
             }   // middle if
             else {
                 newTest = lookup(tr.getWorkRelativePath());
-                if (debug > 0)
+                if (debug > 0) {
                     Debug.println("Recovered test by replacement (2). " + newTest);
+                }
             }   // middle else
         }   // else
 
@@ -1274,10 +1312,11 @@ public class TestResultTable {
      */
     public synchronized TestResult resetTest(String testName) {
         TestResult tr = findTest(root, TestResult.getWorkRelativePath(testName), testName);
-        if (tr == null)
+        if (tr == null) {
             return null;
-        else
+        } else {
             return resetTest(tr);
+        }
     }
 
     /**
@@ -1291,20 +1330,23 @@ public class TestResultTable {
     public synchronized boolean refreshIfNeeded(String test) throws Fault {
         TestResult tr = lookup(TestResult.getWorkRelativePath(test));
 
-        if (tr == null)
+        if (tr == null) {
             throw new Fault(i18n, "trt.refreshNoTest", test);
+        }
 
         TreeNode[] path = getObjectPath(tr);
 
-        if (path == null)
+        if (path == null) {
             return false;
+        }
 
         TRT_TreeNode tn = (TRT_TreeNode) path[path.length - 1];
         TestResult newTr = tn.refreshIfNeeded(tr);
 
-        if (newTr != tr)
+        if (newTr != tr) {
             notifyChangeLeaf(TestResultTable.getObjectPath(tn),
                     newTr, tn.getTestIndex(newTr, false), tr);
+        }
 
         return false;
     }
@@ -1319,8 +1361,9 @@ public class TestResultTable {
      *                               refreshing.
      */
     public synchronized boolean refreshIfNeeded(TreeNode node) {
-        if (node.getEnclosingTable() != this)
+        if (node.getEnclosingTable() != this) {
             throw new IllegalStateException("refresh requested for node not owned by this table");
+        }
 
         notifyStartRefresh(node);
         try {
@@ -1331,16 +1374,18 @@ public class TestResultTable {
     }
 
     public synchronized boolean prune() {
-        if (root == null)
+        if (root == null) {
             return false;
+        }
 
         boolean changes = false;
 
         root.scanIfNeeded();
         TreeNode[] nodes = root.getTreeNodes();
 
-        if (nodes == null)
+        if (nodes == null) {
             return changes;
+        }
 
         for (TreeNode node : nodes) {
             changes = changes || prune(node);
@@ -1361,16 +1406,18 @@ public class TestResultTable {
         if (node.getChildCount() == 0) {
             int index = parent.rmChild((TRT_TreeNode) node);
 
-            if (index != -1)
+            if (index != -1) {
                 notifyRemoveLeaf(getObjectPath(parent), node, index);
+            }
 
             return index != -1 ? true : false;
         }
 
         TreeNode[] childNodes = node.getTreeNodes();
 
-        if (childNodes == null)
+        if (childNodes == null) {
             return false; // must mean there are tests in this node
+        }
 
         for (TreeNode childNode : childNodes) {
             prune(childNode);
@@ -1379,8 +1426,9 @@ public class TestResultTable {
         if (node.getChildCount() == 0) {
             // prune
             int index = parent.rmChild((TRT_TreeNode) node);
-            if (index != -1)
+            if (index != -1) {
                 notifyRemoveLeaf(getObjectPath(parent), node, index);
+            }
 
             return index != -1 ? true : false;
         }
@@ -1398,19 +1446,21 @@ public class TestResultTable {
      * work directory information takes place.
      */
     void suppressFinderScan(boolean state) {
-        if (state == false)
+        if (state == false) {
             suppressFinderScan = false;
-        else if (workDir != null) {
+        } else if (workDir != null) {
             TestSuite ts = workDir.getTestSuite();
             if (ts != null && (
                     ts.getTestRefreshBehavior(TestSuite.DELETE_NONTEST_RESULTS) ||
                             ts.getTestRefreshBehavior(TestSuite.REFRESH_ON_RUN) ||
                             ts.getTestRefreshBehavior(TestSuite.CLEAR_CHANGED_TEST))) {
                 suppressFinderScan = false;
-            } else
+            } else {
                 suppressFinderScan = state;     // i.e. true
-        } else
+            }
+        } else {
             suppressFinderScan = state;     // i.e. true
+        }
 
     }
 
@@ -1463,19 +1513,22 @@ public class TestResultTable {
         public int compare(DisassembledUrl o1, DisassembledUrl o2) {
             String[] s1 = o1.data, s2 = o2.data;
             for (int i = 0; i < s1.length; i++) {
-                if (i >= s2.length)
+                if (i >= s2.length) {
                     return 1;
+                }
 
                 int comp = c.compare(s1[i], s2[i]);
-                if (comp == 0)
+                if (comp == 0) {
                     continue;
-                else
+                } else {
                     return comp;
+                }
             }
 
             // this case means that all s1 body exists in s2
-            if (s2.length > s1.length)
+            if (s2.length > s1.length) {
                 return -1;
+            }
 
             // s1 is exact copy of s2. Should not happen really.
             return 0;
@@ -1487,8 +1540,9 @@ public class TestResultTable {
      * determined by the <code>TestFinder</code>.
      */
     private String[] sortByName(String... in) {
-        if (in == null || in.length <= 1)
+        if (in == null || in.length <= 1) {
             return in;
+        }
 
         Comparator<String> c = finder.getComparator();
 
@@ -1506,8 +1560,9 @@ public class TestResultTable {
 
         String result[] = new String[elements.length];
         int i = 0;
-        for (DisassembledUrl s : elements)
+        for (DisassembledUrl s : elements) {
             result[i++] = s.initStr;
+        }
 
         return result;
     }
@@ -1515,14 +1570,16 @@ public class TestResultTable {
     private int compareStringArrays(Comparator<String> c, String[] s1, String... s2) {
         // loop until names become unequal
         for (int i = 0; i < s1.length; i++) {
-            if (i >= s2.length)
+            if (i >= s2.length) {
                 return 1;
+            }
 
             int comp = c.compare(s1[i], s2[i]);
-            if (comp == 0)
+            if (comp == 0) {
                 continue;
-            else
+            } else {
                 return comp;
+            }
         }
 
         return 0;
@@ -1543,8 +1600,9 @@ public class TestResultTable {
         // 1) root, [root/a/b/c]; root/a, root/b, [root/b/c]; root/a.html, root/a.htmls; root/a.html, [root/a.html#boo]; root, [root/a], [root/b]
 
         // no need to process in these cases
-        if (urls == null || urls.length <= 1)
+        if (urls == null || urls.length <= 1) {
             return urls;
+        }
 
         LinkedList<String> result = new LinkedList<>();
         result.add(urls[0]);
@@ -1552,23 +1610,26 @@ public class TestResultTable {
         // as the array is expected to be sorted, it's known that foo/boo.html is just before foo/boo.html#anything
 
         String prev = urls[0]; // should not be testcase (should not contain '#' chars)
-        if (prev.contains("#"))
+        if (prev.contains("#")) {
             prev = "//##//"; // can't be start of testname
+        }
         for (int i = 1; i < urls.length; i++) {
             if (isPartOf(urls[i], prev)) {
                 continue;
             }
 
-            if (!urls[i].contains("#"))
+            if (!urls[i].contains("#")) {
                 prev = urls[i];
+            }
             result.add(urls[i]);
         }
 
 
         if (result.size() == urls.length)
-            // Nothing was thrown out. No need to reconstruct array.
+        // Nothing was thrown out. No need to reconstruct array.
+        {
             return urls;
-        else {
+        } else {
             String[] s = new String[result.size()];
             return result.toArray(s);
         }
@@ -1576,11 +1637,13 @@ public class TestResultTable {
 
     private static boolean isPartOf(String part, String of) {
         // if S2 is a part of S1 (e.g. S1="root/a", S2="root/a/t.html#2"), then S2 = S1 + diff, where diff can only start with '#' or '/'
-        if (part.length() <= of.length())
+        if (part.length() <= of.length()) {
             return false;
+        }
 
-        if (part.startsWith(of) && (part.charAt(of.length()) == '#' || part.charAt(of.length()) == '/'))
+        if (part.startsWith(of) && (part.charAt(of.length()) == '#' || part.charAt(of.length()) == '/')) {
             return true;
+        }
 
         return false;
     }
@@ -1627,8 +1690,9 @@ public class TestResultTable {
         }
         rtc.clear();
 
-        if (!cacheInitialized)
+        if (!cacheInitialized) {
             cacheInitialized = true;
+        }
 
         updateInProgress = false;
 
@@ -1663,8 +1727,9 @@ public class TestResultTable {
      */
     synchronized TestResult insert(TRT_TreeNode node, String path, TestResult tr,
                                    TRT_TreeNode[] rec, boolean suppressScan) {
-        if (debug > 9)
+        if (debug > 9) {
             Debug.println("TRT Beginning insert " + path);
+        }
 
         String newPath = behead(path);
 
@@ -1693,8 +1758,9 @@ public class TestResultTable {
                     Debug.println("   => Index in node: " + node.getIndex(tr, suppressScan));
                 }   // debug
 
-                if (index != -1)
+                if (index != -1) {
                     notifyNewLeaf(rec, tr, node.getIndex(tr, suppressScan));
+                }
             } else if (oldTR == tr) {
                 if (debug > 10) {
                     Debug.println("   => Ignored new TR: " + tr.getTestName());
@@ -1703,8 +1769,9 @@ public class TestResultTable {
                     Debug.println("   => RESETTING IT! " + updateInProgress);
                 }
 
-                if (updateInProgress)
+                if (updateInProgress) {
                     resetTest(tr.getTestName());
+                }
             } else {
                 if (debug > 10) {
                     Debug.println("   => Updated TR: " + tr.getTestName());
@@ -1723,8 +1790,9 @@ public class TestResultTable {
                     if (tr.isShrunk()) {
                         try {
                             TestDescription desc = oldTR.getDescription();
-                            if (desc != null)
+                            if (desc != null) {
                                 tr.setTestDescription(desc);
+                            }
                         } catch (TestResult.Fault f) {
                             // give up
                         }
@@ -1733,8 +1801,9 @@ public class TestResultTable {
                     //notifyChangeLeaf(rec, tr, index, oldTR);
                     notifyRemoveLeaf(rec, oldTR, index);
                     notifyNewLeaf(rec, tr, index);
-                } else
+                } else {
                     notifyChangeLeaf(rec, tr, index, oldTR);
+                }
             }
 
             return oldTR;
@@ -1769,8 +1838,11 @@ public class TestResultTable {
         boolean result = node.refreshIfNeeded();
 
         TreeNode[] children = node.getTreeNodes();
-        if (children != null)
-            for (TreeNode child : children) result |= recursiveRefresh((TRT_TreeNode) child);
+        if (children != null) {
+            for (TreeNode child : children) {
+                result |= recursiveRefresh((TRT_TreeNode) child);
+            }
+        }
 
         return result;
     }
@@ -1778,7 +1850,9 @@ public class TestResultTable {
     // package private for TRT_TreeNode for now
     // need a better solution
     void notifyNewBranch(TreeNode[] where, TreeNode what, int index) {
-        if (treeObservers == null) return;
+        if (treeObservers == null) {
+            return;
+        }
 
         for (TreeObserver treeObserver : treeObservers) {
             treeObserver.nodeInserted(where, what, index);
@@ -1788,7 +1862,9 @@ public class TestResultTable {
     // package private for TRT_TreeNode for now
     // need a better solution
     void notifyNewLeaf(TreeNode[] where, TestResult what, int index) {
-        if (treeObservers == null) return;
+        if (treeObservers == null) {
+            return;
+        }
 
         for (TreeObserver treeObserver : treeObservers) {
             treeObserver.nodeInserted(where, what, index);
@@ -1797,7 +1873,9 @@ public class TestResultTable {
 
     private void notifyChangeLeaf(TreeNode[] where, TestResult what, int index,
                                   TestResult old) {
-        if (treeObservers == null) return;
+        if (treeObservers == null) {
+            return;
+        }
 
         for (TreeObserver treeObserver : treeObservers) {
             treeObserver.nodeChanged(where, what, index, old);
@@ -1807,7 +1885,9 @@ public class TestResultTable {
     // package private for TRT_TreeNode for now
     // need a better solution
     void notifyRemoveLeaf(TreeNode[] where, TestResult what, int index) {
-        if (treeObservers == null) return;
+        if (treeObservers == null) {
+            return;
+        }
 
         for (TreeObserver treeObserver : treeObservers) {
             treeObserver.nodeRemoved(where, what, index);
@@ -1815,7 +1895,9 @@ public class TestResultTable {
     }
 
     void notifyRemoveLeaf(TreeNode[] where, TreeNode what, int index) {
-        if (treeObservers == null) return;
+        if (treeObservers == null) {
+            return;
+        }
 
         for (TreeObserver treeObserver : treeObservers) {
             treeObserver.nodeRemoved(where, what, index);
@@ -1823,7 +1905,9 @@ public class TestResultTable {
     }
 
     void notifyStartRefresh(TreeNode origin) {
-        if (treeObservers == null) return;
+        if (treeObservers == null) {
+            return;
+        }
 
         for (TreeObserver treeObserver : treeObservers) {
             if (treeObserver instanceof TreeEventObserver) {
@@ -1833,7 +1917,9 @@ public class TestResultTable {
     }
 
     void notifyFinishRefresh(TreeNode origin) {
-        if (treeObservers == null) return;
+        if (treeObservers == null) {
+            return;
+        }
 
         for (TreeObserver treeObserver : treeObservers) {
             if (treeObserver instanceof TreeEventObserver) {
@@ -1859,14 +1945,17 @@ public class TestResultTable {
      */
     private String[] preProcessInitFiles(File... tests) throws Fault {
         if (tests == null || tests.length == 0) {
-            if (debug > 1)
+            if (debug > 1) {
                 Debug.println("Initial files set empty.");
+            }
             return null;
         }
 
         if (debug > 1) {
             Debug.println("Initial files: ");
-            for (File test : tests) Debug.println("  + " + test.getPath());
+            for (File test : tests) {
+                Debug.println("  + " + test.getPath());
+            }
         }
 
         String[] files = new String[tests.length];
@@ -1875,8 +1964,9 @@ public class TestResultTable {
                 getWorkDir() == null ? 0 : finder.getRootDir().getAbsolutePath().length() + 1;
 
         for (int i = 0; i < tests.length; i++) {
-            if (debug > 1)
+            if (debug > 1) {
                 Debug.println(" *** init url resolve begin ***");
+            }
             String relativeURL = null;
 
             if (finder.getRootDir().equals(tests[i])) {
@@ -1885,8 +1975,9 @@ public class TestResultTable {
                 //     maybe this should trigger a special case which causes all initial
                 //     URLs to be ignored and runs the whole testsuite
                 filesLen--;
-                if (debug > 1)
+                if (debug > 1) {
                     Debug.println("An initial URL equals testsuite root, ignoring it.");
+                }
 
                 continue;
             } else if (tests[i].isAbsolute()) {
@@ -1911,8 +2002,9 @@ public class TestResultTable {
                 String platformPath = thisInitPath.substring(distToDel);
 
                 relativeURL = platformPath.replace(File.separatorChar, '/');
-            } else
+            } else {
                 relativeURL = tests[i].getPath().replace(File.separatorChar, '/');
+            }
 
             files[i] = relativeURL;
         }
@@ -1923,8 +2015,9 @@ public class TestResultTable {
             files = newFiles;
         }
 
-        if (debug > 1)
+        if (debug > 1) {
             Debug.println("*** finished preprocessing of init urls ***");
+        }
 
         return files;
     }
@@ -1940,15 +2033,17 @@ public class TestResultTable {
 
         // this is an internal routine, so params are expected to be non-null
 
-        if (debug == 2 || debug == 99)
+        if (debug == 2 || debug == 99) {
             Debug.println("TRT looking for " + path + " IN " + where.getName());
+        }
 
         String dir = TestResultTable.getDirName(path);
         TestResult tr = null;
 
         if (Objects.equals(dir, path)) {
-            if (debug == 2 || debug == 99)
+            if (debug == 2 || debug == 99) {
                 Debug.println("    -> Looking for TR in this node.");
+            }
 
             int location = ((TRT_TreeNode) where).getResultIndex(fullPath, false);
             if (location != -1) {
@@ -1965,8 +2060,9 @@ public class TestResultTable {
                 }   // debug
             }
         } else {
-            if (debug == 2 || debug == 99)
+            if (debug == 2 || debug == 99) {
                 Debug.println("    -> Looking for branch name: " + dir);
+            }
 
             TRT_TreeNode tn = ((TRT_TreeNode) where).getTreeNode(dir, false);
 
@@ -1975,8 +2071,9 @@ public class TestResultTable {
                 tr = findTest(tn, fullPath, TestResultTable.behead(path));
             } else {
                 // not found, a branch name does not exits
-                if (debug == 2 || debug == 99)
+                if (debug == 2 || debug == 99) {
                     Debug.println("TRT.findTest(): unable to find node " + fullPath);
+                }
             }
         }   // outer else
 
@@ -2019,8 +2116,9 @@ public class TestResultTable {
      * @return Null if no matches.  A TreeNode, or a non-empty set of TestResults.
      */
     private static Object[] lookupInitURL(TreeNode where, String url) {
-        if (where == null || url == null)
+        if (where == null || url == null) {
             throw new IllegalArgumentException("Starting node or URL may not be null!");
+        }
 
         if (debug == 2 || debug == 99) {
             Debug.println("Starting iurl lookup on " + url + " in " + where.getName());
@@ -2032,10 +2130,11 @@ public class TestResultTable {
                 Debug.println("  -> simple match found " + getRootRelativePath((TreeNode) simple));
             }
 
-            if (simple instanceof TestResult)
+            if (simple instanceof TestResult) {
                 return new TestResult[]{(TestResult) simple};
-            else
+            } else {
                 return new TreeNode[]{(TreeNode) simple};
+            }
         }
 
         // first find the node directly above where we want to search
@@ -2051,22 +2150,25 @@ public class TestResultTable {
         }
         TreeNode tn = findNode(where, betail(url));
         if (tn == null) {   // the parent dir of the requested test does not exist
-            if (debug == 2 || debug == 99)
+            if (debug == 2 || debug == 99) {
                 Debug.println("   -> No parent node found!");
+            }
             return null;
         }
 
         TestResult[] trs = tn.getTestResults();
         // found anything?
-        if (trs == null || trs.length == 0)
+        if (trs == null || trs.length == 0) {
             return null;
+        }
 
         // try to partial match a test
         Vector<TestResult> v = new Vector<>();
         try {
             for (TestResult tr : trs) {
-                if (tr.getDescription().getRootRelativeURL().startsWith(url))
+                if (tr.getDescription().getRootRelativeURL().startsWith(url)) {
                     v.add(tr);           // match
+                }
             }   // for
         } catch (TestResult.Fault f) {
             // this is a very bad thing I think
@@ -2440,7 +2542,9 @@ public class TestResultTable {
         }
 
         public static NullEnum getInstance() {
-            if (instance == null) instance = new NullEnum();
+            if (instance == null) {
+                instance = new NullEnum();
+            }
 
             return instance;
         }
@@ -2621,18 +2725,20 @@ public class TestResultTable {
             // in time, could propogate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
             rebuildCount++;
-            if (rebuildCount == 100)
+            if (rebuildCount == 100) {
                 writeI18N("trt.rebuild");
-            else if ((rebuildCount % 100) == 0)
+            } else if ((rebuildCount % 100) == 0) {
                 System.err.println(".");
+            }
         }
 
         @Override
         public void builtCache() {
             // in time, could propogate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
-            if (rebuildCount > 0)
+            if (rebuildCount > 0) {
                 System.err.println();
+            }
         }
 
         @Override
@@ -2810,7 +2916,9 @@ public class TestResultTable {
          *                       path that already has a leaf (TestResult) assigned.
          */
         void addNode(TreeNode tn) {
-            if (tr != null) throw new JavaTestError(i18n, "trt.invalidPath");
+            if (tr != null) {
+                throw new JavaTestError(i18n, "trt.invalidPath");
+            }
 
             nodes = DynamicArray.append(nodes, tn);
         }
@@ -2863,7 +2971,9 @@ public class TestResultTable {
          * @return The path that leads to the given test.
          */
         public /* static */ TreeNode[] generateNodes(TestResult tr) {
-            if (tr == null) return null;
+            if (tr == null) {
+                return null;
+            }
 
             TreeNode[] nodes = null;
             TreeNode node = tr.getParent();
@@ -2896,9 +3006,9 @@ public class TestResultTable {
     static String behead(String path) {
         int index = path.indexOf("/");
 
-        if (index == -1)
+        if (index == -1) {
             return path;
-        else {
+        } else {
             // assume file separator is 1 char
             return path.substring(index + 1);
             //return path.substring(index+File.separator.length());
@@ -2913,10 +3023,11 @@ public class TestResultTable {
     static String getDirName(String path) {
         int index = path.indexOf('/');
 
-        if (index == -1)
+        if (index == -1) {
             return path;
-        else
+        } else {
             return path.substring(0, index);
+        }
     }
 
     /**
@@ -2927,10 +3038,11 @@ public class TestResultTable {
     static String betail(String path) {
         int index = path.lastIndexOf('/');
 
-        if (index == -1)
+        if (index == -1) {
             return path;
-        else
+        } else {
             return path.substring(0, index);
+        }
     }
 
     /**
@@ -2940,12 +3052,14 @@ public class TestResultTable {
      * does not contain o.
      */
     static boolean arrayContains(Object[] arr, Object o) {
-        if (arr == null || arr.length == 0)
+        if (arr == null || arr.length == 0) {
             return false;
-        else {
-            for (Object arrayElement : arr)
-                if (arrayElement == o)
+        } else {
+            for (Object arrayElement : arr) {
+                if (arrayElement == o) {
                     return true;
+                }
+            }
         }
 
         return false;

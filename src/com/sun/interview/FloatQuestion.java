@@ -76,8 +76,9 @@ public abstract class FloatQuestion extends Question {
      *                                  or equal to <code>max</code>.
      */
     protected void setBounds(float min, float max) {
-        if (min >= max)
+        if (min >= max) {
             throw new IllegalArgumentException("invalid bounds");
+        }
         this.min = min;
         this.max = max;
         // warning, may change result of isValid()
@@ -263,12 +264,13 @@ public abstract class FloatQuestion extends Question {
         //String s1 = s;
         float f;
 
-        if (s != null)
+        if (s != null) {
             s = s.trim();
+        }
 
-        if (s == null || s.isEmpty() || s.equals("NaN"))
+        if (s == null || s.isEmpty() || s.equals("NaN")) {
             f = Float.NaN;
-        else {
+        } else {
             NumberFormat fmt = NumberFormat.getNumberInstance(l); //in given locale
             ParsePosition pos = new ParsePosition(0);
             Number num = fmt.parse(s, pos);
@@ -375,9 +377,9 @@ public abstract class FloatQuestion extends Question {
     @Override
     protected void load(Map<String, String> data) {
         String o = data.get(tag);
-        if (o == null)
+        if (o == null) {
             clear();
-        else {
+        } else {
             //get locate to parse string with
             Locale l = Interview.readLocale(data);
             setValue(o, l);

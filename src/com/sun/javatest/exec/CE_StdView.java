@@ -69,8 +69,9 @@ class CE_StdView extends CE_View {
         Graphics g = tabs.getGraphics();
         if (g != null) {
             FontMetrics fm = g.getFontMetrics();
-            for (int i = 0; i < tabs.getTabCount(); i++)
+            for (int i = 0; i < tabs.getTabCount(); i++) {
                 w += 15 + fm.stringWidth(tabs.getTitleAt(i));
+            }
         }
         Dimension d = super.getPreferredSize();
         d.width = Math.max(d.width, w);
@@ -79,8 +80,9 @@ class CE_StdView extends CE_View {
 
     @Override
     public void setVisible(boolean b) {
-        if (b)
+        if (b) {
             load();
+        }
         super.setVisible(b);
     }
 
@@ -146,25 +148,31 @@ class CE_StdView extends CE_View {
     @Override
     boolean isOKToClose() {
         CE_StdPane currPane = (CE_StdPane) tabs.getSelectedComponent();
-        if (currPane == null)
+        if (currPane == null) {
             return true;
+        }
         return currPane.isOKToClose();
     }
 
     @Override
     void load() {
-        for (CE_StdPane pane : panes) pane.load();
+        for (CE_StdPane pane : panes) {
+            pane.load();
+        }
     }
 
     @Override
     void save() {
-        for (CE_StdPane pane : panes) pane.save();
+        for (CE_StdPane pane : panes) {
+            pane.save();
+        }
     }
 
     void setCheckExcludeListListener(ActionListener l) {
         for (CE_StdPane pane : panes) {
-            if (pane instanceof CE_ExcludeListPane)
+            if (pane instanceof CE_ExcludeListPane) {
                 ((CE_ExcludeListPane) pane).setCheckExcludeListListener(l);
+            }
         }
     }
 
@@ -193,12 +201,14 @@ class CE_StdView extends CE_View {
         tabs = new JTabbedPane() {
             @Override
             public void setSelectedIndex(int index) {
-                if (index == getSelectedIndex())
+                if (index == getSelectedIndex()) {
                     return;
+                }
 
                 CE_StdPane p = (CE_StdPane) getSelectedComponent();
-                if (p != null && !p.isOKToClose())
+                if (p != null && !p.isOKToClose()) {
                     return;
+                }
 
                 super.setSelectedIndex(index);
             }
@@ -211,8 +221,9 @@ class CE_StdView extends CE_View {
         // should we disable the tabs for disabled panes, or completely hide them,
         // or choose on a pane by pane basis
         for (CE_StdPane pane : panes) {
-            if (pane.isEnabled())
+            if (pane.isEnabled()) {
                 uif.addTab(tabs, "ce." + pane.getName(), pane);
+            }
         }
 
         tabs.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -262,10 +273,11 @@ class CE_StdView extends CE_View {
                 p.putClientProperty(this, helpId);
             }
         }
-        if (helpId == null)
+        if (helpId == null) {
             System.err.println("CESV: no help for " + p);
-        else
+        } else {
             showInfo(helpId);
+        }
     }
 
     private JTabbedPane tabs;
@@ -303,8 +315,9 @@ class CE_StdView extends CE_View {
         private void updateCSHAndInfo() {
             CE_StdPane p = (CE_StdPane) tabs.getSelectedComponent();
             ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(p));
-            if (isInfoVisible())
+            if (isInfoVisible()) {
                 showInfoForTab(p);
+            }
         }
     }
 }

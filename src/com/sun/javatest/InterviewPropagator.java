@@ -67,8 +67,9 @@ public class InterviewPropagator {
 
         boolean wasUpdated = false;
 
-        if (view == null)
+        if (view == null) {
             return false;
+        }
 
         if (isFromTemplate() && interview.getFile() != null) {
 
@@ -143,11 +144,16 @@ public class InterviewPropagator {
             } catch (IOException ex) {
                 logException(ex);
             } finally {
-                if (psConflicts != null) psConflicts.close();
-                if (psUpdates != null) psUpdates.close();
+                if (psConflicts != null) {
+                    psConflicts.close();
+                }
+                if (psUpdates != null) {
+                    psUpdates.close();
+                }
             }
-            if (needToSave1 || needToSave2 || pm.hasConflicts() || pm.hasUpdates())
+            if (needToSave1 || needToSave2 || pm.hasConflicts() || pm.hasUpdates()) {
                 fireEvent(EventType.Finish, null);
+            }
         }
         cleanup();
         return wasUpdated;
@@ -263,8 +269,9 @@ public class InterviewPropagator {
 
     private boolean isSystemIgnorableTemplateProperty(String propertyName) {
 
-        if (propertyName == null)
+        if (propertyName == null) {
             return true;
+        }
 
         for (String ignorableProp : ignorableProps) {
             if (propertyName.equals(ignorableProp)) {
@@ -502,7 +509,9 @@ public class InterviewPropagator {
                 // is it "new template value" ?
                 if (comp_data[OLD_TEMPLATE] == null && !comp_data[NEW_TEMPLATE].equals(comp_data[CONFIGURATION])) {
                     comp_data[OLD_TEMPLATE] = notAvailable;
-                    if (comp_data[CONFIGURATION] == null) comp_data[CONFIGURATION] = notAvailable;
+                    if (comp_data[CONFIGURATION] == null) {
+                        comp_data[CONFIGURATION] = notAvailable;
+                    }
                     updateMap.put(key, data);
                     isUpdate = added = true;
 
@@ -529,7 +538,9 @@ public class InterviewPropagator {
                 }
                 if (debug && added) {
                     System.out.println("= ADDED ==========================================================");
-                    if (isUpdate) System.out.println("UPDATE !!!");
+                    if (isUpdate) {
+                        System.out.println("UPDATE !!!");
+                    }
                     System.out.println("Key      " + key);
                     System.out.println("Value    " + confV);
                     System.out.println("Template " + templV);
@@ -584,10 +595,11 @@ public class InterviewPropagator {
                 writer.startTag(HTMLWriterEx.TD);
                 writer.writeAttr("colspan", 3);
                 writer.writeAttr("class", "head");
-                if (hideOldTemplate)
+                if (hideOldTemplate) {
                     writer.writeI18N("templProp.updateText");
-                else
+                } else {
                     writer.writeI18N("templProp.conflictText");
+                }
 
                 writer.endTag(HTMLWriterEx.TD);
                 writer.endTag(HTMLWriterEx.TR);
@@ -628,10 +640,12 @@ public class InterviewPropagator {
                     String[] s;
                     if (!propQs.contains(key)) {
                         s = new String[data.length];
-                        for (int i = 0; i < data.length; i++)
+                        for (int i = 0; i < data.length; i++) {
                             s[i] = data[i];
-                    } else
+                        }
+                    } else {
                         s = convertPQ(data);
+                    }
 
                     writer.startTag(HTMLWriterEx.TR);
 
@@ -682,7 +696,9 @@ public class InterviewPropagator {
                     String[] props = {newT.getProperty(key), oldT.getProperty(key), conf.getProperty(key)};
 
                     for (int i = 0; i < props.length; i++) {
-                        if (props[i] == null) props[i] = "";
+                        if (props[i] == null) {
+                            props[i] = "";
+                        }
                     }
 
                     if (!props[0].equals(props[1]) || !props[0].equals(props[2]) || !props[1].equals(props[2])) {
@@ -725,8 +741,9 @@ public class InterviewPropagator {
                 r = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
 
                 String line;
-                while ((line = r.readLine()) != null)
+                while ((line = r.readLine()) != null) {
                     sb.append(line);
+                }
                 return sb.toString();
             } catch (IOException ex) {
                 ex.printStackTrace();

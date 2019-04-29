@@ -71,8 +71,9 @@ class CE_TemplateDialog extends ToolDialog {
     @Override
     public void setVisible(boolean on) {
         if (on) {
-            if (markersCheckBox == null)
+            if (markersCheckBox == null) {
                 initGUI();
+            }
 
             markersCheckBox.setSelected(config.getMarkersEnabled());
             filterCheckBox.setEnabled(markersCheckBox.isSelected());
@@ -165,22 +166,25 @@ class CE_TemplateDialog extends ToolDialog {
 
         if (!fileFieldText.isEmpty()) {
             f = new File(fileFieldText);
-            if (f.isDirectory())
+            if (f.isDirectory()) {
                 fileChooser.setCurrentDirectory(f);
-            else
+            } else {
                 fileChooser.setSelectedFile(f);
+            }
         }
 
         File file = InterviewEditor.saveConfigFile(model.getContextManager(), parent, uif, fileChooser, f, false);
 
-        if (file != null)
+        if (file != null) {
             fileField.setText(file.getPath());
+        }
     }
 
     private boolean doSave() {
         String fileFieldText = fileField.getText();
-        if (fileFieldText.isEmpty())
+        if (fileFieldText.isEmpty()) {
             return false;
+        }
 
         File file = new File(fileFieldText);
 
@@ -188,8 +192,9 @@ class CE_TemplateDialog extends ToolDialog {
         // otherwise, make sure it ends with .jti
         if (!file.exists()) {
             String path = file.getPath();
-            if (!path.endsWith(".jti"))
+            if (!path.endsWith(".jti")) {
                 file = new File(path + ".jti");
+            }
         }
 
         // if file exists, make sure user wants to overwrite it
@@ -223,10 +228,12 @@ class CE_TemplateDialog extends ToolDialog {
             c.setMarkersEnabled(markersCheckBox.isSelected());
             c.setMarkersFilterEnabled(filterCheckBox.isSelected());
 
-            if (clearCheckBox.isSelected())
+            if (clearCheckBox.isSelected()) {
                 c.clearMarkedResponses(null); // null == default marker name
-        } else
+            }
+        } else {
             c = config;
+        }
 
         boolean tsb = testSuiteCheckBox.isSelected();
         boolean wdb = workDirCheckBox.isSelected();
@@ -268,12 +275,13 @@ class CE_TemplateDialog extends ToolDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
-            if (src == browseBtn)
+            if (src == browseBtn) {
                 doBrowse();
-            else if (src == okBtn) {
+            } else if (src == okBtn) {
                 boolean ok = doSave();
-                if (ok)
+                if (ok) {
                     setVisible(false);
+                }
             }
         }
 
@@ -306,13 +314,13 @@ class CE_TemplateDialog extends ToolDialog {
             String path = fileField.getText();
             boolean ok;
 
-            if (path.isEmpty())
+            if (path.isEmpty()) {
                 ok = false;
-            else {
+            } else {
                 File f = new File(path);
-                if (f.exists() && f.isDirectory())
+                if (f.exists() && f.isDirectory()) {
                     ok = false;
-                else {
+                } else {
                     File parent = f.getParentFile();
                     ok = parent != null && parent.exists() && parent.isDirectory();
                 }

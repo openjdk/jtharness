@@ -70,8 +70,9 @@ public class PathClassLoader extends ClassLoader {
         path = split(pathString);
         for (int i = 0; i < path.length; i++) {
             File f = path[i];
-            if (!f.isAbsolute())
+            if (!f.isAbsolute()) {
                 path[i] = new File(baseDir, f.getPath());
+            }
         }
     }
 
@@ -108,8 +109,9 @@ public class PathClassLoader extends ClassLoader {
             }
         }
 
-        if (resolve)
+        if (resolve) {
             resolveClass(cl);
+        }
 
         return cl;
     }
@@ -119,14 +121,16 @@ public class PathClassLoader extends ClassLoader {
             throws ClassNotFoundException {
         //System.err.println("locateClass: " + name);
         Class<?> c = classes.get(name);
-        if (c != null)
+        if (c != null) {
             return c;
+        }
 
         for (File aPath : path) {
-            if (aPath.isDirectory())
+            if (aPath.isDirectory()) {
                 c = locateClassInDir(name, aPath);
-            else
+            } else {
                 c = locateClassInJar(name, aPath);
+            }
 
             if (c != null) {
                 classes.put(name, c);
@@ -159,8 +163,9 @@ public class PathClassLoader extends ClassLoader {
                 zips.put(jarFile, z);
             }
             ZipEntry ze = z.getEntry(cname);
-            if (ze == null)
+            if (ze == null) {
                 return null;
+            }
             return readClass(name, z.getInputStream(ze), (int) ze.getSize());
         } catch (IOException e) {
             //System.err.println("locateClassInJar: " + e);
@@ -195,8 +200,9 @@ public class PathClassLoader extends ClassLoader {
     }
 
     private void add(String s, Vector<File> v) {
-        if (!s.isEmpty())
+        if (!s.isEmpty()) {
             v.add(new File(s));
+        }
     }
 
     private File[] path;

@@ -50,8 +50,9 @@ public abstract class Question {
      * @param baseTag   A name to uniquely identify this question within its interview.
      */
     protected Question(Interview interview, String baseTag) {
-        if (baseTag == null || baseTag.isEmpty())
+        if (baseTag == null || baseTag.isEmpty()) {
             throw new IllegalArgumentException("No tag specified");
+        }
 
         this.interview = interview;
         this.baseTag = baseTag;
@@ -62,8 +63,9 @@ public abstract class Question {
 
         String c = interview.getClass().getName();
         int dot = c.lastIndexOf(".");
-        if (dot != -1)
+        if (dot != -1) {
             c = c.substring(dot + 1);
+        }
         c = c.replace('$', '.');
         key = c + "." + baseTag;
     }
@@ -123,10 +125,11 @@ public abstract class Question {
     }
 
     void updateTag() {
-        if (interview.getTag() == null)
+        if (interview.getTag() == null) {
             tag = baseTag;
-        else
+        } else {
             tag = interview.getTag() + "." + baseTag;
+        }
     }
 
     /**
@@ -152,8 +155,9 @@ public abstract class Question {
     public String getText() {
         if (text == null) {
             text = getResourceString(interview, key + ".text", true);
-            if (text == null)
+            if (text == null) {
                 text = key + ".text";
+            }
         }
         return MessageFormat.format(text, getTextArgs());
     }
@@ -194,8 +198,9 @@ public abstract class Question {
     public String getSummary() {
         if (summary == null) {
             summary = getResourceString(interview, key + ".smry", true);
-            if (summary == null)
+            if (summary == null) {
                 summary = key + ".smry";
+            }
             /* OLD, undocumented and mildly suspect (e.g. i18n)
             if (summary == null) {
                 // search text for either a newline, or for whitespace
@@ -255,10 +260,12 @@ public abstract class Question {
      * @see #setImage
      */
     public URL getImage() {
-        if (image == null)
+        if (image == null) {
             image = getClass().getResource(tag + ".gif");
-        if (image == null)
+        }
+        if (image == null) {
             image = interview.getDefaultImage();
+        }
         return image;
     }
 
@@ -483,11 +490,13 @@ public abstract class Question {
      */
     @Override
     public boolean equals(Object other) {
-        if (this == other)
+        if (this == other) {
             return true;
+        }
 
-        if (!(other instanceof Question))
+        if (!(other instanceof Question)) {
             return false;
+        }
 
         Question oq = (Question) other;
 

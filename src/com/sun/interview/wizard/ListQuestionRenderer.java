@@ -45,10 +45,11 @@ public class ListQuestionRenderer
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         ListQuestion q = (ListQuestion) qq;
-        if (q.isEnd())
+        if (q.isEnd()) {
             return createMoreButton(q); // no need for listener since no data input fields
-        else
+        } else {
             return createList(q, listener);
+        }
     }
 
     @Override
@@ -109,8 +110,9 @@ public class ListQuestionRenderer
 
         EditableList list = new BodyList(q);
         ListQuestion.Body seln = q.getSelectedBody();
-        if (seln != null)
+        if (seln != null) {
             list.setSelectedItem(seln);
+        }
         label.setLabelFor(list);
 
         panel.add(list, BorderLayout.CENTER);
@@ -132,8 +134,9 @@ public class ListQuestionRenderer
 
     protected static Interview getRootInterview(Question q) {
         Interview i = q.getInterview();
-        while (i.getParent() != null)
+        while (i.getParent() != null) {
             i = i.getParent();
+        }
         return i;
     }
 
@@ -150,19 +153,22 @@ public class ListQuestionRenderer
             if (item instanceof ListQuestion.Body) {
                 ListQuestion.Body b = (ListQuestion.Body) item;
                 String s = b.getSummary();
-                if (s == null)
+                if (s == null) {
                     s = b.getDefaultSummary();
+                }
 
-                if (b.isBodyFinishable())
+                if (b.isBodyFinishable()) {
                     return s;
-                else
+                } else {
                     return "<html><b><font color=\"" + INVALID_VALUE_COLOR + "\">*</font></b> "
                             + escape(s)
                             + " <font color=\"" + INVALID_VALUE_COLOR + "\">"
                             + escape(INVALID_VALUE)
                             + "</font></html>";
-            } else
+                }
+            } else {
                 return item;
+            }
         }
 
         @Override
@@ -171,8 +177,9 @@ public class ListQuestionRenderer
             // after the current selection if there is one,
             // or at the end of the list
             int i = getSelectedIndex();
-            if (i == -1)
+            if (i == -1) {
                 i = getItemCount();
+            }
             return question.createBody(i);
         }
 
@@ -213,8 +220,9 @@ public class ListQuestionRenderer
         }
 
         private String escape(String text) {
-            if (text == null)
+            if (text == null) {
                 return "";
+            }
 
             // check to see if there are any special characters
             boolean specialChars = false;
@@ -248,8 +256,9 @@ public class ListQuestionRenderer
                     }
                 }
                 return sb.toString();
-            } else
+            } else {
                 return text;
+            }
         }
 
         private ListQuestion question;

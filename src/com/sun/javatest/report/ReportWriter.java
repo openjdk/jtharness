@@ -84,12 +84,13 @@ class ReportWriter extends HTMLWriterEx {
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
         Date date = ProductInfo.getBuildDate();
         String build_date;
-        if (date != null)
+        if (date != null) {
             build_date = df.format(date);
-        else if (i18n != null)
+        } else if (i18n != null) {
             build_date = i18n.getString("reportWriter.noDate");
-        else
+        } else {
             build_date = "unknown";     // last resort
+        }
 
         String build_version = ProductInfo.getBuildJavaVersion();
 
@@ -142,12 +143,13 @@ class ReportWriter extends HTMLWriterEx {
     }
 
     void writeStyleSheetProperty(String key, String value, boolean separator) throws IOException {
-        if (separator)
+        if (separator) {
             writeI18N("reportWriter.keyValue.separator",
                     key, value);
-        else
+        } else {
             writeI18N("reportWriter.keyValue",
                     key, value);
+        }
         newLine();
     }
 

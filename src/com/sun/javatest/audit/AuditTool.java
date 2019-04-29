@@ -95,8 +95,9 @@ class AuditTool extends Tool {
 
     @Override
     public void save(Map<String, String> m) {
-        if (interviewParams == null)
+        if (interviewParams == null) {
             return;
+        }
 
         // save test suite
         TestSuite ts = interviewParams.getTestSuite();
@@ -104,13 +105,15 @@ class AuditTool extends Tool {
 
         // save work directory
         WorkDirectory wd = interviewParams.getWorkDirectory();
-        if (wd != null)
+        if (wd != null) {
             m.put("workDir", wd.getPath());
+        }
 
         // save name of interview file
         File cf = interviewParams.getFile();
-        if (cf != null)
+        if (cf != null) {
             m.put("config", cf.getPath());
+        }
     }
 
     @Override
@@ -119,8 +122,9 @@ class AuditTool extends Tool {
         String wdp = m.get("workDir");
         String cfp = m.get("config");
 
-        if (tsp == null && wdp == null && cfp == null)
+        if (tsp == null && wdp == null && cfp == null) {
             return;
+        }
 
         try {
             if (interviewParams != null) {
@@ -222,8 +226,9 @@ class AuditTool extends Tool {
             optionsDialog = new OptionsDialog(this, listener, uif);
         }
 
-        if (interviewParams != null)
+        if (interviewParams != null) {
             optionsDialog.setParameters(interviewParams);
+        }
 
         optionsDialog.setVisible(true);
     }
@@ -338,10 +343,11 @@ class AuditTool extends Tool {
         configFileField.setText(cfp);
 
         for (AuditPane pane : panes) {
-            if (a != null)
+            if (a != null) {
                 pane.show(a);
-            else if (msg != null)
+            } else if (msg != null) {
                 pane.show(msg);
+            }
         }
     }
 

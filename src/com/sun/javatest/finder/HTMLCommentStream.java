@@ -46,8 +46,9 @@ public class HTMLCommentStream extends CommentStream {
         while (true) {
             startComment = 0;
             endComment = 0;
-            if ((line = cs.readLine()) == null)
+            if ((line = cs.readLine()) == null) {
                 return null;
+            }
             startComment = line.indexOf("<!--");
             if (startComment >= 0) {
                 // handle a comment that starts and ends on the same line
@@ -66,13 +67,15 @@ public class HTMLCommentStream extends CommentStream {
 
         // end of comment
         while (!endFound) {
-            if ((line = cs.readLine()) == null)
+            if ((line = cs.readLine()) == null) {
                 throw new IOException("Comment not properly terminated");
+            }
             if ((endComment = line.indexOf("-->")) >= 0) {
                 comment += line.substring(0, endComment) + LINESEP;
                 endFound = true;
-            } else
+            } else {
                 comment += line + LINESEP;
+            }
         }
 
         return comment.replace('\n', ' ').replace('\r', ' ').trim();

@@ -121,8 +121,9 @@ public class JavaCompileCommand extends Command {
     @Override
     public Status run(String[] args, PrintWriter log, PrintWriter ref) {
 
-        if (args.length == 0)
+        if (args.length == 0) {
             return Status.error("No args supplied");
+        }
 
         String compilerClassName = null;
         String compilerName = null;
@@ -147,8 +148,9 @@ public class JavaCompileCommand extends Command {
         if (options != null) {
             for (int i = 0; i < options.length; i++) {
                 if (options[i].equals("-compiler")) {
-                    if (i + 1 == options.length)
+                    if (i + 1 == options.length) {
                         return Status.error("No compiler specified after -compiler option");
+                    }
 
                     String s = options[++i];
                     int colon = s.indexOf(":");
@@ -160,13 +162,15 @@ public class JavaCompileCommand extends Command {
                         compilerName = s.substring(0, colon);
                     }
                 } else if (options[i].equals("-cp") || options[i].equals("-classpath")) {
-                    if (i + 1 == options.length)
+                    if (i + 1 == options.length) {
                         return Status.error("No path specified after -cp or -classpath option");
+                    }
                     classpath = options[++i];
-                } else if (options[i].equals("-verbose"))
+                } else if (options[i].equals("-verbose")) {
                     verbose = true;
-                else
+                } else {
                     return Status.error("Unrecognized option: " + options[i]);
+                }
             }
         }
 
@@ -175,23 +179,27 @@ public class JavaCompileCommand extends Command {
         try {
 
             ClassLoader loader;
-            if (classpath == null)
+            if (classpath == null) {
                 loader = null;
-            else
+            } else {
                 loader = new PathClassLoader(classpath);
+            }
 
             Class<?> compilerClass;
             if (compilerClassName != null) {
                 compilerClass = getClass(loader, compilerClassName);
-                if (compilerClass == null)
+                if (compilerClass == null) {
                     return Status.error("Cannot find compiler: " + compilerClassName);
+                }
             } else {
                 compilerName = "javac";
                 compilerClass = getClass(loader, "com.sun.tools.javac.Main");  // JDK1.3+
-                if (compilerClass == null)
+                if (compilerClass == null) {
                     compilerClass = getClass(loader, "sun.tools.javac.Main");  // JDK1.1-2
-                if (compilerClass == null)
+                }
+                if (compilerClass == null) {
                     return Status.error("Cannot find compiler");
+                }
             }
 
             loader = null;
@@ -199,32 +207,34 @@ public class JavaCompileCommand extends Command {
             Object[] compileMethodArgs;
             Method compileMethod = getMethod(compilerClass, "compile", // JDK1.4+
                     String[].class, PrintWriter.class);
-            if (compileMethod != null)
+            if (compileMethod != null) {
                 compileMethodArgs = new Object[]{args, ref};
-            else {
+            } else {
                 compileMethod = getMethod(compilerClass, "compile",   // JDK1.1-3
                         String[].class);
-                if (compileMethod != null)
+                if (compileMethod != null) {
                     compileMethodArgs = new Object[]{args};
-                else
+                } else {
                     return Status.error("Cannot find compile method for " + compilerClass.getName());
+                }
             }
 
             Object compiler;
-            if (Modifier.isStatic(compileMethod.getModifiers()))
+            if (Modifier.isStatic(compileMethod.getModifiers())) {
                 compiler = null;
-            else {
+            } else {
                 Object[] constrArgs;
                 Constructor<?> constr = getConstructor(compilerClass, // JDK1.1-2
                         OutputStream.class, String.class);
-                if (constr != null)
+                if (constr != null) {
                     constrArgs = new Object[]{new WriterStream(ref), compilerName};
-                else {
+                } else {
                     constr = getConstructor(compilerClass); // JDK1.3
-                    if (constr != null)
+                    if (constr != null) {
                         constrArgs = new Object[0];
-                    else
+                    } else {
                         return Status.error("Cannot find suitable constructor for " + compilerClass.getName());
+                    }
                 }
                 try {
                     compiler = constr.newInstance(constrArgs);
@@ -249,8 +259,9 @@ public class JavaCompileCommand extends Command {
             } else if (result instanceof Integer) {
                 int rc = ((Integer) result).intValue();
                 return rc == 0 ? passed : failed;
-            } else
+            } else {
                 return Status.error("Unexpected return value from compiler: " + result);
+            }
         } finally {
             log.flush();
             ref.flush();
@@ -271,8 +282,9 @@ public class JavaCompileCommand extends Command {
         } catch (NoSuchMethodException e) {
             return null;
         } catch (Throwable t) {
-            if (verbose)
+            if (verbose) {
                 t.printStackTrace(log);
+            }
             return null;
         }
     }
@@ -283,8 +295,9 @@ public class JavaCompileCommand extends Command {
         } catch (NoSuchMethodException e) {
             return null;
         } catch (Throwable t) {
-            if (verbose)
+            if (verbose) {
                 t.printStackTrace(log);
+            }
             return null;
         }
     }

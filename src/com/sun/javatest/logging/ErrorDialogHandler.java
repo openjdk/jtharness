@@ -63,8 +63,9 @@ public class ErrorDialogHandler extends StreamHandler {
             StackTraceElement[] trace = record.getThrown().getStackTrace();
             String[] message = new String[trace.length + 1];
             message[0] = record.getThrown().toString();
-            for (int i = 1; i < message.length; i++)
+            for (int i = 1; i < message.length; i++) {
                 message[i] = trace[i - 1].toString();
+            }
 
             argsToArr[0] = i18n.getString("logger.exception.message") + record.getSourceClassName() +
                     "," + record.getSourceMethodName();
@@ -94,8 +95,9 @@ public class ErrorDialogHandler extends StreamHandler {
         okBtn.setActionCommand("logger.dialog.ok");
         okBtn.setName("logger.dialog.ok");
         int mne = getI18NMnemonic("logger.dialog.ok.mne");
-        if (mne != 0)
+        if (mne != 0) {
             okBtn.setMnemonic(mne);
+        }
         String tip = i18n.getString("logger.dialog.ok.tip");
         okBtn.setToolTipText(tip);
         okBtn.addActionListener(al);
@@ -112,8 +114,9 @@ public class ErrorDialogHandler extends StreamHandler {
             traceString.append(":\n");
             for (int i = 0; i < trace.length; i++) {
                 traceString.append(trace[i]);
-                if (i != (trace.length - 1))
+                if (i != (trace.length - 1)) {
                     traceString.append("\n\tat ");      // needs i18n
+                }
             }
         }
 
@@ -201,11 +204,13 @@ public class ErrorDialogHandler extends StreamHandler {
     private static int getI18NMnemonic(String key) {
         String keyString = i18n.getString(key);
         KeyStroke keyStroke = KeyStroke.getKeyStroke(keyString);
-        if (keyStroke != null)
+        if (keyStroke != null) {
             return keyStroke.getKeyCode();
-        else
-            //System.err.println("WARNING: bad mnemonic keystroke for " + key + ": " + keyString);
+        } else
+        //System.err.println("WARNING: bad mnemonic keystroke for " + key + ": " + keyString);
+        {
             return 0;
+        }
     }
 
 

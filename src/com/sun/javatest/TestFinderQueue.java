@@ -146,11 +146,13 @@ public class TestFinderQueue {
      * @see #getTestFinder
      */
     public void setTestFinder(TestFinder finder) {
-        if (finder == null)
+        if (finder == null) {
             throw new NullPointerException();
+        }
 
-        if (testFinder != null && testFinder != finder)
+        if (testFinder != null && testFinder != finder) {
             throw new IllegalStateException();
+        }
 
         this.testFinder = finder;
         testFinder.setErrorHandler(new TestFinder.ErrorHandler() {
@@ -186,9 +188,10 @@ public class TestFinderQueue {
         // really ought not to be using File, since the tests may contain a trailing #xxx
         File[] files;
         if (initTests == null)
-            // ensure not null
+        // ensure not null
+        {
             files = new File[]{testSuiteRoot};
-        else {
+        } else {
             files = new File[initTests.length];
             for (int i = 0; i < initTests.length; i++) {
                 files[i] = new File(initTests[i]);
@@ -209,17 +212,20 @@ public class TestFinderQueue {
                 String n = f.getName();
                 // in pass 0, only select initial files without #
                 // in pass 1, only select initial files with #
-                if ((n.contains("#")) == (pass == 0))
+                if ((n.contains("#")) == (pass == 0)) {
                     continue;
+                }
 
                 // ensure all absolute, or if relative, make them relative
                 // to rootDir
-                if (!f.isAbsolute())
+                if (!f.isAbsolute()) {
                     f = new File(rootDir, f.getPath());
+                }
                 // ensure no trailing file separator
                 String p = f.getPath();
-                if (p.endsWith(File.separator))
+                if (p.endsWith(File.separator)) {
                     f = new File(p.substring(0, p.length() - 1));
+                }
                 tests.offer(f);
             }
         }
@@ -248,8 +254,9 @@ public class TestFinderQueue {
      * @deprecated retained for historical purposes
      */
     public void repeat(TestDescription... tds) {
-        if (tests == null)
+        if (tests == null) {
             tests = new ArrayDeque<>(); // for now
+        }
         for (TestDescription td : tds) {
             testDescsFound.offer(td);
             testsFoundCount++;
@@ -268,14 +275,17 @@ public class TestFinderQueue {
         TestDescription td;
 
         synchronized (this) {
-            while (needReadAhead() && readNextFile()) /*NO-OP*/ ;
+            while (needReadAhead() && readNextFile()) /*NO-OP*/ {
+                ;
+            }
 
             // read files until there is a test description available or there
             // are no more files.
             while ((td = testDescsFound.poll()) == null) {
                 boolean ok = readNextFile();
-                if (!ok)
+                if (!ok) {
                     return null;
+                }
             }
 
             // note testsDone, for readAhead
@@ -428,11 +438,14 @@ public class TestFinderQueue {
                         public void run() {
                             // This is intended to be interruptible and
                             // relies on safe atomic access to worker
-                            while ((readAheadWorker == this) && readNextFile()) /*NO-OP*/ ;
+                            while ((readAheadWorker == this) && readNextFile()) /*NO-OP*/ {
+                                ;
+                            }
                             // when thread exits; flatten pointer if still current
                             synchronized (TestFinderQueue.this) {
-                                if (readAheadWorker == this)
+                                if (readAheadWorker == this) {
                                     readAheadWorker = null;
+                                }
                             }
                         }
                     };
@@ -506,9 +519,10 @@ public class TestFinderQueue {
                 // testsFoundCount: 1000   percent: 18%
                 // testsFoundCount: 10000  percent: 86%
                 if (testsFoundCount < 100)
-                    // don't let tests start until at least 100 have been read
+                // don't let tests start until at least 100 have been read
+                {
                     return true;
-                else {
+                } else {
                     double percent = 1 - Math.exp(-0.0002 * testsFoundCount);
                     return testsDoneCount > (testsFoundCount * percent);
                 }
@@ -541,8 +555,9 @@ public class TestFinderQueue {
             if (filesToRead.isEmpty()) {
                 currInitialFile = null;
                 return false;
-            } else
+            } else {
                 testsFoundCountBeforeCurrInitialFile = testsFoundCount;
+            }
         }
 
 
@@ -660,47 +675,65 @@ public class TestFinderQueue {
 
         @Override
         public synchronized void found(File file) {
-            for (Observer observer : observers) observer.found(file);
+            for (Observer observer : observers) {
+                observer.found(file);
+            }
         }
 
         @Override
         public synchronized void reading(File file) {
-            for (Observer observer : observers) observer.reading(file);
+            for (Observer observer : observers) {
+                observer.reading(file);
+            }
         }
 
         @Override
         public synchronized void done(File file) {
-            for (Observer observer : observers) observer.done(file);
+            for (Observer observer : observers) {
+                observer.done(file);
+            }
         }
 
         @Override
         public synchronized void found(TestDescription td) {
-            for (Observer observer : observers) observer.found(td);
+            for (Observer observer : observers) {
+                observer.found(td);
+            }
         }
 
         @Override
         public synchronized void ignored(TestDescription td, TestFilter f) {
-            for (Observer observer : observers) observer.ignored(td, f);
+            for (Observer observer : observers) {
+                observer.ignored(td, f);
+            }
         }
 
         @Override
         public synchronized void done(TestDescription td) {
-            for (Observer observer : observers) observer.done(td);
+            for (Observer observer : observers) {
+                observer.done(td);
+            }
         }
 
         @Override
         public synchronized void flushed() {
-            for (Observer observer : observers) observer.flushed();
+            for (Observer observer : observers) {
+                observer.flushed();
+            }
         }
 
         @Override
         public synchronized void error(String msg) {
-            for (Observer observer : observers) observer.error(msg);
+            for (Observer observer : observers) {
+                observer.error(msg);
+            }
         }
 
         @Override
         public synchronized void error(TestDescription td, String msg) {
-            for (Observer observer : observers) observer.error(td, msg);
+            for (Observer observer : observers) {
+                observer.error(td, msg);
+            }
         }
 
         private Observer[] observers = new Observer[0];

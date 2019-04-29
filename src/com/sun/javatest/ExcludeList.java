@@ -95,8 +95,9 @@ public class ExcludeList {
             try (BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))) {
                 Parser p = new Parser(in);
                 Entry e;
-                while ((e = p.readEntry()) != null)
+                while ((e = p.readEntry()) != null) {
                     addEntry(e);
+                }
 
                 title = p.getTitle();
             }
@@ -223,20 +224,24 @@ public class ExcludeList {
         synchronized (table) {
             Object o = table.get(key);
             if (o == null)
-                // not found
+            // not found
+            {
                 return null;
-            else if (o instanceof Entry) {
+            } else if (o instanceof Entry) {
                 Entry e = (Entry) o;
                 if (e.testCase == null)
-                    // entire test excluded
+                // entire test excluded
+                {
                     return null;
-                else
+                } else {
                     return new String[]{e.testCase};
+                }
             } else {
                 Entry[] ee = (Entry[]) o;
                 String[] testCases = new String[ee.length];
-                for (int i = 0; i < ee.length; i++)
+                for (int i = 0; i < ee.length; i++) {
                     testCases[i] = ee[i].testCase;
+                }
                 return testCases;
             }
         }
@@ -265,9 +270,10 @@ public class ExcludeList {
                 Entry curr = (Entry) o;
                 if (curr.testCase == null) {
                     if (e.testCase == null)
-                        // overwrite existing entry for entire test
+                    // overwrite existing entry for entire test
+                    {
                         table.put(key, e);
-                    else {
+                    } else {
                         if (strict) {
                             // can't exclude test case when entire test already excluded
                             throw new Fault(i18n, "excl.cantExcludeCase", e.relativeURL);
@@ -353,19 +359,21 @@ public class ExcludeList {
         // XXX what if multiple entries?
         Key key = new Key(url);
         Object o = table.get(key);
-        if (o == null)
+        if (o == null) {
             return null;
-        else if (o instanceof Entry) {
+        } else if (o instanceof Entry) {
             Entry e = (Entry) o;
-            if (testCase == null)
+            if (testCase == null) {
                 return e;
-            else
+            } else {
                 return isInList(e.testCase, testCase) ? e : null;
+            }
         } else {
             Entry[] entries = (Entry[]) o;
             for (Entry e : entries) {
-                if (isInList(e.testCase, testCase))
+                if (isInList(e.testCase, testCase)) {
                     return e;
+                }
             }
             return null;
         }
@@ -396,8 +404,9 @@ public class ExcludeList {
                                 mergeBugIds(curr.bugIdStrings, otherEntry.bugIdStrings),
                                 mergePlatforms(curr.platforms, otherEntry.platforms),
                                 mergeSynopsis(curr.synopsis, otherEntry.synopsis)));
-                    } else
+                    } else {
                         table.put(key, new Entry[]{curr, otherEntry});
+                    }
                 } else if (otherEntry.testCase == null) {
                     // An array of test cases exist in the table, but we're merging
                     // an entry for the complete test, so flatten down to a single entry
@@ -439,16 +448,17 @@ public class ExcludeList {
     }
 
     static String mergeSynopsis(String a, String b) {
-        if (a == null || a.trim().isEmpty())
+        if (a == null || a.trim().isEmpty()) {
             return b;
-        else if (b == null || b.trim().isEmpty())
+        } else if (b == null || b.trim().isEmpty()) {
             return a;
-        else if (a.contains(b))
+        } else if (a.contains(b)) {
             return a;
-        else if (b.contains(a))
+        } else if (b.contains(a)) {
             return b;
-        else
+        } else {
             return a + "; " + b;
+        }
     }
 
 
@@ -462,21 +472,25 @@ public class ExcludeList {
             Key key = new Key(e.relativeURL);
             Object o = table.get(key);
             if (o == null)
-                // no such entry
+            // no such entry
+            {
                 return;
-            else if (o instanceof Entry) {
-                if (o == e)
+            } else if (o instanceof Entry) {
+                if (o == e) {
                     table.remove(key);
+                }
             } else {
                 Entry[] o2 = DynamicArray.remove((Entry[]) o, e);
                 if (o2 == o)
-                    // not found
+                // not found
+                {
                     return;
-                else {
-                    if (o2.length == 1)
+                } else {
+                    if (o2.length == 1) {
                         table.put(key, o2[0]);
-                    else
+                    } else {
                         table.put(key, o2);
+                    }
                 }
             }
         }
@@ -502,10 +516,11 @@ public class ExcludeList {
         // ouch, this is now expensive to compute
         int n = 0;
         for (Object o : table.values()) {
-            if (o instanceof Entry[])
+            if (o instanceof Entry[]) {
                 n += ((Entry[]) o).length;
-            else
+            } else {
                 n++;
+            }
         }
         return n;
     }
@@ -524,16 +539,16 @@ public class ExcludeList {
      * @see Entry
      */
     public Iterator<?> getIterator(boolean group) {
-        if (group)
+        if (group) {
             return table.values().iterator();
-        else {
+        } else {
             // flatten the enumeration into a vector, then
             // enumerate that
             Vector<Object> v = new Vector<>(table.size());
             for (Object o : table.values()) {
-                if (o instanceof Entry)
+                if (o instanceof Entry) {
                     v.add(o);
-                else {
+                } else {
                     Collections.addAll(v, (Entry[]) o);
                 }
             }
@@ -578,10 +593,11 @@ public class ExcludeList {
         for (Iterator<?> iter = getIterator(false); iter.hasNext(); ) {
             Entry entry = (Entry) iter.next();
             entries.add(entry);
-            if (entry.testCase == null)
+            if (entry.testCase == null) {
                 maxURLWidth = Math.max(entry.relativeURL.length(), maxURLWidth);
-            else
+            } else {
                 maxURLWidth = Math.max(entry.relativeURL.length() + entry.testCase.length() + 2, maxURLWidth);
+            }
             maxBugIdWidth = Math.max(bugIdsToString(entry).length(), maxBugIdWidth);
             maxPlatformWidth = Math.max(platformsToString(entry).length(), maxPlatformWidth);
         }
@@ -596,10 +612,11 @@ public class ExcludeList {
             out.newLine();
         }
         for (Entry e : entries) {
-            if (e.testCase == null)
+            if (e.testCase == null) {
                 write(out, e.relativeURL, maxURLWidth + 2);
-            else
+            } else {
                 write(out, e.relativeURL + "[" + e.testCase + "]", maxURLWidth + 2);
+            }
             write(out, bugIdsToString(e), maxBugIdWidth + 2);
             write(out, platformsToString(e), maxPlatformWidth + 2);
             out.write(e.synopsis);
@@ -610,8 +627,9 @@ public class ExcludeList {
 
     private void write(Writer out, String s, int width) throws IOException {
         out.write(s);
-        for (int i = s.length(); i < width; i++)
+        for (int i = s.length(); i < width; i++) {
             out.write(' ');
+        }
     }
 
     private String bugIdsToString(Entry e) {
@@ -647,18 +665,21 @@ public class ExcludeList {
      */
     private static boolean isInList(String list, String val) {
         // check for invalid args
-        if (list == null || val == null)
+        if (list == null || val == null) {
             return false;
+        }
 
         // loop through possible matches
         for (int pos = list.indexOf(val); pos != -1; pos = list.indexOf(val, pos + 1)) {
             // check beginning of string
-            if (!(pos == 0 || list.charAt(pos - 1) == ','))
+            if (!(pos == 0 || list.charAt(pos - 1) == ',')) {
                 continue;
+            }
 
             // check end of string
-            if (!(pos + val.length() == list.length() || list.charAt(pos + val.length()) == ','))
+            if (!(pos + val.length() == list.length() || list.charAt(pos + val.length()) == ',')) {
                 continue;
+            }
 
             // beginning and end are OK; got a match
             return true;
@@ -711,8 +732,9 @@ public class ExcludeList {
 
         Entry readEntry() throws IOException, Fault {
             String url = readURL(); // includes optional test case
-            if (url == null)
+            if (url == null) {
                 return null;
+            }
             String testCase = null; // for now
 
             if (url.endsWith("]")) {
@@ -771,15 +793,18 @@ public class ExcludeList {
                         s.add(sb.toString());
                         sb.setLength(0);
                     }
-                } else
+                } else {
                     sb.append((char) ch);
+                }
             }
 
-            if (sb.length() > 0)
+            if (sb.length() > 0) {
                 s.add(sb.toString());
+            }
 
-            if (s.isEmpty())
+            if (s.isEmpty()) {
                 s.add("0");  // backwards compatibility
+            }
 
             return s.toArray(new String[s.size()]);
         }
@@ -796,8 +821,9 @@ public class ExcludeList {
                 // split string into sorted comma separated pieces
                 int n = 0;
                 for (int i = 0; i < s.length(); i++) {
-                    if (s.charAt(i) == ',')
+                    if (s.charAt(i) == ',') {
                         n++;
+                    }
                 }
                 Set<String> ts = new TreeSet<>();
                 int start = 0;
@@ -818,8 +844,9 @@ public class ExcludeList {
             // skip white space, then read up to the end of the line
             skipWhite();
             StringBuilder word = new StringBuilder(80);
-            for (; !isEndOfLine(ch); ch = in.read())
+            for (; !isEndOfLine(ch); ch = in.read()) {
                 word.append((char) ch);
+            }
             // skip over terminating character
             ch = in.read();
             return word.toString();
@@ -828,8 +855,9 @@ public class ExcludeList {
         private String readWord() throws IOException {
             // read characters up to the next white space
             StringBuilder word = new StringBuilder(32);
-            for (; !isEndOfLine(ch) && !isWhitespace(ch); ch = in.read())
+            for (; !isEndOfLine(ch) && !isWhitespace(ch); ch = in.read()) {
                 word.append((char) ch);
+            }
             return word.toString();
         }
 
@@ -849,15 +877,17 @@ public class ExcludeList {
                     }
                 }
             }
-            while (!isEndOfLine(ch))
+            while (!isEndOfLine(ch)) {
                 ch = in.read();
+            }
         }
 
         private void skipWhite() throws IOException {
             // skip horizontal white space
             // input is line-oriented, so do not skip over end of line
-            while (ch != -1 && isWhitespace(ch))
+            while (ch != -1 && isWhitespace(ch)) {
                 ch = in.read();
+            }
         }
 
         private Reader in;      // source stream being read
@@ -882,11 +912,13 @@ public class ExcludeList {
 
                 for (int i = 0; i < len; i++) {
                     char c = relativeURL.charAt(i);
-                    if (!caseSensitive)
+                    if (!caseSensitive) {
                         c = Character.toLowerCase(c);
+                    }
 
-                    if (c == sep)
+                    if (c == sep) {
                         c = '/';
+                    }
                     h = 31 * h + c;
                 }
                 hash = h;
@@ -898,30 +930,35 @@ public class ExcludeList {
         public boolean equals(Object o) {
             // Two keys are equal if their normalized URLs are equal.
             // The normalized URL is url.replace(File.separatorChar, '/').toLowerCase();
-            if (o == null || !(o instanceof Key))
+            if (o == null || !(o instanceof Key)) {
                 return false;
+            }
             String u1 = relativeURL;
             String u2 = ((Key) o).relativeURL;
             int len = u1.length();
-            if (len != u2.length())
+            if (len != u2.length()) {
                 return false;
+            }
             for (int i = 0; i < len; i++) {
                 char c1 = u1.charAt(i);
 
-                if (c1 == sep)
+                if (c1 == sep) {
                     c1 = '/';
-                else if (!caseSensitive)
+                } else if (!caseSensitive) {
                     c1 = Character.toLowerCase(c1);
+                }
 
                 char c2 = u2.charAt(i);
 
-                if (c2 == sep)
+                if (c2 == sep) {
                     c2 = '/';
-                else if (!caseSensitive)
+                } else if (!caseSensitive) {
                     c2 = Character.toLowerCase(c2);
+                }
 
-                if (c1 != c2)
+                if (c1 != c2) {
                     return false;
+                }
             }
             return true;
         }
@@ -946,14 +983,16 @@ public class ExcludeList {
          * @param s  A short synopsis of the reasons why the test is excluded.
          */
         public Entry(String u, String tc, String[] b, String[] p, String s) {
-            if (b == null || p == null)
+            if (b == null || p == null) {
                 throw new NullPointerException();
+            }
 
             // The file format cannot support platforms but no bugids,
             // so fault that; other combinations (bugs, no platforms;
             // no bugs, no platforms etc) are acceptable.
-            if (b.length == 0 && p.length > 0)
+            if (b.length == 0 && p.length > 0) {
                 throw new IllegalArgumentException();
+            }
 
             relativeURL = u;
             testCase = tc;
@@ -974,21 +1013,24 @@ public class ExcludeList {
          * @deprecated use constructor with String[] bugIDs instead
          */
         public Entry(String u, String tc, int[] b, String[] p, String s) {
-            if (b == null || p == null)
+            if (b == null || p == null) {
                 throw new NullPointerException();
+            }
 
             // The file format cannot support platforms but no bugids,
             // so fault that; other combinations (bugs, no platforms;
             // no bugs, no platforms etc) are acceptable.
-            if (b.length == 0 && p.length > 0)
+            if (b.length == 0 && p.length > 0) {
                 throw new IllegalArgumentException();
+            }
 
             relativeURL = u;
             testCase = tc;
 
             bugIdStrings = new String[b.length];
-            for (int i = 0; i < b.length; i++)
+            for (int i = 0; i < b.length; i++) {
                 bugIdStrings[i] = String.valueOf(b[i]);
+            }
             bugIds = b;
 
             platforms = p;
@@ -999,16 +1041,18 @@ public class ExcludeList {
         public int compareTo(Entry e) {
             int n = relativeURL.compareTo(e.relativeURL);
             if (n == 0) {
-                if (testCase == null && e.testCase == null)
+                if (testCase == null && e.testCase == null) {
                     return 0;
-                else if (testCase == null)
+                } else if (testCase == null) {
                     return -1;
-                else if (e.testCase == null)
+                } else if (e.testCase == null) {
                     return +1;
-                else
+                } else {
                     return testCase.compareTo(e.testCase);
-            } else
+                }
+            } else {
                 return n;
+            }
         }
 
         /**
@@ -1039,24 +1083,29 @@ public class ExcludeList {
         public String[] getTestCaseList() {
             // code borrowed from StringArray
             // it is a little wasteful to recalc everytime but saves space
-            if (testCase == null)
+            if (testCase == null) {
                 return null;
+            }
 
             Vector<String> v = new Vector<>();
             int start = -1;
             for (int i = 0; i < testCase.length(); i++) {
                 if (testCase.charAt(i) == ',') {
-                    if (start != -1)
+                    if (start != -1) {
                         v.add(testCase.substring(start, i));
+                    }
                     start = -1;
-                } else if (start == -1)
+                } else if (start == -1) {
                     start = i;
+                }
             }
-            if (start != -1)
+            if (start != -1) {
                 v.add(testCase.substring(start));
+            }
 
-            if (v.isEmpty())
+            if (v.isEmpty()) {
                 return null;
+            }
 
             return v.toArray(new String[v.size()]);
         }
@@ -1154,8 +1203,9 @@ public class ExcludeList {
                         && equals(bugIdStrings, e.bugIdStrings)
                         && equals(platforms, e.platforms)
                         && equals(synopsis, e.synopsis);
-            } else
+            } else {
                 return false;
+            }
         }
 
         @Override
@@ -1192,29 +1242,36 @@ public class ExcludeList {
         }
 
         private static boolean equals(int[] i1, int... i2) {
-            if (i1 == null || i2 == null)
+            if (i1 == null || i2 == null) {
                 return i1 == null && i2 == null;
+            }
 
-            if (i1.length != i2.length)
+            if (i1.length != i2.length) {
                 return false;
+            }
 
-            for (int x = 0; x < i1.length; x++)
-                if (i1[x] != i2[x])
+            for (int x = 0; x < i1.length; x++) {
+                if (i1[x] != i2[x]) {
                     return false;
+                }
+            }
 
             return true;
         }
 
         private static boolean equals(String[] s1, String... s2) {
-            if (s1 == null || s2 == null)
+            if (s1 == null || s2 == null) {
                 return s1 == null && s2 == null;
+            }
 
-            if (s1.length != s2.length)
+            if (s1.length != s2.length) {
                 return false;
+            }
 
             for (int x = 0; x < s1.length; x++) {
-                if (!equals(s1[x], s2[x]))
+                if (!equals(s1[x], s2[x])) {
                     return false;
+                }
             }
 
             return true;

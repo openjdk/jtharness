@@ -98,8 +98,9 @@ public class Main {
     public static void main(String... args) {
         tracing = Boolean.getBoolean("javatest.trace.startup");
 
-        if (tracing)
+        if (tracing) {
             traceStartTime = System.currentTimeMillis();
+        }
 
         if (Boolean.getBoolean("javatest.trace.printargs")) {
             StringBuilder fullCmd = new StringBuilder();
@@ -143,8 +144,9 @@ public class Main {
             }
         };
 
-        if (tracing)
+        if (tracing) {
             traceOut = out;
+        }
 
         try {
             ExitCount.inc();
@@ -153,8 +155,9 @@ public class Main {
             CommandContext ctx = new CommandContext(out);
             m.run(args, ctx);
 
-            if (tracing)
+            if (tracing) {
                 trace("Main.run complete");
+            }
 
             out.flush(); // flush now in case ExitCount exits
 
@@ -170,13 +173,15 @@ public class Main {
                     System.getProperty("javatest.preload.classes", "true").equals("true");
 
             if (preload) {
-                if (tracing)
+                if (tracing) {
                     trace("preloading classes...");
+                }
 
                 preloadUsefulClasses();
 
-                if (tracing)
+                if (tracing) {
                     trace("preloaded classes");
+                }
             }
 
             out.flush();
@@ -286,16 +291,18 @@ public class Main {
         boolean helpInfoRequired = helpManager.isInfoRequired();
         if (helpInfoRequired) {
             helpManager.showRequiredInfo(ctx.getLogWriter(), ctx);
-            if (cmds.length == 0)
+            if (cmds.length == 0) {
                 return;
+            }
         }
 
         final Desktop desktop;
         boolean needDesktop = ctx.isDesktopRequired();
 
         if (needDesktop) {
-            if (tracing)
+            if (tracing) {
                 trace("creating desktop...");
+            }
 
             // should really be on event thread
             desktop = desktopManager.createDesktop(ctx);
@@ -374,12 +381,14 @@ public class Main {
             desktop.setVisible(true);
             ctx.setDesktop(desktop);
             // set context log to display in a log tool
-        } else
+        } else {
             desktop = null;
+        }
 
         // execute the commands on the command line
-        if (tracing)
+        if (tracing) {
             trace("executing command line...");
+        }
 
         if (desktop != null) {
             desktop.setVisible(true);
@@ -387,8 +396,9 @@ public class Main {
 
         ctx.runCommands();
 
-        if (tracing)
+        if (tracing) {
             trace("command line done");
+        }
 
         if (desktop != null) {
             if (ctx.isCloseDesktopWhenDoneEnabled()
@@ -403,8 +413,9 @@ public class Main {
                 try {
                     EventQueue.invokeAndWait(task);
                 } catch (InterruptedException | java.lang.reflect.InvocationTargetException e) {
-                    if (tracing)
+                    if (tracing) {
                         e.printStackTrace();
+                    }
                 }
             } else {
                 InterviewParameters ip_tmp = null;
@@ -433,17 +444,20 @@ public class Main {
                                     tool.restore(data);
                                 }
                             } else if (desktop.isFirstTime()) {
-                                if (tracing)
+                                if (tracing) {
                                     trace("show default");
+                                }
                                 desktop.addDefaultTool();
                             } else {
-                                if (tracing)
+                                if (tracing) {
                                     trace("restore desktop");
+                                }
                                 desktop.restore();
                             }
                         }
-                        if (tracing)
+                        if (tracing) {
                             trace("set desktop visible");
+                        }
                         desktop.setVisible(true);
                     }   // run()
                 };   // Runnable
@@ -451,8 +465,9 @@ public class Main {
                 try {
                     EventQueue.invokeAndWait(task);
                 } catch (InterruptedException | java.lang.reflect.InvocationTargetException e) {
-                    if (tracing)
+                    if (tracing) {
                         e.printStackTrace();
+                    }
                 }
 
             }
@@ -497,8 +512,9 @@ public class Main {
         // If our security manager is installed, it won't allow a call of
         // System.exit unless we ask it nicely, pretty please, thank you.
         SecurityManager sc = System.getSecurityManager();
-        if (sc instanceof JavaTestSecurityManager)
+        if (sc instanceof JavaTestSecurityManager) {
             ((JavaTestSecurityManager) sc).setAllowExit(true);
+        }
         System.exit(exitCode);
         throw new JavaTestError(i18n, "main.cannotExit.err");
     }

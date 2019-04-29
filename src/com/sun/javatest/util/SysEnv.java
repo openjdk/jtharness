@@ -84,8 +84,9 @@ public class SysEnv {
      * @return the value of the environment variable if set, or null if not
      */
     public static String get(String name) {
-        if (values == null)
+        if (values == null) {
             initValues();
+        }
 
         return values.get(name);
     }
@@ -109,8 +110,9 @@ public class SysEnv {
      * @return the argument map.
      */
     public static Map<String, String> getAll(Map<String, String> m) {
-        if (values == null)
+        if (values == null) {
             initValues();
+        }
 
         m.putAll(values);
         return m;
@@ -119,11 +121,13 @@ public class SysEnv {
     private static void initValues() {
         values = new HashMap<>();
 
-        if (command == null)
+        if (command == null) {
             command = getDefaultCommand();
+        }
 
-        if (command == null)
+        if (command == null) {
             return;
+        }
 
         try {
             Process p = Runtime.getRuntime().exec(command);
@@ -134,8 +138,9 @@ public class SysEnv {
             String line;
             while ((line = in.readLine()) != null) {
                 int eq = line.indexOf('=');
-                if (eq == -1)
+                if (eq == -1) {
                     continue;
+                }
                 String name = line.substring(0, eq);
                 String value = line.substring(eq + 1);
                 values.put(name, value);
@@ -152,22 +157,28 @@ public class SysEnv {
 
     private static String getDefaultCommand() {
         String prop = System.getProperty("javatest.sysEnv.command");
-        if (prop != null)
+        if (prop != null) {
             return prop;
+        }
 
         String osName = System.getProperty("os.name");
 
         if (osName.equalsIgnoreCase("SunOS")
                 || osName.equalsIgnoreCase("Linux")
-                || osName.equalsIgnoreCase("Mac OS X"))
+                || osName.equalsIgnoreCase("Mac OS X")) {
             return "/usr/bin/env";
+        }
 
         if (osName.equalsIgnoreCase("Windows XP")
                 || osName.equalsIgnoreCase("Windows 2000"))  // tested
+        {
             return "cmd /c set";
+        }
 
         if (osName.toLowerCase().startsWith("windows")) // not yet tested
+        {
             return "cmd /c set";
+        }
 
         return "env"; // best guess
     }

@@ -70,20 +70,22 @@ import com.sun.javatest.tool.jthelp.JHelpContentViewer;
 
 class FocusMonitor {
     public static FocusMonitor access() {
-        if (focusMonitor == null)
+        if (focusMonitor == null) {
             focusMonitor = new FocusMonitor();
+        }
 
         return focusMonitor;
     }
 
     public void setOptions(String... opts) {
         for (String opt : opts) {
-            if (opt.equals("-open"))
+            if (opt.equals("-open")) {
                 setVisible(true);
-            else if (opt.equals("-bg"))
+            } else if (opt.equals("-bg")) {
                 setHighlightEnabled(true);
-            else
+            } else {
                 System.err.println("Warning: bad option for FocusMonitor: " + opt);
+            }
         }
     }
 
@@ -101,25 +103,29 @@ class FocusMonitor {
 
     public void monitor(Component c) {
         if (c == null
-                || (frame != null && (frame == c || frame.isAncestorOf(c))))
+                || (frame != null && (frame == c || frame.isAncestorOf(c)))) {
             return;
+        }
 
         if (activateKey != null || reportKey != null) {
             Window w = (Window) (c instanceof Window ? c
                     : SwingUtilities.getAncestorOfClass(Window.class, c));
-            if (w == null)
+            if (w == null) {
                 return;
+            }
 
             JRootPane root;
-            if (w instanceof JFrame)
+            if (w instanceof JFrame) {
                 root = ((JFrame) w).getRootPane();
-            else if (w instanceof JDialog)
+            } else if (w instanceof JDialog) {
                 root = ((JDialog) w).getRootPane();
-            else
+            } else {
                 return;
+            }
 
-            if (root == null)
+            if (root == null) {
                 return;
+            }
 
             InputMap inputMap = root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
             inputMap.put(activateKey, "focusMonitor.activate");
@@ -141,8 +147,9 @@ class FocusMonitor {
                         flush();  // don't close System.out
                     }
                 };
-            } else
+            } else {
                 out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(reportFile, true), StandardCharsets.UTF_8));
+            }
 
             out.write("---------------------------------------");
             out.write(NEWLINE);
@@ -155,14 +162,16 @@ class FocusMonitor {
 
     public void setVisible(boolean b) {
         if (b) {
-            if (frame == null)
+            if (frame == null) {
                 initGUI();
+            }
             KeyboardFocusManager fm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
             focusMonitor.monitor(fm.getFocusOwner());
             frame.setVisible(true);
             focusMonitor.update();
-        } else if (frame != null)
+        } else if (frame != null) {
             frame.setVisible(false);
+        }
     }
 
     private FocusMonitor() {
@@ -170,8 +179,9 @@ class FocusMonitor {
         fm.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent e) {
-                if (e.getPropertyName().equals("focusOwner"))
+                if (e.getPropertyName().equals("focusOwner")) {
                     update();
+                }
             }
         });
     }
@@ -183,8 +193,9 @@ class FocusMonitor {
     }
 
     private void update() {
-        if (frame == null || !frame.isVisible())
+        if (frame == null || !frame.isVisible()) {
             return;
+        }
 
         KeyboardFocusManager fm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         Component c = fm.getFocusOwner();
@@ -206,12 +217,14 @@ class FocusMonitor {
             nextFocusPanel.setComponent(getNextFocus(c));
 
             Window w = fm.getFocusedWindow();
-            while (w != null && !(w instanceof Frame))
+            while (w != null && !(w instanceof Frame)) {
                 w = w.getOwner();
+            }
 
             String title = "Focus Monitor";
-            if (w instanceof Frame)
+            if (w instanceof Frame) {
                 title += " - " + ((Frame) w).getTitle();
+            }
             frame.setTitle(title);
         }
     }
@@ -221,23 +234,27 @@ class FocusMonitor {
             highlighting = b;
             KeyboardFocusManager fm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
             Component c = fm.getFocusOwner();
-            if (frame == null || !frame.isAncestorOf(c))
+            if (frame == null || !frame.isAncestorOf(c)) {
                 setHighlight(c, highlighting);
+            }
         }
     }
 
     private void setHighlight(Component c, boolean b) {
-        if (c == null)
+        if (c == null) {
             return;
+        }
         if (b) {
             savedOpaque = c.isOpaque();
             savedBackground = c.getBackground();
-            if (c instanceof JComponent)
+            if (c instanceof JComponent) {
                 ((JComponent) c).setOpaque(true);
+            }
             c.setBackground(HILITE_COLOR);
         } else {
-            if (c instanceof JComponent)
+            if (c instanceof JComponent) {
                 ((JComponent) c).setOpaque(savedOpaque);
+            }
             c.setBackground(savedBackground);
         }
     }
@@ -312,8 +329,9 @@ class FocusMonitor {
     }
 
     private Component getNextFocus(Component c) {
-        if (c == null)
+        if (c == null) {
             return null;
+        }
 
         Container rootAncestor = c.getFocusCycleRootAncestor();
         Component comp = c;
@@ -325,20 +343,23 @@ class FocusMonitor {
             rootAncestor = comp.getFocusCycleRootAncestor();
         }
 
-        if (rootAncestor == null)
+        if (rootAncestor == null) {
             return null;
+        }
 
         FocusTraversalPolicy policy = rootAncestor.getFocusTraversalPolicy();
         Component toFocus = policy.getComponentAfter(rootAncestor, comp);
-        if (toFocus == null)
+        if (toFocus == null) {
             toFocus = policy.getDefaultComponent(rootAncestor);
+        }
 
         return toFocus;
     }
 
     private Component getPreviousFocus(Component c) {
-        if (c == null)
+        if (c == null) {
             return null;
+        }
 
         Container rootAncestor = c.getFocusCycleRootAncestor();
         Component comp = c;
@@ -350,20 +371,23 @@ class FocusMonitor {
             rootAncestor = comp.getFocusCycleRootAncestor();
         }
 
-        if (rootAncestor == null)
+        if (rootAncestor == null) {
             return null;
+        }
 
         FocusTraversalPolicy policy = rootAncestor.getFocusTraversalPolicy();
         Component toFocus = policy.getComponentBefore(rootAncestor, comp);
-        if (toFocus == null)
+        if (toFocus == null) {
             toFocus = policy.getDefaultComponent(rootAncestor);
+        }
 
         return toFocus;
     }
 
     private Component getUpFocus(Component c) {
-        if (c == null)
+        if (c == null) {
             return null;
+        }
 
         Container rootAncestor;
         for (rootAncestor = c.getFocusCycleRootAncestor();
@@ -373,33 +397,38 @@ class FocusMonitor {
              rootAncestor = rootAncestor.getFocusCycleRootAncestor()) {
         }
 
-        if (rootAncestor != null)
+        if (rootAncestor != null) {
             return rootAncestor;
+        }
 
         Container window =
                 (c instanceof Container) ? (Container) c : c.getParent();
         while (window != null && !(window instanceof Window)) {
             window = window.getParent();
         }
-        if (window == null)
+        if (window == null) {
             return null;
+        }
 
         return window.getFocusTraversalPolicy().getDefaultComponent(window);
     }
 
     private static String getKeysString(Component c, int mode) {
-        if (c == null)
+        if (c == null) {
             return null;
+        }
 
         Set<AWTKeyStroke> s = c.getFocusTraversalKeys(mode);
         StringBuilder sb = new StringBuilder();
         for (AWTKeyStroke value : s) {
-            if (sb.length() > 0)
+            if (sb.length() > 0) {
                 sb.append(", ");
+            }
             sb.append(value);
         }
-        if (!c.areFocusTraversalKeysSet(mode))
+        if (!c.areFocusTraversalKeysSet(mode)) {
             sb.append(" (inherited)");
+        }
         return sb.toString();
     }
 
@@ -411,22 +440,26 @@ class FocusMonitor {
 
     private static void appendPath(StringBuffer sb, Component c) {
         Container p = c.getParent();
-        if (p != null)
+        if (p != null) {
             appendPath(sb, p);
+        }
         sb.append('/');
         String name = c.getName();
         if (name == null || name.isEmpty()) {
             if (p == null)  // special case, root component, no name
+            {
                 sb.append("(Root component)");
-            else
+            } else {
                 for (int i = 0; i < p.getComponentCount(); i++) {
                     if (p.getComponent(i) == c) {
                         sb.append(i);
                         break;
                     }
                 }   // for
-        } else
+            }
+        } else {
             sb.append(name);
+        }
     }
 
     private Action activateAction = new AbstractAction() {
@@ -504,17 +537,19 @@ class FocusMonitor {
         }
 
         void setText(String s, String err) {
-            if (s == null || s.isEmpty())
+            if (s == null || s.isEmpty()) {
                 setText(err, false);
-            else
+            } else {
                 setText(s, true);
+            }
         }
 
         void setText(String s, String err, Color okColor, Color notOKColor) {
-            if (s == null || s.isEmpty())
+            if (s == null || s.isEmpty()) {
                 setText(err, false, okColor, notOKColor);
-            else
+            } else {
                 setText(s, true, okColor, notOKColor);
+            }
         }
 
         void write(Writer out) throws IOException {
@@ -635,15 +670,16 @@ class FocusMonitor {
                         || c instanceof JScrollBar
                         || (c instanceof JTextComponent && !((JTextComponent) c).isEditable());
                 toolTip.setText(ttEmpty ? "no tooltip" : ttText, toolTipOK);
-            } else
+            } else {
                 toolTip.setEnabled(false);
+            }
 
             // what the text content might be
-            if (c instanceof JButton)
+            if (c instanceof JButton) {
                 text.setText(((JButton) c).getText());
-            else if (c instanceof JLabel)
+            } else if (c instanceof JLabel) {
                 text.setText(((JLabel) c).getText());
-            else if (c instanceof JTextComponent) {
+            } else if (c instanceof JTextComponent) {
                 JTextComponent tc = (JTextComponent) c;
                 Document d = tc.getDocument();
                 try {
@@ -651,14 +687,16 @@ class FocusMonitor {
                 } catch (Exception e) {
                     text.setText(null, e.toString());
                 }
-            } else
+            } else {
                 text.setEnabled(false);
+            }
 
             // what it might be a label for
-            if (c != null && c instanceof JLabel)
+            if (c != null && c instanceof JLabel) {
                 labelFor.setText(c.getClass().getName() + " " + c.getName());
-            else
+            } else {
                 labelFor.setEnabled(false);
+            }
 
             // what the mnemonic might be
             if (c instanceof JLabel) {
@@ -674,8 +712,9 @@ class FocusMonitor {
                 boolean mnemonicOK = mne != 0
                         || (cmd != null && cmd.equals(UIFactory.CANCEL));
                 mnemonic.setText(mne == 0 ? "no mnemonic" : String.valueOf((char) mne), mnemonicOK);
-            } else
+            } else {
                 mnemonic.setEnabled(false);
+            }
 
             // what the traversal keys are
             fwdKeys.setText(getKeysString(c, KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS));

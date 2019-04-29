@@ -75,12 +75,15 @@ public class CompositeFilter extends TestFilter {
         reason = bundle.getString(prefix + ".reason");
 
         // paranoid checks
-        if (description == null)
+        if (description == null) {
             description = i18n.getString("compFilter.unset.description");
-        if (name == null)
+        }
+        if (name == null) {
             name = i18n.getString("compFilter.unset.name");
-        if (reason == null)
+        }
+        if (reason == null) {
             reason = i18n.getString("compFilter.unset.reason");
+        }
     }
 
     /**
@@ -98,45 +101,52 @@ public class CompositeFilter extends TestFilter {
      * @see #CompositeFilter(TestFilter[], I18NResourceBundle, String)
      */
     public CompositeFilter(TestFilter... filters) {
-        if (filters == null)
+        if (filters == null) {
             throw new NullPointerException();
+        }
         this.filters = filters;
     }
 
     // ------- TestFilter ---------
     @Override
     public String getName() {
-        if (name == null)
+        if (name == null) {
             return i18n.getString("compFilter.name");
-        else
+        } else {
             return name;
+        }
     }
 
     @Override
     public String getDescription() {
-        if (description == null)
+        if (description == null) {
             return i18n.getString("compFilter.description");
-        else
+        } else {
             return description;
+        }
     }
 
     @Override
     public String getReason() {
-        if (reason == null)
+        if (reason == null) {
             return i18n.getString("compFilter.reason");
-        else
+        } else {
             return reason;
+        }
     }
 
     @Override
     public boolean accepts(TestDescription td) throws Fault {
-        if (filters == null || filters.length == 0)
+        if (filters == null || filters.length == 0) {
             return true;
+        }
 
         try {
-            for (TestFilter filter : filters)
-                if (!filter.accepts(td))
+            for (TestFilter filter : filters) {
+                if (!filter.accepts(td)) {
                     return false;
+                }
+            }
 
             // made it; accepted
             return true;
@@ -148,13 +158,15 @@ public class CompositeFilter extends TestFilter {
     @Override
     public boolean accepts(TestDescription td, TestFilter.Observer o)
             throws TestFilter.Fault {
-        if (filters == null || filters.length == 0)
+        if (filters == null || filters.length == 0) {
             return true;
+        }
 
-        for (TestFilter filter : filters)
+        for (TestFilter filter : filters) {
             if (!filter.accepts(td, o)) {
                 return false;
             }
+        }
 
         return true;
     }
@@ -172,25 +184,29 @@ public class CompositeFilter extends TestFilter {
      */
     @Override
     public boolean equals(Object tf) {
-        if (tf == null)
+        if (tf == null) {
             return false;
+        }
 
         // if this composite contains one filter, should we
         // compare it to the given filter?
         // how transitive should this comparison be?...recursive composites
-        if (!(tf instanceof CompositeFilter))
+        if (!(tf instanceof CompositeFilter)) {
             return false;
+        }
 
         TestFilter[] thoseFilters = ((CompositeFilter) tf).getFilters();
 
         // no filters in both is equal
-        if ((filters == null || filters.length == 0) && thoseFilters.length == 0)
+        if ((filters == null || filters.length == 0) && thoseFilters.length == 0) {
             return true;
+        }
 
         // both sets have at least 1 element
         // if they don't have the same size, then they are not equal
-        if (filters.length != thoseFilters.length)
+        if (filters.length != thoseFilters.length) {
             return false;
+        }
 
         return equals(filters, thoseFilters);
     }
@@ -212,8 +228,9 @@ public class CompositeFilter extends TestFilter {
      * Shallow copy.
      */
     public TestFilter[] getFilters() {
-        if (filters == null)
+        if (filters == null) {
             return new TestFilter[0];
+        }
 
         TestFilter[] copy = new TestFilter[filters.length];
         System.arraycopy(filters, 0, copy, 0, filters.length);

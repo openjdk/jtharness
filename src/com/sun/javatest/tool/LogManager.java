@@ -82,8 +82,9 @@ public class LogManager extends CommandManager {
         LogCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
-            if (!argIter.hasNext())
+            if (!argIter.hasNext()) {
                 throw new Fault(i18n, "logm.log.missingArg");
+            }
 
             file = new File(nextArg(argIter));
         }

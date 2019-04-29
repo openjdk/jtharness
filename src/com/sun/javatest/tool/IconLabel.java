@@ -55,41 +55,48 @@ public class IconLabel extends JLabel {
 
     @Override
     public Icon getIcon() {
-        if (type == null)
+        if (type == null) {
             return null;
+        }
 
-        if (type.equals("file"))
+        if (type.equals("file")) {
             return IconFactory.getFileIcon();
+        }
 
-        if (type.equals("folder"))
+        if (type.equals("folder")) {
             return IconFactory.getFolderIcon();
+        }
 
-        if (type.equals("up"))
+        if (type.equals("up")) {
             return IconFactory.getUpFolderIcon();
+        }
 
-        if (state == null)
+        if (state == null) {
             return null;
+        }
 
         int s;
-        if (state.equalsIgnoreCase("passed"))
+        if (state.equalsIgnoreCase("passed")) {
             s = IconFactory.PASSED;
-        else if (state.equalsIgnoreCase("failed"))
+        } else if (state.equalsIgnoreCase("failed")) {
             s = IconFactory.FAILED;
-        else if (state.equalsIgnoreCase("error"))
+        } else if (state.equalsIgnoreCase("error")) {
             s = IconFactory.ERROR;
-        else if (state.equalsIgnoreCase("notRun"))
+        } else if (state.equalsIgnoreCase("notRun")) {
             s = IconFactory.NOT_RUN;
-        else
+        } else {
             s = 0; // should have unknown icon?
+        }
 
-        if (type.equalsIgnoreCase("test"))
+        if (type.equalsIgnoreCase("test")) {
             return IconFactory.getTestIcon(s, false, true);
-        else if (type.equalsIgnoreCase("testFolder"))
+        } else if (type.equalsIgnoreCase("testFolder")) {
             return IconFactory.getTestFolderIcon(s, false, true);
-        else if (type.equalsIgnoreCase("testSection"))
+        } else if (type.equalsIgnoreCase("testSection")) {
             return IconFactory.getTestSectionIcon(s);
-        else
+        } else {
             return null;
+        }
     }
 
     /**

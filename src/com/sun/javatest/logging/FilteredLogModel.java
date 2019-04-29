@@ -77,7 +77,9 @@ public class FilteredLogModel extends LogModel {
                 worker.interrupt();
                 worker.join(100);
             } catch (InterruptedException ex) {
-                if (debug) ex.printStackTrace();
+                if (debug) {
+                    ex.printStackTrace();
+                }
                 // it's ok
             }
         }
@@ -126,7 +128,9 @@ public class FilteredLogModel extends LogModel {
             try {
                 worker.join();
             } catch (InterruptedException ex) {
-                if (debug) ex.printStackTrace();
+                if (debug) {
+                    ex.printStackTrace();
+                }
             }
         }
         worker = null;
@@ -237,7 +241,9 @@ public class FilteredLogModel extends LogModel {
                     if (stopFlag) {
                         return;
                     }
-                    if (debug) System.out.println("Worker - recored read");
+                    if (debug) {
+                        System.out.println("Worker - recored read");
+                    }
                     LiteLogRecord rec = FilteredLogModel.this.getUnfilteredRecords().get(i);
                     if (filter.isApplicable(rec)) {
                         tmp.add(rec);
@@ -260,14 +266,18 @@ public class FilteredLogModel extends LogModel {
                 fireNewPage(firstRecordOnPage, tmp.size());
                 if (!jobDone()) {
                     try {
-                        if (debug) System.out.println("Worker - 2 All parent records read, sleep 500");
+                        if (debug) {
+                            System.out.println("Worker - 2 All parent records read, sleep 500");
+                        }
                         sleep(500);
                         stable = true;
                         if (stopFlag) {
                             return;
                         }
                     } catch (InterruptedException ex) {
-                        if (debug) ex.printStackTrace();
+                        if (debug) {
+                            ex.printStackTrace();
+                        }
                         // it's ok
                     }
                 }
@@ -301,7 +311,9 @@ public class FilteredLogModel extends LogModel {
                     }
                 }
             }
-            if (debugFilter) System.out.println("ALL enabled");
+            if (debugFilter) {
+                System.out.println("ALL enabled");
+            }
             return true;
         }
 
@@ -349,7 +361,9 @@ public class FilteredLogModel extends LogModel {
             synchronized (theMap) {
                 b = theMap.get(key);
             }
-            if (debugFilter) System.out.println("? " + key + " " + b);
+            if (debugFilter) {
+                System.out.println("? " + key + " " + b);
+            }
             if (b == null) {
                 return false;
             }

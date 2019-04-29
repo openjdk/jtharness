@@ -66,9 +66,10 @@ public class KnownFailuresList {
                 Entry curr = (Entry) o;
                 if (curr.testCase == null) {
                     if (e.testCase == null)
-                        // overwrite existing entry for entire test
+                    // overwrite existing entry for entire test
+                    {
                         table.put(key, e);
-                    else {
+                    } else {
                         if (strict) {
                             // can't record test case when entire test already listed
                             throw new Fault(i18n, "kfl.cantListCase", e.relativeURL);
@@ -181,8 +182,9 @@ public class KnownFailuresList {
             Parser p = new Parser(in);
             try {
                 Entry e;
-                while ((e = p.readEntry()) != null)
+                while ((e = p.readEntry()) != null) {
                     addEntry(e);
+                }
             } finally {
                 in.close();
             }
@@ -265,16 +267,16 @@ public class KnownFailuresList {
      * @see Entry
      */
     public Iterator<Entry> getIterator(boolean group) {
-        if (group)
+        if (group) {
             return table.values().iterator();
-        else {
+        } else {
             // flatten the enumeration into a vector, then
             // enumerate that
             List<Entry> v = new ArrayList<>(table.size());
             for (Object value : table.values()) {
-                if (value instanceof Entry)
+                if (value instanceof Entry) {
                     v.add((Entry) value);
-                else {
+                } else {
                     Collections.addAll(v, (Entry[]) value);
                 }
             }
@@ -308,8 +310,9 @@ public class KnownFailuresList {
                         table.put(key, new Entry(curr.relativeURL, null,
                                 ExcludeList.mergeBugIds(curr.bugIdStrings, otherEntry.bugIdStrings),
                                 ExcludeList.mergeSynopsis(curr.notes, otherEntry.notes)));
-                    } else
+                    } else {
                         table.put(key, new Entry[]{curr, otherEntry});
+                    }
                 } else if (otherEntry.testCase == null) {
                     // An array of test cases exist in the table, but we're merging
                     // an entry for the complete test, so flatten down to a single entry
@@ -349,12 +352,14 @@ public class KnownFailuresList {
     public Entry find(String url, String tc) {
         Entry[] entries = find(url);
 
-        if (entries == null || entries.length == 0)
+        if (entries == null || entries.length == 0) {
             return null;
+        }
 
         for (Entry e : entries) {
-            if (e.containsTestCase(tc))
+            if (e.containsTestCase(tc)) {
                 return e;
+            }
         }
 
         return null;
@@ -472,8 +477,9 @@ public class KnownFailuresList {
 
     private void write(Writer out, String s, int width) throws IOException {
         out.write(s);
-        for (int i = s.length(); i < width; i++)
+        for (int i = s.length(); i < width; i++) {
             out.write(' ');
+        }
     }
 
 
@@ -523,8 +529,9 @@ public class KnownFailuresList {
 
         Entry readEntry() throws IOException, Fault {
             String url = readURL(); // includes optional test case
-            if (url == null)
+            if (url == null) {
                 return null;
+            }
             String testCase = null; // for now
             if (url.endsWith("]")) {
                 int i = url.lastIndexOf("[");
@@ -581,15 +588,18 @@ public class KnownFailuresList {
                         s.add(sb.toString());
                         sb.setLength(0);
                     }
-                } else
+                } else {
                     sb.append((char) ch);
+                }
             }
 
-            if (sb.length() > 0)
+            if (sb.length() > 0) {
                 s.add(sb.toString());
+            }
 
-            if (s.isEmpty())
+            if (s.isEmpty()) {
                 s.add("0");  // backwards compatibility
+            }
 
             return s.toArray(new String[s.size()]);
         }
@@ -598,8 +608,9 @@ public class KnownFailuresList {
             // skip white space, then read up to the end of the line
             skipWhite();
             StringBuilder word = new StringBuilder(80);
-            for (; !isEndOfLine(ch); ch = in.read())
+            for (; !isEndOfLine(ch); ch = in.read()) {
                 word.append((char) ch);
+            }
             // skip over terminating character
             ch = in.read();
             return word.toString();
@@ -608,8 +619,9 @@ public class KnownFailuresList {
         private String readWord() throws IOException {
             // read characters up to the next white space
             StringBuilder word = new StringBuilder(32);
-            for (; !isEndOfLine(ch) && !isWhitespace(ch); ch = in.read())
+            for (; !isEndOfLine(ch) && !isWhitespace(ch); ch = in.read()) {
                 word.append((char) ch);
+            }
             return word.toString();
         }
 
@@ -629,15 +641,17 @@ public class KnownFailuresList {
                     }
                 }
             }
-            while (!isEndOfLine(ch))
+            while (!isEndOfLine(ch)) {
                 ch = in.read();
+            }
         }
 
         private void skipWhite() throws IOException {
             // skip horizontal white space
             // input is line-oriented, so do not skip over end of line
-            while (ch != -1 && isWhitespace(ch))
+            while (ch != -1 && isWhitespace(ch)) {
                 ch = in.read();
+            }
         }
 
         private Reader in;      // source stream being read
@@ -660,8 +674,9 @@ public class KnownFailuresList {
 
                 for (int i = 0; i < len; i++) {
                     char c = Character.toLowerCase(relativeURL.charAt(i));
-                    if (c == sep)
+                    if (c == sep) {
                         c = '/';
+                    }
                     h = 31 * h + c;
                 }
                 hash = h;
@@ -673,22 +688,27 @@ public class KnownFailuresList {
         public boolean equals(Object o) {
             // Two keys are equal if their normalized URLs are equal.
             // The normalized URL is url.replace(File.separatorChar, '/').toLowerCase();
-            if (o == null || !(o instanceof Key))
+            if (o == null || !(o instanceof Key)) {
                 return false;
+            }
             String u1 = relativeURL;
             String u2 = ((Key) o).relativeURL;
             int len = u1.length();
-            if (len != u2.length())
+            if (len != u2.length()) {
                 return false;
+            }
             for (int i = 0; i < len; i++) {
                 char c1 = Character.toLowerCase(u1.charAt(i));
-                if (c1 == sep)
+                if (c1 == sep) {
                     c1 = '/';
+                }
                 char c2 = Character.toLowerCase(u2.charAt(i));
-                if (c2 == sep)
+                if (c2 == sep) {
                     c2 = '/';
-                if (c1 != c2)
+                }
+                if (c1 != c2) {
                     return false;
+                }
             }
             return true;
         }
@@ -711,14 +731,16 @@ public class KnownFailuresList {
          * @param s  A short synopsis of the reasons why the test is excluded.
          */
         public Entry(String u, String tc, String[] b, String s) {
-            if (b == null)
+            if (b == null) {
                 throw new NullPointerException();
+            }
 
             // The file format cannot support platforms but no bugids,
             // so fault that; other combinations (bugs, no platforms;
             // no bugs, no platforms etc) are acceptable.
-            if (b.length == 0)
+            if (b.length == 0) {
                 throw new IllegalArgumentException();
+            }
 
             relativeURL = u;
             testCase = tc;
@@ -730,27 +752,31 @@ public class KnownFailuresList {
         public int compareTo(Entry e) {
             int n = relativeURL.compareTo(e.relativeURL);
             if (n == 0) {
-                if (testCase == null && e.testCase == null)
+                if (testCase == null && e.testCase == null) {
                     return 0;
-                else if (testCase == null)
+                } else if (testCase == null) {
                     return -1;
-                else if (e.testCase == null)
+                } else if (e.testCase == null) {
                     return +1;
-                else
+                } else {
                     return testCase.compareTo(e.testCase);
-            } else
+                }
+            } else {
                 return n;
+            }
         }
 
         public boolean containsTestCase(String s) {
             String[] tcs = getTestCaseList();
 
-            if (tcs == null || tcs.length == 0)
+            if (tcs == null || tcs.length == 0) {
                 return false;
+            }
 
             for (String tc : tcs) {
-                if (tc.equals(s))
+                if (tc.equals(s)) {
                     return true;
+                }
             }   // for
 
             return false;
@@ -784,24 +810,29 @@ public class KnownFailuresList {
         public String[] getTestCaseList() {
             // code borrowed from StringArray
             // it is a little wasteful to recalc everytime but saves space
-            if (testCase == null)
+            if (testCase == null) {
                 return null;
+            }
 
             List<String> v = new ArrayList<>();
             int start = -1;
             for (int i = 0; i < testCase.length(); i++) {
                 if (testCase.charAt(i) == ',') {
-                    if (start != -1)
+                    if (start != -1) {
                         v.add(testCase.substring(start, i));
+                    }
                     start = -1;
-                } else if (start == -1)
+                } else if (start == -1) {
                     start = i;
+                }
             }
-            if (start != -1)
+            if (start != -1) {
                 v.add(testCase.substring(start));
+            }
 
-            if (v.isEmpty())
+            if (v.isEmpty()) {
                 return null;
+            }
 
             String[] a = new String[v.size()];
             v.toArray(a);
@@ -859,8 +890,9 @@ public class KnownFailuresList {
                         && equals(testCase, e.testCase)
                         && equals(bugIdStrings, e.bugIdStrings)
                         && equals(notes, e.notes);
-            } else
+            } else {
                 return false;
+            }
         }
 
         @Override
@@ -891,29 +923,36 @@ public class KnownFailuresList {
         }
 
         private static boolean equals(int[] i1, int... i2) {
-            if (i1 == null || i2 == null)
+            if (i1 == null || i2 == null) {
                 return i1 == null && i2 == null;
+            }
 
-            if (i1.length != i2.length)
+            if (i1.length != i2.length) {
                 return false;
+            }
 
-            for (int x = 0; x < i1.length; x++)
-                if (i1[x] != i2[x])
+            for (int x = 0; x < i1.length; x++) {
+                if (i1[x] != i2[x]) {
                     return false;
+                }
+            }
 
             return true;
         }
 
         private static boolean equals(String[] s1, String... s2) {
-            if (s1 == null || s2 == null)
+            if (s1 == null || s2 == null) {
                 return s1 == null && s2 == null;
+            }
 
-            if (s1.length != s2.length)
+            if (s1.length != s2.length) {
                 return false;
+            }
 
             for (int x = 0; x < s1.length; x++) {
-                if (!equals(s1[x], s2[x]))
+                if (!equals(s1[x], s2[x])) {
                     return false;
+                }
             }
 
             return true;

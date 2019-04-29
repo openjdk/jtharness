@@ -72,11 +72,13 @@ public class ExcludeListFilter extends TestFilter {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
+        }
 
-        if (!(o instanceof ExcludeListFilter))
+        if (!(o instanceof ExcludeListFilter)) {
             return false;
+        }
 
         ExcludeListFilter other = (ExcludeListFilter) o;
         return table.equals(other.table);

@@ -267,8 +267,9 @@ class KflSection extends HTMLSection {
     void writeExtraFiles() throws IOException {
         // will be null if the KFL files weren't usable or there were none
         // see writeSummary()
-        if (kfl == null || sorter == null)
+        if (kfl == null || sorter == null) {
             return;
+        }
 
         writeSet(FAIL2MISSING, "kfl.f2m", sorter.getSet(KflSorter.Transitions.FAIL2MISSING));
         writeSet(FAIL2PASS, "kfl.f2p", sorter.getSet(KflSorter.Transitions.FAIL2PASS));
@@ -353,17 +354,19 @@ class KflSection extends HTMLSection {
         } else {
             KnownFailuresList.Entry ee = kfl.find(diff.getTestName(),
                     diff.getTestCase());
-            if (ee != null)
+            if (ee != null) {
                 e = new KnownFailuresList.Entry[]{ee};
+            }
         }
 
         // no entry, nothing to print
         if (e == null || e.length == 0) {
             // force the associated entry if possible
-            if (diff.getKflEntry() != null)
+            if (diff.getKflEntry() != null) {
                 e = new KnownFailuresList.Entry[]{diff.getKflEntry()};
-            else
+            } else {
                 return;
+            }
         }
 
         String urlPrefix = Preferences.access().getPreference(ReportManager.BUGRPT_URL_PREF, null);
@@ -378,8 +381,9 @@ class KflSection extends HTMLSection {
             for (int j = 0; j < bugs.length; j++) {
                 // old style kfl and jtx have zero as a placeholder, we don't
                 // want to print it
-                if (bugs[j].equals("0000000") || bugs[j].equals("0"))
+                if (bugs[j].equals("0000000") || bugs[j].equals("0")) {
                     continue;
+                }
 
                 // already been printed once
                 if (hs.contains(bugs[j])) {
@@ -396,8 +400,9 @@ class KflSection extends HTMLSection {
                     writer.newLine();
                 }
 
-                if (bugs.length != j + 1)
+                if (bugs.length != j + 1) {
                     writer.write(",");
+                }
             }
         }   // for
 

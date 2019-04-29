@@ -89,7 +89,9 @@ class RunTestsCommand extends Command {
             harness = h;
 
             Harness.Observer[] observers = ctx.getHarnessObservers();
-            for (Harness.Observer observer : observers) h.addObserver(observer);
+            for (Harness.Observer observer : observers) {
+                h.addObserver(observer);
+            }
 
             // should really merge VerboseObserver and BatchObserver
             VerboseObserver vo = new VerboseObserver(ctx);
@@ -120,8 +122,9 @@ class RunTestsCommand extends Command {
 
             int testsFound = h.getTestsFoundCount();
 
-            if (testsFound > 0 && !ctx.isVerboseQuiet())
+            if (testsFound > 0 && !ctx.isVerboseQuiet()) {
                 ctx.printMessage(i18n, "runTests.resultsDone", p.getWorkDirectory().getPath());
+            }
             int[] stats = bo.getStats();
 
             if (!ok) {
@@ -147,9 +150,9 @@ class RunTestsCommand extends Command {
                 harness.getTestsFoundCount() - p - f - e;
 
 
-        if (p + f + e + nr == 0)
+        if (p + f + e + nr == 0) {
             ctx.printMessage(i18n, "runTests.noTests");
-        else {
+        } else {
             ctx.printMessage(i18n, "runTests.tests",
                     Integer.valueOf(p), Integer.valueOf((p > 0) && (f + e + nr > 0) ? 1 : 0), Integer.valueOf(f), Integer.valueOf((f > 0) && (e + nr > 0) ? 1 : 0), Integer.valueOf(e), Integer.valueOf((e > 0) && (nr > 0) ? 1 : 0), Integer.valueOf(nr));
         }
@@ -230,21 +233,25 @@ class RunTestsCommand extends Command {
         }
 
         public boolean isVerbose(int kind) {
-            if (quiet_flag)
+            if (quiet_flag) {
                 return false;
+            }
 
-            if (max_flag)
+            if (max_flag) {
                 return true;
+            }
 
-            if (kind < OPTION_COUNT)
+            if (kind < OPTION_COUNT) {
                 return options[kind];
-            else
+            } else {
                 return false;
+            }
         }
 
         private void printTimestamp() {
-            if (quiet_flag || options[NO_DATE])
+            if (quiet_flag || options[NO_DATE]) {
                 return;
+            }
 
             out.print(df.format(new Date()));
             out.print(" ");
@@ -256,8 +263,9 @@ class RunTestsCommand extends Command {
             stats = new int[Status.NUM_STATES];
 
             if (!quiet_flag) {
-                if (progressOnline)
+                if (progressOnline) {
                     out.println();
+                }
                 printTimestamp();
                 ctx.printMessage(i18n, "cmgr.verb.strt",
                         params.getEnv().getName());
@@ -268,11 +276,13 @@ class RunTestsCommand extends Command {
 
         @Override
         public void startingTest(TestResult tr) {
-            if (!isVerbose(START))
+            if (!isVerbose(START)) {
                 return;
+            }
 
-            if (progressOnline)
+            if (progressOnline) {
                 out.println();
+            }
 
             printTimestamp();
             ctx.printMessage(i18n, "cmgr.verb.tsts", tr.getTestName());
@@ -307,8 +317,9 @@ class RunTestsCommand extends Command {
 
         @Override
         public void stoppingTestRun() {
-            if (progressOnline)
+            if (progressOnline) {
                 out.println();
+            }
 
             printTimestamp();
             ctx.printMessage(i18n, "cmgr.verb.stpng");
@@ -320,8 +331,9 @@ class RunTestsCommand extends Command {
         @Override
         public void finishedTesting() {
             if (!quiet_flag) {
-                if (progressOnline)
+                if (progressOnline) {
                     out.println();
+                }
 
                 printTimestamp();
                 ctx.printMessage(i18n, "cmgr.verb.donerun");
@@ -334,8 +346,9 @@ class RunTestsCommand extends Command {
         @Override
         public void finishedTestRun(boolean allOK) {
             if (!quiet_flag) {
-                if (progressOnline)
+                if (progressOnline) {
                     out.println();
+                }
 
                 printTimestamp();
                 ctx.printMessage(i18n, "cmgr.verb.finish");
@@ -347,8 +360,9 @@ class RunTestsCommand extends Command {
 
         @Override
         public void error(String msg) {
-            if (progressOnline)
+            if (progressOnline) {
                 out.println();
+            }
 
             printTimestamp();
             ctx.printErrorMessage(i18n, "cmgr.verb.err", msg);
@@ -359,11 +373,13 @@ class RunTestsCommand extends Command {
 
         // utility methods
         private void printStats() {
-            if (!isVerbose(PROGRESS))
+            if (!isVerbose(PROGRESS)) {
                 return;
+            }
 
-            if (progressOnline)
+            if (progressOnline) {
                 out.print("\r");
+            }
 
             int p = stats[Status.PASSED];
             int f = stats[Status.FAILED];
@@ -382,13 +398,14 @@ class RunTestsCommand extends Command {
             if (!quiet_flag) {
                 // need to create newline if we are doing single-line
                 // updates
-                if (progressOnline)
+                if (progressOnline) {
                     out.println();
+                }
 
                 printTimestamp();
                 String[] args = {tr.getTestName(),
                         s.toString()};
-                ctx.printMessage(i18n, "cmgr.verb.tstd", (Object[])args);
+                ctx.printMessage(i18n, "cmgr.verb.tstd", (Object[]) args);
                 out.flush();
                 progressOnline = false;
             }
@@ -399,10 +416,11 @@ class RunTestsCommand extends Command {
          * This affects our ability to update a progress counter.
          */
         private boolean isScolling() {
-            if (!isVerbose(START) && !isVerbose(FINISH))
+            if (!isVerbose(START) && !isVerbose(FINISH)) {
                 return false;
-            else
+            } else {
                 return true;
+            }
         }
 
         private boolean[] options;

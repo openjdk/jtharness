@@ -60,9 +60,9 @@ class SearchDialog extends JDialog {
     static SearchDialog create(Component parent, Interview i,
                                HelpBroker helpBroker, String helpPrefix) {
         Dialog d = (Dialog) SwingUtilities.getAncestorOfClass(Dialog.class, parent);
-        if (d != null)
+        if (d != null) {
             return new SearchDialog(d, i, helpBroker, helpPrefix);
-        else {
+        } else {
             Frame f = (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
             return new SearchDialog(f, i, helpBroker, helpPrefix);
         }
@@ -159,15 +159,17 @@ class SearchDialog extends JDialog {
         c.insets.left = 5;
         c.weightx = 0;
         btns.add(createButton("find.close", CLOSE, listener), c);
-        if (helpBroker != null)
+        if (helpBroker != null) {
             btns.add(createButton("find.help", HELP, listener), c);
+        }
 
         btns.setBorder(BorderFactory.createEmptyBorder(/*top*/11, /*left*/12, /*bottom*/11, /*right*/11));
 
         contentPane.add(btns, BorderLayout.SOUTH);
 
-        if (helpBroker != null)
+        if (helpBroker != null) {
             helpBroker.enableHelpKey(getRootPane(), helpPrefix + "search.csh");
+        }
 
         pack();
         setLocationRelativeTo(parent);
@@ -176,14 +178,15 @@ class SearchDialog extends JDialog {
     @Override
     public void setVisible(boolean b) {
         super.setVisible(b);
-        if (b)
+        if (b) {
             textField.requestFocus();
+        }
     }
 
     public void find() {
-        if (textField.getText().isEmpty())
+        if (textField.getText().isEmpty()) {
             setVisible(true);
-        else {
+        } else {
             // just get this once for the query
             Map<String, String> answers = new Hashtable<>();
             interview.save(answers);
@@ -212,16 +215,17 @@ class SearchDialog extends JDialog {
     private boolean matches(Question q, String answer, boolean considerCase, boolean word) {
         String text = textField.getText();
         String where = (String) whereChoice.getSelectedItem();
-        if (where.equals(TITLE))
+        if (where.equals(TITLE)) {
             return match(text, q.getSummary(), considerCase, word);
-        else if (where.equals(QUESTION))
+        } else if (where.equals(QUESTION)) {
             return match(text, q.getText(), considerCase, word);
-        else if (where.equals(ANSWER))
+        } else if (where.equals(ANSWER)) {
             return answer != null && match(text, answer, considerCase, word);
-        else
+        } else {
             return match(text, q.getSummary(), considerCase, word) ||
                     match(text, q.getText(), considerCase, word) ||
                     (answer != null && match(text, answer, considerCase, word));
+        }
     }
 
     private static boolean match(String s1, String s2, boolean considerCase, boolean word) {
@@ -229,11 +233,12 @@ class SearchDialog extends JDialog {
         int s2len = s2.length();
         for (int i = 0; i <= s2len - s1len; i++) {
             if (s1.regionMatches(!considerCase, 0, s2, i, s1len)) {
-                if (word)
+                if (word) {
                     return (i == 0 || isBoundaryCh(s2.charAt(i - 1)))
                             && (i + s1len == s2.length() || isBoundaryCh(s2.charAt(i + s1len)));
-                else
+                } else {
                     return true;
+                }
             }
         }
         return false;
@@ -268,8 +273,9 @@ class SearchDialog extends JDialog {
         // rendering, but otherwise, let the JComboBox work in terms of the
         // choiceKeys
         final String[] choices = new String[choiceKeys.length];
-        for (int i = 0; i < choices.length; i++)
+        for (int i = 0; i < choices.length; i++) {
             choices[i] = i18n.getString(uiKey + "." + choiceKeys[i] + ".chc");
+        }
 
         JComboBox<String> choice = new JComboBox<>(choiceKeys);
         choice.setName(uiKey);
@@ -298,8 +304,9 @@ class SearchDialog extends JDialog {
     private JLabel createLabel(String uiKey, boolean needMnemonic) {
         JLabel l = new JLabel(i18n.getString(uiKey + ".lbl"));
         l.setName(uiKey);
-        if (needMnemonic)
+        if (needMnemonic) {
             l.setDisplayedMnemonic(getMnemonic(uiKey));
+        }
         setToolTipText(l, uiKey);
         return l;
     }
@@ -316,11 +323,11 @@ class SearchDialog extends JDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
-            if (cmd.equals(FIND))
+            if (cmd.equals(FIND)) {
                 find();
-            else if (cmd.equals(CLOSE))
+            } else if (cmd.equals(CLOSE)) {
                 setVisible(false);
-            else if (cmd.equals(HELP)) {
+            } else if (cmd.equals(HELP)) {
                 helpBroker.displayCurrentID(helpPrefix + "search.csh");
             }
         }

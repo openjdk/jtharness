@@ -55,13 +55,16 @@ class PropertiesBrowser extends ToolDialog {
     }
 
     void showDialog(TestSuite ts, WorkDirectory wd, InterviewParameters p) {
-        if (panes == null)
+        if (panes == null) {
             initGUI();
+        }
 
         testSuite = ts;
         workDir = wd;
         config = p;
-        for (Pane pane : panes) pane.update();
+        for (Pane pane : panes) {
+            pane.update();
+        }
 
         setVisible(true);
     }
@@ -266,13 +269,16 @@ class PropertiesBrowser extends ToolDialog {
             }
 
             if (config != null)
-                // XXX both of these cases should not be necessary, but the code is
-                // a bit unreliable currently
-                if (config.getTemplatePath() != null)
+            // XXX both of these cases should not be necessary, but the code is
+            // a bit unreliable currently
+            {
+                if (config.getTemplatePath() != null) {
                     setField(templatePath, config.getTemplatePath());
-                else if (config.getFile() != null &&
-                        config.getFile().getPath().endsWith("jtm"))
+                } else if (config.getFile() != null &&
+                        config.getFile().getPath().endsWith("jtm")) {
                     setField(templatePath, config.getFile().getPath());
+                }
+            }
         }
 
         private JTextField path;

@@ -176,8 +176,9 @@ public class TestResultCache {
      * @param tr the test to be inserted.
      **/
     synchronized void insert(TestResult tr) {
-        if (DEBUG_TESTS)
+        if (DEBUG_TESTS) {
             Debug.println("TRC.insert " + tr.getWorkRelativePath() + " " + tr.getStatus());
+        }
 
         reviveWeakReferences();
         testsToWrite.offer(tr);
@@ -248,8 +249,9 @@ public class TestResultCache {
                 doWork();
 
                 synchronized (this) {
-                    if (flushRequested && testsToWrite.isEmpty())
+                    if (flushRequested && testsToWrite.isEmpty()) {
                         flushRequested = false;
+                    }
 
                     long timeLastWork = System.currentTimeMillis();
                     haveWork = isWorkAvailable(timeLastWork);
@@ -257,14 +259,16 @@ public class TestResultCache {
                         workDir = null;
                         observer = null;
 
-                        if (DEBUG_SYNC)
+                        if (DEBUG_SYNC) {
                             Debug.println("TRC.worker waiting");
+                        }
 
                         wait(MIN_TEST_READ_INTERVAL);
                         haveWork = isWorkAvailable(timeLastWork);
 
-                        if (DEBUG_SYNC)
+                        if (DEBUG_SYNC) {
                             Debug.println("TRC.worker awake haveWork=" + haveWork);
+                        }
                     }
 
                     // wake up the workDir and observer (if still available)
@@ -275,15 +279,16 @@ public class TestResultCache {
                     // thread has woken up for an external reason, such as noticing
                     // that the cache file size has changed.  Since the client has
                     // gone away, there is nothing left to do but return.
-                    if (workDir == null || observer == null)
+                    if (workDir == null || observer == null) {
                         return;
+                    }
 
                     // re-evaluate compressNeeded now, while still synchronized
                     // so that totalEntryCount and uniqueInitialEntry do not have
                     // to be synchronized inside doWork()
-                    if (totalEntryCount == 0)
+                    if (totalEntryCount == 0) {
                         compressNeeded = false;
-                    else {
+                    } else {
                         // when we read/wrote the beginning of the cache file, there was a set of
                         // unique entries. Everything after that is essentially unknown.
                         // If that latter part gets disproportionately big, set compressNeeded.
@@ -330,8 +335,9 @@ public class TestResultCache {
                 }
             } catch (Throwable e) {
                 // cache appears to be corrupt; empty it and rebuild it
-                if (DEBUG_BASIC)
+                if (DEBUG_BASIC) {
                     Debug.println("TRC.corrupt " + e);
+                }
                 workDir.log(i18n, "trc.reloadFault", e);
                 rebuildCache = true;
                 raf.setLength(0);
@@ -385,32 +391,36 @@ public class TestResultCache {
 
     private boolean isWorkAvailable(long timeLastWork) {
         if (compressRequested || flushRequested || fullUpdateRequested) {
-            if (DEBUG_CHECK_WORK)
+            if (DEBUG_CHECK_WORK) {
                 Debug.println("TRC.haveWork (request"
                         + (compressRequested ? ":compress" : "")
                         + (flushRequested ? ":flush" : "")
                         + (fullUpdateRequested ? ":update" : "") + ")");
+            }
             return true;
         }
 
         long now = System.currentTimeMillis();
 
         if (now - timeLastWork >= MIN_TEST_WRITE_INTERVAL && !testsToWrite.isEmpty()) {
-            if (DEBUG_CHECK_WORK)
+            if (DEBUG_CHECK_WORK) {
                 Debug.println("TRC.haveWork (" + testsToWrite.size() + " tests)");
+            }
             return true;
         }
 
         try {
             if (now - timeLastWork >= MIN_TEST_READ_INTERVAL && raf.length() != lastFileSize) {
-                if (DEBUG_CHECK_WORK)
+                if (DEBUG_CHECK_WORK) {
                     Debug.println("TRC.haveWork (file size changed: " + raf.length() + ")");
+                }
                 return true;
             }
         } catch (IOException e) {
             // if an error occurred, we ought to let the worker thread go investigate
-            if (DEBUG_CHECK_WORK)
+            if (DEBUG_CHECK_WORK) {
                 Debug.println("TRC.haveWork (" + e.getMessage() + ")");
+            }
             return true;
         }
 
@@ -424,30 +434,34 @@ public class TestResultCache {
     private static final int MAX_SHUTDOWN_TIME = 30000; // 30 seconds
 
     synchronized void shutdown() {
-        if (DEBUG_BASIC)
+        if (DEBUG_BASIC) {
             Debug.println("TRC.worker shutdown, " + testsToWrite.size() + " tests to flush");
+        }
 
         // shutdownRequested is initially false, and gets set true here;
         // once set true, it stays true and never goes false again, which
         // reduces the need for synchronized access
         shutdownRequested = true;
-        if (!testsToWrite.isEmpty())
+        if (!testsToWrite.isEmpty()) {
             flushRequested = true;
+        }
         notifyAll();
 
         long now = System.currentTimeMillis();
         long end = now + MAX_SHUTDOWN_TIME;
         try {
             while (worker != null & now < end) {
-                if (DEBUG_SYNC)
+                if (DEBUG_SYNC) {
                     Debug.println("TRC.shutdown waiting for worker to exit");
+                }
 
                 wait(end - now);
                 now = System.currentTimeMillis();
             }
 
-            if (DEBUG_SYNC)
+            if (DEBUG_SYNC) {
                 Debug.println("TRC.shutdown done");
+            }
         } catch (InterruptedException e) {
             // ignore
         }
@@ -504,7 +518,9 @@ public class TestResultCache {
             Object[] params = {loadTime};
             String output = i18n.getString("trc.log.rtime", params);
             log.info(output);
-            if (DEBUG_BASIC) Debug.println(output);
+            if (DEBUG_BASIC) {
+                Debug.println(output);
+            }
         }
 
         return tests;
@@ -519,9 +535,9 @@ public class TestResultCache {
             // and act appropriately
             for (int i = 0; i < entries.length && !shutdownRequested; i++) {
                 File f = entries[i];
-                if (f.isDirectory())
+                if (f.isDirectory()) {
                     readJTRFiles(f, tests);
-                else if (TestResult.isResultFile(f)) {
+                } else if (TestResult.isResultFile(f)) {
                     try {
                         TestResult tr = new TestResult(f);
                         tests.put(tr.getWorkRelativePath(), tr);
@@ -571,14 +587,16 @@ public class TestResultCache {
             throws IOException {
         long start = System.currentTimeMillis();
 
-        if (DEBUG_WORK)
+        if (DEBUG_WORK) {
             Debug.println("TRC.readCache");
+        }
 
         raf.seek(0);
         int fileSerial = raf.readInt();
 
-        if (DEBUG_WORK)
+        if (DEBUG_WORK) {
             Debug.println("TRC.readCache serial=" + fileSerial);
+        }
 
         if (lastFileSize == -1 || fileSerial != lastSerial
                 || fullUpdateRequested || compressRequested) {
@@ -591,8 +609,9 @@ public class TestResultCache {
             Map<String, TestResult> tests = readCacheEntries();
             uniqueInitialEntryCount = tests.size();
 
-            if (DEBUG_WORK)
+            if (DEBUG_WORK) {
                 Debug.println("TRC.readCache read all (" + tests.size() + " tests, " + uniqueInitialEntryCount + " unique)");
+            }
 
             long time = System.currentTimeMillis() - start;
             Logger log = null;
@@ -611,7 +630,9 @@ public class TestResultCache {
                 Object[] params = {loadTime};
                 String output = i18n.getString("trc.log.ptime", params);
                 log.info(output);
-                if (DEBUG_BASIC) Debug.println(output);
+                if (DEBUG_BASIC) {
+                    Debug.println(output);
+                }
             }
 
             return tests;
@@ -620,8 +641,9 @@ public class TestResultCache {
             raf.seek(lastFileSize);
             Map<String, TestResult> tests = readCacheEntries();
 
-            if (DEBUG_WORK)
+            if (DEBUG_WORK) {
                 Debug.println("TRC.readCache read update (" + tests.size() + " tests)");
+            }
 
             updateNeeded = true;
             return tests;
@@ -657,8 +679,9 @@ public class TestResultCache {
     // Write the cache
 
     private void writeCache(Map<String, TestResult> tests) throws IOException {
-        if (tests == null)
+        if (tests == null) {
             throw new IllegalStateException();
+        }
 
         // merge any tests in testsToWrite
         // testsToWrite is a thread-safe fifo, so it is safe to keep reading
@@ -671,10 +694,11 @@ public class TestResultCache {
             TestResult tr2 = tests.get(name);
             // if the cache file contains a conflicting entry,
             // reload the test from the .jtr file; otherwise, add it to the cache
-            if (tr2 != null && !tr2.getStatus().equals(tr.getStatus()))
+            if (tr2 != null && !tr2.getStatus().equals(tr.getStatus())) {
                 reload(tests, tr);
-            else
+            } else {
                 tests.put(tr.getWorkRelativePath(), tr);
+            }
         }
 
         // write cache
@@ -688,8 +712,9 @@ public class TestResultCache {
             writeCacheEntry(tr);
         }
 
-        if (DEBUG_WORK)
+        if (DEBUG_WORK) {
             Debug.println("TRC.writeCache write all (" + tests.size() + " tests)");
+        }
 
         raf.setLength(raf.getFilePointer());
         lastFileSize = raf.length();
@@ -711,15 +736,17 @@ public class TestResultCache {
                 if (tr2 != null) {
                     // cache also contains an entry for this test:
                     // reload from .jtr file in case of conflict
-                    if (!tr2.getStatus().equals(tr.getStatus()))
+                    if (!tr2.getStatus().equals(tr.getStatus())) {
                         tr = reload(tests, tr);
+                    }
                 }
             }
             writeCacheEntry(tr);
             debugCount++;
         }
-        if (DEBUG_WORK && debugCount > 0)
+        if (DEBUG_WORK && debugCount > 0) {
             Debug.println("TRC.writeCache write update (" + debugCount + " tests)");
+        }
 
         raf.setLength(raf.getFilePointer());
         lastFileSize = raf.length();
@@ -788,16 +815,18 @@ public class TestResultCache {
                 }
 
                 // slowly increase delay while we are waiting
-                if (retryDelay < MAX_RETRY_DELAY_TIME)
+                if (retryDelay < MAX_RETRY_DELAY_TIME) {
                     retryDelay = Math.min(2 * retryDelay, MAX_RETRY_DELAY_TIME);
+                }
             } else {
                 // full fledge panic: trash the lock and rebuild the cache
                 observer.timeoutWaitingForLock();
                 workDir.log(i18n, "trc.lockTimeout");
 
                 try {
-                    if (raf != null)
+                    if (raf != null) {
                         raf.close();
+                    }
                 } catch (IOException e) {
                     // ignore
                 }
@@ -835,11 +864,13 @@ public class TestResultCache {
     // to the possibility that the WD and TRT might be GCed, and just retains weak references.
     // These weak references get revived when the worker thread has work to do.
     private void reviveWeakReferences() {
-        if (workDir == null)
+        if (workDir == null) {
             workDir = weakWorkDir.get();
+        }
 
-        if (observer == null)
+        if (observer == null) {
             observer = weakObserver.get();
+        }
     }
 
     //-------------------------------------------------------------------------------------

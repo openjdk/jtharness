@@ -103,15 +103,18 @@ public class InterviewSet
      */
     protected void addDependency(Interview child, Interview dependency)
             throws CycleFault {
-        if (child == null)
+        if (child == null) {
             throw new NullPointerException();
+        }
 
-        if (dependency == null)
+        if (dependency == null) {
             throw new NullPointerException();
+        }
 
         Set<Interview> allDeps = getAllDependencies(dependency);
-        if (allDeps != null && allDeps.contains(child))
+        if (allDeps != null && allDeps.contains(child)) {
             throw new CycleFault(child, dependency);
+        }
 
         Set<Interview> deps = getDependencies(child, true);
         deps.add(dependency);
@@ -127,19 +130,23 @@ public class InterviewSet
      * @param dependency the interview on which the child interview depends
      */
     protected void removeDependency(Interview child, Interview dependency) {
-        if (child == null)
+        if (child == null) {
             throw new NullPointerException();
+        }
 
-        if (dependency == null)
+        if (dependency == null) {
             throw new NullPointerException();
+        }
 
         Set<Interview> deps = getDependencies(child, false);
 
-        if (deps != null)
+        if (deps != null) {
             deps.remove(dependency);
+        }
 
-        if (deps.isEmpty())
+        if (deps.isEmpty()) {
             dependencies.remove(child);
+        }
 
         sortedCalls = null;
     }
@@ -162,8 +169,9 @@ public class InterviewSet
     }
 
     private void getAllDependencies(Interview child, Set<Interview> s) {
-        if (s.contains(child))
+        if (s.contains(child)) {
             return;
+        }
 
         Set<Interview> deps = getDependencies(child, false);
         if (deps != null) {
@@ -179,8 +187,9 @@ public class InterviewSet
         Set<Interview> cycleSet = new HashSet<>();
 
         for (Interview child : children) {
-            if (!list.contains(child))
+            if (!list.contains(child)) {
                 addToList(list, child, cycleSet);
+            }
         }
 
         for (Interview i : list) {
@@ -192,8 +201,9 @@ public class InterviewSet
 
     private void addToList(List<Interview> list, Interview child, Set<Interview> cycleSet) {
         // assert !cycleSet.contains(child);
-        if (cycleSet.contains(child))
+        if (cycleSet.contains(child)) {
             throw new IllegalArgumentException();
+        }
 
         cycleSet.add(child);
 
@@ -223,8 +233,9 @@ public class InterviewSet
                 // have to build the list from the end, backwards,
                 // because of the way InterviewQuestion works
                 Question q = qEnd;
-                for (int i = cc.length - 1; i >= 0; i--)
+                for (int i = cc.length - 1; i >= 0; i--) {
                     q = callInterview(cc[i], q);
+                }
 
                 sortedCalls = q;
             }
@@ -242,17 +253,21 @@ public class InterviewSet
     private class ChildComparator implements Comparator<Interview> {
         @Override
         public int compare(Interview o1, Interview o2) {
-            if (!children.contains(o1) || !children.contains(o2))
+            if (!children.contains(o1) || !children.contains(o2)) {
                 throw new IllegalArgumentException();
+            }
 
-            if (o1 == o2)
+            if (o1 == o2) {
                 return 0;
+            }
 
             for (Interview o : children) {
-                if (o == o1)
+                if (o == o1) {
                     return -1;
-                if (o == o2)
+                }
+                if (o == o2) {
                     return 1;
+                }
             }
 
             throw new IllegalStateException();

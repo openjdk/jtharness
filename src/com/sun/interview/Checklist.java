@@ -76,8 +76,9 @@ public class Checklist {
      * which entries have been added to the checklist
      */
     public String[] getSectionNames() {
-        if (sections == null)
+        if (sections == null) {
             return null;
+        }
         String[] names = new String[sections.keySet().size()];
         sections.keySet().toArray(names);
         return names;

@@ -121,8 +121,9 @@ class ManagerLoader {
                 }   // while
                 in.close();
             } catch (IOException ex) {
-                if (log != null)
+                if (log != null) {
                     writeI18N("ml.cantRead", entry, ex);
+                }
             }
         }
         return mgrs;

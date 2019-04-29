@@ -81,10 +81,11 @@ public final class DynamicArray {
     public static <T> T[] append(T[] oldArr, T newObj, Class<? extends T> arrayClass) {
         T[] localArr;
 
-        if (oldArr == null && arrayClass != null)
+        if (oldArr == null && arrayClass != null) {
             localArr = (T[]) Array.newInstance(arrayClass, 0);
-        else
+        } else {
             localArr = oldArr;
+        }
 
         return append(localArr, newObj);
     }
@@ -100,11 +101,13 @@ public final class DynamicArray {
      * by the elements of the second array.
      */
     public static <T> T[] join(T[] array1, T... array2) {
-        if (array1 == null)
+        if (array1 == null) {
             return array2;
+        }
 
-        if (array2 == null)
+        if (array2 == null) {
             return array1;
+        }
 
         Class<?> type = array1.getClass().getComponentType();
         int size = array1.length + array2.length;
@@ -137,9 +140,10 @@ public final class DynamicArray {
                 throw new IllegalArgumentException("Cannot add null item to null array.");
             }
         } else {
-            if (location > oldArr.length)
+            if (location > oldArr.length) {
                 throw new IllegalArgumentException("Index location too large (" + location +
                         ").");
+            }
             newArr = (T[]) Array.newInstance(getArrayClass(oldArr), oldArr.length + 1);
 
             if (location == 0) {
@@ -177,9 +181,9 @@ public final class DynamicArray {
     public static <T> T[] remove(T[] oldArr, int index) {
         T[] newArr;
 
-        if (oldArr == null)
+        if (oldArr == null) {
             throw new IllegalArgumentException("Cannot remove from null array.");
-        else if (index > oldArr.length - 1 || index < 0) {
+        } else if (index > oldArr.length - 1 || index < 0) {
             // invalid index
             throw new IllegalArgumentException("Index to remove from array is invalid (too small/large).");
         } else if (index == 0) {

@@ -109,8 +109,9 @@ public class NavigationPane extends JPanel {
     }
 
     public void clear() {
-        if (model != null)
+        if (model != null) {
             model.removeAllElements();
+        }
 
         history.clear();
         backAction.setEnabled(false);
@@ -215,21 +216,24 @@ public class NavigationPane extends JPanel {
 
 
     private DefaultComboBoxModel<URL> createModel() {
-        if (model == null)
+        if (model == null) {
             model = new DefaultComboBoxModel<>();
+        }
         return model;
     }
 
     private void updateCombo(URL s) {
         // check if the new element exists in the combo box...
-        if (model.getIndexOf(s) < 0)
+        if (model.getIndexOf(s) < 0) {
             model.addElement(s);
+        }
 
         URL item = (URL) selectBox.getSelectedItem();
         // check if the new element is already selected.
         // URL.equals can result in a big performance hit
-        if (s != null && !item.toString().equals(s.toString()))
+        if (s != null && !item.toString().equals(s.toString())) {
             selectBox.setSelectedItem(s);
+        }
     }
 
     private class Listener implements ItemListener {
@@ -251,8 +255,9 @@ public class NavigationPane extends JPanel {
         }
 
         URL prev() {
-            if (index == 0)
+            if (index == 0) {
                 return null;
+            }
 
             return entries.get(--index);
         }
@@ -262,23 +267,27 @@ public class NavigationPane extends JPanel {
         }
 
         URL next() {
-            if (index == entries.size() - 1)
+            if (index == entries.size() - 1) {
                 return null;
+            }
 
             return entries.get(++index);
         }
 
         void add(URL u) {
-            if (u == null)
+            if (u == null) {
                 throw new NullPointerException();
+            }
 
             // if there is a current entry, and it matches the one to be added, we're done
-            if (index >= 0 && index < entries.size() && entries.get(index).equals(u))
+            if (index >= 0 && index < entries.size() && entries.get(index).equals(u)) {
                 return;
+            }
 
             // if current entry not the last one, truncate to the current entry
-            if (index < entries.size() - 1)
+            if (index < entries.size() - 1) {
                 entries.setSize(index + 1);
+            }
 
             // finally, add new entry
             entries.add(u);
@@ -337,12 +346,14 @@ public class NavigationPane extends JPanel {
                         }
                     }
                 }
-            } else
+            } else {
                 name = String.valueOf(o);
+            }
 
             JLabel cell = (JLabel) super.getListCellRendererComponent(list, name, index, isSelected, cellHasFocus);
-            if (container != null)
+            if (container != null) {
                 cell.setText(sf.truncateBeginning(name, container.getWidth() - 17));
+            }
             cell.setToolTipText(name);
             return cell;
         }

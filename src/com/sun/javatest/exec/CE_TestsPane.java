@@ -67,8 +67,9 @@ class CE_TestsPane extends CE_StdPane {
 
     @Override
     boolean isOKToClose() {
-        if (mutableTestsParameters == null)
+        if (mutableTestsParameters == null) {
             return true;
+        }
 
         if (selectTestsBtn.isSelected() && testsField.isSelectionEmpty()) {
             uif.showError("ce.tests.noTests");
@@ -80,10 +81,11 @@ class CE_TestsPane extends CE_StdPane {
 
     void updateConfig() {
         testsParameters = config.getTestsParameters();
-        if (testsParameters instanceof MutableTestsParameters)
+        if (testsParameters instanceof MutableTestsParameters) {
             mutableTestsParameters = (MutableTestsParameters) testsParameters;
-        else
+        } else {
             mutableTestsParameters = null;
+        }
     }
 
     @Override
@@ -92,10 +94,11 @@ class CE_TestsPane extends CE_StdPane {
 
         if (mutableTestsParameters != null) {
             int tm = mutableTestsParameters.getTestsMode();
-            if (tm == MutableTestsParameters.ALL_TESTS)
+            if (tm == MutableTestsParameters.ALL_TESTS) {
                 allTestsBtn.setSelected(true);
-            else
+            } else {
                 selectTestsBtn.setSelected(true);
+            }
 
             testsField.setSelection(mutableTestsParameters.getSpecifiedTests());
             testsField.setEnabled(selectTestsBtn.isSelected());
@@ -119,10 +122,11 @@ class CE_TestsPane extends CE_StdPane {
     @Override
     void save() {
         if (mutableTestsParameters != null) {
-            if (allTestsBtn.isSelected())
+            if (allTestsBtn.isSelected()) {
                 mutableTestsParameters.setTestsMode(MutableTestsParameters.ALL_TESTS);
-            else if (selectTestsBtn.isSelected())
+            } else if (selectTestsBtn.isSelected()) {
                 mutableTestsParameters.setTestsMode(MutableTestsParameters.SPECIFIED_TESTS);
+            }
             mutableTestsParameters.setSpecifiedTests(testsField.getSelection());
         }
     }
@@ -187,8 +191,9 @@ class CE_TestsPane extends CE_StdPane {
         }
 
         int rc = chooser.showDialog(this, chooser.getApproveButtonText());
-        if (rc != JFileChooser.APPROVE_OPTION)
+        if (rc != JFileChooser.APPROVE_OPTION) {
             return;
+        }
 
         WorkDirectory wd = config.getWorkDirectory();
         TestResultTable trt = wd.getTestResultTable();
@@ -204,15 +209,17 @@ class CE_TestsPane extends CE_StdPane {
             String line;
             while ((line = in.readLine()) != null) {
                 line = line.trim();
-                if (line.isEmpty() || line.startsWith("#"))
+                if (line.isEmpty() || line.startsWith("#")) {
                     continue;
+                }
                 int sp = line.indexOf(' ');
                 String path = sp == -1 ? line : line.substring(0, sp);
                 if (!seen.contains(path)) {
-                    if (trt.validatePath(path))
+                    if (trt.validatePath(path)) {
                         paths.add(path);
-                    else
+                    } else {
                         badPaths.add(path);
+                    }
                     seen.add(path);
                 }
             }
@@ -244,13 +251,14 @@ class CE_TestsPane extends CE_StdPane {
         int MAX_BAD_PATHS = 10;
 
         if (!badPaths.isEmpty()) {
-            if (badPaths.size() == 1)
+            if (badPaths.size() == 1) {
                 uif.showError("ce.tests.badPath", badPaths.get(0));
-            else {
+            } else {
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < Math.min(badPaths.size(), MAX_BAD_PATHS); i++) {
-                    if (sb.length() > 0)
+                    if (sb.length() > 0) {
                         sb.append('\n');
+                    }
                     sb.append(badPaths.get(i));
                 }
                 boolean more = badPaths.size() > MAX_BAD_PATHS;

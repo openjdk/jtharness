@@ -158,35 +158,37 @@ public class FileParameters
         String reportDirArg = null;
 
         for (int i = 0; i < args.length; i++) {
-            if ("-testSuite".equalsIgnoreCase(args[i]) || "-t".equalsIgnoreCase(args[i]))
+            if ("-testSuite".equalsIgnoreCase(args[i]) || "-t".equalsIgnoreCase(args[i])) {
                 testSuiteArg = args[++i];
-            else if ("-keywords".equalsIgnoreCase(args[i]))
+            } else if ("-keywords".equalsIgnoreCase(args[i])) {
                 keywordsExprArg = args[++i];
-            else if ("-status".equalsIgnoreCase(args[i]))
+            } else if ("-status".equalsIgnoreCase(args[i])) {
                 priorStatusValuesArg = args[++i].toLowerCase();
-            else if ("-exclude".equalsIgnoreCase(args[i])) {
-                if (exclFilesArgs == null)
+            } else if ("-exclude".equalsIgnoreCase(args[i])) {
+                if (exclFilesArgs == null) {
                     exclFilesArgs = args[++i];
-                else
+                } else {
                     exclFilesArgs += " " + args[++i];
+                }
             } else if ("-envFile".equalsIgnoreCase(args[i])) {
-                if (envFilesArgs == null)
+                if (envFilesArgs == null) {
                     envFilesArgs = args[++i];
-                else
+                } else {
                     envFilesArgs += " " + args[++i];
-            } else if ("-env".equalsIgnoreCase(args[i]))
+                }
+            } else if ("-env".equalsIgnoreCase(args[i])) {
                 envNameArg = args[++i];
-            else if ("-concurrency".equalsIgnoreCase(args[i]))
+            } else if ("-concurrency".equalsIgnoreCase(args[i])) {
                 concurrencyArg = args[++i];
-            else if ("-timeoutFactor".equalsIgnoreCase(args[i]))
+            } else if ("-timeoutFactor".equalsIgnoreCase(args[i])) {
                 timeoutFactorArg = args[++i];
-            else if ("-report".equalsIgnoreCase(args[i]) || "-r".equalsIgnoreCase(args[i]))
+            } else if ("-report".equalsIgnoreCase(args[i]) || "-r".equalsIgnoreCase(args[i])) {
                 reportDirArg = args[++i];
-            else if ("-workDir".equalsIgnoreCase(args[i]) || "-w".equalsIgnoreCase(args[i]))
+            } else if ("-workDir".equalsIgnoreCase(args[i]) || "-w".equalsIgnoreCase(args[i])) {
                 workDirArg = args[++i];
-            else if (args[i].startsWith("-"))
+            } else if (args[i].startsWith("-")) {
                 throw new IllegalArgumentException(args[i]);
-            else {
+            } else {
                 String[] tests = new String[args.length - i];
                 System.arraycopy(args, i, tests, 0, tests.length);
                 testsArgs = StringArray.join(tests);
@@ -306,8 +308,9 @@ public class FileParameters
 
         TestEnvironment env;
         try {
-            if (envName == null)
+            if (envName == null) {
                 envName = "";
+            }
             env = envTable.getEnv(envName);
             if (env == null) {
                 // note envName==null is always a valid environment
@@ -378,8 +381,9 @@ public class FileParameters
 
         // we assume that the path has already be made non-relative
         // i.e. absolute
-        if (p != null && p.isFile())
+        if (p != null && p.isFile()) {
             legacyTsPath = p.getParent();
+        }
 
         // this strange arrangement of checks is here because we
         // are trying to ensure that users playing around with legacy
@@ -427,35 +431,37 @@ public class FileParameters
     //---------------------------------------------------------------------
 
     private void setKeywords(String op, String value) {
-        if (op == null || op.equals("ignore"))
+        if (op == null || op.equals("ignore")) {
             setKeywordsMode(NO_KEYWORDS);
-        else if (op.equals("expr"))
+        } else if (op.equals("expr")) {
             setKeywords(EXPR, value);
-        else if (op.equals("allOf"))
+        } else if (op.equals("allOf")) {
             setKeywords(ALL_OF, value);
-        else if (op.equals("anyOf"))
+        } else if (op.equals("anyOf")) {
             setKeywords(ANY_OF, value);
-        else
+        } else {
             setKeywordsMode(NO_KEYWORDS);
+        }
     }
 
     //---------------------------------------------------------------------
 
     private void setPriorStatusValues(String op, String... values) {
-        if (op == null || !op.equals("allOf"))
+        if (op == null || !op.equals("allOf")) {
             setPriorStatusValues((boolean[]) null);
-        else {
+        } else {
             boolean[] b = new boolean[Status.NUM_STATES];
-            for (int i = 0; i < values.length; i++)
+            for (int i = 0; i < values.length; i++) {
                 b[i] = "true".equals(values[i]);
+            }
             setPriorStatusValues(b);
         }
     }
 
     private void setPriorStatusValues(String values) {
-        if (values == null || values.isEmpty())
+        if (values == null || values.isEmpty()) {
             setPriorStatusValues((boolean[]) null);
-        else {
+        } else {
             boolean[] b = new boolean[Status.NUM_STATES];
             b[Status.PASSED] = values.contains("pass");
             b[Status.FAILED] = values.contains("fail");
@@ -468,9 +474,9 @@ public class FileParameters
     //---------------------------------------------------------------------
 
     private void setConcurrency(String conc) {
-        if (conc == null)
+        if (conc == null) {
             setConcurrency(1);
-        else {
+        } else {
             try {
                 setConcurrency(Integer.parseInt(conc));
             } catch (NumberFormatException e) {
@@ -482,9 +488,9 @@ public class FileParameters
     //---------------------------------------------------------------------
 
     private void setTimeoutFactor(String tf) {
-        if (tf == null)
+        if (tf == null) {
             setTimeoutFactor(1);
-        else {
+        } else {
             try {
                 setTimeoutFactor(Float.parseFloat(tf));
             } catch (NumberFormatException e) {
@@ -517,10 +523,11 @@ public class FileParameters
     }
 
     private void setReportDir(String dir) {
-        if (dir == null)
+        if (dir == null) {
             setReportDir((File) null);
-        else
+        } else {
             setReportDir(new File(dir));
+        }
     }
 
     private File reportDir;
@@ -533,33 +540,37 @@ public class FileParameters
      * <code>/home/me/mytck/tests</code>.
      */
     private String adjustPath(String path) {
-        if (path == null)
+        if (path == null) {
             return path;
+        }
 
         File p = new File(path);
-        if (p.isAbsolute())
+        if (p.isAbsolute()) {
             return path;
-        else {
+        } else {
             String userDir = System.getProperty("user.dir");
-            if (userDir == null)
+            if (userDir == null) {
                 return path;
-            else
+            } else {
                 return userDir + File.separator + path;
+            }
         }
     }
 
     private String makeLegacyTsRelative(String path) {
-        if (path == null)
+        if (path == null) {
             return path;
+        }
 
         File p = new File(path);
-        if (p.isAbsolute())
+        if (p.isAbsolute()) {
             return path;
-        else {
-            if (legacyTsPath == null)
+        } else {
+            if (legacyTsPath == null) {
                 return path;
-            else
+            } else {
                 return legacyTsPath + File.separator + path;
+            }
         }
     }
 

@@ -66,8 +66,9 @@ public abstract class YesNoQuestion extends ChoiceQuestion {
     protected YesNoQuestion(Interview interview, String tag, String defaultValue) {
         super(interview, tag);
 
-        if (defaultValue != null && !defaultValue.equals(YES) && !defaultValue.equals(NO))
+        if (defaultValue != null && !defaultValue.equals(YES) && !defaultValue.equals(NO)) {
             throw new IllegalArgumentException();
+        }
 
         String[] choices = {null, YES, NO};
         String[] displayChoices = {null, i18n.getString("yn.yes"), i18n.getString("yn.no")};

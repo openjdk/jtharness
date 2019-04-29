@@ -297,8 +297,9 @@ class ReportTool extends Tool {
                     showError("tool.exceptionInProgress", e.getMessage(), waitDialog, waitDialogController);
                 } finally {
 
-                    if (!waitDialogController.wasFinished)
+                    if (!waitDialogController.wasFinished) {
                         waitDialogController.finish();
+                    }
 
                     synchronized (ReportTool.this) {
                         worker = null;
@@ -332,8 +333,9 @@ class ReportTool extends Tool {
 
     private void showError(final String uiKey, final String msg,
                            JDialog waitDialog, WaitDialogController waitDialogController) {
-        if (!waitDialogController.wasFinished)
+        if (!waitDialogController.wasFinished) {
             waitDialogController.finish();
+        }
         // switch back to GUI thread
         EventQueue.invokeLater(new Runnable() {
                                    @Override
@@ -448,8 +450,9 @@ class ReportTool extends Tool {
 
             if (preffered != null) {
                 for (int i = 0; i < descrs.length; i++) {
-                    if (descrs[i].getFile().equals(preffered))
+                    if (descrs[i].getFile().equals(preffered)) {
                         return i;
+                    }
                 }
             }
 
@@ -490,8 +493,9 @@ class ReportTool extends Tool {
 
 
     private String listLocalDirectory(File dir) {
-        if (!dir.isAbsolute())
+        if (!dir.isAbsolute()) {
             dir = dir.getAbsoluteFile();
+        }
 
         String displayPath = dir.getPath();
 
@@ -562,8 +566,9 @@ class ReportTool extends Tool {
     private void loadPage(URL url) {
         // avoid recursive callbacks from updating combo
         // URL.equals can result in a big performance hit
-        if (currURL != null && url.toString().equals(currURL.toString()))
+        if (currURL != null && url.toString().equals(currURL.toString())) {
             return;
+        }
 
         currURL = url;
 
@@ -645,8 +650,9 @@ class ReportTool extends Tool {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (setOptions())
+            if (setOptions()) {
                 optionsDialog.cleanUp();
+            }
             updateGUI();
         }
     }
@@ -678,8 +684,9 @@ class ReportTool extends Tool {
         JFileChooser rdc = new JFileChooser(init);
 
         int option = rdc.showDialog(this, uif.getI18NString("tool.report.open"));
-        if (option != JFileChooser.APPROVE_OPTION)
+        if (option != JFileChooser.APPROVE_OPTION) {
             return;
+        }
 
         File f = rdc.getSelectedFile();
         showReportBrowser(f);
@@ -723,8 +730,9 @@ class ReportTool extends Tool {
                     HTMLDocument doc = (HTMLDocument)
                             ((JEditorPane) e.getSource()).getDocument();
                     doc.processHTMLFrameHyperlinkEvent((HTMLFrameHyperlinkEvent) e);
-                } else
+                } else {
                     loadPage(e.getURL());
+                }
             } else if (et == HyperlinkEvent.EventType.ENTERED) {
                 URL u = e.getURL();
                 if (u != null) {

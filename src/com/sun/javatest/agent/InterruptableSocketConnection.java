@@ -62,8 +62,9 @@ public class InterruptableSocketConnection extends SocketConnection {
 
         @Override
         public int read(byte[] buffer, int offset, int count) throws IOException {
-            if (count == 0)
+            if (count == 0) {
                 return 0;
+            }
 
             try {
                 return new InterruptableReader().read(buffer, offset, count);
@@ -82,8 +83,9 @@ public class InterruptableSocketConnection extends SocketConnection {
         }
 
         private synchronized void waitWhileReading() throws InterruptedException {
-            while (reading)
+            while (reading) {
                 wait();
+            }
         }
 
         private boolean reading = false;

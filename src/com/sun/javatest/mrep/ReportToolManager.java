@@ -47,8 +47,9 @@ public class ReportToolManager extends ToolManager {
         ReportTool t = getTool();
 
         Desktop d = getDesktop();
-        if (!d.containsTool(t))
+        if (!d.containsTool(t)) {
             d.addTool(t);
+        }
 
         d.setSelectedTool(t);
 
@@ -87,8 +88,9 @@ public class ReportToolManager extends ToolManager {
 
                 @Override
                 public void toolDisposed(Tool t) {
-                    if (t == tool)
+                    if (t == tool) {
                         tool = null;
+                    }
                 }
             });
         }

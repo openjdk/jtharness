@@ -47,9 +47,9 @@ public class ChameleonTestFinder extends TestFinder {
      */
     public ChameleonTestFinder() {
         String ic = System.getProperty("javatest.chameleon.ignoreCase");
-        if (ic != null)
+        if (ic != null) {
             ignoreCase = ic.equals("true");
-        else {
+        } else {
             String os = System.getProperty("os.name");
             ignoreCase = os.startsWith("Windows");
         }
@@ -124,11 +124,13 @@ public class ChameleonTestFinder extends TestFinder {
     public void init(String[] args, File testSuiteRoot, TestEnvironment env) throws Fault {
         super.init(args, testSuiteRoot, env);
 
-        if (entryFile == null)
+        if (entryFile == null) {
             throw new Fault(i18n, "cham.noConfigFile");
+        }
 
-        if (!entryFile.isAbsolute())
+        if (!entryFile.isAbsolute()) {
             entryFile = new File(getRootDir(), entryFile.getPath());
+        }
 
         readEntries(entryFile);
     }
@@ -166,8 +168,9 @@ public class ChameleonTestFinder extends TestFinder {
             while ((line = in.readLine()) != null) {
                 line = line.trim();
                 lineNum++;
-                if (line.startsWith("#") || line.isEmpty())
+                if (line.startsWith("#") || line.isEmpty()) {
                     continue;
+                }
 
                 String[] words = StringArray.split(line);
                 if (words.length < 2) {
@@ -207,8 +210,9 @@ public class ChameleonTestFinder extends TestFinder {
         } else if (args[i].equalsIgnoreCase("-dontIgnoreCase")) {
             ignoreCase = false;
             return 1;
-        } else
+        } else {
             return super.decodeArg(args, i);
+        }
     }
 
 
@@ -222,30 +226,33 @@ public class ChameleonTestFinder extends TestFinder {
     @Override
     protected void scan(File file) {
         //System.err.println("SCAN: " + file);
-        if (file.isDirectory())
+        if (file.isDirectory()) {
             scanDirectory(file);
-        else
+        } else {
             scanFile(file);
+        }
     }
 
     @Override
     public File[] getFiles() {
-        if (currEntry == null)
+        if (currEntry == null) {
             return super.getFiles();
-        else if (currEntry.finder == null)
+        } else if (currEntry.finder == null) {
             return new File[0];
-        else
+        } else {
             return currEntry.finder.getFiles();
+        }
     }
 
     @Override
     public TestDescription[] getTests() {
-        if (currEntry == null)
+        if (currEntry == null) {
             return super.getTests();
-        else if (currEntry.finder == null)
+        } else if (currEntry.finder == null) {
             return new TestDescription[0];
-        else
+        } else {
             return currEntry.finder.getTests();
+        }
     }
 
 
@@ -264,8 +271,9 @@ public class ChameleonTestFinder extends TestFinder {
         for (String name : names) {
             // if the file should be ignored, skip it
             // This is typically for directories like SCCS etc
-            if (excludeList.containsKey(name))
+            if (excludeList.containsKey(name)) {
                 continue;
+            }
 
             foundFile(new File(dir, name));
         }
@@ -299,10 +307,11 @@ public class ChameleonTestFinder extends TestFinder {
 
     private Class<? extends TestFinder> loadClass(String className) throws Fault {
         try {
-            if (loader == null)
+            if (loader == null) {
                 return Class.forName(className).asSubclass(TestFinder.class);
-            else
+            } else {
                 return loader.loadClass(className).asSubclass(TestFinder.class);
+            }
         } catch (ClassNotFoundException e) {
             throw new Fault(i18n, "cham.cantFindClass",
                     className, e);
@@ -340,8 +349,9 @@ public class ChameleonTestFinder extends TestFinder {
                 suffix = pattern.substring(star + 1);
             }
             prefix = new File(getRootDir(), prefix.replace('/', File.separatorChar)).getPath();
-            if (suffix != null)
+            if (suffix != null) {
                 suffix = suffix.replace('/', File.separatorChar);
+            }
 
             this.finderClassName = finderClassName;
             this.finderArgs = finderArgs;
@@ -362,19 +372,22 @@ public class ChameleonTestFinder extends TestFinder {
             int preLen = prefix.length();
 
             // if file does not match the prefix, return false
-            if (!p.regionMatches(ignoreCase, 0, prefix, 0, preLen))
+            if (!p.regionMatches(ignoreCase, 0, prefix, 0, preLen)) {
                 return false;
+            }
 
             // if there is a suffix, and the suffix is too short or the
             // file does not match the prefix, return false
             if (suffix != null) {
                 int sufLen = suffix.length();
 
-                if (sufLen > pLen)
+                if (sufLen > pLen) {
                     return false;
+                }
 
-                if (!p.regionMatches(ignoreCase, pLen - sufLen, suffix, 0, sufLen))
+                if (!p.regionMatches(ignoreCase, pLen - sufLen, suffix, 0, sufLen)) {
                     return false;
+                }
             }
 
             // if we matched the prefix and possible suffix, we're done
@@ -382,11 +395,13 @@ public class ChameleonTestFinder extends TestFinder {
         }
 
         void scanFile(File file) {
-            if (!initialized)
+            if (!initialized) {
                 init();
+            }
 
-            if (finder != null)
+            if (finder != null) {
                 finder.read(file);
+            }
         }
 
         private void init() {
@@ -407,29 +422,33 @@ public class ChameleonTestFinder extends TestFinder {
             Entry b = other;
             int apl = a.prefix.length();
             int bpl = b.prefix.length();
-            if (apl < bpl)
+            if (apl < bpl) {
                 return -1;
-            else if (apl == bpl) {
+            } else if (apl == bpl) {
                 int pc = a.prefix.compareTo(b.prefix);
-                if (pc != 0)
+                if (pc != 0) {
                     return pc;
-                else {
+                } else {
                     // prefixes are the same, check the suffixes
                     String as = a.suffix;
                     String bs = b.suffix;
-                    if (as == null && bs == null)
+                    if (as == null && bs == null) {
                         return 0;
+                    }
 
-                    if (as == null)
+                    if (as == null) {
                         return -1;
+                    }
 
-                    if (bs == null)
+                    if (bs == null) {
                         return +1;
+                    }
 
                     return as.compareTo(bs);
                 }
-            } else
+            } else {
                 return +1;
+            }
         }
 
         private String prefix;

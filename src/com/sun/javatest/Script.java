@@ -155,8 +155,9 @@ public abstract class Script {
      * @see #initTestDescription
      */
     protected void initTestResult(TestResult tr) {
-        if (testResult != null)
+        if (testResult != null) {
             throw new IllegalStateException();
+        }
 
         testResult = tr;
     }
@@ -171,14 +172,18 @@ public abstract class Script {
      * start stop times, etc.
      */
     public void run() {
-        if (workDir == null)
+        if (workDir == null) {
             throw new NullPointerException(i18n.getString("script.noWorkDir"));
-        if (td == null)
+        }
+        if (td == null) {
             throw new NullPointerException(i18n.getString("script.noTestDesc"));
-        if (testResult == null)
+        }
+        if (testResult == null) {
             throw new NullPointerException(i18n.getString("script.noTestRslt"));
-        if (env == null)
+        }
+        if (env == null) {
             throw new NullPointerException(i18n.getString("script.noTestEnv"));
+        }
 
         Status execStatus = null;
 
@@ -197,8 +202,9 @@ public abstract class Script {
 
         String descUrl = td.getFile().toURI().toASCIIString();
         String id = td.getId();
-        if (id != null)
+        if (id != null) {
             descUrl += "#" + id;
+        }
         testResult.putProperty(TestResult.DESCRIPTION, descUrl);
         testResult.putProperty(TestResult.START, TestResult.formatDate(new Date()));
         testResult.putProperty(TestResult.VERSION, ProductInfo.getDetailedVersion());
@@ -214,8 +220,9 @@ public abstract class Script {
             osInfo = osName + " " + osVersion + " (" + osArch + ")";
         }
         testResult.putProperty(TestResult.JAVATEST_OS, osInfo);
-        if (excludedTestCases != null)
+        if (excludedTestCases != null) {
             testResult.putProperty("excludedTestCases", StringArray.join(excludedTestCases));
+        }
 
         String classDir = td.getParameter("classDir");
         File f = classDir == null ? workDir.getFile(defaultClassDir) :
@@ -248,8 +255,9 @@ public abstract class Script {
 
             execStatus = run(scriptArgs, td, env);
         } finally {
-            if (timeout > 0)
+            if (timeout > 0) {
                 setAlarm(0);
+            }
 
             try {
                 System.setOut(System.out);
@@ -258,7 +266,9 @@ public abstract class Script {
             }
 
             if (Thread.interrupted()) // will clear interrupted status of thread, as desired
+            {
                 execStatus = Status.error(i18n.getString("script.interrupted"));
+            }
 
             testResult.putProperty(TestResult.END,
                     TestResult.formatDate(new Date()));
@@ -283,8 +293,9 @@ public abstract class Script {
         testResult.setStatus(execStatus);
 
         try {
-            if (execStatus.getType() != Status.PASSED || jtrIfPassed)
+            if (execStatus.getType() != Status.PASSED || jtrIfPassed) {
                 testResult.writeResults(workDir, backupPolicy);
+            }
         } catch (IOException e) {
             // ignore it; the test will have an error status already
             //throw new JavaTestError("Unable to write result file! " + e);
@@ -401,8 +412,9 @@ public abstract class Script {
             alarm = null;
         }
 
-        if (timeout > 0)
+        if (timeout > 0) {
             alarm = new Alarm(timeout, threadToInterrupt);
+        }
     }
 
     /**
@@ -484,13 +496,15 @@ public abstract class Script {
      * @see #compileTogether
      */
     protected Status compileIndividually(String command, String... srcs) {
-        if (srcs.length == 0)
+        if (srcs.length == 0) {
             return error_noSource;
+        }
 
         for (String src : srcs) {
             Status s = compileOne(command, src);
-            if (!s.isPassed())
+            if (!s.isPassed()) {
                 return s;
+            }
         }
         return pass_compSuccExp;
     }
@@ -607,24 +621,28 @@ public abstract class Script {
      * @see #invokeCommand
      */
     protected Status compileTogether(String command, String[] srcs) {
-        if (srcs.length == 0)
+        if (srcs.length == 0) {
             return error_noSource;
+        }
 
         try {
             String[] classDir = env.lookup("testClassDir");
-            if (classDir == null || classDir.length != 1)
+            if (classDir == null || classDir.length != 1) {
                 return error_badTestClassDir;
+            }
             File f = new File(classDir[0]);
-            if (!f.exists())
+            if (!f.exists()) {
                 f.mkdirs();
+            }
         } catch (TestEnvironment.Fault e) {
             return error_badTestClassDir;
         }
 
         String primarySrcFile = srcs[0];
         int dot = primarySrcFile.lastIndexOf('.');
-        if (dot == -1)
+        if (dot == -1) {
             return error_noExtnInSource;
+        }
 
         String extn = primarySrcFile.substring(dot);
 
@@ -632,8 +650,9 @@ public abstract class Script {
 
         try {
             boolean ok = sourceTable.acquire(srcs, 10 * 60 * 1000);
-            if (!ok)
+            if (!ok) {
                 return Status.error(i18n.getString("script.srcLockTimeout"));
+            }
             return invokeCommand(command + extn);
         } catch (InterruptedException e) {
             return Status.error(i18n.getString("script.srcLockInterrupted"));
@@ -717,17 +736,20 @@ public abstract class Script {
      * @see #compileTogether
      */
     protected Status compileIfNecessary(String command, String[] srcs, String classDir) {
-        if (srcs.length == 0)
+        if (srcs.length == 0) {
             return error_noSource;
+        }
 
-        if (classDir == null)
+        if (classDir == null) {
             classDir = "$testClassDir";
+        }
 
         if (classDir.startsWith("$")) {
             try {
                 String[] cd = env.resolve(classDir);
-                if (cd == null || cd.length != 1)
+                if (cd == null || cd.length != 1) {
                     return error_badTestClassDir;
+                }
                 classDir = cd[0];
             } catch (TestEnvironment.Fault e) {
                 return error_badTestClassDir;
@@ -735,8 +757,9 @@ public abstract class Script {
         }
 
         File cdf = new File(classDir);
-        if (!cdf.exists())
+        if (!cdf.exists()) {
             cdf.mkdirs();
+        }
 
         Vector<String> v = new Vector<>(0, srcs.length);
 
@@ -762,17 +785,20 @@ public abstract class Script {
                     // found what looks like a package statement
                     c = tr.nextToken();
                     if (c == StreamTokenizer.TT_WORD)
-                        // yes, it was a valid package statement
+                    // yes, it was a valid package statement
+                    {
                         pkgPrefix = tr.sval.replace('.', File.separatorChar) + File.separatorChar;
-                    else {
+                    } else {
                         // well, sort of; malformed package statement
                         trOut.println(i18n.getString("script.badPackage"));
                         v.add(src);
                         continue;
                     }
                 } else
-                    // no package statement
+                // no package statement
+                {
                     pkgPrefix = "";
+                }
             } catch (IOException e) {
                 trOut.println(i18n.getString("script.badDateStamp", src, e));
                 v.add(src);
@@ -785,18 +811,20 @@ public abstract class Script {
             //System.out.println("checking " + classFile);
             //System.out.println("classfile " + classFile.lastModified());
             //System.out.println("srcfile " + srcFile.lastModified());
-            if (classFile.exists() && classFile.lastModified() > srcFile.lastModified())
+            if (classFile.exists() && classFile.lastModified() > srcFile.lastModified()) {
                 trOut.println(i18n.getString("script.upToDate", src));
-            else
+            } else {
                 v.add(src);
+            }
         }
 
         if (!v.isEmpty()) {
             String[] necessarySrcs = v.toArray(new String[v.size()]);
 
             return compileTogether(command, necessarySrcs);
-        } else
+        } else {
             return Status.passed(i18n.getString("script.allUpToDate"));
+        }
     }
 
     /**
@@ -868,8 +896,9 @@ public abstract class Script {
                              String executeArgs) {
         try {
             String[] args = executeArgs == null ? nullArgs : env.resolve(executeArgs);
-            if (excludedTestCases != null)
+            if (excludedTestCases != null) {
                 args = exclude(args, excludedTestCases);
+            }
             return execute(command, executeClass, args);
         } catch (TestEnvironment.Fault e) {
             trOut.println(i18n.getString("script.testEnvFault",
@@ -908,8 +937,9 @@ public abstract class Script {
      * @see #invokeCommand
      */
     protected Status execute(String command, String executeClass, String... executeArgs) {
-        if (executeClass == null || executeClass.isEmpty())
+        if (executeClass == null || executeClass.isEmpty()) {
             return error_noExecuteClass;
+        }
         env.put("testExecuteClass", executeClass);
         env.put("testExecuteArgs", executeArgs);
         return invokeCommand(command);
@@ -947,17 +977,20 @@ public abstract class Script {
     protected Status rmiCompile(String command, String... classes) {
         try {
             String[] classDir = env.lookup("testClassDir");
-            if (classDir == null || classDir.length != 1)
+            if (classDir == null || classDir.length != 1) {
                 return error_badTestClassDir;
+            }
             File f = new File(classDir[0]);
-            if (!f.exists())
+            if (!f.exists()) {
                 f.mkdirs();
+            }
         } catch (TestEnvironment.Fault e) {
             return error_badTestClassDir;
         }
 
-        if (classes == null || classes.length == 0)
+        if (classes == null || classes.length == 0) {
             return error_noRMIClasses;
+        }
 
         env.put("testRmicClasses", classes);
         // backwards compatibility
@@ -1001,9 +1034,10 @@ public abstract class Script {
         try {
             String[] command = env.lookup("command." + key);
 
-            if (command.length == 0)
+            if (command.length == 0) {
                 return Status.error(i18n.getString("script.noCommand",
                         env.getName(), key));
+            }
 
             String className = command[0];
             String[] args = new String[command.length - 1];
@@ -1127,12 +1161,14 @@ public abstract class Script {
      * the test
      */
     protected String[] exclude(String[] args, String... testCases) {
-        if (testCases == null)
+        if (testCases == null) {
             return args;
+        }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < testCases.length; i++) {
-            if (i > 0)
+            if (i > 0) {
                 sb.append(",");
+            }
             sb.append(testCases[i]);
         }
         String[] newArgs = new String[args.length + 2];
@@ -1152,8 +1188,9 @@ public abstract class Script {
      */
     protected static String[] filesToStrings(File... files) {
         String[] strings = new String[files.length];
-        for (int i = 0; i < files.length; i++)
+        for (int i = 0; i < files.length; i++) {
             strings[i] = files[i].getPath();
+        }
         return strings;
     }
 
@@ -1399,10 +1436,11 @@ public abstract class Script {
             try {
                 String[] jtf = env.lookup("javatestTimeoutFactor");
                 if (jtf != null) {
-                    if (jtf.length == 1)
+                    if (jtf.length == 1) {
                         factor = Float.parseFloat(jtf[0]);
-                    else if (jtf.length == 2)
+                    } else if (jtf.length == 2) {
                         factor = Float.parseFloat(jtf[1]);
+                    }
                 }
             } catch (TestEnvironment.Fault e) {
             }
@@ -1416,34 +1454,39 @@ public abstract class Script {
         }
 
         Alarm(int delay, Thread threadToInterrupt) {
-            if (threadToInterrupt == null)
+            if (threadToInterrupt == null) {
                 throw new NullPointerException();
+            }
 
             this.delay = delay;
             this.threadToInterrupt = threadToInterrupt;
             entry = alarmTimer.requestDelayedCallback(this, delay);
-            if (debugAlarm)
+            if (debugAlarm) {
                 System.err.println(i18n.getString("script.alarm.started", this));
+            }
         }
 
         synchronized void cancel() {
-            if (debugAlarm)
+            if (debugAlarm) {
                 System.err.println(i18n.getString("script.alarm.cancelled", this));
+            }
             alarmTimer.cancel(entry);
         }
 
         @Override
         public synchronized void timeout() {
-            if (count == 0)
+            if (count == 0) {
                 trOut.println(i18n.getString("script.timeout", Float.valueOf(delay / 1000.f)));
-            else if (count % 100 == 0) {
+            } else if (count % 100 == 0) {
                 trOut.println(i18n.getString("script.notResponding", Integer.valueOf(count)));
-                if (count % 1000 == 0)
+                if (count % 1000 == 0) {
                     System.err.println(i18n.getString("script.timedOut",
                             td.getRootRelativeURL(), Integer.valueOf(count)));
+                }
             }
-            if (debugAlarm)
+            if (debugAlarm) {
                 System.err.println(i18n.getString("script.alarm.interrupt", this, threadToInterrupt));
+            }
             threadToInterrupt.interrupt();
             count++;
             entry = alarmTimer.requestDelayedCallback(this, 100); // keep requesting interrupts until cancelled

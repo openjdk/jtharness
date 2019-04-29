@@ -45,23 +45,28 @@ public class StringArray {
      * empty array (length==0) is returned.
      */
     public static String[] split(String s) {
-        if (s == null)
+        if (s == null) {
             return empty;
+        }
 
         Vector<String> strings = new Vector<>();
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             if (white(s.charAt(i))) {
-                if (start != -1)
+                if (start != -1) {
                     strings.add(s.substring(start, i));
+                }
                 start = -1;
-            } else if (start == -1)
+            } else if (start == -1) {
                 start = i;
+            }
         }
-        if (start != -1)
+        if (start != -1) {
             strings.add(s.substring(start));
-        if (strings.isEmpty())
+        }
+        if (strings.isEmpty()) {
             return empty;
+        }
         return strings.toArray(new String[strings.size()]);
     }
 
@@ -97,11 +102,14 @@ public class StringArray {
      * was null or zero length.
      */
     public static String join(String[] ss, String sep) {
-        if (ss == null || ss.length == 0)
+        if (ss == null || ss.length == 0) {
             return "";
+        }
 
         int l = (ss.length - 1) * sep.length();
-        for (String s : ss) l += s == null ? 0 : s.length();
+        for (String s : ss) {
+            l += s == null ? 0 : s.length();
+        }
 
         StringBuilder sb = new StringBuilder(l);
         sb.append(ss[0]);
@@ -126,8 +134,9 @@ public class StringArray {
      * null if the input string is null or zero length.
      */
     public static String[] splitList(String list, String delim) {
-        if (list == null || list.isEmpty())
+        if (list == null || list.isEmpty()) {
             return null;
+        }
 
         Vector<String> v = new Vector<>();
         int pos = 0;
@@ -138,15 +147,18 @@ public class StringArray {
                 v.add(list.substring(pos, nextD));
                 pos = nextD + delim.length();
                 pos = skipWhite(list, pos);
-            } else
+            } else {
                 break;
+            }
         }
 
-        if (pos < list.length())
+        if (pos < list.length()) {
             v.add(list.substring(pos));
+        }
 
-        if (v.isEmpty())
+        if (v.isEmpty()) {
             return new String[0];
+        }
 
         return v.toArray(new String[v.size()]);
     }
@@ -160,12 +172,14 @@ public class StringArray {
      * @return True if it does, false otherwise.  Will the false if the list was null.
      */
     public static boolean contains(String[] list, String target) {
-        if (list == null || list.length == 0)
+        if (list == null || list.length == 0) {
             return false;
+        }
 
         for (String aList : list) {
-            if (aList.equals(target))
+            if (aList.equals(target)) {
                 return true;
+            }
         }   // for
 
         return false;
@@ -186,9 +200,11 @@ public class StringArray {
      * in the string.
      */
     private static int skipWhite(String s, int start) {
-        for (int i = start; i < s.length(); i++)
-            if (!white(s.charAt(i)))
+        for (int i = start; i < s.length(); i++) {
+            if (!white(s.charAt(i))) {
                 return i;
+            }
+        }
 
         return s.length();
     }

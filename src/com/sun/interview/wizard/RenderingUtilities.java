@@ -293,14 +293,16 @@ public class RenderingUtilities {
             cb.removeAllItems();
             cb.addItem(value);
             cb.setSelectedIndex(0);
-            if (rules != null)
+            if (rules != null) {
                 setConstraints(cb, rules);
+            }
 
             String valid = question.isValueValid(key);
             if (valid != null) {
                 cb.setToolTipText(valid);
-            } else
+            } else {
                 cb.setBackground(Color.WHITE);
+            }
 
             if (!(rules instanceof FilenameConstraints)) {
                 return cb;
@@ -327,8 +329,9 @@ public class RenderingUtilities {
                 File f = new File((String) cb.getSelectedItem());
                 if (!f.exists()) {
                     File dir = fc.getBaseDirectory();
-                    if (dir == null)
+                    if (dir == null) {
                         dir = new File(System.getProperty("user.dir"));
+                    }
                     chooser.setCurrentDirectory(dir);
                 } else {
                     chooser.setSelectedFile(f);
@@ -345,8 +348,9 @@ public class RenderingUtilities {
                         if (s != null && !s.isEmpty()) {
                             File f = new File(s);
                             File baseDir = fc.getBaseDirectory();
-                            if (!f.isAbsolute() && baseDir != null)
+                            if (!f.isAbsolute() && baseDir != null) {
                                 f = new File(baseDir, s);
+                            }
                             chooser.setSelectedFile(f);
                         }
 
@@ -363,8 +367,9 @@ public class RenderingUtilities {
                             File baseDir = fc.getBaseDirectory();
                             if (baseDir != null) {
                                 String bp = baseDir.getPath();
-                                if (path.startsWith(bp + File.separatorChar))
+                                if (path.startsWith(bp + File.separatorChar)) {
                                     path = path.substring(bp.length() + 1);
+                                }
                             }
                             if (cb.getSelectedIndex() != -1) {
                                 cb.removeItemAt(cb.getSelectedIndex());
@@ -389,11 +394,14 @@ public class RenderingUtilities {
 
                 int[] sugs = intRules.getSuggestions();
                 if (sugs != null)
-                    // add all suggestions
+                // add all suggestions
+                {
                     for (int sug : sugs) {
-                        if (!Integer.toString(sug).equals(cb.getItemAt(0)))
+                        if (!Integer.toString(sug).equals(cb.getItemAt(0))) {
                             cb.addItem(Integer.toString(sug));
+                        }
                     }
+                }
             } else if (rules instanceof FloatConstraints) {
                 // attach input filter
                 // add suggestions
@@ -402,11 +410,14 @@ public class RenderingUtilities {
                 cb.setEditable(fltRules.isCustomValuesAllowed());
 
                 if (sugs != null)
-                    // add all suggestions
+                // add all suggestions
+                {
                     for (float sug : sugs) {
-                        if (!Float.toString(sug).equals(cb.getItemAt(0)))
+                        if (!Float.toString(sug).equals(cb.getItemAt(0))) {
                             cb.addItem(Float.toString(sug));
+                        }
                     }
+                }
             } else if (rules instanceof StringConstraints) {
                 StringConstraints strRules = (StringConstraints) rules;
                 cb.setEditable(strRules.isCustomValuesAllowed());
@@ -416,11 +427,13 @@ public class RenderingUtilities {
                     if (strRules.isCustomValuesAllowed()) {
                         // add all suggestions
                         for (String sug : sugs) {
-                            if (!sug.equals(cb.getItemAt(0)))
+                            if (!sug.equals(cb.getItemAt(0))) {
                                 cb.addItem(sug);
+                            }
                         }   // for
-                    } else
+                    } else {
                         configureSet(cb, sugs, true, strRules.isUnsetAllowed());
+                    }
                 } else {
                 }
             } else if (rules instanceof FilenameConstraints) {
@@ -431,8 +444,9 @@ public class RenderingUtilities {
                 if (sugs != null) {
                     // add all suggestions
                     for (File sug : sugs) {
-                        if (!sug.getPath().equalsIgnoreCase((String) cb.getItemAt(0)))
+                        if (!sug.getPath().equalsIgnoreCase((String) cb.getItemAt(0))) {
                             cb.addItem(sug.getPath());
+                        }
                     }   // for
                 } else {
                 }
@@ -454,10 +468,13 @@ public class RenderingUtilities {
             String curr = (String) cb.getItemAt(0);
 
             // add unset choice if allowed and needed
-            if (isUnsetAllowed)
+            if (isUnsetAllowed) {
                 cb.addItem("");
+            }
 
-            for (String aPossible : possible) cb.addItem(aPossible);
+            for (String aPossible : possible) {
+                cb.addItem(aPossible);
+            }
 
             for (int i = 0; i < possible.length; i++) {
                 if (compareStr(curr, possible[i], ignoreCase)) {
@@ -474,10 +491,11 @@ public class RenderingUtilities {
         }
 
         private boolean compareStr(String s1, String s2, boolean ignoreCase) {
-            if (ignoreCase)
+            if (ignoreCase) {
                 return s1.equalsIgnoreCase(s2);
-            else
+            } else {
                 return s1.equals(s2);
+            }
         }
 
         private PropertiesQuestion question;

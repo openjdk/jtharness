@@ -44,10 +44,11 @@ public class StringQuestionRenderer
         StringQuestion sq = (StringQuestion) q;
         int nomMaxLen = sq.getNominalMaxLength();
 
-        if (nomMaxLen > 80)
+        if (nomMaxLen > 80) {
             return createTextArea(sq, listener);
-        else
+        } else {
             return createTypeInPanel(sq, listener);
+        }
     }
 
     @Override

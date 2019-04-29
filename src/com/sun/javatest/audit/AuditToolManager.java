@@ -67,8 +67,9 @@ public class AuditToolManager extends ToolManager {
         AuditTool t = getTool();
 
         Desktop d = getDesktop();
-        if (!d.containsTool(t))
+        if (!d.containsTool(t)) {
             d.addTool(t);
+        }
 
         d.setSelectedTool(t);
 
@@ -99,8 +100,9 @@ public class AuditToolManager extends ToolManager {
 
                 @Override
                 public void toolDisposed(Tool t) {
-                    if (t == tool)
+                    if (t == tool) {
                         tool = null;
+                    }
                 }
             });
         }

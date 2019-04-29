@@ -42,8 +42,9 @@ public abstract class FileQuestion extends Question {
     protected FileQuestion(Interview interview, String tag) {
         super(interview, tag);
 
-        if (interview.getInterviewSemantics() > Interview.SEMANTIC_PRE_32)
+        if (interview.getInterviewSemantics() > Interview.SEMANTIC_PRE_32) {
             clear();
+        }
 
         setDefaultValue(value);
     }
@@ -69,8 +70,9 @@ public abstract class FileQuestion extends Question {
     public void setSuggestions(File... newSuggestions) {
         if (newSuggestions != null) {
             for (File newSuggestion : newSuggestions) {
-                if (newSuggestion == null)
+                if (newSuggestion == null) {
                     throw new IllegalArgumentException();
+                }
             }
         }
 
@@ -281,10 +283,11 @@ public abstract class FileQuestion extends Question {
     @Override
     protected void load(Map<String, String> data) {
         Object o = data.get(tag);
-        if (o instanceof File)
+        if (o instanceof File) {
             setValue((File) o);
-        else if (o instanceof String)
+        } else if (o instanceof String) {
             setValue(new File((String) o));
+        }
     }
 
     /**
@@ -295,8 +298,9 @@ public abstract class FileQuestion extends Question {
      */
     @Override
     protected void save(Map<String, String> data) {
-        if (value != null)
+        if (value != null) {
             data.put(tag, value.toString());
+        }
     }
 
 

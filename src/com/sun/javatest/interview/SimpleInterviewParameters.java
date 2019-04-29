@@ -60,10 +60,11 @@ public class SimpleInterviewParameters
 
         String m = System.getProperty("SimpleInterviewParameters.mode");
         if (m != null) {
-            if (m.equals("developer"))
+            if (m.equals("developer")) {
                 mode = DEVELOPER;
-            else if (m.equals("precompile"))
+            } else if (m.equals("precompile")) {
                 mode = PRECOMPILE;
+            }
         }
     }
 
@@ -73,8 +74,9 @@ public class SimpleInterviewParameters
         export(envProps);
         try {
             String name = qName.getValue();
-            if (name == null || name.isEmpty())
+            if (name == null || name.isEmpty()) {
                 name = "unknown";
+            }
             return new TestEnvironment(name, envProps, "configuration interview");
         } catch (TestEnvironment.Fault e) {
             throw new Error("should not happen");
@@ -139,10 +141,11 @@ public class SimpleInterviewParameters
     private StringQuestion qName = new StringQuestion(this, "name") {
         @Override
         public Question getNext() {
-            if (value == null || value.isEmpty())
+            if (value == null || value.isEmpty()) {
                 return null;
-            else
+            } else {
                 return qDesc;
+            }
         }
     };
 
@@ -153,10 +156,11 @@ public class SimpleInterviewParameters
     private Question qDesc = new StringQuestion(this, "desc") {
         @Override
         public Question getNext() {
-            if (value == null || value.isEmpty())
+            if (value == null || value.isEmpty()) {
                 return null;
-            else
+            } else {
                 return qCmdType;
+            }
         }
 
         @Override
@@ -181,12 +185,13 @@ public class SimpleInterviewParameters
 
         @Override
         public Question getNext() {
-            if (value == null || value.isEmpty())
+            if (value == null || value.isEmpty()) {
                 return null;
-            else if (value.equals(OTHER_VM))
+            } else if (value.equals(OTHER_VM)) {
                 return qJVM;
-            else
+            } else {
                 return qEnvEnd;
+            }
         }
 
         @Override
@@ -210,12 +215,13 @@ public class SimpleInterviewParameters
     private FileQuestion qJVM = new FileQuestion(this, "jvm") {
         @Override
         public Question getNext() {
-            if (value == null || value.getPath().isEmpty())
+            if (value == null || value.getPath().isEmpty()) {
                 return null;
-            else if (!(value.exists() && value.isFile() && value.canRead()))
+            } else if (!(value.exists() && value.isFile() && value.canRead())) {
                 return qBadJVM;
-            else
+            } else {
                 return qClassPath;
+            }
         }
     };
 
@@ -238,8 +244,9 @@ public class SimpleInterviewParameters
         if (cpFiles != null && cpFiles.length > 0) {
             sb.append(" -classpath ");
             for (int i = 0; i < cpFiles.length; i++) {
-                if (i > 0)
+                if (i > 0) {
                     sb.append(File.pathSeparator);
+                }
                 sb.append(cpFiles[i]);
             }
         }

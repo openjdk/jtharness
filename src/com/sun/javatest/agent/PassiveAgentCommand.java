@@ -101,8 +101,9 @@ public class PassiveAgentCommand extends Command {
                 } catch (NumberFormatException e) {
                     return Status.error("bad commandTimeout number: " + args[i]);
                 }
-            } else
+            } else {
                 return Status.error("Unrecognized option: " + args[i]);
+            }
         }
 
         if (i == args.length) {
@@ -122,19 +123,22 @@ public class PassiveAgentCommand extends Command {
         String[] cmdArgs = new String[args.length - i];
         System.arraycopy(args, i, cmdArgs, 0, cmdArgs.length);
 
-        if (tag == null)
+        if (tag == null) {
             tag = cmdClass;
+        }
 
         try {
             AgentManager mgr = AgentManager.access();
             AgentManager.Task t;
-            if (port == -1)
+            if (port == -1) {
                 t = mgr.connectToPassiveAgent(host);
-            else
+            } else {
                 t = mgr.connectToPassiveAgent(host, port);
+            }
 
-            if (classPath != null)
+            if (classPath != null) {
                 t.setClassPath(classPath);
+            }
 
             t.setSharedClassLoader(sharedCl);
             t.setAgentCommandTimeout(timeout);

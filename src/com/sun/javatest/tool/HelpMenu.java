@@ -270,8 +270,9 @@ class HelpMenu extends JMenu {
                         ts.getName(), e.getMessage());
                 System.err.println(msg);
             }
-            if (docs == null)
+            if (docs == null) {
                 docs = new HelpSet[0];
+            }
             docTable.put(ts, docs);
         }
 

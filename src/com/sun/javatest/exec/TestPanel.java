@@ -82,7 +82,9 @@ class TestPanel extends JPanel {
     }
 
     void setTestSuite(TestSuite ts) {
-        for (TP_Subpanel panel : panels) panel.setTestSuite(ts);
+        for (TP_Subpanel panel : panels) {
+            panel.setTestSuite(ts);
+        }
     }
 
     TestResult getTest() {
@@ -115,9 +117,9 @@ class TestPanel extends JPanel {
             currPanel = newPanel;
         }
 
-        if (EventQueue.isDispatchThread())
+        if (EventQueue.isDispatchThread()) {
             updateGUIWhenVisible();
-        else {
+        } else {
             if (!updatePending && !needToUpdateGUIWhenShown) {
                 EventQueue.invokeLater(new Runnable() {
                     @Override
@@ -136,10 +138,11 @@ class TestPanel extends JPanel {
 
     // must be called on the AWT event thread
     private void updateGUIWhenVisible() {
-        if (isVisible())
+        if (isVisible()) {
             updateGUI();
-        else
+        } else {
             needToUpdateGUIWhenShown = true;
+        }
     }
 
     // updateGUI is the second half of updatePanel(...)
@@ -149,14 +152,16 @@ class TestPanel extends JPanel {
     private synchronized void updateGUI() {
         //System.err.println("TP.updateGUI");
         if (currTest == null) {
-            for (int i = 0; i < tabs.getComponentCount(); i++)
+            for (int i = 0; i < tabs.getComponentCount(); i++) {
                 tabs.setEnabledAt(i, false);
+            }
 
             statusField.setEnabled(false);
         } else {
             try {
-                if (currDesc == null)
+                if (currDesc == null) {
                     currDesc = currTest.getDescription();
+                }
             } catch (TestResult.Fault e) {
                 JavaTestError.unexpectedException(e);
                 // ignore exception if can't find description ??

@@ -70,8 +70,9 @@ class DesktopPrefsPane extends PreferencesPane {
     @Override
     public void load(Map<String, String> m) {
         String styleName = m.get(Desktop.STYLE_PREF);
-        if (styleName == null)
+        if (styleName == null) {
             styleName = Desktop.styleNames[desktop.getStyle()];
+        }
 
         for (Enumeration<AbstractButton> e = styleGrp.getElements(); e.hasMoreElements(); ) {
             JRadioButton rb = (JRadioButton) e.nextElement();
@@ -112,8 +113,9 @@ class DesktopPrefsPane extends PreferencesPane {
         ttDuration.setEnabled(ttipsCheck.isSelected());
 
         // default
-        if (!complete)
+        if (!complete) {
             ttDelay.setSelectedIndex(1);
+        }
 
         complete = false;
         String tipDuration = m.get(Desktop.TTIP_DURATION);
@@ -269,7 +271,9 @@ class DesktopPrefsPane extends PreferencesPane {
         JLabel l = uif.createLabel("dt.prefs.ttDelay", true);
 
         ttDelay = uif.createChoice("dt.prefs.ttDelay", l);
-        for (Integer tooltipDelay : tooltipDelays) ttDelay.addItem(tooltipDelay);
+        for (Integer tooltipDelay : tooltipDelays) {
+            ttDelay.addItem(tooltipDelay);
+        }
 
         ttDelay.setSelectedItem(tooltipDelays[0]);
         ttDelay.setRenderer(new TipDelayRenderer());
@@ -285,7 +289,9 @@ class DesktopPrefsPane extends PreferencesPane {
         l = uif.createLabel("dt.prefs.ttDuration", true);
 
         ttDuration = uif.createChoice("dt.prefs.ttDuration", l);
-        for (Integer tooltipDuration : tooltipDurations) ttDuration.addItem(tooltipDuration);
+        for (Integer tooltipDuration : tooltipDurations) {
+            ttDuration.addItem(tooltipDuration);
+        }
 
         ttDuration.setRenderer(new TipDurationRenderer());
         // nominate a reasonable choice
@@ -363,9 +369,10 @@ class DesktopPrefsPane extends PreferencesPane {
     private class TipDurationRenderer extends BasicComboBoxRenderer {
         TipDurationRenderer() {
             synchronized (DesktopPrefsPane.this) {
-                if (TIP_SHOW_FOREVER == null)
+                if (TIP_SHOW_FOREVER == null) {
                     TIP_SHOW_FOREVER =
                             uif.getI18NString("dt.prefs.ttDuration.forev");
+                }
             }
         }
 
@@ -382,8 +389,9 @@ class DesktopPrefsPane extends PreferencesPane {
                     // convert to seconds and create localized text
                     theVal = uif.getI18NString("dt.prefs.ttDuration.sec",
                             Integer.valueOf(val / 1000));
-                } else
+                } else {
                     theVal = TIP_SHOW_FOREVER;
+                }
             } else {
                 theVal = value;
             }

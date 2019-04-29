@@ -93,8 +93,9 @@ public class DirectoryClassLoader extends ClassLoader {
             }
         }
 
-        if (resolve)
+        if (resolve) {
             resolveClass(cl);
+        }
 
         return cl;
 
@@ -163,10 +164,11 @@ public class DirectoryClassLoader extends ClassLoader {
     public URL findResource(String name) {
         try {
             File f = new File(loadDir, name);
-            if (f.exists())
+            if (f.exists()) {
                 return new URL("file:" + f.getAbsolutePath());
-            else
+            } else {
                 return null;
+            }
         } catch (java.net.MalformedURLException e) {
             return null;
         }
@@ -181,8 +183,9 @@ public class DirectoryClassLoader extends ClassLoader {
         // synchronized, so there is a very small remote chance another
         // caller has just loaded this class.
         Class<?> cl = classes.get(name);
-        if (cl != null)
+        if (cl != null) {
             return cl;
+        }
 
         String cname = name.replace('.', '/') + ".class";
 

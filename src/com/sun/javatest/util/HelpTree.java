@@ -118,8 +118,9 @@ public class HelpTree {
         public Node(I18NResourceBundle i18n, String prefix, String... entries) {
             this(i18n, prefix);
             children = new Node[entries.length];
-            for (int i = 0; i < children.length; i++)
+            for (int i = 0; i < children.length; i++) {
                 children[i] = new Node(i18n, prefix + '.' + entries[i]);
+            }
         }
 
         /**
@@ -156,8 +157,9 @@ public class HelpTree {
          * @return the specified child of this node
          */
         public Node getChild(int i) {
-            if (i >= getChildCount())
+            if (i >= getChildCount()) {
                 throw new IllegalArgumentException();
+            }
             return children[i];
         }
 
@@ -275,8 +277,9 @@ public class HelpTree {
     public Selection find(String... words) {
         Selection s = find(words, ALL);
 
-        if (s == null && words.length > 1)
+        if (s == null && words.length > 1) {
             s = find(words, ANY);
+        }
 
         return s;
     }
@@ -308,8 +311,9 @@ public class HelpTree {
         for (Node node : nodes) {
             Selection s = find(node, words, mode);
             if (s != null) {
-                if (map == null)
+                if (map == null) {
                     map = new TreeMap<>(nodeComparator);
+                }
                 map.put(node, s);
             }
         }
@@ -319,16 +323,20 @@ public class HelpTree {
 
     private Selection find(Node node, String[] words, int mode) {
         if (mode == ALL) {
-            if (containsAllOf(node.name, words) || containsAllOf(node.description, words))
+            if (containsAllOf(node.name, words) || containsAllOf(node.description, words)) {
                 return new Selection(node);
+            }
         } else if (mode == ANY) {
-            if (containsAnyOf(node.name, words) || containsAnyOf(node.description, words))
+            if (containsAnyOf(node.name, words) || containsAnyOf(node.description, words)) {
                 return new Selection(node);
-        } else
+            }
+        } else {
             throw new IllegalArgumentException();
+        }
 
-        if (node.children == null)
+        if (node.children == null) {
             return null;
+        }
 
         Map<Node, Selection> map = null;
 
@@ -336,8 +344,9 @@ public class HelpTree {
             Node child = node.children[i];
             Selection s = find(child, words, mode);
             if (s != null) {
-                if (map == null)
+                if (map == null) {
                     map = new TreeMap<>(nodeComparator);
+                }
                 map.put(child, s);
             }
         }
@@ -364,8 +373,9 @@ public class HelpTree {
             ww.write('\n');
         }
 
-        if (ww != out)
+        if (ww != out) {
             ww.flush();
+        }
     }
 
     /**
@@ -385,8 +395,9 @@ public class HelpTree {
 
         write(ww, s.map);
 
-        if (ww != out)
+        if (ww != out) {
             ww.flush();
+        }
     }
 
     /**
@@ -405,10 +416,13 @@ public class HelpTree {
     public void writeSummary(Writer out) throws IOException {
         WrapWriter ww = getWrapWriter(out);
 
-        for (Node node : nodes) writeHead(ww, node);
+        for (Node node : nodes) {
+            writeHead(ww, node);
+        }
 
-        if (ww != out)
+        if (ww != out) {
             ww.flush();
+        }
     }
 
     /**
@@ -436,16 +450,17 @@ public class HelpTree {
         for (Map.Entry<Node, Selection> e : m.entrySet()) {
             Node node = e.getKey();
             Selection s = e.getValue();
-            if (s.map == null)
+            if (s.map == null) {
                 write(out, node);
-            else {
+            } else {
                 writeHead(out, node);
                 out.setLeftMargin(margin + nodeIndent);
                 write(out, s.map);
                 out.setLeftMargin(margin);
             }
-            if (margin == 0)
+            if (margin == 0) {
                 out.write('\n');
+            }
         }
     }
 
@@ -457,7 +472,9 @@ public class HelpTree {
         Node[] children = node.children;
         if (children != null && children.length > 0) {
             out.setLeftMargin(baseMargin + nodeIndent);
-            for (Node aChildren : children) write(out, aChildren);
+            for (Node aChildren : children) {
+                write(out, aChildren);
+            }
         }
 
         out.setLeftMargin(baseMargin);
@@ -473,8 +490,9 @@ public class HelpTree {
             out.write(' ');
             if (desc != null) {
                 out.setLeftMargin(baseMargin + descriptionIndent);
-                if (out.getCharsOnLineSoFar() + 2 > out.getLeftMargin())
+                if (out.getCharsOnLineSoFar() + 2 > out.getLeftMargin()) {
                     out.write('\n');
+                }
                 out.write(desc);
             }
             out.write('\n');
@@ -485,24 +503,27 @@ public class HelpTree {
 
     private boolean containsAllOf(String text, String... words) {
         for (String word : words) {
-            if (!contains(text, word))
+            if (!contains(text, word)) {
                 return false;
+            }
         }
         return true;
     }
 
     private boolean containsAnyOf(String text, String... words) {
         for (String word : words) {
-            if (contains(text, word))
+            if (contains(text, word)) {
                 return true;
+            }
         }
         return false;
     }
 
     private boolean contains(String text, String word) {
         int startIndex = text.toLowerCase().indexOf(word.toLowerCase());
-        if (startIndex == -1)
+        if (startIndex == -1) {
             return false;
+        }
 
         int endIndex = startIndex + word.length();
 
@@ -530,11 +551,13 @@ public class HelpTree {
         }
 
         private int compareStrings(String s1, String s2) {
-            if (s1 == null && s2 == null)
+            if (s1 == null && s2 == null) {
                 return 0;
+            }
 
-            if (s1 == null || s2 == null)
+            if (s1 == null || s2 == null) {
                 return s1 == null ? -1 : +1;
+            }
 
             return s1.toLowerCase().compareTo(s2.toLowerCase());
         }

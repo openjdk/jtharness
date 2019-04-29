@@ -195,8 +195,9 @@ public class WorkDirChooser extends JFileChooser {
      * @see #getSelectedWorkDirectory
      */
     public void setSelectedWorkDirectory(WorkDirectory wd) {
-        if (wd != null)
+        if (wd != null) {
             setSelectedFile(wd.getRoot());
+        }
         workDir = wd;
     }
 
@@ -223,14 +224,16 @@ public class WorkDirChooser extends JFileChooser {
         swda.setMode(mode);
         swda.setAllowNoTemplate(allowNoTemplate);
         boolean b;
-        if (mode == NEW)
+        if (mode == NEW) {
             b = swda.approveNewSelection(wd, testSuite);
-        else
+        } else {
             b = swda.approveOpenSelection(wd, testSuite);
+        }
 
         if (b) {
-            if (swda.isApprovedOpenSelection_dirExists())
+            if (swda.isApprovedOpenSelection_dirExists()) {
                 approveOpenSelection_dirExists(wd);
+            }
             workDir = swda.getWorkDirectory();
 
             try {
@@ -296,12 +299,14 @@ public class WorkDirChooser extends JFileChooser {
 
 
     private boolean isWorkDir(File dir) {
-        if (wdData == null) wdData = new LinkedHashMap<String, Boolean>() {
-            @Override
-            protected boolean removeEldestEntry(Map.Entry<String, Boolean> eldest) {
-                return size() > 500;
-            }
-        };
+        if (wdData == null) {
+            wdData = new LinkedHashMap<String, Boolean>() {
+                @Override
+                protected boolean removeEldestEntry(Map.Entry<String, Boolean> eldest) {
+                    return size() > 500;
+                }
+            };
+        }
 
         // MS Windows top-level folders ("My Computer's children")
         if (dir.getParent() == null || dir.getParent().startsWith("::")) {
@@ -320,12 +325,14 @@ public class WorkDirChooser extends JFileChooser {
 
     private String[] getInfo(File file) {
 
-        if (fileData == null) fileData = new LinkedHashMap<String, String[]>() {
-            @Override
-            protected boolean removeEldestEntry(Map.Entry<String, String[]> eldest) {
-                return size() > 500;
-            }
-        };
+        if (fileData == null) {
+            fileData = new LinkedHashMap<String, String[]>() {
+                @Override
+                protected boolean removeEldestEntry(Map.Entry<String, String[]> eldest) {
+                    return size() > 500;
+                }
+            };
+        }
         String key = file.getAbsolutePath();
         String[] value = fileData.get(key);
         if (value != null) {

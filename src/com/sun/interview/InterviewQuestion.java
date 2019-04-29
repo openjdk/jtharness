@@ -41,11 +41,13 @@ class InterviewQuestion extends Question {
     InterviewQuestion(Interview interview, Interview targetInterview, Question next) {
         super(interview);
 
-        if (targetInterview == null)
+        if (targetInterview == null) {
             throw new NullPointerException();
+        }
 
-        if (next == null)
+        if (next == null) {
             throw new NullPointerException();
+        }
 
         this.targetInterview = targetInterview;
         this.next = next;

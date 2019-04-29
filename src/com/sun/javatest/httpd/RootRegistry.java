@@ -48,17 +48,18 @@ public class RootRegistry extends ProviderRegistry {
      * The root registry is a Singleton.
      */
     public static RootRegistry getInstance() {
-        if (myInstance == null)
+        if (myInstance == null) {
             myInstance = new RootRegistry();
+        }
 
         return myInstance;
     }
 
     @Override
     public void addHandler(String url, String descrip, JThttpProvider obj) {
-        if (!url.equals("/"))
+        if (!url.equals("/")) {
             super.addHandler(url, descrip, obj);
-        else {
+        } else {
             // special case for a normally invalid url
             if (debug) {
                 System.out.println("RPR-Adding Handler: " + descrip);
@@ -84,18 +85,20 @@ public class RootRegistry extends ProviderRegistry {
     }
 
     public static void associateObject(Object what, JThttpProvider prov) {
-        if (what != null && prov != null)
+        if (what != null && prov != null) {
             obj2prov.put(what, prov);
+        }
     }
 
     public static void unassociateObject(Object what, JThttpProvider prov) {
         if (what != null && prov != null) {
             Object found = obj2prov.get(what);
-            if (found == prov)
+            if (found == prov) {
                 obj2prov.remove(what);
-            else
+            } else {
                 throw new IllegalArgumentException(
                         "RR-Unable to unassociateObject, providers do not match.");
+            }
         }
     }
 

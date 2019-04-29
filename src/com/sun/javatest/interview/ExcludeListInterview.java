@@ -96,29 +96,32 @@ public class ExcludeListInterview
             String t = qExcludeListType.getValue();
             if (Objects.equals(t, INITIAL)) {
                 File f = ts == null ? null : ts.getInitialExcludeList();
-                if (f == null)
+                if (f == null) {
                     return null;
-                else
+                } else {
                     return new File[]{f};
+                }
             } else if (Objects.equals(t, LATEST)) {
                 URL u = ts == null ? null : ts.getLatestExcludeList();
-                if (u == null)
+                if (u == null) {
                     return null;
-                else {
+                } else {
                     WorkDirectory wd = parent.getWorkDirectory();
                     return new File[]{wd.getSystemFile("latest.jtx")};
                 }
-            } else
+            } else {
                 return qCustomFiles.getValue();
-        } else
+            }
+        } else {
             return null;
+        }
     }
 
     @Override
     public void setExcludeFiles(File... files) {
-        if (files == null || files.length == 0)
+        if (files == null || files.length == 0) {
             setExcludeMode(NO_EXCLUDE_LIST);
-        else {
+        } else {
             setExcludeMode(CUSTOM_EXCLUDE_LIST);
             setCustomExcludeFiles(files);
         }
@@ -128,21 +131,23 @@ public class ExcludeListInterview
     public int getExcludeMode() {
         if (Objects.equals(qNeedExcludeLists.getValue(), YesNoQuestion.YES)) {
             String t = qExcludeListType.getValue();
-            if (Objects.equals(t, INITIAL))
+            if (Objects.equals(t, INITIAL)) {
                 return INITIAL_EXCLUDE_LIST;
-            else if (Objects.equals(t, LATEST))
+            } else if (Objects.equals(t, LATEST)) {
                 return LATEST_EXCLUDE_LIST;
-            else
+            } else {
                 return CUSTOM_EXCLUDE_LIST;
-        } else
+            }
+        } else {
             return NO_EXCLUDE_LIST;
+        }
     }
 
     @Override
     public void setExcludeMode(int mode) {
-        if (mode == NO_EXCLUDE_LIST)
+        if (mode == NO_EXCLUDE_LIST) {
             qNeedExcludeLists.setValue(YesNoQuestion.NO);
-        else {
+        } else {
             qNeedExcludeLists.setValue(YesNoQuestion.YES);
             switch (mode) {
                 case INITIAL_EXCLUDE_LIST:
@@ -186,10 +191,11 @@ public class ExcludeListInterview
 
     @Override
     public void setLatestExcludeAutoCheckMode(int mode) {
-        if (mode == CHECK_EVERY_X_DAYS)
+        if (mode == CHECK_EVERY_X_DAYS) {
             qLatestAutoCheckMode.setValue(EVERY_X_DAYS);
-        else
+        } else {
             qLatestAutoCheckMode.setValue(EVERY_RUN);
+        }
     }
 
     @Override
@@ -228,12 +234,14 @@ public class ExcludeListInterview
     }
 
     private void ensureInitializedForTestSuite() {
-        if (initializedForTestSuite)
+        if (initializedForTestSuite) {
             return;
+        }
 
         TestSuite ts = parent.getTestSuite();
-        if (ts == null)
+        if (ts == null) {
             return;
+        }
 
         File ijtx = ts.getInitialExcludeList();
         hasInitialJTX = ijtx != null;
@@ -248,8 +256,9 @@ public class ExcludeListInterview
         if (hasLatestJTX) {
             WorkDirectory wd = parent.getWorkDirectory();
             hasValidLatestJTX = wd != null && wd.getSystemFile("latest.jtx").exists();
-        } else
+        } else {
             hasValidLatestJTX = false;
+        }
 
         //System.err.println("ELI latestJTX=" + ljtx);
         //System.err.println("ELI hasLatestJTX=" + hasLatestJTX);
@@ -282,8 +291,9 @@ public class ExcludeListInterview
         public void clear() {
             // clear will be called from the constructor once the choices have been set,
             // but we can't call out to the enclosing class before super() completes (NPE)
-            if (!doneSuper)
+            if (!doneSuper) {
                 return;
+            }
 
             ensureInitializedForTestSuite();
 
@@ -294,12 +304,13 @@ public class ExcludeListInterview
 
         @Override
         protected Question getNext() {
-            if (value == null)
+            if (value == null) {
                 return null;
-            else if (Objects.equals(value, YES))
+            } else if (Objects.equals(value, YES)) {
                 return qExcludeListType;
-            else
+            } else {
                 return qEnd;
+            }
         }
 
         private boolean doneSuper;
@@ -361,24 +372,27 @@ public class ExcludeListInterview
         @Override
         protected Question getNext() {
             // the following will implicitly call ensureInitialized()
-            if (isHidden())
+            if (isHidden()) {
                 return qCustomFiles;
-            else if (value == null || value.isEmpty())
+            } else if (value == null || value.isEmpty()) {
                 return null;
-            else if (value.equals(INITIAL))
+            } else if (value.equals(INITIAL)) {
                 return checkExcludeList();
-            else if (value.equals(LATEST))
+            } else if (value.equals(LATEST)) {
                 return qLatestAutoCheck;
-            else
+            } else {
                 return qCustomFiles;
+            }
         }
 
         private void ensureInitialized() {
-            if (initialized)
+            if (initialized) {
                 return;
+            }
 
-            if (parent.getTestSuite() == null)
+            if (parent.getTestSuite() == null) {
                 return;
+            }
 
             ensureInitializedForTestSuite();
 
@@ -424,12 +438,13 @@ public class ExcludeListInterview
     private YesNoQuestion qLatestAutoCheck = new YesNoQuestion(this, "latestAutoCheck", YesNoQuestion.NO) {
         @Override
         protected Question getNext() {
-            if (value == null)
+            if (value == null) {
                 return null;
-            else if (Objects.equals(value, YES))
+            } else if (Objects.equals(value, YES)) {
                 return qLatestAutoCheckMode;
-            else
+            } else {
                 return checkExcludeList();
+            }
         }
     };
 
@@ -447,12 +462,13 @@ public class ExcludeListInterview
 
         @Override
         protected Question getNext() {
-            if (value == null)
+            if (value == null) {
                 return null;
-            else if (value.equals(EVERY_X_DAYS))
+            } else if (value.equals(EVERY_X_DAYS)) {
                 return qLatestAutoCheckInterval;
-            else
+            } else {
                 return checkExcludeList();
+            }
         }
     };
 
@@ -491,8 +507,9 @@ public class ExcludeListInterview
 
         @Override
         protected Question getNext() {
-            if (value == null || value.length == 0)
+            if (value == null || value.length == 0) {
                 return null;
+            }
 
             return checkExcludeList();
         }
@@ -512,10 +529,11 @@ public class ExcludeListInterview
         File[] files = getAbsoluteFiles(tsRootDir, getExcludeFiles());
         if (!equal(cachedExcludeList_files, files) || cachedExcludeList_testSuite != ts) {
             try {
-                if (ts == null || files == null || files.length == 0)
+                if (ts == null || files == null || files.length == 0) {
                     setCachedExcludeList(new ExcludeList());
-                else
+                } else {
                     setCachedExcludeList(new ExcludeList(files));
+                }
             } catch (FileNotFoundException e) {
                 setCachedExcludeListError(qExcludeListFileNotFound, e.getMessage());
             } catch (IOException e) {
@@ -583,10 +601,11 @@ public class ExcludeListInterview
 
     private Question checkExcludeList() {
         updateCachedExcludeListData();
-        if (cachedExcludeListError != null)
+        if (cachedExcludeListError != null) {
             return cachedExcludeListError;
-        else
+        } else {
             return qEnd;
+        }
     }
 
     private Question qEnd = new FinalQuestion(this);
@@ -594,18 +613,22 @@ public class ExcludeListInterview
     //---------------------------------------------------------------------
 
     private static File[] getAbsoluteFiles(File baseDir, File... files) {
-        if (files == null)
+        if (files == null) {
             return null;
+        }
 
-        if (baseDir == null)
+        if (baseDir == null) {
             return files;
+        }
 
         boolean allAbsolute = true;
-        for (int i = 0; i < files.length && allAbsolute; i++)
+        for (int i = 0; i < files.length && allAbsolute; i++) {
             allAbsolute = files[i].isAbsolute();
+        }
 
-        if (allAbsolute)
+        if (allAbsolute) {
             return files;
+        }
 
         File[] absoluteFiles = new File[files.length];
         for (int i = 0; i < files.length; i++) {
@@ -623,15 +646,18 @@ public class ExcludeListInterview
     }
 
     private static boolean equal(File[] f1, File... f2) {
-        if (f1 == null || f2 == null)
+        if (f1 == null || f2 == null) {
             return f1 == f2;
+        }
 
-        if (f1.length != f2.length)
+        if (f1.length != f2.length) {
             return false;
+        }
 
         for (int i = 0; i < f1.length; i++) {
-            if (f1[i] != f2[i])
+            if (f1[i] != f2[i]) {
                 return false;
+            }
         }
 
         return true;

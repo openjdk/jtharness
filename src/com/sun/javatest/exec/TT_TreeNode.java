@@ -67,8 +67,9 @@ public abstract class TT_TreeNode implements TreeNode {
     abstract String getShortName();
 
     TT_TreeNode[] getNodePath() {
-        if (parent == null)
+        if (parent == null) {
             return new TT_TreeNode[]{this};
+        }
 
         LinkedList<TT_TreeNode> l = new LinkedList<>();
         l.add(this);

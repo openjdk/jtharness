@@ -72,8 +72,9 @@ public class YesNoQuestionRenderer implements QuestionRenderer {
             JRadioButton rb = new JRadioButton(displayChoice, choice.equals(v));
             rb.setName("chc.btn." + choices[i]);
 
-            if (realNumber < 10)
+            if (realNumber < 10) {
                 rb.setMnemonic('0' + realNumber);
+            }
 
             rb.setToolTipText(i18n.getString("chc.btn.tip"));
             rb.getAccessibleContext().setAccessibleName(rb.getName());

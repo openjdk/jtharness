@@ -39,11 +39,11 @@ class BadTestsPane extends ListPane {
 
     @Override
     void show(Audit audit) {
-        if (audit == currAudit)
+        if (audit == currAudit) {
             showBody();
-        else {
+        } else {
             currAudit = audit;
-            setData((Object[])currAudit.getBadTests());
+            setData((Object[]) currAudit.getBadTests());
         }
     }
 

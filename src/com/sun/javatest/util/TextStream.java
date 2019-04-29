@@ -72,8 +72,9 @@ public class TextStream extends FilterOutputStream {
         for (int i = 0; i < len; i++) {
             char c = s.charAt(i);
             write(c);
-            if (autoflush && c == '\n')
+            if (autoflush && c == '\n') {
                 out.flush();
+            }
         }
     }
 

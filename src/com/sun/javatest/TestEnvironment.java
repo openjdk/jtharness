@@ -87,8 +87,9 @@ public class TestEnvironment {
      * @see #clearDefaultPropTables
      */
     public static synchronized void addDefaultPropTable(String name, Map<String, String> propTable) {
-        if (name == null || propTable == null)
+        if (name == null || propTable == null) {
             throw new NullPointerException();
+        }
 
         //System.err.println("TEC: add default propTable " + name);
         defaultPropTableNames = DynamicArray.append(defaultPropTableNames, name);
@@ -135,7 +136,9 @@ public class TestEnvironment {
      */
     public TestEnvironment(String name, final Map<String, String> propTable, String propTableName)
             throws Fault {
-        this(name, new ArrayList<Map<String, String>>(){{ add(propTable);}}, propTableName);
+        this(name, new ArrayList<Map<String, String>>() {{
+            add(propTable);
+        }}, propTableName);
     }
 
     /**
@@ -185,8 +188,9 @@ public class TestEnvironment {
         // First, figure out the inheritance chain
         Vector<String> v = new Vector<>();
         for (String n = name, inherit = null; n != null && !n.isEmpty(); n = inherit, inherit = null) {
-            if (v.contains(n))
+            if (v.contains(n)) {
                 throw new Fault(i18n, "env.loop", name);
+            }
 
             v.add(n);
             String prefix = "env." + n + ".";
@@ -320,8 +324,9 @@ public class TestEnvironment {
     public void putUrlAndFile(String name, File f) {
         String filePath = f.getPath();
 
-        if (filePath.endsWith(File.separator))
+        if (filePath.endsWith(File.separator)) {
             filePath = filePath.substring(0, filePath.length() - File.separator.length());
+        }
 
         String url = f.toURI().toASCIIString();
 
@@ -353,18 +358,20 @@ public class TestEnvironment {
 
     private String[] lookup(String key, Vector<String> activeKeys) throws Fault {
         String[] v = extras.get(key);
-        if (v != null)
+        if (v != null) {
             return v;
+        }
 
 
         Element elem = table.get(key);
         if (elem != null) {
             cache.put(key, elem);
-            if (activeKeys == null)
+            if (activeKeys == null) {
                 activeKeys = new Vector<>();
-            else if (activeKeys.contains(key))
+            } else if (activeKeys.contains(key)) {
                 throw new Fault(i18n, "env.recursive",
                         key, elem.getDefinedInFile());
+            }
 
             activeKeys.add(key);
             try {
@@ -414,10 +421,11 @@ public class TestEnvironment {
                 case '#':
                     // # at top level introduces comment to end of line and terminates
                     //command (if found); otherwise, it goes into the current word
-                    if ((!isInlineCommentsDisabled() || i == 0 || s.charAt(i - 1) == ' ' || s.charAt(i - 1) == '\t') && (term == 0 || term == ' '))
+                    if ((!isInlineCommentsDisabled() || i == 0 || s.charAt(i - 1) == ' ' || s.charAt(i - 1) == '\t') && (term == 0 || term == ' ')) {
                         break loop;
-                    else
+                    } else {
                         current.append(c);
+                    }
                     break;
 
                 case '\'':
@@ -426,10 +434,11 @@ public class TestEnvironment {
                     // are part of it
                     if (term == 0 || term == ' ') {
                         term = c;           // start matched pair
-                    } else if (term == c)
+                    } else if (term == c) {
                         term = ' ';         // end matched pair
-                    else
+                    } else {
                         current.append(c);  // put character in string
+                    }
                     break;
 
                 case '$':
@@ -482,8 +491,9 @@ public class TestEnvironment {
                                             buf.append(s.charAt(i++));
                                         }
                                         i--;
-                                    } else
+                                    } else {
                                         throw new Fault(i18n, "env.badExprChar", new Character(c));
+                                    }
                                     name = buf.toString();
                             }
 
@@ -492,27 +502,29 @@ public class TestEnvironment {
                             // apply nameArgs, if any
                             if (nameArgs != null) {
                                 for (String arg : nameArgs) {
-                                    if (arg.startsWith("FS=") && arg.length() == 4)
+                                    if (arg.startsWith("FS=") && arg.length() == 4) {
                                         substituteChar(val, File.separatorChar, arg.charAt(3));
-                                    else if (arg.startsWith("PS=") && arg.length() == 4)
+                                    } else if (arg.startsWith("PS=") && arg.length() == 4) {
                                         substituteChar(val, File.pathSeparatorChar, arg.charAt(3));
-                                    else if (arg.startsWith("MAP="))
+                                    } else if (arg.startsWith("MAP=")) {
                                         substituteMap(val, lookup("map." + arg.substring(4), activeKeys));
-                                    else if (arg.equals("MAP"))
+                                    } else if (arg.equals("MAP")) {
                                         substituteMap(val, lookup("map", activeKeys));
-                                    else
+                                    } else {
                                         throw new Fault(i18n, "env.badOption", arg);
+                                    }
                                 }
                             }
 
                             if (val != null && val.length > 0) {
                                 // only start a new word if there is something to substitute
-                                if (term == 0)
+                                if (term == 0) {
                                     term = ' ';
+                                }
                                 for (int vi = 0; vi < val.length; vi++) {
-                                    if (vi == 0)
+                                    if (vi == 0) {
                                         current.append(val[vi]);
-                                    else if (term == '"') {
+                                    } else if (term == '"') {
                                         current.append(' ');
                                         current.append(val[vi]);
                                     } else {
@@ -525,8 +537,9 @@ public class TestEnvironment {
                         } catch (IndexOutOfBoundsException e) {
                             throw new Fault(i18n, "env.badExpr");
                         }
-                    } else
+                    } else {
                         current.append(c);
+                    }
                     break;
 
                 case ' ':
@@ -539,16 +552,18 @@ public class TestEnvironment {
                             v.add(current.toString());
                             current.setLength(0);
                             term = 0;
-                        } else
+                        } else {
                             current.append(c);
+                        }
                     }
                     break;
 
 
                 default:
                     // other characters start a word if needed, then go into the word
-                    if (term == 0)
+                    if (term == 0) {
                         term = ' ';
+                    }
                     current.append(c);
                     break;
             }
@@ -582,20 +597,23 @@ public class TestEnvironment {
      */
     public boolean hasUndefinedValues() {
         for (Element entry : elements()) {
-            if (entry.value.contains("VALUE_NOT_DEFINED"))
+            if (entry.value.contains("VALUE_NOT_DEFINED")) {
                 return true;
+            }
         }
         return false;
     }
 
     private void substituteChar(String[] v, char from, char to) {
-        for (int i = 0; i < v.length; i++)
+        for (int i = 0; i < v.length; i++) {
             v[i] = v[i].replace(from, to);
+        }
     }
 
     private void substituteMap(String[] v, String... map) {
-        if (map == null)
+        if (map == null) {
             return;
+        }
 
         // this algorithm is directly based on the "map" algorithm in
         // Slave.Map, which it supercedes
@@ -617,8 +635,9 @@ public class TestEnvironment {
     private String convertToName(String... v) {
         String s = "";
         for (int i = 0; i < v.length; i++) {
-            if (i > 0)
+            if (i > 0) {
                 s += '_';
+            }
             for (int j = 0; j < v[i].length(); j++) {
                 char c = v[i].charAt(j);
                 s += isNameChar(c) ? c : '_';

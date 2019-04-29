@@ -125,17 +125,21 @@ class StatisticsSection extends HTMLSection {
         // compute the keyword statistics
 
         int ncols = 2; // keywords, total
-        for (int statusTotal1 : statusTotals)
-            if (statusTotal1 > 0)
+        for (int statusTotal1 : statusTotals) {
+            if (statusTotal1 > 0) {
                 ncols++;
+            }
+        }
 
         String[] head = new String[ncols];
         {
             int c = 0;
             head[c++] = i18n.getString("stats.keyword");
-            for (int i = 0; i < statusTotals.length; i++)
-                if (statusTotals[i] > 0)
+            for (int i = 0; i < statusTotals.length; i++) {
+                if (statusTotals[i] > 0) {
                     head[c++] = headings[i];
+                }
+            }
             head[c] = i18n.getString("stats.total");
         }
 
@@ -147,8 +151,9 @@ class StatisticsSection extends HTMLSection {
             int c = 0, total = 0;
             newEntry[c++] = k;
             for (int i = 0; i < kv.length; i++) {
-                if (statusTotals[i] != 0)
+                if (statusTotals[i] != 0) {
                     newEntry[c++] = kv[i] == 0 ? "" : Integer.toString(kv[i]);
+                }
                 total += kv[i];
             }
             newEntry[c] = Integer.toString(total);
@@ -171,8 +176,9 @@ class StatisticsSection extends HTMLSection {
             int c = 0, total = 0;
             totalsEntry[c++] = i18n.getString("stats.total");
             for (int statusTotal : statusTotals) {
-                if (statusTotal != 0)
+                if (statusTotal != 0) {
                     totalsEntry[c++] = Integer.toString(statusTotal);
+                }
                 total += statusTotal;
             }
             totalsEntry[c] = Integer.toString(total);
@@ -211,10 +217,11 @@ class StatisticsSection extends HTMLSection {
             for (int c = 0; c < aTable.length; c++) {
                 out.startTag(HTMLWriterEx.TD);
                 out.writeAttr(HTMLWriterEx.STYLE, c == 0 ? HTMLWriterEx.TEXT_LEFT : HTMLWriterEx.TEXT_RIGHT);
-                if (aTable[c] == null || aTable[c].isEmpty())
+                if (aTable[c] == null || aTable[c].isEmpty()) {
                     out.writeEntity("&nbsp;");
-                else
+                } else {
                     out.write(aTable[c]);
+                }
                 out.endTag(HTMLWriterEx.TD);
             }
             out.endTag(HTMLWriterEx.TR);

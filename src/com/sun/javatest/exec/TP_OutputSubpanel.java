@@ -81,8 +81,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
 
     @Override
     protected synchronized void updateSubpanel(TestResult newTest) {
-        if (subpanelTest != null)
+        if (subpanelTest != null) {
             subpanelTest.removeObserver(observer);
+        }
 
         super.updateSubpanel(newTest);
         updateTOC();
@@ -286,8 +287,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
                 //out.writeStyleAttr(tableStyle);
                 for (int i = 0; i < subpanelTest.getSectionCount(); i++) {
                     TestResult.Section s = subpanelTest.getSection(i);
-                    if (s.getTitle().equals(TestResult.MSG_SECTION_NAME))
+                    if (s.getTitle().equals(TestResult.MSG_SECTION_NAME)) {
                         continue; // already done, above
+                    }
                     out.startTag(HTMLWriterEx.TR);
                     out.startTag(HTMLWriterEx.TD);
                     out.startTag(HTMLWriterEx.OBJECT);
@@ -381,17 +383,19 @@ class TP_OutputSubpanel extends TP_Subpanel {
                 String text = section.getOutput(name);
                 out.startTag(HTMLWriterEx.TR);
                 out.startTag(HTMLWriterEx.TD);
-                if (text.isEmpty())
+                if (text.isEmpty()) {
                     out.write(name);
-                else
+                } else {
                     out.writeLink("#" + name, name/*, linkStyle*/);
+                }
                 out.endTag(HTMLWriterEx.TD);
                 out.startTag(HTMLWriterEx.TD);
                 out.writeStyleAttr("margin-left:10");
-                if (text.isEmpty())
+                if (text.isEmpty()) {
                     out.writeI18N("test.out.empty.txt");
-                else
+                } else {
                     out.write(String.valueOf(text.length()));
+                }
                 out.endTag(HTMLWriterEx.TD);
                 out.endTag(HTMLWriterEx.TR);
             }
@@ -436,10 +440,11 @@ class TP_OutputSubpanel extends TP_Subpanel {
             out.startTag(HTMLWriterEx.BODY);
             //out.writeStyleAttr(bodyStyle);
 
-            if (subpanelTest.getSectionCount() > 0)
+            if (subpanelTest.getSectionCount() > 0) {
                 out.writeI18N("test.out.testResultForOutput.txt");
-            else
+            } else {
                 out.writeI18N("test.out.testResultNoOutput.txt");
+            }
 
             Status s = subpanelTest.getStatus();
             out.startTag(HTMLWriterEx.TABLE);
@@ -475,8 +480,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
                 TestResult.Section s = subpanelTest.getSection(i);
                 TOCEntry e = new TOCEntry(s);
                 if (e.isScriptMessagesSection() && (currentTOCEntry == null) ||
-                        e.getID().equals(currentTOCEntry))
+                        e.getID().equals(currentTOCEntry)) {
                     newSelectedEntry = e;
+                }
                 tocEntries.addElement(e);
                 String[] names = s.getOutputNames();
                 for (String name : names) {
@@ -489,8 +495,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
             }
 
             TOCEntry e = new TOCEntry(); // for final status
-            if (newSelectedEntry == null)
+            if (newSelectedEntry == null) {
                 newSelectedEntry = e;
+            }
             tocEntries.addElement(e);
 
             currentTOCEntry = newSelectedEntry.getID();
@@ -502,9 +509,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
     }
 
     private void updateTOCLater() {
-        if (EventQueue.isDispatchThread())
+        if (EventQueue.isDispatchThread()) {
             updateTOC();
-        else {
+        } else {
             EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {
@@ -545,8 +552,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
 
 
     private TOCEntry findTOCEntry(TestResult.Section section) {
-        if (tocEntries == null)
+        if (tocEntries == null) {
             return null;
+        }
 
         for (int i = 0; i < tocEntries.size(); i++) {
             TOCEntry entry = tocEntries.get(i);
@@ -605,8 +613,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
 
     private void addText(TestResult.Section section,
                          String outputName, String s) {
-        if (s == null || s.isEmpty())
+        if (s == null || s.isEmpty()) {
             return;
+        }
 
         if (!textArea.isEnabled()) {
             textArea.setText("");
@@ -618,8 +627,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
     }
 
     private StyleSheet getStyleSheet() {
-        if (htmlEditorKit == null)
+        if (htmlEditorKit == null) {
             htmlEditorKit = new HTMLEditorKit();
+        }
 
         if (styleSheet == null) {
             styleSheet = new StyleSheet();
@@ -666,9 +676,10 @@ class TP_OutputSubpanel extends TP_Subpanel {
                             TOCEntry entry = tocEntries.get(i);
                             String entryOutputName = entry.getOutputName();
                             if (entryOutputName == null)
-                                // name not found, reached next section entry
+                            // name not found, reached next section entry
+                            {
                                 break;
-                            else if (entryOutputName.equals(outputName)) {
+                            } else if (entryOutputName.equals(outputName)) {
                                 // found match, select this entry
                                 toc.setSelectedIndex(i);
                                 return;
@@ -700,23 +711,26 @@ class TP_OutputSubpanel extends TP_Subpanel {
         public void valueChanged(ListSelectionEvent e) {
             JList<TOCEntry> l = (JList<TOCEntry>) e.getSource();
             TOCEntry entry = l.getSelectedValue();
-            if (entry == null)
+            if (entry == null) {
                 return;
+            }
             titleField.setText(entry.getTitle());
             currentTOCEntry = entry.getID();
             String outputName = entry.getOutputName();
 
             if (entry.section == null) {
-                if (subpanelTest.getStatus().getType() == Status.NOT_RUN)
+                if (subpanelTest.getStatus().getType() == Status.NOT_RUN) {
                     showHTML(createNotRunSummary());
-                else
+                } else {
                     showHTML(createStatusSummary());
-            } else if (outputName != null)
+                }
+            } else if (outputName != null) {
                 showText(entry.getSection().getOutput(outputName));
-            else if (entry.isScriptMessagesSection())
+            } else if (entry.isScriptMessagesSection()) {
                 showHTML(createSummary());
-            else
+            } else {
                 showHTML(createSectionSummary(entry.getSection()));
+            }
         }
     }
 
@@ -814,49 +828,55 @@ class TP_OutputSubpanel extends TP_Subpanel {
 
         String getTitle() {
             if (section == null) {
-                if (subpanelTest.getStatus().getType() == Status.NOT_RUN)
+                if (subpanelTest.getStatus().getType() == Status.NOT_RUN) {
                     return uif.getI18NString("test.out.notRunTitle");
-                else
+                } else {
                     return uif.getI18NString("test.out.statusTitle");
+                }
             } else if (isScriptMessagesSection()) {
-                if (outputName == null)
+                if (outputName == null) {
                     return uif.getI18NString("test.out.summary");
-                else
+                } else {
                     return uif.getI18NString("test.out.scriptMessages");
+                }
             } else {
-                if (outputName == null)
+                if (outputName == null) {
                     return uif.getI18NString("test.out.sectionTitle", section.getTitle());
-                else
+                } else {
                     return uif.getI18NString("test.out.streamTitle",
                             section.getTitle(), outputName);
+                }
             }
         }
 
         String getText() {
             if (section == null) {
-                if (subpanelTest.getStatus().getType() == Status.NOT_RUN)
+                if (subpanelTest.getStatus().getType() == Status.NOT_RUN) {
                     return uif.getI18NString("test.out.notRunTitle");
-                else
+                } else {
                     return uif.getI18NString("test.out.statusTitle");
+                }
             } else if (isScriptMessagesSection()) {
-                if (outputName == null)
+                if (outputName == null) {
                     return uif.getI18NString("test.out.summary");
-                else
+                } else {
                     return uif.getI18NString("test.out.scriptMessages");
+                }
             } else {
-                if (outputName == null)
+                if (outputName == null) {
                     return section.getTitle();
-                else
+                } else {
                     return outputName;
+                }
             }
         }
 
         Icon getIcon() {
-            if (section == null)
+            if (section == null) {
                 return IconFactory.getTestIcon(subpanelTest.getStatus().getType(), false, true);
-            else if (outputName != null)
+            } else if (outputName != null) {
                 return streamIcon;
-            else {
+            } else {
                 Status s = section.getStatus();
                 //return (s == null ? null : sectIcons[s.getType()]);
                 return s == null ? null : IconFactory.getTestSectionIcon(s.getType());
@@ -889,8 +909,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
                 TOCEntry e = (TOCEntry) value;
                 l.setText(e.getText());
                 l.setIcon(e.getIcon());
-            } else
+            } else {
                 l.setText(value.toString());
+            }
             return l;
         }
     }

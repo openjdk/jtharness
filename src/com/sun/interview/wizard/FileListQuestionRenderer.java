@@ -79,13 +79,15 @@ public class FileListQuestionRenderer
                         // unacceptable files.
                         // Same issue in FileQuestionRenderer
                         mode = JFileChooser.FILES_AND_DIRECTORIES;
-                    } else if (mode == JFileChooser.FILES_ONLY)
+                    } else if (mode == JFileChooser.FILES_ONLY) {
                         mode = JFileChooser.FILES_AND_DIRECTORIES;
+                    }
                 } else {
-                    if (mode == -1)
+                    if (mode == -1) {
                         mode = JFileChooser.FILES_ONLY;
-                    else if (mode == JFileChooser.DIRECTORIES_ONLY)
+                    } else if (mode == JFileChooser.DIRECTORIES_ONLY) {
                         mode = JFileChooser.FILES_AND_DIRECTORIES;
+                    }
                 }
             }
             list.setFileSelectionMode(mode);

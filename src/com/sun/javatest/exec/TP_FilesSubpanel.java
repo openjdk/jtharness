@@ -54,8 +54,9 @@ class TP_FilesSubpanel extends TP_Subpanel {
 
     @Override
     protected void updateSubpanel(TestResult currTest) {
-        if (testSuite == null)
+        if (testSuite == null) {
             throw new IllegalStateException();
+        }
 
         TestDescription oldDesc = subpanelDesc;
 
@@ -63,15 +64,16 @@ class TP_FilesSubpanel extends TP_Subpanel {
 
         if (subpanelDesc != oldDesc) {
             // The test has changed; need to update the files panel
-            if (EventQueue.isDispatchThread())
+            if (EventQueue.isDispatchThread()) {
                 updateFiles();
-            else
+            } else {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
                         updateFiles();
                     }
                 });
+            }
         }
     }
 

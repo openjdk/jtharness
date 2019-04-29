@@ -93,28 +93,31 @@ class MessageStrip extends JSplitPane
 
     // which to display while running tests
     void setRunningMonitor(Monitor m) {
-        for (int i = 0; i < monitors.length; i++)
+        for (int i = 0; i < monitors.length; i++) {
             if (monitors[i] == m) {
                 runningMonitor = i;
                 break;
             }
+        }
     }
 
     // which to display while not running tests
     // these are not currently intended to be called after initialization
     void setIdleMonitor(Monitor m) {
-        for (int i = 0; i < monitors.length; i++)
+        for (int i = 0; i < monitors.length; i++) {
             if (monitors[i] == m) {
                 idleMonitor = i;
                 break;
             }
+        }
 
         setMonitor(idleMonitor);
     }
 
     void setMonitor(final int index) {
-        if (index < 0)
+        if (index < 0) {
             return;
+        }
 
         if (!EventQueue.isDispatchThread()) {
             EventQueue.invokeLater(new Runnable() {
@@ -146,13 +149,14 @@ class MessageStrip extends JSplitPane
         setText(leftField, uif.getI18NString("strip.start"));
         setMonitor(runningMonitor);
 
-        if (clearTimer == null)
+        if (clearTimer == null) {
             clearTimer = new Timer(CLEAR_TIMEOUT, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     setText(leftField, "");
                 }
             });
+        }
         clearTimer.start();
     }
 
@@ -179,8 +183,9 @@ class MessageStrip extends JSplitPane
     @Override
     public void finishedTestRun(boolean allOk) {
         setText(leftField, uif.getI18NString("strip.finish"));
-        if (clearTimer != null)
+        if (clearTimer != null) {
             clearTimer.stop();
+        }
     }
 
     @Override
@@ -192,10 +197,11 @@ class MessageStrip extends JSplitPane
     }
 
     private void setText(JTextComponent comp, String text) {
-        if (EventQueue.isDispatchThread())
+        if (EventQueue.isDispatchThread()) {
             comp.setText(text);
-        else
+        } else {
             EventQueue.invokeLater(new BranchPanel.TextUpdater(comp, text, uif));
+        }
     }
 
     private JPopupMenu createMenu() {
@@ -225,8 +231,9 @@ class MessageStrip extends JSplitPane
                         index, isSelected, cellHasFocus);
                 try {
                     JLabel lab = (JLabel) c;
-                    if (value instanceof Monitor)
+                    if (value instanceof Monitor) {
                         lab.setText(((Monitor) value).getSmallMonitorName());
+                    }
                 } catch (ClassCastException e) {
                 }
 
@@ -244,7 +251,9 @@ class MessageStrip extends JSplitPane
 
         monitorCards = new CardLayout();
         rightPanel = uif.createPanel("strip.", monitorCards, false);
-        for (Monitor monitor : monitors) rightPanel.add(monitor.getSmallMonitorName(), monitor.getSmallMonitor());
+        for (Monitor monitor : monitors) {
+            rightPanel.add(monitor.getSmallMonitorName(), monitor.getSmallMonitor());
+        }
         currMonitor = getDefaultSmallMonitor();
         monitorCards.show(rightPanel, monitors[currMonitor].getSmallMonitorName());
 
@@ -290,9 +299,9 @@ class MessageStrip extends JSplitPane
      * Determine by whatever means, which monitor should be shown.
      */
     private int getDefaultSmallMonitor() {
-        if (idleMonitor != -1)
+        if (idleMonitor != -1) {
             return idleMonitor;
-        else {
+        } else {
             Preferences p = Preferences.access();
             String prefSetting = p.getPreference(MINI_PREF, null);
 
@@ -320,12 +329,15 @@ class MessageStrip extends JSplitPane
     }
 
     private int getMonitorIndex(Monitor m) {
-        if (monitors == null || monitors.length == 0)
+        if (monitors == null || monitors.length == 0) {
             return -1;
+        }
 
-        for (int i = 0; i < monitors.length; i++)
-            if (monitors[i] == m)
+        for (int i = 0; i < monitors.length; i++) {
+            if (monitors[i] == m) {
                 return i;
+            }
+        }
 
         return -1;
     }
@@ -385,8 +397,9 @@ class MessageStrip extends JSplitPane
                     int index = Integer.parseInt(e.getActionCommand());
 
                     // no change, or index is out of valid range for some reason
-                    if (currMonitor == index || index >= monitors.length)
+                    if (currMonitor == index || index >= monitors.length) {
                         return;
+                    }
 
                     setMonitor(index);
                 }   // try

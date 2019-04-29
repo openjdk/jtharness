@@ -56,8 +56,9 @@ abstract class HTMLSection {
             reportDirPath = reportDir.getPath();
         }
 
-        if (!workPath.endsWith(File.separator))
+        if (!workPath.endsWith(File.separator)) {
             workPath += File.separator;
+        }
 
         if (reportDirPath.startsWith(workPath)) {
             // since reportFile is in reportDir, reset path to be relative

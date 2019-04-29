@@ -136,9 +136,13 @@ public class Properties2 extends Hashtable<String, Object> {
                             if (((ch = in.read()) == '\n') ||
                                     (ch == ' ') || (ch == '\t')) {
                                 // fall thru to '\n' case
-                            } else continue;
+                            } else {
+                                continue;
+                            }
                         case '\n':
-                            while (((ch = in.read()) == ' ') || (ch == '\t')) ;
+                            while (((ch = in.read()) == ' ') || (ch == '\t')) {
+                                ;
+                            }
                             continue;
                         case 't':
                             ch = '\t';
@@ -153,7 +157,9 @@ public class Properties2 extends Hashtable<String, Object> {
                             next = in.read();
                             break;
                         case 'u': {
-                            while ((ch = in.read()) == 'u') ;
+                            while ((ch = in.read()) == 'u') {
+                                ;
+                            }
                             int d = 0;
                             loop:
                             for (int i = 0; i < 4; i++) {

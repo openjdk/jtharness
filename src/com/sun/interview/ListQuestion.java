@@ -242,10 +242,11 @@ public abstract class ListQuestion extends Question {
      * @return the currently selected loop body, or null, if none.
      */
     public Body getSelectedBody() {
-        if (value >= 0 && value < bodies.size())
+        if (value >= 0 && value < bodies.size()) {
             return bodies.get(value);
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -421,8 +422,9 @@ public abstract class ListQuestion extends Question {
         if (c != null && !c.isEmpty()) {
             try {
                 int n = Integer.parseInt(c);
-                for (int i = 0; i < n; i++)
+                for (int i = 0; i < n; i++) {
                     bodies.add(createBody(i));
+                }
                 // once the bodies are created as children of this question's
                 // interview, they'll be reloaded by the interviews load method
             } catch (NumberFormatException ignore) {
@@ -430,9 +432,9 @@ public abstract class ListQuestion extends Question {
         }
 
         String v = data.get(tag + ".curr");
-        if (v == null || v.isEmpty())
+        if (v == null || v.isEmpty()) {
             value = 0;
-        else {
+        } else {
             try {
                 value = Integer.parseInt(v);
             } catch (NumberFormatException ignore) {
@@ -534,8 +536,9 @@ public abstract class ListQuestion extends Question {
         int count = 0;
         for (int i = 0; i < bodies.size(); i++) {
             Body b = bodies.get(i);
-            if (!b.isInterviewFinishable())
+            if (!b.isInterviewFinishable()) {
                 count++;
+            }
         }
         return count;
     }

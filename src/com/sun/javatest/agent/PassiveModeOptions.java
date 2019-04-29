@@ -52,11 +52,13 @@ class PassiveModeOptions extends ModeOptions {
     ConnectionFactory createConnectionFactory(int concurrency) throws BadValue, ConnectionFactory.Fault {
         try {
             int port = getInt("port", portField);
-            if (port < 0)
+            if (port < 0) {
                 throw new BadValue("port may not be negative");
+            }
 
-            if (!Agent.isValidConcurrency(concurrency))
+            if (!Agent.isValidConcurrency(concurrency)) {
                 throw new BadValue("concurrency may not be negative");
+            }
 
             return new PassiveConnectionFactory(port, concurrency);
         } catch (IOException e) {

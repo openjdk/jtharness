@@ -120,14 +120,17 @@ public class Audit {
                 statusCounts[tr.getStatus().getType()]++;
                 checksumCounts[tr.getChecksumState()]++;
 
-                if (tr.getChecksumState() == TestResult.BAD_CHECKSUM)
+                if (tr.getChecksumState() == TestResult.BAD_CHECKSUM) {
                     badChecksumTestsV.add(tr);
+                }
 
-                if (!equal(td, tr.getDescription()))
+                if (!equal(td, tr.getDescription())) {
                     badTestDescriptionsV.add(tr);
+                }
 
-                if (!checkTestCases(tr, excludeList))
+                if (!checkTestCases(tr, excludeList)) {
                     badTestCaseTestsV.add(tr);
+                }
 
                 Map<String, String> trEnv = tr.getEnvironment();
                 for (Map.Entry<String, String> e : trEnv.entrySet()) {
@@ -138,8 +141,9 @@ public class Audit {
                         allValuesForKey = new Vector<>();
                         envTable.put(key, allValuesForKey);
                     }
-                    if (!allValuesForKey.contains(value))
+                    if (!allValuesForKey.contains(value)) {
                         allValuesForKey.add(value);
+                    }
                 }
 
                 String start = tr.getProperty(TestResult.START);
@@ -147,13 +151,15 @@ public class Audit {
                     badDates = true;
                 } else {
                     Date d = parseDate(start);
-                    if (d == null)
+                    if (d == null) {
                         badDates = true;
-                    else {
-                        if (earliestStart == null || d.before(earliestStart))
+                    } else {
+                        if (earliestStart == null || d.before(earliestStart)) {
                             earliestStart = d;
-                        if (latestStart == null || d.after(latestStart))
+                        }
+                        if (latestStart == null || d.after(latestStart)) {
                             latestStart = d;
+                        }
                     }
                 }
             } catch (TestResult.Fault e) {
@@ -360,12 +366,14 @@ public class Audit {
      * @return true if all necessary tests passed.
      */
     public boolean isStatusCountsOK() {
-        if (testCount == 0)
+        if (testCount == 0) {
             return false;
+        }
 
         for (int i = 0; i < statusCounts.length; i++) {
-            if (i != Status.PASSED && statusCounts[i] != 0)
+            if (i != Status.PASSED && statusCounts[i] != 0) {
                 return false;
+            }
         }
         return statusCounts[Status.PASSED] == testCount;
     }
@@ -394,8 +402,9 @@ public class Audit {
         showBadTestCaseTests();
         showBadTests();
 
-        if (showAllEnvValues || showMultipleEnvValues)
+        if (showAllEnvValues || showMultipleEnvValues) {
             showEnvValues(showAllEnvValues);
+        }
     }
 
     /**
@@ -461,8 +470,9 @@ public class Audit {
                     earliestStart, b));
             out.println(i18n.getString("adt.latestResult",
                     latestStart, b));
-            if (badDates)
+            if (badDates) {
                 out.println(i18n.getString("adt.badDateStamps"));
+            }
         }
     }
 
@@ -475,9 +485,9 @@ public class Audit {
         int u = envCounts[0];
         int m = envCounts[1];
         if (u + m > 0) {
-            if (m == 0)
+            if (m == 0) {
                 out.println(i18n.getString("adt.env.allOK"));
-            else {
+            } else {
                 out.println(i18n.getString("adt.env.count",
                         Integer.valueOf(u), Integer.valueOf((u > 0 && m > 0) ? 1 : 0), Integer.valueOf(m)));
             }
@@ -503,9 +513,10 @@ public class Audit {
         for (String key : ss) {
             Vector<String> allValuesForKey = envTable.get(key);
             if (allValuesForKey.size() == 1) {
-                if (showAll)
+                if (showAll) {
                     out.println(i18n.getString("adt.envKeyValue",
                             key, allValuesForKey.get(0)));
+                }
             } else {
                 out.println(i18n.getString("adt.envKey", key));
                 for (int j = 0; j < allValuesForKey.size(); j++) {
@@ -524,11 +535,12 @@ public class Audit {
             int g = checksumCounts[TestResult.GOOD_CHECKSUM];
             int b = checksumCounts[TestResult.BAD_CHECKSUM];
             int n = checksumCounts[TestResult.NO_CHECKSUM];
-            if (b == 0 && n == 0)
+            if (b == 0 && n == 0) {
                 out.println(i18n.getString("adt.cs.allOK"));
-            else
+            } else {
                 out.println(i18n.getString("adt.cs.count",
                         Integer.valueOf(g), Integer.valueOf((g > 0) && (b + n > 0) ? 1 : 0), Integer.valueOf(b), Integer.valueOf((b > 0) && (n > 0) ? 1 : 0), Integer.valueOf(n)));
+            }
         }
     }
 
@@ -536,19 +548,20 @@ public class Audit {
      * Print out a short summary report of the test result status statistics.
      */
     private void showResultCounts() {
-        if (testCount == 0)
+        if (testCount == 0) {
             out.println(i18n.getString("adt.status.noTests"));
-        else {
+        } else {
             int p = statusCounts[Status.PASSED];
             int f = statusCounts[Status.FAILED];
             int e = statusCounts[Status.ERROR];
             int nr = statusCounts[Status.NOT_RUN];
 
-            if (p == testCount)
+            if (p == testCount) {
                 out.println(i18n.getString("adt.status.allOK"));
-            else
+            } else {
                 out.println(i18n.getString("adt.status.count",
                         Integer.valueOf(p), Integer.valueOf((p > 0) && (f + e + nr > 0) ? 1 : 0), Integer.valueOf(f), Integer.valueOf((f > 0) && (e + nr > 0) ? 1 : 0), Integer.valueOf(e), Integer.valueOf((e > 0) && (nr > 0) ? 1 : 0), Integer.valueOf(nr)));
+            }
         }
     }
 
@@ -561,9 +574,9 @@ public class Audit {
      * @return true if a separator will be needed for the next value to be shown
      */
     private boolean showCount(String msg, boolean needSep, int count) {
-        if (count == 0)
+        if (count == 0) {
             return needSep;
-        else {
+        } else {
             out.print(i18n.getString(msg,
                     Integer.valueOf(needSep ? 1 : 0), Integer.valueOf(count)));
             return true;
@@ -576,16 +589,18 @@ public class Audit {
         // (This is the typical case.)
         String[] etcTest;
         String etcTestProp = tr.getProperty("excludedTestCases");
-        if (etcTestProp == null)
+        if (etcTestProp == null) {
             return true;
-        else
+        } else {
             etcTest = StringArray.split(etcTestProp);
+        }
 
         // This next test is probably redundant, assuming the excludeList is
         // the same as that used to locate the tests, but check anyway:
         // if test is now completely excluded, then OK.
-        if (excludeList.excludesAllOf(tr.getDescription()))
+        if (excludeList.excludesAllOf(tr.getDescription())) {
             return true;
+        }
 
         String[] etcTable = excludeList.getTestCases(tr.getDescription());
         // null indicates test not found in table, or the entire test is excluded
@@ -593,15 +608,17 @@ public class Audit {
         // latter cannot be the case, so null means the test is not present
         // in the exclude list. Since we also have checked that the test has
         // excluded test cases that means we have a problem...
-        if (etcTable == null)
+        if (etcTable == null) {
             return false;
+        }
 
         // now check that etcTest is a subset of etcTable
         nextTestCase:
         for (String anEtcTest : etcTest) {
             for (String anEtcTable : etcTable) {
-                if (anEtcTest.equals(anEtcTable))
+                if (anEtcTest.equals(anEtcTable)) {
                     continue nextTestCase;
+                }
             }
             // etcTest[i] was not found in etcTable;
             // that means we have a problem
@@ -614,8 +631,9 @@ public class Audit {
     }
 
     private static boolean equal(TestDescription a, TestDescription b) {
-        if (a == null || b == null)
+        if (a == null || b == null) {
             return a == b;
+        }
 
         //if (!a.rootRelativeFile.equals(b.rootRelativeFile))
         //    return false;
@@ -651,8 +669,9 @@ public class Audit {
     }
 
     private Date parseDate(String s) {
-        if (dateFormats == null)
+        if (dateFormats == null) {
             initDateFormats();
+        }
 
         for (int i = 0; i < dateFormats.length; i++) {
             try {
@@ -699,8 +718,9 @@ public class Audit {
 
         // allow user-specified format
         String s = System.getProperty("javatest.date.format");
-        if (s != null)
+        if (s != null) {
             v.add(new SimpleDateFormat(s));
+        }
 
         dateFormats = v.toArray(new DateFormat[v.size()]);
     }

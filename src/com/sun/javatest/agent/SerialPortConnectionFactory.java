@@ -60,8 +60,9 @@ public class SerialPortConnectionFactory implements ConnectionFactory {
      *                a connection.
      */
     public SerialPortConnectionFactory(CommPortIdentifier portId, String app, int timeout) {
-        if (portId.getPortType() != CommPortIdentifier.PORT_SERIAL)
+        if (portId.getPortType() != CommPortIdentifier.PORT_SERIAL) {
             throw new IllegalArgumentException("Not a serial port: " + portId.getName());
+        }
         this.portId = portId;
         this.app = app;
         this.timeout = timeout;

@@ -265,15 +265,17 @@ public class XMLReport implements ReportFormat {
         TestResultTable trt = null;
         WorkDirectory wd = null;
 
-        if (tn != null)
+        if (tn != null) {
             trt = tn.getEnclosingTable();
-        else
+        } else {
             return;
+        }
 
-        if (trt != null)
+        if (trt != null) {
             wd = trt.getWorkDirectory();
-        else
+        } else {
             return;
+        }
 
         Map<String, String> map = wd.getTestAnnotations(testResult);
         if (map != null) {
@@ -330,9 +332,10 @@ public class XMLReport implements ReportFormat {
         if (excludeList != null) {
             Parameters.ExcludeListParameters exclParams = sett.getInterview().getExcludeListParameters();
             File[] excludeFiles = null;
-            if (exclParams instanceof Parameters.MutableExcludeListParameters)
+            if (exclParams instanceof Parameters.MutableExcludeListParameters) {
                 excludeFiles =
                         ((Parameters.MutableExcludeListParameters) exclParams).getExcludeFiles();
+            }
 
             if (excludeFiles != null && excludeFiles.length > 0) {
                 maker.sExclList();
@@ -491,10 +494,18 @@ public class XMLReport implements ReportFormat {
          * Convert Status object to String
          */
         static String statusToString(Status st) {
-            if (st.isError()) return "ERROR";
-            if (st.isFailed()) return "FAILED";
-            if (st.isNotRun()) return "NOT_RUN";
-            if (st.isPassed()) return "PASSED";
+            if (st.isError()) {
+                return "ERROR";
+            }
+            if (st.isFailed()) {
+                return "FAILED";
+            }
+            if (st.isNotRun()) {
+                return "NOT_RUN";
+            }
+            if (st.isPassed()) {
+                return "PASSED";
+            }
             return "UNKNOWN";
         }
 
@@ -502,10 +513,18 @@ public class XMLReport implements ReportFormat {
          * Convert Status integer value to String
          */
         static String statusIntToString(int st) {
-            if (st == Status.ERROR) return "ERROR";
-            if (st == Status.FAILED) return "FAILED";
-            if (st == Status.NOT_RUN) return "NOT_RUN";
-            if (st == Status.PASSED) return "PASSED";
+            if (st == Status.ERROR) {
+                return "ERROR";
+            }
+            if (st == Status.FAILED) {
+                return "FAILED";
+            }
+            if (st == Status.NOT_RUN) {
+                return "NOT_RUN";
+            }
+            if (st == Status.PASSED) {
+                return "PASSED";
+            }
             return "UNKNOWN";
         }
 

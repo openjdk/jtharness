@@ -94,8 +94,9 @@ public class ShowFile
     @Override
     public Dimension getPreferredSize() {
         Graphics g = getGraphics();
-        if (g == null)
+        if (g == null) {
             return new Dimension(100, 10);
+        }
 
         FontMetrics fm = font == null ? g.getFontMetrics() : g.getFontMetrics(font);
         int w = fm.stringWidth(text);
@@ -106,8 +107,9 @@ public class ShowFile
     @Override
     public float getAlignmentY() {
         Graphics g = getGraphics();
-        if (g == null)
+        if (g == null) {
             return super.getAlignmentY();
+        }
 
         FontMetrics fm = font == null ? g.getFontMetrics() : g.getFontMetrics(font);
         float ascent = fm.getMaxAscent();
@@ -118,8 +120,9 @@ public class ShowFile
     @Override
     public void paintComponent(Graphics g) {
         g.setColor(color);
-        if (font != null)
+        if (font != null) {
             g.setFont(font);
+        }
         FontMetrics fm = g.getFontMetrics();
         int baseLine = fm.getMaxAscent();
         g.drawString(text, 0, baseLine);
@@ -192,8 +195,9 @@ public class ShowFile
         font = Font.decode(fontName);
 
         Graphics g = getGraphics();
-        if (g == null)
+        if (g == null) {
             return;
+        }
 
         FontMetrics fm = font == null ? g.getFontMetrics()
                 : g.getFontMetrics(font);
@@ -234,8 +238,9 @@ public class ShowFile
             int dpi = t.getScreenResolution();
 
             frame = new JFrame();
-            if (title != null)
+            if (title != null) {
                 frame.setTitle(title);
+            }
 
             textArea = new JTextArea();
             textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -260,8 +265,9 @@ public class ShowFile
             StringBuilder sb = new StringBuilder();
             char[] buf = new char[1024];
             int n;
-            while ((n = r.read(buf, 0, buf.length)) != -1)
+            while ((n = r.read(buf, 0, buf.length)) != -1) {
                 sb.append(buf, 0, n);
+            }
             r.close();
             textArea.setText(sb.toString());
         } catch (IOException e) {
@@ -273,9 +279,9 @@ public class ShowFile
 
         String text = textArea.getText();
         int startLineIndex = startLine == null ? -1 : text.indexOf(startLine);
-        if (startLineIndex == -1)
+        if (startLineIndex == -1) {
             textArea.setCaretPosition(0);
-        else {
+        } else {
             try {
                 int start = getStartOfLine(text, startLineIndex);
                 int end = getEndOfLine(text, startLineIndex);
@@ -303,15 +309,17 @@ public class ShowFile
 
     int getStartOfLine(String text, int index) {
         int i = index;
-        while (i > 0 && text.charAt(i - 1) != '\n')
+        while (i > 0 && text.charAt(i - 1) != '\n') {
             i--;
+        }
         return i;
     }
 
     int getEndOfLine(String text, int index) {
         int i = index;
-        while (i < text.length() - 1 && text.charAt(i + 1) != '\n')
+        while (i < text.length() - 1 && text.charAt(i + 1) != '\n') {
             i++;
+        }
         return i;
     }
 

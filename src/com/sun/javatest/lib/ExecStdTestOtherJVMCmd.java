@@ -66,11 +66,12 @@ public class ExecStdTestOtherJVMCmd extends ProcessCommand {
      **/
     @Override
     protected Status getStatus(int exitCode, Status logStatus) {
-        if (logStatus != null)
+        if (logStatus != null) {
             return logStatus;
-        else if (exitCode == 0)
+        } else if (exitCode == 0) {
             return Status.failed("exit without status, exception assumed");
-        else
+        } else {
             return Status.failed("exit code " + exitCode);
+        }
     }
 }

@@ -253,8 +253,9 @@ public class MultiTest implements Test {
                     return 2;
                 } else {
                     int i;
-                    for (i = index + 1; i < args.length && !args[i].startsWith("-"); i++)
+                    for (i = index + 1; i < args.length && !args[i].startsWith("-"); i++) {
                         testCases.select(args[i]);
+                    }
                     return i - index;
                 }
 
@@ -262,8 +263,9 @@ public class MultiTest implements Test {
                 ref = new PrintWriter(ref, true);
                 log = new PrintWriter(ref, true);
                 return 1;
-            } else
+            } else {
                 return 0;
+            }
         } catch (TestCases.Fault e) {
             throw new SetupException(e.getMessage());
         }

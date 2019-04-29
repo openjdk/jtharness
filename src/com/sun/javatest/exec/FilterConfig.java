@@ -98,8 +98,9 @@ public class FilterConfig {
      * Care should be taken not to add a filter more than once.
      */
     synchronized void add(TestFilter f) {
-        if (f == null)
+        if (f == null) {
             return;
+        }
 
         // record this filter officially
         filters = DynamicArray.append(filters, f);
@@ -115,10 +116,13 @@ public class FilterConfig {
 
         // tell people about the addition
         // obs should never be null
-        for (Observer ob : obs) ob.filterAdded(f);
+        for (Observer ob : obs) {
+            ob.filterAdded(f);
+        }
 
-        if (fep != null)
+        if (fep != null) {
             fep.listModel.addElement(f);
+        }
     }
 
     /**
@@ -130,14 +134,16 @@ public class FilterConfig {
      * @throws FilterInUseFault Thrown if you try to remove the active filter.
      */
     synchronized void remove(TestFilter f) {
-        if (f == null)
+        if (f == null) {
             return;
+        }
 
         // remove this filter officially
         filters = DynamicArray.remove(filters, f);
 
-        if (f instanceof ObservableTestFilter)
+        if (f instanceof ObservableTestFilter) {
             ((ObservableTestFilter) f).removeObserver(listener);
+        }
 
         if (f instanceof ConfigurableTestFilter && fep != null) {
             fep.removeConfigurableFilter((ConfigurableTestFilter) f);
@@ -145,18 +151,22 @@ public class FilterConfig {
 
         // tell people about the removal
         // obs should never be null
-        for (Observer ob : obs) ob.filterRemoved(f);
+        for (Observer ob : obs) {
+            ob.filterRemoved(f);
+        }
 
-        if (fep != null)
+        if (fep != null) {
             fep.listModel.removeElement(f);
+        }
     }
 
     synchronized String[] getFilterNames() {
         int count = filters.length;
         String[] names = new String[count];
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++) {
             names[i] = filters[i].getName();
+        }
 
         return names;
     }
@@ -177,9 +187,11 @@ public class FilterConfig {
     synchronized TestFilter getFilter(String name) {
         int count = filters.length;
 
-        for (TestFilter filter : filters)
-            if (name.equals(filter.getName()))
+        for (TestFilter filter : filters) {
+            if (name.equals(filter.getName())) {
                 return filter;
+            }
+        }
 
         // not found
         return null;
@@ -190,9 +202,11 @@ public class FilterConfig {
      * Done by reference compare.
      */
     synchronized boolean contains(TestFilter f) {
-        for (TestFilter filter : filters)
-            if (filter == f)
+        for (TestFilter filter : filters) {
+            if (filter == f) {
                 return true;
+            }
+        }
 
         // not found
         return false;
@@ -206,11 +220,13 @@ public class FilterConfig {
     }
 
     public synchronized void addObserver(Observer o) {
-        if (o == null)
+        if (o == null) {
             return;
+        }
 
-        if (obs == null)
+        if (obs == null) {
             obs = new Observer[0];
+        }
 
         obs = DynamicArray.append(obs, o);
     }
@@ -226,7 +242,9 @@ public class FilterConfig {
      */
     synchronized void notifyUpdated(TestFilter f) {
         if (obs == null)    // this really should not happen
+        {
             return;
+        }
 
         for (Observer ob : obs) {
             ob.filterUpdated(f);
@@ -237,8 +255,9 @@ public class FilterConfig {
      * Show the filter editor.
      */
     synchronized void showEditorDialog() {
-        if (fep == null)
+        if (fep == null) {
             fep = new FilterEditorPanel(parentComponent, uif);
+        }
 
         fep.setVisible(true);
     }
@@ -249,8 +268,9 @@ public class FilterConfig {
      * @param f the filter to show the user initially
      */
     synchronized void showEditorDialog(TestFilter f) {
-        if (fep == null)
+        if (fep == null) {
             fep = new FilterEditorPanel(parentComponent, uif);
+        }
 
         fep.setSelectedFilter(f);
         fep.setVisible(true);
@@ -318,19 +338,22 @@ public class FilterConfig {
                 }
 
                 if (result == null)
-                    //OLD editDialog.hide();
+                //OLD editDialog.hide();
+                {
                     setVisible(false);
-                else {
+                } else {
                     // save failed...
                 }
             } else if (source == applyBut) {
                 result = doApply();
             } else if (source == resetBut) {
-                if (mode == EDITABLE)
+                if (mode == EDITABLE) {
                     doReset();
+                }
             } else if (source == cancelBut) {
-                if (mode == EDITABLE)
+                if (mode == EDITABLE) {
                     doReset();
+                }
 
                 //OLD editDialog.hide();
                 setVisible(false);
@@ -364,8 +387,9 @@ public class FilterConfig {
         void setSelectedFilter(TestFilter f) {
             if (listModel != null) {
                 int ind = listModel.indexOf(f);
-                if (ind >= 0)
+                if (ind >= 0) {
                     selectIndex(ind);
+                }
             } else {
                 // necessary for correct initialization, since the ToolDialog
                 // does lazy initialization
@@ -492,16 +516,19 @@ public class FilterConfig {
             mode = -1;
 
             // process any stored state
-            if (selectedFilter != null)
+            if (selectedFilter != null) {
                 setSelectedFilter(selectedFilter);
-            else
+            } else {
                 selectIndex(0);     // the default
+            }
         }
 
         private ListModel<TestFilter> createListModel() {
             listModel = new DefaultListModel<>();
 
-            for (TestFilter filter : filters) listModel.addElement(filter);
+            for (TestFilter filter : filters) {
+                listModel.addElement(filter);
+            }
 
             return listModel;
         }
@@ -711,10 +738,11 @@ public class FilterConfig {
             JComponent comp = ctf.getEditorPane();
             String thisName = "ctf" + ++configCounter;
 
-            if (comp != null)
+            if (comp != null) {
                 configPanel.add(thisName, comp);
-            else
+            } else {
                 configPanel.add(thisName, EMPTY_CONFIG);
+            }
 
             // to lookup later
             configPanelHash.put(ctf, thisName);
@@ -725,13 +753,15 @@ public class FilterConfig {
         }
 
         private void fillInfo(TestFilter f) {
-            if (f == null)
+            if (f == null) {
                 return;
+            }
 
             if (f instanceof ConfigurableTestFilter) {
                 infoName.setText(((ConfigurableTestFilter) f).getBaseName());
-            } else
+            } else {
                 infoName.setText(f.getName());
+            }
 
             infoDesc.setText(f.getDescription());
             //infoReason.setText(f.getReason());
@@ -748,8 +778,9 @@ public class FilterConfig {
          * the value is a localized error message for the user.
          */
         private String doApply() {
-            if (mode == UNEDITABLE)
+            if (mode == UNEDITABLE) {
                 throw new IllegalStateException("filter is uneditable, cannot apply changes");
+            }
 
             ConfigurableTestFilter ctf = (ConfigurableTestFilter) selectedFilter;
 
@@ -757,13 +788,17 @@ public class FilterConfig {
             String newName = namingName.getText();
             if (validateName(newName) != -1) {
                 return uif.getI18NString("fconfig.edit.badName", newName);
-            } else if (newName != null)
+            } else if (newName != null) {
                 ctf.setInstanceName(newName);
+            }
 
             String status = ctf.commitEditorSettings();
 
-            if (handlers != null)
-                for (FilterSelectionHandler handler : handlers) handler.updateFilterMetaInfo(ctf);
+            if (handlers != null) {
+                for (FilterSelectionHandler handler : handlers) {
+                    handler.updateFilterMetaInfo(ctf);
+                }
+            }
 
             return status;
         }
@@ -791,10 +826,11 @@ public class FilterConfig {
                         c == '_' ||
                         c == '.' ||
                         c == ' ' ||
-                        c == ',')
+                        c == ',') {
                     continue;
-                else
+                } else {
                     return i;
+                }
             }   // for
 
             return -1;

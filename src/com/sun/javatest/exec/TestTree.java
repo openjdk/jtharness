@@ -106,8 +106,9 @@ class TestTree extends JTree {
      * @param mod The new data model.
      */
     void setTreeModel(TestTreeModel mod) {
-        if (currModel != null)
+        if (currModel != null) {
             currModel.removeTreeModelListener(watcher);
+        }
 
         currModel = mod;
         setModel(currModel);
@@ -121,15 +122,18 @@ class TestTree extends JTree {
     TreePath[] snapshotSelectedPaths() {
 
         TreeSelectionModel tsm = getSelectionModel();
-        if (tsm == null) return null;
+        if (tsm == null) {
+            return null;
+        }
 
         return tsm.getSelectionPaths();
 
     }
 
     void restoreSelection(String... selectedUrls) {
-        if (selectedUrls == null || selectedUrls.length == 0)
+        if (selectedUrls == null || selectedUrls.length == 0) {
             return;
+        }
 
         if (currModel instanceof TestTreeModel) {
             final TreePath[] paths = currModel.urlsToPaths(selectedUrls);
@@ -142,18 +146,21 @@ class TestTree extends JTree {
                     }
 
                 });
-            } else
+            } else {
                 restoreSelection(paths);
+            }
         }
     }
 
     private void restoreSelection(TreePath... selectedPaths) {
-        if (selectedPaths == null || selectedPaths.length == 0)
+        if (selectedPaths == null || selectedPaths.length == 0) {
             return;
+        }
 
         TreeSelectionModel tsm = getSelectionModel();
-        if (tsm == null)
+        if (tsm == null) {
             return;
+        }
 
         // add or set ???
         tsm.addSelectionPaths(selectedPaths);
@@ -169,8 +176,9 @@ class TestTree extends JTree {
         // currModel.getRoot()==null may indicate that the GUI has been
         // disposed already (?).  We have seen exceptions in the code
         // below because this situation occurs.
-        if (currModel == null || currModel.getRoot() == null)
+        if (currModel == null || currModel.getRoot() == null) {
             return null;
+        }
 
         TreePath[] paths = new TreePath[0];
         Enumeration<TreePath> e = getDescendantToggledPaths(new TreePath(currModel.getRoot()));
@@ -178,9 +186,13 @@ class TestTree extends JTree {
         while (e != null && e.hasMoreElements()) {
             TreePath tp = e.nextElement();
             if (!isVisible(tp))     // if we can't see it, we don't care
+            {
                 continue;
+            }
             if (!isExpanded(tp))    // if it's not expanded, we don't need it
+            {
                 continue;
+            }
 
             paths = DynamicArray.append(paths, tp);
         }   // while
@@ -196,8 +208,9 @@ class TestTree extends JTree {
      *                 end - this can be important for proper queuing of operations.
      */
     void restorePaths(String[] openUrls, boolean queue) {
-        if (openUrls == null || openUrls.length == 0)
+        if (openUrls == null || openUrls.length == 0) {
             return;
+        }
 
         if (currModel instanceof TestTreeModel) {
             final TreePath[] paths = currModel.urlsToPaths(openUrls);
@@ -209,8 +222,9 @@ class TestTree extends JTree {
                         restorePaths(paths);
                     }
                 });
-            } else
+            } else {
                 restorePaths(paths);
+            }
         }
     }
 
@@ -221,12 +235,14 @@ class TestTree extends JTree {
      */
     void restorePaths(TreePath... paths) {
         // make sure root still matches
-        if (paths == null || paths.length == 0)
+        if (paths == null || paths.length == 0) {
             return;
+        }
 
         for (TreePath path : paths) {
-            if (path.getPathCount() == 1)
+            if (path.getPathCount() == 1) {
                 continue;
+            }
 
             //expandPath(paths[i]);
             setExpandedState(path, true);
@@ -255,16 +271,19 @@ class TestTree extends JTree {
             }
 
             Object[] targets = e.getChildren();
-            if (targets == null)
+            if (targets == null) {
                 return;     // don't care then
+            }
 
-            for (Object target : targets)
+            for (Object target : targets) {
                 if (target instanceof TT_TestNode) {
                     TestResult tr = ((TT_TestNode) target).getTestResult();
 
-                    if (tr.getTestName().equals(activeTest))
+                    if (tr.getTestName().equals(activeTest)) {
                         tpm.showTest(tr);
+                    }
                 }
+            }
 
             repaint();
         }
@@ -279,16 +298,19 @@ class TestTree extends JTree {
             }
 
             Object[] targets = e.getChildren();
-            if (targets == null)
+            if (targets == null) {
                 return;     // don't care then
+            }
 
-            for (Object target : targets)
+            for (Object target : targets) {
                 if (target instanceof TT_TestNode) {
                     TestResult tr = ((TT_TestNode) target).getTestResult();
 
-                    if (tr.getTestName().equals(activeTest))
+                    if (tr.getTestName().equals(activeTest)) {
                         tpm.showTest(tr);
+                    }
                 }
+            }
         }
 
         @Override
@@ -305,8 +327,9 @@ class TestTree extends JTree {
 
             //tpm.showNode(getModel().getRoot(), new TreePath(getModel().getRoot()));
 
-            if (tp != null && tp.length != 0)
+            if (tp != null && tp.length != 0) {
                 restorePaths(tp);
+            }
 
             restoreSelection(selected);
         }

@@ -57,10 +57,11 @@ class CE_EnvironmentPane extends CE_StdPane {
         testSuite = config.getTestSuite();
 
         envParameters = config.getEnvParameters();
-        if (envParameters instanceof LegacyEnvParameters)
+        if (envParameters instanceof LegacyEnvParameters) {
             legacyEnvParameters = (LegacyEnvParameters) envParameters;
-        else
+        } else {
             legacyEnvParameters = null;
+        }
 
         initGUI();
     }
@@ -87,8 +88,9 @@ class CE_EnvironmentPane extends CE_StdPane {
             envNameField.setEditable(true);
 
             String envName = legacyEnvParameters.getEnvName();
-            if (envName != null)
+            if (envName != null) {
                 envNameField.setSelectedItem(envName);
+            }
         } else {
             envFilesField.clear();
             envFilesField.setEnabled(false);
@@ -96,8 +98,9 @@ class CE_EnvironmentPane extends CE_StdPane {
 
             TestEnvironment env = envParameters.getEnv();
             String name = env == null ? null : env.getName();
-            if (name == null)
+            if (name == null) {
                 name = uif.getI18NString("ce.env.noName");
+            }
             envNameField.addItem(name);
             envNameField.setEnabled(false);
         }
@@ -107,8 +110,9 @@ class CE_EnvironmentPane extends CE_StdPane {
     void save() {
         if (legacyEnvParameters != null) {
             legacyEnvParameters.setEnvFiles(envFilesField.getFiles());
-            if (envNameField.isEnabled())
+            if (envNameField.isEnabled()) {
                 legacyEnvParameters.setEnvName((String) envNameField.getSelectedItem());
+            }
         }
     }
 
@@ -137,8 +141,9 @@ class CE_EnvironmentPane extends CE_StdPane {
             @Override
             public Object getNewItem() {
                 File f = (File) super.getNewItem();
-                if (f != null)
+                if (f != null) {
                     f = makeTestSuiteRelative(f);
+                }
                 return f;
             }
         };
@@ -195,10 +200,12 @@ class CE_EnvironmentPane extends CE_StdPane {
             File tsd = testSuite.getRootDir();
             File[] envFiles = envFilesField.getFiles();
             for (int i = 0; i < envFiles.length; i++) {
-                if (!envFiles[i].isAbsolute())
+                if (!envFiles[i].isAbsolute()) {
                     envFiles[i] = new File(tsd, envFiles[i].getPath());
-                if (!envFiles[i].exists())
+                }
+                if (!envFiles[i].exists()) {
                     uif.showError("ce.env.cantFindEnvFile", envFiles[i]);
+                }
             }
             TestEnvContext tec = new TestEnvContext(envFiles);
             String[] names = tec.getEnvMenuNames();
@@ -206,7 +213,9 @@ class CE_EnvironmentPane extends CE_StdPane {
             System.arraycopy(names, 0, sortedNames, 0, names.length);
             Arrays.sort(sortedNames);
             envNameField.removeAllItems();
-            for (String sortedName : sortedNames) envNameField.addItem(sortedName);
+            for (String sortedName : sortedNames) {
+                envNameField.addItem(sortedName);
+            }
         } catch (TestEnvContext.Fault ex) {
             uif.showError("ce.env.cannotEvalEnvs", ex.getMessage());
         }
@@ -214,15 +223,18 @@ class CE_EnvironmentPane extends CE_StdPane {
         if (envNameField.getItemCount() == 0) {
             envNameField.addItem(uif.getI18NString("ce.env.noEnvs"));
             envNameField.setEnabled(false);
-        } else
+        } else {
             envNameField.setEnabled(legacyEnvParameters != null);
+        }
     }
 
     private File makeTestSuiteRelative(File file) {
         try {
             if (file.isAbsolute())
-                // cannot (and should not) do anything to adjust it
+            // cannot (and should not) do anything to adjust it
+            {
                 return file;
+            }
 
             // but if it is relative it will have been given to us relative
             // to the current dir, so we adjust it to be relative to the test
@@ -241,8 +253,9 @@ class CE_EnvironmentPane extends CE_StdPane {
             String cp = canonTSDPath;
             while ((spIndex = cp.lastIndexOf(File.separatorChar)) != -1) {
                 cp = cp.substring(0, spIndex);
-                if (prefix.length() != 0)
+                if (prefix.length() != 0) {
                     prefix.append(File.separator);
+                }
                 prefix.append("..");
                 if (canonFilePath.length() > cp.length() + 1 &&
                         canonFilePath.startsWith(cp) &&
@@ -255,10 +268,11 @@ class CE_EnvironmentPane extends CE_StdPane {
                     // .. and so we drop out and return the canonical path instead
                     File guess = new File(prefix.toString(), file.getPath());
                     String canonGuessPath = new File(tsd, guess.getPath()).getCanonicalPath();
-                    if (canonGuessPath.equals(canonFilePath))
+                    if (canonGuessPath.equals(canonFilePath)) {
                         return guess;
-                    else
+                    } else {
                         break;
+                    }
                 }
             }
 

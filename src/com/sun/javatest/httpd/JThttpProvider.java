@@ -55,10 +55,11 @@ public abstract class JThttpProvider {
      * @return Null if it is not possible to determine any URLs to this object.
      */
     public String getRootURL() {
-        if (regURLs != null && regURLs.length > 0)
+        if (regURLs != null && regURLs.length > 0) {
             return regURLs[0];
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -79,7 +80,9 @@ public abstract class JThttpProvider {
      * characters which need to be "escaped" in HTML.
      */
     protected static void print(PrintWriter out, String str) {
-        if (str == null) return;
+        if (str == null) {
+            return;
+        }
 
         out.print(filterTags(str));
     }
@@ -89,7 +92,9 @@ public abstract class JThttpProvider {
      * characters which need to be "escaped" in HTML.
      */
     protected static void println(PrintWriter out, String str) {
-        if (str == null) return;
+        if (str == null) {
+            return;
+        }
 
         out.println(filterTags(str));
     }
@@ -130,7 +135,9 @@ public abstract class JThttpProvider {
     void addRegistredURL(String url) {
         if (url != null) {
             regURLs = DynamicArray.append(regURLs, url);
-            if (debug) System.out.println("PROV-registered URL (" + url + ") in " + this);
+            if (debug) {
+                System.out.println("PROV-registered URL (" + url + ") in " + this);
+            }
         }
     }
 

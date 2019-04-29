@@ -121,8 +121,9 @@ public class WizPrint {
      */
     public static void usage() {
         String prog = System.getProperty("program");
-        if (prog == null)
+        if (prog == null) {
             prog = formatI18N("wp.prog", WizPrint.class.getName());
+        }
         String msg = formatI18N("wp.usage", prog);
 
         boolean newline = true;
@@ -136,8 +137,9 @@ public class WizPrint {
                 newline = false;
             }
         }
-        if (!newline)
+        if (!newline) {
             System.err.println();
+        }
     }
 
     /**
@@ -154,21 +156,23 @@ public class WizPrint {
             File outFileName = null;
 
             for (int i = 0; i < args.length; i++) {
-                if (args[i].equals("-o") && i + 1 < args.length)
+                if (args[i].equals("-o") && i + 1 < args.length) {
                     outFileName = new File(args[++i]);
-                else if (args[i].equals("-path"))
+                } else if (args[i].equals("-path")) {
                     path = true;
-                else if (args[i].equals("-all"))
+                } else if (args[i].equals("-all")) {
                     path = false;
-                else if (args[i].startsWith("-"))
+                } else if (args[i].startsWith("-")) {
                     throw new BadArgs(i18n, "wp.badArg", args[i]);
-                else if (i == args.length - 1) {
-                    if (args[i].endsWith(".jti"))
+                } else if (i == args.length - 1) {
+                    if (args[i].endsWith(".jti")) {
                         interviewFile = new File(args[i]);
-                    else
+                    } else {
                         interviewClassName = args[i];
-                } else
+                    }
+                } else {
                     throw new BadArgs(i18n, "wp.badArg", args[i]);
+                }
             }
 
             Map<String, String> interviewData = null;
@@ -185,19 +189,22 @@ public class WizPrint {
                 }
             }
 
-            if (interviewClassName == null)
+            if (interviewClassName == null) {
                 throw new BadArgs(i18n, "wp.noInterview");
+            }
 
             if (outFileName == null) {
                 // try and create a default
                 if (interviewFile != null) {
                     String ip = interviewFile.getPath();
                     int dot = ip.lastIndexOf(".");
-                    if (dot != -1)
+                    if (dot != -1) {
                         outFileName = new File(ip.substring(0, dot) + ".html");
+                    }
                 }
-                if (outFileName == null)
+                if (outFileName == null) {
                     throw new BadArgs(i18n, "wp.noOutput");
+                }
             }
 
             Class<? extends Interview> ic =
@@ -206,8 +213,9 @@ public class WizPrint {
             Interview interview = ic.getDeclaredConstructor().newInstance();
             Question[] questions;
 
-            if (interviewData != null)
+            if (interviewData != null) {
                 interview.load(interviewData);
+            }
 
             if (path) {
                 questions = interview.getPath();
@@ -411,10 +419,11 @@ public class WizPrint {
                 startTag(P);
                 startTag(I);
                 writeI18N("wp.tag");
-                if (tag == null)
+                if (tag == null) {
                     writeTag(I, "null");  // I18N??
-                else
+                } else {
                     writeTag(B, tag);
+                }
                 endTag(I);
                 endTag(P);
                 newLine();
@@ -432,10 +441,12 @@ public class WizPrint {
                 writeText(q.getText());
                 endTag(P);
                 newLine();
-                if (showResponseTypes)
+                if (showResponseTypes) {
                     writeResponseType(q);
-                if (showResponses)
+                }
+                if (showResponses) {
                     writeResponse(q);
+                }
             }
         }
     }
@@ -451,10 +462,11 @@ public class WizPrint {
             writeResponse(caq.getValue(), caq.getChoices(), caq.getDisplayChoices());
         } else if (q instanceof ChoiceQuestion) {
             ChoiceQuestion cq = (ChoiceQuestion) q;
-            if (cq.getChoices() == cq.getDisplayChoices())
+            if (cq.getChoices() == cq.getDisplayChoices()) {
                 writeResponse(cq.getValue());
-            else
+            } else {
                 writeResponse(cq.getValue(), cq.getDisplayValue());
+            }
         } else if (q instanceof ErrorQuestion) {
             // no response
         } else if (q instanceof FileListQuestion) {
@@ -490,10 +502,11 @@ public class WizPrint {
         } else if (q instanceof TreeQuestion) {
             TreeQuestion tq = (TreeQuestion) q;
             String[] nodes = tq.getValue();
-            if (nodes == null || nodes.length == 0)
+            if (nodes == null || nodes.length == 0) {
                 writeResponse(i18n.getString("wp.all"));
-            else
+            } else {
                 writeResponse(nodes);
+            }
         } else {
             writeResponse(q.getStringValue());
         }
@@ -508,10 +521,11 @@ public class WizPrint {
         startTag(P);
         startTag(I);
         writeI18N("wp.response");
-        if (s == null)
+        if (s == null) {
             writeI18N("wp.noResponse");
-        else
+        } else {
             writeTag(B, s);
+        }
         endTag(I);
         endTag(P);
         newLine();
@@ -528,9 +542,9 @@ public class WizPrint {
         startTag(P);
         startTag(I);
         writeI18N("wp.response");
-        if (response == null)
+        if (response == null) {
             writeI18N("wp.noResponse");
-        else {
+        } else {
             writeTag(B, response);
             if (displayText != null) {
                 writeText(" ");
@@ -553,12 +567,13 @@ public class WizPrint {
         startTag(P);
         startTag(I);
         writeI18N("wp.response");
-        if (values == null)
+        if (values == null) {
             writeI18N("wp.noResponse");
-        else {
+        } else {
             for (int i = 0; i < values.length; i++) {
-                if (i > 0)
+                if (i > 0) {
                     writeI18N("wp.listSep");
+                }
                 startTag(B);
                 /*
                 if (values[i])
@@ -566,8 +581,9 @@ public class WizPrint {
                 else
                     writeTag(STRIKE, choices[i]);
                 */
-                if (values[i] == false)
+                if (values[i] == false) {
                     startTag(STRIKE);
+                }
 
                 writeText(choices[i]);
                 if (displayChoices != null && !equal(choices[i], displayChoices[i])) {
@@ -575,8 +591,9 @@ public class WizPrint {
                     writeI18N("wp.display", displayChoices[i]);
                 }
 
-                if (values[i] == false)
+                if (values[i] == false) {
                     endTag(STRIKE);
+                }
 
                 endTag(B);
             }
@@ -629,16 +646,16 @@ public class WizPrint {
         String[] groups = pq.getGroups();
         String[] headers = {pq.getKeyHeaderName(), pq.getValueHeaderName()};
         String[][] nullGroup = pq.getGroup(null);
-        if (nullGroup != null && nullGroup.length != 0)
+        if (nullGroup != null && nullGroup.length != 0) {
             writePQTable(headers, nullGroup);
-        else if (groups == null || groups.length == 0) {
+        } else if (groups == null || groups.length == 0) {
             // no properties for this question it seems
             writeI18N("wp.noResponse");
         } else {
             // fall through
         }
 
-        if (groups != null)
+        if (groups != null) {
             for (String group : groups) {
                 // heading
                 startTag(BR);
@@ -651,12 +668,14 @@ public class WizPrint {
                 writePQTable(headers, pq.getGroup(group));
                 startTag(P);
             }   // for
+        }
     }
 
     private void writePQTable(String[] headers, String[]... values)
             throws IOException {
-        if (values == null || values.length == 0)
+        if (values == null || values.length == 0) {
             return;
+        }
 
         startTag(TABLE);
         writeAttr("border", "2");
@@ -700,8 +719,9 @@ public class WizPrint {
             sb.append(i18n.getString("wp.type.chooseAny"));
             String[] choices = cq.getChoices();
             for (int i = 0; i < choices.length; i++) {
-                if (i > 0)
+                if (i > 0) {
                     sb.append(i18n.getString("wp.listSep"));
+                }
                 sb.append(choices[i] == null ? i18n.getString("wp.unset") : choices[i]);
             }
             writeResponseType(sb.toString());
@@ -711,8 +731,9 @@ public class WizPrint {
             sb.append(i18n.getString("wp.type.chooseOne"));
             String[] choices = cq.getChoices();
             for (int i = 0; i < choices.length; i++) {
-                if (i > 0)
+                if (i > 0) {
                     sb.append(i18n.getString("wp.listSep"));
+                }
                 sb.append(choices[i] == null ? i18n.getString("wp.unset") : choices[i]);
             }
             writeResponseType(sb.toString());
@@ -761,10 +782,11 @@ public class WizPrint {
     private void writeResponseType(String s) throws IOException {
         startTag(P);
         startTag(I);
-        if (showResponseTypes && showResponses)
+        if (showResponseTypes && showResponses) {
             writeI18N("wp.responseType");  // is this being too clever?
-        else
+        } else {
             writeI18N("wp.response");
+        }
         startTag(B);
         writeText(s);
         endTag(B);
@@ -787,11 +809,13 @@ public class WizPrint {
      * Convert a set of files to their string paths
      */
     private String[] filesToStrings(File... f) {
-        if (f == null)
+        if (f == null) {
             return null;
+        }
         String[] s = new String[f.length];
-        for (int i = 0; i < s.length; i++)
+        for (int i = 0; i < s.length; i++) {
             s[i] = f[i].getPath();
+        }
         return s;
     }
 
@@ -813,8 +837,9 @@ public class WizPrint {
      * @param t The tag to be written
      */
     private void startTag(String t) throws IOException {
-        if (state == IN_TAG)
+        if (state == IN_TAG) {
             out.write('>');
+        }
 
         out.write('<');
         out.write(t);
@@ -827,8 +852,9 @@ public class WizPrint {
      * @param t The tag to be written
      */
     private void endTag(String t) throws IOException {
-        if (state == IN_TAG)
+        if (state == IN_TAG) {
             out.write('>');
+        }
 
         out.write("</");
         out.write(t);
@@ -837,20 +863,24 @@ public class WizPrint {
     }
 
     private void writeAttr(String name, String value) throws IOException {
-        if (state != IN_TAG)
+        if (state != IN_TAG) {
             throw new IllegalStateException();
+        }
 
         out.write(" ");
         out.write(name);
         out.write("=");
         boolean alpha = true;
-        for (int i = 0; i < value.length() && alpha; i++)
+        for (int i = 0; i < value.length() && alpha; i++) {
             alpha = Character.isLetter(value.charAt(i));
-        if (!alpha)
+        }
+        if (!alpha) {
             out.write("\"");
+        }
         out.write(value);
-        if (!alpha)
+        if (!alpha) {
             out.write("\"");
+        }
     }
 
 
@@ -912,10 +942,11 @@ public class WizPrint {
     }
 
     private void setWriter(Writer o) {
-        if (out instanceof BufferedWriter)
+        if (out instanceof BufferedWriter) {
             out = (BufferedWriter) o;
-        else
+        } else {
             out = new BufferedWriter(o);
+        }
     }
 
     private static boolean equal(String s1, String s2) {
@@ -988,8 +1019,9 @@ public class WizPrint {
 
         public void insert(Question o, boolean ignoreDuplicates) {
             int i = findSortIndex(o);
-            if (ignoreDuplicates && (i < v.size()) && (compare(o, v.get(i)) == 0))
+            if (ignoreDuplicates && (i < v.size()) && (compare(o, v.get(i)) == 0)) {
                 return;
+            }
 
             v.add(i, o);
         }
@@ -1002,14 +1034,17 @@ public class WizPrint {
             String p1 = o1.getTag();
             String p2 = o2.getTag();
 
-            if (p1 == null && p2 == null)
+            if (p1 == null && p2 == null) {
                 return 0;
+            }
 
-            if (p1 == null)
+            if (p1 == null) {
                 return -1;
+            }
 
-            if (p2 == null)
+            if (p2 == null) {
                 return +1;
+            }
 
             return p1.compareTo(p2);
         }
@@ -1026,8 +1061,9 @@ public class WizPrint {
             int cmp = 0;
             Question last = v.get(upper);
             cmp = compare(o, last);
-            if (cmp > 0)
+            if (cmp > 0) {
                 return upper + 1;
+            }
 
             while (lower <= upper) {
                 mid = lower + ((upper - lower) / 2);

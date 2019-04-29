@@ -55,18 +55,21 @@ public class SelectedWorkDirApprover {
 
     //-------------------------------------------------------------------------
     public boolean approveNewSelection(File dir, TestSuite testSuite) {
-        if (testSuite == null)
+        if (testSuite == null) {
             throw new IllegalStateException();
+        }
 
         if (dir.exists()) {
-            if (isWorkDirectory(dir))
+            if (isWorkDirectory(dir)) {
                 return approveNewSelection_workDirExists(dir, testSuite);
-            else if (dir.isDirectory())
+            } else if (dir.isDirectory()) {
                 return approveNewSelection_dirExists(dir, testSuite);
-            else
+            } else {
                 uif.showLiteralError(null, i18n.getString("wdc.notADir.err", dir));
-        } else
+            }
+        } else {
             return approveNewSelection_dirNotFound(dir, testSuite);
+        }
         return false;
     }
 
@@ -74,8 +77,9 @@ public class SelectedWorkDirApprover {
         int option = uif.showLiteralYesNoDialog(i18n.getString("wdc.exists_openIt.title"),
                 i18n.getString("wdc.exists_openIt.txt"));
 
-        if (option != JOptionPane.YES_OPTION)
+        if (option != JOptionPane.YES_OPTION) {
             return false;
+        }
 
         try {
             workDir = WorkDirectory.open(dir, testSuite);
@@ -106,8 +110,9 @@ public class SelectedWorkDirApprover {
     private boolean approveNewSelection_dirExists(File dir, TestSuite testSuite) {
         // the directory exists, but is not a work dir
         int option = uif.showYesNoDialog("wdc.existsNotWorkDir_convert");
-        if (option != JOptionPane.YES_OPTION)
+        if (option != JOptionPane.YES_OPTION) {
             return false;
+        }
 
         try {
             workDir = WorkDirectory.convert(dir, testSuite);
@@ -135,16 +140,17 @@ public class SelectedWorkDirApprover {
 
     public boolean approveOpenSelection(File dir, TestSuite testSuite) {
         if (dir.exists()) {
-            if (isWorkDirectory(dir))
+            if (isWorkDirectory(dir)) {
                 return approveOpenSelection_workDirExists(dir, testSuite);
-            else if (dir.isDirectory()) {
+            } else if (dir.isDirectory()) {
                 approveOpenSelection_dirExists = false;
                 return approveOpenSelection_dirExists;
             } else {
                 uif.showLiteralError(null, i18n.getString("wdc.notADir.err", dir));
             }   // inner if
-        } else
+        } else {
             return approveOpenSelection_dirNotFound(dir, testSuite);
+        }
         return false;
     }
 
@@ -153,8 +159,9 @@ public class SelectedWorkDirApprover {
         try {
             switch (mode) {
                 case WorkDirChooser.OPEN_FOR_GIVEN_TESTSUITE:
-                    if (testSuite == null)
+                    if (testSuite == null) {
                         throw new IllegalStateException();
+                    }
 
                     workDir = WorkDirectory.open(dir, testSuite);
                     // I don't think the following test can ever happen, because the open
@@ -171,16 +178,19 @@ public class SelectedWorkDirApprover {
                     } catch (WorkDirectory.TestSuiteFault e) {
                         // error opening test suite -- allow user to specify new test suite
                         int option = uif.showYesNoDialog("wdc.tsError_specifyNew", e.getMessage());
-                        if (option != JOptionPane.YES_OPTION)
+                        if (option != JOptionPane.YES_OPTION) {
                             return false;
+                        }
 
                         // ensure testSuiteChooser initialized
-                        if (testSuiteChooser == null)
+                        if (testSuiteChooser == null) {
                             testSuiteChooser = new TestSuiteChooser();
+                        }
 
                         // set a context in the chooser if one is available
-                        if (testSuite != null)
+                        if (testSuite != null) {
                             testSuiteChooser.setSelectedTestSuite(testSuite);
+                        }
 
                         // display the chooser
                         testSuiteChooser.showDialog(parent);
@@ -189,8 +199,9 @@ public class SelectedWorkDirApprover {
                         TestSuite newTestSuite = testSuiteChooser.getSelectedTestSuite();
 
                         // user cancelled dialog, so exit out of approve*
-                        if (newTestSuite == null)
+                        if (newTestSuite == null) {
                             return false;
+                        }
 
                         // try using that new test suite
                         workDir = WorkDirectory.open(dir, newTestSuite);
@@ -198,8 +209,9 @@ public class SelectedWorkDirApprover {
                     } catch (WorkDirectory.TemplateMissingFault e) {
                         // error opening test suite -- allow user to specify new test suite
                         int option = uif.showYesNoDialog("wdc.tsError_specifyTemplate", e.getMessage());
-                        if (option != JOptionPane.YES_OPTION)
+                        if (option != JOptionPane.YES_OPTION) {
                             return false;
+                        }
 
                         // display the chooser
                         FileChooser chooser = new FileChooser();
@@ -210,8 +222,9 @@ public class SelectedWorkDirApprover {
                         File newTemplate = chooser.getSelectedFile();
 
                         // user cancelled dialog, so exit out of approve*
-                        if (newTemplate == null)
+                        if (newTemplate == null) {
                             return false;
+                        }
 
                         // try using that new template
                         WorkDirectory.changeTemplate(dir, newTemplate);
@@ -241,8 +254,9 @@ public class SelectedWorkDirApprover {
             return false;
         } else {
             int option = uif.showYesNoDialog("wdc.notFound_createIt", testSuite.getPath());
-            if (option != JOptionPane.YES_OPTION)
+            if (option != JOptionPane.YES_OPTION) {
                 return false;
+            }
         }
 
         try {
@@ -257,16 +271,18 @@ public class SelectedWorkDirApprover {
     //-------------------------------------------------------------------------
 
     public boolean isWorkDirectory(File f) {
-        if (isIgnoreable(f))
+        if (isIgnoreable(f)) {
             return false;
+        }
 
         Boolean b = cache.get(f);
         if (b == null) {
             boolean v = WorkDirectory.isWorkDirectory(f);
             cache.put(f, v);
             return v;
-        } else
+        } else {
             return b;
+        }
     }
 
     public static boolean isIgnoreable(File f) {

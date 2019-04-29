@@ -117,8 +117,9 @@ public abstract class TestFinder {
      * @throws TestFinder.Fault if  there is a problem interpreting any of args.
      */
     public void init(String[] args, File testSuiteRoot, TestEnvironment env) throws Fault {
-        if (args != null)
+        if (args != null) {
             decodeAllArgs(args);
+        }
 
         setRoot(testSuiteRoot);
         this.env = env;
@@ -201,8 +202,9 @@ public abstract class TestFinder {
      * @see #getRoot
      */
     protected void setRoot(File testSuiteRoot) throws Fault {
-        if (root != null)
+        if (root != null) {
             throw new IllegalStateException("root already set");
+        }
 
         root = testSuiteRoot.isAbsolute() ?
                 testSuiteRoot : new File(userDir, testSuiteRoot.getPath());
@@ -358,8 +360,9 @@ public abstract class TestFinder {
      */
     protected void localizedError(String msg) {
         errorMessages.add(msg);
-        if (errHandler != null)
+        if (errHandler != null) {
             errHandler.error(msg);
+        }
     }
 
     /**
@@ -413,8 +416,9 @@ public abstract class TestFinder {
         if (!path.isAbsolute()) {
             File f = new File(getRoot(), path.getPath());
             return f.isDirectory();
-        } else
+        } else {
             return path.isDirectory();
+        }
     }
 
     /**
@@ -426,9 +430,9 @@ public abstract class TestFinder {
      * @since 4.0
      */
     public long lastModified(File f) {
-        if (f.isAbsolute())
+        if (f.isAbsolute()) {
             return f.lastModified();
-        else {
+        } else {
             File real = new File(getRoot(), f.getPath());
             return real.lastModified();
         }
@@ -443,11 +447,13 @@ public abstract class TestFinder {
      * @param file The file to be read.
      */
     public synchronized void read(File file) {
-        if (tests != null)
+        if (tests != null) {
             tests.clear();
+        }
 
-        if (files != null)
+        if (files != null) {
             files.clear();
+        }
 
         testsInFile.clear();
 
@@ -490,8 +496,9 @@ public abstract class TestFinder {
                 keywordCache.put(value, keywordCacheValue);
             }
             value = keywordCacheValue;
-        } else
+        } else {
             value = value.intern();
+        }
 
         entries.put(name, value);
     }
@@ -535,16 +542,18 @@ public abstract class TestFinder {
         }
 
         String id = entries.get("id");
-        if (id == null)
+        if (id == null) {
             id = "";
+        }
 
         // make sure test has unique id within file
         Integer prevLine = testsInFile.get(id);
         if (prevLine != null) {
             int i = 1;
             String newId;
-            while (testsInFile.get(newId = id + "__" + i) != null)
+            while (testsInFile.get(newId = id + "__" + i) != null) {
                 i++;
+            }
 
             error(i18n, "finder.nonUniqueId",
                     file, id.isEmpty() ? "(unset)" : id, Integer.valueOf(line), prevLine, newId);
@@ -581,8 +590,9 @@ public abstract class TestFinder {
             System.err.println("Found TestDescription" + td.getName());
         }
 
-        if (tests == null)
+        if (tests == null) {
             tests = new Vector<>();
+        }
 
         int target = 0;
 
@@ -598,16 +608,18 @@ public abstract class TestFinder {
             while (left < right) {
                 center = (right + left) / 2;
                 int cmp = comp.compare(name, tests.get(center).getName());
-                if (cmp < 0)
+                if (cmp < 0) {
                     right = center;
-                else if (cmp >= 0)
+                } else if (cmp >= 0) {
                     left = center + 1;
+                }
             }   // while
 
-            if (comp.compare(name, tests.get(left).getName()) > 0)
+            if (comp.compare(name, tests.get(left).getName()) > 0) {
                 target = left + 1;
-            else
+            } else {
                 target = left;
+            }
 
             /* old insertion sort
             for (int i = 0; i < tests.size(); i++) {
@@ -651,8 +663,9 @@ public abstract class TestFinder {
      * @see #getFiles
      */
     protected void foundFile(File newFile) {
-        if (files == null)
+        if (files == null) {
             files = new Vector<>();
+        }
 
         int target = 0;
 
@@ -668,16 +681,18 @@ public abstract class TestFinder {
             while (left < right) {
                 center = (right + left) / 2;
                 int cmp = comp.compare(path, files.get(center).getPath());
-                if (cmp < 0)
+                if (cmp < 0) {
                     right = center;
-                else if (cmp >= 0)
+                } else if (cmp >= 0) {
                     left = center + 1;
+                }
             }   // while
 
-            if (comp.compare(path, files.get(left).getPath()) > 0)
+            if (comp.compare(path, files.get(left).getPath()) > 0) {
                 target = left + 1;
-            else
+            } else {
                 target = left;
+            }
         }
 
         // this is insertion sort to get locale sensitive sorting of
@@ -712,9 +727,9 @@ public abstract class TestFinder {
      * @see #foundFile
      */
     public File[] getFiles() {
-        if (files == null)
+        if (files == null) {
             return new File[0];
-        else {
+        } else {
             return files.toArray(new File[files.size()]);
         }
     }

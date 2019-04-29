@@ -522,10 +522,18 @@ public class XMLReportMaker {
     // XML 1.0 specification ( http://www.w3.org/TR/2004/REC-xml-20040204/ ) defines legal chars:
     // Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
     public static boolean prohibited(int c) {
-        if (c == 0x0009 || c == 0x000A || c == 0x000D) return false;
-        if (c >= 0x0020 && c <= 0xD7FF) return false;
-        if (c >= 0xE000 && c <= 0xFFFD) return false;
-        if (c >= 0x10000 && c <= 0x10FFFF) return false; // can't be java char, but any way...
+        if (c == 0x0009 || c == 0x000A || c == 0x000D) {
+            return false;
+        }
+        if (c >= 0x0020 && c <= 0xD7FF) {
+            return false;
+        }
+        if (c >= 0xE000 && c <= 0xFFFD) {
+            return false;
+        }
+        if (c >= 0x10000 && c <= 0x10FFFF) {
+            return false; // can't be java char, but any way...
+        }
         return true;
     }
 

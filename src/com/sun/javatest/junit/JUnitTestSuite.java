@@ -41,9 +41,11 @@ public class JUnitTestSuite extends TestSuite {
     public JUnitTestSuite(File root, Map<String, String> props, ClassLoader loader) {
         super(root, props, loader);
         try {
-            if (getTestsDir() != null)
+            if (getTestsDir() != null) {
                 loader = new URLClassLoader(new URL[]{getTestsDir().toURI().toURL()}, loader);
-            else loader = ClassLoader.getSystemClassLoader();
+            } else {
+                loader = ClassLoader.getSystemClassLoader();
+            }
         } catch (Exception e) {
         }
         cl = loader;

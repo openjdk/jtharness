@@ -116,9 +116,11 @@ public class MainFrame {
         }
 
         while (inUse)
-            // note: MainFrame.class provides the monitor for a static synchronized
-            // method in this class.
+        // note: MainFrame.class provides the monitor for a static synchronized
+        // method in this class.
+        {
             MainFrame.class.wait();
+        }
 
         inUse = true;
 
@@ -188,14 +190,17 @@ public class MainFrame {
      * @see #acquireFrame
      */
     public static synchronized void releaseFrame(Frame f) {
-        if (f == null)
+        if (f == null) {
             return;
+        }
 
-        if (f != frame)
+        if (f != frame) {
             throw new IllegalStateException("wrong frame");
+        }
 
-        if (!inUse)
+        if (!inUse) {
             throw new IllegalStateException("frame not acquired");
+        }
 
         // remove what might have been put in the frame
         frame.setLayout(null);
@@ -207,7 +212,9 @@ public class MainFrame {
         frame.setBackground(savedBackground);
         frame.setBounds(savedBounds);
         frame.setName(savedName);
-        for (Component savedComponent : savedComponents) frame.add(savedComponent);
+        for (Component savedComponent : savedComponents) {
+            frame.add(savedComponent);
+        }
         frame.setLayout(savedLayout);
         frame.setTitle(savedTitle);
         frame.setState(savedState);

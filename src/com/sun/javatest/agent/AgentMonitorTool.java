@@ -104,11 +104,13 @@ public class AgentMonitorTool extends Tool {
     @Override
     public void save(Map<String, String> m) {
         int port = agentPoolSubpanel.getPort();
-        if (port != Integer.MIN_VALUE)
+        if (port != Integer.MIN_VALUE) {
             m.put("port", String.valueOf(port));
+        }
         int timeout = agentPoolSubpanel.getTimeout();
-        if (timeout != Integer.MIN_VALUE)
+        if (timeout != Integer.MIN_VALUE) {
             m.put("timeout", String.valueOf(timeout));
+        }
         m.put("listening", String.valueOf(agentPoolSubpanel.isListening()));
     }
 
@@ -123,15 +125,18 @@ public class AgentMonitorTool extends Tool {
         String l = m.get("listening");
         try {
             String p = m.get("port");
-            if (p != null && !p.isEmpty())
+            if (p != null && !p.isEmpty()) {
                 agentPoolSubpanel.setPort(Integer.parseInt(p));
+            }
 
             String t = m.get("timeout");
-            if (t != null && !t.isEmpty())
+            if (t != null && !t.isEmpty()) {
                 agentPoolSubpanel.setTimeout(Integer.parseInt(t));
+            }
 
-            if (l != null && !l.isEmpty())
+            if (l != null && !l.isEmpty()) {
                 agentPoolSubpanel.setListening(l.equals("true"));
+            }
         } catch (NumberFormatException ignore) {
         }
     }
@@ -250,8 +255,9 @@ public class AgentMonitorTool extends Tool {
                     }
                 } finally {
                     boolean b = activeAgentPool.isListening();
-                    if (b != listeningCheck.isSelected())
+                    if (b != listeningCheck.isSelected()) {
                         listeningCheck.setSelected(b);
+                    }
 
                     enableFields();
                 }
@@ -453,8 +459,9 @@ public class AgentMonitorTool extends Tool {
                 };      // end anon. class
 
                 EventQueue.invokeLater(cmd);
-            } else
+            } else {
                 listData.addElement(new Entry(c, tag, request, executable, args, localizeArgs));
+            }
         }
 
         @Override

@@ -87,8 +87,9 @@ public abstract class NullQuestion extends Question {
      * @since 4.0
      */
     public void setLevel(int val) {
-        if (val < LEVEL_NONE || val > MAX_LEVEL)
+        if (val < LEVEL_NONE || val > MAX_LEVEL) {
             throw new IllegalArgumentException();
+        }
 
         level = val;
     }

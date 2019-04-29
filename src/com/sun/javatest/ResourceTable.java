@@ -59,8 +59,9 @@ public class ResourceTable {
      *                              waiting for the locks to become available.
      */
     public synchronized boolean acquire(String[] resourceNames, int timeout) throws InterruptedException {
-        if (timeout <= 0)
+        if (timeout <= 0) {
             throw new IllegalArgumentException("timeout required");
+        }
 
         if (resourceNames.length > 1) {
             // sort and remove duplicates
@@ -109,8 +110,9 @@ public class ResourceTable {
     public synchronized void release(String... resourceNames) {
         for (String resourceName : resourceNames) {
             Object owner = table.get(resourceName);
-            if (owner == Thread.currentThread())
+            if (owner == Thread.currentThread()) {
                 table.remove(resourceName);
+            }
         }
         notifyAll();
     }

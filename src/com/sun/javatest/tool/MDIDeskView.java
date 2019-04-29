@@ -76,7 +76,9 @@ class MDIDeskView extends DeskView {
         //System.err.println("MDI: create " + other.getTools().length + " tools");
 
         Tool[] tools = other.getTools();
-        for (Tool tool : tools) addTool(tool);
+        for (Tool tool : tools) {
+            addTool(tool);
+        }
 
         setVisible(other.isVisible());
     }
@@ -102,15 +104,18 @@ class MDIDeskView extends DeskView {
 
     @Override
     public void setVisible(boolean v) {
-        if (v == mainFrame.isVisible())
+        if (v == mainFrame.isVisible()) {
             return;
+        }
 
         mainFrame.setVisible(v);
 
         if (v) {
             Window[] ww = mainFrame.getOwnedWindows();
             if (ww != null) {
-                for (Window aWw : ww) aWw.toFront();
+                for (Window aWw : ww) {
+                    aWw.toFront();
+                }
             }
         }
     }
@@ -129,18 +134,21 @@ class MDIDeskView extends DeskView {
     @Override
     public void addTool(Tool t) {
         DeskView view = t.getDeskView();
-        if (view == this)
+        if (view == this) {
             return;
+        }
 
         // save info about dialogs before we remove tool from other view
         ToolDialog[] tds = t.getToolDialogs();
         boolean[] vis = new boolean[tds.length];
-        for (int i = 0; i < tds.length; i++)
+        for (int i = 0; i < tds.length; i++) {
             vis[i] = tds[i].isVisible();
+        }
 
         // remove tool from other view (if any)
-        if (view != null)
+        if (view != null) {
             view.removeTool(t);
+        }
 
         //System.err.println("MDI.addTool " + t);
         // create resizeable, closable, maximizable, iconifiable frame
@@ -167,8 +175,9 @@ class MDIDeskView extends DeskView {
         // (doesn't work if desktop not yet shown/sized, sigh)
         // (-perhaps use preferredSize?)
         Dimension dtSize = desktopPane.getSize();
-        if (dtSize.width == 0 || dtSize.height == 0)
+        if (dtSize.width == 0 || dtSize.height == 0) {
             dtSize = desktopPane.getPreferredSize();
+        }
         Dimension size = f.getSize();
         f.setLocation(Math.max(0, dtSize.width / 2 - size.width / 2),
                 Math.max(0, dtSize.height / 2 - size.height / 2));
@@ -185,8 +194,9 @@ class MDIDeskView extends DeskView {
         t.setDeskView(this);
 
         // update tool dialogs
-        for (int i = 0; i < tds.length; i++)
+        for (int i = 0; i < tds.length; i++) {
             tds[i].initDialog(this, vis[i]);
+        }
     }
 
     @Override
@@ -203,15 +213,17 @@ class MDIDeskView extends DeskView {
         // ensure there is a valid keyboard focus
         KeyboardFocusManager fm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         Component fo = fm.getPermanentFocusOwner();
-        if (fo == null || !fo.isShowing())
+        if (fo == null || !fo.isShowing()) {
             desktopPane.requestFocusInWindow();
+        }
     }
 
     @Override
     public Tool getSelectedTool() {
         JInternalFrame f = desktopPane.getSelectedFrame(); // NOT VALID FOR DIALOGS!
-        if (f == null)
+        if (f == null) {
             return null;
+        }
 
         return (Tool) f.getClientProperty(this);
     }
@@ -246,13 +258,15 @@ class MDIDeskView extends DeskView {
 
     @Override
     public boolean isToolOwnerForDialog(Tool tool, Container dialog) {
-        if (dialog == null)
+        if (dialog == null) {
             return false;
+        }
 
-        if (useInternalDialogs)
+        if (useInternalDialogs) {
             return dialog.getParent() == desktopPane;
-        else
+        } else {
             return dialog.getParent() == mainFrame;
+        }
     }
 
     @Override
@@ -276,8 +290,9 @@ class MDIDeskView extends DeskView {
             r_ac.setAccessibleName(f_ac.getAccessibleName());
             r_ac.setAccessibleDescription(f_ac.getAccessibleDescription());
 
-            if (menuBar != null)
+            if (menuBar != null) {
                 f.setJMenuBar(menuBar);
+            }
 
             f.setContentPane(body);
 
@@ -292,8 +307,9 @@ class MDIDeskView extends DeskView {
                 Rectangle tb = tf.getBounds();
                 f.setLocation(Math.max(0, tb.x + (tb.width - size.width) / 2),
                         Math.max(0, tb.y + (tb.height - size.height) / 2));
-            } else
+            } else {
                 f.setBounds(bounds);
+            }
 
             // put dialogs above tools on the desktop
             JLayeredPane.putLayer(f, JLayeredPane.DEFAULT_LAYER.intValue() + 1);
@@ -303,14 +319,16 @@ class MDIDeskView extends DeskView {
             return f;
         } else {
             JDialog d = uif.createDialog(uiKey, mainFrame, title, body);
-            if (menuBar != null)
+            if (menuBar != null) {
                 d.setJMenuBar(menuBar);
+            }
 
             if (bounds == null) {
                 d.pack();
                 d.setLocationRelativeTo(mainFrame);
-            } else
+            } else {
                 d.setBounds(bounds);
+            }
 
             return d;
         }
@@ -405,8 +423,9 @@ class MDIDeskView extends DeskView {
         Vector<Component> v = new Vector<>();
         for (int i = 0; i < desktopPane.getComponentCount(); i++) {
             Component c = desktopPane.getComponent(i);
-            if (c instanceof JInternalFrame && c.isVisible())
+            if (c instanceof JInternalFrame && c.isVisible()) {
                 v.add(c);
+            }
         }
         return v.toArray(new JInternalFrame[v.size()]);
     }
@@ -430,19 +449,21 @@ class MDIDeskView extends DeskView {
         @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
-            if (cmd.equals(CASCADE))
+            if (cmd.equals(CASCADE)) {
                 doCascade();
-            else if (cmd.equals(TILE))
+            } else if (cmd.equals(TILE)) {
                 doTile();
-            else {
+            } else {
                 JMenuItem mi = (JMenuItem) e.getSource();
                 Object o = mi.getClientProperty(this);
-                if (o instanceof Window)
+                if (o instanceof Window) {
                     ((Window) o).toFront();
-                if (o instanceof JInternalFrame)
+                }
+                if (o instanceof JInternalFrame) {
                     ((JInternalFrame) o).toFront();
-                else if (o instanceof Tool)
+                } else if (o instanceof Tool) {
                     setSelectedTool((Tool) o);
+                }
             }
         }
 
@@ -488,8 +509,9 @@ class MDIDeskView extends DeskView {
         public void internalFrameClosing(InternalFrameEvent e) {
             JInternalFrame f = (JInternalFrame) e.getSource();
             Tool t = (Tool) f.getContentPane();
-            if (getDesktop().isOKToClose(t, mainFrame))
+            if (getDesktop().isOKToClose(t, mainFrame)) {
                 f.dispose();
+            }
         }
 
         @Override
@@ -535,8 +557,9 @@ class MDIDeskView extends DeskView {
             }
             */
 
-            if (tools.length > 0)
+            if (tools.length > 0) {
                 m.addSeparator();
+            }
 
             int n = 0;
 
@@ -549,23 +572,26 @@ class MDIDeskView extends DeskView {
             // which are internal frames not containing tools
             JInternalFrame[] frames = desktopPane.getAllFrames();
             for (JInternalFrame f : frames) {
-                if (f.isVisible() && !(f.getContentPane() instanceof Tool))
+                if (f.isVisible() && !(f.getContentPane() instanceof Tool)) {
                     addMenuItem(m, n++, f.getTitle(), f);
+                }
             }
 
             // add entries for any external dialogs
             Window[] ownedWindows = mainFrame.getOwnedWindows();
             for (Window w : ownedWindows) {
-                if (w instanceof JDialog && w.isVisible())
+                if (w instanceof JDialog && w.isVisible()) {
                     addMenuItem(m, n++, ((JDialog) w).getTitle(), w);
+                }
             }
         }
 
         private void addMenuItem(JMenu m, int n, String s, Object o) {
             JMenuItem mi = new JMenuItem(uif.getI18NString("dt.windows.toolX.mit",
                     Integer.valueOf(n), s));
-            if (n < 10)
+            if (n < 10) {
                 mi.setMnemonic(Character.forDigit(n, 10));
+            }
             mi.addActionListener(this);
             mi.putClientProperty(this, o);
             m.add(mi);

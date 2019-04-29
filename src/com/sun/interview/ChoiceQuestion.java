@@ -121,11 +121,13 @@ public abstract class ChoiceQuestion extends Question {
      * @see #setChoices(String[], boolean)
      */
     protected void setChoices(String[] choices, String... displayChoices) {
-        if (choices == null)
+        if (choices == null) {
             throw new NullPointerException();
+        }
 
-        if (displayChoices != null && choices.length != displayChoices.length)
+        if (displayChoices != null && choices.length != displayChoices.length) {
             throw new IllegalArgumentException();
+        }
 
         boolean needClear = this.choices == null;
 
@@ -133,9 +135,9 @@ public abstract class ChoiceQuestion extends Question {
         this.displayChoices = displayChoices;
         defaultValue = choices[0];
 
-        if (needClear && (interview.getInterviewSemantics() > Interview.SEMANTIC_PRE_32))
+        if (needClear && (interview.getInterviewSemantics() > Interview.SEMANTIC_PRE_32)) {
             clear();
-        else {
+        } else {
             // backward compatible behavior
             if (value == null) {
                 value = choices[0];
@@ -200,9 +202,9 @@ public abstract class ChoiceQuestion extends Question {
     public String[] getDisplayChoices() {
         if (displayChoices == null) {
             ResourceBundle b = interview.getResourceBundle();
-            if (b == null)
+            if (b == null) {
                 return choices;
-            else {
+            } else {
                 displayChoices = new String[choices.length];
                 for (int i = 0; i < choices.length; i++) {
                     String c = choices[i];
@@ -266,8 +268,9 @@ public abstract class ChoiceQuestion extends Question {
 
         String v = getValue();
         for (int i = 0; i < choices.length; i++) {
-            if (v == null ? choices[i] == null : v.equals(choices[i]))
+            if (v == null ? choices[i] == null : v.equals(choices[i])) {
                 return displayChoices[i];
+            }
         }
 
         return v;
@@ -303,8 +306,9 @@ public abstract class ChoiceQuestion extends Question {
      */
     @Override
     public void setValue(String newValue) {
-        if (choices == null)
+        if (choices == null) {
             return;
+        }
 
         if (newValue == null) {
             if (value != null) {
@@ -333,8 +337,9 @@ public abstract class ChoiceQuestion extends Question {
     public boolean isValueValid() {
         // value is valid if it matches one of the specified choices
         for (String choice : choices) {
-            if (value == null ? choice == null : value.equals(choice))
+            if (value == null ? choice == null : value.equals(choice)) {
                 return true;
+            }
         }
         return false;
     }
@@ -362,8 +367,9 @@ public abstract class ChoiceQuestion extends Question {
      */
     @Override
     protected void save(Map<String, String> data) {
-        if (value != null)
+        if (value != null) {
             data.put(tag, value);
+        }
     }
 
     /**

@@ -160,8 +160,9 @@ class Folder extends Panel implements ItemSelectable {
         int currentIndex = Math.max(0, getCurrentIndex());
         for (int i = currentIndex + 1; i < entries.size(); i++) {
             Entry e = entries.get(i);
-            if (e.visibleTab)
+            if (e.visibleTab) {
                 return e.name;
+            }
         }
         return null;
     }
@@ -170,8 +171,9 @@ class Folder extends Panel implements ItemSelectable {
         int currentIndex = getCurrentIndex();
         for (int i = currentIndex - 1; i >= 0; i--) {
             Entry e = entries.get(i);
-            if (e.visibleTab)
+            if (e.visibleTab) {
                 return e.name;
+            }
         }
         return null;
     }
@@ -179,8 +181,9 @@ class Folder extends Panel implements ItemSelectable {
     public Component current() {
         for (int i = 0; i < entries.size(); i++) {
             Entry e = entries.get(i);
-            if (e.comp.isVisible())
+            if (e.comp.isVisible()) {
                 return e.comp;
+            }
         }
         return null;
     }
@@ -253,8 +256,9 @@ class Folder extends Panel implements ItemSelectable {
             g.drawLine(tab.xpoints[0], tab.ypoints[0], tab.xpoints[1], tab.ypoints[1]);
             g.drawLine(tab.xpoints[1], tab.ypoints[1], tab.xpoints[2], tab.ypoints[2]);
             g.drawLine(tab.xpoints[2], tab.ypoints[2], tab.xpoints[3], tab.ypoints[3]);
-            if (e.visibleTab || e.comp.isVisible())
+            if (e.visibleTab || e.comp.isVisible()) {
                 g.drawString(e.name, x + slant, baseLine - tabpad / 2 - fm.getDescent());
+            }
             if (e.comp.isVisible()) {
                 g.setColor(e.color != null ? e.color : getBackground());
                 g.drawLine(tab.xpoints[0], tab.ypoints[0], tab.xpoints[3], tab.ypoints[3]);
@@ -278,10 +282,11 @@ class Folder extends Panel implements ItemSelectable {
     @Override
     public Object[] getSelectedObjects() {
         Entry ce = getCurrentEntry();
-        if (ce == null)
+        if (ce == null) {
             return null;
-        else
+        } else {
             return new Object[]{ce.comp};
+        }
     }
 
     int getMinimumWidth() {
@@ -316,8 +321,9 @@ class Folder extends Panel implements ItemSelectable {
     private int getCurrentIndex() {
         for (int i = 0; i < entries.size(); i++) {
             Entry e = entries.get(i);
-            if (e.comp.isVisible())
+            if (e.comp.isVisible()) {
                 return i;
+            }
         }
         return -1;
     }

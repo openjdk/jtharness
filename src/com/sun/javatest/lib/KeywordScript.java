@@ -55,9 +55,9 @@ public class KeywordScript extends Script {
         TestDescription td = getTestDescription();
 
         for (String scriptArg : scriptArgs) {
-            if (scriptArg.equals("-debug"))
+            if (scriptArg.equals("-debug")) {
                 debug = true;
-            else {
+            } else {
                 setStatus(Status.error("bad args for script: " + scriptArg));
                 return;
             }   // else
@@ -72,31 +72,36 @@ public class KeywordScript extends Script {
         findMatch:
         for (String key : env.keys()) {
             // if the key does not begin with the `script.' prefix, ignore key
-            if (!key.startsWith(prefix))
+            if (!key.startsWith(prefix)) {
                 continue;
+            }
 
-            if (debug)
+            if (debug) {
                 trOut.println("CHECKING " + key);
+            }
 
             String keyList = key.substring(prefix.length()).replace('_', ' ').toLowerCase();
             String[] keys = StringArray.split(keyList);
 
             choices.add(keyList);
 
-            if (debug)
+            if (debug) {
                 trOut.println("keys: " + StringArray.join(keys));
+            }
 
             // if there are no words after the `script.' prefix,
             // or if it has fewer words than the best match so far, ignore key
-            if (keys == null || keys.length < wordsMatchingInMatches)
+            if (keys == null || keys.length < wordsMatchingInMatches) {
                 continue;
+            }
 
             for (String key1 : keys) {
                 // if key has a word that is not for the test, ignore key
                 if (!testKeys.contains(key1)) {
 
-                    if (debug)
+                    if (debug) {
                         trOut.println("discarding, because of " + key1);
+                    }
 
                     continue findMatch;
                 }
@@ -106,8 +111,9 @@ public class KeywordScript extends Script {
             if (keys.length > wordsMatchingInMatches) {
                 // update best so far
 
-                if (debug)
+                if (debug) {
                     trOut.println("new best match, " + keys.length + " keys");
+                }
 
                 matches = new Vector<>();
                 wordsMatchingInMatches = keys.length;
@@ -209,7 +215,9 @@ public class KeywordScript extends Script {
     }
 
     private static void printStrArr(PrintWriter pw, String... data) {
-        if (data == null) return;
+        if (data == null) {
+            return;
+        }
 
         for (String aData : data) {
             pw.println(aData);

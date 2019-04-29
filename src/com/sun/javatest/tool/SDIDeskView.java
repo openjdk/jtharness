@@ -66,7 +66,9 @@ class SDIDeskView extends DeskView {
         this(other.getDesktop());
 
         Tool[] tools = other.getTools();
-        for (Tool tool : tools) addTool(tool);
+        for (Tool tool : tools) {
+            addTool(tool);
+        }
 
         doCascade();
         setVisible(other.isVisible());
@@ -74,9 +76,13 @@ class SDIDeskView extends DeskView {
 
     @Override
     public void dispose() {
-        for (JFrame frame1 : frames) frame1.setVisible(false);
+        for (JFrame frame1 : frames) {
+            frame1.setVisible(false);
+        }
 
-        for (JFrame frame : frames) frame.dispose();
+        for (JFrame frame : frames) {
+            frame.dispose();
+        }
 
         super.dispose();
     }
@@ -96,7 +102,9 @@ class SDIDeskView extends DeskView {
                     // make sure we don't make frames visible in front of dialogs
                     // (you'd think JDK would do this...)
                     Window[] ww = f.getOwnedWindows();
-                    for (Window aWw : ww) aWw.toFront();
+                    for (Window aWw : ww) {
+                        aWw.toFront();
+                    }
                 }
             }
             visible = v;
@@ -112,26 +120,30 @@ class SDIDeskView extends DeskView {
     public Tool[] getTools() {
         // frames[0] is the console
         Tool[] tools = new Tool[frames.length - 1];
-        for (int i = 0; i < tools.length; i++)
+        for (int i = 0; i < tools.length; i++) {
             tools[i] = (Tool) frames[i + 1].getContentPane();
+        }
         return tools;
     }
 
     @Override
     public void addTool(final Tool t) {
         DeskView view = t.getDeskView();
-        if (view == this)
+        if (view == this) {
             return;
+        }
 
         // save info about dialogs before we remove tool from other view
         ToolDialog[] tds = t.getToolDialogs();
         boolean[] vis = new boolean[tds.length];
-        for (int i = 0; i < tds.length; i++)
+        for (int i = 0; i < tds.length; i++) {
             vis[i] = tds[i].isVisible();
+        }
 
         // remove tool from other view (if any)
-        if (view != null)
+        if (view != null) {
             view.removeTool(t);
+        }
 
         //System.err.println("SDI: add " + t);
         Action closeAction = new ToolAction(uif, "sdi.file.close") {
@@ -167,8 +179,9 @@ class SDIDeskView extends DeskView {
                 JFrame f = (JFrame) e.getSource();
                 if (f.getContentPane() instanceof Tool) {
                     Tool t = (Tool) f.getContentPane();
-                    if (getDesktop().isOKToClose(t, f))
+                    if (getDesktop().isOKToClose(t, f)) {
                         f.dispose();
+                    }
                 }
             }
 
@@ -186,8 +199,9 @@ class SDIDeskView extends DeskView {
                     //f.dispose();
                     f.getRootPane().removeAll();
 
-                    if (t == selectedTool)
+                    if (t == selectedTool) {
                         selectedTool = null;
+                    }
                 }
             }
         });
@@ -205,8 +219,9 @@ class SDIDeskView extends DeskView {
         t.setDeskView(this);
 
         // update tool dialogs
-        for (int i = 0; i < tds.length; i++)
+        for (int i = 0; i < tds.length; i++) {
             tds[i].initDialog(this, vis[i]);
+        }
     }
 
     @Override
@@ -233,8 +248,9 @@ class SDIDeskView extends DeskView {
     @Override
     public void setSelectedTool(Tool t) {
         JFrame f = getFrameForTool(t);
-        if (f.getState() == JFrame.ICONIFIED)
+        if (f.getState() == JFrame.ICONIFIED) {
             f.setState(JFrame.NORMAL);
+        }
         //f.toFront();
         f.setVisible(visible);
         // selectedTool set when the window is activated -- there appears to
@@ -264,8 +280,9 @@ class SDIDeskView extends DeskView {
 
     @Override
     public boolean isToolOwnerForDialog(Tool tool, Container dialog) {
-        if (dialog == null)
+        if (dialog == null) {
             return false;
+        }
 
         JFrame f = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, tool);
         return dialog.getParent() == f;
@@ -279,8 +296,9 @@ class SDIDeskView extends DeskView {
 
         UIFactory uif = tool.uif;
         JDialog d = uif.createDialog(uiKey, f, title, body);
-        if (menuBar != null)
+        if (menuBar != null) {
             d.setJMenuBar(menuBar);
+        }
 
         if (bounds == null) {
             d.pack();
@@ -289,8 +307,9 @@ class SDIDeskView extends DeskView {
             // seem to have no effect, so after 2 calls we seem to have stable results.
             d.pack();
             d.setLocationRelativeTo(f);
-        } else
+        } else {
             d.setBounds(bounds);
+        }
 
         return d;
     }
@@ -357,11 +376,13 @@ class SDIDeskView extends DeskView {
         int offsetY = ge.getCenterPoint().y - maxHeight / 2;
 
         // make sure we start on-screen
-        if (offsetX <= 0)
+        if (offsetX <= 0) {
             offsetX = offset;
+        }
 
-        if (offsetY <= 0)
+        if (offsetY <= 0) {
             offsetY = offset;
+        }
 
         // start at 0 to include console, start at 1 for just tools
         for (int i = 1; i < frames.length; i++) {
@@ -369,7 +390,9 @@ class SDIDeskView extends DeskView {
             f.setLocation(offsetX + i * offset, offsetY + i * offset);
             f.toFront();
             Window[] ww = f.getOwnedWindows();
-            for (Window aWw : ww) aWw.toFront();
+            for (Window aWw : ww) {
+                aWw.toFront();
+            }
         }
     }
 
@@ -412,17 +435,18 @@ class SDIDeskView extends DeskView {
         @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
-            if (cmd.equals(CASCADE))
+            if (cmd.equals(CASCADE)) {
                 doCascade();
-            else if (cmd.equals(TILE))
+            } else if (cmd.equals(TILE)) {
                 doTile();
-            else {
+            } else {
                 JMenuItem mi = (JMenuItem) e.getSource();
                 Object o = mi.getClientProperty(this);
-                if (o instanceof Window)
+                if (o instanceof Window) {
                     ((Window) o).toFront();
-                else if (o instanceof Tool)
+                } else if (o instanceof Tool) {
                     setSelectedTool((Tool) o);
+                }
             }
         }
 
@@ -468,8 +492,9 @@ class SDIDeskView extends DeskView {
             for (JFrame frame : frames) {
                 Window[] ownedWindows = frame.getOwnedWindows();
                 for (Window w : ownedWindows) {
-                    if (w instanceof JDialog && w.isVisible())
+                    if (w instanceof JDialog && w.isVisible()) {
                         addMenuItem(m, n++, ((JDialog) w).getTitle(), w);
+                    }
                 }
             }
 
@@ -480,8 +505,9 @@ class SDIDeskView extends DeskView {
         private void addMenuItem(JMenu m, int n, String s, Object o) {
             JMenuItem mi = new JMenuItem(uif.getI18NString("dt.windows.toolX.mit",
                     Integer.valueOf(n), s));
-            if (n < 10)
+            if (n < 10) {
                 mi.setMnemonic(Character.forDigit(n, 10));
+            }
             mi.addActionListener(this);
             mi.putClientProperty(this, o);
             m.add(mi);

@@ -93,8 +93,9 @@ public abstract class InetAddressQuestion extends Question {
      * @see #getType
      */
     protected void setType(int type) {
-        if (type != IPv4 && type != IPv6)
+        if (type != IPv4 && type != IPv6) {
             throw new IllegalArgumentException();
+        }
 
         this.type = type;
     }
@@ -124,8 +125,9 @@ public abstract class InetAddressQuestion extends Question {
      * @see #getStyle
      */
     protected void setStyle(int style) {
-        if (style != IPv4 && style != IPv6)
+        if (style != IPv4 && style != IPv6) {
             throw new IllegalArgumentException();
+        }
 
         this.style = style;
     }
@@ -152,8 +154,9 @@ public abstract class InetAddressQuestion extends Question {
         if (newSuggestions != null) {
             // allow the first entry to be null
             for (int i = 1; i < newSuggestions.length; i++) {
-                if (newSuggestions[i] == null)
+                if (newSuggestions[i] == null) {
                     throw new IllegalArgumentException();
+                }
             }
         }
 
@@ -212,8 +215,9 @@ public abstract class InetAddressQuestion extends Question {
 
     @Override
     public String getStringValue() {
-        if (stringValue == null && value != null)
+        if (stringValue == null && value != null) {
             stringValue = value.getHostAddress();
+        }
 
         return stringValue;
     }
@@ -271,8 +275,9 @@ public abstract class InetAddressQuestion extends Question {
     }
 
     private InetAddress parse(String s) {
-        if (s == null || s.isEmpty())
+        if (s == null || s.isEmpty()) {
             return null;
+        }
 
         // scan the string to see if it looks reasonable:
         // - an IPv4 string contains only digits and dots
@@ -322,16 +327,18 @@ public abstract class InetAddressQuestion extends Question {
                 case 'E':
                 case 'F':
                     // invalid for IPv4, valid for IPv6
-                    if (type == IPv4)
+                    if (type == IPv4) {
                         return null;
+                    }
 
                     seenAlpha = true;
                     break;
 
                 case ':':
                     // invalid for IPv4; at least 1 required for IPv6
-                    if (type == IPv4)
+                    if (type == IPv4) {
                         return null;
+                    }
 
                     seenColon = true;
                     break;
@@ -341,8 +348,9 @@ public abstract class InetAddressQuestion extends Question {
             }
         }
 
-        if (type == IPv6 && !(seenColon || seenDot && seenDigit && !seenAlpha))
+        if (type == IPv6 && !(seenColon || seenDot && seenDigit && !seenAlpha)) {
             return null;
+        }
 
         try {
             return InetAddress.getByName(s);
@@ -371,8 +379,9 @@ public abstract class InetAddressQuestion extends Question {
     @Override
     protected void save(Map<String, String> data) {
         String s = getStringValue();
-        if (s != null)
+        if (s != null) {
             data.put(tag, s);
+        }
     }
 
     /**

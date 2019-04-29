@@ -150,9 +150,9 @@ public class EnvironmentInterview
         @Override
         public File getBaseDirectory() {
             TestSuite ts = parent.getTestSuite();
-            if (ts == null)
+            if (ts == null) {
                 return null;
-            else {
+            } else {
                 File r = ts.getRoot();
                 return r.isDirectory() ? r : r.getParentFile();
             }
@@ -161,12 +161,13 @@ public class EnvironmentInterview
         @Override
         protected Question getNext() {
             updateCachedEnvTable();
-            if (cachedEnvTableError != null)
+            if (cachedEnvTableError != null) {
                 return qEnvTableError;
-            else if (cachedEnvTable == null || cachedEnvTable.getEnvNames().length == 0)
+            } else if (cachedEnvTable == null || cachedEnvTable.getEnvNames().length == 0) {
                 return qNoEnvs;
-            else
+            } else {
                 return qEnv;
+            }
         }
     };
 
@@ -226,9 +227,9 @@ public class EnvironmentInterview
             TestEnvContext envTable = getEnvTable();
             if (envTable != cachedEnvTable) {
                 String[] envNames;
-                if (envTable == null)
+                if (envTable == null) {
                     envNames = new String[0];
-                else {
+                } else {
                     String[] names = envTable.getEnvMenuNames();
                     Arrays.sort(names);
                     envNames = names;
@@ -241,14 +242,15 @@ public class EnvironmentInterview
 
         @Override
         protected Question getNext() {
-            if (value == null)
+            if (value == null) {
                 return null;
-            else {
+            } else {
                 updateCachedEnv();
-                if (cachedEnv == null)
+                if (cachedEnv == null) {
                     return cachedEnvError;
-                else
+                } else {
                     return qEnd;
+                }
             }
         }
 
@@ -346,18 +348,22 @@ public class EnvironmentInterview
     //---------------------------------------------------------------------
 
     private static File[] getAbsoluteFiles(File baseDir, File... files) {
-        if (files == null)
+        if (files == null) {
             return null;
+        }
 
-        if (baseDir == null)
+        if (baseDir == null) {
             return files;
+        }
 
         boolean allAbsolute = true;
-        for (int i = 0; i < files.length && allAbsolute; i++)
+        for (int i = 0; i < files.length && allAbsolute; i++) {
             allAbsolute = files[i].isAbsolute();
+        }
 
-        if (allAbsolute)
+        if (allAbsolute) {
             return files;
+        }
 
         File[] absoluteFiles = new File[files.length];
         for (int i = 0; i < files.length; i++) {
@@ -375,15 +381,18 @@ public class EnvironmentInterview
     }
 
     private static boolean equal(File[] f1, File... f2) {
-        if (f1 == null || f2 == null)
+        if (f1 == null || f2 == null) {
             return f1 == f2;
+        }
 
-        if (f1.length != f2.length)
+        if (f1.length != f2.length) {
             return false;
+        }
 
         for (int i = 0; i < f1.length; i++) {
-            if (!equal(f1[i], f2[i]))
+            if (!equal(f1[i], f2[i])) {
                 return false;
+            }
         }
 
         return true;

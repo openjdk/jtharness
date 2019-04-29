@@ -255,8 +255,9 @@ public abstract class InterviewParameters
      * @throws Interview.Fault if any problems occurred while processing the arguments
      */
     public void init(String... args) throws Fault {
-        if (args != null && args.length > 0)
+        if (args != null && args.length > 0) {
             throw new Fault(i18n, "ip.unknownArgs");
+        }
     }
 
     /**
@@ -300,8 +301,9 @@ public abstract class InterviewParameters
      * @return the name for this configuration, or null if not known.
      */
     public synchronized String getName() {
-        if (inGetName)
+        if (inGetName) {
             return null;
+        }
 
         try {
             inGetName = true;
@@ -310,8 +312,9 @@ public abstract class InterviewParameters
             if (eParams != null) {
                 // getName to get the name for the environment
                 TestEnvironment e = eParams.getEnv();
-                if (e != null)
+                if (e != null) {
                     return e.getName();
+                }
             }
             return null;
         } finally {
@@ -335,8 +338,9 @@ public abstract class InterviewParameters
         EnvParameters eParams = getEnvParameters();
         if (eParams != null) {
             TestEnvironment e = eParams.getEnv();
-            if (e != null)
+            if (e != null) {
                 return e.getDescription();
+            }
         }
         return null;
     }
@@ -363,10 +367,11 @@ public abstract class InterviewParameters
     @Override
     public TestEnvironment getEnv() {
         EnvParameters eParams = getEnvParameters();
-        if (eParams == null)
+        if (eParams == null) {
             throw new NullPointerException();
-        else
+        } else {
             return eParams.getEnv();
+        }
     }
 
     /**
@@ -685,11 +690,11 @@ public abstract class InterviewParameters
     public String getErrorMessage() {
         Question[] path = getPath();
         Question lastQuestion = path[path.length - 1];
-        if (lastQuestion instanceof FinalQuestion)
+        if (lastQuestion instanceof FinalQuestion) {
             return null;
-        else if (lastQuestion instanceof ErrorQuestion)
+        } else if (lastQuestion instanceof ErrorQuestion) {
             return lastQuestion.getText();
-        else {
+        } else {
             String v = lastQuestion.getStringValue();
             return i18n.getString("ip.noAnswer",
                     lastQuestion.getSummary(), lastQuestion.getText(), lastQuestion.getTag(), Integer.valueOf(v == null ? 0 : 1), trim(v));
@@ -722,11 +727,12 @@ public abstract class InterviewParameters
     @Override
     public TestFilter getExcludeListFilter() {
         ExcludeList t = getExcludeList();
-        if (t == null)
+        if (t == null) {
             cachedExcludeListFilter = null;
-        else if (cachedExcludeListFilter == null
-                || cachedExcludeListFilter.getExcludeList() != t)
+        } else if (cachedExcludeListFilter == null
+                || cachedExcludeListFilter.getExcludeList() != t) {
             cachedExcludeListFilter = new ExcludeListFilter(t);
+        }
         return cachedExcludeListFilter;
     }
 
@@ -735,11 +741,12 @@ public abstract class InterviewParameters
     @Override
     public TestFilter getKeywordsFilter() {
         Keywords k = getKeywords();
-        if (k == null)
+        if (k == null) {
             cachedKeywordsFilter = null;
-        else if (cachedKeywordsFilter == null
-                || cachedKeywordsFilter.getKeywords() != k)
+        } else if (cachedKeywordsFilter == null
+                || cachedKeywordsFilter.getKeywords() != k) {
             cachedKeywordsFilter = new KeywordsFilter(k);
+        }
         return cachedKeywordsFilter;
     }
 
@@ -750,12 +757,13 @@ public abstract class InterviewParameters
         WorkDirectory wd = getWorkDirectory();
         TestResultTable r = wd == null ? null : wd.getTestResultTable();
         boolean[] s = getPriorStatusValues();
-        if (r == null || s == null)
+        if (r == null || s == null) {
             cachedStatusFilter = null;
-        else if (cachedStatusFilter == null
+        } else if (cachedStatusFilter == null
                 || cachedStatusFilter.getTestResultTable() != r
-                || !equal(cachedStatusFilter.getStatusValues(), s))
+                || !equal(cachedStatusFilter.getStatusValues(), s)) {
             cachedStatusFilter = new StatusFilter(s, r);
+        }
         // else
         //   cachedStatusFilter is OK
 
@@ -768,9 +776,9 @@ public abstract class InterviewParameters
     public TestFilter getRelevantTestFilter() {
         TestSuite ts = getTestSuite();
         TestEnvironment env = getEnv();
-        if (ts == null || env == null)
+        if (ts == null || env == null) {
             cachedRelevantTestFilter = null;
-        else if (cachedRelevantTestFilter == null ||
+        } else if (cachedRelevantTestFilter == null ||
                 ts != cachedRelevantTestFilterTestSuite ||
                 env != cachedRelevantTestFilterEnv) {
             cachedRelevantTestFilter = ts.createTestFilter(env);
@@ -822,26 +830,31 @@ public abstract class InterviewParameters
     }
 
     private static boolean equal(boolean[] b1, boolean... b2) {
-        if (b1 == null || b2 == null)
+        if (b1 == null || b2 == null) {
             return b1 == b2;
+        }
 
-        if (b1.length != b2.length)
+        if (b1.length != b2.length) {
             return false;
+        }
 
         for (int i = 0; i < b1.length; i++) {
-            if (b1[i] != b2[i])
+            if (b1[i] != b2[i]) {
                 return false;
+            }
         }
 
         return true;
     }
 
     private static boolean equal(Vector<TestFilter> v, TestFilter... f) {
-        if (f == null || v.size() != f.length)
+        if (f == null || v.size() != f.length) {
             return false;
+        }
         for (int i = 0; i < v.size(); i++) {
-            if (!v.get(i).equals(f[i]))
+            if (!v.get(i).equals(f[i])) {
                 return false;
+            }
         }
         return true;
     }
@@ -983,8 +996,9 @@ public abstract class InterviewParameters
      */
     public static InterviewParameters open(File file, TestSuite testSuite)
             throws IOException, Fault {
-        if (testSuite == null)
+        if (testSuite == null) {
             throw new NullPointerException();
+        }
 
         return open(file, testSuite, null);
     }
@@ -1004,8 +1018,9 @@ public abstract class InterviewParameters
      */
     public static InterviewParameters open(File file, WorkDirectory workDir)
             throws IOException, Fault {
-        if (workDir == null)
+        if (workDir == null) {
             throw new NullPointerException();
+        }
 
         return open(file, workDir.getTestSuite(), workDir);
     }
@@ -1036,8 +1051,9 @@ public abstract class InterviewParameters
         // if the test suite has not been given, set it from the .jti data
         if (testSuite == null) {
             String s = data.get(TESTSUITE);
-            if (s == null)
+            if (s == null) {
                 throw new Fault(i18n, "ip.noTestSuiteInFile", file);
+            }
 
             try {
                 testSuite = TestSuite.open(new File(s));
@@ -1078,8 +1094,9 @@ public abstract class InterviewParameters
         }
 
         // set the work dir in the parameters object
-        if (workDir != null)
+        if (workDir != null) {
             parameters.setWorkDirectory(workDir);
+        }
 
         // load the .jti data into the parameters object
         try {
@@ -1173,8 +1190,9 @@ public abstract class InterviewParameters
             } catch (TestSuite.Fault e) {
                 throw new Fault(i18n, "ip.cantOpenTestSuite", testSuitePath, e.getMessage());
             }
-        } else
+        } else {
             testSuite = null;
+        }
 
         // open work directory if specified, defaulting test suite if appropriate
 
@@ -1185,15 +1203,17 @@ public abstract class InterviewParameters
                 if (testSuite == null) {
                     workDir = WorkDirectory.open(workDirPath);
                     testSuite = workDir.getTestSuite();
-                } else
+                } else {
                     workDir = WorkDirectory.open(workDirPath, testSuite);
+                }
             } catch (FileNotFoundException e) {
                 throw new Fault(i18n, "ip.cantFindWorkDir", workDirPath, e);
             } catch (WorkDirectory.Fault e) {
                 throw new Fault(i18n, "ip.cantOpenWorkDir", workDirPath, e.getMessage());
             }
-        } else
+        } else {
             workDir = null;
+        }
 
         // open config file if specified, defaulting work dir and test suite if appropriate
         // default config from test suite if appropriate
@@ -1221,19 +1241,22 @@ public abstract class InterviewParameters
                         }   // catch
                     }
                 }   // workdir != null
-            } else
+            } else {
                 throw new Fault(i18n, "ip.noPaths");
+            }
         } else {
             try {
                 if (workDir == null) {
                     if (testSuite == null) {
                         config = open(configFilePath);
                         testSuite = config.getTestSuite();
-                    } else
+                    } else {
                         config = open(configFilePath, testSuite);
+                    }
                     workDir = config.getWorkDirectory();
-                } else
+                } else {
                     config = open(configFilePath, workDir);
+                }
             } catch (FileNotFoundException e) {
                 throw new Fault(i18n, "ip.cantFindConfigFile", configFilePath);
             } catch (IOException e) {
@@ -1259,9 +1282,9 @@ public abstract class InterviewParameters
      */
     public boolean load() throws IOException, Fault {
         File f = getFile();
-        if (f != null && f.exists())
+        if (f != null && f.exists()) {
             return load(f);
-        else {
+        } else {
             clear();
             setEdited(false);
             return false;
@@ -1359,8 +1382,9 @@ public abstract class InterviewParameters
 
     private void loadTestsParameters(TestsParameters other) {
         TestsParameters tp = getTestsParameters();
-        if (!(tp instanceof MutableTestsParameters))
+        if (!(tp instanceof MutableTestsParameters)) {
             return;
+        }
 
         MutableTestsParameters mtp = (MutableTestsParameters) tp;
 
@@ -1382,8 +1406,9 @@ public abstract class InterviewParameters
 
     private void loadExcludeListParameters(ExcludeListParameters other) {
         ExcludeListParameters tp = getExcludeListParameters();
-        if (!(tp instanceof MutableExcludeListParameters))
+        if (!(tp instanceof MutableExcludeListParameters)) {
             return;
+        }
 
         MutableExcludeListParameters mtp = (MutableExcludeListParameters) tp;
 
@@ -1405,8 +1430,9 @@ public abstract class InterviewParameters
 
     private void loadKeywordsParameters(KeywordsParameters other) {
         KeywordsParameters tp = getKeywordsParameters();
-        if (!(tp instanceof MutableKeywordsParameters))
+        if (!(tp instanceof MutableKeywordsParameters)) {
             return;
+        }
 
         MutableKeywordsParameters mtp = (MutableKeywordsParameters) tp;
 
@@ -1429,8 +1455,9 @@ public abstract class InterviewParameters
 
     private void loadPriorStatusParameters(PriorStatusParameters other) {
         PriorStatusParameters tp = getPriorStatusParameters();
-        if (!(tp instanceof MutablePriorStatusParameters))
+        if (!(tp instanceof MutablePriorStatusParameters)) {
             return;
+        }
 
         MutablePriorStatusParameters mtp = (MutablePriorStatusParameters) tp;
 
@@ -1452,8 +1479,9 @@ public abstract class InterviewParameters
 
     private void loadEnvParameters(EnvParameters other) {
         EnvParameters tp = getEnvParameters();
-        if (!(tp instanceof LegacyEnvParameters))
+        if (!(tp instanceof LegacyEnvParameters)) {
             return;
+        }
 
         LegacyEnvParameters ltp = (LegacyEnvParameters) tp;
 
@@ -1466,8 +1494,9 @@ public abstract class InterviewParameters
 
     private void loadConcurrencyParameters(ConcurrencyParameters other) {
         ConcurrencyParameters tp = getConcurrencyParameters();
-        if (!(tp instanceof MutableConcurrencyParameters))
+        if (!(tp instanceof MutableConcurrencyParameters)) {
             return;
+        }
 
         MutableConcurrencyParameters mtp = (MutableConcurrencyParameters) tp;
         mtp.setConcurrency(other.getConcurrency());
@@ -1475,8 +1504,9 @@ public abstract class InterviewParameters
 
     private void loadTimeoutFactorParameters(TimeoutFactorParameters other) {
         TimeoutFactorParameters tp = getTimeoutFactorParameters();
-        if (!(tp instanceof MutableTimeoutFactorParameters))
+        if (!(tp instanceof MutableTimeoutFactorParameters)) {
             return;
+        }
 
         MutableTimeoutFactorParameters mtp = (MutableTimeoutFactorParameters) tp;
         mtp.setTimeoutFactor(other.getTimeoutFactor());
@@ -1493,8 +1523,9 @@ public abstract class InterviewParameters
      */
     public void save() throws IOException, Fault {
         File f = getFile();
-        if (f == null)
+        if (f == null) {
             throw new IllegalStateException();
+        }
         save(f);
     }
 
@@ -1572,14 +1603,16 @@ public abstract class InterviewParameters
 
         if (saveTestSuite) {
             TestSuite ts = getTestSuite();
-            if (ts != null)
+            if (ts != null) {
                 data.put(TESTSUITE, ts.getPath());
+            }
         }
 
         if (saveWorkDir) {
             WorkDirectory wd = getWorkDirectory();
-            if (wd != null)
+            if (wd != null) {
                 data.put(WORKDIR, wd.getPath());
+            }
         }
 
         save(data);
@@ -1592,10 +1625,11 @@ public abstract class InterviewParameters
         }
 
         OutputStream out;
-        if (backupPolicy == null)
+        if (backupPolicy == null) {
             out = new BufferedOutputStream(new FileOutputStream(file));
-        else
+        } else {
             out = backupPolicy.backupAndOpenStream(file);
+        }
 
         try {
             PropertyUtils.store(data, out, "JT Harness Configuration Interview");
@@ -1626,11 +1660,13 @@ public abstract class InterviewParameters
 
     @Override
     public void save(Map<String, String> data) {
-        if (markersEnabled)
+        if (markersEnabled) {
             data.put(MARKERS_ENABLED, TRUE);
+        }
 
-        if (markersFilterEnabled)
+        if (markersFilterEnabled) {
             data.put(MARKERS_FILTER, TRUE);
+        }
 
         if (isTemplate()) {
             data.put(IS_TEMPLATE, TRUE);
@@ -1638,17 +1674,20 @@ public abstract class InterviewParameters
             storeTemplateProperties(new HashMap<String, String>());
         } else {
             WorkDirectory wd = getWorkDirectory();
-            if (wd != null && TemplateUtilities.getTemplatePath(wd) != null)
+            if (wd != null && TemplateUtilities.getTemplatePath(wd) != null) {
                 data.put(TEMPLATE_PATH, TemplateUtilities.getTemplatePath(wd));
+            }
         }
 
         String name = getName();
-        if (name != null)
+        if (name != null) {
             data.put(NAME, name);
+        }
 
         String desc = getDescription();
-        if (desc != null)
+        if (desc != null) {
             data.put(DESC, desc);
+        }
 
 
         super.save(data);

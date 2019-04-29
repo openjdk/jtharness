@@ -117,8 +117,9 @@ public class MultiStatus {
                     break;
             }
 
-            if (t != Status.PASSED && firstTestCase.isEmpty())
+            if (t != Status.PASSED && firstTestCase.isEmpty()) {
                 firstTestCase = testID;
+            }
         }
     }
 
@@ -135,36 +136,40 @@ public class MultiStatus {
         }
 
         String summary;
-        if (iTestCases == 0)
+        if (iTestCases == 0) {
             summary = "No tests cases found (or all test cases excluded.)";
-        else {
+        } else {
             summary = "test cases: " + iTestCases;
             if (iPassed > 0) {
-                if (iPassed == iTestCases)
+                if (iPassed == iTestCases) {
                     summary += "; all passed";
-                else
+                } else {
                     summary += "; passed: " + iPassed;
+                }
             }
 
             if (iFail > 0) {
-                if (iFail == iTestCases)
+                if (iFail == iTestCases) {
                     summary += "; all failed";
-                else
+                } else {
                     summary += "; failed: " + iFail;
+                }
             }
 
             if (iError > 0) {
-                if (iError == iTestCases)
+                if (iError == iTestCases) {
                     summary += "; all had an error";
-                else
+                } else {
                     summary += "; error: " + iError;
+                }
             }
 
             if (iBad > 0) {
-                if (iBad == iTestCases)
+                if (iBad == iTestCases) {
                     summary += "; all bad";
-                else
+                } else {
                     summary += "; bad status: " + iBad;
+                }
             }
         }
 

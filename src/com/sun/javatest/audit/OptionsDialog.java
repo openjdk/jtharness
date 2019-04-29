@@ -65,21 +65,25 @@ class OptionsDialog extends ToolDialog {
     }
 
     void setParameters(InterviewParameters params) {
-        if (body == null)
+        if (body == null) {
             initGUI();
+        }
 
         if (params != null) {
             TestSuite ts = params.getTestSuite();
-            if (ts != null)
+            if (ts != null) {
                 tsField.setSelectedItem(ts.getPath());
+            }
 
             WorkDirectory wd = params.getWorkDirectory();
-            if (wd != null)
+            if (wd != null) {
                 wdField.setSelectedItem(wd.getPath());
+            }
 
             File cf = params.getFile();
-            if (cf != null)
+            if (cf != null) {
                 cfField.setSelectedItem(cf.getPath());
+            }
         }
     }
 
@@ -179,11 +183,13 @@ class OptionsDialog extends ToolDialog {
     }
 
     private void chooseTestSuite() {
-        if (testSuiteChooser == null)
+        if (testSuiteChooser == null) {
             testSuiteChooser = new TestSuiteChooser();
+        }
         int action = testSuiteChooser.showDialog(tool);
-        if (action != JFileChooser.APPROVE_OPTION)
+        if (action != JFileChooser.APPROVE_OPTION) {
             return;
+        }
         TestSuite ts = testSuiteChooser.getSelectedTestSuite();
         tsField.setSelectedItem(ts.getPath());
     }
@@ -198,7 +204,9 @@ class OptionsDialog extends ToolDialog {
             for (Tool t : tools) {
                 TestSuite[] tss = t.getLoadedTestSuites();
                 if (tss != null) {
-                    for (TestSuite ts : tss) s.add(ts.getPath());
+                    for (TestSuite ts : tss) {
+                        s.add(ts.getPath());
+                    }
                 }
             }
         }
@@ -213,8 +221,9 @@ class OptionsDialog extends ToolDialog {
             workDirChooser.setMode(WorkDirChooser.OPEN_FOR_ANY_TESTSUITE);
         }
         int action = workDirChooser.showDialog(tool);
-        if (action != JFileChooser.APPROVE_OPTION)
+        if (action != JFileChooser.APPROVE_OPTION) {
             return;
+        }
         WorkDirectory wd = workDirChooser.getSelectedWorkDirectory();
         wdField.setSelectedItem(wd.getPath());
     }
@@ -241,8 +250,9 @@ class OptionsDialog extends ToolDialog {
                 WorkDirectory[] wds = t.getLoadedWorkDirectories();
                 if (wds != null) {
                     for (WorkDirectory wd : wds) {
-                        if (tsID == null || tsID.equals(wd.getTestSuite().getID()))
+                        if (tsID == null || tsID.equals(wd.getTestSuite().getID())) {
                             s.add(wd.getPath());
+                        }
                     }
                 }
             }
@@ -255,8 +265,9 @@ class OptionsDialog extends ToolDialog {
         if (configFileChooser == null) {
             configFileChooser = new JFileChooser();
             String userDir = System.getProperty("user.dir");
-            if (userDir != null)
+            if (userDir != null) {
                 configFileChooser.setCurrentDirectory(new File(userDir));
+            }
             configFileChooser.addChoosableFileFilter(new FileFilter() {
                 @Override
                 public boolean accept(File f) {
@@ -271,17 +282,19 @@ class OptionsDialog extends ToolDialog {
         }
 
         int action = configFileChooser.showOpenDialog(tool);
-        if (action != JFileChooser.APPROVE_OPTION)
+        if (action != JFileChooser.APPROVE_OPTION) {
             return;
+        }
 
         File cf = configFileChooser.getSelectedFile();
         String cfp;
-        if (cf == null)
+        if (cf == null) {
             cfp = "";
-        else {
+        } else {
             cfp = cf.getPath();
-            if (!cfp.endsWith(".jti"))
+            if (!cfp.endsWith(".jti")) {
                 cfp += ".jti";
+            }
         }
         cfField.setSelectedItem(cfp);
     }
@@ -293,7 +306,9 @@ class OptionsDialog extends ToolDialog {
             WorkDirectory wd = WorkDirectory.open(new File(wdp));
             FileHistory history = FileHistory.getFileHistory(wd, "configHistory.jtl");
             File[] entries = history.getRecentEntries(10);
-            for (File entry : entries) s.add(entry.getPath());
+            for (File entry : entries) {
+                s.add(entry.getPath());
+            }
         } catch (Exception e) {
             // ignore
         }
@@ -309,12 +324,16 @@ class OptionsDialog extends ToolDialog {
                 // set to be added later
                 s.remove(item);
             } else if (!item.isEmpty() && !item.equals(field.getSelectedItem()))
-                // this item is not required, remove it
+            // this item is not required, remove it
+            {
                 field.removeItemAt(i);
+            }
         }
 
         // those items remaining in s need to be added to the field
-        for (String value : s) field.addItem(value);
+        for (String value : s) {
+            field.addItem(value);
+        }
     }
 
     private Tool tool;
@@ -350,16 +369,17 @@ class OptionsDialog extends ToolDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
-            if (src == tsField)
+            if (src == tsField) {
                 updateWorkDirectoryChoices();
-            else if (src == tsBtn)
+            } else if (src == tsBtn) {
                 chooseTestSuite();
-            else if (src == wdField)
+            } else if (src == wdField) {
                 updateConfigFileChoices();
-            else if (src == wdBtn)
+            } else if (src == wdBtn) {
                 chooseWorkDirectory();
-            else if (src == cfBtn)
+            } else if (src == cfBtn) {
                 chooseConfigFile();
+            }
         }
     }
 

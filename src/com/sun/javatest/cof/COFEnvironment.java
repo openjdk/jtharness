@@ -490,7 +490,7 @@ import com.sun.javatest.util.I18NResourceBundle;
      *              {@link String }
      */
     public void setMachine(String value) {
-        if (value.endsWith(".unknown"))
+        if (value.endsWith(".unknown")) {
             try {
                 machine = InetAddress.getLocalHost().getCanonicalHostName();
                 if (machine.indexOf(".") == -1) {
@@ -513,6 +513,7 @@ import com.sun.javatest.util.I18NResourceBundle;
                     data.put("warning", warningMessage + i18n.getString("environment.cantGetLocalhostName", e.getMessage()) + "\n" + i18n.getString("environment.badMachineName", value) + "\n");
                 }
             }
+        }
         this.machine = value;
     }
 

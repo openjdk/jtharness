@@ -118,9 +118,9 @@ public class ResultBrowser extends HttpServlet {
             for (Iterator<String> iter = td.getParameterKeys(); iter.hasNext(); ) {
                 String key = iter.next();
                 String value = td.getParameter(key);
-                if (key.equals("$root") || key.equals("$file") || key.equals("testsuite") || key.equals("file"))
+                if (key.equals("$root") || key.equals("$file") || key.equals("testsuite") || key.equals("file")) {
                     out.println("<tr><td align=top>" + key + "<td><a href=\"" + value + "\">" + filter(value, false) + "</a>");
-                else if (key.equals("source")) {
+                } else if (key.equals("source")) {
                     out.println("<tr><td align=top>" + key + "<td>");
                     String[] srcs = StringArray.split(value);
                     if (srcs != null) {
@@ -128,14 +128,16 @@ public class ResultBrowser extends HttpServlet {
                         String tdFilePath = tdFile == null ? null : tdFile.getPath();
                         String tdDir = tdFilePath == null ? null : tdFilePath.substring(0, tdFilePath.lastIndexOf('/') + 1); // File.separator?
                         for (String src : srcs) {
-                            if (tdDir == null)
+                            if (tdDir == null) {
                                 out.println(src);
-                            else
+                            } else {
                                 out.println("<a href=\"" + tdDir + src + "\">" + src + "</a>");
+                            }
                         }
                     }
-                } else
+                } else {
                     out.println("<tr><td align=top>" + key + "<td>" + filter(value, true));
+                }
             }
             out.println("</table>");
         } catch (TestResult.Fault e) {
@@ -181,22 +183,25 @@ public class ResultBrowser extends HttpServlet {
         // output
         out.println("<h2><a name=output>Test Output</a></h2>");
 
-        if (tr.getSectionCount() == 0)
+        if (tr.getSectionCount() == 0) {
             out.println("No output recorded.");
-        else {
+        } else {
             try {
                 for (int i = 0; i < tr.getSectionCount(); i++) {
                     TestResult.Section s = tr.getSection(i);
-                    if (i > 0)
+                    if (i > 0) {
                         out.println("<p><hr align=left width=\"25%\">");
+                    }
                     out.println("<h3><a name=\"output-" + s.getTitle() + "\">" + s.getTitle() + "</a></h3>");
                     String[] sects = s.getOutputNames();
                     for (String sect : sects) {
-                        if (!sect.equals("messages"))
+                        if (!sect.equals("messages")) {
                             out.println("<h4>Output: " + sect + "</h4>");
+                        }
                         String output = s.getOutput(sect);
-                        if (output.isEmpty())
+                        if (output.isEmpty()) {
                             out.println("<em>(No output.)</em>");
+                        }
                         out.println("<pre>" + output + "</pre>");
                     }
                     if (s.getStatus() != null) {
@@ -219,9 +224,9 @@ public class ResultBrowser extends HttpServlet {
     }
 
     private String filter(String s, boolean newlines) {
-        if (s.indexOf('<') == -1 && s.indexOf('>') == -1 && (!newlines || (s.indexOf('\n') == -1)))
+        if (s.indexOf('<') == -1 && s.indexOf('>') == -1 && (!newlines || (s.indexOf('\n') == -1))) {
             return s;
-        else {
+        } else {
             StringBuilder sb = new StringBuilder(s.length() * 2);
             for (int i = 0; i < s.length(); i++) {
                 char c;
@@ -233,8 +238,9 @@ public class ResultBrowser extends HttpServlet {
                         sb.append("&gt;");
                         break;
                     case '\n':
-                        if (newlines)
+                        if (newlines) {
                             sb.append("<br>");
+                        }
                         sb.append(c);
                         break;
                     default:

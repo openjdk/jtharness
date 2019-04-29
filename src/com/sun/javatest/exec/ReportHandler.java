@@ -89,8 +89,9 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
             ReportDirChooser rdc = getReportDirChooser();
             rdc.setMode(mode);
             int option = rdc.showDialog(parent);
-            if (option != JFileChooser.APPROVE_OPTION)
+            if (option != JFileChooser.APPROVE_OPTION) {
                 return;
+            }
 
             // set parameters?
         } else if (mode == ReportDirChooser.OPEN) {
@@ -126,8 +127,9 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
                     String lastReportDir =
                             lastState.get(NewReportDialog.REPORT_DIR);
 
-                    if (lastReportDir != null)
+                    if (lastReportDir != null) {
                         history.add(new File(lastReportDir));
+                    }
                 }
 
                 @Override
@@ -148,8 +150,9 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
         }
 
         newReportD.setInterviewParameters(model.getInterviewParameters());
-        if (lastState != null)
+        if (lastState != null) {
             newReportD.setLastState(lastState);
+        }
 
         newReportD.setVisible(true);
     }
@@ -185,8 +188,9 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
     }
 
     ReportDirChooser getReportDirChooser() {
-        if (reportDirChooser == null)
+        if (reportDirChooser == null) {
             reportDirChooser = new ReportDirChooser();
+        }
         return reportDirChooser;
     }
 
@@ -208,7 +212,9 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
         newReportAction.setEnabled(workDirSet);
         openReportAction.setEnabled(workDirSet);
 
-        if (!workDirSet) return;
+        if (!workDirSet) {
+            return;
+        }
 
         if (history == null) {
             history = FileHistory.getFileHistory(workDir, "reportDirHistory.jtl");
@@ -226,23 +232,28 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
 
     @Override
     public void restore(Map<String, String> parentMap) {
-        if (parentMap == null)
+        if (parentMap == null) {
             return;
+        }
 
         try {
             PrefixMap<String> pm = new PrefixMap<>(parentMap, REPORT_PREFIX);
-            if (pm == null) return;
+            if (pm == null) {
+                return;
+            }
 
             Object[] keys = pm.keySet().toArray();
-            if (lastState == null)
+            if (lastState == null) {
                 lastState = new HashMap<>();
+            }
 
             for (Object key1 : keys) {
                 String key = (String) key1;
                 String value = pm.get(key1);
 
-                if (value != null)
+                if (value != null) {
                     lastState.put(key, value);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -339,8 +350,9 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
             public void actionPerformed(ActionEvent e) {
                 JMenuItem mi = (JMenuItem) e.getSource();
                 File f = (File) mi.getClientProperty(FileHistory.FILE);
-                if (f != null)
+                if (f != null) {
                     showReportBrowser(f);
+                }
             }
         });
 

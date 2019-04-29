@@ -154,15 +154,17 @@ public class TU_dialog extends JDialog {
         jScrollPane1.setViewportView(jEditorPane1);
         tabConflicts.add(jScrollPane1, BorderLayout.CENTER);
 
-        if (hasConflicts)
+        if (hasConflicts) {
             tabs.addTab(i18n.getString("tu_dialog.tabConflicts.title"), tabConflicts);
+        }
 
         tabUpdates.setLayout(new BorderLayout());
         jScrollPane2.setViewportView(jEditorPane2);
         tabUpdates.add(jScrollPane2, BorderLayout.CENTER);
 
-        if (hasUpdates)
+        if (hasUpdates) {
             tabs.addTab(i18n.getString("tu_dialog.tabUpdates.title"), tabUpdates);
+        }
 
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;

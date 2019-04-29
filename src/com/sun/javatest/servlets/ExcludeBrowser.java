@@ -70,22 +70,24 @@ public class ExcludeBrowser extends HttpServlet {
         out.println("</head>");
         out.println("<body>");
 
-        if (excludeList.size() == 0)
+        if (excludeList.size() == 0) {
             out.println("Exclude list is empty.");
-        else {
+        } else {
             out.println("<table border=1>");
             for (Iterator<?> iter = excludeList.getIterator(false); iter.hasNext(); ) {
                 ExcludeList.Entry entry = (ExcludeList.Entry) iter.next();
                 String[] bugIds = entry.getBugIdStrings();
                 StringBuilder bugIdText = new StringBuilder();
                 for (int i = 0; i < bugIds.length; i++) {
-                    if (i > 0)
+                    if (i > 0) {
                         bugIdText.append(" ");
+                    }
                     String b = bugIds[i];
-                    if (bugLink == null)
+                    if (bugLink == null) {
                         bugIdText.append(b);
-                    else
+                    } else {
                         bugIdText.append("<a href=\"" + bugLink + b + "\">" + b + "</a>");
+                    }
                 }
                 out.print("<tr>");
                 out.print("<td>" + entry.getRelativeURL());

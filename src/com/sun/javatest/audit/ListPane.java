@@ -53,9 +53,9 @@ abstract class ListPane extends AuditPane {
     }
 
     void setData(Object... data) {
-        if (data == null || data.length == 0)
+        if (data == null || data.length == 0) {
             show(uif.getI18NString("list.noEntries"));
-        else {
+        } else {
             model.setData(data);
             showBody();
         }
@@ -90,8 +90,9 @@ abstract class ListPane extends AuditPane {
             } else if (o instanceof TestDescription) {
                 TestDescription td = (TestDescription) o;
                 name = td.getRootRelativeURL();
-            } else
+            } else {
                 name = String.valueOf(o);
+            }
             return super.getListCellRendererComponent(list, name, index, isSelected, cellHasFocus);
         }
     }

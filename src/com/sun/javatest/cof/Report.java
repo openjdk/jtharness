@@ -209,8 +209,9 @@ public class Report extends COFItem {
      * {@link Environments }
      */
     public COFEnvironments getEnvironments() {
-        if (environments == null)
+        if (environments == null) {
             environments = new COFEnvironments();
+        }
         return environments;
     }
 
@@ -277,8 +278,9 @@ public class Report extends COFItem {
      * {@link TestSuites }
      */
     public COFTestSuites getTestsuites() {
-        if (testsuites == null)
+        if (testsuites == null) {
             testsuites = new COFTestSuites();
+        }
         return testsuites;
     }
 

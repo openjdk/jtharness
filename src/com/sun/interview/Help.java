@@ -89,8 +89,9 @@ public class Help {
      */
     private static HelpID getID(Interview i, String key) {
         HelpID helpId = null;
-        if (i.getParent() != null)
+        if (i.getParent() != null) {
             helpId = getID(i.getParent(), key);
+        }
 
         if (helpId != null) {
             //System.err.println("Q: int:" + i.getTag() + " key:" + key + " helpId:" + helpId);
@@ -123,9 +124,9 @@ public class Help {
     public static HelpSet[] getAdditionalDocs(TestSuite ts) throws Help.Fault {
         HelpSet[] additionalDocs = null;
         String[] names = ts.getAdditionalDocNames();
-        if (names == null)
+        if (names == null) {
             additionalDocs = new HelpSet[0];
-        else {
+        } else {
             HelpSet[] docs = new HelpSet[names.length];
             ClassLoader loader = ts.getClassLoader();
             for (int i = 0; i < names.length; i++) {

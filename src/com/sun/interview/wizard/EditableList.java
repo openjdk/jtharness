@@ -67,7 +67,9 @@ public class EditableList extends JPanel {
 
         listModel = new DefaultListModel<>(); // need to force the type of model
         if (items != null) {
-            for (Object item : items) listModel.addElement(item);
+            for (Object item : items) {
+                listModel.addElement(item);
+            }
         }
         list = new JList<>(listModel);
         list.setName(uiKey);
@@ -215,17 +217,19 @@ public class EditableList extends JPanel {
         }
 
         if (newItem != null) {
-            if (list.isSelectionEmpty())
+            if (list.isSelectionEmpty()) {
                 listModel.addElement(newItem);
-            else
+            } else {
                 listModel.add(1 + list.getSelectedIndex(), newItem);
+            }
             list.setSelectedValue(newItem, true);
         }
     }
 
     protected void removeSelectedItem() {
-        if (!list.isSelectionEmpty())
+        if (!list.isSelectionEmpty()) {
             listModel.remove(list.getSelectedIndex());
+        }
     }
 
     protected void moveSelectedItemUp() {
@@ -256,8 +260,9 @@ public class EditableList extends JPanel {
             return;
         }
 
-        if (newItem != null)
+        if (newItem != null) {
             listModel.set(index, newItem);
+        }
     }
 
 
@@ -326,8 +331,9 @@ public class EditableList extends JPanel {
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 int index = list.locationToIndex(e.getPoint());
-                if (index != -1)
+                if (index != -1) {
                     editItem(index);
+                }
             }
         }
 

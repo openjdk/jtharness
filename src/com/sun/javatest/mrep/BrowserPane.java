@@ -101,8 +101,9 @@ class BrowserPane extends JPanel {
     }
 
     void setFile(URL file) {
-        if (file != null)
+        if (file != null) {
             setFiles(file);
+        }
     }
 
     boolean isEmpty() {
@@ -134,8 +135,9 @@ class BrowserPane extends JPanel {
 
         // updateCombo leaves the last inserted selected, which is
         // useful elsewhere, but not here, we reset the selection
-        if (model.getSize() > 0)
+        if (model.getSize() > 0) {
             selectBox.setSelectedIndex(0);
+        }
     }
 
     URL getPage() {
@@ -166,16 +168,18 @@ class BrowserPane extends JPanel {
         homeAction = new ToolAction(uif, "fp.home", true) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (homeURL == null)
+                if (homeURL == null) {
                     if (textHomePage != null) {
                         currURL = null;
                         updateCombo(null);
                         textArea.setContentType("text/html");
                         textArea.setText(textHomePage);
-                    } else
+                    } else {
                         textArea.setDocument(new HTMLDocument());
-                else
+                    }
+                } else {
                     loadPage(homeURL);
+                }
             }
         };
 
@@ -183,8 +187,9 @@ class BrowserPane extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 URL url = history.prev();
-                if (url != null)
+                if (url != null) {
                     loadPage(url);
+                }
             }
         };
 
@@ -192,8 +197,9 @@ class BrowserPane extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 URL url = history.next();
-                if (url != null)
+                if (url != null) {
                     loadPage(url);
+                }
             }
         };
     }
@@ -275,8 +281,9 @@ class BrowserPane extends JPanel {
     //------------------------------------------------------------------------------------
 
     private void clear() {
-        if (model != null)
+        if (model != null) {
             model.removeAllElements();
+        }
 
         history.clear();
         backAction.setEnabled(false);
@@ -291,8 +298,9 @@ class BrowserPane extends JPanel {
     private void loadPage(URL url) {
         // avoid recursive callbacks from updating combo
         // URL.equals can result in a big performance hit
-        if (currURL != null && url.toString().equals(currURL.toString()))
+        if (currURL != null && url.toString().equals(currURL.toString())) {
             return;
+        }
 
         currURL = url;
 
@@ -339,8 +347,9 @@ class BrowserPane extends JPanel {
     }
 
     private String listLocalDirectory(File dir) {
-        if (!dir.isAbsolute())
+        if (!dir.isAbsolute()) {
             dir = dir.getAbsoluteFile();
+        }
 
         String displayPath = dir.getPath();
         // if contains base dir, only show path relative to baseDir
@@ -423,19 +432,22 @@ class BrowserPane extends JPanel {
 
     private void updateCombo(URL s) {
         // check if the new element exists in the combo box...
-        if (model.getIndexOf(s) < 0)
+        if (model.getIndexOf(s) < 0) {
             model.addElement(s);
+        }
 
         URL item = (URL) selectBox.getSelectedItem();
         // check if the new element is already selected.
         // URL.equals can result in a big performance hit
-        if (s != null && !item.toString().equals(s.toString()))
+        if (s != null && !item.toString().equals(s.toString())) {
             selectBox.setSelectedItem(s);
+        }
     }
 
     private DefaultComboBoxModel<URL> createModel() {
-        if (model == null)
+        if (model == null) {
             model = new DefaultComboBoxModel<>();
+        }
         return model;
     }
 
@@ -480,8 +492,9 @@ class BrowserPane extends JPanel {
         }
 
         URL prev() {
-            if (index == 0)
+            if (index == 0) {
                 return null;
+            }
 
             return entries.get(--index);
         }
@@ -491,23 +504,27 @@ class BrowserPane extends JPanel {
         }
 
         URL next() {
-            if (index == entries.size() - 1)
+            if (index == entries.size() - 1) {
                 return null;
+            }
 
             return entries.get(++index);
         }
 
         void add(URL u) {
-            if (u == null)
+            if (u == null) {
                 throw new NullPointerException();
+            }
 
             // if there is a current entry, and it matches the one to be added, we're done
-            if (index >= 0 && index < entries.size() && entries.get(index).equals(u))
+            if (index >= 0 && index < entries.size() && entries.get(index).equals(u)) {
                 return;
+            }
 
             // if current entry not the last one, truncate to the current entry
-            if (index < entries.size() - 1)
+            if (index < entries.size() - 1) {
                 entries.setSize(index + 1);
+            }
 
             // finally, add new entry
             entries.add(u);
@@ -532,8 +549,9 @@ class BrowserPane extends JPanel {
                     HTMLDocument doc = (HTMLDocument)
                             ((JEditorPane) e.getSource()).getDocument();
                     doc.processHTMLFrameHyperlinkEvent((HTMLFrameHyperlinkEvent) e);
-                } else
+                } else {
                     loadPage(e.getURL());
+                }
             } else if (et == HyperlinkEvent.EventType.ENTERED) {
                 URL u = e.getURL();
                 if (u != null) {

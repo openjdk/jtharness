@@ -57,13 +57,15 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
 
     @Override
     public JComponent getSmallMonitor() {
-        if (smTimer == null)
+        if (smTimer == null) {
             smTimer = new SmallTimer(uif, state);
+        }
 
-        if (isRunning)
+        if (isRunning) {
             smTimer.start();
-        else
+        } else {
             smTimer.update();
+        }
 
         return smTimer;
     }
@@ -88,14 +90,16 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
     public void starting() {
         isRunning = true;
 
-        if (smTimer != null)
+        if (smTimer != null) {
             smTimer.start();
+        }
     }
 
     @Override
     public void postProcessing() {
-        if (smTimer != null)
+        if (smTimer != null) {
             smTimer.stop();
+        }
     }
 
     @Override
@@ -112,8 +116,9 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
      * Stop all active subthreads associated with a running harness.
      */
     private void stopAll() {
-        if (smTimer != null)
+        if (smTimer != null) {
             smTimer.stop();
+        }
     }
 
     /**
@@ -182,11 +187,12 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
         }
 
         private void update() {
-            if (!EventQueue.isDispatchThread())
+            if (!EventQueue.isDispatchThread()) {
                 EventQueue.invokeLater(new BranchPanel.TextUpdater(this,
                         millisToString(state.getElapsedTime()), uif));
-            else
+            } else {
                 setText(millisToString(state.getElapsedTime()));
+            }
         }
 
         private String prefix;
@@ -201,8 +207,9 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
      */
     static final String millisToString(long millis) {
         // lazy init.
-        if (i18n == null)
+        if (i18n == null) {
             i18n = I18NResourceBundle.getBundleForClass(ElapsedTimeMonitor.class);
+        }
 
         int seconds = (int) ((millis / 1000) % 60);
         int minutes = (int) ((millis / 60000) % 60);
@@ -210,20 +217,23 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
 
         String h, m, s;
 
-        if (hours < 10)
+        if (hours < 10) {
             h = "0" + Integer.toString(hours);
-        else
+        } else {
             h = Integer.toString(hours);
+        }
 
-        if (minutes < 10)
+        if (minutes < 10) {
             m = "0" + Integer.toString(minutes);
-        else
+        } else {
             m = Integer.toString(minutes);
+        }
 
-        if (seconds < 10)
+        if (seconds < 10) {
             s = "0" + Integer.toString(seconds);
-        else
+        } else {
             s = Integer.toString(seconds);
+        }
 
         String[] args = {h, m, s};
 

@@ -52,8 +52,9 @@ class CE_PriorStatusPane extends CE_StdPane {
 
     @Override
     boolean isOKToClose() {
-        if (mutablePriorStatusParameters == null)
+        if (mutablePriorStatusParameters == null) {
             return true;
+        }
 
         if (selectCheck.isSelected() && !isAnyStatusCheckSelected()) {
             uif.showError("ce.status.noneSelected");
@@ -64,14 +65,16 @@ class CE_PriorStatusPane extends CE_StdPane {
     }
 
     void updateConfig() {
-        if (config == null)
+        if (config == null) {
             return;
+        }
 
         priorStatusParameters = config.getPriorStatusParameters();
-        if (priorStatusParameters instanceof MutablePriorStatusParameters)
+        if (priorStatusParameters instanceof MutablePriorStatusParameters) {
             mutablePriorStatusParameters = (MutablePriorStatusParameters) priorStatusParameters;
-        else
+        } else {
             mutablePriorStatusParameters = null;
+        }
     }
 
 
@@ -85,17 +88,21 @@ class CE_PriorStatusPane extends CE_StdPane {
             selectCheck.setEnabled(true);
 
             boolean[] statusValues = mutablePriorStatusParameters.getMatchPriorStatusValues();
-            for (int i = 0; i < statusChecks.length; i++)
+            for (int i = 0; i < statusChecks.length; i++) {
                 statusChecks[i].setSelected(statusValues[i]);
+            }
         } else {
             boolean[] statusValues = priorStatusParameters.getPriorStatusValues();
             if (statusValues == null) {
                 selectCheck.setSelected(false);
-                for (JCheckBox statusCheck : statusChecks) statusCheck.setSelected(false);
+                for (JCheckBox statusCheck : statusChecks) {
+                    statusCheck.setSelected(false);
+                }
             } else {
                 selectCheck.setSelected(true);
-                for (int i = 0; i < statusChecks.length; i++)
+                for (int i = 0; i < statusChecks.length; i++) {
                     statusChecks[i].setSelected(statusValues[i]);
+                }
             }
 
             mutablePriorStatusParameters = null;
@@ -114,8 +121,9 @@ class CE_PriorStatusPane extends CE_StdPane {
             mutablePriorStatusParameters.setPriorStatusMode(sm);
 
             boolean[] b = new boolean[Status.NUM_STATES];
-            for (int i = 0; i < b.length; i++)
+            for (int i = 0; i < b.length; i++) {
                 b[i] = statusChecks[i].isSelected();
+            }
             mutablePriorStatusParameters.setMatchPriorStatusValues(b);
         }
     }
@@ -183,8 +191,9 @@ class CE_PriorStatusPane extends CE_StdPane {
 
     private boolean isAnyStatusCheckSelected() {
         for (JCheckBox statusCheck : statusChecks) {
-            if (statusCheck.isSelected())
+            if (statusCheck.isSelected()) {
                 return true;
+            }
         }
         return false;
     }

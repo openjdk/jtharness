@@ -43,18 +43,22 @@ public class ShScriptCommentStream extends CommentStream {
         String comment, line;
 
         while (true) {
-            if ((line = cs.readLine()) == null)
+            if ((line = cs.readLine()) == null) {
                 return null;
-            if ((line = getCommentLine(line)) != null)
+            }
+            if ((line = getCommentLine(line)) != null) {
                 break;
+            }
         }
         comment = line;
 
         while (true) {
-            if ((line = cs.readLine()) == null)
+            if ((line = cs.readLine()) == null) {
                 return comment;
-            if ((line = getCommentLine(line)) == null)
+            }
+            if ((line = getCommentLine(line)) == null) {
                 return comment;
+            }
             comment += line;
         }
     }
@@ -67,13 +71,15 @@ public class ShScriptCommentStream extends CommentStream {
         int pos;
         for (pos = 0; pos < lineArray.length; pos++) {
             char c = lineArray[pos];
-            if (c == '#')
+            if (c == '#') {
                 isLineComment = true;
-            else if ((c != ' ') && (c != '\t') && (c != '\f'))
+            } else if ((c != ' ') && (c != '\t') && (c != '\f')) {
                 break;
+            }
         }
-        if (!isLineComment)
+        if (!isLineComment) {
             return null;
+        }
         return line.substring(pos) + LINESEP;
     }
 

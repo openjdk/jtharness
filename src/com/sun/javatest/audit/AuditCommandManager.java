@@ -82,11 +82,11 @@ public class AuditCommandManager extends CommandManager {
 
             while (argIter.hasNext()) {
                 String arg = nextArg(argIter);
-                if (arg.equalsIgnoreCase("-showEnvValues"))
+                if (arg.equalsIgnoreCase("-showEnvValues")) {
                     showAllEnvValues = true;
-                else if (arg.equalsIgnoreCase("-showMultipleEnvValues"))
+                } else if (arg.equalsIgnoreCase("-showMultipleEnvValues")) {
                     showMultipleEnvValues = true;
-                else {
+                } else {
                     putbackArg(argIter);
                     break;
                 }
@@ -105,10 +105,11 @@ public class AuditCommandManager extends CommandManager {
             Audit a = new Audit(p);
             a.report(System.out, showAllEnvValues, showMultipleEnvValues);
 
-            if (a.isOK())
+            if (a.isOK()) {
                 ctx.printMessage(i18n, "audit.ok");
-            else
+            } else {
                 ctx.printErrorMessage(i18n, "audit.failed");
+            }
         }
 
         private boolean showAllEnvValues;

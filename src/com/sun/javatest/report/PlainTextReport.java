@@ -81,8 +81,9 @@ public class PlainTextReport implements ReportFormat {
             TestResult tr = iter.next();
             String u = tr.getTestName();
             out.print(u);
-            for (int sp = u.length(); sp < width; sp++)
+            for (int sp = u.length(); sp < width; sp++) {
                 out.print(" ");
+            }
             out.print("  ");
             out.println(tr.getStatus().toString());
         }

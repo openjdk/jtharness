@@ -201,8 +201,9 @@ public class ProductInfo {
      * @return the entry on the class path which contains the JT Harness harness.
      */
     public static File getJavaTestClassDir() {
-        if (javatestClassDir == null)
+        if (javatestClassDir == null) {
             javatestClassDir = findJavaTestClassDir(System.err);
+        }
 
         return javatestClassDir;
     }
@@ -240,8 +241,9 @@ public class ProductInfo {
         String jc = System.getProperty(CLASSDIR_PROPNAME);
         if (jc != null) {
             File javatestClassDir = new File(new File(jc).getAbsolutePath());
-            if (verbose)
+            if (verbose) {
                 log.println("  " + CLASSDIR_PROPNAME + " = " + javatestClassDir);
+            }
 
             return javatestClassDir;
         }

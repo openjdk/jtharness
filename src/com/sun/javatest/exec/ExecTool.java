@@ -77,8 +77,9 @@ public class ExecTool extends Tool implements ExecModel,
         super(mgr, "exec", "browse.window.csh");
         this.testSuite = ts;
         String testSuiteName = testSuite.getName();
-        if (testSuiteName != null)
+        if (testSuiteName != null) {
             setShortTitle(testSuiteName);
+        }
         this.etm = mgr;
         context = createContextManager();
         ET_ControlFactory controlFactory = context.getExecToolControlFactory(this, uif);
@@ -170,8 +171,9 @@ public class ExecTool extends Tool implements ExecModel,
     public static ContextManager createContextManager(TestSuite ts) {
         ContextManager cm = null;
         String cls = null;
-        if (ts != null)
+        if (ts != null) {
             cls = ts.getTestSuiteInfo(TestSuite.TM_CONTEXT_NAME);
+        }
         try {
             if (cls == null) {
                 // use default implementation
@@ -266,8 +268,9 @@ public class ExecTool extends Tool implements ExecModel,
             context = null;
         }
         setLayout(new BorderLayout());
-        if (shouldPauseTree)
+        if (shouldPauseTree) {
             testTreePanel.getTreePanelModel().pauseWork();
+        }
 
         ToolBarPanel toolBarPanel = new ToolBarPanel();
         toolBarPanel.add(getToolBar());
@@ -313,8 +316,9 @@ public class ExecTool extends Tool implements ExecModel,
     public void dispose() {
         // standard cleanup (remove refs to child components)
         super.dispose();
-        if (context != null)
+        if (context != null) {
             context.dispose();
+        }
 
         for (ET_Control c : controls) {
             c.dispose();
@@ -373,12 +377,13 @@ public class ExecTool extends Tool implements ExecModel,
     @Override
     public TestResultTable getActiveTestResultTable() {
         WorkDirectory workDir = getWorkDirectory();
-        if (workDir != null)
+        if (workDir != null) {
             return workDir.getTestResultTable();
-        else if (testTreePanel != null)
+        } else if (testTreePanel != null) {
             return testTreePanel.getTestResultTable();
-        else
+        } else {
             return null;
+        }
 
     }
 
@@ -511,8 +516,10 @@ public class ExecTool extends Tool implements ExecModel,
     @Override
     public void runTests(String... urls) {
         if (urls == null || urls.length == 0)
-            // error dialog?
+        // error dialog?
+        {
             return;
+        }
         runTestsHandler.executeImmediate(urls);
     }
 
@@ -594,20 +601,21 @@ public class ExecTool extends Tool implements ExecModel,
         String testSuiteName = testSuite == null ? null : testSuite.getName();
         WorkDirectory workDir = session.getParameters().getWorkDirectory();
         String workDirPath = workDir == null ? null : workDir.getRoot().getPath();
-        if (testSuite == null)
+        if (testSuite == null) {
             setI18NTitle("exec.title.noTS.txt");
-        else if (workDirPath == null) {
-            if (testSuiteName == null)
+        } else if (workDirPath == null) {
+            if (testSuiteName == null) {
                 setI18NTitle("exec.title.noWD.txt");
-            else {
+            } else {
                 setShortTitle(testSuiteName);
                 setI18NTitle("exec.title.tsName.txt", testSuiteName);
             }
         } else {
             if (testSuiteName == null)
-                // workDirPath == null is verified
+            // workDirPath == null is verified
+            {
                 setI18NTitle("exec.title.wd.txt", workDirPath);
-            else {
+            } else {
                 setShortTitle(testSuiteName);
                 setI18NTitle("exec.title.tsName_wd.txt", testSuiteName, workDirPath);
             }
@@ -617,10 +625,11 @@ public class ExecTool extends Tool implements ExecModel,
 
     void pauseTreeCacheWork() {
         if (testTreePanel != null &&
-                testTreePanel.getTreePanelModel() != null)
+                testTreePanel.getTreePanelModel() != null) {
             testTreePanel.getTreePanelModel().pauseWork();
-        else
+        } else {
             shouldPauseTree = true;
+        }
     }
 
     void unpauseTreeCacheWork() {
@@ -629,8 +638,9 @@ public class ExecTool extends Tool implements ExecModel,
             testTreePanel.getTreePanelModel().refreshTree();
             testTreePanel.getTreePanelModel().unpauseWork();
 
-        } else
+        } else {
             shouldPauseTree = false;
+        }
     }
 
     // special method to allow saving when the interview was externally modified

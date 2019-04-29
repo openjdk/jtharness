@@ -153,8 +153,9 @@ public class LastRunInfo {
         }
 
         // remove trailing space
-        if (sb.length() > 0 && sb.charAt(sb.length() - 1) == ' ')
+        if (sb.length() > 0 && sb.charAt(sb.length() - 1) == ' ') {
             sb.deleteCharAt(sb.length() - 1);
+        }
 
         return sb.toString();
     }

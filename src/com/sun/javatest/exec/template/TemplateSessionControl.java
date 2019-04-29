@@ -365,8 +365,9 @@ public class TemplateSessionControl extends BasicSessionControl {
                     String output = uif.getI18NString(whichUpdate, params);
                     log.info(output);
 
-                    if (debug)
+                    if (debug) {
                         Debug.println(output);
+                    }
                 }
             }
         } catch (IOException ex) {

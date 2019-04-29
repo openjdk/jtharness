@@ -446,17 +446,20 @@ public class AgentManager {
                 result = readResults(log, ref);
             } catch (IOException e) {
                 try {
-                    if (out != null)
+                    if (out != null) {
                         out.close();
-                    if (in != null)
+                    }
+                    if (in != null) {
                         in.close();
+                    }
                 } catch (IOException ignore) {
                 }
-                if (e instanceof InterruptedIOException)
+                if (e instanceof InterruptedIOException) {
                     result = Status.error("Communication with agent interrupted! (timed out?)." +
                             "\n InterruptedException: " + e);
-                else
+                } else {
                     result = Status.error("Problem communicating with agent: " + e);
+                }
             } finally {
                 notifyFinished(connection, result);
             }
@@ -487,9 +490,10 @@ public class AgentManager {
                         //System.err.println("received request for " + resourceName);
                         byte[] resourceData = locateData(resourceName);
                         if (resourceData == null)
-                            //System.err.println("resource not found: " + className);
+                        //System.err.println("resource not found: " + className);
+                        {
                             out.writeInt(-1);
-                        else {
+                        } else {
                             out.writeInt(resourceData.length);
                             out.write(resourceData, 0, resourceData.length);
                         }
@@ -560,10 +564,11 @@ public class AgentManager {
                 String cname = name.replace('.', '/') + ".class";
                 for (File aClassPath : classPath) {
                     byte[] data;
-                    if (aClassPath.isDirectory())
+                    if (aClassPath.isDirectory()) {
                         data = readFromDir(cname, aClassPath);
-                    else
+                    } else {
                         data = readFromJar(cname, aClassPath);
+                    }
                     if (data != null) {
                         String codeSource = "";
                         try {
@@ -584,12 +589,14 @@ public class AgentManager {
             if (classPath != null) {
                 for (File aClassPath : classPath) {
                     byte[] data;
-                    if (aClassPath.isDirectory())
+                    if (aClassPath.isDirectory()) {
                         data = readFromDir(name, aClassPath);
-                    else
+                    } else {
                         data = readFromJar(name, aClassPath);
-                    if (data != null)
+                    }
+                    if (data != null) {
                         return data;
+                    }
                 }
             }
 
@@ -616,8 +623,9 @@ public class AgentManager {
                     zips.put(jarFile, z);
                 }
                 ZipEntry ze = z.getEntry(name);
-                if (ze == null)
+                if (ze == null) {
                     return null;
+                }
                 return read(z.getInputStream(ze), (int) ze.getSize());
             } catch (IOException e) {
                 //System.err.println("readFromJar: " + e);
@@ -631,10 +639,11 @@ public class AgentManager {
                 byte data[] = new byte[size];
                 for (int total = 0; total < data.length; ) {
                     int n = in.read(data, total, data.length - total);
-                    if (n > 0)
+                    if (n > 0) {
                         total += n;
-                    else
+                    } else {
                         throw new EOFException("unexpected end of file");
+                    }
                 }
                 //System.err.println("read complete: " + data.length);
                 return data;
@@ -651,14 +660,16 @@ public class AgentManager {
                 add(s.substring(start, i), v);
                 start = i + 1;
             }
-            if (start != s.length())
+            if (start != s.length()) {
                 add(s.substring(start), v);
+            }
             return v.toArray(new File[v.size()]);
         }
 
         private void add(String s, Vector<File> v) {
-            if (!s.isEmpty())
+            if (!s.isEmpty()) {
                 v.add(new File(s));
+            }
         }
 
         private Connection connection;

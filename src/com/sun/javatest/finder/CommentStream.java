@@ -49,8 +49,9 @@ abstract public class CommentStream {
      * @throws IOException if there is a problem closing the stream.
      */
     public void close() throws IOException {
-        if (cs != null)
+        if (cs != null) {
             cs.close();
+        }
     }
 
     /**

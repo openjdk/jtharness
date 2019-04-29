@@ -47,6 +47,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.FileScanner;
 import org.apache.tools.ant.taskdefs.MatchingTask;
@@ -85,23 +86,22 @@ public class Main {
 
     /**
      * Command line entry point.<br>
+     *
      * @param args Command line arguments, per the usage as described.
      */
     public static void main(String... args) {
         try {
-            if (args.length == 0)
+            if (args.length == 0) {
                 usage(System.err);
-            else {
+            } else {
                 Main m = new Main(args);
                 m.run();
             }
-        }
-        catch (BadArgs e) {
+        } catch (BadArgs e) {
             System.err.println(e);
             usage(System.err);
             System.exit(1);
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             t.printStackTrace();
             System.exit(2);
         }
@@ -109,6 +109,7 @@ public class Main {
 
     /**
      * Write out short command line help.
+     *
      * @param out A stream to which to write the help.
      */
     private static void usage(PrintStream out) {
@@ -129,36 +130,34 @@ public class Main {
         out.println("        HTML files and directories.");
     }
 
-    public Main() { }
+    public Main() {
+    }
 
     /**
      * Create an object based on command line args.
      * It is an error if no input files or no output file is given.
+     *
      * @param args Command line args.
-     * @see #main
      * @throws Main.BadArgs if problems are found in the given arguments.
+     * @see #main
      */
     public Main(String... args) {
         for (int i = 0; i < args.length; i++) {
             if (args[i].equalsIgnoreCase("-htmlout") && i + 1 < args.length) {
                 htmlOutFile = new File(args[++i]);
-            }
-            else if (args[i].equalsIgnoreCase("-xmlout") && i + 1 < args.length) {
+            } else if (args[i].equalsIgnoreCase("-xmlout") && i + 1 < args.length) {
                 xmlOutFile = new File(args[++i]);
-            }
-            else if (args[i].equalsIgnoreCase("-mapout") && i + 1 < args.length) {
+            } else if (args[i].equalsIgnoreCase("-mapout") && i + 1 < args.length) {
                 mapOutFile = new File(args[++i]);
-            }
-            else if (args[i].equalsIgnoreCase("-mapdir") && i + 1 < args.length) {
+            } else if (args[i].equalsIgnoreCase("-mapdir") && i + 1 < args.length) {
                 mapDir = new File(args[++i]);
-            }
-            else if (args[i].equalsIgnoreCase("-key") && i + 1 < args.length) {
+            } else if (args[i].equalsIgnoreCase("-key") && i + 1 < args.length) {
                 keyword = args[++i];
-            }
-            else {
+            } else {
                 inFiles = new File[args.length - i];
-                for (int j = 0; j < inFiles.length; j++)
+                for (int j = 0; j < inFiles.length; j++) {
                     inFiles[j] = new File(args[i++]);
+                }
             }
         }
     }
@@ -206,37 +205,46 @@ public class Main {
     }
 
     public void addFiles(File baseDir, String... paths) {
-        if (paths == null)
+        if (paths == null) {
             return;
+        }
         List<File> files = new ArrayList<>();
-        if (inFiles != null)
+        if (inFiles != null) {
             files.addAll(Arrays.asList(inFiles));
-        for (String path : paths) files.add(new File(baseDir, path));
+        }
+        for (String path : paths) {
+            files.add(new File(baseDir, path));
+        }
         inFiles = files.toArray(new File[files.size()]);
     }
 
     private void run() throws BadArgs, IOException {
-        if (inFiles == null || inFiles.length == 0)
+        if (inFiles == null || inFiles.length == 0) {
             throw new BadArgs("no input files specified");
+        }
 
-        if (htmlOutFile == null && mapOutFile == null && xmlOutFile == null)
+        if (htmlOutFile == null && mapOutFile == null && xmlOutFile == null) {
             throw new BadArgs("no output files specified");
+        }
 
-        if (xmlOutFile != null && mapOutFile == null )
+        if (xmlOutFile != null && mapOutFile == null) {
             throw new BadArgs("no map output file specified");
+        }
 
-        if (mapOutFile != null && xmlOutFile == null)
+        if (mapOutFile != null && xmlOutFile == null) {
             throw new BadArgs("no XML output file specified");
+        }
 
-        if (mapOutFile != null && mapDir == null)
+        if (mapOutFile != null && mapDir == null) {
             mapDir = mapOutFile.getParentFile();
+        }
 
         glossary = new TreeMap<>();
 
         read(inFiles);
 
         PrintWriter glossaryOut = xmlOutFile == null ? null
-                                   : new PrintWriter(new BufferedWriter(new FileWriter(xmlOutFile)));
+                : new PrintWriter(new BufferedWriter(new FileWriter(xmlOutFile)));
         if (glossaryOut != null) {
             glossaryOut.println("<?xml version='1.0' encoding='ISO-8859-1'  ?>");
             glossaryOut.println("<!DOCTYPE index");
@@ -247,7 +255,7 @@ public class Main {
         }
 
         PrintWriter mapOut = mapOutFile == null ? null
-                              : new PrintWriter(new BufferedWriter(new FileWriter(mapOutFile)));
+                : new PrintWriter(new BufferedWriter(new FileWriter(mapOutFile)));
         if (mapOut != null) {
             mapOut.println("<?xml version='1.0' encoding='ISO-8859-1' ?>");
             mapOut.println("<!DOCTYPE map");
@@ -257,7 +265,7 @@ public class Main {
         }
 
         PrintWriter htmlOut = htmlOutFile == null ? null
-                               : new PrintWriter(new BufferedWriter(new FileWriter(htmlOutFile)));
+                : new PrintWriter(new BufferedWriter(new FileWriter(htmlOutFile)));
         if (htmlOut != null) {
             htmlOut.println("<!DOCTYPE HTML>");
             htmlOut.println("<html>");
@@ -274,8 +282,9 @@ public class Main {
         char currLetter = 0;
 
         for (Entry e : glossary.values()) {
-            if (!e.matches(keyword))
+            if (!e.matches(keyword)) {
                 continue;
+            }
 
             String key = e.getKey();
             char initial = key.charAt(0);
@@ -294,19 +303,23 @@ public class Main {
                 currLetter = initial;
             }
 
-            if (glossaryOut != null)
+            if (glossaryOut != null) {
                 glossaryOut.println("<indexitem text=\"" + key + "\" target=\"" + getTarget(key) + "\"/>");
+            }
 
-            if (mapOut != null)
+            if (mapOut != null) {
                 mapOut.println("<mapID target=\"" + getTarget(key) + "\" url=\"" + getRelativeFile(mapDir, e.getFile()) + "\" />");
+            }
 
-            if (htmlOut != null)
+            if (htmlOut != null) {
                 htmlOut.println(e.getText());
+            }
         }
 
         for (char c = currLetter == 0 ? 'A' : (char) (currLetter + 1); c <= 'Z'; c++) {
-            if (htmlOut != null)
+            if (htmlOut != null) {
                 htmlOut.println("<p class=\"glossaryHead2\">" + c + "</p>");
+            }
         }
 
         if (htmlOut != null) {
@@ -327,15 +340,17 @@ public class Main {
     }
 
     private void read(File... files) throws IOException {
-        for (File file : files) read(file);
+        for (File file : files) {
+            read(file);
+        }
     }
 
     private void read(File file) throws IOException {
         if (file.isDirectory()) {
-            if (!file.getName().equals("SCCS"))
+            if (!file.getName().equals("SCCS")) {
                 read(file.listFiles());
-        }
-        else {
+            }
+        } else {
             if (file.getName().endsWith(".html")) {
                 Entry e = new Entry(file);
                 glossary.put(e.getKey().toUpperCase(), e);
@@ -358,9 +373,9 @@ public class Main {
             if (Character.isLetter(c)) {
                 sb.append(needUpper ? Character.toUpperCase(c) : c);
                 needUpper = false;
-            }
-            else
+            } else {
                 needUpper = true;
+            }
         }
         return sb.toString();
     }
@@ -404,11 +419,13 @@ class Entry {
     }
 
     boolean matches(String keyword) {
-        if (keyword == null)
+        if (keyword == null) {
             return true;
+        }
 
-        if (keywords == null || keywords.isEmpty())
+        if (keywords == null || keywords.isEmpty()) {
             return true;
+        }
 
         return keywords.contains(keyword);
     }
@@ -435,55 +452,60 @@ class Entry {
                 nextCh();
                 skipSpace();
                 switch (c) {
-                case '!':
-                    nextCh();
-                    if (c == '-') {
+                    case '!':
                         nextCh();
                         if (c == '-') {
                             nextCh();
-                            skipComment();
+                            if (c == '-') {
+                                nextCh();
+                                skipComment();
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case '/':
-                    nextCh();
-                    String endTag = scanIdentifier();
-                    if (copyMode != PENDING_COPY)
-                        skipTag();
-                    else if (isBody(endTag))
-                        scanBody(false);
-                    else if (isHead(endTag))
-                        scanHead(Character.getNumericValue(endTag.charAt(1)), false);
-                    else
-                        skipTag();
-                    break;
+                    case '/':
+                        nextCh();
+                        String endTag = scanIdentifier();
+                        if (copyMode != PENDING_COPY) {
+                            skipTag();
+                        } else if (isBody(endTag)) {
+                            scanBody(false);
+                        } else if (isHead(endTag)) {
+                            scanHead(Character.getNumericValue(endTag.charAt(1)), false);
+                        } else {
+                            skipTag();
+                        }
+                        break;
 
-                default:
-                    String startTag = scanIdentifier();
-                    if (isBody(startTag))
-                        scanBody(true);
-                    else if (isMeta(startTag))
-                        scanMeta();
-                    else if (copyMode != PENDING_COPY)
-                        skipTag();
-                    //else if (isArea(startTag))
-                    //  scanArea();
-                    else if (isHead(startTag))
-                        scanHead(Character.getNumericValue(startTag.charAt(1)), true);
-                    //else if (isImage(startTag))
-                    //  scanImage();
-                    else if (isLink(startTag))
-                        scanLink();
-                    //else if (isMap(startTag))
-                    //  scanMap();
-                    else
-                        skipTag();
+                    default:
+                        String startTag = scanIdentifier();
+                        if (isBody(startTag)) {
+                            scanBody(true);
+                        } else if (isMeta(startTag)) {
+                            scanMeta();
+                        } else if (copyMode != PENDING_COPY) {
+                            skipTag();
+                        }
+                        //else if (isArea(startTag))
+                        //  scanArea();
+                        else if (isHead(startTag)) {
+                            scanHead(Character.getNumericValue(startTag.charAt(1)), true);
+                        }
+                        //else if (isImage(startTag))
+                        //  scanImage();
+                        else if (isLink(startTag)) {
+                            scanLink();
+                        }
+                        //else if (isMap(startTag))
+                        //  scanMap();
+                        else {
+                            skipTag();
+                        }
                 }
-            }
-            else {
-                if (inHead1)
+            } else {
+                if (inHead1) {
                     head1 += (char) c;
+                }
                 nextCh();
             }
         }
@@ -549,19 +571,19 @@ class Entry {
 //          if (link.startsWith(basePath))
 //              link = link.substring(basePath.length());
             String link = file.getName();
-            if (link.endsWith(".html"))
+            if (link.endsWith(".html")) {
                 link = link.substring(0, link.length() - 5);
+            }
             out.write("\n<!-- file: " + file + " -->\n<a name=\"" + link + "\"></a>");
-        }
-        else {
+        } else {
             copyMode = NO_COPY;
         }
     }
 
     private boolean isHead(String tag) {
         return tag.length() == 2
-                 && tag.charAt(0) == 'h'
-                 && Character.isDigit(tag.charAt(1));
+                && tag.charAt(0) == 'h'
+                && Character.isDigit(tag.charAt(1));
     }
 
     private void scanHead(int level, boolean start) throws IOException {
@@ -585,8 +607,9 @@ class Entry {
             while (c != '>') {
                 String name = scanIdentifier();
                 String value = scanValue();
-                if (name.equalsIgnoreCase("class"))
+                if (name.equalsIgnoreCase("class")) {
                     className = value;
+                }
                 skipSpace();
             }
 
@@ -599,8 +622,9 @@ class Entry {
 
             nextCh(); // skip past >
 
-            if (level == 1)
+            if (level == 1) {
                 inHead1 = start;
+            }
 
 //          if (start && autoNumberLevel > 0) {
 //              hNums[n - 1]++;
@@ -707,17 +731,18 @@ class Entry {
                 String link = target;
 //              if (link.startsWith(basePath))
 //                  link = link.substring(basePath.length());
-                if (link.endsWith(".html"))
+                if (link.endsWith(".html")) {
                     link = link.substring(0, link.length() - 5);
+                }
                 String ref = t.getRef();
-                if (ref != null && !ref.isEmpty())
+                if (ref != null && !ref.isEmpty()) {
                     link = link + "!" + ref;
+                }
                 out.write('"');
                 out.write('#' + link);
                 out.write('"');
                 copyMode = COPY;
-            }
-            else if (att.equalsIgnoreCase("name") && copyMode == COPY) {
+            } else if (att.equalsIgnoreCase("name") && copyMode == COPY) {
                 // the current character should be a whitespace or =
                 // either way, we just write out =
                 out.write('=');
@@ -727,16 +752,17 @@ class Entry {
                 String name = file.getPath();
 //              if (name.startsWith(basePath))
 //                  name = name.substring(basePath.length());
-                if (name.endsWith(".html"))
+                if (name.endsWith(".html")) {
                     name = name.substring(0, name.length() - 5);
+                }
                 name = name + "!" + oldName;
                 out.write('"');
                 out.write(name);
                 out.write('"');
                 copyMode = COPY;
-            }
-            else
+            } else {
                 scanValue();
+            }
             skipSpace();
         }
         nextCh();
@@ -792,10 +818,11 @@ class Entry {
         while (c != '>') {
             String attr_name = scanIdentifier();
             String attr_val = scanValue();
-            if (attr_name.equalsIgnoreCase("name"))
+            if (attr_name.equalsIgnoreCase("name")) {
                 name = attr_val;
-            else if (attr_name.equalsIgnoreCase("content"))
+            } else if (attr_name.equalsIgnoreCase("content")) {
                 content = attr_val;
+            }
             skipSpace();
         }
         nextCh();
@@ -819,22 +846,22 @@ class Entry {
         StringBuilder buf = new StringBuilder();
         while (true) {
             if ((c >= 'a') && (c <= 'z')) {
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
             } else if ((c >= 'A') && (c <= 'Z')) {
-                buf.append((char)('a' + (c - 'A')));
+                buf.append((char) ('a' + (c - 'A')));
                 nextCh();
             } else if ((c >= '0') && (c <= '9')) {
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
             } else if (c == '-') {  // needed for <META HTTP-EQUIV ....>
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
-            } else
-                if (buf.length() == 0)
-                    throw new IOException("Identifier expected (" + file + ":" + line + ")");
-                else
-                    return buf.toString();
+            } else if (buf.length() == 0) {
+                throw new IOException("Identifier expected (" + file + ":" + line + ")");
+            } else {
+                return buf.toString();
+            }
         }
     }
 
@@ -843,8 +870,9 @@ class Entry {
      */
     private String scanValue() throws IOException {
         skipSpace();
-        if (c != '=')
+        if (c != '=') {
             return "";
+        }
 
         int quote = -1;
         nextCh();
@@ -857,15 +885,16 @@ class Entry {
         StringBuilder buf = new StringBuilder();
         while (((quote < 0) && (c != ' ') && (c != '\t') &&
                 (c != '\n') && (c != '\r') && (c != '>')) ||
-               ((quote >= 0) && (c != quote))) {
+                ((quote >= 0) && (c != quote))) {
             if (c == -1 || c == '\n' || c == '\r') {
                 throw new IOException("mismatched quotes (" + file + ":" + line + ")");
             }
-            buf.append((char)c);
+            buf.append((char) c);
             nextCh();
         }
-        if (c == quote)
+        if (c == quote) {
             nextCh();
+        }
         skipSpace();
         return buf.toString();
     }
@@ -879,10 +908,11 @@ class Entry {
         StringBuilder text = new StringBuilder("<!--");
         int numHyphens = 0;
         while (c != -1 && (numHyphens < 2 || c != '>')) {
-            if (c == '-')
+            if (c == '-') {
                 numHyphens++;
-            else
+            } else {
                 numHyphens = 0;
+            }
             text.append((char) c);
             nextCh();
             //System.out.print((char)c);
@@ -894,21 +924,21 @@ class Entry {
 
         switch (copyMode) {
 
-        case PENDING_COPY:
-            if (comment.equalsIgnoreCase("<!--CopyOff-->")) {
-                copyMode = SUPPRESS_COPY;
-                pendingCopy.setLength(0);
-            }
-            else {
-                out.write(comment);
-                copyMode = COPY;
-            }
-            break;
+            case PENDING_COPY:
+                if (comment.equalsIgnoreCase("<!--CopyOff-->")) {
+                    copyMode = SUPPRESS_COPY;
+                    pendingCopy.setLength(0);
+                } else {
+                    out.write(comment);
+                    copyMode = COPY;
+                }
+                break;
 
-        case SUPPRESS_COPY:
-            if (comment.equalsIgnoreCase("<!--CopyOn-->"))
-                copyMode = COPY;
-            break;
+            case SUPPRESS_COPY:
+                if (comment.equalsIgnoreCase("<!--CopyOn-->")) {
+                    copyMode = COPY;
+                }
+                break;
         }
     }
 
@@ -928,8 +958,9 @@ class Entry {
         skipSpace();
         while (c != '>') {
             String att = scanIdentifier();
-            if (Objects.equals(att, ""))
+            if (Objects.equals(att, "")) {
                 throw new IOException("error parsing HTML input (" + file + ":" + line + ")");
+            }
             String value = scanValue();
             skipSpace();
         }
@@ -946,35 +977,45 @@ class Entry {
      */
     private void nextCh() throws IOException {
         switch (copyMode) {
-        case COPY:
-            out.write((char) c);
-            break;
+            case COPY:
+                out.write((char) c);
+                break;
 
-        case PENDING_COPY:
-            pendingCopy.append((char) c);
-            break;
+            case PENDING_COPY:
+                pendingCopy.append((char) c);
+                break;
         }
 
         c = in.read();
-        if (c == '\n')
+        if (c == '\n') {
             line++;
+        }
     }
 
     private static String escape(String s) {
         for (int i = 0; i < s.length(); i++) {
             switch (s.charAt(i)) {
-            case '<': case '>': case '&':
-                StringBuilder sb = new StringBuilder(s.length()*2);
-                for (int j = 0; j < s.length(); j++) {
-                    char c = s.charAt(j);
-                    switch (c) {
-                    case '<': sb.append("&lt;"); break;
-                    case '>': sb.append("&gt;"); break;
-                    case '&': sb.append("&amp;"); break;
-                    default: sb.append(c);
+                case '<':
+                case '>':
+                case '&':
+                    StringBuilder sb = new StringBuilder(s.length() * 2);
+                    for (int j = 0; j < s.length(); j++) {
+                        char c = s.charAt(j);
+                        switch (c) {
+                            case '<':
+                                sb.append("&lt;");
+                                break;
+                            case '>':
+                                sb.append("&gt;");
+                                break;
+                            case '&':
+                                sb.append("&amp;");
+                                break;
+                            default:
+                                sb.append(c);
+                        }
                     }
-                }
-                return sb.toString();
+                    return sb.toString();
             }
         }
         return s;
@@ -986,17 +1027,19 @@ class Entry {
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (Character.isLetterOrDigit(c) || c == '_') {
-                if (start == -1)
+                if (start == -1) {
                     start = i;
-            }
-            else {
-                if (start != -1)
+                }
+            } else {
+                if (start != -1) {
                     strings.add(s.substring(start, i));
+                }
                 start = -1;
             }
         }
-        if (start != -1)
+        if (start != -1) {
             strings.add(s.substring(start));
+        }
         return strings.toArray(new String[strings.size()]);
     }
 

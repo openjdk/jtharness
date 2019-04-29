@@ -174,15 +174,17 @@ class CE_FullView extends CE_View {
     }
 
     private void showInfoForQuestion(Question q) {
-        if (q instanceof ErrorQuestion)
+        if (q instanceof ErrorQuestion) {
             return;
+        }
 
         HelpID helpId = Help.getHelpID(q);
         // uugh
-        if (helpId == null)
+        if (helpId == null) {
             System.err.println("WARNING: no help for " + q.getKey());
-        else
+        } else {
             showInfo(helpId);
+        }
     }
 
     private class Listener
@@ -195,24 +197,27 @@ class CE_FullView extends CE_View {
             if (cmd.equals(NEXT)) {
                 // hmm, arguably, if the filter is *not* enabled,
                 // then nextVisible() should be the same as next() anyway
-                if (wizPane.getMarkersFilterEnabled())
+                if (wizPane.getMarkersFilterEnabled()) {
                     wizPane.nextVisible();
-                else
+                } else {
                     wizPane.next();
+                }
             } else if (cmd.equals(BACK)) {
                 // hmm, arguably, if the filter is *not* enabled,
                 // then nextVisible() should be the same as next() anyway
-                if (wizPane.getMarkersFilterEnabled())
+                if (wizPane.getMarkersFilterEnabled()) {
                     wizPane.prevVisible();
-                else
+                } else {
                     wizPane.prev();
+                }
             } else if (cmd.equals(LAST)) {
                 // hmm, arguably, if the filter is *not* enabled,
                 // then nextVisible() should be the same as next() anyway
-                if (wizPane.getMarkersFilterEnabled())
+                if (wizPane.getMarkersFilterEnabled()) {
                     wizPane.lastVisible();
-                else
+                } else {
                     wizPane.last();
+                }
             } else if (cmd.equals(FIND)) {
                 wizPane.find();
             } else if (cmd.equals(FIND_NEXT)) {
@@ -261,8 +266,9 @@ class CE_FullView extends CE_View {
             nextBtn.setEnabled(!last);
             lastBtn.setEnabled(!last);
 
-            if (isInfoVisible())
+            if (isInfoVisible()) {
                 showInfoForQuestion(q);
+            }
         }
     }
 

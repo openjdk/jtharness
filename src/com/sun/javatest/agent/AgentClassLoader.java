@@ -59,8 +59,9 @@ class AgentClassLoader extends ClassLoader {
             }
         }
 
-        if (resolve)
+        if (resolve) {
             resolveClass(c);
+        }
 
         return c;
     }

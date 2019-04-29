@@ -46,10 +46,12 @@ class FileType extends FileFilter {
     public String getDescription() {
         if (desc == null) {
             StringBuilder sb = new StringBuilder("filetype");
-            if (extns == null)
+            if (extns == null) {
                 sb.append(".allFiles");
-            else {
-                for (String extn : extns) sb.append("." + extn);
+            } else {
+                for (String extn : extns) {
+                    sb.append("." + extn);
+                }
             }
             desc = i18n.getString(sb.toString());
         }
@@ -62,13 +64,15 @@ class FileType extends FileFilter {
 
     @Override
     public boolean accept(File f) {
-        if (f.isDirectory() || extns == null || extns.length == 0)
+        if (f.isDirectory() || extns == null || extns.length == 0) {
             return true;
+        }
 
         String fName = f.getName();
         for (String extn : extns) {
-            if (fName.endsWith(extn))
+            if (fName.endsWith(extn)) {
                 return true;
+            }
         }
         return false;
     }

@@ -248,8 +248,9 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     @Override
     public boolean accepts(TestDescription td, TestFilter.Observer o)
             throws TestFilter.Fault {
-        if (statusFilterNeedsUpdate)
+        if (statusFilterNeedsUpdate) {
             updateStatusFilter();
+        }
 
         for (TestFilter activeFilter : activeFilters) {
             if (activeFilter != null &&
@@ -419,8 +420,9 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     }
 
     private void updateStatusFilter() {
-        if (!statusFilterNeedsUpdate)
+        if (!statusFilterNeedsUpdate) {
             return;
+        }
 
         TestResultTable trt = execModel.getActiveTestResultTable();
         if (trt != null) {

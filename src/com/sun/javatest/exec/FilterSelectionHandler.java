@@ -85,11 +85,13 @@ class FilterSelectionHandler {
     }
 
     public void addObserver(Observer o) {
-        if (o == null)
+        if (o == null) {
             return;
+        }
 
-        if (obs == null)
+        if (obs == null) {
             obs = new Observer[0];
+        }
 
         obs = DynamicArray.append(obs, o);
     }
@@ -138,8 +140,9 @@ class FilterSelectionHandler {
         // make sure a filter is selected
         if (activeFilter == null) {
             TestFilter[] filters = filterConfig.getFilters();
-            if (filters != null && filters.length > 0)
+            if (filters != null && filters.length > 0) {
                 setFilter(filters[0]);
+            }
         } else {
             selectBox.setSelectedItem(activeFilter);
         }
@@ -166,13 +169,16 @@ class FilterSelectionHandler {
         editMenu = uif.createMenu("fconfig.submenu");
 
         TestFilter[] filters = filterConfig.getFilters();
-        for (TestFilter filter : filters) addToMenu(filter, -1);
+        for (TestFilter filter : filters) {
+            addToMenu(filter, -1);
+        }
 
         // make sure a filter is selected
         // addToMenu() also tries to do this
         if (activeFilter == null) {
-            if (filters != null && filters.length > 0)
+            if (filters != null && filters.length > 0) {
                 setFilter(filters[0]);
+            }
         }
 
         // radio set of filter names
@@ -202,20 +208,25 @@ class FilterSelectionHandler {
      * @param f A null filter will be ignored.
      */
     synchronized void setFilter(TestFilter f) {
-        if (f == null)
+        if (f == null) {
             return;
+        }
         if (filterConfig.contains(f)) {
             activeFilter = f;
 
-            if (selectBox != null)
+            if (selectBox != null) {
                 selectBox.setSelectedItem(activeFilter);
+            }
 
-            if (configButton != null)
+            if (configButton != null) {
                 configButton.setEnabled(f instanceof ConfigurableTestFilter);
+            }
 
             updateMenu();
 
-            for (Observer ob : obs) ob.filterSelected(f);
+            for (Observer ob : obs) {
+                ob.filterSelected(f);
+            }
         }
     }
 
@@ -233,8 +244,9 @@ class FilterSelectionHandler {
      */
     void updateFilterMetaInfo(TestFilter f) {
         // update the drop down box if needed
-        if (activeFilter == f && selectBox != null)
+        if (activeFilter == f && selectBox != null) {
             selectBox.repaint();
+        }
 
         // update menu item if needed
         // could check editMenu, filterMenuTable or menuGroup
@@ -244,10 +256,11 @@ class FilterSelectionHandler {
             if (index >= 0) {
                 JMenuItem jmi = (JMenuItem) filterMenuTable.getValueAt(index);
                 int mne = jmi.getMnemonic();
-                if (mne > 0)
+                if (mne > 0) {
                     jmi.setText((char) mne + " " + f.getName());
-                else
+                } else {
                     jmi.setText(f.getName());
+                }
             }
         }
     }
@@ -262,8 +275,9 @@ class FilterSelectionHandler {
      * @param f        The test filter to add.
      */
     private synchronized void addToMenu(TestFilter f, int location) {
-        if (editMenu == null)
+        if (editMenu == null) {
             return;
+        }
 
         boolean[] mnemonics = new boolean[10];
         Arrays.fill(mnemonics, false);
@@ -273,9 +287,12 @@ class FilterSelectionHandler {
             JMenuItem mi = editMenu.getItem(i);
             if (mi != null) {
                 int itemMne = mi.getMnemonic() - '0' - 1;
-                if (itemMne == -1) itemMne = 9;
-                if (itemMne >= 0 && itemMne <= 9)
+                if (itemMne == -1) {
+                    itemMne = 9;
+                }
+                if (itemMne >= 0 && itemMne <= 9) {
                     mnemonics[itemMne] = true;
+                }
             }
         }
 
@@ -296,8 +313,9 @@ class FilterSelectionHandler {
         String text = (mne == 0 ? "" : (char) mne) + " " + f.getName();
         JRadioButtonMenuItem b = new JRadioButtonMenuItem(text);
         b.setName(f.getName());
-        if (mne != 0)
+        if (mne != 0) {
             b.setMnemonic(mne);
+        }
         b.getAccessibleContext().setAccessibleDescription(f.getDescription());
         b.addActionListener(listener);
         menuGroup.add(b);
@@ -305,12 +323,15 @@ class FilterSelectionHandler {
         filterMenuTable.put(f, b);
 
         if (location < 0)       // no preference, insert as last filter
+        {
             editMenu.insert(b, menuGroup.getButtonCount() - 1);
-        else
+        } else {
             editMenu.insert(b, location);
+        }
 
-        if (f == activeFilter)
+        if (f == activeFilter) {
             b.setEnabled(true);
+        }
     }
 
     /**
@@ -318,8 +339,9 @@ class FilterSelectionHandler {
      * No action is taken if the menu system is not initilized.
      */
     private synchronized void removeFromMenu(TestFilter f) {
-        if (editMenu == null)
+        if (editMenu == null) {
             return;
+        }
 
         int where = filterMenuTable.getKeyIndex(f);
         if (where != -1) {      // found, continue
@@ -334,8 +356,9 @@ class FilterSelectionHandler {
      * Currently just selects the correct active filter.
      */
     private void updateMenu() {
-        if (editMenu == null)
+        if (editMenu == null) {
             return;
+        }
 
         // select the right item in the menu
         int where = filterMenuTable.getKeyIndex(activeFilter);
@@ -369,13 +392,15 @@ class FilterSelectionHandler {
                 TestFilter vf = (TestFilter) selectBox.getSelectedItem();
 
                 if (vf == getActiveFilter()) {
-                    if (debug)
+                    if (debug) {
                         Debug.println("FC - keeping filter");
+                    }
 
                     return;
                 } else {
-                    if (debug)
+                    if (debug) {
                         Debug.println("FC - changing filter");
+                    }
 
                     setFilter(vf);
                 }
@@ -395,25 +420,32 @@ class FilterSelectionHandler {
         @Override
         public void filterUpdated(TestFilter f) {
             if (obs == null)    // this really should not happen
+            {
                 return;
+            }
 
             if (activeFilter == f) {
-                for (Observer ob : obs) ob.filterUpdated(f);
+                for (Observer ob : obs) {
+                    ob.filterUpdated(f);
+                }
             }
         }
 
         @Override
         public void filterAdded(TestFilter f) {
             // add to the list box
-            if (selectBox != null)
+            if (selectBox != null) {
                 selectBox.addItem(f);
+            }
 
             // update the menu
             addToMenu(f, -1);
 
             // tell people about the addition
             // obs should never be null
-            for (Observer ob : obs) ob.filterAdded(f);
+            for (Observer ob : obs) {
+                ob.filterAdded(f);
+            }
         }
 
         /**
@@ -422,15 +454,18 @@ class FilterSelectionHandler {
         @Override
         public void filterRemoved(TestFilter f) {
             // remove from list box
-            if (selectBox != null)
+            if (selectBox != null) {
                 selectBox.removeItem(f);
+            }
 
             // update the menu
             removeFromMenu(f);
 
             // tell people about the removal
             // obs should never be null
-            for (Observer ob : obs) ob.filterRemoved(f);
+            for (Observer ob : obs) {
+                ob.filterRemoved(f);
+            }
         }
     }
 }

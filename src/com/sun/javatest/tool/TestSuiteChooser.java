@@ -108,8 +108,9 @@ public class TestSuiteChooser extends JFileChooser {
      * @see #getSelectedTestSuite
      */
     public void setSelectedTestSuite(TestSuite ts) {
-        if (ts != null)
+        if (ts != null) {
             setSelectedFile(ts.getRoot());
+        }
         selectedTestSuite = ts;
     }
 
@@ -178,16 +179,18 @@ public class TestSuiteChooser extends JFileChooser {
         // This means we can't put a test suite in the root of
         // the file system, but that is a lesser inconvenience
         // than floppy dialogs!
-        if (isIgnoreable(f))
+        if (isIgnoreable(f)) {
             return false;
+        }
 
         Boolean b = cache.get(f);
         if (b == null) {
             boolean v = TestSuite.isTestSuite(f);
             cache.put(f, v);
             return v;
-        } else
+        } else {
             return b;
+        }
     }
 
     private static boolean isIgnoreable(File f) {

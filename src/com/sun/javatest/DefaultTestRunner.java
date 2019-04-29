@@ -63,8 +63,9 @@ public class DefaultTestRunner extends TestRunner {
                                 try {
                                     TestDescription td;
                                     while ((td = nextTest()) != null) {
-                                        if (!runTest(td))
+                                        if (!runTest(td)) {
                                             allPassed = false;
+                                        }
                                     }
                                 } finally {
                                     // Inform runner this thread is dying, so it can start another thread
@@ -88,8 +89,9 @@ public class DefaultTestRunner extends TestRunner {
             // on our lock.
             for (int i = 0; i < threads.length; i++) {
                 if (threads[i] != null) {
-                    while (activeThreads.contains(threads[i]))
+                    while (activeThreads.contains(threads[i])) {
                         wait();
+                    }
                     threads[i] = null;
                 }
             }
@@ -118,8 +120,9 @@ public class DefaultTestRunner extends TestRunner {
         } finally {
             // ensure all child threads killed
             for (Thread thread : threads) {
-                if (thread != null)
+                if (thread != null) {
                     Deprecated.invokeThreadStop(thread);
+                }
             }
         }
 
@@ -132,12 +135,13 @@ public class DefaultTestRunner extends TestRunner {
     }
 
     private synchronized TestDescription nextTest() {
-        if (stopping)
+        if (stopping) {
             return null;
+        }
 
-        if (testIter.hasNext())
+        if (testIter.hasNext()) {
             return testIter.next();
-        else {
+        } else {
             stopping = true;
             return null;
         }
@@ -206,9 +210,9 @@ public class DefaultTestRunner extends TestRunner {
     private TestResult createErrorResult(TestDescription td, String reason, Throwable t) { // make more i18n
         Status s = Status.error(reason);
         TestResult tr;
-        if (t == null)
+        if (t == null) {
             tr = new TestResult(td, s);
-        else {
+        } else {
             tr = new TestResult(td);
             TestResult.Section trs = tr.createSection(i18n.getString("dtr.details"));
             PrintWriter pw = trs.createOutput(i18n.getString("dtr.stackTrace"));
@@ -229,12 +233,13 @@ public class DefaultTestRunner extends TestRunner {
     }
 
     private Integer classifyThrowable(Throwable t) {
-        if (t instanceof Exception)
+        if (t instanceof Exception) {
             return EXCEPTION;
-        else if (t instanceof Error)
+        } else if (t instanceof Error) {
             return ERROR;
-        else
+        } else {
             return THROWABLE;
+        }
     }
 
     // constants used by classifyThrowable and i18n key unexpectedThrowable

@@ -67,8 +67,9 @@ class Trace implements Harness.Observer {
                 e.printStackTrace();
             }
 
-            if (td != null)
+            if (td != null) {
                 println(i18n, "trace.testStarting", td.getRootRelativeURL());
+            }
         }
     }
 
@@ -87,23 +88,26 @@ class Trace implements Harness.Observer {
 
     @Override
     public synchronized void stoppingTestRun() {
-        if (out != null)
+        if (out != null) {
             println(i18n, "trace.stopping");
+        }
     }
 
     @Override
     public synchronized void finishedTesting() {
-        if (out != null)
+        if (out != null) {
             println(i18n, "trace.cleanup");
+        }
     }
 
     @Override
     public synchronized void finishedTestRun(boolean allOK) {
         if (out != null) {
-            if (allOK)
+            if (allOK) {
                 println(i18n, "trace.doneOK");
-            else
+            } else {
                 println(i18n, "trace.doneNotOK");
+            }
             close();
         }
     }

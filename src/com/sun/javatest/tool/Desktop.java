@@ -242,8 +242,9 @@ public class Desktop {
      */
     public void setStyle(int style) {
         //System.err.println("Desktop.setStyle: " + style);
-        if (style == getStyle())
+        if (style == getStyle()) {
             return;
+        }
 
         if (currView == null) {
             this.style = style;
@@ -344,8 +345,9 @@ public class Desktop {
      * @see #addTool
      */
     public void removeTool(Tool t) {
-        if (currView != null)
+        if (currView != null) {
             currView.removeTool(t);
+        }
     }
 
     /**
@@ -437,8 +439,9 @@ public class Desktop {
     public boolean containsTool(Tool t) {
         Tool[] tools = getTools();
         for (Tool tool : tools) {
-            if (t == tool)
+            if (t == tool) {
                 return true;
+            }
         }
         return false;
     }
@@ -462,8 +465,9 @@ public class Desktop {
      */
     public ToolManager getToolManager(Class<? extends ToolManager> c) {
         for (ToolManager m : toolManagers) {
-            if (c.isInstance(m))
+            if (c.isInstance(m)) {
                 return m;
+            }
         }
         return null;
     }
@@ -476,8 +480,9 @@ public class Desktop {
      */
     public ToolManager getToolManager(String className) {
         for (ToolManager m : toolManagers) {
-            if (m.getClass().getName().equals(className))
+            if (m.getClass().getName().equals(className)) {
                 return m;
+            }
         }
         return null;
     }
@@ -526,8 +531,9 @@ public class Desktop {
         fileHistory.addFirst(new FileHistoryEntry(fo, f));
 
         // throw away old entries in the list
-        while (fileHistory.size() > FILE_HISTORY_MAX_SIZE)
+        while (fileHistory.size() > FILE_HISTORY_MAX_SIZE) {
             fileHistory.removeLast();
+        }
     }
 
     /**
@@ -618,8 +624,9 @@ public class Desktop {
      */
     public void checkToolsAndExitIfOK(JFrame parent) {
         if (isOKToExit(parent)) {
-            if (getSaveOnExit())
+            if (getSaveOnExit()) {
                 save();
+            }
 
             dispose();
         }
@@ -644,10 +651,11 @@ public class Desktop {
         }
 
         String[] alerts = t.getCloseAlerts();
-        if (alerts == null || alerts.length == 0)
+        if (alerts == null || alerts.length == 0) {
             return true;
-        else
+        } else {
             return isOKToExitOrClose(parent, alerts, CLOSE);
+        }
     }
 
     /**
@@ -672,8 +680,9 @@ public class Desktop {
         Tool[] tools = getTools();
         for (Tool tool : tools) {
             String[] alerts = tool.getCloseAlerts();
-            if (alerts != null)
+            if (alerts != null) {
                 v.addAll(Arrays.asList(alerts));
+            }
         }
 
         if (v.isEmpty()) {
@@ -775,8 +784,9 @@ public class Desktop {
             confirmDialog.dispose();
             confirmDialog = null;
 
-            if (pane.getValue() != yesBtn)
+            if (pane.getValue() != yesBtn) {
                 return false;
+            }
         }
 
         return true;
@@ -809,8 +819,9 @@ public class Desktop {
                 if (--timeRemaining == 0) {
                     pane.setValue(Integer.valueOf(JOptionPane.OK_OPTION));
                     dialog.setVisible(false);
-                } else
+                } else {
                     body.setText(uif.getI18NString("dt.autoExit.txt", Integer.valueOf(timeRemaining)));
+                }
             }
 
             private int timeRemaining = delay;
@@ -839,8 +850,9 @@ public class Desktop {
      */
     public void save(File f) {
         //System.err.println("DT: save to " + f);
-        if (f == null)
+        if (f == null) {
             return;
+        }
 
         SortedMap<String, String> p = new TreeMap<>();
 
@@ -865,8 +877,9 @@ public class Desktop {
 
         try {
             File dir = f.getParentFile();
-            if (dir != null && !dir.exists())
+            if (dir != null && !dir.exists()) {
                 dir.mkdirs();
+            }
             try (FileOutputStream fos = new FileOutputStream(f);
                  OutputStream out = new BufferedOutputStream(fos)) {
                 PropertyUtils.store(p, out, "JT Harness Desktop");
@@ -959,19 +972,22 @@ public class Desktop {
         ensureViewInitialized();
         currView.restoreDesktop(p);
 
-        if (getTools().length == 0)
+        if (getTools().length == 0) {
             addDefaultTool();
+        }
 
         // select the previously selected tool, if given
         // else a default, if available
         Tool t = getSelectedTool();
         if (t == null) {
             Tool[] tools = getTools();
-            if (tools.length > 0)
+            if (tools.length > 0) {
                 t = tools[0];
+            }
         }
-        if (t != null)
+        if (t != null) {
             setSelectedTool(t);
+        }
 
         //System.err.println("DT.restore: set visible");
         setVisible(true);
@@ -1001,8 +1017,9 @@ public class Desktop {
                         FileOpener fo = allOpeners.get(ft);
                         if (fo != null) {
                             String path = p.get("fileHistory." + i + ".path");
-                            if (path != null && !path.isEmpty())
+                            if (path != null && !path.isEmpty()) {
                                 fileHistory.add(new FileHistoryEntry(fo, new File(path)));
+                            }
                         }
                     } catch (Throwable e) {
                         // I18N
@@ -1018,8 +1035,9 @@ public class Desktop {
     }
 
     static Map<String, String> getPreviousDesktop(File file) {
-        if (file == null)
+        if (file == null) {
             file = getDesktopFile();
+        }
 
         Map<String, String> stringPropsMap = new HashMap<>();
 
@@ -1042,23 +1060,29 @@ public class Desktop {
      * @param parent the parent frame to be used for the preferences dialog
      */
     public void showPreferences(JFrame parent) {
-        if (prefsPane == null)
+        if (prefsPane == null) {
             prefsPane = new DesktopPrefsPane(this, uif);
-        if (colorPane == null)
+        }
+        if (colorPane == null) {
             colorPane = new ColorPrefsPane(uif);
+        }
 
         Vector<PreferencesPane> v = new Vector<>();
         v.add(prefsPane);
         v.add(colorPane);
         for (ToolManager m : toolManagers) {
             PreferencesPane p = m.getPrefsPane();
-            if (p != null)
+            if (p != null) {
                 v.add(p);
+            }
         }
 
         PreferencesPane[] custom = getCustomPreferences();
-        if (custom != null)
-            for (PreferencesPane aCustom : custom) v.add(aCustom);
+        if (custom != null) {
+            for (PreferencesPane aCustom : custom) {
+                v.add(aCustom);
+            }
+        }
 
         PreferencesPane.showDialog(parent, preferences, v.toArray(new PreferencesPane[v.size()]), helpBroker);
     }
@@ -1083,10 +1107,11 @@ public class Desktop {
             if (tss != null && tss.length > 0) {
                 for (TestSuite ts : tss) {
                     // only process each test suite once
-                    if (customPrefsClasses.contains(ts.getID()))
+                    if (customPrefsClasses.contains(ts.getID())) {
                         continue;
-                    else
+                    } else {
                         customPrefsClasses.add(ts.getID());
+                    }
 
                     String cls = ts.getTestSuiteInfo("prefsPane");
                     try {
@@ -1108,8 +1133,9 @@ public class Desktop {
             PreferencesPane[] panes = new PreferencesPane[al.size()];
             al.toArray(panes);
             return panes;
-        } else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -1125,8 +1151,9 @@ public class Desktop {
      * Dispose of any resources used by this object.
      */
     public void dispose() {
-        if (currView != null)
+        if (currView != null) {
             currView.dispose();
+        }
     }
 
     /**
@@ -1186,8 +1213,9 @@ public class Desktop {
                 f = new File(jtDir, "log.txt");
             } else if (s.equals("NONE")) {
                 f = null;
-            } else
+            } else {
                 f = new File(s);
+            }
 
             try {
                 BackupPolicy p = BackupPolicy.simpleBackups(5);
@@ -1285,8 +1313,9 @@ public class Desktop {
             result = TTIP_DELAY_DEFAULT;
         }
 
-        if (result < 0)
+        if (result < 0) {
             result = TTIP_DELAY_DEFAULT;
+        }
 
         return result;
     }
@@ -1310,12 +1339,15 @@ public class Desktop {
             result = TTIP_DURATION_DEFAULT;
         }
 
-        if (result < 0)
+        if (result < 0) {
             if (result == TTIP_DURATION_FOREVER)        // indicates forever duration
+            {
                 result = Integer.MAX_VALUE;
-            else                        // -2 or less, unknown value
+            } else                        // -2 or less, unknown value
+            {
                 result = TTIP_DURATION_DEFAULT;
-        else {
+            }
+        } else {
         }
 
         return result;
@@ -1341,10 +1373,11 @@ public class Desktop {
      * @param duration Duration time in ms or TTTIP_DURATION_FOREVER.
      */
     void setTooltipDuration(int duration) {
-        if (duration == TTIP_DURATION_FOREVER)
+        if (duration == TTIP_DURATION_FOREVER) {
             ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
-        else
+        } else {
             ToolTipManager.sharedInstance().setDismissDelay(duration);
+        }
     }
 
     public void printSetup() {
@@ -1399,8 +1432,9 @@ public class Desktop {
                 theLoader = cmd.getCustomHelpLoader();
                 // could also upgrade this to accept a different help set name
                 u = HelpSet.findHelpSet(theLoader, "jthelp.hs");
-                if (u != null)
+                if (u != null) {
                     break;
+                }
             }   // for
         }
 
@@ -1452,8 +1486,9 @@ public class Desktop {
     }
 
     private void ensureViewInitialized() {
-        if (currView != null)
+        if (currView != null) {
             return;
+        }
 
         switch (style) {
             case MDI_STYLE:
@@ -1474,8 +1509,9 @@ public class Desktop {
         if (msgs != null) {
             for (String msg : msgs) {
                 sb.append(msg);
-                if (!msg.endsWith("\n"))
+                if (!msg.endsWith("\n")) {
                     sb.append('\n');
+                }
             }
         }
     }
@@ -1493,20 +1529,22 @@ public class Desktop {
         if (s == null) {
             File jtDir = Preferences.getPrefsDir();
             return new File(jtDir, "desktop");
-        } else if (!s.equals("NONE"))
+        } else if (!s.equals("NONE")) {
             return new File(s);
-        else
+        } else {
             return null;
+        }
     }
 
     static void addHelpDebugListener(Component c) {
         JComponent root;
-        if (c instanceof JFrame)
+        if (c instanceof JFrame) {
             root = ((JFrame) c).getRootPane();
-        else if (c instanceof JDialog)
+        } else if (c instanceof JDialog) {
             root = ((JDialog) c).getRootPane();
-        else
+        } else {
             throw new IllegalArgumentException();
+        }
 
         ActionListener showFocusListener = new ActionListener() {
             @Override
@@ -1528,12 +1566,13 @@ public class Desktop {
 
     static void addPreferredSizeDebugListener(Component c) {
         JComponent root;
-        if (c instanceof JFrame)
+        if (c instanceof JFrame) {
             root = ((JFrame) c).getRootPane();
-        else if (c instanceof JDialog)
+        } else if (c instanceof JDialog) {
             root = ((JDialog) c).getRootPane();
-        else
+        } else {
             throw new IllegalArgumentException();
+        }
 
         ActionListener showPrefSizeListener = new ActionListener() {
             @Override
@@ -1560,17 +1599,19 @@ public class Desktop {
         } catch (InterruptedException e) {
         } catch (InvocationTargetException e) {
             Throwable t = e.getTargetException();
-            if (t instanceof RuntimeException)
+            if (t instanceof RuntimeException) {
                 throw (RuntimeException) t;
-            else
+            } else {
                 throw (Error) t;
+            }
         }
     }
 
     private static int indexOf(String s, String... a) {
         for (int i = 0; i < a.length; i++) {
-            if (s == null ? a[i] == null : s.equals(a[i]))
+            if (s == null ? a[i] == null : s.equals(a[i])) {
                 return i;
+            }
         }
         return -1;
     }

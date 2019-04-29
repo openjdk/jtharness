@@ -176,13 +176,17 @@ public class AgentMain {
         } catch (BadArgs e) {
             System.err.println("Error: Bad arguments");
             String[] msgs = e.getMessages();
-            for (String msg : msgs) System.err.println(msg);
+            for (String msg : msgs) {
+                System.err.println(msg);
+            }
             System.err.println();
             usage(System.err);
             rc = 1;
         } catch (Fault e) {
             String[] msgs = e.getMessages();
-            for (String msg : msgs) System.err.println(msg);
+            for (String msg : msgs) {
+                System.err.println(msg);
+            }
             rc = 2;
         } catch (Throwable t) {
             t.printStackTrace();
@@ -192,8 +196,9 @@ public class AgentMain {
         // If the JT security manager is installed, it won't allow a call of
         // System.exit unless we ask it nicely..
         SecurityManager sc = System.getSecurityManager();
-        if (sc instanceof JavaTestSecurityManager)
+        if (sc instanceof JavaTestSecurityManager) {
             ((JavaTestSecurityManager) sc).setAllowExit(true);
+        }
 
         System.exit(rc);
     }
@@ -242,8 +247,9 @@ public class AgentMain {
         int i = 0;
         while (i < args.length) {
             int used = decodeArg(args, i);
-            if (used == 0)
+            if (used == 0) {
                 throw new BadArgs("Unrecognised option: " + args[i]);
+            }
             i += used;
         }
     }
@@ -302,15 +308,17 @@ public class AgentMain {
                 tracing = true;
                 return 1;
             } else if ("-observer".equalsIgnoreCase(args[i]) && i < args.length - 1) {
-                if (observerClassName != null)
+                if (observerClassName != null) {
                     throw new BadArgs("duplicate use of -observer");
+                }
                 observerClassName = args[++i];
                 return 2;
             } else if (args[i].equalsIgnoreCase("-help") || args[i].equalsIgnoreCase("-usage")) {
                 helpRequested = true;
                 return args.length - index; // consume remaining args
-            } else
+            } else {
                 return 0;   // unrecognized
+            }
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new BadArgs("Missing argument for " + args[args.length - 1]);
         } catch (NumberFormatException e) {
@@ -327,23 +335,28 @@ public class AgentMain {
      *                           as a bad host name or a port not being available for use
      */
     protected void validateArgs() throws BadArgs {
-        if (modeCheck == 0)
+        if (modeCheck == 0) {
             throw new BadArgs("No connection options given");
+        }
 
-        if (modeCheck != (1 << mode))
+        if (modeCheck != (1 << mode)) {
             throw new BadArgs("Conflicting options for connection to JT Harness harness");
+        }
 
         switch (mode) {
             case ACTIVE:
-                if (activeHost == null || activeHost.isEmpty())
+                if (activeHost == null || activeHost.isEmpty()) {
                     throw new BadArgs("No active host specified");
-                if (activePort <= 0)
+                }
+                if (activePort <= 0) {
                     throw new BadArgs("No active port specified");
+                }
                 break;
 
             case SERIAL:
-                if (serialPort == null)
+                if (serialPort == null) {
                     throw new BadArgs("No serial port specified");
+                }
         }
 
         if (!Agent.isValidConcurrency(concurrency)) {
@@ -385,9 +398,9 @@ public class AgentMain {
                     return clazz.getConstructor(int.class, int.class).newInstance(passivePort, concurrency + 1);
                 } catch (Throwable e) {
                     Throwable t = unwrapInvocationTargetException(e);
-                    if (t instanceof IOException)
+                    if (t instanceof IOException) {
                         throw new Fault("Cannot create socket on port " + passivePort);
-                    else {
+                    } else {
                         String[] msgs = {
                                 "Error occurred while trying to start a passive agent",
                                 t.toString(),
@@ -475,8 +488,9 @@ public class AgentMain {
         }
 
         Integer delay = Integer.getInteger("agent.retry.delay");
-        if (delay != null)
+        if (delay != null) {
             agent.setRetryDelay(delay.intValue());
+        }
 
         return agent;
     }
@@ -513,10 +527,11 @@ public class AgentMain {
      * InvocationTargetException; otherwise the argument itself is returned.
      */
     protected static Throwable unwrapInvocationTargetException(Throwable t) {
-        if (t instanceof InvocationTargetException)
+        if (t instanceof InvocationTargetException) {
             return ((InvocationTargetException) t).getTargetException();
-        else
+        } else {
             return t;
+        }
     }
 
     private boolean helpRequested = false;
@@ -567,10 +582,11 @@ public class AgentMain {
                     System.err.println("host not responding: " + e.getMessage());
                     lastNotRespondMsgTime = now;
                 }
-            } else if (unknownHostExceptionClass != null && unknownHostExceptionClass.isInstance(e))
+            } else if (unknownHostExceptionClass != null && unknownHostExceptionClass.isInstance(e)) {
                 System.err.println("unknown host: " + e.getMessage());
-            else
+            } else {
                 System.err.println("error connecting to host: " + e);
+            }
         }
 
         private long lastNotRespondMsgTime = 0;

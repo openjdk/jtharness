@@ -180,9 +180,9 @@ public class Interview {
         this.parent = parent;
         setBaseTag(baseTag);
 
-        if (parent == null)
+        if (parent == null) {
             root = this;
-        else {
+        } else {
             parent.add(this);
             root = parent.root;
             semantics = parent.getInterviewSemantics();
@@ -263,8 +263,9 @@ public class Interview {
      * @see #setDefaultImage
      */
     public URL getDefaultImage() {
-        if (defaultImage == null && parent != null)
+        if (defaultImage == null && parent != null) {
             return parent.getDefaultImage();
+        }
 
         return defaultImage;
     }
@@ -292,9 +293,9 @@ public class Interview {
             Class<?> c = getClass();
             final ClassLoader cl = c.getClassLoader();
             final String rn;
-            if (name.startsWith("/"))
+            if (name.startsWith("/")) {
                 rn = name.substring(1);
-            else {
+            } else {
                 String cn = c.getName();
                 String pn = cn.substring(0, cn.lastIndexOf('.'));
                 rn = pn + "." + name;
@@ -358,10 +359,11 @@ public class Interview {
      * @see #setResourceBundle
      */
     public ResourceBundle getResourceBundle() {
-        if (bundle == null && parent != null)
+        if (bundle == null && parent != null) {
             return parent.getResourceBundle();
-        else
+        } else {
             return bundle;
+        }
     }
 
     /**
@@ -432,8 +434,9 @@ public class Interview {
      * @see #setHelpSet
      */
     public Object getHelpSet() {
-        if (helpSet == null && parent != null)
+        if (helpSet == null && parent != null) {
             return parent.getHelpSet();
+        }
 
         return helpSet;
     }
@@ -465,8 +468,9 @@ public class Interview {
      */
     public void setEdited(boolean edited) {
         Interview i = this;
-        while (i.parent != null)
+        while (i.parent != null) {
             i = i.parent;
+        }
         i.edited = edited;
     }
 
@@ -478,8 +482,9 @@ public class Interview {
      */
     public boolean isEdited() {
         Interview i = this;
-        while (i.parent != null)
+        while (i.parent != null) {
             i = i.parent;
+        }
         return i.edited;
     }
 
@@ -505,8 +510,9 @@ public class Interview {
      * @see #getFirstQuestion
      */
     protected void setFirstQuestion(Question q) {
-        if (path != null)
+        if (path != null) {
             throw new IllegalStateException();
+        }
 
         firstQuestion = q;
 
@@ -534,25 +540,29 @@ public class Interview {
      * @throws Interview.Fault if no interview is found with the given name.
      */
     public Interview getInterview(String tag) throws Fault {
-        if (tag == null)
+        if (tag == null) {
             throw new NullPointerException();
+        }
 
         Interview i = getInterview0(tag);
-        if (i != null)
+        if (i != null) {
             return i;
-        else
+        } else {
             throw new Fault(i18n, "interview.cantFindInterview", tag);
+        }
     }
 
     private Interview getInterview0(String t) {
-        if (t.equals(tag))
+        if (t.equals(tag)) {
             return this;
+        }
 
         for (int i = 0; i < children.size(); i++) {
             Interview c = children.get(i);
             Interview iv = c.getInterview0(t);
-            if (iv != null)
+            if (iv != null) {
                 return iv;
+            }
         }
 
         return null;
@@ -666,9 +676,10 @@ public class Interview {
 
         // now update to the selected question
         if (q == firstQuestion || q == null)
-            // already there; just need to notify observers
+        // already there; just need to notify observers
+        {
             notifyCurrentQuestionChanged(firstQuestion);
-        else {
+        } else {
             // try and select the specified question
             try {
                 setCurrentQuestion(q);
@@ -714,8 +725,9 @@ public class Interview {
             } else if (q instanceof FinalQuestion && i.caller != null) {
                 i = i.caller.getInterview();
                 i.currIndex++;
-            } else
+            } else {
                 break;
+            }
         }
 
         Question q = i.path.questionAt(i.currIndex);
@@ -759,8 +771,9 @@ public class Interview {
                 i.currIndex = i.path.size() - 1;
             } else if (i.path.questionAt(i.currIndex) instanceof FinalQuestion) {
                 i.currIndex--;
-            } else
+            } else {
                 break;
+            }
         }
 
         Question q = i.path.questionAt(i.currIndex);
@@ -806,8 +819,9 @@ public class Interview {
             } else if (q instanceof FinalQuestion && i.caller != null) {
                 Interview callInterview = i.caller.getInterview();
                 int callIndex = callInterview.path.indexOf(i);
-                if (callIndex == -1)
+                if (callIndex == -1) {
                     throw new IllegalStateException();
+                }
                 i = callInterview;
                 index = callIndex + 1;
             } else {
@@ -818,10 +832,12 @@ public class Interview {
         }
 
         if (lq == cq) {
-            if (!(lq instanceof FinalQuestion))
+            if (!(lq instanceof FinalQuestion)) {
                 throw new Fault(i18n, "interview.noMoreQuestions");
-        } else
+            }
+        } else {
             setCurrentQuestion(lq);
+        }
     }
 
     /**
@@ -838,8 +854,9 @@ public class Interview {
         Question[] path = root.getPath();
         for (int i = 0; i < path.length - 1; i++) {
             Question q = path[i];
-            if (!(q instanceof NullQuestion))
+            if (!(q instanceof NullQuestion)) {
                 return true;
+            }
         }
         return false;
     }
@@ -884,15 +901,18 @@ public class Interview {
      * @see #getCurrentQuestion
      */
     public void setCurrentQuestion(Question q) throws Fault {
-        if (q == null)
+        if (q == null) {
             throw new NullPointerException();
+        }
 
-        if (q == getCurrentQuestion())
+        if (q == getCurrentQuestion()) {
             return;
+        }
 
         boolean ok = root.setCurrentQuestion0(q);
-        if (!ok)
+        if (!ok) {
             throw new NotOnPathFault(q);
+        }
 
         notifyCurrentQuestionChanged(q);
     }
@@ -998,10 +1018,11 @@ public class Interview {
      * options.  Returns null if no path information is available.
      */
     public Question[] getRawPath(boolean includeFinals) {
-        if (rawPath == null)
+        if (rawPath == null) {
             return null;
-        else
+        } else {
             return rawPath.getQuestions();
+        }
     }
 
     /**
@@ -1055,14 +1076,16 @@ public class Interview {
         for (int i = 0; i < n; i++) {
             Question q = path.questionAt(i);
             if (q instanceof InterviewQuestion) {
-                if (flattenNestedInterviews)
+                if (flattenNestedInterviews) {
                     ((InterviewQuestion) q).getTargetInterview().iteratePath0(l, true, all, false);
-                else
+                } else {
                     l.add(q);
-            } else if (!addFinal && q instanceof FinalQuestion)
+                }
+            } else if (!addFinal && q instanceof FinalQuestion) {
                 return;
-            else
+            } else {
                 l.add(q);
+            }
         }
     }
 
@@ -1077,8 +1100,9 @@ public class Interview {
      */
     public void verifyPathContains(Question q)
             throws NotOnPathFault {
-        if (!pathContains(q))
+        if (!pathContains(q)) {
             throw new NotOnPathFault(q);
+        }
     }
 
     /**
@@ -1106,17 +1130,20 @@ public class Interview {
 
         for (int index = 0; index < path.size(); index++) {
             Question q = path.questionAt(index);
-            if (o == q)
+            if (o == q) {
                 return true;
+            }
 
             if (q instanceof InterviewQuestion) {
                 InterviewQuestion iq = (InterviewQuestion) q;
                 Interview i = iq.getTargetInterview();
-                if (o == i)
+                if (o == i) {
                     return true;
+                }
 
-                if (i.pathContains0(o))
+                if (i.pathContains0(o)) {
                     return true;
+                }
             }
         }
 
@@ -1176,8 +1203,9 @@ public class Interview {
         for (Iterator<Question> iter = iteratePath(true); iter.hasNext(); ) {
             Question q = iter.next();
             Checklist.Item[] items = q.getChecklistItems();
-            if (items != null && items.length > 0)
+            if (items != null && items.length > 0) {
                 return false;
+            }
         }
         return true;
     }
@@ -1197,7 +1225,9 @@ public class Interview {
             Question q = iter.next();
             Checklist.Item[] items = q.getChecklistItems();
             if (items != null) {
-                for (Checklist.Item item : items) c.add(item);
+                for (Checklist.Item item : items) {
+                    c.add(item);
+                }
             }
         }
         return c;
@@ -1261,11 +1291,13 @@ public class Interview {
             return;
         }
 
-        if (q == null)
+        if (q == null) {
             throw new NullPointerException();
+        }
 
-        if (allMarkers == null)
+        if (allMarkers == null) {
             allMarkers = new HashMap<>();
+        }
 
         Set<Question> markersForName = allMarkers.get(name);
         if (markersForName == null) {
@@ -1289,20 +1321,24 @@ public class Interview {
             return;
         }
 
-        if (q == null)
+        if (q == null) {
             throw new NullPointerException();
+        }
 
-        if (allMarkers == null)
+        if (allMarkers == null) {
             return;
+        }
 
         Set<Question> markersForName = allMarkers.get(name);
-        if (markersForName == null)
+        if (markersForName == null) {
             return;
+        }
 
         markersForName.remove(q);
 
-        if (markersForName.isEmpty())
+        if (markersForName.isEmpty()) {
             allMarkers.remove(name);
+        }
     }
 
     /**
@@ -1313,18 +1349,22 @@ public class Interview {
      * @throws NullPointerException if the question is null.
      */
     boolean hasMarker(Question q, String name) {
-        if (root != this)
+        if (root != this) {
             return root.hasMarker(q, name);
+        }
 
-        if (q == null)
+        if (q == null) {
             throw new NullPointerException();
+        }
 
-        if (allMarkers == null)
+        if (allMarkers == null) {
             return false;
+        }
 
         Set<Question> markersForName = allMarkers.get(name);
-        if (markersForName == null)
+        if (markersForName == null) {
             return false;
+        }
 
         return markersForName.contains(q);
     }
@@ -1341,8 +1381,9 @@ public class Interview {
         }
 
         // just have to remove the appropriate set of markers
-        if (allMarkers != null)
+        if (allMarkers != null) {
             allMarkers.remove(name);
+        }
     }
 
     /**
@@ -1369,11 +1410,15 @@ public class Interview {
         }
 
         if (allMarkers == null) // no markers at all
+        {
             return;
+        }
 
         Set<Question> markersForName = allMarkers.get(name);
         if (markersForName == null) // no markers for this name
+        {
             return;
+        }
 
         updateEnabled = false;
         Question oldCurrentQuestion = getCurrentQuestion();
@@ -1386,8 +1431,9 @@ public class Interview {
         updatePath(firstQuestion);
 
         Question newCurrentQuestion = getCurrentQuestion();
-        if (newCurrentQuestion != oldCurrentQuestion)
+        if (newCurrentQuestion != oldCurrentQuestion) {
             notifyCurrentQuestionChanged(newCurrentQuestion);
+        }
     }
 
     private void loadMarkers(Map<String, String> data) {
@@ -1406,8 +1452,9 @@ public class Interview {
         for (int i = 0; i < count; i++) {
             String name = data.get(MARKERS_PREF + i + ".name");
             String tags = data.get(MARKERS_PREF + i);
-            if (tags != null)
+            if (tags != null) {
                 loadMarkers(name, tags);
+            }
         }
     }
 
@@ -1420,8 +1467,9 @@ public class Interview {
                     loadMarker(name, tag);
                     start = -1;
                 }
-            } else if (start == -1)
+            } else if (start == -1) {
                 start = i;
+            }
         }
         if (start != -1) {
             String tag = tags.substring(start).trim();
@@ -1432,33 +1480,38 @@ public class Interview {
     private void loadMarker(String name, String tag) {
         if (!tag.isEmpty()) {
             Question q = lookup(tag);
-            if (q != null)
+            if (q != null) {
                 addMarker(q, name);
+            }
         }
     }
 
     private void saveMarkers(Map<String, String> data) {
-        if (allMarkers == null)
+        if (allMarkers == null) {
             return;
+        }
 
         int i = 0;
         for (Map.Entry<String, Set<Question>> e : allMarkers.entrySet()) {
             String name = e.getKey();
             Set<Question> markersForName = e.getValue();
-            if (name != null)
+            if (name != null) {
                 data.put(MARKERS_PREF + i + ".name", name);
+            }
             StringBuilder sb = new StringBuilder();
             for (Question q : markersForName) {
-                if (sb.length() > 0)
+                if (sb.length() > 0) {
                     sb.append('\n');
+                }
                 sb.append(q.getTag());
             }
             data.put(MARKERS_PREF + i, sb.toString());
             i++;
         }
 
-        if (i > 0)
+        if (i > 0) {
             data.put(MARKERS, String.valueOf(i));
+        }
     }
 
 
@@ -1528,13 +1581,15 @@ public class Interview {
      * @throws Interview.Fault if the checksum is found to be incorrect.
      */
     public void load(Map<String, String> data, boolean checkChecksum) throws Fault {
-        if (checkChecksum && !isChecksumValid(data, true))
+        if (checkChecksum && !isChecksumValid(data, true)) {
             throw new Fault(i18n, "interview.checksumError");
+        }
 
         if (parent == null) {
             String iTag = data.get(INTERVIEW);
-            if (iTag != null && !iTag.equals(getClass().getName()))
+            if (iTag != null && !iTag.equals(getClass().getName())) {
                 throw new Fault(i18n, "interview.classMismatch");
+            }
 
             loadExternalValues(data);
             loadTemplateValues(data);
@@ -1779,27 +1834,30 @@ public class Interview {
 
         // new 4.3 semantics allow the path to contain InterviewQuestions, which
         // in turn allows sub-interviews to export data.
-        if (semantics >= SEMANTIC_VERSION_43)
+        if (semantics >= SEMANTIC_VERSION_43) {
             iteratePath0(path, false, true, true);
-        else
+        } else {
             iteratePath0(path, true, true, true);
+        }
 
         export0(data, path, false);
 
         // note - hiddenPath only used in root interview, null hiddenPaths
         //   are expected in this case
-        if (semantics >= SEMANTIC_VERSION_43 && hiddenPath != null)
+        if (semantics >= SEMANTIC_VERSION_43 && hiddenPath != null) {
             export0(data, hiddenPath, true);
+        }
     }
 
     private void export0(Map<String, String> data, Iterable<Question> paths, boolean processHidden) {
         for (Question path : paths) {
             try {
                 if (path instanceof InterviewQuestion) {
-                    if (!processHidden)
+                    if (!processHidden) {
                         ((InterviewQuestion) path).getTargetInterview().export(data);
-                    else
+                    } else {
                         continue;
+                    }
                 } else {
                     path.export(data);
                 }
@@ -1852,8 +1910,9 @@ public class Interview {
      * @see #EXPORT_IGNORE_NO_EXCEPTIONS
      */
     public void setExportIgnoreExceptionPolicy(int policy) {
-        if (policy < 0 || policy >= EXPORT_NUM_IGNORE_POLICIES)
+        if (policy < 0 || policy >= EXPORT_NUM_IGNORE_POLICIES) {
             throw new IllegalArgumentException();
+        }
         exportIgnoreExceptionPolicy = policy;
     }
 
@@ -1895,8 +1954,9 @@ public class Interview {
      * @param o an observer to be notified as changes occur
      */
     synchronized public void addObserver(Observer o) {
-        if (o == null)
+        if (o == null) {
             throw new NullPointerException();
+        }
 
         // we take the hit here of shuffling arrays to make the
         // notification faster and more convenient (no casting)
@@ -1912,8 +1972,9 @@ public class Interview {
      * @param o the observer to be removed from the list taht are notified
      */
     synchronized public void removeObserver(Observer o) {
-        if (o == null)
+        if (o == null) {
             throw new NullPointerException();
+        }
 
         // we take the hit here of shuffling arrays to make the
         // notification faster and more convenient (no casting)
@@ -1930,8 +1991,9 @@ public class Interview {
     }
 
     synchronized public boolean containsObserver(Observer o) {
-        if (o == null)
+        if (o == null) {
             throw new NullPointerException();
+        }
 
         for (Observer observer : observers) {
             if (observer == o) {
@@ -1943,12 +2005,15 @@ public class Interview {
     }
 
     private void notifyCurrentQuestionChanged(Question q) {
-        for (int i = 0; i < observers.length && q == getCurrentQuestion(); i++)
+        for (int i = 0; i < observers.length && q == getCurrentQuestion(); i++) {
             observers[i].currentQuestionChanged(q);
+        }
     }
 
     private void notifyPathUpdated() {
-        for (Observer observer : observers) observer.pathUpdated();
+        for (Observer observer : observers) {
+            observer.pathUpdated();
+        }
     }
 
     private Observer[] observers = new Observer[0];
@@ -1974,12 +2039,14 @@ public class Interview {
 
     private void updateTags() {
         // update our own tag
-        if (parent == null || parent.tag == null)
+        if (parent == null || parent.tag == null) {
             tag = baseTag;
-        else if (baseTag == null) // should we allow this?
+        } else if (baseTag == null) // should we allow this?
+        {
             tag = parent.getTag();
-        else
+        } else {
             tag = parent.getTag() + "." + baseTag;
+        }
 
         // update the tags for the questions in the interview
         // and rebuild the tag map
@@ -2005,8 +2072,9 @@ public class Interview {
     void add(Question question) {
         String qTag = question.getTag();
         Question prev = allQuestions.put(qTag, question);
-        if (prev != null)
+        if (prev != null) {
             throw new IllegalArgumentException("duplicate questions for tag: " + qTag);
+        }
     }
 
     //----- versioning ----------------------------------------
@@ -2080,8 +2148,9 @@ public class Interview {
      * @since 3.2
      */
     public void setInterviewSemantics(int value) {
-        if (value <= SEMANTIC_MAX_VERSION)
+        if (value <= SEMANTIC_MAX_VERSION) {
             semantics = value;
+        }
     }
 
     /**
@@ -2112,19 +2181,21 @@ public class Interview {
      * @see #retrieveProperty
      */
     public String storeProperty(String key, String value) {
-        if (getParent() != null)
+        if (getParent() != null) {
             return getParent().storeProperty(key, value);
-        else {
+        } else {
             if (value == null) {
                 // remove
-                if (extraValues == null)
+                if (extraValues == null) {
                     return null;
-                else
+                } else {
                     return extraValues.remove(key);
+                }
             }
 
-            if (extraValues == null)
+            if (extraValues == null) {
                 extraValues = new HashMap<>();
+            }
 
             return extraValues.put(key, value);
         }
@@ -2138,9 +2209,9 @@ public class Interview {
      * @return The old value of this property, null if not previously set.
      */
     public String storeTemplateProperty(String key, String value) {
-        if (getParent() != null)
+        if (getParent() != null) {
             return getParent().storeTemplateProperty(key, value);
-        else {
+        } else {
             ensureTemValuesInitialized();
             return templateValues.put(key, value);
         }
@@ -2152,9 +2223,9 @@ public class Interview {
      * @param props The properties to store.
      */
     public void storeTemplateProperties(Map<String, String> props) {
-        if (getParent() != null)
+        if (getParent() != null) {
             getParent().storeTemplateProperties(props);
-        else {
+        } else {
             ensureTemValuesInitialized();
             templateValues.clear();
             templateValues.putAll(props);
@@ -2172,11 +2243,12 @@ public class Interview {
      * @see #storeProperty
      */
     public String retrieveProperty(String key) {
-        if (getParent() != null)
+        if (getParent() != null) {
             return getParent().retrieveProperty(key);
-        else {
-            if (extraValues == null)
+        } else {
+            if (extraValues == null) {
                 return null;
+            }
 
             return extraValues.get(key);
         }
@@ -2190,18 +2262,18 @@ public class Interview {
      * found.
      */
     public String retrieveTemplateProperty(String key) {
-        if (getParent() != null)
+        if (getParent() != null) {
             return getParent().retrieveTemplateProperty(key);
-        else {
+        } else {
             ensureTemValuesInitialized();
             return templateValues.get(key);
         }
     }
 
     public Set<String> retrieveTemplateKeys() {
-        if (getParent() != null)
+        if (getParent() != null) {
             return getParent().retrieveTemplateKeys();
-        else {
+        } else {
             ensureTemValuesInitialized();
             return templateValues.keySet();
         }
@@ -2218,11 +2290,12 @@ public class Interview {
      * @see #retrieveProperty
      */
     public Set<String> getPropertyKeys() {
-        if (getParent() != null)
+        if (getParent() != null) {
             return parent.getPropertyKeys();
-        else {
-            if (extraValues == null || extraValues.isEmpty())
+        } else {
+            if (extraValues == null || extraValues.isEmpty()) {
                 return null;
+            }
 
             return extraValues.keySet();
         }
@@ -2236,10 +2309,11 @@ public class Interview {
      * @see #retrieveProperty
      */
     public Map<String, String> getExternalProperties() {
-        if (extraValues != null)
+        if (extraValues != null) {
             return new HashMap<>(extraValues);
-        else
+        } else {
             return null;
+        }
     }
 
 
@@ -2259,8 +2333,9 @@ public class Interview {
             // should consider removing it from data, is it safe to alter
             // that object?
             if (key.startsWith(EXTERNAL_PREF)) {
-                if (extraValues == null)
+                if (extraValues == null) {
                     extraValues = new HashMap<>();
+                }
 
                 String val = data.get(key);
 
@@ -2307,14 +2382,16 @@ public class Interview {
             path = new Path();
             hiddenPath = new ArrayList<>();
 
-            if (parent == null)
+            if (parent == null) {
                 rawPath = new Path();
+            }
 
             reset();
         }
 
-        if (parent == null && rawPath == null)
+        if (parent == null && rawPath == null) {
             rawPath = new Path();
+        }
     }
 
 
@@ -2401,8 +2478,9 @@ public class Interview {
         //showPath(this, q, 0);
         verifyPredictPath();
 
-        if (!pathContains(currPath[currPath.length - 1]))
+        if (!pathContains(currPath[currPath.length - 1])) {
             setCurrentQuestionFromPath(currPath);
+        }
 
         notifyPathUpdated();
     }
@@ -2453,10 +2531,11 @@ public class Interview {
             }
             // if not found, this question is not on path
             // otherwise, trim i's path to end with o
-            if (oIndex == -1)
+            if (oIndex == -1) {
                 return;
-            else
+            } else {
                 iPath.setSize(oIndex + 1);
+            }
 
             // repeat with caller, all the way up the call stack
             o = i;
@@ -2471,9 +2550,9 @@ public class Interview {
         q = predictNext(q);
         while (true) {
             // note: multiple exit conditions within loop body
-            if (q == null || pathContains(q))
+            if (q == null || pathContains(q)) {
                 break;
-            else if (q instanceof FinalQuestion) {
+            } else if (q instanceof FinalQuestion) {
                 // end of an interview; continue in caller if available
                 i.path.addQuestion(q);
                 i.root.rawPath.addQuestion(q);
@@ -2486,9 +2565,9 @@ public class Interview {
             } else if (q instanceof InterviewQuestion) {
                 InterviewQuestion iq = (InterviewQuestion) q;
                 Interview i2 = iq.getTargetInterview();
-                if (pathContains(i2))
+                if (pathContains(i2)) {
                     break;
-                else if (i2 instanceof ListQuestion.Body) {
+                } else if (i2 instanceof ListQuestion.Body) {
                     // no need to predict the body, right?
                     // because it was done in predictNext()
                     i2.caller = iq;
@@ -2511,26 +2590,30 @@ public class Interview {
                     q = i2.firstQuestion;
                 }
             } else {
-                if (q.isEnabled())
+                if (q.isEnabled()) {
                     i.path.addQuestion(q);
-                else if (q.isHidden() && !root.hiddenPath.contains(q))
+                } else if (q.isHidden() && !root.hiddenPath.contains(q)) {
                     root.hiddenPath.add(q);
+                }
 
-                if (root.rawPath.indexOf(q) == -1)
+                if (root.rawPath.indexOf(q) == -1) {
                     i.root.rawPath.addQuestion(q);
+                }
                 q = predictNext(q);
             }
         }
     }
 
     private Question predictNext(Question q) {
-        if (q.isEnabled() && !q.isValueValid())
+        if (q.isEnabled() && !q.isValueValid()) {
             return null;
+        }
 
         if (q instanceof ListQuestion && q.isEnabled()) {
             ListQuestion lq = (ListQuestion) q;
-            if (lq.isEnd())
+            if (lq.isEnd()) {
                 return q.getNext();
+            }
 
             for (int index = 0; index < lq.getBodyCount(); index++) {
                 Interview b = lq.getBody(index);
@@ -2547,9 +2630,9 @@ public class Interview {
 
             Interview lqBody = lq.getSelectedBody();
             Question lqOther = lq.getOther();
-            if (lqBody == null)
+            if (lqBody == null) {
                 return lqOther.getNext();
-            else {
+            } else {
                 Interview lqInt = lq.getInterview();
                 return new InterviewQuestion(lqInt, lqBody, lqOther);
             }
@@ -2600,8 +2683,9 @@ public class Interview {
     private String getI18NString(String key, Object... args) {
         try {
             ResourceBundle b = getResourceBundle();
-            if (b != null)
+            if (b != null) {
                 return MessageFormat.format(b.getString(key), args);
+            }
         } catch (MissingResourceException e) {
             // should msgs like this be i18n and optional?
             System.err.println("WARNING: missing resource: " + key);
@@ -2645,19 +2729,23 @@ public class Interview {
         try {
             String s = null;
             if (checkAncestorsFirst) {
-                if (parent != null)
+                if (parent != null) {
                     s = parent.getResourceString(key, checkAncestorsFirst);
+                }
                 if (s == null) {
                     ResourceBundle b = getResourceBundle();
-                    if (b != null)
+                    if (b != null) {
                         s = b.getString(key);
+                    }
                 }
             } else {
                 ResourceBundle b = getResourceBundle();
-                if (b != null)
+                if (b != null) {
                     s = b.getString(key);
-                if (s == null && parent != null)
+                }
+                if (s == null && parent != null) {
                     s = parent.getResourceString(key, checkAncestorsFirst);
+                }
             }
             return s;
         } catch (MissingResourceException e) {
@@ -2667,8 +2755,9 @@ public class Interview {
 
     // can change this to "assert(b)" in JDK 1.5
     private static void ASSERT(boolean b) {
-        if (!b)
+        if (!b) {
             throw new IllegalStateException();
+        }
     }
 
     /**
@@ -2787,9 +2876,9 @@ public class Interview {
 
     static class Path {
         void addQuestion(Question q) {
-            if (questions == null)
+            if (questions == null) {
                 questions = new Question[10];
-            else if (numQuestions == questions.length) {
+            } else if (numQuestions == questions.length) {
                 Question[] newQuestions = new Question[2 * questions.length];
                 System.arraycopy(questions, 0, newQuestions, 0, questions.length);
                 questions = newQuestions;
@@ -2799,8 +2888,9 @@ public class Interview {
         }
 
         Question questionAt(int index) {
-            if (index < 0 || index >= numQuestions)
+            if (index < 0 || index >= numQuestions) {
                 throw new ArrayIndexOutOfBoundsException();
+            }
             return questions[index];
         }
 
@@ -2810,8 +2900,9 @@ public class Interview {
 
         // return shallow copy
         Question[] getQuestions() {
-            if (questions == null)
+            if (questions == null) {
                 return null;
+            }
 
             Question[] copy = new Question[questions.length];
             System.arraycopy(questions, 0, copy, 0, questions.length);
@@ -2822,8 +2913,9 @@ public class Interview {
             for (int index = 0; index < numQuestions; index++) {
                 Question q = questions[index];
                 if (q instanceof InterviewQuestion
-                        && ((InterviewQuestion) q).getTargetInterview() == interview)
+                        && ((InterviewQuestion) q).getTargetInterview() == interview) {
                     return index;
+                }
             }
             return -1;
         }
@@ -2831,8 +2923,9 @@ public class Interview {
         int indexOf(Question target) {
             for (int index = 0; index < numQuestions; index++) {
                 Question q = questions[index];
-                if (q == target)
+                if (q == target) {
                     return index;
+                }
             }
             return -1;
         }
@@ -2850,18 +2943,21 @@ public class Interview {
                     questions = newQuestions;
 
                 }
-                for (int i = newSize; i < numQuestions; i++)
+                for (int i = newSize; i < numQuestions; i++) {
                     questions[i] = null;
-            } else if (newSize > 0)
+                }
+            } else if (newSize > 0) {
                 questions = new Question[newSize];
+            }
 
             numQuestions = newSize;
         }
 
 
         void clear() {
-            for (int i = 0; i < numQuestions; i++)
+            for (int i = 0; i < numQuestions; i++) {
                 questions[i] = null;
+            }
             numQuestions = 0;
         }
 

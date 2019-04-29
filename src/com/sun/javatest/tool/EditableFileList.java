@@ -59,8 +59,9 @@ public class EditableFileList extends EditableList {
     public void setBaseDirectory(File dir) {
         baseDir = dir;
         if (chooser != null) {
-            if (dir == null)
+            if (dir == null) {
                 dir = new File(System.getProperty("user.dir"));
+            }
             chooser.setCurrentDirectory(dir);
         }
     }
@@ -72,8 +73,9 @@ public class EditableFileList extends EditableList {
      * @param c the chooser to be used
      */
     public void setChooser(JFileChooser c) {
-        if (c == null)
+        if (c == null) {
             throw new NullPointerException();
+        }
         chooser = c;
     }
 
@@ -88,16 +90,18 @@ public class EditableFileList extends EditableList {
     @Override
     public void setItems(Object... items) {
         listModel.clear();
-        if (items == null)
+        if (items == null) {
             return;
+        }
 
         for (Object o : items) {
-            if (o instanceof File)
+            if (o instanceof File) {
                 listModel.addElement(o);
-            else if (o instanceof String)
+            } else if (o instanceof String) {
                 listModel.addElement(new File((String) o));
-            else
+            } else {
                 throw new IllegalArgumentException(o.toString());
+            }
         }
     }
 
@@ -133,17 +137,20 @@ public class EditableFileList extends EditableList {
      */
     @Override
     protected Object getNewItem() {
-        if (chooser == null)
+        if (chooser == null) {
             chooser = new JFileChooser();
+        }
         int opt = chooser.showDialog(this, uif.getI18NString("list.add.select.txt"));
-        if (opt != JFileChooser.APPROVE_OPTION)
+        if (opt != JFileChooser.APPROVE_OPTION) {
             return null;
+        }
 
         File f = chooser.getSelectedFile();
         if (baseDir != null) {
             String bp = baseDir.getPath();
-            if (f.getPath().startsWith(bp + File.separatorChar))
+            if (f.getPath().startsWith(bp + File.separatorChar)) {
                 f = new File(f.getPath().substring(bp.length() + 1));
+            }
         }
         return f;
     }

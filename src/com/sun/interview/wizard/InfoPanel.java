@@ -65,9 +65,9 @@ class InfoPanel extends JComponent {
     public void setCurrentID(Question q) {
         HelpID helpId = Help.getHelpID(q);
         // uugh
-        if (helpId == null)
+        if (helpId == null) {
             System.err.println("WARNING: no help for " + q.getKey());
-        else {
+        } else {
             //System.err.println("IP: set help HelpID " + helpId);
             viewer.setCurrentID(helpId);
             //System.err.println("IP: currentURL " + viewer.getCurrentURL());
@@ -118,8 +118,9 @@ class InfoPanel extends JComponent {
 
         @Override
         public void currentQuestionChanged(Question q) {
-            if (!(q instanceof ErrorQuestion))
+            if (!(q instanceof ErrorQuestion)) {
                 setCurrentID(q);
+            }
         }
     }
 }

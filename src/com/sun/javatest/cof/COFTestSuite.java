@@ -105,9 +105,9 @@ class COFTestSuite extends COFItem {
         if (entries != null) {
             for (int i = 0; i < entries.length; i++) {
                 File f = new File(dir, entries[i]);
-                if (f.isDirectory())
+                if (f.isDirectory()) {
                     scan(f);
-                else if (TestResult.isResultFile(f)) {
+                } else if (TestResult.isResultFile(f)) {
                     try {
                         TestResult tr = new TestResult(f);
                         trt.update(tr);
@@ -136,8 +136,9 @@ class COFTestSuite extends COFItem {
         out.startTag("tests");
 
         // might need to wait for workdir to fully load
-        if (!legacyMode)
+        if (!legacyMode) {
             trt.waitUntilReady();
+        }
         for (Iterator<TestResult> iter = trt.getIterator(); iter.hasNext(); ) {
             TestResult tr = iter.next();
             out.newLine();

@@ -72,10 +72,11 @@ public class ConfigValuesMap {
             throw new IOException("file system not accessible (" + e + ")");
         } catch (InvocationTargetException e) {
             Throwable t = e.getTargetException();
-            if (t instanceof IOException)
+            if (t instanceof IOException) {
                 throw (IOException) t;
-            else
+            } else {
                 throw fileSystemProblem(t);
+            }
         } catch (IllegalAccessException | Error | NoSuchMethodException | InstantiationException e) {
             throw fileSystemProblem(e);
         }
@@ -104,10 +105,11 @@ public class ConfigValuesMap {
      * @throws IOException if any errors occurred reading the map
      */
     public static ConfigValuesMap readFileOrURL(String name) throws IOException {
-        if (name.length() > 5 && name.substring(0, 5).equalsIgnoreCase("http:"))
+        if (name.length() > 5 && name.substring(0, 5).equalsIgnoreCase("http:")) {
             return readURL(new URL(name));
-        else
+        } else {
             return readFile(name);
+        }
     }
 
     private static IOException fileSystemProblem(Throwable t) {
@@ -133,8 +135,9 @@ public class ConfigValuesMap {
             line = line.trim();
             if (!line.isEmpty() && !line.startsWith("#")) {
                 String[] row = StringArray.split(line);
-                if (row.length < 2)
+                if (row.length < 2) {
                     throw new IOException("format error in map file, line is: " + line);
+                }
                 from.add(row[0].replaceAll("\\Q\\u0020\\E", " "));
                 to.add(row[1].replaceAll("\\Q\\u0020\\E", " "));
             }
@@ -153,8 +156,9 @@ public class ConfigValuesMap {
      *             the map.
      */
     public void map(String... args) {
-        if (fromValues == null)
+        if (fromValues == null) {
             return; // empty table
+        }
 
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];

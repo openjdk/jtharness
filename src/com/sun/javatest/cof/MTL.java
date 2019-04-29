@@ -70,8 +70,9 @@ public class MTL {
                 throw new IllegalArgumentException(ex);
             } finally {
                 try {
-                    if (r != null)
+                    if (r != null) {
                         r.close();
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }

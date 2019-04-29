@@ -155,14 +155,17 @@ public class AgentFrame extends Frame {
         }
 
 
-        if (activeHost != null)
+        if (activeHost != null) {
             amo.setHost(activeHost);
+        }
 
-        if (activePort != -1)
+        if (activePort != -1) {
             amo.setPort(activePort);
+        }
 
-        if (passivePort != -1)
+        if (passivePort != -1) {
             pmo.setPort(passivePort);
+        }
 
         if (serialPort != null) {
             if (smo == null) {
@@ -205,34 +208,41 @@ public class AgentFrame extends Frame {
             }
         }
 
-        if (useSharedFrame)
+        if (useSharedFrame) {
             MainFrame.setFrame(sf);
+        }
 
         AgentPanel sp = sf.panel;
         sp.setTracing(tracing, System.out);
 
-        if (mode != null)
+        if (mode != null) {
             sp.setMode(mode.getModeName());
+        }
 
-        if (concurrency != -1)
+        if (concurrency != -1) {
             sp.setConcurrency(concurrency);
+        }
 
-        if (mapFile != null)
+        if (mapFile != null) {
             sp.setMapFile(mapFile);
+        }
 
-        if (history != -1)
+        if (history != -1) {
             sp.setHistoryLimit(history);
+        }
 
         Integer delay = Integer.getInteger("agent.retry.delay");
-        if (delay != null)
+        if (delay != null) {
             sp.setRetryDelay(delay.intValue());
+        }
 
         // install our own permissive security manager, to prevent anyone else
         // installing a less permissive one; moan if it can't be installed.
         JavaTestSecurityManager.install();
 
-        if (start)
+        if (start) {
             sp.start();
+        }
 
         try {
             Method invokeLater = EventQueue.class.getMethod("invokeLater", Runnable.class);
@@ -312,10 +322,11 @@ public class AgentFrame extends Frame {
                 // Experiments indicate that the following code works OK
                 // on versions of PersonalJava that do not support local file systems.
                 // Just specify the map file as an http: URL.
-                if (name == null || name.isEmpty())
+                if (name == null || name.isEmpty()) {
                     return null;
-                else
+                } else {
                     return ConfigValuesMap.readFileOrURL(name);
+                }
             }
         });
 

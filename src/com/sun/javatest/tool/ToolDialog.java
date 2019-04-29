@@ -93,8 +93,9 @@ abstract public class ToolDialog {
      * @see #MODAL
      */
     protected ToolDialog(Component parent, UIFactory uif, String uiKey, int type) {
-        if (parent == null || uif == null || uiKey == null)
+        if (parent == null || uif == null || uiKey == null) {
             throw new NullPointerException();
+        }
 
         this.parent = parent;
         this.uif = uif;
@@ -183,13 +184,16 @@ abstract public class ToolDialog {
      * @see #setVisible
      */
     public void pack() {
-        if (dialog == null)
+        if (dialog == null) {
             ensureDialogInitialized();
+        }
 
         if (dialog instanceof Window) // JDialog and JFrame
+        {
             ((Window) dialog).pack();
-        else
+        } else {
             ((JInternalFrame) dialog).pack();
+        }
     }
 
     /**
@@ -231,16 +235,18 @@ abstract public class ToolDialog {
     public void dispose() {
         if (dialog != null) {
             restorer.save();
-            if (dialog instanceof Window)
+            if (dialog instanceof Window) {
                 ((Window) dialog).dispose();
-            else
+            } else {
                 ((JInternalFrame) dialog).dispose();
+            }
 
             RootPaneContainer rpc = (RootPaneContainer) dialog;
             rpc.setContentPane(new Container());
             JMenuBar mb = rpc.getRootPane().getJMenuBar();
-            if (mb != null)
+            if (mb != null) {
                 mb.removeAll();
+            }
 
             if (componentListener != null && dialog != null) {
                 dialog.removeComponentListener(componentListener);
@@ -313,23 +319,25 @@ abstract public class ToolDialog {
     private void setContentPane() {
         if (dialog != null) {
             initMain();
-            if (dialog instanceof JDialog)
+            if (dialog instanceof JDialog) {
                 ((JDialog) dialog).setContentPane(main);
-            else if (dialog instanceof JFrame)
+            } else if (dialog instanceof JFrame) {
                 ((JFrame) dialog).setContentPane(main);
-            else
+            } else {
                 ((JInternalFrame) dialog).setContentPane(main);
+            }
         }
     }
 
     private void setLocalizedTitle(String title) {
         if (dialog != null) {
-            if (dialog instanceof JDialog)
+            if (dialog instanceof JDialog) {
                 ((JDialog) dialog).setTitle(title);
-            else if (dialog instanceof JFrame)
+            } else if (dialog instanceof JFrame) {
                 ((JFrame) dialog).setTitle(title);
-            else
+            } else {
                 ((JInternalFrame) dialog).setTitle(title);
+            }
         }
 
         this.title = title;
@@ -342,8 +350,9 @@ abstract public class ToolDialog {
      * @param helpID the help identifier for this dialog
      */
     protected void setHelp(String helpID) {
-        if (dialog != null)
+        if (dialog != null) {
             uif.setHelp(dialog, helpID);
+        }
 
         this.helpID = helpID;
     }
@@ -366,12 +375,13 @@ abstract public class ToolDialog {
      */
     protected void setJMenuBar(JMenuBar menuBar) {
         if (dialog != null) {
-            if (dialog instanceof JDialog)
+            if (dialog instanceof JDialog) {
                 ((JDialog) dialog).setJMenuBar(menuBar);
-            else if (dialog instanceof JFrame)
+            } else if (dialog instanceof JFrame) {
                 ((JFrame) dialog).setJMenuBar(menuBar);
-            else
+            } else {
                 ((JInternalFrame) dialog).setJMenuBar(menuBar);
+            }
         }
 
         this.menuBar = menuBar;
@@ -441,8 +451,9 @@ abstract public class ToolDialog {
         cancelButton = null;
         if (buttons != null) {
             for (int i = 0; i < buttons.length && cancelButton == null; i++) {
-                if (buttons[i].getActionCommand().equals(UIFactory.CANCEL))
+                if (buttons[i].getActionCommand().equals(UIFactory.CANCEL)) {
                     cancelButton = buttons[i];
+                }
             }
         }
 
@@ -468,8 +479,9 @@ abstract public class ToolDialog {
      * @see #setSize
      */
     protected Dimension getSize() {
-        if (dialog == null)
+        if (dialog == null) {
             throw new IllegalStateException();
+        }
         return dialog.getSize();
     }
 
@@ -481,8 +493,9 @@ abstract public class ToolDialog {
      * @see #getSize
      */
     protected void setSize(Dimension d) {
-        if (dialog == null)
+        if (dialog == null) {
             throw new IllegalStateException();
+        }
 
         dialog.setSize(d);
     }
@@ -496,8 +509,9 @@ abstract public class ToolDialog {
      * @see #getSize
      */
     protected void setSize(int width, int height) {
-        if (dialog == null)
+        if (dialog == null) {
             ensureDialogInitialized();
+        }
 
         dialog.setSize(width, height);
     }
@@ -511,8 +525,9 @@ abstract public class ToolDialog {
      * @see #setLocation
      */
     protected Point getLocation() {
-        if (dialog == null)
+        if (dialog == null) {
             throw new IllegalStateException();
+        }
         return dialog.getLocation();
     }
 
@@ -524,8 +539,9 @@ abstract public class ToolDialog {
      * @see #getLocation
      */
     protected void setLocation(Point p) {
-        if (dialog == null)
+        if (dialog == null) {
             ensureDialogInitialized();
+        }
 
         dialog.setLocation(p);
     }
@@ -539,8 +555,9 @@ abstract public class ToolDialog {
      * @see #getLocation
      */
     protected void setLocation(int x, int y) {
-        if (dialog == null)
+        if (dialog == null) {
             throw new IllegalStateException();
+        }
 
         dialog.setLocation(x, y);
     }
@@ -553,8 +570,9 @@ abstract public class ToolDialog {
         Desktop desktop = tool.getDesktop();
 
         if (dialog == null || !desktop.isToolOwnerForDialog(tool, dialog)) {
-            if (main == null)
+            if (main == null) {
                 initMain();
+            }
             initDialog();
         }
     }
@@ -574,8 +592,9 @@ abstract public class ToolDialog {
         }
 
 
-        if (helpID != null)
+        if (helpID != null) {
             uif.setHelp(dialog, helpID);
+        }
 
         if (dialog instanceof JDialog) {
             JDialog d = (JDialog) dialog;
@@ -586,8 +605,9 @@ abstract public class ToolDialog {
             d.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowActivated(WindowEvent e) {
-                    if (defaultButton != null)
+                    if (defaultButton != null) {
                         defaultButton.requestFocus();
+                    }
                 }
 
                 @Override
@@ -607,8 +627,9 @@ abstract public class ToolDialog {
             d.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowActivated(WindowEvent e) {
-                    if (defaultButton != null)
+                    if (defaultButton != null) {
                         defaultButton.requestFocus();
+                    }
                 }
 
                 @Override
@@ -643,8 +664,9 @@ abstract public class ToolDialog {
             f.pack();
         }
 
-        if (componentListener != null)
+        if (componentListener != null) {
             dialog.addComponentListener(componentListener);
+        }
 
         if (cancelButton != null) {
             // if there are buttons, main will be a JPanel that we created
@@ -745,15 +767,17 @@ abstract public class ToolDialog {
      * the buttons below it.
      */
     private void initMain() {
-        if (body == null)
+        if (body == null) {
             initGUI();
+        }
 
-        if (body == null)
+        if (body == null) {
             throw new IllegalStateException();
+        }
 
-        if (buttons == null || buttons.length == 0)
+        if (buttons == null || buttons.length == 0) {
             main = body;
-        else {
+        } else {
             Container m = uif.createPanel(uiKey + ".main", false);
             m.setLayout(new BorderLayout());
             m.add(body, BorderLayout.CENTER);
@@ -766,7 +790,9 @@ abstract public class ToolDialog {
                 maxBtnDims.height = Math.max(maxBtnDims.height, d.height);
             }
 
-            for (JButton button1 : buttons) button1.setPreferredSize(maxBtnDims);
+            for (JButton button1 : buttons) {
+                button1.setPreferredSize(maxBtnDims);
+            }
 
             Container p = uif.createPanel(uiKey + ".btns", false);
             p.setLayout(new GridBagLayout());
@@ -793,8 +819,9 @@ abstract public class ToolDialog {
     }
 
     private void showComponent(Component c, int depth) {
-        for (int i = 0; i < depth; i++)
+        for (int i = 0; i < depth; i++) {
             System.err.print("  ");
+        }
 
         System.err.print(c.getClass().getName() + " " + c.getName() + ":");
         Dimension pref = c.getPreferredSize();
@@ -807,10 +834,12 @@ abstract public class ToolDialog {
         if (c instanceof Container) {
             Container p = (Container) c;
             System.err.println(" " + p.getComponentCount() + " children");
-            for (int i = 0; i < p.getComponentCount(); i++)
+            for (int i = 0; i < p.getComponentCount(); i++) {
                 showComponent(p.getComponent(i), depth + 1);
-        } else
+            }
+        } else {
             System.err.println();
+        }
     }
 
     /**
@@ -956,8 +985,9 @@ abstract public class ToolDialog {
                     c.setBounds(n);
                     c.setPreferredSize(n.getSize());
                 }
-                if (c instanceof Window)
+                if (c instanceof Window) {
                     ((Window) c).pack();
+                }
             }
         }
 

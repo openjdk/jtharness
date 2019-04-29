@@ -62,8 +62,9 @@ public class JHelpContentViewer extends JPanel implements Accessible {
         }
 
         try {
-            if (hurl != null)
+            if (hurl != null) {
                 pane.setPage(hurl);
+            }
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }

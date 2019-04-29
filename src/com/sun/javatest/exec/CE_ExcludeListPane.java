@@ -74,30 +74,34 @@ class CE_ExcludeListPane extends CE_StdPane {
 
     @Override
     boolean isOKToClose() {
-        if (mutableExcludeListParameters == null)
+        if (mutableExcludeListParameters == null) {
             return true;
+        }
 
-        if (noneBtn.isSelected())
+        if (noneBtn.isSelected()) {
             return true;
-        else if (initialBtn.isSelected())
+        } else if (initialBtn.isSelected()) {
             return initialPanel.isOKToClose();
-        else if (latestBtn.isSelected())
+        } else if (latestBtn.isSelected()) {
             return latestPanel.isOKToClose();
-        else if (customBtn.isSelected())
+        } else if (customBtn.isSelected()) {
             return customPanel.isOKToClose();
-        else
+        } else {
             throw new Error();
+        }
     }
 
     void updateConfig() {
-        if (config == null)
+        if (config == null) {
             return;
+        }
 
         excludeListParameters = config.getExcludeListParameters();
-        if (excludeListParameters instanceof MutableExcludeListParameters)
+        if (excludeListParameters instanceof MutableExcludeListParameters) {
             mutableExcludeListParameters = (MutableExcludeListParameters) excludeListParameters;
-        else
+        } else {
             mutableExcludeListParameters = null;
+        }
     }
 
     @Override
@@ -157,14 +161,15 @@ class CE_ExcludeListPane extends CE_StdPane {
     void save() {
         if (mutableExcludeListParameters != null) {
             int mode;
-            if (customBtn.isSelected())
+            if (customBtn.isSelected()) {
                 mode = MutableExcludeListParameters.CUSTOM_EXCLUDE_LIST;
-            else if (initialBtn.isSelected())
+            } else if (initialBtn.isSelected()) {
                 mode = MutableExcludeListParameters.INITIAL_EXCLUDE_LIST;
-            else if (latestBtn.isSelected())
+            } else if (latestBtn.isSelected()) {
                 mode = MutableExcludeListParameters.LATEST_EXCLUDE_LIST;
-            else
+            } else {
                 mode = MutableExcludeListParameters.NO_EXCLUDE_LIST;
+            }
             mutableExcludeListParameters.setExcludeMode(mode);
 
             // no values to save from blankPanel and initialPanel
@@ -206,9 +211,11 @@ class CE_ExcludeListPane extends CE_StdPane {
         addBody(p);
 
         if (mutableExcludeListParameters == null)
-            // can't accurately render info about the exclude list,
-            // so mark the pane disabled
+        // can't accurately render info about the exclude list,
+        // so mark the pane disabled
+        {
             setEnabled(false);
+        }
     }
 
     private void initToolBar() {
@@ -255,14 +262,15 @@ class CE_ExcludeListPane extends CE_StdPane {
         @Override
         public void stateChanged(ChangeEvent e) {
             Component comp;
-            if (customBtn.isSelected())
+            if (customBtn.isSelected()) {
                 comp = customPanel;
-            else if (initialBtn.isSelected())
+            } else if (initialBtn.isSelected()) {
                 comp = initialPanel;
-            else if (latestBtn.isSelected())
+            } else if (latestBtn.isSelected()) {
                 comp = latestPanel;
-            else
+            } else {
                 comp = blankPanel;
+            }
 
             ((CardLayout) body.getLayout()).show(body, comp.getName());
         }
@@ -377,16 +385,18 @@ class CE_ExcludeListPane extends CE_StdPane {
             } else if (!(initialFile.isFile() && initialFile.canRead())) {
                 uif.showError("ce.excl.initial.cantReadFile", initialFile);
                 return false;
-            } else
+            } else {
                 return true;
+            }
         }
 
         void load(File initialFile) {
             this.initialFile = initialFile;
-            if (initialFile == null)
+            if (initialFile == null) {
                 fileArea.setText("");
-            else
+            } else {
                 fileArea.setText(initialFile.getPath());
+            }
         }
 
         private JTextArea fileArea;
@@ -522,10 +532,11 @@ class CE_ExcludeListPane extends CE_StdPane {
         }
 
         void load(URL latestURL, File latestFile) {
-            if (latestURL == null)
+            if (latestURL == null) {
                 urlField.setText("");
-            else
+            } else {
                 urlField.setText(latestURL.toString());
+            }
 
             this.latestFile = latestFile;
             updateDateField();
@@ -534,16 +545,18 @@ class CE_ExcludeListPane extends CE_StdPane {
             autoCheck.setSelected(ac);
 
             int acm = mutableExcludeListParameters.getLatestExcludeAutoCheckMode();
-            if (acm == MutableExcludeListParameters.CHECK_EVERY_X_DAYS)
+            if (acm == MutableExcludeListParameters.CHECK_EVERY_X_DAYS) {
                 daysButton.setSelected(true);
-            else
+            } else {
                 runButton.setSelected(true);
+            }
 
             int days = mutableExcludeListParameters.getLatestExcludeAutoCheckInterval();
-            if (days < 0)
+            if (days < 0) {
                 daysField.setText("");
-            else
+            } else {
                 daysField.setText(String.valueOf(days));
+            }
         }
 
         void save() {
@@ -590,9 +603,9 @@ class CE_ExcludeListPane extends CE_StdPane {
 
         private void updateDateField() {
             long latestLastModified = latestFile.lastModified();
-            if (latestLastModified <= 0)
+            if (latestLastModified <= 0) {
                 dateField.setText(uif.getI18NString("ce.excl.latest.dateNotAvailable"));
-            else {
+            } else {
                 DateFormat df = DateFormat.getDateTimeInstance();
                 dateField.setText(df.format(new Date(latestLastModified)));
             }

@@ -87,8 +87,9 @@ public class IconFactory {
      * @return an icon for a parent folder
      */
     public static Icon getUpFolderIcon() {
-        if (upFolder == null)
+        if (upFolder == null) {
             upFolder = new UpFolderIcon16();
+        }
         return upFolder;
     }
 
@@ -98,8 +99,9 @@ public class IconFactory {
      * @return an icon for an openable (traversable) folder
      */
     public static Icon getOpenableFolderIcon() {
-        if (openableFolder == null)
+        if (openableFolder == null) {
             openableFolder = new FolderIcon16(ALL_FILLED);
+        }
         return openableFolder;
     }
 
@@ -109,8 +111,9 @@ public class IconFactory {
      * @return an icon for an selectable (non-traversable) folder
      */
     public static Icon getSelectableFolderIcon() {
-        if (selectableFolder == null)
+        if (selectableFolder == null) {
             selectableFolder = new FolderIcon16(NOT_FILLED);
+        }
         return selectableFolder;
     }
 
@@ -169,8 +172,9 @@ public class IconFactory {
 
                 case PARTIALLY_FILLED:
                     g.setColor(Color.white);
-                    for (int i = 0; i < 8; i++)
+                    for (int i = 0; i < 8; i++) {
                         g.drawLine(4 + i, 7 + i, 18, 7 + i);
+                    }
                     break;
 
                 case ALL_FILLED:
@@ -434,8 +438,9 @@ public class IconFactory {
      * @return a test icon appropriate to the arguments
      */
     public static Icon getTestIcon(int state, boolean active, boolean glyph) {
-        if (state < 0 || state >= NUM_STATES)
+        if (state < 0 || state >= NUM_STATES) {
             throw new IllegalArgumentException(Integer.toString(state));
+        }
 
         int index = 4 * state + (2 * (active ? 1 : 0)) + (glyph ? 1 : 0);
         Icon testIcon = testIcons[index];
@@ -458,8 +463,9 @@ public class IconFactory {
      * @return a test folder icon appropriate to the arguments
      */
     public static Icon getTestFolderIcon(int state, boolean active, boolean glyph) {
-        if (state < 0 || state >= NUM_STATES)
+        if (state < 0 || state >= NUM_STATES) {
             throw new IllegalArgumentException(Integer.toString(state));
+        }
 
         int index = 4 * state + (2 * (active ? 1 : 0)) + (glyph ? 1 : 0);
         Icon testFolderIcon = testFolderIcons[index];
@@ -480,8 +486,9 @@ public class IconFactory {
      * @return a test section icon appropriate to the arguments
      */
     public static Icon getTestSectionIcon(int state) {
-        if (state < 0 || state >= NUM_STATES)
+        if (state < 0 || state >= NUM_STATES) {
             throw new IllegalArgumentException(Integer.toString(state));
+        }
 
         Icon testSectionIcon = testSectionIcons[state];
         if (testSectionIcon == null) {
@@ -666,20 +673,23 @@ public class IconFactory {
             g.drawLine(left, top, left, bottom - 1);  // left
             g.drawLine(left, bottom - 1, right - 1, bottom - 1); // bottom
             g.drawLine(right - 1, top + testCornerSize, right - 1, bottom - 1); // right
-            for (int i = 0; i < testCornerSize; i++)
+            for (int i = 0; i < testCornerSize; i++) {
                 g.drawLine(cornerLeft, top + i, cornerLeft + i, top + i);
+            }
 
             // body
             fill(image, left + 1, top + 1, cornerLeft, top + testCornerSize, baseColor);
             fill(image, left + 1, top + testCornerSize, right - 1, bottom - 1, baseColor);
 
             // glyph
-            if (glyph)
+            if (glyph) {
                 drawGlyph(state, (left + right) / 2 - 3, (top + bottom) / 2 - 3, g);
+            }
 
             // active
-            if (active)
+            if (active) {
                 drawArrow(0, (testIconHeight - arrowHeight) / 2, arrowWidth, arrowHeight, g);
+            }
 
             g.dispose();
         }
@@ -744,12 +754,14 @@ public class IconFactory {
             }
 
             // glyph
-            if (glyph)
+            if (glyph) {
                 drawGlyph(state, (left + right) / 2 - 3, testFolderTabHeight + 1 + (top - testFolderTabHeight + bottom) / 2 - 3, g);
+            }
 
             // active
-            if (active)
+            if (active) {
                 drawArrow(0, (testIconHeight - arrowHeight) / 2, arrowWidth, arrowHeight, g);
+            }
 
             g.dispose();
         }

@@ -132,8 +132,9 @@ public class TreeQuestionRenderer
         }
 
         private String getName() {
-            if (name == null)
+            if (name == null) {
                 name = model.getName(object);
+            }
             return name;
         }
     }

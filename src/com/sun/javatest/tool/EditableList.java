@@ -65,8 +65,9 @@ public class EditableList extends JComponent implements Accessible {
 
     private static UIFactory getDefaultUIF() {
         // use EditableList.class instead of "this" to get correct i18n
-        if (defaultUIF == null)
+        if (defaultUIF == null) {
             defaultUIF = new UIFactory(EditableList.class, null);  // no help required
+        }
         return defaultUIF;
     }
 
@@ -107,9 +108,10 @@ public class EditableList extends JComponent implements Accessible {
      */
     @Override
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null)
+        if (accessibleContext == null) {
             accessibleContext = new AccessibleJComponent() {
             };
+        }
         return accessibleContext;
     }
 
@@ -135,7 +137,9 @@ public class EditableList extends JComponent implements Accessible {
     public void setItems(Object... items) {
         listModel.clear();
         if (items != null) {
-            for (Object item : items) listModel.addElement(item);
+            for (Object item : items) {
+                listModel.addElement(item);
+            }
         }
     }
 
@@ -295,17 +299,19 @@ public class EditableList extends JComponent implements Accessible {
         }
 
         if (newItem != null) {
-            if (list.isSelectionEmpty())
+            if (list.isSelectionEmpty()) {
                 listModel.addElement(newItem);
-            else
+            } else {
                 listModel.add(1 + list.getSelectedIndex(), newItem);
+            }
             list.setSelectedValue(newItem, true);
         }
     }
 
     private void removeSelectedItem() {
-        if (!list.isSelectionEmpty())
+        if (!list.isSelectionEmpty()) {
             listModel.remove(list.getSelectedIndex());
+        }
     }
 
     private void moveSelectedItemUp() {
@@ -336,8 +342,9 @@ public class EditableList extends JComponent implements Accessible {
             return;
         }
 
-        if (newItem != null)
+        if (newItem != null) {
             listModel.set(index, newItem);
+        }
     }
 
     private void showDuplicateError(Object item) {
@@ -370,14 +377,15 @@ public class EditableList extends JComponent implements Accessible {
         @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
-            if (src == addBtn)
+            if (src == addBtn) {
                 insertItem();
-            else if (src == removeBtn)
+            } else if (src == removeBtn) {
                 removeSelectedItem();
-            else if (src == upBtn)
+            } else if (src == upBtn) {
                 moveSelectedItemUp();
-            else if (src == downBtn)
+            } else if (src == downBtn) {
                 moveSelectedItemDown();
+            }
 
             updateButtons();
         }
@@ -393,8 +401,9 @@ public class EditableList extends JComponent implements Accessible {
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
                 int index = list.locationToIndex(e.getPoint());
-                if (index != -1)
+                if (index != -1) {
                     editItem(index);
+                }
             }
         }
 
@@ -421,8 +430,9 @@ public class EditableList extends JComponent implements Accessible {
             Object[] listeners = listenerList.getListenerList();
             for (int i = listeners.length - 2; i >= 0; i -= 2) {
                 if (listeners[i] == ListDataListener.class) {
-                    if (e2 == null)
+                    if (e2 == null) {
                         e2 = new ListDataEvent(EditableList.this, e.getType(), e.getIndex0(), e.getIndex1());
+                    }
                     ((ListDataListener) listeners[i + 1]).contentsChanged(e2);
                 }
             }
@@ -434,8 +444,9 @@ public class EditableList extends JComponent implements Accessible {
             Object[] listeners = listenerList.getListenerList();
             for (int i = listeners.length - 2; i >= 0; i -= 2) {
                 if (listeners[i] == ListDataListener.class) {
-                    if (e2 == null)
+                    if (e2 == null) {
                         e2 = new ListDataEvent(EditableList.this, e.getType(), e.getIndex0(), e.getIndex1());
+                    }
                     ((ListDataListener) listeners[i + 1]).intervalAdded(e2);
                 }
             }
@@ -447,8 +458,9 @@ public class EditableList extends JComponent implements Accessible {
             Object[] listeners = listenerList.getListenerList();
             for (int i = listeners.length - 2; i >= 0; i -= 2) {
                 if (listeners[i] == ListDataListener.class) {
-                    if (e2 == null)
+                    if (e2 == null) {
                         e2 = new ListDataEvent(EditableList.this, e.getType(), e.getIndex0(), e.getIndex1());
+                    }
                     ((ListDataListener) listeners[i + 1]).intervalRemoved(e2);
                 }
             }

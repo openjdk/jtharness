@@ -81,10 +81,11 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
         // note that empty groups are not returned by the next call
         String[] groups = question.getGroups();
-        if (groups != null)
+        if (groups != null) {
             for (String group : groups) {
                 addGroup(group, panel, listener);
             }   // for
+        }
 
         if (panel.getComponentCount() == 0) {
             showEmptyQuestion(panel);
@@ -166,8 +167,9 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
     private void addGroup(String group, JPanel panel, ActionListener listener) {
         TableModel model = createTableModel(group, listener);
         // don't show empty tables
-        if (model.getRowCount() == 0)
+        if (model.getRowCount() == 0) {
             return;
+        }
 
         if (tables.isEmpty()) {
             Component box = Box.createVerticalStrut(20);
@@ -273,12 +275,14 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
         @Override
         public boolean isCellEditable(int row, int column) {
-            if (column == 0)
+            if (column == 0) {
                 return false;
+            }
 
             if (column == 1 &&
-                    question.isReadOnlyValue(question.getKeyPropertyName((String) getValueAt(row, 0))))
+                    question.isReadOnlyValue(question.getKeyPropertyName((String) getValueAt(row, 0)))) {
                 return false;
+            }
 
             return true;
         }
@@ -299,9 +303,9 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
                 ArrayList<String> rm = null;
                 for (String[] aD1 : d) {
                     if (!q.isEntryVisible(aD1[0])) {
-                        if (rm == null)
+                        if (rm == null) {
                             rm = new ArrayList<>();
-                        else {
+                        } else {
                         }
                         rm.add(aD1[0]);
                     } else {
@@ -314,9 +318,9 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
                     String[][] d2 = new String[d.length - rm.size()][2];
                     int pos = 0;
                     for (String[] aD : d) {
-                        if (rm.contains(aD[0]))
+                        if (rm.contains(aD[0])) {
                             continue;
-                        else {
+                        } else {
                             d2[pos][0] = aD[0];
                             d2[pos][1] = aD[1];
                             pos++;

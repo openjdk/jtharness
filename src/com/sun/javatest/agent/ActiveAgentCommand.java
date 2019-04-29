@@ -105,15 +105,17 @@ public class ActiveAgentCommand extends Command {
         String[] cmdArgs = new String[args.length - i];
         System.arraycopy(args, i, cmdArgs, 0, cmdArgs.length);
 
-        if (tag == null)
+        if (tag == null) {
             tag = cmdClass;
+        }
 
         try {
             AgentManager mgr = AgentManager.access();
             AgentManager.Task t = mgr.connectToActiveAgent();
 
-            if (classPath != null)
+            if (classPath != null) {
                 t.setClassPath(classPath);
+            }
 
             t.setSharedClassLoader(sharedCl);
             t.setAgentCommandTimeout(timeout);

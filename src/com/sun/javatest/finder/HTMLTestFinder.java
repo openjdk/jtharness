@@ -52,10 +52,14 @@ public class HTMLTestFinder extends TestFinder {
         // if necessary, the tables could be dynamically updated by the
         // init args; this is not currently supported
         excludeList = new Hashtable<>(excludeNames.length);
-        for (String excludeName : excludeNames) excludeList.put(excludeName, excludeName);
+        for (String excludeName : excludeNames) {
+            excludeList.put(excludeName, excludeName);
+        }
 
         extensionTable = new Hashtable<>(extensions.length);
-        for (String extension : extensions) extensionTable.put(extension, extension);
+        for (String extension : extensions) {
+            extensionTable.put(extension, extension);
+        }
     }
 
     @Override
@@ -69,8 +73,9 @@ public class HTMLTestFinder extends TestFinder {
         } else if (args[i].equalsIgnoreCase("-IGNORE-ERRORS")) {
             ignoreErrors = true;
             return 1;
-        } else
+        } else {
             return super.decodeArg(args, i);
+        }
     }
 
     @Override
@@ -91,8 +96,9 @@ public class HTMLTestFinder extends TestFinder {
 
     @Override
     protected void localizedError(String msg) {
-        if (!ignoreErrors)
+        if (!ignoreErrors) {
             super.localizedError(msg);
+        }
     }
 
     /**
@@ -130,15 +136,17 @@ public class HTMLTestFinder extends TestFinder {
 
     @Override
     protected void scan(File file) {
-        if (file.isDirectory())
+        if (file.isDirectory()) {
             scanDirectory(file);
-        else
+        } else {
             scanFile(file);
+        }
     }
 
     private void scanDirectory(File dir) {
-        if (mode == WEB_WALK)
+        if (mode == WEB_WALK) {
             return;
+        }
 
         // scan the contents of the directory, checking for
         // subdirectories and other files that should be scanned
@@ -146,8 +154,9 @@ public class HTMLTestFinder extends TestFinder {
         for (String name : names) {
             // if the file should be ignored, skip it
             // This is typically for directories like SCCS etc
-            if (excludeList.containsKey(name))
+            if (excludeList.containsKey(name)) {
                 continue;
+            }
 
             File file = new File(dir, name);
             if (file.isDirectory()) {
@@ -156,8 +165,9 @@ public class HTMLTestFinder extends TestFinder {
             } else {
                 // if its a file, check its extension
                 int dot = name.lastIndexOf('.');
-                if (dot == -1)
+                if (dot == -1) {
                     continue;
+                }
                 String extn = name.substring(dot);
                 if (extensionTable.containsKey(extn)) {
                     // extension has a comment reader, so add it to the
@@ -203,12 +213,13 @@ public class HTMLTestFinder extends TestFinder {
                             case '/':
                                 nextCh();
                                 tag = scanIdentifier();
-                                if (tag.equals("dl"))
+                                if (tag.equals("dl")) {
                                     endDefList();
-                                else if (tag.equals("td") || tag.equals("th"))
+                                } else if (tag.equals("td") || tag.equals("th")) {
                                     endTableData();
-                                else if (tag.equals("tr") || tag.equals("table"))
+                                } else if (tag.equals("tr") || tag.equals("table")) {
                                     endTableRow();
+                                }
                                 skipTag();
 
                                 if (inTestDescription() && tag.equals(endTestDescriptionTag)) {
@@ -219,22 +230,23 @@ public class HTMLTestFinder extends TestFinder {
 
                             default:
                                 tag = scanIdentifier();
-                                if (tag.equals("a"))
+                                if (tag.equals("a")) {
                                     scanLink(file);
-                                else if (tag.equals("table"))
+                                } else if (tag.equals("table")) {
                                     scanTable(file);
-                                else if (tag.equals("tr"))
+                                } else if (tag.equals("tr")) {
                                     scanTableRow();
-                                else if (tag.equals("td") || tag.equals("th"))
+                                } else if (tag.equals("td") || tag.equals("th")) {
                                     scanTableData();
-                                else if (tag.equals("dl"))
+                                } else if (tag.equals("dl")) {
                                     scanDefList(file);
-                                else if (tag.equals("dt"))
+                                } else if (tag.equals("dt")) {
                                     scanDefTerm();
-                                else if (tag.equals("dd"))
+                                } else if (tag.equals("dd")) {
                                     scanDefData();
-                                else
+                                } else {
                                     skipTag();
+                                }
                         }
                         break;
 
@@ -243,8 +255,9 @@ public class HTMLTestFinder extends TestFinder {
                     case '\t':
                     case '\r':
                     case '\n':
-                        if (text != null && text.length() > 0 && text.charAt(text.length() - 1) != ' ')
+                        if (text != null && text.length() > 0 && text.charAt(text.length() - 1) != ' ') {
                             text.append(' ');
+                        }
                         nextCh();
                         break;
 
@@ -263,30 +276,35 @@ public class HTMLTestFinder extends TestFinder {
                             replace = String.valueOf((char) n);
                         } else {
                             tag = scanIdentifier();
-                            if (tag.equals("lt"))
+                            if (tag.equals("lt")) {
                                 replace = "<";
-                            else if (tag.equals("gt"))
+                            } else if (tag.equals("gt")) {
                                 replace = ">";
-                            else if (tag.equals("amp"))
+                            } else if (tag.equals("amp")) {
                                 replace = "&";
-                            else if (tag.equals("copy"))
+                            } else if (tag.equals("copy")) {
                                 replace = "�";
-                            if (replace == null)
+                            }
+                            if (replace == null) {
                                 replace = "&" + tag + (char) c;
+                            }
                         }
                         if (c != ';') {
-                            if (!Character.isWhitespace((char) c))
+                            if (!Character.isWhitespace((char) c)) {
                                 tag += (char) c;
+                            }
                             error(i18n, "html.badEscape", tag, file);
                         }
-                        if (text != null)
+                        if (text != null) {
                             text.append(replace);
+                        }
                         nextCh();
                         break;
 
                     default:
-                        if (text != null)
+                        if (text != null) {
                             text.append((char) c);
+                        }
                         nextCh();
                 }
             }
@@ -316,8 +334,9 @@ public class HTMLTestFinder extends TestFinder {
 
     private void nextCh() throws IOException {
         c = input.read();
-        if (c == '\n')
+        if (c == '\n') {
             line++;
+        }
     }
 
     private boolean inTestDescription() {
@@ -329,8 +348,9 @@ public class HTMLTestFinder extends TestFinder {
     // detect test descriptions in tables
 
     private void scanTable(File context) throws IOException {
-        if (debug)
+        if (debug) {
             System.err.println("scanning table starting in line " + line);
+        }
 
         String id = lastName; // default
         skipSpace();
@@ -341,12 +361,14 @@ public class HTMLTestFinder extends TestFinder {
             if (att.equals("class") && "TestDescription".equals(value)) {
                 params = new Hashtable<>();
                 endTestDescriptionTag = "table";
-            } else if (att.equals("id"))
+            } else if (att.equals("id")) {
                 id = value;
+            }
         }
         nextCh();
-        if (params != null && id != null)
+        if (params != null && id != null) {
             processEntry(params, "id", id);
+        }
     }
 
     private void scanTableRow() throws IOException {
@@ -361,8 +383,9 @@ public class HTMLTestFinder extends TestFinder {
         if (params != null && tableRow != null) {
             // ensure any outstanding <td> is closed
             endTableData();
-            if (tableRow.size() == 2)
+            if (tableRow.size() == 2) {
                 processEntry(params, tableRow.get(0), tableRow.get(1));
+            }
             tableRow = null;
         }
     }
@@ -378,8 +401,9 @@ public class HTMLTestFinder extends TestFinder {
 
     private void endTableData() {
         if (params != null && tableRow != null && text != null) {
-            while (text.length() > 0 && text.charAt(text.length() - 1) == ' ')
+            while (text.length() > 0 && text.charAt(text.length() - 1) == ' ') {
                 text.setLength(text.length() - 1);
+            }
             tableRow.add(new String(text));
             text = null;
         }
@@ -400,20 +424,23 @@ public class HTMLTestFinder extends TestFinder {
             if (att.equals("class") && "TestDescription".equals(value)) {
                 params = new Hashtable<>();
                 endTestDescriptionTag = "dl";
-            } else if (att.equals("id"))
+            } else if (att.equals("id")) {
                 id = value;
+            }
         }
         nextCh();
-        if (params != null && id != null)
+        if (params != null && id != null) {
             processEntry(params, "id", id);
+        }
     }
 
     private void scanDefTerm() throws IOException {
         skipTag();
         if (params != null) {
             if (defTerm != null && text != null) {
-                while (text.length() > 0 && text.charAt(text.length() - 1) == ' ')
+                while (text.length() > 0 && text.charAt(text.length() - 1) == ' ') {
                     text.setLength(text.length() - 1);
+                }
                 String defData = new String(text);
                 processEntry(params, defTerm, defData);
             }
@@ -425,8 +452,9 @@ public class HTMLTestFinder extends TestFinder {
     private void scanDefData() throws IOException {
         skipTag();
         if (params != null && text != null) {
-            while (text.length() > 0 && text.charAt(text.length() - 1) == ' ')
+            while (text.length() > 0 && text.charAt(text.length() - 1) == ' ') {
                 text.setLength(text.length() - 1);
+            }
             defTerm = new String(text);
             text = new StringBuffer();
         }
@@ -435,8 +463,9 @@ public class HTMLTestFinder extends TestFinder {
     private void endDefList() {
         if (params != null) {
             if (defTerm != null && text != null) {
-                while (text.length() > 0 && text.charAt(text.length() - 1) == ' ')
+                while (text.length() > 0 && text.charAt(text.length() - 1) == ' ') {
                     text.setLength(text.length() - 1);
+                }
                 String defData = new String(text);
                 processEntry(params, defTerm, defData);
             }
@@ -465,10 +494,11 @@ public class HTMLTestFinder extends TestFinder {
             } else if (c == '-') {  // needed for <META HTTP-EQUIV ....>
                 buf.append((char) c);
                 nextCh();
-            } else if (buf.length() == 0)
+            } else if (buf.length() == 0) {
                 throw new IOException("Identifier expected");
-            else
+            } else {
                 return buf.toString();
+            }
         }
     }
 
@@ -485,16 +515,18 @@ public class HTMLTestFinder extends TestFinder {
                     !value.startsWith("../")) {     // no backing up the tree
                 // remove trailing #ref, if any
                 int refStart = value.lastIndexOf('#');
-                if (refStart != -1)
+                if (refStart != -1) {
                     value = value.substring(0, refStart);
+                }
 
                 // strip trailing whitespace
                 value = value.trim();
 
                 File file = new File(context.getParent(), value.replace('/', File.separatorChar));
                 String f = file.getPath();
-                if (f.endsWith(".html") || f.endsWith(".htm"))
+                if (f.endsWith(".html") || f.endsWith(".htm")) {
                     foundFile(file);
+                }
             }
             if (att.equals("name")) {
                 lastName = value;
@@ -513,8 +545,9 @@ public class HTMLTestFinder extends TestFinder {
 
     private String scanValue() throws IOException {
         skipSpace();
-        if (c != '=')
+        if (c != '=') {
             return "";
+        }
 
         int quote = -1;
         nextCh();
@@ -535,8 +568,9 @@ public class HTMLTestFinder extends TestFinder {
             buf.append((char) c);
             nextCh();
         }
-        if (c == quote)
+        if (c == quote) {
             nextCh();
+        }
         skipSpace();
         return buf.toString();
     }
@@ -547,10 +581,11 @@ public class HTMLTestFinder extends TestFinder {
         int numHyphens = 0;
         //System.out.print("SKIPCOMMENT: <!--" + (char)c);
         while (c != -1 && (numHyphens < 2 || c != '>')) {
-            if (c == '-')
+            if (c == '-') {
                 numHyphens++;
-            else
+            } else {
                 numHyphens = 0;
+            }
             nextCh();
             //System.out.print((char)c);
         }
@@ -568,8 +603,9 @@ public class HTMLTestFinder extends TestFinder {
         skipSpace();
         while (c != '>') {
             String att = scanIdentifier();
-            if (Objects.equals(att, ""))
+            if (Objects.equals(att, "")) {
                 throw new IOException("error parsing HTML input");
+            }
             String value = scanValue();
             skipSpace();
         }

@@ -171,8 +171,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 resyncThread.halt();
             }
 
-            if (mod != null)
+            if (mod != null) {
                 mod.reset();
+            }
         } // sync
 
         validateEnableState();
@@ -240,8 +241,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 // setEmpty(true);
             } else {
             }
-        } else
+        } else {
             throw new IllegalStateException();
+        }
     }
 
     /**
@@ -269,8 +271,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                     // data
                     // live though
                     for (int j = 0; j < newData[state].size() - 1; j++) {
-                        if (stopping)
+                        if (stopping) {
                             break;
+                        }
 
                         if (sortingRequested) {
                             mod.sortTests(mod.liveData, mod.SORTING_COLUMN,
@@ -439,10 +442,11 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
 
         @Override
         public String getColumnName(int columnIndex) {
-            if (columnIndex >= colNames.length)
+            if (columnIndex >= colNames.length) {
                 throw new IndexOutOfBoundsException();
-            else
+            } else {
                 return columnIndex == 0 ? colNames[0] : uif.getI18NString("br.runtime.show.status.mit");
+            }
         }
 
         @Override
@@ -453,16 +457,19 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                 }
             } else if (column == 1) {
                 synchronized (liveData) {
-                    if (liveData.get(row) instanceof TestResult)
+                    if (liveData.get(row) instanceof TestResult) {
                         return getSelectedProperty(liveData.get(row));
-                    else
-                        // should not happen
+                    } else
+                    // should not happen
+                    {
                         return uif.getI18NString("br.list.notAvailable.txt");
+                    }
                 }
-            } else
+            } else {
                 throw new IndexOutOfBoundsException(
                         "Index into filtered out table is out of range: " + row
                                 + ", " + column);
+            }
         }
 
         @Override
@@ -478,8 +485,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
         void addTest(TestResult tr, boolean suppressNotify) {
             synchronized (vLock) {
                 // make sure this item is not already in the list
-                if (!inQueue.contains(tr) && !liveData.contains(tr))
+                if (!inQueue.contains(tr) && !liveData.contains(tr)) {
                     inQueue.add(tr);
+                }
             } // sync
 
             // try not to saturate the GUI event thread
@@ -538,13 +546,13 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
 
         private String getSelectedProperty(TestResult tst) {
             try {
-                if (show.equals("title"))
+                if (show.equals("title")) {
                     return tst.getDescription().getTitle();
-                else if (show.equals("keywords")) {
+                } else if (show.equals("keywords")) {
                     String[] s = tst.getDescription().getKeywords();
-                    if (s.length == 0)
+                    if (s.length == 0) {
                         return uif.getI18NString("br.list.noKeywords.txt");
-                    else {
+                    } else {
                         StringBuilder sb = new StringBuilder();
                         for (String value : s) {
                             sb.append(value);
@@ -587,14 +595,15 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
 
             o = new Object[v.size()];
 
-            if (SORTING_COLUMN == 0)
+            if (SORTING_COLUMN == 0) {
                 o = v.toArray();
-            else if (SORTING_COLUMN == 1) {
+            } else if (SORTING_COLUMN == 1) {
                 for (int i = 0; i < v.size(); i++) {
-                    if (v.get(i) instanceof TestResult)
+                    if (v.get(i) instanceof TestResult) {
                         o[i] = getSelectedProperty(v.get(i));
-                    else
+                    } else {
                         o[i] = ""; // should not happen
+                    }
                 }
             } else {
                 throw new JavaTestError("Internal error: invalid "
@@ -613,16 +622,20 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             int[] aaa = new int[v.size()];
             for (int i = 0; i < rows.length; i++) {
                 if (mode) // ascending
+                {
                     aaa[i] = rows[i].index;
-                else
-                    // descending
+                } else
+                // descending
+                {
                     aaa[i] = rows[rows.length - i - 1].index;
+                }
             }
 
             Vector<TestResult> temp = new Vector<>(v.size());
 
-            for (int i = 0; i < v.size(); i++)
+            for (int i = 0; i < v.size(); i++) {
                 temp.add(v.get(aaa[i]));
+            }
 
             return temp;
         }
@@ -652,15 +665,17 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
          */
         private void goLive() {
             int firstNew, lastNew = 0;
-            if (debug)
+            if (debug) {
                 Debug.println("BP_TL.TLM - goLive() starting.");
+            }
             // this is sync. against the outer class because we may change the
             // list model object during execution of this block
             synchronized (BP_TestListSubpanel.this) {
                 synchronized (vLock) {
                     if (inQueue.isEmpty() && rmQueue.isEmpty()) {
-                        if (debug)
+                        if (debug) {
                             Debug.println("BP_TT.TTM - goLive() nothing to do, returning");
+                        }
                         return;
                     }
 
@@ -725,13 +740,15 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                      */
 
                     // this clears the "please wait" message if needed
-                    if (table.getSelectedRow() == -1 && inQueue.isEmpty())
+                    if (table.getSelectedRow() == -1 && inQueue.isEmpty()) {
                         showMessage("");
+                    }
                 } // sync
             }
 
-            if (debug)
+            if (debug) {
                 Debug.println("BP_TL.LT - goLive() finished");
+            }
         }
 
         /**
@@ -739,8 +756,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
          * data. vLock should be locked when you call this method
          */
         private void processRemoveQueue() {
-            if (rmQueue.isEmpty())
+            if (rmQueue.isEmpty()) {
                 return;
+            }
 
             while (!rmQueue.isEmpty()) {
                 TestResult target = rmQueue.remove(0);
@@ -754,8 +772,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                         targetIndex = liveData.indexOf(target);
 
                         // only should happen if the item disappears
-                        if (targetIndex == -1)
+                        if (targetIndex == -1) {
                             continue;
+                        }
 
                         liveData.remove(targetIndex);
 
@@ -943,8 +962,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             tm.pendingEvents.remove(this);
 
             // this message has been cancelled
-            if (!isValid)
+            if (!isValid) {
                 return;
+            }
 
             if (tme == null) {
                 // consume the update event
@@ -994,18 +1014,18 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                     Object[] toPurge = new Object[rows.length];
                     for (int i = 0; i < rows.length; i++) {
                         Object item = table.getValueAt(rows[i], 0);
-                        if (item instanceof TestResult)
+                        if (item instanceof TestResult) {
                             toPurge[i] = ((TestResult) item).getWorkRelativePath();
-                        else {
+                        } else {
                         } // should not happen
                     } // for
 
                     int confirm = uif.showYesNoDialog("treep.purgeItemsSure",
                             TestTreePanel.createNodeListString(TestTreePanel.createNodeList(toPurge)));
                     // user backs out
-                    if (confirm == JOptionPane.NO_OPTION)
+                    if (confirm == JOptionPane.NO_OPTION) {
                         return;
-                    else {
+                    } else {
                         // this block is intended to do the following:
                         // - disable menu items
                         // - start purge on background thread
@@ -1027,7 +1047,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                                 for (int row : rows) {
                                     try {
                                         // this may take a long while...
-                                        for (String aFinalList : finalList) wd.purge(aFinalList);
+                                        for (String aFinalList : finalList) {
+                                            wd.purge(aFinalList);
+                                        }
                                     } // try
                                     catch (Throwable throwable) {
                                         // print something in log...
@@ -1040,8 +1062,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                                             EventQueue.invokeAndWait(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    if (d.isShowing())
+                                                    if (d.isShowing()) {
                                                         d.hide();
+                                                    }
                                                     // enable all menu
                                                     // items
                                                     // setPopupItemsEnabled(true);
@@ -1058,9 +1081,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                             @Override
                             public void actionPerformed(ActionEvent evt) {
                                 // show dialog if still processing
-                                if (t == null)
+                                if (t == null) {
                                     return;
-                                else if (t.isAlive() && !d.isVisible()) {
+                                } else if (t.isAlive() && !d.isVisible()) {
                                     d.show();
                                 } else if (!t.isAlive() && d.isVisible()) {
                                     // just in case...a watchdog type check
@@ -1100,8 +1123,10 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                                     rows[i], 0);
                             result[i] = r.getTestName();
                         } else
-                            // should not happen
+                        // should not happen
+                        {
                             result[i] = table.getValueAt(rows[i], 0).toString();
+                        }
                     } // for
 
                     execModel.runTests(result);
@@ -1125,8 +1150,10 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                                     rows[i], 0);
                             result[i] = r.getTestName();
                         } else
-                            // should not happen
+                        // should not happen
+                        {
                             result[i] = table.getValueAt(rows[i], 0).toString();
+                        }
                     } // for
 
                     StringSelection payload = null;
@@ -1141,8 +1168,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                         Toolkit.getDefaultToolkit().getSystemClipboard().
                                 setContents(payload, null);
                         Clipboard selection = Toolkit.getDefaultToolkit().getSystemSelection();
-                        if (selection != null)
+                        if (selection != null) {
                             selection.setContents(payload, null);
+                        }
                     }
 
                 } else { // now rows selected
@@ -1265,14 +1293,16 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
             int row = table.getSelectedRow();
 
             // nothing selected, ignore event
-            if (row < 0)
+            if (row < 0) {
                 return;
+            }
 
             Object target = table.getModel().getValueAt(row, 0);
 
             // this shouldn't be the case...
-            if (!(target instanceof TestResult))
+            if (!(target instanceof TestResult)) {
                 return;
+            }
 
             TestResult tr = (TestResult) target;
             showTest(tr);
@@ -1280,15 +1310,17 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
 
         @Override
         public Object getValue(String key) {
-            if (key == null)
+            if (key == null) {
                 throw new NullPointerException();
+            }
 
-            if (key.equals(NAME))
+            if (key.equals(NAME)) {
                 return name;
-            else if (key.equals(SHORT_DESCRIPTION))
+            } else if (key.equals(SHORT_DESCRIPTION)) {
                 return desc;
-            else
+            } else {
                 return null;
+            }
         }
 
         private String name;
@@ -1306,7 +1338,9 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                                                        Object value, boolean isSelected, boolean hasFocus, int row,
                                                        int column) {
             if (value == null) // very strange...
+            {
                 return this;
+            }
 
             if (value instanceof TestResult) {
                 TestResult tr = (TestResult) value;

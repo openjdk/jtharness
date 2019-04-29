@@ -310,8 +310,9 @@ public class InterviewEditor extends ToolDialog {
     private File chooseConfigFile() {
         File mainConfigFile = mainConfig.getFile();
         FileChooser fileChooser = getFileChooser();
-        if (mainConfigFile != null)
+        if (mainConfigFile != null) {
             fileChooser.setCurrentDirectory(mainConfigFile.getParentFile());
+        }
         return loadConfigFile(getContextManager(), parent, uif, fileChooser);
     }
 
@@ -326,8 +327,9 @@ public class InterviewEditor extends ToolDialog {
         }
         try {
             viewConfig.load(file);
-            if (currView != null && currView.isShowing())
+            if (currView != null && currView.isShowing()) {
                 currView.load();
+            }
             addToHistory(file);
             updateTitle();
             notifyObservers();
@@ -364,8 +366,9 @@ public class InterviewEditor extends ToolDialog {
             File mainConfigFile = mainConfig.getFile();
             File mainConfigDir = mainConfigFile == null ? null : mainConfigFile.getParentFile();
             file = getSaveFile(mainConfigDir);
-            if (file == null)
+            if (file == null) {
                 return false; // exit without saving
+            }
         }
 
         try {
@@ -381,12 +384,13 @@ public class InterviewEditor extends ToolDialog {
 
             return true;
         } catch (IOException e) {
-            if (!file.canWrite())
+            if (!file.canWrite()) {
                 uif.showError("ce.save.cantWriteFile", file);
-            else if (e instanceof FileNotFoundException)
+            } else if (e instanceof FileNotFoundException) {
                 uif.showError("ce.save.cantFindFile", file);
-            else
+            } else {
                 uif.showError("ce.save.error", file, e);
+            }
         } catch (Interview.Fault e) {
             uif.showError("ce.save.error", file, e.getMessage());
         }
@@ -441,17 +445,20 @@ public class InterviewEditor extends ToolDialog {
     }
 
     public void revert() {
-        if (!isEdited())
+        if (!isEdited()) {
             return;
+        }
 
         int rc = uif.showOKCancelDialog("ce.revert.warn");
-        if (rc != JOptionPane.OK_OPTION)
+        if (rc != JOptionPane.OK_OPTION) {
             return;
+        }
 
         try {
             copy(mainConfig, viewConfig);
-            if (currView != null && currView.isShowing())
+            if (currView != null && currView.isShowing()) {
                 currView.load();
+            }
             updateTitle();
         } catch (Interview.Fault e) {
             uif.showError("ce.revert", e.getMessage());
@@ -467,8 +474,9 @@ public class InterviewEditor extends ToolDialog {
     }
 
     public void show() {
-        if (stdView == null)
+        if (stdView == null) {
             initGUI();
+        }
 
         show(DEFAULT_MODE);
     }
@@ -583,8 +591,9 @@ public class InterviewEditor extends ToolDialog {
     }
 
     private void setView(CE_View newView) {
-        if (newView == null)
+        if (newView == null) {
             throw new NullPointerException();
+        }
 
         if (currView != null && currView == newView) {
             currView.load();
@@ -611,8 +620,9 @@ public class InterviewEditor extends ToolDialog {
                 Container fcr = currView.isFocusCycleRoot() ? currView : currView.getFocusCycleRootAncestor();
                 FocusTraversalPolicy ftp = fcr.getFocusTraversalPolicy();
                 Component c = ftp.getDefaultComponent(fcr);
-                if (c != null)
+                if (c != null) {
                     c.requestFocusInWindow();
+                }
             }
 
             boolean currIsFull = currView == fullView;
@@ -621,8 +631,9 @@ public class InterviewEditor extends ToolDialog {
             (currIsFull ? viewFullBtn : viewStdBtn).setSelected(true);
             viewTagCheckBox.setEnabled(currIsFull);
 
-            if (detailsBrowser != null)
+            if (detailsBrowser != null) {
                 detailsBrowser.setQuestionInfoEnabled(currIsFull);
+            }
 
             updateTitle();
         }
@@ -663,11 +674,13 @@ public class InterviewEditor extends ToolDialog {
 
 
     private void close(boolean checkIfEdited) {
-        if (currView == null)
+        if (currView == null) {
             return;
+        }
 
-        if (!isShowing())
+        if (!isShowing()) {
             return;
+        }
 
         if (checkIfEdited && isEdited()) {
             int rc = uif.showYesNoCancelDialog("ce.close.warn");
@@ -713,15 +726,17 @@ public class InterviewEditor extends ToolDialog {
     }
 
     public void setCheckExcludeListListener(ActionListener l) {
-        if (stdView == null)
+        if (stdView == null) {
             initGUI();
+        }
 
         stdView.setCheckExcludeListListener(l);
     }
 
     boolean isCurrentQuestionChanged() {
-        if (currView != null && currView.isShowing())
+        if (currView != null && currView.isShowing()) {
             currView.save();
+        }
 
         Question mq = mainConfig.getCurrentQuestion();
         Question vq = viewConfig.getCurrentQuestion();
@@ -730,8 +745,9 @@ public class InterviewEditor extends ToolDialog {
 
 
     boolean isEdited() {
-        if (currView != null && currView.isShowing())
+        if (currView != null && currView.isShowing()) {
             currView.save();
+        }
 
         return !equal(mainConfig, viewConfig);
     }
@@ -928,9 +944,10 @@ public class InterviewEditor extends ToolDialog {
         // Instead, register it on views and infoPanel
         views.registerKeyboardAction(listener, DETAILS, detailsKey,
                 JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        if (infoPanel != null)
+        if (infoPanel != null) {
             infoPanel.registerKeyboardAction(listener, DETAILS, detailsKey,
                     JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        }
 
         setBody(body);
 
@@ -1037,21 +1054,25 @@ public class InterviewEditor extends ToolDialog {
 
     private void setInfoVisible(boolean b) {
         // verify there is an infoPanel to be made visible
-        if (infoPanel == null)
+        if (infoPanel == null) {
             throw new IllegalStateException();
+        }
 
         // check if already set as desired
-        if (b == isInfoVisible())
+        if (b == isInfoVisible()) {
             return;
+        }
 
         // get dimensions of views and info panel
         Dimension viewsSize = views.getSize();
-        if (viewsSize.width == 0)
+        if (viewsSize.width == 0) {
             viewsSize = views.getPreferredSize();
+        }
 
         Dimension infoSize = infoPanel.getSize();
-        if (infoSize.width == 0)
+        if (infoSize.width == 0) {
             infoSize = infoPanel.getPreferredSize();
+        }
 
 
         if (b) {
@@ -1083,50 +1104,55 @@ public class InterviewEditor extends ToolDialog {
     private void showInfoForQuestion(Question q) {
         HelpID helpId = Help.getHelpID(q);
         // uugh
-        if (helpId == null)
+        if (helpId == null) {
             System.err.println("WARNING: no help for " + q.getKey());
-        else
+        } else {
             infoPanel.setCurrentID(helpId);
+        }
     }
 
 
     private CE_View getDefaultView() {
-        if (currView != null)
+        if (currView != null) {
             return currView;
+        }
         Preferences p = Preferences.access();
         String prefView = p.getPreference(VIEW_PREF, CE_View.FULL);
-        if (prefView.equals(CE_View.STD))
+        if (prefView.equals(CE_View.STD)) {
             return stdView;
-        else
+        } else {
             return fullView;
+        }
     }
 
     protected void perform(String cmd) {
-        if (cmd.equals(NEW))
+        if (cmd.equals(NEW)) {
             newConfigAsk();
-        else if (cmd.equals(LOAD))
+        } else if (cmd.equals(LOAD)) {
             loadConfigAsk();
+        }
 /*
         else if (cmd.equals(LOADT))
             load(true);
         else if (cmd.equals(NEWT))
             clear(true);
  */
-        else if (cmd.equals(SAVE))
+        else if (cmd.equals(SAVE)) {
             save();
-        else if (cmd.equals(SAVE_AS))
+        } else if (cmd.equals(SAVE_AS)) {
             saveAs();
-        else if (cmd.equals(REVERT))
+        } else if (cmd.equals(REVERT)) {
             revert();
-        else if (cmd.equals(CE_View.FULL))
+        } else if (cmd.equals(CE_View.FULL)) {
             show(fullView);
-        else if (cmd.equals(CE_View.STD))
+        } else if (cmd.equals(CE_View.STD)) {
             show(stdView);
-        else if (cmd.equals(CLOSE)) {
+        } else if (cmd.equals(CLOSE)) {
             close();
         } else if (cmd.equals(DONE)) {
-            if (currView != null && !currView.isOKToClose())
+            if (currView != null && !currView.isOKToClose()) {
                 return;
+            }
 
             if (!canInterruptTemplateCreation() && !viewConfig.isFinishable()) {
                 uif.showError("ce.force_close");
@@ -1137,12 +1163,14 @@ public class InterviewEditor extends ToolDialog {
             if (!viewConfig.isFinishable()) {
                 Integer rp = Integer.valueOf(runPending ? 1 : 0);
                 int rc = uif.showOKCancelDialog("ce.okToClose", rp);
-                if (rc != JOptionPane.OK_OPTION)
+                if (rc != JOptionPane.OK_OPTION) {
                     return;
+                }
             }
 
-            if (isEdited() || isCurrentQuestionChanged())
+            if (isEdited() || isCurrentQuestionChanged()) {
                 saveRequired = true;
+            }
 
             if (saveRequired) {
                 if (!save0()) {
@@ -1156,8 +1184,9 @@ public class InterviewEditor extends ToolDialog {
 
             close(false);
         } else if (cmd.equals(REFRESH)) {
-            if (currView != null)
+            if (currView != null) {
                 currView.refresh();
+            }
         } else if (cmd.equals(DETAILS)) {
             if (detailsBrowser == null) {
                 detailsBrowser = new DetailsBrowser(body, viewConfig, infoPanel);
@@ -1165,8 +1194,9 @@ public class InterviewEditor extends ToolDialog {
             }
 
             detailsBrowser.setVisible(true);
-        } else
+        } else {
             throw new IllegalArgumentException(cmd);
+        }
     }
 
     private boolean canInterruptTemplateCreation() {
@@ -1196,8 +1226,9 @@ public class InterviewEditor extends ToolDialog {
         to.load(data, false);
         to.setTemplate(from.isTemplate());
 
-        if (copyFile)
+        if (copyFile) {
             to.setFile(from.getFile());
+        }
         if (debug) {
             Debug.println("InterviewEditor: equal(b,a) " + equal(to, from));
         }
@@ -1226,28 +1257,32 @@ public class InterviewEditor extends ToolDialog {
      */
 
     public static File checkLoadConfigFileDefaults(ContextManager cm) {
-        if (cm == null)
+        if (cm == null) {
             return null;
+        }
 
         File defaultConfigLoadPath = cm.getDefaultConfigLoadPath();
         boolean allowConfigLoadOutsideDefault = cm.getAllowConfigLoadOutsideDefault();
 
-        if (defaultConfigLoadPath == null && !allowConfigLoadOutsideDefault)
+        if (defaultConfigLoadPath == null && !allowConfigLoadOutsideDefault) {
             throw new IllegalArgumentException("Default directory not specified for " +
                     "load operation when allowConfigLoadOutsideDefault is false");
+        }
 
         if (defaultConfigLoadPath != null) {
-            if (!defaultConfigLoadPath.isAbsolute())
+            if (!defaultConfigLoadPath.isAbsolute()) {
                 throw new IllegalArgumentException("Relative paths not " +
                         "currently supported. The following setting is incorrect: " +
                         "\"" + defaultConfigLoadPath.getPath() + "\" selected for " +
                         "load operation");
+            }
 
-            if (defaultConfigLoadPath.isFile())
+            if (defaultConfigLoadPath.isFile()) {
                 throw new IllegalArgumentException("Filename selected unexpectedly " +
                         "as a default directory: " +
                         "\"" + defaultConfigLoadPath.getPath() + "\" for " +
                         "load operation");
+            }
         }
 
         return defaultConfigLoadPath;
@@ -1282,8 +1317,9 @@ public class InterviewEditor extends ToolDialog {
 
     static File loadConfigFile(ContextManager cm, Component parent, UIFactory uif, FileChooser fileChooser) {
 
-        if (cm == null)
+        if (cm == null) {
             return null;
+        }
 
         File defaultConfigLoadPath = checkLoadConfigFileDefaults(cm);
         boolean allowConfigLoadOutsideDefault = cm.getAllowConfigLoadOutsideDefault();
@@ -1299,8 +1335,9 @@ public class InterviewEditor extends ToolDialog {
                     return null;
                 }
                 fileChooser.enableDirectories(false);
-            } else
+            } else {
                 fileChooser.enableDirectories(true);
+            }
             fileChooser.setCurrentDirectory(defaultConfigLoadPath);
         }
 
@@ -1308,14 +1345,16 @@ public class InterviewEditor extends ToolDialog {
 
         while (file == null) {
             int rc = fileChooser.showDialog(parent, uif.getI18NString("ce.load.btn"));
-            if (rc != JFileChooser.APPROVE_OPTION)
+            if (rc != JFileChooser.APPROVE_OPTION) {
                 return null;
+            }
 
             file = fileChooser.getSelectedFile();
 
             if (!allowConfigLoadOutsideDefault) {
-                if (defaultConfigLoadPath == null)
+                if (defaultConfigLoadPath == null) {
                     return null;
+                }
 
                 File f = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf(File.separator)));
 
@@ -1343,8 +1382,9 @@ public class InterviewEditor extends ToolDialog {
             if (ext == null) {
                 ext = CONFIG_EXTENSION;
             }
-            if (!path.endsWith(ext))
+            if (!path.endsWith(ext)) {
                 file = new File(path + ext);
+            }
         }
 
         return file;
@@ -1380,8 +1420,9 @@ public class InterviewEditor extends ToolDialog {
 
     static File saveConfigFile(ContextManager cm, Component parent, UIFactory uif, FileChooser fileChooser, File dir,
                                boolean isTemplate) {
-        if (cm == null)
+        if (cm == null) {
             return null;
+        }
 
         File defaultSavePath;
         if (isTemplate) {
@@ -1397,22 +1438,25 @@ public class InterviewEditor extends ToolDialog {
         }
 
 
-        if (defaultSavePath == null && !allowSaveOutsideDefault)
+        if (defaultSavePath == null && !allowSaveOutsideDefault) {
             throw new IllegalArgumentException("Default directory not specified for " +
                     "save operation when allowConfigSaveOutsideDefault is false");
+        }
 
         if (defaultSavePath != null) {
-            if (!defaultSavePath.isAbsolute())
+            if (!defaultSavePath.isAbsolute()) {
                 throw new IllegalArgumentException("Relative paths not " +
                         "currently supported. The following setting is incorrect: " +
                         "\"" + defaultSavePath.getPath() + "\" selected for " +
                         "save operation");
+            }
 
-            if (defaultSavePath.isFile())
+            if (defaultSavePath.isFile()) {
                 throw new IllegalArgumentException("Filename selected unexpectedly " +
                         "as a default directory: " +
                         "\"" + defaultSavePath.getPath() + "\" for " +
                         "save operation");
+            }
 
             if (!allowSaveOutsideDefault) {
                 if (!defaultSavePath.canWrite()) {
@@ -1420,12 +1464,14 @@ public class InterviewEditor extends ToolDialog {
                     return null;
                 }
                 fileChooser.enableDirectories(false);
-            } else
+            } else {
                 fileChooser.enableDirectories(true);
+            }
 
             fileChooser.setCurrentDirectory(defaultSavePath);
-        } else if (dir != null)
+        } else if (dir != null) {
             fileChooser.setCurrentDirectory(dir);
+        }
 
         File file = null;
         boolean isMatch = true;
@@ -1433,18 +1479,23 @@ public class InterviewEditor extends ToolDialog {
         while (file == null) {
             int rc = fileChooser.showDialog(parent, uif.getI18NString("ce.save.btn"));
             if (rc != JFileChooser.APPROVE_OPTION)
-                // user has canceled or closed the chooser
+            // user has canceled or closed the chooser
+            {
                 return null;
+            }
 
             file = fileChooser.getSelectedFile();
             if (file == null) // just making sure
+            {
                 continue;
+            }
 
             File f = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf(File.separator)));
 
             if (!allowSaveOutsideDefault) {
-                if (defaultSavePath == null)
+                if (defaultSavePath == null) {
                     return null;
+                }
 
                 try {
                     isMatch = defaultSavePath.getCanonicalPath().equals(f.getCanonicalPath());
@@ -1495,8 +1546,9 @@ public class InterviewEditor extends ToolDialog {
             if (!file.exists()) {
                 String path = file.getPath();
                 String ext = fileChooser.getChosenExtension();
-                if (ext != null && !path.endsWith(ext))
+                if (ext != null && !path.endsWith(ext)) {
                     file = new File(path + ext);
+                }
             }
 
             // if file exists, make sure user wants to overwrite it
@@ -1618,10 +1670,11 @@ public class InterviewEditor extends ToolDialog {
         @Override
         public void stateChanged(ChangeEvent e) {
             Object src = e.getSource();
-            if (src == viewInfoCheckBox && infoPanel != null)
+            if (src == viewInfoCheckBox && infoPanel != null) {
                 setInfoVisible(viewInfoCheckBox.isSelected());
-            else if (src == viewTagCheckBox)
+            } else if (src == viewTagCheckBox) {
                 fullView.setTagVisible(viewTagCheckBox.isSelected());
+            }
         }
 
         // ---------- from MenuListener -----------
@@ -1629,8 +1682,9 @@ public class InterviewEditor extends ToolDialog {
         @Override
         public void menuSelected(MenuEvent e) {
             Object src = e.getSource();
-            if (src == viewMenu)
+            if (src == viewMenu) {
                 viewTagCheckBox.setSelected(fullView.isTagVisible());
+            }
         }
 
         @Override

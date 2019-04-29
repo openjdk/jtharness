@@ -83,8 +83,9 @@ public class ProcessCommand extends Command {
     public void setStatusForExit(int exitCode, Status status) {
         if (statusTable == null) {
             statusTable = new Hashtable<>();
-            if (defaultStatus == null)
+            if (defaultStatus == null) {
                 defaultStatus = Status.error("unrecognized exit code");
+            }
         }
         statusTable.put(Integer.valueOf(exitCode), status);
     }
@@ -101,8 +102,9 @@ public class ProcessCommand extends Command {
      *               has not been set for a particular process exit code.
      */
     public void setDefaultStatus(Status status) {
-        if (statusTable == null)
+        if (statusTable == null) {
             statusTable = new Hashtable<>();
+        }
         defaultStatus = status;
     }
 
@@ -135,10 +137,11 @@ public class ProcessCommand extends Command {
     private void setStatus(String exitSpec, Status status) {
         // for now, we just support "default" and <integer>
         // in principle we could support ranges and lists too
-        if (exitSpec.equals("default"))
+        if (exitSpec.equals("default")) {
             setDefaultStatus(status);
-        else
+        } else {
             setStatusForExit(Integer.parseInt(exitSpec), status);
+        }
     }
 
     /**
@@ -207,9 +210,9 @@ public class ProcessCommand extends Command {
         // analyze options
         int i = 0;
         for (; i < args.length && args[i].startsWith("-"); i++) {
-            if (args[i].equals("-v"))
+            if (args[i].equals("-v")) {
                 verbose = true;
-            else if (args[i].equals("-execDir") && i + 1 < args.length) {
+            } else if (args[i].equals("-execDir") && i + 1 < args.length) {
                 execDir = new File(args[++i]);
             } else if (args[i].equals("-pass") && i + 2 < args.length) {
                 setStatus(args[++i], Status.passed(args[++i]));
@@ -224,20 +227,23 @@ public class ProcessCommand extends Command {
                 // env var or command beginning with -
                 i++;  // because the for-loop won't get a chance to do it
                 break;
-            } else
+            } else {
                 return Status.error("Unrecognized option: " + args[i]);
+            }
         }
 
         // get environment variables for command
         int cmdEnvStart = i;
-        while (i < args.length && (args[i].indexOf('=') != -1))
+        while (i < args.length && (args[i].indexOf('=') != -1)) {
             i++;
+        }
         String[] cmdEnv = new String[i - cmdEnvStart];
         System.arraycopy(args, cmdEnvStart, cmdEnv, 0, cmdEnv.length);
 
         // get command name
-        if (i == args.length)
+        if (i == args.length) {
             return Status.error("no command specified for " + getClass().getName());
+        }
 
         String[] cmd = new String[args.length - i];
         System.arraycopy(args, i, cmd, 0, cmd.length);
@@ -306,10 +312,13 @@ public class ProcessCommand extends Command {
                     log.println("Command environment is empty");
                 } else {
                     log.println("Command environment is:");
-                    for (String aCmdEnv : cmdEnv) log.println(aCmdEnv);
+                    for (String aCmdEnv : cmdEnv) {
+                        log.println(aCmdEnv);
+                    }
                 }
-                if (execDir != null)
+                if (execDir != null) {
                     log.println("Execution directory is " + execDir);
+                }
             }
 
             Runtime r = Runtime.getRuntime();
@@ -323,8 +332,9 @@ public class ProcessCommand extends Command {
             logConnector.start();
 
             OutputStream out = p.getOutputStream();  // input stream to process
-            if (out != null)
+            if (out != null) {
                 out.close();
+            }
 
             // wait for the stream copiers to complete (which may be interrupted by the
             // timeout thread
@@ -341,8 +351,9 @@ public class ProcessCommand extends Command {
 
             return getStatus(exitCode, logConnector.exitStatus());
         } catch (InterruptedException e) {
-            if (p != null)
+            if (p != null) {
                 p.destroy();
+            }
             String msg = "Program `" + cmd[0] + "' interrupted! (timed out?)";
             s = useFailedOnException ? Status.failed(msg) : Status.error(msg);
         } catch (IOException e) {
@@ -385,15 +396,16 @@ public class ProcessCommand extends Command {
      * otherwise.
      **/
     protected Status getStatus(int exitCode, Status logStatus) {
-        if (logStatus != null)
+        if (logStatus != null) {
             return logStatus;
-        else if (statusTable != null) {
+        } else if (statusTable != null) {
             Status s = statusTable.get(Integer.valueOf(exitCode));
             return s == null ? defaultStatus.augment("exit code: " + exitCode) : s;
-        } else if (exitCode == 0)
+        } else if (exitCode == 0) {
             return Status.passed("exit code 0");
-        else
+        } else {
             return Status.failed("exit code " + exitCode);
+        }
     }
 
     private boolean verbose;
@@ -453,8 +465,9 @@ public class ProcessCommand extends Command {
             boolean interrupted = false;
 
             // poll interrupted flag, while waiting for copy to complete
-            while (!(interrupted = Thread.interrupted()) && !done)
+            while (!(interrupted = Thread.interrupted()) && !done) {
                 wait(1000);
+            }
 
             //if (interrupted)
             //    System.out.println("TESTSCRIPT DETECTS interrupted() " + Thread.currentThread().getName());
@@ -473,10 +486,11 @@ public class ProcessCommand extends Command {
          * any on the log stream, otherwise return null.
          */
         public Status exitStatus() {
-            if (lastStatusLine == null)
+            if (lastStatusLine == null) {
                 return null;
-            else
+            } else {
                 return Status.parse(lastStatusLine.substring(Status.EXIT_PREFIX.length()));
+            }
         }
 
 

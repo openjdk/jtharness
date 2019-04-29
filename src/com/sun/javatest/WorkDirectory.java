@@ -173,10 +173,12 @@ public class WorkDirectory {
         File jtData = new File(dir, JTDATA);
 
         if (jtData.exists() && jtData.isDirectory())
-            // should consider checking for existence of test suite data
+        // should consider checking for existence of test suite data
+        {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -189,8 +191,9 @@ public class WorkDirectory {
         if (dir.exists() && dir.canRead() && dir.isDirectory()) {
             String[] list = dir.list();
             return list == null || list.length == 0;
-        } else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -198,25 +201,30 @@ public class WorkDirectory {
      * read-write.
      */
     public static boolean isUsableWorkDirectory(File dir) {
-        if (dir == null || !isUsable(dir))
+        if (dir == null || !isUsable(dir)) {
             return false;
+        }
 
         try {
             File canonDir = canonicalize(dir);
             File jtData = new File(canonDir, JTDATA);
 
             // could call isWorkDirectory(File)
-            if (!isUsable(jtData))
+            if (!isUsable(jtData)) {
                 return false;
+            }
 
             // all files in jtData must be read-write
             File[] content = jtData.listFiles();
 
             // could even look for key files while doing this loop
-            if (content != null && content.length > 0)
-                for (File aContent : content)
-                    if (!isUsable(aContent))
+            if (content != null && content.length > 0) {
+                for (File aContent : content) {
+                    if (!isUsable(aContent)) {
                         return false;
+                    }
+                }
+            }
         } catch (BadDirectoryFault f) {
             return false;
         }
@@ -225,14 +233,17 @@ public class WorkDirectory {
     }
 
     private static boolean isUsable(File f) {
-        if (!f.exists())
+        if (!f.exists()) {
             return false;
+        }
 
-        if (!f.canRead())
+        if (!f.canRead()) {
             return false;
+        }
 
-        if (!f.canWrite())
+        if (!f.canWrite()) {
             return false;
+        }
 
         return true;
     }
@@ -279,8 +290,9 @@ public class WorkDirectory {
     public static WorkDirectory convert(File dir, TestSuite ts)
             throws BadDirectoryFault, WorkDirectoryExistsFault,
             FileNotFoundException {
-        if (!dir.exists())
+        if (!dir.exists()) {
             throw new FileNotFoundException(dir.getPath());
+        }
         return createOrConvert(dir, ts, false);
     }
 
@@ -296,31 +308,37 @@ public class WorkDirectory {
                 jtData = new File(canonDir, JTDATA);
 
 
-                if (!canonDir.isDirectory())
+                if (!canonDir.isDirectory()) {
                     throw new BadDirectoryFault(i18n, "wd.notDirectory", canonDir);
+                }
 
-                if (!canonDir.canRead())
+                if (!canonDir.canRead()) {
                     throw new BadDirectoryFault(i18n, "wd.notReadable", canonDir);
+                }
 
-                if (jtData.exists() && jtData.isDirectory())
+                if (jtData.exists() && jtData.isDirectory()) {
                     throw new WorkDirectoryExistsFault(i18n, "wd.alreadyExists", canonDir);
+                }
 
                 if (checkEmpty) {
                     String[] list = canonDir.list();
-                    if (list != null && list.length > 0)
+                    if (list != null && list.length > 0) {
                         throw new BadDirectoryFault(i18n, "wd.notEmpty", canonDir);
+                    }
                 }
 
                 // actively flush the dirMap for canonDir?
             } else {
-                if (!mkdirs(dir, undoList))
+                if (!mkdirs(dir, undoList)) {
                     throw new BadDirectoryFault(i18n, "wd.cantCreate", dir);
+                }
                 canonDir = canonicalize(dir);
                 jtData = new File(canonDir, JTDATA);
             }
 
-            if (!mkdirs(jtData, undoList))
+            if (!mkdirs(jtData, undoList)) {
                 throw new BadDirectoryFault(i18n, "wd.cantCreate", canonDir);
+            }
 
             try {
                 WorkDirectory wd;
@@ -340,8 +358,9 @@ public class WorkDirectory {
                 throw new BadDirectoryFault(i18n, "wd.cantWriteTestSuiteInfo", canonDir, e);
             }
         } finally {
-            if (undoList != null)
+            if (undoList != null) {
                 undo(undoList);
+            }
         }
     }
 
@@ -352,8 +371,9 @@ public class WorkDirectory {
     private static boolean mkdirs(File dir, ArrayList<File> undoList) {
         File parent = dir.getParentFile();
         if (parent != null && !parent.exists()) {
-            if (!mkdirs(parent, undoList))
+            if (!mkdirs(parent, undoList)) {
                 return false;
+            }
         }
 
         if (dir.mkdir()) {
@@ -377,8 +397,9 @@ public class WorkDirectory {
         if (f.isDirectory()) {
             File[] ff = f.listFiles();
             for (File aFf : ff) {
-                if (aFf.isDirectory() || aFf.isFile())
+                if (aFf.isDirectory() || aFf.isFile()) {
                     delete(aFf);
+                }
             }
         }
         f.delete();
@@ -401,11 +422,15 @@ public class WorkDirectory {
                 e.printStackTrace();
             } finally {
                 try {
-                    if (fis != null) fis.close();
+                    if (fis != null) {
+                        fis.close();
+                    }
                 } catch (IOException e) {
                 }
                 try {
-                    if (fos != null) fos.close();
+                    if (fos != null) {
+                        fos.close();
+                    }
                 } catch (IOException e) {
                 }
             }
@@ -474,7 +499,9 @@ public class WorkDirectory {
                                     p.save(out, "template information file - do not modify");
                                 } finally {
                                     try {
-                                        if (out != null) out.close();
+                                        if (out != null) {
+                                            out.close();
+                                        }
                                     } catch (IOException e) {
                                     }
                                 }
@@ -562,8 +589,9 @@ public class WorkDirectory {
             WeakReference<WorkDirectory> ref = dirMap.get(canonDir);
             wd = ref == null ? null : ref.get();
 
-            if (wd != null)
+            if (wd != null) {
                 return wd;
+            }
 
             Map<String, String> tsInfo;
             TestSuite ts;
@@ -571,19 +599,22 @@ public class WorkDirectory {
             try {
                 tsInfo = loadTestSuiteInfo(jtData);
                 String root = tsInfo.get(TESTSUITE_ROOT);
-                if (root == null)
+                if (root == null) {
                     throw new BadDirectoryFault(i18n, "wd.noTestSuiteRoot", canonDir);
+                }
 
                 File tsr = new File(root);
-                if (!tsr.exists())
+                if (!tsr.exists()) {
                     throw new TestSuiteFault(i18n, "wd.cantFindTestSuite", canonDir, tsr.getPath());
+                }
 
                 ts = TestSuite.open(tsr);
 
                 String wdID = tsInfo == null ? null : tsInfo.get(TESTSUITE_ID);
                 String tsID = ts.getID();
-                if (!(wdID == null ? "" : wdID).equals(tsID == null ? "" : tsID))
+                if (!(wdID == null ? "" : wdID).equals(tsID == null ? "" : tsID)) {
                     throw new MismatchFault(i18n, "wd.mismatchID", canonDir);
+                }
             } catch (FileNotFoundException e) {
                 throw new BadDirectoryFault(i18n, "wd.noTestSuiteFile", canonDir, e);
             } catch (IOException e) {
@@ -639,8 +670,9 @@ public class WorkDirectory {
         WorkDirectory wd = null;
         synchronized (dirMap) {
             WeakReference<WorkDirectory> ref = dirMap.get(canonDir);
-            if (ref != null)
+            if (ref != null) {
                 wd = ref.get();
+            }
 
             if (wd == null) {
                 Map<String, String> tsInfo;
@@ -652,8 +684,9 @@ public class WorkDirectory {
 
                 String wdID = tsInfo == null ? null : tsInfo.get(TESTSUITE_ID);
                 String tsID = testSuite.getID();
-                if (!(wdID == null ? "" : wdID).equals(tsID == null ? "" : tsID))
+                if (!(wdID == null ? "" : wdID).equals(tsID == null ? "" : tsID)) {
                     throw new MismatchFault(i18n, "wd.mismatchID", canonDir);
+                }
 
                 // no existing instance, create one
                 try {
@@ -674,8 +707,9 @@ public class WorkDirectory {
      * The directory is assumed to be valid (exists(), isDirectory(), canRead() etc)
      */
     private WorkDirectory(File root, TestSuite testSuite, Map<String, String> tsInfo) {
-        if (root == null || testSuite == null)
+        if (root == null || testSuite == null) {
             throw new NullPointerException();
+        }
         this.root = root;
         this.testSuite = testSuite;
         jtData = new File(root, JTDATA);
@@ -698,9 +732,9 @@ public class WorkDirectory {
         if (tsInfo != null) {
             String testC = tsInfo.get(TESTSUITE_TESTCOUNT);
             int tc;
-            if (testC == null)
+            if (testC == null) {
                 tc = -1;
-            else {
+            } else {
                 try {
                     tc = Integer.parseInt(testC);
                 } catch (NumberFormatException e) {
@@ -708,12 +742,14 @@ public class WorkDirectory {
                 }
             }
             testCount = tc;
-        } else
+        } else {
             testCount = testSuite.getEstimatedTestCount();
+        }
 
         testSuiteID = testSuite.getID();
-        if (testSuiteID == null)
+        if (testSuiteID == null) {
             testSuiteID = "";
+        }
 
         doWDinfo(jtData, testSuite);
 
@@ -837,7 +873,9 @@ public class WorkDirectory {
      * @see #setTestResultTable
      */
     public TestResultTable getTestResultTable() {
-        if (testResultTable != null) testResultTable.awakeCache();
+        if (testResultTable != null) {
+            testResultTable.awakeCache();
+        }
         if (testResultTable == null) {
             testResultTable = new TestResultTable(this);
         }
@@ -857,8 +895,9 @@ public class WorkDirectory {
      * @see #getTestResultTable
      */
     public void setTestResultTable(TestResultTable trt) {
-        if (trt == null)
+        if (trt == null) {
             throw new NullPointerException();
+        }
 
         if (trt == testResultTable) {
             // already set to the correct value
@@ -871,11 +910,13 @@ public class WorkDirectory {
         }
 
         WorkDirectory trt_wd = trt.getWorkDirectory();
-        if (trt_wd != null && trt_wd != this)
+        if (trt_wd != null && trt_wd != this) {
             throw new IllegalArgumentException();
+        }
 
-        if (trt_wd == null)
+        if (trt_wd == null) {
             trt.setWorkDirectory(this);
+        }
 
         testResultTable = trt;
     }
@@ -933,8 +974,9 @@ public class WorkDirectory {
     }
 
     private void ensureLogFileInitialized() {
-        if (logFile == null)
+        if (logFile == null) {
             logFile = new LogFile(getSystemFile("log.txt"));
+        }
     }
 
     /**
@@ -960,20 +1002,22 @@ public class WorkDirectory {
         loadAnnotations();
 
         Map<String, String> map = null;
-        if (annotationMap == null)
+        if (annotationMap == null) {
             annotationMap = new TreeMap<>();
-        else
+        } else {
             map = annotationMap.get(testName);
+        }
 
         if (map == null) {
             map = new HashMap<>();
             annotationMap.put(testName, map);
         }
         // add/update in the first case, remove in the second case
-        if (value != null)
+        if (value != null) {
             map.put(key, value);
-        else
+        } else {
             map.remove(key);
+        }
 
         saveAnnotations();
     }
@@ -989,8 +1033,9 @@ public class WorkDirectory {
      */
     public synchronized Map<String, String> getTestAnnotations(String testName) {
         loadAnnotations();
-        if (annotationMap == null)
+        if (annotationMap == null) {
             return null;
+        }
 
         return annotationMap.get(testName);
     }
@@ -1005,8 +1050,9 @@ public class WorkDirectory {
      * @throws NullPointerException if the parameter is null.
      */
     public synchronized Map<String, String> getTestAnnotations(TestResult tr) {
-        if (tr == null)
+        if (tr == null) {
             throw new NullPointerException();
+        }
 
         return getTestAnnotations(tr.getTestName());
     }
@@ -1026,19 +1072,21 @@ public class WorkDirectory {
      * false.
      */
     public boolean purge(String path) {
-        if (path == null)
+        if (path == null) {
             return false;
+        }
 
         boolean result = true;
 
         File f = path.isEmpty() ? root : getFile(path);
 
-        if (!f.exists())
+        if (!f.exists()) {
             return false;
+        }
 
-        if (f.isDirectory())
+        if (f.isDirectory()) {
             result = recursivePurge(f, path);
-        else {
+        } else {
             // single test
             result = f.delete();
             testResultTable.resetTest(path);
@@ -1049,8 +1097,9 @@ public class WorkDirectory {
 
     synchronized void clearAnnotations(TestResult tr) {
         loadAnnotations();
-        if (annotationMap != null)
+        if (annotationMap != null) {
             annotationMap.remove(tr.getTestName());
+        }
         saveAnnotations();
     }
 
@@ -1063,8 +1112,9 @@ public class WorkDirectory {
      */
     private void loadAnnotations() {
         // could do file timestamp check
-        if (annotationMap == null)
+        if (annotationMap == null) {
             loadAnnotationsFromDisk();
+        }
     }
 
     private void loadAnnotationsFromDisk() {
@@ -1104,13 +1154,16 @@ public class WorkDirectory {
             } catch (IOException ex) {
                 ex.printStackTrace();
                 try {
-                    if (reader != null) reader.close();
+                    if (reader != null) {
+                        reader.close();
+                    }
                 } catch (IOException e) {
                 }
             }
 
-            if (annotationMap.isEmpty())
+            if (annotationMap.isEmpty()) {
                 annotationMap = null;
+            }
 
         }
     }
@@ -1180,15 +1233,17 @@ public class WorkDirectory {
 
         for (File f : files) {
             String p; // root-relative path for f
-            if (pathFromRoot.isEmpty())
+            if (pathFromRoot.isEmpty()) {
                 p = f.getName();
-            else
+            } else {
                 p = pathFromRoot + "/" + f.getName();
+            }
 
             if (f.isFile()) {
                 result &= f.delete();
-                if (f.getName().endsWith(TestResult.EXTN))
+                if (f.getName().endsWith(TestResult.EXTN)) {
                     testResultTable.resetTest(p);
+                }
             } else if (!p.equals(JTDATA)) {
                 // directory, make sure not to delete jtData
                 result &= recursivePurge(f, p);
@@ -1218,14 +1273,17 @@ public class WorkDirectory {
         Properties p = new Properties();
         p.put(TESTSUITE_ROOT, testSuite.getPath());
         String name = testSuite.getName();
-        if (name != null)
+        if (name != null) {
             p.put(TESTSUITE_NAME, name);
+        }
 
-        if (testCount > 0)
+        if (testCount > 0) {
             p.put(TESTSUITE_TESTCOUNT, Integer.toString(testCount));
+        }
 
-        if (testSuiteID != null && !testSuiteID.isEmpty())
+        if (testSuiteID != null && !testSuiteID.isEmpty()) {
             p.put(TESTSUITE_ID, testSuiteID);
+        }
 
         saveInfo(p, TESTSUITE, "JT Harness Work Directory: Test Suite Info");
     }

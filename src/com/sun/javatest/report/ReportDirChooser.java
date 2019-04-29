@@ -157,10 +157,11 @@ public class ReportDirChooser extends JFileChooser {
         // the validity of the selection depends on whether the
         // selected directory is to be created or opened.
         File file = getSelectedFile();
-        if (mode == NEW)
+        if (mode == NEW) {
             approveNewSelection(file);
-        else
+        } else {
             approveOpenSelection(file);
+        }
     }
 
     //-------------------------------------------------------------------------
@@ -198,10 +199,12 @@ public class ReportDirChooser extends JFileChooser {
                 setCurrentDirectory(file);
                 setSelectedFile(null);
                 setSelectedFiles(null);
-            } else
+            } else {
                 uif.showError("rdc.notADir", file);
-        } else
+            }
+        } else {
             uif.showError("rdc.cantOpen", file);
+        }
     }
 
     //-------------------------------------------------------------------------
@@ -211,16 +214,18 @@ public class ReportDirChooser extends JFileChooser {
     }
 
     private boolean isReportDirectory(File f) {
-        if (isIgnoreable(f))
+        if (isIgnoreable(f)) {
             return false;
+        }
 
         Boolean b = cache.get(f);
         if (b == null) {
             boolean v = Report.isReportDirectory(f);
             cache.put(f, v);
             return v;
-        } else
+        } else {
             return b;
+        }
     }
 
     private boolean isEmptyDirectory(File f) {

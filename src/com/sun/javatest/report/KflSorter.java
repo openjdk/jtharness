@@ -147,11 +147,13 @@ public class KflSorter {
             TestResult tr = trt.lookup(TestResult.getWorkRelativePath(url));
 
             if (tr == null) {
-                if (!processMissing)
+                if (!processMissing) {
                     continue;
+                }
 
-                if (missing.add(new TestDiff(url, null, Transitions.FAIL2MISSING)))
+                if (missing.add(new TestDiff(url, null, Transitions.FAIL2MISSING))) {
                     probs++;
+                }
 
                 if (enableTestCases) {
                     // add all test cases from this entry
@@ -163,14 +165,16 @@ public class KflSorter {
             }
 
             Map<String, Status> tcs = null;
-            if (enableTestCases)
+            if (enableTestCases) {
                 tcs = getTestCases(tr);
+            }
 
             if (tr.getStatus().isPassed()) {
                 // PASSED test on KFL
                 TestDiff diff = new TestDiff(url, tr, Transitions.FAIL2PASS);
-                if (fail2pass.add(diff))
+                if (fail2pass.add(diff)) {
                     probs++;
+                }
 
                 if (enableTestCases) {
                     //tcprobs += addAllTestCases(entry, url, tr, Transitions.TC_FAIL2PASS,
@@ -182,12 +186,14 @@ public class KflSorter {
                 }
             } else if (tr.getStatus().isError()) {
                 // ERROR test on KFL
-                if (!processF2e)
+                if (!processF2e) {
                     continue;
+                }
 
                 TestDiff diff = new TestDiff(url, tr, Transitions.FAIL2ERROR);
-                if (fail2error.add(diff))
+                if (fail2error.add(diff)) {
                     probs++;
+                }
 
                 if (enableTestCases) {
                     // add all test cases from this entry
@@ -199,8 +205,9 @@ public class KflSorter {
             } else if (tr.getStatus().isNotRun()) {
                 // NOT RUN test on KFL
                 TestDiff diff = new TestDiff(url, tr, Transitions.FAIL2NOTRUN);
-                if (fail2notrun.add(diff))
+                if (fail2notrun.add(diff)) {
                     probs++;
+                }
 
                 if (enableTestCases) {
                     // add all test cases from this entry
@@ -227,11 +234,13 @@ public class KflSorter {
                 // not on KFL
                 TestDiff diff = new TestDiff(tr.getTestName(), tr,
                         Transitions.NEWFAILURES);
-                if (newFailures.add(diff))
+                if (newFailures.add(diff)) {
                     probs++;
+                }
             } else {
-                if (!processF2f)
+                if (!processF2f) {
                     continue;
+                }
 
                 TestDiff diff = new TestDiff(tr.getTestName(), tr,
                         Transitions.FAIL2FAIL);
@@ -260,8 +269,9 @@ public class KflSorter {
                                 if (!fullTestListed && e == null) {
                                     TestDiff td = new TestDiff(tr.getTestName(),
                                             name, tr, Transitions.TC_NEWFAILURES);
-                                    if (tc_newFailures.add(td))
+                                    if (tc_newFailures.add(td)) {
                                         tcprobs++;
+                                    }
 
                                     // could optimize slightly to avoid repeated
                                     // adds if multiple test cases are new fails.
@@ -277,21 +287,24 @@ public class KflSorter {
                             case Status.PASSED:
                                 if ((fullTestListed || e != null) &&
                                         tc_fail2pass.add(new TestDiff(tr.getTestName(),
-                                                name, tr, Transitions.TC_FAIL2PASS)))
+                                                name, tr, Transitions.TC_FAIL2PASS))) {
                                     tcprobs++;
+                                }
                                 break;
                             case Status.ERROR:
 
                                 if ((fullTestListed || e != null) &&
                                         tc_fail2error.add(new TestDiff(tr.getTestName(),
-                                                name, tr, Transitions.TC_FAIL2ERROR)))
+                                                name, tr, Transitions.TC_FAIL2ERROR))) {
                                     tcprobs++;
+                                }
                                 break;
                             case Status.NOT_RUN:
                                 if ((fullTestListed || e != null) &&
                                         tc_fail2notrun.add(new TestDiff(tr.getTestName(),
-                                                name, tr, Transitions.TC_FAIL2NOTRUN)))
+                                                name, tr, Transitions.TC_FAIL2NOTRUN))) {
                                     tcprobs++;
+                                }
                                 break;
                             default:
                                 // oh well
@@ -345,16 +358,19 @@ public class KflSorter {
 
                     if (stat.isError()) {
                         if (tc_fail2error.add(new TestDiff(
-                                tr.getTestName(), s, tr, Transitions.TC_FAIL2ERROR)))
+                                tr.getTestName(), s, tr, Transitions.TC_FAIL2ERROR))) {
                             problems++;
+                        }
                     } else if (stat.isPassed()) {
                         if (tc_fail2pass.add(new TestDiff(
-                                tr.getTestName(), s, tr, Transitions.TC_FAIL2PASS)))
+                                tr.getTestName(), s, tr, Transitions.TC_FAIL2PASS))) {
                             problems++;
+                        }
                     } else if (stat.isNotRun()) {
                         if (tc_fail2notrun.add(new TestDiff(
-                                tr.getTestName(), s, tr, Transitions.TC_FAIL2NOTRUN)))
+                                tr.getTestName(), s, tr, Transitions.TC_FAIL2NOTRUN))) {
                             problems++;
+                        }
                     }
                 }   // for tcs
             }
@@ -371,20 +387,24 @@ public class KflSorter {
 
                 if (stat == null) {
                     if (tc_missing.add(new TestDiff(
-                            tr.getTestName(), s, tr, Transitions.TC_FAIL2MISSING)))
+                            tr.getTestName(), s, tr, Transitions.TC_FAIL2MISSING))) {
                         problems++;
+                    }
                 } else if (stat.isError()) {
                     if (tc_fail2error.add(new TestDiff(
-                            tr.getTestName(), s, tr, Transitions.TC_FAIL2ERROR)))
+                            tr.getTestName(), s, tr, Transitions.TC_FAIL2ERROR))) {
                         problems++;
+                    }
                 } else if (stat.isPassed()) {
                     if (tc_fail2pass.add(new TestDiff(
-                            tr.getTestName(), s, tr, Transitions.TC_FAIL2PASS)))
+                            tr.getTestName(), s, tr, Transitions.TC_FAIL2PASS))) {
                         problems++;
+                    }
                 } else if (stat.isNotRun()) {
                     if (tc_fail2notrun.add(new TestDiff(
-                            tr.getTestName(), s, tr, Transitions.TC_FAIL2NOTRUN)))
+                            tr.getTestName(), s, tr, Transitions.TC_FAIL2NOTRUN))) {
                         problems++;
+                    }
                 }
             }   // for
         }
@@ -403,12 +423,14 @@ public class KflSorter {
         int problems = 0;
 
         String[] tcs = entry.getTestCaseList();
-        if (tcs == null || tcs.length == 0)
+        if (tcs == null || tcs.length == 0) {
             return 0;
+        }
 
         for (String s : tcs) {
-            if (set.add(new TestDiff(url, s, tr, t)))
+            if (set.add(new TestDiff(url, s, tr, t))) {
                 problems++;
+            }
         }
 
         return problems;
@@ -420,8 +442,9 @@ public class KflSorter {
         int problems = 0;
 
         String[] tcs = entry.getTestCaseList();
-        if (tcs == null || tcs.length == 0)
+        if (tcs == null || tcs.length == 0) {
             return 0;
+        }
 
         for (String s : tcs) {
 
@@ -496,16 +519,19 @@ public class KflSorter {
                 // no need to list a passing test case which wasn't
                 // listed as a failure in the KFL
                 // could be a new test case, etc.
-                if (!fullTestListed && e == null)
+                if (!fullTestListed && e == null) {
                     continue;
+                }
 
                 if (stat.getType() == status) {
                     TestDiff diff = new TestDiff(url, key, tr, t);
-                    if (fullTestListed && full != null && full.length > 0)
+                    if (fullTestListed && full != null && full.length > 0) {
                         diff.setKflEntry(full[0]);
+                    }
 
-                    if (set.add(diff))
+                    if (set.add(diff)) {
                         problems++;
+                    }
                 }
             }   // for
         }
@@ -515,12 +541,14 @@ public class KflSorter {
 
 
     private boolean hasTestCases(KnownFailuresList.Entry... es) {
-        if (es == null || es.length == 0)
+        if (es == null || es.length == 0) {
             return false;
+        }
 
         for (KnownFailuresList.Entry e : es) {
-            if (e.getTestCases() != null)
+            if (e.getTestCases() != null) {
                 return true;
+            }
         }
 
         return false;
@@ -570,8 +598,9 @@ public class KflSorter {
     private static Map<String, Status> getTestCases(TestResult tr) {
         Map<String, Status> result = new LinkedHashMap<>();
 
-        if (tr.isShrunk() && tr.isReloadable())
+        if (tr.isShrunk() && tr.isReloadable()) {
             tr.getSectionTitles();
+        }
 
         int sCount = tr.getSectionCount();
         if (sCount == 0 && tr.getStatus().getType() != Status.NOT_RUN) {

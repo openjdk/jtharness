@@ -214,14 +214,16 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
         if (t != null && (t instanceof ExecTool)) {
             ExecTool et = (ExecTool) t;
             ContextManager context = et.getContextManager();
-            if (context == null)
+            if (context == null) {
                 return null;
+            }
 
             JavaTestMenuManager mm = context.getMenuManager();
-            if (mm != null)
+            if (mm != null) {
                 return mm.getMenuItems(JavaTestMenuManager.HELP_PRIMARY);
-            else
+            } else {
                 return null;
+            }
         }
         return null;
     }
@@ -233,14 +235,16 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
         if (t != null && (t instanceof ExecTool)) {
             ExecTool et = (ExecTool) t;
             ContextManager context = et.getContextManager();
-            if (context == null)
+            if (context == null) {
                 return null;
+            }
 
             JavaTestMenuManager mm = context.getMenuManager();
-            if (mm != null)
+            if (mm != null) {
                 return mm.getMenuItems(JavaTestMenuManager.HELP_TESTSUITE);
-            else
+            } else {
                 return null;
+            }
 
         }
         return null;
@@ -253,14 +257,16 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
         if (t != null && (t instanceof ExecTool)) {
             ExecTool et = (ExecTool) t;
             ContextManager context = et.getContextManager();
-            if (context == null)
+            if (context == null) {
                 return null;
+            }
 
             JavaTestMenuManager mm = context.getMenuManager();
-            if (mm != null)
+            if (mm != null) {
                 return mm.getMenuItems(JavaTestMenuManager.HELP_ABOUT);
-            else
+            } else {
                 return null;
+            }
         }
         return null;
     }
@@ -281,8 +287,9 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
 
     @Override
     public PreferencesPane getPrefsPane() {
-        if (prefsPane == null)
+        if (prefsPane == null) {
             prefsPane = new PrefsPane(getDesktop().getHelpBroker());
+        }
         return prefsPane;
     }
 
@@ -440,8 +447,9 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
         String tsp = m.get("testSuite");
         String wdp = m.get("workDir");
         String cfp = m.get("config");
-        if (isEmpty(tsp) && isEmpty(wdp) && isEmpty(cfp))
+        if (isEmpty(tsp) && isEmpty(wdp) && isEmpty(cfp)) {
             return null;
+        }
 
         return InterviewParameters.open(tsp, wdp, cfp);
     }
@@ -499,8 +507,9 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
     }
 
     private TestSuiteChooser getTestSuiteChooser() {
-        if (testSuiteChooser == null)
+        if (testSuiteChooser == null) {
             testSuiteChooser = new TestSuiteChooser();
+        }
 
         return testSuiteChooser;
     }
@@ -550,8 +559,9 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
 
 
     UIFactory getUIF() {
-        if (uif == null)
+        if (uif == null) {
             uif = new UIFactory(getClass(), getDesktop().getDialogParent(), getDesktop().getHelpBroker());
+        }
         return uif;
     }
 

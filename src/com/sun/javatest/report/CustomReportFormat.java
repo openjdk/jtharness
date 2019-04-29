@@ -50,8 +50,9 @@ public class CustomReportFormat implements ReportFormat {
             File f = theCustomReport.createReport(dir);
             return new ReportLink(theCustomReport.getName(), theCustomReport.getReportId(),
                     theCustomReport.getDescription(), f);
-        } else
+        } else {
             throw new IllegalStateException();
+        }
     }
 
     @Override

@@ -110,7 +110,7 @@ public class ToolBarManager {
         if (store.containsKey(toolBarID)) {
             final JavaTestToolBar tb = store.get(toolBarID);
 
-            if (panel != null)
+            if (panel != null) {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
@@ -118,7 +118,7 @@ public class ToolBarManager {
                         mmanager.removeToolbar(tb);
                     }
                 });
-            else {
+            } else {
                 mmanager.removeToolbar(tb);
             }
 
@@ -164,8 +164,9 @@ public class ToolBarManager {
     }
 
     void setPanel(ToolBarPanel p) {
-        if (p == null)
+        if (p == null) {
             throw new NullPointerException();
+        }
 
         panel = p;
 

@@ -55,10 +55,11 @@ public class HTMLWriter {
      * @throws IOException if there is a problem writing to the underlying stream
      */
     public HTMLWriter(Writer out, String docType) throws IOException {
-        if (out instanceof BufferedWriter)
+        if (out instanceof BufferedWriter) {
             this.out = (BufferedWriter) out;
-        else
+        } else {
             this.out = new BufferedWriter(out);
+        }
         this.out.write(docType);
         this.out.newLine();
     }
@@ -175,8 +176,9 @@ public class HTMLWriter {
      * @throws IOException           if there is a problem writing to the underlying stream
      */
     public void endEmptyTag(String tag) throws IOException {
-        if (state != IN_TAG)
+        if (state != IN_TAG) {
             throw new IllegalStateException();
+        }
 
         out.write(">");
         state = IN_BODY;
@@ -197,20 +199,24 @@ public class HTMLWriter {
      * @throws IOException           if there is a problem writing to the underlying stream
      */
     public void writeAttr(String name, String value) throws IOException {
-        if (state != IN_TAG)
+        if (state != IN_TAG) {
             throw new IllegalStateException();
+        }
 
         out.write(" ");
         out.write(name);
         out.write("=");
         boolean alpha = true;
-        for (int i = 0; i < value.length() && alpha; i++)
+        for (int i = 0; i < value.length() && alpha; i++) {
             alpha = Character.isLetter(value.charAt(i));
-        if (!alpha)
+        }
+        if (!alpha) {
             out.write("\"");
+        }
         out.write(value);
-        if (!alpha)
+        if (!alpha) {
             out.write("\"");
+        }
     }
 
     /**
@@ -274,8 +280,9 @@ public class HTMLWriter {
     public void write(String text) throws IOException {
         closePrevTag();
 
-        if (text == null)
+        if (text == null) {
             return;
+        }
 
         // check to see if there are any special characters
         boolean specialChars = false;
@@ -307,8 +314,9 @@ public class HTMLWriter {
                         out.write(c);
                 }
             }
-        } else
+        } else {
             out.write(text);
+        }
     }
 
     /**
@@ -381,8 +389,9 @@ public class HTMLWriter {
     public String getCanonicalURIPath(File file) throws IOException {
         StringBuilder sb = new StringBuilder();
         String path = file.getPath();
-        if (file.isAbsolute() && !path.startsWith("/"))
+        if (file.isAbsolute() && !path.startsWith("/")) {
             sb.append('/');
+        }
         for (int i = 0; i < path.length(); i++) {
             switch (path.charAt(i)) {
                 case '/':

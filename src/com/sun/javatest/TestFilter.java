@@ -143,9 +143,9 @@ public abstract class TestFilter {
      *                          should be accepted or not.
      */
     public boolean accepts(TestDescription td, Observer o) throws Fault {
-        if (accepts(td))
+        if (accepts(td)) {
             return true;
-        else {
+        } else {
             o.rejected(td, this);
             return false;
         }

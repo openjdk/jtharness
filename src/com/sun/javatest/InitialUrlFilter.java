@@ -61,13 +61,16 @@ public class InitialUrlFilter extends TestFilter {
             // validate, make path lower case, change path sep.
             for (int i = 0; i < initFiles.length; i++) {
                 if (initFiles[i].isAbsolute())  // illegal, based on javadoc spec.
+                {
                     throw new IllegalArgumentException(initFiles[i].getPath());
+                }
 
                 initUrls[i] = initFiles[i].getPath().toLowerCase();
 
                 // fix path sep. IF needed
-                if (File.separatorChar != '/')
+                if (File.separatorChar != '/') {
                     initUrls[i] = initUrls[i].replace(File.separatorChar, '/');
+                }
             }   // for
         }
     }
@@ -101,14 +104,17 @@ public class InitialUrlFilter extends TestFilter {
     @Override
     public boolean accepts(TestDescription td) {
         if (initUrls == null) // all urls being accepted
+        {
             return true;
+        }
 
         String testUrl = td.getRootRelativeURL().toLowerCase();
 
         // other parts of the code should ensure this is not null
         for (String urlI : initUrls) {
-            if (isInitialUrlMatch(testUrl, urlI))
+            if (isInitialUrlMatch(testUrl, urlI)) {
                 return true;
+            }
         }   // for
 
         // no init. urls specified (initUrls.length == 0) OR
@@ -130,19 +136,22 @@ public class InitialUrlFilter extends TestFilter {
      */
     public static boolean isInitialUrlMatch(String toCheck, String compareTo) {
         if (toCheck.equals(compareTo))  // direct match of test
+        {
             return true;
-            // a startsWith match must end on one of the delimiter characters to
-            // be a valid match.  the delim. can either be on the initial URL or
-            // test URL
-            // during a beginsWith:
-            //    - is the last char of the initUrl a delimiter?
-            //    - is the next char in the test URL a delimiter?
+        }
+        // a startsWith match must end on one of the delimiter characters to
+        // be a valid match.  the delim. can either be on the initial URL or
+        // test URL
+        // during a beginsWith:
+        //    - is the last char of the initUrl a delimiter?
+        //    - is the next char in the test URL a delimiter?
         else if (toCheck.startsWith(compareTo) &&
                 (isDelimiter(compareTo.charAt(compareTo.length() - 1)) ||
                         isDelimiter(toCheck.charAt(compareTo.length())))) {
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     public File[] getInitFiles() {
@@ -172,10 +181,11 @@ public class InitialUrlFilter extends TestFilter {
      * Is this a delimiter that ends/begins a valid startsWith segment.
      */
     private static boolean isDelimiter(char c) {
-        if (c == '/' || c == '#')
+        if (c == '/' || c == '#') {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     private final String[] initUrls;

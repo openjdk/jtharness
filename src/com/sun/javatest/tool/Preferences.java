@@ -71,8 +71,9 @@ public class Preferences {
      * @return the single Preferences object
      */
     public static Preferences access() {
-        if (theOne == null)
+        if (theOne == null) {
             theOne = new Preferences(getDefaultPrefsFile());
+        }
         return theOne;
     }
 
@@ -87,10 +88,11 @@ public class Preferences {
         if (s == null) {
             File jtDir = getPrefsDir();
             return new File(jtDir, "preferences");
-        } else if (!s.equals("NONE"))
+        } else if (!s.equals("NONE")) {
             return new File(s);
-        else
+        } else {
             return null;
+        }
     }
 
     private static Preferences theOne;
@@ -122,8 +124,9 @@ public class Preferences {
         if (prefsFile != null && (!isUpToDate || fileModifiedTime != prefsFile.lastModified())) {
             try {
                 File parentDir = new File(prefsFile.getParent());
-                if (!parentDir.exists())
+                if (!parentDir.exists()) {
                     parentDir.mkdirs();
+                }
                 OutputStream out = new BufferedOutputStream(new FileOutputStream(prefsFile));
                 PropertyUtils.store(props, out, "JT Harness Preferences");
                 out.close();
@@ -158,8 +161,9 @@ public class Preferences {
      */
     public String getPreference(String name, String defaultValue) {
         String v = props.get(name);
-        if (v == null)
+        if (v == null) {
             v = defaultValue;
+        }
         return v;
     }
 
@@ -199,10 +203,11 @@ public class Preferences {
         // very crude observer storage for now; results in o(n) per preference
         // cost when updating preferences
         Observer[] obs = observers.get(prefix);
-        if (obs == null)
+        if (obs == null) {
             obs = new Observer[]{o};
-        else
+        } else {
             obs = DynamicArray.append(obs, o);
+        }
         observers.put(prefix, obs);
     }
 

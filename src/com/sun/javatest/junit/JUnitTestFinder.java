@@ -76,14 +76,16 @@ public abstract class JUnitTestFinder extends TestFinder {
                 addExtension(".class", null);
             } else if ("-verbose".equalsIgnoreCase(args[i])) {
                 verbose = true;
-            } else
+            } else {
                 super.decodeArg(args, i);
+            }
         }   // for
 
         // this establishes the default if the user did not select
         // class scanning
-        if (!scanClasses)
+        if (!scanClasses) {
             addExtension(".java", JavaCommentStream.class);
+        }
     }
 
     /**
@@ -127,10 +129,12 @@ public abstract class JUnitTestFinder extends TestFinder {
      *                           The class must be a subtype of CommentStream
      */
     public void addExtension(String extn, Class<?> commentStreamClass) {
-        if (!extn.startsWith("."))
+        if (!extn.startsWith(".")) {
             throw new IllegalArgumentException("extension must begin with `.'");
-        if (commentStreamClass != null && !CommentStream.class.isAssignableFrom(commentStreamClass))
+        }
+        if (commentStreamClass != null && !CommentStream.class.isAssignableFrom(commentStreamClass)) {
             throw new IllegalArgumentException("class must be a subtype of " + CommentStream.class.getName());
+        }
 
         extensionTable.put(extn, commentStreamClass);
     }

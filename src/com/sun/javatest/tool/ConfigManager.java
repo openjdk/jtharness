@@ -97,15 +97,18 @@ public class ConfigManager
     HelpTree.Node getHelp(I18NResourceBundle i18n, String prefix, Object... childData) {
         Vector<HelpTree.Node> v = new Vector<>();
         for (Object data : childData) {
-            if (data instanceof HelpTree.Node)
+            if (data instanceof HelpTree.Node) {
                 v.add((HelpTree.Node) data);
-            else if (data instanceof String)
+            } else if (data instanceof String) {
                 v.add(new HelpTree.Node(i18n, prefix + "." + data));
-            else if (data instanceof String[]) {
+            } else if (data instanceof String[]) {
                 String[] names = (String[]) data;
-                for (String name : names) v.add(new HelpTree.Node(i18n, prefix + "." + name));
-            } else
+                for (String name : names) {
+                    v.add(new HelpTree.Node(i18n, prefix + "." + name));
+                }
+            } else {
                 throw new IllegalArgumentException();
+            }
         }
         return new HelpTree.Node(i18n, prefix, v.toArray(new HelpTree.Node[v.size()]));
     }
@@ -219,8 +222,9 @@ public class ConfigManager
         ConcurrencyCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
-            if (!argIter.hasNext())
+            if (!argIter.hasNext()) {
                 throw new Fault(i18n, "cnfg.conc.missingArg");
+            }
 
             String arg = nextArg(argIter);
 
@@ -236,8 +240,9 @@ public class ConfigManager
                             Integer.valueOf(Parameters.ConcurrencyParameters.MIN_CONCURRENCY),
                             Integer.valueOf(Parameters.ConcurrencyParameters.MAX_CONCURRENCY));
                 }
-            } else
+            } else {
                 throw new Fault(i18n, "cnfg.conc.badValue", arg);
+            }
         }
 
         @Override
@@ -247,8 +252,9 @@ public class ConfigManager
                 Parameters.MutableConcurrencyParameters cParams =
                         (Parameters.MutableConcurrencyParameters) p.getConcurrencyParameters();
                 cParams.setConcurrency(value);
-            } else
+            } else {
                 throw new Fault(i18n, "cnfg.conc.notEditable");
+            }
         }
 
         private int value;
@@ -265,8 +271,9 @@ public class ConfigManager
         ConfigCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
-            if (!argIter.hasNext())
+            if (!argIter.hasNext()) {
                 throw new Fault(i18n, "cnfg.conf.missingArg");
+            }
 
             path = new File(nextArg(argIter));
         }
@@ -329,8 +336,9 @@ public class ConfigManager
         WriteConfigCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
-            if (!argIter.hasNext())
+            if (!argIter.hasNext()) {
                 throw new Fault(i18n, "cnfg.conf.missingArg");
+            }
             // XXX could provide a better error message, perhaps including the value of
             //     getName(), because the missingArg error message is general purpose
             //     EX: throw new Fault(i18n, "cnfg.conf.missingArg", getName());
@@ -350,10 +358,11 @@ public class ConfigManager
                 InterviewParameters p = getConfig(ctx);
                 p.saveAs(path, true, true);
             } catch (IOException e) {
-                if (!path.canWrite())
+                if (!path.canWrite()) {
                     throw new Fault(i18n, "cnfg.writeConfig.cantWrite", path.getPath());
-                else
+                } else {
                     throw new Fault(i18n, "cnfg.writeConfig.writeErr", path, e);
+                }
             } catch (Interview.Fault e) {
                 throw new Fault(i18n, "cnfg.writeConfig.badConfig", path, e.getMessage());
             }   // catch
@@ -372,8 +381,9 @@ public class ConfigManager
         EnvCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
-            if (!argIter.hasNext())
+            if (!argIter.hasNext()) {
                 throw new Fault(i18n, "cnfg.env.missingArg");
+            }
 
             name = nextArg(argIter);
         }
@@ -385,8 +395,9 @@ public class ConfigManager
                 Parameters.LegacyEnvParameters eParams =
                         (Parameters.LegacyEnvParameters) p.getEnvParameters();
                 eParams.setEnvName(name);
-            } else
+            } else {
                 throw new Fault(i18n, "cnfg.env.notEditable");
+            }
         }
 
         private String name;
@@ -409,12 +420,14 @@ public class ConfigManager
                 if (arg.startsWith("-")) {
                     putbackArg(argIter);
                     break;
-                } else
+                } else {
                     v.add(new File(arg));
+                }
             }
 
-            if (v.isEmpty())
+            if (v.isEmpty()) {
                 throw new Fault(i18n, "cnfg.envFiles.noFiles");
+            }
 
             files = new File[v.size()];
             v.toArray(files);
@@ -427,8 +440,9 @@ public class ConfigManager
                 Parameters.LegacyEnvParameters eParams =
                         (Parameters.LegacyEnvParameters) p.getEnvParameters();
                 eParams.setEnvFiles(files);
-            } else
+            } else {
                 throw new Fault(i18n, "cnfg.envFiles.notEditable");
+            }
         }
 
         private File[] files;
@@ -452,12 +466,14 @@ public class ConfigManager
                 if (arg.startsWith("-")) {
                     putbackArg(argIter);
                     break;
-                } else
+                } else {
                     v.add(new File(arg));
+                }
             }
 
-            if (v.isEmpty())
+            if (v.isEmpty()) {
                 throw new Fault(i18n, "cnfg.excl.noFiles");
+            }
 
             files = new File[v.size()];
             v.toArray(files);
@@ -471,8 +487,9 @@ public class ConfigManager
                         (Parameters.MutableExcludeListParameters) p.getExcludeListParameters();
                 eParams.setExcludeMode(Parameters.MutableExcludeListParameters.CUSTOM_EXCLUDE_LIST);
                 eParams.setCustomExcludeFiles(files);
-            } else
+            } else {
                 throw new Fault(i18n, "cnfg.excl.notEditable");
+            }
         }
 
         private File[] files;
@@ -495,12 +512,14 @@ public class ConfigManager
                 if (arg.startsWith("-")) {
                     putbackArg(argIter);
                     break;
-                } else
+                } else {
                     v.add(new File(arg));
+                }
             }
 
-            if (v.isEmpty())
+            if (v.isEmpty()) {
                 throw new Fault(i18n, "cnfg.kfl.noFiles");
+            }
 
             files = new File[v.size()];
             v.toArray(files);
@@ -537,8 +556,9 @@ public class ConfigManager
         OpenCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
-            if (!argIter.hasNext())
+            if (!argIter.hasNext()) {
                 throw new Fault(i18n, "cnfg.open.missingArg");
+            }
 
             String arg = nextArg(argIter);
             cmdForFile = getCommandForFile(new File(arg));
@@ -551,29 +571,37 @@ public class ConfigManager
 
         Command getCommandForFile(File file)
                 throws Fault {
-            if (!file.exists())
+            if (!file.exists()) {
                 throw new Fault(i18n, "cnfg.open.cantFindFile", file);
+            }
 
-            if (TestSuite.isTestSuite(file))
+            if (TestSuite.isTestSuite(file)) {
                 return new TestSuiteCommand(file);
+            }
 
-            if (WorkDirectory.isWorkDirectory(file))
+            if (WorkDirectory.isWorkDirectory(file)) {
                 return new WorkDirectoryCommand(file);
+            }
 
-            if (FileParameters.isParameterFile(file))
+            if (FileParameters.isParameterFile(file)) {
                 return new ParamFileCommand(file);
+            }
 
-            if (InterviewParameters.isInterviewFile(file))
+            if (InterviewParameters.isInterviewFile(file)) {
                 return new ConfigCommand(file);
+            }
 
-            if (file.getPath().endsWith(".jte"))
+            if (file.getPath().endsWith(".jte")) {
                 throw new Fault(i18n, "cnfg.open.cantOpenJTE", file);
+            }
 
-            if (file.getPath().endsWith(".jtt"))
+            if (file.getPath().endsWith(".jtt")) {
                 throw new Fault(i18n, "cnfg.open.cantOpenJTT", file);
+            }
 
-            if (file.getPath().endsWith(".jtx"))
+            if (file.getPath().endsWith(".jtx")) {
                 throw new Fault(i18n, "cnfg.open.cantOpenJTX", file);
+            }
 
             throw new Fault(i18n, "cnfg.open.unknownFileType", file);
         }
@@ -592,8 +620,9 @@ public class ConfigManager
             super(getName());
 
             // could support -all -any
-            if (!argIter.hasNext())
+            if (!argIter.hasNext()) {
                 throw new Fault(i18n, "cnfg.keywords.missingArg");
+            }
 
             expr = nextArg(argIter);
         }
@@ -604,14 +633,15 @@ public class ConfigManager
             if (p.getKeywordsParameters() instanceof Parameters.MutableKeywordsParameters) {
                 Parameters.MutableKeywordsParameters kParams =
                         (Parameters.MutableKeywordsParameters) p.getKeywordsParameters();
-                if (expr == null)
+                if (expr == null) {
                     kParams.setKeywordsMode(Parameters.MutableKeywordsParameters.NO_KEYWORDS);
-                else {
+                } else {
                     kParams.setKeywordsMode(Parameters.MutableKeywordsParameters.MATCH_KEYWORDS);
                     kParams.setMatchKeywords(Parameters.MutableKeywordsParameters.EXPR, expr);
                 }
-            } else
+            } else {
                 throw new Fault(i18n, "cnfg.keywords.notEditable");
+            }
         }
 
         private String expr;
@@ -639,8 +669,9 @@ public class ConfigManager
             try {
                 ctx.setTestSuite(fp.getTestSuite());
 
-                if (fp.getWorkDirectory() != null)
+                if (fp.getWorkDirectory() != null) {
                     ctx.setWorkDirectory(fp.getWorkDirectory());
+                }
 
                 getConfig(ctx).load(fp);
 
@@ -724,8 +755,9 @@ public class ConfigManager
                 throw new Fault(i18n, "cnfg.params.badValue", e.getMessage());
             }
 
-            if (!params.isValid())
+            if (!params.isValid()) {
                 throw new Fault(i18n, "cnfg.params.badValue", params.getErrorMessage());
+            }
         }
 
         @Override
@@ -746,8 +778,9 @@ public class ConfigManager
         PriorStatusCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
-            if (!argIter.hasNext())
+            if (!argIter.hasNext()) {
                 throw new Fault(i18n, "cnfg.status.missingArg");
+            }
 
             String arg = nextArg(argIter);
             String[] words = split(arg.toLowerCase());
@@ -763,14 +796,16 @@ public class ConfigManager
                         values[Status.ERROR] = any = true;
                     } else if (w.startsWith("notrun")) {
                         values[Status.NOT_RUN] = any = true;
-                    } else
+                    } else {
                         throw new Fault(i18n, "cnfg.status.badArg", w);
+                    }
                 }
             }
 
 
-            if (!any)
+            if (!any) {
                 throw new Fault(i18n, "cnfg.status.noValues");
+            }
         }
 
         @Override
@@ -781,28 +816,33 @@ public class ConfigManager
                         (Parameters.MutablePriorStatusParameters) p.getPriorStatusParameters();
                 sParams.setPriorStatusMode(Parameters.MutablePriorStatusParameters.MATCH_PRIOR_STATUS);
                 sParams.setMatchPriorStatusValues(values);
-            } else
+            } else {
                 throw new Fault(i18n, "cnfg.status.notEditable");
+            }
         }
 
         private static String[] split(String s) {
-            if (s == null)
+            if (s == null) {
                 return null;
+            }
 
             Vector<String> v = new Vector<>();
             int start = -1;
             for (int i = 0; i < s.length(); i++) {
                 if (Character.isLetterOrDigit(s.charAt(i))) {
-                    if (start == -1)
+                    if (start == -1) {
                         start = i;
+                    }
                 } else {
-                    if (start != -1)
+                    if (start != -1) {
                         v.add(s.substring(start, i));
+                    }
                     start = -1;
                 }
             }
-            if (start != -1)
+            if (start != -1) {
                 v.add(s.substring(start));
+            }
             if (v.isEmpty()) {
                 return null;
             }
@@ -823,18 +863,21 @@ public class ConfigManager
         SetCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
-            if (!argIter.hasNext())
+            if (!argIter.hasNext()) {
                 throw new Fault(i18n, "cnfg.set.insufficientArgs");
+            }
 
             String arg = nextArg(argIter);
             if (arg.equals("-f") || arg.equals("-file")) {
-                if (!argIter.hasNext())
+                if (!argIter.hasNext()) {
                     throw new Fault(i18n, "cnfg.set.insufficientArgs");
+                }
                 file = new File(nextArg(argIter));
             } else {
                 tag = arg;
-                if (!argIter.hasNext())
+                if (!argIter.hasNext()) {
                     throw new Fault(i18n, "cnfg.set.insufficientArgs");
+                }
                 value = nextArg(argIter);
             }
         }
@@ -884,11 +927,14 @@ public class ConfigManager
                         String key = value.substring(0, sepIndex);
                         String val;
                         if (sepIndex == value.length() + 1)
-                            // handles key:
+                        // handles key:
+                        {
                             val = "";
-                        else
-                            // handles key:value
+                        } else
+                        // handles key:value
+                        {
                             val = value.substring(sepIndex + 1);
+                        }
 
                         cq.setValue(key, val);
                     } else {
@@ -911,11 +957,11 @@ public class ConfigManager
                 if (!(q instanceof NullQuestion)) {
                     String s = q.getStringValue();
                     sb.append(" (");
-                    if (s == null)
+                    if (s == null) {
                         sb.append("null");
-                    else if (s.length() < 32)
+                    } else if (s.length() < 32) {
                         sb.append(s);
-                    else {
+                    } else {
                         sb.append(s.substring(0, 32));
                         sb.append("...");
                     }
@@ -956,18 +1002,21 @@ public class ConfigManager
         SetXCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
-            if (!argIter.hasNext())
+            if (!argIter.hasNext()) {
                 throw new Fault(i18n, "cnfg.set.insufficientArgs");
+            }
 
             String arg = nextArg(argIter);
             if (arg.equals("-f") || arg.equals("-file")) {
-                if (!argIter.hasNext())
+                if (!argIter.hasNext()) {
                     throw new Fault(i18n, "cnfg.set.insufficientArgs");
+                }
                 file = new File(nextArg(argIter));
             } else {
                 name = arg;
-                if (!argIter.hasNext())
+                if (!argIter.hasNext()) {
                     throw new Fault(i18n, "cnfg.set.insufficientArgs");
+                }
                 value = nextArg(argIter);
             }
         }
@@ -1030,12 +1079,14 @@ public class ConfigManager
                 if (arg.startsWith("-")) {
                     putbackArg(argIter);
                     break;
-                } else
+                } else {
                     v.add(arg);
+                }
             }
 
-            if (v.isEmpty())
+            if (v.isEmpty()) {
                 throw new Fault(i18n, "cnfg.tests.noTests");
+            }
 
             tests = new String[v.size()];
             v.toArray(tests);
@@ -1049,8 +1100,9 @@ public class ConfigManager
                         (Parameters.MutableTestsParameters) p.getTestsParameters();
                 iParams.setTestsMode(Parameters.MutableTestsParameters.SPECIFIED_TESTS);
                 iParams.setSpecifiedTests(tests);
-            } else
+            } else {
                 throw new Fault(i18n, "cnfg.tests.notEditable");
+            }
         }
 
         private String[] tests;
@@ -1068,11 +1120,11 @@ public class ConfigManager
 
             while (argIter.hasNext()) {
                 String arg = nextArg(argIter);
-                if (arg.equalsIgnoreCase("-preferred"))
+                if (arg.equalsIgnoreCase("-preferred")) {
                     preferFlag = true;
-                else if (arg.startsWith("-"))
+                } else if (arg.startsWith("-")) {
                     throw new Fault(i18n, "cnfg.ts.badArg", arg);
-                else {
+                } else {
                     path = new File(arg);
                     return;
                 }
@@ -1103,14 +1155,15 @@ public class ConfigManager
                 if (!f.isAbsolute()) {
                     f = new File(basePath, icon);
                 }
-                if (f.canRead())
+                if (f.canRead()) {
                     try {
                         return f.toURL();
                     } catch (java.net.MalformedURLException e) {
                         return null;
                     }
-                else
+                } else {
                     return null;
+                }
             }
             // catch all possible exceptions from ResourceBundle
             catch (MissingResourceException | ClassCastException | NullPointerException m) {
@@ -1174,11 +1227,13 @@ public class ConfigManager
                 throw new Fault(i18n, "cnfg.ts.cantOpenTestSuite", e.getMessage());
             }
             */
-            if (!path.exists())
+            if (!path.exists()) {
                 throw new Fault(i18n, "cnfg.ts.cantFindTestSuite", path);
+            }
 
-            if (!TestSuite.isTestSuite(path))
+            if (!TestSuite.isTestSuite(path)) {
                 throw new Fault(i18n, "cnfg.ts.notATestSuite", path);
+            }
 
             try {
                 ctx.setTestSuite(path);
@@ -1200,8 +1255,9 @@ public class ConfigManager
                                 s = p.get("tool." + i + ".testSuite");
 
                                 // this tool instance does not have a test suite
-                                if (s == null)
+                                if (s == null) {
                                     continue;
+                                }
 
                                 String s1 = path.getPath();
                                 String s2 = s;
@@ -1238,8 +1294,9 @@ public class ConfigManager
 
                                         break;
                                     } else {
-                                        if (s != null)
+                                        if (s != null) {
                                             System.out.println(i18n.getString("cnfg.badWorkdir", s));
+                                        }
                                         continue;
                                     }
                                 }
@@ -1285,8 +1342,9 @@ public class ConfigManager
         TimeoutFactorCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
-            if (!argIter.hasNext())
+            if (!argIter.hasNext()) {
                 throw new Fault(i18n, "cnfg.tf.missingArg");
+            }
 
             String arg = nextArg(argIter);
 
@@ -1302,8 +1360,9 @@ public class ConfigManager
                             Float.valueOf(Parameters.TimeoutFactorParameters.MIN_TIMEOUT_FACTOR),
                             Float.valueOf(Parameters.TimeoutFactorParameters.MAX_TIMEOUT_FACTOR));
                 }
-            } else
+            } else {
                 throw new Fault(i18n, "cnfg.tf.badValue", arg);
+            }
         }
 
         @Override
@@ -1313,8 +1372,9 @@ public class ConfigManager
                 Parameters.MutableTimeoutFactorParameters cParams =
                         (Parameters.MutableTimeoutFactorParameters) p.getTimeoutFactorParameters();
                 cParams.setTimeoutFactor(value);
-            } else
+            } else {
                 throw new Fault(i18n, "cnfg.tf.notEditable");
+            }
         }
 
         private float value;
@@ -1332,14 +1392,14 @@ public class ConfigManager
 
             while (argIter.hasNext()) {
                 String arg = nextArg(argIter);
-                if (arg.equalsIgnoreCase("-create"))
+                if (arg.equalsIgnoreCase("-create")) {
                     createFlag = true;
-                else if (arg.equalsIgnoreCase("-overwrite")) {
+                } else if (arg.equalsIgnoreCase("-overwrite")) {
                     createFlag = true;
                     overwriteFlag = true;
-                } else if (arg.startsWith("-"))
+                } else if (arg.startsWith("-")) {
                     throw new Fault(i18n, "cnfg.wd.badArg", arg);
-                else {
+                } else {
                     path = new File(arg);
                     return;
                 }
@@ -1376,17 +1436,20 @@ public class ConfigManager
             }
             */
             if (!createFlag) {
-                if (!path.exists())
+                if (!path.exists()) {
                     throw new Fault(i18n, "cnfg.wd.cantFindWorkDir", path);
+                }
                 if (!WorkDirectory.isWorkDirectory(path)
-                        && !WorkDirectory.isEmptyDirectory(path))
+                        && !WorkDirectory.isEmptyDirectory(path)) {
                     throw new Fault(i18n, "cnfg.wd.notAWorkDirectory", path);
+                }
             }
 
             if (overwriteFlag) {
                 remove(path);
-                if (path.exists())
+                if (path.exists()) {
                     throw new Fault(i18n, "cnfg.wd.cantRemoveWorkDir", path);
+                }
             }
 
             try {
@@ -1461,7 +1524,9 @@ public class ConfigManager
             if (path.exists()) {
                 if (path.isDirectory()) {
                     File[] files = path.listFiles();
-                    for (File file : files) remove(file);
+                    for (File file : files) {
+                        remove(file);
+                    }
                     // workaround for leftover .nfs* files
                     String[] undeletables = path.list();
                     if (undeletables != null && undeletables.length > 0) {

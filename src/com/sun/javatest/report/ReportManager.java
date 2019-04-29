@@ -102,8 +102,9 @@ public class ReportManager
         ReportCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
 
-            if (!argIter.hasNext())
+            if (!argIter.hasNext()) {
                 throw new Fault(i18n, "rm.report.missingArg");
+            }
 
             path = new File(nextArg(argIter));
         }
@@ -131,8 +132,9 @@ public class ReportManager
                 if (arg.equals("-create")) {
                     createFlag = true;
                 } else if (arg.equals("-type")) {
-                    if (!argIter.hasNext())
+                    if (!argIter.hasNext()) {
                         throw new Fault(i18n, "rm.writeReport.missingArg");
+                    }
                     if (types == null) {
                         types = new ArrayList<>();
                     }
@@ -142,15 +144,17 @@ public class ReportManager
                     // allow user to turn on KFL section by overriding Preferences
                     Preferences.access().setPreference("rps.html.kfl", "true");
                 } else if (arg.equals("-filter")) {
-                    if (!argIter.hasNext())
+                    if (!argIter.hasNext()) {
                         throw new Fault(i18n, "rm.writeReport.missingArg");
+                    }
                     filter = nextArg(argIter);
                     validateFilter();
                 } else if (arg.startsWith("-"))
-                    // since the report dir is a required arg,
-                    // any other option must be a bad one
+                // since the report dir is a required arg,
+                // any other option must be a bad one
+                {
                     throw new Fault(i18n, "rm.writeReport.badArg", arg);
-                else {
+                } else {
                     path = new File(arg);
                     return;
                 }
@@ -169,8 +173,9 @@ public class ReportManager
          * Validate current filter value, throw Fault if there is a problem.
          */
         private void validateFilter() throws Fault {
-            if (!StringArray.contains(FILTERS, filter))
+            if (!StringArray.contains(FILTERS, filter)) {
                 throw new Fault(i18n, "rm.writeReport.notAFilter", filter);
+            }
 
         }
 
@@ -190,16 +195,19 @@ public class ReportManager
             }
 
             if (path.exists()) {
-                if (!path.isDirectory())
+                if (!path.isDirectory()) {
                     throw new Fault(i18n, "rm.writeReport.notADir", path);
+                }
             } else {
-                if (createFlag)
+                if (createFlag) {
                     path.mkdirs();
-                else
+                } else {
                     path.mkdir();
+                }
 
-                if (!path.exists())
+                if (!path.exists()) {
                     throw new Fault(i18n, "rm.writeReport.cantCreate", path);
+                }
             }
 
             InterviewParameters p = getConfig(ctx);
@@ -211,9 +219,9 @@ public class ReportManager
                 ParameterFilter pFilter = new ParameterFilter();
                 pFilter.update(p);
                 filterO = pFilter;
-            } else if (filter.equalsIgnoreCase("allTests"))
+            } else if (filter.equalsIgnoreCase("allTests")) {
                 filterO = new AllTestsFilter();
-            else if (filter.equalsIgnoreCase("lastRun")) {
+            } else if (filter.equalsIgnoreCase("lastRun")) {
                 try {
                     filterO = new LastRunFilter(ctx.getWorkDirectory());
                 } catch (CommandContext.Fault f) {
@@ -221,7 +229,9 @@ public class ReportManager
                     ctx.printMessage(i18n, "rm.writeReport.noWdForLast", f.getMessage());
                 }
             } else    // should not happen!  use legacy setting
+            {
                 filterO = new CompositeFilter(p.getFilters());
+            }
 
             try {
                 // TEMP add p.getFilters -- in time, Report API should
@@ -252,12 +262,14 @@ public class ReportManager
 
     // copied from exec.ParameterFilter to avoid cross-package dependency
     private static File[] stringsToFiles(String... tests) {
-        if (tests == null)
+        if (tests == null) {
             return null;
+        }
 
         File[] files = new File[tests.length];
-        for (int i = 0; i < tests.length; i++)
+        for (int i = 0; i < tests.length; i++) {
             files[i] = new File(tests[i]);
+        }
 
         return files;
     }

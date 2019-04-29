@@ -64,9 +64,9 @@ class SummaryPane extends AuditPane {
 
     @Override
     void show(Audit audit) {
-        if (audit == currAudit)
+        if (audit == currAudit) {
             showBody();
-        else {
+        } else {
             currAudit = audit;
             StringWriter sw = new StringWriter();
             try {
@@ -128,10 +128,11 @@ class SummaryPane extends AuditPane {
 
         TestDescription[] bad = currAudit.getBadTests();
         int count = bad == null ? 0 : bad.length;
-        if (count == 0)
+        if (count == 0) {
             out.writeI18N("smry.tr.allOK");
-        else
+        } else {
             out.writeI18N("smry.tr.count", Integer.valueOf(count));
+        }
     }
 
     private void writeChecksumDetails() throws IOException {
@@ -151,11 +152,12 @@ class SummaryPane extends AuditPane {
         int g = counts[TestResult.GOOD_CHECKSUM];
         int b = counts[TestResult.BAD_CHECKSUM];
         int n = counts[TestResult.NO_CHECKSUM];
-        if (b == 0 && n == 0)
+        if (b == 0 && n == 0) {
             out.writeI18N("smry.cs.allOK");
-        else
+        } else {
             out.writeI18N("smry.cs.count",
                     Integer.valueOf(g), Integer.valueOf((g > 0) && (b + n > 0) ? 1 : 0), Integer.valueOf(b), Integer.valueOf((b > 0) && (n > 0) ? 1 : 0), Integer.valueOf(n));
+        }
 
     }
 
@@ -174,10 +176,11 @@ class SummaryPane extends AuditPane {
 
         TestResult[] bad = currAudit.getBadTestDescriptions();
         int count = bad == null ? 0 : bad.length;
-        if (count == 0)
+        if (count == 0) {
             out.writeI18N("smry.td.allOK");
-        else
+        } else {
             out.writeI18N("smry.td.count", Integer.valueOf(count));
+        }
     }
 
     private void writeTestCaseDetails() throws IOException {
@@ -195,10 +198,11 @@ class SummaryPane extends AuditPane {
 
         TestResult[] bad = currAudit.getBadTestCaseTests();
         int count = bad == null ? 0 : bad.length;
-        if (count == 0)
+        if (count == 0) {
             out.writeI18N("smry.tc.allOK");
-        else
+        } else {
             out.writeI18N("smry.tc.count", Integer.valueOf(count));
+        }
     }
 
     private void writeStatusDetails() throws IOException {
@@ -221,11 +225,11 @@ class SummaryPane extends AuditPane {
         int e = stats[Status.ERROR];
         int nr = stats[Status.NOT_RUN];
 
-        if (p + f + e + nr == 0)
+        if (p + f + e + nr == 0) {
             out.writeI18N("smry.status.noTests");
-        else if (f + e + nr == 0)
+        } else if (f + e + nr == 0) {
             out.writeI18N("smry.status.allOK");
-        else {
+        } else {
             out.writeI18N("smry.status.count",
                     Integer.valueOf(p), Integer.valueOf((p > 0) && (f + e + nr > 0) ? 1 : 0), Integer.valueOf(f), Integer.valueOf((f > 0) && (e + nr > 0) ? 1 : 0), Integer.valueOf(e), Integer.valueOf((e > 0) && (nr > 0) ? 1 : 0), Integer.valueOf(nr));
         }

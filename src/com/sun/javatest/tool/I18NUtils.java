@@ -67,13 +67,15 @@ public class I18NUtils {
      * @see com.sun.javatest.Status
      */
     public static String getStatusString(int status) {
-        if (STATUS_STRINGS == null)
+        if (STATUS_STRINGS == null) {
             loadStatusStrings();
+        }
 
-        if (status < STATUS_STRINGS.length)
+        if (status < STATUS_STRINGS.length) {
             return STATUS_STRINGS[status];
-        else
+        } else {
             return i18n.getString("i18n.unknown");
+        }
     }
 
     /**
@@ -87,8 +89,9 @@ public class I18NUtils {
      * @see com.sun.javatest.Status#getReason
      */
     public static String getStatusMessage(Status status) {
-        if (STATUS_STRINGS == null)
+        if (STATUS_STRINGS == null) {
             loadStatusStrings();
+        }
 
         return STATUS_STRINGS[status.getType()] + " " +
                 status.getReason();
@@ -121,8 +124,9 @@ public class I18NUtils {
             if (STATUS_STRINGS == null) {
                 STATUS_STRINGS = new String[NUM_STATES];
 
-                for (int i = 0; i < NUM_STATES; i++)
+                for (int i = 0; i < NUM_STATES; i++) {
                     STATUS_STRINGS[i] = i18n.getString("i18n.status" + i);
+                }
             }
         }
     }
@@ -144,8 +148,9 @@ public class I18NUtils {
     private static Color getI18NColor(String key, int deflt) {
         String value = i18n.getString(key + ".clr");
         try {
-            if (value != null)
+            if (value != null) {
                 return Color.decode(value);
+            }
         } catch (Exception e) {
             // ignore
         }
@@ -197,8 +202,9 @@ public class I18NUtils {
             }   // catch
 
             // success, otherwise fall through
-            if (result != null)
+            if (result != null) {
                 return result;
+            }
         }
 
         result = getI18NColor(bundle, backup);

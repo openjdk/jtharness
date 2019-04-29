@@ -129,8 +129,12 @@ public class PageGenerator {
                                        String keyHeader, String valHeader) {
         // XXX should include HTML filtering of strings
 
-        if (keyHeader == null) keyHeader = "Key";
-        if (valHeader == null) valHeader = "Value";
+        if (keyHeader == null) {
+            keyHeader = "Key";
+        }
+        if (valHeader == null) {
+            valHeader = "Value";
+        }
 
         out.println("<Table Border>");
 
@@ -170,7 +174,9 @@ public class PageGenerator {
 
     public static void startTable(PrintWriter out, boolean borders) {
         out.print("<Table");
-        if (borders) out.print(" Border");
+        if (borders) {
+            out.print(" Border");
+        }
 
         out.println(">");
     }

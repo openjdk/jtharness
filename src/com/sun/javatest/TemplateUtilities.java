@@ -52,10 +52,11 @@ public class TemplateUtilities {
      */
     public static File getTemplateFile(WorkDirectory wd) {
         String s = getTemplatePath(wd);
-        if (s != null)
+        if (s != null) {
             return new File(s);
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -83,10 +84,11 @@ public class TemplateUtilities {
             // should log the error
         }
 
-        if (p != null)
+        if (p != null) {
             return p.getProperty(TEMPL_FILE_PROP);
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -140,8 +142,9 @@ public class TemplateUtilities {
         File f = new File(dir, WorkDirectory.JTDATA + File.separator + TEMPLATE_FILE);
 
         // workdir may not have template associated
-        if (!f.exists())
+        if (!f.exists()) {
             return null;
+        }
 
         Properties p = new Properties();
         InputStream in = new FileInputStream(f);

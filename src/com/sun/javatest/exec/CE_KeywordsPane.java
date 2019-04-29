@@ -87,29 +87,33 @@ class CE_KeywordsPane extends CE_StdPane {
 
     @Override
     boolean isOKToClose() {
-        if (mutableKeywordsParameters == null)
+        if (mutableKeywordsParameters == null) {
             return true;
+        }
 
-        if (!selectCheck.isSelected())
+        if (!selectCheck.isSelected()) {
             return true;
+        }
 
         try {
             TestSuite ts = config.getTestSuite();
             String[] validKeywords = ts.getKeywords();
             HashSet<String> validKeywordsSet;
-            if (validKeywords == null)
+            if (validKeywords == null) {
                 validKeywordsSet = null;
-            else
+            } else {
                 validKeywordsSet = new HashSet<>(Arrays.asList(validKeywords));
+            }
 
             String kc = (String) keywordsChoice.getSelectedItem();
             String type;
-            if (kc.equals(ANY_OF))
+            if (kc.equals(ANY_OF)) {
                 type = Keywords.ANY_OF;
-            else if (kc.equals(ALL_OF))
+            } else if (kc.equals(ALL_OF)) {
                 type = Keywords.ALL_OF;
-            else
+            } else {
                 type = Keywords.EXPR;
+            }
             Keywords k = Keywords.create(type, keywordsField.getText(),
                     validKeywordsSet);
             return true;
@@ -123,10 +127,11 @@ class CE_KeywordsPane extends CE_StdPane {
         // track interview changes
         keywordsParameters = config.getKeywordsParameters();
         if (keywordsParameters != null
-                && keywordsParameters instanceof MutableKeywordsParameters)
+                && keywordsParameters instanceof MutableKeywordsParameters) {
             mutableKeywordsParameters = (MutableKeywordsParameters) keywordsParameters;
-        else
+        } else {
             mutableKeywordsParameters = null;
+        }
     }
 
     @Override
@@ -188,12 +193,13 @@ class CE_KeywordsPane extends CE_StdPane {
 
             String kc = (String) keywordsChoice.getSelectedItem();
             int kmm;
-            if (kc.equals(ANY_OF))
+            if (kc.equals(ANY_OF)) {
                 kmm = MutableKeywordsParameters.ANY_OF;
-            else if (kc.equals(ALL_OF))
+            } else if (kc.equals(ALL_OF)) {
                 kmm = MutableKeywordsParameters.ALL_OF;
-            else
+            } else {
                 kmm = MutableKeywordsParameters.EXPR;
+            }
             mutableKeywordsParameters.setMatchKeywords(kmm, keywordsField.getText());
         }
     }
@@ -277,7 +283,9 @@ class CE_KeywordsPane extends CE_StdPane {
                 // so create a popup menu for them
                 keywordPopup = uif.createPopupMenu("ce.keywords.keyword");
                 keywordChooser = false;
-                for (String keyword : keywords) keywordPopup.add(uif.createLiteralMenuItem(keyword, listener));
+                for (String keyword : keywords) {
+                    keywordPopup.add(uif.createLiteralMenuItem(keyword, listener));
+                }
                 if (keywordPopup.getPreferredSize().getHeight() > (Toolkit.getDefaultToolkit().getScreenSize().height - 50)) {
                     keywordPopup = null;
                     keywordChooser = true;
@@ -449,19 +457,20 @@ class CE_KeywordsPane extends CE_StdPane {
                     kc.setLocationRelativeToXY(keywordBtn, CE_KeywordsPane.this);
                     kc.setVisible(true);
                 }
-            } else if (src == opBtn)
+            } else if (src == opBtn) {
                 show(opBtn, opPopup);
-            else if (cmd.equals(AND))
+            } else if (cmd.equals(AND)) {
                 insert("&");
-            else if (cmd.equals(OR))
+            } else if (cmd.equals(OR)) {
                 insert("|");
-            else if (cmd.equals(NOT))
+            } else if (cmd.equals(NOT)) {
                 insert("!");
-            else if (cmd.equals(PARENS)) {
+            } else if (cmd.equals(PARENS)) {
                 insert("()");
                 keywordsField.setCaretPosition(keywordsField.getCaretPosition() - 1);
-            } else if (src.getParent() == keywordPopup)
+            } else if (src.getParent() == keywordPopup) {
                 insert(cmd);
+            }
         }
 
         // show a popup menu relative to its invoking button
@@ -471,8 +480,9 @@ class CE_KeywordsPane extends CE_StdPane {
 
         // insert text into the keywords field
         void insert(String s) {
-            if (s.isEmpty())
+            if (s.isEmpty()) {
                 return;
+            }
 
             String t = keywordsField.getText();
 
@@ -482,13 +492,15 @@ class CE_KeywordsPane extends CE_StdPane {
 
             boolean needSpaceBefore = Character.isLetterOrDigit(s.charAt(0))
                     && (p1 > 0) && Character.isLetterOrDigit(t.charAt(p1 - 1));
-            if (needSpaceBefore)
+            if (needSpaceBefore) {
                 s = " " + s;
+            }
 
             boolean needSpaceAfter = Character.isLetterOrDigit(s.charAt(s.length() - 1))
                     && (p2 < t.length()) && Character.isLetterOrDigit(t.charAt(p2));
-            if (needSpaceAfter)
+            if (needSpaceAfter) {
                 s = s + " ";
+            }
 
             keywordsField.replaceSelection(s);
         }

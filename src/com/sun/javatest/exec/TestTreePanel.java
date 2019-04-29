@@ -371,8 +371,9 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 } else if (last instanceof TT_BasicNode) {       // tree node
                     // get url
                     url = ((TT_BasicNode) last).getLongPath();
-                } else
+                } else {
                     return null;
+                }
 
                 urls.add(url);
             }   // for
@@ -762,8 +763,9 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             }
             if (confirm != JOptionPane.YES_OPTION) {
                 return;
-            } else
+            } else {
                 ack = true;
+            }
 
             if (tn instanceof TT_BasicNode) {
                 ackNodes = new TT_TreeNode[]{tn};
@@ -800,7 +802,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                         trt.waitUntilReady();
                         treeModel.pauseWork();
 
-                        if (finalNodes == null)
+                        if (finalNodes == null) {
                             for (String finalTarget : finalTargets) {
                                 try {
                                     // this may take a long while...
@@ -818,14 +820,16 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                     }
                                 }       // catch
                             }   // for
-                        else {
+                        } else {
                             for (int i = 0; i < finalNodes.length; i++) {
                                 try {
-                                    if (finalNodes[i] instanceof TT_TestNode)
+                                    if (finalNodes[i] instanceof TT_TestNode) {
                                         changes = trt.refreshIfNeeded(finalNodes[i].getLongPath());
-                                    else {
+                                    } else {
                                         changes = trt.refreshIfNeeded(((TT_BasicNode) finalNodes[i]).getTableNode());
-                                        if (changes) trt.prune(((TT_BasicNode) finalNodes[i]).getTableNode());
+                                        if (changes) {
+                                            trt.prune(((TT_BasicNode) finalNodes[i]).getTableNode());
+                                        }
                                     }
 
                                 } catch (TestResultTable.Fault f) {
@@ -999,8 +1003,9 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                     if (tree != null) {
                                         tree.invalidate();
 
-                                        if (openPaths != null && openPaths.length > 0)
+                                        if (openPaths != null && openPaths.length > 0) {
                                             tree.restorePaths(openPaths, true);
+                                        }
 
                                         tree.restoreSelection(selectedPaths);
 
@@ -1008,8 +1013,9 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                                 } finally {
                                     trt.getLock().unlock();
 
-                                    if (!disposed)
+                                    if (!disposed) {
                                         treeModel.unpauseWork();
+                                    }
                                 }
                             }
                         }
@@ -1288,8 +1294,9 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 }
             } else if (item instanceof TT_BasicNode) {
                 String url = ((TT_BasicNode) item).getLongPath();
-                if (url == null)
+                if (url == null) {
                     url = "";   // this is just how we define it
+                }
 
                 if (testMenus != null) {
                     for (JavaTestContextMenu testMenu : testMenus) {
@@ -1335,8 +1342,9 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                     }   // for
                 }
 
-                if (!(tree.getModel() instanceof EmptyTestTreeModel))
+                if (!(tree.getModel() instanceof EmptyTestTreeModel)) {
                     throw new JavaTestError("Unknown node type from JTree!");
+                }
             }
         } else {      // multiple nodes selected
             ArrayList<TestResult> tests = new ArrayList<>();
@@ -1353,10 +1361,11 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                     tests.add(((TT_TestNode) item).getTestResult());
                 } else {
                     TT_BasicNode bn = (TT_BasicNode) item;
-                    if (bn.isRoot())
+                    if (bn.isRoot()) {
                         folders.add("");
-                    else
+                    } else {
                         folders.add(bn.getLongPath());
+                    }
                 }
             }   // for
 
@@ -1999,8 +2008,9 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             }
 
 
-            if (openPaths != null && openPaths.length > 0)
+            if (openPaths != null && openPaths.length > 0) {
                 tree.restorePaths(openPaths, true);
+            }
 
             if (tree != null) {
                 tree.restoreSelection(selectedPaths);

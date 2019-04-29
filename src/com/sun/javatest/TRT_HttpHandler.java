@@ -59,8 +59,9 @@ class TRT_HttpHandler extends JThttpProvider {
             PageGenerator.writeBeginDoc(out);
             printTests(requestURL, out);
         } else {
-            if (debug)
+            if (debug) {
                 Debug.println("TRT.HH-remainder of URL unknown (" + nf + ")");
+            }
             beginBad(out);
             printIndex(out);
         }
@@ -148,7 +149,9 @@ class TRT_HttpHandler extends JThttpProvider {
                 url = tr.getDescription().getRootRelativeURL();
             } catch (TestResult.Fault f) {
                 out.println("<tr><td>Unable to get TestResult info, aborting.</tr>");
-                if (debug) f.printStackTrace();
+                if (debug) {
+                    f.printStackTrace();
+                }
                 // exit the while loop
                 break;
             }

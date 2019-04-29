@@ -205,10 +205,11 @@ public class Status {
      * additional information in <em>aux</em>.
      */
     public Status augment(String aux) {
-        if (aux == null || aux.isEmpty())
+        if (aux == null || aux.isEmpty()) {
             return this;
-        else
+        } else {
             return new Status(type, reason + " [" + aux + "]");
+        }
     }
 
     /**
@@ -268,10 +269,11 @@ public class Status {
      */
     @Override
     public String toString() {
-        if (reason == null || reason.isEmpty())
+        if (reason == null || reason.isEmpty()) {
             return texts[type];
-        else
+        } else {
             return texts[type] + " " + reason;
+        }
     }
 
     /**
@@ -282,10 +284,11 @@ public class Status {
      * @return null if the given integer was out of range, otherwise an appropriate string.
      */
     public static String typeToString(int typeNum) {
-        if (typeNum < NUM_STATES)
+        if (typeNum < NUM_STATES) {
             return texts[typeNum];
-        else
+        } else {
             return null;
+        }
     }
 
     /**

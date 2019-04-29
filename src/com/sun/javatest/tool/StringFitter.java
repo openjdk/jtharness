@@ -178,8 +178,9 @@ public class StringFitter {
      * replace strings and "" for split string
      */
     public static StringFitter getDefaultFitter() {
-        if (defaultInstance == null)
+        if (defaultInstance == null) {
             defaultInstance = new StringFitter();
+        }
         return defaultInstance;
     }
 
@@ -308,14 +309,16 @@ public class StringFitter {
         int size = fm.stringWidth(s) + leftRSWidth;
 
         // if component is wider than the string - it isn't modified
-        if (size <= width)
+        if (size <= width) {
             return s;
+        }
 
         // using String.split(String, int) to avoid cutting empty parts ("///".split("/") -> empty array)
         String parts[] = s.split(splitString, s.length() + 1);
         // truncating only 2+ parts of string
-        if (parts.length < 2)
+        if (parts.length < 2) {
             return s;
+        }
         size += splitWidth;
 
         int i = 0;
@@ -354,25 +357,29 @@ public class StringFitter {
     public String truncateEnding(String s, int width) {
         int size = fm.stringWidth(s) + rightRSWidth;
         // if component is wider than the string - it isn't modified
-        if (size <= width)
+        if (size <= width) {
             return s;
+        }
 
         // using String.split(String, int) to avoid cutting empty parts
         String parts[] = s.split(splitString, s.length() + 1);
         // truncating only 2+ parts of string
-        if (parts.length < 2)
+        if (parts.length < 2) {
             return s;
+        }
         size += splitWidth;
 
         int i = parts.length - 1;
         // truncating (length-1) parts of initial string - the last one will not be truncated
         // i appears to be index of the last truncated part
-        for (; i > 0 && size >= width; i--)
+        for (; i > 0 && size >= width; i--) {
             size -= fm.stringWidth(parts[i]) + splitWidth;
+        }
 
         StringBuilder result = new StringBuilder();
-        for (int j = 0; j <= i; j++)
+        for (int j = 0; j <= i; j++) {
             result.append(parts[j]).append(splitString);
+        }
 
         return result.append(rightReplaceString).toString();
     }
@@ -397,13 +404,15 @@ public class StringFitter {
      */
     public String truncateMiddle(String s, int width) {
         // if component is wider than the string - it isn't modified
-        if (fm.stringWidth(s) + middleRSWidth <= width)
+        if (fm.stringWidth(s) + middleRSWidth <= width) {
             return s;
+        }
 
         String parts[] = s.split(splitString, s.length() + 1);
         // truncating only 2+ parts of string
-        if (parts.length < 2)
+        if (parts.length < 2) {
             return s;
+        }
 
         // begI, endI - indexes of ending/starting of remaining parts of the string
         int begI = 0, endI = parts.length - 1;

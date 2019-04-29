@@ -58,8 +58,9 @@ public class FileList extends EditableList {
      */
     public void setBaseDirectory(File dir) {
         baseDir = dir;
-        if (dir == null)
+        if (dir == null) {
             dir = new File(System.getProperty("user.dir"));
+        }
         chooser.setCurrentDirectory(dir);
     }
 
@@ -101,33 +102,38 @@ public class FileList extends EditableList {
     protected Object getNewItem() {
         chooser.setDialogTitle(i18n.getString("flst.addFile.title"));
         int opt = chooser.showDialog(FileList.this, i18n.getString("flst.addFile.ok"));
-        if (opt == JFileChooser.APPROVE_OPTION)
+        if (opt == JFileChooser.APPROVE_OPTION) {
             return getBaseRelativeFile(chooser.getSelectedFile());
-        else
+        } else {
             return null;
+        }
     }
 
     @Override
     protected Object getNewItem(Object oldItem) {
         File f = (File) oldItem;
-        if (!f.isAbsolute() && baseDir != null)
+        if (!f.isAbsolute() && baseDir != null) {
             f = new File(baseDir, f.getPath());
+        }
         chooser.setSelectedFile(f);
         chooser.setDialogTitle(i18n.getString("flst.changeFile.title"));
         int opt = chooser.showDialog(FileList.this, i18n.getString("flst.changeFile.ok"));
-        if (opt == JFileChooser.APPROVE_OPTION)
+        if (opt == JFileChooser.APPROVE_OPTION) {
             return getBaseRelativeFile(chooser.getSelectedFile());
-        else
+        } else {
             return null;
+        }
     }
 
     private File getBaseRelativeFile(File f) {
-        if (baseDir == null)
+        if (baseDir == null) {
             return f;
+        }
 
         String bp = baseDir.getPath();
-        if (f.getPath().startsWith(bp + File.separatorChar))
+        if (f.getPath().startsWith(bp + File.separatorChar)) {
             return new File(f.getPath().substring(bp.length() + 1));
+        }
 
         return f;
     }

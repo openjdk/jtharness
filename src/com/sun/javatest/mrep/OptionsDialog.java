@@ -199,8 +199,9 @@ class OptionsDialog extends ToolDialog {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (chain != null)
+            if (chain != null) {
                 chain.actionPerformed(e);
+            }
         }
     }
 

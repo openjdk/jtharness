@@ -68,8 +68,9 @@ public class JUnitTestRunner extends TestRunner {
             tr.setStatus(execStatus);
 
             try {
-                if (execStatus.getType() != Status.PASSED || jtrIfPassed)
+                if (execStatus.getType() != Status.PASSED || jtrIfPassed) {
                     tr.writeResults(wd, backupPolicy);
+                }
             } catch (IOException e) {
                 // ignore it; the test will have an error status already
                 // could log the error using the logging system

@@ -153,39 +153,46 @@ public class LineParser {
                     case '\n':
                         // end current word, return if curr line not empty
                         endWord_nextCh();
-                        if (!currLine.isEmpty())
+                        if (!currLine.isEmpty()) {
                             return endLine();
+                        }
                         break;
 
                     case ';':
                         // end current word, return if curr line not empty
                         endWord_nextCh();
-                        if (!currLine.isEmpty())
+                        if (!currLine.isEmpty()) {
                             return endLine();
+                        }
                         break;
 
                     case '#':
                         // skip to end of line
                         // return if curr line not empty
                         endWord_nextCh();
-                        while (ch != -1 && ch != '\r' && ch != '\n')
+                        while (ch != -1 && ch != '\r' && ch != '\n') {
                             nextCh();
-                        if (!currLine.isEmpty())
+                        }
+                        if (!currLine.isEmpty()) {
                             return endLine();
+                        }
                         break;
 
                     case '\\':
                         // read next character; if newline, skip whitespace
                         // else add next character uninterpreted
                         nextCh();
-                        if (ch == '\r')
+                        if (ch == '\r') {
                             nextCh();
+                        }
                         if (ch == '\n') {
                             nextCh();
-                            while (ch == ' ' || ch == '\t')
+                            while (ch == ' ' || ch == '\t') {
                                 nextCh();
-                        } else
+                            }
+                        } else {
                             append_nextCh();
+                        }
                         break;
 
                     case '"':
@@ -218,8 +225,9 @@ public class LineParser {
     }
 
     private void readString(char termCh) throws IOException, Fault {
-        if (currWord == null)
+        if (currWord == null) {
             currWord = new StringBuffer();
+        }
         nextCh();
         while (ch != -1) {
             switch (ch) {
@@ -239,15 +247,17 @@ public class LineParser {
                     if (ch == termCh) {
                         nextCh();
                         return;
-                    } else
+                    } else {
                         append_nextCh();
+                    }
             }
         }
     }
 
     private void append_nextCh() throws IOException {
-        if (currWord == null)
+        if (currWord == null) {
             currWord = new StringBuffer();
+        }
         currWord.append((char) ch);
         nextCh();
     }
@@ -269,8 +279,9 @@ public class LineParser {
 
     private void nextCh() throws IOException {
         ch = in.read();
-        if (ch == '\n')
+        if (ch == '\n') {
             lineNumber++;
+        }
     }
 
     private File file;

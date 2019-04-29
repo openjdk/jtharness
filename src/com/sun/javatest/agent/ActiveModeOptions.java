@@ -56,12 +56,14 @@ class ActiveModeOptions extends ModeOptions {
     @Override
     ConnectionFactory createConnectionFactory(int concurrency) throws BadValue {
         String host = hostField.getText();
-        if (host == null || host.isEmpty())
+        if (host == null || host.isEmpty()) {
             throw new BadValue("no host name set");
+        }
 
         int port = getInt("port", portField);
-        if (port < 0)
+        if (port < 0) {
             throw new BadValue("port may not be negative");
+        }
 
         return new ActiveConnectionFactory(host, port);
     }

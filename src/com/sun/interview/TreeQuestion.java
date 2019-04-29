@@ -223,8 +223,9 @@ public abstract class TreeQuestion extends Question {
         }
 
         String[] paths = new String[nodes.length];
-        for (int i = 0; i < nodes.length; i++)
+        for (int i = 0; i < nodes.length; i++) {
             paths[i] = model.getPath(nodes[i]);
+        }
     }
 
     @Override
@@ -344,35 +345,43 @@ public abstract class TreeQuestion extends Question {
     }
 
     public static String[] split(String s) {
-        if (s == null)
+        if (s == null) {
             return empty;
+        }
 
         Vector<String> v = new Vector<>();
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             if (white(s.charAt(i))) {
-                if (start != -1)
+                if (start != -1) {
                     v.add(s.substring(start, i));
+                }
                 start = -1;
-            } else if (start == -1)
+            } else if (start == -1) {
                 start = i;
+            }
         }
 
-        if (start != -1)
+        if (start != -1) {
             v.add(s.substring(start));
+        }
 
-        if (v.isEmpty())
+        if (v.isEmpty()) {
             return empty;
+        }
 
         return v.toArray(new String[v.size()]);
     }
 
     public static String join(String... paths) {
-        if (paths == null || paths.length == 0)
+        if (paths == null || paths.length == 0) {
             return "";
+        }
 
         int l = paths.length - 1; // allow for spaces between words
-        for (String path : paths) l += path.length();
+        for (String path : paths) {
+            l += path.length();
+        }
 
         StringBuilder sb = new StringBuilder(l);
         sb.append(paths[0]);

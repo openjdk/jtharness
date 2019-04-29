@@ -65,9 +65,9 @@ public abstract class BasicParameters
      * @see #setTestSuite(TestSuite)
      */
     public void setTestSuite(File file) {
-        if (file == null)
+        if (file == null) {
             testSuiteError = i18n.getString("bp.noTestSuite");
-        else {
+        } else {
             try {
                 setTestSuite(TestSuite.open(file));
                 //System.err.println("BP.setTestSuite: " + file + " opened");
@@ -90,11 +90,13 @@ public abstract class BasicParameters
      */
     @Override
     public void setTestSuite(TestSuite ts) {
-        if (ts == null)
+        if (ts == null) {
             throw new NullPointerException();
+        }
 
-        if (testSuite != null && testSuite != ts)
+        if (testSuite != null && testSuite != ts) {
             throw new IllegalStateException();
+        }
 
         testSuite = ts;
         testSuiteError = null;
@@ -133,9 +135,9 @@ public abstract class BasicParameters
      * @see #setWorkDirectory(WorkDirectory)
      */
     public void setWorkDirectory(File dir) {
-        if (dir == null)
+        if (dir == null) {
             workDirError = i18n.getString("bp.workDirMissing");
-        else if (isTestSuiteOK()) {
+        } else if (isTestSuiteOK()) {
             try {
                 TestSuite ts = getTestSuite();
                 if (dir.exists()) {
@@ -145,17 +147,20 @@ public abstract class BasicParameters
                     } else if (WorkDirectory.isEmptyDirectory(dir)) {
                         workDir = WorkDirectory.create(dir, ts);
                         workDirError = null;
-                    } else
+                    } else {
                         workDirError = i18n.getString("bp.badWorkDir", dir.getPath());
-                } else
+                    }
+                } else {
                     workDirError = i18n.getString("bp.cantFindWorkDir", dir.getPath());
+                }
             } catch (FileNotFoundException e) {
                 workDirError = i18n.getString("bp.cantFindWorkDir", dir.getPath());
             } catch (WorkDirectory.Fault e) {
                 workDirError = i18n.getString("bp.workDirError", e.getMessage());
             }
-        } else
+        } else {
             workDirError = i18n.getString("bp.noTestSuite");
+        }
     }
 
     /**
@@ -173,17 +178,21 @@ public abstract class BasicParameters
      */
     @Override
     public void setWorkDirectory(WorkDirectory wd) {
-        if (wd == null)
+        if (wd == null) {
             throw new NullPointerException();
+        }
 
-        if (workDir != null && workDir != wd)
+        if (workDir != null && workDir != wd) {
             throw new IllegalStateException();
+        }
 
-        if (testSuite != null && wd.getTestSuite() != testSuite)
+        if (testSuite != null && wd.getTestSuite() != testSuite) {
             throw new IllegalArgumentException();
+        }
 
-        if (testSuite == null)
+        if (testSuite == null) {
             setTestSuite(wd.getTestSuite());
+        }
         workDir = wd;
     }
 
@@ -213,9 +222,9 @@ public abstract class BasicParameters
 
     @Override
     public void setTests(String... tests) {
-        if (tests == null)
+        if (tests == null) {
             testsMode = MutableTestsParameters.ALL_TESTS;
-        else {
+        } else {
             testsMode = MutableTestsParameters.SPECIFIED_TESTS;
             this.tests = tests;
         }
@@ -229,8 +238,9 @@ public abstract class BasicParameters
     @Override
     public void setTestsMode(int mode) {
         if (mode != ALL_TESTS &&
-                mode != SPECIFIED_TESTS)
+                mode != SPECIFIED_TESTS) {
             throw new IllegalArgumentException();
+        }
 
         testsMode = mode;
     }
@@ -242,8 +252,9 @@ public abstract class BasicParameters
 
     @Override
     public void setSpecifiedTests(String... tests) {
-        if (tests == null)
+        if (tests == null) {
             throw new NullPointerException();
+        }
 
         this.tests = tests;
     }
@@ -267,22 +278,27 @@ public abstract class BasicParameters
         TestSuite ts = getTestSuite();
         switch (excludeMode) {
             case INITIAL_EXCLUDE_LIST:
-                if (ts == null)
+                if (ts == null) {
                     return null;
+                }
                 File df = ts.getInitialExcludeList();
-                if (df == null)
+                if (df == null) {
                     return null;
+                }
                 return new File[]{df};
 
             case LATEST_EXCLUDE_LIST:
-                if (ts == null)
+                if (ts == null) {
                     return null;
+                }
                 URL u = ts.getLatestExcludeList();
-                if (u == null)
+                if (u == null) {
                     return null;
+                }
                 WorkDirectory wd = getWorkDirectory();
-                if (wd == null)
+                if (wd == null) {
                     return null;
+                }
                 return new File[]{wd.getSystemFile("latest.jtx")};
 
             case CUSTOM_EXCLUDE_LIST:
@@ -295,9 +311,9 @@ public abstract class BasicParameters
 
     @Override
     public void setExcludeFiles(File... files) {
-        if (files == null || files.length == 0)
+        if (files == null || files.length == 0) {
             setExcludeMode(NO_EXCLUDE_LIST);
-        else {
+        } else {
             setExcludeMode(CUSTOM_EXCLUDE_LIST);
             setCustomExcludeFiles(files);
         }
@@ -390,10 +406,11 @@ public abstract class BasicParameters
         if (cachedExcludeList == null
                 || !equal(cachedExcludeList_absExclFiles, absExclFiles)) {
             try {
-                if (absExclFiles == null)
+                if (absExclFiles == null) {
                     cachedExcludeList = new ExcludeList();
-                else
+                } else {
                     cachedExcludeList = new ExcludeList(cachedAbsExcludeFiles);
+                }
                 cachedExcludeList_absExclFiles = cachedAbsExcludeFiles;
                 cachedExcludeListFilter = new ExcludeListFilter(cachedExcludeList);
                 excludeListError = null;
@@ -447,9 +464,9 @@ public abstract class BasicParameters
 
     @Override
     public void setKeywords(int mode, String value) {
-        if (value == null)
+        if (value == null) {
             keywordsMode = NO_KEYWORDS;
-        else {
+        } else {
             keywordsMode = MATCH_KEYWORDS;
             keywordsMatchMode = mode;
             keywordsMatchValue = value;
@@ -459,10 +476,11 @@ public abstract class BasicParameters
     @Override
     public TestFilter getKeywordsFilter() {
         updateCachedKeywords();
-        if (keywordsMode == NO_KEYWORDS)
+        if (keywordsMode == NO_KEYWORDS) {
             return null;
-        else
+        } else {
             return cachedKeywordsFilter;
+        }
     }
 
     @Override
@@ -547,17 +565,18 @@ public abstract class BasicParameters
 
     @Override
     public boolean[] getPriorStatusValues() {
-        if (priorStatusMode == NO_PRIOR_STATUS)
+        if (priorStatusMode == NO_PRIOR_STATUS) {
             return null;
-        else
+        } else {
             return priorStatusValues;
+        }
     }
 
     @Override
     public void setPriorStatusValues(boolean... values) {
-        if (values == null)
+        if (values == null) {
             priorStatusMode = NO_PRIOR_STATUS;
-        else {
+        } else {
             priorStatusMode = MATCH_PRIOR_STATUS;
             priorStatusValues = values;
         }
@@ -568,9 +587,9 @@ public abstract class BasicParameters
         WorkDirectory wd = getWorkDirectory();
         TestResultTable r = wd == null ? null : wd.getTestResultTable();
         boolean[] s = getPriorStatusValues();
-        if (r == null || s == null)
+        if (r == null || s == null) {
             cachedPriorStatusFilter = null;
-        else if (cachedPriorStatusFilter == null
+        } else if (cachedPriorStatusFilter == null
                 || cachedPriorStatusFilter.getTestResultTable() != r
                 || !equal(cachedPriorStatusFilter.getStatusValues(), s)) {
             cachedPriorStatusFilter = new StatusFilter(s, r);
@@ -587,8 +606,9 @@ public abstract class BasicParameters
     @Override
     public void setPriorStatusMode(int mode) {
         if (mode != NO_PRIOR_STATUS &&
-                mode != MATCH_PRIOR_STATUS)
+                mode != MATCH_PRIOR_STATUS) {
             throw new IllegalArgumentException();
+        }
 
         priorStatusMode = mode;
     }
@@ -600,11 +620,13 @@ public abstract class BasicParameters
 
     @Override
     public void setMatchPriorStatusValues(boolean... v) {
-        if (v == null)
+        if (v == null) {
             throw new NullPointerException();
+        }
 
-        if (v.length != Status.NUM_STATES)
+        if (v.length != Status.NUM_STATES) {
             throw new IllegalArgumentException();
+        }
 
         priorStatusValues = v;
     }
@@ -692,9 +714,9 @@ public abstract class BasicParameters
     public TestFilter getRelevantTestFilter() {
         TestSuite ts = getTestSuite();
         TestEnvironment env = getEnv();
-        if (ts == null || env == null)
+        if (ts == null || env == null) {
             cachedRelevantTestFilter = null;
-        else if (cachedRelevantTestFilter == null ||
+        } else if (cachedRelevantTestFilter == null ||
                 ts != cachedRelevantTestFilterTestSuite ||
                 env != cachedRelevantTestFilterEnv) {
             cachedRelevantTestFilter = ts.createTestFilter(env);
@@ -711,26 +733,30 @@ public abstract class BasicParameters
         Vector<TestFilter> v = new Vector<>();
 
         TestFilter excludeFilter = getExcludeListFilter();
-        if (excludeFilter != null)
+        if (excludeFilter != null) {
             v.add(excludeFilter);
+        }
 
         TestFilter keywordFilter = getKeywordsFilter();
-        if (keywordFilter != null)
+        if (keywordFilter != null) {
             v.add(keywordFilter);
+        }
 
         TestFilter statusFilter = getPriorStatusFilter();
-        if (statusFilter != null)
+        if (statusFilter != null) {
             v.add(statusFilter);
+        }
 
         TestFilter testSuiteFilter = getRelevantTestFilter();
-        if (testSuiteFilter != null)
+        if (testSuiteFilter != null) {
             v.add(testSuiteFilter);
+        }
 
-        if (v.isEmpty())
+        if (v.isEmpty()) {
             return null;
-        else if (equal(v, cachedTestFilters))
+        } else if (equal(v, cachedTestFilters)) {
             return cachedTestFilters;
-        else {
+        } else {
             return v.toArray(new TestFilter[v.size()]);
         }
 
@@ -776,15 +802,18 @@ public abstract class BasicParameters
      * relative to the given base directory, or null if files was null.
      */
     protected static File[] getAbsoluteFiles(File baseDir, File... files) {
-        if (files == null)
+        if (files == null) {
             return null;
+        }
 
         boolean allAbsolute = true;
-        for (int i = 0; i < files.length && allAbsolute; i++)
+        for (int i = 0; i < files.length && allAbsolute; i++) {
             allAbsolute = files[i].isAbsolute();
+        }
 
-        if (allAbsolute)
+        if (allAbsolute) {
             return files;
+        }
 
         File[] absoluteFiles = new File[files.length];
         for (int i = 0; i < files.length; i++) {
@@ -806,15 +835,18 @@ public abstract class BasicParameters
      * and are element-wise equal.
      */
     protected static boolean equal(boolean[] b1, boolean... b2) {
-        if (b1 == null || b2 == null)
+        if (b1 == null || b2 == null) {
             return b1 == b2;
+        }
 
-        if (b1.length != b2.length)
+        if (b1.length != b2.length) {
             return false;
+        }
 
         for (int i = 0; i < b1.length; i++) {
-            if (b1[i] != b2[i])
+            if (b1[i] != b2[i]) {
                 return false;
+            }
         }
 
         return true;
@@ -829,26 +861,31 @@ public abstract class BasicParameters
      * and are element-wise equal.
      */
     protected static boolean equal(File[] f1, File... f2) {
-        if (f1 == null || f2 == null)
+        if (f1 == null || f2 == null) {
             return f1 == f2;
+        }
 
-        if (f1.length != f2.length)
+        if (f1.length != f2.length) {
             return false;
+        }
 
         for (int i = 0; i < f1.length; i++) {
-            if (f1[i] != f2[i])
+            if (f1[i] != f2[i]) {
                 return false;
+            }
         }
 
         return true;
     }
 
     private static boolean equal(Vector<TestFilter> v, TestFilter... f) {
-        if (f == null || v.size() != f.length)
+        if (f == null || v.size() != f.length) {
             return false;
+        }
         for (int i = 0; i < v.size(); i++) {
-            if (!v.get(i).equals(f[i]))
+            if (!v.get(i).equals(f[i])) {
                 return false;
+            }
         }
         return true;
     }

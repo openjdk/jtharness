@@ -97,10 +97,11 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
     @Override
     public void scan(File file) {
         currFile = file;
-        if (file.isDirectory())
+        if (file.isDirectory()) {
             scanDirectory(file);
-        else
+        } else {
             scanFile(file);
+        }
     }
 
 
@@ -127,8 +128,9 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
         for (String name : names) {
             // if the file should be ignored, skip it
             // This is typically for directories like SCCS etc
-            if (excludeList.containsKey(name))
+            if (excludeList.containsKey(name)) {
                 continue;
+            }
 
             File file = new File(dir, name);
             if (file.isDirectory()) {
@@ -139,8 +141,9 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
             } else {
                 // if its a file, check its extension
                 int dot = name.indexOf('.');
-                if (dot == -1)
+                if (dot == -1) {
                     continue;
+                }
                 String extn = name.substring(dot);
                 if (extensionTable.containsKey(extn)) {
                     // extension has a comment reader, so add it to the
@@ -163,8 +166,9 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
 
         String name = file.getName();
         int dot = name.indexOf('.');
-        if (dot == -1)
+        if (dot == -1) {
             return;
+        }
 
         String classFile = "";
         if (scanClasses) {
@@ -239,8 +243,9 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
 
         @Override
         public AnnotationVisitor visitAnnotation(String string, boolean b) {
-            if (outer.methodAnnotation.equals(string))
+            if (outer.methodAnnotation.equals(string)) {
                 outer.foundTestMethod(outer.currMethod);
+            }
 
             return null;
         }
@@ -259,8 +264,9 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
         @Override
         public void visit(int version, int access, String name, String signature,
                           String superName, String[] interfaces) {
-            if (verbose)
+            if (verbose) {
                 System.out.println("found class " + name + " with super " + superName);
+            }
         }
 
         @Override
@@ -269,8 +275,9 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
             if (access == Opcodes.ACC_PUBLIC) {
                 outer.currMethod = name;
                 return methodVisitor;
-            } else
+            } else {
                 return null;
+            }
         }
     }
 

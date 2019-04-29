@@ -69,8 +69,9 @@ abstract class CE_View extends JPanel {
 
     protected void showInfo(HelpID helpId) {
         // Note: infoPanel may be null if no help set found when creating ConfigEditor
-        if (infoPanel != null)
+        if (infoPanel != null) {
             infoPanel.setCurrentID(helpId);
+        }
     }
 
     protected ToolDialog toolDialog;

@@ -141,13 +141,15 @@ class MonitorState {
      */
     synchronized int getEstimatedTotalTests() {
         WorkDirectory wd = harness.getResultTable().getWorkDir();
-        if (wd == null)
+        if (wd == null) {
             return -1;
+        }
 
         int count = wd.getTestSuiteTestCount();
 
-        if (count == -1)
+        if (count == -1) {
             count = wd.getTestSuite().getEstimatedTestCount();
+        }
 
         // make sure we return -1
         return count < 0 ? -1 : count;
@@ -170,7 +172,9 @@ class MonitorState {
      */
     synchronized int getTestsDoneCount() {
         int done = 0;
-        for (int stat : stats) done += stat;
+        for (int stat : stats) {
+            done += stat;
+        }
 
         return done;
     }
@@ -202,8 +206,9 @@ class MonitorState {
     TestResult[] getRunningTests() {
         TestResult[] trs = new TestResult[0];
         synchronized (vLock) {
-            if (runningTests != null && !runningTests.isEmpty())
+            if (runningTests != null && !runningTests.isEmpty()) {
                 trs = runningTests.toArray(trs);
+            }
         }
 
         return trs;
@@ -241,8 +246,9 @@ class MonitorState {
         @Override
         public void startingTest(TestResult tr) {
             synchronized (vLock) {
-                if (!runningTests.contains(tr))
+                if (!runningTests.contains(tr)) {
                     runningTests.add(tr);
+                }
             }
         }
 
@@ -293,7 +299,7 @@ class MonitorState {
 
                 EventQueue.invokeLater(cmd);
             } else {      // now on event thread
-                for (Observer ob : obs)
+                for (Observer ob : obs) {
                     switch (which) {
                         case 0:
                             ob.starting();
@@ -307,6 +313,7 @@ class MonitorState {
                         default:
                             throw new IllegalStateException();
                     }   // switch
+                }
                 // end for
             }   // else
         }
@@ -322,7 +329,9 @@ class MonitorState {
 
                 EventQueue.invokeLater(cmd);
             } else {      // now on event thread
-                for (Observer ob : obs) ob.finished(allOk);
+                for (Observer ob : obs) {
+                    ob.finished(allOk);
+                }
             }
         }
     }

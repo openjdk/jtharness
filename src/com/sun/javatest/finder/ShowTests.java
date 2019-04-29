@@ -102,9 +102,9 @@ public class ShowTests {
      */
     public static void main(String... args) {
         try {
-            if (args.length == 0)
+            if (args.length == 0) {
                 usage(System.out);
-            else {
+            } else {
                 ShowTests m = new ShowTests();
                 m.run(args);
             }
@@ -162,8 +162,9 @@ public class ShowTests {
             if (args[i].equalsIgnoreCase("-finder") && (i + 1 < args.length)) {
                 finder = args[++i];
                 int j = ++i;
-                while ((i < args.length - 1) && !args[i].equalsIgnoreCase("-end"))
+                while ((i < args.length - 1) && !args[i].equalsIgnoreCase("-end")) {
                     ++i;
+                }
                 finderArgs = new String[i - j];
                 System.arraycopy(args, j, finderArgs, 0, finderArgs.length);
             } else if (args[i].equalsIgnoreCase("-initial") && (i + 1 < args.length)) {
@@ -176,25 +177,30 @@ public class ShowTests {
                 fullTests = true;
             } else if (args[i].startsWith("-")) {
                 throw new BadArgs(args[i]);
-            } else
+            } else {
                 testSuite = new File(args[i]);
+            }
         }
 
-        if (finder == null)
+        if (finder == null) {
             throw new BadArgs("no test finder specified");
+        }
 
-        if (testSuite == null)
+        if (testSuite == null) {
             throw new BadArgs("testsuite.html file not specified");
+        }
 
         testFinder = initializeTestFinder(finder, finderArgs, testSuite);
 
-        if (initialFile == null)
+        if (initialFile == null) {
             initialFile = testFinder.getRoot(); // equals testSuite, adjusted by finder as necessary .. e.g. for dirWalk, webWalk etc
+        }
 
-        if (outFile == null)
+        if (outFile == null) {
             out = System.out;
-        else
+        } else {
             out = new PrintStream(new BufferedOutputStream(new FileOutputStream(outFile)), true, StandardCharsets.UTF_8.name());
+        }
 
         // read the tests and write them to output
         list(initialFile);
@@ -233,8 +239,9 @@ public class ShowTests {
     //------------------------------------------------------------------------------------------
 
     private void list(File file) {
-        if (nodes)
+        if (nodes) {
             out.println(file);
+        }
 
         testFinder.read(file);
         TestDescription[] tests = testFinder.getTests();
@@ -258,13 +265,16 @@ public class ShowTests {
         }
 
         if (files != null) {
-            for (File file1 : files) list(file1);
+            for (File file1 : files) {
+                list(file1);
+            }
         }
     }
 
     void pad(String s, int length) {
-        for (int i = s.length(); i < length; i++)
+        for (int i = s.length(); i < length; i++) {
             out.write(' ');
+        }
         out.write(' ');
     }
 

@@ -108,8 +108,9 @@ public class JavaHelpFactory implements HelpSetFactory {
                 // so add in any helpsets for child interviews
                 for (Interview i : interview.getInterviews()) {
                     HelpSet ihs = (HelpSet) i.getHelpSet();
-                    if (ihs != null)
+                    if (ihs != null) {
                         newHelpSet.add(ihs);
+                    }
                 }
             } else {
                 // reregister child help sets with new help set
@@ -129,16 +130,18 @@ public class JavaHelpFactory implements HelpSetFactory {
             }
         } else {
             Interview i = interview;
-            while (i.getParent() != null)
+            while (i.getParent() != null) {
                 i = i.getParent();
+            }
             HelpSet rootHelpSet = (HelpSet) i.getHelpSet();
             if (rootHelpSet != null) {
                 // remove old help set, if any, from root help set
                 // ALERT: WHAT IF THE OLD HELPSET WAS REQUIRED BY DIFFERENT
                 //        SUBINTERVIEWS -- IN THAT CASE, WE SHOULD NOT REMOVE
                 //        IT HERE
-                if (oldHelpSet != null)
+                if (oldHelpSet != null) {
                     rootHelpSet.remove(oldHelpSet);
+                }
                 // register new helpset with root help set
                 rootHelpSet.add(newHelpSet);
             }

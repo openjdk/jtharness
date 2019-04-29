@@ -67,8 +67,9 @@ public class JavaCommentStream extends CommentStream {
                     skipString(c);
                     break;
                 default:
-                    if (!Character.isWhitespace((char) c) && fastScan)
+                    if (!Character.isWhitespace((char) c) && fastScan) {
                         return null;
+                    }
                     break;
             }
         }
@@ -84,14 +85,16 @@ public class JavaCommentStream extends CommentStream {
                 case -1:
                     return null;
                 case '*':
-                    if (starPending)
+                    if (starPending) {
                         putc(comment, c); // flush pending *, leave * pending
-                    else
+                    } else {
                         starPending = true;
+                    }
                     break;
                 case '/':
-                    if (starPending)
+                    if (starPending) {
                         break commentEnd;  // finally got "*/"
+                    }
                     putc(comment, c);
                     break;
                 default:
@@ -122,8 +125,9 @@ public class JavaCommentStream extends CommentStream {
             case ' ':
             case '\t':
             case '*':
-                if (!startLine)
+                if (!startLine) {
                     s.append((char) c);
+                }
                 break;
             default:
                 startLine = false;
@@ -135,17 +139,18 @@ public class JavaCommentStream extends CommentStream {
     private void skipLine() throws IOException {
         while (true) {
             int c = cs.read();
-            if (c == -1 || c == '\r' || c == '\n')
+            if (c == -1 || c == '\r' || c == '\n') {
                 return;
+            }
         }
     }
 
     private void skipString(int term) throws IOException {
         while (true) {
             int c = cs.read();
-            if (c == -1 || c == term)
+            if (c == -1 || c == term) {
                 return;
-            else if (c == '\\') {
+            } else if (c == '\\') {
                 // since we are only interested in finding the end of the
                 // string, we don't need to parse the escape: it is sufficient
                 // to just skip the next character, in case the escape is

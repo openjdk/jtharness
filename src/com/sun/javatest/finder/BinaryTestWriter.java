@@ -171,8 +171,9 @@ public class BinaryTestWriter {
             if (args[i].equalsIgnoreCase("-finder") && (i + 1 < args.length)) {
                 finder = args[++i];
                 int j = ++i;
-                while ((i < args.length - 1) && !args[i].equalsIgnoreCase("-end"))
+                while ((i < args.length - 1) && !args[i].equalsIgnoreCase("-end")) {
                     ++i;
+                }
                 finderArgs = new String[i - j];
                 System.arraycopy(args, j, finderArgs, 0, finderArgs.length);
             } else if (args[i].equalsIgnoreCase("-o") && (i + 1 < args.length)) {
@@ -186,23 +187,27 @@ public class BinaryTestWriter {
 
                 if (i < args.length) {
                     tests = new File[args.length - i];
-                    for (int j = 0; j < tests.length; j++)
+                    for (int j = 0; j < tests.length; j++) {
                         tests[j] = new File(args[i + j]);
+                    }
                 }
                 break;
             }
         }
 
-        if (testSuite == null)
+        if (testSuite == null) {
             throw new BadArgs("testsuite.html file not specified");
+        }
 
         TestFinder testFinder = initializeTestFinder(finder, finderArgs, testSuite);
 
-        if (tests == null)
+        if (tests == null) {
             tests = new File[]{testFinder.getRoot()}; // equals testSuite, adjusted by finder as necessary .. e.g. for dirWalk, webWalk etc
+        }
 
-        if (outFile == null)
+        if (outFile == null) {
             outFile = new File(testFinder.getRootDir(), "testsuite.jtd");
+        }
 
         if (strictFinder) {
             testFinder.setErrorHandler(new TestFinder.ErrorHandler() {
@@ -220,18 +225,21 @@ public class BinaryTestWriter {
         TestTable testTable = new TestTable(stringTable);
         TestTree testTree = new TestTree(testTable);
 
-        if (log != null)
+        if (log != null) {
             log.println("Reading tests...");
+        }
 
         // read the tests into internal data structures
         read(testFinder, tests, testTree);
 
-        if (testTree.getSize() == 0)
+        if (testTree.getSize() == 0) {
             throw new Fault("No tests found -- check arguments.");
+        }
 
         // write out the data structure into a zip file
-        if (log != null)
+        if (log != null) {
             log.println("Writing " + outFile);
+        }
 
         try (FileOutputStream fos = new FileOutputStream(outFile);
              ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos))) {
@@ -268,8 +276,9 @@ public class BinaryTestWriter {
     private TestFinder initializeTestFinder(String finder, String[] args, File ts) throws Fault {
         TestFinder testFinder;
 
-        if (ts == null)
+        if (ts == null) {
             throw new NullPointerException();
+        }
 
         try {
             Class<? extends TestFinder> c = Class.forName(finder).asSubclass(TestFinder.class);
@@ -295,18 +304,19 @@ public class BinaryTestWriter {
      */
     private File getTestSuiteFile(String file) throws Fault {
         File tsa = new File(file);
-        if (tsa.isFile())
+        if (tsa.isFile()) {
             return tsa;
-        else {
+        } else {
             File tsb = new File(tsa, "testsuite.html");
-            if (tsb.exists())
+            if (tsb.exists()) {
                 return tsb;
-            else {
+            } else {
                 File tsc = new File(tsa, "tests/testsuite.html");
-                if (tsc.exists())
+                if (tsc.exists()) {
                     return tsc;
-                else
+                } else {
                     throw new Fault("Bad input. " + file + " is not a JCK");
+                }
             }
         }
     }
@@ -326,8 +336,9 @@ public class BinaryTestWriter {
      * Read all the tests from a test suite and store them in a test tree
      */
     void read(TestFinder finder, File[] files, TestTree testTree) throws Fault {
-        if (files.length < 1)
+        if (files.length < 1) {
             throw new IllegalArgumentException();
+        }
 
         File rootDir = finder.getRootDir();
         Set<File> allFiles = new HashSet<>();
@@ -335,12 +346,14 @@ public class BinaryTestWriter {
         TestTree.Node r = null;
         for (File file : files) {
             File f = file;
-            if (!f.isAbsolute())
+            if (!f.isAbsolute()) {
                 f = new File(rootDir, f.getPath());
+            }
 
             TestTree.Node n = read0(finder, f, testTree, allFiles);
-            if (n == null)
+            if (n == null) {
                 continue;
+            }
 
             while (!f.equals(rootDir)) {
                 f = f.getParentFile();
@@ -350,8 +363,9 @@ public class BinaryTestWriter {
             r = r == null ? n : r.merge(n);
         }
 
-        if (r == null)
+        if (r == null) {
             throw new Fault("No tests found");
+        }
 
         testTree.setRoot(r);
     }
@@ -361,17 +375,19 @@ public class BinaryTestWriter {
      */
     private TestTree.Node read0(TestFinder finder, File file, TestTree testTree, Set<File> allFiles) {
         // keep track of which files we have read, and ignore duplicates
-        if (allFiles.contains(file))
+        if (allFiles.contains(file)) {
             return null;
-        else
+        } else {
             allFiles.add(file);
+        }
 
         finder.read(file);
         TestDescription[] tests = finder.getTests();
         File[] files = finder.getFiles();
 
-        if (tests.length == 0 && files.length == 0)
+        if (tests.length == 0 && files.length == 0) {
             return null;
+        }
 
         Arrays.sort(files);
         Arrays.sort(tests, new Comparator<TestDescription>() {
@@ -384,8 +400,9 @@ public class BinaryTestWriter {
         Vector<TestTree.Node> v = new Vector<>();
         for (File file1 : files) {
             TestTree.Node n = read0(finder, file1, testTree, allFiles);
-            if (n != null)
+            if (n != null) {
                 v.add(n);
+            }
         }
 
         return testTree.new Node(file.getName(), tests, v.toArray(new TestTree.Node[v.size()]));
@@ -402,15 +419,17 @@ public class BinaryTestWriter {
      * @see BinaryTestFinder#readInt
      */
     private static void writeInt(DataOutputStream out, int v) throws IOException {
-        if (v < 0)
+        if (v < 0) {
             throw new IllegalArgumentException();
+        }
 
         boolean leadZero = true;
         for (int i = 28; i > 0; i -= 7) {
             int b = (v >> i) & 0x7f;
             leadZero = leadZero && (b == 0);
-            if (!leadZero)
+            if (!leadZero) {
                 out.writeByte(0x80 | b);
+            }
         }
         out.writeByte(v & 0x7f);
     }
@@ -478,8 +497,9 @@ public class BinaryTestWriter {
          */
         int getIndex(String s) {
             Entry e = map.get(s);
-            if (e == null)
+            if (e == null) {
                 throw new IllegalArgumentException();
+            }
             return e.index;
         }
 
@@ -514,8 +534,9 @@ public class BinaryTestWriter {
             }
 
             writeInt(o, v.size());
-            for (int i = 0; i < v.size(); i++)
+            for (int i = 0; i < v.size(); i++) {
                 o.writeUTF(v.get(i));
+            }
 
             writtenSize = nextIndex;
         }
@@ -530,12 +551,13 @@ public class BinaryTestWriter {
          */
         void writeRef(String s, DataOutputStream o) throws IOException {
             Entry e = map.get(s);
-            if (e == null)
+            if (e == null) {
                 throw new IllegalArgumentException();
+            }
 
-            if (e.isFrequent())
+            if (e.isFrequent()) {
                 writeInt(o, e.index);
-            else {
+            } else {
                 writeInt(o, 0);
                 o.writeUTF(s);
             }
@@ -609,8 +631,9 @@ public class BinaryTestWriter {
          */
         int getIndex(TestDescription td) {
             Entry e = testMap.get(td);
-            if (e == null)
+            if (e == null) {
                 throw new IllegalArgumentException();
+            }
             return e.index;
         }
 
@@ -756,7 +779,9 @@ public class BinaryTestWriter {
                 this.tests = tests;
                 this.children = children;
 
-                for (TestDescription test : tests) testTable.add(test);
+                for (TestDescription test : tests) {
+                    testTable.add(test);
+                }
             }
 
             /**
@@ -766,7 +791,9 @@ public class BinaryTestWriter {
             int getSize() {
                 int n = 1;
                 if (children != null) {
-                    for (Node aChildren : children) n += aChildren.getSize();
+                    for (Node aChildren : children) {
+                        n += aChildren.getSize();
+                    }
                 }
                 return n;
             }
@@ -780,8 +807,9 @@ public class BinaryTestWriter {
              * and the specified node.
              */
             Node merge(Node other) {
-                if (!other.name.equals(name))
+                if (!other.name.equals(name)) {
                     throw new IllegalArgumentException(name + ":" + other.name);
+                }
 
                 TreeMap<String, Node> mergedChildrenMap = new TreeMap<>();
                 for (Node child : children) {
@@ -797,9 +825,9 @@ public class BinaryTestWriter {
                         mergedChildrenMap.values().toArray(new Node[mergedChildrenMap.size()]);
 
                 TestDescription[] mergedTests;
-                if (tests.length + other.tests.length == 0)
+                if (tests.length + other.tests.length == 0) {
                     mergedTests = noTests;
-                else {
+                } else {
                     mergedTests = new TestDescription[tests.length + other.tests.length];
                     System.arraycopy(tests, 0, mergedTests, 0, tests.length);
                     System.arraycopy(other.tests, 0, mergedTests, tests.length, other.tests.length);
@@ -817,9 +845,13 @@ public class BinaryTestWriter {
             void write(DataOutputStream o) throws IOException {
                 o.writeUTF(name);
                 writeInt(o, tests.length);
-                for (TestDescription test : tests) writeInt(o, testTable.getIndex(test));
+                for (TestDescription test : tests) {
+                    writeInt(o, testTable.getIndex(test));
+                }
                 writeInt(o, children.length);
-                for (Node aChildren : children) aChildren.write(o);
+                for (Node aChildren : children) {
+                    aChildren.write(o);
+                }
             }
 
             private String name;

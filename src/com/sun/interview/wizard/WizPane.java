@@ -162,21 +162,25 @@ public class WizPane extends JPanel {
      */
     public void setInfoVisible(boolean b) {
         // verify there is an infoPanel to be made visible
-        if (infoPanel == null)
+        if (infoPanel == null) {
             throw new IllegalStateException();
+        }
 
         // check if already set as desired
-        if (b == isInfoVisible())
+        if (b == isInfoVisible()) {
             return;
+        }
 
         // get dimensions of body and info panel
         Dimension bodySize = body.getSize();
-        if (bodySize.width == 0)
+        if (bodySize.width == 0) {
             bodySize = body.getPreferredSize();
+        }
 
         Dimension infoSize = infoPanel.getSize();
-        if (infoSize.width == 0)
+        if (infoSize.width == 0) {
             infoSize = infoPanel.getPreferredSize();
+        }
 
         // update the wizpane content
         remove(main);
@@ -387,17 +391,19 @@ public class WizPane extends JPanel {
         Question lq = pathPanel.getLastVisible();
 
         if (lq == cq) {
-            if (!(lq instanceof FinalQuestion))
+            if (!(lq instanceof FinalQuestion)) {
                 questionPanel.showValueInvalidMessage();
-        } else
+            }
+        } else {
             setCurrentQuestion(lq);
+        }
 
     }
 
     private void setCurrentQuestion(Question q) {
-        if (q == null)
+        if (q == null) {
             questionPanel.showValueInvalidMessage();
-        else {
+        } else {
             try {
                 interview.setCurrentQuestion(q);
             } catch (Interview.Fault ignore) {
@@ -413,8 +419,9 @@ public class WizPane extends JPanel {
      * question within the interview.
      */
     public void find() {
-        if (searchDialog == null)
+        if (searchDialog == null) {
             searchDialog = SearchDialog.create(this, interview, helpHelpBroker, helpHelpPrefix);
+        }
         searchDialog.setVisible(true);
     }
 
@@ -424,8 +431,9 @@ public class WizPane extends JPanel {
      * will be displayed if it has not previously been displayed.
      */
     public void findNext() {
-        if (searchDialog == null)
+        if (searchDialog == null) {
             searchDialog = SearchDialog.create(this, interview, helpHelpBroker, helpHelpPrefix);
+        }
 
         searchDialog.find();
     }
@@ -447,10 +455,11 @@ public class WizPane extends JPanel {
         questionPanel.setNextAction(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (getMarkersFilterEnabled())
+                if (getMarkersFilterEnabled()) {
                     nextVisible();
-                else
+                } else {
                     next();
+                }
             }
         });
 
@@ -487,8 +496,9 @@ public class WizPane extends JPanel {
         body.registerKeyboardAction(listener, FIND_NEXT, KeyStroke.getKeyStroke("F3"),
                 JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        if (infoEnabled && interview.getHelpSet() != null)
+        if (infoEnabled && interview.getHelpSet() != null) {
             infoPanel = new InfoPanel(interview);
+        }
 
 
         // set wizPane contents to be body+info, or just body

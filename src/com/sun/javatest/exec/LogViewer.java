@@ -582,13 +582,17 @@ class LogViewer extends ToolDialog {
 
         @Override
         public void run() {
-            if (noWindow) return;
+            if (noWindow) {
+                return;
+            }
             if (Thread.currentThread().isInterrupted()) {
                 return;
             }
             ArrayList<LogModel.LiteLogRecord> records = model.getRecords();
             for (int i = from; i <= to && i < records.size() && i >= 0; i++) {
-                if (noWindow) return;
+                if (noWindow) {
+                    return;
+                }
                 LogModel.LiteLogRecord rec = records.get(i);
                 if (rec == null) {
                     continue;
@@ -605,9 +609,13 @@ class LogViewer extends ToolDialog {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        if (noWindow) return;
+                        if (noWindow) {
+                            return;
+                        }
                         synchronized (thePane) {
-                            if (iter <= thePane.fromRec) return;
+                            if (iter <= thePane.fromRec) {
+                                return;
+                            }
                             thePane.page = pagenum;
                             thePane.fromRec = iter;
                         }
@@ -643,7 +651,9 @@ class LogViewer extends ToolDialog {
                                 }
                             }
                             thePane.setCaretPosition(oldPos);
-                            if (noWindow) return;
+                            if (noWindow) {
+                                return;
+                            }
                         } catch (BadLocationException ex) {
                             ex.printStackTrace();
                         }
@@ -837,7 +847,9 @@ class LogViewer extends ToolDialog {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                if (noWindow) return;
+                if (noWindow) {
+                    return;
+                }
                 synchronized (thePane) {
                     if (model != null && btnFirst != null && btnLast != null &&
                             btnPrev != null && btnNext != null && lblPageCounter != null &&
@@ -1289,7 +1301,9 @@ class LogViewer extends ToolDialog {
         public void run() {
             try {
                 while (true) {
-                    if (noWindow) return;
+                    if (noWindow) {
+                        return;
+                    }
                     boolean reset = false;
                     if (model.isStableState()) {
                         if (autoScroll) {
@@ -1320,8 +1334,9 @@ class LogViewer extends ToolDialog {
                                 }
                             }
                         } else {
-                            if (thePane.getCaret() == null)
+                            if (thePane.getCaret() == null) {
                                 thePane.setCaretPosition(0);
+                            }
                         }
                     } else {
                         setBusy(true);

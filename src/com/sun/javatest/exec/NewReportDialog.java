@@ -144,13 +144,15 @@ class NewReportDialog extends ToolDialog {
         String rd = h.get(REPORT_DIR);
         String filter = h.get(FILTER);
 
-        if (dirField == null)
+        if (dirField == null) {
             initGUI();
+        }
 
         dirField.setText(rd);
 
-        if (filter != null && !filter.isEmpty())
+        if (filter != null && !filter.isEmpty()) {
             filterHandler.setFilter(filter);
+        }
 
         updateHtmlCheckboxStates();
         updateCofCheckboxStates();
@@ -161,11 +163,13 @@ class NewReportDialog extends ToolDialog {
         String filter = filterHandler.getActiveFilter().getName();
         Map<String, String> lastState = new HashMap<>();
 
-        if (rd != null && !rd.isEmpty())
+        if (rd != null && !rd.isEmpty()) {
             lastState.put(REPORT_DIR, rd);
+        }
 
-        if (filter != null && !filter.isEmpty())
+        if (filter != null && !filter.isEmpty()) {
             lastState.put(FILTER, filter);
+        }
 
         return lastState;
     }
@@ -368,7 +372,9 @@ class NewReportDialog extends ToolDialog {
                     // ignore
                     return;
                 }
-                if (ord == -1) ord = 9;
+                if (ord == -1) {
+                    ord = 9;
+                }
                 if (ord <= list.getModel().getSize()) {
                     list.requestFocusInWindow();
                     list.setSelectedIndex(ord);
@@ -380,7 +386,9 @@ class NewReportDialog extends ToolDialog {
         list.getActionMap().put(ACTION_MAP_KEY, listMnemonics);
 
         int itemCount = listModel.size();
-        if (itemCount > 9) itemCount = 9;
+        if (itemCount > 9) {
+            itemCount = 9;
+        }
         for (int i = 1; i <= itemCount; ++i) {
             list.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(i + '0', InputEvent.ALT_DOWN_MASK), ACTION_MAP_KEY);
             JCheckBox box = listModel.getElementAt(i - 1);
@@ -776,8 +784,9 @@ class NewReportDialog extends ToolDialog {
         int result = 0;
 
         ContextManager cm = model.getContextManager();
-        if (cm == null)
+        if (cm == null) {
             return 0;
+        }
 
         customReports = cm.getCustomReports();
         if (customReports == null || customReports.length == 0) {
@@ -801,7 +810,9 @@ class NewReportDialog extends ToolDialog {
             } else {
                 // tabbed pane for all supplied panels
                 JTabbedPane tp = uif.createTabbedPane("nrd.custom.tabs");
-                for (ReportConfigPanel op : ops) tp.addTab(op.getPanelName(), op);
+                for (ReportConfigPanel op : ops) {
+                    tp.addTab(op.getPanelName(), op);
+                }
 
                 p.add(customReport.getReportId(), tp);
             }
@@ -831,15 +842,17 @@ class NewReportDialog extends ToolDialog {
         ReportDirChooser rdc = getReportDirChooser();
         rdc.setMode(ReportDirChooser.NEW);
         int option = rdc.showDialog(dirField);
-        if (option != JFileChooser.APPROVE_OPTION)
+        if (option != JFileChooser.APPROVE_OPTION) {
             return;
+        }
 
         dirField.setText(rdc.getSelectedFile().getAbsolutePath());
     }
 
     private ReportDirChooser getReportDirChooser() {
-        if (reportDirChooser == null)
+        if (reportDirChooser == null) {
             reportDirChooser = new ReportDirChooser();
+        }
         return reportDirChooser;
     }
 
@@ -852,10 +865,11 @@ class NewReportDialog extends ToolDialog {
 
             for (String name : names) {
                 File rpt = new File(reportDir, name);
-                if (rpt.exists() && rpt.canRead())
+                if (rpt.exists() && rpt.canRead()) {
                     possible.add(rpt);
-                else
+                } else {
                     rpt = null;
+                }
             }
 
             if (!possible.isEmpty()) {
@@ -871,8 +885,9 @@ class NewReportDialog extends ToolDialog {
                     }
                 }       // for
                 reportBrowser.show(newestF);
-            } else
+            } else {
                 reportBrowser.show(reportDir);
+            }
         }
     }
 
@@ -918,10 +933,16 @@ class NewReportDialog extends ToolDialog {
         // config gets disabled if HTML reporting is off
 
         if (!cbHtml.isSelected()) {
-            for (JCheckBox aHtmlGroup : htmlGroup) aHtmlGroup.setEnabled(false);
+            for (JCheckBox aHtmlGroup : htmlGroup) {
+                aHtmlGroup.setEnabled(false);
+            }
         } else {
-            for (JCheckBox aHtmlGroup : htmlGroup) aHtmlGroup.setEnabled(true);
-            for (JCheckBox aConfigGroup : configGroup) aConfigGroup.setEnabled(cbConfig.isSelected());
+            for (JCheckBox aHtmlGroup : htmlGroup) {
+                aHtmlGroup.setEnabled(true);
+            }
+            for (JCheckBox aConfigGroup : configGroup) {
+                aConfigGroup.setEnabled(cbConfig.isSelected());
+            }
         }
     }
 
@@ -989,8 +1010,9 @@ class NewReportDialog extends ToolDialog {
     }
 
     private void setState(ReportSettings snap) {
-        if (snap == null)
+        if (snap == null) {
             return;
+        }
 
         lastSettings = snap;
 
@@ -1045,12 +1067,13 @@ class NewReportDialog extends ToolDialog {
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
 
-            if (src == cbHtml || src == cbConfig)
+            if (src == cbHtml || src == cbConfig) {
                 updateHtmlCheckboxStates();
-            else if (src == cbBak) {
+            } else if (src == cbBak) {
                 numBak.setEnabled(cbBak.isSelected());
-            } else if (src == cbCof)
+            } else if (src == cbCof) {
                 updateCofCheckboxStates();
+            }
         }
     };
 
@@ -1277,8 +1300,9 @@ class NewReportDialog extends ToolDialog {
                 if (snap.isHtmlEnabled()) {
                     // show main report file or file listing
                     result = searchForFile(reportDir, Report.getHtmlReportFilenames());
-                    if (result == null)
+                    if (result == null) {
                         result = reportDir;
+                    }
                 }
                 /* not useful right now to see raw xml, could do XSLT later
                 else if (snap.isPlainEnabled()) {
@@ -1410,18 +1434,19 @@ class NewReportDialog extends ToolDialog {
                 }
             }
 
-            if (box == cbHtml)
+            if (box == cbHtml) {
                 infoArea.setText(uif.getI18NString("nrd.info.html.txt"));
-            else if (box == cbPlain)
+            } else if (box == cbPlain) {
                 infoArea.setText(uif.getI18NString("nrd.info.plain.txt"));
-            else if (box == cbXml)
+            } else if (box == cbXml) {
                 infoArea.setText(uif.getI18NString("nrd.info.xml.txt"));
-            else if (box == cbCof)
+            } else if (box == cbCof) {
                 infoArea.setText(uif.getI18NString("nrd.info.cof.txt"));
-            else if (customBoxes != null) {
+            } else if (customBoxes != null) {
                 CustomReport rep = customBoxes.get(box);
-                if (rep != null)
+                if (rep != null) {
                     infoArea.setText(rep.getDescription());
+                }
             }
 
         }

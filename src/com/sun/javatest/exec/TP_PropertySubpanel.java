@@ -146,8 +146,9 @@ abstract class TP_PropertySubpanel
                 e = new Entry(key, value);
                 entries.put(key, e);
                 maxNameStringWidth = Math.max(maxNameStringWidth, getFontMetrics(getFont()).stringWidth(key));
-            } else
+            } else {
                 e.valueText.setText(value);
+            }
 
             revalidate();
         }
@@ -202,8 +203,9 @@ abstract class TP_PropertySubpanel
                         pendingValidate = true;
                     }
                 }
-            } else
+            } else {
                 super.revalidate();
+            }
         }
 
         // ComponentListener
@@ -333,8 +335,9 @@ abstract class TP_PropertySubpanel
                     // example, the rowHeaderView of the scrollPane -
                     // an implementor of fixed columns might do this.
                     JViewport viewport = scrollPane.getViewport();
-                    if (viewport == null || viewport.getView() != this)
+                    if (viewport == null || viewport.getView() != this) {
                         return;
+                    }
                     inScrollPane = true;
                     scrollPane.setColumnHeaderView(new Header());
                     JPanel corner = new JPanel();
@@ -355,8 +358,9 @@ abstract class TP_PropertySubpanel
                     // example, the rowHeaderView of the scrollPane -
                     // an implementor of fixed columns might do this.
                     JViewport viewport = scrollPane.getViewport();
-                    if (viewport == null || viewport.getView() != this)
+                    if (viewport == null || viewport.getView() != this) {
                         return;
+                    }
                     inScrollPane = false;
                     scrollPane.setColumnHeaderView(null);
                 }

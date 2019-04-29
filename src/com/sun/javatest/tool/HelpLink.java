@@ -99,17 +99,19 @@ public class HelpLink extends JComponent implements Accessible {
      */
     @Override
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null)
+        if (accessibleContext == null) {
             accessibleContext = new AccessibleJComponent() {
             };
+        }
         return accessibleContext;
     }
 
     @Override
     public Dimension getPreferredSize() {
         Graphics g = getGraphics();
-        if (g == null)
+        if (g == null) {
             return new Dimension(100, 10);
+        }
 
         FontMetrics fm = font == null ? g.getFontMetrics() : g.getFontMetrics(font);
         int w = fm.stringWidth(text);

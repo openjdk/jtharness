@@ -140,20 +140,22 @@ public class WizEdit {
             File outFileName = null;
 
             for (int i = 0; i < args.length; i++) {
-                if (args[i].equals("-o") && i + 1 < args.length)
+                if (args[i].equals("-o") && i + 1 < args.length) {
                     outFileName = new File(args[++i]);
-                else if (args[i].equals("-e"))
+                } else if (args[i].equals("-e")) {
                     v.add(args[++i]);
-                else if (args[i].startsWith("-"))
+                } else if (args[i].startsWith("-")) {
                     throw new BadArgs(i18n, "edit.badOption", args[i]);
-                else if (i == args.length - 1 && args[i].endsWith(".jti"))
+                } else if (i == args.length - 1 && args[i].endsWith(".jti")) {
                     interviewFile = new File(args[i]);
-                else
+                } else {
                     throw new BadArgs(i18n, "edit.badOption", args[i]);
+                }
             }
 
-            if (interviewFile == null)
+            if (interviewFile == null) {
                 throw new BadArgs(i18n, "edit.noInterview");
+            }
 
             Interview interview;
 
@@ -161,8 +163,9 @@ public class WizEdit {
                 InputStream in = new BufferedInputStream(new FileInputStream(interviewFile));
                 Map<String, String> stringProps = PropertyUtils.load(in);
                 String interviewClassName = stringProps.get("INTERVIEW");
-                if (interviewClassName == null)
+                if (interviewClassName == null) {
                     throw new Fault(i18n, "edit.noInterview");
+                }
                 Class<? extends Interview> ic = Class.forName(interviewClassName).asSubclass(Interview.class);
                 interview = ic.getDeclaredConstructor().newInstance();
                 interview.load(stringProps, false);
@@ -250,7 +253,9 @@ public class WizEdit {
      * @see #edit(String)
      */
     public void edit(String... cmds) throws Fault {
-        for (String cmd : cmds) edit(cmd);
+        for (String cmd : cmds) {
+            edit(cmd);
+        }
     }
 
     /**
@@ -264,18 +269,21 @@ public class WizEdit {
      * @see #edit(String[])
      */
     public void edit(String cmd) throws Fault {
-        if (cmd == null || cmd.isEmpty())
+        if (cmd == null || cmd.isEmpty()) {
             throw new Fault(i18n, "edit.nullCmd");
+        }
         char delim = cmd.charAt(0);
         int left = 0;
         int center = cmd.indexOf(delim, left + 1);
-        if (center == -1)
+        if (center == -1) {
             throw new Fault(i18n, "edit.badCmd", cmd);
+        }
         int right = cmd.indexOf(delim, center + 1);
         String searchText = cmd.substring(left + 1, center);
         String replaceText = cmd.substring(center + 1, right);
-        if (searchText.isEmpty())
+        if (searchText.isEmpty()) {
             throw new Fault(i18n, "edit.badCmd", cmd);
+        }
 
         Map<String, String> answers = new Hashtable<>();
         interview.save(answers);
@@ -284,8 +292,9 @@ public class WizEdit {
         for (Question q : path) {
             try {
                 String answer = answers.get(q.getTag());
-                if (answer == null)
+                if (answer == null) {
                     continue;
+                }
                 // // currently hardwired: considerCase: false; word match: false
                 // int pos = match(searchText, answer, false, false);
                 // if (pos >= 0) {
@@ -318,8 +327,9 @@ public class WizEdit {
             if (s1.regionMatches(!considerCase, 0, s2, i, s1len)) {
                 if (!word || (word &&
                         (i == 0 || isBoundaryCh(s2.charAt(i - 1)))
-                        && (i + s1len == s2.length() || isBoundaryCh(s2.charAt(i + s1len)))))
+                        && (i + s1len == s2.length() || isBoundaryCh(s2.charAt(i + s1len))))) {
                     return i;
+                }
             }
         }
         return -1;

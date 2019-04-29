@@ -46,8 +46,9 @@ class TestResultsByFileComparator implements Comparator<TestResult> {
             TestDescription db = b.getDescription();
 
             int rf = compare(da.getFile().getPath(), db.getFile().getPath());
-            if (rf != 0)
+            if (rf != 0) {
                 return rf;
+            }
             return compare(da.getId(), db.getId());
         } catch (TestResult.Fault e) {
             // bad files go at the end ?
@@ -56,14 +57,17 @@ class TestResultsByFileComparator implements Comparator<TestResult> {
     }
 
     private static int compare(String a, String b) {
-        if (a == null && b == null)
+        if (a == null && b == null) {
             return 0;
+        }
 
-        if (a == null)
+        if (a == null) {
             return -1;
+        }
 
-        if (b == null)
+        if (b == null) {
             return +1;
+        }
 
         return a.compareTo(b);
     }

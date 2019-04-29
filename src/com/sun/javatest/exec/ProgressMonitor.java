@@ -163,8 +163,9 @@ class ProgressMonitor extends ToolDialog {
         // other stuff
         state.addObserver(listener);
 
-        if (state.isRunning())
+        if (state.isRunning()) {
             listener.starting();
+        }
 
         /*ToolDialog
         HelpBroker b = uif.getHelpBroker();
@@ -220,7 +221,9 @@ class ProgressMonitor extends ToolDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == timer) {
-                for (StatusSubpanel subpanel : subpanels) subpanel.update();
+                for (StatusSubpanel subpanel : subpanels) {
+                    subpanel.update();
+                }
             }
         }
 
@@ -230,7 +233,9 @@ class ProgressMonitor extends ToolDialog {
         public void starting() {
             running = true;
 
-            for (StatusSubpanel subpanel : subpanels) subpanel.starting();
+            for (StatusSubpanel subpanel : subpanels) {
+                subpanel.starting();
+            }
 
             timer.start();
         }
@@ -404,14 +409,15 @@ class ProgressMonitor extends ToolDialog {
         }
 
         private void setCount(JTextField tf, int value) {
-            if (EventQueue.isDispatchThread())
+            if (EventQueue.isDispatchThread()) {
                 tf.setText(Integer.toString(value));
-            else
+            } else {
                 try {
                     EventQueue.invokeAndWait(new BranchPanel.TextUpdater(tf,
                             Integer.toString(value), uif));
                 } catch (InterruptedException | InvocationTargetException e) {
                 }
+            }
         }
 
         private JTextField passTf;
@@ -453,7 +459,9 @@ class ProgressMonitor extends ToolDialog {
         void update() {
             testListData.removeAllElements();
             TestResult[] rt = state.getRunningTests();
-            for (TestResult aRt : rt) testListData.addElement(aRt);
+            for (TestResult aRt : rt) {
+                testListData.addElement(aRt);
+            }
         }
 
         //------------------------------------------------------------------
@@ -487,8 +495,9 @@ class ProgressMonitor extends ToolDialog {
                                       @Override
                                       public void mouseClicked(MouseEvent e) {
                                           int index = list.locationToIndex(e.getPoint());
-                                          if (index < 0)
+                                          if (index < 0) {
                                               return;
+                                          }
                                           Object target = list.getModel().getElementAt(index);
                                           if (target instanceof TestResult && tpm != null) {
                                               tpm.showTest(((TestResult) target).getTestName());
@@ -504,8 +513,9 @@ class ProgressMonitor extends ToolDialog {
 
         private void addCard(JComponent comp) {
             String s = comp.getName();
-            if (s == null)
+            if (s == null) {
                 comp.setName("StatusDialog.component" + componentCount++);
+            }
             add(comp, comp.getName());
         }
 

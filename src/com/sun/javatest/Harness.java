@@ -236,8 +236,9 @@ public class Harness {
      * @see #getClassDir
      */
     public static void setClassDir(File classDir) {
-        if (Harness.classDir != null && Harness.classDir != classDir)
+        if (Harness.classDir != null && Harness.classDir != classDir) {
             throw new IllegalStateException(i18n.getString("harness.classDirAlreadySet"));
+        }
         Harness.classDir = classDir;
     }
 
@@ -366,8 +367,8 @@ public class Harness {
      *
      * @param params The parameters to be used; they will be validated first.
      * @return true if and only if all the selected tests were executed successfully, and all passed
-     * @throws Harness.Fault        if the harness is currently running tests
-     *                              and cannot start running any more tests right now.
+     * @throws Harness.Fault if the harness is currently running tests
+     *                       and cannot start running any more tests right now.
      * @see #isRunning
      * @see #stop
      * @see #waitUntilDone
@@ -377,20 +378,23 @@ public class Harness {
         isBatchRun = true;
         // allow full read-ahead by default now - as of 3.2.1
         // this allows the not run field of verbose mode to work
-        if (Boolean.getBoolean("javatest.noReadAhead"))
+        if (Boolean.getBoolean("javatest.noReadAhead")) {
             readAheadMode = ReadAheadIterator.NONE;
+        }
 
         synchronized (this) {
-            if (worker != null)
+            if (worker != null) {
                 throw new Fault(i18n, "harness.alreadyRunning");
+            }
             worker = Thread.currentThread();
         }
 
         // parameters will be checked later, in runTests, but check here
         // too to specifically verify that workDir is set
-        if (!params.isValid())
+        if (!params.isValid()) {
             throw new Harness.Fault(i18n, "harness.incompleteParameters",
                     params.getErrorMessage());
+        }
 
         boolean ok = false;
         try {
@@ -439,8 +443,9 @@ public class Harness {
      *                               be taken to handle this in case the run terminates.
      */
     public synchronized boolean isBatchRun() {
-        if (!isRunning())
+        if (!isRunning()) {
             throw new IllegalStateException();
+        }
 
         return isBatchRun;
     }
@@ -460,10 +465,11 @@ public class Harness {
      * @see #getTestsFoundCount()
      */
     public boolean isAllTestsFound() {
-        if (isRunning() && raTestIter != null)
+        if (isRunning() && raTestIter != null) {
             return raTestIter.isSourceExhausted();
-        else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -477,13 +483,14 @@ public class Harness {
     public long getElapsedTime() {
         long time = 0L;
 
-        if (startTime == -1L)
+        if (startTime == -1L) {
             time = 0L;                  // no data avail.
-        else if (cleanupFinishTime == -1L) {    // isRunning() isn't good enough
+        } else if (cleanupFinishTime == -1L) {    // isRunning() isn't good enough
             long now = System.currentTimeMillis();
             time = now - startTime;     // we are still running
-        } else
+        } else {
             time = cleanupFinishTime - startTime;
+        }
 
         return time;
     }
@@ -524,17 +531,19 @@ public class Harness {
     }
 
     public long getTotalCleanupTime() {
-        if (cleanupFinishTime < finishTime || cleanupFinishTime == -1l)
+        if (cleanupFinishTime < finishTime || cleanupFinishTime == -1l) {
             return -1l;
-        else
+        } else {
             return cleanupFinishTime - finishTime;
+        }
     }
 
     public long getTotalSetupTime() {
-        if (testsStartTime < startTime || testsStartTime == -1l)
+        if (testsStartTime < startTime || testsStartTime == -1l) {
             return -1l;
-        else
+        } else {
             return testsStartTime - startTime;
+        }
     }
 
     /**
@@ -544,8 +553,9 @@ public class Harness {
      * no estimate is available.
      */
     public long getEstimatedTime() {
-        if (isRunning() == false || numTestsDone == 0)
+        if (isRunning() == false || numTestsDone == 0) {
             return 0L;
+        }
 
         return getElapsedTime() * (getTestsFoundCount() - numTestsDone) / numTestsDone;
     }
@@ -562,8 +572,9 @@ public class Harness {
      * @see #isRunning()
      */
     public int getTestsFoundCount() {
-        if (raTestIter == null)
+        if (raTestIter == null) {
             return 0;
+        }
 
         synchronized (raTestIter) {
             return raTestIter.getUsedElementCount() + raTestIter.getOutputQueueSize();
@@ -593,8 +604,9 @@ public class Harness {
      * Start a worker thread going to perform run tests asynchronously.
      */
     private synchronized void startWorker(final Parameters p) throws Fault {
-        if (worker != null)
+        if (worker != null) {
             throw new Fault(i18n, "harness.alreadyRunning");
+        }
 
         worker = new Thread() {
             @Override
@@ -641,9 +653,10 @@ public class Harness {
         finishTime = -1l;
         numTestsDone = 0;
 
-        if (!p.isValid())
+        if (!p.isValid()) {
             throw new Harness.Fault(i18n, "harness.incompleteParameters",
                     p.getErrorMessage());
+        }
         params = p;
 
         // get lots of necessary values from parameters
@@ -659,8 +672,9 @@ public class Harness {
         // integer and a floating point number. The integer value is
         // determined by rounding up the floating point number.
         float tf = params.getTimeoutFactor();
-        if (Float.isNaN(tf))
+        if (Float.isNaN(tf)) {
             tf = 1.0f;
+        }
 
         String[] timeoutFactors = {
                 String.valueOf((int) Math.ceil(tf)),
@@ -699,8 +713,9 @@ public class Harness {
 
         // autostopThreshold is currently defined by a system property,
         // but could come from parameters
-        if (autostopThreshold > 0)
+        if (autostopThreshold > 0) {
             addObserver(new Autostop(autostopThreshold));
+        }
 
         TestRunner r = testSuite.createTestRunner();
         r.setWorkDirectory(workDir);
@@ -754,7 +769,9 @@ public class Harness {
         // NOTE: the stats here don't indicate what the results of the test run were
         int[] stats = testIter.getResultStats();
         int iteratorCount = 0;
-        for (int stat : stats) iteratorCount += stat;
+        for (int stat : stats) {
+            iteratorCount += stat;
+        }
 
         if (iteratorCount == 0 && !zeroTestsOK) {
             TestFilter[] filters = params.getFilters();
@@ -772,8 +789,9 @@ public class Harness {
             */
         }
 
-        if (ok && (notifier.getErrorCount() > 0 || notifier.getFailedCount() > 0))
+        if (ok && (notifier.getErrorCount() > 0 || notifier.getFailedCount() > 0)) {
             ok = false;
+        }
 
         try {
             LastRunInfo.writeInfo(workDir, startTime, finishTime,
@@ -807,15 +825,16 @@ public class Harness {
         TreeIterator iter;
 
         // get the appropriate iterator from TRT
-        if (tests == null || tests.length == 0)
+        if (tests == null || tests.length == 0) {
             iter = resultTable.getIterator(filters);
-        else {
+        } else {
             try {
                 // CLEANUP REQUIRED: validation only occurs on Files, not Strings
                 // resultTable.getIterator should validate strings too
                 File[] files = new File[tests.length];
-                for (int i = 0; i < tests.length; i++)
+                for (int i = 0; i < tests.length; i++) {
                     files[i] = new File(tests[i]);
+                }
                 iter = resultTable.getIterator(files, filters);
             } catch (TestResultTable.Fault err) {
                 throw new Harness.Fault(i18n, "harness.badInitFiles",
@@ -829,8 +848,9 @@ public class Harness {
     private static ArrayList<String> listFilterNames(TestFilter... filters) {
         ArrayList<String> result = new ArrayList<>();
 
-        if (filters == null || filters.length == 0)
+        if (filters == null || filters.length == 0) {
             return result;      // i.e. empty
+        }
 
         for (TestFilter f : filters) {
             // we don't care about composite wrappers, recurse into them
@@ -848,8 +868,9 @@ public class Harness {
     }
 
     private static String formatFilterList(List<String> names) {
-        if (names == null || names.isEmpty())
+        if (names == null || names.isEmpty()) {
             return "";
+        }
 
         StringBuilder sb = new StringBuilder();
         for (String s : names) {
@@ -959,8 +980,9 @@ public class Harness {
 
     private class Notifier implements Harness.Observer {
         void addObserver(Observer o) {
-            if (o == null)
+            if (o == null) {
                 throw new NullPointerException();
+            }
             observers = DynamicArray.append(observers, o);
         }
 
@@ -974,16 +996,18 @@ public class Harness {
 
             // protect against removing observers during notification
             Observer[] stableObservers = observers;
-            for (int i = stableObservers.length - 1; i >= 0; i--)
+            for (int i = stableObservers.length - 1; i >= 0; i--) {
                 stableObservers[i].startingTestRun(params);
+            }
         }
 
         @Override
         public void startingTest(TestResult tr) {
             // protect against removing observers during notification
             Observer[] stableObservers = observers;
-            for (int i = stableObservers.length - 1; i >= 0; i--)
+            for (int i = stableObservers.length - 1; i >= 0; i--) {
                 stableObservers[i].startingTest(tr);
+            }
         }
 
         @Override
@@ -992,8 +1016,9 @@ public class Harness {
             resultTable.update(tr);
             // protect against removing observers during notification
             Observer[] stableObservers = observers;
-            for (int i = stableObservers.length - 1; i >= 0; i--)
+            for (int i = stableObservers.length - 1; i >= 0; i--) {
                 stableObservers[i].finishedTest(tr);
+            }
 
             switch (tr.getStatus().getType()) {
                 case Status.FAILED:
@@ -1016,8 +1041,9 @@ public class Harness {
         public void stoppingTestRun() {
             // protect against removing observers during notification
             Observer[] stableObservers = observers;
-            for (int i = stableObservers.length - 1; i >= 0; i--)
+            for (int i = stableObservers.length - 1; i >= 0; i--) {
                 stableObservers[i].stoppingTestRun();
+            }
         }
 
         @Override
@@ -1026,24 +1052,27 @@ public class Harness {
 
             // protect against removing observers during notification
             Observer[] stableObservers = observers;
-            for (int i = stableObservers.length - 1; i >= 0; i--)
+            for (int i = stableObservers.length - 1; i >= 0; i--) {
                 stableObservers[i].finishedTesting();
+            }
         }
 
         @Override
         public void finishedTestRun(boolean allOK) {
             // protect against removing observers during notification
             Observer[] stableObservers = observers;
-            for (int i = stableObservers.length - 1; i >= 0; i--)
+            for (int i = stableObservers.length - 1; i >= 0; i--) {
                 stableObservers[i].finishedTestRun(allOK);
+            }
         }
 
         @Override
         public void error(String msg) {
             // protect against removing observers during notification
             Observer[] stableObservers = observers;
-            for (int i = stableObservers.length - 1; i >= 0; i--)
+            for (int i = stableObservers.length - 1; i >= 0; i--) {
                 stableObservers[i].error(msg);
+            }
         }
 
         synchronized int getErrorCount() {

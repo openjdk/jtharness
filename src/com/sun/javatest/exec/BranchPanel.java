@@ -83,8 +83,9 @@ class BranchPanel
     }
 
     void setNode(TT_BasicNode tn) {
-        if (tn == currNode)
+        if (tn == currNode) {
             return;
+        }
 
         updatePanel(tn, currPanel);
     }
@@ -239,15 +240,18 @@ class BranchPanel
                 Debug.println("   -> old node " + (currNode == null ? "[null]" : currNode.getShortName()) + "  " + currNode);
             }
 
-            for (BP_TestListSubpanel list : lists) list.setUpdateRequired(true);
+            for (BP_TestListSubpanel list : lists) {
+                list.setUpdateRequired(true);
+            }
 
             currNode = newNode;
             //currNode.addObserver(this);
 
-            if (isVisible())
+            if (isVisible()) {
                 updateGUI();
-            else
+            } else {
                 needToUpdateGUIWhenShown = true;
+            }
         }
     }
 
@@ -262,8 +266,9 @@ class BranchPanel
     protected void updateGUI() {
         if (currNode == null) {
             // start at 1 since we don't disable the summary tab
-            for (int i = 1; i < bPane.getComponentCount(); i++)
+            for (int i = 1; i < bPane.getComponentCount(); i++) {
                 bPane.setEnabledAt(i, false);
+            }
         } else {
             // preemptively start these threads as soon as we change nodes
             // this allows us to get disabled tabs early - and have data if the user
@@ -286,8 +291,9 @@ class BranchPanel
                 list.reset(cache);
             }   // for
 
-            if (currPanel != summPanel)
+            if (currPanel != summPanel) {
                 currPanel.updateSubpanel(currNode);
+            }
         }
 
     }
@@ -297,9 +303,11 @@ class BranchPanel
      */
     private static boolean isAlongPath(TestResultTable.TreeNode[] path,
                                        TestResultTable.TreeNode node) {
-        for (TestResultTable.TreeNode aPath : path)
-            if (aPath == node)
+        for (TestResultTable.TreeNode aPath : path) {
+            if (aPath == node) {
                 return true;
+            }
+        }
 
         return false;
     }
@@ -313,14 +321,18 @@ class BranchPanel
 
     @Override
     public void filterUpdated(TestFilter f) {
-        for (BP_BranchSubpanel allPanel : allPanels) allPanel.invalidateFilters();
+        for (BP_BranchSubpanel allPanel : allPanels) {
+            allPanel.invalidateFilters();
+        }
 
         updateGUI();
     }
 
     @Override
     public void filterSelected(TestFilter f) {
-        for (BP_BranchSubpanel allPanel : allPanels) allPanel.invalidateFilters();
+        for (BP_BranchSubpanel allPanel : allPanels) {
+            allPanel.invalidateFilters();
+        }
 
         updateGUI();
     }
@@ -412,8 +424,9 @@ class BranchPanel
                 EventQueue.invokeLater(cmd);
             } else {      // now on event thread
                 // only likely at startup
-                if (bPane == null)
+                if (bPane == null) {
                     return;
+                }
 
                 setEnabled(bPane.indexOfComponent(c), state);
             }
@@ -422,10 +435,11 @@ class BranchPanel
         @Override
         public boolean isEnabled(Component c) {
             int index = bPane.indexOfComponent(c);
-            if (index == -1)
+            if (index == -1) {
                 return false;
-            else
+            } else {
                 return listDisplayStatus[index];
+            }
         }
 
         @Override
@@ -437,8 +451,9 @@ class BranchPanel
          * Must be on the event thread!
          */
         void setEnabled(final int index, final boolean newState) {
-            if (listDisplayStatus[index] == newState)
+            if (listDisplayStatus[index] == newState) {
                 return;
+            }
 
             if (!EventQueue.isDispatchThread()) {
                 Runnable cmd = new Runnable() {
@@ -497,17 +512,22 @@ class BranchPanel
                 case UPDATE:
                     for (int i = 0; i < tfs.length; i++) {
                         // -1 results in "wait..." being printed
-                        if (values[i] >= 0)
+                        if (values[i] >= 0) {
                             tfs[i].setText(Integer.toString(values[i]));
-                        else
+                        } else {
                             tfs[i].setText("");
+                        }
                     }
                     break;
                 case CLEAR:
-                    for (JTextComponent tf1 : tfs) tf1.setText("");
+                    for (JTextComponent tf1 : tfs) {
+                        tf1.setText("");
+                    }
                     break;
                 case WAIT:
-                    for (JTextComponent tf : tfs) tf.setText("wait...");
+                    for (JTextComponent tf : tfs) {
+                        tf.setText("wait...");
+                    }
                     break;
                 case MSG:
                     stf.setText(msg);
@@ -571,17 +591,19 @@ class BranchPanel
                 EventQueue.invokeLater(cmd);
             } else {
                 for (int i = 0; i < stats.length; i++) {
-                    if (stats[i] > 0 && !listDisplayStatus[i + 2])
+                    if (stats[i] > 0 && !listDisplayStatus[i + 2]) {
                         bModel.setEnabled(i + 2, true);
-                    if (stats[i] == 0 && listDisplayStatus[i + 2])
+                    }
+                    if (stats[i] == 0 && listDisplayStatus[i + 2]) {
                         bModel.setEnabled(i + 2, false);
+                    }
                 }       // for
 
                 int rej = cache.getRejectCount();
                 if (rej == 0) {
-                    if (listDisplayStatus[listDisplayStatus.length - 1])
+                    if (listDisplayStatus[listDisplayStatus.length - 1]) {
                         bModel.setEnabled(listDisplayStatus.length - 1, false);
-                    else {
+                    } else {
                     }
                 } else if (rej > 0 && !listDisplayStatus[listDisplayStatus.length - 1]) {
                     bModel.setEnabled(listDisplayStatus.length - 1, true);

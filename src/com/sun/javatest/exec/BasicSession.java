@@ -320,17 +320,20 @@ public class BasicSession implements SessionExt {
 
     @Override
     public void save(Map<String, String> map) {
-        if (wd != null)
+        if (wd != null) {
             map.put("workDir", wd.getPath());
+        }
         // save name of interview file
-        if (config != null && config.getFile() != null)
+        if (config != null && config.getFile() != null) {
             map.put("config", config.getFile().getPath());
+        }
     }
 
     @Override
     public void restore(Map<String, String> map) throws Fault {
-        if (map == null)
+        if (map == null) {
             return;
+        }
 
         String wdPath = map.get("workDir");
         if (wdPath == null) {
@@ -533,8 +536,9 @@ public class BasicSession implements SessionExt {
      *             is the path to the session file that was loaded.
      */
     private static void logLoadTime(String res, long time, WorkDirectory wd, String msg) {
-        if (wd == null)
+        if (wd == null) {
             return;
+        }
 
         Logger log = null;
         try {
@@ -553,8 +557,9 @@ public class BasicSession implements SessionExt {
             String output = i18n.getString(res, params);
             log.info(output);
 
-            if (debug > 0)
+            if (debug > 0) {
                 Debug.println(output);
+            }
         }
 
     }

@@ -185,8 +185,9 @@ public class TreeSelectionPane extends JComponent implements Accessible {
         }
 
         private String getName() {
-            if (name == null)
+            if (name == null) {
                 name = model.getName(object);
+            }
             return name;
         }
     }
@@ -198,9 +199,10 @@ public class TreeSelectionPane extends JComponent implements Accessible {
      */
     @Override
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null)
+        if (accessibleContext == null) {
             accessibleContext = new AccessibleJComponent() {
             };
+        }
         return accessibleContext;
     }
 

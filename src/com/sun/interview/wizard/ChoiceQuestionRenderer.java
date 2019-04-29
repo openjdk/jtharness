@@ -90,8 +90,9 @@ public class ChoiceQuestionRenderer
             rb[i].setActionCommand(values[i + starts_from]);
 
             rb[i].setName("chc.btn." + values[i + starts_from]);
-            if (i < 10)
+            if (i < 10) {
                 rb[i].setMnemonic('0' + i);
+            }
 
             rb[i].setToolTipText(i18n.getString("chc.btn.tip"));
             rb[i].getAccessibleContext().setAccessibleName(rb[i].getName());

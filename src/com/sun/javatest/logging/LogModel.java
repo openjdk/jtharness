@@ -111,12 +111,16 @@ public class LogModel {
                             return;
                         }
                         try {
-                            if (debug) System.out.println("Worker-1 sleep, first loop (empty file)");
+                            if (debug) {
+                                System.out.println("Worker-1 sleep, first loop (empty file)");
+                            }
                             stable = true;
                             fireNewPage(0, 0);
                             sleep(500);
                         } catch (InterruptedException ex) {
-                            if (debug) ex.printStackTrace();
+                            if (debug) {
+                                ex.printStackTrace();
+                            }
                             // it's ok
                         }
                     } else {
@@ -135,7 +139,9 @@ public class LogModel {
                     of.readRecords(records);
                     recordCount = records.size();
                     firstRecordOnPage = (pagesRead() - 1) * PAGE_SIZE;
-                    if (debug) System.out.println("Worker-1 read from index " + records.size() + this);
+                    if (debug) {
+                        System.out.println("Worker-1 read from index " + records.size() + this);
+                    }
                 }
 
                 for (String logger : loggers) {
@@ -211,7 +217,9 @@ public class LogModel {
                             firstRecordOnPage = recordCount;
                         }
                         recordCount++;
-                        if (debug) System.out.println("Worker-1 - record read");
+                        if (debug) {
+                            System.out.println("Worker-1 - record read");
+                        }
                     }
                     try {
                         if (stop) {
@@ -219,10 +227,13 @@ public class LogModel {
                         }
                         if (firstRecordOnPage != recordCount) {
                             fireNewPage(firstRecordOnPage, recordCount - 1);
-                            if (debug)
+                            if (debug) {
                                 System.out.println("Worker-1  - fireNewPage(" + firstRecordOnPage + " , " + (recordCount - 1) + " )");
+                            }
                         }
-                        if (debug) System.out.println("Worker-1  - all records read, sleep");
+                        if (debug) {
+                            System.out.println("Worker-1  - all records read, sleep");
+                        }
                         sleep(500);
                         if (stop) {
                             return;
@@ -231,7 +242,9 @@ public class LogModel {
                         readStr = "";
                     } catch (InterruptedException ex) {
                         // ok
-                        if (debug) ex.printStackTrace();
+                        if (debug) {
+                            ex.printStackTrace();
+                        }
                     }
                 }  // autoupdate loop
             } catch (IOException ex) {
@@ -301,8 +314,9 @@ public class LogModel {
 
 
     public synchronized String getRecordMessage(LiteLogRecord rec) {
-        if (rec == null)
+        if (rec == null) {
             return "";
+        }
         if (messageCache.containsKey(rec)) {
             return messageCache.get(rec);
         }
@@ -349,15 +363,21 @@ public class LogModel {
         if (worker != null && worker.isAlive()) {
             worker.stop = true;
             worker.interrupt();
-            if (debug) System.out.println("worker.interrupt()");
+            if (debug) {
+                System.out.println("worker.interrupt()");
+            }
         }
         // wait
         if (worker != null) {
             try {
                 worker.join();
-                if (debug) System.out.println("worker.join()");
+                if (debug) {
+                    System.out.println("worker.join()");
+                }
             } catch (InterruptedException ex) {
-                if (debug) ex.printStackTrace();
+                if (debug) {
+                    ex.printStackTrace();
+                }
             }
         }
         if (mirrorFile != null) {
@@ -395,10 +415,11 @@ public class LogModel {
     }
 
     public String getLogname(int loggerID) {
-        if (loggerID < loggers.size())
+        if (loggerID < loggers.size()) {
             return loggers.get(loggerID);
-        else
+        } else {
             return "";
+        }
     }
 
     public void setLogger(Logger log) {
@@ -418,10 +439,14 @@ public class LogModel {
         public void fileModified(FileEvent e) {
             synchronized (LogModel.this) {
                 if (e.getType().equals(FileEvent.START_ERASING)) {
-                    if (debug) System.out.println("FileEvent.START_ERASING");
+                    if (debug) {
+                        System.out.println("FileEvent.START_ERASING");
+                    }
                     resetModel();
                 } else if (e.getType().equals(FileEvent.ERASED)) {
-                    if (debug) System.out.println("FileEvent.ERASED");
+                    if (debug) {
+                        System.out.println("FileEvent.ERASED");
+                    }
                     init();
                 }
 

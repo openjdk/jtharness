@@ -61,8 +61,9 @@ public class ColorPrefsPane extends PreferencesPane {
 
         UIFactory.Colors[] colors = UIFactory.Colors.values();
         for (int i = 0; i < colors.length; i++) {
-            if (!colors[i].isConfigurable())
+            if (!colors[i].isConfigurable()) {
                 continue;
+            }
             String colorName = colors[i].getPreferencesName();
             JLabel label = uif.createLabel("colorprefs." + colorName);
             JButton button = uif.createColorChooseButton(colorName, label, null);
@@ -73,8 +74,9 @@ public class ColorPrefsPane extends PreferencesPane {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Color newColor = JColorChooser.showDialog(ColorPrefsPane.this, title, button.getBackground());
-                    if (newColor != null)
+                    if (newColor != null) {
                         button.setBackground(newColor);
+                    }
                 }
 
                 public ActionListener init(String title, JButton button) {

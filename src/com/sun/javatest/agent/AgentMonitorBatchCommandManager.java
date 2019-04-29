@@ -92,8 +92,9 @@ public class AgentMonitorBatchCommandManager extends CommandManager {
         AgentPoolPortCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
-            if (!argIter.hasNext())
+            if (!argIter.hasNext()) {
                 throw new Fault(i18n, "cmgr.missingArg.err");
+            }
 
             try {
                 port = Integer.parseInt(nextArg(argIter));
@@ -122,8 +123,9 @@ public class AgentMonitorBatchCommandManager extends CommandManager {
         AgentPoolTimeoutCommand(Iterator<String> argIter) throws Fault {
             super(getName());
 
-            if (!argIter.hasNext())
+            if (!argIter.hasNext()) {
                 throw new Fault(i18n, "cmgr.missingArg.err");
+            }
 
             try {
                 timeout = Integer.parseInt(nextArg(argIter));
@@ -169,11 +171,13 @@ public class AgentMonitorBatchCommandManager extends CommandManager {
 
         @Override
         public void run(CommandContext ctx) throws Fault {
-            if (portSubcommand != null)
+            if (portSubcommand != null) {
                 portSubcommand.run(ctx);
+            }
 
-            if (timeoutSubcommand != null)
+            if (timeoutSubcommand != null) {
                 timeoutSubcommand.run(ctx);
+            }
 
             try {
                 AgentManager mgr = AgentManager.access();
@@ -189,8 +193,9 @@ public class AgentMonitorBatchCommandManager extends CommandManager {
 
         private void addArgs(Command c) {
             String[] args = c.getArgs();
-            for (int i = 1; i < args.length; i++)
+            for (int i = 1; i < args.length; i++) {
                 addArg(args[i]);
+            }
         }
 
         private AgentPoolPortCommand portSubcommand;

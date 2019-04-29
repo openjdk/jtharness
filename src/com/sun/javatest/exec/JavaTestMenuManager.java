@@ -65,13 +65,13 @@ public abstract class JavaTestMenuManager {
      *                                  of the harness and run with another.
      */
     public JMenuItem[] getMenuItems(int position) {
-        if (bank == null)
+        if (bank == null) {
             return null;
-        else {
+        } else {
             ArrayList<JMenuItem> al = bank[position];
-            if (al.isEmpty())
+            if (al.isEmpty()) {
                 return null;
-            else {
+            } else {
                 JMenuItem[] result = new JMenuItem[al.size()];
                 al.toArray(result);
                 return result;
@@ -91,17 +91,20 @@ public abstract class JavaTestMenuManager {
      *                                   class to supply this parameter.
      */
     protected synchronized void addMenuItem(int position, JMenuItem item) {
-        if (position > NUM_POSITIONS)
+        if (position > NUM_POSITIONS) {
             throw new IndexOutOfBoundsException("Position index too large - " +
                     position);
-        if (position < 0)
+        }
+        if (position < 0) {
             throw new IndexOutOfBoundsException("Position index too small - " +
                     position);
+        }
 
         if (bank == null) {
             bank = new ArrayList[NUM_POSITIONS];
-            for (int i = 0; i < NUM_POSITIONS; i++)
+            for (int i = 0; i < NUM_POSITIONS; i++) {
                 bank[i] = new ArrayList<>();
+            }
         }
 
         bank[position].add(item);

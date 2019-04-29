@@ -176,8 +176,9 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     @Override
     public void save(Map<String, String> m) {
-        if (testSuite != null && testSuite.getRoot() != null)
+        if (testSuite != null && testSuite.getRoot() != null) {
             m.put("testSuite", testSuite.getRoot().getPath());
+        }
 
         // save work dir and ip
         session.save(m);
@@ -349,15 +350,17 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                                        WorkDirectory workDir, UIFactory uif) {
         try {
             InterviewParameters.ExcludeListParameters elp = interviewParams.getExcludeListParameters();
-            if (!(elp instanceof InterviewParameters.MutableExcludeListParameters))
+            if (!(elp instanceof InterviewParameters.MutableExcludeListParameters)) {
                 return;
+            }
 
             URL remote = testSuite.getLatestExcludeList();
             File local = workDir.getSystemFile("latest.jtx");
             ExcludeListUpdateHandler eluh = new ExcludeListUpdateHandler(remote, local);
 
-            if (quietIfNoUpdate && !eluh.isUpdateAvailable())
+            if (quietIfNoUpdate && !eluh.isUpdateAvailable()) {
                 return;
+            }
 
             JPanel info = new JPanel(new GridBagLayout());
             info.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
@@ -404,8 +407,9 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                         new Object[]{head, info, foot},
                         title,
                         JOptionPane.YES_NO_OPTION);
-                if (rc == JOptionPane.YES_OPTION)
+                if (rc == JOptionPane.YES_OPTION) {
                     eluh.update(); // should we show message if successful?
+                }
             } else {
                 String title = uif.getI18NString("ch.elu.noUpdate.title");
                 String head = uif.getI18NString("ch.elu.noUpdate.head");
@@ -433,26 +437,32 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     protected boolean getNeedToAutoCheckExcludeList(Parameters params) {
         WorkDirectory workDir = params.getWorkDirectory();
         InterviewParameters.ExcludeListParameters elp = session.getParameters().getExcludeListParameters();
-        if (!(elp instanceof InterviewParameters.MutableExcludeListParameters))
+        if (!(elp instanceof InterviewParameters.MutableExcludeListParameters)) {
             return false;
+        }
 
         InterviewParameters.MutableExcludeListParameters melp = (InterviewParameters.MutableExcludeListParameters) elp;
-        if (melp.getExcludeMode() != InterviewParameters.MutableExcludeListParameters.LATEST_EXCLUDE_LIST)
+        if (melp.getExcludeMode() != InterviewParameters.MutableExcludeListParameters.LATEST_EXCLUDE_LIST) {
             return false;
+        }
 
         // double check there is a URL to download from
-        if (params.getTestSuite().getLatestExcludeList() == null)
+        if (params.getTestSuite().getLatestExcludeList() == null) {
             return false;
+        }
 
-        if (!melp.isLatestExcludeAutoCheckEnabled())
+        if (!melp.isLatestExcludeAutoCheckEnabled()) {
             return false;
+        }
 
-        if (melp.getLatestExcludeAutoCheckMode() == InterviewParameters.MutableExcludeListParameters.CHECK_EVERY_RUN)
+        if (melp.getLatestExcludeAutoCheckMode() == InterviewParameters.MutableExcludeListParameters.CHECK_EVERY_RUN) {
             return true;
+        }
 
         File local = workDir.getSystemFile("latest.jtx");
-        if (!local.exists())
+        if (!local.exists()) {
             return true;
+        }
 
         long localLastModified = local.lastModified();
         long now = System.currentTimeMillis();
@@ -497,8 +507,11 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             if (menuManager != null) {
                 JMenuItem[] items =
                         menuManager.getMenuItems(JavaTestMenuManager.CONFIG_PRIMARY);
-                if (items != null)
-                    for (JMenuItem item : items) menu.add(item);
+                if (items != null) {
+                    for (JMenuItem item : items) {
+                        menu.add(item);
+                    }
+                }
             }
         }
 
@@ -513,7 +526,9 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                         menuManager.getMenuItems(JavaTestMenuManager.CONFIG_OTHER);
                 if (items != null) {
                     menu.addSeparator();
-                    for (JMenuItem item : items) menu.add(item);
+                    for (JMenuItem item : items) {
+                        menu.add(item);
+                    }
                 }   // innerest if
             }
         }
@@ -828,8 +843,9 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!isEnabled())
+                if (!isEnabled()) {
                     return;
+                }
 
                 Object control = e.getSource();
                 if (control instanceof JMenuItem) {
@@ -918,8 +934,9 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
         Parameters params = session.getParameters();
 
-        if (params != null)
+        if (params != null) {
             ensureInterviewUpToDate();
+        }
 
         boolean isWorkDirSet = session.getWorkDirectory() != null;
         boolean configCreated = session.getValue(BasicSession.CONFIG_NAME_PROP) != null;
@@ -1086,7 +1103,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
                 boolean isMatch = true;
 
-                if (dir != null && defaultConfigLoadPath != null)
+                if (dir != null && defaultConfigLoadPath != null) {
                     try {
                         isMatch = dir.getCanonicalPath().indexOf
                                 (defaultConfigLoadPath.getCanonicalPath()) == 0;
@@ -1096,6 +1113,7 @@ public class BasicSessionControl implements InterviewEditor.Observer,
                         uif.showError("exec.internalError", ioe);
                         return;
                     }
+                }
 
                 if (!isMatch) {
                     // resetWorkDirectory();
@@ -1314,7 +1332,9 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         public void menuSelected(MenuEvent e) {
             Parameters c = session.getParameters(); // alias, to save typing
             if (c == null) // if null, should not even be enabled
+            {
                 return;
+            }
 
             // Update the various menu items depending whether the corresponding parameters
             // can be handled by the Standard Values view -- ie whether the corresponding
@@ -1382,8 +1402,9 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (!isEnabled())
+            if (!isEnabled()) {
                 return;
+            }
 
             performAction(mode);
         }

@@ -63,17 +63,19 @@ class AgentRemoteClassData {
         codeSource = in.readUTF();
 
         int size = in.readInt();
-        if (size == 0)
+        if (size == 0) {
             throw new ClassNotFoundException(className);
+        }
 
         byteData = new byte[size];
         int offset = 0;
         while (offset < byteData.length) {
             int n = in.read(byteData, offset, byteData.length - offset);
-            if (n == -1)
+            if (n == -1) {
                 throw new ClassNotFoundException(className + ": EOF while reading class data");
-            else
+            } else {
                 offset += n;
+            }
         }
 
     }

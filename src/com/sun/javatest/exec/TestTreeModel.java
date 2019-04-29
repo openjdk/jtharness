@@ -214,8 +214,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
     private synchronized void nodeInserted0(TestResultTable.TreeNode[] path,
                                             Object what, int index) {
-        if (disposed)
+        if (disposed) {
             return;
+        }
 
         Object[] nodes = {what};
 
@@ -325,8 +326,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
     private synchronized void nodeChanged0(TestResultTable.TreeNode[] path, Object what,
                                            int index, Object old) {
-        if (disposed)
+        if (disposed) {
             return;
+        }
 
         if (what instanceof TestResultTable.TreeNode) {
             // check relevance
@@ -392,8 +394,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     }
 
     private synchronized void nodeRemoved0(TestResultTable.TreeNode[] path, Object what, int index) {
-        if (disposed)
+        if (disposed) {
             return;
+        }
         if (what instanceof TestResultTable.TreeNode) {
             //if (true || relevantNodes.contains(path[path.length - 1])) {
             if (debug > 0) {
@@ -497,7 +500,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         TT_TestNode newNode = new TT_TestNode(path[path.length - 1], tr);
         //int pos = path[path.length - 1].addTest(newNode, sortComparator);
         TreeModelEvent tme = path[path.length - 1].addTest(newNode, sortComparator);
-        if (tme == null) return;
+        if (tme == null) {
+            return;
+        }
 
         for (TreeModelListener treeModelListener : treeModelListeners) {
             treeModelListener.treeNodesInserted(tme);
@@ -622,8 +627,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     }
 
     TT_BasicNode[] translatePath(TestResultTable.TreeNode[] path, boolean create) {
-        if (path == null)
+        if (path == null) {
             return null;
+        }
 
         TT_BasicNode location = (TT_BasicNode) getRoot();
         TT_BasicNode[] transPath = new TT_BasicNode[path.length];
@@ -646,8 +652,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
     String[] pathsToStrings(TreePath... paths) {
         if (paths == null || paths.length == 0 ||
-                !(getRoot() instanceof TT_BasicNode))
+                !(getRoot() instanceof TT_BasicNode)) {
             return null;
+        }
 
         String[] result = new String[paths.length];
         for (int i = 0; i < paths.length; i++) {
@@ -663,10 +670,11 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
         for (String url : urls) {
             TreePath thisOne = urlToPath(url);
-            if (thisOne == null)
+            if (thisOne == null) {
                 continue;   // skipped for some reason
-            else
+            } else {
                 result.add(thisOne);
+            }
         }
 
         TreePath[] res = new TreePath[result.size()];
@@ -675,8 +683,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     }
 
     TreePath urlToPath(String url) {
-        if (url == null)
+        if (url == null) {
             return null;
+        }
 
         String[] urlPath = StringArray.splitList(url, "/");
         TT_TreeNode[] transPath = new TT_TreeNode[urlPath.length + 1];
@@ -684,8 +693,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         transPath[0] = location;
 
         for (int i = 0; i < urlPath.length; i++) {
-            if (location == null)
+            if (location == null) {
                 return null;    // special exit condition for the loop
+            }
 
             TT_TreeNode mnode = location.findByName(urlPath[i]);
             if (mnode == null) {
@@ -1483,8 +1493,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
         @Override
         public void run() {
-            if (e == null)
+            if (e == null) {
                 return;
+            }
 
             switch (type) {
                 case CHANGE:
@@ -1494,8 +1505,9 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                         TT_BasicNode bn = (TT_BasicNode) path[path.length - 1];
                         if (e.getChildIndices() != null &&
                                 e.getChildIndices().length >= 1) {
-                            if (bn.getChildCount() <= e.getChildIndices()[0])
+                            if (bn.getChildCount() <= e.getChildIndices()[0]) {
                                 return;
+                            }
                         }
                     }
 

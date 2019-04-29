@@ -61,26 +61,28 @@ public class FloatQuestionRenderer
             range /= 10;
             w++;
         }
-        if (lwb < 0)
+        if (lwb < 0) {
             w++;
+        }
         // add in room for fractions
         w += 5;
 
         w = Math.min(w, 20);
 
         String[] strSuggs;
-        if (suggs == null)
+        if (suggs == null) {
             strSuggs = null;
-        else {
+        } else {
             strSuggs = new String[suggs.length];
-            for (int i = 0; i < suggs.length; i++)
+            for (int i = 0; i < suggs.length; i++) {
                 strSuggs[i] = String.valueOf(suggs[i]);
+            }
         }
 
         final float defVal = q.getDefaultValue();
-        if (Float.isNaN(defVal))
+        if (Float.isNaN(defVal)) {
             resetBtn = null;
-        else {
+        } else {
             resetBtn = new JButton(i18n.getString("flt.reset.btn"));
             resetBtn.setName("flt.reset.btn");
             resetBtn.setMnemonic(i18n.getString("flt.reset.mne").charAt(0));

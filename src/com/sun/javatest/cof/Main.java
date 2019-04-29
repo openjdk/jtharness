@@ -180,9 +180,9 @@ public class Main {
             throws Fault {
         try {
             WorkDirectory wd;
-            if (tsPath == null)
+            if (tsPath == null) {
                 wd = WorkDirectory.open(wdPath);
-            else {
+            } else {
                 // with non default suite WorkDirectory.open overwrites
                 // original suite.
                 // so copy before open
@@ -229,10 +229,11 @@ public class Main {
 
     public static void setGenerateTestCases(boolean enable) {
         COFTest.noTestCases = !enable;
-        if (!enable)
+        if (!enable) {
             COFTest.xmlElements.remove("testcases");
-        else
+        } else {
             COFTest.xmlElements.put("testcases", "testcases");
+        }
     }
 
     void run(String[] args, PrintWriter log) throws BadArgs, Fault {
@@ -244,9 +245,9 @@ public class Main {
 
         String filterClass = null;
 
-        if (args.length == 0)
+        if (args.length == 0) {
             helpFlag = true;
-        else {
+        } else {
             for (int i = 0; i < args.length; i++) {
                 if (args[i].equals("-o") && (i + 1 < args.length)) {
                     outputFile = new File(args[++i]);
@@ -290,26 +291,31 @@ public class Main {
                     if (jtiPath == null) {
                         dir = new File(args[i]);
                     }
-                } else
+                } else {
                     throw new BadArgs(i18n, "main.badArg", args[i]);
+                }
             }
         }
 
         if (helpFlag) {
             showCommandLineHelp(log);
-            if (dir == null && outputFile == null)
+            if (dir == null && outputFile == null) {
                 return;
+            }
         }
 
-        if (outputFile == null)
+        if (outputFile == null) {
             throw new BadArgs(i18n, "main.noOutputFile");
+        }
 
         if (jtiPath == null) {
-            if (dir == null)
+            if (dir == null) {
                 throw new BadArgs(i18n, "main.noResults");
+            }
 
-            if (!dir.exists())
+            if (!dir.exists()) {
                 throw new BadArgs(i18n, "main.cantFindResults");
+            }
         }
 
         COFData cofData;

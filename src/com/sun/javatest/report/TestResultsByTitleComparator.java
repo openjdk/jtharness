@@ -38,14 +38,17 @@ class TestResultsByTitleComparator implements Comparator<TestResult> {
     }
 
     private static int compare(String a, String b) {
-        if (a == null && b == null)
+        if (a == null && b == null) {
             return 0;
+        }
 
-        if (a == null)
+        if (a == null) {
             return -1;
+        }
 
-        if (b == null)
+        if (b == null) {
             return +1;
+        }
 
         return a.compareTo(b);
     }

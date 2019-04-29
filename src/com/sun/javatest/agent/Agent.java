@@ -169,8 +169,9 @@ public class Agent implements Runnable {
      * @param concurrency       The number of simultaneous requests to be accepted.
      */
     public Agent(ConnectionFactory connectionFactory, int concurrency) {
-        if (!isValidConcurrency(concurrency))
+        if (!isValidConcurrency(concurrency)) {
             throw new IllegalArgumentException("bad concurrency: " + concurrency);
+        }
 
         this.connectionFactory = connectionFactory;
         maxThreads = concurrency;
@@ -183,8 +184,9 @@ public class Agent implements Runnable {
      * @see #getRetryDelay
      */
     public void setRetryDelay(int delay) {
-        if (delay <= 0)
+        if (delay <= 0) {
             throw new IllegalArgumentException("invalid delay");
+        }
 
         retryDelay = delay;
     }
@@ -212,9 +214,9 @@ public class Agent implements Runnable {
     public synchronized void setMap(ConfigValuesMap map) {
         this.map = map;
         if (tracing) {
-            if (map == null)
+            if (map == null) {
                 traceOut.println("set map null");
-            else {
+            } else {
                 traceOut.println("set map:");
                 map.setTracing(tracing, traceOut);
                 for (Enumeration<String[]> e = map.enumerate(); e.hasMoreElements(); ) {
@@ -268,8 +270,9 @@ public class Agent implements Runnable {
      */
     @Override
     public synchronized void run() {
-        if (mainThread != null)
+        if (mainThread != null) {
             throw new IllegalStateException("Agent already running");
+        }
 
         mainThread = Thread.currentThread();
 
@@ -277,16 +280,19 @@ public class Agent implements Runnable {
         closing = false;
 
         try {
-            if (tracing)
+            if (tracing) {
                 traceOut.println("AGENT STARTED, maxThreads=" + maxThreads);
+            }
 
             notifier.started();
 
             if (maxThreads <= 0)
-                // self defense: stops infinite wait, but the test should
-                // have already been done in the constructor and an argument
-                // thrown.
+            // self defense: stops infinite wait, but the test should
+            // have already been done in the constructor and an argument
+            // thrown.
+            {
                 return;
+            }
 
 
             while (!closing) {
@@ -295,8 +301,9 @@ public class Agent implements Runnable {
                         @Override
                         public void run() {
                             Thread curr = Thread.currentThread();
-                            if (tracing)
+                            if (tracing) {
                                 traceOut.println("THREAD " + curr.getName() + " STARTED " + getClass().getName());
+                            }
 
                             try {
                                 handleRequestsUntilClosed();
@@ -306,8 +313,9 @@ public class Agent implements Runnable {
                                     threads.remove(curr);
                                     Agent.this.notifyAll();
                                 }
-                                if (tracing)
+                                if (tracing) {
                                     traceOut.println("THREAD " + curr.getName() + " EXITING");
+                                }
                             }
                         }
                     });
@@ -328,8 +336,9 @@ public class Agent implements Runnable {
         } finally {
             timer.finished();
             notifier.finished();
-            if (tracing)
+            if (tracing) {
                 traceOut.println("AGENT EXITING");
+            }
             mainThread = null;
         }
     }
@@ -339,8 +348,9 @@ public class Agent implements Runnable {
      * will be interrupted.
      */
     public synchronized void interrupt() {
-        if (mainThread != null)
+        if (mainThread != null) {
             mainThread.interrupt();
+        }
     }
 
     /**
@@ -356,8 +366,9 @@ public class Agent implements Runnable {
         // interrupt any threads that are running
         for (int i = 0; i < threads.size(); i++) {
             Thread t = threads.get(i);
-            if (tracing)
+            if (tracing) {
                 traceOut.println("INTERRUPTING THREAD " + t.getName());
+            }
             t.interrupt();
         }
 
@@ -376,8 +387,9 @@ public class Agent implements Runnable {
         }
 
         try {
-            if (tracing)
+            if (tracing) {
                 traceOut.println("CLOSING CONNECTION FACTORY");
+            }
 
             connectionFactory.close();
         } catch (ConnectionFactory.Fault ignore) {
@@ -386,16 +398,18 @@ public class Agent implements Runnable {
         // allow main loop to exit
         notifyAll();
 
-        if (tracing)
+        if (tracing) {
             traceOut.println("WAITING FOR TASKS TO EXIT");
+        }
 
         // wait for tasks to go away
         while (!tasks.isEmpty()) {
             wait();
         }
 
-        if (tracing)
+        if (tracing) {
             traceOut.println("CLOSED");
+        }
     }
 
     /**
@@ -442,8 +456,9 @@ public class Agent implements Runnable {
                 }
             } catch (ConnectionFactory.Fault e) {
                 notifier.errorOpeningConnection(e.getException());
-                if (tracing)
+                if (tracing) {
                     traceOut.println("THREAD " + Thread.currentThread().getName() + " " + e);
+                }
 
                 if (e.isFatal()) {
                     close();
@@ -479,43 +494,63 @@ public class Agent implements Runnable {
         }
 
         public synchronized void started() {
-            for (Observer observer : observers) observer.started(Agent.this);
+            for (Observer observer : observers) {
+                observer.started(Agent.this);
+            }
         }
 
         public synchronized void finished() {
-            for (Observer observer : observers) observer.finished(Agent.this);
+            for (Observer observer : observers) {
+                observer.finished(Agent.this);
+            }
         }
 
         public synchronized void openedConnection(Connection connection) {
-            for (Observer observer : observers) observer.openedConnection(Agent.this, connection);
+            for (Observer observer : observers) {
+                observer.openedConnection(Agent.this, connection);
+            }
         }
 
         public synchronized void errorOpeningConnection(Exception e) {
-            for (Observer observer : observers) observer.errorOpeningConnection(Agent.this, e);
+            for (Observer observer : observers) {
+                observer.errorOpeningConnection(Agent.this, e);
+            }
         }
 
         public synchronized void execTest(Connection cconnection, String tag, String className, String... args) {
-            for (Observer observer : observers) observer.execTest(Agent.this, cconnection, tag, className, args);
+            for (Observer observer : observers) {
+                observer.execTest(Agent.this, cconnection, tag, className, args);
+            }
         }
 
         public synchronized void execCommand(Connection cconnection, String tag, String className, String... args) {
-            for (Observer observer : observers) observer.execCommand(Agent.this, cconnection, tag, className, args);
+            for (Observer observer : observers) {
+                observer.execCommand(Agent.this, cconnection, tag, className, args);
+            }
         }
 
         public synchronized void execMain(Connection connection, String tag, String className, String... args) {
-            for (Observer observer : observers) observer.execMain(Agent.this, connection, tag, className, args);
+            for (Observer observer : observers) {
+                observer.execMain(Agent.this, connection, tag, className, args);
+            }
         }
 
         public synchronized void result(Connection connection, Status status) {
-            for (Observer observer : observers) observer.result(Agent.this, connection, status);
+            for (Observer observer : observers) {
+                observer.result(Agent.this, connection, status);
+            }
         }
 
         public synchronized void exception(Connection connection, Exception e) {
-            for (Observer observer : observers) observer.exception(Agent.this, connection, e);
+            for (Observer observer : observers) {
+                observer.exception(Agent.this, connection, e);
+            }
         }
 
         public synchronized void completed(Connection connection) {
-            for (Observer observer : observers) observer.completed(Agent.this, connection);
+            for (Observer observer : observers) {
+                observer.completed(Agent.this, connection);
+            }
         }
 
         private Observer[] observers = new Observer[0];
@@ -523,11 +558,13 @@ public class Agent implements Runnable {
 
     private synchronized void setSystemStreams(Object owner, PrintStream out, PrintStream err)
             throws InterruptedException {
-        if (owner == null)
+        if (owner == null) {
             throw new NullPointerException();
+        }
 
-        while (currSystemStreamOwner != null)
+        while (currSystemStreamOwner != null) {
             wait();
+        }
 
         currSystemStreamOwner = owner;
         saveOut = System.out;
@@ -537,11 +574,13 @@ public class Agent implements Runnable {
     }
 
     private synchronized void resetSystemStreams(Object owner) {
-        if (owner == null)
+        if (owner == null) {
             throw new NullPointerException();
+        }
 
-        if (owner != currSystemStreamOwner)
+        if (owner != currSystemStreamOwner) {
             throw new IllegalStateException("expected: " + owner + " found: " + currSystemStreamOwner);
+        }
 
         currSystemStreamOwner = null;
         System.setOut(saveOut);
@@ -621,8 +660,9 @@ public class Agent implements Runnable {
      */
     class Task {
         Task(Connection c) {
-            if (c == null)
+            if (c == null) {
                 throw new NullPointerException();
+            }
             connection = c;
         }
 
@@ -631,55 +671,64 @@ public class Agent implements Runnable {
             try {
                 notifier.openedConnection(connection);
 
-                if (tracing)
+                if (tracing) {
                     traceOut.println("REQUEST FROM " + connection.getName());
+                }
 
                 in = new DataInputStream(connection.getInputStream());
                 short pVer = in.readShort();
-                if (pVer != protocolVersion)
+                if (pVer != protocolVersion) {
                     throw new IOException("protocol mismatch;" +
                             " expected " + protocolVersion +
                             " received " + pVer);
+                }
 
                 tag = in.readUTF();
 
-                if (tracing)
+                if (tracing) {
                     traceOut.println("TAG IS `" + tag + "'");
+                }
 
                 request = in.readUTF();
 
-                if (tracing)
+                if (tracing) {
                     traceOut.println("REQUEST IS `" + request + "'");
+                }
 
                 out = new DataOutputStream(new BufferedOutputStream(connection.getOutputStream()));
 
                 Status status;
 
-                if (request.equals("executeTest") || request.equals("executeCommand") || request.equals("executeMain"))
+                if (request.equals("executeTest") || request.equals("executeCommand") || request.equals("executeMain")) {
                     status = execute();
-                else {
-                    if (tracing)
+                } else {
+                    if (tracing) {
                         traceOut.println("Unrecognized request for agent: `" + request + "'");
+                    }
                     status = Status.error("Unrecognized request for agent: `" + request + "'");
                 }
 
-                if (tracing)
+                if (tracing) {
                     traceOut.println("RETURN " + status);
+                }
 
                 notifier.result(connection, status);
 
-                if (tracing)
+                if (tracing) {
                     traceOut.println("SEND STATUS");
+                }
 
                 sendStatus(status);
 
-                if (tracing)
+                if (tracing) {
                     traceOut.println("FLUSH");
+                }
 
                 out.flush();
 
-                if (tracing)
+                if (tracing) {
                     traceOut.println("AWAIT CLOSE");
+                }
 
                 /*
                 final Thread taskThread = Thread.currentThread();
@@ -716,10 +765,11 @@ public class Agent implements Runnable {
                     traceOut.println("Thread was interrupted - clearing interrupted status!");
                 }
 
-                if (connection.isClosed())
+                if (connection.isClosed()) {
                     notifier.completed(connection);
-                else
+                } else {
                     notifier.exception(connection, new IOException("timeout awaiting close from AgentManager"));
+                }
             } catch (InterruptedException e) {
                 if (tracing) {
                     traceOut.println("Interrupted");
@@ -747,30 +797,35 @@ public class Agent implements Runnable {
         private Status execute() throws IOException {
             String className = in.readUTF();
 
-            if (tracing)
+            if (tracing) {
                 traceOut.println("CLASSNAME: " + className);
+            }
 
             int n = in.readShort();
 
-            if (tracing)
+            if (tracing) {
                 traceOut.println("nArgs: " + n);
+            }
 
             String[] args = new String[n];
             for (int i = 0; i < args.length; i++) {
                 args[i] = in.readUTF();
-                if (tracing)
+                if (tracing) {
                     traceOut.println("arg[" + i + "]: " + args[i]);
+                }
             }
 
             boolean mapArgs = in.readBoolean();
 
-            if (tracing)
+            if (tracing) {
                 traceOut.println("mapArgs: " + mapArgs);
+            }
 
             boolean remoteClasses = in.readBoolean();
 
-            if (tracing)
+            if (tracing) {
                 traceOut.println("remoteClasses: " + remoteClasses);
+            }
 
             boolean sharedClassLoader = in.readBoolean();
 
@@ -780,15 +835,18 @@ public class Agent implements Runnable {
 
             timeoutValue = in.readInt();
 
-            if (tracing)
+            if (tracing) {
                 traceOut.println("COMMAND TIMEOUT(seconds) IS `" + timeoutValue + "'");
+            }
 
             byte guard = in.readByte();
-            if (guard != 0)
+            if (guard != 0) {
                 throw new IOException("data format error");
+            }
 
-            if (map != null && mapArgs)
+            if (map != null && mapArgs) {
                 map.map(args);
+            }
 
             PrintWriter testLog = new PrintWriter(new AgentWriter(LOG, this));
             PrintWriter testRef = new PrintWriter(new AgentWriter(REF, this));
@@ -813,8 +871,9 @@ public class Agent implements Runnable {
                     return Status.error("Unrecognized request for agent: `" + request + "'");
                 }
             } catch (ClassCastException e) {
-                if (tracing)
+                if (tracing) {
                     e.printStackTrace(traceOut);
+                }
                 return Status.error("Can't execute class `" + className + "': required interface not found");
             } catch (ClassNotFoundException ex) {
                 return Status.error("Can't find class `" + className + "'");
@@ -835,13 +894,15 @@ public class Agent implements Runnable {
                 return Status.error("Unexpected throwable: " + e);
             } finally {
                 // close the streams used by the test and write the test status back
-                if (tracing)
+                if (tracing) {
                     traceOut.println("CLOSE TESTREF");
+                }
 
                 testRef.close();
 
-                if (tracing)
+                if (tracing) {
                     traceOut.println("CLOSE TESTLOG");
+                }
 
                 testLog.close();
             }
@@ -1058,8 +1119,9 @@ public class Agent implements Runnable {
          * Get the bytecodes for a class
          */
         synchronized AgentRemoteClassData getClassData(String className) throws ClassNotFoundException {
-            if (tracing)
+            if (tracing) {
                 traceOut.println("REMOTE LOAD " + className);
+            }
 
             try {
                 out.write(CLASS);
@@ -1080,25 +1142,28 @@ public class Agent implements Runnable {
          * Get a resource
          */
         synchronized byte[] getResourceData(String resourceName) throws IOException {
-            if (tracing)
+            if (tracing) {
                 traceOut.println("REMOTE LOAD " + resourceName);
+            }
 
             out.write(DATA);
             out.writeUTF(resourceName);
             out.flush();
 
             int size = in.readInt();
-            if (size == -1)
+            if (size == -1) {
                 throw new MissingResourceException(resourceName, null, resourceName);
+            }
 
             byte[] data = new byte[size];
             int offset = 0;
             while (offset < data.length) {
                 int n = in.read(data, offset, data.length - offset);
-                if (n == -1)
+                if (n == -1) {
                     throw new IOException(resourceName + ": EOF while reading resource data");
-                else
+                } else {
                     offset += n;
+                }
             }
 
             //System.err.println(data.length);

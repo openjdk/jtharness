@@ -82,8 +82,9 @@ public class PieChart extends JComponent /* implements Accessible*/ {
      * @throws NullPointerException     if either argument is null
      */
     public void setValue(int[] dist, Color... c) {
-        if (dist.length != c.length)
+        if (dist.length != c.length) {
             throw new IllegalArgumentException();
+        }
 
         colors = c;
         slices = dist;
@@ -108,23 +109,28 @@ public class PieChart extends JComponent /* implements Accessible*/ {
             g2d.fillRect(0, 0, getWidth(), getHeight());
         }
 
-        if (slices == null || slices.length == 0)
+        if (slices == null || slices.length == 0) {
             return;
+        }
 
         // now paint pie slices
         float sum = 0.0f;
         int minIndex = 0, maxIndex = 0;
         for (int i = 0; i < slices.length; i++) {
             sum += slices[i];
-            if (slices[i] > slices[maxIndex])
+            if (slices[i] > slices[maxIndex]) {
                 maxIndex = i;
-            if (slices[i] > slices[minIndex])
+            }
+            if (slices[i] > slices[minIndex]) {
                 minIndex = i;
+            }
         }
 
         // do not paint shadow if there is no pie
         if (sum < 0.1f)     // floating point inaccuracy...
+        {
             return;
+        }
 
         // perhaps use create with a clip that excludes the border area??
         Insets inset = getInsets();
@@ -174,12 +180,14 @@ public class PieChart extends JComponent /* implements Accessible*/ {
 
         float[] dist = new float[slices.length];
         for (int i = 0; i < slices.length; i++) {
-            if (slices[i] == 0)
+            if (slices[i] == 0) {
                 dist[i] = 0.0f;
-            else if (Math.abs(slices[i] - sum) < .0000001) // slices[i] == sum
+            } else if (Math.abs(slices[i] - sum) < .0000001) // slices[i] == sum
+            {
                 dist[i] = 360.0f;
-            else
+            } else {
                 dist[i] = 360.0f * ((float) slices[i] / sum);
+            }
         }
 
         // post process to provide slices of minimal viewable size
@@ -202,11 +210,12 @@ public class PieChart extends JComponent /* implements Accessible*/ {
                 if (colors[i].equals(Color.WHITE)) {
                     g2d.setPaint(Color.BLACK);
 
-                    if (dist[i] == 360.0f)
+                    if (dist[i] == 360.0f) {
                         g2d.draw(new Ellipse2D.Float(boxX, boxY, targetDia, targetDia));
-                    else
+                    } else {
                         g2d.draw(new Arc2D.Float(boxX, boxY, targetDia, targetDia,
                                 pos, -1.0f * dist[i], Arc2D.PIE));
+                    }
                 } else {
                 }
 

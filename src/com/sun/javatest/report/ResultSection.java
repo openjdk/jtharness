@@ -57,8 +57,9 @@ class ResultSection extends HTMLSection {
         initFiles = settings.getInitialFiles();
         lists = sortedResults;
 
-        for (TreeSet<TestResult> s : sortedResults)
+        for (TreeSet<TestResult> s : sortedResults) {
             totalFound += s.size();
+        }
         /*
         lists = new TreeSet[Status.NUM_STATES];
         for (int i = 0; i < lists.length; i++ )
@@ -179,8 +180,9 @@ class ResultSection extends HTMLSection {
     private void writeStatusFiles() throws IOException {
         for (int i = 0; i < lists.length; i++) {
             // each file is optional
-            if (!settings.isStateFileEnabled(i))
+            if (!settings.isStateFileEnabled(i)) {
                 continue;
+            }
 
             writeUnGroupedReport(i);
 
@@ -221,13 +223,15 @@ class ResultSection extends HTMLSection {
                     String eWRPath = e.getWorkRelativePath();
                     File eFile = new File(workDirRoot, eWRPath.replace('/', File.separatorChar));
                     String eName = e.getTestName();
-                    if (eFile == null || e_s.getType() == Status.NOT_RUN)
+                    if (eFile == null || e_s.getType() == Status.NOT_RUN) {
                         out.write(eName);
-                    else
+                    } else {
                         out.writeLink(eFile, eName);
+                    }
 
-                    if (title != null)
+                    if (title != null) {
                         out.write(": " + title);
+                    }
                     out.startTag(HTMLWriterEx.BR);
                     out.newLine();
                 }
@@ -279,13 +283,15 @@ class ResultSection extends HTMLSection {
                     String eWRPath = e.getWorkRelativePath();
                     File eFile = new File(workDirRoot, eWRPath.replace('/', File.separatorChar));
                     String eName = e.getTestName();
-                    if (eFile == null || e_s.getType() == Status.NOT_RUN)
+                    if (eFile == null || e_s.getType() == Status.NOT_RUN) {
                         out.write(eName);
-                    else
+                    } else {
                         out.writeLink(eFile, eName);
+                    }
 
-                    if (title != null)
+                    if (title != null) {
                         out.write(": " + title);
+                    }
                     out.newLine();
                 }
                 if (inList) {

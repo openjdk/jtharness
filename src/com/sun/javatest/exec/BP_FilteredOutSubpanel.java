@@ -106,8 +106,9 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
      */
     void reset(TT_NodeCache cache) {
         synchronized (BP_FilteredOutSubpanel.this) {
-            if (this.cache != null)
+            if (this.cache != null) {
                 this.cache.removeObserver(cacheWatcher);
+            }
 
             this.cache = cache;
 
@@ -115,8 +116,9 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 resyncThread.halt();
             }
 
-            if (mod != null)
+            if (mod != null) {
                 mod.reset();
+            }
         }   // sync
 
         validateEnableState();
@@ -150,8 +152,9 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
 
         // only run if we change nodes
         if (lastNode != currNode || filtersInvalidated) {
-            if (debug)
+            if (debug) {
                 Debug.println("updating FO table");
+            }
 
             if (resyncThread != null) {
                 resyncThread.halt();
@@ -167,14 +170,16 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
     }
 
     private void updateInfoText() {
-        if (infoTa == null)
+        if (infoTa == null) {
             return;
+        }
 
         TestFilter f = model.getFilter();
-        if (f != null)
+        if (f != null) {
             infoTa.setText(uif.getI18NString("br.fo.info.txt", f.getName()));
-        else
+        } else {
             infoTa.setText(uif.getI18NString("br.fo.noFn.txt"));
+        }
     }
 
     /**
@@ -211,8 +216,9 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                     // add tests into the list model - this doesn't make the data
                     // live though
                     for (int j = 0; j < newData[newData.length - 1].size() - 1; j++) {
-                        if (stopping)
+                        if (stopping) {
                             break;
+                        }
 
                         mod.addTest(newData[newData.length - 1].get(j), true);
                     }   // for
@@ -368,10 +374,11 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
 
         @Override
         public String getColumnName(int columnIndex) {
-            if (columnIndex >= colNames.length)
+            if (columnIndex >= colNames.length) {
                 throw new IndexOutOfBoundsException();
-            else
+            } else {
                 return colNames[columnIndex];
+            }
         }
 
         @Override
@@ -389,15 +396,17 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                         r = cache.getRejectReason(tst);
                     }
 
-                    if (r == null)
+                    if (r == null) {
                         r = uif.getI18NString("br.fo.noFi.txt");
+                    }
 
                     return r;
                 }
-            } else
+            } else {
                 throw new IndexOutOfBoundsException(
                         "Index into filtered out table is out of range: " +
                                 row + ", " + column);
+            }
         }
 
         @Override
@@ -483,16 +492,18 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
          */
         private void goLive() {
             int firstNew, lastNew = 0;
-            if (debug)
+            if (debug) {
                 Debug.println("BP_TL.TLM - goLive() starting.");
+            }
 
             // this is sync. against the outer class because we may change the
             // list model object during execution of this block
             synchronized (BP_FilteredOutSubpanel.this) {
                 synchronized (vLock) {
                     if (inQueue.isEmpty() && rmQueue.isEmpty()) {
-                        if (debug)
+                        if (debug) {
                             Debug.println("BP_TT.TTM - goLive() nothing to do, returning");
+                        }
                         return;
                     }
 
@@ -548,13 +559,15 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                     */
 
                     // this clears the "please wait" message if needed
-                    if (table.getSelectedRow() == -1 && inQueue.isEmpty())
+                    if (table.getSelectedRow() == -1 && inQueue.isEmpty()) {
                         showMessage("");
+                    }
                 }   // sync
             }
 
-            if (debug)
+            if (debug) {
                 Debug.println("BP_TL.LT - goLive() finished");
+            }
         }
 
         /**
@@ -562,8 +575,9 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
          * vLock should be locked when you call this method
          */
         private void processRemoveQueue() {
-            if (rmQueue.isEmpty())
+            if (rmQueue.isEmpty()) {
                 return;
+            }
 
             while (!rmQueue.isEmpty()) {
                 TestResult target = rmQueue.remove(0);
@@ -576,8 +590,9 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                         targetIndex = liveData.indexOf(target);
 
                         // only should happen if the item disappears
-                        if (targetIndex == -1)
+                        if (targetIndex == -1) {
                             continue;
+                        }
 
                         liveData.remove(targetIndex);
 
@@ -729,8 +744,9 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             tm.pendingEvents.remove(this);
 
             // this message has been cancelled
-            if (!isValid)
+            if (!isValid) {
                 return;
+            }
 
             if (tme == null) {
                 // consume the update event
@@ -775,8 +791,10 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                                     rows[i], 0);
                             result[i] = r.getTestName();
                         } else
-                            // should not happen
+                        // should not happen
+                        {
                             result[i] = table.getValueAt(rows[i], 0).toString();
+                        }
                     } // for
 
                     StringSelection payload = null;
@@ -791,8 +809,9 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                         Toolkit.getDefaultToolkit().getSystemClipboard().
                                 setContents(payload, null);
                         Clipboard selection = Toolkit.getDefaultToolkit().getSystemSelection();
-                        if (selection != null)
+                        if (selection != null) {
                             selection.setContents(payload, null);
+                        }
                     }
 
                 } else { // now rows selected
@@ -834,8 +853,9 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                         TestResultTable.TreeNode[] path = TestResultTable.getObjectPath(tr);
 
                         // sanity check, could happen in exceptional cases (out of memory)
-                        if (path == null || path.length == 0)
+                        if (path == null || path.length == 0) {
                             return;
+                        }
 
                         Object[] fp = new Object[path.length + 1];
                         System.arraycopy(path, 0, fp, 0, path.length);
@@ -887,21 +907,24 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             int row = table.getSelectedRow();
 
             // nothing selected, ignore event
-            if (row < 0)
+            if (row < 0) {
                 return;
+            }
 
             Object target = table.getModel().getValueAt(row, 0);
 
             // this shouldn't be the case...
-            if (!(target instanceof TestResult))
+            if (!(target instanceof TestResult)) {
                 return;
+            }
 
             TestResult tr = (TestResult) target;
             TestResultTable.TreeNode[] path = TestResultTable.getObjectPath(tr);
 
             // sanity check, could happen in exceptional cases (out of memory)
-            if (path == null || path.length == 0)
+            if (path == null || path.length == 0) {
                 return;
+            }
 
             Object[] fp = new Object[path.length + 1];
             System.arraycopy(path, 0, fp, 0, path.length);
@@ -912,15 +935,17 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
 
         @Override
         public Object getValue(String key) {
-            if (key == null)
+            if (key == null) {
                 throw new NullPointerException();
+            }
 
-            if (key.equals(NAME))
+            if (key.equals(NAME)) {
                 return name;
-            else if (key.equals(SHORT_DESCRIPTION))
+            } else if (key.equals(SHORT_DESCRIPTION)) {
                 return desc;
-            else
+            } else {
                 return null;
+            }
         }
 
         private String name;
@@ -937,7 +962,9 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                                                        boolean isSelected, boolean hasFocus, int row,
                                                        int column) {
             if (value == null)  // very strange...
+            {
                 return this;
+            }
 
             if (value instanceof TestResult) {
                 TestResult tr = (TestResult) value;

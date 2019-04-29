@@ -160,8 +160,9 @@ public class PropertyUtils {
                     // to work on both \n and \r\n systems
                     int lines = 0;
                     do {
-                        if (breakOnEmptyLine && ch == '\n' && (++lines > 1))
+                        if (breakOnEmptyLine && ch == '\n' && (++lines > 1)) {
                             break parsing;
+                        }
                         ch = in.read();
                     } while ((ch == '\n') || (ch == '\r') || (ch == '\t') || (ch == ' '));
                     continue;
@@ -224,9 +225,13 @@ public class PropertyUtils {
                                     if (((ch = in.read()) == '\n') ||
                                             (ch == ' ') || (ch == '\t')) {
                                         // fall thru to '\n' case
-                                    } else continue;
+                                    } else {
+                                        continue;
+                                    }
                                 case '\n':
-                                    while (((ch = in.read()) == ' ') || (ch == '\t')) ;
+                                    while (((ch = in.read()) == ' ') || (ch == '\t')) {
+                                        ;
+                                    }
                                     continue;
                                 default:
                                     val.append('\\');
@@ -315,10 +320,15 @@ public class PropertyUtils {
                     }
                     out[outLen++] = (char) value;
                 } else {
-                    if (aChar == 't') aChar = '\t';
-                    else if (aChar == 'r') aChar = '\r';
-                    else if (aChar == 'n') aChar = '\n';
-                    else if (aChar == 'f') aChar = '\f';
+                    if (aChar == 't') {
+                        aChar = '\t';
+                    } else if (aChar == 'r') {
+                        aChar = '\r';
+                    } else if (aChar == 'n') {
+                        aChar = '\n';
+                    } else if (aChar == 'f') {
+                        aChar = '\f';
+                    }
                     out[outLen++] = aChar;
                 }
             } else {
@@ -355,8 +365,9 @@ public class PropertyUtils {
             }
             switch (aChar) {
                 case ' ':
-                    if (x == 0 || escapeSpace)
+                    if (x == 0 || escapeSpace) {
                         outBuffer.append('\\');
+                    }
                     outBuffer.append(' ');
                     break;
                 case '\t':
@@ -530,10 +541,15 @@ public class PropertyUtils {
                     }
                     out[outLen++] = (char) value;
                 } else {
-                    if (aChar == 't') aChar = '\t';
-                    else if (aChar == 'r') aChar = '\r';
-                    else if (aChar == 'n') aChar = '\n';
-                    else if (aChar == 'f') aChar = '\f';
+                    if (aChar == 't') {
+                        aChar = '\t';
+                    } else if (aChar == 'r') {
+                        aChar = '\r';
+                    } else if (aChar == 'n') {
+                        aChar = '\n';
+                    } else if (aChar == 'f') {
+                        aChar = '\f';
+                    }
                     out[outLen++] = aChar;
                 }
             } else {

@@ -54,10 +54,11 @@ public class FileChooser extends JFileChooser {
         this.showAllFilesFilter = showAllFilesFilter;
         setCurrentDirectory(userDir);
 
-        if (showAllFilesFilter)
+        if (showAllFilesFilter) {
             setAcceptAllFileFilterUsed(true);
-        else
+        } else {
             setAcceptAllFileFilterUsed(false);
+        }
     }
 
     /**
@@ -73,8 +74,9 @@ public class FileChooser extends JFileChooser {
         setFileFilter(f);
 
         // now that we have a filter, disable the "all files" filter
-        if (!showAllFilesFilter && isAcceptAllFileFilterUsed())
+        if (!showAllFilesFilter && isAcceptAllFileFilterUsed()) {
             setAcceptAllFileFilterUsed(false);
+        }
     }
 
     /**

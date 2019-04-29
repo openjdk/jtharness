@@ -73,10 +73,11 @@ public class Deck extends JPanel {
 
     @Override
     public void setLayout(LayoutManager lm) {
-        if (lm instanceof CardLayout)
+        if (lm instanceof CardLayout) {
             super.setLayout(lm);
-        else
+        } else {
             throw new AWTError("Can't set layout for " + getClass().getName());
+        }
     }
 
     /**
@@ -89,8 +90,9 @@ public class Deck extends JPanel {
      */
     @Override
     public Component add(Component comp) {
-        if (comp.getName() == null)
+        if (comp.getName() == null) {
             comp.setName("card" + cardNum++);
+        }
         super.add(comp, comp.getName());
         return comp;
     }
@@ -114,8 +116,9 @@ public class Deck extends JPanel {
     public Component getCurrentCard() {
         for (int i = 0; i < getComponentCount(); i++) {
             Component c = getComponent(i);
-            if (c.isVisible())
+            if (c.isVisible()) {
                 return c;
+            }
         }
         return null;
     }

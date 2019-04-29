@@ -33,21 +33,25 @@ class StringArrayComparator implements Comparator<String[]> {
     public int compare(String[] a, String[] b) {
         for (int i = 0; i < Math.min(a.length, b.length); i++) {
             int c = compare(a[i], b[i]);
-            if (c != 0)
+            if (c != 0) {
                 return c;
+            }
         }
         return a.length < b.length ? -1 : a.length == b.length ? 0 : +1;
     }
 
     private static int compare(String a, String b) {
-        if (a == null && b == null)
+        if (a == null && b == null) {
             return 0;
+        }
 
-        if (a == null)
+        if (a == null) {
             return -1;
+        }
 
-        if (b == null)
+        if (b == null) {
             return +1;
+        }
 
         return a.compareTo(b);
     }

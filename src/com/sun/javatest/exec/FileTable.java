@@ -76,12 +76,15 @@ public class FileTable extends JTable {
      * @return false in case this column is already autoresizing, true if column was added
      */
     public boolean addAutoResizeColumn(int column, boolean keepSize) {
-        if (column < 0 || column >= getColumnCount())
+        if (column < 0 || column >= getColumnCount()) {
             throw new IllegalArgumentException("Column " + column + " doesn't exist in the table");
+        }
 
-        for (Resize r : autoResizeColumns)
-            if (r.column == column)
+        for (Resize r : autoResizeColumns) {
+            if (r.column == column) {
                 return false;
+            }
+        }
 
         autoResizeColumns.add(new Resize(column, keepSize));
         return true;
@@ -126,8 +129,9 @@ public class FileTable extends JTable {
         int width = 0;
         TableColumn column = getColumnModel().getColumn(columnIndex);
         // if it is needed to keep width - starting width is set to old value
-        if (keepWidth)
+        if (keepWidth) {
             width = column.getWidth();
+        }
 
         boolean modified = false;
         for (int i = 0; i < getRowCount(); i++) {
@@ -142,8 +146,9 @@ public class FileTable extends JTable {
             }
         }
 
-        if (modified)
+        if (modified) {
             width *= 1.1; // table lines also have some width
+        }
         column.setPreferredWidth(width);
     }
 

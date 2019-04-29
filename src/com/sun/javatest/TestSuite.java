@@ -168,13 +168,14 @@ public class TestSuite {
     public static boolean isTestSuite(File root) {
         //System.err.println("TestSuite.isTestSuite: " + root);
         File dir;
-        if (root.isDirectory())
+        if (root.isDirectory()) {
             dir = root;
-        else {
-            if (root.getName().equalsIgnoreCase(TESTSUITE_HTML))
+        } else {
+            if (root.getName().equalsIgnoreCase(TESTSUITE_HTML)) {
                 dir = root.getParentFile();
-            else
+            } else {
                 return false;
+            }
         }
         File jtt = new File(dir, TESTSUITE_JTT);
         File parentDir = dir.getParentFile();
@@ -196,8 +197,9 @@ public class TestSuite {
      * @see #isTestSuite
      */
     public static TestSuite open(File root) throws FileNotFoundException, Fault, NotTestSuiteFault {
-        if (!root.exists())
+        if (!root.exists()) {
             throw new FileNotFoundException(root.getPath());
+        }
 
         File canonRoot;
         try {
@@ -208,13 +210,14 @@ public class TestSuite {
         }
 
         File canonRootDir;
-        if (canonRoot.isDirectory())
+        if (canonRoot.isDirectory()) {
             canonRootDir = canonRoot;
-        else {
-            if (canonRoot.getName().equalsIgnoreCase(TESTSUITE_HTML))
+        } else {
+            if (canonRoot.getName().equalsIgnoreCase(TESTSUITE_HTML)) {
                 canonRootDir = canonRoot.getParentFile();
-            else
+            } else {
                 throw new NotTestSuiteFault(i18n, "ts.notTestSuiteFile", canonRoot);
+            }
         }
 
         File f = new File(canonRootDir, TESTSUITE_JTT);
@@ -230,10 +233,11 @@ public class TestSuite {
             File ts_html = new File(canonRootDir, TESTSUITE_HTML);
             File parentDir = canonRootDir.getParentFile();
             File parent_jtt = parentDir == null ? null : new File(parentDir, TESTSUITE_JTT);
-            if (isReadableFile(ts_html) && (parent_jtt == null || !parent_jtt.exists()))
+            if (isReadableFile(ts_html) && (parent_jtt == null || !parent_jtt.exists())) {
                 return open(canonRoot, new HashMap<String, String>());
-            else
+            } else {
                 throw new NotTestSuiteFault(i18n, "ts.notTestSuiteFile", canonRoot);
+            }
         }
     }
 
@@ -271,20 +275,21 @@ public class TestSuite {
         String[] classPath = StringArray.split(tsInfo.get("classpath"));
 
         ClassLoader cl;
-        if (classPath.length == 0)
+        if (classPath.length == 0) {
             cl = null;
-        else {
+        } else {
             try {
                 File rootDir = root.isDirectory() ? root : root.getParentFile();
                 URL[] p = new URL[classPath.length];
                 for (int i = 0; i < classPath.length; i++) {
                     String cpi = classPath[i];
-                    if (cpi.toLowerCase().startsWith("http:"))
+                    if (cpi.toLowerCase().startsWith("http:")) {
                         p[i] = new URL(cpi);
-                    else {
+                    } else {
                         File f = new File(cpi);
-                        if (!f.isAbsolute())
+                        if (!f.isAbsolute()) {
                             f = new File(rootDir, cpi);
+                        }
                         p[i] = f.toURI().toURL();
                     }
                 }
@@ -298,9 +303,9 @@ public class TestSuite {
         String[] tsClassAndArgs = StringArray.split(tsInfo.get("testsuite"));
 
         TestSuite testSuite;
-        if (tsClassAndArgs.length == 0)
+        if (tsClassAndArgs.length == 0) {
             testSuite = new TestSuite(root, tsInfo, cl);
-        else {
+        } else {
             String className = tsClassAndArgs[0];
 
             try {
@@ -392,8 +397,9 @@ public class TestSuite {
      *                         test suite from the specified arguments.
      */
     protected void init(String... args) throws Fault {
-        if (args.length > 0)
+        if (args.length > 0) {
             throw new Fault(i18n, "ts.badArgs", args[0]);
+        }
         // should be a decodeArgs loop
     }
 
@@ -456,10 +462,11 @@ public class TestSuite {
             return rootDir;
         } else {
             File f = new File(t);
-            if (f.isAbsolute())
+            if (f.isAbsolute()) {
                 return f;
-            else
+            } else {
                 return new File(getRootDir(), t.replace('/', File.separatorChar));
+            }
         }
     }
 
@@ -523,11 +530,13 @@ public class TestSuite {
      * @see #getTestFinder
      */
     protected void setTestFinder(TestFinder tf) {
-        if (tf == null)
+        if (tf == null) {
             throw new NullPointerException();
+        }
 
-        if (finder != null && finder != tf)
+        if (finder != null && finder != tf) {
             throw new IllegalStateException();
+        }
 
         finder = tf;
     }
@@ -694,8 +703,9 @@ public class TestSuite {
                                BackupPolicy backupPolicy) throws Fault {
         if (scriptClass == null) {
             String[] script = envLookup(scriptEnv, "script");
-            if (script.length == 0)
+            if (script.length == 0) {
                 script = StringArray.split(tsInfo.get("script"));
+            }
             if (script.length > 0) {
                 scriptClass = loadClass(script[0]);
                 if (!Script.class.isAssignableFrom(scriptClass)) {
@@ -860,8 +870,9 @@ public class TestSuite {
         try {
             if (tsInfo != null) {
                 String s = tsInfo.get("testCount");
-                if (s != null)
+                if (s != null) {
                     return Integer.parseInt(s);
+                }
             }
         } catch (NumberFormatException e) {
             // ignore
@@ -879,12 +890,14 @@ public class TestSuite {
      */
     public File getInitialExcludeList() {
         String s = tsInfo == null ? null : tsInfo.get("initial.jtx");
-        if (s == null)
+        if (s == null) {
             return null;
+        }
 
         File f = new File(s.replace('/', File.separatorChar));
-        if (!f.isAbsolute())
+        if (!f.isAbsolute()) {
             f = new File(getRootDir(), f.getPath());
+        }
         return f;
     }
 
@@ -1073,10 +1086,11 @@ public class TestSuite {
                     c.getName(), e);
         } catch (InvocationTargetException e) {
             Throwable te = e.getTargetException();
-            if (te instanceof Fault)
+            if (te instanceof Fault) {
                 throw (Fault) te;
-            else
+            } else {
                 throw new Fault(i18n, "ts.cantInit", c.getName(), te);
+            }
         } catch (NoSuchMethodException e) {
             // don't recurse past the use of a single arg constructor
             if (argTypes.length > 1 && Boolean.getBoolean(FIND_LEGACY_CONSTRUCTOR)) {
@@ -1110,10 +1124,11 @@ public class TestSuite {
      */
     protected static <T> Class<? extends T> loadClass(String className, ClassLoader cl) throws Fault {
         try {
-            if (cl == null)
+            if (cl == null) {
                 return (Class<? extends T>) Class.forName(className);
-            else
+            } else {
                 return (Class<? extends T>) cl.loadClass(className);
+            }
         } catch (ClassNotFoundException e) {
             throw new Fault(i18n, "ts.classNotFound",
                     className, e);
@@ -1232,10 +1247,11 @@ public class TestSuite {
      * @return the value of the specified entry, or null if not found.
      */
     public String getTestSuiteInfo(String name) {
-        if (tsInfo == null)
+        if (tsInfo == null) {
             return null;
-        else
+        } else {
             return tsInfo.get(name);
+        }
     }
 
     /**
@@ -1321,12 +1337,14 @@ public class TestSuite {
 
         String logName = wd.getLogFileName();
 
-        if (gpls == null)
+        if (gpls == null) {
             gpls = new Vector<>();
+        }
 
         for (GeneralPurposeLogger gpl : gpls) {
-            if (gpl.getName().equals(key) && gpl.getLogFileName().equals(logName))
+            if (gpl.getName().equals(key) && gpl.getLogFileName().equals(logName)) {
                 throw new DuplicateLogNameFault(i18n, "ts.logger.duplicatelognamefault", key);
+            }
         }
 
         GeneralPurposeLogger gpl = new GeneralPurposeLogger(key, wd, b, this);
@@ -1346,17 +1364,20 @@ public class TestSuite {
      * @see #createLog
      */
     public Logger getLog(WorkDirectory wd, String key) throws NoSuchLogFault {
-        if (gpls == null)
+        if (gpls == null) {
             throw new NoSuchLogFault(i18n, "ts.logger.nologscreated", key);
+        }
 
-        if (wd == null)
+        if (wd == null) {
             throw new NullPointerException(i18n.getString("ts.logger.nullwd"));
+        }
 
         String logFile = wd.getLogFileName();
 
         for (GeneralPurposeLogger logger : gpls) {
-            if (logger.getLogFileName().equals(logFile) && logger.getName().equals(key))
+            if (logger.getLogFileName().equals(logFile) && logger.getName().equals(key)) {
                 return logger;
+            }
         }
         throw new NoSuchLogFault(i18n, "ts.logger.nosuchlogfault", key);
     }
@@ -1368,10 +1389,11 @@ public class TestSuite {
      * @throws IOException if log file's content can't be erased
      */
     public void eraseLog(WorkDirectory wd) throws IOException {
-        if (wd == null)
+        if (wd == null) {
             throw new NullPointerException(i18n.getString("ts.logger.nullwd"));
+        }
 
-        if (gpls != null)
+        if (gpls != null) {
             for (GeneralPurposeLogger gpl : gpls) {
                 if (gpl.getLogFileName().equals(wd.getLogFileName())) {
                     Handler[] h = gpl.getHandlers();
@@ -1381,6 +1403,7 @@ public class TestSuite {
                     }
                 }
             }
+        }
     }
 
     private static boolean isReadableFile(File f) {

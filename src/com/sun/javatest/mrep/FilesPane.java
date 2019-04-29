@@ -134,8 +134,9 @@ class FilesPane extends JPanel {
         nextBtn = uif.createButton("files.next", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (checkInput())
+                if (checkInput()) {
                     nextListener.actionPerformed(e);
+                }
             }
         });
         nextBtn.setEnabled(false);
@@ -202,8 +203,9 @@ class FilesPane extends JPanel {
         boolean resDirEnabled = true;   // block "next" button when result directory is not provided (should be true to unblock)
         resultField.setBackground(UIFactory.getDefaultInputColor());
         if (getResultDir() != null && getResultDir().isEmpty() && resultField.getText().trim() != null && resultField.getText().trim().isEmpty()) {
-            if (!resultField.hasFocus())
+            if (!resultField.hasFocus()) {
                 resultField.setBackground(UIFactory.getInvalidInputColor());
+            }
             resDirEnabled = false;
         }
 
@@ -217,8 +219,9 @@ class FilesPane extends JPanel {
                     used.add(s);
                     if (!isXMLReport(new File(s))) {    // check file is xml report
                         error = true;
-                        if (!tField.hasFocus())
+                        if (!tField.hasFocus()) {
                             tField.setBackground(UIFactory.getInvalidInputColor());
+                        }
                     } else {
                         tField.setBackground(UIFactory.getValidInputColor());
                     }
@@ -230,7 +233,9 @@ class FilesPane extends JPanel {
             }
         }
         if (used.isEmpty()) // none file provided
+        {
             return false;
+        }
 
         return !error && resDirEnabled;
     }
@@ -342,17 +347,19 @@ class FilesPane extends JPanel {
         }
 
         int action = xmlFileChooser.showOpenDialog(null);
-        if (action != JFileChooser.APPROVE_OPTION)
+        if (action != JFileChooser.APPROVE_OPTION) {
             return;
+        }
 
         File cf = xmlFileChooser.getSelectedFile();
         String cfp;
-        if (cf == null)
+        if (cf == null) {
             cfp = "";
-        else {
+        } else {
             cfp = cf.getPath();
-            if (!cfp.endsWith(".xml"))
+            if (!cfp.endsWith(".xml")) {
                 cfp += ".xml";
+            }
         }
         field.setText(cfp);
     }
@@ -363,16 +370,18 @@ class FilesPane extends JPanel {
 
     private void showReportChooserDialog() {
 
-        if (reportDirChooser == null)
+        if (reportDirChooser == null) {
             reportDirChooser = new ReportDirChooser();
+        }
         reportDirChooser.setMode(ReportDirChooser.NEW);
         File f = new File(getResultDir());
         if (f.exists() && f.isDirectory()) {
             reportDirChooser.setCurrentDirectory(f);
         }
         int option = reportDirChooser.showDialog(resultField);
-        if (option != JFileChooser.APPROVE_OPTION)
+        if (option != JFileChooser.APPROVE_OPTION) {
             return;
+        }
 
         resultField.setText(reportDirChooser.getSelectedFile().getAbsolutePath());
     }
@@ -382,7 +391,9 @@ class FilesPane extends JPanel {
         String schemaLocation = "xsi:noNamespaceSchemaLocation=\"Report.xsd\"";
         String formatVersion = "formatVersion=\"v1\"";
 
-        if (!f.getName().endsWith(".xml")) return false;
+        if (!f.getName().endsWith(".xml")) {
+            return false;
+        }
         try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))) {
             boolean hasSchema, hasVersion = false;
 
@@ -408,8 +419,9 @@ class FilesPane extends JPanel {
      * false if either argument is null.
      */
     private static boolean hasLineContent(String line, String target) {
-        if (line == null || target == null)
+        if (line == null || target == null) {
             return false;
+        }
 
         return line.contains(target) ? true : false;
     }
@@ -441,7 +453,9 @@ class FilesPane extends JPanel {
         int l = 0;
         for (JTextField aMerged1 : merged) {
             String s = aMerged1.getText().trim();
-            if (s != null && !s.isEmpty()) l++;
+            if (s != null && !s.isEmpty()) {
+                l++;
+            }
         }
 
         String[] result = new String[l];

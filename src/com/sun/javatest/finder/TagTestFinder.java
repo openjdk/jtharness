@@ -79,8 +79,9 @@ public class TagTestFinder extends TestFinder {
         if ("-fast".equalsIgnoreCase(args[i])) {
             fastScan = true;
             return 1;
-        } else
+        } else {
             return super.decodeArg(args, i);
+        }
     }
 
     /**
@@ -91,10 +92,11 @@ public class TagTestFinder extends TestFinder {
     @Override
     public void scan(File file) {
         currFile = file;
-        if (file.isDirectory())
+        if (file.isDirectory()) {
             scanDirectory(file);
-        else
+        } else {
             scanFile(file);
+        }
     }
 
     /**
@@ -162,10 +164,12 @@ public class TagTestFinder extends TestFinder {
      *                           The class must be a subtype of CommentStream
      */
     public void addExtension(String extn, Class<? extends CommentStream> commentStreamClass) {
-        if (!extn.startsWith("."))
+        if (!extn.startsWith(".")) {
             throw new IllegalArgumentException("extension must begin with `.'");
-        if (!CommentStream.class.isAssignableFrom(commentStreamClass))
+        }
+        if (!CommentStream.class.isAssignableFrom(commentStreamClass)) {
             throw new IllegalArgumentException("class must be a subtype of " + CommentStream.class.getName());
+        }
 
         extensionTable.put(extn, commentStreamClass);
     }
@@ -225,8 +229,9 @@ public class TagTestFinder extends TestFinder {
         for (String name : names) {
             // if the file should be ignored, skip it
             // This is typically for directories like SCCS etc
-            if (excludeList.containsKey(name))
+            if (excludeList.containsKey(name)) {
                 continue;
+            }
 
             File file = new File(dir, name);
             if (file.isDirectory()) {
@@ -235,8 +240,9 @@ public class TagTestFinder extends TestFinder {
             } else {
                 // if its a file, check its extension
                 int dot = name.indexOf('.');
-                if (dot == -1)
+                if (dot == -1) {
                     continue;
+                }
                 String extn = name.substring(dot);
                 if (extensionTable.containsKey(extn)) {
                     // extension has a comment reader, so add it to the
@@ -257,8 +263,9 @@ public class TagTestFinder extends TestFinder {
         int testDescNumber = 0;
         String name = file.getName();
         int dot = name.indexOf('.');
-        if (dot == -1)
+        if (dot == -1) {
             return;
+        }
         String extn = name.substring(dot);
         Class<? extends CommentStream> csc = extensionTable.get(extn);
         if (csc == null) {
@@ -278,8 +285,9 @@ public class TagTestFinder extends TestFinder {
 
         try {
             cs.init(new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)));
-            if (fastScan)
+            if (fastScan) {
                 cs.setFastScan(true);
+            }
 
             String comment = cs.readComment();
             while (comment != null) {
@@ -288,14 +296,16 @@ public class TagTestFinder extends TestFinder {
                 // Look ahead to see if there are more comments
                 comment = cs.readComment();
 
-                if (tagValues.isEmpty())
+                if (tagValues.isEmpty()) {
                     continue;
+                }
 
                 if (tagValues.get("id") == null) {
                     // if there are more comments to come, or if there have already
                     // been additional comments, set an explicit id for each set of tags
-                    if (comment != null || testDescNumber != 0)
+                    if (comment != null || testDescNumber != 0) {
                         tagValues.put("id", "id" + Integer.valueOf(testDescNumber).toString());
+                    }
                     testDescNumber++;
                 }
 
@@ -338,28 +348,32 @@ public class TagTestFinder extends TestFinder {
 //      System.out.println(comment);
         while (true) {
             tagStart = findTagStart(comment, tagEnd);
-            if (tagStart == -1)
+            if (tagStart == -1) {
                 return tagValues;
+            }
 
             tagEnd = findTagEnd(comment, tagStart);
             String tag = comment.substring(tagStart, tagEnd);
 
             int pos = 0;
             while ((pos < tag.length())
-                    && !Character.isWhitespace(tag.charAt(pos)))
+                    && !Character.isWhitespace(tag.charAt(pos))) {
                 pos++;
+            }
 
             String name = tag.substring(1, pos);
             while ((pos < tag.length())
-                    && Character.isWhitespace(tag.charAt(pos)))
+                    && Character.isWhitespace(tag.charAt(pos))) {
                 pos++;
+            }
             String value = tag.substring(pos);
             value = value.replace('\n', ' ').replace('\r', ' ').trim();
 
             // The first token of the leading comment in the defining file
             // must be "@test" (or whatever the initialTag is set to.)
-            if (tagValues.isEmpty() && initialTag != null && !name.equals(initialTag))
+            if (tagValues.isEmpty() && initialTag != null && !name.equals(initialTag)) {
                 return tagValues; // i.e. empty
+            }
 
             processEntry(tagValues, name, value);
         }
@@ -379,12 +393,14 @@ public class TagTestFinder extends TestFinder {
     private int findTagStart(String s, int pos) {
         while (true) {
             pos = s.indexOf("@", pos);
-            if ((pos == -1) || (pos >= (s.length() - 1)))
+            if ((pos == -1) || (pos >= (s.length() - 1))) {
                 return -1;
+            }
             if (((pos == 0) && !Character.isWhitespace(s.charAt(pos + 1)))
                     || ((pos > 0) && !Character.isWhitespace(s.charAt(pos + 1))
-                    && Character.isWhitespace(s.charAt(pos - 1))))
+                    && Character.isWhitespace(s.charAt(pos - 1)))) {
                 return pos;
+            }
             pos++;
         }
     }

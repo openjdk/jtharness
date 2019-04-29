@@ -60,8 +60,9 @@ public class LastRunFilter extends ObservableTestFilter {
      * Can be called at any time to change the context of this filter.
      */
     public void setWorkDirectory(WorkDirectory wd) {
-        if (wd == null)
+        if (wd == null) {
             return;
+        }
 
         try {
             LastRunInfo info = LastRunInfo.readInfo(wd);
@@ -149,26 +150,30 @@ public class LastRunFilter extends ObservableTestFilter {
     @Override
     public boolean accepts(TestDescription td, TestFilter.Observer o) {
 
-        if (workdir == null)
+        if (workdir == null) {
             return true;
+        }
 
         TestResultTable trt = workdir.getTestResultTable();
 
-        if (trt == null)
+        if (trt == null) {
             return true;
+        }
 
         TestResult tr = trt.lookup(td);
         if (tr != null) {
             long et = tr.getEndTime();
-            if (et >= lastStart)
+            if (et >= lastStart) {
                 return true;
-            else {
-                if (o != null)
+            } else {
+                if (o != null) {
                     o.rejected(td, this);
+                }
                 return false;
             }
-        } else
+        } else {
             return true;
+        }
 
     }
 

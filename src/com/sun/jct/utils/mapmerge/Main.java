@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.FileScanner;
 import org.apache.tools.ant.taskdefs.MatchingTask;
@@ -49,8 +50,7 @@ import org.apache.tools.ant.types.FileSet;
 /**
  * A utility to merge JavaHelp map files.
  */
-public class Main
-{
+public class Main {
     /**
      * An exception to report bad command line arguments.
      */
@@ -62,23 +62,22 @@ public class Main
 
     /**
      * Command line entry point.<br>
+     *
      * @param args Command line arguments, per the usage as described.
      */
     public static void main(String... args) {
         try {
-            if (args.length == 0)
+            if (args.length == 0) {
                 usage(System.err);
-            else {
+            } else {
                 Main m = new Main(args);
                 m.run();
             }
-        }
-        catch (BadArgs e) {
+        } catch (BadArgs e) {
             System.err.println(e);
             usage(System.err);
             System.exit(1);
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             t.printStackTrace();
             System.exit(2);
         }
@@ -86,6 +85,7 @@ public class Main
 
     /**
      * Write out short command line help.
+     *
      * @param out A stream to which to write the help.
      */
     private static void usage(PrintStream out) {
@@ -100,24 +100,26 @@ public class Main
         out.println("        Input files to be merged.");
     }
 
-    public Main() { }
+    public Main() {
+    }
 
     /**
      * Create an object based on command line args.
      * It is an error if no input files or no output file is given.
+     *
      * @param args Command line args.
-     * @see #main
      * @throws Main.BadArgs if problems are found in the given arguments.
+     * @see #main
      */
     public Main(String... args) {
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("-o") && i + 1 < args.length) {
                 outFile = new File(args[++i]);
-            }
-            else {
+            } else {
                 inFiles = new File[args.length - i];
-                for (int j = 0; j < inFiles.length; j++)
+                for (int j = 0; j < inFiles.length; j++) {
                     inFiles[j] = new File(args[i++]);
+                }
             }
 
         }
@@ -152,27 +154,34 @@ public class Main
     }
 
     public void addFiles(File baseDir, String... paths) {
-        if (paths == null)
+        if (paths == null) {
             return;
+        }
         List<File> files = new ArrayList<>();
-        if (inFiles != null)
+        if (inFiles != null) {
             files.addAll(Arrays.asList(inFiles));
-        for (String path : paths) files.add(new File(baseDir, path));
+        }
+        for (String path : paths) {
+            files.add(new File(baseDir, path));
+        }
         inFiles = files.toArray(new File[files.size()]);
     }
 
-    private void run() throws BadArgs, IOException
-    {
+    private void run() throws BadArgs, IOException {
 
-        if (inFiles == null || inFiles.length == 0)
+        if (inFiles == null || inFiles.length == 0) {
             throw new BadArgs("no input files specified");
+        }
 
-        if (outFile == null)
+        if (outFile == null) {
             throw new BadArgs("no output file specified");
+        }
 
         map = new TreeMap<>();
 
-        for (File inFile : inFiles) read(inFile);
+        for (File inFile : inFiles) {
+            read(inFile);
+        }
 
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(outFile)));
         out.println("<?xml version='1.0' encoding='ISO-8859-1' ?>");
@@ -192,8 +201,9 @@ public class Main
             String target = e.getKey();
             String url = e.getValue();
             out.print("  <mapID target=\"" + target + "\"  ");
-            for (int i = target.length(); i < maxLen; i++)
+            for (int i = target.length(); i < maxLen; i++) {
                 out.print(' ');
+            }
             out.println(" url=\"" + url + "\" />");
         }
 
@@ -217,36 +227,36 @@ public class Main
                 nextCh();
                 skipSpace();
                 switch (c) {
-                case '!':
-                    nextCh();
-                    if (c == '-') {
+                    case '!':
                         nextCh();
                         if (c == '-') {
                             nextCh();
-                            skipComment();
+                            if (c == '-') {
+                                nextCh();
+                                skipComment();
+                            }
                         }
-                    }
-                    break;
+                        break;
 
-                case '?':
-                    nextCh();
-                    skipTag();
-                    break;
-
-                case '/':
-                    nextCh();
-                    skipTag();
-                    break;
-
-                default:
-                    String startTag = scanIdentifier();
-                    if (isMapID(startTag))
-                        scanMapID(true);
-                    else
+                    case '?':
+                        nextCh();
                         skipTag();
+                        break;
+
+                    case '/':
+                        nextCh();
+                        skipTag();
+                        break;
+
+                    default:
+                        String startTag = scanIdentifier();
+                        if (isMapID(startTag)) {
+                            scanMapID(true);
+                        } else {
+                            skipTag();
+                        }
                 }
-            }
-            else {
+            } else {
                 nextCh();
             }
         }
@@ -265,21 +275,21 @@ public class Main
         while (c != '>') {
             if (c == '/') {
                 nextCh();
-                if (c == '>')
+                if (c == '>') {
                     break;
-                else
+                } else {
                     throw new IOException("error parsing HTML input (" + currFile + ":" + line + ")");
+                }
             }
 
             String att = scanIdentifier();
             if (att.equals("target")) {
                 target = scanValue();
-            }
-            else if (att.equals("url")) {
+            } else if (att.equals("url")) {
                 url = scanValue();
-            }
-            else
+            } else {
                 scanValue();
+            }
             skipSpace();
         }
         map.put(target, url);
@@ -293,22 +303,22 @@ public class Main
         StringBuilder buf = new StringBuilder();
         while (true) {
             if ((c >= 'a') && (c <= 'z')) {
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
             } else if ((c >= 'A') && (c <= 'Z')) {
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
             } else if ((c >= '0') && (c <= '9')) {
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
             } else if (c == '-') {  // needed for <META HTTP-EQUIV ....>
-                buf.append((char)c);
+                buf.append((char) c);
                 nextCh();
-            } else
-                if (buf.length() == 0)
-                    throw new IOException("Identifier expected (" + currFile + ":" + line + ")");
-                else
-                    return buf.toString();
+            } else if (buf.length() == 0) {
+                throw new IOException("Identifier expected (" + currFile + ":" + line + ")");
+            } else {
+                return buf.toString();
+            }
         }
     }
 
@@ -317,8 +327,9 @@ public class Main
      */
     private String scanValue() throws IOException {
         skipSpace();
-        if (c != '=')
+        if (c != '=') {
             return "";
+        }
 
         int quote = -1;
         nextCh();
@@ -331,15 +342,16 @@ public class Main
         StringBuilder buf = new StringBuilder();
         while (((quote < 0) && (c != ' ') && (c != '\t') &&
                 (c != '\n') && (c != '\r') && (c != '>')) ||
-               ((quote >= 0) && (c != quote))) {
+                ((quote >= 0) && (c != quote))) {
             if (c == -1 || c == '\n' || c == '\r') {
                 throw new IOException("mismatched quotes (" + currFile + ":" + line + ")");
             }
-            buf.append((char)c);
+            buf.append((char) c);
             nextCh();
         }
-        if (c == quote)
+        if (c == quote) {
             nextCh();
+        }
         skipSpace();
         return buf.toString();
     }
@@ -352,10 +364,11 @@ public class Main
         // at the time this is called, "<!--" has been read;
         int numHyphens = 0;
         while (c != -1 && (numHyphens < 2 || c != '>')) {
-            if (c == '-')
+            if (c == '-') {
                 numHyphens++;
-            else
+            } else {
                 numHyphens = 0;
+            }
             nextCh();
             //System.out.print((char)c);
         }
@@ -380,15 +393,17 @@ public class Main
         while (c != '>') {
             if (c == '/' || c == '?') {
                 nextCh();
-                if (c == '>')
+                if (c == '>') {
                     break;
-                else
+                } else {
                     throw new IOException("error parsing HTML input (" + currFile + ":" + line + ")");
+                }
             }
 
             String att = scanIdentifier();
-            if (Objects.equals(att, ""))
+            if (Objects.equals(att, "")) {
                 throw new IOException("error parsing HTML input (" + currFile + ":" + line + ")");
+            }
             String value = scanValue();
             skipSpace();
         }
@@ -401,8 +416,9 @@ public class Main
      */
     private void nextCh() throws IOException {
         c = in.read();
-        if (c == '\n')
+        if (c == '\n') {
             line++;
+        }
     }
 
 

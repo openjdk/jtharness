@@ -44,8 +44,9 @@ public abstract class FileListQuestion extends Question {
     protected FileListQuestion(Interview interview, String tag) {
         super(interview, tag);
 
-        if (interview.getInterviewSemantics() > Interview.SEMANTIC_PRE_32)
+        if (interview.getInterviewSemantics() > Interview.SEMANTIC_PRE_32) {
             clear();
+        }
 
         setDefaultValue(value);
     }
@@ -335,10 +336,11 @@ public abstract class FileListQuestion extends Question {
     @Override
     protected void load(Map<String, String> data) {
         Object o = data.get(tag);
-        if (o instanceof File[])
+        if (o instanceof File[]) {
             setValue((File[]) o);
-        else if (o instanceof String)
+        } else if (o instanceof String) {
             setValue(split((String) o));
+        }
     }
 
     /**
@@ -354,8 +356,9 @@ public abstract class FileListQuestion extends Question {
      * @see #join
      */
     public static File[] split(String s) {
-        if (s == null)
+        if (s == null) {
             return empty;
+        }
 
         char sep = s.indexOf('\n') == -1 ? ' ' : '\n';
 
@@ -363,16 +366,20 @@ public abstract class FileListQuestion extends Question {
         int start = -1;
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == sep) {
-                if (start != -1)
+                if (start != -1) {
                     v.add(new File(s.substring(start, i)));
+                }
                 start = -1;
-            } else if (start == -1)
+            } else if (start == -1) {
                 start = i;
+            }
         }
-        if (start != -1)
+        if (start != -1) {
             v.add(new File(s.substring(start)));
-        if (v.isEmpty())
+        }
+        if (v.isEmpty()) {
             return empty;
+        }
         File[] a = new File[v.size()];
         v.toArray(a);
         return a;
@@ -388,8 +395,9 @@ public abstract class FileListQuestion extends Question {
      */
     @Override
     protected void save(Map<String, String> data) {
-        if (value != null)
+        if (value != null) {
             data.put(tag, join(value));
+        }
     }
 
     /**
@@ -405,11 +413,14 @@ public abstract class FileListQuestion extends Question {
      * @see #split
      */
     public static String join(File... ff) {
-        if (ff == null || ff.length == 0)
+        if (ff == null || ff.length == 0) {
             return "";
+        }
 
         int l = ff.length - 1; // allow for spaces between words
-        for (File aFf : ff) l += aFf.getPath().length();
+        for (File aFf : ff) {
+            l += aFf.getPath().length();
+        }
 
         StringBuilder sb = new StringBuilder(l);
 
@@ -440,15 +451,18 @@ public abstract class FileListQuestion extends Question {
      * their contents match, element for element, in order
      */
     protected static boolean equal(File[] f1, File... f2) {
-        if (f1 == null || f2 == null)
+        if (f1 == null || f2 == null) {
             return f1 == f2;
+        }
 
-        if (f1.length != f2.length)
+        if (f1.length != f2.length) {
             return false;
+        }
 
         for (int i = 0; i < f1.length; i++) {
-            if (f1[i] != f2[i])
+            if (f1[i] != f2[i]) {
                 return false;
+            }
         }
 
         return true;

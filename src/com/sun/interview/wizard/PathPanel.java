@@ -199,9 +199,9 @@ class PathPanel extends JPanel
             public Transferable createTransferable(JComponent c) {
                 Object selected = list.getSelectedValue();
                 if (selected != null) {
-                    if (selected instanceof Question)
+                    if (selected instanceof Question) {
                         return new StringSelection(((Question) selected).getSummary());
-                    else if (selected instanceof List) {
+                    } else if (selected instanceof List) {
                         StringBuilder temp = new StringBuilder();
                         for (Question q : (List<Question>) selected) {
                             temp.append(q.getSummary());
@@ -229,8 +229,9 @@ class PathPanel extends JPanel
             String tip = i18n.getString(uiKey + ".tip");
             jc.setToolTipText(tip);
             ac.setAccessibleDescription(tip);
-        } else
+        } else {
             ac.setAccessibleDescription(i18n.getString(uiKey + ".desc"));
+        }
     }
 
     private QuestionPanel questionPanel;
@@ -259,8 +260,9 @@ class PathPanel extends JPanel
         Question getNextVisible() {
             for (int i = currIndex + 1; i < currEntries.length; i++) {
                 Object e = currEntries[i];
-                if (e instanceof Question)
+                if (e instanceof Question) {
                     return (Question) e;
+                }
             }
             return null;
         }
@@ -268,8 +270,9 @@ class PathPanel extends JPanel
         Question getPrevVisible() {
             for (int i = currIndex - 1; i >= 0; i--) {
                 Object e = currEntries[i];
-                if (e instanceof Question)
+                if (e instanceof Question) {
                     return (Question) e;
+                }
             }
             return null;
         }
@@ -277,8 +280,9 @@ class PathPanel extends JPanel
         Question getLastVisible() {
             for (int i = currEntries.length - 1; i >= 0; i--) {
                 Object e = currEntries[i];
-                if (e instanceof Question)
+                if (e instanceof Question) {
                     return (Question) e;
+                }
             }
             return null;
         }
@@ -287,10 +291,11 @@ class PathPanel extends JPanel
 
         boolean isQuestionVisible(Question q) {
             for (Object e : currEntries) {
-                if (e instanceof Question && e == q)
+                if (e instanceof Question && e == q) {
                     return true;
-                else if (e instanceof List && ((List<?>) e).contains(q))
+                } else if (e instanceof List && ((List<?>) e).contains(q)) {
                     return false;
+                }
             }
             return false;
         }
@@ -302,13 +307,16 @@ class PathPanel extends JPanel
                 if (e instanceof Question) {
                     Question qe = (Question) e;
                     if (qe.hasMarker(markerName)) {
-                        if (qe == q)
+                        if (qe == q) {
                             return false;
+                        }
                         autoOpened = autoOpenSet.contains(qe);
-                    } else if (qe == q)
+                    } else if (qe == q) {
                         return autoOpened;
-                } else if (e instanceof List && ((List<?>) e).contains(q))
+                    }
+                } else if (e instanceof List && ((List<?>) e).contains(q)) {
                     return false;
+                }
             }
             return false;
         }
@@ -325,10 +333,11 @@ class PathPanel extends JPanel
 
         private void setQuestionMarked(Question q, boolean on) {
             questionPanel.saveCurrentResponse();
-            if (on)
+            if (on) {
                 q.addMarker(markerName);
-            else
+            } else {
                 q.removeMarker(markerName);
+            }
 
             pathList.update(q);
         }
@@ -341,16 +350,18 @@ class PathPanel extends JPanel
             Object o = currEntries[index];
 
             // only a list can be opened
-            if (!(o instanceof List))
+            if (!(o instanceof List)) {
                 return;
+            }
 
             // the marker question for a List is the question in the preceding entry
             // find that marker question and add it to the autoOpenSet
             for (int i = 1; i < currEntries.length; i++) {
                 if (currEntries[i] == o) {
                     Object m = currEntries[i - 1];
-                    if (m instanceof Question)
+                    if (m instanceof Question) {
                         autoOpenSet.add((Question) m);
+                    }
                     update();
                 }
             }
@@ -364,8 +375,9 @@ class PathPanel extends JPanel
             Object o = currEntries[index];
 
             // only a question can be closed
-            if (!(o instanceof Question))
+            if (!(o instanceof Question)) {
                 return;
+            }
 
             // need to figure out the autoOpenSet entry
             // scan back through entries looking for a marked question
@@ -384,8 +396,9 @@ class PathPanel extends JPanel
 
             // can't close the marker question itself:
             // must close a question after the marker
-            if (marker == o)
+            if (marker == o) {
                 return;
+            }
 
             autoOpenSet.remove(marker);
             update();
@@ -464,15 +477,17 @@ class PathPanel extends JPanel
                 sample.setText(s);
                 sample.setFont(f);
                 sample.setForeground(c);
-                if (bg != null)
+                if (bg != null) {
                     sample.setBackground(bg);
-                else
+                } else {
                     sample.setBackground(list.getBackground());
+                }
 
-                if (markersEnabled)
+                if (markersEnabled) {
                     sample.setIcon(q.hasMarker(markerName) ? markerIcon : noMarkerIcon);
-                else
+                } else {
                     sample.setIcon(null);
+                }
             } else if (o instanceof List) {
                 sample.setText(null);
                 sample.setFont(list.getFont());
@@ -484,8 +499,9 @@ class PathPanel extends JPanel
                 sample.setFont(list.getFont().deriveFont(Font.ITALIC));
                 sample.setForeground(list.getForeground());
                 sample.setIcon(markersEnabled ? noMarkerIcon : null);
-            } else
+            } else {
                 throw new IllegalArgumentException();
+            }
 
             // rest of method based on javax.swing.DefaultListCellRenderer
             if (isSelected) {
@@ -512,8 +528,9 @@ class PathPanel extends JPanel
             Object o = list.getSelectedValue();
             if (o != null && o instanceof Question) {
                 Question q = (Question) o;
-                if (q == interview.getCurrentQuestion())
+                if (q == interview.getCurrentQuestion()) {
                     return;
+                }
 
                 //System.err.println("PP.actionPerformed saveCurrentResponse");
                 questionPanel.saveCurrentResponse();
@@ -534,15 +551,17 @@ class PathPanel extends JPanel
         public void valueChanged(ListSelectionEvent e) {
             JList<?> list = (JList<?>) e.getSource();
             Object o = list.getSelectedValue();
-            if (o == null)
+            if (o == null) {
                 return;
+            }
 
             // make sure the interview's current question is synchronized with
             // the list selection
             if (o instanceof Question) {
                 Question q = (Question) o;
-                if (q == interview.getCurrentQuestion())
+                if (q == interview.getCurrentQuestion()) {
                     return;
+                }
 
                 questionPanel.saveCurrentResponse();
 
@@ -553,8 +572,9 @@ class PathPanel extends JPanel
                 }
             } else if (o instanceof List) {
                 List<?> l = (List<?>) o;
-                if (l.contains(interview.getCurrentQuestion()))
+                if (l.contains(interview.getCurrentQuestion())) {
                     return;
+                }
 
                 questionPanel.saveCurrentResponse();
 
@@ -601,14 +621,16 @@ class PathPanel extends JPanel
 
         @Override
         public void mousePressed(MouseEvent e) {
-            if (markersEnabled && e.isPopupTrigger() && isOverSelection(e))
+            if (markersEnabled && e.isPopupTrigger() && isOverSelection(e)) {
                 showPopupMenu(e);
+            }
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            if (markersEnabled && e.isPopupTrigger() && isOverSelection(e))
+            if (markersEnabled && e.isPopupTrigger() && isOverSelection(e)) {
                 showPopupMenu(e);
+            }
         }
 
         private boolean isOverSelection(MouseEvent e) {
@@ -618,20 +640,23 @@ class PathPanel extends JPanel
         }
 
         private void showPopupMenu(MouseEvent e) {
-            if (popupMenu == null)
+            if (popupMenu == null) {
                 popupMenu = createPopupMenu();
+            }
             popupMenu.show(e.getComponent(), e.getX(), e.getY());
         }
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (!markersEnabled)
+            if (!markersEnabled) {
                 return;
+            }
 
             Point p = e.getPoint();
             int index = list.locationToIndex(p);
-            if (index == -1)
+            if (index == -1) {
                 return;
+            }
             Object entry = currEntries[index];
 
             switch (e.getClickCount()) {
@@ -646,10 +671,11 @@ class PathPanel extends JPanel
 
                 case 2:
                     if (markersFilterEnabled) {
-                        if (entry instanceof List)
+                        if (entry instanceof List) {
                             openEntry(index);
-                        else
+                        } else {
                             closeEntry(index);
+                        }
                     }
                     break;
             }
@@ -685,9 +711,9 @@ class PathPanel extends JPanel
         }
 
         void update(Question q) {
-            if (markersFilterEnabled)
+            if (markersFilterEnabled) {
                 update();
-            else {
+            } else {
                 for (int i = 0; i < currEntries.length; i++) {
                     Object e = currEntries[i];
                     if (e == q) {
@@ -704,8 +730,9 @@ class PathPanel extends JPanel
             Object[] oldEntries = currEntries;
             boolean[] oldMarks = currMarks;
 
-            if (!markersFilterEnabled)
+            if (!markersFilterEnabled) {
                 autoOpenSet.clear();
+            }
 
             Object[] newEntries = getEntries(newPath);
             boolean[] newMarks = new boolean[newEntries.length];
@@ -735,8 +762,9 @@ class PathPanel extends JPanel
                             : oldObj instanceof List ? newObj instanceof List
                             : false) {
                         firstDiff++;
-                    } else
+                    } else {
                         break;
+                    }
                 }
             }
 
@@ -773,13 +801,16 @@ class PathPanel extends JPanel
 
         private Object[] getEntries(Question... path) {
             if (path.length == 0)  // transient startup condition
+            {
                 return path;
+            }
 
             Question last = path[path.length - 1];
             boolean needMore = !(last instanceof ErrorQuestion || last instanceof FinalQuestion);
             // quick check to see if we can simply use the path as is
-            if ((!markersEnabled || !markersFilterEnabled) && !needMore)
+            if ((!markersEnabled || !markersFilterEnabled) && !needMore) {
                 return path;
+            }
 
             Vector<Object> v = new Vector<>();
             Question lastMarker = null;
@@ -800,8 +831,9 @@ class PathPanel extends JPanel
                     if (o == null || o instanceof Question) {
                         l = new Vector<>();
                         v.add(l);
-                    } else
+                    } else {
                         l = (List<Question>) o;
+                    }
                     l.add(q);
                 }
             }
@@ -813,8 +845,9 @@ class PathPanel extends JPanel
                 v.addAll(l);
             }
 
-            if (needMore)
+            if (needMore) {
                 v.add(moreText);
+            }
 
             return v.toArray(new Object[v.size()]);
         }
@@ -1024,15 +1057,17 @@ class PathPanel extends JPanel
                 // If the previously current question is still current,
                 // we need to redisplay it to make sure that it shows
                 // the updated value
-                if (q == interview.getCurrentQuestion())
+                if (q == interview.getCurrentQuestion()) {
                     questionPanel.showQuestion(q);
+                }
             } else if (cmd.equals(REMOVE_MARKERS)) {
                 // show a confirm dialog?
                 interview.removeMarkers(markerName);
-                if (getMarkersFilterEnabled() == true)
+                if (getMarkersFilterEnabled() == true) {
                     setMarkersFilterEnabled(false); // will cause update
-                else
+                } else {
                     pathList.update();
+                }
             }
         }
 

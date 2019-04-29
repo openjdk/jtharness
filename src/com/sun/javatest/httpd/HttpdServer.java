@@ -61,12 +61,16 @@ public class HttpdServer implements Runnable {
         while (true) {
             try {
                 Socket ns = socket.accept();
-                if (debug) System.out.println("httpd-New connection " + ns);
+                if (debug) {
+                    System.out.println("httpd-New connection " + ns);
+                }
 
                 RequestHandler handler = new RequestHandler(ns);
                 Thread thr = new Thread(handler);
 
-                if (debug) System.out.println("httpd-Starting thread for connection ");
+                if (debug) {
+                    System.out.println("httpd-Starting thread for connection ");
+                }
                 thr.start();
             } catch (IOException e) {
                 System.out.println(i18n.getString("server.errorInAccept"));
@@ -81,8 +85,9 @@ public class HttpdServer implements Runnable {
      * Get the local port on which the server is listening
      */
     public static int getLocalPort() {
-        if (socket == null)
+        if (socket == null) {
             throw new IllegalStateException();
+        }
 
         return socket.getLocalPort();
     }
@@ -112,7 +117,9 @@ public class HttpdServer implements Runnable {
      *                     to create the Socket.
      */
     private void init() throws IOException {
-        if (debug) System.out.println("Initializing JT Harness HTTP Server");
+        if (debug) {
+            System.out.println("Initializing JT Harness HTTP Server");
+        }
 
         int soc_num = Integer.getInteger("jt.httpd.port", 1903).intValue();
 
@@ -138,9 +145,9 @@ public class HttpdServer implements Runnable {
                 break;
             }   // try
             catch (BindException e) {
-                if (i + 1 >= soc_num + MAX_PORT_SEARCH)
+                if (i + 1 >= soc_num + MAX_PORT_SEARCH) {
                     throw e;
-                else {
+                } else {
                     System.out.println(i18n.getString("server.portBusy", Integer.valueOf(i)));
                 }
             } catch (IOException e) {

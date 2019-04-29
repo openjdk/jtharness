@@ -80,8 +80,9 @@ public class VerboseCommand extends Command {
 
         int chop = cmd.indexOf(CMD);
 
-        if (chop == -1)
+        if (chop == -1) {
             throw new IllegalArgumentException();
+        }
 
         String workstr = cmd.substring(chop + CMD.length());
 
@@ -91,16 +92,18 @@ public class VerboseCommand extends Command {
             // rm colon
             workstr = workstr.substring(1);
             processOptions(workstr);
-        } else
+        } else {
             throw new Fault(i18n, "verb.badOpts");
+        }
     }
 
     private void processOptions(String ops) throws Fault {
         ensureAllOptionsInitialized();
         String[] items = StringArray.splitList(ops, ",");
 
-        if (items == null)
+        if (items == null) {
             throw new Fault(i18n, "verb.noOpts");
+        }
 
         for (String item1 : items) {
             String item = item1;
@@ -108,11 +111,13 @@ public class VerboseCommand extends Command {
             if (item.startsWith(NO_PREFIX)) {
                 on = false;
                 item = item.substring(NO_PREFIX.length());
-            } else
+            } else {
                 on = true;
+            }
 
-            if (!allOptions.containsKey(item.toLowerCase()))
+            if (!allOptions.containsKey(item.toLowerCase())) {
                 throw new Fault(i18n, "verb.badOpt", item);
+            }
 
             optionValues.put(item, new Boolean(on));
         }
@@ -123,14 +128,15 @@ public class VerboseCommand extends Command {
         for (Map.Entry<String, Boolean> e : optionValues.entrySet()) {
             String name = e.getKey();
             boolean value = e.getValue().booleanValue();
-            if (name.equalsIgnoreCase(MAX))
+            if (name.equalsIgnoreCase(MAX)) {
                 ctx.setVerboseMax(value);
-            else if (name.equalsIgnoreCase(QUIET))
+            } else if (name.equalsIgnoreCase(QUIET)) {
                 ctx.setVerboseQuiet(value);
-            else if (name.equalsIgnoreCase(DATE))
+            } else if (name.equalsIgnoreCase(DATE)) {
                 ctx.setVerboseTimestampEnabled(value);
-            else
+            } else {
                 ctx.setVerboseOptionValue(name, value);
+            }
         }
     }
 
@@ -139,7 +145,9 @@ public class VerboseCommand extends Command {
 
         HelpTree.Node[] nodes = new HelpTree.Node[allOptions.size()];
         int i = 0;
-        for (HelpTree.Node node : allOptions.values()) nodes[i++] = node;
+        for (HelpTree.Node node : allOptions.values()) {
+            nodes[i++] = node;
+        }
 
         return new HelpTree.Node(i18n, "verb", nodes);
     }

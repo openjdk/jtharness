@@ -47,8 +47,9 @@ class TP_ResultsSubpanel
 
     @Override
     protected synchronized void updateSubpanel(TestResult currTest) {
-        if (subpanelTest != null)
+        if (subpanelTest != null) {
             subpanelTest.removeObserver(observer);
+        }
 
         super.updateSubpanel(currTest);
         updateEntries();
@@ -72,14 +73,15 @@ class TP_ResultsSubpanel
 
     private void updateEntriesLater(final TestResult tr) {
         if (tr == subpanelTest) {
-            if (EventQueue.isDispatchThread())
+            if (EventQueue.isDispatchThread()) {
                 updateEntries();
-            else {
+            } else {
                 EventQueue.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        if (tr == subpanelTest)
+                        if (tr == subpanelTest) {
                             updateEntries();
+                        }
                     }
                 });
             }
@@ -88,14 +90,15 @@ class TP_ResultsSubpanel
 
     private void updateEntryLater(final TestResult tr, final String name, final String value) {
         if (tr == subpanelTest) {
-            if (EventQueue.isDispatchThread())
+            if (EventQueue.isDispatchThread()) {
                 updateEntry(name, value);
-            else {
+            } else {
                 EventQueue.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        if (tr == subpanelTest)
+                        if (tr == subpanelTest) {
                             updateEntry(name, value);
+                        }
                     }
                 });
             }

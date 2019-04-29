@@ -33,14 +33,17 @@ import com.sun.javatest.util.I18NResourceBundle;
 public class LoggerFactory {
 
     public static String getLocalizedLevelName(Level level) {
-        if (level.intValue() < Level.INFO.intValue())
+        if (level.intValue() < Level.INFO.intValue()) {
             return i18n.getString("logger.level.debug");
+        }
 
-        if (level.intValue() < Level.WARNING.intValue())
+        if (level.intValue() < Level.WARNING.intValue()) {
             return i18n.getString("logger.level.monitoring");
+        }
 
-        if (level.intValue() < Level.SEVERE.intValue())
+        if (level.intValue() < Level.SEVERE.intValue()) {
             return i18n.getString("logger.level.warning");
+        }
 
         return i18n.getString("logger.level.critical");
     }

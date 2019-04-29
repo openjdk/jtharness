@@ -76,17 +76,18 @@ public class PriorStatusInterview
      */
     @Override
     public boolean[] getPriorStatusValues() {
-        if (Objects.equals(qNeedStatus.getValue(), YesNoQuestion.YES))
+        if (Objects.equals(qNeedStatus.getValue(), YesNoQuestion.YES)) {
             return getMatchPriorStatusValues();
-        else
+        } else {
             return null;
+        }
     }
 
     @Override
     public void setPriorStatusValues(boolean... b) {
-        if (b == null)
+        if (b == null) {
             setPriorStatusMode(NO_PRIOR_STATUS);
-        else {
+        } else {
             setPriorStatusMode(MATCH_PRIOR_STATUS);
             setMatchPriorStatusValues(b);
         }
@@ -125,8 +126,9 @@ public class PriorStatusInterview
      */
     @Override
     public void setMatchPriorStatusValues(boolean... b) {
-        if (b.length != Status.NUM_STATES)
+        if (b.length != Status.NUM_STATES) {
             throw new IllegalArgumentException();
+        }
 
         boolean[] choices = new boolean[Status.NUM_STATES];
         choices[0] = b[Status.ERROR];
@@ -155,12 +157,13 @@ public class PriorStatusInterview
     private YesNoQuestion qNeedStatus = new YesNoQuestion(this, "needStatus", YesNoQuestion.NO) {
         @Override
         protected Question getNext() {
-            if (value == null)
+            if (value == null) {
                 return null;
-            else if (Objects.equals(value, YES))
+            } else if (Objects.equals(value, YES)) {
                 return qStatus;
-            else
+            } else {
                 return qEnd;
+            }
         }
     };
 
@@ -186,8 +189,9 @@ public class PriorStatusInterview
         public boolean isValueValid() {
             // one of the choices must be set
             for (boolean aValue : value) {
-                if (aValue)
+                if (aValue) {
                     return true;
+                }
             }
             return false;
         }
@@ -203,24 +207,28 @@ public class PriorStatusInterview
         WorkDirectory wd = parent.getWorkDirectory();
         TestResultTable r = wd == null ? null : wd.getTestResultTable();
         boolean[] s = getPriorStatusValues();
-        if (r == null || s == null)
+        if (r == null || s == null) {
             cachedStatusFilter = null;
-        else if (cachedStatusFilter == null
+        } else if (cachedStatusFilter == null
                 || cachedStatusFilter.getTestResultTable() != r
-                || !equal(cachedStatusFilter.getStatusValues(), s))
+                || !equal(cachedStatusFilter.getStatusValues(), s)) {
             cachedStatusFilter = new StatusFilter(s, r);
+        }
         // else
         //   cachedStatusFilter is OK
     }
 
     private static boolean equal(boolean[] b1, boolean... b2) {
-        if (b1 == null || b2 == null)
+        if (b1 == null || b2 == null) {
             return b1 == b2;
-        if (b1.length != b2.length)
+        }
+        if (b1.length != b2.length) {
             return false;
+        }
         for (int i = 0; i < b1.length; i++) {
-            if (b1[i] != b2[i])
+            if (b1[i] != b2[i]) {
                 return false;
+            }
         }
         return true;
     }

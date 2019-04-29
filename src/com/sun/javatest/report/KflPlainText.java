@@ -104,17 +104,19 @@ public class KflPlainText {
         } else {
             KnownFailuresList.Entry ee = kfl.find(diff.getTestName(),
                     diff.getTestCase());
-            if (ee != null)
+            if (ee != null) {
                 e = new KnownFailuresList.Entry[]{ee};
+            }
         }
 
         // no entry, nothing to print
         if (e == null || e.length == 0) {
             // force the associated entry if possible
-            if (diff.getKflEntry() != null)
+            if (diff.getKflEntry() != null) {
                 e = new KnownFailuresList.Entry[]{diff.getKflEntry()};
-            else
+            } else {
                 return;
+            }
         }
 
         Set<String> hs = new HashSet<>();
@@ -128,8 +130,9 @@ public class KflPlainText {
             for (int j = 0; j < bugs.length; j++) {
                 // old style kfl and jtx have zero as a placeholder, we don't
                 // want to print it
-                if (bugs[j].equals("0000000") || bugs[j].equals("0"))
+                if (bugs[j].equals("0000000") || bugs[j].equals("0")) {
                     continue;
+                }
 
                 // already been printed once
                 if (hs.contains(bugs[j])) {
@@ -140,8 +143,9 @@ public class KflPlainText {
 
                 writer.write(bugs[j]);
 
-                if (bugs.length != j + 1)
+                if (bugs.length != j + 1) {
                     writer.write(",");
+                }
             }
         }   // for
 

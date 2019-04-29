@@ -170,8 +170,9 @@ public class CommandContext {
 
             // can't cache this ... may change while we execute commands
             boolean verbose = getVerboseOptionValue(VERBOSE_COMMANDS, false);
-            if (verbose)
+            if (verbose) {
                 out.println(TRACE_PREFIX + cmd.toString());
+            }
 
             try {
                 cmd.run(this);
@@ -265,11 +266,13 @@ public class CommandContext {
      * @param stats an array of test counts, indexed by the standard Status.XXX values.
      */
     public void addTestStats(int... stats) {
-        if (stats.length != Status.NUM_STATES)
+        if (stats.length != Status.NUM_STATES) {
             throw new IllegalArgumentException();
+        }
 
-        for (int i = 0; i < stats.length; i++)
+        for (int i = 0; i < stats.length; i++) {
             cumulativeTestStats[i] += stats[i];
+        }
     }
 
     /**
@@ -343,8 +346,9 @@ public class CommandContext {
      */
     public void setTestSuite(File path)
             throws Fault {
-        if (testSuitePath != null && !testSuitePath.equals(path))
+        if (testSuitePath != null && !testSuitePath.equals(path)) {
             throw new Fault(i18n, "cc.tsAlreadySet", testSuitePath);
+        }
 
         testSuitePath = path;
     }
@@ -362,13 +366,15 @@ public class CommandContext {
      */
     public void setTestSuite(TestSuite ts)
             throws Fault, TestSuite.Fault {
-        if (isInitConfigRequired())
+        if (isInitConfigRequired()) {
             initConfig();
+        }
 
-        if (config == null)
+        if (config == null) {
             config = ts.createInterview();
-        else if (config.getTestSuite() != ts)
+        } else if (config.getTestSuite() != ts) {
             throw new Fault(i18n, "cc.tsAlreadySet", testSuitePath);
+        }
     }
 
     /**
@@ -425,8 +431,9 @@ public class CommandContext {
      */
     public void setWorkDirectory(File path, boolean create)
             throws Fault {
-        if (workDirectoryPath != null && !workDirectoryPath.equals(path))
+        if (workDirectoryPath != null && !workDirectoryPath.equals(path)) {
             throw new Fault(i18n, "cc.wdAlreadySet", workDirectoryPath);
+        }
 
         autoCreateWorkDirectory = create;
         workDirectoryPath = path;
@@ -447,19 +454,22 @@ public class CommandContext {
      */
     public void setWorkDirectory(WorkDirectory wd)
             throws Fault, TestSuite.Fault {
-        if (isInitConfigRequired())
+        if (isInitConfigRequired()) {
             initConfig();
+        }
 
-        if (config == null)
+        if (config == null) {
             config = wd.getTestSuite().createInterview();
-        else {
-            if (wd.getTestSuite() != config.getTestSuite())
+        } else {
+            if (wd.getTestSuite() != config.getTestSuite()) {
                 throw new Fault(i18n, "cc.wdTestSuiteMismatch",
                         wd.getRoot(), config.getTestSuite().getRoot());
+            }
 
             WorkDirectory cwd = config.getWorkDirectory();
-            if (cwd != null && cwd != wd)
+            if (cwd != null && cwd != wd) {
                 throw new Fault(i18n, "cc.wdAlreadySet", workDirectoryPath);
+            }
         }
 
         config.setWorkDirectory(wd);
@@ -523,10 +533,11 @@ public class CommandContext {
     public void setConfig(File path)
             throws Fault {
         if (config != null) {
-            if (configFilePath == null)
+            if (configFilePath == null) {
                 throw new Fault(i18n, "cc.confAlreadySetDefault", path);
-            else
+            } else {
                 throw new Fault(i18n, "cc.confAlreadySet", path, configFilePath);
+            }
         }
 
         configFilePath = path;
@@ -564,31 +575,36 @@ public class CommandContext {
      */
     public void setInterviewParameters(InterviewParameters p)
             throws Fault {
-        if (isInitConfigRequired())
+        if (isInitConfigRequired()) {
             initConfig();
+        }
 
         WorkDirectory cwd;
         if (config != null) {
-            if (config.getTestSuite() != p.getTestSuite())
+            if (config.getTestSuite() != p.getTestSuite()) {
                 throw new Fault(i18n, "cc.confTestSuiteMismatch",
                         new Object[]{config.getTestSuite().getRoot()});
+            }
 
             cwd = config.getWorkDirectory();
 
             WorkDirectory pwd = p.getWorkDirectory();
-            if (cwd != null && pwd != null && pwd != cwd)
+            if (cwd != null && pwd != null && pwd != cwd) {
                 throw new Fault(i18n, "cc.confWorkDirMismatch",
                         new Object[]{cwd.getRoot()});
-        } else
+            }
+        } else {
             cwd = null;
+        }
 
         if (config != null) {
             config.dispose();
         }
         config = p;
 
-        if (config.getWorkDirectory() == null && cwd != null)
+        if (config.getWorkDirectory() == null && cwd != null) {
             config.setWorkDirectory(cwd);
+        }
     }
 
     private boolean isInitConfigRequired() {
@@ -599,8 +615,9 @@ public class CommandContext {
 
     private void initConfig()
             throws Fault {
-        if (config != null)
+        if (config != null) {
             return;
+        }
 
         /*
         if (testSuitePath == null && workDirectoryPath == null && configFilePath == null)
@@ -623,8 +640,9 @@ public class CommandContext {
 
             // get test suite path if we don't have it
             if (testSuitePath == null) {
-                if (configFilePath == null)
+                if (configFilePath == null) {
                     throw new Fault(i18n, "cc.noTestSuite");
+                }
 
 
                 try {
@@ -642,8 +660,9 @@ public class CommandContext {
                 }
 
                 String tsp = configData.get("TESTSUITE");
-                if (tsp == null)
+                if (tsp == null) {
                     throw new Fault(i18n, "cc.noTestSuiteInConfigFile", configFilePath);
+                }
 
                 tsPath = new File(tsp);
             } else {
@@ -688,8 +707,9 @@ public class CommandContext {
 
                 // load config data if we have it
                 try {
-                    if (configData != null)
+                    if (configData != null) {
                         config.load(configData, configFilePath);
+                    }
                 } catch (InterviewParameters.Fault e) {
                     throw new Fault(i18n, "cc.cantOpenConfig",
                             configFilePath, e.getMessage());
@@ -761,14 +781,17 @@ public class CommandContext {
             }
         }
 
-        if (testSuitePath == null)
+        if (testSuitePath == null) {
             testSuitePath = config.getTestSuite().getRoot();
+        }
 
-        if (workDirectoryPath == null && config.getWorkDirectory() != null)
+        if (workDirectoryPath == null && config.getWorkDirectory() != null) {
             workDirectoryPath = config.getWorkDirectory().getRoot();
+        }
 
-        if (configFilePath == null)
+        if (configFilePath == null) {
             configFilePath = config.getFile();
+        }
     }
 
     /**
@@ -798,8 +821,9 @@ public class CommandContext {
      * @see #getDesktop
      */
     public void setDesktop(Desktop d) {
-        if (d == null)
+        if (d == null) {
             throw new NullPointerException();
+        }
         desktop = d;
     }
 
@@ -898,11 +922,13 @@ public class CommandContext {
      * @see #setVerboseOptionValue
      */
     public boolean getVerboseOptionValue(String name, boolean defaultValue) {
-        if (verboseMax)
+        if (verboseMax) {
             return true;
+        }
 
-        if (verboseQuiet)
+        if (verboseQuiet) {
             return false;
+        }
 
         Boolean b = verboseOptionValues.get(name.toLowerCase());
         return b == null ? defaultValue : b.booleanValue();

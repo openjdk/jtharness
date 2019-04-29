@@ -206,8 +206,9 @@ public class UIFactory {
          */
         public Color setValue(Color c) {
             Color t = color;
-            if (configurable)
+            if (configurable) {
                 color = c;
+            }
             return t;
         }
 
@@ -298,8 +299,9 @@ public class UIFactory {
         }
 
         public static String encodeARGB(Color color) {
-            if (color == null)
+            if (color == null) {
                 return "";
+            }
             return String.format("0x%02x%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
         }
     }
@@ -407,10 +409,12 @@ public class UIFactory {
         b.setSize(14, 14);
         b.setText(" ");
         b.setName(cs);
-        if (l != null)
+        if (l != null) {
             b.addActionListener(l);
-        if (label != null)
+        }
+        if (label != null) {
             label.setLabelFor(b);
+        }
         return b;
     }
 
@@ -464,8 +468,9 @@ public class UIFactory {
      * @param p The parent component, should not be null.
      */
     public void setDialogParent(Component p) {
-        if (parent != null && parent != p)
+        if (parent != null && parent != p) {
             throw new IllegalStateException();
+        }
         parent = p;
     }
 
@@ -508,11 +513,13 @@ public class UIFactory {
     public int getI18NMnemonic(String key) {
         String keyString = getI18NString(key);
         KeyStroke keyStroke = KeyStroke.getKeyStroke(keyString);
-        if (keyStroke != null)
+        if (keyStroke != null) {
             return keyStroke.getKeyCode();
-        else
-            //System.err.println("WARNING: bad mnemonic keystroke for " + key + ": " + keyString);
+        } else
+        //System.err.println("WARNING: bad mnemonic keystroke for " + key + ": " + keyString);
+        {
             return 0;
+        }
     }
 
     /**
@@ -524,8 +531,9 @@ public class UIFactory {
     public Color getI18NColor(String key) {
         String value = i18n.getString(key + ".clr");
         try {
-            if (value != null)
+            if (value != null) {
                 return Color.decode(value);
+            }
         } catch (Exception e) {
             // ignore
         }
@@ -574,8 +582,9 @@ public class UIFactory {
      *               the component
      */
     public void setHelp(final Component comp, String helpID) {
-        if (helpID == null)
+        if (helpID == null) {
             throw new NullPointerException();
+        }
 
         ContextHelpManager.setHelpIDString(comp, helpID);
 
@@ -972,8 +981,9 @@ public class UIFactory {
     public JButton createCloseButton(String uiKey, boolean needMnemonic) {
         JButton b = new JButton(getI18NString(uiKey + ".btn"));
         b.setName(uiKey);
-        if (needMnemonic)
+        if (needMnemonic) {
             setMnemonic(b, uiKey);
+        }
         setToolTip(b, uiKey);
         b.addActionListener(closeListener);
         return b;
@@ -1109,8 +1119,9 @@ public class UIFactory {
         // the literal character for the mnemonic, and not anything fancy like
         // an integer keycode
         int mne = getI18NMnemonic(uiKey + ".mne");
-        if (mne != 0)
+        if (mne != 0) {
             b.setMnemonic(mne);
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -1174,8 +1185,9 @@ public class UIFactory {
         String ckbKey = uiKey + ".ckb";
         JCheckBox b = new JCheckBox(getI18NString(ckbKey), state);
         b.setName(uiKey);
-        if (group != null)
+        if (group != null) {
             group.add(b);
+        }
         setMnemonic(b, uiKey);
         setToolTip(b, uiKey);
         return b;
@@ -1232,8 +1244,9 @@ public class UIFactory {
         // rendering, but otherwise, let the JComboBox work in terms of the
         // choiceKeys
         final String[] choices = new String[choiceKeys.length];
-        for (int i = 0; i < choices.length; i++)
+        for (int i = 0; i < choices.length; i++) {
             choices[i] = getI18NString(uiKey + "." + choiceKeys[i] + ".chc");
+        }
 
         JComboBox<String> choice = new JComboBox<>(choiceKeys);
         choice.setName(uiKey);
@@ -1244,8 +1257,9 @@ public class UIFactory {
         if (editable) {
             Component editComp = choice.getEditor().getEditorComponent();
             if (editComp instanceof Accessible) {
-                if (editComp.getName() == null)
+                if (editComp.getName() == null) {
                     editComp.setName(uiKey + ".ed");
+                }
                 AccessibleContext ac = choice.getAccessibleContext();
                 AccessibleContext ed_ac = editComp.getAccessibleContext();
                 ed_ac.setAccessibleName(ac.getAccessibleName());
@@ -1333,17 +1347,19 @@ public class UIFactory {
         choice.setName(uiKey);
         setToolTip(choice, uiKey);
 
-        if (label != null)
+        if (label != null) {
             label.setLabelFor(choice);
-        else
+        } else {
             setAccessibleName(choice, uiKey);
+        }
 
         choice.setEditable(editable);
         if (editable) {
             Component editComp = choice.getEditor().getEditorComponent();
             if (editComp instanceof Accessible) {
-                if (editComp.getName() == null)
+                if (editComp.getName() == null) {
                     editComp.setName(uiKey + ".ed");
+                }
                 AccessibleContext ac = choice.getAccessibleContext();
                 AccessibleContext ed_ac = editComp.getAccessibleContext();
                 ed_ac.setAccessibleName(ac.getAccessibleName());
@@ -1414,8 +1430,9 @@ public class UIFactory {
     public URL getIconURL(String uiKey) {
         String r = getI18NString(uiKey + ".icon");
         URL url = clientClass.getResource(r);
-        if (url == null)
+        if (url == null) {
             throw new MissingResourceException(r, clientClass.getName(), r);
+        }
         return url;
     }
 
@@ -1445,8 +1462,9 @@ public class UIFactory {
      */
     public Image createImage(String r) {
         URL url = getClass().getResource(r);
-        if (url == null)
+        if (url == null) {
             throw new MissingResourceException(r, clientClass.getName(), r);
+        }
         return Toolkit.getDefaultToolkit().getImage(url);
     }
 
@@ -1626,10 +1644,11 @@ public class UIFactory {
     public JMenu createMenu(String uiKey, Action... actions) {
         JMenu m = createMenu(uiKey);
         for (Action action : actions) {
-            if (action == null)
+            if (action == null) {
                 m.addSeparator();
-            else
+            } else {
                 m.add(createMenuItem(action));
+            }
         }
         return m;
     }
@@ -1681,10 +1700,11 @@ public class UIFactory {
     public void initMenu(JMenu m, String uiKey, String[] actions, ActionListener l) {
         initMenu(m, uiKey);
         for (String action : actions) {
-            if (action == null)
+            if (action == null) {
                 m.addSeparator();
-            else
+            } else {
                 m.add(createMenuItem(uiKey, action, l));
+            }
         }
     }
 
@@ -1713,10 +1733,11 @@ public class UIFactory {
     public JPopupMenu createPopupMenu(String uiKey, String[] actions, ActionListener l) {
         JPopupMenu m = createPopupMenu(uiKey);
         for (String action : actions) {
-            if (action == null)
+            if (action == null) {
                 m.addSeparator();
-            else
+            } else {
                 m.add(createMenuItem(uiKey, action, l));
+            }
         }
         return m;
     }
@@ -2213,9 +2234,9 @@ public class UIFactory {
             }
         };
 
-        if (label != null)
+        if (label != null) {
             label.setLabelFor(tf);
-        else {
+        } else {
             // this should be setAccessibleName(tf, uiKey); but that will break too much code
             tf.setName(uiKey);
             //setAccessibleName(tf, uiKey);
@@ -2328,8 +2349,9 @@ public class UIFactory {
             AccessibleContext ac = txt.getAccessibleContext();
             ac.setAccessibleName(local_i18n.getString("uif.message.name"));
             ac.setAccessibleDescription(local_i18n.getString("uif.message.desc"));
-        } else
+        } else {
             setAccessibleInfo(txt, uiKey);
+        }
         return txt;
     }
 
@@ -2550,7 +2572,7 @@ public class UIFactory {
         tf.setEditable(false);
         tf.setBackground(Colors.TRANSPARENT.getValue());
         tf.setOpaque(false);
-        if (autoSelect)
+        if (autoSelect) {
             tf.addFocusListener(new java.awt.event.FocusListener() {
                 @Override
                 public void focusGained(java.awt.event.FocusEvent e) {
@@ -2564,11 +2586,13 @@ public class UIFactory {
                     tf.setSelectionEnd(0);
                 }
             });
+        }
 
-        if (label != null)
+        if (label != null) {
             label.setLabelFor(tf);
-        else
+        } else {
             setAccessibleName(tf, uiKey);
+        }
 
         setToolTip(tf, uiKey);
         // override JTextField focus traversal keys, resetting them to
@@ -2614,10 +2638,11 @@ public class UIFactory {
         };
         t.setName(uiKey);
 
-        if (label != null)
+        if (label != null) {
             label.setLabelFor(t);
-        else
+        } else {
             setAccessibleName(t, uiKey);
+        }
 
         setToolTip(t, uiKey);
         return t;
@@ -2718,9 +2743,9 @@ public class UIFactory {
         tb.setName(uiKey);
         setAccessibleInfo(tb, uiKey);
         for (Action action : actions) {
-            if (action == null)
+            if (action == null) {
                 tb.addSeparator();
-            else {
+            } else {
                 JButton b = tb.add(action);
                 b.setName((String) action.getValue(Action.NAME));
                 b.getAccessibleContext().setAccessibleName(b.getName());
@@ -2747,9 +2772,9 @@ public class UIFactory {
         tb.setName(uiKey);
         setAccessibleInfo(tb, uiKey);
         for (JButton button : buttons) {
-            if (button == null)
+            if (button == null) {
                 tb.addSeparator();
-            else {
+            } else {
                 tb.add(button);
             }
         }
@@ -2766,9 +2791,9 @@ public class UIFactory {
      */
     public void addToolBarActions(JToolBar tb, Action... actions) {
         for (Action action : actions) {
-            if (action == null)
+            if (action == null) {
                 tb.addSeparator();
-            else {
+            } else {
                 JButton b = tb.add(action);
                 b.setName((String) action.getValue(Action.NAME));
                 b.getAccessibleContext().setAccessibleName(b.getName());
@@ -2882,8 +2907,9 @@ public class UIFactory {
         traceString.append(":\n");
         for (int i = 0; i < trace.length; i++) {
             traceString.append(trace[i]);
-            if (i != (trace.length - 1))
+            if (i != (trace.length - 1)) {
                 traceString.append("\n\tat ");
+            }
         }
         JTextArea ta = createLocalizedMessageArea(uiKey, traceString.toString(), true);
         ta.setLineWrap(false);
@@ -2914,8 +2940,9 @@ public class UIFactory {
      */
     public void showLiteralError(String title, String msg) {
         JButton okBtn = createOptionButton("uif.ok");
-        if (title == null)
+        if (title == null) {
             title = local_i18n.getString("uif.error", ProductInfo.getName());
+        }
 
         JOptionPane.showOptionDialog(parent,
                 createLiteralMessageArea(msg),
@@ -3422,10 +3449,11 @@ public class UIFactory {
      */
     public void initPanel(JPanel p, String uiKey, boolean focusable) {
         p.setName(uiKey);
-        if (focusable)
+        if (focusable) {
             setAccessibleInfo(p, uiKey);
-        else
+        } else {
             p.setFocusable(false);
+        }
     }
 
     /**
@@ -3727,8 +3755,9 @@ public class UIFactory {
             }
             String value = i18n_alt.getString(key + ".clr");
             try {
-                if (value != null)
+                if (value != null) {
                     return Color.decode(value);
+                }
             } catch (Exception e) {
                 // ignore
             }
@@ -3769,8 +3798,9 @@ public class UIFactory {
 
             URL url = altClass.getResource(r);
 
-            if (url == null)
+            if (url == null) {
                 url = super.getIconURL(uiKey);
+            }
 
             return url;
         }

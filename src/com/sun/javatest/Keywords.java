@@ -196,8 +196,9 @@ public abstract class Keywords {
     public abstract boolean accepts(Set<String> s);
 
     private static Set<String> toLowerCase(Set<String> words) {
-        if (words == null)
+        if (words == null) {
             return null;
+        }
 
         boolean allLowerCase = true;
         for (Iterator<String> iter = words.iterator(); iter.hasNext() && allLowerCase; ) {
@@ -205,8 +206,9 @@ public abstract class Keywords {
             allLowerCase &= word.equals(word.toLowerCase());
         }
 
-        if (allLowerCase)
+        if (allLowerCase) {
             return words;
+        }
 
         Set<String> s = new HashSet<>();
         for (String word : words) {
@@ -218,8 +220,9 @@ public abstract class Keywords {
 
     private static boolean isLowerCase(String s) {
         for (int i = 0; i < s.length(); i++) {
-            if (Character.isUpperCase(s.charAt(i)))
+            if (Character.isUpperCase(s.charAt(i))) {
                 return false;
+            }
         }
         return true;
     }
@@ -340,8 +343,9 @@ class ExprParser {
     }
 
     ExprKeywords parse() throws Keywords.Fault {
-        if (text == null || text.trim().isEmpty())
+        if (text == null || text.trim().isEmpty()) {
             throw new Keywords.Fault(i18n, "kw.noExpr");
+        }
 
         ExprKeywords e = parseExpr();
         expect(END);
@@ -371,8 +375,9 @@ class ExprParser {
         switch (token) {
             case ID:
                 String id = idValue;
-                if (validKeywords != null && !validKeywords.contains(id))
+                if (validKeywords != null && !validKeywords.contains(id)) {
                     throw new Keywords.Fault(i18n, "kw.invalidKeyword", id);
+                }
                 nextToken();
                 return new TermExprKeywords(id);
             case NOT:
@@ -389,10 +394,11 @@ class ExprParser {
     }
 
     private void expect(int t) throws Keywords.Fault {
-        if (t == token)
+        if (t == token) {
             nextToken();
-        else
+        } else {
             throw new Keywords.Fault(i18n, "kw.badKeywordExpr");
+        }
     }
 
     private void nextToken() {
@@ -424,8 +430,9 @@ class ExprParser {
                         while (index < text.length()
                                 && Character.isUnicodeIdentifierPart(text.charAt(index))) {
                             char ch = text.charAt(index++);
-                            if (!Character.isIdentifierIgnorable(ch))
+                            if (!Character.isIdentifierIgnorable(ch)) {
                                 idValue += Character.toLowerCase(ch);
+                            }
                         }
                         token = ID;
                         return;
@@ -480,8 +487,9 @@ abstract class BinaryExprKeywords extends ExprKeywords {
             left = e.right;
             e.right = order();
             return e;
-        } else
+        } else {
             return this;
+        }
     }
 
     @Override

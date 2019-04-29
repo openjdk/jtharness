@@ -159,10 +159,11 @@ class QuestionPanel extends JPanel
         // getPreferredSize() gives default values. In this case, and if horizontal scroll exists,
         // viewport height becomes less than getPreferredSize().height, but may be enough for components
         // without any scrolling
-        if (getParent() instanceof JViewport)
+        if (getParent() instanceof JViewport) {
             return getParent().getHeight() > getPreferredSize().height;
-        else
+        } else {
             return false;
+        }
     }
 
     @Override
@@ -205,8 +206,9 @@ class QuestionPanel extends JPanel
     }
 
     void saveCurrentResponse() /*throws Interview.Fault*/ {
-        if (valueSaver != null)
+        if (valueSaver != null) {
             valueSaver.run();
+        }
     }
 
     boolean isTagVisible() {
@@ -267,8 +269,9 @@ class QuestionPanel extends JPanel
         graphicLabel.setFocusable(false);
         if (interview != null) {
             URL u = interview.getDefaultImage();
-            if (u != null)
+            if (u != null) {
                 graphicLabel.setIcon(new ImageIcon(u));
+            }
         }
         c.anchor = GridBagConstraints.CENTER;
         c.gridheight = GridBagConstraints.REMAINDER;
@@ -399,8 +402,9 @@ class QuestionPanel extends JPanel
             String tip = i18n.getString(uiKey + ".tip");
             jc.setToolTipText(tip);
             ac.setAccessibleDescription(tip);
-        } else
+        } else {
             ac.setAccessibleDescription(i18n.getString(uiKey + ".desc"));
+        }
     }
 
     /**
@@ -423,8 +427,9 @@ class QuestionPanel extends JPanel
         URL u = q.getImage();
         Icon icon = u == null ? null : new ImageIcon(u);
 
-        if (icon != null)
+        if (icon != null) {
             graphicLabel.setIcon(icon);
+        }
 
         titleField.setText(q.getSummary());
         textArea.setText(q.getText());
@@ -449,8 +454,9 @@ class QuestionPanel extends JPanel
                     textArea.requestFocus();
                 }
             } else {
-                if (rc.getName() == null)
+                if (rc.getName() == null) {
                     rc.setName(r.getClass().getName());
+                }
 
                 valueSaver = (Runnable) rc.getClientProperty(QuestionRenderer.VALUE_SAVER);
                 //System.err.println("QP.showQuestion valueSaver=" + valueSaver);
@@ -464,9 +470,9 @@ class QuestionPanel extends JPanel
             }
         }
 
-        if (q.isValueAlwaysValid())
+        if (q.isValueAlwaysValid()) {
             valueMessageField.setVisible(false);
-        else {
+        } else {
             showValueMessage(null);
             valueMessageField.setVisible(true);
         }
@@ -558,22 +564,25 @@ class QuestionPanel extends JPanel
     private QuestionRenderer getRenderer(Question q, Map<Class<? extends Question>, QuestionRenderer> rendMap) {
         for (Class<?> c = q.getClass(); c != null; c = c.getSuperclass()) {
             QuestionRenderer r = rendMap.get(c);
-            if (r != null)
+            if (r != null) {
                 return r;
+            }
         }
         return null;
     }
 
 
     private boolean anyChildHasFocus(JPanel p) {
-        if (p.hasFocus())
+        if (p.hasFocus()) {
             return true;
+        }
 
         for (int i = 0; i < p.getComponentCount(); i++) {
             Component c = p.getComponent(i);
             if ((c instanceof JComponent && c.hasFocus())
-                    || (c instanceof JPanel && anyChildHasFocus((JPanel) c)))
+                    || (c instanceof JPanel && anyChildHasFocus((JPanel) c))) {
                 return true;
+            }
         }
         return false;
     }
@@ -602,9 +611,9 @@ class QuestionPanel extends JPanel
         @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
-            if (cmd.equals(QuestionRenderer.EDITED))
+            if (cmd.equals(QuestionRenderer.EDITED)) {
                 showValueMessage(null);
-            else {
+            } else {
                 if (nextAction != null) {
                     nextAction.actionPerformed(e);
                 } else {

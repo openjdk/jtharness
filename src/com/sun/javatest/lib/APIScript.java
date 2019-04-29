@@ -58,8 +58,9 @@ public class APIScript extends Script {
         PrintWriter trOut = getTestResult().getTestCommentWriter();
 
         Status status = decodeArgs(args);
-        if (status != null)
+        if (status != null) {
             return status;
+        }
 
         // XXX This isn't everything.  We need to make sure that this is a
         // XXX reasonable subset of JCKScript.  Do we want to handle all options
@@ -76,8 +77,9 @@ public class APIScript extends Script {
             compileStatus = compileIfNecessary(TEST_COMPILE, srcs, precompileClassDir);
         }
 
-        if (!compileStatus.isPassed())
+        if (!compileStatus.isPassed()) {
             return compileStatus;
+        }
 
         // execute
         String executeClass = td.getParameter("executeClass");
@@ -91,10 +93,11 @@ public class APIScript extends Script {
     private Status decodeArgs(String... args) {
         // decode args
         for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("-precompileClassDir") && (i + 1 < args.length))
+            if (args[i].equals("-precompileClassDir") && (i + 1 < args.length)) {
                 precompileClassDir = args[++i];
-            else
+            } else {
                 return Status.failed(UNRECOGNIZED_ARG + args[i]);
+            }
         }
 
         return null;

@@ -72,10 +72,11 @@ public class TypeInPanel extends JPanel {
             field.setToolTipText(label.getToolTipText());
             label.setLabelFor(field);
 
-            if (fieldWidth <= 0)
+            if (fieldWidth <= 0) {
                 c.fill = GridBagConstraints.HORIZONTAL;
-            else
+            } else {
                 field.setColumns(fieldWidth);
+            }
 
             add(field, c);
         } else {
@@ -89,14 +90,17 @@ public class TypeInPanel extends JPanel {
             Component editComp = choice.getEditor().getEditorComponent();
             editComp.setFont(editComp.getFont().deriveFont(Font.PLAIN));
             if (editComp instanceof Accessible) {
-                if (editComp.getName() == null)
+                if (editComp.getName() == null) {
                     editComp.setName(uiKey + ".chc.ed");
+                }
                 AccessibleContext ed_ac = editComp.getAccessibleContext();
                 ed_ac.setAccessibleName(i18n.getString(uiKey + ".chc.ed.name"));
                 ed_ac.setAccessibleDescription(i18n.getString(uiKey + ".chc.ed.desc"));
             }
 
-            for (String suggestion : suggestions) choice.addItem(suggestion);
+            for (String suggestion : suggestions) {
+                choice.addItem(suggestion);
+            }
 
             if (fieldWidth <= 0) {
                 c.fill = GridBagConstraints.HORIZONTAL;
@@ -130,9 +134,9 @@ public class TypeInPanel extends JPanel {
     }
 
     protected String getValue() {
-        if (field != null)
+        if (field != null) {
             return field.getText();
-        else {
+        } else {
             if (choice.isEditable()) {
                 return choice.getEditor().getItem().toString();
             } else {
@@ -142,10 +146,11 @@ public class TypeInPanel extends JPanel {
     }
 
     protected void setValue(String value) {
-        if (field != null)
+        if (field != null) {
             field.setText(value);
-        else
+        } else {
             choice.setSelectedItem(value);
+        }
     }
 
     protected JTextField field;

@@ -55,35 +55,37 @@ public class TestTreeSelectionPane extends TreeSelectionPane {
 
         @Override
         public int getChildCount(Object node) {
-            if (node == null)
+            if (node == null) {
                 throw new NullPointerException();
-            else if (node instanceof TestResultTable.TreeNode)
+            } else if (node instanceof TestResultTable.TreeNode) {
                 return ((TestResultTable.TreeNode) node).getChildCount();
-            else if (node instanceof TestResult)
+            } else if (node instanceof TestResult) {
                 return 0;
-            else
+            } else {
                 throw new IllegalArgumentException();
+            }
         }
 
         @Override
         public Object getChild(Object node, int index) {
-            if (node == null)
+            if (node == null) {
                 throw new NullPointerException();
-            else if (node instanceof TestResultTable.TreeNode)
+            } else if (node instanceof TestResultTable.TreeNode) {
                 return ((TestResultTable.TreeNode) node).getChild(index);
-            else if (node instanceof TestResult)
+            } else if (node instanceof TestResult) {
                 return null;
-            else
+            } else {
                 throw new IllegalArgumentException();
+            }
         }
 
         @Override
         public String getName(Object node) {
-            if (node == null)
+            if (node == null) {
                 throw new NullPointerException();
-            else if (node instanceof TestResultTable.TreeNode)
+            } else if (node instanceof TestResultTable.TreeNode) {
                 return ((TestResultTable.TreeNode) node).getName();
-            else if (node instanceof TestResult) {
+            } else if (node instanceof TestResult) {
                 TestResult tr = (TestResult) node;
                 String fullName = tr.getTestName();
                 int lastSlash = fullName.lastIndexOf("/");
@@ -91,36 +93,40 @@ public class TestTreeSelectionPane extends TreeSelectionPane {
                         ? fullName
                         : fullName.substring(lastSlash + 1);
 
-            } else
+            } else {
                 throw new IllegalArgumentException();
+            }
         }
 
         @Override
         public String getPath(Object node) {
-            if (node == null)
+            if (node == null) {
                 throw new NullPointerException();
-            else if (node instanceof TestResult)
+            } else if (node instanceof TestResult) {
                 return ((TestResult) node).getTestName();
-            else if (node instanceof TestResultTable.TreeNode) {
+            } else if (node instanceof TestResultTable.TreeNode) {
                 TestResultTable.TreeNode tn = (TestResultTable.TreeNode) node;
-                if (tn.isRoot())
+                if (tn.isRoot()) {
                     return tn.getName();
-                else
+                } else {
                     return getPath(tn.getParent() + "/" + tn.getName());
-            } else
+                }
+            } else {
                 throw new IllegalArgumentException();
+            }
         }
 
         @Override
         public boolean isLeaf(Object node) {
-            if (node == null)
+            if (node == null) {
                 throw new NullPointerException();
-            else if (node instanceof TestResult)
+            } else if (node instanceof TestResult) {
                 return true;
-            else if (node instanceof TestResultTable.TreeNode)
+            } else if (node instanceof TestResultTable.TreeNode) {
                 return false;
-            else
+            } else {
                 throw new IllegalArgumentException();
+            }
         }
 
         private TestResultTable trt;

@@ -88,8 +88,9 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         // this method may eventually do fancy things to scan the classpath or
         // preferences for custom plugin tools, for now it is hardcoded
 
-        if (fConfig != null)
+        if (fConfig != null) {
             return fConfig;
+        }
 
         fConfig = new FilterConfig(model, parentComponent, uif);
 
@@ -169,8 +170,9 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
             // try to use filter indicated in preference
             for (int i = 0; i < allFilters.size(); i++) {
-                if (allFilters.get(i).getClass().getName().equals(pref))
+                if (allFilters.get(i).getClass().getName().equals(pref)) {
                     return allFilters.get(i);
+                }
             }   // for
         }
 
@@ -185,12 +187,15 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         updateCustomFilter();
 
         // update Last Test Run filtered if needed
-        if (!ltrFilter.isWorkDirectorySet())
+        if (!ltrFilter.isWorkDirectorySet()) {
             ltrFilter.setWorkDirectory(model.getWorkDirectory());
+        }
 
         InterviewParameters ips = model.getInterviewParameters();
         if (ips == null)        // this filter does not apply now
+        {
             return;
+        }
 
         paramFilter.update(ips);
 
@@ -308,8 +313,9 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
     private void updateCustomFilter() {
         // we only go thru here once per init.
-        if (lastTs != null)
+        if (lastTs != null) {
             return;
+        }
 
         // load from prefs
         lastTs = model.getTestSuite();
@@ -393,9 +399,9 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         int numFilters = getPreferenceCount(p);
         int result = -1;
 
-        if (numFilters == 0)
+        if (numFilters == 0) {
             result = -1;
-        else {
+        } else {
             result = getPreferenceIndex(p, tsId, numFilters);
 
             // read default values from index 0 if a match for the given
@@ -426,10 +432,11 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             }
         }   // for
 
-        if (index > numFilters)
+        if (index > numFilters) {
             return -1;
-        else
+        } else {
             return index;
+        }
     }
 
     /**
@@ -507,8 +514,9 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
         @Override
         public String get(Object key) {
-            if (!(key instanceof String))
+            if (!(key instanceof String)) {
                 throw new IllegalArgumentException("key must be a string");
+            }
 
             return prefs.getPreference((String) key);
         }
@@ -633,9 +641,10 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
                             Object selectedValue = pane.getValue();
                             if ((selectedValue instanceof Integer) &&
-                                    ((Integer) selectedValue).intValue() >= 0)
+                                    ((Integer) selectedValue).intValue() >= 0) {
                                 p.setPreference(ExecTool.FILTER_WARN_PREF,
                                         Boolean.toString(!cb.isSelected()));
+                            }
                         }
                     });
                 }

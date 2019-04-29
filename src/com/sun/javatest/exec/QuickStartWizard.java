@@ -128,14 +128,15 @@ class QuickStartWizard extends ToolDialog {
             //System.err.println("QSG: installDirIsTestSuite=" + installDirIsTestSuite);
             //System.err.println("QSG: installParentDirIsTestSuite=" + installParentDirIsTestSuite);
             //System.err.println("QSG: userDirIsTestSuite=" + userDirIsTestSuite);
-            if (installDirIsTestSuite)
+            if (installDirIsTestSuite) {
                 ts = TestSuite.open(installDir);
-            else if (installParentDirIsTestSuite)
+            } else if (installParentDirIsTestSuite) {
                 ts = TestSuite.open(installParentDir);
-            else if (userDirIsTestSuite)
+            } else if (userDirIsTestSuite) {
                 ts = TestSuite.open(userDir);
-            else
+            } else {
                 ts = null;
+            }
         } catch (Throwable e) {
             ts = null;
         }
@@ -233,8 +234,9 @@ class QuickStartWizard extends ToolDialog {
     }
 
     private void setPane(Pane p) {
-        if (currPane != null)
+        if (currPane != null) {
             main.remove(currPane);
+        }
 
         p.update();
         head.setText(p.getHead());
@@ -294,11 +296,13 @@ class QuickStartWizard extends ToolDialog {
 
     private void doDone() {
         setVisible(false);
-        if (config == null)
+        if (config == null) {
             throw new IllegalStateException();
+        }
 
-        if (workDir != null)
+        if (workDir != null) {
             config.setWorkDirectory(workDir);
+        }
 
         qswListener.finishQSW(testSuite, workDir, config,
                 showConfigEditorFlag, runTestsFlag);
@@ -399,14 +403,15 @@ class QuickStartWizard extends ToolDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
             Object src = e.getSource();
-            if (src == nextBtn)
+            if (src == nextBtn) {
                 doNext();
-            else if (src == backBtn)
+            } else if (src == backBtn) {
                 doBack();
-            else if (src == doneBtn)
+            } else if (src == doneBtn) {
                 doDone();
-            else
+            } else {
                 System.err.println("QSG.Listener " + e);
+            }
         }
     }
 
@@ -437,19 +442,22 @@ class QuickStartWizard extends ToolDialog {
                         path = f == null ? null : f.getPath();
                     } else {
                         // set chooser to value in field?
-                        if (path != null && !path.isEmpty())
+                        if (path != null && !path.isEmpty()) {
                             chooser.setSelectedFile(new File(path));
+                        }
 
                         int rc = chooser.showDialog(body, chooser.getApproveButtonText());
-                        if (rc != JFileChooser.APPROVE_OPTION)
+                        if (rc != JFileChooser.APPROVE_OPTION) {
                             return;
+                        }
 
                         path = chooser.getSelectedFile().getPath();
                     }
 
                     field.setText(path);
-                    if (combo != null)
+                    if (combo != null) {
                         combo.setSelectedItem(path);
+                    }
                 }
             });
 
@@ -467,9 +475,9 @@ class QuickStartWizard extends ToolDialog {
         }
 
         void setSuggestions(String... suggestions) {
-            if (suggestions == null || suggestions.length == 0)
+            if (suggestions == null || suggestions.length == 0) {
                 setPathComponent(field);
-            else {
+            } else {
                 if (combo == null) {
                     combo = uif.createChoice(getName()/*key*/, true, label);
                     //combo.setEditable(true);
@@ -477,13 +485,16 @@ class QuickStartWizard extends ToolDialog {
                     if (listener != null) {
                         // would be better to use editor addActionListener
                         Component c = combo.getEditor().getEditorComponent();
-                        if (c instanceof JTextField)
+                        if (c instanceof JTextField) {
                             ((JTextField) c).getDocument().addDocumentListener(listener);
+                        }
                     }
                 }
                 setPathComponent(combo);
                 combo.removeAllItems();
-                for (String suggestion : suggestions) combo.addItem(suggestion);
+                for (String suggestion : suggestions) {
+                    combo.addItem(suggestion);
+                }
             }
         }
 
@@ -499,16 +510,18 @@ class QuickStartWizard extends ToolDialog {
         String getPath() {
             //System.err.println("QSG.FP.getPath currComp=" + currPathComp);
             //System.err.println("QSG.FP.getPath combo.selectedItem=" + (combo == null ? "null" : String.valueOf(combo.getSelectedItem())));
-            if (currPathComp == field)
+            if (currPathComp == field) {
                 return field.getText();
-            else if (currPathComp == combo) {
+            } else if (currPathComp == combo) {
                 Component c = combo.getEditor().getEditorComponent();
-                if (c.isShowing() && c instanceof JTextField)
+                if (c.isShowing() && c instanceof JTextField) {
                     return ((JTextField) c).getText();
-                else
+                } else {
                     return (String) combo.getSelectedItem();
-            } else
+                }
+            } else {
                 throw new IllegalStateException();
+            }
         }
 
         void setDocumentListener(DocumentListener l) {
@@ -519,8 +532,9 @@ class QuickStartWizard extends ToolDialog {
         private void setPathComponent(JComponent newPathComp) {
             //System.err.println("QSG.FP.setPathComponent " + newPathComp);
             if (newPathComp != currPathComp) {
-                if (currPathComp != null)
+                if (currPathComp != null) {
                     remove(currPathComp);
+                }
                 add(newPathComp, BorderLayout.CENTER);
                 newPathComp.setEnabled(isEnabled());
                 label.setLabelFor(newPathComp);
@@ -666,8 +680,9 @@ class QuickStartWizard extends ToolDialog {
             // the Component default (i.e. the same as for the parent.)
             textArea.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
             textArea.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
-            if (initContent)
+            if (initContent) {
                 textArea.setText(uif.getI18NString(paneKey + ".txt"));
+            }
             /*
               // set enter to be same as Next
               {
@@ -803,14 +818,16 @@ class QuickStartWizard extends ToolDialog {
             } else if (jtmConfig.isSelected()) {
                 File f = jtmPanel.getFile();
                 nextBtn.setEnabled(f != null && f.exists() && f.isFile());
-            } else
+            } else {
                 nextBtn.setEnabled(false);
+            }
         }
 
         @Override
         Pane getNext() {
-            if (bg.getSelection() == null)
+            if (bg.getSelection() == null) {
                 return null;
+            }
 
             if (newConfig.isSelected()) {
                 configData = null;
@@ -958,21 +975,26 @@ class QuickStartWizard extends ToolDialog {
             Set<String> s = new TreeSet<>();
             if (configData != null) {
                 String configTestSuite = configData.get("TESTSUITE");
-                if (configTestSuite != null)
+                if (configTestSuite != null) {
                     s.add(configTestSuite);
+                }
             }
 
-            if (userDirIsTestSuite)
+            if (userDirIsTestSuite) {
                 s.add(userDir.getPath());
+            }
 
-            if (installDirIsTestSuite)
+            if (installDirIsTestSuite) {
                 s.add(installDir.getPath());
+            }
 
-            if (installParentDirIsTestSuite)
+            if (installParentDirIsTestSuite) {
                 s.add(installParentDir.getPath());
+            }
 
-            if (!s.isEmpty())
+            if (!s.isEmpty()) {
                 testSuitePanel.setSuggestions(s.toArray(new String[s.size()]));
+            }
         }
 
         @Override
@@ -1001,10 +1023,11 @@ class QuickStartWizard extends ToolDialog {
                 try {
                     TestSuite chooserTestSuite = chooser.getSelectedTestSuite();
                     if (chooserTestSuite != null
-                            && chooserTestSuite.getRoot().equals(file))
+                            && chooserTestSuite.getRoot().equals(file)) {
                         testSuite = chooserTestSuite;
-                    else
+                    } else {
                         testSuite = TestSuite.open(file);
+                    }
                 } catch (FileNotFoundException e) {
                     showError("qsw.ts.cantFindFile");
                     return null;
@@ -1101,8 +1124,9 @@ class QuickStartWizard extends ToolDialog {
                     if (chooserWorkDir != null && canonicalEquals(chooserWorkDir.getRoot(), file)) {
                         // workdir was created inside the chooser
                         workDir = chooserWorkDir;
-                    } else
+                    } else {
                         workDir = WorkDirectory.create(file, testSuite);
+                    }
 
                     if (jtmFile != null && workDir != null && jtmTemplate) {
                         TemplateUtilities.setTemplateFile(workDir, jtmFile, true);
@@ -1138,8 +1162,9 @@ class QuickStartWizard extends ToolDialog {
             super("qsw.owd");
             chooser.setMode(WorkDirChooser.OPEN_FOR_ANY_TESTSUITE);
 
-            if (userDirIsWorkDirectory)
+            if (userDirIsWorkDirectory) {
                 workDirPanel.setSuggestions(userDir.getPath());
+            }
         }
 
         @Override
@@ -1152,12 +1177,13 @@ class QuickStartWizard extends ToolDialog {
             File file = workDirPanel.getFile();
             WorkDirectory chooserWorkDir = chooser.getSelectedWorkDirectory();
 
-            if (file == null)
+            if (file == null) {
                 nextBtn.setEnabled(false);
-            else if (chooserWorkDir != null && chooserWorkDir.getRoot().equals(file))
+            } else if (chooserWorkDir != null && chooserWorkDir.getRoot().equals(file)) {
                 nextBtn.setEnabled(true);
-            else
+            } else {
                 nextBtn.setEnabled(WorkDirectory.isWorkDirectory(file));
+            }
         }
 
         @Override
@@ -1171,10 +1197,11 @@ class QuickStartWizard extends ToolDialog {
                 try {
                     WorkDirectory chooserWorkDir = chooser.getSelectedWorkDirectory();
                     if (chooserWorkDir != null
-                            && chooserWorkDir.getRoot().equals(file))
+                            && chooserWorkDir.getRoot().equals(file)) {
                         workDir = chooserWorkDir;
-                    else
+                    } else {
                         workDir = WorkDirectory.open(file);
+                    }
                     testSuite = workDir.getTestSuite();
                 } catch (FileNotFoundException e) {
                     showError("qsw.owd.cantFindFile");
@@ -1292,8 +1319,9 @@ class QuickStartWizard extends ToolDialog {
         @Override
         void stateChanged() {
             if (runTestsCheck.isSelected()
-                    && (config == null || !config.isFinishable()))
+                    && (config == null || !config.isFinishable())) {
                 configCheck.setSelected(true);
+            }
             showConfigEditorFlag = configCheck.isSelected();
             runTestsFlag = runTestsCheck.isSelected();
         }

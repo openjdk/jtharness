@@ -203,8 +203,9 @@ public class ET_DefaultViewControl implements ET_ViewControl {
         return new ToolAction(uif, "exec.view.testSuiteErrors") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (testSuiteErrorsDialog == null)
+                if (testSuiteErrorsDialog == null) {
                     testSuiteErrorsDialog = new TestSuiteErrorsDialog(parent, uif);
+                }
                 testSuiteErrorsDialog.show(testSuite);
             }
         };
@@ -217,11 +218,13 @@ public class ET_DefaultViewControl implements ET_ViewControl {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (config != null && config.getWorkDirectory() != null)
+                if (config != null && config.getWorkDirectory() != null) {
                     openLogViewer();
-                else
-                    // should not happen: menu item is disabled in this case
+                } else
+                // should not happen: menu item is disabled in this case
+                {
                     testSuite.getNotificationLog(null).info(uif.getI18NString("exec.view.logviewer.noworkdir"));
+                }
             }
         };
     }
@@ -239,11 +242,13 @@ public class ET_DefaultViewControl implements ET_ViewControl {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (config != null && config.getWorkDirectory() != null)
+                if (config != null && config.getWorkDirectory() != null) {
                     openServiceViewer();
-                else
-                    // should not happen: menu item is disabled in this case
+                } else
+                // should not happen: menu item is disabled in this case
+                {
                     testSuite.getNotificationLog(null).info(uif.getI18NString("exec.view.serviceviewer.noworkdir"));
+                }
             }
         };
     }
@@ -334,11 +339,13 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     void showEnvironment() {
         ensureInterviewUpToDate();
 
-        if (isConfigEdited() && !isOKToContinue())
+        if (isConfigEdited() && !isOKToContinue()) {
             return;
+        }
 
-        if (environmentBrowser == null)
+        if (environmentBrowser == null) {
             environmentBrowser = new EnvironmentBrowser(parent, uif);
+        }
 
         environmentBrowser.show(config.getInterviewParameters());
     }
@@ -346,11 +353,13 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     void showExcludeList() {
         ensureInterviewUpToDate();
 
-        if (isConfigEdited() && !isOKToContinue())
+        if (isConfigEdited() && !isOKToContinue()) {
             return;
+        }
 
-        if (excludeListBrowser == null)
+        if (excludeListBrowser == null) {
             excludeListBrowser = new ExcludeListBrowser(parent, uif);
+        }
 
         excludeListBrowser.show(config.getInterviewParameters());
     }
@@ -358,11 +367,13 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     void showChecklist() {
         ensureInterviewUpToDate();
 
-        if (isConfigEdited() && !isOKToContinue())
+        if (isConfigEdited() && !isOKToContinue()) {
             return;
+        }
 
-        if (checkListBrowser == null)
+        if (checkListBrowser == null) {
             checkListBrowser = new ChecklistBrowser(parent, execModel, uif);
+        }
 
         checkListBrowser.setVisible(true);
     }
@@ -370,11 +381,13 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     void showQuestionLog() {
         ensureInterviewUpToDate();
 
-        if (isConfigEdited() && !isOKToContinue())
+        if (isConfigEdited() && !isOKToContinue()) {
             return;
+        }
 
-        if (questionLogBrowser == null)
+        if (questionLogBrowser == null) {
             questionLogBrowser = new QuestionLogBrowser(parent, execModel, uif);
+        }
 
         questionLogBrowser.setVisible(true);
     }

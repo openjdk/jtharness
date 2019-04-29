@@ -65,10 +65,12 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
      * @throws IllegalArgumentException If the either parameter is null.
      */
     protected ConfigurableTestFilter(String name, ExecModel e) {
-        if (name == null)
+        if (name == null) {
             throw new IllegalArgumentException(i18n.getString("ctf.nullName"));
-        if (e == null)
+        }
+        if (e == null) {
             throw new IllegalArgumentException(i18n.getString("ctf.nullExec"));
+        }
 
         instanceName = name;
         execModel = e;
@@ -83,8 +85,9 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
      *                               the exec model argument is null.
      */
     protected ConfigurableTestFilter(Map<String, String> map, ExecModel e) {
-        if (e == null)
+        if (e == null) {
             throw new IllegalArgumentException(i18n.getString("ctf.nullExec"));
+        }
 
         execModel = e;
         load(map);
@@ -124,10 +127,11 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
      * @see #getName()
      */
     void setInstanceName(String text) {
-        if (text != null)
+        if (text != null) {
             instanceName = text;
-        else
+        } else {
             throw new IllegalArgumentException(i18n.getString("ctf.nullName"));
+        }
     }
 
     /**
@@ -142,8 +146,9 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
     boolean load(Map<String, String> map) {
         instanceName = map.get(INSTANCE_KEY);
 
-        if (instanceName == null)
+        if (instanceName == null) {
             throw new IllegalStateException(i18n.getString("ctf.mapNoName"));
+        }
 
         return true;
     }

@@ -61,10 +61,11 @@ public class JUnitAnnotationMultiTest extends JUnitMultiTest {
         JUnitCore core = new JUnitCore();
         Result junitresult = core.run(testCaseClass);
 
-        if (junitresult.wasSuccessful())
+        if (junitresult.wasSuccessful()) {
             return Status.passed("All test cases passed.");
-        else
+        } else {
             return Status.failed("Test cases failed: " + junitresult.getFailureCount());
+        }
     }
 
 

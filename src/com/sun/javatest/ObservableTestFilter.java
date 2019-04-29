@@ -74,7 +74,9 @@ public abstract class ObservableTestFilter extends TestFilter {
      * @param filter the filter that has changed
      */
     protected void notifyUpdated(ObservableTestFilter filter) {
-        for (Observer observer : observers) observer.filterUpdated(this);
+        for (Observer observer : observers) {
+            observer.filterUpdated(this);
+        }
     }
 
     /**

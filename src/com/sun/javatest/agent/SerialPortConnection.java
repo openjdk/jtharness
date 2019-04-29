@@ -101,8 +101,9 @@ public class SerialPortConnection implements Connection {
         // flush any input; we haven't marked ourselves as open for business set,
         // so the data cannot be for us
         int bytesToFlush = portInputStream.available();
-        if (bytesToFlush > 0)
+        if (bytesToFlush > 0) {
             portInputStream.skip(bytesToFlush);
+        }
 
         // use DTR to indicate we're open and listening;
         // we'll switch off DTR when the connection is closed
@@ -152,8 +153,9 @@ public class SerialPortConnection implements Connection {
             // IllegalStateException
             @Override
             public void flush() throws IOException {
-                if (!closed)
+                if (!closed) {
                     super.flush();
+                }
             }
         };
     }
@@ -204,15 +206,16 @@ public class SerialPortConnection implements Connection {
     }
 
     private static SerialPort open(CommPortIdentifier cpi, String app, int timeout) throws PortInUseException {
-        if (cpi.getPortType() != CommPortIdentifier.PORT_SERIAL)
+        if (cpi.getPortType() != CommPortIdentifier.PORT_SERIAL) {
             throw new IllegalArgumentException("not a serial port: " + cpi.getName());
+        }
         return (SerialPort) cpi.open(app, timeout);
     }
 
     private synchronized void updateReadyStatus() {
-        if (port.isDSR() || port.isCD())
+        if (port.isDSR() || port.isCD()) {
             notifyAll();
-        else {
+        } else {
             //System.err.println("lost DSR and CD, closing connection");
             Thread t = new Thread() {
                 @Override

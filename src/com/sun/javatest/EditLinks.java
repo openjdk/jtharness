@@ -75,12 +75,13 @@ public class EditLinks {
      */
     public static void main(String... args) {
         try {
-            if (args.length == 0)
+            if (args.length == 0) {
                 usage(System.err);
-            else {
+            } else {
                 EditLinks el = new EditLinks(args);
-                if (el.edits.length == 0)
+                if (el.edits.length == 0) {
                     System.err.println(i18n.getString("editLinks.noEdits"));
+                }
                 el.run();
             }
         } catch (BadArgs e) {
@@ -109,8 +110,9 @@ public class EditLinks {
             System.err.println(msg.substring(start, i));
             start = i + 1;
         }
-        if (start < msg.length())
+        if (start < msg.length()) {
             System.err.println(msg.substring(start));
+        }
     }
 
     /**
@@ -141,19 +143,22 @@ public class EditLinks {
                 throw new BadArgs(i18n, "editLinks.badOpt", args[i]);
             } else {
                 inFiles = new File[args.length - i];
-                for (int j = 0; j < inFiles.length; j++)
+                for (int j = 0; j < inFiles.length; j++) {
                     inFiles[j] = new File(args[i++]);
+                }
             }
         }
 
-        if (inFiles == null || inFiles.length == 0)
+        if (inFiles == null || inFiles.length == 0) {
             throw new BadArgs(i18n, "editLinks.noInput");
+        }
 
         if (outFile == null) {
-            if (inFiles.length == 1)
+            if (inFiles.length == 1) {
                 outFile = inFiles[0];
-            else
+            } else {
                 throw new BadArgs(i18n, "editLinks.noOutput");
+            }
         }
     }
 
@@ -203,7 +208,9 @@ public class EditLinks {
      * @see #edit(File, File)
      */
     public void edit(File[] src, File dest) throws IOException {
-        for (File aSrc : src) edit(aSrc, dest);
+        for (File aSrc : src) {
+            edit(aSrc, dest);
+        }
     }
 
     /**
@@ -220,15 +227,18 @@ public class EditLinks {
      * @see #edit(File, File)
      */
     public void edit(File src, File dest) throws IOException {
-        if (!src.exists())
+        if (!src.exists()) {
             throw new FileNotFoundException(src.getPath());
+        }
 
         if (src.isDirectory()) {
             if (!dest.exists()) {
-                if (!dest.mkdir())
+                if (!dest.mkdir()) {
                     throw new FileNotFoundException(dest.getPath());
-            } else if (!dest.isDirectory())
+                }
+            } else if (!dest.isDirectory()) {
                 throw new IllegalArgumentException(i18n.getString("editLinks.dirExpected", dest));
+            }
 
             File canonicalDest = dest.getCanonicalFile();
             ignores.add(canonicalDest);
@@ -269,8 +279,9 @@ public class EditLinks {
                 edit(in, out);
                 in.close();
                 out.close();
-            } else
+            } else {
                 copyFile(src, dest);
+            }
         }
     }
 
@@ -278,8 +289,9 @@ public class EditLinks {
      * Copy a file.
      */
     private void copyFile(File from, File to) throws IOException {
-        if (from.equals(to))
+        if (from.equals(to)) {
             return;
+        }
 
         int size = (int) from.length();
         byte data[] = new byte[size];
@@ -328,10 +340,11 @@ public class EditLinks {
 
                     default:
                         String tag = scanIdentifier();
-                        if (tag.equals("a"))
+                        if (tag.equals("a")) {
                             scanLink();
-                        else
+                        } else {
                             skipTag();
+                        }
                 }
             } else {
                 nextCh();
@@ -357,8 +370,9 @@ public class EditLinks {
                 out.write(edit(target));
                 out.write('"');
                 copying = true;
-            } else
+            } else {
                 scanValue();
+            }
             skipSpace();
         }
         nextCh();
@@ -382,11 +396,12 @@ public class EditLinks {
             } else if (c == '-') {  // needed for <META HTTP-EQUIV ....>
                 buf.append((char) c);
                 nextCh();
-            } else if (buf.length() == 0)
+            } else if (buf.length() == 0) {
                 throw new IOException(i18n.getString("editLinks.idExpected",
                         currFile, Integer.valueOf(line)));
-            else
+            } else {
                 return buf.toString();
+            }
         }
     }
 
@@ -395,8 +410,9 @@ public class EditLinks {
      */
     private String scanValue() throws IOException {
         skipSpace();
-        if (c != '=')
+        if (c != '=') {
             return "";
+        }
 
         int quote = -1;
         nextCh();
@@ -417,8 +433,9 @@ public class EditLinks {
             buf.append((char) c);
             nextCh();
         }
-        if (c == quote)
+        if (c == quote) {
             nextCh();
+        }
         skipSpace();
         return buf.toString();
     }
@@ -432,10 +449,11 @@ public class EditLinks {
         int numHyphens = 0;
         //System.out.print("SKIPCOMMENT: <!--" + (char)c);
         while (c != -1 && (numHyphens < 2 || c != '>')) {
-            if (c == '-')
+            if (c == '-') {
                 numHyphens++;
-            else
+            } else {
                 numHyphens = 0;
+            }
             nextCh();
             //System.out.print((char)c);
         }
@@ -459,9 +477,10 @@ public class EditLinks {
         skipSpace();
         while (c != '>') {
             String att = scanIdentifier();
-            if (Objects.equals(att, ""))
+            if (Objects.equals(att, "")) {
                 throw new IOException(i18n.getString("editLinks.badHTML",
                         currFile, Integer.valueOf(line)));
+            }
             String value = scanValue();
             skipSpace();
         }
@@ -473,11 +492,13 @@ public class EditLinks {
      * is set to <code>true</code>.
      */
     private void nextCh() throws IOException {
-        if (copying)
+        if (copying) {
             out.write((char) c);
+        }
         c = in.read();
-        if (c == '\n')
+        if (c == '\n') {
             line++;
+        }
     }
 
     /**
@@ -493,10 +514,11 @@ public class EditLinks {
                 char newSep = guessSep(newHead);
                 String oldTail = ref.substring(oldHead.length());
                 String newTail;
-                if (oldSep != 0 && newSep != 0 && oldSep != newSep)
+                if (oldSep != 0 && newSep != 0 && oldSep != newSep) {
                     newTail = oldTail.replace(oldSep, newSep);
-                else
+                } else {
                     newTail = oldTail;
+                }
                 return newHead + newTail;
             }
         }
@@ -510,12 +532,13 @@ public class EditLinks {
     private static char guessSep(String path) {
         int fwd = path.lastIndexOf('/');
         int back = path.lastIndexOf('\\');
-        if (fwd > back)
+        if (fwd > back) {
             return '/';
-        else if (back > fwd)
+        } else if (back > fwd) {
             return '\\';
-        else
+        } else {
             return (char) 0;
+        }
     }
 
     private File[] inFiles = new File[0];

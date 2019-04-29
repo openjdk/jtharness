@@ -92,7 +92,9 @@ public class ObservedFile extends File {
     }
 
     synchronized void addToIndex(LogRecord record, long startOff, long endOff, String logName) {
-        if (debug) System.out.println("OF - added record");
+        if (debug) {
+            System.out.println("OF - added record");
+        }
         int logNum = -1;
         String line = "";
         boolean found = false;
@@ -127,8 +129,12 @@ public class ObservedFile extends File {
             ex.printStackTrace();
         } finally {
             try {
-                if (logs != null) logs.close();
-                if (recs != null) recs.close();
+                if (logs != null) {
+                    logs.close();
+                }
+                if (recs != null) {
+                    recs.close();
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -161,7 +167,9 @@ public class ObservedFile extends File {
                 r.endOff = recs.readLong();
 
                 records.add(r);
-                if (debug) System.out.println("OF - read record ");
+                if (debug) {
+                    System.out.println("OF - read record ");
+                }
             }
 
             recs.close();

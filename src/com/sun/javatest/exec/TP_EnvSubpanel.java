@@ -45,8 +45,9 @@ class TP_EnvSubpanel
 
     @Override
     protected void updateSubpanel(TestResult currTest) {
-        if (subpanelTest != null)
+        if (subpanelTest != null) {
             subpanelTest.removeObserver(observer);
+        }
 
         super.updateSubpanel(currTest);
         updateEntries();
@@ -67,9 +68,9 @@ class TP_EnvSubpanel
 
     private void updateEntriesLater(final TestResult tr) {
         if (tr == subpanelTest) {
-            if (EventQueue.isDispatchThread())
+            if (EventQueue.isDispatchThread()) {
                 updateEntries();
-            else {
+            } else {
                 EventQueue.invokeLater(new Runnable() {
                     @Override
                     public void run() {

@@ -87,10 +87,11 @@ public class BP_DocumentationSubpanel extends BP_BranchSubpanel {
     }
 
     private void validateEnabledState() {
-        if (filelist != null)
+        if (filelist != null) {
             bpm.setEnabled(this, true);
-        else
+        } else {
             bpm.setEnabled(this, false);
+        }
     }
 
     private void setPanel(JPanel p) {

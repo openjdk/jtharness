@@ -197,7 +197,9 @@ public class XMLServiceReader implements ServiceReader {
                 ex.printStackTrace();
             } finally {
                 try {
-                    if (fis != null) fis.close();
+                    if (fis != null) {
+                        fis.close();
+                    }
                 } catch (IOException e) {
                 }
 // TODO                logWrongPropFile();

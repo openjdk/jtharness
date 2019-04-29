@@ -77,10 +77,11 @@ class EnvironmentBrowser extends ToolDialog {
     private void setEnv(TestEnvironment env) {
         this.env = env;
 
-        if (env == null || env.getName().trim().isEmpty())
+        if (env == null || env.getName().trim().isEmpty()) {
             setI18NTitle("env.title.unset");
-        else
+        } else {
             setI18NTitle("env.title.name", env.getName());
+        }
 
         envTableModel.setEnvironment(env);
     }
@@ -182,9 +183,9 @@ class EnvironmentBrowser extends ToolDialog {
             //System.err.println(e);
             int r = table.getSelectedRow();
             int c = table.getSelectedColumn();
-            if (r == -1 || c == -1)
+            if (r == -1 || c == -1) {
                 text.setText("");
-            else {
+            } else {
                 Object o = table.getModel().getValueAt(r, c);
                 if (o == null) {
                     text.setFont(text.getFont().deriveFont(Font.ITALIC));
@@ -225,9 +226,10 @@ class EnvironmentBrowser extends ToolDialog {
             // 1.1.7 can't compile it: doesn't recognize KEY etc as
             // constants.
             if (sortMode == KEY)
-                // key should always be unique, so should be enough to sort on that
+            // key should always be unique, so should be enough to sort on that
+            {
                 return e1.getKey().compareTo(e2.getKey());
-            else if (sortMode == VALUE) {
+            } else if (sortMode == VALUE) {
                 // value probably unique, but if not, sort on key as well
                 int c = e1.getValue().compareTo(e2.getValue());
                 return c != 0 ? c : e1.getKey().compareTo(e2.getKey());
@@ -248,8 +250,9 @@ class EnvironmentBrowser extends ToolDialog {
 
         private int getInheritsIndex(String s) {
             for (int i = 0; i < inherits.length; i++) {
-                if (inherits[i].equals(s))
+                if (inherits[i].equals(s)) {
                     return i;
+                }
             }
             return inherits.length;
         }
@@ -273,9 +276,9 @@ class EnvironmentBrowser extends ToolDialog {
             int oldRowCount = getRowCount();
             currEnv = env;
 
-            if (currEnv == null)
+            if (currEnv == null) {
                 elems = null;
-            else {
+            } else {
                 Collection<TestEnvironment.Element> e = currEnv.elements();
                 elems = e.toArray(new TestEnvironment.Element[e.size()]);
                 Arrays.sort(elems, new EnvEntryComparator(KEY, currEnv.getInherits()));
@@ -331,8 +334,9 @@ class EnvironmentBrowser extends ToolDialog {
         @Override
         public synchronized Object getValueAt(int rowIndex, int columnIndex) {
             if (rowIndex < 0 || rowIndex >= getRowCount()
-                    || columnIndex < 0 || columnIndex >= getColumnCount())
+                    || columnIndex < 0 || columnIndex >= getColumnCount()) {
                 throw new IllegalArgumentException();
+            }
 
             TestEnvironment.Element e = elems[rowIndex];
             switch (columnIndex) {

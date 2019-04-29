@@ -90,8 +90,9 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     public void setTreePanelModel(TreePanelModel tpm) {
         this.tpm = tpm;
 
-        if (progMonitor != null)
+        if (progMonitor != null) {
             progMonitor.setTreePanelModel(tpm);
+        }
     }
 
     @Override
@@ -115,8 +116,11 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             if (mm != null) {
                 JMenuItem[] items =
                         mm.getMenuItems(JavaTestMenuManager.RUN_PRIMARY);
-                if (items != null)
-                    for (JMenuItem item : items) menu.add(item);
+                if (items != null) {
+                    for (JMenuItem item : items) {
+                        menu.add(item);
+                    }
+                }
             }
         }
 
@@ -129,7 +133,9 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
                     mm.getMenuItems(JavaTestMenuManager.RUN_OTHER);
             if (items != null) {
                 menu.addSeparator();
-                for (JMenuItem item : items) menu.add(item);
+                for (JMenuItem item : items) {
+                    menu.add(item);
+                }
             }
         }
 
@@ -213,8 +219,9 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         //interviewParams = model.getInterviewParameters();
         // initialize the start button once the test suite is set
         if (testSuite != null && !model.isConfiguring()) {
-            if (!startAction.isEnabled() && !stopAction.isEnabled())
+            if (!startAction.isEnabled() && !stopAction.isEnabled()) {
                 startAction.setEnabled(true);
+            }
         } else {
             startAction.setEnabled(false);
         }
@@ -288,18 +295,19 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         Object[] items = {params.getEnv().getName(),
                 TestTreePanel.createNodeListString(TestTreePanel.createNodeList(paths))};
         int option = 0;
-        if (paths[0].isEmpty())
+        if (paths[0].isEmpty()) {
             option = uif.showYesNoDialog("rh.confirmQuickAll",
                     params.getEnv().getName());
-        else {
+        } else {
             JPanel p = uif.createPanel("rh.confirmPanel", false);
             JTextArea msg = uif.createMessageArea("rh.confirmQuick",
                     params.getEnv().getName());
             p.setLayout(new BorderLayout());
             p.add(msg, BorderLayout.NORTH);
             DefaultListModel<String> model = new DefaultListModel<>();
-            for (int i = paths.length; i > 0; i--)
+            for (int i = paths.length; i > 0; i--) {
                 model.add(model.getSize(), paths[model.getSize()]);
+            }
 
             JList<?> list = uif.createList("rh.confirmList", model);
             p.add(uif.createScrollPane(list,
@@ -347,9 +355,9 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             } else {
                 Parameters.TestsParameters tps = localParams.getTestsParameters();
                 Parameters.MutableTestsParameters mtps = (Parameters.MutableTestsParameters) tps;
-                if (mtps.getTestsMode() == Parameters.MutableTestsParameters.ALL_TESTS)
+                if (mtps.getTestsMode() == Parameters.MutableTestsParameters.ALL_TESTS) {
                     mtps.setTests(paths);
-                else {
+                } else {
                     // NOTE: the combined set of paths isn't optimized after being
                     // combined, code elsewhere takes care of this for us
                     mtps.setTestsMode(Parameters.MutableTestsParameters.SPECIFIED_TESTS);
@@ -487,8 +495,9 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             public boolean isBackupRequired(File file) {
                 if (ignoreExtns != null) {
                     for (String ignoreExtn : ignoreExtns) {
-                        if (file.getPath().endsWith(ignoreExtn))
+                        if (file.getPath().endsWith(ignoreExtn)) {
                             return false;
+                        }
                     }
                 }
                 return true;
@@ -506,10 +515,11 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     }
 
     private boolean isProgressMonitorVisible() {
-        if (progMonitor == null || !progMonitor.isVisible())
+        if (progMonitor == null || !progMonitor.isVisible()) {
             return false;
-        else
+        } else {
             return true;
+        }
     }
 
     private void setProgressMonitorVisible(boolean state) {
